@@ -1,8 +1,9 @@
-package com.gerantech.towercraft
+package com.gerantech.towercraft.managers
 {
 	import com.gerantech.towercraft.models.TowerPlace;
 	
 	import flash.utils.setInterval;
+	import com.gerantech.towercraft.BattleField;
 
 	public class AIEnemy
 	{

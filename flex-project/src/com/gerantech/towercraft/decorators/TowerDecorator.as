@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.decorators
 {
-	import com.gerantech.towercraft.Troop;
+	import com.gerantech.towercraft.models.vo.Troop;
 	import com.gerantech.towercraft.models.Textures;
 	import com.gerantech.towercraft.models.TowerPlace;
 	import com.gerantech.towercraft.models.towers.Tower;

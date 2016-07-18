@@ -1,4 +1,4 @@
-package com.gerantech.towercraft
+package com.gerantech.towercraft.managers
 {
 	import starling.display.DisplayObject;
 	import starling.display.Stage;

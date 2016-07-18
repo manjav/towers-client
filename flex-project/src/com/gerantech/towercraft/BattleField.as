@@ -1,8 +1,10 @@
 package com.gerantech.towercraft
 {
 	import com.gerantech.towercraft.decorators.TowerDecorator;
+	import com.gerantech.towercraft.managers.DropTargets;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.models.vo.Troop;
 	
 	import flash.geom.Point;
 	
@@ -60,7 +62,7 @@ package com.gerantech.towercraft
 			towerPlaces = new Vector.<TowerPlace>(len, true);
 			for (var i:uint=0; i<len; i++)
 			{
-				towerPlaces[i] = new TowerPlace(gapX/3);
+				towerPlaces[i] = new TowerPlace(gapX/3, i);
 				towerPlaces[i].x = paddingX + gapX * (i%cols);
 				towerPlaces[i].y = paddingY + gapY * Math.floor((len-i-1)/cols);
 				towerPlaces[i].selectable = (i < 6 || mode==MODE_PLAY);
@@ -170,6 +172,15 @@ package com.gerantech.towercraft
 					ret.push(towerPlaces[p]);
 			return ret;
 		}
+		
+	
+		public function getTower(index:int):TowerPlace
+		{
+			if(towerPlaces == null)
+				return null;
+			
+			return towerPlaces[index];
+		}		
 	}
 }
 

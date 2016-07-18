@@ -1,8 +1,8 @@
 package com.gerantech.towercraft.models
 {
-	import com.gerantech.towercraft.Troop;
 	import com.gerantech.towercraft.decorators.TowerDecorator;
 	import com.gerantech.towercraft.models.towers.Tower;
+	import com.gerantech.towercraft.models.vo.Troop;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
@@ -14,6 +14,7 @@ package com.gerantech.towercraft.models
 	
 	public class TowerPlace extends Canvas
 	{
+		public var index:int;
 		public var raduis:Number;
 		public var links:Vector.<TowerPlace>;
 		public var owner:TowerPlace;
@@ -24,9 +25,10 @@ package com.gerantech.towercraft.models
 		private var _selectable:Boolean;
 	//	internal var path:Vector.<TowerPlace>;
 		
-		public function TowerPlace(raduis:Number)
+		public function TowerPlace(raduis:Number, index:int)
 		{
 			links = new Vector.<TowerPlace>();
+			this.index = index;
 			this.raduis = raduis;
 			
 			beginFill(0xFF, 0);

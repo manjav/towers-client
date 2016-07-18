@@ -1,16 +1,19 @@
 package com.gerantech.towercraft.screens
 {
-	import com.gerantech.towercraft.AIEnemy;
 	import com.gerantech.towercraft.BattleField;
-	import com.gerantech.towercraft.Troop;
+	import com.gerantech.towercraft.managers.AIEnemy;
+	import com.gerantech.towercraft.managers.RTMFPConnector;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.models.vo.RTMFPObject;
+	import com.gerantech.towercraft.models.vo.Troop;
 	
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
 	import starling.display.DisplayObject;
+	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
@@ -19,6 +22,7 @@ package com.gerantech.towercraft.screens
 	{
 		private var battleField:BattleField;
 		private var sourceTowers:Vector.<TowerPlace>;
+		private var rtmpConnector:RTMFPConnector;
 		
 		override protected function initialize():void
 		{
@@ -39,10 +43,22 @@ package com.gerantech.towercraft.screens
 			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			battleField.addDrops();
 			battleField.readyForBattle();
+			
+			rtmpConnector = new RTMFPConnector();
+			rtmpConnector.addEventListener(Event.UPDATE, rtmpConnector_updateHandler);
+			rtmpConnector.connect();
 			//new AIEnemy(battleField, Troop.TYPE_RED);
 		}
-
 		
+		override protected function screen_removedFromStageHandler(event:Event):void
+		{
+			super.screen_removedFromStageHandler(event);
+			if(rtmpConnector == null)
+				return;
+			rtmpConnector.disconnect();
+		}
+		
+
 		private function touchHandler(event:TouchEvent):void
 		{
 			var tp:TowerPlace; 
@@ -113,7 +129,10 @@ package com.gerantech.towercraft.screens
 								sourceTowers.slice(self, 1);
 							
 							for each(tp in sourceTowers)
+							{
 								tp.fight(destination, all);
+								rtmpConnector.send(tp.index, destination.index);
+							}
 						}
 					}
 					for each(tp in sourceTowers)
@@ -123,5 +142,13 @@ package com.gerantech.towercraft.screens
 				}
 			}
 		}
+		
+		
+		private function rtmpConnector_updateHandler(event:Event):void
+		{
+			trace(rtmpConnector.rtmfpObject.toString())
+			battleField.getTower(14-rtmpConnector.rtmfpObject.from).fight(battleField.getTower(14-rtmpConnector.rtmfpObject.to), battleField.getAllTowers(-1));
+		}
+		
 	}
 }

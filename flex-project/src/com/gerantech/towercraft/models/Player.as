@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.models
 {
-	import com.gerantech.towercraft.Troop;
+	import com.gerantech.towercraft.models.vo.Troop;
 	import com.gerantech.towercraft.models.towers.BomberTower;
 	import com.gerantech.towercraft.models.towers.CannonTower;
 	import com.gerantech.towercraft.models.towers.CommonTower;

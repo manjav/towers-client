@@ -1,4 +1,4 @@
-package com.gerantech.towercraft
+package com.gerantech.towercraft.models.vo
 {
 	import com.gerantech.towercraft.models.TowerPlace;
 	
