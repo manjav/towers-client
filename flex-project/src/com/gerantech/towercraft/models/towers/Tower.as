@@ -98,6 +98,9 @@ package com.gerantech.towercraft.models.towers
 		
 		private function updateView(force:Boolean=false):void
 		{
+			if(population == 0)
+				return;
+			
 			var isForce:Boolean = troops[0] != troopType || force;
 			if(isForce)
 				troopType = troops[0];
