@@ -128,11 +128,13 @@ package com.gerantech.towercraft.screens
 							if(self>-1)
 								sourceTowers.slice(self, 1);
 							
+							var sources:Array = new Array();
 							for each(tp in sourceTowers)
 							{
 								tp.fight(destination, all);
-								rtmpConnector.send(tp.index, destination.index);
+								sources.push(tp.index);
 							}
+							rtmpConnector.send(sources, destination.index);
 						}
 					}
 					for each(tp in sourceTowers)
@@ -146,8 +148,12 @@ package com.gerantech.towercraft.screens
 		
 		private function rtmpConnector_updateHandler(event:Event):void
 		{
-			trace(rtmpConnector.rtmfpObject.toString())
-			battleField.getTower(14-rtmpConnector.rtmfpObject.from).fight(battleField.getTower(14-rtmpConnector.rtmfpObject.to), battleField.getAllTowers(-1));
+			var destination:TowerPlace = battleField.getTower(14-rtmpConnector.rtmfpObject.destination);
+			var sourceLen:uint = rtmpConnector.rtmfpObject.source.length;
+			
+			for(var i:uint=0; i<sourceLen; i++)
+				battleField.getTower(14-rtmpConnector.rtmfpObject.source[i]).fight(destination, battleField.getAllTowers(-1));
+			//trace(rtmpConnector.rtmfpObject.toString())
 		}
 		
 	}
