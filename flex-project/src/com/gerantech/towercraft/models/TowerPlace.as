@@ -7,12 +7,11 @@ package com.gerantech.towercraft.models
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
-	import starling.display.Canvas;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.utils.MathUtil;
 	
-	public class TowerPlace extends Canvas
+	public class TowerPlace extends Sprite
 	{
 		public var index:int;
 		public var raduis:Number;
@@ -31,8 +30,11 @@ package com.gerantech.towercraft.models
 			this.index = index;
 			this.raduis = raduis;
 			
-			beginFill(0xFF, 0);
-			drawCircle(0, 0, raduis);
+			var bg:Image = new Image(Textures.get("circle"));
+			bg.alignPivot();
+			bg.width = raduis*2;
+			bg.scaleY = bg.scaleX;
+			addChild(bg);
 		}
 		public function arrowTo(disX:Number, disY:Number):void
 		{
@@ -98,7 +100,7 @@ package com.gerantech.towercraft.models
 
 		public function fight(destination:TowerPlace, all:Vector.<TowerPlace>):void
 		{
-			trace(name, destination.name)
+			//trace(name, destination.name)
 
 			for (var p:uint=0; p<all.length; p++)
 				all[p].owner = null;
@@ -107,17 +109,15 @@ package com.gerantech.towercraft.models
 
 			if(destination.tower == tower)
 				return;
-			/*trace(name, destination.name);
-			var _path:Vector.<TowerPlace> = findPath(this, destination);
-			for(var p:uint=0; p<_path.length; p++)
-			trace("->", _path[p].name);*/
 			
 			var len:uint = Math.floor(tower.population/2);
 			for(var i:uint=0; i<len; i++)
 			{
-				var t:Troop = new Troop(tower.troopType, path);
+				var t:Troop = new Troop(tower.troopType, path)
 				t.x = x;
 				t.y = y;
+				t.width = raduis/2;
+				t.scaleY = t.scaleX;
 				parent.addChild(t);
 				setTimeout(rush, 200*i, t, i);
 			}			
@@ -175,8 +175,8 @@ package com.gerantech.towercraft.models
 				closedList.push(n);
 			}
 			
-			for (i=0; i < closedList.length; i++) 
-				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))
+			/*for (i=0; i < closedList.length; i++) 
+				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))*/
 				
 			// Create return path
 			var ret:Vector.<TowerPlace> = new Vector.<TowerPlace>();
@@ -189,7 +189,7 @@ package com.gerantech.towercraft.models
 			while(last!=null && last != origin);
 			//ret.push(origin);
 			ret.reverse();
-			trace("=>", ret.length)
+			//trace("=>", ret.length)
 			return ret;
 		}
 		

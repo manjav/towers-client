@@ -59,7 +59,7 @@ package com.gerantech.towercraft.controls.items
 				return;
 			
 			tower = _data as Tower;
-			iconDisplay.source = Textures.get("tower_type_"+tower.type);
+			iconDisplay.source = Textures.get("tower-type-"+tower.type);
 			labelDisplay.text = "Level " + tower.level;
 			progressbar.maximum = tower.upgradeCost;
 			progressbar.value = 5;
