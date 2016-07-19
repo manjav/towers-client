@@ -24,6 +24,7 @@ package com.gerantech.towercraft.managers
 		private var myName:String;
 		private var myColor:uint;
 		public var rtmfpObject:RTMFPObject;
+		private var connected:Boolean;
 		
 		
 		public function connect():void
@@ -41,7 +42,7 @@ package com.gerantech.towercraft.managers
 			// my name
 			myName  = "User_" + Math.round(Math.random()*100);					
 			// my color
-			myColor = Math.random()*0xFFFFFF;									
+			myColor = Math.random() * 0xFFFFFF;									
 			// connect using my name and color variables
 			connection.connect(myName, {color:myColor});						
 		}
@@ -57,16 +58,20 @@ package com.gerantech.towercraft.managers
 		{
 			Logger.log("User added: " + user.name + ", total users: " + connection.userCount);
 			rtmfpObject = new RTMFPObject(0,0);
+			connected = true;
 		}
 		
 		// method should expect a UserObject
 		protected function handleUserRemoved(user:UserObject):void				
 		{
-			Logger.log("User disconnected: " + user.name + ", total users: " + connection.userCount); 
+			Logger.log("User disconnected: " + user.name + ", total users: " + connection.userCount);
+			dispatchEventWith(Event.CLOSE, user);
 		}
 		
 		public function send(from:int, to:int):void			
 		{
+			if(!connected)
+				return;
 			connection.sendObject({from:from, to:to});			
 		}
 		
@@ -78,7 +83,9 @@ package com.gerantech.towercraft.managers
 		
 		public function disconnect():void
 		{
+			connected = false;
 			connection.close();
+			dispatchEventWith(Event.CLOSE);
 		}
 	}
 	
