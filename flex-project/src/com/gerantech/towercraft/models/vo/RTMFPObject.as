@@ -2,24 +2,24 @@ package com.gerantech.towercraft.models.vo
 {
 	public class RTMFPObject
 	{
-		public var from:uint;
-		public var to:uint;
+		public var source:Vector.<uint> = new Vector.<uint>();
+		public var destination:uint;
 		
-		public function RTMFPObject(from:uint, to:uint)
+		public function RTMFPObject()
 		{
-			update(from, to);
 		}
 		
-		public function update(from:uint, to:uint):void
+		public function update(source:Object, destination:Object):void
 		{
-			this.from = from;
-			this.to = to;
+			this.source = new Vector.<uint>();
+			for (var i:uint=0; i<source.length; i++)
+				this.source.push(source[i]);
+			this.destination = destination as uint;
 		}
 		
 		public function toString():Object
 		{
-			// TODO Auto Generated method stub
-			return "from : " + from + " ,  to " + to;
+			return "from : " + source + " ,  to " + destination;
 		}
 	}
 }
