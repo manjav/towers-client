@@ -111,8 +111,9 @@ package
 			Starling.multitouchEnabled = true;
 			this._starling = new Starling(Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			this._starling.supportHighResolutions = true;
+			this._starling.enableErrorChecking = false;
 			this._starling.skipUnchangedFrames = true;
-			//this._starling.showStats = true;
+			this._starling.showStats = true;
 			this._starling.start();
 			if(this._launchImage)
 				this._starling.addEventListener("rootCreated", starling_rootCreatedHandler);
@@ -131,6 +132,7 @@ package
 			this._launchImage = null;
 			this.stage.autoOrients = this._savedAutoOrients;
 			}*/
+
 		}
 		
 		private function stage_deactivateHandler(event:Event):void
