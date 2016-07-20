@@ -3,7 +3,14 @@ flex-project/bin/
 flex-project/bin-debug/
 flex-project/bin-release/
 flex-project/bin-release-temp/
-.swf
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Others
 .settings
 .project
 .actionScriptProperties

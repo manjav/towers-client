@@ -3,7 +3,6 @@ package com.gerantech.towercraft.screens
 	import com.gerantech.towercraft.BattleField;
 	import com.gerantech.towercraft.managers.RTMFPConnector;
 	import com.gerantech.towercraft.models.Player;
-	import com.gerantech.towercraft.models.Textures;
 	import com.gerantech.towercraft.models.TowerPlace;
 	
 	import feathers.events.FeathersEventType;
@@ -15,9 +14,6 @@ package com.gerantech.towercraft.screens
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import starling.text.BitmapFont;
-	import starling.text.TextField;
-	import starling.textures.Texture;
 
 	public class BattleScreen extends BaseCustomScreen
 	{
@@ -27,8 +23,8 @@ package com.gerantech.towercraft.screens
 		
 		override protected function initialize():void
 		{
-			alpha = 0.5;
 			super.initialize();
+			alpha = 0.5;
 			layout = new AnchorLayout();
 			
 			battleField = new BattleField();
@@ -48,7 +44,6 @@ package com.gerantech.towercraft.screens
 			rtmpConnector = new RTMFPConnector();
 			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
 			rtmpConnector.connect();
-			addEventListener(TouchEvent.TOUCH, touchHandler);
 			//new AIEnemy(battleField, Troop.TYPE_RED);
 		}
 		
@@ -63,9 +58,7 @@ package com.gerantech.towercraft.screens
 		
 		private function rtmpConnector_closeHandler():void
 		{
-			alpha = 1;
 			removeEventListener(TouchEvent.TOUCH, touchHandler);
-			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
 			rtmpConnector.removeEventListener(Event.UPDATE, rtmpConnector_updateHandler);
 			rtmpConnector.removeEventListener(Event.CLOSE, rtmpConnector_closeHandler);
 		}

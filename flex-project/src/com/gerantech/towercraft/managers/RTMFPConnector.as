@@ -57,6 +57,7 @@ package com.gerantech.towercraft.managers
 			Logger.log("User added: " + user.name + ", total users: " + connection.userCount);
 			connected = true;
 			rtmfpObject = new RTMFPObject();
+			dispatchEventWith(Event.COMPLETE, user);
 		}
 		
 		// method should expect a UserObject
@@ -68,10 +69,11 @@ package com.gerantech.towercraft.managers
 		
 		public function send(source:Array, destination:int):void			
 		{
+			trace(connected)
 			if(!connected)
 				return;
 
-			connection.sendObject({source:source, destination:destination});			
+			connection.sendObject({source:source, destination:destination});
 		}
 		
 		protected function handleGetObject(peerID:String, data:Object):void
