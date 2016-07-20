@@ -1,14 +1,13 @@
 # Build and Release Folders
-flex-project/bin/
-flex-project/bin-debug/
+flex-project/bin-debug
 flex-project/bin-release/
 flex-project/bin-release-temp/
+flex-project/.settings
 
 # Executables
-*.swf
-*.air
-*.ipa
-*.apk
+*.swf -crlf -diff -merge
+*.ipa -crlf -diff -merge
+*.apk -crlf -diff -merge
 
 # Others
 .settings
