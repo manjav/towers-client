@@ -45,6 +45,7 @@ package com.gerantech.towercraft.screens
 			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
 			rtmpConnector.connect();
 			//new AIEnemy(battleField, Troop.TYPE_RED);
+			addEventListener(TouchEvent.TOUCH, touchHandler);
 		}
 		
 		private function rtmpConnector_completeHandler():void
@@ -134,9 +135,9 @@ package com.gerantech.towercraft.screens
 							}
 						}
 						// get allllllll
-						all = battleField.getAllTowers(-1);
 						if(lastPoint != null)
 						{
+							all = battleField.getAllTowers(-1);
 							var self:int = sourceTowers.indexOf(destination);
 							if(self>-1)
 								sourceTowers.slice(self, 1);

@@ -36,6 +36,16 @@ package com.gerantech.towercraft.models
 			bg.scaleY = bg.scaleX;
 			addChild(bg);
 		}
+
+		public function get isAlone():Boolean
+		{
+			var len:uint = links.length;
+			for(var l:uint=0; l<len; l++)
+				if(links[l].tower.troopType == tower.troopType)
+					return false;
+			return true;
+		}
+
 		public function arrowTo(disX:Number, disY:Number):void
 		{
 			arrow.height = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
@@ -175,8 +185,8 @@ package com.gerantech.towercraft.models
 				closedList.push(n);
 			}
 			
-			/*for (i=0; i < closedList.length; i++) 
-				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))*/
+			for (i=0; i < closedList.length; i++) 
+				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))
 				
 			// Create return path
 			var ret:Vector.<TowerPlace> = new Vector.<TowerPlace>();
