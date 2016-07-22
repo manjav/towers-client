@@ -67,7 +67,6 @@ package com.gerantech.towercraft
 				towerPlaces[i].y = paddingY + gapY * Math.floor((len-i-1)/cols);
 				towerPlaces[i].selectable = (i < 6 || mode==MODE_PLAY);
 				towerPlaces[i].name = i;
-				towerPlaces[i].towerDecorator = new TowerDecorator(Player.instance.createTower(Player.instance.towerPlaces[i], Player.instance.getTowerLevel(Player.instance.towerPlaces[i])));
 				addChild(towerPlaces[i]);
 			}
 			createLinks();
@@ -150,6 +149,7 @@ package com.gerantech.towercraft
 		{
 			for(var p:uint=0; p<towerPlaces.length; p++)
 			{
+				towerPlaces[p].towerDecorator = new TowerDecorator(Player.instance.createTower(Player.instance.towerPlaces[p], Player.instance.getTowerLevel(Player.instance.towerPlaces[p])));
 				if(p == 1)
 					towerPlaces[p].tower.createEngine(Troop.TYPE_BLUE);
 				else if(p == 13)

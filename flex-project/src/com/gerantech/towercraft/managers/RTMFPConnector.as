@@ -18,14 +18,12 @@ package com.gerantech.towercraft.managers
 		private const SERVER_AND_KEY:String = SERVER + DEVKEY;
 		
 		private var connection:MultiUserSession;
-		private var cursors:Object = {};
 		private var myName:String;
-		private var myColor:uint;
 		public var rtmfpObject:RTMFPObject;
 		private var connected:Boolean;
 		
 		
-		public function connect():void
+		public function connect(myTowers:Array):void
 		{
 			// create a new instance of MultiUserSession
 			connection = new MultiUserSession(SERVER_AND_KEY, "multiuser/test");		
@@ -38,11 +36,10 @@ package com.gerantech.towercraft.managers
 			// set the method to be executed when we recieve data from a user
 			connection.onObjectRecieve 	= handleGetObject;						
 			// my name
-			myName  = "User_" + Math.round(Math.random()*100);					
-			// my color
-			myColor = Math.random() * 0xFFFFFF;									
-			// connect using my name and color variables
-			connection.connect(myName, {color:myColor});						
+			myName  = "User_" + Math.round(Math.random()*100);
+			
+			// connect using my name and towers
+			connection.connect(myName, myTowers);						
 		}
 		
 		// method should expect a UserObject
@@ -54,10 +51,10 @@ package com.gerantech.towercraft.managers
 		// method should expect a UserObject
 		protected function handleUserAdded(user:UserObject):void				
 		{
-			Logger.log("User added: " + user.name + ", total users: " + connection.userCount);
+			Logger.log("User added: " + user.name + ", total users: " + connection.userCount + ", details: " + user.details);
 			connected = true;
 			rtmfpObject = new RTMFPObject();
-			dispatchEventWith(Event.COMPLETE, user);
+			dispatchEventWith(Event.COMPLETE, false, user);
 		}
 		
 		// method should expect a UserObject
@@ -69,7 +66,6 @@ package com.gerantech.towercraft.managers
 		
 		public function send(source:Array, destination:int):void			
 		{
-			trace(connected)
 			if(!connected)
 				return;
 
@@ -78,6 +74,7 @@ package com.gerantech.towercraft.managers
 		
 		protected function handleGetObject(peerID:String, data:Object):void
 		{
+			trace(data);
 			rtmfpObject.update(data.source, data.destination);
 			dispatchEventWith(Event.UPDATE, rtmfpObject);
 		}		

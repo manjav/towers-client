@@ -4,6 +4,7 @@ package com.gerantech.towercraft.screens
 	import com.gerantech.towercraft.managers.RTMFPConnector;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
+	import com.reyco1.multiuser.data.UserObject;
 	
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
@@ -27,34 +28,35 @@ package com.gerantech.towercraft.screens
 			alpha = 0.5;
 			layout = new AnchorLayout();
 			
+			var myTowers:Array = new Array();
+			for(var i:uint=0; i<6; i++)
+				myTowers.push(Player.instance.towerPlaces[i]);
+			
+			rtmpConnector = new RTMFPConnector();
+			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
+			rtmpConnector.connect(myTowers);
+			//new AIEnemy(battleField, Troop.TYPE_RED);
+			
 			battleField = new BattleField();
 			battleField.mode = BattleField.MODE_PLAY;
 			battleField.layoutData = new AnchorLayoutData(stage.width/3,0,NaN,0);
 			addChild(battleField);
-			
-			addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 		}
 		
-		private function transitionInCompleteHandler():void
+		private function rtmpConnector_completeHandler(event:Event):void
 		{
-			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
-			battleField.addDrops();
-			battleField.readyForBattle();
-			
-			rtmpConnector = new RTMFPConnector();
-			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
-			rtmpConnector.connect();
-			//new AIEnemy(battleField, Troop.TYPE_RED);
-			addEventListener(TouchEvent.TOUCH, touchHandler);
-		}
-		
-		private function rtmpConnector_completeHandler():void
-		{
+			var user:UserObject = event.data as UserObject;
+			for(var i:uint=0; i<user.details.length; i++)
+				Player.instance.towerPlaces[14-i] = user.details[i];
+				
 			addEventListener(TouchEvent.TOUCH, touchHandler);
 			rtmpConnector.removeEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
 			rtmpConnector.addEventListener(Event.UPDATE, rtmpConnector_updateHandler);
 			rtmpConnector.addEventListener(Event.CLOSE, rtmpConnector_closeHandler);
 			alpha = 1;
+			
+			battleField.addDrops();
+			battleField.readyForBattle();
 		}
 		
 		private function rtmpConnector_closeHandler():void
