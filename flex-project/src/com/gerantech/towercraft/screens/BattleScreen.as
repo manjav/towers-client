@@ -1,12 +1,14 @@
 package com.gerantech.towercraft.screens
 {
 	import com.gerantech.towercraft.BattleField;
-	import com.gerantech.towercraft.managers.RTMFPConnector;
+	import com.gerantech.towercraft.managers.net.RTMFPConnector;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
 	import com.reyco1.multiuser.data.UserObject;
+	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
@@ -25,22 +27,32 @@ package com.gerantech.towercraft.screens
 		override protected function initialize():void
 		{
 			super.initialize();
-			alpha = 0.5;
+			alpha = 0.3;
 			layout = new AnchorLayout();
 			
 			var myTowers:Array = new Array();
 			for(var i:uint=0; i<6; i++)
 				myTowers.push(Player.instance.towerPlaces[i]);
 			
-			rtmpConnector = new RTMFPConnector();
+			/*rtmpConnector = new RTMFPConnector();
 			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
-			rtmpConnector.connect(myTowers);
+			rtmpConnector.connect(myTowers);*/
 			//new AIEnemy(battleField, Troop.TYPE_RED);
+			
+			SFSConnection.getInstance().addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			SFSConnection.getInstance().send("fight", new SFSObject());
 			
 			battleField = new BattleField();
 			battleField.mode = BattleField.MODE_PLAY;
 			battleField.layoutData = new AnchorLayoutData(stage.width/3,0,NaN,0);
 			addChild(battleField);
+		}
+		
+		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
+		{
+			SFSConnection.getInstance().removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			if(event.params.cmd == "fight")
+				alpha = 1;
 		}
 		
 		private function rtmpConnector_completeHandler(event:Event):void

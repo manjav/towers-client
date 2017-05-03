@@ -52,11 +52,12 @@ package com.gerantech.towercraft.models
 		/**
 		 * Texture Atlas 
 		 */
+		[Embed(source="../assets/images/splash-logo.png")]
+		public static const splash_bitmap:Class;
 		[Embed(source="../assets/images/skin.png")]
 		public static const skinAtlasTexture:Class;
 		[Embed(source="../assets/images/skin.xml", mimeType="application/octet-stream")]
 		public static const skinAtlasXml:Class;
-
 		private static var allTextureAtlases:Dictionary = new Dictionary();
 
 		

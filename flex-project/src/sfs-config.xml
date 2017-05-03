@@ -1,0 +1,40 @@
+<!--
+	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	SFS2X Client Configuration file
+	(c) 2011 gotoAndPlay
+	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+-->
+
+<SmartFoxConfig>
+
+	<!-- Mandatory Settings -->`
+	<!--
+	ARMAN COMPUETER:
+	192.168.201.25
+
+	HASSAN COMPUTER:
+	192.168.201.126
+
+	LOCAL:
+	127.0.0.1
+
+	DEV SERVER:
+	51.254.79.225
+	
+	SERVER:
+	51.254.79.215
+	-->
+
+<!-- 	<ip>51.254.79.215</ip> -->
+	<ip>192.168.0.79</ip>
+	<port>9933</port>
+	<zone>towers</zone>
+	<!-- End Mandatory Settings -->
+
+	<debug>false</debug>
+
+	<httpPort>8080</httpPort>
+	<useBlueBox>false</useBlueBox>
+	<blueBoxPollingRate>500</blueBoxPollingRate>
+
+</SmartFoxConfig>

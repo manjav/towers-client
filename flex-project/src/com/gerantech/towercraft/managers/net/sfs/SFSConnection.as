@@ -1,0 +1,198 @@
+package com.gerantech.towercraft.managers.net.sfs
+{
+	import com.smartfoxserver.v2.SmartFox;
+	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.Room;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
+	import com.smartfoxserver.v2.requests.ExtensionRequest;
+	import com.smartfoxserver.v2.requests.LoginRequest;
+	import com.smartfoxserver.v2.requests.LogoutRequest;
+	
+	import flash.desktop.NativeApplication;
+	import flash.events.EventDispatcher;
+	
+	[Event(name="login",				type="com.smartfoxserver.v2.core.SFSEvent")]
+	[Event(name="logout",				type="com.smartfoxserver.v2.core.SFSEvent")]
+	[Event(name="loginError",			type="com.smartfoxserver.v2.core.SFSEvent")]
+	[Event(name="connection",			type="com.smartfoxserver.v2.core.SFSEvent")]
+	[Event(name="extensionResponse",	type="com.smartfoxserver.v2.core.SFSEvent")]
+	
+	public class SFSConnection extends EventDispatcher
+	{
+		public var userName:String;
+		public var password:String;
+		public var zoneName:String;
+		private var loginParams:ISFSObject;
+		
+		public var retryTimeout:int = 500;
+		public var retryMax:int = 3;
+		public var retryIndex:int = 1;
+		
+		private var sfs:SmartFox;
+		private static var _instance:SFSConnection;
+		
+		
+		public function SFSConnection()
+		{
+			// Create an instance of the SmartFox class
+			sfs = new SmartFox()
+			
+			// Turn on the debug feature
+			sfs.debug = true;
+			
+			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadSuccessHandler);
+			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadFailureHandler);
+			
+			sfs.addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
+			//sfs.addEventListener(SFSEvent.SOCKET_ERROR,			sfs_socketErrorHandler);
+			sfs.addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
+			
+			//login:
+			sfs.addEventListener(SFSEvent.LOGIN, 				sfs_loginHandler);
+			sfs.addEventListener(SFSEvent.LOGOUT, 				sfs_logoutHandler);
+			sfs.addEventListener(SFSEvent.LOGIN_ERROR, 			sfs_loginErrorHandler);
+			
+			sfs.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
+
+			sfs.loadConfig();
+		}
+		
+		public function retry():void{
+			if(sfs.config == null)
+				sfs.loadConfig();
+			else if(!sfs.isConnected)
+				sfs.connect();
+			/*else if(!sfs.isJoining)
+				login();*/
+		}
+		
+		public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null):void
+		{
+			if(!sfs.isConnected)
+				return;
+			
+			this.userName = userName;
+			this.password = password;
+			this.zoneName = zoneName;
+			this.loginParams = params;
+			
+			sfs.send( new LoginRequest(userName, password, zoneName, loginParams) );
+		}
+		
+		public function logout():void
+		{
+			if(!sfs.isConnected)
+				return;
+			sfs.send( new LogoutRequest() );
+		}
+		
+		public function send(extCmd:String, params:ISFSObject=null, room:Room=null, useUDP:Boolean=false):void
+		{
+			if(!sfs.isConnected)
+				return;
+			sfs.send(new ExtensionRequest(extCmd, params, room, useUDP));
+		}
+
+		
+		
+		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		// SFS2X event handlers
+		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+		
+		// Connection ....................................................
+		protected function sfs_socketErrorHandler(event:SFSEvent):void
+		{
+			//performConnection(event);
+			trace("sfs_socketErrorHandler: "+event.params.errorMessage);			
+		}
+		protected function sfs_connectionHandler(event:SFSEvent):void
+		{
+			performConnection(event);
+			trace("sfs_connectionHandler", event.params.success)//, "t["+(getTimer()-Tanks.t)+"]");
+		}
+		protected function sfs_connectionLostHandler(event:SFSEvent):void
+		{
+			trace("Connection was lost. Reason: " + event.params.reason);
+			NativeApplication.nativeApplication.exit();
+		}
+		// Login ....................................................
+		public function sfs_loginHandler(event:SFSEvent):void
+		{
+		//	trace("Login Succeed:", UserData.getInstance().userName, UserData.getInstance().password, "t["+(getTimer()-Tanks.t)+"]");
+			dispatchEvent(event.clone());
+		}
+		protected function sfs_logoutHandler(event:SFSEvent):void
+		{
+			userName = password = zoneName = "";
+			dispatchEvent(event.clone());
+		}
+		public function sfs_loginErrorHandler(event:SFSEvent):void
+		{
+			trace("Login failed: " + event.params.errorMessage);
+			/*if(retryIndex < retryMax)
+			{
+				sfs.send( new LoginRequest(userName, password, zoneName, loginParams) );
+				retryIndex ++;
+			}
+			else
+			{*/
+				dispatchEvent(event.clone());
+			//}
+		}	
+		// Response ....................................................
+		protected function sfs_extensionResponseHandler(event:SFSEvent):void
+		{
+			if(hasEventListener(event.type))
+				dispatchEvent(event.clone());
+		}	
+		
+		
+		private function performConnection(event:SFSEvent):void
+		{
+			//trace("performConnection", sfs.isConnected, retryIndex);
+			if(sfs.isConnected)
+			{
+				retryIndex = 0;
+				dispatchEvent(event.clone());
+			}
+			else
+			{
+				if(retryIndex < retryMax)
+				{
+					sfs.disconnect();
+					sfs.loadConfig();
+					retryIndex ++;
+				}
+				else
+					dispatchEvent(event.clone());
+			}			
+		}
+
+		
+		public function destroy():void
+		{
+			//TODO: connection lost bayad dobare ezafe shavad amma dar classe playOnlineSFS na inja
+			trace("Connector is destroying...");
+			// Add SFS2X event listeners
+			//disconnect
+
+			//sfs.removeEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadSuccessHandler)
+			//sfs.removeEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadFailureHandler)
+				
+			sfs.removeEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
+			sfs.removeEventListener(SFSEvent.SOCKET_ERROR,			sfs_socketErrorHandler);
+			sfs.removeEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
+			//login:
+			sfs.removeEventListener(SFSEvent.LOGIN,					sfs_loginHandler);
+			sfs.removeEventListener(SFSEvent.LOGIN_ERROR,			sfs_loginErrorHandler);
+			sfs.removeEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
+		}
+
+		public static function getInstance():SFSConnection
+		{
+			if(_instance == null)
+				_instance = new SFSConnection();
+			return _instance;
+		}
+	}
+}
