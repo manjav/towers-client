@@ -1,0 +1,20 @@
+# Build and Release Folders
+flex-project/bin-debug
+flex-project/bin-release/
+flex-project/bin-release-temp/
+flex-project/.settings
+
+# Executables
+*.swf -crlf -diff -merge
+*.ipa -crlf -diff -merge
+*.apk -crlf -diff -merge
+
+# Others
+.settings
+.project
+.actionScriptProperties
+.flexProperties
+# Other files and folders
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
