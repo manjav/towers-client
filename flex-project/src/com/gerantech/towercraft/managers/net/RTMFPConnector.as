@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.managers
+package com.gerantech.towercraft.managers.net
 {
 	import com.gerantech.towercraft.models.vo.RTMFPObject;
 	import com.reyco1.multiuser.MultiUserSession;

@@ -133,15 +133,20 @@ package com.gerantech.towercraft
 			place.towerDecorator = towerDecorator;
 
 			// measure all places has tower
-			var towersLen:uint = towerPlaces.length;
-			for (var t:uint=0; t<towersLen; t++)
+			for (var t:uint=0; t<6; t++)
 			{
 				if(towerPlaces[t].towerDecorator == null)
-					towerPlaces[t].towerDecorator = new TowerDecorator(Player.instance.createTower(0, Player.instance.getTowerLevel(0)));
+					towerPlaces[t].towerDecorator = new TowerDecorator(Player.instance.createTower(0, Player.instance.getTowerLevel(0)), true);
 				
 				Player.instance.towerPlaces[t] = towerPlaces[t].towerDecorator.tower.type;
 			}
-			trace(Player.instance.towerPlaces)
+		}
+		
+		
+		public function readyForEdit():void
+		{
+			for(var p:uint=0; p<6; p++)
+				towerPlaces[p].towerDecorator = new TowerDecorator(Player.instance.createTower(Player.instance.towerPlaces[p], Player.instance.getTowerLevel(Player.instance.towerPlaces[p])), true);
 		}
 		
 		

@@ -54,7 +54,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			imageDisplay = new ImageLoader();
 			imageDisplay.layoutData = new HorizontalLayoutData(10, 100);
-			imageDisplay.source = Textures.get("tower_type_"+tower.type);
+			imageDisplay.source = Textures.get("tower-type-"+tower.type);
 			header.addChild(imageDisplay);
 			
 			titleDisplay = new Label();

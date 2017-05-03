@@ -7,17 +7,13 @@ package com.gerantech.towercraft.decorators
 	
 	import flash.utils.setTimeout;
 	
-	import feathers.controls.Label;
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.text.BitmapFontTextFormat;
 	
-	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.filters.ColorMatrixFilter;
-	import starling.text.TextField;
-	import starling.text.TextFormat;
 	
 	public class TowerDecorator extends Sprite
 	{
@@ -27,13 +23,15 @@ package com.gerantech.towercraft.decorators
 
 		private var cmf:ColorMatrixFilter;
 		private var populationIndicator:BitmapFontTextRenderer;
+		private var editMode:Boolean;
 		
-		public function TowerDecorator(tower:Tower)
+		public function TowerDecorator(tower:Tower, editMode:Boolean=false)
 		{
 			this.tower = tower;
+			this.editMode = editMode;
 			tower.addEventListener(Event.UPDATE, tower_updateHandler);
 			imageDisplay = new Image(Textures.get("tower-type-"+tower.type));
-			imageDisplay.touchable = false;
+			imageDisplay.touchable = editMode;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
 		}
@@ -64,25 +62,29 @@ package com.gerantech.towercraft.decorators
 			imageDisplay.pivotY = imageDisplay.height - imageDisplay.width*0.4;
 			imageDisplay.width = stage.stageWidth/6;
 			imageDisplay.scaleY = imageDisplay.scaleX;
-			imageDisplay.x = parent.x;
-			imageDisplay.y = parent.y;
-			parent.parent.addChild(imageDisplay);
+			if(editMode)
+			{
+				addChild(imageDisplay);
+			}
+			else
+			{
+				imageDisplay.x = parent.x;
+				imageDisplay.y = parent.y;
+				parent.parent.addChild(imageDisplay);
+			}
 			
-			/*var tf:TextFormat = new TextFormat("font", imageDisplay.width/5);
-			tf.bold = true;*/
-			
-			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new BitmapFontTextFormat(Textures.getFont(), 12, 0)
-			populationIndicator.touchable = false;
-			populationIndicator.pivotX = populationIndicator.width/2
-			populationIndicator.width = imageDisplay.width;
-			populationIndicator.height = imageDisplay.width/2;
-			populationIndicator.x = parent.x;
-			populationIndicator.y = parent.y + imageDisplay.width/3;
-			//populationIndicator.format.font = "fontName";
-
-			//parent.parent.addChild(populationIndicator);
-			setTimeout(parent.parent.addChild, 100, populationIndicator);
+			if(!editMode)
+			{
+				populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+				populationIndicator.textFormat = new BitmapFontTextFormat(Textures.getFont(), 12, 0)
+				populationIndicator.pivotX = populationIndicator.width/2
+				populationIndicator.width = imageDisplay.width;
+				populationIndicator.height = imageDisplay.width/2;
+				populationIndicator.touchable = false;
+				populationIndicator.x = parent.x;
+				populationIndicator.y = parent.y + imageDisplay.width/3;
+				setTimeout(parent.parent.addChild, 100, populationIndicator);
+			}
 		}
 	}
 }

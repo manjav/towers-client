@@ -82,6 +82,7 @@ package com.gerantech.towercraft.screens
 		{
 			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			battleField.addDrops();
+			battleField.readyForEdit();
 		}
 		
 		private function deckList_changeHandler(event:Event):void
@@ -104,7 +105,7 @@ package com.gerantech.towercraft.screens
 		private function details_selectHandler(event:Event):void
 		{
 			deckList.visible = false;
-			var dt:TowerDecorator = new TowerDecorator(event.data as Tower);
+			var dt:TowerDecorator = new TowerDecorator(event.data as Tower, true);
 			//dt.x = width/2;
 			//dt.y = editOverlay.height/2;
 			editOverlay.addChild(dt);
@@ -123,6 +124,7 @@ package com.gerantech.towercraft.screens
 			if(touch.phase == TouchPhase.BEGAN)
 			{
 				dragFrom = -1;
+				trace(touch.target, 0)
 				if(touch.target.parent is TowerDecorator)
 				{
 					draggableTower = touch.target.parent as TowerDecorator;
