@@ -52,9 +52,9 @@ package
 			
 			Starling.multitouchEnabled = true;
 			this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
-			//this._starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
+			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
-			//this._starling.showStats = true
+			this.starling.showStats = true
 			this.starling.skipUnchangedFrames = false;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);

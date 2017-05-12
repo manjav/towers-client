@@ -53,8 +53,8 @@ package com.gerantech.towercraft.screens
 			switch(event.type)
 			{
 				case LoadingEvent.LOADED:
-				//	trace("LoadingEvent.LOADED", "t["+(getTimer()-Tanks.t)+"]")
-					addEventListener(Event.ENTER_FRAME, enterFrameHandler); // fade-out splash screen
+				trace("LoadingEvent.LOADED", "t["+(getTimer()-TowerCraft.t)+"]")
+				addEventListener(Event.ENTER_FRAME, enterFrameHandler); // fade-out splash screen
 					break;
 				
 				default:

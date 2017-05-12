@@ -4,7 +4,8 @@ package com.gerantech.towercraft.screens
 	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.CardItemRenderer;
-	import com.gerantech.towercraft.controls.popups.TowerDetailsPopup;
+	import com.gerantech.towercraft.controls.popups.PopupTransitionData;
+	import com.gerantech.towercraft.controls.popups.TowerSelectPopup;
 	import com.gerantech.towercraft.decorators.TowerDecorator;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
@@ -13,9 +14,8 @@ package com.gerantech.towercraft.screens
 	import flash.geom.Rectangle;
 	
 	import feathers.controls.LayoutGroup;
-	import feathers.controls.List;
+	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.renderers.IListItemRenderer;
-	import feathers.core.PopUpManager;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
@@ -63,7 +63,7 @@ package com.gerantech.towercraft.screens
 			deckList.layout = deckLayout;
 			deckList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			
-			deckList.scrollBarDisplayMode = List.SCROLL_BAR_DISPLAY_MODE_NONE;
+			deckList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			//deckList.snapToPages = true;
 			//deckList.pageHeight = 200
 			deckList.itemRendererFactory = function ():IListItemRenderer
@@ -87,9 +87,40 @@ package com.gerantech.towercraft.screens
 		
 		private function deckList_changeHandler(event:Event):void
 		{
-			selectedCardBounds = CardItemRenderer(event.data).getBounds(stage);
+			var item:CardItemRenderer = event.data as CardItemRenderer;
 			
-			var details:TowerDetailsPopup = new TowerDetailsPopup();
+			// create transition in data
+			var ti:PopupTransitionData = new PopupTransitionData();
+			ti.transition = Transitions.EASE_OUT_BACK;
+			ti.sourceAlpha = 1;
+			ti.sourceBound = item.getBounds(this);
+			ti.destinationConstrain = this.getBounds(stage);
+			ti.destinationBound = new Rectangle(ti.sourceBound.x-10, ti.sourceBound.y-40, ti.sourceBound.width+20, ti.sourceBound.height+80);
+			
+			// create transition out data
+			var to:PopupTransitionData = new PopupTransitionData();
+			to.sourceAlpha = 1;
+			to.sourceBound = ti.destinationBound.clone();
+			to.destinationBound = ti.sourceBound.clone();
+			
+			var details:TowerSelectPopup = new TowerSelectPopup();
+			details.tower = item.data  as Tower;
+			details.transitionIn = ti;
+			details.transitionOut = to;
+			details.addEventListener(Event.CLOSE, details_closeHandler);
+			details.addEventListener(Event.SELECT, details_selectHandler);
+			//details.addEventListener(Event.UPDATE, details_updateHandler);
+			addChild(details);
+			function details_closeHandler():void
+			{
+				details.removeEventListener(Event.CLOSE, details_closeHandler);
+				details.removeEventListener(Event.SELECT, details_selectHandler);
+				//details.removeEventListener(Event.UPDATE, details_updateHandler);
+				deckList.selectedIndex = -1;
+			}
+			
+			selectedCardBounds = ti.sourceBound;
+			/*var details:TowerDetailsPopup = new TowerDetailsPopup();
 			details.tower = deckList.selectedItem as Tower;
 			details.addEventListener(Event.CLOSE, details_closeHandler);
 			details.addEventListener(Event.SELECT, details_selectHandler);
@@ -99,7 +130,7 @@ package com.gerantech.towercraft.screens
 				if(PopUpManager.isPopUp(details))
 					PopUpManager.removePopUp(details);
 			}
-			deckList.selectedIndex = -1;
+			deckList.selectedIndex = -1;*/
 		}
 		
 		private function details_selectHandler(event:Event):void
@@ -124,7 +155,7 @@ package com.gerantech.towercraft.screens
 			if(touch.phase == TouchPhase.BEGAN)
 			{
 				dragFrom = -1;
-				trace(touch.target, 0)
+				//trace(touch.target, 0)
 				if(touch.target.parent is TowerDecorator)
 				{
 					draggableTower = touch.target.parent as TowerDecorator;
