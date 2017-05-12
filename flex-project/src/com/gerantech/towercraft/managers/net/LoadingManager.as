@@ -5,9 +5,11 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.SFSDataType;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.events.EventDispatcher;
+	import flash.utils.getTimer;
 	
 	[Event(name="loaded",				type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="loginError",			type="com.gerantech.towercraft.events.LoadingEvent")]
@@ -20,15 +22,17 @@ package com.gerantech.towercraft.managers.net
 		public function LoadingManager()
 		{
 			sfsConnection = SFSConnection.getInstance();
-			sfsConnection.addEventListener(SFSEvent.CONNECTION, sfsConnection_connectionHandler);
+			sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
+			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			
 			UserData.getInstance().load();
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
 		{
-			sfsConnection.removeEventListener(SFSEvent.CONNECTION, sfsConnection_connectionHandler);
-			if(event.params.success)
+			sfsConnection.removeEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
+			sfsConnection.removeEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
+			if(event.type == SFSConnection.SUCCEED)
 				login();
 			else
 				dispatchEvent(new LoadingEvent(LoadingEvent.NETWORK_ERROR));
@@ -64,6 +68,12 @@ package com.gerantech.towercraft.managers.net
 			}
 			
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
+			/*sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, adfs);
+			var param:SFSObject = new SFSObject();
+			param.putText("productID", "coin_pack_03");
+			param.putText("purchaseToken", "SDu10PZdud5JoToeZa");
+			sfsConnection.sendExtensionRequest("verify", param);*/
+
 			
 			// trace(event.params.dagetS("success"));
 			// Load << Game-Core >>
@@ -84,6 +94,10 @@ package com.gerantech.towercraft.managers.net
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));*/
 		}
 		
+		protected function adfs(event:SFSEvent):void
+		{
+			trace(event.params);
+		}		
 
 		
 		/*protected function sfsConnection_signupExtensionResponseHandler(event:SFSEvent):void

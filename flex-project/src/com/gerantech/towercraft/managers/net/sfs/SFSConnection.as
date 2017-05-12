@@ -8,16 +8,11 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
 	
-	import flash.desktop.NativeApplication;
-	import flash.events.EventDispatcher;
-	
-	[Event(name="login",				type="com.smartfoxserver.v2.core.SFSEvent")]
-	[Event(name="logout",				type="com.smartfoxserver.v2.core.SFSEvent")]
-	[Event(name="loginError",			type="com.smartfoxserver.v2.core.SFSEvent")]
-	[Event(name="connection",			type="com.smartfoxserver.v2.core.SFSEvent")]
-	[Event(name="extensionResponse",	type="com.smartfoxserver.v2.core.SFSEvent")]
-	
-	public class SFSConnection extends EventDispatcher
+
+	[Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
+	[Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
+
+	public class SFSConnection extends SmartFox
 	{
 		public var userName:String;
 		public var password:String;
@@ -28,47 +23,48 @@ package com.gerantech.towercraft.managers.net.sfs
 		public var retryMax:int = 3;
 		public var retryIndex:int = 1;
 		
-		private var sfs:SmartFox;
 		private static var _instance:SFSConnection;
+		
+		public static const SUCCEED:String = "succeed";
+		public static const FAILURE:String = "failure";
 		
 		
 		public function SFSConnection()
 		{
 			// Create an instance of the SmartFox class
-			sfs = new SmartFox()
 			
 			// Turn on the debug feature
-			sfs.debug = true;
+			debug = false;
 			
 			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadSuccessHandler);
 			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadFailureHandler);
 			
-			sfs.addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
+			addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
 			//sfs.addEventListener(SFSEvent.SOCKET_ERROR,			sfs_socketErrorHandler);
-			sfs.addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
+			addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
 			
 			//login:
-			sfs.addEventListener(SFSEvent.LOGIN, 				sfs_loginHandler);
-			sfs.addEventListener(SFSEvent.LOGOUT, 				sfs_logoutHandler);
-			sfs.addEventListener(SFSEvent.LOGIN_ERROR, 			sfs_loginErrorHandler);
+			addEventListener(SFSEvent.LOGIN, 				sfs_loginHandler);
+			addEventListener(SFSEvent.LOGOUT, 				sfs_logoutHandler);
+			addEventListener(SFSEvent.LOGIN_ERROR, 			sfs_loginErrorHandler);
 			
-			sfs.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
+			//addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 
-			sfs.loadConfig();
+			loadConfig();
 		}
 		
 		public function retry():void{
-			if(sfs.config == null)
-				sfs.loadConfig();
-			else if(!sfs.isConnected)
-				sfs.connect();
+			if(config == null)
+				loadConfig();
+			else if(!isConnected)
+				connect();
 			/*else if(!sfs.isJoining)
 				login();*/
 		}
 		
 		public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null):void
 		{
-			if(!sfs.isConnected)
+			if(!isConnected)
 				return;
 			
 			this.userName = userName;
@@ -76,21 +72,21 @@ package com.gerantech.towercraft.managers.net.sfs
 			this.zoneName = zoneName;
 			this.loginParams = params;
 			
-			sfs.send( new LoginRequest(userName, password, zoneName, loginParams) );
+			send( new LoginRequest(userName, password, zoneName, loginParams) );
 		}
 		
 		public function logout():void
 		{
-			if(!sfs.isConnected)
+			if(!isConnected)
 				return;
-			sfs.send( new LogoutRequest() );
+			send( new LogoutRequest() );
 		}
 		
-		public function send(extCmd:String, params:ISFSObject=null, room:Room=null, useUDP:Boolean=false):void
+		public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room:Room=null, useUDP:Boolean=false):void
 		{
-			if(!sfs.isConnected)
+			if(!isConnected)
 				return;
-			sfs.send(new ExtensionRequest(extCmd, params, room, useUDP));
+			send(new ExtensionRequest(extCmd, params, room, useUDP));
 		}
 
 		
@@ -103,28 +99,29 @@ package com.gerantech.towercraft.managers.net.sfs
 		protected function sfs_socketErrorHandler(event:SFSEvent):void
 		{
 			//performConnection(event);
-			trace("sfs_socketErrorHandler: "+event.params.errorMessage);			
+			//trace("sfs_socketErrorHandler: "+event.params.errorMessage);			
 		}
 		protected function sfs_connectionHandler(event:SFSEvent):void
 		{
 			performConnection(event);
-			trace("sfs_connectionHandler", event.params.success)//, "t["+(getTimer()-Tanks.t)+"]");
+			//trace("sfs_connectionHandler", event.params.success)//, "t["+(getTimer()-Tanks.t)+"]");
 		}
 		protected function sfs_connectionLostHandler(event:SFSEvent):void
 		{
 			trace("Connection was lost. Reason: " + event.params.reason);
-			NativeApplication.nativeApplication.exit();
+			//NativeApplication.nativeApplication.exit();
+			//dispatchEvent(event.clone());
 		}
 		// Login ....................................................
 		public function sfs_loginHandler(event:SFSEvent):void
 		{
 		//	trace("Login Succeed:", UserData.getInstance().userName, UserData.getInstance().password, "t["+(getTimer()-Tanks.t)+"]");
-			dispatchEvent(event.clone());
+		//	dispatchEvent(event.clone());
 		}
 		protected function sfs_logoutHandler(event:SFSEvent):void
 		{
 			userName = password = zoneName = "";
-			dispatchEvent(event.clone());
+		//	dispatchEvent(event.clone());
 		}
 		public function sfs_loginErrorHandler(event:SFSEvent):void
 		{
@@ -136,40 +133,43 @@ package com.gerantech.towercraft.managers.net.sfs
 			}
 			else
 			{*/
-				dispatchEvent(event.clone());
+			//	dispatchEvent(event.clone());
 			//}
 		}	
 		// Response ....................................................
-		protected function sfs_extensionResponseHandler(event:SFSEvent):void
+		/*protected function sfs_extensionResponseHandler(event:SFSEvent):void
 		{
 			if(hasEventListener(event.type))
 				dispatchEvent(event.clone());
-		}	
+		}	*/
 		
 		
-		private function performConnection(event:SFSEvent):void
+		private function performConnection(params:Object):void
 		{
 			//trace("performConnection", sfs.isConnected, retryIndex);
-			if(sfs.isConnected)
+			if(isConnected)
 			{
 				retryIndex = 0;
-				dispatchEvent(event.clone());
+				if(hasEventListener(SFSConnection.SUCCEED))
+					dispatchEvent(new SFSEvent(SFSConnection.SUCCEED, params));
 			}
 			else
 			{
 				if(retryIndex < retryMax)
 				{
-					sfs.disconnect();
-					sfs.loadConfig();
+					disconnect();
+					loadConfig();
 					retryIndex ++;
 				}
-				else
-					dispatchEvent(event.clone());
+				else if(hasEventListener(SFSConnection.SUCCEED))
+				{
+					dispatchEvent(new SFSEvent(SFSConnection.SUCCEED, params));
+				}
 			}			
 		}
 
 		
-		public function destroy():void
+		/*public function destroy():void
 		{
 			//TODO: connection lost bayad dobare ezafe shavad amma dar classe playOnlineSFS na inja
 			trace("Connector is destroying...");
@@ -186,7 +186,7 @@ package com.gerantech.towercraft.managers.net.sfs
 			sfs.removeEventListener(SFSEvent.LOGIN,					sfs_loginHandler);
 			sfs.removeEventListener(SFSEvent.LOGIN_ERROR,			sfs_loginErrorHandler);
 			sfs.removeEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
-		}
+		}*/
 
 		public static function getInstance():SFSConnection
 		{

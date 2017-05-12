@@ -1,14 +1,20 @@
 package com.gerantech.towercraft.screens
 {
 	import com.gerantech.towercraft.BattleField;
-	import com.gerantech.towercraft.managers.net.RTMFPConnector;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
-	import com.reyco1.multiuser.data.UserObject;
+	import com.gerantech.towercraft.models.vo.SFSBBattleObject;
 	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
+	import com.smartfoxserver.v2.entities.User;
+	import com.smartfoxserver.v2.entities.data.ISFSArray;
+	import com.smartfoxserver.v2.entities.data.SFSArray;
+	import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
+	import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+	import com.smartfoxserver.v2.requests.SetUserVariablesRequest;
 	
+	import feathers.controls.StackScreenNavigator;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
@@ -22,7 +28,8 @@ package com.gerantech.towercraft.screens
 	{
 		private var battleField:BattleField;
 		private var sourceTowers:Vector.<TowerPlace>;
-		private var rtmpConnector:RTMFPConnector;
+		//private var rtmpConnector:RTMFPConnector;
+		private var sfsConnection:SFSConnection;
 		
 		override protected function initialize():void
 		{
@@ -30,17 +37,17 @@ package com.gerantech.towercraft.screens
 			alpha = 0.3;
 			layout = new AnchorLayout();
 			
-			var myTowers:Array = new Array();
+			var myTowers:Vector.<int> = new Vector.<int>();
 			for(var i:uint=0; i<6; i++)
 				myTowers.push(Player.instance.towerPlaces[i]);
 			
-			/*rtmpConnector = new RTMFPConnector();
-			rtmpConnector.addEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
-			rtmpConnector.connect(myTowers);*/
-			//new AIEnemy(battleField, Troop.TYPE_RED);
+			sfsConnection = SFSConnection.getInstance();
+			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
+			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, new SFSBBattleObject(myTowers, -1).toSFS());//
 			
-			SFSConnection.getInstance().addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			SFSConnection.getInstance().send("fight", new SFSObject());
+			sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
+			sfsConnection.addEventListener(SFSEvent.USER_VARIABLES_UPDATE, sfsConnection_userVariablesUpdateHandler);
 			
 			battleField = new BattleField();
 			battleField.mode = BattleField.MODE_PLAY;
@@ -48,44 +55,69 @@ package com.gerantech.towercraft.screens
 			addChild(battleField);
 		}
 		
+		protected function sfsConnection_userExitRoomHandler(event:SFSEvent):void
+		{
+			if(event.params.user.isItMe || owner == null)
+				return;
+			StackScreenNavigator(owner).popScreen();
+		}
+				
+		protected function sfsConnection_userVariablesUpdateHandler(event:SFSEvent):void
+		{
+			var user:User = event.params.user as User;
+			//trace("sfsConnection_userVariablesUpdateHandler", user.isItMe);
+			var source:Array = new Array;
+			var destination:int ;
+			var sources:ISFSArray;
+
+			for each (var i:String in event.params.changedVars)
+			{
+				if(i == "s")
+				{
+					sources = user.getVariable(i).getSFSArrayValue();
+					//for(var s:int=0; s<user.getVariable(i).getSFSArrayValue().size(); s++)
+					//	source.push(user.getVariable(i).getSFSArrayValue().getInt(s));					
+				}
+				else if(i == "d")
+				{
+					destination = user.getVariable(i).getIntValue();
+				}
+			}
+			syncTowers(sources, destination, user.isItMe);
+		}
+		
+		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
+		{
+			removeConnectionListeners();
+		}
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			SFSConnection.getInstance().removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			if(event.params.cmd == "fight")
-				alpha = 1;
+			switch(event.params.cmd)
+			{
+				case SFSCommands.START_BATTLE:
+					startBattle(event.params.params.getIntArray("s"));
+					break;
+			}
 		}
 		
-		private function rtmpConnector_completeHandler(event:Event):void
+		private function syncTowers(_sources:ISFSArray, _destination:int, isItMe:Boolean):void
 		{
-			var user:UserObject = event.data as UserObject;
-			for(var i:uint=0; i<user.details.length; i++)
-				Player.instance.towerPlaces[14-i] = user.details[i];
+			var destination:TowerPlace = battleField.getTower(isItMe?_destination:(14-_destination));
+			var sourceLen:uint = _sources.size();
+			for(var i:uint=0; i<sourceLen; i++)
+				battleField.getTower(isItMe?_sources.getInt(i):(14-_sources.getInt(i))).fight(destination, battleField.getAllTowers(-1));
+		}
+
+		private function startBattle(towers:Array):void
+		{
+			for(var i:uint=0; i<towers.length; i++)
+				Player.instance.towerPlaces[14-i] = towers[i];
 				
-			addEventListener(TouchEvent.TOUCH, touchHandler);
-			rtmpConnector.removeEventListener(Event.COMPLETE, rtmpConnector_completeHandler);
-			rtmpConnector.addEventListener(Event.UPDATE, rtmpConnector_updateHandler);
-			rtmpConnector.addEventListener(Event.CLOSE, rtmpConnector_closeHandler);
 			alpha = 1;
-			
 			battleField.addDrops();
 			battleField.readyForBattle();
+			addEventListener(TouchEvent.TOUCH, touchHandler);
 		}
-		
-		private function rtmpConnector_closeHandler():void
-		{
-			removeEventListener(TouchEvent.TOUCH, touchHandler);
-			rtmpConnector.removeEventListener(Event.UPDATE, rtmpConnector_updateHandler);
-			rtmpConnector.removeEventListener(Event.CLOSE, rtmpConnector_closeHandler);
-		}
-		
-		override protected function screen_removedFromStageHandler(event:Event):void
-		{
-			super.screen_removedFromStageHandler(event);
-			if(rtmpConnector == null)
-				return;
-			rtmpConnector.disconnect();
-		}
-		
 
 		private function touchHandler(event:TouchEvent):void
 		{
@@ -156,13 +188,20 @@ package com.gerantech.towercraft.screens
 							if(self>-1)
 								sourceTowers.slice(self, 1);
 							
-							var sources:Array = new Array();
+							var sources:SFSArray = new SFSArray();
 							for each(tp in sourceTowers)
 							{
-								tp.fight(destination, all);
-								sources.push(tp.index);
+							//	tp.fight(destination, all);
+								sources.addInt(tp.index);
 							}
-							rtmpConnector.send(sources, destination.index);
+							
+							var userVars:Array = [];
+							userVars.push(new SFSUserVariable("s", sources));
+							userVars.push(new SFSUserVariable("d", destination.index));
+							sfsConnection.send(new SetUserVariablesRequest(userVars));
+							
+							//sfsConnection.send(SFSCommands.FIGHT, new SFSBBattleObject(sources, destination.index).toSFS());
+							//rtmpConnector.send(sources, destination.index);
 						}
 					}
 					for each(tp in sourceTowers)
@@ -174,15 +213,19 @@ package com.gerantech.towercraft.screens
 		}
 		
 		
-		private function rtmpConnector_updateHandler(event:Event):void
+		override protected function screen_removedFromStageHandler(event:Event):void
 		{
-			var destination:TowerPlace = battleField.getTower(14-rtmpConnector.rtmfpObject.destination);
-			var sourceLen:uint = rtmpConnector.rtmfpObject.source.length;
-			
-			for(var i:uint=0; i<sourceLen; i++)
-				battleField.getTower(14-rtmpConnector.rtmfpObject.source[i]).fight(destination, battleField.getAllTowers(-1));
-			//trace(rtmpConnector.rtmfpObject.toString())
+			sfsConnection.send(new LeaveRoomRequest());
+			super.screen_removedFromStageHandler(event);
+			removeConnectionListeners();
 		}
 		
+		private function removeConnectionListeners():void
+		{
+			removeEventListener(TouchEvent.TOUCH, touchHandler);
+			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+		}		
+
 	}
 }
