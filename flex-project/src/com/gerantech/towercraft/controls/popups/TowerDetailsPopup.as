@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
-	import com.gerantech.towercraft.models.Textures;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.towers.Tower;
 	
 	import feathers.controls.Button;
@@ -11,8 +11,6 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
-	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.HorizontalLayoutData;
 	import feathers.layout.TiledRowsLayout;
@@ -54,7 +52,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			imageDisplay = new ImageLoader();
 			imageDisplay.layoutData = new HorizontalLayoutData(10, 100);
-			imageDisplay.source = Textures.get("tower-type-"+tower.type);
+			imageDisplay.source = Assets.get("tower-type-"+tower.type);
 			header.addChild(imageDisplay);
 			
 			titleDisplay = new Label();
