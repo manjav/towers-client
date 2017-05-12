@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.decorators
 {
-	import com.gerantech.towercraft.models.Textures;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.TowerPlace;
 	import com.gerantech.towercraft.models.towers.Tower;
 	import com.gerantech.towercraft.models.vo.Troop;
@@ -30,7 +30,7 @@ package com.gerantech.towercraft.decorators
 			this.tower = tower;
 			this.editMode = editMode;
 			tower.addEventListener(Event.UPDATE, tower_updateHandler);
-			imageDisplay = new Image(Textures.get("tower-type-"+tower.type));
+			imageDisplay = new Image(Assets.getTexture("tower-type-"+tower.type));
 			imageDisplay.touchable = editMode;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
@@ -49,7 +49,7 @@ package com.gerantech.towercraft.decorators
 			else if(tower.troopType == Troop.TYPE_RED)
 				txt += "-r";
 			
-			imageDisplay.texture = Textures.get(txt)
+			imageDisplay.texture = Assets.getTexture(txt)
 			//cmf = new ColorMatrixFilter();
 			//cmf.tint(tower.troopType, 0.8);
 		//	imageDisplay.filter = cmf;
@@ -76,7 +76,7 @@ package com.gerantech.towercraft.decorators
 			if(!editMode)
 			{
 				populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-				populationIndicator.textFormat = new BitmapFontTextFormat(Textures.getFont(), 12, 0)
+				populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 12, 0)
 				populationIndicator.pivotX = populationIndicator.width/2
 				populationIndicator.width = imageDisplay.width;
 				populationIndicator.height = imageDisplay.width/2;

@@ -11,7 +11,7 @@ package com.gerantech.towercraft.models
 
 	public class Player
 	{
-		[Embed(source = "../assets/texts/player-data.json", mimeType="application/octet-stream")]
+		[Embed(source = "../../../../assets/texts/player-data.json", mimeType="application/octet-stream")]
 		private static const JSONCLASS:Class;
 
 		

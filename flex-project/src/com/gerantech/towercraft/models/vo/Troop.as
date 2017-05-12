@@ -1,13 +1,12 @@
 package com.gerantech.towercraft.models.vo
 {
-	import com.gerantech.towercraft.models.Textures;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.TowerPlace;
 	
 	import flash.utils.setTimeout;
 	
 	import starling.core.Starling;
 	import starling.display.Image;
-	import starling.textures.Texture;
 	
 	public class Troop extends Image
 	{
@@ -28,7 +27,7 @@ package com.gerantech.towercraft.models.vo
 			else if(type == Troop.TYPE_RED)
 				txt += "-r";
 			
-			super(Textures.get(txt));
+			super(Assets.getTexture(txt));
 			alignPivot();
 			
 			this.type = type;

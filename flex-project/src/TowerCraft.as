@@ -55,7 +55,7 @@ package
 			//this._starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
 			//this._starling.showStats = true
-			this.starling.skipUnchangedFrames = true;
+			this.starling.skipUnchangedFrames = false;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 			

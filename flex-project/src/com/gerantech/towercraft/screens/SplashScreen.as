@@ -2,11 +2,12 @@ package com.gerantech.towercraft.screens
 {
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
-	import com.gerantech.towercraft.models.Textures;
+	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.utils.getTimer;
 	
 	public class SplashScreen extends Sprite
 	{
@@ -24,7 +25,7 @@ package com.gerantech.towercraft.screens
 			loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
 			loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
 			
-			logo = new Textures.splash_bitmap();
+			logo = new Assets.splash_bitmap();
 			logo.smoothing = true;
 			addChild(logo);
 		}

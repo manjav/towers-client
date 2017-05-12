@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
 <!-- $TexturePacker:SmartUpdate:91fdd9d56f06991583a86785ea02fa84:fb8a01af5d6eb68ee72d424c59f29b5a:934a5586d03181a1e5bc07b13fa2d8fa$ -->
-<TextureAtlas imagePath="skin.png">
+<TextureAtlas imagePath="game.png">
     <SubTexture name="arrow" x="347" y="434" width="16" height="16"/>
     <SubTexture name="circle" x="2" y="516" width="230" height="175"/>
     <SubTexture name="ground" x="2" y="2" width="343" height="512"/>

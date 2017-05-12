@@ -189,7 +189,7 @@ package com.gerantech.towercraft
 	}
 }
 
-import com.gerantech.towercraft.models.Textures;
+import com.gerantech.towercraft.models.Assets;
 
 import feathers.controls.ImageLoader;
 
@@ -202,6 +202,6 @@ class Ground extends ImageLoader
 		this.y = y;
 		width = w;
 		height = h;
-		source = Textures.get("ground");
+		source = Assets.getTexture("ground");
 	}
 }

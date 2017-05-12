@@ -105,6 +105,7 @@ package com.gerantech.towercraft.models.towers
 			if(isForce)
 				troopType = troops[0];
 			
+			trace("updateView", troopType)
 			dispatchEventWith(Event.UPDATE, false, isForce);
 		}
 		
@@ -116,9 +117,9 @@ package com.gerantech.towercraft.models.towers
 		public function pushTroops(len:uint, troopType:int):void
 		{
 			var _population:uint = population;
-			if(troopType == this.troopType || _population==0)
+			if(troopType == this.troopType || _population == 0)
 			{
-				for(var i:uint=0; i<len; i++)
+				for(var i:int=0; i<len; i++)
 					troops.push(troopType);
 			}
 			else

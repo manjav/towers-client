@@ -25,7 +25,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 package com.gerantech.towercraft.themes
 {
 	
-	import com.gerantech.towercraft.models.Textures;
+	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.geom.Rectangle;
 	
@@ -113,13 +113,13 @@ package com.gerantech.towercraft.themes
 	 */
 	public class BaseMetalWorksMobileTheme extends StyleNameFunctionTheme
 	{
-		[Embed(source="../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		/**[Embed(source="../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_REGULAR:Class;
 
 		[Embed(source="../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_SEMIBOLD:Class;
 
-		/**
+		
 		 * The name of the embedded font used by controls in this theme. Comes
 		 * in normal and bold weights.
 		 */
@@ -746,113 +746,113 @@ package com.gerantech.towercraft.themes
 		 */
 		protected function initializeTextures():void
 		{
-			this.backgroundSkinTexture = Textures.get("background-skin0000");
-			this.backgroundDisabledSkinTexture = Textures.get("background-disabled-skin0000");
-			this.backgroundInsetSkinTexture = Textures.get("background-inset-skin0000");
-			this.backgroundInsetDisabledSkinTexture = Textures.get("background-inset-disabled-skin0000");
-			this.backgroundInsetFocusedSkinTexture = Textures.get("background-focused-skin0000");
-			this.backgroundInsetDangerSkinTexture = Textures.get("background-inset-danger-skin0000");
-			this.backgroundLightBorderSkinTexture = Textures.get("background-light-border-skin0000");
-			this.backgroundDarkBorderSkinTexture = Textures.get("background-dark-border-skin0000");
-			this.backgroundDangerBorderSkinTexture = Textures.get("background-danger-border-skin0000");
+			this.backgroundSkinTexture = Assets.getTexture("background-skin0000", "skin");
+			this.backgroundDisabledSkinTexture = Assets.getTexture("background-disabled-skin0000", "skin");
+			this.backgroundInsetSkinTexture = Assets.getTexture("background-inset-skin0000", "skin");
+			this.backgroundInsetDisabledSkinTexture = Assets.getTexture("background-inset-disabled-skin0000", "skin");
+			this.backgroundInsetFocusedSkinTexture = Assets.getTexture("background-focused-skin0000", "skin");
+			this.backgroundInsetDangerSkinTexture = Assets.getTexture("background-inset-danger-skin0000", "skin");
+			this.backgroundLightBorderSkinTexture = Assets.getTexture("background-light-border-skin0000", "skin");
+			this.backgroundDarkBorderSkinTexture = Assets.getTexture("background-dark-border-skin0000", "skin");
+			this.backgroundDangerBorderSkinTexture = Assets.getTexture("background-danger-border-skin0000", "skin");
 
-			this.buttonUpSkinTexture = Textures.get("button-up-skin0000");
-			this.buttonDownSkinTexture = Textures.get("button-down-skin0000");
-			this.buttonDisabledSkinTexture = Textures.get("button-disabled-skin0000");
-			this.buttonSelectedUpSkinTexture = Textures.get("toggle-button-selected-up-skin0000");
-			this.buttonSelectedDisabledSkinTexture = Textures.get("toggle-button-selected-disabled-skin0000");
-			this.buttonCallToActionUpSkinTexture = Textures.get("call-to-action-button-up-skin0000");
-			this.buttonCallToActionDownSkinTexture = Textures.get("call-to-action-button-down-skin0000");
-			this.buttonDangerUpSkinTexture = Textures.get("danger-button-up-skin0000");
-			this.buttonDangerDownSkinTexture = Textures.get("danger-button-down-skin0000");
-			this.buttonBackUpSkinTexture = Textures.get("back-button-up-skin0000");
-			this.buttonBackDownSkinTexture = Textures.get("back-button-down-skin0000");
-			this.buttonBackDisabledSkinTexture = Textures.get("back-button-disabled-skin0000");
-			this.buttonForwardUpSkinTexture = Textures.get("forward-button-up-skin0000");
-			this.buttonForwardDownSkinTexture = Textures.get("forward-button-down-skin0000");
-			this.buttonForwardDisabledSkinTexture = Textures.get("forward-button-disabled-skin0000");
+			this.buttonUpSkinTexture = Assets.getTexture("button-up-skin0000", "skin");
+			this.buttonDownSkinTexture = Assets.getTexture("button-down-skin0000", "skin");
+			this.buttonDisabledSkinTexture = Assets.getTexture("button-disabled-skin0000", "skin");
+			this.buttonSelectedUpSkinTexture = Assets.getTexture("toggle-button-selected-up-skin0000", "skin");
+			this.buttonSelectedDisabledSkinTexture = Assets.getTexture("toggle-button-selected-disabled-skin0000", "skin");
+			this.buttonCallToActionUpSkinTexture = Assets.getTexture("call-to-action-button-up-skin0000", "skin");
+			this.buttonCallToActionDownSkinTexture = Assets.getTexture("call-to-action-button-down-skin0000", "skin");
+			this.buttonDangerUpSkinTexture = Assets.getTexture("danger-button-up-skin0000", "skin");
+			this.buttonDangerDownSkinTexture = Assets.getTexture("danger-button-down-skin0000", "skin");
+			this.buttonBackUpSkinTexture = Assets.getTexture("back-button-up-skin0000", "skin");
+			this.buttonBackDownSkinTexture = Assets.getTexture("back-button-down-skin0000", "skin");
+			this.buttonBackDisabledSkinTexture = Assets.getTexture("back-button-disabled-skin0000", "skin");
+			this.buttonForwardUpSkinTexture = Assets.getTexture("forward-button-up-skin0000", "skin");
+			this.buttonForwardDownSkinTexture = Assets.getTexture("forward-button-down-skin0000", "skin");
+			this.buttonForwardDisabledSkinTexture = Assets.getTexture("forward-button-disabled-skin0000", "skin");
 
-			this.tabUpSkinTexture = Texture.fromTexture(Textures.get("tab-up-skin0000"), TAB_SKIN_TEXTURE_REGION);
-			this.tabDownSkinTexture = Texture.fromTexture(Textures.get("tab-down-skin0000"), TAB_SKIN_TEXTURE_REGION);
-			this.tabDisabledSkinTexture = Texture.fromTexture(Textures.get("tab-disabled-skin0000"), TAB_SKIN_TEXTURE_REGION);
-			this.tabSelectedUpSkinTexture = Texture.fromTexture(Textures.get("tab-selected-up-skin0000"), TAB_SKIN_TEXTURE_REGION);
-			this.tabSelectedDisabledSkinTexture = Texture.fromTexture(Textures.get("tab-selected-disabled-skin0000"), TAB_SKIN_TEXTURE_REGION);
+			this.tabUpSkinTexture = Texture.fromTexture(Assets.getTexture("tab-up-skin0000", "skin"), TAB_SKIN_TEXTURE_REGION);
+			this.tabDownSkinTexture = Texture.fromTexture(Assets.getTexture("tab-down-skin0000", "skin"), TAB_SKIN_TEXTURE_REGION);
+			this.tabDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("tab-disabled-skin0000", "skin"), TAB_SKIN_TEXTURE_REGION);
+			this.tabSelectedUpSkinTexture = Texture.fromTexture(Assets.getTexture("tab-selected-up-skin0000", "skin"), TAB_SKIN_TEXTURE_REGION);
+			this.tabSelectedDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("tab-selected-disabled-skin0000", "skin"), TAB_SKIN_TEXTURE_REGION);
 
-			this.pickerListButtonIconTexture = Textures.get("picker-list-button-icon0000");
-			this.pickerListButtonSelectedIconTexture = Textures.get("picker-list-button-selected-icon0000");
-			this.pickerListButtonIconDisabledTexture = Textures.get("picker-list-button-disabled-icon0000");
-			this.pickerListItemSelectedIconTexture = Textures.get("picker-list-item-renderer-selected-icon0000");
+			this.pickerListButtonIconTexture = Assets.getTexture("picker-list-button-icon0000", "skin");
+			this.pickerListButtonSelectedIconTexture = Assets.getTexture("picker-list-button-selected-icon0000", "skin");
+			this.pickerListButtonIconDisabledTexture = Assets.getTexture("picker-list-button-disabled-icon0000", "skin");
+			this.pickerListItemSelectedIconTexture = Assets.getTexture("picker-list-item-renderer-selected-icon0000", "skin");
 
-			this.spinnerListSelectionOverlaySkinTexture = Textures.get("spinner-list-selection-overlay-skin0000");
+			this.spinnerListSelectionOverlaySkinTexture = Assets.getTexture("spinner-list-selection-overlay-skin0000", "skin");
 
-			this.checkUpIconTexture = Textures.get("check-up-icon0000");
-			this.checkDownIconTexture = Textures.get("check-down-icon0000");
-			this.checkDisabledIconTexture = Textures.get("check-disabled-icon0000");
-			this.checkSelectedUpIconTexture = Textures.get("check-selected-up-icon0000");
-			this.checkSelectedDownIconTexture = Textures.get("check-selected-down-icon0000");
-			this.checkSelectedDisabledIconTexture = Textures.get("check-selected-disabled-icon0000");
+			this.checkUpIconTexture = Assets.getTexture("check-up-icon0000", "skin");
+			this.checkDownIconTexture = Assets.getTexture("check-down-icon0000", "skin");
+			this.checkDisabledIconTexture = Assets.getTexture("check-disabled-icon0000", "skin");
+			this.checkSelectedUpIconTexture = Assets.getTexture("check-selected-up-icon0000", "skin");
+			this.checkSelectedDownIconTexture = Assets.getTexture("check-selected-down-icon0000", "skin");
+			this.checkSelectedDisabledIconTexture = Assets.getTexture("check-selected-disabled-icon0000", "skin");
 
 			this.radioUpIconTexture = this.checkUpIconTexture;
 			this.radioDownIconTexture = this.checkDownIconTexture;
 			this.radioDisabledIconTexture = this.checkDisabledIconTexture;
-			this.radioSelectedUpIconTexture = Textures.get("radio-selected-up-icon0000");
-			this.radioSelectedDownIconTexture = Textures.get("radio-selected-down-icon0000");
-			this.radioSelectedDisabledIconTexture = Textures.get("radio-selected-disabled-icon0000");
+			this.radioSelectedUpIconTexture = Assets.getTexture("radio-selected-up-icon0000", "skin");
+			this.radioSelectedDownIconTexture = Assets.getTexture("radio-selected-down-icon0000", "skin");
+			this.radioSelectedDisabledIconTexture = Assets.getTexture("radio-selected-disabled-icon0000", "skin");
 
-			this.pageIndicatorSelectedSkinTexture = Textures.get("page-indicator-selected-symbol0000");
-			this.pageIndicatorNormalSkinTexture = Textures.get("page-indicator-symbol0000");
+			this.pageIndicatorSelectedSkinTexture = Assets.getTexture("page-indicator-selected-symbol0000", "skin");
+			this.pageIndicatorNormalSkinTexture = Assets.getTexture("page-indicator-symbol0000", "skin");
 
-			this.searchIconTexture = Textures.get("search-icon0000");
-			this.searchIconDisabledTexture = Textures.get("search-disabled-icon0000");
+			this.searchIconTexture = Assets.getTexture("search-icon0000", "skin");
+			this.searchIconDisabledTexture = Assets.getTexture("search-disabled-icon0000", "skin");
 
-			this.itemRendererUpSkinTexture = Textures.get("item-renderer-up-skin0000");
-			this.itemRendererSelectedSkinTexture = Textures.get("item-renderer-selected-up-skin0000");
-			this.insetItemRendererUpSkinTexture = Textures.get("inset-item-renderer-up-skin0000");
-			this.insetItemRendererSelectedSkinTexture = Textures.get("inset-item-renderer-selected-up-skin0000");
-			this.insetItemRendererFirstUpSkinTexture = Textures.get("first-inset-item-renderer-up-skin0000");
-			this.insetItemRendererFirstSelectedSkinTexture = Textures.get("first-inset-item-renderer-selected-up-skin0000");
-			this.insetItemRendererLastUpSkinTexture = Textures.get("last-inset-item-renderer-up-skin0000");
-			this.insetItemRendererLastSelectedSkinTexture = Textures.get("last-inset-item-renderer-selected-up-skin0000");
-			this.insetItemRendererSingleUpSkinTexture = Textures.get("single-inset-item-renderer-up-skin0000");
-			this.insetItemRendererSingleSelectedSkinTexture = Textures.get("single-inset-item-renderer-selected-up-skin0000");
+			this.itemRendererUpSkinTexture = Assets.getTexture("item-renderer-up-skin0000", "skin");
+			this.itemRendererSelectedSkinTexture = Assets.getTexture("item-renderer-selected-up-skin0000", "skin");
+			this.insetItemRendererUpSkinTexture = Assets.getTexture("inset-item-renderer-up-skin0000", "skin");
+			this.insetItemRendererSelectedSkinTexture = Assets.getTexture("inset-item-renderer-selected-up-skin0000", "skin");
+			this.insetItemRendererFirstUpSkinTexture = Assets.getTexture("first-inset-item-renderer-up-skin0000", "skin");
+			this.insetItemRendererFirstSelectedSkinTexture = Assets.getTexture("first-inset-item-renderer-selected-up-skin0000", "skin");
+			this.insetItemRendererLastUpSkinTexture = Assets.getTexture("last-inset-item-renderer-up-skin0000", "skin");
+			this.insetItemRendererLastSelectedSkinTexture = Assets.getTexture("last-inset-item-renderer-selected-up-skin0000", "skin");
+			this.insetItemRendererSingleUpSkinTexture = Assets.getTexture("single-inset-item-renderer-up-skin0000", "skin");
+			this.insetItemRendererSingleSelectedSkinTexture = Assets.getTexture("single-inset-item-renderer-selected-up-skin0000", "skin");
 
-			var headerBackgroundSkinTexture:Texture = Textures.get("header-background-skin0000");
-			var popUpHeaderBackgroundSkinTexture:Texture = Textures.get("header-popup-background-skin0000");
+			var headerBackgroundSkinTexture:Texture = Assets.getTexture("header-background-skin0000", "skin");
+			var popUpHeaderBackgroundSkinTexture:Texture = Assets.getTexture("header-popup-background-skin0000", "skin");
 			this.headerBackgroundSkinTexture = Texture.fromTexture(headerBackgroundSkinTexture, HEADER_SKIN_TEXTURE_REGION);
 			this.popUpHeaderBackgroundSkinTexture = Texture.fromTexture(popUpHeaderBackgroundSkinTexture, HEADER_SKIN_TEXTURE_REGION);
 
-			this.calloutTopArrowSkinTexture = Textures.get("callout-arrow-top-skin0000");
-			this.calloutRightArrowSkinTexture = Textures.get("callout-arrow-right-skin0000");
-			this.calloutBottomArrowSkinTexture = Textures.get("callout-arrow-bottom-skin0000");
-			this.calloutLeftArrowSkinTexture = Textures.get("callout-arrow-left-skin0000");
-			this.dangerCalloutTopArrowSkinTexture = Textures.get("danger-callout-arrow-top-skin0000");
-			this.dangerCalloutRightArrowSkinTexture = Textures.get("danger-callout-arrow-right-skin0000");
-			this.dangerCalloutBottomArrowSkinTexture = Textures.get("danger-callout-arrow-bottom-skin0000");
-			this.dangerCalloutLeftArrowSkinTexture = Textures.get("danger-callout-arrow-left-skin0000");
+			this.calloutTopArrowSkinTexture = Assets.getTexture("callout-arrow-top-skin0000", "skin");
+			this.calloutRightArrowSkinTexture = Assets.getTexture("callout-arrow-right-skin0000", "skin");
+			this.calloutBottomArrowSkinTexture = Assets.getTexture("callout-arrow-bottom-skin0000", "skin");
+			this.calloutLeftArrowSkinTexture = Assets.getTexture("callout-arrow-left-skin0000", "skin");
+			this.dangerCalloutTopArrowSkinTexture = Assets.getTexture("danger-callout-arrow-top-skin0000", "skin");
+			this.dangerCalloutRightArrowSkinTexture = Assets.getTexture("danger-callout-arrow-right-skin0000", "skin");
+			this.dangerCalloutBottomArrowSkinTexture = Assets.getTexture("danger-callout-arrow-bottom-skin0000", "skin");
+			this.dangerCalloutLeftArrowSkinTexture = Assets.getTexture("danger-callout-arrow-left-skin0000", "skin");
 
-			this.horizontalScrollBarThumbSkinTexture = Textures.get("horizontal-simple-scroll-bar-thumb-skin0000");
-			this.verticalScrollBarThumbSkinTexture = Textures.get("vertical-simple-scroll-bar-thumb-skin0000");
+			this.horizontalScrollBarThumbSkinTexture = Assets.getTexture("horizontal-simple-scroll-bar-thumb-skin0000", "skin");
+			this.verticalScrollBarThumbSkinTexture = Assets.getTexture("vertical-simple-scroll-bar-thumb-skin0000", "skin");
 
-			this.listDrillDownAccessoryTexture = Textures.get("item-renderer-drill-down-accessory-icon0000");
-			this.listDrillDownAccessorySelectedTexture = Textures.get("item-renderer-drill-down-accessory-selected-icon0000");
+			this.listDrillDownAccessoryTexture = Assets.getTexture("item-renderer-drill-down-accessory-icon0000", "skin");
+			this.listDrillDownAccessorySelectedTexture = Assets.getTexture("item-renderer-drill-down-accessory-selected-icon0000", "skin");
 			
-			this.playPauseButtonPlayUpIconTexture = Textures.get("play-pause-toggle-button-play-up-icon0000");
-			this.playPauseButtonPlayDownIconTexture = Textures.get("play-pause-toggle-button-play-down-icon0000");
-			this.playPauseButtonPauseUpIconTexture = Textures.get("play-pause-toggle-button-pause-up-icon0000");
-			this.playPauseButtonPauseDownIconTexture = Textures.get("play-pause-toggle-button-pause-down-icon0000");
-			this.overlayPlayPauseButtonPlayUpIconTexture = Textures.get("overlay-play-pause-toggle-button-play-up-icon0000");
-			this.overlayPlayPauseButtonPlayDownIconTexture = Textures.get("overlay-play-pause-toggle-button-play-down-icon0000");
-			this.fullScreenToggleButtonEnterUpIconTexture = Textures.get("full-screen-toggle-button-enter-up-icon0000");
-			this.fullScreenToggleButtonEnterDownIconTexture = Textures.get("full-screen-toggle-button-enter-down-icon0000");
-			this.fullScreenToggleButtonExitUpIconTexture = Textures.get("full-screen-toggle-button-exit-up-icon0000");
-			this.fullScreenToggleButtonExitDownIconTexture = Textures.get("full-screen-toggle-button-exit-down-icon0000");
-			this.muteToggleButtonMutedUpIconTexture = Textures.get("mute-toggle-button-muted-up-icon0000");
-			this.muteToggleButtonMutedDownIconTexture = Textures.get("mute-toggle-button-muted-down-icon0000");
-			this.muteToggleButtonLoudUpIconTexture = Textures.get("mute-toggle-button-loud-up-icon0000");
-			this.muteToggleButtonLoudDownIconTexture = Textures.get("mute-toggle-button-loud-down-icon0000");
-			this.volumeSliderMinimumTrackSkinTexture = Textures.get("volume-slider-minimum-track-skin0000");
-			this.volumeSliderMaximumTrackSkinTexture = Textures.get("volume-slider-maximum-track-skin0000");
-			this.seekSliderProgressSkinTexture = Textures.get("seek-slider-progress-skin0000");
+			this.playPauseButtonPlayUpIconTexture = Assets.getTexture("play-pause-toggle-button-play-up-icon0000", "skin");
+			this.playPauseButtonPlayDownIconTexture = Assets.getTexture("play-pause-toggle-button-play-down-icon0000", "skin");
+			this.playPauseButtonPauseUpIconTexture = Assets.getTexture("play-pause-toggle-button-pause-up-icon0000", "skin");
+			this.playPauseButtonPauseDownIconTexture = Assets.getTexture("play-pause-toggle-button-pause-down-icon0000", "skin");
+			this.overlayPlayPauseButtonPlayUpIconTexture = Assets.getTexture("overlay-play-pause-toggle-button-play-up-icon0000", "skin");
+			this.overlayPlayPauseButtonPlayDownIconTexture = Assets.getTexture("overlay-play-pause-toggle-button-play-down-icon0000", "skin");
+			this.fullScreenToggleButtonEnterUpIconTexture = Assets.getTexture("full-screen-toggle-button-enter-up-icon0000", "skin");
+			this.fullScreenToggleButtonEnterDownIconTexture = Assets.getTexture("full-screen-toggle-button-enter-down-icon0000", "skin");
+			this.fullScreenToggleButtonExitUpIconTexture = Assets.getTexture("full-screen-toggle-button-exit-up-icon0000", "skin");
+			this.fullScreenToggleButtonExitDownIconTexture = Assets.getTexture("full-screen-toggle-button-exit-down-icon0000", "skin");
+			this.muteToggleButtonMutedUpIconTexture = Assets.getTexture("mute-toggle-button-muted-up-icon0000", "skin");
+			this.muteToggleButtonMutedDownIconTexture = Assets.getTexture("mute-toggle-button-muted-down-icon0000", "skin");
+			this.muteToggleButtonLoudUpIconTexture = Assets.getTexture("mute-toggle-button-loud-up-icon0000", "skin");
+			this.muteToggleButtonLoudDownIconTexture = Assets.getTexture("mute-toggle-button-loud-down-icon0000", "skin");
+			this.volumeSliderMinimumTrackSkinTexture = Assets.getTexture("volume-slider-minimum-track-skin0000", "skin");
+			this.volumeSliderMaximumTrackSkinTexture = Assets.getTexture("volume-slider-maximum-track-skin0000", "skin");
+			this.seekSliderProgressSkinTexture = Assets.getTexture("seek-slider-progress-skin0000", "skin");
 		}
 
 		/**

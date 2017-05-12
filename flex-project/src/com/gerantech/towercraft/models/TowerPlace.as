@@ -30,7 +30,7 @@ package com.gerantech.towercraft.models
 			this.index = index;
 			this.raduis = raduis;
 			
-			var bg:Image = new Image(Textures.get("circle"));
+			var bg:Image = new Image(Assets.getTexture("circle"));
 			bg.alignPivot();
 			bg.width = raduis*2;
 			bg.scaleY = bg.scaleX;
@@ -102,7 +102,7 @@ package com.gerantech.towercraft.models
 			arrowContainer.visible = arrowContainer.touchable = false;
 			addChildAt(arrowContainer, 0);
 			
-			arrow = new Image(Textures.get("arrow"));
+			arrow = new Image(Assets.getTexture("arrow"));
 			arrow.scale9Grid = new Rectangle(6, 10, 3, 4);
 			arrow.alignPivot("center", "bottom");
 			arrowContainer.addChild(arrow);

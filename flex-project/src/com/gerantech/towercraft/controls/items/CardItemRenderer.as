@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.models.Textures;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.towers.Tower;
 	
 	import feathers.controls.ImageLoader;
@@ -59,7 +59,7 @@ package com.gerantech.towercraft.controls.items
 				return;
 			
 			tower = _data as Tower;
-			iconDisplay.source = Textures.get("tower-type-"+tower.type);
+			iconDisplay.source = Assets.getTexture("tower-type-"+tower.type);
 			labelDisplay.text = "Level " + tower.level;
 			progressbar.maximum = tower.upgradeCost;
 			progressbar.value = 5;
