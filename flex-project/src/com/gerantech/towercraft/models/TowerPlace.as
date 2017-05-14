@@ -103,7 +103,7 @@ package com.gerantech.towercraft.models
 			addChildAt(arrowContainer, 0);
 			
 			arrow = new Image(Assets.getTexture("arrow"));
-			arrow.scale9Grid = new Rectangle(6, 10, 3, 4);
+			arrow.scale9Grid = new Rectangle(6, 6, 3, 2);
 			arrow.alignPivot("center", "bottom");
 			arrowContainer.addChild(arrow);
 		}
@@ -129,7 +129,7 @@ package com.gerantech.towercraft.models
 				t.width = raduis/2;
 				t.scaleY = t.scaleX;
 				parent.addChild(t);
-				setTimeout(rush, 200*i, t, i);
+				setTimeout(rush, Troop.RUSH_GAP*i, t, i);
 			}			
 		}
 		
@@ -185,8 +185,8 @@ package com.gerantech.towercraft.models
 				closedList.push(n);
 			}
 			
-			for (i=0; i < closedList.length; i++) 
-				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))
+			/*for (i=0; i < closedList.length; i++) 
+				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))*/
 				
 			// Create return path
 			var ret:Vector.<TowerPlace> = new Vector.<TowerPlace>();

@@ -14,7 +14,9 @@ package com.gerantech.towercraft.models.vo
 		public static const TYPE_BLUE:uint = 0x0000FF;
 		public static const TYPE_RED:uint = 0xFF0000;
 		
-		
+		public static const RUSH_TIME:uint = 1200;
+		public static const RUSH_GAP:uint = 400;
+
 		public var type:uint;
 		public var path:Vector.<TowerPlace>;
 		
@@ -51,13 +53,14 @@ package com.gerantech.towercraft.models.vo
 				return false;
 			}
 			
-			Starling.juggler.tween(this, 0.5, {x:destination.x, y:destination.y, onComplete:onTroopArrived, onCompleteArgs:[destination]});
+			setTimeout(onTroopArrived, RUSH_TIME, destination);
+			Starling.juggler.tween(this, RUSH_TIME/1000, {x:destination.x, y:destination.y});//, onComplete:onTroopArrived, onCompleteArgs:[destination]});
 			return true;
 		}
 		private function onTroopArrived(destination:TowerPlace):void
 		{
 			destination.tower.pushTroops(1, type);
-			setTimeout(destination.rush, 200, this, 0);
+			setTimeout(destination.rush, RUSH_GAP, this, 0);
 		}
 	}
 }

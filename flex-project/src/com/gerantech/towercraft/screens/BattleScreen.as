@@ -28,7 +28,6 @@ package com.gerantech.towercraft.screens
 	{
 		private var battleField:BattleField;
 		private var sourceTowers:Vector.<TowerPlace>;
-		//private var rtmpConnector:RTMFPConnector;
 		private var sfsConnection:SFSConnection;
 		
 		override protected function initialize():void
@@ -73,15 +72,9 @@ package com.gerantech.towercraft.screens
 			for each (var i:String in event.params.changedVars)
 			{
 				if(i == "s")
-				{
 					sources = user.getVariable(i).getSFSArrayValue();
-					//for(var s:int=0; s<user.getVariable(i).getSFSArrayValue().size(); s++)
-					//	source.push(user.getVariable(i).getSFSArrayValue().getInt(s));					
-				}
 				else if(i == "d")
-				{
 					destination = user.getVariable(i).getIntValue();
-				}
 			}
 			syncTowers(sources, destination, user.isItMe);
 		}
@@ -185,7 +178,7 @@ package com.gerantech.towercraft.screens
 						{
 							all = battleField.getAllTowers(-1);
 							var self:int = sourceTowers.indexOf(destination);
-							if(self>-1)
+							if(self > -1)
 								sourceTowers.slice(self, 1);
 							
 							var sources:SFSArray = new SFSArray();
@@ -199,9 +192,6 @@ package com.gerantech.towercraft.screens
 							userVars.push(new SFSUserVariable("s", sources));
 							userVars.push(new SFSUserVariable("d", destination.index));
 							sfsConnection.send(new SetUserVariablesRequest(userVars));
-							
-							//sfsConnection.send(SFSCommands.FIGHT, new SFSBBattleObject(sources, destination.index).toSFS());
-							//rtmpConnector.send(sources, destination.index);
 						}
 					}
 					for each(tp in sourceTowers)
@@ -211,7 +201,6 @@ package com.gerantech.towercraft.screens
 				}
 			}
 		}
-		
 		
 		override protected function screen_removedFromStageHandler(event:Event):void
 		{

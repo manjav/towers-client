@@ -104,15 +104,14 @@ package com.gerantech.towercraft.models.towers
 			var isForce:Boolean = troops[0] != troopType || force;
 			if(isForce)
 				troopType = troops[0];
-			
-			trace("updateView", troopType)
+
 			dispatchEventWith(Event.UPDATE, false, isForce);
 		}
 		
 		public function popTroop():void
 		{
 			troops.pop();
-			updateView();
+			updateView(true);
 		}
 		public function pushTroops(len:uint, troopType:int):void
 		{
@@ -138,7 +137,7 @@ package com.gerantech.towercraft.models.towers
 			}
 			if(population == 0)
 				troops.push(troopType);
-			updateView();
+			updateView(true);
 		}
 		
 		public function get population():uint
