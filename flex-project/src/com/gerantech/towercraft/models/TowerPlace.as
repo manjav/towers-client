@@ -158,7 +158,8 @@ package com.gerantech.towercraft.models
 			// Loop while openList contains some data.
 			while (openList.length != 0)
 			{
-				// Loop while openList contains some data.
+
+				// Remove and get the first element from openList.
 				var n:TowerPlace = openList.shift();
 				
 				// Check if tower is Destination
@@ -172,7 +173,7 @@ package com.gerantech.towercraft.models
 				// Add each neighbor to the end of our openList
 				for (var i:uint=0; i < nLength; i++) 
 				{
-					if((n.links[i]!=origin && n.links[i].tower.troopType == origin.tower.troopType) || n.links[i] == destination)
+					if((n.links[i] != origin && n.links[i].tower.troopType == origin.tower.troopType) || n.links[i] == destination)
 					{
 						//trace(n.links[i].name, "added to", n.name )
 						if(n.links[i].owner == null)
@@ -183,6 +184,7 @@ package com.gerantech.towercraft.models
 				
 				// Add current tower to closedList
 				closedList.push(n);
+				trace("closedList", closedList.length);
 			}
 			
 			/*for (i=0; i < closedList.length; i++) 
@@ -195,6 +197,7 @@ package com.gerantech.towercraft.models
 			{
 				ret.push(last);
 				last = last.owner;
+				trace("ret", ret.length);
 			}
 			while(last!=null && last != origin);
 			//ret.push(origin);
