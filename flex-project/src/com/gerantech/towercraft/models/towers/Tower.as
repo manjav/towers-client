@@ -18,12 +18,14 @@ package com.gerantech.towercraft.models.towers
 		public var features:Dictionary;
 		public var type:int = -1;
 		
+		public var index:int;
 		public var troopType:int;
 		public var troops:Vector.<int>;
 
-		public function Tower(level:int = 1)
+		public function Tower(level:int = 1, index:int = 0)
 		{
 			this.level = level;
+			this.index = index;
 			
 			features = new Dictionary()
 			features["capacity"] = capacity;

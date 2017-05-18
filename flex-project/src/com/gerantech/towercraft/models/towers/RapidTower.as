@@ -2,7 +2,7 @@ package com.gerantech.towercraft.models.towers
 {
 	public class RapidTower extends CommonTower
 	{		
-		public function RapidTower(level:int = 1, chosenBase:int = -1)
+		public function RapidTower(level:int = 1, index:int = 0, chosenBase:int = -1)
 		{
 			super(level);
 			type = TYPE_RAPID;

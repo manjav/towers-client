@@ -28,25 +28,29 @@ package com.gerantech.towercraft.models
 			var data:Object = JSON.parse(new JSONCLASS());
 			
 			// create towers
+			var i:int = 0;
 			towers = new Vector.<Tower>();
 			for each(var t:Object in data.towers)
-				towers.push(createTower(t.type, t.level));
+			{
+				towers.push(createTower(t.type, t.level, i));
+				i ++;
+			}
 			
 			towerPlaces = new Vector.<int>();
 			for each(var tb:Object in data.towerPlaces)
 				towerPlaces.push(tb);
 		}
 		
-		public function createTower(type:int, level:int):Tower
+		public function createTower(type:int, level:int, index:int):Tower
 		{
 			switch(type)
 			{
-				case 0: return (new CommonTower(level));
-				case 1: return (new RapidTower(level));
-				case 2: return (new SniperTower(level));
-				case 3: return (new BomberTower(level));
-				case 4: return (new CannonTower(level));
-				case 5: return (new LazerTower(level));
+				case 0: return (new CommonTower(level, index));
+				case 1: return (new RapidTower(level, index));
+				case 2: return (new SniperTower(level, index));
+				case 3: return (new BomberTower(level, index));
+				case 4: return (new CannonTower(level, index));
+				case 5: return (new LazerTower(level, index));
 			}
 			return null;
 		}

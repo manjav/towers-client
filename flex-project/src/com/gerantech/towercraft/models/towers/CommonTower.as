@@ -2,10 +2,9 @@ package com.gerantech.towercraft.models.towers
 {
 	public class CommonTower extends Tower
 	{
-		
-		public function CommonTower(level:int = 1, chosenBase:int = -1)
+		public function CommonTower(level:int = 1, index:int = 0, chosenBase:int = -1)
 		{
-			super(level);
+			super(level, index);
 			type = TYPE_COMMON;
 		}
 		
