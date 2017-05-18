@@ -1,8 +1,10 @@
 package com.gerantech.towercraft.models
 {
 	import com.gerantech.towercraft.decorators.TowerDecorator;
+	import com.gerantech.towercraft.managers.PathFinder;
 	import com.gerantech.towercraft.models.towers.Tower;
 	import com.gerantech.towercraft.models.vo.Troop;
+	import com.gerantech.towercraft.models.vo.UserData;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
@@ -110,14 +112,9 @@ package com.gerantech.towercraft.models
 
 		public function fight(destination:TowerPlace, all:Vector.<TowerPlace>):void
 		{
-			//trace(name, destination.name)
+			var path:Vector.<TowerPlace> = PathFinder.find(this, destination, all);
 
-			for (var p:uint=0; p<all.length; p++)
-				all[p].owner = null;
-			
-			var path:Vector.<TowerPlace> = findPath(this, destination);
-
-			if(destination.tower == tower)
+			if(path == null || destination.tower == tower)
 				return;
 			
 			var len:uint = Math.floor(tower.population/2);
@@ -142,69 +139,6 @@ package com.gerantech.towercraft.models
 		
 		
 		
-		
-		/**
-		 * Use 'Breadth First Search' (BFS) for finding path of troops
-		 */ 
-		internal static function findPath(origin:TowerPlace, destination:TowerPlace):Vector.<TowerPlace>
-		{
-			//trace(origin.name, "find")
-			// Creating our Open and Closed Lists
-			var closedList:Vector.<TowerPlace> = new Vector.<TowerPlace>();
-			var openList:Vector.<TowerPlace> = new Vector.<TowerPlace>();
-			// Adding our starting point to Open List
-			openList.push(origin);
-			
-			// Loop while openList contains some data.
-			while (openList.length != 0)
-			{
-
-				// Remove and get the first element from openList.
-				var n:TowerPlace = openList.shift();
-				
-				// Check if tower is Destination
-				if (n == destination)
-				{
-					closedList.push(destination);
-					break;
-				}
-				
-				var nLength:uint = n.links.length;
-				// Add each neighbor to the end of our openList
-				for (var i:uint=0; i < nLength; i++) 
-				{
-					if((n.links[i] != origin && n.links[i].tower.troopType == origin.tower.troopType) || n.links[i] == destination)
-					{
-						//trace(n.links[i].name, "added to", n.name )
-						if(n.links[i].owner == null)
-							n.links[i].owner = n;
-						openList.push(n.links[i]);
-					}
-				}
-				
-				// Add current tower to closedList
-				closedList.push(n);
-				trace("closedList", closedList.length);
-			}
-			
-			/*for (i=0; i < closedList.length; i++) 
-				trace(closedList[i].name, ",", (closedList[i].owner==null?"":closedList[i].owner.name))*/
-				
-			// Create return path
-			var ret:Vector.<TowerPlace> = new Vector.<TowerPlace>();
-			var last:TowerPlace = closedList[closedList.length-1];
-			do
-			{
-				ret.push(last);
-				last = last.owner;
-				trace("ret", ret.length);
-			}
-			while(last!=null && last != origin);
-			//ret.push(origin);
-			ret.reverse();
-			//trace("=>", ret.length)
-			return ret;
-		}
 		
 	}
 }
