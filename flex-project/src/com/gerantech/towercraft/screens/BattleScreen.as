@@ -1,11 +1,14 @@
 package com.gerantech.towercraft.screens
 {
 	import com.gerantech.towercraft.BattleField;
+	import com.gerantech.towercraft.managers.PathFinder;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Player;
 	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.models.towers.Tower;
 	import com.gerantech.towercraft.models.vo.SFSBBattleObject;
+	import com.gerantech.towercraft.models.vo.Troop;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.User;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -18,7 +21,6 @@ package com.gerantech.towercraft.screens
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
-	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -50,7 +52,8 @@ package com.gerantech.towercraft.screens
 			
 			battleField = new BattleField();
 			battleField.mode = BattleField.MODE_PLAY;
-			battleField.layoutData = new AnchorLayoutData(stage.width/3,0,NaN,0);
+			
+			battleField.layoutData = new AnchorLayoutData((stage.height - (stage.width/3)*4)/2,0,NaN,0);
 			addChild(battleField);
 		}
 		
@@ -64,11 +67,18 @@ package com.gerantech.towercraft.screens
 		protected function sfsConnection_userVariablesUpdateHandler(event:SFSEvent):void
 		{
 			var user:User = event.params.user as User;
-			//trace("sfsConnection_userVariablesUpdateHandler", user.isItMe);
+			if(event.params.changedVars.indexOf("c") > -1)
+			{
+				//trace(user.isItMe, user.getVariable("c").getIntValue());
+				if(!user.isItMe)
+					battleField.getTower(14 - user.getVariable("c").getIntValue()).tower.forceOccupy();
+				return;
+			}
+			
 			var source:Array = new Array;
 			var destination:int ;
 			var sources:ISFSArray;
-
+			
 			for each (var i:String in event.params.changedVars)
 			{
 				if(i == "s")
@@ -88,7 +98,8 @@ package com.gerantech.towercraft.screens
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
-					startBattle(event.params.params.getIntArray("s"));
+					//trace(event.params.params.getLong("time")- new Date().time);//1495019157057
+					startBattle(event.params.params.getIntArray("towers"));
 					break;
 			}
 		}
@@ -110,8 +121,25 @@ package com.gerantech.towercraft.screens
 			battleField.addDrops();
 			battleField.readyForBattle();
 			addEventListener(TouchEvent.TOUCH, touchHandler);
+			
+			for each(var t:TowerPlace in battleField.getAllTowers(-1))
+				t.tower.addEventListener(Event.UPDATE, tower_updateHandler);
 		}
-
+		
+		private function tower_updateHandler(event:Event):void
+		{
+			if(!event.data)
+				return;
+			
+			var tower:Tower = event.currentTarget as Tower;
+			if(tower.troopType != Troop.TYPE_BLUE)
+				return;
+				
+			var userVars:Array = [];
+			userVars.push(new SFSUserVariable("c", tower.index));
+			sfsConnection.send(new SetUserVariablesRequest(userVars));				
+		}
+		
 		private function touchHandler(event:TouchEvent):void
 		{
 			var tp:TowerPlace; 
@@ -121,6 +149,7 @@ package com.gerantech.towercraft.screens
 			
 			if(touch.phase == TouchPhase.BEGAN)
 			{
+				sourceTowers = new Vector.<TowerPlace>();
 				//trace("BEGAN", touch.target, touch.target.parent);
 				if(!(touch.target.parent is TowerPlace))
 					return;
@@ -129,7 +158,6 @@ package com.gerantech.towercraft.screens
 				if(tp.tower.troopType != Player.instance.troopType)
 					return;
 				
-				sourceTowers = new Vector.<TowerPlace>();
 				sourceTowers.push(tp);
 			}
 			else 
@@ -139,12 +167,11 @@ package com.gerantech.towercraft.screens
 				
 				if(touch.phase == TouchPhase.MOVED)
 				{
-					var dest:DisplayObject = battleField.dropTargets.contain(touch.globalX, touch.globalY);
-					//trace("MOVED", dest)
-					if(dest!=null && dest is TowerPlace)
+					tp = battleField.dropTargets.contain(touch.globalX, touch.globalY) as TowerPlace;
+					if(tp != null)
 					{
-						tp = dest as TowerPlace;
-						if(sourceTowers.indexOf(tp)==-1 && tp.tower.troopType == sourceTowers[0].tower.troopType)
+						// check next tower liked by selected towers
+						if(sourceTowers.indexOf(tp)==-1 && tp.tower.troopType == Player.instance.troopType)
 							sourceTowers.push(tp);
 					}
 					
@@ -156,50 +183,62 @@ package com.gerantech.towercraft.screens
 				}
 				else if(touch.phase == TouchPhase.ENDED)
 				{
-					dest = battleField.dropTargets.contain(touch.globalX, touch.globalY);
-					//trace("ENDED", dest)
-					if(dest is TowerPlace)
+					var destination:TowerPlace = battleField.dropTargets.contain(touch.globalX, touch.globalY) as TowerPlace;
+					if(destination == null)
 					{
-						var destination:TowerPlace = dest as TowerPlace;
-						var lastPoint:TowerPlace;
+						clearSources(sourceTowers);
+						return;
+					}
+				
+					// remove destination from sources if exists
+					var self:int = sourceTowers.indexOf(destination);
+					if(self > -1)
+					{
+						clearSource(sourceTowers[self]);
+						sourceTowers.removeAt(self);
+					}
 					
-						// check destination is neighbor of our towers 
-						var all:Vector.<TowerPlace> = battleField.getAllTowers(sourceTowers[0].tower.troopType);
-						for each(tp in all)
+					// check sources has a path to destination
+					var all:Vector.<TowerPlace> = battleField.getAllTowers(-1);
+					for (var i:int = sourceTowers.length-1; i>=0; i--)
+					{
+						if(sourceTowers[i].tower.troopType != Player.instance.troopType || PathFinder.find(sourceTowers[i], destination, all) == null)
 						{
-							if(destination.links.indexOf(tp) > -1)
-							{
-								lastPoint = tp;
-								break;
-							}
-						}
-						// get allllllll
-						if(lastPoint != null)
-						{
-							all = battleField.getAllTowers(-1);
-							var self:int = sourceTowers.indexOf(destination);
-							if(self > -1)
-								sourceTowers.slice(self, 1);
-							
-							var sources:SFSArray = new SFSArray();
-							for each(tp in sourceTowers)
-							{
-							//	tp.fight(destination, all);
-								sources.addInt(tp.index);
-							}
-							
-							var userVars:Array = [];
-							userVars.push(new SFSUserVariable("s", sources));
-							userVars.push(new SFSUserVariable("d", destination.index));
-							sfsConnection.send(new SetUserVariablesRequest(userVars));
+							clearSource(sourceTowers[i]);
+							sourceTowers.removeAt(i);
 						}
 					}
-					for each(tp in sourceTowers)
-						tp.arrowContainer.visible = false;
 					
-					sourceTowers = null;
+					// send fight data to room
+					if(sourceTowers.length > 0)
+					{
+						var sources:SFSArray = new SFSArray();
+						for each(tp in sourceTowers)
+							sources.addInt(tp.index);
+						
+						var userVars:Array = [];
+						userVars.push(new SFSUserVariable("s", sources));
+						userVars.push(new SFSUserVariable("d", destination.index));
+						sfsConnection.send(new SetUserVariablesRequest(userVars));
+						//trace("SetUserVariablesRequest");
+					}
+
+					// clear swiping mode
+					clearSources(sourceTowers);
 				}
 			}
+		}
+		
+		private function clearSources(sourceTowers:Vector.<TowerPlace>):void
+		{
+			for each(var tp:TowerPlace in sourceTowers)
+				clearSource(tp);
+			sourceTowers = null;
+		}
+		
+		private function clearSource(sourceTower:TowerPlace):void
+		{
+			sourceTower.arrowContainer.visible = false;
 		}
 		
 		override protected function screen_removedFromStageHandler(event:Event):void
@@ -215,6 +254,5 @@ package com.gerantech.towercraft.screens
 			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 		}		
-
 	}
 }

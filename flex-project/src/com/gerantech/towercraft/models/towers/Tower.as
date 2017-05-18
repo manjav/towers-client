@@ -1,5 +1,7 @@
 package com.gerantech.towercraft.models.towers
 {
+	import com.gerantech.towercraft.models.vo.Troop;
+	
 	import flash.utils.Dictionary;
 	import flash.utils.setInterval;
 	
@@ -90,18 +92,24 @@ package com.gerantech.towercraft.models.towers
 		
 		private function calculatePopulation():void
 		{
-			if(population < capacity)
+			var _p:int = population;
+				
+			if(_p < capacity)
 				troops.push(troopType);
-			else if(population > capacity)
+			else if(_p > capacity)
 				troops.pop();
 			
-			updateView();
+			//if(_p != capacity)
+				updateView();
 		}
 		
 		private function updateView(force:Boolean=false):void
 		{
 			if(population == 0)
+			{
+				//dispatchEventWith(Event.UPDATE, false, false);
 				return;
+			}
 			
 			var isForce:Boolean = troops[0] != troopType || force;
 			if(isForce)
@@ -113,7 +121,7 @@ package com.gerantech.towercraft.models.towers
 		public function popTroop():void
 		{
 			troops.pop();
-			updateView(true);
+			updateView();
 		}
 		public function pushTroops(len:uint, troopType:int):void
 		{
@@ -139,12 +147,24 @@ package com.gerantech.towercraft.models.towers
 			}
 			if(population == 0)
 				troops.push(troopType);
-			updateView(true);
+			updateView();
 		}
 		
 		public function get population():uint
 		{
 			return troops.length;
+		}
+		
+		public function forceOccupy():void
+		{
+			trace("start forcing ..... ");
+			if(troopType != Troop.TYPE_BLUE)
+				return;
+			
+			troopType = Troop.TYPE_RED;
+			troops = new Vector.<int>();
+			troops.push(troopType);
+			trace("forced ..... ");
 		}
 	}
 }
