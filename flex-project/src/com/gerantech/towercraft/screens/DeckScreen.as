@@ -8,7 +8,7 @@ package com.gerantech.towercraft.screens
 	import com.gerantech.towercraft.controls.popups.TowerSelectPopup;
 	import com.gerantech.towercraft.decorators.TowerDecorator;
 	import com.gerantech.towercraft.models.Player;
-	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.decorators.PlaceDecorator;
 	import com.gerantech.towercraft.models.towers.Tower;
 	
 	import flash.geom.Rectangle;
@@ -161,9 +161,9 @@ package com.gerantech.towercraft.screens
 					draggableTower = touch.target.parent as TowerDecorator;
 					dragFrom = 0;
 				}
-				else if(touch.target is TowerPlace)
+				else if(touch.target is PlaceDecorator)
 				{
-					draggableTower = TowerPlace(touch.target).towerDecorator;
+					draggableTower = PlaceDecorator(touch.target).towerDecorator;
 					dragFrom = 1;
 				}
 				
@@ -180,9 +180,9 @@ package com.gerantech.towercraft.screens
 				else if(touch.phase == TouchPhase.ENDED)
 				{
 					var dest:DisplayObject = battleField.dropTargets.contain(touch.globalX, touch.globalY);
-					if(dest is TowerPlace)
+					if(dest is PlaceDecorator)
 					{
-						var place:TowerPlace = dest as TowerPlace;
+						var place:PlaceDecorator = dest as PlaceDecorator;
 						battleField.setTower(place, draggableTower);
 						deckList.visible = true;
 						draggableTower = null;

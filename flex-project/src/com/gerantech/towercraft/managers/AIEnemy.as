@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.managers
 {
-	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.decorators.PlaceDecorator;
 	
 	import flash.utils.setInterval;
 	import com.gerantech.towercraft.BattleField;
@@ -9,11 +9,11 @@ package com.gerantech.towercraft.managers
 	{
 		private var battleField:BattleField;
 		private var troopType:int;
-		private var myTowers:Vector.<TowerPlace>;
-		private var enemies:Vector.<TowerPlace>;
+		private var myTowers:Vector.<PlaceDecorator>;
+		private var enemies:Vector.<PlaceDecorator>;
 
-		private var startTower:TowerPlace;
-		private var weakest:TowerPlace;
+		private var startTower:PlaceDecorator;
+		private var weakest:PlaceDecorator;
 		
 		public function AIEnemy(battleField:BattleField, troopType:int)
 		{
@@ -57,7 +57,7 @@ package com.gerantech.towercraft.managers
 					}
 				}
 			}
-			var all:Vector.<TowerPlace> = battleField.getAllTowers(-1);
+			var all:Vector.<PlaceDecorator> = battleField.getAllTowers(-1);
 			for(i=0; i<enemyLen; i++)
 				myTowers[i].fight(weakest, all);
 		}

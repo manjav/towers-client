@@ -1,16 +1,16 @@
 package com.gerantech.towercraft.managers
 {
-	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.decorators.PlaceDecorator;
 
 	public class PathFinder
 	{
 
-		private static var closedList:Vector.<TowerPlace>;
+		private static var closedList:Vector.<PlaceDecorator>;
 		
 		/**
 		 * Use 'Breadth First Search' (BFS) for finding path of troops
 		 */ 
-		public static function find(source:TowerPlace, destination:TowerPlace, all:Vector.<TowerPlace>):Vector.<TowerPlace>
+		public static function find(source:PlaceDecorator, destination:PlaceDecorator, all:Vector.<PlaceDecorator>):Vector.<PlaceDecorator>
 		{
 			if(source == destination)
 				return null;
@@ -18,13 +18,13 @@ package com.gerantech.towercraft.managers
 			for (var p:uint=0; p<all.length; p++)
 				all[p].owner = null;
 			
-			closedList = new Vector.<TowerPlace>();
+			closedList = new Vector.<PlaceDecorator>();
 			if(!sreach(source, destination))
 				return null;
 			
 			// Create return path
-			var ret:Vector.<TowerPlace> = new Vector.<TowerPlace>();
-			var last:TowerPlace = closedList[closedList.length-1];
+			var ret:Vector.<PlaceDecorator> = new Vector.<PlaceDecorator>();
+			var last:PlaceDecorator = closedList[closedList.length-1];
 			do
 			{
 				ret.push(last);
@@ -37,10 +37,10 @@ package com.gerantech.towercraft.managers
 			return ret;
 		}
 		
-		private static function sreach(source:TowerPlace, destination:TowerPlace):Boolean
+		private static function sreach(source:PlaceDecorator, destination:PlaceDecorator):Boolean
 		{
 			// Creating our Open List
-			var openList:Vector.<TowerPlace> = new Vector.<TowerPlace>();
+			var openList:Vector.<PlaceDecorator> = new Vector.<PlaceDecorator>();
 			// Adding our starting point to Open List
 			openList.push(source);
 			
@@ -48,7 +48,7 @@ package com.gerantech.towercraft.managers
 			while (openList.length != 0)
 			{
 			// Remove and get the first element from openList.
-				var node:TowerPlace = openList.shift();
+				var node:PlaceDecorator = openList.shift();
 				//trace("openList", openList.length, UserData.getInstance().id);
 				
 				// Check if tower is Destination

@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.models.TowerPlace;
 	import com.gerantech.towercraft.models.towers.Tower;
 	import com.gerantech.towercraft.models.vo.Troop;
 	
@@ -19,7 +18,7 @@ package com.gerantech.towercraft.decorators
 	{
 		public var tower:Tower;
 		private var imageDisplay:Image;
-		public var place:TowerPlace;
+		public var place:PlaceDecorator;
 
 		private var cmf:ColorMatrixFilter;
 		private var populationIndicator:BitmapFontTextRenderer;

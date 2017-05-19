@@ -3,7 +3,7 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.decorators.TowerDecorator;
 	import com.gerantech.towercraft.managers.DropTargets;
 	import com.gerantech.towercraft.models.Player;
-	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.decorators.PlaceDecorator;
 	import com.gerantech.towercraft.models.vo.Troop;
 	
 	import flash.geom.Point;
@@ -20,7 +20,7 @@ package com.gerantech.towercraft
 			
 		public var dropTargets:DropTargets;
 		public var mode:int;
-		private var towerPlaces:Vector.<TowerPlace>;
+		private var towerPlaces:Vector.<PlaceDecorator>;
 		
 		override protected function initialize():void
 		{
@@ -59,10 +59,10 @@ package com.gerantech.towercraft
 			var rows:Number = 5;
 			var len:uint = cols*rows;
 			
-			towerPlaces = new Vector.<TowerPlace>(len, true);
+			towerPlaces = new Vector.<PlaceDecorator>(len, true);
 			for (var i:uint=0; i<len; i++)
 			{
-				towerPlaces[i] = new TowerPlace(gapX/3, i);
+				towerPlaces[i] = new PlaceDecorator(gapX/3, i);
 				towerPlaces[i].x = paddingX + gapX * (i%cols);
 				towerPlaces[i].y = paddingY + gapY * Math.floor((len-i-1)/cols);
 				towerPlaces[i].selectable = (i < 6 || mode==MODE_PLAY);
@@ -116,12 +116,12 @@ package com.gerantech.towercraft
 		public function addDrops():void
 		{
 			dropTargets = new DropTargets(stage);
-			for each(var t:TowerPlace in towerPlaces)
+			for each(var t:PlaceDecorator in towerPlaces)
 				if(t.selectable)
 					dropTargets.add(t);
 		}
 		
-		public function setTower(place:TowerPlace, towerDecorator:TowerDecorator):void
+		public function setTower(place:PlaceDecorator, towerDecorator:TowerDecorator):void
 		{
 			// dettach place 
 			if(towerDecorator.place != null)
@@ -166,12 +166,12 @@ package com.gerantech.towercraft
 			}
 		}
 		
-		public function getAllTowers(troopType:int):Vector.<TowerPlace>
+		public function getAllTowers(troopType:int):Vector.<PlaceDecorator>
 		{
 			if(troopType==-1)
 				return towerPlaces;
 
-			var ret:Vector.<TowerPlace> = new Vector.<TowerPlace>();
+			var ret:Vector.<PlaceDecorator> = new Vector.<PlaceDecorator>();
 			for(var p:uint=0; p<towerPlaces.length; p++)
 				if(towerPlaces[p].tower.troopType == troopType)
 					ret.push(towerPlaces[p]);
@@ -179,7 +179,7 @@ package com.gerantech.towercraft
 		}
 		
 	
-		public function getTower(index:int):TowerPlace
+		public function getTower(index:int):PlaceDecorator
 		{
 			if(towerPlaces == null)
 				return null;

@@ -1,6 +1,5 @@
-package com.gerantech.towercraft.models
+package com.gerantech.towercraft.decorators
 {
-	import com.gerantech.towercraft.decorators.TowerDecorator;
 	import com.gerantech.towercraft.managers.PathFinder;
 	import com.gerantech.towercraft.models.towers.Tower;
 	import com.gerantech.towercraft.models.vo.Troop;
@@ -12,13 +11,14 @@ package com.gerantech.towercraft.models
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.utils.MathUtil;
+	import com.gerantech.towercraft.models.Assets;
 	
-	public class TowerPlace extends Sprite
+	public class PlaceDecorator extends Sprite
 	{
 		public var index:int;
 		public var raduis:Number;
-		public var links:Vector.<TowerPlace>;
-		public var owner:TowerPlace;
+		public var links:Vector.<PlaceDecorator>;
+		public var owner:PlaceDecorator;
 		public var arrowContainer:Sprite;
 		private var arrow:Image;
 		
@@ -26,9 +26,9 @@ package com.gerantech.towercraft.models
 		private var _selectable:Boolean;
 	//	internal var path:Vector.<TowerPlace>;
 		
-		public function TowerPlace(raduis:Number, index:int)
+		public function PlaceDecorator(raduis:Number, index:int)
 		{
-			links = new Vector.<TowerPlace>();
+			links = new Vector.<PlaceDecorator>();
 			this.index = index;
 			this.raduis = raduis;
 			
@@ -110,9 +110,9 @@ package com.gerantech.towercraft.models
 			arrowContainer.addChild(arrow);
 		}
 
-		public function fight(destination:TowerPlace, all:Vector.<TowerPlace>):void
+		public function fight(destination:PlaceDecorator, all:Vector.<PlaceDecorator>):void
 		{
-			var path:Vector.<TowerPlace> = PathFinder.find(this, destination, all);
+			var path:Vector.<PlaceDecorator> = PathFinder.find(this, destination, all);
 
 			if(path == null || destination.tower == tower)
 				return;

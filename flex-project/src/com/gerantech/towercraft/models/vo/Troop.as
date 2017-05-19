@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.models.vo
 {
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.models.TowerPlace;
+	import com.gerantech.towercraft.decorators.PlaceDecorator;
 	
 	import flash.utils.setTimeout;
 	
@@ -18,10 +18,10 @@ package com.gerantech.towercraft.models.vo
 		public static const RUSH_GAP:uint = 400;
 
 		public var type:uint;
-		public var path:Vector.<TowerPlace>;
+		public var path:Vector.<PlaceDecorator>;
 		
 		
-		public function Troop(type:uint, path:Vector.<TowerPlace>)
+		public function Troop(type:uint, path:Vector.<PlaceDecorator>)
 		{
 			var txt:String = "troop";
 			if(type == TYPE_BLUE)
@@ -34,7 +34,7 @@ package com.gerantech.towercraft.models.vo
 			
 			this.type = type;
 			touchable = false;
-			this.path = new Vector.<TowerPlace>();
+			this.path = new Vector.<PlaceDecorator>();
 			for (var p:uint=0; p<path.length; p++)
 				this.path.push(path[p]);
 				
@@ -45,7 +45,7 @@ package com.gerantech.towercraft.models.vo
 		
 		public function rush():Boolean
 		{
-			var destination:TowerPlace = path.shift();
+			var destination:PlaceDecorator = path.shift();
 			if(destination == null)
 			{
 				removeFromParent(true);
@@ -57,7 +57,7 @@ package com.gerantech.towercraft.models.vo
 			Starling.juggler.tween(this, RUSH_TIME/1000, {x:destination.x, y:destination.y});//, onComplete:onTroopArrived, onCompleteArgs:[destination]});
 			return true;
 		}
-		private function onTroopArrived(destination:TowerPlace):void
+		private function onTroopArrived(destination:PlaceDecorator):void
 		{
 			destination.tower.pushTroops(1, type);
 			setTimeout(destination.rush, RUSH_GAP, this, 0);
