@@ -3,13 +3,14 @@ package com.gerantech.towercraft.managers.net
 
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.Game;
 	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.data.SFSDataType;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.utils.getTimer;
 	
 	[Event(name="loaded",				type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="loginError",			type="com.gerantech.towercraft.events.LoadingEvent")]
@@ -41,19 +42,19 @@ package com.gerantech.towercraft.managers.net
 		/**************************************   LOGIN   ****************************************/
 		private function login():void 
 		{
-			sfsConnection.addEventListener(SFSEvent.LOGIN, sfsConnection_signupHandler);
-			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR, sfsConnection_signupErrorHandler);
+			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
+			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "");
 		}
-		protected function sfsConnection_signupErrorHandler(event:SFSEvent):void
+		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void
 		{
-			sfsConnection.removeEventListener(SFSEvent.LOGIN, sfsConnection_signupHandler);
-			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR, sfsConnection_signupErrorHandler);
+			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
+			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 		}
-		protected function sfsConnection_signupHandler(event:SFSEvent):void
+		protected function sfsConnection_loginHandler(event:SFSEvent):void
 		{
-			sfsConnection.removeEventListener(SFSEvent.LOGIN, sfsConnection_signupHandler);
-			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR, sfsConnection_signupErrorHandler);
+			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
+			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR, sfsConnection_loginErrorHandler);
 			
 			var data:SFSObject = event.params.data;
 			
@@ -67,89 +68,32 @@ package com.gerantech.towercraft.managers.net
 				UserData.getInstance().save();
 			}
 			
-			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
-			/*sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, adfs);
+			/* ------------ PURCHASE VERIFICATION EXAMPLE -----------
+			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, adfs);
 			var param:SFSObject = new SFSObject();
 			param.putText("productID", "coin_pack_03");
 			param.putText("purchaseToken", "SDu10PZdud5JoToeZa");
-			sfsConnection.sendExtensionRequest("verify", param);*/
-
+			sfsConnection.sendExtensionRequest("verify", param);
+			function adfs(event:SFSEvent):void {
+				trace(event.params);
+			}*/		
 			
-			// trace(event.params.dagetS("success"));
 			// Load << Game-Core >>
-			/*var coreLoader:CoreLoader = new CoreLoader("0.9.7.1000", event.params.params);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			var coreLoader:CoreLoader = new CoreLoader("0.1.1.1001", data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
-			}
 		}
 		
 		protected function coreLoader_completeHandler(event:Event):void
 		{
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
-			
-			if(AppModel.getInstance().descriptor.versionCode < Game.get_instance().noticeVersion)
-			dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
-			else if(AppModel.getInstance().descriptor.versionCode < Game.get_instance().forceVersion)
-			dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
+			//trace(AppModel.instance.descriptor.versionCode, Game.get_instance().noticeVersion, Game.get_instance().forceVersion)
+			if(AppModel.instance.descriptor.versionCode < Game.get_instance().noticeVersion)
+				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
+			else if(AppModel.instance.descriptor.versionCode < Game.get_instance().forceVersion)
+				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
 			else
-			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));*/
+				dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 		}
-		
-		protected function adfs(event:SFSEvent):void
-		{
-			trace(event.params);
-		}		
 
-		
-		/*protected function sfsConnection_signupExtensionResponseHandler(event:SFSEvent):void
-		{
-		
-		================================================================
-		var sfs:SFSObject = new SFSObject();
-		sfs.putInt("n1", 12);
-		sfs.putInt("n2", 33);
-		
-		sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-		sfsConnection.send("add", sfs);
-		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
-		{
-			trace(event.params);
-		}
-		
-		
-		=============================================================
-			switch(event.params.cmd)
-			{
-				case Commands.CMD_SUBMIT:
-					sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_signupExtensionResponseHandler);
-					if (event.params.params.getBool("success"))
-					{
-						trace("Success, thanks for registering: ",UserData.getInstance().userName, UserData.getInstance().password, UserData.getInstance().email);
-						UserData.getInstance().save();
-						signin();
-					}
-					else
-					{
-						dispatchEvent(new LoadingEvent(LoadingEvent.SIGNUP_ERROR, "SignUp Error: " + event.params.params.getUtfString("errorMessage")));
-					}
-					break;
-				
-				case Commands.ANS_TIME:
-					var serverTime:Number = event.params.params.getLong(Commands.SFSOBJ_DATA_COMMAND);
-					UserData.getInstance().userName = serverTime.toString() + StringUtils.generateRandomString(5);
-					UserData.getInstance().email = serverTime+"@fakeMail.com";
-					
-					var sfso:SFSObject = new SFSObject();
-					//they should match the corresponding column name in database table:
-					//sfso.putUtfString("uid", "12");
-					sfso.putUtfString("username", UserData.getInstance().userName);
-					sfso.putUtfString("nickname", UserData.getInstance().nickName);
-					sfso.putUtfString("pass", UserData.getInstance().password);
-					sfso.putUtfString("email", UserData.getInstance().email);
-					
-					trace("sfso",sfso.getDump());
-					sfsConnection.send(Commands.CMD_SUBMIT, sfso);
-					break;
-			}			
-		}*/	
 	}
 }

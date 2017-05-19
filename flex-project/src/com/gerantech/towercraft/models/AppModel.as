@@ -1,6 +1,10 @@
 package com.gerantech.towercraft.models
 {
+	import com.gerantech.towercraft.models.vo.Descriptor;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
+	
+	import flash.desktop.NativeApplication;
+	
 	import feathers.controls.StackScreenNavigator;
 
 	public class AppModel
@@ -9,9 +13,11 @@ package com.gerantech.towercraft.models
 		
 		public var theme:MetalWorksMobileTheme;
 		public var navigator:StackScreenNavigator;
+		public var descriptor:Object;
 		
 		public function AppModel()
 		{
+			descriptor = new Descriptor(NativeApplication.nativeApplication.applicationDescriptor);
 		}
 		
 		

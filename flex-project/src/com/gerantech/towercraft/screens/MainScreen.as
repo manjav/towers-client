@@ -39,7 +39,7 @@ package com.gerantech.towercraft.screens
 		
 		private function deckButton_triggeredHandler():void
 		{
-			StackScreenNavigator(owner).pushScreen(Main.DECK_SCREEN);;		
+			StackScreenNavigator(owner).pushScreen(Main.DECK_SCREEN);		
 		}
 		private function attackButton_triggeredHandler():void
 		{
