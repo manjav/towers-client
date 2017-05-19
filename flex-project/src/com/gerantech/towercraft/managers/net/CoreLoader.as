@@ -9,13 +9,12 @@ package com.gerantech.towercraft.managers.net
 	import com.gt.towers.InitData;
 	import com.gt.towers.utils.GameError;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
-	import com.smartfoxserver.v2.entities.data.SFSArray;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	
 	[Event(name="complete", type="flash.events.Event")]
 	public class CoreLoader extends EventDispatcher
