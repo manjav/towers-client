@@ -1,7 +1,8 @@
 package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.models.AppModel;
-	import com.gerantech.towercraft.models.Player;
+	import com.gt.towers.Game;
+	import com.gt.towers.Player;
 	
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -187,11 +188,10 @@ package com.gerantech.towercraft.controls.popups
 		{
 			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 		}
-		protected function get appModel():		AppModel	{	return AppModel.instance;			}
-		protected function get player():		Player		{	return Player.instance;				}
-		/*protected function get core():			Game			{	return Game.get_instance();	}
+		protected function get appModel():		AppModel		{	return AppModel.instance;			}
+		protected function get core():			Game			{	return Game.get_instance();		}
 		protected function get player():		Player			{	return core.get_player();		}
-		protected function get userModel():		UserModel		{	return UserModel.instance;		}
+		/*protected function get userModel():		UserModel		{	return UserModel.instance;		}
 		protected function get configModel():	ConfigModel		{	return ConfigModel.instance;	}
 		protected function get resourceModel():	ResourceModel	{	return ResourceModel.instance;	}*/
 		

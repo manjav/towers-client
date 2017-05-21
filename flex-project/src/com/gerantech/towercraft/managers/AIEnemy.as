@@ -1,13 +1,13 @@
 package com.gerantech.towercraft.managers
 {
-	import com.gerantech.towercraft.decorators.PlaceDecorator;
+	import com.gerantech.towercraft.views.decorators.PlaceDecorator;
 	
 	import flash.utils.setInterval;
-	import com.gerantech.towercraft.BattleField;
+	import com.gerantech.towercraft.views.BattleFieldView;
 
 	public class AIEnemy
 	{
-		private var battleField:BattleField;
+		private var battleField:BattleFieldView;
 		private var troopType:int;
 		private var myTowers:Vector.<PlaceDecorator>;
 		private var enemies:Vector.<PlaceDecorator>;
@@ -15,7 +15,7 @@ package com.gerantech.towercraft.managers
 		private var startTower:PlaceDecorator;
 		private var weakest:PlaceDecorator;
 		
-		public function AIEnemy(battleField:BattleField, troopType:int)
+		public function AIEnemy(battleField:BattleFieldView, troopType:int)
 		{
 			this.battleField = battleField;
 			this.troopType = troopType;

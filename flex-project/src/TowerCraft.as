@@ -1,7 +1,7 @@
 package
 {
 	import com.gerantech.towercraft.Main;
-	import com.gerantech.towercraft.screens.SplashScreen;
+	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;

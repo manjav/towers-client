@@ -1,15 +1,10 @@
-package com.gerantech.towercraft.screens
+package com.gerantech.towercraft.controls.screens
 {
-	import com.gerantech.towercraft.BattleField;
 	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.CardItemRenderer;
-	import com.gerantech.towercraft.controls.popups.PopupTransitionData;
-	import com.gerantech.towercraft.controls.popups.TowerSelectPopup;
-	import com.gerantech.towercraft.decorators.TowerDecorator;
-	import com.gerantech.towercraft.models.Player;
-	import com.gerantech.towercraft.decorators.PlaceDecorator;
-	import com.gerantech.towercraft.models.towers.Tower;
+	import com.gerantech.towercraft.views.BattleFieldView;
+	import com.gerantech.towercraft.views.decorators.TowerDecorator;
 	
 	import flash.geom.Rectangle;
 	
@@ -17,22 +12,13 @@ package com.gerantech.towercraft.screens
 	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
-	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.TiledRowsLayout;
 	
-	import starling.animation.Transitions;
-	import starling.core.Starling;
-	import starling.display.DisplayObject;
-	import starling.events.Event;
-	import starling.events.Touch;
-	import starling.events.TouchEvent;
-	import starling.events.TouchPhase;
-	
 	public class DeckScreen extends BaseCustomScreen
 	{
-		private var battleField:BattleField;
+		private var battleField:BattleFieldView;
 		
 		private var deckLayout:TiledRowsLayout;
 		private var deckList:FastList;
@@ -46,7 +32,7 @@ package com.gerantech.towercraft.screens
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			battleField = new BattleField();
+			battleField = new BattleFieldView();
 			battleField.layoutData = new AnchorLayoutData(stage.width/3,0,NaN,0);
 			addChild(battleField);
 
@@ -70,19 +56,19 @@ package com.gerantech.towercraft.screens
 			{
 				return new CardItemRenderer();
 			}
-			deckList.dataProvider = new ListCollection(Player.instance.towers);
-			deckList.addEventListener(Event.READY, deckList_changeHandler);
+			deckList.dataProvider = new ListCollection(player.get_buildingsLevel());
+			//deckList.addEventListener(Event.READY, deckList_changeHandler);
 			editOverlay.addChild(deckList);
 			
-			addEventListener(TouchEvent.TOUCH, touchHandler);
-			addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
+			//addEventListener(TouchEvent.TOUCH, touchHandler);
+			//addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 		}
 		
-		private function transitionInCompleteHandler():void
+		/*private function transitionInCompleteHandler():void
 		{
 			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			battleField.addDrops();
-			battleField.readyForEdit();
+			//battleField.readyForEdit();
 		}
 		
 		private function deckList_changeHandler(event:Event):void
@@ -120,17 +106,6 @@ package com.gerantech.towercraft.screens
 			}
 			
 			selectedCardBounds = ti.sourceBound;
-			/*var details:TowerDetailsPopup = new TowerDetailsPopup();
-			details.tower = deckList.selectedItem as Tower;
-			details.addEventListener(Event.CLOSE, details_closeHandler);
-			details.addEventListener(Event.SELECT, details_selectHandler);
-			PopUpManager.addPopUp(details);
-			function details_closeHandler():void
-			{
-				if(PopUpManager.isPopUp(details))
-					PopUpManager.removePopUp(details);
-			}
-			deckList.selectedIndex = -1;*/
 		}
 		
 		private function details_selectHandler(event:Event):void
@@ -201,6 +176,6 @@ package com.gerantech.towercraft.screens
 				}
 			}
 		}
-		
+		*/
 	}
 }

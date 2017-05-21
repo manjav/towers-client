@@ -79,7 +79,7 @@ package com.gerantech.towercraft.managers.net
 			}*/		
 			
 			// Load << Game-Core >>
-			var coreLoader:CoreLoader = new CoreLoader("0.1.1.1001", data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			var coreLoader:CoreLoader = new CoreLoader("0.1.1.1002", data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
 		}
 		

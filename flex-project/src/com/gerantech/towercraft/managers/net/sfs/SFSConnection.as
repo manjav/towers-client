@@ -34,7 +34,7 @@ package com.gerantech.towercraft.managers.net.sfs
 			// Create an instance of the SmartFox class
 			
 			// Turn on the debug feature
-			debug = false;
+			//debug = false;
 			
 			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadSuccessHandler);
 			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadFailureHandler);

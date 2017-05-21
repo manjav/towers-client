@@ -1,8 +1,9 @@
-package com.gerantech.towercraft.decorators
+package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.models.towers.Tower;
-	import com.gerantech.towercraft.models.vo.Troop;
+	import com.gt.towers.Game;
+	import com.gt.towers.buildings.Place;
+	import com.gt.towers.constants.TroopType;
 	
 	import flash.utils.setTimeout;
 	
@@ -16,43 +17,24 @@ package com.gerantech.towercraft.decorators
 	
 	public class TowerDecorator extends Sprite
 	{
-		public var tower:Tower;
 		private var imageDisplay:Image;
-		public var place:PlaceDecorator;
+		public var place:Place;
 
 		private var cmf:ColorMatrixFilter;
 		private var populationIndicator:BitmapFontTextRenderer;
 		private var editMode:Boolean;
 		
-		public function TowerDecorator(tower:Tower, editMode:Boolean=false)
+		public function TowerDecorator(place:Place, editMode:Boolean=false)
 		{
-			this.tower = tower;
+			this.place = place;
 			this.editMode = editMode;
-			tower.addEventListener(Event.UPDATE, tower_updateHandler);
-			imageDisplay = new Image(Assets.getTexture("tower-type-"+tower.type));
+			//place.building.addEventListener(Event.UPDATE, tower_updateHandler);
+			imageDisplay = new Image(Assets.getTexture("tower-type-"+place.building.get_type()));
 			imageDisplay.touchable = editMode;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
 		}
-		
-		private function tower_updateHandler(event:Event):void
-		{
-			populationIndicator.text = tower.population+"/"+tower.capacity;
-			
-			if(!event.data)
-				return;
-			
-			var txt:String = "tower-type-"+tower.type;
-			if(tower.troopType == Troop.TYPE_BLUE)
-				txt += "-b";
-			else if(tower.troopType == Troop.TYPE_RED)
-				txt += "-r";
-			
-			imageDisplay.texture = Assets.getTexture(txt)
-			//cmf = new ColorMatrixFilter();
-			//cmf.tint(tower.troopType, 0.8);
-		//	imageDisplay.filter = cmf;
-		}
+
 		
 		private function addedToStageHandler():void
 		{
@@ -76,7 +58,7 @@ package com.gerantech.towercraft.decorators
 			{
 				populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 				populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 12, 0)
-				populationIndicator.pivotX = populationIndicator.width/2
+				populationIndicator.alignPivot();
 				populationIndicator.width = imageDisplay.width;
 				populationIndicator.height = imageDisplay.width/2;
 				populationIndicator.touchable = false;
@@ -84,6 +66,28 @@ package com.gerantech.towercraft.decorators
 				populationIndicator.y = parent.y + imageDisplay.width/3;
 				setTimeout(parent.parent.addChild, 100, populationIndicator);
 			}
+			
+			updateElements(true);
+		}
+		
+		
+		private function tower_updateHandler(event:Event):void
+		{
+			updateElements(event.data);
+		}
+		
+		private function updateElements(forced:Object):void
+		{
+			populationIndicator.text = place.building.get_population()+"/"+place.building.get_capacity();
+			
+			if(!forced)
+				return;
+			
+			var txt:String = "tower-type-"+place.building.get_type();
+			if(place.building.troopType != TroopType.NONE)
+				txt += place.building.troopType == Game.get_instance().get_player().troopType ? "-b" : "-r";
+			
+			imageDisplay.texture = Assets.getTexture(txt)			
 		}
 	}
 }

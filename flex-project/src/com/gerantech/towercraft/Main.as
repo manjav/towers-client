@@ -1,10 +1,9 @@
 package com.gerantech.towercraft
 {
+	import com.gerantech.towercraft.controls.screens.BattleScreen;
+	import com.gerantech.towercraft.controls.screens.DeckScreen;
+	import com.gerantech.towercraft.controls.screens.MainScreen;
 	import com.gerantech.towercraft.models.AppModel;
-	import com.gerantech.towercraft.models.Player;
-	import com.gerantech.towercraft.screens.BattleScreen;
-	import com.gerantech.towercraft.screens.DeckScreen;
-	import com.gerantech.towercraft.screens.MainScreen;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
 	
 	import feathers.controls.Drawers;
@@ -23,7 +22,6 @@ package com.gerantech.towercraft
 		
 		public function Main(content:IFeathersControl=null)
 		{
-			Player.instance;
 			AppModel.instance.theme = new MetalWorksMobileTheme();
 			super(content);
 		}

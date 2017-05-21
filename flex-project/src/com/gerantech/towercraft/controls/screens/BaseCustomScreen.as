@@ -1,6 +1,10 @@
-package com.gerantech.towercraft.screens
+package com.gerantech.towercraft.controls.screens
 {
 
+	import com.gerantech.towercraft.models.AppModel;
+	import com.gt.towers.Game;
+	import com.gt.towers.Player;
+	
 	import flash.utils.getQualifiedClassName;
 	
 	import mx.resources.ResourceManager;
@@ -29,10 +33,11 @@ package com.gerantech.towercraft.screens
 		{
 			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 		}
-		/*protected function get appModel():		AppModel		{	return AppModel.instance;		}
-		protected function get userModel():		UserModel		{	return UserModel.instance;		}
+		protected function get appModel():		AppModel		{	return AppModel.instance;		}
+		protected function get core():			Game			{	return Game.get_instance();		}
+		protected function get player():		Player			{	return core.get_player();		}
+		/*protected function get userModel():		UserModel		{	return UserModel.instance;	}
 		protected function get configModel():	ConfigModel		{	return ConfigModel.instance;	}
-		protected function get resourceModel():	ResourceModel	{	return ResourceModel.instance;	}*/
-		
+		protected function get resourceModel():	ResourceModel	{	return ResourceModel.instance;	}*/		
 	}
 }

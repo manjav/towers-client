@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.screens
+package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;

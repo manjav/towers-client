@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.screens
+package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.FastList;
@@ -30,11 +30,11 @@ package com.gerantech.towercraft.screens
 			attackButton.addEventListener(Event.TRIGGERED, attackButton_triggeredHandler);
 			addChild(attackButton);
 			
-			var deckButton:Button = new Button();
+			/*var deckButton:Button = new Button();
 			deckButton.label = "آرایش جنگی"
 			deckButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 100);
 			deckButton.addEventListener(Event.TRIGGERED, deckButton_triggeredHandler);
-			addChild(deckButton);
+			addChild(deckButton);*/
 		}
 		
 		private function deckButton_triggeredHandler():void
