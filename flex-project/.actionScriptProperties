@@ -35,7 +35,6 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
-      <libraryPathEntry kind="1" linkType="2" path="D:/_PROJECTS/_FLEX/towers-projects/towers-core/source/bin/flash"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

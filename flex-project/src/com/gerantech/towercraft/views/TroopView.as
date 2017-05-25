@@ -1,52 +1,52 @@
 package com.gerantech.towercraft.views
 {
+	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.views.decorators.PlaceDecorator;
+	import com.gt.towers.Game;
+	import com.gt.towers.others.BalancingData;
+	import com.gt.towers.utils.lists.PlaceList;
+	
+	import flash.utils.setTimeout;
+	
+	import starling.core.Starling;
 	import starling.display.Image;
 	
 	public class TroopView extends Image
 	{
-		public static const TYPE_GREY:uint = 0xe2e2e2;
-		public static const TYPE_BLUE:uint = 0x0000FF;
-		public static const TYPE_RED:uint = 0xFF0000;
+		private var troopType:int;
+		private var path:Vector.<PlaceDecorator>;
 	
-		public function TroopView()//troop:Troop
+		public function TroopView(troopType:int, path:PlaceList)
 		{
-			super(null);
-			
-			/*var txt:String = "troop";
-			if(type == TYPE_BLUE)
-				txt += "-b";
-			else if(type == TroopView.TYPE_RED)
-				txt += "-r";
-			
-			super(Assets.getTexture(txt));
+			super(Assets.getTexture("troop" + (troopType == Game.get_instance().get_player().troopType?"-b":"-r")));
 			alignPivot();
 			
-			this.type = type;
+			this.troopType = troopType;
+			
 			touchable = false;
 			this.path = new Vector.<PlaceDecorator>();
-			for (var p:uint=0; p<path.length; p++)
-				this.path.push(path[p]);
-*/
+			for (var p:uint=0; p<path.size(); p++)
+				this.path.push(AppModel.instance.battleField.places[path.get(p).index]);
+
 		}
 		
-		/*public function rush():Boolean
+		public function rush():Boolean
 		{
-			var destination:PlaceDecorator = path.shift();
-			if(destination == null)
+			var next:PlaceDecorator = path.shift();
+			if(next == null)
 			{
 				removeFromParent(true);
 				//trace("fine", type);
 				return false;
 			}
 			
-			setTimeout(onTroopArrived, RUSH_TIME, destination);
-			Starling.juggler.tween(this, RUSH_TIME/1000, {x:destination.x, y:destination.y});//, onComplete:onTroopArrived, onCompleteArgs:[destination]});
+			Starling.juggler.tween(this, BalancingData.RUSH_TIME/1000, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
 			return true;
 		}
-		private function onTroopArrived(destination:PlaceDecorator):void
+		private function onTroopArrived(next:PlaceDecorator):void
 		{
-			destination.tower.pushTroops(1, type);
-			setTimeout(destination.rush, RUSH_GAP, this, 0);
-		}*/
+			setTimeout(next.rush, BalancingData.RUSH_GAP, this);
+		}
 	}
 }

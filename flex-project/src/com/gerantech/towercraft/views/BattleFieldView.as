@@ -17,7 +17,11 @@ package com.gerantech.towercraft.views
 		public var mode:int;
 		public var dropTargets:DropTargets;
 		
-		private var towerPlaces:Vector.<PlaceDecorator>;
+		public var places:Vector.<PlaceDecorator>;
+
+		private var _width:Number;
+
+		private var _height:Number;
 		
 		override protected function initialize():void
 		{
@@ -25,53 +29,62 @@ package com.gerantech.towercraft.views
 			layout = new AnchorLayout();
 			backgroundSkin = new Quad(1,1,1)
 
-			var w:Number = stage.stageWidth/2;
-			var h:Number = (w/3)*4;
+			_width = stage.stageWidth/2;
+			_height = (_width/3)*4;
 			
-			var leftTopGround:Ground = new Ground(0, 0, w, h);
+			var leftTopGround:Ground = new Ground(0, 0, _width, _height);
 			addChild(leftTopGround);
 			
-			var rightTopGround:Ground = new Ground(w*2, 0, w, h);
+			var rightTopGround:Ground = new Ground(_width*2, 0, _width, _height);
 			rightTopGround.scaleX = -1
 			addChild(rightTopGround);
 			
-			var leftBotGround:Ground = new Ground(0, h*2, w, h);
+			var leftBotGround:Ground = new Ground(0, _height*2, _width, _height);
 			leftBotGround.scaleY = -1
 			addChild(leftBotGround);
 			
-			var rightBotGround:Ground = new Ground(w*2, h*2, w, h);
+			var rightBotGround:Ground = new Ground(_width*2, _height*2, _width, _height);
 			rightBotGround.scaleX = rightBotGround.scaleY = -1
 			addChild(rightBotGround);
-			
-			createPlaces(w, h);
 		}
 		
-		private function createPlaces(w:Number, h:Number):void
+		public function createPlaces():void
 		{
-			var paddingX:Number = w/4.444444444444445;
-			var paddingY:Number = h/7.6190476190476195;
-			var gapX:Number = w-paddingX;
-			var gapY:Number = (h-paddingY)/2;
+			var paddingX:Number = _width/4.444444444444445;
+			var paddingY:Number = _height/7.6190476190476195;
+			var gapX:Number = _width-paddingX;
+			var gapY:Number = (_height-paddingY)/2;
 			var cols:Number = 3;
 			var rows:Number = 5;
 			
 			var len:uint = Game.get_instance().battleField.places.size();
-			towerPlaces = new Vector.<PlaceDecorator>(len, true);
+			places = new Vector.<PlaceDecorator>(len, true);
 			for (var i:uint=0; i<len; i++)
 			{
-				towerPlaces[i] = new PlaceDecorator(Game.get_instance().battleField.places.get(i), gapX/3);
-				towerPlaces[i].x = paddingX + gapX * (i%cols);
-				towerPlaces[i].y = paddingY + gapY * Math.floor((len-i-1)/cols);
-				towerPlaces[i].selectable = (i < 6 || mode==MODE_PLAY);
-				towerPlaces[i].name = i;
-				addChild(towerPlaces[i]);
+				places[i] = new PlaceDecorator(Game.get_instance().battleField.places.get(i), gapX/3);
+				if(Game.get_instance().get_player().troopType == 0 )
+				{
+					places[i].x = paddingX + gapX * (i%cols);
+					places[i].y = paddingY + gapY * Math.floor((len-i-1)/cols);
+				}
+				else
+				{
+					places[i].x = _width*2 - (paddingX + gapX * (i%cols));
+					places[i].y = _height*2 - (paddingY + gapY * Math.floor((len-i-1)/cols));
+				}
+
+				places[i].selectable = (i < 6 || mode==MODE_PLAY);
+				places[i].name = i;
+				addChild(places[i]);
 			}
+			
+			addDrops();
 		}
-	
+		
 		public function addDrops():void
 		{
 			dropTargets = new DropTargets(stage);
-			for each(var t:PlaceDecorator in towerPlaces)
+			for each(var t:PlaceDecorator in places)
 				if(t.selectable)
 					dropTargets.add(t);
 		}
@@ -81,6 +94,7 @@ package com.gerantech.towercraft.views
 			for(var p:uint=0; p<6; p++)
 				towerPlaces[p].towerDecorator = new TowerDecorator(Player.instance.createTower(Player.instance.towerPlaces[p], Player.instance.getTowerLevel(Player.instance.towerPlaces[p]), p), true);
 		}*/
+
 	}
 }
 

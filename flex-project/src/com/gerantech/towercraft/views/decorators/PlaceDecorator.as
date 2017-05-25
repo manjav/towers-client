@@ -1,12 +1,19 @@
 package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.views.TroopView;
+	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Place;
+	import com.gt.towers.others.BalancingData;
+	import com.gt.towers.utils.PathFinder;
+	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
+	import starling.events.Event;
 	import starling.utils.MathUtil;
 	
 	public class PlaceDecorator extends Sprite
@@ -15,11 +22,11 @@ package com.gerantech.towercraft.views.decorators
 		public var raduis:Number;
 
 		public var arrowContainer:Sprite;
-		private var arrow:Image;
 		
+		private var arrow:Image;
 		private var _selectable:Boolean;
-	//	internal var path:Vector.<TowerPlace>;
 		private var buildingDecorator:TowerDecorator;
+		private var population:int;
 		
 		public function PlaceDecorator(place:Place, raduis:Number)
 		{
@@ -72,30 +79,54 @@ package com.gerantech.towercraft.views.decorators
 			//alpha = _selectable ? 1: 0.5;
 		}
 
-		/*public function fight(destination:PlaceDecorator, all:Vector.<PlaceDecorator>):void
+		
+		public function update(population:int, troopType:int) : void
 		{
-			var path:Vector.<PlaceDecorator> = PathFinder.find(this, destination, all);
-
-			if(path == null || destination.tower == tower)
+			// reset when captured.
+			if(place.building.troopType != troopType)
+				place.building.level = 1;
+			
+			place.building.troopType = troopType;
+			this.population = population;
+			buildingDecorator.updateElements(population, troopType);
+			
+			if(hasEventListener(Event.UPDATE))
+				dispatchEventWith(Event.UPDATE, false);
+		}
+		
+		
+		public function fight(destination:Place) : void
+		{
+			var path:PlaceList = PathFinder.find(place, destination, Game.get_instance().battleField.getAllTowers(-1));
+			
+			if(path == null || destination.building == place.building)
 				return;
 			
-			var len:uint = Math.floor(tower.population/2);
+			var len:int = Math.floor(population / 2);
 			for(var i:uint=0; i<len; i++)
 			{
-				var t:Troop = new Troop(tower.troopType, path)
+				var t:TroopView = new TroopView(place.building.troopType, path);
 				t.x = x;
 				t.y = y;
 				t.width = raduis/2;
 				t.scaleY = t.scaleX;
 				parent.addChild(t);
-				setTimeout(rush, Troop.RUSH_GAP*i, t, i);
+				
+				setTimeout(rush, BalancingData.RUSH_GAP * i, t);
 			}			
 		}
+		public function rush(t:TroopView):void
+		{
+			t.rush();
+		}
 		
-		public function rush(t:Troop, i:uint):void
-		{//trace(i)
-			if(t.rush())
-				tower.popTroop();
-		}*/
+		public function get upgradable():Boolean
+		{
+			return population >= place.building.get_capacity();
+		}
+		public function upgrade():void
+		{
+			place.building.level ++;
+		}
 	}
 }

@@ -1,22 +1,30 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
+	import com.gerantech.towercraft.controls.floatings.FloatingTransitionData;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.decorators.PlaceDecorator;
+	import com.gt.towers.buildings.Building;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.User;
-	import com.smartfoxserver.v2.entities.data.ISFSArray;
+	import com.smartfoxserver.v2.entities.Room;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
-	import com.smartfoxserver.v2.entities.variables.SFSUserVariable;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	import com.smartfoxserver.v2.requests.LeaveRoomRequest;
+	
+	import flash.desktop.NativeApplication;
+	import flash.geom.Point;
+	import flash.utils.clearTimeout;
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.StackScreenNavigator;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
+	import starling.animation.Transitions;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -24,28 +32,53 @@ package com.gerantech.towercraft.controls.screens
 
 	public class BattleScreen extends BaseCustomScreen
 	{
-		private var battleField:BattleFieldView;
 		private var sourceTowers:Vector.<PlaceDecorator>;
 		private var sfsConnection:SFSConnection;
+		private var battleRoom:Room;
+		private var timeoutId:uint;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
-			alpha = 0.3;
 			layout = new AnchorLayout();
 			
 			sfsConnection = SFSConnection.getInstance();
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);//
+			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
 			
-			sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
-			sfsConnection.addEventListener(SFSEvent.USER_VARIABLES_UPDATE, sfsConnection_userVariablesUpdateHandler);
-			
-			battleField = new BattleFieldView();
-			battleField.mode = BattleFieldView.MODE_PLAY;
-			battleField.layoutData = new AnchorLayoutData((stage.height - (stage.width/3)*4)/2,0,NaN,0);
-			addChild(battleField);
+			appModel.battleField = new BattleFieldView();
+			appModel.battleField.mode = BattleFieldView.MODE_PLAY;
+			appModel.battleField.layoutData = new AnchorLayoutData((stage.height - (stage.width/3)*4)/2,0,NaN,0);
+			addChild(appModel.battleField);
+		}
+		
+		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
+		{
+			removeConnectionListeners();
+			NativeApplication.nativeApplication.exit(0);
+		}
+		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
+		{
+			switch(event.params.cmd)
+			{
+				case SFSCommands.START_BATTLE:
+					
+					player.troopType = event.params.params.getInt("troopType");
+					battleRoom = sfsConnection.getRoomById(event.params.params.getInt("roomId"));
+					
+					appModel.battleField.createPlaces();
+
+					sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
+					sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
+					addEventListener(TouchEvent.TOUCH, touchHandler);
+
+					break;
+				
+				case SFSCommands.UPGRADE:
+					appModel.battleField.places[event.params.params.getInt("i")].upgrade();
+					break;
+			}
 		}
 		
 		protected function sfsConnection_userExitRoomHandler(event:SFSEvent):void
@@ -54,78 +87,29 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			StackScreenNavigator(owner).popScreen();
 		}
+		
+		
+		protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
+		{
+			if(event.params.changedVars.indexOf("towers") > -1 )
+			{
+				var towers:SFSArray = battleRoom.getVariable("towers").getValue() as SFSArray;
+				for(var i:int=0; i<towers.size(); i++)
+				{
+					var t:Array = towers.getText(i).split(",");
+					appModel.battleField.places[t[0]].update(t[1], t[2]);
+				}
+			}
+			
+			if(event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
+			{
+				towers = battleRoom.getVariable("s").getValue() as SFSArray;
+				var destination:int = battleRoom.getVariable("d").getValue();
 				
-		protected function sfsConnection_userVariablesUpdateHandler(event:SFSEvent):void
-		{
-			var user:User = event.params.user as User;
-			/*if(event.params.changedVars.indexOf("c") > -1)
-			{
-				//trace(user.isItMe, user.getVariable("c").getIntValue());
-				if(!user.isItMe)
-					battleField.getTower(14 - user.getVariable("c").getIntValue()).tower.forceOccupy();
-				return;
-			}*/
-			
-			var source:Array = new Array;
-			var destination:int ;
-			var sources:ISFSArray;
-			
-			for each (var i:String in event.params.changedVars)
-			{
-				if(i == "s")
-					sources = user.getVariable(i).getSFSArrayValue();
-				else if(i == "d")
-					destination = user.getVariable(i).getIntValue();
-			}
-			syncTowers(sources, destination, user.isItMe);
-		}
-		
-		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
-		{
-			removeConnectionListeners();
-		}
-		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
-		{
-			switch(event.params.cmd)
-			{
-				case SFSCommands.START_BATTLE:
-					
-					alpha = 1;
-					battleField.addDrops();
-					player.troopType = event.params.params.getInt("troopType");
-					addEventListener(TouchEvent.TOUCH, touchHandler);
-					//startBattle();
-					break;
+				for ( i = 0; i<towers.size(); i++)
+					appModel.battleField.places[towers.getInt(i)].fight(appModel.battleField.places[destination].place);
 			}
 		}
-		
-		private function startBattle():void
-		{
-			/*for each(var t:PlaceDecorator in battleField.getAllTowers(-1))
-			t.tower.addEventListener(Event.UPDATE, tower_updateHandler);
-		}
-		
-		private function tower_updateHandler(event:Event):void
-		{
-			if(!event.data)
-				return;
-			
-			var tower:Tower = event.currentTarget as Tower;
-			if(tower.troopType != TroopView.TYPE_BLUE)
-				return;
-			
-			var userVars:Array = [];
-			userVars.push(new SFSUserVariable("c", tower.index));
-			sfsConnection.send(new SetUserVariablesRequest(userVars));		*/		
-		}
-		private function syncTowers(_sources:ISFSArray, _destination:int, isItMe:Boolean):void
-		{
-			/*var destination:PlaceDecorator = battleField.getTower(isItMe?_destination:(14-_destination));
-			var sourceLen:uint = _sources.size();
-			for(var i:uint=0; i<sourceLen; i++)
-				battleField.getTower(isItMe?_sources.getInt(i):(14-_sources.getInt(i))).fight(destination, battleField.getAllTowers(-1));*/
-		}
-
 		
 		
 		private function touchHandler(event:TouchEvent):void
@@ -155,7 +139,7 @@ package com.gerantech.towercraft.controls.screens
 				
 				if(touch.phase == TouchPhase.MOVED)
 				{
-					tp = battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceDecorator;
+					tp = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceDecorator;
 					if(tp != null)
 					{
 						// check next tower liked by selected towers
@@ -166,12 +150,12 @@ package com.gerantech.towercraft.controls.screens
 					for each(tp in sourceTowers)
 					{
 						tp.arrowContainer.visible = true;
-						tp.arrowTo(touch.globalX-tp.x-battleField.x, touch.globalY-tp.y-battleField.y);
+						tp.arrowTo(touch.globalX-tp.x-appModel.battleField.x, touch.globalY-tp.y-appModel.battleField.y);
 					}
 				}
 				else if(touch.phase == TouchPhase.ENDED)
 				{
-					var destination:PlaceDecorator = battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceDecorator;
+					var destination:PlaceDecorator = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceDecorator;
 					if(destination == null)
 					{
 						clearSources(sourceTowers);
@@ -182,6 +166,11 @@ package com.gerantech.towercraft.controls.screens
 					var self:int = sourceTowers.indexOf(destination);
 					if(self > -1)
 					{
+						if(sourceTowers.length == 1)
+						{
+							showImproveFloating(sourceTowers[0]);
+						}
+						
 						clearSource(sourceTowers[self]);
 						sourceTowers.removeAt(self);
 					}
@@ -200,15 +189,16 @@ package com.gerantech.towercraft.controls.screens
 					// send fight data to room
 					if(sourceTowers.length > 0)
 					{
-						var sources:SFSArray = new SFSArray();
+						var sfsObj:SFSObject = new SFSObject();
+						var sources:Array = new Array();
 						for each(tp in sourceTowers)
-							sources.addInt(tp.place.index);
-						
-						var userVars:Array = [];
-						userVars.push(new SFSUserVariable("s", sources));trace("sources", sources.getDump());
-						userVars.push(new SFSUserVariable("d", destination.place.index));trace("destination", destination.place.index);
-						//sfsConnection.send(new SetUserVariablesRequest(userVars));
-						//trace("SetUserVariablesRequest");
+							sources.push(tp.place.index);
+						sfsObj.putIntArray("s", sources);
+						sfsObj.putInt("d", destination.place.index);
+						sfsConnection.sendExtensionRequest(SFSCommands.FIGHT, sfsObj, battleRoom);
+
+						//trace("sources", sources);
+						//trace("destination", destination.place.index);
 					}
 
 					// clear swiping mode
@@ -216,6 +206,7 @@ package com.gerantech.towercraft.controls.screens
 				}
 			}
 		}
+
 		
 		private function clearSources(sourceTowers:Vector.<PlaceDecorator>):void
 		{
@@ -223,10 +214,47 @@ package com.gerantech.towercraft.controls.screens
 				clearSource(tp);
 			sourceTowers = null;
 		}
-		
 		private function clearSource(sourceTower:PlaceDecorator):void
 		{
 			sourceTower.arrowContainer.visible = false;
+		}
+		
+		
+		private function showImproveFloating(placeDecorator:PlaceDecorator):void
+		{
+			// create transition in data
+			var ti:FloatingTransitionData = new FloatingTransitionData();
+			ti.transition = Transitions.EASE_OUT_BACK;
+			ti.sourceAlpha = 0;
+			ti.sourcePosition = new Point(placeDecorator.x, placeDecorator.y);
+			ti.destinationPosition = ti.sourcePosition;
+			
+			// create transition out data
+			var to:FloatingTransitionData = new FloatingTransitionData();
+			to.sourceAlpha = 1;
+			to.sourcePosition = ti.sourcePosition;
+			to.destinationPosition = ti.destinationPosition;
+			
+			var floating:BuildingImprovementFloating = new BuildingImprovementFloating();
+			floating.placeDecorator = placeDecorator;
+			floating.transitionIn = ti;
+			floating.transitionOut = to;
+			floating.addEventListener(Event.CLOSE, floating_closeHandler);
+			floating.addEventListener(Event.SELECT, floating_selectHandler);
+			addChild(floating);
+			function floating_closeHandler():void
+			{
+				floating.removeEventListener(Event.CLOSE, floating_closeHandler);
+				floating.removeEventListener(Event.SELECT, floating_selectHandler);
+			}
+		}
+		
+		private function floating_selectHandler(event:Event):void
+		{
+			var placeDecorator:PlaceDecorator = event.data as PlaceDecorator;
+			var sfsObj:SFSObject = new SFSObject();
+			sfsObj.putInt("i", placeDecorator.place.index);
+			sfsConnection.sendExtensionRequest(SFSCommands.UPGRADE, sfsObj, battleRoom);
 		}
 		
 		override protected function screen_removedFromStageHandler(event:Event):void
@@ -241,6 +269,8 @@ package com.gerantech.towercraft.controls.screens
 			removeEventListener(TouchEvent.TOUCH, touchHandler);
 			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			sfsConnection.removeEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
+			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 		}		
 	}
 }

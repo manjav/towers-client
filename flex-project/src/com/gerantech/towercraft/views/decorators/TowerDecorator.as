@@ -23,13 +23,14 @@ package com.gerantech.towercraft.views.decorators
 		private var cmf:ColorMatrixFilter;
 		private var populationIndicator:BitmapFontTextRenderer;
 		private var editMode:Boolean;
+		private var texture:String;
 		
 		public function TowerDecorator(place:Place, editMode:Boolean=false)
 		{
 			this.place = place;
 			this.editMode = editMode;
 			//place.building.addEventListener(Event.UPDATE, tower_updateHandler);
-			imageDisplay = new Image(Assets.getTexture("tower-type-"+place.building.get_type()));
+			imageDisplay = new Image(Assets.getTexture("tower-type-0"));
 			imageDisplay.touchable = editMode;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
@@ -66,28 +67,21 @@ package com.gerantech.towercraft.views.decorators
 				populationIndicator.y = parent.y + imageDisplay.width/3;
 				setTimeout(parent.parent.addChild, 100, populationIndicator);
 			}
-			
-			updateElements(true);
 		}
 		
-		
-		private function tower_updateHandler(event:Event):void
+		public function updateElements(population:int, troopType:int):void
 		{
-			updateElements(event.data);
-		}
-		
-		private function updateElements(forced:Object):void
-		{
-			populationIndicator.text = place.building.get_population()+"/"+place.building.get_capacity();
+			populationIndicator.text = population+"/"+place.building.get_capacity();
 			
-			if(!forced)
+			var txt:String = "tower-type-" + place.building.get_type();
+			if(troopType != TroopType.NONE)
+				txt += ( troopType == Game.get_instance().get_player().troopType ? "-b" : "-r" );
+			
+			if(texture == txt)
 				return;
-			
-			var txt:String = "tower-type-"+place.building.get_type();
-			if(place.building.troopType != TroopType.NONE)
-				txt += place.building.troopType == Game.get_instance().get_player().troopType ? "-b" : "-r";
-			
+			texture = txt;
 			imageDisplay.texture = Assets.getTexture(txt)			
 		}
+
 	}
 }

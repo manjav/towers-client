@@ -6,6 +6,7 @@ package com.gerantech.towercraft.models
 	import flash.desktop.NativeApplication;
 	
 	import feathers.controls.StackScreenNavigator;
+	import com.gerantech.towercraft.views.BattleFieldView;
 
 	public class AppModel
 	{
@@ -14,6 +15,7 @@ package com.gerantech.towercraft.models
 		public var theme:MetalWorksMobileTheme;
 		public var navigator:StackScreenNavigator;
 		public var descriptor:Object;
+		public var battleField:BattleFieldView;
 		
 		public function AppModel()
 		{
