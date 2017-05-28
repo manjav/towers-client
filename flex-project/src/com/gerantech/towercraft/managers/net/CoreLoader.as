@@ -17,6 +17,7 @@ package com.gerantech.towercraft.managers.net
 	import flash.filesystem.File;
 	
 	[Event(name="complete", type="flash.events.Event")]
+	[Event(name="error", type="flash.events.ErrorEvent")]
 	public class CoreLoader extends EventDispatcher
 	{
 		//private var sfsObj:SFSObject;
@@ -38,14 +39,15 @@ package com.gerantech.towercraft.managers.net
 				if(resource.getInt("type") < 1000)
 					initData.buildingsLevel.set(resource.getInt("type"), resource.getInt("level"));
 			}
-			
-			 
 
 			/*for(var i:int=0; i<WeaponType.NUM_WEAPONS; i++)
 				initData.weaponsLevel.set(i, 0);*/
 
-			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/core-"+version+ ".swf").nativePath;
-			var url:String = "http://"+SFSConnection.getInstance().currentIp + "/cores/core-"+version + ".swf";
+			var coreFileName:String = "core-"+version+ ".swf";
+			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
+			//var url:String = "http://"+SFSConnection.getInstance().currentIp + "/cores/"+coreFile;
+			var url:String = "http://env-3589663.j.scaleforce.gr/cores/"+coreFileName;
+			trace(coreFileName, "loaded.");
 			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
 			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 		}

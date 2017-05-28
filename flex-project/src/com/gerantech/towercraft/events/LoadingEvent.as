@@ -9,6 +9,7 @@ package com.gerantech.towercraft.events
 		public static const NOTICE_UPDATE:String = "noticeUpdate";
 		public static const FORCE_UPDATE:String = "forceUpdate";
 		public static const NETWORK_ERROR:String = "networkError";
+		public static const CORE_LOADING_ERROR:String = "coreLoadingError";
 		
 		public var message:String;
 		
