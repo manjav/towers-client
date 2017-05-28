@@ -4,7 +4,6 @@ package com.gerantech.towercraft.views.decorators
 	import com.gerantech.towercraft.views.TroopView;
 	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Place;
-	import com.gt.towers.others.BalancingData;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceList;
 	
@@ -105,14 +104,14 @@ package com.gerantech.towercraft.views.decorators
 			var len:int = Math.floor(population / 2);
 			for(var i:uint=0; i<len; i++)
 			{
-				var t:TroopView = new TroopView(place.building.troopType, path);
+				var t:TroopView = new TroopView(place.building, path);
 				t.x = x;
 				t.y = y;
 				t.width = raduis/2;
 				t.scaleY = t.scaleX;
 				parent.addChild(t);
 				
-				setTimeout(rush, BalancingData.RUSH_GAP * i, t);
+				setTimeout(rush, place.building.get_exitGap() * i, t);
 			}			
 		}
 		public function rush(t:TroopView):void

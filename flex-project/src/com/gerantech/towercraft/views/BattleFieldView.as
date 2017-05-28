@@ -73,16 +73,12 @@ package com.gerantech.towercraft.views
 					places[i].y = _height*2 - (paddingY + gapY * Math.floor((len-i-1)/cols));
 				}
 
+				places[i].visible
 				places[i].selectable = (i < 6 || mode==MODE_PLAY);
 				places[i].name = i;
 				addChild(places[i]);
 			}
-			
-			addDrops();
-		}
-		
-		public function addDrops():void
-		{
+
 			dropTargets = new DropTargets(stage);
 			for each(var t:PlaceDecorator in places)
 				if(t.selectable)

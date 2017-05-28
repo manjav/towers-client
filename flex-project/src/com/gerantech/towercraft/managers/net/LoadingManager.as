@@ -9,6 +9,8 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.desktop.NativeApplication;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
@@ -56,6 +58,7 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
 			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR, sfsConnection_loginErrorHandler);
 			
+			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 			var data:SFSObject = event.params.data;
 			
 			// in registring case
@@ -78,18 +81,28 @@ package com.gerantech.towercraft.managers.net
 				trace(event.params);
 			}*/		
 			
-			// Load << Game-Core >>
-			var coreLoader:CoreLoader = new CoreLoader("0.1.1.1002", data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			var coreLoader:CoreLoader = new CoreLoader(data.getDouble("coreVersion")+"", data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
+		}
+		
+		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
+		{
+			NativeApplication.nativeApplication.exit();
+		}
+		
+		protected function coreLoader_errorHandler(event:ErrorEvent):void
+		{
+			dispatchEvent(new LoadingEvent(LoadingEvent.CORE_LOADING_ERROR));
 		}
 		
 		protected function coreLoader_completeHandler(event:Event):void
 		{
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
-			//trace(AppModel.instance.descriptor.versionCode, Game.get_instance().noticeVersion, Game.get_instance().forceVersion)
-			if(AppModel.instance.descriptor.versionCode < Game.get_instance().noticeVersion)
+			trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
+			if(AppModel.instance.descriptor.versionCode < Game.loginData.noticeVersion)
 				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
-			else if(AppModel.instance.descriptor.versionCode < Game.get_instance().forceVersion)
+			else if(AppModel.instance.descriptor.versionCode < Game.loginData.forceVersion)
 				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
 			else
 				dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));

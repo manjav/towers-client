@@ -4,7 +4,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.decorators.PlaceDecorator;
 	import com.gt.towers.Game;
-	import com.gt.towers.others.BalancingData;
+	import com.gt.towers.buildings.Building;
 	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.utils.setTimeout;
@@ -14,15 +14,17 @@ package com.gerantech.towercraft.views
 	
 	public class TroopView extends Image
 	{
-		private var troopType:int;
+		private var type:int;
+		private var building:Building;
 		private var path:Vector.<PlaceDecorator>;
 	
-		public function TroopView(troopType:int, path:PlaceList)
+		public function TroopView(building:Building, path:PlaceList)
 		{
-			super(Assets.getTexture("troop" + (troopType == Game.get_instance().get_player().troopType?"-b":"-r")));
-			alignPivot();
+			this.building = building;
+			this.type = building.troopType;
 			
-			this.troopType = troopType;
+			super(Assets.getTexture("troop" + (type == Game.get_instance().get_player().troopType?"-b":"-r")));
+			alignPivot();
 			
 			touchable = false;
 			this.path = new Vector.<PlaceDecorator>();
@@ -41,12 +43,12 @@ package com.gerantech.towercraft.views
 				return false;
 			}
 			
-			Starling.juggler.tween(this, BalancingData.RUSH_TIME/1000, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
+			Starling.juggler.tween(this, building.get_troopSpeed()/1000, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
 			return true;
 		}
 		private function onTroopArrived(next:PlaceDecorator):void
 		{
-			setTimeout(next.rush, BalancingData.RUSH_GAP, this);
+			setTimeout(next.rush, building.get_exitGap(), this);
 		}
 	}
 }
