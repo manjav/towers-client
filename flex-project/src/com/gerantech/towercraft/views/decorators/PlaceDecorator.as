@@ -107,9 +107,9 @@ package com.gerantech.towercraft.views.decorators
 				var t:TroopView = new TroopView(place.building, path);
 				t.x = x;
 				t.y = y;
-				t.width = raduis/2;
+				t.width = raduis;
 				t.scaleY = t.scaleX;
-				parent.addChild(t);
+				parent.addChildAt(t, 19);
 				
 				setTimeout(rush, place.building.get_exitGap() * i, t);
 			}			

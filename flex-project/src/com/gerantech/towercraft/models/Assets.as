@@ -104,6 +104,10 @@ package com.gerantech.towercraft.models
 			return getAtlas(atlasName).getTexture(texturName);
 			//return AppModel.instance.assetManager.getTexture(name);
 		} 
+		public static function getTextures(texturName:String, atlasName:String ="game" ):Vector.<Texture>
+		{
+			return getAtlas(atlasName).getTextures(texturName);
+		} 
 		
 		/*	public static function getBackgroundTexture(state:String="normal"):Texture
 		{
