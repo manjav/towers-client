@@ -45,8 +45,7 @@ package com.gerantech.towercraft.managers.net
 
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
-			//var url:String = "http://"+SFSConnection.getInstance().currentIp + "/cores/"+coreFile;
-			var url:String = "http://env-3589663.j.scaleforce.gr/cores/"+coreFileName;
+			var url:String = "http://"+(SFSConnection.instance.currentIp=="185.141.192.33"?"env-3589663.j.scaleforce.gr":SFSConnection.instance.currentIp)+"/cores/"+coreFileName;
 			trace(coreFileName, "loaded.");
 			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
 			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);

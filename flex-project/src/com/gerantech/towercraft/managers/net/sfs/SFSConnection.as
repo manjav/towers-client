@@ -188,7 +188,7 @@ package com.gerantech.towercraft.managers.net.sfs
 			sfs.removeEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 		}*/
 
-		public static function getInstance():SFSConnection
+		public static function get instance():SFSConnection
 		{
 			if(_instance == null)
 				_instance = new SFSConnection();

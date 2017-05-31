@@ -3,19 +3,16 @@ package com.gerantech.towercraft.views.decorators
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Place;
-	import com.gt.towers.constants.TroopType;
+	import com.gt.towers.constants.BuildingType;
 	
-	import flash.display3D.textures.Texture;
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.display.Image;
-	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.filters.ColorMatrixFilter;
 	
 	public class TowerDecorator extends Sprite
 	{
@@ -28,7 +25,6 @@ package com.gerantech.towercraft.views.decorators
 		private var editMode:Boolean;
 		private var buidingTexture:String;
 		
-		private var animation:MovieClip;
 		private var plotTexture:String;
 		public function TowerDecorator(place:Place, editMode:Boolean=false)
 		{
@@ -38,17 +34,12 @@ package com.gerantech.towercraft.views.decorators
 			plotDisplay = new Image(Assets.getTexture("building-plot-0"));
 			plotDisplay.touchable = false;
 			
-			imageDisplay = new Image(Assets.getTexture("building-0-0"));
+			imageDisplay = new Image(Assets.getTexture("building-0"));
 			imageDisplay.touchable = editMode;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
-			
-			
-			/*animation = new MovieClip(Assets.getTextures("shot"), 20);
-			addChild(animation);*/
 		}
-		
 		
 		private function addedToStageHandler():void
 		{
@@ -98,7 +89,9 @@ package com.gerantech.towercraft.views.decorators
 		{
 			populationIndicator.text = population+"/"+place.building.get_capacity();
 			
-			var txt:String = "building-" + (place.building.get_type()+1) + "-" + place.building.level;
+			var txt:String = "building-" + place.building.get_type();
+			if( place.building.get_type() > 0 )
+				txt += ( "-" + place.building.level );//trace(txt)
 			if(buidingTexture != txt)
 			{			
 				buidingTexture = txt;

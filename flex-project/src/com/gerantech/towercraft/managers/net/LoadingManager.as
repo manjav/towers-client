@@ -24,15 +24,14 @@ package com.gerantech.towercraft.managers.net
 		
 		public function LoadingManager()
 		{
-			sfsConnection = SFSConnection.getInstance();
+			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
-			
-			UserData.getInstance().load();
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
 		{
+			UserData.getInstance().load();
 			sfsConnection.removeEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			sfsConnection.removeEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			if(event.type == SFSConnection.SUCCEED)

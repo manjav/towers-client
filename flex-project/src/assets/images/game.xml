@@ -1,83 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:9f9af1cac78293555ae19b6d4a2ccfcc:9dcc98627e8462841fdc2b8a7ec7a511:dbeebaa39fd49ae9780c488f0128c248$ -->
+<!-- $TexturePacker:SmartUpdate:47643d9dd1431717b89f048d5b951ea8:950befe7ee8dc19a4ee2c32cffaf70e7:dbeebaa39fd49ae9780c488f0128c248$ -->
 <TextureAtlas imagePath="game.png">
-    <SubTexture name="Dwarf4A_Move_Down_001" x="878" y="385" width="75" height="62" frameX="-61" frameY="-76" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_002" x="644" y="435" width="71" height="64" frameX="-64" frameY="-77" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_003" x="726" y="387" width="68" height="66" frameX="-65" frameY="-77" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_004" x="504" y="695" width="65" height="60" frameX="-65" frameY="-82" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_005" x="776" y="695" width="57" height="56" frameX="-67" frameY="-78" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_006" x="962" y="695" width="50" height="54" frameX="-70" frameY="-77" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_007" x="520" y="325" width="47" height="56" frameX="-71" frameY="-75" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_008" x="910" y="695" width="50" height="57" frameX="-69" frameY="-75" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_009" x="630" y="743" width="55" height="61" frameX="-66" frameY="-80" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_010" x="505" y="569" width="64" height="64" frameX="-63" frameY="-82" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_011" x="571" y="533" width="70" height="66" frameX="-63" frameY="-75" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_012" x="796" y="450" width="72" height="64" frameX="-64" frameY="-74" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Down_013" x="796" y="386" width="75" height="62" frameX="-61" frameY="-76" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_001" x="642" y="637" width="66" height="51" frameX="-66" frameY="-72" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_002" x="639" y="690" width="64" height="51" frameX="-70" frameY="-73" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_003" x="714" y="592" width="68" height="54" frameX="-71" frameY="-74" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_004" x="882" y="258" width="78" height="56" frameX="-69" frameY="-74" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_005" x="655" y="237" width="81" height="63" frameX="-69" frameY="-68" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_006" x="654" y="302" width="80" height="61" frameX="-71" frameY="-65" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_007" x="571" y="293" width="81" height="57" frameX="-70" frameY="-64" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_008" x="571" y="235" width="82" height="56" frameX="-70" frameY="-67" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_009" x="801" y="258" width="79" height="57" frameX="-72" frameY="-73" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_010" x="949" y="506" width="73" height="55" frameX="-70" frameY="-76" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_011" x="955" y="448" width="66" height="56" frameX="-68" frameY="-73" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_012" x="710" y="648" width="64" height="53" frameX="-67" frameY="-72" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Right_013" x="571" y="659" width="66" height="51" frameX="-66" frameY="-72" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Up_001" x="882" y="316" width="75" height="67" frameX="-46" frameY="-61" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Up_002" x="571" y="414" width="71" height="66" frameX="-47" frameY="-62" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Up_003" x="789" y="516" width="69" height="66" frameX="-49" frameY="-64" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_001" x="645" y="932" width="75" height="62" frameX="-61" frameY="-76" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_002" x="640" y="800" width="71" height="64" frameX="-64" frameY="-77" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_003" x="579" y="598" width="68" height="66" frameX="-65" frameY="-77" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_004" x="722" y="930" width="65" height="60" frameX="-65" frameY="-82" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_005" x="714" y="477" width="57" height="56" frameX="-67" frameY="-78" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_006" x="781" y="532" width="50" height="54" frameX="-70" frameY="-77" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_007" x="803" y="258" width="47" height="56" frameX="-71" frameY="-75" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_008" x="775" y="592" width="50" height="57" frameX="-69" frameY="-75" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_009" x="762" y="659" width="55" height="61" frameX="-66" frameY="-80" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_010" x="709" y="593" width="64" height="64" frameX="-63" frameY="-82" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_011" x="624" y="458" width="70" height="66" frameX="-63" frameY="-75" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_012" x="571" y="958" width="72" height="64" frameX="-64" frameY="-74" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Down_013" x="703" y="866" width="75" height="62" frameX="-61" frameY="-76" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_001" x="920" y="479" width="66" height="51" frameX="-66" frameY="-72" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_002" x="854" y="313" width="64" height="51" frameX="-70" frameY="-73" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_003" x="819" y="651" width="68" height="54" frameX="-71" frameY="-74" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_004" x="920" y="258" width="78" height="56" frameX="-69" frameY="-74" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_005" x="562" y="265" width="81" height="63" frameX="-69" frameY="-68" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_006" x="713" y="799" width="80" height="61" frameX="-71" frameY="-65" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_007" x="520" y="330" width="81" height="57" frameX="-70" frameY="-64" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_008" x="645" y="293" width="82" height="56" frameX="-70" frameY="-67" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_009" x="839" y="855" width="79" height="57" frameX="-72" frameY="-73" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_010" x="920" y="316" width="73" height="55" frameX="-70" frameY="-76" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_011" x="735" y="315" width="66" height="56" frameX="-68" frameY="-73" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_012" x="854" y="258" width="64" height="53" frameX="-67" frameY="-72" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Right_013" x="846" y="480" width="66" height="51" frameX="-66" frameY="-72" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Up_001" x="592" y="389" width="75" height="67" frameX="-46" frameY="-61" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Up_002" x="730" y="247" width="71" height="66" frameX="-47" frameY="-62" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Up_003" x="732" y="179" width="69" height="66" frameX="-49" frameY="-64" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_004" x="504" y="2" width="65" height="68" frameX="-53" frameY="-64" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_005" x="103" y="913" width="58" height="78" frameX="-58" frameY="-55" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_006" x="2" y="913" width="50" height="81" frameX="-62" frameY="-51" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_007" x="54" y="913" width="47" height="79" frameX="-64" frameY="-49" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_008" x="163" y="913" width="50" height="77" frameX="-63" frameY="-51" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_009" x="215" y="899" width="55" height="73" frameX="-61" frameY="-58" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Up_010" x="505" y="502" width="64" height="65" frameX="-55" frameY="-66" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Up_011" x="717" y="455" width="70" height="69" frameX="-49" frameY="-62" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Up_010" x="669" y="351" width="64" height="65" frameX="-55" frameY="-66" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Up_011" x="571" y="887" width="70" height="69" frameX="-49" frameY="-62" frameWidth="178" frameHeight="178"/>
     <SubTexture name="Dwarf4A_Move_Up_012" x="272" y="899" width="72" height="70" frameX="-46" frameY="-61" frameWidth="178" frameHeight="178"/>
-    <SubTexture name="Dwarf4A_Move_Up_013" x="801" y="317" width="75" height="67" frameX="-46" frameY="-61" frameWidth="178" frameHeight="178"/>
+    <SubTexture name="Dwarf4A_Move_Up_013" x="579" y="529" width="75" height="67" frameX="-46" frameY="-61" frameWidth="178" frameHeight="178"/>
     <SubTexture name="DwarfBaseUp_Move_Down_001" x="215" y="974" width="69" height="48" frameX="-38" frameY="-60" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_002" x="787" y="584" width="69" height="53" frameX="-37" frameY="-61" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_003" x="860" y="566" width="69" height="55" frameX="-35" frameY="-62" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_004" x="784" y="639" width="65" height="54" frameX="-37" frameY="-63" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_005" x="959" y="325" width="61" height="54" frameX="-38" frameY="-59" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_006" x="504" y="757" width="57" height="59" frameX="-39" frameY="-52" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_007" x="925" y="634" width="57" height="59" frameX="-39" frameY="-51" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_008" x="705" y="703" width="56" height="54" frameX="-39" frameY="-59" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_009" x="851" y="680" width="57" height="57" frameX="-39" frameY="-61" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_010" x="858" y="623" width="65" height="55" frameX="-35" frameY="-63" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_011" x="870" y="512" width="72" height="52" frameX="-33" frameY="-61" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Down_012" x="571" y="482" width="71" height="49" frameX="-36" frameY="-60" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_002" x="920" y="424" width="69" height="53" frameX="-37" frameY="-61" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_003" x="775" y="427" width="69" height="55" frameX="-35" frameY="-62" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_004" x="830" y="707" width="65" height="54" frameX="-37" frameY="-63" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_005" x="854" y="366" width="61" height="54" frameX="-38" frameY="-59" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_006" x="780" y="862" width="57" height="59" frameX="-39" frameY="-52" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_007" x="795" y="794" width="57" height="59" frameX="-39" frameY="-51" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_008" x="854" y="763" width="56" height="54" frameX="-39" frameY="-59" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_009" x="714" y="418" width="57" height="57" frameX="-39" frameY="-61" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_010" x="714" y="535" width="65" height="55" frameX="-35" frameY="-63" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_011" x="775" y="373" width="72" height="52" frameX="-33" frameY="-61" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Down_012" x="920" y="373" width="71" height="49" frameX="-36" frameY="-60" frameWidth="132" frameHeight="132"/>
     <SubTexture name="DwarfBaseUp_Move_Right_001" x="286" y="971" width="72" height="51" frameX="-47" frameY="-48" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_002" x="571" y="601" width="69" height="56" frameX="-47" frameY="-49" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_003" x="962" y="258" width="60" height="65" frameX="-48" frameY="-50" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_004" x="959" y="381" width="58" height="65" frameX="-54" frameY="-51" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_005" x="873" y="449" width="74" height="61" frameX="-45" frameY="-47" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_006" x="658" y="179" width="83" height="56" frameX="-40" frameY="-47" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_007" x="571" y="179" width="85" height="54" frameX="-39" frameY="-47" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_008" x="571" y="352" width="79" height="60" frameX="-44" frameY="-47" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_002" x="849" y="422" width="69" height="56" frameX="-47" frameY="-49" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_003" x="629" y="666" width="60" height="65" frameX="-48" frameY="-50" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_004" x="649" y="598" width="58" height="65" frameX="-54" frameY="-51" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_005" x="754" y="731" width="74" height="61" frameX="-45" frameY="-47" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_006" x="645" y="235" width="83" height="56" frameX="-40" frameY="-47" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_007" x="645" y="179" width="85" height="54" frameX="-39" frameY="-47" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_008" x="564" y="203" width="79" height="60" frameX="-44" frameY="-47" frameWidth="132" frameHeight="132"/>
     <SubTexture name="DwarfBaseUp_Move_Right_009" x="492" y="258" width="68" height="65" frameX="-49" frameY="-50" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_010" x="562" y="818" width="52" height="65" frameX="-56" frameY="-52" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Right_011" x="505" y="635" width="64" height="58" frameX="-50" frameY="-50" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_010" x="629" y="733" width="52" height="65" frameX="-56" frameY="-52" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Right_011" x="789" y="923" width="64" height="58" frameX="-50" frameY="-50" frameWidth="132" frameHeight="132"/>
     <SubTexture name="DwarfBaseUp_Move_Right_012" x="492" y="203" width="70" height="53" frameX="-47" frameY="-48" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_001" x="644" y="501" width="70" height="68" frameX="-29" frameY="-37" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_002" x="716" y="526" width="69" height="64" frameX="-30" frameY="-41" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_003" x="643" y="571" width="69" height="64" frameX="-32" frameY="-43" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_001" x="520" y="389" width="70" height="68" frameX="-29" frameY="-37" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_002" x="683" y="733" width="69" height="64" frameX="-30" frameY="-41" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_003" x="691" y="665" width="69" height="64" frameX="-32" frameY="-43" frameWidth="132" frameHeight="132"/>
     <SubTexture name="DwarfBaseUp_Move_Up_004" x="504" y="72" width="65" height="64" frameX="-34" frameY="-45" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_005" x="738" y="250" width="61" height="69" frameX="-37" frameY="-41" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_006" x="743" y="179" width="58" height="69" frameX="-40" frameY="-39" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_007" x="571" y="712" width="57" height="68" frameX="-40" frameY="-37" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_008" x="504" y="818" width="56" height="65" frameX="-41" frameY="-40" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_009" x="736" y="321" width="58" height="64" frameX="-40" frameY="-43" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_005" x="577" y="816" width="61" height="69" frameX="-37" frameY="-41" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_006" x="505" y="502" width="58" height="69" frameX="-40" frameY="-39" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_007" x="565" y="459" width="57" height="68" frameX="-40" frameY="-37" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_008" x="656" y="526" width="56" height="65" frameX="-41" frameY="-40" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_009" x="643" y="866" width="58" height="64" frameX="-40" frameY="-43" frameWidth="132" frameHeight="132"/>
     <SubTexture name="DwarfBaseUp_Move_Up_010" x="504" y="138" width="65" height="63" frameX="-36" frameY="-45" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_011" x="652" y="365" width="72" height="68" frameX="-31" frameY="-40" frameWidth="132" frameHeight="132"/>
-    <SubTexture name="DwarfBaseUp_Move_Up_012" x="944" y="563" width="71" height="69" frameX="-29" frameY="-39" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_011" x="505" y="573" width="72" height="68" frameX="-31" frameY="-40" frameWidth="132" frameHeight="132"/>
+    <SubTexture name="DwarfBaseUp_Move_Up_012" x="504" y="816" width="71" height="69" frameX="-29" frameY="-39" frameWidth="132" frameHeight="132"/>
     <SubTexture name="arrow" x="2" y="996" width="16" height="16"/>
+    <SubTexture name="building-0" x="504" y="674" width="123" height="140" frameX="-47" frameY="-53" frameWidth="214" frameHeight="214"/>
     <SubTexture name="building-1-1" x="361" y="2" width="138" height="159" frameX="-41" frameY="-44" frameWidth="214" frameHeight="214"/>
     <SubTexture name="building-1-2" x="174" y="711" width="155" height="186" frameX="-32" frameY="-22" frameWidth="214" frameHeight="214"/>
     <SubTexture name="building-1-3" x="2" y="516" width="166" height="198" frameX="-26" frameY="-13" frameWidth="214" frameHeight="214"/>

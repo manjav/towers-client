@@ -24,6 +24,11 @@ package
 		
 		public function TowerCraft()
 		{
+			/*for(var level:int=1; level<=20; level++)
+				trace(level, 10 + Math.round( Math.log(level) * 14 ));
+			return;*/
+
+			
 			t = getTimer();
 			if(this.stage)
 			{

@@ -40,7 +40,7 @@ package com.gerantech.towercraft.controls.screens
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			sfsConnection = SFSConnection.getInstance();
+			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
@@ -269,9 +269,11 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function floating_selectHandler(event:Event):void
 		{
-			var placeDecorator:PlaceDecorator = event.data as PlaceDecorator;
+			var upgradeType:int = event.data["type"];
+			var index:int = event.data["index"];
 			var sfsObj:SFSObject = new SFSObject();
-			sfsObj.putInt("i", placeDecorator.place.index);
+			sfsObj.putInt("i", index);
+			sfsObj.putInt("t", upgradeType);
 			sfsConnection.sendExtensionRequest(SFSCommands.UPGRADE, sfsObj, battleRoom);
 		}
 		
