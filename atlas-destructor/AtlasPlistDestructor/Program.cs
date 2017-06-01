@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace AtlasPlistDestructor
 {
@@ -9,6 +10,19 @@ namespace AtlasPlistDestructor
     {
         static void Main(string[] args)
         {
+
+            /*DirectoryInfo d = new DirectoryInfo(@"D:\_PROJECTS\_FLEX\towers-projects\towers-assets\atlas-images-2");
+            FileInfo[] infos = d.GetFiles();
+            foreach (FileInfo f in infos)
+            {
+                var fn = f.FullName.ToString().Replace(" (", "-");
+                fn = fn.Replace(")", "");
+                File.Move(f.FullName, fn);
+            }
+
+            return;
+            */
+
             string atlasName = Console.ReadLine();
             var plist = new PList();
             plist.Load("C:\\Users\\ManJav\\Desktop\\" + atlasName + ".plist");
