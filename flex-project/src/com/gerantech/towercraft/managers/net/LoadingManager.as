@@ -31,7 +31,6 @@ package com.gerantech.towercraft.managers.net
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
 		{
-			UserData.getInstance().load();
 			sfsConnection.removeEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			sfsConnection.removeEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			if(event.type == SFSConnection.SUCCEED)
@@ -43,6 +42,7 @@ package com.gerantech.towercraft.managers.net
 		/**************************************   LOGIN   ****************************************/
 		private function login():void 
 		{
+			UserData.getInstance().load();
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "");

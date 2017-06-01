@@ -7,36 +7,26 @@
 
 <SmartFoxConfig>
 
-	<!-- Mandatory Settings -->`
-	<!--
-	ARMAN COMPUETER:
-	192.168.201.25
-
-	HASSAN COMPUTER:
-	192.168.201.126
-
-	LOCAL:
-	127.0.0.1
-
-	DEV SERVER:
-	51.254.79.225
+	<!-- Mandatory Settings -->
+	<!--	SERVER: 	-->
 	
-	SERVER:
-	51.254.79.215
-	-->
 	<ip>185.141.192.33</ip>
 	<port>11001</port>
-
+	
+	<!-- 	LOCAL:      -->
+	
 <!-- 	<ip>192.168.0.79</ip> -->
 <!-- 	<ip>192.168.43.87</ip> -->
 <!-- 	<port>9933</port> -->
+
+
 	<zone>towers</zone>
 	<!-- End Mandatory Settings -->
 
 	<debug>false</debug>
 
 	<httpPort>8080</httpPort>
-	<useBlueBox>true</useBlueBox>
+	<useBlueBox>false</useBlueBox>
 	<blueBoxPollingRate>500</blueBoxPollingRate>
 
 </SmartFoxConfig>

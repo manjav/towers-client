@@ -29,7 +29,7 @@ package com.gerantech.towercraft.controls.floatings
 				var level:int = 1;
 				if(impoveType == BuildingType.UPGRADE)
 				{
-					buildingType = placeDecorator.place.building.get_type();
+					buildingType = placeDecorator.place.building.type;
 					level = placeDecorator.place.building.level + 1;
 				}
 				

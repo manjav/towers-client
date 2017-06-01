@@ -1,13 +1,14 @@
 package com.gerantech.towercraft.views
 {
 	import com.gerantech.towercraft.managers.DropTargets;
-	import com.gerantech.towercraft.views.decorators.PlaceDecorator;
+	import com.gerantech.towercraft.managers.net.ResponseSender;
 	import com.gt.towers.Game;
 	
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	
 	import starling.display.Quad;
+	import starling.events.Event;
 	
 	public class BattleFieldView extends LayoutGroup
 	{
@@ -17,11 +18,13 @@ package com.gerantech.towercraft.views
 		public var mode:int;
 		public var dropTargets:DropTargets;
 		
-		public var places:Vector.<PlaceDecorator>;
+		public var places:Vector.<PlaceView>;
+		public var troopsContainer:Vector.<TroopView>;
 
 		private var _width:Number;
 
 		private var _height:Number;
+		public var responseSender:ResponseSender;
 		
 		override protected function initialize():void
 		{
@@ -46,7 +49,33 @@ package com.gerantech.towercraft.views
 			var rightBotGround:Ground = new Ground(_width*2, _height*2, _width, _height);
 			rightBotGround.scaleX = rightBotGround.scaleY = -1
 			addChild(rightBotGround);
+			
+			troopsContainer = new Vector.<TroopView>();
+			addEventListener(Event.ADDED, battleField_addedHandler);
+			addEventListener(Event.REMOVED, battleField_removedHandler);
 		}
+		
+		private function battleField_addedHandler(event:Event):void
+		{
+			var troopView:TroopView = event.target as TroopView;
+			if(troopView == null)
+				return;
+			troopView.addEventListener(Event.TRIGGERED, troopView_triggeredHandler);
+			troopsContainer.push(troopView);
+		}
+		private function battleField_removedHandler(event:Event):void
+		{
+			var troopView:TroopView = event.target as TroopView;
+			if(troopView == null)
+				return;
+			troopView.removeEventListener(Event.TRIGGERED, troopView_triggeredHandler);
+			troopsContainer.removeAt(troopsContainer.indexOf(troopView));
+		}		
+		private function troopView_triggeredHandler(event:Event):void
+		{
+			var troopView:TroopView = event.target as TroopView;
+			responseSender.hitTroop(troopView.id);
+		}		
 		
 		public function createPlaces():void
 		{
@@ -58,10 +87,10 @@ package com.gerantech.towercraft.views
 			var rows:Number = 5;
 			
 			var len:uint = Game.get_instance().battleField.places.size();
-			places = new Vector.<PlaceDecorator>(len, true);
+			places = new Vector.<PlaceView>(len, true);
 			for (var i:uint=0; i<len; i++)
 			{
-				places[i] = new PlaceDecorator(Game.get_instance().battleField.places.get(i), gapX/3);
+				places[i] = new PlaceView(Game.get_instance().battleField.places.get(i), gapX/3);
 				if(Game.get_instance().get_player().troopType == 0 )
 				{
 					places[i].x = paddingX + gapX * (i%cols);
@@ -80,17 +109,10 @@ package com.gerantech.towercraft.views
 			}
 
 			dropTargets = new DropTargets(stage);
-			for each(var t:PlaceDecorator in places)
+			for each(var t:PlaceView in places)
 				if(t.selectable)
 					dropTargets.add(t);
 		}
-		
-		/*public function readyForEdit():void
-		{
-			for(var p:uint=0; p<6; p++)
-				towerPlaces[p].towerDecorator = new TowerDecorator(Player.instance.createTower(Player.instance.towerPlaces[p], Player.instance.getTowerLevel(Player.instance.towerPlaces[p]), p), true);
-		}*/
-
 	}
 }
 

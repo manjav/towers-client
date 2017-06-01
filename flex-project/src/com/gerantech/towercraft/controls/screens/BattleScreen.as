@@ -2,19 +2,20 @@ package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
 	import com.gerantech.towercraft.controls.floatings.FloatingTransitionData;
+	import com.gerantech.towercraft.managers.net.ResponseSender;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.views.BattleFieldView;
-	import com.gerantech.towercraft.views.decorators.PlaceDecorator;
+	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.Room;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
 	import com.smartfoxserver.v2.requests.LeaveRoomRequest;
 	
 	import flash.geom.Point;
+	import flash.utils.clearTimeout;
 	
 	import feathers.controls.StackScreenNavigator;
 	import feathers.events.FeathersEventType;
@@ -29,7 +30,7 @@ package com.gerantech.towercraft.controls.screens
 
 	public class BattleScreen extends BaseCustomScreen
 	{
-		private var sourceTowers:Vector.<PlaceDecorator>;
+		private var sourceTowers:Vector.<PlaceView>;
 		private var sfsConnection:SFSConnection;
 		private var battleRoom:Room;
 		private var timeoutId:uint;
@@ -60,7 +61,6 @@ package com.gerantech.towercraft.controls.screens
 			startBattle();
 		}		
 		
-		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
 			removeConnectionListeners();
@@ -72,11 +72,12 @@ package com.gerantech.towercraft.controls.screens
 				case SFSCommands.START_BATTLE:
 					player.troopType = event.params.params.getInt("troopType");
 					battleRoom = sfsConnection.getRoomById(event.params.params.getInt("roomId"));
+					appModel.battleField.responseSender = new ResponseSender(battleRoom);
 					startBattle();
 					break;
 				
-				case SFSCommands.UPGRADE:
-					appModel.battleField.places[event.params.params.getInt("i")].upgrade();
+				case SFSCommands.IMPROVE:
+					appModel.battleField.places[event.params.params.getInt("i")].replaceBuilding(event.params.params.getInt("t"), event.params.params.getInt("l"));
 					break;
 			}
 		}
@@ -125,25 +126,25 @@ package com.gerantech.towercraft.controls.screens
 			var towers:SFSArray = battleRoom.getVariable("towers").getValue() as SFSArray;
 			for(var i:int=0; i<towers.size(); i++)
 			{
-				var t:Array = towers.getText(i).split(",");
+				var t:Array = towers.getText(i).split(",");//trace(t)
 				appModel.battleField.places[t[0]].update(t[1], t[2]);
 			}			
 		}		
 		
 		private function touchHandler(event:TouchEvent):void
 		{
-			var tp:PlaceDecorator; 
+			var tp:PlaceView; 
 			var touch:Touch = event.getTouch(this);
 			if(touch == null)
 				return;
 			
 			if(touch.phase == TouchPhase.BEGAN)
 			{
-				sourceTowers = new Vector.<PlaceDecorator>();
+				sourceTowers = new Vector.<PlaceView>();
 				//trace("BEGAN", touch.target, touch.target.parent);
-				if(!(touch.target.parent is PlaceDecorator))
+				if(!(touch.target.parent is PlaceView))
 					return;
-				tp = touch.target.parent as PlaceDecorator;
+				tp = touch.target.parent as PlaceView;
 				
 				if(tp.place.building.troopType != player.troopType)
 					return;
@@ -157,7 +158,7 @@ package com.gerantech.towercraft.controls.screens
 				
 				if(touch.phase == TouchPhase.MOVED)
 				{
-					tp = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceDecorator;
+					tp = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 					if(tp != null)
 					{
 						// check next tower liked by selected towers
@@ -173,7 +174,7 @@ package com.gerantech.towercraft.controls.screens
 				}
 				else if(touch.phase == TouchPhase.ENDED)
 				{
-					var destination:PlaceDecorator = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceDecorator;
+					var destination:PlaceView = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 					if(destination == null)
 					{
 						clearSources(sourceTowers);
@@ -206,18 +207,7 @@ package com.gerantech.towercraft.controls.screens
 					
 					// send fight data to room
 					if(sourceTowers.length > 0)
-					{
-						var sfsObj:SFSObject = new SFSObject();
-						var sources:Array = new Array();
-						for each(tp in sourceTowers)
-							sources.push(tp.place.index);
-						sfsObj.putIntArray("s", sources);
-						sfsObj.putInt("d", destination.place.index);
-						sfsConnection.sendExtensionRequest(SFSCommands.FIGHT, sfsObj, battleRoom);
-
-						//trace("sources", sources);
-						//trace("destination", destination.place.index);
-					}
+						appModel.battleField.responseSender.fight(sourceTowers, destination);
 
 					// clear swiping mode
 					clearSources(sourceTowers);
@@ -226,19 +216,19 @@ package com.gerantech.towercraft.controls.screens
 		}
 
 		
-		private function clearSources(sourceTowers:Vector.<PlaceDecorator>):void
+		private function clearSources(sourceTowers:Vector.<PlaceView>):void
 		{
-			for each(var tp:PlaceDecorator in sourceTowers)
+			for each(var tp:PlaceView in sourceTowers)
 				clearSource(tp);
 			sourceTowers = null;
 		}
-		private function clearSource(sourceTower:PlaceDecorator):void
+		private function clearSource(sourceTower:PlaceView):void
 		{
 			sourceTower.arrowContainer.visible = false;
 		}
 		
 		
-		private function showImproveFloating(placeDecorator:PlaceDecorator):void
+		private function showImproveFloating(placeDecorator:PlaceView):void
 		{
 			// create transition in data
 			var ti:FloatingTransitionData = new FloatingTransitionData();
@@ -265,17 +255,12 @@ package com.gerantech.towercraft.controls.screens
 				floating.removeEventListener(Event.CLOSE, floating_closeHandler);
 				floating.removeEventListener(Event.SELECT, floating_selectHandler);
 			}
+			function floating_selectHandler(event:Event):void
+			{
+				appModel.battleField.responseSender.improveBuilding(event.data["index"], event.data["type"]);
+			}
 		}
 		
-		private function floating_selectHandler(event:Event):void
-		{
-			var upgradeType:int = event.data["type"];
-			var index:int = event.data["index"];
-			var sfsObj:SFSObject = new SFSObject();
-			sfsObj.putInt("i", index);
-			sfsObj.putInt("t", upgradeType);
-			sfsConnection.sendExtensionRequest(SFSCommands.UPGRADE, sfsObj, battleRoom);
-		}
 		
 		override protected function screen_removedFromStageHandler(event:Event):void
 		{
@@ -291,6 +276,12 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			sfsConnection.removeEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
 			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
-		}		
+		}
+		
+		override public function dispose():void
+		{
+			appModel.battleField.dispose();
+			super.dispose();
+		}
 	}
 }

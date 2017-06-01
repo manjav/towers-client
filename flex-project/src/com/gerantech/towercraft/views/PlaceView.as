@@ -1,13 +1,19 @@
-package com.gerantech.towercraft.views.decorators
+package com.gerantech.towercraft.views
 {
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.views.TroopView;
+	import com.gerantech.towercraft.views.decorators.BarracksDecorator;
+	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
+	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
+	import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
 	import com.gt.towers.Game;
+	import com.gt.towers.buildings.Barracks;
 	import com.gt.towers.buildings.Place;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
 	
 	import starling.display.Image;
@@ -15,19 +21,21 @@ package com.gerantech.towercraft.views.decorators
 	import starling.events.Event;
 	import starling.utils.MathUtil;
 	
-	public class PlaceDecorator extends Sprite
+	public class PlaceView extends Sprite
 	{
 		public var place:Place;
 		public var raduis:Number;
-
 		public var arrowContainer:Sprite;
 		
 		private var arrow:Image;
-		private var _selectable:Boolean;
-		private var buildingDecorator:TowerDecorator;
 		private var population:int;
+		private var rushTimeoutId:uint;
+		private var _selectable:Boolean;
 		
-		public function PlaceDecorator(place:Place, raduis:Number)
+		private var decorator:BuildingDecorator;
+		private var defensiveWeapon:DefensiveWeapon;
+		
+		public function PlaceView(place:Place, raduis:Number)
 		{
 			this.place = place;
 			this.raduis = raduis;
@@ -38,16 +46,30 @@ package com.gerantech.towercraft.views.decorators
 			bg.scaleY = bg.scaleX;
 			addChild(bg);
 			
-			buildingDecorator = new TowerDecorator(place);
-			buildingDecorator.x = 0;
-			buildingDecorator.y = 0;
-			addChild(buildingDecorator);
-			
+			createDecorator();
 			createArrow();
-			
 			place.building.createEngine(place.building.troopType);
 		}
-
+		
+		private function createDecorator():void
+		{
+			if(defensiveWeapon != null)
+				defensiveWeapon.dispose();
+			
+			if(decorator != null)
+				decorator.removeFromParent(true); 
+			
+			if(place.building.type == BuildingType.B04_SNIPER)
+				decorator = new CrystalDecorator(place);
+			else
+				decorator = new  BarracksDecorator(place);
+			decorator.x = 0;
+			decorator.y = 0;
+			addChild(decorator);
+			
+			if(place.building.type == BuildingType.B04_SNIPER)
+				defensiveWeapon = new DefensiveWeapon(this);
+		}
 		
 		public function createArrow():void
 		{
@@ -81,13 +103,9 @@ package com.gerantech.towercraft.views.decorators
 		
 		public function update(population:int, troopType:int) : void
 		{
-			// reset when captured.
-			if(place.building.troopType != troopType)
-				place.building.level = 1;
-			
-			place.building.troopType = troopType;
 			this.population = population;
-			buildingDecorator.updateElements(population, troopType);
+			place.building.troopType = troopType;
+			decorator.updateElements(population, troopType);
 			
 			if(hasEventListener(Event.UPDATE))
 				dispatchEventWith(Event.UPDATE, false);
@@ -97,7 +115,6 @@ package com.gerantech.towercraft.views.decorators
 		public function fight(destination:Place) : void
 		{
 			var path:PlaceList = PathFinder.find(place, destination, Game.get_instance().battleField.getAllTowers(-1));
-			
 			if(path == null || destination.building == place.building)
 				return;
 			
@@ -111,7 +128,7 @@ package com.gerantech.towercraft.views.decorators
 				t.scaleY = t.scaleX;
 				parent.addChildAt(t, 19);
 				
-				setTimeout(rush, place.building.get_exitGap() * i, t);
+				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i, t);
 			}			
 		}
 		public function rush(t:TroopView):void
@@ -119,13 +136,25 @@ package com.gerantech.towercraft.views.decorators
 			t.rush();
 		}
 		
-		public function get upgradable():Boolean
+		public function improvable(improveType:int):Boolean
 		{
-			return population >= place.building.get_capacity();
+			return population >= place.building.get_capacity() || improveType == BuildingType.B00_CAMP;
 		}
-		public function upgrade():void
+		
+		public function replaceBuilding(type:int, level:int):void
+		{  
+			place.building = BuildingType.instantiate(type, place, place.index);
+			place.building.level = level;
+				
+			createDecorator();
+		}
+		
+		override public function dispose():void
 		{
-			place.building.level ++;
+			clearTimeout(rushTimeoutId);
+			super.dispose();
 		}
+		
+		
 	}
 }

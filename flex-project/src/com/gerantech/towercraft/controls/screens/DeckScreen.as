@@ -4,7 +4,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.CardItemRenderer;
 	import com.gerantech.towercraft.views.BattleFieldView;
-	import com.gerantech.towercraft.views.decorators.TowerDecorator;
+	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
 	
 	import flash.geom.Rectangle;
 	
@@ -22,7 +22,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private var deckLayout:TiledRowsLayout;
 		private var deckList:FastList;
-		private var draggableTower:TowerDecorator;
+		private var draggableTower:BuildingDecorator;
 		private var editOverlay:LayoutGroup;
 		private var selectedCardBounds:Rectangle;
 		private var dragFrom:int;
