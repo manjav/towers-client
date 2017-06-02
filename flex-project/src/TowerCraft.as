@@ -25,7 +25,7 @@ package
 		public function TowerCraft()
 		{
 			/*for(var level:int=1; level<=20; level++)
-				trace(level, 800 - Math.round( Math.log(level) * 200) );
+				trace(level, 1600 - Math.round( Math.log(level) * 300 ) );
 			return;*/
 
 			t = getTimer();

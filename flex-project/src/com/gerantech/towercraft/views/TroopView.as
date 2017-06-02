@@ -44,13 +44,13 @@ package com.gerantech.towercraft.views
 				this.path.push(AppModel.instance.battleField.places[path.get(p).index]);
 		}
 		
-		public function rush():Boolean
+		public function rush():void
 		{
 			var next:PlaceView = path.shift();
 			if(next == null)
 			{
 				removeFromParent(true);
-				return false;
+				return;
 			}
 			
 			switchAnimation(next);
@@ -58,7 +58,14 @@ package com.gerantech.towercraft.views
 			visible = true;
 			Starling.juggler.add(this);
 			Starling.juggler.tween(this, building.get_troopSpeed()/1000, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
-			return true;
+		}
+		private function onTroopArrived(next:PlaceView):void
+		{
+			visible = false;
+			Starling.juggler.remove(this);
+			//stop();
+			if(next.place.building.troopType == type)
+				rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);
 		}
 		
 		private function switchAnimation(next:PlaceView):void
@@ -85,13 +92,7 @@ package com.gerantech.towercraft.views
 			for(var i:int=0; i < numFrames; i++)
 				setFrameTexture(i, Assets.getTexture(ttype+direction+(i>8 ? "_0"+(i+1) : "_00"+(i+1))));
 		}
-		private function onTroopArrived(next:PlaceView):void
-		{
-			visible = false;
-			Starling.juggler.remove(this);
-			//stop();
-			rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);
-		}
+
 		
 		public function hit(damage:Number):void
 		{

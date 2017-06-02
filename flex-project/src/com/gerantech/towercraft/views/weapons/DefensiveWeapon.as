@@ -15,6 +15,7 @@ package com.gerantech.towercraft.views.weapons
 	{
 		private var placeView:PlaceView;
 		private var hitTimeoutId:uint;
+		private var disposed:Boolean;
 
 		public function DefensiveWeapon(placeView:PlaceView)
 		{
@@ -24,6 +25,8 @@ package com.gerantech.towercraft.views.weapons
 		
 		private function hitTestTroopsInterval():void
 		{
+			if(disposed)
+				return;
 			var tlen:int = AppModel.instance.battleField.troopsContainer.length;
 			var troop:TroopView;
 			for(var i:int=0; i<tlen; i++)
@@ -42,16 +45,19 @@ package com.gerantech.towercraft.views.weapons
 		{
 			if(troop.type == placeView.place.building.troopType || troop.muted)
 				return false;
-			
 			var distance:Number = Math.sqrt(Math.pow(troop.x-placeView.x, 2) + Math.pow(troop.y-placeView.y, 2));
 			if(distance < 50 && distance > 0.5)
+			{
+				//trace("checkTriggerd", troop.type, placeView.place.building.troopType, placeView.place.building.type);
 				return true
+			}
 			
 			return false;
 		}		
 		
 		public function dispose():void
 		{
+			disposed = true;
 			clearTimeout(hitTimeoutId);
 		}
 	}

@@ -15,7 +15,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.requests.LeaveRoomRequest;
 	
 	import flash.geom.Point;
-	import flash.utils.clearTimeout;
 	
 	import feathers.controls.StackScreenNavigator;
 	import feathers.events.FeathersEventType;

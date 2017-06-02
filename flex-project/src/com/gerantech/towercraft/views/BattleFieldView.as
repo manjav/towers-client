@@ -3,6 +3,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.managers.DropTargets;
 	import com.gerantech.towercraft.managers.net.ResponseSender;
 	import com.gt.towers.Game;
+	import com.gt.towers.battle.BattleField;
 	
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
@@ -30,7 +31,9 @@ package com.gerantech.towercraft.views
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			backgroundSkin = new Quad(1,1,1)
+			backgroundSkin = new Quad(1,1,1);
+			
+			Game.get_instance().battleField = new BattleField();
 
 			_width = stage.stageWidth/2;
 			_height = (_width/3)*4;

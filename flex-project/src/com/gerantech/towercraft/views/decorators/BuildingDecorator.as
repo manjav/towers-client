@@ -4,10 +4,10 @@ package com.gerantech.towercraft.views.decorators
 	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Place;
 	
+	import flash.text.TextFormat;
 	import flash.utils.setTimeout;
 	
-	import feathers.controls.text.BitmapFontTextRenderer;
-	import feathers.text.BitmapFontTextFormat;
+	import feathers.controls.text.TextFieldTextRenderer;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -17,7 +17,7 @@ package com.gerantech.towercraft.views.decorators
 	{
 		public var place:Place;
 		
-		private var populationIndicator:BitmapFontTextRenderer;
+		private var populationIndicator:TextFieldTextRenderer;
 		private var plotTexture:String;
 		private var plotDisplay:Image;
 		
@@ -45,9 +45,9 @@ package com.gerantech.towercraft.views.decorators
 			plotDisplay.y = parent.y +6;
 			parent.parent.addChildAt(plotDisplay, 4);
 
-			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 12, 0xFFFFFF)
-			populationIndicator.alignPivot();
+			populationIndicator = new TextFieldTextRenderer()//BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+			populationIndicator.textFormat = new TextFormat(null, null, 0xFFFFFF);//BitmapFontTextFormat(Assets.getFont(), 12, 0xFFFFFF)
+			//populationIndicator.alignPivot();
 			populationIndicator.width = plotDisplay.width;
 			populationIndicator.height = plotDisplay.width/2;
 			populationIndicator.touchable = false;

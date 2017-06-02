@@ -53,8 +53,10 @@ package com.gerantech.towercraft.views
 		
 		private function createDecorator():void
 		{
+			//trace("createDecorator");
 			if(defensiveWeapon != null)
 				defensiveWeapon.dispose();
+			defensiveWeapon = null;
 			
 			if(decorator != null)
 				decorator.removeFromParent(true); 
@@ -111,7 +113,6 @@ package com.gerantech.towercraft.views
 				dispatchEventWith(Event.UPDATE, false);
 		}
 		
-		
 		public function fight(destination:Place) : void
 		{
 			var path:PlaceList = PathFinder.find(place, destination, Game.get_instance().battleField.getAllTowers(-1));
@@ -133,7 +134,8 @@ package com.gerantech.towercraft.views
 		}
 		public function rush(t:TroopView):void
 		{
-			t.rush();
+			if(population > 0)
+				t.rush();
 		}
 		
 		public function improvable(improveType:int):Boolean
@@ -142,7 +144,8 @@ package com.gerantech.towercraft.views
 		}
 		
 		public function replaceBuilding(type:int, level:int):void
-		{  
+		{ 
+			//trace(place.index, type, level);
 			place.building = BuildingType.instantiate(type, place, place.index);
 			place.building.level = level;
 				
