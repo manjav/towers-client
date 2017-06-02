@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.buildings.Place;
 	
 	import starling.display.Image;
@@ -10,9 +11,9 @@ package com.gerantech.towercraft.views.decorators
 		private var imageDisplay:Image;
 		private var buildingTexture:String;
 		
-		public function BarracksDecorator(place:Place)
+		public function BarracksDecorator(placeView:PlaceView)
 		{
-			super(place);
+			super(placeView);
 			
 			imageDisplay = new Image(Assets.getTexture("building-0"));
 			imageDisplay.touchable = false;;

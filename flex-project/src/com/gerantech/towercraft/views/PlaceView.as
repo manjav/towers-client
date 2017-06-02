@@ -61,15 +61,15 @@ package com.gerantech.towercraft.views
 			if(decorator != null)
 				decorator.removeFromParent(true); 
 			
-			if(place.building.type == BuildingType.B04_SNIPER)
-				decorator = new CrystalDecorator(place);
+			if(place.building.type == BuildingType.B04_CRYSTAL)
+				decorator = new CrystalDecorator(this);
 			else
-				decorator = new  BarracksDecorator(place);
+				decorator = new  BarracksDecorator(this);
 			decorator.x = 0;
 			decorator.y = 0;
 			addChild(decorator);
 			
-			if(place.building.type == BuildingType.B04_SNIPER)
+			if(place.building.type == BuildingType.B04_CRYSTAL)
 				defensiveWeapon = new DefensiveWeapon(this);
 		}
 		

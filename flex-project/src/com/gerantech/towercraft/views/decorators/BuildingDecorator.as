@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Place;
 	
@@ -15,21 +16,28 @@ package com.gerantech.towercraft.views.decorators
 	
 	public dynamic class BuildingDecorator extends Sprite
 	{
-		public var place:Place;
+		protected var placeView:PlaceView;
+		protected var place:Place;
 		
 		private var populationIndicator:TextFieldTextRenderer;
 		private var plotTexture:String;
 		private var plotDisplay:Image;
 		
-		public function BuildingDecorator(place:Place)
+		public function BuildingDecorator(placeView:PlaceView)
 		{
-			this.place = place;
+			this.placeView = placeView;
+			this.place = placeView.place;
+			this.placeView.addEventListener(Event.SELECT, placeView_selectHandler);
 			
 			plotDisplay = new Image(Assets.getTexture("building-plot-0"));
 			plotDisplay.touchable = false;
 
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
+		}
+		
+		protected function placeView_selectHandler(event:Event):void
+		{
 		}
 		
 		protected function addedToStageHandler():void
@@ -74,6 +82,7 @@ package com.gerantech.towercraft.views.decorators
 		{
 			plotDisplay.removeFromParent(true);
 			populationIndicator.removeFromParent(true);
+			placeView.removeEventListener(Event.SELECT, placeView_selectHandler);
 			super.dispose();
 		}
 		

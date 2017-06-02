@@ -29,7 +29,7 @@ package com.gerantech.towercraft.controls.screens
 
 	public class BattleScreen extends BaseCustomScreen
 	{
-		private var sourceTowers:Vector.<PlaceView>;
+		private var sourcePlaces:Vector.<PlaceView>;
 		private var sfsConnection:SFSConnection;
 		private var battleRoom:Room;
 		private var timeoutId:uint;
@@ -139,7 +139,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			if(touch.phase == TouchPhase.BEGAN)
 			{
-				sourceTowers = new Vector.<PlaceView>();
+				sourcePlaces = new Vector.<PlaceView>();
 				//trace("BEGAN", touch.target, touch.target.parent);
 				if(!(touch.target.parent is PlaceView))
 					return;
@@ -148,11 +148,11 @@ package com.gerantech.towercraft.controls.screens
 				if(tp.place.building.troopType != player.troopType)
 					return;
 				
-				sourceTowers.push(tp);
+				sourcePlaces.push(tp);
 			}
 			else 
 			{
-				if(sourceTowers == null || sourceTowers.length == 0)
+				if(sourcePlaces == null || sourcePlaces.length == 0)
 					return;
 				
 				if(touch.phase == TouchPhase.MOVED)
@@ -160,12 +160,12 @@ package com.gerantech.towercraft.controls.screens
 					tp = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 					if(tp != null)
 					{
-						// check next tower liked by selected towers
-						if(sourceTowers.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
-							sourceTowers.push(tp);
+						// check next tower liked by selected places
+						if(sourcePlaces.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
+							sourcePlaces.push(tp);
 					}
 					
-					for each(tp in sourceTowers)
+					for each(tp in sourcePlaces)
 					{
 						tp.arrowContainer.visible = true;
 						tp.arrowTo(touch.globalX-tp.x-appModel.battleField.x, touch.globalY-tp.y-appModel.battleField.y);
@@ -176,40 +176,41 @@ package com.gerantech.towercraft.controls.screens
 					var destination:PlaceView = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 					if(destination == null)
 					{
-						clearSources(sourceTowers);
+						clearSources(sourcePlaces);
 						return;
 					}
 				
 					// remove destination from sources if exists
-					var self:int = sourceTowers.indexOf(destination);
+					var self:int = sourcePlaces.indexOf(destination);
 					if(self > -1)
 					{
-						if(sourceTowers.length == 1)
+						if(sourcePlaces.length == 1)
 						{
-							showImproveFloating(sourceTowers[0]);
+							sourcePlaces[0].dispatchEventWith(Event.SELECT);
+							showImproveFloating(sourcePlaces[0]);
 						}
 						
-						clearSource(sourceTowers[self]);
-						sourceTowers.removeAt(self);
+						clearSource(sourcePlaces[self]);
+						sourcePlaces.removeAt(self);
 					}
 					
 					// check sources has a path to destination
 					var all:PlaceList = core.battleField.getAllTowers(-1);
-					for (var i:int = sourceTowers.length-1; i>=0; i--)
+					for (var i:int = sourcePlaces.length-1; i>=0; i--)
 					{
-						if(sourceTowers[i].place.building.troopType != player.troopType || PathFinder.find(sourceTowers[i].place, destination.place, all) == null)
+						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, all) == null)
 						{
-							clearSource(sourceTowers[i]);
-							sourceTowers.removeAt(i);
+							clearSource(sourcePlaces[i]);
+							sourcePlaces.removeAt(i);
 						}
 					}
 					
 					// send fight data to room
-					if(sourceTowers.length > 0)
-						appModel.battleField.responseSender.fight(sourceTowers, destination);
+					if(sourcePlaces.length > 0)
+						appModel.battleField.responseSender.fight(sourcePlaces, destination);
 
 					// clear swiping mode
-					clearSources(sourceTowers);
+					clearSources(sourcePlaces);
 				}
 			}
 		}
