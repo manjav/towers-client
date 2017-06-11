@@ -1,6 +1,0 @@
-C:\Users\ManJav\Documents\Visual Studio 2015\Projects\AtlasPlistDestructor\AtlasPlistDestructor\bin\Debug\AtlasPlistDestructor.exe.config
-C:\Users\ManJav\Documents\Visual Studio 2015\Projects\AtlasPlistDestructor\AtlasPlistDestructor\bin\Debug\AtlasPlistDestructor.exe
-C:\Users\ManJav\Documents\Visual Studio 2015\Projects\AtlasPlistDestructor\AtlasPlistDestructor\bin\Debug\AtlasPlistDestructor.pdb
-C:\Users\ManJav\Documents\Visual Studio 2015\Projects\AtlasPlistDestructor\AtlasPlistDestructor\obj\Debug\AtlasPlistDestructor.csprojResolveAssemblyReference.cache
-C:\Users\ManJav\Documents\Visual Studio 2015\Projects\AtlasPlistDestructor\AtlasPlistDestructor\obj\Debug\AtlasPlistDestructor.exe
-C:\Users\ManJav\Documents\Visual Studio 2015\Projects\AtlasPlistDestructor\AtlasPlistDestructor\obj\Debug\AtlasPlistDestructor.pdb
