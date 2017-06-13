@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.floatings
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.constants.BuildingType;
 	
 	import feathers.controls.Button;
 	
@@ -24,26 +23,21 @@ package com.gerantech.towercraft.controls.floatings
 			buttons = new Vector.<Button>();
 			for (var i:int=0; i < placeDecorator.place.building.get_options().size(); i++) 
 			{
-				var impoveType:int = placeDecorator.place.building.get_options().get(i);
-				var buildingType:int = impoveType;
-				var level:int = 1;
-				if(impoveType == BuildingType.UPGRADE)
-				{
-					buildingType = placeDecorator.place.building.type;
-					level = placeDecorator.place.building.level + 1;
-				}
+				var impoveType:int = placeDecorator.place.building.get_options().get(i);trace(impoveType)
 				
 				buttons[i] = new Button();
 				buttons[i].name = impoveType.toString();
 				buttons[i].alignPivot();
+				//buttons[i].defaultSkin = new ImageSkin(Assets.getTexture("button-"+impoveType, "gui")
 				buttons[i].y = i * -38;
 				buttons[i].width = buttons[i].height = 36;
 				//upgradeButton.layoutData = new AnchorLayoutData(-40, 20, NaN, NaN, 0.5, 1);
 				buttons[i].isEnabled = placeDecorator.improvable(impoveType);
-				var icon:Image = new Image(Assets.getTexture("building-"+buildingType+(buildingType>0?"-"+level:"")));//trace("building-"+type+(type>0?"-"+level:""));
+				
+				var icon:Image = new Image(Assets.getTexture("button-"+impoveType, "gui"));//trace("building-"+type+(type>0?"-"+level:""));
 				icon.width = icon.height = 32;
 				buttons[i].defaultIcon = icon
-				buttons[i].addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+				buttons[i].addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				addChild(buttons[i]);
 			}
 			placeDecorator.addEventListener(Event.UPDATE, placeDecorator_updateHandler);
@@ -55,7 +49,7 @@ package com.gerantech.towercraft.controls.floatings
 				buttons[i].isEnabled = placeDecorator.improvable(placeDecorator.place.building.get_options().get(i));
 		}
 		
-		private function upgradeButton_triggeredHandler(event:Event):void
+		private function buttons_triggeredHandler(event:Event):void
 		{
 			dispatchEventWith(Event.SELECT, false, {index:placeDecorator.place.index, type:int(Button(event.currentTarget).name)});
 			close();

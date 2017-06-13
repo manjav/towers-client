@@ -10,15 +10,15 @@
 	<!-- Mandatory Settings -->
 	<!--	SERVER: 	-->
 	
-	<ip>185.141.192.33</ip>
-	<port>11001</port>
+<!-- 	<ip>185.141.192.33</ip> -->
+<!-- 	<port>11001</port> -->
 	
 	<!-- 	LOCAL:      -->
 	
-<!-- 	<ip>192.168.0.79</ip> -->
-<!-- 	<ip>192.168.43.87</ip> -->
-<!-- 	<port>9933</port> -->
-
+<!-- 	<ip>127.0.0.1</ip> -->
+<!-- 	<ip>192.168.1.141</ip> -->
+	<ip>192.168.43.87</ip>
+	<port>9933</port>
 
 	<zone>towers</zone>
 	<!-- End Mandatory Settings -->

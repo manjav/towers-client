@@ -2,6 +2,7 @@ package
 {
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
+	import com.gerantech.towercraft.models.AppModel;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -15,6 +16,8 @@ package
 	
 	import starling.core.Starling;
 	
+	[ResourceBundle("loc")]
+	
 	[SWF(frameRate="60", backgroundColor="#000000")]
 	public class TowerCraft extends Sprite
 	{
@@ -27,7 +30,8 @@ package
 			/*for(var level:int=1; level<=20; level++)
 				trace(level, 50 + Math.round( Math.log(level) * 10) );
 			return;*/
-
+			
+			
 			t = getTimer();
 			if(this.stage)
 			{
@@ -63,8 +67,12 @@ package
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 			
+			
 			this.scaler = new ScreenDensityScaleFactorManager(this.starling);
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
+			
+			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
+			AppModel.instance.offsetY = (1920*AppModel.instance.scale)-this.starling.stage.stageHeight;//trace(AppModel.instance.scale, AppModel.instance.offsetY)
 		}
 		private function starling_rootCreatedHandler(event:Object):void
 		{

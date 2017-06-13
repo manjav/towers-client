@@ -1,13 +1,19 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
-	import com.gerantech.towercraft.controls.floatings.FloatingTransitionData;
+	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
+	import com.gerantech.towercraft.controls.overlays.TransitionData;
+	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.net.ResponseSender;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.PathFinder;
+	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.Room;
@@ -19,7 +25,6 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.controls.StackScreenNavigator;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
 	
 	import starling.animation.Transitions;
 	import starling.events.Event;
@@ -32,6 +37,7 @@ package com.gerantech.towercraft.controls.screens
 		private var sourcePlaces:Vector.<PlaceView>;
 		private var sfsConnection:SFSConnection;
 		private var battleRoom:Room;
+		private var mapName:String;
 		private var timeoutId:uint;
 		private var transitionInCompleted:Boolean;
 		
@@ -43,14 +49,13 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
+			//sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
 			
-			appModel.battleField = new BattleFieldView();
-			appModel.battleField.mode = BattleFieldView.MODE_PLAY;
-			appModel.battleField.layoutData = new AnchorLayoutData((stage.height - (stage.width/3)*4)/2,0,NaN,0);
-			addChild(appModel.battleField);
+			appModel.battleFieldView = new BattleFieldView();
+			addChild(appModel.battleFieldView);
 			
 			addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		}
 		
 		private function transitionInCompleteHandler(event:Event):void
@@ -58,7 +63,7 @@ package com.gerantech.towercraft.controls.screens
 			transitionInCompleted = true;
 			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			startBattle();
-		}		
+		}	
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
@@ -71,27 +76,97 @@ package com.gerantech.towercraft.controls.screens
 				case SFSCommands.START_BATTLE:
 					player.troopType = event.params.params.getInt("troopType");
 					battleRoom = sfsConnection.getRoomById(event.params.params.getInt("roomId"));
-					appModel.battleField.responseSender = new ResponseSender(battleRoom);
+					mapName = event.params.params.getText("mapName")
+					appModel.battleFieldView.singleMode = battleRoom.playerList.length == 1;
+					appModel.battleFieldView.responseSender = new ResponseSender(battleRoom);
 					startBattle();
 					break;
 				
 				case SFSCommands.IMPROVE:
-					appModel.battleField.places[event.params.params.getInt("i")].replaceBuilding(event.params.params.getInt("t"), event.params.params.getInt("l"));
+					appModel.battleFieldView.places[event.params.params.getInt("i")].replaceBuilding(event.params.params.getInt("t"), event.params.params.getInt("l"));
+					break;
+				
+				case SFSCommands.END_BATTLE:
+					//trace(event.params.params.getDump());
+					var youWin:Boolean = event.params.params.getBool("youWin");
+					var score:int = event.params.params.getInt("score");
+					if(youWin && battleRoom.groupId == "quests")
+						core.get_player().get_quests().set(appModel.battleFieldView.battleField.map.index, score);
+					
+					var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score);
+					battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
+					battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+					addChild(battleOutcomeOverlay);	
 					break;
 			}
 		}
 		
+		private function battleOutcomeOverlay_retryHandler(event:Event):void
+		{
+			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
+			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+
+			removeChild(appModel.battleFieldView, true);			
+			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
+			
+			appModel.battleFieldView = new BattleFieldView();
+			addChild(appModel.battleFieldView);			
+		}
+		private function battleOutcomeOverlay_closeHandler(event:Event):void
+		{
+			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
+			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+
+			// create tutorial steps
+			if( battleRoom.groupId=="quests" && appModel.battleFieldView.battleField.map.hasFinal )
+			{
+				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
+				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
+				tutorials.show(this, tutorialData);
+			}
+			else
+			{
+				dispatchEventWith(Event.COMPLETE);
+			}
+		}		
 		private function startBattle():void
 		{
 			if(battleRoom == null || !transitionInCompleted)
 				return;
 			
-			appModel.battleField.createPlaces();
+			appModel.battleFieldView.createPlaces(mapName);
 			updateTowersFromRoomVars();
+			
+			if(battleRoom.groupId=="quests" )
+			{
+				// create tutorial steps
+				var tutorialData:TutorialData = new TutorialData(SFSCommands.START_BATTLE);
+				if(appModel.battleFieldView.battleField.map.hasIntro)
+					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+player.get_questIndex()+"_intro"));
+				
+				var places:PlaceDataList = appModel.battleFieldView.battleField.map.getSwipeTutorPlaces();
+				if(places.size() > 0)
+					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 3000));
+					
+				var place:PlaceData = appModel.battleFieldView.battleField.map.getImprovableTutorPlace()
+				if(place != null)
+				{
+					places = new PlaceDataList();
+					places.push(place);
+					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places));
+				}
+				tutorials.show(this, tutorialData);
+			}
 			
 			sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
 			sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 			addEventListener(TouchEvent.TOUCH, touchHandler);
+		}
+		private function tutorials_tasksFinishHandler(event:Event):void
+		{
+			var tutorial:TutorialData = event.data as TutorialData;
+			if(tutorial.name == SFSCommands.END_BATTLE)
+				dispatchEventWith(Event.COMPLETE);
 		}
 		
 		protected function sfsConnection_userExitRoomHandler(event:SFSEvent):void
@@ -113,7 +188,7 @@ package com.gerantech.towercraft.controls.screens
 				var destination:int = battleRoom.getVariable("d").getValue();
 				
 				for(var i:int=0; i<towers.size(); i++)
-					appModel.battleField.places[towers.getInt(i)].fight(appModel.battleField.places[destination].place);
+					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
 			}
 		}
 		
@@ -126,7 +201,7 @@ package com.gerantech.towercraft.controls.screens
 			for(var i:int=0; i<towers.size(); i++)
 			{
 				var t:Array = towers.getText(i).split(",");//trace(t)
-				appModel.battleField.places[t[0]].update(t[1], t[2]);
+				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
 			}			
 		}		
 		
@@ -157,7 +232,7 @@ package com.gerantech.towercraft.controls.screens
 				
 				if(touch.phase == TouchPhase.MOVED)
 				{
-					tp = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
+					tp = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 					if(tp != null)
 					{
 						// check next tower liked by selected places
@@ -168,12 +243,12 @@ package com.gerantech.towercraft.controls.screens
 					for each(tp in sourcePlaces)
 					{
 						tp.arrowContainer.visible = true;
-						tp.arrowTo(touch.globalX-tp.x-appModel.battleField.x, touch.globalY-tp.y-appModel.battleField.y);
+						tp.arrowTo(touch.globalX-tp.x-appModel.battleFieldView.x, touch.globalY-tp.y-appModel.battleFieldView.y);
 					}
 				}
 				else if(touch.phase == TouchPhase.ENDED)
 				{
-					var destination:PlaceView = appModel.battleField.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
+					var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 					if(destination == null)
 					{
 						clearSources(sourcePlaces);
@@ -195,7 +270,7 @@ package com.gerantech.towercraft.controls.screens
 					}
 					
 					// check sources has a path to destination
-					var all:PlaceList = core.battleField.getAllTowers(-1);
+					var all:PlaceList = appModel.battleFieldView.battleField.getAllTowers(-1);
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
 					{
 						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, all) == null)
@@ -207,7 +282,7 @@ package com.gerantech.towercraft.controls.screens
 					
 					// send fight data to room
 					if(sourcePlaces.length > 0)
-						appModel.battleField.responseSender.fight(sourcePlaces, destination);
+						appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
 
 					// clear swiping mode
 					clearSources(sourcePlaces);
@@ -227,24 +302,25 @@ package com.gerantech.towercraft.controls.screens
 			sourceTower.arrowContainer.visible = false;
 		}
 		
-		
-		private function showImproveFloating(placeDecorator:PlaceView):void
+		private function showImproveFloating(placeView:PlaceView):void
 		{
+			if( player.get_questIndex() < 2 )
+				return;
 			// create transition in data
-			var ti:FloatingTransitionData = new FloatingTransitionData();
+			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;
 			ti.sourceAlpha = 0;
-			ti.sourcePosition = new Point(placeDecorator.x, placeDecorator.y);
+			ti.sourcePosition = new Point(placeView.x, placeView.y);
 			ti.destinationPosition = ti.sourcePosition;
 			
 			// create transition out data
-			var to:FloatingTransitionData = new FloatingTransitionData();
+			var to:TransitionData = new TransitionData();
 			to.sourceAlpha = 1;
 			to.sourcePosition = ti.sourcePosition;
 			to.destinationPosition = ti.destinationPosition;
 			
 			var floating:BuildingImprovementFloating = new BuildingImprovementFloating();
-			floating.placeDecorator = placeDecorator;
+			floating.placeDecorator = placeView;
 			floating.transitionIn = ti;
 			floating.transitionOut = to;
 			floating.addEventListener(Event.CLOSE, floating_closeHandler);
@@ -257,7 +333,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			function floating_selectHandler(event:Event):void
 			{
-				appModel.battleField.responseSender.improveBuilding(event.data["index"], event.data["type"]);
+				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}
 		
@@ -280,7 +356,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		override public function dispose():void
 		{
-			appModel.battleField.dispose();
+			appModel.battleFieldView.dispose();
 			super.dispose();
 		}
 	}

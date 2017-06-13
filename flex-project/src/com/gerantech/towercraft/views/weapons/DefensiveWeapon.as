@@ -6,12 +6,8 @@ package com.gerantech.towercraft.views.weapons
 	
 	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
-	import flash.utils.setTimeout;
 	
-	import starling.events.Event;
-	import starling.events.EventDispatcher;
-	
-	public class DefensiveWeapon extends EventDispatcher
+	public class DefensiveWeapon 
 	{
 		private var placeView:PlaceView;
 		private var hitTimeoutId:uint;
@@ -27,15 +23,15 @@ package com.gerantech.towercraft.views.weapons
 		{
 			if(disposed)
 				return;
-			var tlen:int = AppModel.instance.battleField.troopsContainer.length;
+			var tlen:int = AppModel.instance.battleFieldView.troopsList.length;
 			var troop:TroopView;
 			for(var i:int=0; i<tlen; i++)
 			{
-				troop = AppModel.instance.battleField.troopsContainer[i];
+				troop = AppModel.instance.battleFieldView.troopsList[i];
 				if(checkTriggerd(troop))
 				{
 					troop.hit(placeView.place.building.get_damage());
-					dispatchEventWith(Event.TRIGGERED, false, troop);
+					//dispatchEventWith(Event.TRIGGERED, false, troop);
 					return;
 				}	
 			}
@@ -46,7 +42,7 @@ package com.gerantech.towercraft.views.weapons
 			if(troop.type == placeView.place.building.troopType || troop.muted)
 				return false;
 			var distance:Number = Math.sqrt(Math.pow(troop.x-placeView.x, 2) + Math.pow(troop.y-placeView.y, 2));
-			if(distance < 50 && distance > 0.5)
+			if(distance < placeView.place.building.get_damageRadius() && distance > 0.5)
 			{
 				//trace("checkTriggerd", troop.type, placeView.place.building.troopType, placeView.place.building.type);
 				return true

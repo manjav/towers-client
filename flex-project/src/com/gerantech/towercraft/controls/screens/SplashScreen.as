@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.display.Bitmap;
@@ -18,12 +19,11 @@ package com.gerantech.towercraft.controls.screens
 		{
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHadnler);
 			
-			var loadingManager:LoadingManager = new LoadingManager();
-			loadingManager.addEventListener(LoadingEvent.LOADED,		loadingManager_eventsHandler);
-			loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
-			loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 	loadingManager_eventsHandler);
-			loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
-			loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
+			LoadingManager.instance.addEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
+			LoadingManager.instance.addEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
+			LoadingManager.instance.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
+			LoadingManager.instance.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
+			LoadingManager.instance.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			
 			logo = new Assets.splash_bitmap();
 			logo.smoothing = true;
@@ -36,7 +36,7 @@ package com.gerantech.towercraft.controls.screens
 			graphics.beginFill(0);
 			graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
 			
-			logo.width = Math.max(width, height)/6;
+			logo.width = Math.max(width, height)/3;
 			logo.scaleY = logo.scaleX;
 			logo.x = (width-logo.width)/2;
 			logo.y = (height-logo.height)/2;
@@ -53,12 +53,13 @@ package com.gerantech.towercraft.controls.screens
 			switch(event.type)
 			{
 				case LoadingEvent.LOADED:
-				trace("LoadingEvent.LOADED", "t["+(getTimer()-TowerCraft.t)+"]")
-				addEventListener(Event.ENTER_FRAME, enterFrameHandler); // fade-out splash screen
+					trace("LoadingEvent.LOADED", "t["+(getTimer()-TowerCraft.t)+"]")
+					addEventListener(Event.ENTER_FRAME, enterFrameHandler); // fade-out splash screen
 					break;
 				
 				default:
 					// complain !!!!! ..............
+					trace("LoadingEvent:", event.type, "t["+(getTimer()-TowerCraft.t)+"]")
 					break;
 			}
 		}
@@ -71,6 +72,7 @@ package com.gerantech.towercraft.controls.screens
 			if(_alpha <= 0)
 			{
 				removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				AppModel.instance.navigator.dispatchEventWith("complete");
 				parent.removeChild(this);
 			}
 		}

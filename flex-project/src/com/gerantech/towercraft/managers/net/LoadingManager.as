@@ -2,6 +2,7 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.towercraft.events.LoadingEvent;
+	import com.gerantech.towercraft.managers.TutorialManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
@@ -20,6 +21,16 @@ package com.gerantech.towercraft.managers.net
 	[Event(name="forceUpdate",			type="com.gerantech.towercraft.events.LoadingEvent")]
 	public class LoadingManager extends EventDispatcher
 	{
+		public var state:int = -1;
+		
+		public static const STATE_DISCONNECTED:int = -1;
+		public static const STATE_CONNECT:int = 0;
+		public static const STATE_LOGIN:int = 1;
+		public static const STATE_CORE_LOADING:int = 2;
+		public static const STATE_LOADED:int = 3;
+		
+		private static var _instance:LoadingManager;
+		
 		private var sfsConnection:SFSConnection;
 		
 		public function LoadingManager()
@@ -27,6 +38,7 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
+			state = STATE_CONNECT;
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
@@ -34,14 +46,20 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.removeEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			sfsConnection.removeEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			if(event.type == SFSConnection.SUCCEED)
+			{				
 				login();
+			}
 			else
+			{
 				dispatchEvent(new LoadingEvent(LoadingEvent.NETWORK_ERROR));
+				state = STATE_DISCONNECTED;
+			}
 		}
 		
 		/**************************************   LOGIN   ****************************************/
 		private function login():void 
 		{
+			state = STATE_LOGIN;
 			UserData.getInstance().load();
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
@@ -80,9 +98,10 @@ package com.gerantech.towercraft.managers.net
 				trace(event.params);
 			}*/		
 			
-			var coreLoader:CoreLoader = new CoreLoader(data.getDouble("coreVersion")+"", data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			var coreLoader:CoreLoader = new CoreLoader(data.getText("coreVersion"), data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
 			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
+			state = STATE_CORE_LOADING;
 		}
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
@@ -98,13 +117,24 @@ package com.gerantech.towercraft.managers.net
 		protected function coreLoader_completeHandler(event:Event):void
 		{
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
-			trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
+			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 			if(AppModel.instance.descriptor.versionCode < Game.loginData.noticeVersion)
 				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
 			else if(AppModel.instance.descriptor.versionCode < Game.loginData.forceVersion)
 				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
 			else
+			{
 				dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
+				state = STATE_LOADED;
+			}
+		}
+		
+		
+		public static function get instance():LoadingManager
+		{
+			if(_instance == null)
+				_instance = new LoadingManager();
+			return _instance;
 		}
 
 	}

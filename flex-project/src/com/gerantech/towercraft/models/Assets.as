@@ -44,10 +44,20 @@ package com.gerantech.towercraft.models
 		[Embed(source="../../../../assets/images/metalworks_mobile.xml", mimeType="application/octet-stream")]
 		public static const skinAtlasXml:Class;
 		
-		[Embed(source="../../../../assets/images/game.png")]
-		public static const gameAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/game.xml", mimeType="application/octet-stream")]
-		public static const gameAtlasXml:Class;
+		[Embed(source="../../../../assets/images/troops.png")]
+		public static const troopsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
+		public static const troopsAtlasXml:Class;
+		
+		[Embed(source="../../../../assets/images/battlefields.png")]
+		public static const battlefieldsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/battlefields.xml", mimeType="application/octet-stream")]
+		public static const battlefieldsAtlasXml:Class;		
+		
+		[Embed(source="../../../../assets/images/gui.png")]
+		public static const guiAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/gui.xml", mimeType="application/octet-stream")]
+		public static const guiAtlasXml:Class;
 		
 		public static const BACKGROUND_GRID:Rectangle = new Rectangle(2,2,6,6);
 		
@@ -99,12 +109,12 @@ package com.gerantech.towercraft.models
 		 * @param name A key that found a texture from atlas.
 		 * @return the Texture instance (there is only oneinstance per app).
 		 */
-		public static function getTexture(texturName:String, atlasName:String ="game" ):Texture
+		public static function getTexture(texturName:String, atlasName:String ="battlefields" ):Texture
 		{
 			return getAtlas(atlasName).getTexture(texturName);
 			//return AppModel.instance.assetManager.getTexture(name);
 		} 
-		public static function getTextures(texturName:String, atlasName:String ="game" ):Vector.<Texture>
+		public static function getTextures(texturName:String, atlasName:String ="battlefields" ):Vector.<Texture>
 		{
 			return getAtlas(atlasName).getTextures(texturName);
 		} 

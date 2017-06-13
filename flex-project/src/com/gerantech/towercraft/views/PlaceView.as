@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views
 {
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.decorators.BarracksDecorator;
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
@@ -35,17 +36,22 @@ package com.gerantech.towercraft.views
 		private var decorator:BuildingDecorator;
 		private var defensiveWeapon:DefensiveWeapon;
 		
-		public function PlaceView(place:Place, raduis:Number)
+		public function PlaceView(place:Place)
 		{
 			this.place = place;
-			this.raduis = raduis;
+			this.raduis = 160 * AppModel.instance.scale;
 			
-			var bg:Image = new Image(Assets.getTexture("circle"));
+			var bg:Image = new Image(Assets.getTexture("damage-range"));
 			bg.alignPivot();
-			bg.width = raduis*2;
-			bg.scaleY = bg.scaleX;
+			bg.width = raduis * 2;
+			bg.scaleY = bg.scaleX * 0.7;
+			bg.alpha = 0.2;
 			addChild(bg);
+			//trace(place.index, place.links.size());
 			
+			x = place.x * AppModel.instance.scale;
+			y = place.y * AppModel.instance.scale;
+
 			createDecorator();
 			createArrow();
 			place.building.createEngine(place.building.troopType);
@@ -115,7 +121,7 @@ package com.gerantech.towercraft.views
 		
 		public function fight(destination:Place) : void
 		{
-			var path:PlaceList = PathFinder.find(place, destination, Game.get_instance().battleField.getAllTowers(-1));
+			var path:PlaceList = PathFinder.find(place, destination, AppModel.instance.battleFieldView.battleField.getAllTowers(-1));
 			if(path == null || destination.building == place.building)
 				return;
 			
@@ -124,10 +130,8 @@ package com.gerantech.towercraft.views
 			{
 				var t:TroopView = new TroopView(place.building, path);
 				t.x = x;
-				t.y = y;
-				t.width = raduis;
-				t.scaleY = t.scaleX;
-				parent.addChildAt(t, 19);
+				t.y = y - 30 * AppModel.instance.scale;
+				BattleFieldView(parent).troopsContainer.addChild(t);
 				
 				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i, t);
 			}			
@@ -135,7 +139,7 @@ package com.gerantech.towercraft.views
 		public function rush(t:TroopView):void
 		{
 			if(population > 0)
-				t.rush();
+				t.rush(place);
 		}
 		
 		public function improvable(improveType:int):Boolean
@@ -148,16 +152,15 @@ package com.gerantech.towercraft.views
 			//trace(place.index, type, level);
 			place.building = BuildingType.instantiate(type, place, place.index);
 			place.building.level = level;
-				
 			createDecorator();
 		}
 		
 		override public function dispose():void
 		{
 			clearTimeout(rushTimeoutId);
+			if(defensiveWeapon != null)
+				defensiveWeapon.dispose();
 			super.dispose();
 		}
-		
-		
 	}
 }

@@ -15,7 +15,12 @@ package com.gerantech.towercraft.models
 		public var theme:MetalWorksMobileTheme;
 		public var navigator:StackScreenNavigator;
 		public var descriptor:Object;
-		public var battleField:BattleFieldView;
+		public var battleFieldView:BattleFieldView;
+		public var scale:Number;
+		public var offsetY:Number;
+		public var align:String = "right";
+		public var direction:String = "rtl";
+		public var isLTR:Boolean = false;
 		
 		public function AppModel()
 		{

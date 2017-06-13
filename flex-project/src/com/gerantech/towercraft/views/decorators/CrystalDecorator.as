@@ -1,97 +1,105 @@
 package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
 	
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.MovieClip;
 	
-	public class CrystalDecorator extends BuildingDecorator
+	public class CrystalDecorator extends BarracksDecorator
 	{
-		private var buildingTexture:String;
+		private var crystalTexture:String;
 		private var crystalDisplay:MovieClip;
-		private var baseDisplay:Image;
+		
+		private var plotDisplay:Image;
 		private var radiusDisplay:Image;
 		
 		public function CrystalDecorator(placeView:PlaceView)
 		{
 			super(placeView);
 		}
-	
 		
 		override public function updateElements(population:int, troopType:int):void
 		{
 			super.updateElements(population, troopType);
 			
-			var txt:String = "building-" + place.building.type;
-			if( place.building.type > 0 )
-				txt += ( "-" + place.building.level);
-
-			if(buildingTexture != txt)
+			var txt:String = "building-ex-" + place.building.type + "-" + place.building.level;
+			if(crystalTexture != txt)
 			{
-				buildingTexture = txt;
+				crystalTexture = txt;
 				
-				// radius :
-				if(radiusDisplay == null)
-					createRadiusDisplay();
-				radiusDisplay.width = place.building.get_damageRadius() * 2;
-				radiusDisplay.scaleY = radiusDisplay.scaleX;
-				
-				// base :
-				if(baseDisplay == null)
-					createBaseDisplay();
-				baseDisplay.texture = Assets.getTexture("building-plot-4-"+place.building.level);
-
 				// crystal :
 				if(crystalDisplay != null)
 				{
 					Starling.juggler.remove(crystalDisplay);
 					crystalDisplay.removeFromParent(true);
 				}
-				crystalDisplay = new MovieClip(Assets.getTextures(buildingTexture));
+				crystalDisplay = new MovieClip(Assets.getTextures(crystalTexture));
 				crystalDisplay.play();
 				crystalDisplay.touchable = false;
-				crystalDisplay.pivotX = crystalDisplay.width/2
-				crystalDisplay.pivotY = crystalDisplay.height - crystalDisplay.width*0.4;
-				crystalDisplay.width = stage.stageWidth/6;
-				crystalDisplay.scaleY = crystalDisplay.scaleX;
+				crystalDisplay.pivotX = crystalDisplay.width/2;
+				crystalDisplay.pivotY = crystalDisplay.height;
+				crystalDisplay.scale = appModel.scale * 2;
 				crystalDisplay.x = parent.x;
-				crystalDisplay.y = parent.y - 4 ;
+				crystalDisplay.y = parent.y - 24 ;
 				Starling.juggler.add(crystalDisplay);
-				parent.parent.addChild(crystalDisplay);
+				BattleFieldView(parent.parent).buildingsContainer.addChild(crystalDisplay);
+			}
+			
+			// radius :
+			createRadiusDisplay();
+			radiusDisplay.width = place.building.get_damageRadius() * 2;
+			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.7;
+			
+			// plot :
+			createPlotDisplay();
+			plotDisplay.visible = place.building.level == 2 || place.building.level == 3;
+			if( plotDisplay.visible )
+			{
+				txt = "building-plot-4-"+place.building.level;
+				if(troopType > -1)
+					txt += "-" + troopType;
+				plotDisplay.texture = Assets.getTexture(txt);
 			}
 		}
 		
-		private function createBaseDisplay():void
+		private function createPlotDisplay():void
 		{
-			baseDisplay = new Image(Assets.getTexture("building-plot-4-"+place.building.level));
-			baseDisplay.touchable = false;
-			baseDisplay.pivotX = baseDisplay.width/2
-			baseDisplay.pivotY = baseDisplay.height - baseDisplay.width*0.4;
-			baseDisplay.width = stage.stageWidth/6;
-			baseDisplay.scaleY = baseDisplay.scaleX;
-			baseDisplay.x = parent.x;
-			baseDisplay.y = parent.y - 4;
-			parent.parent.addChild(baseDisplay);			
+			if(plotDisplay != null)
+				return;
+			
+			plotDisplay = new Image(Assets.getTexture("building-plot-4-"+place.building.level));
+			plotDisplay.touchable = false;
+			plotDisplay.pivotX = plotDisplay.width/2;
+			plotDisplay.pivotY = plotDisplay.height * 0.85;
+			plotDisplay.scale = appModel.scale * 2;
+			plotDisplay.x = parent.x;
+			plotDisplay.y = parent.y;
+			BattleFieldView(parent.parent).buildingsContainer.addChild(plotDisplay);
 		}
 		
 		private function createRadiusDisplay():void
 		{
-			radiusDisplay = new Image(Assets.getTexture("circle"));
+			if(radiusDisplay != null)
+				return;
+
+			radiusDisplay = new Image(Assets.getTexture("damage-range"));
 			radiusDisplay.touchable = false;
 			radiusDisplay.pivotX = radiusDisplay.width/2
-			radiusDisplay.pivotY = radiusDisplay.height - radiusDisplay.width*0.4;
+			radiusDisplay.pivotY = radiusDisplay.height/2;
 			radiusDisplay.x = parent.x;
 			radiusDisplay.y = parent.y;
-			parent.parent.addChild(radiusDisplay);			
+			parent.parent.addChild(radiusDisplay);
 		}
 		
 		override public function dispose():void
 		{
 			crystalDisplay.removeFromParent(true);
 			radiusDisplay.removeFromParent(true);
-			baseDisplay.removeFromParent(true);
+			if(plotDisplay !=null)
+				plotDisplay.removeFromParent(true);
 			super.dispose();
 		}
 	}

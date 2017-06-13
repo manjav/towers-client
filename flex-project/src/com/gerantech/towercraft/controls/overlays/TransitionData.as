@@ -1,27 +1,33 @@
-package com.gerantech.towercraft.controls.popups
+package com.gerantech.towercraft.controls.overlays
 {
+	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
+	
 
-	public class PopupTransitionData
+	public class TransitionData
 	{
 		public var time:Number;
 		public var delay:Number;
 		public var sourceAlpha:Number = 0;
 		public var destinationAlpha:Number = 1;
 		public var transition:String = "easeOut";
+		
+		public var sourcePosition:Point;
+		public var destinationPosition:Point;
+		
 		public var sourceConstrain:Rectangle;
 		public var destinationConstrain:Rectangle;
-
+		
 		private var _sourceBound:Rectangle;
 		private var _destinationBound:Rectangle;
 		
-		public function PopupTransitionData(time:Number = 0.2, delay:Number = 0)
+		public function TransitionData(time:Number = 0.2, delay:Number = 0)
 		{
 			this.time = time;
 			this.delay = delay;
 		}
-
+		
 		/**
 		 * Source boundary
 		 */
@@ -47,7 +53,7 @@ package com.gerantech.towercraft.controls.popups
 					_sourceBound.y = sourceConstrain.bottom - _sourceBound.height;
 			}
 		}
-
+		
 		/**
 		 * Destination boundary
 		 */
@@ -73,6 +79,6 @@ package com.gerantech.towercraft.controls.popups
 					_destinationBound.y = destinationConstrain.bottom - _destinationBound.height;
 			}
 		}
-
+		
 	}
 }

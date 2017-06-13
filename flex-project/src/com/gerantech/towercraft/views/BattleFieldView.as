@@ -2,60 +2,48 @@ package com.gerantech.towercraft.views
 {
 	import com.gerantech.towercraft.managers.DropTargets;
 	import com.gerantech.towercraft.managers.net.ResponseSender;
+	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.Fields;
 	import com.gt.towers.Game;
 	import com.gt.towers.battle.BattleField;
+	
+	import flash.geom.Rectangle;
 	
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	
+	import starling.display.Image;
 	import starling.display.Quad;
+	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.textures.Texture;
 	
 	public class BattleFieldView extends LayoutGroup
 	{
-		public static const MODE_EDIT:int = 0;
-		public static const MODE_PLAY:int = 1;
-			
-		public var mode:int;
-		public var dropTargets:DropTargets;
-		
+		public var singleMode:Boolean;
+		public var battleField:BattleField;
 		public var places:Vector.<PlaceView>;
-		public var troopsContainer:Vector.<TroopView>;
-
-		private var _width:Number;
-
-		private var _height:Number;
+		public var troopsList:Vector.<TroopView>;
 		public var responseSender:ResponseSender;
+
+		public var dropTargets:DropTargets;
+		public var troopsContainer:Sprite;
+		public var buildingsContainer:Sprite;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			backgroundSkin = new Quad(1,1,1);
-			
-			Game.get_instance().battleField = new BattleField();
+			backgroundSkin = new Quad(1,1,0xb7bb3c);
+			y = -AppModel.instance.offsetY / 2;
 
-			_width = stage.stageWidth/2;
-			_height = (_width/3)*4;
-			
-			var leftTopGround:Ground = new Ground(0, 0, _width, _height);
-			addChild(leftTopGround);
-			
-			var rightTopGround:Ground = new Ground(_width*2, 0, _width, _height);
-			rightTopGround.scaleX = -1
-			addChild(rightTopGround);
-			
-			var leftBotGround:Ground = new Ground(0, _height*2, _width, _height);
-			leftBotGround.scaleY = -1
-			addChild(leftBotGround);
-			
-			var rightBotGround:Ground = new Ground(_width*2, _height*2, _width, _height);
-			rightBotGround.scaleX = rightBotGround.scaleY = -1
-			addChild(rightBotGround);
-			
-			troopsContainer = new Vector.<TroopView>();
-			addEventListener(Event.ADDED, battleField_addedHandler);
-			addEventListener(Event.REMOVED, battleField_removedHandler);
+			troopsContainer = new Sprite();
+			buildingsContainer = new Sprite();
+	
+			troopsList = new Vector.<TroopView>();
+			troopsContainer.addEventListener(Event.ADDED, battleField_addedHandler);
+			troopsContainer.addEventListener(Event.REMOVED, battleField_removedHandler);
 		}
 		
 		private function battleField_addedHandler(event:Event):void
@@ -64,7 +52,7 @@ package com.gerantech.towercraft.views
 			if(troopView == null)
 				return;
 			troopView.addEventListener(Event.TRIGGERED, troopView_triggeredHandler);
-			troopsContainer.push(troopView);
+			troopsList.push(troopView);
 		}
 		private function battleField_removedHandler(event:Event):void
 		{
@@ -72,41 +60,39 @@ package com.gerantech.towercraft.views
 			if(troopView == null)
 				return;
 			troopView.removeEventListener(Event.TRIGGERED, troopView_triggeredHandler);
-			troopsContainer.removeAt(troopsContainer.indexOf(troopView));
+			troopsList.removeAt(troopsList.indexOf(troopView));
 		}		
 		private function troopView_triggeredHandler(event:Event):void
 		{
 			var troopView:TroopView = event.target as TroopView;
-			responseSender.hitTroop(troopView.id);
+			if(singleMode || troopView.type == Game.get_instance().get_player().troopType)
+				responseSender.hitTroop(troopView.id);
 		}		
 		
-		public function createPlaces():void
+		
+		public function createPlaces(mapName:String):void
 		{
-			var paddingX:Number = _width/4.444444444444445;
-			var paddingY:Number = _height/7.6190476190476195;
-			var gapX:Number = _width-paddingX;
-			var gapY:Number = (_height-paddingY)/2;
-			var cols:Number = 3;
-			var rows:Number = 5;
+			battleField = new BattleField(mapName, Game.get_instance().get_player().troopType);
 			
-			var len:uint = Game.get_instance().battleField.places.size();
+			var images:Vector.<Image> = Fields.getField(battleField.map);
+			for each(var img:Image in images)
+			addChild(img);
+			
+			// tile grass ground
+			var tileTexture:Texture = Assets.getTexture("ground-228","battlefields");
+			var image:Image = new Image(tileTexture);
+			image.tileGrid = new Rectangle(0, 0, 456, 456);
+			image.width = stage.width;
+			image.height = stage.height;
+			addChildAt(image, 0);
+			
+			var len:uint = battleField.places.size();
 			places = new Vector.<PlaceView>(len, true);
 			for (var i:uint=0; i<len; i++)
 			{
-				places[i] = new PlaceView(Game.get_instance().battleField.places.get(i), gapX/3);
-				if(Game.get_instance().get_player().troopType == 0 )
-				{
-					places[i].x = paddingX + gapX * (i%cols);
-					places[i].y = paddingY + gapY * Math.floor((len-i-1)/cols);
-				}
-				else
-				{
-					places[i].x = _width*2 - (paddingX + gapX * (i%cols));
-					places[i].y = _height*2 - (paddingY + gapY * Math.floor((len-i-1)/cols));
-				}
+				places[i] = new PlaceView(battleField.places.get(i));
 
-				places[i].visible
-				places[i].selectable = (i < 6 || mode==MODE_PLAY);
+				places[i].selectable = true;
 				places[i].name = i;
 				addChild(places[i]);
 			}
@@ -115,23 +101,9 @@ package com.gerantech.towercraft.views
 			for each(var t:PlaceView in places)
 				if(t.selectable)
 					dropTargets.add(t);
+				
+			addChild(troopsContainer);
+			addChild(buildingsContainer);
 		}
-	}
-}
-
-import com.gerantech.towercraft.models.Assets;
-
-import feathers.controls.ImageLoader;
-
-class Ground extends ImageLoader
-{
-	public function Ground(x:Number, y:Number, w:Number, h:Number)
-	{
-		maintainAspectRatio = false;
-		this.x = x;
-		this.y = y;
-		width = w;
-		height = h;
-		source = Assets.getTexture("ground");
 	}
 }

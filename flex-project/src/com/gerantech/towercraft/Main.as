@@ -10,7 +10,7 @@ package com.gerantech.towercraft
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.core.IFeathersControl;
-	import feathers.motion.Slide;
+	import feathers.motion.Iris;
 	
 	import starling.events.Event;
 	
@@ -35,7 +35,6 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator =  new StackScreenNavigator();
 			this.content = AppModel.instance.navigator;
 
-			
 			var mainItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(MainScreen);
 		//	mainItem.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(MAIN_SCREEN, mainItem);
@@ -49,8 +48,8 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator.addScreen(BATTLE_SCREEN, battleItem);
 			
 			AppModel.instance.navigator.rootScreenID = MAIN_SCREEN;
-			AppModel.instance.navigator.pushTransition = Slide.createSlideUpTransition();
-			AppModel.instance.navigator.popTransition = Slide.createSlideDownTransition();
+			//AppModel.instance.navigator.pushTransition = Iris.createIrisOpenTransition();
+			AppModel.instance.navigator.popTransition = Iris.createIrisCloseTransition()
 		}
 	}
 }

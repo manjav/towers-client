@@ -4,6 +4,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Building;
+	import com.gt.towers.buildings.Place;
 	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.utils.clearTimeout;
@@ -25,6 +26,7 @@ package com.gerantech.towercraft.views
 		
 		private var direction:String;
 		private var rushTimeoutId:uint;
+		private var textureType:String;
 	
 		public function TroopView(building:Building, path:PlaceList)
 		{
@@ -33,18 +35,19 @@ package com.gerantech.towercraft.views
 			this.building = building;
 			this.health = building.get_troopPower();
 			
-			var ttype:String = type == Game.get_instance().get_player().troopType?"DwarfBaseUp_":"Dwarf4A_";
-			super(Assets.getTextures(ttype+"Move_Up"), 20);
+			textureType = type == Game.get_instance().get_player().troopType?"0/troop-0-move-":"1/troop-1-move-";
+			super(Assets.getTextures(textureType+"down", "troops"), 20);
+			this.scale = AppModel.instance.scale * 2;
 			alignPivot();
 			
 			touchable = false;
 			
 			this.path = new Vector.<PlaceView>();
 			for (var p:uint=0; p<path.size(); p++)
-				this.path.push(AppModel.instance.battleField.places[path.get(p).index]);
+				this.path.push(AppModel.instance.battleFieldView.places[path.get(p).index]);
 		}
 		
-		public function rush():void
+		public function rush(source:Place):void
 		{
 			var next:PlaceView = path.shift();
 			if(next == null)
@@ -53,47 +56,62 @@ package com.gerantech.towercraft.views
 				return;
 			}
 			
-			switchAnimation(next);
-			//play();
+			switchAnimation(source, next.place);
 			visible = true;
 			Starling.juggler.add(this);
-			Starling.juggler.tween(this, building.get_troopSpeed()/1000, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
+			
+			var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
+			Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance, {x:next.x, y:next.y - 30 * AppModel.instance.scale, onComplete:onTroopArrived, onCompleteArgs:[next]});
 		}
 		private function onTroopArrived(next:PlaceView):void
 		{
 			visible = false;
 			Starling.juggler.remove(this);
-			//stop();
 			if(next.place.building.troopType == type)
 				rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);
 		}
 		
-		private function switchAnimation(next:PlaceView):void
+		private function switchAnimation(source:Place, destination:Place):void
 		{
-			var dir:String = "Up";
-			if(x == next.x)
-			{
-				if(scaleX < 0 )
-					scaleX *= -1;
-				if(y > next.y)
-					dir = "Down";
-			}
+			var rad:Number = Math.atan2(destination.x-source.x, destination.y-source.y);//trace(rad)
+			var flipped:Boolean = false;
+			var dir:String = "down";
+
+			if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125)
+				dir = "down";
+			else if(rad <= Math.PI * -0.125 && rad > Math.PI * -0.375)//625 875
+				dir = "leftdown";
+			else if(rad <= Math.PI * -0.375 && rad > Math.PI * -0.625)
+				dir = "left";
+			else if(rad <= Math.PI * -0.625 && rad > Math.PI * -0.875)
+				dir = "leftup";
+			else if(rad >= Math.PI * 0.125 && rad < Math.PI * 0.375)
+				dir = "rightdown";
+			else if(rad >= Math.PI * 0.375 && rad < Math.PI * 0.625)
+				dir = "right";
+			else if(rad >= Math.PI * 0.625 && rad < Math.PI * 0.875)
+				dir = "rightup";
 			else
+				dir = "up";
+			
+			if(dir == "leftdown" || dir == "left" || dir == "leftup")
 			{
-				dir = "Right";
-				scaleX *= (x > next.x ? -1 : 1);
+				dir = dir.replace("left", "right");
+				flipped = true;
 			}
+
+			scaleX = (flipped ? -1 : 1 ) * Math.abs(scaleX);
+			
 			if(direction == dir)
 				return;
+
 			fps = 40000/building.get_troopSpeed();
 			direction = dir;
-			var ttype:String = type == Game.get_instance().get_player().troopType?"DwarfBaseUp_Move_":"Dwarf4A_Move_";
-			//trace(ttype+direction+(i>8 ? "_0"+(i+1) : "_00"+(i+1)))
+			//trace(textureType + direction)
 			for(var i:int=0; i < numFrames; i++)
-				setFrameTexture(i, Assets.getTexture(ttype+direction+(i>8 ? "_0"+(i+1) : "_00"+(i+1))));
+				setFrameTexture(i, Assets.getTexture(textureType + direction+(i>8 ? "-0"+(i+1) : "-00"+(i+1)), "troops"));
 		}
 
-		
 		public function hit(damage:Number):void
 		{
 			health -= damage;

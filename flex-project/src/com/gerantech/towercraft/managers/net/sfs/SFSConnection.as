@@ -8,6 +8,8 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
 	
+	import flash.events.IOErrorEvent;
+	
 
 	[Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 	[Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -40,7 +42,7 @@ package com.gerantech.towercraft.managers.net.sfs
 			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadFailureHandler);
 			
 			addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
-			//sfs.addEventListener(SFSEvent.SOCKET_ERROR,			sfs_socketErrorHandler);
+			addEventListener(SFSEvent.SOCKET_ERROR,			sfs_connectionHandler);
 			addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
 			
 			//login:
@@ -96,15 +98,28 @@ package com.gerantech.towercraft.managers.net.sfs
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		
 		// Connection ....................................................
-		protected function sfs_socketErrorHandler(event:SFSEvent):void
-		{
-			//performConnection(event);
-			//trace("sfs_socketErrorHandler: "+event.params.errorMessage);			
-		}
 		protected function sfs_connectionHandler(event:SFSEvent):void
 		{
-			performConnection(event);
 			//trace("sfs_connectionHandler", event.params.success)//, "t["+(getTimer()-Tanks.t)+"]");
+			if(event.type == SFSEvent.CONNECTION && event.params.success)
+			{
+				retryIndex = 0;
+				if( hasEventListener( SFSConnection.SUCCEED ) )
+					dispatchEvent(new SFSEvent(SFSConnection.SUCCEED, event.params));
+			}
+			else
+			{
+				if(retryIndex < retryMax)
+				{
+					disconnect();
+					loadConfig();
+					retryIndex ++;
+				}
+				else if(hasEventListener(SFSConnection.FAILURE))
+				{
+					dispatchEvent(new SFSEvent(SFSConnection.FAILURE, event.params));
+				}
+			}
 		}
 		protected function sfs_connectionLostHandler(event:SFSEvent):void
 		{
@@ -142,31 +157,6 @@ package com.gerantech.towercraft.managers.net.sfs
 			if(hasEventListener(event.type))
 				dispatchEvent(event.clone());
 		}	*/
-		
-		
-		private function performConnection(params:Object):void
-		{
-			//trace("performConnection", sfs.isConnected, retryIndex);
-			if(isConnected)
-			{
-				retryIndex = 0;
-				if(hasEventListener(SFSConnection.SUCCEED))
-					dispatchEvent(new SFSEvent(SFSConnection.SUCCEED, params));
-			}
-			else
-			{
-				if(retryIndex < retryMax)
-				{
-					disconnect();
-					loadConfig();
-					retryIndex ++;
-				}
-				else if(hasEventListener(SFSConnection.SUCCEED))
-				{
-					dispatchEvent(new SFSEvent(SFSConnection.SUCCEED, params));
-				}
-			}			
-		}
 
 		
 		/*public function destroy():void

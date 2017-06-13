@@ -62,7 +62,6 @@ package com.gerantech.towercraft.managers.net
 				var game:Game = new gameClass(initData);
 				/*trace("name:",game.get_player().get_nickName());
 				trace("id:",game.get_player().get_id());*/
-
 			}
 			catch(e:GameError)
 			{
