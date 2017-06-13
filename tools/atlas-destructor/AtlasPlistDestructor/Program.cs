@@ -11,7 +11,7 @@ namespace AtlasPlistDestructor
         static void Main(string[] args)
         {
 
-            DirectoryInfo d = new DirectoryInfo(@"C:\Users\ManJav\Desktop\New folder");
+            /*DirectoryInfo d = new DirectoryInfo(@"C:\Users\ManJav\Desktop\New folder");
             FileInfo[] infos = d.GetFiles();
             foreach (FileInfo f in infos)
             {
@@ -26,7 +26,7 @@ namespace AtlasPlistDestructor
             }
             Console.Read();
 
-            return;
+            return;*/
 
             string atlasName = Console.ReadLine();
             var plist = new PList();
