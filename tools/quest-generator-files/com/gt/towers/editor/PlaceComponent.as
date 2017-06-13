@@ -82,7 +82,7 @@
 		
 		public function get classString():String
 		{
-			return '\t\tquest.places.push( new PlaceData( '+index+',\t'+x+',\t'+y+',\t'+type+',\t'+level+',\t'+troopType+',\t"'+links+'"'+',\t'+enabled+',\t'+tutorIndex+'\t) );\r';
+			return '\t\tfield.places.push( new PlaceData( '+index+',\t'+x+',\t'+y+',\t'+type+',\t'+level+',\t'+troopType+',\t"'+links+'"'+',\t'+enabled+',\t'+tutorIndex+'\t) );\r';
 		}
 		public function get data():Object
 		{

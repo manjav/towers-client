@@ -8,6 +8,7 @@
 	import flash.filesystem.File;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
+	import flash.text.TextField;
 	import flash.ui.Keyboard;
 	import flash.utils.setTimeout;
 	
@@ -133,6 +134,11 @@
 			
 			intro_check.selected = json.hasIntro;
 			final_check.selected = json.hasFinal;
+			
+			if(json.times)
+			for (var t:int=0; t < json.times.length; t++)
+				this["time_"+t+"_txt"].text = json.times[t];
+
 			for (var p:int=0; p < places.length; p++)
 			{
 				places[p].type = json.places[p].type;
@@ -216,7 +222,12 @@
 		
 		private function save_btn_clickHandler(event:MouseEvent):void
 		{
-			questClassStr = '\r\r\r\t\tquest = new Quest("' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ' );\r\t\t// create places\r';
+			var times:Array = new Array();
+			for (var t:int=0; t < 3; t++)
+				times[t] = int(this["time_"+t+"_txt"].text);
+			
+			var index:int = int(currentScene.name.split('_')[1]);
+			questClassStr = '\r\r\r\t\tfield = new FieldData(' + index + ', "' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" );\r\t\t// create places\r';
 
 			var tutorSteps:String = "";
 			var sceneIndex:int = getSceneIndex();
@@ -224,6 +235,9 @@
 			sceneData.name = currentScene.name;
 			sceneData.hasIntro = intro_check.selected;
 			sceneData.hasFinal = final_check.selected;
+			
+			sceneData.times = times;
+			
 			var items:Array = new Array();
 			for (var i:int=0; i<places.length; i++)
 			{
@@ -234,7 +248,7 @@
 			sceneData.places = items;
 			sceneData.images = getImagesData(sceneIndex);
 			
-			questClassStr += '\t\tquests.set( "' + currentScene.name + '" , quest );\r';
+			questClassStr += '\t\tfields.set( "' + currentScene.name + '" , field );\r';
 			trace(questClassStr)
 			
 			var sceneJson:FileReference = new FileReference();
@@ -265,7 +279,7 @@
 					attName = attName.split(".")[0];
 					var ns:Array = attName.split("/");
 					item.name = ns[ns.length-1];
-					questClassStr+= '\t\tquest.images.push( new ImageData( "' + ns[ns.length-1] + '"\t';
+					questClassStr+= '\t\tfield.images.push( new ImageData( "' + ns[ns.length-1] + '"\t';
 					if(bitmap.children().length() > 0)
 					{
 						var bitmapChildren:XMLList = bitmap.descendants("*");
