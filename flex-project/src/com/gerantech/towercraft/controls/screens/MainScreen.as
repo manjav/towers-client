@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.FastList;
+	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -64,6 +65,13 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function transitionInCompleteHandler():void
 		{
+			
+			/*var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(3, false);
+			addChild(battleOutcomeOverlay);
+			var battleOutcomeOverlay:WaitingOverlay = new WaitingOverlay();
+			addChild(battleOutcomeOverlay);
+			return;*/
+			
 			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			showTutorial();
 		}		
@@ -71,20 +79,20 @@ package com.gerantech.towercraft.controls.screens
 		// show tutorial steps
 		private function showTutorial():void
 		{
-
 			if(LoadingManager.instance.state < LoadingManager.STATE_LOADED )
 			{
 				appModel.navigator.addEventListener(Event.COMPLETE, navigator_complateHandler);
 				return;
 			}
+			//trace("main screen", player.get_questIndex());
 			if( player.get_questIndex() > 1 )
 				return;	
 			
 			var tutorialData:TutorialData = new TutorialData("");
-			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start"));
+			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
 			var pl:PlaceDataList = new PlaceDataList();
 			pl.push(new PlaceData(0,(questButton.x+questButton.width/2)/appModel.scale, (questButton.y+questButton.height/2)/appModel.scale, 0, 0, 0, ""));
-			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, pl));
+			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, pl, 200));
 			tutorials.show(this, tutorialData);
 		}
 		private function navigator_complateHandler():void

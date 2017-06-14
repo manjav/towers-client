@@ -57,7 +57,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			if(transitionIn == null)
 			{
-				transitionIn = new TransitionData(0.2, 1);
+				transitionIn = new TransitionData(0.2, task.startAfter / 1000);
 				transitionIn.sourcePosition = new Point(0, 20);
 				transitionIn.sourceAlpha = 0;
 				transitionIn.destinationPosition = new Point(0, 0);

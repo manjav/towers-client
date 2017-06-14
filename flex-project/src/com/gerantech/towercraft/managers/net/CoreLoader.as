@@ -30,14 +30,21 @@ package com.gerantech.towercraft.managers.net
 			initData.nickName = sfsObj.getText("name");
 			initData.id = sfsObj.getInt("id");
 			
-			var resources:ISFSArray = sfsObj.getSFSArray("resources");
-			var resource:ISFSObject;
-			for(var i:int=0; i<resources.size(); i++)
+			var elements:ISFSArray = sfsObj.getSFSArray("resources");
+			var element:ISFSObject;
+			for(var i:int=0; i<elements.size(); i++)
 			{
-				resource = resources.getSFSObject(i);
-				initData.resources.set(resource.getInt("type"), resource.getInt("count"));
-				if(resource.getInt("type") < 1000)
-					initData.buildingsLevel.set(resource.getInt("type"), resource.getInt("level"));
+				element = elements.getSFSObject(i);
+				initData.resources.set(element.getInt("type"), element.getInt("count"));
+				if(element.getInt("type") < 1000)
+					initData.buildingsLevel.set(element.getInt("type"), element.getInt("level"));
+			}
+			
+			elements = sfsObj.getSFSArray("quests");
+			for( i=0; i<elements.size(); i++ )
+			{
+				element = elements.getSFSObject(i);
+				initData.quests.set(element.getInt("index"), element.getInt("score"));
 			}
 
 			/*for(var i:int=0; i<WeaponType.NUM_WEAPONS; i++)
