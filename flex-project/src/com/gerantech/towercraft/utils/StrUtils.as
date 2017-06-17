@@ -1,8 +1,10 @@
 package com.gerantech.towercraft.utils
 {
+	import com.gerantech.towercraft.models.AppModel;
+	
 	import flash.system.Capabilities;
 
-	public class StringUtils
+	public class StrUtils
 	{
 		public static function generateRandomString(strlen:int):String
 		{
@@ -47,14 +49,14 @@ package com.gerantech.towercraft.utils
 			_str = _str.split('9').join('۹');
 			return(_str)
 		}
-		/*public static function getNumber(input:Object):String
+		public static function getNumber(input:Object):String
 		{
-			if(UserModel.instance.locale.value=="ar_SA")
+/*			if(UserModel.instance.locale.value=="ar_SA")
 				return getArabicNumber(input);
-			else if(UserModel.instance.locale.dir=="rtl")
+			else if(UserModel.instance.locale.dir=="rtl")*/
 				return getPersianNumber(input);
-			else
-				return input.toString();
+/*			else
+				return input.toString();*/
 		}
 		public static function getNumberFromLocale(str:Object, dir:String=""):String
 		{
@@ -66,7 +68,7 @@ package com.gerantech.towercraft.utils
 				return str.toString();
 			else
 				return getArabicNumber(str.toString());
-		}*/
+		}
 		
 		public static function join(_str:String, lines:Array, _patt:String):String
 		{
