@@ -1,4 +1,4 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="num_btn" itemID="5936f75d-00000aea" lastModified="1496859939">
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="num_btn" itemID="5936f75d-00000aea" lastModified="1497456646">
   <timeline>
     <DOMTimeline name="num_btn">
       <layers>
@@ -6,7 +6,7 @@
           <frames>
             <DOMFrame index="0" keyMode="9728">
               <elements>
-                <DOMDynamicText name="txt" fontRenderingMode="device" width="40.35" height="24.55" isSelectable="false" border="true">
+                <DOMDynamicText name="txt" fontRenderingMode="device" width="43.05" height="24.55" isSelectable="false" border="true">
                   <matrix>
                     <Matrix tx="-20.15" ty="-12.25"/>
                   </matrix>

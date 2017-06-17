@@ -1,4 +1,4 @@
-<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#00FF00" width="1080" height="1920" currentTimeline="3" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="19" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#00FF00" width="1080" height="1920" currentTimeline="1" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="19" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
      <folders>
           <DOMFolderItem name="Component Assets" itemID="44e488a0-000016d6"/>
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
@@ -180,7 +180,7 @@
      </media>
      <symbols>
           <Include href="arrow_btn.xml" loadImmediate="false" itemID="5937b4f1-000001f7" lastModified="1496826979"/>
-          <Include href="building-body.xml" loadImmediate="false" itemID="59384391-00000463" lastModified="1497024935"/>
+          <Include href="building-body.xml" loadImmediate="false" itemID="59384391-00000463" lastModified="1497456606"/>
           <Include href="CheckBox.xml" itemID="44b19f0d-00000018" lastModified="1497084291"/>
           <Include href="Component Assets/_private/Component_avatar.xml" loadImmediate="false" itemID="44f89322-00000020" lastModified="1168286780"/>
           <Include href="Component Assets/CheckBoxSkins/CheckBox_disabledIcon.xml" itemID="43970702-00000af1" lastModified="1168287061"/>
@@ -193,8 +193,8 @@
           <Include href="Component Assets/CheckBoxSkins/CheckBox_selectedUpIcon.xml" itemID="43970b00-00000e9b" lastModified="1168287153"/>
           <Include href="Component Assets/CheckBoxSkins/CheckBox_upIcon.xml" itemID="4397079e-00000cac" lastModified="1168287165"/>
           <Include href="Component Assets/Shared/focusRectSkin.xml" itemID="44d8b6f8-00000055" lastModified="1168290361"/>
-          <Include href="num_btn.xml" loadImmediate="false" itemID="5936f75d-00000aea" lastModified="1496859939"/>
-          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1497095684"/>
+          <Include href="num_btn.xml" loadImmediate="false" itemID="5936f75d-00000aea" lastModified="1497456646"/>
+          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1497456658"/>
           <Include href="simple_btn.xml" loadImmediate="false" itemID="5937c230-00000210" lastModified="1496827068"/>
           <Include href="troopType_btn.xml" loadImmediate="false" itemID="5936f76a-00000aeb" lastModified="1497027795"/>
      </symbols>
@@ -211,7 +211,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -223,7 +223,7 @@
                                                   <Point/>
                                              </transformationPoint>
                                         </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="730" centerPoint3DY="1280">
+                                        <DOMSymbolInstance libraryItemName="place_mc" selected="true" centerPoint3DX="730" centerPoint3DY="1280">
                                              <matrix>
                                                   <Matrix tx="680" ty="1230"/>
                                              </matrix>
@@ -235,7 +235,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="controls" color="#FF800A" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="controls" color="#FF800A" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -316,7 +316,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath='4'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -343,7 +343,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath='5'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -369,7 +369,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>10</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -382,20 +382,20 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>20</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
                                                   </DOMTextRun>
                                              </textRuns>
                                         </DOMInputText>
-                                        <DOMInputText name="time_2_txt" selected="true" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                        <DOMInputText name="time_2_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
                                              <matrix>
                                                   <Matrix a="0.750228881835938" tx="597.1" ty="1851.15"/>
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>30</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -590,7 +590,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="controls" color="#FF800A" autoNamed="false">
+                    <DOMLayer name="controls" color="#FF800A" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -671,7 +671,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -698,7 +698,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -724,7 +724,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>10</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -737,20 +737,20 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>20</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
                                                   </DOMTextRun>
                                              </textRuns>
                                         </DOMInputText>
-                                        <DOMInputText name="time_2_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                        <DOMInputText name="time_2_txt" selected="true" fontRenderingMode="device" width="155.95" height="55.85" border="true">
                                              <matrix>
                                                   <Matrix a="0.750228881835938" tx="597.1" ty="1851.15"/>
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>30</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -761,7 +761,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -934,7 +934,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" locked="true" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1055,7 +1055,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath='4'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1082,7 +1082,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath='5'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1108,7 +1108,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>10</characters>
+                                                       <characters>30</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -1121,7 +1121,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>20</characters>
+                                                       <characters>55</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -1134,7 +1134,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>30</characters>
+                                                       <characters>70</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -1402,7 +1402,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="controls" color="#4FFF4F" locked="true" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="controls" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1483,7 +1483,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1510,7 +1510,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1536,7 +1536,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>10</characters>
+                                                       <characters>70</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -1549,7 +1549,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>20</characters>
+                                                       <characters>85</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -1562,7 +1562,7 @@
                                              </matrix>
                                              <textRuns>
                                                   <DOMTextRun>
-                                                       <characters>30</characters>
+                                                       <characters>100</characters>
                                                        <textAttrs>
                                                             <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
                                                        </textAttrs>
@@ -1826,32 +1826,32 @@
           <PD n="DebugMovieChecked" v="ADLDesktop"/>
           <PD n="com.air.artemis.pubair" v="true"/>
           <PD n="flash.swf.basename" v="canvas"/>
-          <PD n="com.air.sdk.path"/>
           <PD n="com.air.artemis.pubexe" v="false"/>
+          <PD n="com.air.sdk.path"/>
           <PD n="com.air.artemis.airdest" v="canvas.air"/>
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
-          <PublishItem publishSize="1720088" publishTime="1497295523"/>
-          <PublishItem publishSize="1720091" publishTime="1497295487"/>
-          <PublishItem publishSize="1720086" publishTime="1497295389"/>
-          <PublishItem publishSize="1720092" publishTime="1497295363"/>
-          <PublishItem publishSize="1720055" publishTime="1497292489"/>
-          <PublishItem publishSize="1686306" publishTime="1497292147"/>
-          <PublishItem publishSize="1720055" publishTime="1497291976"/>
-          <PublishItem publishSize="1686299" publishTime="1497291948"/>
-          <PublishItem publishSize="1720006" publishTime="1497280115"/>
-          <PublishItem publishSize="1720007" publishTime="1497280088"/>
-          <PublishItem publishSize="1720004" publishTime="1497280027"/>
-          <PublishItem publishSize="1720001" publishTime="1497280023" publishDebug="true"/>
-          <PublishItem publishSize="1720004" publishTime="1497280002"/>
-          <PublishItem publishSize="1686300" publishTime="1497279996"/>
-          <PublishItem publishSize="1719988" publishTime="1497279919"/>
-          <PublishItem publishSize="1719984" publishTime="1497279902" publishDebug="true"/>
-          <PublishItem publishSize="1719985" publishTime="1497279896" publishDebug="true"/>
-          <PublishItem publishSize="1719977" publishTime="1497279850" publishDebug="true"/>
-          <PublishItem publishSize="1719982" publishTime="1497279701" publishDebug="true"/>
-          <PublishItem publishSize="1719980" publishTime="1497279680" publishDebug="true"/>
+          <PublishItem publishSize="1723279" publishTime="1497456625"/>
+          <PublishItem publishSize="1723282" publishTime="1497456579"/>
+          <PublishItem publishSize="1723283" publishTime="1497453171"/>
+          <PublishItem publishSize="1723283" publishTime="1497453165" publishDebug="true"/>
+          <PublishItem publishSize="1723283" publishTime="1497453122" publishDebug="true"/>
+          <PublishItem publishSize="1723287" publishTime="1497453107" publishDebug="true"/>
+          <PublishItem publishSize="1723289" publishTime="1497453082" publishDebug="true"/>
+          <PublishItem publishSize="1723302" publishTime="1497452988"/>
+          <PublishItem publishSize="1723298" publishTime="1497452909"/>
+          <PublishItem publishSize="1723300" publishTime="1497452824"/>
+          <PublishItem publishSize="1723300" publishTime="1497452735"/>
+          <PublishItem publishSize="1723298" publishTime="1497452731" publishDebug="true"/>
+          <PublishItem publishSize="1723299" publishTime="1497452646"/>
+          <PublishItem publishSize="1723292" publishTime="1497452643" publishDebug="true"/>
+          <PublishItem publishSize="1723300" publishTime="1497452574"/>
+          <PublishItem publishSize="1723300" publishTime="1497452552" publishDebug="true"/>
+          <PublishItem publishSize="1723303" publishTime="1497452446"/>
+          <PublishItem publishSize="1723301" publishTime="1497452437" publishDebug="true"/>
+          <PublishItem publishSize="1686344" publishTime="1497452410"/>
+          <PublishItem publishSize="1686343" publishTime="1497452405" publishDebug="true"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
