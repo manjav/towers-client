@@ -1,5 +1,10 @@
 package com.gerantech.towercraft.controls.items
 {
+	import com.gerantech.towercraft.managers.TutorialManager;
+	import com.gerantech.towercraft.models.AppModel;
+	import com.gt.towers.Game;
+	import com.gt.towers.Player;
+	
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.clearInterval;
@@ -21,9 +26,10 @@ package com.gerantech.towercraft.controls.items
 		public static const STATE_NORMAL:String = "normal";
 		public static const STATE_DOWN:String = "down";
 		public static const STATE_SELECTED:String = "selected";
+		public static const STATE_DISABLED:String = "disabled";
 		public var stateNames:Vector.<String> = new <String>
 			[
-				STATE_NORMAL, STATE_DOWN, STATE_SELECTED
+				STATE_NORMAL, STATE_DOWN, STATE_SELECTED, STATE_DISABLED
 			];
 		
 		public var deleyCommit:Boolean = true;
@@ -110,12 +116,12 @@ package com.gerantech.towercraft.controls.items
 		
 		protected function touchHandler( event:TouchEvent ):void
 		{
-			if( !_isEnabled )
+			if( !_isEnabled || _currentState == STATE_DISABLED)
 			{
 				touchID = -1;
 				return;
 			}
-			
+			//trace("touchHandler", index, touchID)
 			if( touchID >= 0 )
 			{
 				touch = event.getTouch( touchTarget, null, touchID );
@@ -164,10 +170,12 @@ package com.gerantech.towercraft.controls.items
 		
 		override public function set isSelected(value:Boolean):void
 		{
+			if(currentState == STATE_DISABLED)
+				return;	
 			super.isSelected = value;
+
 			currentState = value ? STATE_SELECTED : STATE_NORMAL;
 		}
-		
 		
 		public function get currentState():String
 		{
@@ -175,16 +183,23 @@ package com.gerantech.towercraft.controls.items
 		}
 		public function set currentState(value:String):void
 		{
+			//trace(index, _currentState, value)
 			if(_currentState == value)
-			{
 				return;
-			}
+			
 			if(stateNames.indexOf(value) < 0)
 			{
 				throw new ArgumentError("Invalid state: " + value + ".");
 				return;
 			}
+			
 			_currentState = value;
+			
+			if(_currentState == STATE_DISABLED && isEnabled)
+				isEnabled = false;
+			else if(_currentState != STATE_DISABLED && !isEnabled)
+				isEnabled = true;
+			
 			if(skin)
 				skin.defaultTexture = skin.getTextureForState(_currentState);
 		}	
@@ -193,11 +208,9 @@ package com.gerantech.towercraft.controls.items
 		{
 			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 		}
-		/*protected function get appModel():		AppModel		{	return AppModel.instance;		}
-		protected function get userModel():		UserModel		{	return UserModel.instance;		}
-		protected function get configModel():	ConfigModel		{	return ConfigModel.instance;	}
-		protected function get resourceModel():	ResourceModel	{	return ResourceModel.instance;	}
-		*/
-		
+		protected function get appModel():		AppModel		{	return AppModel.instance;			}
+		protected function get tutorials():		TutorialManager	{	return TutorialManager.instance;	}
+		protected function get core():			Game			{	return Game.get_instance();			}
+		protected function get player():		Player			{	return core.get_player();			}
 	}
 }

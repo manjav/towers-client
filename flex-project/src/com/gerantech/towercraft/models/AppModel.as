@@ -1,12 +1,13 @@
 package com.gerantech.towercraft.models
 {
+	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.vo.Descriptor;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
+	import com.gerantech.towercraft.views.BattleFieldView;
 	
 	import flash.desktop.NativeApplication;
 	
 	import feathers.controls.StackScreenNavigator;
-	import com.gerantech.towercraft.views.BattleFieldView;
 
 	public class AppModel
 	{
@@ -14,8 +15,10 @@ package com.gerantech.towercraft.models
 		
 		public var theme:MetalWorksMobileTheme;
 		public var navigator:StackScreenNavigator;
-		public var descriptor:Object;
+		public var loadingManager:LoadingManager;
 		public var battleFieldView:BattleFieldView;
+
+		public var descriptor:Object;
 		public var scale:Number;
 		public var offsetY:Number;
 		public var align:String = "right";

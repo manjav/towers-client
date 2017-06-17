@@ -6,8 +6,6 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
 	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
 	import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
-	import com.gt.towers.Game;
-	import com.gt.towers.buildings.Barracks;
 	import com.gt.towers.buildings.Place;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
@@ -29,7 +27,6 @@ package com.gerantech.towercraft.views
 		public var arrowContainer:Sprite;
 		
 		private var arrow:Image;
-		private var population:int;
 		private var rushTimeoutId:uint;
 		private var _selectable:Boolean;
 		
@@ -67,7 +64,7 @@ package com.gerantech.towercraft.views
 			if(decorator != null)
 				decorator.removeFromParent(true); 
 			
-			if(place.building.type == BuildingType.B04_CRYSTAL)
+			if( place.building.equalsCategory(BuildingType.B40_CRYSTAL) )
 				decorator = new CrystalDecorator(this);
 			else
 				decorator = new  BarracksDecorator(this);
@@ -75,7 +72,7 @@ package com.gerantech.towercraft.views
 			decorator.y = 0;
 			addChild(decorator);
 			
-			if(place.building.type == BuildingType.B04_CRYSTAL)
+			if( place.building.equalsCategory(BuildingType.B40_CRYSTAL) )
 				defensiveWeapon = new DefensiveWeapon(this);
 		}
 		
@@ -111,7 +108,7 @@ package com.gerantech.towercraft.views
 		
 		public function update(population:int, troopType:int) : void
 		{
-			this.population = population;
+			place.building._population = population;
 			place.building.troopType = troopType;
 			decorator.updateElements(population, troopType);
 			
@@ -125,7 +122,7 @@ package com.gerantech.towercraft.views
 			if(path == null || destination.building == place.building)
 				return;
 			
-			var len:int = Math.floor(population / 2);
+			var len:int = Math.floor(place.building.get_population() / 2);
 			for(var i:uint=0; i<len; i++)
 			{
 				var t:TroopView = new TroopView(place.building, path);
@@ -138,13 +135,8 @@ package com.gerantech.towercraft.views
 		}
 		public function rush(t:TroopView):void
 		{
-			if(population > 0)
+			if(place.building.get_population() > 0)
 				t.rush(place);
-		}
-		
-		public function improvable(improveType:int):Boolean
-		{
-			return population >= place.building.get_capacity() || improveType == BuildingType.B00_CAMP;
 		}
 		
 		public function replaceBuilding(type:int, level:int):void

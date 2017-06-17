@@ -1,8 +1,8 @@
 package com.gerantech.towercraft
 {
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
-	import com.gerantech.towercraft.controls.screens.DeckScreen;
-	import com.gerantech.towercraft.controls.screens.MainScreen;
+	import com.gerantech.towercraft.controls.screens.DashboardScreen;
+	import com.gerantech.towercraft.controls.screens.QuestsScreen;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
 	
@@ -16,9 +16,9 @@ package com.gerantech.towercraft
 	
 	public class Main extends Drawers
 	{
-		public static const MAIN_SCREEN:String = "mainScreen";
-		public static const DECK_SCREEN:String = "deckScreen";
+		public static const DASHBOARD_SCREEN:String = "dashboardScreen";
 		public static const BATTLE_SCREEN:String = "battleScreen";
+		public static const QUESTS_SCREEN:String = "questsScreen";
 		
 		public function Main(content:IFeathersControl=null)
 		{
@@ -35,19 +35,20 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator =  new StackScreenNavigator();
 			this.content = AppModel.instance.navigator;
 
-			var mainItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(MainScreen);
+			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(DashboardScreen);
 		//	mainItem.addPopEvent(Event.COMPLETE);
-			AppModel.instance.navigator.addScreen(MAIN_SCREEN, mainItem);
+			AppModel.instance.navigator.addScreen(DASHBOARD_SCREEN, item);
 			
-			var deckItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(DeckScreen);
-			deckItem.addPopEvent(Event.COMPLETE);
-			AppModel.instance.navigator.addScreen(DECK_SCREEN, deckItem);
 			
-			var battleItem:StackScreenNavigatorItem = new StackScreenNavigatorItem(BattleScreen);
-			battleItem.addPopEvent(Event.COMPLETE);
-			AppModel.instance.navigator.addScreen(BATTLE_SCREEN, battleItem);
+			item = new StackScreenNavigatorItem(QuestsScreen);
+			item.addPopEvent(Event.COMPLETE);
+			AppModel.instance.navigator.addScreen(QUESTS_SCREEN, item);
 			
-			AppModel.instance.navigator.rootScreenID = MAIN_SCREEN;
+			item = new StackScreenNavigatorItem(BattleScreen);
+			item.addPopEvent(Event.COMPLETE);
+			AppModel.instance.navigator.addScreen(BATTLE_SCREEN, item);
+			
+			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 			//AppModel.instance.navigator.pushTransition = Iris.createIrisOpenTransition();
 			AppModel.instance.navigator.popTransition = Iris.createIrisCloseTransition()
 		}

@@ -19,11 +19,12 @@ package com.gerantech.towercraft.controls.screens
 		{
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHadnler);
 			
-			LoadingManager.instance.addEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
-			LoadingManager.instance.addEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
-			LoadingManager.instance.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
-			LoadingManager.instance.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
-			LoadingManager.instance.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager = new LoadingManager();
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
 			
 			logo = new Assets.splash_bitmap();
 			logo.smoothing = true;
@@ -33,7 +34,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHadnler);
 			
-			graphics.beginFill(0);
+			graphics.beginFill(0x3d4759);
 			graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
 			
 			logo.width = Math.max(width, height)/3;
@@ -44,11 +45,11 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function loadingManager_eventsHandler(event:LoadingEvent):void
 		{
-			event.currentTarget.removeEventListener(LoadingEvent.LOADED,		loadingManager_eventsHandler);
-			event.currentTarget.removeEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
-			event.currentTarget.removeEventListener(LoadingEvent.LOGIN_ERROR, 	loadingManager_eventsHandler);
-			event.currentTarget.removeEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
-			event.currentTarget.removeEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			
 			switch(event.type)
 			{
@@ -72,7 +73,6 @@ package com.gerantech.towercraft.controls.screens
 			if(_alpha <= 0)
 			{
 				removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
-				AppModel.instance.navigator.dispatchEventWith("complete");
 				parent.removeChild(this);
 			}
 		}

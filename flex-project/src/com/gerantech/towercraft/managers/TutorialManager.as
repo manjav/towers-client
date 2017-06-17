@@ -13,6 +13,8 @@ package com.gerantech.towercraft.managers
 	
 	import mx.resources.ResourceManager;
 	
+	import feathers.controls.LayoutGroup;
+	
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 
@@ -20,11 +22,11 @@ package com.gerantech.towercraft.managers
 	{
 		private static var _instance:TutorialManager;
 		private var tutorialData:TutorialData;
-		private var screen:BaseCustomScreen;
+		private var containaer:LayoutGroup;
 		
-		public function show(containaer:BaseCustomScreen, data:TutorialData):void
+		public function show(containaer:LayoutGroup, data:TutorialData):void
 		{
-			screen = containaer;
+			this.containaer = containaer;
 			tutorialData = data;
 			processTasks();
 		}
@@ -43,19 +45,19 @@ package com.gerantech.towercraft.managers
 				case TutorialTask.TYPE_MESSAGE:
 					var messageoverlay:TutorialMessageOverlay = new TutorialMessageOverlay(task);
 					messageoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-					screen.addChild(messageoverlay);					
+					containaer.addChild(messageoverlay);					
 					break;
 				
 				case TutorialTask.TYPE_SWIPE:
 					var swipeoverlay:TutorialSwipeOverlay = new TutorialSwipeOverlay(task);
 					swipeoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-					screen.addChild(swipeoverlay);					
+					containaer.addChild(swipeoverlay);					
 					break;
 				
 				case TutorialTask.TYPE_TOUCH:
 					var touchoverlay:TutorialTouchOverlay = new TutorialTouchOverlay(task);
 					touchoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-					screen.addChild(touchoverlay);					
+					containaer.addChild(touchoverlay);					
 					break;
 			}
 

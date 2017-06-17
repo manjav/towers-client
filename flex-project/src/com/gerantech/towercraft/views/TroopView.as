@@ -112,8 +112,9 @@ package com.gerantech.towercraft.views
 				setFrameTexture(i, Assets.getTexture(textureType + direction+(i>8 ? "-0"+(i+1) : "-00"+(i+1)), "troops"));
 		}
 
-		public function hit(damage:Number):void
+		public function hit(placeView:PlaceView):void
 		{
+			var damage:Number = placeView.place.building.get_damage()
 			health -= damage;
 			if(health > 0)
 				return;
@@ -121,12 +122,16 @@ package com.gerantech.towercraft.views
 			muted = true;
 			dispatchEventWith(Event.TRIGGERED);
 			
+			placeView.arrowContainer.visible = true;
+			placeView.arrowTo(x-placeView.x, y-placeView.y)
+			
 			Starling.juggler.remove(this);
 			Starling.juggler.removeTweens(this);
-			Starling.juggler.tween(this, 0.2, {x:x+50, y:y-40, onComplete:onTroopKilled, transition:Transitions.EASE_OUT});
+			Starling.juggler.tween(this, 0.2, {x:x+50, y:y-40, onComplete:onTroopKilled, onCompleteArgs:[placeView], transition:Transitions.EASE_OUT});
 		}
-		private function onTroopKilled():void
+		private function onTroopKilled(placeView:PlaceView):void
 		{
+			placeView.arrowContainer.visible = false;
 			removeFromParent(true);
 		}
 		

@@ -3,6 +3,7 @@ package com.gerantech.towercraft.views.decorators
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gt.towers.constants.BuildingType;
 	
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -25,7 +26,7 @@ package com.gerantech.towercraft.views.decorators
 		{
 			super.updateElements(population, troopType);
 			
-			var txt:String = "building-ex-" + place.building.type + "-" + place.building.level;
+			var txt:String = "building-ex-" + ((BuildingType.get_category(place.building.type)/10) + "-" +place.building.improveLevel)// + "-" + place.building.level;
 			if(crystalTexture != txt)
 			{
 				crystalTexture = txt;

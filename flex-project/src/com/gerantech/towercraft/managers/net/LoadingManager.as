@@ -2,7 +2,6 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.towercraft.events.LoadingEvent;
-	import com.gerantech.towercraft.managers.TutorialManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
@@ -28,8 +27,6 @@ package com.gerantech.towercraft.managers.net
 		public static const STATE_LOGIN:int = 1;
 		public static const STATE_CORE_LOADING:int = 2;
 		public static const STATE_LOADED:int = 3;
-		
-		private static var _instance:LoadingManager;
 		
 		private var sfsConnection:SFSConnection;
 		
@@ -128,14 +125,7 @@ package com.gerantech.towercraft.managers.net
 				state = STATE_LOADED;
 			}
 		}
-		
-		
-		public static function get instance():LoadingManager
-		{
-			if(_instance == null)
-				_instance = new LoadingManager();
-			return _instance;
-		}
+
 
 	}
 }
