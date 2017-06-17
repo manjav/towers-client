@@ -142,7 +142,7 @@
 			for (var p:int=0; p < places.length; p++)
 			{
 				places[p].type = json.places[p].type;
-				places[p].level = json.places[p].level;
+				//places[p].level = json.places[p].imp;
 				places[p].troopType = json.places[p].troopType;
 				places[p].enabled = json.places[p].enabled;
 				places[p].tutorIndex = json.places[p].tutorIndex;

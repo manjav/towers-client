@@ -15,12 +15,10 @@
 		public var tutor_btn:MovieClip;
 		public var enabled_btn:MovieClip;
 		
+		public var type:int = 1;
 		public var index:int = 0;
 		public var troopType:int = -1;
-		public var level:int = 1;
-		public var type:int = 0;
 		public var links:Vector.<int>;
-		
 		public var tutorIndex:int = -2;
 		public var enabled:Boolean = true;
 		
@@ -41,19 +39,20 @@
 		
 		private function type_btn_clickHandler(event:Event):void
 		{
-			if(type == BuildingType.NUM_WEAPONS-1)
-				type = 0;
+			if(type >= BuildingType.B40_CRYSTAL)
+				type = 1;
 			else
-				type ++;
+				type += 10;
 			update();
 		}
 		
 		private function level_btn_clickHandler(event:Event):void
 		{
-			if(level == 4)
-				level = 1;
+			var improveLevel:int = type%10;
+			if(improveLevel >= 4)
+				type = type - improveLevel + 1;
 			else
-				level ++;
+				type ++;
 			update();
 		}
 		
@@ -82,21 +81,22 @@
 		
 		public function get classString():String
 		{
-			return '\t\tfield.places.push( new PlaceData( '+index+',\t'+x+',\t'+y+',\t'+type+',\t'+level+',\t'+troopType+',\t"'+links+'"'+',\t'+enabled+',\t'+tutorIndex+'\t) );\r';
+			return '\t\tfield.places.push( new PlaceData( '+index+',\t'+x+',\t'+y+',\t'+type+',\t'+troopType+',\t"'+links+'"'+',\t'+enabled+',\t'+tutorIndex+'\t) );\r';
 		}
 		public function get data():Object
 		{
-			return { index:this.index, type:this.type, level:this.level, troopType:this.troopType, links:this.links, enabled:this.enabled, tutorIndex:this.tutorIndex};
+			return { index:this.index, type:this.type, troopType:this.troopType, links:this.links, enabled:this.enabled, tutorIndex:this.tutorIndex};
 		}
 		public function update():void
 		{
+			//trace(type, type*10 + (troopType+1));
 			index_txt.text = index.toString();
-			type_btn.txt.text = "T:" + type;
-			level_btn.txt.text = "L:" + level;
+			type_btn.txt.text = "T:" + Math.floor(type/10);
+			level_btn.txt.text = "L:" + type%10;
 			tutor_btn.txt.text = "S:" + tutorIndex;
-			enabled_btn.txt.text = enabled ? "T" : "F";
+			enabled_btn.txt.text = enabled ? "E" : "D";
 			tutor_btn.alpha = tutorIndex==-2?0.3:1;
-			body_mc.gotoAndStop(type*100 + (level-1)*10 + (troopType+2));
+			body_mc.gotoAndStop(type*10 + (troopType+2));
 		}
 		
 	}
