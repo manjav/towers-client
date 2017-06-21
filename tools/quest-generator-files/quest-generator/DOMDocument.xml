@@ -1,4 +1,4 @@
-<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#00FF00" width="1080" height="1920" currentTimeline="1" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="19" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#00FF00" width="1080" height="1920" currentTimeline="4" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="19" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
      <folders>
           <DOMFolderItem name="Component Assets" itemID="44e488a0-000016d6"/>
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
@@ -194,7 +194,7 @@
           <Include href="Component Assets/CheckBoxSkins/CheckBox_upIcon.xml" itemID="4397079e-00000cac" lastModified="1168287165"/>
           <Include href="Component Assets/Shared/focusRectSkin.xml" itemID="44d8b6f8-00000055" lastModified="1168290361"/>
           <Include href="num_btn.xml" loadImmediate="false" itemID="5936f75d-00000aea" lastModified="1497456646"/>
-          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1497456658"/>
+          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1498029776"/>
           <Include href="simple_btn.xml" loadImmediate="false" itemID="5937c230-00000210" lastModified="1496827068"/>
           <Include href="troopType_btn.xml" loadImmediate="false" itemID="5936f76a-00000aeb" lastModified="1497027795"/>
      </symbols>
@@ -316,7 +316,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath='4'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -343,7 +343,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath='5'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -671,7 +671,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -684,21 +684,21 @@
       <Inspectable name="labelPlacement" variable="labelPlacement" category="" verbose="0" defaultValue="right" enumeration="left,right,top,bottom" type="List"/>
    </property>
    <property id="selected">
-      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="false" type="Boolean"/>
+      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="true" type="Boolean"/>
    </property>
    <property id="visible">
       <Inspectable name="visible" variable="visible" category="" verbose="1" defaultValue="true" type="Boolean"/>
    </property>
 ]]></parametersAsXML>
                                         </DOMComponentInstance>
-                                        <DOMComponentInstance libraryItemName="CheckBox" name="final_check" centerPoint3DX="983.7" centerPoint3DY="1823.3" uniqueID="5">
+                                        <DOMComponentInstance libraryItemName="CheckBox" name="final_check" selected="true" centerPoint3DX="983.7" centerPoint3DY="1823.3" uniqueID="5">
                                              <matrix>
                                                   <Matrix a="1.92599487304688" d="1.92599487304688" tx="887.4" ty="1802.1"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -711,7 +711,7 @@
       <Inspectable name="labelPlacement" variable="labelPlacement" category="" verbose="0" defaultValue="right" enumeration="left,right,top,bottom" type="List"/>
    </property>
    <property id="selected">
-      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="false" type="Boolean"/>
+      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="true" type="Boolean"/>
    </property>
    <property id="visible">
       <Inspectable name="visible" variable="visible" category="" verbose="1" defaultValue="true" type="Boolean"/>
@@ -744,7 +744,7 @@
                                                   </DOMTextRun>
                                              </textRuns>
                                         </DOMInputText>
-                                        <DOMInputText name="time_2_txt" selected="true" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                        <DOMInputText name="time_2_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
                                              <matrix>
                                                   <Matrix a="0.750228881835938" tx="597.1" ty="1851.15"/>
                                              </matrix>
@@ -1055,7 +1055,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1082,7 +1082,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1322,7 +1322,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" locked="true" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1350,7 +1350,7 @@
                                                   <Point/>
                                              </transformationPoint>
                                         </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="590" centerPoint3DY="1010">
+                                        <DOMSymbolInstance libraryItemName="place_mc" selected="true" centerPoint3DX="590" centerPoint3DY="1010">
                                              <matrix>
                                                   <Matrix tx="540" ty="960"/>
                                              </matrix>
@@ -1402,7 +1402,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="controls" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="controls" color="#4FFF4F" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1483,7 +1483,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath='4'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1510,7 +1510,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_0' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_0' oldCopiedComponentPath='5'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1556,7 +1556,7 @@
                                                   </DOMTextRun>
                                              </textRuns>
                                         </DOMInputText>
-                                        <DOMInputText name="time_2_txt" selected="true" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                        <DOMInputText name="time_2_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
                                              <matrix>
                                                   <Matrix a="0.750228881835938" tx="597.1" ty="1851.15"/>
                                              </matrix>
@@ -1573,7 +1573,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#FF800A" autoNamed="false">
+                    <DOMLayer name="images" color="#FF800A" locked="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1747,7 +1747,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/hut-0.png">
                                              <matrix>
-                                                  <Matrix a="1.54179382324219" d="1.54179382324219" tx="-182.15" ty="877.6"/>
+                                                  <Matrix a="1.54179382324219" d="1.54179382324219" tx="-235.35" ty="987.45"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="174" y="105"/>
@@ -1832,6 +1832,9 @@
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
+          <PublishItem publishSize="1727565" publishTime="1497687467"/>
+          <PublishItem publishSize="1727563" publishTime="1497687166"/>
+          <PublishItem publishSize="1727551" publishTime="1497686979"/>
           <PublishItem publishSize="1723279" publishTime="1497456625"/>
           <PublishItem publishSize="1723282" publishTime="1497456579"/>
           <PublishItem publishSize="1723283" publishTime="1497453171"/>
@@ -1849,9 +1852,6 @@
           <PublishItem publishSize="1723300" publishTime="1497452574"/>
           <PublishItem publishSize="1723300" publishTime="1497452552" publishDebug="true"/>
           <PublishItem publishSize="1723303" publishTime="1497452446"/>
-          <PublishItem publishSize="1723301" publishTime="1497452437" publishDebug="true"/>
-          <PublishItem publishSize="1686344" publishTime="1497452410"/>
-          <PublishItem publishSize="1686343" publishTime="1497452405" publishDebug="true"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
