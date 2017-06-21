@@ -4,7 +4,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.ExchangeHeader;
 	import com.gerantech.towercraft.controls.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
-	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.exchanges.Exchanger;
 	
@@ -12,7 +11,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.VerticalAlign;
 	
 	import starling.events.Event;
 	
@@ -48,8 +46,8 @@ package com.gerantech.towercraft.controls.items.exchange
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 			buttonDisplay.height = 96*appModel.scale;
 			addChild(buttonDisplay);
-
 		}
+
 		override protected function commitData():void
 		{
 			if(firstCommit )

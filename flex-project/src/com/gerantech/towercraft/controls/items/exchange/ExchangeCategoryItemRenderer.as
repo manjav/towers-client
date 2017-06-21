@@ -96,6 +96,9 @@ package com.gerantech.towercraft.controls.items.exchange
 		private function list_changeHandler(event:Event):void
 		{
 			owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, list.selectedItem);
+			list.removeEventListener(Event.CHANGE, list_changeHandler);
+			list.selectedIndex = -1;
+			list.addEventListener(Event.CHANGE, list_changeHandler);
 		}		
 
 	}
