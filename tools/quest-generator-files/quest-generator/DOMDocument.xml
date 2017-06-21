@@ -1,4 +1,4 @@
-<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#00FF00" width="1080" height="1920" currentTimeline="4" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="19" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="4" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="19" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
      <folders>
           <DOMFolderItem name="Component Assets" itemID="44e488a0-000016d6"/>
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
@@ -1350,7 +1350,7 @@
                                                   <Point/>
                                              </transformationPoint>
                                         </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" selected="true" centerPoint3DX="590" centerPoint3DY="1010">
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="590" centerPoint3DY="1010">
                                              <matrix>
                                                   <Matrix tx="540" ty="960"/>
                                              </matrix>
