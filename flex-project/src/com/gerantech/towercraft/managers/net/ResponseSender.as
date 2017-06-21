@@ -39,7 +39,7 @@ package com.gerantech.towercraft.managers.net
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putInt("i", index);
 			sfsObj.putInt("t", upgradeType);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.IMPROVE, sfsObj, room);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_IMPROVE, sfsObj, room);
 		}
 		
 	}

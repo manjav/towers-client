@@ -1,14 +1,12 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.controls.Label;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.skins.ImageSkin;
 
 	public class BattleOutcomeRewardItemRenderer extends BaseCustomItemRenderer
 	{
@@ -33,14 +31,13 @@ package com.gerantech.towercraft.controls.items
 			addChild(labelDisplay);
 		}
 		
-		
 		override protected function commitData():void
 		{
 			super.commitData();
 			//reward = _data as SFSObject;
 			
-			iconDisplay.source = Assets.getTexture("res-" + _data.type, "gui");
-			labelDisplay.text = _data.count.toString();
+			iconDisplay.source = Assets.getTexture("res-" + _data.t, "gui");
+			labelDisplay.text = _data.c.toString();
 		}
 	}
 }

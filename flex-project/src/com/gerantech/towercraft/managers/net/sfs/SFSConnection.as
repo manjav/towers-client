@@ -55,13 +55,12 @@ package com.gerantech.towercraft.managers.net.sfs
 			loadConfig();
 		}
 		
-		public function retry():void{
+		public function retry():void
+		{
 			if(config == null)
 				loadConfig();
 			else if(!isConnected)
 				connect();
-			/*else if(!sfs.isJoining)
-				login();*/
 		}
 		
 		public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null):void

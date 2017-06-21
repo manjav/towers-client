@@ -78,12 +78,12 @@ package com.gerantech.towercraft.controls.screens
 					player.troopType = event.params.params.getInt("troopType");
 					battleRoom = sfsConnection.getRoomById(event.params.params.getInt("roomId"));
 					mapName = event.params.params.getText("mapName")
-					appModel.battleFieldView.singleMode = battleRoom.playerList.length == 1;
+					appModel.battleFieldView.singleMode = battleRoom.playerList.length == 1;trace(appModel.battleFieldView.singleMode )
 					appModel.battleFieldView.responseSender = new ResponseSender(battleRoom);
 					startBattle();
 					break;
 				
-				case SFSCommands.IMPROVE:
+				case SFSCommands.BUILDING_IMPROVE:
 					appModel.battleFieldView.places[event.params.params.getInt("i")].replaceBuilding(event.params.params.getInt("t"), event.params.params.getInt("l"));
 					break;
 				
@@ -320,7 +320,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showImproveFloating(placeView:PlaceView):void
 		{
-			if( player.get_questIndex() < 2 )
+			if( appModel.battleFieldView.battleField.map.isQuest && player.get_questIndex() < 2 )
 				return;
 			// create transition in data
 			var ti:TransitionData = new TransitionData();

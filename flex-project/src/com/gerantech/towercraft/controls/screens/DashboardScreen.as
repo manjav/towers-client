@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gt.towers.constants.PageType;
@@ -11,11 +12,11 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalAlign;
-	import feathers.layout.VerticalLayout;
-	import feathers.layout.VerticalLayoutData;
 	
 	import starling.events.Event;
 
@@ -30,7 +31,9 @@ package com.gerantech.towercraft.controls.screens
 		{
 			super.initialize();
 			autoSizeMode = AutoSizeMode.STAGE; 
-			layout = new VerticalLayout();
+			layout = new AnchorLayout();
+			
+			var footerSize:int = 180 * appModel.scale;
 			
 			var pageLayout:HorizontalLayout = new HorizontalLayout();
 			pageLayout.horizontalAlign = HorizontalAlign.CENTER;
@@ -40,9 +43,8 @@ package com.gerantech.towercraft.controls.screens
 			
 			pageList = new List();
 			pageList.layout = pageLayout;
-			pageList.layoutData = new VerticalLayoutData(100, 88);
+			pageList.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
 			pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-			//pageList.pageWidth = stage.stageWidth;
 			pageList.snapToPages = true;
 			pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
 			pageList.verticalScrollPolicy = ScrollPolicy.OFF;
@@ -55,7 +57,6 @@ package com.gerantech.towercraft.controls.screens
 			
 			
 			var tabSize:Number = stage.stageWidth / 4;
-			
 			var tabLayout:HorizontalLayout = new HorizontalLayout();
 			tabLayout.verticalAlign = VerticalAlign.JUSTIFY;
 			tabLayout.useVirtualLayout = true;
@@ -63,7 +64,8 @@ package com.gerantech.towercraft.controls.screens
 			
 			tabsList = new List();
 			tabsList.layout = tabLayout;
-			tabsList.layoutData = new VerticalLayoutData(100, 12);
+			tabsList.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+			tabsList.height = footerSize;
 			tabsList.dataProvider = new ListCollection(PageType.getAll()._list);
 			tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
             tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
@@ -74,6 +76,12 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
 			tabsList.selectedIndex = 1;
 			addChild(tabsList);
+			
+			
+			var toolbar:Toolbar = new Toolbar();
+			toolbar.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
+			addChild(toolbar);
+			
 		}
 		
 		private function pageList_focusInHandler(event:Event):void

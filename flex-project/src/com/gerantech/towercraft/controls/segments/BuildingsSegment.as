@@ -3,14 +3,19 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
+	import com.gerantech.towercraft.controls.overlays.UpgradeOverlay;
+	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.AutoSizeMode;
-	import feathers.controls.List;
+	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
@@ -19,35 +24,15 @@ package com.gerantech.towercraft.controls.segments
 	import feathers.layout.TiledRowsLayout;
 	
 	import starling.animation.Transitions;
-	import starling.display.Quad;
 	import starling.events.Event;
 	
 	public class BuildingsSegment extends Segment
 	{
-		private var weaponlist:FastList;
+		private var buildingslist:FastList;
 		private var listLayout:TiledRowsLayout;
 		
-		override protected function initialize():void
+		override protected function createElements():void
 		{
-			super.initialize();
-			if(appModel.loadingManager.state <  LoadingManager.STATE_LOADED )
-			{
-				appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-				return;
-			}
-			createElements();
-		}
-		
-		protected function loadingManager_loadedHandler(event:LoadingEvent):void
-		{
-			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			createElements();
-		}
-		
-		
-		private function createElements():void
-		{
-		
 			layout = new AnchorLayout();
 			listLayout = new TiledRowsLayout();
 			listLayout.padding = listLayout.gap = 10;
@@ -55,24 +40,30 @@ package com.gerantech.towercraft.controls.segments
 			listLayout.useSquareTiles = false;
 			listLayout.requestedColumnCount = 4;
 			listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.2;
+			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
 			
-			weaponlist = new FastList();
-			weaponlist.layout = listLayout;
-			weaponlist.layoutData = new AnchorLayoutData(0,0,0,0);
-			weaponlist.itemRendererFactory = function():IListItemRenderer
+			buildingslist = new FastList();
+			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+			buildingslist.layout = listLayout;
+			buildingslist.layoutData = new AnchorLayoutData(0,0,0,0);
+			buildingslist.itemRendererFactory = function():IListItemRenderer
 			{
 				return new BuildingItemRenderer();
 			}
-			//weaponlist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
-			addChild(weaponlist);
+			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
+			addChild(buildingslist);
 
+			updateBuildingData();
+		}
+		
+		private function updateBuildingData():void
+		{
 			var buildings:Vector.<int> = BuildingType.getAll().keys();
-			var collection:Array = new Array();
+			var buildingArray:Array = new Array();
 			while(buildings.length > 0)
-				collection.push(buildings.pop());
-			collection.sort();			
-			weaponlist.dataProvider = new ListCollection(collection);
+				buildingArray.push(buildings.pop());
+			buildingArray.sort();		
+			buildingslist.dataProvider = new ListCollection(buildingArray);			
 		}
 		
 		private function list_changeHandler(event:Event):void
@@ -85,27 +76,41 @@ package com.gerantech.towercraft.controls.segments
 			ti.sourceAlpha = 1;
 			ti.sourceBound = item.getBounds(this);
 			ti.destinationConstrain = this.getBounds(stage);
-			ti.destinationBound = new Rectangle(ti.sourceBound.x-10, ti.sourceBound.y-40, ti.sourceBound.width+20, ti.sourceBound.height+80);
+			ti.destinationBound = new Rectangle(width*0.1, height*0.3, width*0.8, height*0.6);
 
 			// create transition out data
 			var to:TransitionData = new TransitionData();
 			to.sourceAlpha = 1;
 			to.sourceBound = ti.destinationBound.clone();
 			to.destinationBound = ti.sourceBound.clone();
-/*
-			var details:WeaponSelectPopup = new WeaponSelectPopup();
-			details.weaponType = item.data as int;
+
+			var details:BuildingDetailsPopup = new BuildingDetailsPopup();
+			details.buildingType = item.data as int;
 			details.transitionIn = ti;
 			details.transitionOut = to;
 			details.addEventListener(Event.CLOSE, details_closeHandler);
-			addChild(details);
-			//details.addEventListener(Event.ADDED, details_closeHandler);
-			//details.addEventListener(Event.UPDATE, details_selectHandler);
-			//PopUpManager.addPopUp(details);
+			appModel.navigator.addChild(details);
+			details.addEventListener(Event.UPDATE, details_updateHandler);
 			function details_closeHandler():void
 			{
-				weaponlist.selectedIndex = -1;
-			}*/
+				buildingslist.selectedIndex = -1;
+			}
+		}
+		
+		private function details_updateHandler(event:Event):void
+		{
+			var building:Building = event.data as Building;
+			if(!building.upgrade())
+				return;
+			
+			var sfs:SFSObject = new SFSObject();
+			sfs.putInt("type", building.type);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
+			
+			var upgradeOverlay:UpgradeOverlay = new UpgradeOverlay();
+			upgradeOverlay.building = building;
+			appModel.navigator.addChild(upgradeOverlay);
+			updateBuildingData();
 		}
 	}
 }

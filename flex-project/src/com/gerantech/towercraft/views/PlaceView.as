@@ -127,9 +127,8 @@ package com.gerantech.towercraft.views
 			{
 				var t:TroopView = new TroopView(place.building, path);
 				t.x = x;
-				t.y = y - 30 * AppModel.instance.scale;
+				t.y = y ;
 				BattleFieldView(parent).troopsContainer.addChild(t);
-				
 				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i, t);
 			}			
 		}

@@ -58,14 +58,16 @@ package com.gerantech.towercraft.views
 			
 			switchAnimation(source, next.place);
 			visible = true;
+			muted = false;
 			Starling.juggler.add(this);
-			
+
 			var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
-			Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance, {x:next.x, y:next.y - 30 * AppModel.instance.scale, onComplete:onTroopArrived, onCompleteArgs:[next]});
+			Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
 		}
 		private function onTroopArrived(next:PlaceView):void
 		{
 			visible = false;
+			muted = true;
 			Starling.juggler.remove(this);
 			if(next.place.building.troopType == type)
 				rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);

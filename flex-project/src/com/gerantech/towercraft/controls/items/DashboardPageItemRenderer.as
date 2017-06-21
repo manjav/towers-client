@@ -1,9 +1,10 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.segments.MainSegment;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
+import com.gerantech.towercraft.controls.segments.MainSegment;
 import com.gerantech.towercraft.controls.segments.RankingSegment;
 import com.gerantech.towercraft.controls.segments.Segment;
+import com.gerantech.towercraft.controls.segments.ShopSegment;
 import com.gt.towers.constants.PageType;
 
 import feathers.controls.List;
@@ -55,7 +56,7 @@ import starling.events.Event;
 			switch(index)
 			{
 				case PageType.S0_SHOP:
-					segment = new RankingSegment();
+					segment = new ShopSegment();
 					break;
 				case PageType.S1_BATTLE:
 					segment = new MainSegment();
