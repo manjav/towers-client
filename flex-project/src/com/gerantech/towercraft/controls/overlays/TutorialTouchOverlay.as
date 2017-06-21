@@ -64,7 +64,7 @@ package com.gerantech.towercraft.controls.overlays
 					delay:transitionIn.delay,
 					alpha:transitionIn.destinationAlpha,
 					transition:transitionIn.transition,
-					onStart:transitionInStated,
+					onStart:transitionInStarted,
 					onComplete:transitionInCompleted
 				}
 			);
@@ -92,7 +92,7 @@ package com.gerantech.towercraft.controls.overlays
 				delay:transitionOut.delay,
 				alpha:transitionOut.destinationAlpha,
 				transition:transitionOut.transition,
-				onStart:transitionOutStated,
+				onStart:transitionOutStarted,
 				onComplete:transitionOutCompleted,
 				onCompleteArgs:[dispose]
 			}

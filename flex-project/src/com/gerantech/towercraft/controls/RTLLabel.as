@@ -27,10 +27,10 @@ package com.gerantech.towercraft.controls
 		
 		public function RTLLabel(text:String, color:uint=1, align:String=null, direction:String=null, wordWrap:Boolean=false, lastAlign:String=null, fontSize:Number=0, fontFamily:String=null, fontWeight:String=null, fontPosture:String=null)
 		{
-			if(fontSize==0)
-				this.fontSize = 12//AppModel.instance.sizes.orginalFontSize;
+			if(fontSize == 0)
+				this.fontSize = AppModel.instance.theme.regularFontSize;
 			else if(fontSize<4)
-				this.fontSize = fontSize//*AppModel.instance.sizes.orginalFontSize;
+				this.fontSize = fontSize * AppModel.instance.theme.regularFontSize;
 			else
 				this.fontSize = fontSize;
 						

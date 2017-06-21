@@ -154,7 +154,7 @@ package com.gerantech.towercraft.themes
 		public static var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
 
 		public static const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 1, 1);
-		public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(14, 28, 2, 17);//4, 4, 1, 20);
+		public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 3, 1);//4, 4, 1, 20);
 		public static const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 1);
 		public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 		public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
@@ -670,7 +670,7 @@ package com.gerantech.towercraft.themes
 			this.smallControlGutterSize = 6;
 			this.smallGutterSize = 8;
 			this.gutterSize = 12;
-			this.controlSize = 66;//28;
+			this.controlSize = 36;//28;
 			this.smallControlSize = 12;
 			this.popUpFillSize = 276;
 			this.calloutBackgroundMinSize = 12;
@@ -1707,8 +1707,8 @@ package com.gerantech.towercraft.themes
 		protected function setListStyles(list:List):void
 		{
 			this.setScrollerStyles(list);
-			var backgroundSkin:Quad = new Quad(this.gridSize, this.gridSize, LIST_BACKGROUND_COLOR);
-			list.backgroundSkin = backgroundSkin;
+			//var backgroundSkin:Quad = new Quad(this.gridSize, this.gridSize, LIST_BACKGROUND_COLOR);
+			//list.backgroundSkin = backgroundSkin;
 		}
 
 		protected function setItemRendererStyles(itemRenderer:BaseDefaultItemRenderer):void

@@ -27,10 +27,15 @@ package
 		
 		public function TowerCraft()
 		{
-			/*for(var level:int=1; level<=20; level++)
-				trace(level, 50 + Math.round( Math.log(level) * 10) );
+	
+			/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
+			{
+				var str:String = improveLevel + " :  ";
+				for(var level:int=1; level<=10; level++)
+					str += level + " => " + ((  Math.round( Math.log(level * level) + Math.log(improveLevel * improveLevel))+1  )) + "  " ;
+				trace(str);
+			}
 			return;*/
-			
 			
 			t = getTimer();
 			if(this.stage)
@@ -62,7 +67,8 @@ package
 			this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
-			this.starling.showStats = true
+			this.starling.showStats = true;
+			this.starling.showStatsAt("left", "bottom", 0.8);
 			this.starling.skipUnchangedFrames = false;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);

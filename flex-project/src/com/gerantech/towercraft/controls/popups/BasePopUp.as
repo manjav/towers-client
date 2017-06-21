@@ -7,7 +7,6 @@ package com.gerantech.towercraft.controls.popups
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
-	import starling.events.Event;
 	
 	public class BasePopUp extends BaseOverlay
 	{
@@ -19,6 +18,7 @@ package com.gerantech.towercraft.controls.popups
 		override protected function initialize():void
 		{
 			super.initialize();
+			overlay.touchable = true;
 			if(transitionIn == null)
 			{
 				transitionIn = new TransitionData();
@@ -45,7 +45,7 @@ package com.gerantech.towercraft.controls.popups
 					width:transitionIn.destinationBound.width, 
 					height:transitionIn.destinationBound.height, 
 					transition:transitionIn.transition,
-					onStart:transitionInStated,
+					onStart:transitionInStarted,
 					onComplete:transitionInCompleted
 				}
 			);
@@ -65,7 +65,7 @@ package com.gerantech.towercraft.controls.popups
 					width:transitionOut.destinationBound.width, 
 					height:transitionOut.destinationBound.height, 
 					transition:transitionOut.transition,
-					onStart:transitionOutStated,
+					onStart:transitionOutStarted,
 					onComplete:transitionOutCompleted,
 					onCompleteArgs:[dispose]
 				}

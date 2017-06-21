@@ -51,7 +51,7 @@ package com.gerantech.towercraft.controls.overlays
 				overlay = overlayFactory();
 			addChild(overlay);
 		}
-		protected function transitionInStated():void
+		protected function transitionInStarted():void
 		{
 			if(hasEventListener(FeathersEventType.TRANSITION_IN_START))
 				dispatchEventWith(FeathersEventType.TRANSITION_IN_START);
@@ -128,7 +128,7 @@ package com.gerantech.towercraft.controls.overlays
 				transitionOutCompleted(dispose);
 
 		}
-		protected function transitionOutStated():void
+		protected function transitionOutStarted():void
 		{
 			if(hasEventListener(FeathersEventType.TRANSITION_OUT_START))
 				dispatchEventWith(FeathersEventType.TRANSITION_OUT_START);

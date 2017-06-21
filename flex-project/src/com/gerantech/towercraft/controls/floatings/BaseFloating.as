@@ -47,7 +47,7 @@ package com.gerantech.towercraft.controls.floatings
 					x:transitionIn.destinationPosition.x, 
 					y:transitionIn.destinationPosition.y, 
 					transition:transitionIn.transition,
-					onStart:transitionInStated,
+					onStart:transitionInStarted,
 					onComplete:transitionInCompleted
 				}
 			);
@@ -78,7 +78,7 @@ package com.gerantech.towercraft.controls.floatings
 					x:transitionOut.destinationPosition.x, 
 					y:transitionOut.destinationPosition.y, 
 					transition:transitionOut.transition,
-					onStart:transitionOutStated,
+					onStart:transitionOutStarted,
 					onComplete:transitionOutCompleted,
 					onCompleteArgs:[dispose]
 				}
