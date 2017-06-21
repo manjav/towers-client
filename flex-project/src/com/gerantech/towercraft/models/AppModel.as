@@ -8,6 +8,8 @@ package com.gerantech.towercraft.models
 	import flash.desktop.NativeApplication;
 	
 	import feathers.controls.StackScreenNavigator;
+	
+	import starling.utils.AssetManager;
 
 	public class AppModel
 	{
@@ -24,10 +26,13 @@ package com.gerantech.towercraft.models
 		public var align:String = "right";
 		public var direction:String = "rtl";
 		public var isLTR:Boolean = false;
+		public var assetsManager:AssetManager;
 		
 		public function AppModel()
 		{
 			descriptor = new Descriptor(NativeApplication.nativeApplication.applicationDescriptor);
+			assetsManager = new AssetManager(2);
+			assetsManager.verbose = false
 		}
 		
 		

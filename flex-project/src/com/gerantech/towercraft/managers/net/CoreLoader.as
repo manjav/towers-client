@@ -3,10 +3,13 @@
  */
 package com.gerantech.towercraft.managers.net
 {
+	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.utils.LoadAndSaver;
 	import com.gt.towers.Game;
 	import com.gt.towers.InitData;
+	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.utils.GameError;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -29,6 +32,7 @@ package com.gerantech.towercraft.managers.net
 			initData = new InitData();
 			initData.nickName = sfsObj.getText("name");
 			initData.id = sfsObj.getInt("id");
+			new TimeManager(sfsObj.getLong("serverTime")/1000);
 			
 			var elements:ISFSArray = sfsObj.getSFSArray("resources");
 			var element:ISFSObject;
@@ -46,7 +50,13 @@ package com.gerantech.towercraft.managers.net
 				element = elements.getSFSObject(i);
 				initData.quests.set(element.getInt("index"), element.getInt("score"));
 			}
-
+			
+			elements = sfsObj.getSFSArray("exchanges");
+			for( i=0; i<elements.size(); i++ )
+			{
+				element = elements.getSFSObject(i);
+				initData.exchanges.set( element.getInt("type"), new Exchange( element.getInt("type"), element.getInt("num_exchanges"), element.getLong("expired_at")/1000, element.getInt("outcome")));
+			}
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 			var url:String = "http://"+(SFSConnection.instance.currentIp=="185.141.192.33"?"env-3589663.j.scaleforce.gr":SFSConnection.instance.currentIp)+"/cores/"+coreFileName;
