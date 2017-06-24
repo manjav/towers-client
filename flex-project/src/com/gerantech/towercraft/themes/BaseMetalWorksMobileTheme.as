@@ -163,13 +163,13 @@ package com.gerantech.towercraft.themes
 		public static const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
 		public static const INSET_ITEM_RENDERER_LAST_SCALE9_GRID:Rectangle = new Rectangle(7, 2, 1, 35);
 		public static const INSET_ITEM_RENDERER_SINGLE_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 30);
-		public static const TAB_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 22);
+		public static const TAB_SCALE9_GRID:Rectangle = new Rectangle(9, 8, 1, 1);
 		public static const SPINNER_LIST_SELECTION_OVERLAY_SCALE9_GRID:Rectangle = new Rectangle(2, 6, 1, 32);
 		public static const HORIZONTAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(4, 0, 4, 5);
 		public static const VERTICAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(0, 4, 5, 4);
 
 		public static const HEADER_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 1, 128, 64);
-		public static const TAB_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 0, 22, 44);
+	//	public static const TAB_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 0, 22, 44);
 
 		/**
 		 * @private
@@ -772,11 +772,11 @@ package com.gerantech.towercraft.themes
 			this.buttonForwardDownSkinTexture = Assets.getTexture("forward-button-down-skin", "skin");
 			this.buttonForwardDisabledSkinTexture = Assets.getTexture("forward-button-disabled-skin", "skin");
 
-			this.tabUpSkinTexture = Texture.fromTexture(Assets.getTexture("tab-up-skin", "skin"), TAB_SKIN_TEXTURE_REGION);
-			this.tabDownSkinTexture = Texture.fromTexture(Assets.getTexture("tab-down-skin", "skin"), TAB_SKIN_TEXTURE_REGION);
-			this.tabDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("tab-disabled-skin", "skin"), TAB_SKIN_TEXTURE_REGION);
-			this.tabSelectedUpSkinTexture = Texture.fromTexture(Assets.getTexture("tab-selected-up-skin", "skin"), TAB_SKIN_TEXTURE_REGION);
-			this.tabSelectedDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("tab-selected-disabled-skin", "skin"), TAB_SKIN_TEXTURE_REGION);
+			this.tabUpSkinTexture = Texture.fromTexture(Assets.getTexture("tab-up-skin", "skin"));
+			this.tabDownSkinTexture = Texture.fromTexture(Assets.getTexture("tab-up-skin", "skin"));
+			this.tabDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("tab-disabled-skin", "skin"));
+			this.tabSelectedUpSkinTexture = Texture.fromTexture(Assets.getTexture("tab-selected-up-skin", "skin"));
+			this.tabSelectedDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("tab-up-skin", "skin"));
 
 			this.pickerListButtonIconTexture = Assets.getTexture("picker-list-button-icon", "skin");
 			this.pickerListButtonSelectedIconTexture = Assets.getTexture("picker-list-button-selected-icon", "skin");

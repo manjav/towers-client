@@ -49,7 +49,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			if(overlay == null)
 				overlay = overlayFactory();
-			addChild(overlay);
+			addChildAt(overlay, 0);
 		}
 		protected function transitionInStarted():void
 		{

@@ -27,7 +27,6 @@ package
 		
 		public function TowerCraft()
 		{
-	
 			/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 			{
 				var str:String = improveLevel + " :  ";

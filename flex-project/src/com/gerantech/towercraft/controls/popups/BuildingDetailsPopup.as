@@ -30,7 +30,7 @@ package com.gerantech.towercraft.controls.popups
 	import starling.display.Image;
 	import starling.events.Event;
 
-	public class BuildingDetailsPopup extends BasePopUp
+	public class BuildingDetailsPopup extends BasePopup
 	{
 		public var buildingType:int;
 		private var building:Building;
@@ -38,6 +38,8 @@ package com.gerantech.towercraft.controls.popups
 		private var upgradeButton:Button;
 		private var optionList:List;
 		private var header:LayoutGroup;
+
+		private var padding:int;
 
 
 		override protected function initialize():void
@@ -52,7 +54,7 @@ package com.gerantech.towercraft.controls.popups
 			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			backgroundSkin = skin;
 			
-			var padding:int = 36 * appModel.scale;
+			padding = 36 * appModel.scale;
 			layout = new AnchorLayout();
 			
 			var hLayout:HorizontalLayout = new HorizontalLayout();
@@ -87,7 +89,13 @@ package com.gerantech.towercraft.controls.popups
 			var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
 			messageDisplay.layoutData = new VerticalLayoutData(100, 100);
 			textsContainer.addChild(messageDisplay);
-						
+		
+		}
+		
+		override protected function transitionInCompleted():void
+		{
+			super.transitionInCompleted();
+			
 			var listLayout:TiledRowsLayout = new TiledRowsLayout();
 			listLayout.gap = padding;
 			listLayout.horizontalAlign = HorizontalAlign.RIGHT;
@@ -107,16 +115,13 @@ package com.gerantech.towercraft.controls.popups
 			}
 			optionList.dataProvider = new ListCollection(BuildingFeatureType.getAll().keys());
 			addChild(optionList);
-		
+			
 			upgradeButton = new Button();
 			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
-			//upgradeButton.width = transitionIn.destinationBound.width - padding * 2;
 			upgradeButton.label = building.get_upgradeCost().toString();
-			upgradeButton.isEnabled = building.upgradable();
 			upgradeButton.iconPosition = RelativePosition.RIGHT;
 			upgradeButton.iconOffsetX = 24*appModel.scale;
-			//upgradeButton.height = appModel.theme.controlSize;
-			upgradeButton.visible = false;
+			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.2});
 			upgradeButton.alpha = 0;
 			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 			addChild(upgradeButton);
@@ -124,7 +129,7 @@ package com.gerantech.towercraft.controls.popups
 			var upgradeIcon:Image = new Image(Assets.getTexture("res-1002", "gui"));
 			upgradeIcon.width = upgradeIcon.height = appModel.theme.controlSize;
 			upgradeButton.defaultIcon = upgradeIcon;
-					
+			
 			var closeButton:Button = new Button();
 			closeButton.label = "X";
 			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
@@ -132,14 +137,11 @@ package com.gerantech.towercraft.controls.popups
 			addChild(closeButton);
 		}
 		
-		override protected function transitionInStarted():void
-		{
-			super.transitionInStarted();
-			upgradeButton.visible = true;
-			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.2});
-		}
+		
 		override protected function transitionOutStarted():void
 		{
+			removeChild(header);
+			removeChild(optionList);
 			super.transitionOutStarted();
 			Starling.juggler.tween(upgradeButton , 0.05, {alpha:0});
 		}
@@ -157,8 +159,6 @@ package com.gerantech.towercraft.controls.popups
 		
 		override public function close(dispose:Boolean=true):void
 		{
-			removeChild(header);
-			removeChild(optionList);
 			super.close(dispose);
 		}
 		

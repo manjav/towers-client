@@ -80,7 +80,8 @@ import starling.events.Event;
 		
 		private function owner_scrollCompleteHandler(event:Event):void
 		{
-			if(stage.getBounds(this).x == 0)
+			visible = stage.getBounds(this).x == 0;
+			if(visible)
 			{
 				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index); 
 //

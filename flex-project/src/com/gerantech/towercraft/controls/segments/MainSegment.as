@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -11,31 +12,58 @@ import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.utils.lists.PlaceDataList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
-import feathers.controls.Button;
-import feathers.controls.LayoutGroup;
+import dragonBones.objects.DragonBonesData;
+import dragonBones.starling.StarlingArmatureDisplay;
+import dragonBones.starling.StarlingFactory;
+
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
-import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalAlign;
-import feathers.layout.VerticalAlign;
-import feathers.layout.VerticalLayout;
 
+import starling.display.Quad;
 import starling.events.Event;
 
 public class MainSegment extends Segment
 {
-    public function MainSegment()
-    {
-        super();
-    }
-	private var questButton:Button;
+	
+	[Embed(source = "../../../../../assets/animations/mainmap/main-map_ske.json", mimeType = "application/octet-stream")]
+	public static const skeletonClass: Class;
+	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.json", mimeType = "application/octet-stream")]
+	public static const atlasDataClass: Class;
+	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.png")]
+	public static const atlasImageClass: Class;
+	
+	private var factory:StarlingFactory;
+	private var dragonBonesData:DragonBonesData;
+	private var questButton:SimpleLayoutButton;
+	
+	public function MainSegment()
+	{
+		super();
+		factory = new StarlingFactory();
+		dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
+		factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	}
+	protected function addedToStageHandler(event:Event):void
+	{
+		if(dragonBonesData == null)
+			return;
+		
+		var mapDisplay:StarlingArmatureDisplay = factory.buildArmatureDisplay(dragonBonesData.armatureNames[0]);
+		mapDisplay.x = 0;
+		mapDisplay.y = 0;
+		mapDisplay.scale = appModel.scale * 1.2;
+		mapDisplay.animation.gotoAndPlayByTime("idle", 0, -1);
+		this.addChildAt(mapDisplay, 0);
+	}
+		
 	override protected function initialize():void
 	{
 		super.initialize();
 		
 		layout = new AnchorLayout();
 		
-		var battons:LayoutGroup = new LayoutGroup();
+		/*var battons:LayoutGroup = new LayoutGroup();
 		battons.layoutData = new AnchorLayoutData(0,0,0,0);
 		addChild(battons);
 		
@@ -48,25 +76,37 @@ public class MainSegment extends Segment
 		questButton = new Button();
 		questButton.label = loc("mainpage_quest_button");
 		questButton.addEventListener(Event.TRIGGERED, questButton_triggeredHandler);
-		battons.addChild(questButton);	
+		battons.addChild(questButton);	*/
 		
-		var battleButton:Button = new Button();
+		/*var battleButton:Button = new Button();
 		battleButton.label = loc("mainpage_fire_button");
 		battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
-		battons.addChild(battleButton);
+		battons.addChild(battleButton);*/
+				
+		var battleButton:SimpleLayoutButton = new SimpleLayoutButton();
+		battleButton.alpha = 0;
+		battleButton.width = 600*appModel.scale;
+		battleButton.height = 400*appModel.scale;
+		battleButton.x = 500*appModel.scale;
+		battleButton.y = 1140*appModel.scale;
+		battleButton.backgroundSkin = new Quad(1,1,1);
+		battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
+		addChild(battleButton);	
+		
+		questButton = new SimpleLayoutButton();
+		questButton.alpha = 0;
+		questButton.width = questButton.height = 200*appModel.scale;
+		questButton.x = 320*appModel.scale;
+		questButton.y = 770*appModel.scale;
+		questButton.backgroundSkin = new Quad(1,1,1);
+		questButton.addEventListener(Event.TRIGGERED, questButton_triggeredHandler);
+		addChild(questButton);
 		
 		addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 	}
-	
 
 	private function transitionInCompleteHandler():void
 	{
-		/*var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(3, false);
-		addChild(battleOutcomeOverlay);
-		var battleOutcomeOverlay:WaitingOverlay = new WaitingOverlay();
-		addChild(battleOutcomeOverlay);
-		return;*/
-		
 		removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 		showTutorial();
 	}		

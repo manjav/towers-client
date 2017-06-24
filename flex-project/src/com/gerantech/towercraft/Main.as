@@ -10,7 +10,7 @@ package com.gerantech.towercraft
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.core.IFeathersControl;
-	import feathers.motion.Iris;
+	import feathers.motion.Fade;
 	
 	import starling.events.Event;
 	
@@ -49,8 +49,8 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator.addScreen(BATTLE_SCREEN, item);
 			
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
-			//AppModel.instance.navigator.pushTransition = Iris.createIrisOpenTransition();
-			AppModel.instance.navigator.popTransition = Iris.createIrisCloseTransition()
+			AppModel.instance.navigator.pushTransition = Fade.createCrossfadeTransition();
+			AppModel.instance.navigator.popTransition = Fade.createCrossfadeTransition();
 		}
 	}
 }

@@ -75,7 +75,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			{
 				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
 				timeDisplay.text = StrUtils.uintToTime(t);
-				buttonDisplay.price = Exchanger.timeToGem(t);
+				buttonDisplay.price = Exchanger.timeToHard(t);
 				//buttonDisplay.type = exchange.requirements.keys()[0];
 			}
 			else

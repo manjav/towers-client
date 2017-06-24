@@ -85,7 +85,7 @@ package com.gerantech.towercraft.controls.buttons
 		protected function trigger():void
 		{
 			if(hasEventListener(Event.TRIGGERED))
-			this.dispatchEventWith(Event.TRIGGERED, false, this);
+				this.dispatchEventWith(Event.TRIGGERED, false, this);
 		}
 		
 				

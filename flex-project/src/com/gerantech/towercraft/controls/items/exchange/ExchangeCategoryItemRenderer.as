@@ -1,15 +1,13 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.ExchangeHeader;
-	import com.gerantech.towercraft.controls.RTLLabel;
 	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
-	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.renderers.IListItemRenderer;
@@ -18,7 +16,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
-	import feathers.layout.HorizontalLayoutData;
 	import feathers.layout.VerticalAlign;
 	
 	import starling.events.Event;
@@ -95,7 +92,12 @@ package com.gerantech.towercraft.controls.items.exchange
 		
 		private function list_changeHandler(event:Event):void
 		{
-			owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, list.selectedItem);
+			var ei:ExchangeItem = core.get_exchanger().bundlesMap.get(list.selectedItem as int);
+			if(!ei.enabled)
+				return;
+			ei.enabled = false;
+			owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, ei);
+			
 			list.removeEventListener(Event.CHANGE, list_changeHandler);
 			list.selectedIndex = -1;
 			list.addEventListener(Event.CHANGE, list_changeHandler);

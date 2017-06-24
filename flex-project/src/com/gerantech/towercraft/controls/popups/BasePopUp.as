@@ -8,9 +8,9 @@ package com.gerantech.towercraft.controls.popups
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	
-	public class BasePopUp extends BaseOverlay
+	public class BasePopup extends BaseOverlay
 	{
-		public function BasePopUp()
+		public function BasePopup()
 		{
 			super();
 		}
@@ -22,16 +22,19 @@ package com.gerantech.towercraft.controls.popups
 			if(transitionIn == null)
 			{
 				transitionIn = new TransitionData();
-				transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(0,0,stage.stageWidth, stage.stageHeight);
+				transitionIn.sourceAlpha = 0;
+				transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.25, stage.stageWidth*0.7, stage.stageHeight*0.5);
 			}
 			if(transitionOut== null)
 			{
 				transitionOut = new TransitionData();
+				transitionOut.destinationAlpha = 0;
 				transitionOut.transition = Transitions.EASE_IN;
-				transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(0,0,stage.stageWidth, stage.stageHeight);
+				transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.25, stage.stageWidth*0.7, stage.stageHeight*0.5);
 			}
 			
 			// execute popup transition
+			alpha = transitionIn.sourceAlpha;
 			x = transitionIn.sourceBound.x;
 			y = transitionIn.sourceBound.y;
 			width = transitionIn.sourceBound.width;

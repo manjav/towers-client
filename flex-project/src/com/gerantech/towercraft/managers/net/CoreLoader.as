@@ -32,7 +32,7 @@ package com.gerantech.towercraft.managers.net
 			initData = new InitData();
 			initData.nickName = sfsObj.getText("name");
 			initData.id = sfsObj.getInt("id");
-			new TimeManager(sfsObj.getLong("serverTime")/1000);
+			new TimeManager(sfsObj.getLong("serverTime"));
 			
 			var elements:ISFSArray = sfsObj.getSFSArray("resources");
 			var element:ISFSObject;
@@ -55,7 +55,7 @@ package com.gerantech.towercraft.managers.net
 			for( i=0; i<elements.size(); i++ )
 			{
 				element = elements.getSFSObject(i);
-				initData.exchanges.set( element.getInt("type"), new Exchange( element.getInt("type"), element.getInt("num_exchanges"), element.getLong("expired_at")/1000, element.getInt("outcome")));
+				initData.exchanges.set( element.getInt("type"), new Exchange( element.getInt("type"), element.getInt("num_exchanges"), element.getLong("expired_at"), element.getInt("outcome")));
 			}
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;

@@ -1,9 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.utils.setTimeout;
 	
@@ -28,11 +26,11 @@ package com.gerantech.towercraft.controls.overlays
 
 	public class BattleOutcomeOverlay extends BaseOverlay
 	{
-		[Embed(source = "../../../../../assets/animations/battle-outcome-mc_ske.json", mimeType = "application/octet-stream")]
+		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_ske.json", mimeType = "application/octet-stream")]
 		public static const skeletonClass: Class;
-		[Embed(source = "../../../../../assets/animations/battle-outcome-mc_tex.json", mimeType = "application/octet-stream")]
+		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_tex.json", mimeType = "application/octet-stream")]
 		public static const atlasDataClass: Class;
-		[Embed(source = "../../../../../assets/animations/battle-outcome-mc_tex.png")]
+		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_tex.png")]
 		public static const atlasImageClass: Class;
 		
 		public var score:int;
@@ -43,13 +41,12 @@ package com.gerantech.towercraft.controls.overlays
 		private var armatureDisplay:StarlingArmatureDisplay ;
 		private var rewards:SFSArray;
 		
-		public function BattleOutcomeOverlay(score:int, rewards:SFSArray, tutorialMode:Boolean = false)
+		public function BattleOutcomeOverlay(score:int, rewards:SFSArray, tutorialMode:Boolean=false)
 		{
 			super();
 			
 			this.score = score;
 			this.rewards = rewards;
-			this.tutorialMode = tutorialMode;
 			factory = new StarlingFactory();
 			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
 			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
@@ -90,7 +87,7 @@ package com.gerantech.towercraft.controls.overlays
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 			buttons.addChild(closeBatton);
 
-			if(score == 0 && !tutorialMode)
+			if(score == 0)
 			{
 				var retryButton:Button = new Button();
 				retryButton.name = "retry";
@@ -124,7 +121,7 @@ package com.gerantech.towercraft.controls.overlays
 			/*for each(var a:String in dragonBonesData.armatureNames)
 			trace(a);*/
 			armatureDisplay.x = stage.stageWidth/2;
-			armatureDisplay.y = stage.stageHeight / (tutorialMode?3:2);
+			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;
 			armatureDisplay.animation.gotoAndPlayByTime("star_" + score, 0, 1);
 			

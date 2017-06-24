@@ -1,13 +1,20 @@
 package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.FastList;
+	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
+	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
+	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.exchanges.ExchangeItem;
+	import com.gt.towers.exchanges.Exchanger;
+	import com.gt.towers.utils.maps.Bundle;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
@@ -96,34 +103,103 @@ package com.gerantech.towercraft.controls.segments
 			
 			var categoreis:Array = new Array( offers, chests, hards, softs );
 			for (i=0; i<categoreis.length; i++)
+			{
 				categoreis[i].items.sort();
+				if(!appModel.isLTR)
+					categoreis[i].items.reverse();
+
+			}
 			return categoreis;
 		}
 		
 		private function list_changeHandler(event:Event):void
 		{
-			var type:int = event.data as int;
-			
-			if(ExchangeType.getCategory(type) == ExchangeType.S_0_HARD)
+			var item:ExchangeItem = event.data as ExchangeItem;
+			if(ExchangeType.getCategory(item.type) == ExchangeType.S_0_HARD)
 			{
 				trace("Go to Purchase Manager");
 				return;
 			}
 			
 			var params:SFSObject = new SFSObject();
-			params.putInt("type", type );
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+			params.putInt("type", item.type );
 			
-			if(ExchangeType.getCategory(type) != ExchangeType.S_30_CHEST)
-				core.get_exchanger().exchange(event.data as int);
-			else
+			if(ExchangeType.getCategory(item.type) == ExchangeType.S_30_CHEST)
+			{
+				if(item.expiredAt > timeManager.now )
+				{
+					var req:Bundle = new Bundle();
+					req.set(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt-timeManager.now));
+					var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_timetogem_message"), req);
+					confirm.data = item;
+					confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
+					confirm.addEventListener(Event.SELECT, confirms_selectHandler);
+					confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
+					appModel.navigator.addChild(confirm);
+					return;
+				}
 				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+			}
+			else if( !item.requirements.enough() )
+			{
+				confirm = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), item.requirements);
+				confirm.data = item;
+				confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
+				confirm.addEventListener(Event.SELECT, confirms_selectHandler);
+				confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
+				appModel.navigator.addChild(confirm);
+				return;
+			}
+			else
+			{
+				core.get_exchanger().exchange(item, 0);
+				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+			}
 		}
 		
+		private function confirms_cancelHandler(event:Event):void
+		{
+			var item:ExchangeItem = RequirementConfirmPopup(event.currentTarget).data as ExchangeItem;
+			item.enabled = true;
+		}
+		private function confirms_errorHandler(event:Event):void
+		{
+			appModel.navigator.addChild(new GameLog(loc("log_not_enough", [2])));
+		}
+		private function confirms_selectHandler(event:Event):void
+		{
+			var item:ExchangeItem = RequirementConfirmPopup(event.currentTarget).data as ExchangeItem;
+			var params:SFSObject = new SFSObject();
+			params.putInt("type", item.type );
+			params.putInt("hards", RequirementConfirmPopup(event.currentTarget).numHards );
+			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+		}
+
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
+			trace(event.params.params.getDump());
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			trace(event.params.params.getDump())
+			var data:SFSObject = event.params.params;
+			var item:ExchangeItem = core.get_exchanger().bundlesMap.get(data.getInt("type"));
+			if( data.getBool("succeed") )
+			{
+				switch(ExchangeType.getCategory(item.type))
+				{
+					case ExchangeType.S_20_BUILDING:
+						itemslist.dataProvider.updateItemAt(0);
+						break;
+					
+					case ExchangeType.S_30_CHEST:
+						core.get_exchanger().exchange(item, data.getInt("now"));
+						itemslist.dataProvider.updateItemAt(1);
+						break;
+				}
+				item.enabled = true;
+			}
+
 		}
 		
 	}

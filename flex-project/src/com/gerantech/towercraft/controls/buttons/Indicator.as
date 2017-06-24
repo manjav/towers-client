@@ -5,13 +5,12 @@ package com.gerantech.towercraft.controls.buttons
 	
 	import flash.geom.Rectangle;
 	
+	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.ProgressBar;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
-	
-	import starling.display.Image;
 
 	public class Indicator extends SimpleLayoutButton
 	{
@@ -82,6 +81,15 @@ package com.gerantech.towercraft.controls.buttons
 			
 			progressLabel.text = value.toString();
 		}
+		
+		override public function set currentState(value:String):void
+		{
+			if(hasIncreaseButton)
+				scale = value == ButtonState.DOWN ? 0.9 : 1;
+			super.currentState = value;
+		}
+		
+		
 		
 	}
 }

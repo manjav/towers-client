@@ -7,6 +7,8 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.HorizontalLayout;
 	import feathers.skins.ImageSkin;
+	
+	import starling.display.Image;
 
 	public class BaseExchangeItemRenderer extends BaseCustomItemRenderer
 	{
@@ -27,13 +29,13 @@ package com.gerantech.towercraft.controls.items.exchange
 			padding = 24 * appModel.scale;
 
 				
-			skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererSelectedSkinTexture);
+			var sk:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
+			/*skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
+			skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererUpSkinTexture);
 			skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_DISABLED, appModel.theme.itemRendererUpSkinTexture);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
-			backgroundSkin = skin;
+			skin.setTextureForState(STATE_DISABLED, appModel.theme.itemRendererUpSkinTexture);*/
+			sk.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+			backgroundSkin = sk;
 		}
 		override protected function commitData():void
 		{

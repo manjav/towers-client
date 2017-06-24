@@ -64,7 +64,8 @@
       <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="D:/_PROJECTS/_FLEX/islamic-projects/hidaya-project/_temp/certs/Android/gerantech.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes>
-          <pathEntry path="assets"/>
+          <pathEntry path="assets/texts"/>
+          <pathEntry path="assets/images/game.xml"/>
         </airExcludes>
         <anePaths/>
         <newLaunchParams/>

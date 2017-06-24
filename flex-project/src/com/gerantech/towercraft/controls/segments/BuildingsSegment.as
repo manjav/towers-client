@@ -1,16 +1,18 @@
 package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.FastList;
+	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.UpgradeOverlay;
 	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
-	import com.gerantech.towercraft.events.LoadingEvent;
-	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.exchanges.Exchanger;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -100,7 +102,34 @@ package com.gerantech.towercraft.controls.segments
 		private function details_updateHandler(event:Event):void
 		{
 			var building:Building = event.data as Building;
-			if(!building.upgrade())
+			var confirmedHards:int = 0;
+			if( !building.get_upgradeRequirements().enough() )
+			{
+				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), building.get_upgradeRequirements());
+				confirm.data = building;
+				confirm.addEventListener(FeathersEventType.ERROR, upgradeConfirm_errorHandler);
+				confirm.addEventListener(Event.SELECT, upgradeConfirm_selectHandler);
+				appModel.navigator.addChild(confirm);
+				return;
+			}
+			
+			seudUpgradeRequest(building, 0);
+		}
+		
+		private function upgradeConfirm_errorHandler(event:Event):void
+		{
+			appModel.navigator.addChild(new GameLog("ssdf sddflkds"));
+			dispatchEventWith(FeathersEventType.ENTER, true, ExchangeType.S_0_HARD);
+		}
+		private function upgradeConfirm_selectHandler(event:Event):void
+		{
+			var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
+			seudUpgradeRequest(confirm.data as Building, Exchanger.toHard(confirm.requirements.deductions()));
+		}
+		
+		private function seudUpgradeRequest(building:Building, confirmedHards:int):void
+		{
+			if(!building.upgrade(confirmedHards))
 				return;
 			
 			var sfs:SFSObject = new SFSObject();
