@@ -33,14 +33,12 @@ package com.gerantech.towercraft.controls.popups
 	public class BuildingDetailsPopup extends BasePopup
 	{
 		public var buildingType:int;
+		
 		private var building:Building;
-
 		private var upgradeButton:Button;
 		private var optionList:List;
 		private var header:LayoutGroup;
-
 		private var padding:int;
-
 
 		override protected function initialize():void
 		{

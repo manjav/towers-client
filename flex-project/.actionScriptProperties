@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties analytics="false" mainApplicationPath="TowerCraft.as" projectUUID="df5ff700-4ed5-4c3f-a468-7f86050cee65" version="11">
+<actionScriptProperties analytics="false" mainApplicationPath="Towers.as" projectUUID="df5ff700-4ed5-4c3f-a468-7f86050cee65" version="11">
   <compiler additionalCompilerArguments="-locale=en_US -source-path=locale/{locale}" advancedTelemetry="false" autoRSLOrdering="true" copyDependentFiles="true" fteInMXComponents="false" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" removeUnusedRSL="true" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="true" useDebugRSLSwfs="true" useFlashSDK="true" verifyDigests="true" warn="true">
     <compilerSourcePath/>
     <libraryPath defaultLinkType="0">
@@ -39,7 +39,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="TowerCraft.as">
+    <application path="Towers.as">
       <airExcludes/>
     </application>
   </applications>
@@ -61,7 +61,6 @@
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="D:/_PROJECTS/_FLEX/islamic-projects/hidaya-project/_temp/certs/Android/gerantech.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes>
           <pathEntry path="assets/texts"/>
@@ -73,6 +72,7 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget buildTargetName="default" isCurrent="true" platformId="default">

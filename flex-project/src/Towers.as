@@ -19,13 +19,13 @@ package
 	[ResourceBundle("loc")]
 	
 	[SWF(frameRate="60", backgroundColor="#000000")]
-	public class TowerCraft extends Sprite
+	public class Towers extends Sprite
 	{
 		private var starling:Starling;
 		private var scaler:ScreenDensityScaleFactorManager;
 		public static var t:int;
 		
-		public function TowerCraft()
+		public function Towers()
 		{
 			/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 			{
