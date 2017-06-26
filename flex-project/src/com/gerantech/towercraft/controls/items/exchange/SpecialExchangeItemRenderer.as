@@ -5,7 +5,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.utils.StrUtils;
-	import com.gt.towers.utils.maps.Bundle;
+	import com.gt.towers.utils.maps.IntIntMap;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
@@ -53,7 +53,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			//trace(exchange.type, exchange.outcomes.keys().length)
 			labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
 			iconDisplay.source = Assets.getTexture("improve-"+exchange.outcomes.keys()[0], "gui");
-			var reqs:Bundle = exchange.getSpecialRequierments();
+			var reqs:IntIntMap = exchanger.getSpecialRequierments(exchange);
 			buttonDisplay.price = reqs.values()[0];
 			buttonDisplay.type = reqs.keys()[0];
 			timeDisplay.text = StrUtils.uintToTime(uint(exchange.expiredAt - TimeManager.instance.now));

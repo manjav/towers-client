@@ -10,6 +10,7 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gt.towers.Game;
 	import com.gt.towers.Player;
+	import com.gt.towers.exchanges.Exchanger;
 	
 	import mx.resources.ResourceManager;
 	
@@ -81,8 +82,10 @@ package com.gerantech.towercraft.managers
 		{
 			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 		}
-		protected function get appModel():		AppModel		{	return AppModel.instance;		}
-		protected function get core():			Game			{	return Game.get_instance();		}
-		protected function get player():		Player			{	return core.get_player();		}
+		protected function get tutorials():		TutorialManager	{	return TutorialManager.instance;	}
+		protected function get appModel():		AppModel		{	return AppModel.instance;			}
+		protected function get game():			Game			{	return appModel.game;				}
+		protected function get player():		Player			{	return game.player;					}
+		protected function get exchanger():		Exchanger		{	return game.exchanger;				}
 	}
 }

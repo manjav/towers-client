@@ -4,11 +4,9 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.utils.maps.Bundle;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.controls.LayoutGroup;
-	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.HorizontalLayoutData;
 	import feathers.layout.VerticalAlign;

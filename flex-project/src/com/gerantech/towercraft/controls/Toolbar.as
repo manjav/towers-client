@@ -3,19 +3,17 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.buttons.Indicator;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
-	import com.gt.towers.Game;
 	import com.gt.towers.constants.ResourceType;
 	
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 	
-	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
 	import starling.events.Event;
 	
-	public class Toolbar extends LayoutGroup
+	public class Toolbar extends TowersLayout
 	{
 		private var pointIndicator:Indicator;
 		private var softIndicator:Indicator;
@@ -65,9 +63,9 @@ package com.gerantech.towercraft.controls
 			if(AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED)
 				return;
 			
-			pointIndicator.setData(0, Game.get_instance().get_player().get_point(), NaN);
-			softIndicator.setData(0, Game.get_instance().get_player().get_softs(), NaN);
-			hardIndicator.setData(0, Game.get_instance().get_player().get_hards(), NaN);
+			pointIndicator.setData(0, player.get_point(), NaN);
+			softIndicator.setData(0, player.get_softs(), NaN);
+			hardIndicator.setData(0, player.get_hards(), NaN);
 		}		
 		
 		override public function dispose():void
@@ -75,7 +73,6 @@ package com.gerantech.towercraft.controls
 			clearInterval(intervalID);
 			super.dispose();
 		}
-		
 		
 	}
 }

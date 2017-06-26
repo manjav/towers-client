@@ -95,10 +95,18 @@ package com.gerantech.towercraft.managers.net
 				trace(event.params);
 			}*/		
 			
-			var coreLoader:CoreLoader = new CoreLoader(data.getText("coreVersion"), data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
-			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
-			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
-			state = STATE_CORE_LOADING;
+			
+			if( AppModel.instance.descriptor.versionCode < data.getInt("noticeVersion") )
+				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
+			else if( AppModel.instance.descriptor.versionCode < data.getInt("forceVersion") )
+				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
+			else
+			{
+				var coreLoader:CoreLoader = new CoreLoader(data.getText("coreVersion"), data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+				coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
+				coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
+				state = STATE_CORE_LOADING;
+			}
 		}
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
@@ -115,15 +123,8 @@ package com.gerantech.towercraft.managers.net
 		{
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
-			if(AppModel.instance.descriptor.versionCode < Game.loginData.noticeVersion)
-				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
-			else if(AppModel.instance.descriptor.versionCode < Game.loginData.forceVersion)
-				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
-			else
-			{
 				dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 				state = STATE_LOADED;
-			}
 		}
 
 

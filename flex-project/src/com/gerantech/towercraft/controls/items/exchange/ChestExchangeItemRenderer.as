@@ -52,7 +52,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			if(firstCommit )
 			{
-				inWiating = core.get_exchanger().bundlesMap.get(_data as int).expiredAt>TimeManager.instance.now;
+				inWiating = game.exchanger.items.get(_data as int).expiredAt>TimeManager.instance.now;
 				TimeManager.instance.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			}
 			
@@ -75,7 +75,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			{
 				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
 				timeDisplay.text = StrUtils.uintToTime(t);
-				buttonDisplay.price = Exchanger.timeToHard(t);
+				buttonDisplay.price = exchanger.timeToHard(t);
 				//buttonDisplay.type = exchange.requirements.keys()[0];
 			}
 			else

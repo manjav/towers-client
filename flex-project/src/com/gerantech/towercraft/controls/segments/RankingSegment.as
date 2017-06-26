@@ -32,7 +32,7 @@ package com.gerantech.towercraft.controls.segments
 			
 			var extraInfo:SFSObject = new SFSObject();
 			extraInfo.putUtfString(Commands.SFSOBJ_DATA_COMMAND, Commands.ORDER_GET_TOP_10);
-			extraInfo.putInt(Commands.SFSOBJ_DATA_UID, int(Game.get_instance().get_player().get_id()));
+			extraInfo.putInt(Commands.SFSOBJ_DATA_UID, int(Game.get_instance().player.get_id()));
 		//	extraInfo.putByte(Commands.SFSOBJ_DATA_MSG_SENDER_ID, 0);
 			SFSConnection.getInstance().addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			SFSConnection.getInstance().sendExtensionRequest( Commands.REQ_ROOM, extraInfo );*/

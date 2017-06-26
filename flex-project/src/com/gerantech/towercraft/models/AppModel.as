@@ -10,6 +10,7 @@ package com.gerantech.towercraft.models
 	import feathers.controls.StackScreenNavigator;
 	
 	import starling.utils.AssetManager;
+	import com.gt.towers.Game;
 
 	public class AppModel
 	{
@@ -20,6 +21,7 @@ package com.gerantech.towercraft.models
 		public var loadingManager:LoadingManager;
 		public var battleFieldView:BattleFieldView;
 
+		public var game:Game;
 		public var descriptor:Object;
 		public var scale:Number;
 		public var offsetY:Number;

@@ -46,7 +46,7 @@ package com.gerantech.towercraft.controls.popups
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			building = player.get_buildings().get(buildingType);
+			building = player.buildings.get(buildingType);
 			
 			var skin:ImageSkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
@@ -68,7 +68,7 @@ package com.gerantech.towercraft.controls.popups
 			var buildingIcon:BuildingIcon = new BuildingIcon();
 			buildingIcon.layoutData = new HorizontalLayoutData(40, 100);
 			buildingIcon.setImage(Assets.getTexture("improve-"+building.type, "gui"));
-			buildingIcon.setData(0, player.get_resources().get(building.type), building.get_upgradeCards());
+			buildingIcon.setData(0, player.resources.get(building.type), building.get_upgradeCards());
 			
 			var textLayout:VerticalLayout = new VerticalLayout();
 			textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;

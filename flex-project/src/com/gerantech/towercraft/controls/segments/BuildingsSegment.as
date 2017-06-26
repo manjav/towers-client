@@ -103,7 +103,7 @@ package com.gerantech.towercraft.controls.segments
 		{
 			var building:Building = event.data as Building;
 			var confirmedHards:int = 0;
-			if( !building.get_upgradeRequirements().enough() )
+			if( !player.has(building.get_upgradeRequirements()) )
 			{
 				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), building.get_upgradeRequirements());
 				confirm.data = building;
@@ -124,7 +124,7 @@ package com.gerantech.towercraft.controls.segments
 		private function upgradeConfirm_selectHandler(event:Event):void
 		{
 			var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-			seudUpgradeRequest(confirm.data as Building, Exchanger.toHard(confirm.requirements.deductions()));
+			seudUpgradeRequest(confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)));
 		}
 		
 		private function seudUpgradeRequest(building:Building, confirmedHards:int):void

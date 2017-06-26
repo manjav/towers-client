@@ -71,7 +71,7 @@ package com.gerantech.towercraft.views.decorators
 			
 			/*var txt2:String = "building-plot-" + (place.building.troopType+1);
 			if(place.building.troopType > -1)
-				txt2 = "building-plot-" + (place.building.troopType == Game.get_instance().get_player().troopType?"1":"2");
+				txt2 = "building-plot-" + (place.building.troopType == Game.get_instance().player.troopType?"1":"2");
 			if(plotTexture != txt2)
 			{			
 				plotTexture = txt2;
@@ -87,8 +87,8 @@ package com.gerantech.towercraft.views.decorators
 			super.dispose();
 		}
 		
-		protected function get appModel():		AppModel		{	return AppModel.instance;		}
-		protected function get core():			Game			{	return Game.get_instance();		}
-		protected function get player():		Player			{	return core.get_player();		}
+		protected function get appModel():		AppModel		{	return AppModel.instance;	}
+		protected function get game():			Game			{	return appModel.game;		}
+		protected function get player():		Player			{	return game.player;			}
 	}
 }

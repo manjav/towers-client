@@ -45,7 +45,7 @@ package com.gerantech.towercraft.controls.items.exchange
 				//height = HorizontalLayout(_owner.layout).typicalItemHeight;
 				firstCommit = false;
 			}
-			exchange = core.get_exchanger().bundlesMap.get(_data as int);
+			exchange = exchanger.items.get(_data as int);
 			super.commitData();
 		}
 		

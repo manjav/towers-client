@@ -3,9 +3,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
-	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
-	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -13,8 +11,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
-	import com.gt.towers.exchanges.Exchanger;
-	import com.gt.towers.utils.maps.Bundle;
+	import com.gt.towers.utils.maps.IntIntMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
@@ -83,22 +80,22 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function createShopData():Array
 		{
-			var bundles:Vector.<int> = core.get_exchanger().bundlesMap.keys();
+			var itemKeys:Vector.<int> = exchanger.items.keys();
 			var offers:ShopLine = new ShopLine(ExchangeType.S_20_BUILDING);
 			var chests:ShopLine = new ShopLine(ExchangeType.S_30_CHEST);
 			var hards:ShopLine = new ShopLine(ExchangeType.S_0_HARD);
 			var softs:ShopLine = new ShopLine(ExchangeType.S_10_SOFT);
 
-			for (var i:int=0; i<bundles.length; i++)
+			for (var i:int=0; i<itemKeys.length; i++)
 			{
-				if ( ExchangeType.getCategory( bundles[i] ) == ExchangeType.S_0_HARD )
-					hards.add(bundles[i]);
-				else if ( ExchangeType.getCategory( bundles[i] ) == ExchangeType.S_10_SOFT )
-					softs.add(bundles[i]);
-				else if(ExchangeType.getCategory( bundles[i] ) == ExchangeType.S_20_BUILDING )
-					offers.add(bundles[i]);
-				else if( ExchangeType.getCategory( bundles[i] ) == ExchangeType.S_30_CHEST )
-					chests.add(bundles[i]);
+				if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_0_HARD )
+					hards.add(itemKeys[i]);
+				else if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_10_SOFT )
+					softs.add(itemKeys[i]);
+				else if(ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_20_BUILDING )
+					offers.add(itemKeys[i]);
+				else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_30_CHEST )
+					chests.add(itemKeys[i]);
 			}
 			
 			var categoreis:Array = new Array( offers, chests, hards, softs );
@@ -128,8 +125,8 @@ package com.gerantech.towercraft.controls.segments
 			{
 				if(item.expiredAt > timeManager.now )
 				{
-					var req:Bundle = new Bundle();
-					req.set(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt-timeManager.now));
+					var req:IntIntMap = new IntIntMap();
+					req.set(ResourceType.CURRENCY_HARD, exchanger.timeToHard(item.expiredAt-timeManager.now));
 					var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_timetogem_message"), req);
 					confirm.data = item;
 					confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
@@ -141,7 +138,7 @@ package com.gerantech.towercraft.controls.segments
 				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
 			}
-			else if( !item.requirements.enough() )
+			else if( !player.has(item.requirements) )
 			{
 				confirm = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), item.requirements);
 				confirm.data = item;
@@ -153,7 +150,7 @@ package com.gerantech.towercraft.controls.segments
 			}
 			else
 			{
-				core.get_exchanger().exchange(item, 0);
+				exchanger.exchange(item, 0);
 				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
 			}
@@ -183,7 +180,7 @@ package com.gerantech.towercraft.controls.segments
 			trace(event.params.params.getDump());
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			var data:SFSObject = event.params.params;
-			var item:ExchangeItem = core.get_exchanger().bundlesMap.get(data.getInt("type"));
+			var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
 			if( data.getBool("succeed") )
 			{
 				switch(ExchangeType.getCategory(item.type))
@@ -193,7 +190,7 @@ package com.gerantech.towercraft.controls.segments
 						break;
 					
 					case ExchangeType.S_30_CHEST:
-						core.get_exchanger().exchange(item, data.getInt("now"));
+						exchanger.exchange(item, data.getInt("now"));
 						itemslist.dataProvider.updateItemAt(1);
 						break;
 				}

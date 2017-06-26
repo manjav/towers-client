@@ -118,7 +118,7 @@ package com.gerantech.towercraft.views
 		
 		public function fight(destination:Place) : void
 		{
-			var path:PlaceList = PathFinder.find(place, destination, AppModel.instance.battleFieldView.battleField.getAllTowers(-1));
+			var path:PlaceList = PathFinder.find(place, destination, AppModel.instance.battleFieldView.battleData.battleField.getAllTowers(-1));
 			if(path == null || destination.building == place.building)
 				return;
 			
@@ -141,7 +141,7 @@ package com.gerantech.towercraft.views
 		public function replaceBuilding(type:int, level:int):void
 		{ 
 			//trace(place.index, type, level);
-			place.building = BuildingType.instantiate(type, place, place.index);
+			place.building = BuildingType.instantiate(AppModel.instance.game ,type, place, place.index);
 			place.building.level = level;
 			createDecorator();
 		}

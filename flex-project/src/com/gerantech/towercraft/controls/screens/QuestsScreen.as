@@ -17,12 +17,9 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
-	import feathers.layout.HorizontalLayout;
-	import feathers.layout.VerticalAlign;
 	import feathers.layout.VerticalLayout;
 	
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.events.Event;
 
 	public class QuestsScreen extends BaseCustomScreen
@@ -75,13 +72,13 @@ package com.gerantech.towercraft.controls.screens
 			var field:FieldData;
 			var source:Array = new Array();
 			
-			var fkeys:Vector.<String> = Game.fieldProvider.fields.keys();
+			var fkeys:Vector.<String> = game.fieldProvider.fields.keys();
 			for( var i:int=0; i<fkeys.length; i++)
 			{
-				field = Game.fieldProvider.fields.get(fkeys[i]);
+				field = game.fieldProvider.fields.get(fkeys[i]);
 				if(field.isQuest)
 				{
-					source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.get_quests().get(field.index) ) );
+					source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.quests.get(field.index) ) );
 				}
 			}
 			source.sortOn("index");

@@ -1,17 +1,11 @@
 package com.gerantech.towercraft.controls.buttons
 {
-	import com.gerantech.towercraft.managers.TutorialManager;
-	import com.gerantech.towercraft.models.AppModel;
-	import com.gt.towers.Game;
-	import com.gt.towers.Player;
+	import com.gerantech.towercraft.controls.TowersLayout;
 	
 	import flash.geom.Point;
 	import flash.utils.getTimer;
 	
-	import mx.resources.ResourceManager;
-	
 	import feathers.controls.ButtonState;
-	import feathers.controls.LayoutGroup;
 	import feathers.events.FeathersEventType;
 	
 	import starling.events.Event;
@@ -22,7 +16,7 @@ package com.gerantech.towercraft.controls.buttons
 	[Event(name="triggered",type="starling.events.Event")]
 	[Event(name="longPress",type="starling.events.Event")]
 	
-	public class SimpleLayoutButton extends LayoutGroup
+	public class SimpleLayoutButton extends TowersLayout
 	{
 		
 		public var stateNames:Vector.<String> = new <String>
@@ -178,15 +172,5 @@ package com.gerantech.towercraft.controls.buttons
 				this.dispatchEventWith(FeathersEventType.LONG_PRESS);
 			}
 		}
-		
-		protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
-		{
-			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
-		}
-		protected function get appModel():		AppModel		{	return AppModel.instance;			}
-		protected function get tutorials():		TutorialManager	{	return TutorialManager.instance;	}
-		protected function get core():			Game			{	return Game.get_instance();			}
-		protected function get player():		Player			{	return core.get_player();			}
-
 	}
 }

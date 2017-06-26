@@ -2,8 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.Exchanger;
-	import com.gt.towers.utils.maps.Bundle;
+	import com.gt.towers.utils.maps.IntIntMap;
 	
 	import feathers.events.FeathersEventType;
 	import feathers.layout.RelativePosition;
@@ -14,13 +13,13 @@ package com.gerantech.towercraft.controls.popups
 	public class RequirementConfirmPopup extends ConfirmPopup
 	{
 		public var data:Object;
-		public var requirements:Bundle;
+		public var requirements:IntIntMap;
 		public var numHards:int;
 		
-		public function RequirementConfirmPopup(message:String, requirements:Bundle)
+		public function RequirementConfirmPopup(message:String, requirements:IntIntMap)
 		{
 			this.requirements = requirements;
-			numHards =  Exchanger.toHard(requirements.deductions());
+			numHards =  exchanger.toHard(player.deductions(requirements));
 			super(message, numHards.toString(), loc("popup_decline_label"));
 			
 			this.numHards = numHards;

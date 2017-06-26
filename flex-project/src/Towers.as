@@ -18,7 +18,7 @@ package
 	
 	[ResourceBundle("loc")]
 	
-	[SWF(frameRate="60", backgroundColor="#000000")]
+	[SWF(frameRate="60", backgroundColor="#3d4759")]
 	public class Towers extends Sprite
 	{
 		private var starling:Starling;

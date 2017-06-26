@@ -35,7 +35,7 @@ package com.gerantech.towercraft.views
 			this.building = building;
 			this.health = building.get_troopPower();
 			
-			textureType = type == Game.get_instance().get_player().troopType?"0/troop-0-move-":"1/troop-1-move-";
+			textureType = type == AppModel.instance.game.player.troopType?"0/troop-0-move-":"1/troop-1-move-";
 			super(Assets.getTextures(textureType+"down", "troops"), 20);
 			this.scale = AppModel.instance.scale * 2;
 			alignPivot();

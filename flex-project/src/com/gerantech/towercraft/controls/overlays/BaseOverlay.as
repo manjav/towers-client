@@ -1,16 +1,11 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.Devider;
-	import com.gerantech.towercraft.models.AppModel;
-	import com.gt.towers.Game;
-	import com.gt.towers.Player;
+	import com.gerantech.towercraft.controls.TowersLayout;
 	
 	import flash.geom.Point;
 	import flash.ui.Keyboard;
 	
-	import mx.resources.ResourceManager;
-	
-	import feathers.controls.LayoutGroup;
 	import feathers.events.FeathersEventType;
 	
 	import starling.core.Starling;
@@ -21,11 +16,8 @@ package com.gerantech.towercraft.controls.overlays
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	
-	public class BaseOverlay extends LayoutGroup
+	public class BaseOverlay extends TowersLayout
 	{
-
-
-
 		public var overlayFactory:Function;
 		public var transitionIn:TransitionData;
 		public var transitionOut:TransitionData;
@@ -148,14 +140,6 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			_closable = value;
 		}
-		
-		protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
-		{
-			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
-		}
-		protected function get appModel():		AppModel		{	return AppModel.instance;		}
-		protected function get core():			Game			{	return Game.get_instance();		}
-		protected function get player():		Player			{	return core.get_player();		}
 		
 	}
 }

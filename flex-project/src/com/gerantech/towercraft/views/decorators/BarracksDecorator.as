@@ -58,7 +58,7 @@ package com.gerantech.towercraft.views.decorators
 			}
 			
 			if(troopType > -1)
-				txt += "-" + (place.building.troopType == Game.get_instance().get_player().troopType?"0":"1");
+				txt += "-" + (place.building.troopType == player.troopType?"0":"1");
 			
 			if(troopTypeTexture != txt)
 			{

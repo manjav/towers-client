@@ -76,14 +76,14 @@ package com.gerantech.towercraft.controls.items
 				_firstCommit = false;
 			}
 			buildingIcon.setImage( Assets.getTexture("improve-"+_data, "gui") );
-			building = player.get_buildings().get(_data as int);
+			building = player.buildings.get(_data as int);
 			
 			if(building == null)
 				currentState = STATE_DISABLED;
 			
 			buildingIcon.upgradable = currentState != STATE_DISABLED;
 			if(currentState != STATE_DISABLED)
-				buildingIcon.setData(0, player.get_resources().get(building.type), building.get_upgradeCards());
+				buildingIcon.setData(0, player.resources.get(building.type), building.get_upgradeCards());
 			super.commitData();
 		}
 		
