@@ -1,16 +1,15 @@
 package com.gerantech.towercraft.views
 {
+	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.managers.DropTargets;
 	import com.gerantech.towercraft.managers.net.ResponseSender;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.Fields;
-	import com.gt.towers.Game;
-	import com.gt.towers.battle.BattleField;
+	import com.gerantech.towercraft.models.vo.BattleData;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	
 	import starling.display.Image;
@@ -19,10 +18,10 @@ package com.gerantech.towercraft.views
 	import starling.events.Event;
 	import starling.textures.Texture;
 	
-	public class BattleFieldView extends LayoutGroup
+	public class BattleFieldView extends TowersLayout
 	{
-		public var singleMode:Boolean;
-		public var battleField:BattleField;
+		public var battleData:BattleData;
+		
 		public var places:Vector.<PlaceView>;
 		public var troopsList:Vector.<TroopView>;
 		public var responseSender:ResponseSender;
@@ -65,16 +64,17 @@ package com.gerantech.towercraft.views
 		private function troopView_triggeredHandler(event:Event):void
 		{
 			var troopView:TroopView = event.target as TroopView;
-			if(singleMode || troopView.type == Game.get_instance().get_player().troopType)
+			if(battleData.singleMode || troopView.type == player.troopType)
 				responseSender.hitTroop(troopView.id);
 		}		
 		
 		
-		public function createPlaces(mapName:String):void
+		public function createPlaces(battleData:BattleData):void
 		{
-			battleField = new BattleField(mapName, Game.get_instance().get_player().troopType);
+			this.battleData = battleData;
+			responseSender = new ResponseSender(battleData.room);
 			
-			var images:Vector.<Image> = Fields.getField(battleField.map);
+			var images:Vector.<Image> = Fields.getField(battleData.battleField.map);
 			for each(var img:Image in images)
 			addChild(img);
 			
@@ -86,11 +86,11 @@ package com.gerantech.towercraft.views
 			image.height = stage.height;
 			addChildAt(image, 0);
 			
-			var len:uint = battleField.places.size();
+			var len:uint = battleData.battleField.places.size();
 			places = new Vector.<PlaceView>(len, true);
 			for (var i:uint=0; i<len; i++)
 			{
-				places[i] = new PlaceView(battleField.places.get(i));
+				places[i] = new PlaceView(battleData.battleField.places.get(i));
 
 				places[i].selectable = true;
 				places[i].name = i;

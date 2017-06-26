@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
+	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	
 	import flash.utils.setTimeout;
@@ -39,9 +40,9 @@ package com.gerantech.towercraft.controls.overlays
 		private var factory: StarlingFactory;
 		private var dragonBonesData:DragonBonesData;
 		private var armatureDisplay:StarlingArmatureDisplay ;
-		private var rewards:SFSArray;
+		private var rewards:ISFSArray;
 		
-		public function BattleOutcomeOverlay(score:int, rewards:SFSArray, tutorialMode:Boolean=false)
+		public function BattleOutcomeOverlay(score:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 		{
 			super();
 			
@@ -71,7 +72,7 @@ package com.gerantech.towercraft.controls.overlays
 			{
 				return new BattleOutcomeRewardItemRenderer();	
 			}
-			rewardsList.dataProvider = new ListCollection(rewards.toArray());
+			rewardsList.dataProvider = new ListCollection(SFSArray(rewards).toArray());
 			addChild(rewardsList);
 			
 			

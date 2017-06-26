@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -9,6 +10,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gerantech.towercraft.models.vo.BattleData;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.battle.fieldes.FieldData;
@@ -17,8 +19,9 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.Room;
+	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	import com.smartfoxserver.v2.requests.LeaveRoomRequest;
 	
 	import flash.geom.Point;
@@ -26,6 +29,7 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.controls.StackScreenNavigator;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
 	
 	import starling.animation.Transitions;
 	import starling.events.Event;
@@ -37,8 +41,8 @@ package com.gerantech.towercraft.controls.screens
 	{
 		private var sourcePlaces:Vector.<PlaceView>;
 		private var sfsConnection:SFSConnection;
-		private var battleRoom:Room;
-		private var mapName:String;
+		//private var battleRoom:Room;
+		//private var mapName:String;
 		private var timeoutId:uint;
 		private var transitionInCompleted:Boolean;
 		
@@ -72,29 +76,28 @@ package com.gerantech.towercraft.controls.screens
 		}
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
+			var data:SFSObject = event.params.params as SFSObject;
+			trace(data.getDump());
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
-					player.troopType = event.params.params.getInt("troopType");
-					battleRoom = sfsConnection.getRoomById(event.params.params.getInt("roomId"));
-					mapName = event.params.params.getText("mapName")
-					appModel.battleFieldView.singleMode = battleRoom.playerList.length == 1;trace(appModel.battleFieldView.singleMode )
-					appModel.battleFieldView.responseSender = new ResponseSender(battleRoom);
+					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getInt("troopType"), data.getInt("startAt"), sfsConnection.getRoomById(data.getInt("roomId")));
+					timeManager.now = battleData.startAt;
+					appModel.battleFieldView.createPlaces(battleData);
 					startBattle();
 					break;
 				
 				case SFSCommands.BUILDING_IMPROVE:
-					appModel.battleFieldView.places[event.params.params.getInt("i")].replaceBuilding(event.params.params.getInt("t"), event.params.params.getInt("l"));
+					appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
 					break;
 				
 				case SFSCommands.END_BATTLE:
 					//trace(player.get_id());
-					//trace(event.params.params.getDump());
-					var youWin:Boolean = event.params.params.getBool("youWin");
-					var score:int = event.params.params.getInt("score");
-					var rewards:SFSArray = event.params.params.getSFSArray("rewards");
-					var quest:FieldData = appModel.battleFieldView.battleField.map;
-					var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.get_quests().get(quest.index)==0;
+					var youWin:Boolean = data.getBool("youWin");
+					var score:int = data.getInt("score");
+					var rewards:ISFSArray = data.getSFSArray("rewards");
+					var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
+					var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
 					
 					var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
 					battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
@@ -108,15 +111,14 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function startBattle():void
 		{
-			if(battleRoom == null || !transitionInCompleted)
+			if(appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null || !transitionInCompleted)
 				return;
-			
-			appModel.battleFieldView.createPlaces(mapName);
+
 			updateTowersFromRoomVars();
 			
-			var quest:FieldData = appModel.battleFieldView.battleField.map;
-			//trace("battle screen -> start", quest.index, quest.isQuest, player.get_quests().get(quest.index));
-			if(quest.isQuest && player.get_quests().get(quest.index)==0)
+			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			//trace("battle screen -> start", quest.index, quest.isQuest, player.quests.get(quest.index));
+			if(quest.isQuest && player.quests.get(quest.index)==0)
 			{
 				// create tutorial steps
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.START_BATTLE);
@@ -136,6 +138,10 @@ package com.gerantech.towercraft.controls.screens
 				}
 				tutorials.show(this, tutorialData);
 			}
+			
+			var hud:BattleHUD = new BattleHUD();
+			hud.layoutData = new AnchorLayoutData(0,0,0,0);
+			addChild(hud);
 			
 			sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
 			sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
@@ -161,7 +167,7 @@ package com.gerantech.towercraft.controls.screens
 			battleOutcomeOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 			
 			// create tutorial steps
-			var quest:FieldData = appModel.battleFieldView.battleField.map;
+			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			if( battleOutcomeOverlay.tutorialMode )
 			{
 				//trace("battle screen -> end", player.get_questIndex());
@@ -170,7 +176,7 @@ package com.gerantech.towercraft.controls.screens
 				tutorials.show(this, tutorialData);
 			}
 			if(quest.isQuest)
-				core.get_player().get_quests().set(quest.index, battleOutcomeOverlay.score);
+				player.quests.set(quest.index, battleOutcomeOverlay.score);
 			
 			if( !battleOutcomeOverlay.tutorialMode )
 				dispatchEventWith(Event.COMPLETE);
@@ -198,8 +204,8 @@ package com.gerantech.towercraft.controls.screens
 			
 			if(event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
 			{
-				var towers:SFSArray = battleRoom.getVariable("s").getValue() as SFSArray;
-				var destination:int = battleRoom.getVariable("d").getValue();
+				var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("s").getValue() as SFSArray;
+				var destination:int = appModel.battleFieldView.battleData.room.getVariable("d").getValue();
 				
 				for(var i:int=0; i<towers.size(); i++)
 					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
@@ -208,10 +214,10 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function updateTowersFromRoomVars():void
 		{
-			if(!battleRoom.containsVariable("towers"))
+			if(!appModel.battleFieldView.battleData.room.containsVariable("towers"))
 				return;
 			
-			var towers:SFSArray = battleRoom.getVariable("towers").getValue() as SFSArray;
+			var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
 			for(var i:int=0; i<towers.size(); i++)
 			{
 				var t:Array = towers.getText(i).split(",");//trace(t)
@@ -286,7 +292,7 @@ package com.gerantech.towercraft.controls.screens
 					}
 					
 					// check sources has a path to destination
-					var all:PlaceList = appModel.battleFieldView.battleField.getAllTowers(-1);
+					var all:PlaceList = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
 					{
 						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, all) == null)
@@ -320,7 +326,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showImproveFloating(placeView:PlaceView):void
 		{
-			if( appModel.battleFieldView.battleField.map.isQuest && player.get_questIndex() < 2 )
+			if( appModel.battleFieldView.battleData.battleField.map.isQuest && player.get_questIndex() < 2 )
 				return;
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
@@ -375,5 +381,7 @@ package com.gerantech.towercraft.controls.screens
 			appModel.battleFieldView.dispose();
 			super.dispose();
 		}
+		
 	}
+
 }
