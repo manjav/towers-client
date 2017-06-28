@@ -67,7 +67,7 @@ package com.gerantech.towercraft.managers.net
 			var swfCore:* = new gameClass(new initClass())
 			initCoreData(swfCore);
 
-			trace(version+"\n"+swfCore.loginData.coreVersion+"\n"+AppModel.instance.game.loginData.coreVersion)
+			trace("request version :	" + version+"\nserver core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);
 
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
