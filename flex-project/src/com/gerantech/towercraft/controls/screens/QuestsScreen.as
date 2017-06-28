@@ -8,6 +8,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.Quest;
+	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.Game;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -20,6 +21,7 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.layout.VerticalLayout;
 	
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.events.Event;
 
 	public class QuestsScreen extends BaseCustomScreen
@@ -29,6 +31,7 @@ package com.gerantech.towercraft.controls.screens
 		override protected function initialize():void
 		{
 			super.initialize();
+			backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 			layout = new AnchorLayout();
 			
 			var listLayout:VerticalLayout = new VerticalLayout();

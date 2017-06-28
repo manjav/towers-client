@@ -159,7 +159,7 @@ public class MainSegment extends Segment
 					break;
 				case "dragon-cross":
 				case "portal-tower":
-					appModel.navigator.addChild(new GameLog("dfs asfdg sdff"));
+					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", ["123"])));
 					break;
 			}
 		}

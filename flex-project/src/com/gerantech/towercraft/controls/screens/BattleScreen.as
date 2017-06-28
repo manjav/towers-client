@@ -11,6 +11,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.battle.fieldes.FieldData;
@@ -32,6 +33,7 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.layout.AnchorLayoutData;
 	
 	import starling.animation.Transitions;
+	import starling.display.Quad;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -50,6 +52,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			super.initialize();
 			layout = new AnchorLayout();
+			backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 			
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);

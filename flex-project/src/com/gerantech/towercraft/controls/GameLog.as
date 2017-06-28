@@ -11,6 +11,7 @@ package com.gerantech.towercraft.controls
 		public function GameLog(text:String, positionY:Number = -1)
 		{
 			this.positionY = positionY;
+			touchable = false;
 			super(text, 1, "center", null, true, "center", 54*AppModel.instance.scale, null, "bold");
 		}
 		
