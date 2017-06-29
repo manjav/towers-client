@@ -15,10 +15,10 @@ package com.gerantech.towercraft.models
 	public class Assets
 	{
 
-		[Embed(source="../../../../assets/images/digits.png")]
-		public static const FontTexture:Class;
-		[Embed(source="../../../../assets/images/digits.fnt", mimeType="application/octet-stream")]
-		public static const FontXml:Class;
+		[Embed(source="../../../../assets/fonts/fontclash-font.png")]
+		public static const fontTexture:Class;
+		[Embed(source="../../../../assets/fonts/fontclash-font.fnt", mimeType="application/octet-stream")]
+		public static const fontXml:Class;
 		
 		private static var fonts:Dictionary = new Dictionary();
 		
@@ -26,8 +26,8 @@ package com.gerantech.towercraft.models
 		{
 			if (fonts[name] == undefined)
 			{
-				var texture:Texture = Texture.fromEmbeddedAsset(FontTexture);
-				var xml:XML = XML(new FontXml());
+				var texture:Texture = Texture.fromEmbeddedAsset(fontTexture);
+				var xml:XML = XML(new fontXml());
 				fonts[name] = new BitmapFont(texture, xml);
 			}
 			return fonts[name];

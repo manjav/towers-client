@@ -57,6 +57,7 @@ package
 		
 		private function loaderInfo_completeHandler(event:Event):void
 		{
+			this.loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 			/*var originalWidth:Number = 1920;
 			var originalHeight:Number = 1080;
 			var x:Number = originalWidth/stage.stageWidth;

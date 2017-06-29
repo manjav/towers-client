@@ -3,6 +3,8 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
+	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
+	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -156,6 +158,12 @@ package com.gerantech.towercraft.controls.segments
 			}
 		}
 		
+		private function openChestOverlay_closeHandler():void
+		{
+			// TODO Auto Generated method stub
+			
+		}
+		
 		private function confirms_cancelHandler(event:Event):void
 		{
 			var item:ExchangeItem = RequirementConfirmPopup(event.currentTarget).data as ExchangeItem;
@@ -190,8 +198,15 @@ package com.gerantech.towercraft.controls.segments
 						break;
 					
 					case ExchangeType.S_30_CHEST:
+						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(0, data.getSFSArray("rewards"));
+						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+						addChild(openChestOverlay);
+						
 						exchanger.exchange(item, data.getInt("now"));
 						itemslist.dataProvider.updateItemAt(1);
+						
+						
+
 						break;
 				}
 				item.enabled = true;

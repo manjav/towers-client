@@ -60,7 +60,7 @@ package com.gerantech.towercraft.controls.screens
 				
 				default:
 					// complain !!!!! ..............
-					trace("LoadingEvent:", event.type, "t["+(getTimer()-Towers.t)+"]")
+					trace("LoadingEvent:", event.type, "t["+(getTimer()-Towers.t)+"]");
 					break;
 			}
 		}
