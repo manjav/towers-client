@@ -66,6 +66,7 @@ package com.gerantech.towercraft.controls.overlays
 			hlayout.gap = 20;
 			
 			var rewardsList:List = new List();
+			rewardsList.height = 320*appModel.scale;
 			rewardsList.layout = hlayout;
 			rewardsList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 50);
 			rewardsList.itemRendererFactory = function ():IListItemRenderer
@@ -75,11 +76,9 @@ package com.gerantech.towercraft.controls.overlays
 			rewardsList.dataProvider = new ListCollection(SFSArray(rewards).toArray());
 			addChild(rewardsList);
 			
-			
-			
 			var buttons:LayoutGroup = new LayoutGroup();
 			buttons.layout = hlayout;
-			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 110);
+			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 480*appModel.scale);
 			addChild(buttons);
 			
 			var closeBatton:Button = new Button();
@@ -109,7 +108,6 @@ package com.gerantech.towercraft.controls.overlays
 				close();
 		}		
 		
-		
 		override protected function addedToStageHandler(event:Event):void
 		{
 			super.addedToStageHandler(event);
@@ -118,9 +116,6 @@ package com.gerantech.towercraft.controls.overlays
 				return;
 			
 			armatureDisplay = factory.buildArmatureDisplay(dragonBonesData.armatureNames[0]);
-			
-			/*for each(var a:String in dragonBonesData.armatureNames)
-			trace(a);*/
 			armatureDisplay.x = stage.stageWidth/2;
 			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;
@@ -128,7 +123,5 @@ package com.gerantech.towercraft.controls.overlays
 			
 			this.addChild(armatureDisplay);
 		}
-		
-		
 	}
 }
