@@ -67,7 +67,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			var buildingIcon:BuildingIcon = new BuildingIcon();
 			buildingIcon.layoutData = new HorizontalLayoutData(40, 100);
-			buildingIcon.setImage(Assets.getTexture("improve-"+building.type, "gui"));
+			buildingIcon.setImage(Assets.getTexture("building-"+building.type, "gui"));
 			buildingIcon.setData(0, player.resources.get(building.type), building.get_upgradeCards());
 			
 			var textLayout:VerticalLayout = new VerticalLayout();
@@ -87,7 +87,6 @@ package com.gerantech.towercraft.controls.popups
 			var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
 			messageDisplay.layoutData = new VerticalLayoutData(100, 100);
 			textsContainer.addChild(messageDisplay);
-		
 		}
 		
 		override protected function transitionInCompleted():void
