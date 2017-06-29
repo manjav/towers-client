@@ -6,16 +6,11 @@ package com.gerantech.towercraft.controls.items
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.LayoutGroup;
-	import feathers.controls.ProgressBar;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.HorizontalAlign;
 	import feathers.layout.TiledRowsLayout;
-	import feathers.layout.VerticalLayout;
-	import feathers.layout.VerticalLayoutData;
 	import feathers.skins.ImageSkin;
 	
 	import starling.animation.Transitions;
@@ -75,7 +70,7 @@ package com.gerantech.towercraft.controls.items
 				//container.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 				_firstCommit = false;
 			}
-			buildingIcon.setImage( Assets.getTexture("improve-"+_data, "gui") );
+			buildingIcon.setImage( Assets.getTexture("building-"+_data, "gui") );
 			building = player.buildings.get(_data as int);
 			
 			if(building == null)

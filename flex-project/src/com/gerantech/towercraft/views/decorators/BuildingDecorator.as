@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.Game;
@@ -10,7 +11,9 @@ package com.gerantech.towercraft.views.decorators
 	import flash.text.TextFormat;
 	import flash.utils.setTimeout;
 	
+	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.controls.text.TextFieldTextRenderer;
+	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -20,7 +23,7 @@ package com.gerantech.towercraft.views.decorators
 		protected var placeView:PlaceView;
 		protected var place:Place;
 		
-		private var populationIndicator:TextFieldTextRenderer;
+		private var populationIndicator:BitmapFontTextRenderer;
 /*		private var plotTexture:String;
 		private var plotDisplay:Image;*/
 		
@@ -44,24 +47,13 @@ package com.gerantech.towercraft.views.decorators
 		protected function addedToStageHandler():void
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			
-			/*plotDisplay.pivotX = plotDisplay.width/2
-			plotDisplay.pivotY = plotDisplay.height/2
-			plotDisplay.width = stage.stageWidth/5;
-			plotDisplay.scaleY = plotDisplay.scaleX;
-			
-			plotDisplay.x = parent.x;
-			plotDisplay.y = parent.y;
-			BattleFieldView(parent.parent).buildingsContainer.addChild(plotDisplay);*/
 
-			populationIndicator = new TextFieldTextRenderer()//BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new TextFormat(null, null, 0xFFFFFF);//BitmapFontTextFormat(Assets.getFont(), 12, 0xFFFFFF)
-			//populationIndicator.alignPivot();
-			populationIndicator.width = stage.stageWidth/5;
-			populationIndicator.height = stage.stageWidth/10;
+			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 32*appModel.scale, 0xFFFFFF, "center")
+			populationIndicator.width = 180*appModel.scale;
 			populationIndicator.touchable = false;
-			populationIndicator.x = parent.x - 5;
-			populationIndicator.y = parent.y + stage.stageWidth/10;
+			populationIndicator.x = parent.x - populationIndicator.width/2;
+			populationIndicator.y = parent.y + 32*appModel.scale;
 			setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationIndicator);
 		}
 		
