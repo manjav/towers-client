@@ -34,6 +34,7 @@ package com.gerantech.towercraft.controls.overlays
 		
 		public var type:int;
 		private var rewards:ISFSArray;
+		private var rewardItems:Vector.<ChestReward>;
 		
 		private var factory: StarlingFactory;
 		private var dragonBonesData:DragonBonesData;
@@ -42,8 +43,6 @@ package com.gerantech.towercraft.controls.overlays
 
 		private var buttonOverlay:SimpleLayoutButton;
 
-		private var chestReward:ChestReward;
-		
 		public function OpenChestOverlay(type:int, rewards:ISFSArray)
 		{
 			super();
@@ -80,6 +79,8 @@ package com.gerantech.towercraft.controls.overlays
 			buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 			buttonOverlay.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(buttonOverlay);
+			
+			rewardItems = new Vector.<ChestReward>();
 		}
 		
 		protected function openAnimation_completeHandler(event:StarlingEvent):void
@@ -92,10 +93,11 @@ package com.gerantech.towercraft.controls.overlays
 		
 		protected function buttonOverlay_triggeredHandler():void
 		{
-			grabReward();
+			grabAllRewards();
 			if(collectedItemIndex < rewards.size())
 			{
 				openAnimation.animation.gotoAndPlayByTime(collectedItemIndex < rewards.size()-1?"open":"openLast", 0, 1);
+				buttonOverlay.touchable = false;
 				showReward();
 			}
 			else if(collectedItemIndex == rewards.size()+1)
@@ -108,33 +110,47 @@ package com.gerantech.towercraft.controls.overlays
 		
 		private function hideAllRewards():void
 		{
-			for(var i:int=0; i<numChildren; i++)
-				if(getChildAt(i) is ChestReward )
-					Starling.juggler.tween(getChildAt(i), 0.4, {delay:0.1*i, y:0, alpha:0, transition:Transitions.EASE_IN_BACK});
+			for(var i:int=0; i<rewardItems.length; i++)
+				Starling.juggler.tween(rewardItems[i], 0.4, {delay:0.1*i, y:0, alpha:0, transition:Transitions.EASE_IN_BACK});
+		}
+		private function grabAllRewards():void
+		{
+			for(var i:int=0; i<rewardItems.length; i++)
+				grabReward(rewardItems[i]);
 		}
 		
 		private function showReward():void
 		{
-			chestReward = new ChestReward(collectedItemIndex, rewards.getSFSObject(collectedItemIndex));
-			chestReward.y = height * 0.7;
+			var chestReward:ChestReward = new ChestReward(collectedItemIndex, rewards.getSFSObject(collectedItemIndex));
+			chestReward.y = stage.height * 0.7;
+			rewardItems[collectedItemIndex] = chestReward;
 			addChild(chestReward);
 			
-			Starling.juggler.tween(chestReward, 0.5, {delay:0.2, scale:1, x:(stage.width-chestReward.width)/2, y:(stage.height-chestReward.height )/2, transition:Transitions.EASE_OUT_BACK, onComplete:chestReward.showDetails});
+			Starling.juggler.tween(chestReward, 0.5, {delay:0.2, scale:1, x:stage.width*0.5, y:stage.height*0.5, transition:Transitions.EASE_OUT_BACK, onComplete:chestRewardShown});
 			chestReward.scale = 0;
 			chestReward.x = stage.width/2;
+			function chestRewardShown():void
+			{
+				chestReward.showDetails();
+				buttonOverlay.touchable = true;
+			}
 		}
 		
-		private function grabReward():void
+		private function grabReward(chestReward:ChestReward):void
 		{
-			if( chestReward == null)
+			if( chestReward == null || chestReward.state!=1)
 				return;
 			
 			chestReward.hideDetails();
-			var paddingX:int = appModel.scale * (appModel.isLTR?160:-120);
-			var paddingY:int = 160 * appModel.scale;
-			var cellW:int = 260 * appModel.scale;
-			var cellH:int = 200 * appModel.scale;
-			Starling.juggler.tween(chestReward, 0.5, {scale:0.7, x:(chestReward.index%3)*cellW + paddingX, y:Math.floor(chestReward.index/3)*cellH + paddingY, transition:Transitions.EASE_OUT_BACK});
+			var scal:Number = 0.8;
+			var numCol:int = rewards.size() > 2 ? 3 : 2;
+			var paddingH:int = (appModel.isLTR?chestReward.width*0.4:0)*scal + 140*appModel.scale;
+			var paddingV:int = chestReward.height*0.5*scal + 140*appModel.scale;
+			var cellH:int = ((stage.stageWidth-chestReward.width*0.4*scal-paddingH*2) / (numCol-1));
+			Starling.juggler.tween(chestReward, 0.5, {scale:scal, x:(chestReward.index%numCol)*cellH + paddingH, y:Math.floor(chestReward.index/numCol)*chestReward.height + paddingV, transition:Transitions.EASE_OUT_BACK, onComplete:grabCompleted});
+			function grabCompleted():void
+			{
+			}
 		}
 		
 		override public function dispose():void

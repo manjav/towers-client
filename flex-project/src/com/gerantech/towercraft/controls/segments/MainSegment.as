@@ -3,41 +3,27 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.GameLog;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
-import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.events.LoadingEvent;
-import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.utils.lists.PlaceDataList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Point;
-import flash.net.navigateToURL;
+import flash.utils.clearInterval;
+import flash.utils.setInterval;
 import flash.utils.setTimeout;
 
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingFactory;
 
-import feathers.events.FeathersEventType;
-import feathers.layout.AnchorLayout;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.Button;
-import starling.display.DisplayObject;
-import starling.display.Quad;
 import starling.events.Event;
 
 public class MainSegment extends Segment
 {
-	
 	[Embed(source = "../../../../../assets/animations/mainmap/main-map_ske.json", mimeType = "application/octet-stream")]
 	public static const skeletonClass: Class;
 	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.json", mimeType = "application/octet-stream")]
@@ -47,18 +33,26 @@ public class MainSegment extends Segment
 	
 	private var factory:StarlingFactory;
 	private var dragonBonesData:DragonBonesData;
-	private var questButton:SimpleLayoutButton;
 	private var floating:MapElementFloating;
 	
+	private var questButton:SimpleButton;
+	private var intervalId:uint;
+
 	public function MainSegment()
 	{
 		super();
 		factory = new StarlingFactory();
 		dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
 		factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
-		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	}
-	protected function addedToStageHandler(event:Event):void
+	
+	protected override function coreLoaded() : void
+	{
+		showMap();
+		showTutorial();
+	}
+	
+	private function showMap():void
 	{
 		if(dragonBonesData == null)
 			return;
@@ -80,7 +74,7 @@ public class MainSegment extends Segment
 					btn.name = mcName;
 					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
 				}
-
+				
 				switch(mcName)
 				{
 					case "mine-lights":
@@ -90,6 +84,7 @@ public class MainSegment extends Segment
 					case "gold-leaf":
 						btn.x = 324.5 * appModel.scale * 1.2;
 						btn.y = 768.5 * appModel.scale * 1.2;
+						questButton = btn;
 						break;
 					case "portal-center":
 						btn.x = 739.5 * appModel.scale * 1.2;
@@ -104,21 +99,22 @@ public class MainSegment extends Segment
 						btn.y = 1111 * appModel.scale * 1.2;
 						break;
 				}
-
 			}
 		}
-		
-		addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
+	}
+	// show tutorial steps
+	private function showTutorial():void
+	{
+		if( player.get_questIndex() <= 4 )
+			intervalId = setInterval(punchButton, 2000,  questButton, 1);
 	}
 	
 	private function mapElement_triggeredHandler(event:Event ):void
 	{
 		var mapElement:SimpleButton = event.currentTarget as SimpleButton;
-		mapElement.scale = 0.4;
-		Starling.juggler.tween(mapElement, 0.6, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
-	
+		punchButton(mapElement);
 		if(floating != null && floating.element.name == mapElement.name)
-			return;; 
+			return;
 		
 		// create transitions data
 		var ti:TransitionData = new TransitionData();
@@ -151,6 +147,11 @@ public class MainSegment extends Segment
 					appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 					break;
 				case "portal-center":
+					if(player.get_questIndex() < 5)
+					{
+						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
+						return;
+					}
 					var sfsObj:SFSObject = new SFSObject();
 					sfsObj.putBool("q", false);
 					sfsObj.putInt("i", 0);
@@ -159,42 +160,21 @@ public class MainSegment extends Segment
 					break;
 				case "dragon-cross":
 				case "portal-tower":
-					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", ["123"])));
+					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])])));
 					break;
 			}
 		}
 	}
-
-	private function transitionInCompleteHandler():void
-	{
-		removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
-		showTutorial();
-	}		
 	
-	// show tutorial steps
-	private function showTutorial():void
+	private function punchButton(mapElement:SimpleButton, time:Number = 0.6):void
 	{
-		if(appModel.loadingManager.state < LoadingManager.STATE_LOADED )
-		{
-			appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			return;
-		}
-		//trace("main screen", player.get_questIndex());
-		if( player.get_questIndex() > 1 )
-			return;	
-		
-		var tutorialData:TutorialData = new TutorialData("");
-		tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
-		var pl:PlaceDataList = new PlaceDataList();
-		pl.push(new PlaceData(0,(questButton.x+questButton.width/2)/appModel.scale, (questButton.y+questButton.height/2)/appModel.scale, 0, 0, ""));
-		tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, pl, 200));
-		tutorials.show(this, tutorialData);
+		mapElement.scale = 0.4;
+		Starling.juggler.tween(mapElement, time, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
 	}
-	private function loadingManager_loadedHandler():void
+	override public function dispose():void
 	{
-		appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-		showTutorial();
+		clearInterval(intervalId);
+		super.dispose();
 	}
-
 }
 }

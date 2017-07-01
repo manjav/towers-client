@@ -33,7 +33,7 @@ package com.gerantech.towercraft.controls.segments
 		private var buildingslist:FastList;
 		private var listLayout:TiledRowsLayout;
 		
-		override protected function createElements():void
+		override protected function coreLoaded():void
 		{
 			layout = new AnchorLayout();
 			listLayout = new TiledRowsLayout();

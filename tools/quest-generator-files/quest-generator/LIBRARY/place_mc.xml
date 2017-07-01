@@ -1,4 +1,4 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="place_mc" itemID="5936f750-00000ae9" linkageExportForAS="true" linkageClassName="com.gt.towers.editor.PlaceComponent" lastModified="1498029776" lastUniqueIdentifier="11" isSpriteSubclass="true">
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="place_mc" itemID="5936f750-00000ae9" linkageExportForAS="true" linkageClassName="com.gt.towers.editor.PlaceComponent" lastModified="1498913440" lastUniqueIdentifier="11" isSpriteSubclass="true">
   <timeline>
     <DOMTimeline name="place_mc">
       <layers>
@@ -58,7 +58,7 @@
             </DOMFrame>
           </frames>
         </DOMLayer>
-        <DOMLayer name="index_txt" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+        <DOMLayer name="index_txt" color="#9933CC" autoNamed="false">
           <frames>
             <DOMFrame index="0" keyMode="9728">
               <elements>
@@ -79,11 +79,11 @@
             </DOMFrame>
           </frames>
         </DOMLayer>
-        <DOMLayer name="body" color="#4FFF4F" autoNamed="false">
+        <DOMLayer name="body" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
           <frames>
             <DOMFrame index="0" keyMode="9728">
               <elements>
-                <DOMSymbolInstance libraryItemName="building-body" name="body_mc" centerPoint3DY="-66.15">
+                <DOMSymbolInstance libraryItemName="building-body" name="body_mc" selected="true" centerPoint3DY="-66.15">
                   <matrix>
                     <Matrix ty="-66.15"/>
                   </matrix>

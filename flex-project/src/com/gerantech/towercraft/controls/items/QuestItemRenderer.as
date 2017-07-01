@@ -12,6 +12,7 @@ import flash.geom.Rectangle;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalAlign;
+import feathers.layout.VerticalLayout;
 import feathers.skins.ImageSkin;
 
 import starling.display.DisplayObject;
@@ -25,6 +26,7 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	private var star_2:StarCheck;
 	private var star_3:StarCheck;
 	private var quest:Quest;
+	private var isFirstCommit:Boolean = true;
 
 	override protected function initialize():void
 	{
@@ -52,8 +54,6 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		hlayout.verticalAlign = VerticalAlign.MIDDLE;
 		layout = hlayout;
 		
-		height = 164 * appModel.scale;
-		
 		var elements:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 		
 		questIndexLabel = new LTRLable("");
@@ -64,15 +64,15 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		elements.push( questNameLabel );
 		
 		star_1 = new StarCheck();
-		star_1.width = star_1.height = height * 0.5;
+		//star_1.width = star_1.height = height * 0.5;
 		elements.push( star_1 );
 		
 		star_2 = new StarCheck();
-		star_2.width = star_2.height = height * 0.5
+		//star_2.width = star_2.height = height * 0.5
 		elements.push( star_2 );
 		
 		star_3 = new StarCheck();
-		star_3.width = star_3.height = height * 0.5
+		//star_3.width = star_3.height = height * 0.5
 		elements.push( star_3 );
 		
 		if(!appModel.isLTR)
@@ -85,6 +85,13 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	override protected function commitData():void
 	{
 		super.commitData();
+		
+		if(isFirstCommit)
+		{
+			height = VerticalLayout(_owner.layout).typicalItemHeight;
+			star_1.width = star_1.height = star_2.width = star_2.height = star_3.width = star_3.height = height * 0.5;
+			isFirstCommit = false;	
+		}
 		
 		quest = _data as Quest;
 		if(quest.locked)

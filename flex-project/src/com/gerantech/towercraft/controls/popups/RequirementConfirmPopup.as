@@ -12,7 +12,6 @@ package com.gerantech.towercraft.controls.popups
 
 	public class RequirementConfirmPopup extends ConfirmPopup
 	{
-		public var data:Object;
 		public var requirements:IntIntMap;
 		public var numHards:int;
 		

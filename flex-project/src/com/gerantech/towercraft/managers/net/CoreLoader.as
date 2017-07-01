@@ -46,7 +46,7 @@ package com.gerantech.towercraft.managers.net
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 			var url:String = "http://"+(SFSConnection.instance.currentIp=="185.141.192.33"?"env-3589663.j.scaleforce.gr":SFSConnection.instance.currentIp)+"/cores/"+coreFileName;
-			trace(coreFileName, "loaded.");
+			//trace(coreFileName, "loaded.");
 			/*var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
 			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);*/
 			
@@ -67,7 +67,7 @@ package com.gerantech.towercraft.managers.net
 			var swfCore:* = new gameClass(new initClass())
 			initCoreData(swfCore);
 
-			trace("request version :	" + version+"\nserver core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);
+			//trace("request version :	" + version+"\nserver core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);
 
 			dispatchEvent(new Event(Event.COMPLETE));
 		}

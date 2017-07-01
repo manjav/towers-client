@@ -1,14 +1,20 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
+	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
-	import flash.events.Event;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import flash.utils.getTimer;
+	
+	import starling.core.Starling;
+	import starling.events.Event;
 	
 	public class SplashScreen extends Sprite
 	{
@@ -17,7 +23,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		public function SplashScreen()
 		{
-			addEventListener(Event.ADDED_TO_STAGE, addedToStageHadnler);
+			addEventListener("addedToStage", addedToStageHadnler);
 			
 			AppModel.instance.loadingManager = new LoadingManager();
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
@@ -30,9 +36,9 @@ package com.gerantech.towercraft.controls.screens
 			logo.smoothing = true;
 			addChild(logo);
 		}
-		protected function addedToStageHadnler(event:Event):void
+		protected function addedToStageHadnler(event:*):void
 		{
-			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHadnler);
+			removeEventListener("addedToStage", addedToStageHadnler);
 			
 			graphics.beginFill(0x3d4759);
 			graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
@@ -55,7 +61,17 @@ package com.gerantech.towercraft.controls.screens
 			{
 				case LoadingEvent.LOADED:
 					trace("LoadingEvent.LOADED", "t["+(getTimer()-Towers.t)+"]")
-					addEventListener(Event.ENTER_FRAME, enterFrameHandler); // fade-out splash screen
+					addEventListener("enterFrame", enterFrameHandler); // fade-out splash screen
+					break;
+				
+				case LoadingEvent.NOTICE_UPDATE:
+				case LoadingEvent.FORCE_UPDATE:
+					var confirm:ConfirmPopup = new ConfirmPopup(event.type);
+					confirm.data = event.type;
+					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
+					confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
+					AppModel.instance.navigator.addChild(confirm);
+					parent.removeChild(this);
 					break;
 				
 				default:
@@ -65,14 +81,30 @@ package com.gerantech.towercraft.controls.screens
 			}
 		}
 		
-		protected function enterFrameHandler(event:Event):void
+		private function confirm_eventsHandler(event:Event):void
+		{
+			var confirm:ConfirmPopup = event.currentTarget as ConfirmPopup;
+			confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
+			confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
+			if(event.type == Event.SELECT)
+			{
+				navigateToURL(new URLRequest("http://per.city"));
+				NativeApplication.nativeApplication.exit();
+				return;
+			}
+			
+			if(confirm.data == LoadingEvent.NOTICE_UPDATE)
+				AppModel.instance.loadingManager.loadCore();
+		}
+		
+		protected function enterFrameHandler(event:*):void
 		{
 			_alpha -= 0.08;
 			alpha = _alpha;
 
 			if(_alpha <= 0)
 			{
-				removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+				removeEventListener("enterFrame", enterFrameHandler);
 				parent.removeChild(this);
 			}
 		}

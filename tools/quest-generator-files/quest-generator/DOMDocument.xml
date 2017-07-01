@@ -1,4 +1,4 @@
-<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="6" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="24" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="5" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="24" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
      <folders>
           <DOMFolderItem name="Component Assets" itemID="44e488a0-000016d6"/>
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
@@ -7,42 +7,58 @@
           <DOMFolderItem name="images" itemID="5937cf25-0000023b" isExpanded="true"/>
      </folders>
      <media>
-          <DOMBitmapItem name="images/arrow.png" itemID="59384662-000004e4" sourceExternalFilepath="../quest-generator/LIBRARY/images/arrow.png" sourceLastImported="1468087319" externalFileSize="1062" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/arrow.png" bitmapDataHRef="M 96 1496858590.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/arrow.png" itemID="59384662-000004e4" sourceExternalFilepath="../quest-generator/LIBRARY/images/arrow.png" sourceLastImported="1468087319" externalFileSize="1062" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/arrow.png" bitmapDataHRef="M 96 1496858590.dat" frameRight="320" frameBottom="320"/>
           <DOMBitmapItem name="images/background-0-l.png" itemID="5936f8fc-00000afc" sourceExternalFilepath="../canvas-xml-generator/canvas/LIBRARY/background-0-l.png" sourceLastImported="1496690051" externalFileSize="141566" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/background-0-l.png" bitmapDataHRef="M 42 1496736068.dat" frameRight="6920" frameBottom="5620"/>
           <DOMBitmapItem name="images/background-0-r.png" itemID="5936f8fc-00000afd" sourceExternalFilepath="../canvas-xml-generator/canvas/LIBRARY/background-0-r.png" sourceLastImported="1496690052" externalFileSize="126660" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/background-0-r.png" bitmapDataHRef="M 43 1496736068.dat" frameRight="6460" frameBottom="5380"/>
-          <DOMBitmapItem name="images/building-0.png" itemID="59383fde-00000355" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-0.png" sourceLastImported="1496065943" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-0.png" bitmapDataHRef="M 97 1496858590.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
-          <DOMBitmapItem name="images/building-0-1.png" itemID="5939b748-000003a4" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-0-1.png" sourceLastImported="1496953526" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-0-1.png" bitmapDataHRef="M 197 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-0-1-0.png" itemID="5939b748-000003a9" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-0-1-0.png" sourceLastImported="1496953525" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-0-1-0.png" bitmapDataHRef="M 198 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-0-1-1.png" itemID="5939b748-000003ae" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-0-1-1.png" sourceLastImported="1496953523" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-0-1-1.png" bitmapDataHRef="M 199 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-1.png" itemID="5939b747-0000034a" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-1.png" sourceLastImported="1496953521" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-1.png" bitmapDataHRef="M 179 1496954695.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-1-1.png" itemID="5939b747-0000034f" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-1-1.png" sourceLastImported="1496953520" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-1-1.png" bitmapDataHRef="M 180 1496954695.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-0.png" itemID="59383fde-00000355" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-0.png" sourceLastImported="1496065943" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-0.png" bitmapDataHRef="M 97 1496858590.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-0-1.png" itemID="5957995d-000007c0" sourceExternalFilepath="./LIBRARY/images/building-0-1.png" sourceLastImported="1496953526" originalCompressionType="lossless" quality="50" href="images/building-0-1.png" bitmapDataHRef="M 100 1498910267.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-0-1-0.png" itemID="5957995d-000007c1" sourceExternalFilepath="./LIBRARY/images/building-0-1-0.png" sourceLastImported="1496953525" originalCompressionType="lossless" quality="50" href="images/building-0-1-0.png" bitmapDataHRef="M 101 1498910268.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-0-1-1.png" itemID="5957995d-000007c2" sourceExternalFilepath="./LIBRARY/images/building-0-1-1.png" sourceLastImported="1496953523" originalCompressionType="lossless" quality="50" href="images/building-0-1-1.png" bitmapDataHRef="M 102 1498910268.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-1.png" itemID="5957995d-000007c3" sourceExternalFilepath="./LIBRARY/images/building-1-1.png" sourceLastImported="1498912061" originalCompressionType="lossless" quality="50" href="images/building-1-1.png" bitmapDataHRef="M 121 1498912549.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-1-0.png" itemID="5957995d-000007c4" sourceExternalFilepath="./LIBRARY/images/building-1-1-0.png" sourceLastImported="1498681395" externalFileSize="17434" originalCompressionType="lossless" quality="50" href="images/building-1-1-0.png" bitmapDataHRef="M 104 1498910269.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-1-1.png" itemID="5957995d-000007c5" sourceExternalFilepath="./LIBRARY/images/building-1-1-1.png" sourceLastImported="1498681393" originalCompressionType="lossless" quality="50" href="images/building-1-1-1.png" bitmapDataHRef="M 105 1498910270.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/building-1-1-2.png" itemID="5939b747-00000354" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-1-2.png" sourceLastImported="1496953518" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-1-2.png" bitmapDataHRef="M 181 1496954695.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-2.png" itemID="5939b748-00000359" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-2.png" sourceLastImported="1496953517" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-2.png" bitmapDataHRef="M 182 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-2-0.png" itemID="5939b748-0000035e" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-2-0.png" sourceLastImported="1496953515" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-2-0.png" bitmapDataHRef="M 183 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-2-1.png" itemID="5939b748-00000363" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-2-1.png" sourceLastImported="1496953513" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-2-1.png" bitmapDataHRef="M 184 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-3.png" itemID="5939b748-00000368" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-3.png" sourceLastImported="1496953512" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-3.png" bitmapDataHRef="M 185 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-3-0.png" itemID="5939b748-0000036d" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-3-0.png" sourceLastImported="1496953510" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-3-0.png" bitmapDataHRef="M 186 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-1-3-1.png" itemID="5939b748-00000372" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-1-3-1.png" sourceLastImported="1496953509" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-1-3-1.png" bitmapDataHRef="M 187 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-2-1.png" itemID="59383fde-00000369" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-2-1.png" sourceLastImported="1495984194" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-2-1.png" bitmapDataHRef="M 101 1496858590.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-2-2.png" itemID="59383fde-0000036e" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-2-2.png" sourceLastImported="1495979835" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-2-2.png" bitmapDataHRef="M 102 1496858590.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-2-3.png" itemID="59383fde-00000373" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-2-3.png" sourceLastImported="1495979834" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-2-3.png" bitmapDataHRef="M 103 1496858590.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-1.png" itemID="5939b748-00000377" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-1.png" sourceLastImported="1496953508" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-1.png" bitmapDataHRef="M 188 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-1-0.png" itemID="5939b748-0000037c" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-1-0.png" sourceLastImported="1496953506" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-1-0.png" bitmapDataHRef="M 189 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-1-1.png" itemID="5939b748-00000381" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-1-1.png" sourceLastImported="1496953505" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-1-1.png" bitmapDataHRef="M 190 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-2.png" itemID="5939b748-00000386" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-2.png" sourceLastImported="1496953503" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-2.png" bitmapDataHRef="M 191 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-2-0.png" itemID="5939b748-0000038b" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-2-0.png" sourceLastImported="1496953502" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-2-0.png" bitmapDataHRef="M 192 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-2-1.png" itemID="5939b748-00000390" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-2-1.png" sourceLastImported="1496953501" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-2-1.png" bitmapDataHRef="M 193 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-3.png" itemID="5939b748-00000395" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-3.png" sourceLastImported="1496953499" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-3.png" bitmapDataHRef="M 194 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-3-0.png" itemID="5939b748-0000039a" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-3-0.png" sourceLastImported="1496953498" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-3-0.png" bitmapDataHRef="M 195 1496954696.dat" frameRight="4280" frameBottom="4280"/>
-          <DOMBitmapItem name="images/building-3-3-1.png" itemID="5939b748-0000039f" sourceExternalFilepath="../../../../towers-assets/battlefields/images/building-3-3-1.png" sourceLastImported="1496953497" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-3-3-1.png" bitmapDataHRef="M 196 1496954696.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-2.png" itemID="5957995d-000007c6" sourceExternalFilepath="./LIBRARY/images/building-1-2.png" sourceLastImported="1498912060" originalCompressionType="lossless" quality="50" href="images/building-1-2.png" bitmapDataHRef="M 122 1498912549.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-2-0.png" itemID="5957995d-000007c7" sourceExternalFilepath="./LIBRARY/images/building-1-2-0.png" sourceLastImported="1498681588" originalCompressionType="lossless" quality="50" href="images/building-1-2-0.png" bitmapDataHRef="M 107 1498910271.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-2-1.png" itemID="5957995d-000007c8" sourceExternalFilepath="./LIBRARY/images/building-1-2-1.png" sourceLastImported="1498681587" originalCompressionType="lossless" quality="50" href="images/building-1-2-1.png" bitmapDataHRef="M 108 1498910271.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-3.png" itemID="5957995d-000007c9" sourceExternalFilepath="./LIBRARY/images/building-1-3.png" sourceLastImported="1498912059" originalCompressionType="lossless" quality="50" href="images/building-1-3.png" bitmapDataHRef="M 123 1498912550.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-3-0.png" itemID="5957995d-000007ca" sourceExternalFilepath="./LIBRARY/images/building-1-3-0.png" sourceLastImported="1498681382" originalCompressionType="lossless" quality="50" href="images/building-1-3-0.png" bitmapDataHRef="M 110 1498910272.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-3-1.png" itemID="5957995d-000007cb" sourceExternalFilepath="./LIBRARY/images/building-1-3-1.png" sourceLastImported="1498681380" originalCompressionType="lossless" quality="50" href="images/building-1-3-1.png" bitmapDataHRef="M 111 1498910273.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-4.png" itemID="5957995d-000007cc" sourceExternalFilepath="./LIBRARY/images/building-1-4.png" sourceLastImported="1498912058" externalFileSize="44168" originalCompressionType="lossless" quality="50" href="images/building-1-4.png" bitmapDataHRef="M 124 1498912550.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-4-0.png" itemID="5957995d-000007cd" sourceExternalFilepath="./LIBRARY/images/building-1-4-0.png" sourceLastImported="1498681376" externalFileSize="25924" originalCompressionType="lossless" quality="50" href="images/building-1-4-0.png" bitmapDataHRef="M 113 1498910273.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-1-4-1.png" itemID="5957995d-000007ce" sourceExternalFilepath="./LIBRARY/images/building-1-4-1.png" sourceLastImported="1498681374" externalFileSize="25100" originalCompressionType="lossless" quality="50" href="images/building-1-4-1.png" bitmapDataHRef="M 114 1498910274.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-1.png" itemID="5957995d-000007cf" sourceExternalFilepath="./LIBRARY/images/building-2-1.png" sourceLastImported="1498912057" originalCompressionType="lossless" quality="50" href="images/building-2-1.png" bitmapDataHRef="M 125 1498912550.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-1-0.png" itemID="5957995d-000007d0" sourceExternalFilepath="./LIBRARY/images/building-2-1-0.png" sourceLastImported="1498912056" externalFileSize="12055" originalCompressionType="lossless" quality="50" href="images/building-2-1-0.png" bitmapDataHRef="M 126 1498912551.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-1-1.png" itemID="5957995d-000007d1" sourceExternalFilepath="./LIBRARY/images/building-2-1-1.png" sourceLastImported="1498912055" externalFileSize="12122" originalCompressionType="lossless" quality="50" href="images/building-2-1-1.png" bitmapDataHRef="M 127 1498912551.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-2.png" itemID="5957995e-000007d2" sourceExternalFilepath="./LIBRARY/images/building-2-2.png" sourceLastImported="1498663996" originalCompressionType="lossless" quality="50" href="images/building-2-2.png" bitmapDataHRef="M 118 1498910276.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-2-0.png" itemID="5957995e-000007d3" sourceExternalFilepath="./LIBRARY/images/building-2-2-0.png" sourceLastImported="1498663993" externalFileSize="15092" originalCompressionType="lossless" quality="50" href="images/building-2-2-0.png" bitmapDataHRef="M 119 1498910276.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-2-1.png" itemID="5957995e-000007d4" sourceExternalFilepath="./LIBRARY/images/building-2-2-1.png" sourceLastImported="1498663990" externalFileSize="14743" originalCompressionType="lossless" quality="50" href="images/building-2-2-1.png" bitmapDataHRef="M 81 1498910258.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-3.png" itemID="5957995e-000007d5" sourceExternalFilepath="./LIBRARY/images/building-2-3.png" sourceLastImported="1498663988" originalCompressionType="lossless" quality="50" href="images/building-2-3.png" bitmapDataHRef="M 82 1498910259.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-3-0.png" itemID="5957995e-000007d6" sourceExternalFilepath="./LIBRARY/images/building-2-3-0.png" sourceLastImported="1498663985" externalFileSize="19654" originalCompressionType="lossless" quality="50" href="images/building-2-3-0.png" bitmapDataHRef="M 83 1498910259.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-3-1.png" itemID="5957995e-000007d7" sourceExternalFilepath="./LIBRARY/images/building-2-3-1.png" sourceLastImported="1498663983" externalFileSize="18514" originalCompressionType="lossless" quality="50" href="images/building-2-3-1.png" bitmapDataHRef="M 84 1498910260.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-4.png" itemID="5957995e-000007d8" sourceExternalFilepath="./LIBRARY/images/building-2-4.png" sourceLastImported="1498663980" externalFileSize="51676" originalCompressionType="lossless" quality="50" href="images/building-2-4.png" bitmapDataHRef="M 85 1498910261.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-4-0.png" itemID="5957995e-000007d9" sourceExternalFilepath="./LIBRARY/images/building-2-4-0.png" sourceLastImported="1498663978" externalFileSize="29361" originalCompressionType="lossless" quality="50" href="images/building-2-4-0.png" bitmapDataHRef="M 86 1498910262.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-2-4-1.png" itemID="5957995e-000007da" sourceExternalFilepath="./LIBRARY/images/building-2-4-1.png" sourceLastImported="1498663976" externalFileSize="30186" originalCompressionType="lossless" quality="50" href="images/building-2-4-1.png" bitmapDataHRef="M 87 1498910262.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-1.png" itemID="5957995e-000007db" sourceExternalFilepath="./LIBRARY/images/building-3-1.png" sourceLastImported="1498681461" originalCompressionType="lossless" quality="50" href="images/building-3-1.png" bitmapDataHRef="M 88 1498910262.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-1-0.png" itemID="5957995e-000007dc" sourceExternalFilepath="./LIBRARY/images/building-3-1-0.png" sourceLastImported="1498681460" originalCompressionType="lossless" quality="50" href="images/building-3-1-0.png" bitmapDataHRef="M 89 1498910263.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-1-1.png" itemID="5957995e-000007dd" sourceExternalFilepath="./LIBRARY/images/building-3-1-1.png" sourceLastImported="1498681458" originalCompressionType="lossless" quality="50" href="images/building-3-1-1.png" bitmapDataHRef="M 90 1498910263.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-2.png" itemID="5957995e-000007de" sourceExternalFilepath="./LIBRARY/images/building-3-2.png" sourceLastImported="1498681457" originalCompressionType="lossless" quality="50" href="images/building-3-2.png" bitmapDataHRef="M 91 1498910264.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-2-0.png" itemID="5957995e-000007df" sourceExternalFilepath="./LIBRARY/images/building-3-2-0.png" sourceLastImported="1498681456" originalCompressionType="lossless" quality="50" href="images/building-3-2-0.png" bitmapDataHRef="M 92 1498910264.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-2-1.png" itemID="5957995e-000007e0" sourceExternalFilepath="./LIBRARY/images/building-3-2-1.png" sourceLastImported="1498681455" originalCompressionType="lossless" quality="50" href="images/building-3-2-1.png" bitmapDataHRef="M 93 1498910265.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-3.png" itemID="5957995e-000007e1" sourceExternalFilepath="./LIBRARY/images/building-3-3.png" sourceLastImported="1498912054" originalCompressionType="lossless" quality="50" href="images/building-3-3.png" bitmapDataHRef="M 120 1498912548.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-3-0.png" itemID="5957995e-000007e2" sourceExternalFilepath="./LIBRARY/images/building-3-3-0.png" sourceLastImported="1498681453" originalCompressionType="lossless" quality="50" href="images/building-3-3-0.png" bitmapDataHRef="M 95 1498910266.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-3-1.png" itemID="5957995e-000007e3" sourceExternalFilepath="./LIBRARY/images/building-3-3-1.png" sourceLastImported="1498681452" originalCompressionType="lossless" quality="50" href="images/building-3-3-1.png" bitmapDataHRef="M 96 1498910266.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-4.png" itemID="59578e3b-00000653" sourceExternalFilepath="//192.168.1.142/ShareIt/buildings/building-3-4.png" sourceLastImported="1498681451" originalCompressionType="lossless" quality="50" href="images/building-3-4.png" bitmapDataHRef="M 97 1498910267.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-4-0.png" itemID="59578e3b-00000658" sourceExternalFilepath="//192.168.1.142/ShareIt/buildings/building-3-4-0.png" sourceLastImported="1498681450" originalCompressionType="lossless" quality="50" href="images/building-3-4-0.png" bitmapDataHRef="M 98 1498910267.dat" frameRight="4280" frameBottom="4280"/>
+          <DOMBitmapItem name="images/building-3-4-1.png" itemID="59578e3b-0000065d" sourceExternalFilepath="//192.168.1.142/ShareIt/buildings/building-3-4-1.png" sourceLastImported="1498681449" originalCompressionType="lossless" quality="50" href="images/building-3-4-1.png" bitmapDataHRef="M 99 1498910267.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/building-4-1-1.png" itemID="593ab36d-000002f1" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-4-1-1.png" sourceLastImported="1497015102" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-4-1-1.png" bitmapDataHRef="M 81 1497018690.dat" frameRight="2000" frameBottom="2600"/>
-          <DOMBitmapItem name="images/building-4-2-1.png" itemID="59384663-000004f1" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-4-2-1.png" sourceLastImported="1495977081" externalFileSize="10875" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-4-2-1.png" bitmapDataHRef="M 123 1496858591.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/building-4-2-1.png" itemID="59384663-000004f1" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-4-2-1.png" sourceLastImported="1495977081" externalFileSize="10875" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-4-2-1.png" bitmapDataHRef="M 123 1496858591.dat" frameRight="2900" frameBottom="5120"/>
           <DOMBitmapItem name="images/building-4-3-1.png" itemID="593ab36d-000002f2" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-4-3-1.png" sourceLastImported="1497014994" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-4-3-1.png" bitmapDataHRef="M 82 1497018690.dat" frameRight="2000" frameBottom="2600"/>
           <DOMBitmapItem name="images/building-4-4-1.png" itemID="593ab36d-000002f3" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-4-4-1.png" sourceLastImported="1497014970" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-4-4-1.png" bitmapDataHRef="M 83 1497018690.dat" frameRight="2000" frameBottom="2600"/>
           <DOMBitmapItem name="images/building-plot.png" itemID="593ad559-0000041a" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot.png" sourceLastImported="1497027748" originalCompressionType="lossless" quality="50" href="images/building-plot.png" bitmapDataHRef="M 84 1497027788.dat" frameRight="4440" frameBottom="2520"/>
-          <DOMBitmapItem name="images/building-plot-0.png" itemID="59383fdd-0000031e" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-0.png" sourceLastImported="1495980640" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-0.png" bitmapDataHRef="M 86 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
-          <DOMBitmapItem name="images/building-plot-1.png" itemID="59383fdd-00000323" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-1.png" sourceLastImported="1495980636" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-1.png" bitmapDataHRef="M 87 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
-          <DOMBitmapItem name="images/building-plot-2.png" itemID="59383fdd-00000328" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-2.png" sourceLastImported="1495980638" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-2.png" bitmapDataHRef="M 88 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/building-plot-0.png" itemID="59383fdd-0000031e" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-0.png" sourceLastImported="1495980640" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-0.png" bitmapDataHRef="M 86 1496858589.dat" frameRight="4180" frameBottom="2520"/>
+          <DOMBitmapItem name="images/building-plot-1.png" itemID="59383fdd-00000323" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-1.png" sourceLastImported="1495980636" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-1.png" bitmapDataHRef="M 87 1496858589.dat" frameRight="4180" frameBottom="2520"/>
+          <DOMBitmapItem name="images/building-plot-2.png" itemID="59383fdd-00000328" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-2.png" sourceLastImported="1495980638" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-2.png" bitmapDataHRef="M 88 1496858589.dat" frameRight="4180" frameBottom="2520"/>
           <DOMBitmapItem name="images/building-plot-4-1.png" itemID="593ab36e-000002f4" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot-4-1.png" sourceLastImported="1497018166" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-4-1.png" bitmapDataHRef="M 84 1497018690.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/building-plot-4-1-0.png" itemID="593ab36e-000002f5" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot-4-1-0.png" sourceLastImported="1497018163" externalFileSize="18360" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-4-1-0.png" bitmapDataHRef="M 85 1497018690.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/building-plot-4-1-1.png" itemID="593ab36e-000002f6" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot-4-1-1.png" sourceLastImported="1497018160" externalFileSize="16778" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-4-1-1.png" bitmapDataHRef="M 86 1497018690.dat" frameRight="4280" frameBottom="4280"/>
@@ -58,16 +74,16 @@
           <DOMBitmapItem name="images/building-top-4-3-0.png" itemID="593ab36e-00000300" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-top-4-3-0.png" sourceLastImported="1497018143" externalFileSize="14984" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-top-4-3-0.png" bitmapDataHRef="M 79 1497018690.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/building-top-4-3-1.png" itemID="593ab36e-00000301" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-top-4-3-1.png" sourceLastImported="1497018146" externalFileSize="15079" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-top-4-3-1.png" bitmapDataHRef="M 80 1497018690.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/bush-0.png" itemID="5939b72c-0000032a" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-0.png" sourceLastImported="1496690977" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-0.png" bitmapDataHRef="M 168 1496954470.dat" frameRight="1200" frameBottom="720"/>
-          <DOMBitmapItem name="images/bush-1.png" itemID="5939b72c-0000032b" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-1.png" sourceLastImported="1496690979" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-1.png" bitmapDataHRef="M 169 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/bush-1.png" itemID="5939b72c-0000032b" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-1.png" sourceLastImported="1496690979" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-1.png" bitmapDataHRef="M 169 1496954470.dat" frameRight="1620" frameBottom="1040"/>
           <DOMBitmapItem name="images/bush-2.png" itemID="5939b72c-0000032c" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-2.png" sourceLastImported="1496690981" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-2.png" bitmapDataHRef="M 170 1496954470.dat" frameRight="1240" frameBottom="1060"/>
-          <DOMBitmapItem name="images/bush-3.png" itemID="5939b72c-0000032d" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-3.png" sourceLastImported="1496690982" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-3.png" bitmapDataHRef="M 171 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/bush-3.png" itemID="5939b72c-0000032d" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-3.png" sourceLastImported="1496690982" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-3.png" bitmapDataHRef="M 171 1496954470.dat" frameRight="1140" frameBottom="660"/>
           <DOMBitmapItem name="images/bush-4.png" itemID="5939b72c-0000032e" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-4.png" sourceLastImported="1496690984" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-4.png" bitmapDataHRef="M 172 1496954470.dat" frameRight="1420" frameBottom="1120"/>
-          <DOMBitmapItem name="images/bush-5.png" itemID="5939b72c-0000032f" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-5.png" sourceLastImported="1496690985" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-5.png" bitmapDataHRef="M 173 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
-          <DOMBitmapItem name="images/bush-6.png" itemID="5939b72c-00000330" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-6.png" sourceLastImported="1496690987" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-6.png" bitmapDataHRef="M 174 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/bush-5.png" itemID="5939b72c-0000032f" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-5.png" sourceLastImported="1496690985" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-5.png" bitmapDataHRef="M 173 1496954470.dat" frameRight="1120" frameBottom="880"/>
+          <DOMBitmapItem name="images/bush-6.png" itemID="5939b72c-00000330" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-6.png" sourceLastImported="1496690987" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-6.png" bitmapDataHRef="M 174 1496954470.dat" frameRight="980" frameBottom="800"/>
           <DOMBitmapItem name="images/bush-7.png" itemID="5939b72c-00000331" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-7.png" sourceLastImported="1496690989" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-7.png" bitmapDataHRef="M 175 1496954470.dat" frameRight="1660" frameBottom="760"/>
           <DOMBitmapItem name="images/chair-0.png" itemID="5939b72c-00000332" sourceExternalFilepath="../quest-generator/LIBRARY/images/chair-0.png" sourceLastImported="1496690975" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/chair-0.png" bitmapDataHRef="M 176 1496954470.dat" frameRight="780" frameBottom="580"/>
           <DOMBitmapItem name="images/chair-1.png" itemID="5939b72c-00000333" sourceExternalFilepath="../quest-generator/LIBRARY/images/chair-1.png" sourceLastImported="1496690976" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/chair-1.png" bitmapDataHRef="M 177 1496954470.dat" frameRight="1800" frameBottom="1000"/>
-          <DOMBitmapItem name="images/circle.png" itemID="59384665-0000053e" sourceExternalFilepath="../quest-generator/LIBRARY/images/circle.png" sourceLastImported="1468962867" externalFileSize="21962" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/circle.png" bitmapDataHRef="M 95 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/circle.png" itemID="59384665-0000053e" sourceExternalFilepath="../quest-generator/LIBRARY/images/circle.png" sourceLastImported="1468962867" externalFileSize="21962" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/circle.png" bitmapDataHRef="M 95 1496858589.dat" frameRight="4600" frameBottom="3500"/>
           <DOMCompiledClipItem name="Component Assets/_private/ComponentShim" itemID="4d08cfa8-000001ee" linkageExportForAS="true" linkageClassName="fl.core.ComponentShim" sourceLastImported="1292423080" displayAsComponent="false" customIconID="0" actionscriptClass="fl.core.ComponentShim" swfScmHRef="kbx0udh422.swf" swfScmSourceFilename="C:\Users\jkamerer\AppData\Local\Adobe\Flash CS5.5\en_US\Configuration\TMPkavphdh40p..swf" persistLivePreview11="true" livePreview11ScmHRef="kbx0udh4221.swf" livePreview11ScmSourceFilename="C:\Users\jkamerer\AppData\Local\Adobe\Flash CS5.5\en_US\Configuration\TMPkavphdh40p..swf" editFrameIndex="1" requiredMinimumPlayerVersion="0" requiredMinimumASVersion="0" parametersAreLocked="true" swcPath="Component Assets/_private/ComponentShim.xml" rootSymbolLinkageID="fl.core.ComponentShim" playerVersion="9" actionscriptVersion="3" hashKey="k718tUOF1.A1OSpQnqdJJ0">
                <classProperties><![CDATA[<component id="fl/core/ComponentShim" class="fl.core.ComponentShim" modified="1292423059130">
 <movieBounds xmin="0" xmax="0" ymin="0" ymax="0" />
@@ -159,7 +175,7 @@
                </customIcon>
                <SwcItem name="fl.core.ComponentShim" version="1292423059" isTopLevel="true"/>
           </DOMCompiledClipItem>
-          <DOMBitmapItem name="images/damage-range.png" itemID="5939b72c-00000334" sourceExternalFilepath="../quest-generator/LIBRARY/images/damage-range.png" sourceLastImported="1496594265" externalFileSize="13843" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/damage-range.png" bitmapDataHRef="M 178 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/damage-range.png" itemID="5939b72c-00000334" sourceExternalFilepath="../quest-generator/LIBRARY/images/damage-range.png" sourceLastImported="1496594265" externalFileSize="13843" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/damage-range.png" bitmapDataHRef="M 178 1496954470.dat" frameRight="4000" frameBottom="4000"/>
           <DOMBitmapItem name="images/foreground-0-l.png" itemID="5939b72c-00000335" sourceExternalFilepath="../quest-generator/LIBRARY/images/foreground-0-l.png" sourceLastImported="1496690372" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/foreground-0-l.png" bitmapDataHRef="M 144 1496954469.dat" frameRight="6640" frameBottom="3920"/>
           <DOMBitmapItem name="images/foreground-0-r.png" itemID="5939b72c-00000336" sourceExternalFilepath="../quest-generator/LIBRARY/images/foreground-0-r.png" sourceLastImported="1496690371" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/foreground-0-r.png" bitmapDataHRef="M 145 1496954469.dat" frameRight="8880" frameBottom="4640"/>
           <DOMBitmapItem name="images/ground-228.png" itemID="5939b72c-00000337" sourceExternalFilepath="../quest-generator/LIBRARY/images/ground-228.png" sourceLastImported="1496651187" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/ground-228.png" bitmapDataHRef="M 146 1496954469.dat" frameRight="4560" frameBottom="4560"/>
@@ -167,20 +183,20 @@
           <DOMBitmapItem name="images/hole-1.png" itemID="5939b72c-00000339" sourceExternalFilepath="../quest-generator/LIBRARY/images/hole-1.png" sourceLastImported="1496690972" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/hole-1.png" bitmapDataHRef="M 148 1496954469.dat" frameRight="1420" frameBottom="1140"/>
           <DOMBitmapItem name="images/hole-2.png" itemID="5939b72c-0000033a" sourceExternalFilepath="../quest-generator/LIBRARY/images/hole-2.png" sourceLastImported="1496690973" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/hole-2.png" bitmapDataHRef="M 149 1496954469.dat" frameRight="2040" frameBottom="1360"/>
           <DOMBitmapItem name="images/hut-0.png" itemID="5939b72c-0000033b" sourceExternalFilepath="../quest-generator/LIBRARY/images/hut-0.png" sourceLastImported="1496953816" externalFileSize="99852" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/hut-0.png" bitmapDataHRef="M 150 1496954469.dat" frameRight="6960" frameBottom="4200"/>
-          <DOMBitmapItem name="images/road-h.png" itemID="59577419-00000588" sourceExternalFilepath="./LIBRARY/images/road-h.png" sourceLastImported="1497027747" externalFileSize="32924" originalCompressionType="lossless" quality="50" href="images/road-h.png" bitmapDataHRef="M 85 1497027788.dat" frameRight="8300" frameBottom="1580"/>
-          <DOMBitmapItem name="images/road-v.png" itemID="59577419-00000589" sourceExternalFilepath="./LIBRARY/images/road-v.png" sourceLastImported="1497027748" externalFileSize="32685" originalCompressionType="lossless" quality="50" href="images/road-v.png" bitmapDataHRef="M 86 1497027789.dat" frameRight="1780" frameBottom="8060"/>
+          <DOMBitmapItem name="images/road-h.png" itemID="59577419-00000588" sourceExternalFilepath="../quest-generator/LIBRARY/images/road-h.png" sourceLastImported="1497027747" externalFileSize="32924" originalCompressionType="lossless" quality="50" href="images/road-h.png" bitmapDataHRef="M 85 1497027788.dat" frameRight="8300" frameBottom="1580"/>
+          <DOMBitmapItem name="images/road-v.png" itemID="59577419-00000589" sourceExternalFilepath="../quest-generator/LIBRARY/images/road-v.png" sourceLastImported="1497027748" externalFileSize="32685" originalCompressionType="lossless" quality="50" href="images/road-v.png" bitmapDataHRef="M 86 1497027789.dat" frameRight="1780" frameBottom="8060"/>
           <DOMBitmapItem name="images/rock-0.png" itemID="5939b72d-0000033e" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-0.png" sourceLastImported="1496690991" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-0.png" bitmapDataHRef="M 153 1496954469.dat" frameRight="1580" frameBottom="700"/>
-          <DOMBitmapItem name="images/rock-1.png" itemID="5939b72d-0000033f" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-1.png" sourceLastImported="1496690992" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-1.png" bitmapDataHRef="M 154 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
-          <DOMBitmapItem name="images/rock-2.png" itemID="5939b72d-00000340" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-2.png" sourceLastImported="1496690994" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-2.png" bitmapDataHRef="M 155 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/rock-1.png" itemID="5939b72d-0000033f" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-1.png" sourceLastImported="1496690992" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-1.png" bitmapDataHRef="M 154 1496954469.dat" frameRight="640" frameBottom="500"/>
+          <DOMBitmapItem name="images/rock-2.png" itemID="5939b72d-00000340" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-2.png" sourceLastImported="1496690994" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-2.png" bitmapDataHRef="M 155 1496954469.dat" frameRight="700" frameBottom="620"/>
           <DOMBitmapItem name="images/rock-3.png" itemID="5939b72d-00000341" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-3.png" sourceLastImported="1496690995" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-3.png" bitmapDataHRef="M 156 1496954469.dat" frameRight="1080" frameBottom="600"/>
-          <DOMBitmapItem name="images/rock-4.png" itemID="5939b72d-00000342" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-4.png" sourceLastImported="1496690997" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-4.png" bitmapDataHRef="M 157 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/rock-4.png" itemID="5939b72d-00000342" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-4.png" sourceLastImported="1496690997" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-4.png" bitmapDataHRef="M 157 1496954469.dat" frameRight="2580" frameBottom="920"/>
           <DOMBitmapItem name="images/rock-5.png" itemID="5939b72d-00000343" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-5.png" sourceLastImported="1496953817" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-5.png" bitmapDataHRef="M 158 1496954469.dat" frameRight="2480" frameBottom="1460"/>
-          <DOMBitmapItem name="images/rock-6-.png" itemID="5939b72d-00000344" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-6-.png" sourceLastImported="1496953818" externalFileSize="18933" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-6-.png" bitmapDataHRef="M 159 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/rock-6-.png" itemID="5939b72d-00000344" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-6-.png" sourceLastImported="1496953818" externalFileSize="18933" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-6-.png" bitmapDataHRef="M 159 1496954469.dat" frameRight="2180" frameBottom="1940"/>
           <DOMBitmapItem name="images/tree-0.png" itemID="59576d54-0000036e" sourceExternalFilepath="../quest-generator/LIBRARY/images/tree-0.png" sourceLastImported="1496953818" externalFileSize="18671" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/tree-0.png" bitmapDataHRef="M 160 1496954469.dat" frameRight="2440" frameBottom="2860"/>
      </media>
      <symbols>
           <Include href="arrow_btn.xml" loadImmediate="false" itemID="5937b4f1-000001f7" lastModified="1496826979"/>
-          <Include href="building-body.xml" loadImmediate="false" itemID="59384391-00000463" lastModified="1497456606"/>
+          <Include href="building-body.xml" loadImmediate="false" itemID="59384391-00000463" lastModified="1498913530"/>
           <Include href="CheckBox.xml" itemID="44b19f0d-00000018" lastModified="1497084291"/>
           <Include href="Component Assets/_private/Component_avatar.xml" loadImmediate="false" itemID="44f89322-00000020" lastModified="1168286780"/>
           <Include href="Component Assets/CheckBoxSkins/CheckBox_disabledIcon.xml" itemID="43970702-00000af1" lastModified="1168287061"/>
@@ -194,7 +210,7 @@
           <Include href="Component Assets/CheckBoxSkins/CheckBox_upIcon.xml" itemID="4397079e-00000cac" lastModified="1168287165"/>
           <Include href="Component Assets/Shared/focusRectSkin.xml" itemID="44d8b6f8-00000055" lastModified="1168290361"/>
           <Include href="num_btn.xml" loadImmediate="false" itemID="5936f75d-00000aea" lastModified="1497456646"/>
-          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1498029776"/>
+          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1498913440"/>
           <Include href="simple_btn.xml" loadImmediate="false" itemID="5937c230-00000210" lastModified="1496827068"/>
           <Include href="troopType_btn.xml" loadImmediate="false" itemID="5936f76a-00000aeb" lastModified="1497027795"/>
      </symbols>
@@ -316,7 +332,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -343,7 +359,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -671,7 +687,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -698,7 +714,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1031,7 +1047,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1058,7 +1074,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1294,7 +1310,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1420,7 +1436,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1447,7 +1463,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1510,7 +1526,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1692,11 +1708,11 @@
                     </DOMLayer>
                </layers>
           </DOMTimeline>
-          <DOMTimeline name="quest_4">
+          <DOMTimeline name="quest_4" currentFrame="1">
                <layers>
                     <DOMLayer name="action" color="#4FFFFF" autoNamed="false">
                          <frames>
-                              <DOMFrame index="0" keyMode="9728">
+                              <DOMFrame index="0" duration="2" keyMode="9728">
                                    <Actionscript>
                                         <script><![CDATA[stop();]]></script>
                                    </Actionscript>
@@ -1704,11 +1720,11 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
-                              <DOMFrame index="0" keyMode="9728">
+                              <DOMFrame index="0" duration="2" keyMode="9728">
                                    <elements>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="853.2" centerPoint3DY="555.55">
+                                        <DOMSymbolInstance libraryItemName="place_mc" selected="true" centerPoint3DX="853.2" centerPoint3DY="555.55">
                                              <matrix>
                                                   <Matrix tx="803.2" ty="505.55"/>
                                              </matrix>
@@ -1746,7 +1762,7 @@
                     </DOMLayer>
                     <DOMLayer name="controls" color="#FF800A" autoNamed="false">
                          <frames>
-                              <DOMFrame index="0" keyMode="9728">
+                              <DOMFrame index="0" duration="2" keyMode="9728">
                                    <elements>
                                         <DOMDynamicText name="scene_txt" fontRenderingMode="device" width="201.7" height="59.05" isSelectable="false" border="true">
                                              <matrix>
@@ -1825,7 +1841,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath='4'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1852,7 +1868,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath='5'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1915,9 +1931,9 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
                          <frames>
-                              <DOMFrame index="0" keyMode="9728">
+                              <DOMFrame index="0" duration="2" keyMode="9728">
                                    <elements>
                                         <DOMBitmapInstance libraryItemName="images/background-0-l.png">
                                              <matrix>
@@ -2061,7 +2077,7 @@
                     </DOMLayer>
                     <DOMLayer name="Layer 1" color="#4FFF4F" locked="true">
                          <frames>
-                              <DOMFrame index="0" keyMode="9728">
+                              <DOMFrame index="0" duration="2" keyMode="9728">
                                    <elements>
                                         <DOMShape>
                                              <fills>
@@ -2224,7 +2240,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath='4'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2251,7 +2267,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath='5'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2644,7 +2660,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2671,7 +2687,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3061,7 +3077,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3088,7 +3104,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3489,7 +3505,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3516,7 +3532,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3824,20 +3840,32 @@
           </DOMTimeline>
      </timelines>
      <persistentData>
-          <PD n="TestMovieChecked" v="ADLDesktop"/>
           <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
+          <PD n="TestMovieChecked" v="ADLDesktop"/>
           <PD n="swf.folder.path" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/"/>
-          <PD n="com.air.artemis.pubcaptive" v="false"/>
-          <PD n="com.air.artemis.pubipa" v="false"/>
           <PD n="DebugMovieChecked" v="ADLDesktop"/>
+          <PD n="com.air.artemis.pubipa" v="false"/>
+          <PD n="com.air.artemis.pubcaptive" v="false"/>
           <PD n="com.air.artemis.pubair" v="true"/>
           <PD n="flash.swf.basename" v="canvas"/>
-          <PD n="com.air.artemis.pubexe" v="false"/>
           <PD n="com.air.sdk.path"/>
+          <PD n="com.air.artemis.pubexe" v="false"/>
           <PD n="com.air.artemis.airdest" v="canvas.air"/>
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
+          <PublishItem publishSize="1277303" publishTime="1498913557"/>
+          <PublishItem publishSize="1277305" publishTime="1498913344"/>
+          <PublishItem publishSize="1736249" publishTime="1498907348"/>
+          <PublishItem publishSize="1736246" publishTime="1498907248"/>
+          <PublishItem publishSize="1736240" publishTime="1498906435"/>
+          <PublishItem publishSize="1736238" publishTime="1498906339"/>
+          <PublishItem publishSize="1736168" publishTime="1498905880"/>
+          <PublishItem publishSize="1736167" publishTime="1498905733"/>
+          <PublishItem publishSize="1736166" publishTime="1498905723"/>
+          <PublishItem publishSize="1691599" publishTime="1498905372"/>
+          <PublishItem publishSize="1691601" publishTime="1498905294"/>
+          <PublishItem publishSize="1691599" publishTime="1498905019"/>
           <PublishItem publishSize="1735906" publishTime="1498902938"/>
           <PublishItem publishSize="1735912" publishTime="1498902793"/>
           <PublishItem publishSize="1730464" publishTime="1498900337"/>
@@ -3846,18 +3874,6 @@
           <PublishItem publishSize="1727563" publishTime="1497687166"/>
           <PublishItem publishSize="1727551" publishTime="1497686979"/>
           <PublishItem publishSize="1723279" publishTime="1497456625"/>
-          <PublishItem publishSize="1723282" publishTime="1497456579"/>
-          <PublishItem publishSize="1723283" publishTime="1497453171"/>
-          <PublishItem publishSize="1723283" publishTime="1497453165" publishDebug="true"/>
-          <PublishItem publishSize="1723283" publishTime="1497453122" publishDebug="true"/>
-          <PublishItem publishSize="1723287" publishTime="1497453107" publishDebug="true"/>
-          <PublishItem publishSize="1723289" publishTime="1497453082" publishDebug="true"/>
-          <PublishItem publishSize="1723302" publishTime="1497452988"/>
-          <PublishItem publishSize="1723298" publishTime="1497452909"/>
-          <PublishItem publishSize="1723300" publishTime="1497452824"/>
-          <PublishItem publishSize="1723300" publishTime="1497452735"/>
-          <PublishItem publishSize="1723298" publishTime="1497452731" publishDebug="true"/>
-          <PublishItem publishSize="1723299" publishTime="1497452646"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">

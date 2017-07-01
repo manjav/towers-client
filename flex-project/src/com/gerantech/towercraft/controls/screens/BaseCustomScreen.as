@@ -11,6 +11,7 @@ package com.gerantech.towercraft.controls.screens
 	import mx.resources.ResourceManager;
 	
 	import feathers.controls.Screen;
+	import feathers.events.FeathersEventType;
 	
 	import starling.events.Event;
 	
@@ -23,6 +24,12 @@ package com.gerantech.towercraft.controls.screens
 			super.initialize();
 			
 			backButtonHandler = backButtonFunction;
+			addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
+		}
+		
+		protected function transitionInCompleteHandler(event:Event):void
+		{
+			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 		}
 		
 		protected function backButtonFunction():void

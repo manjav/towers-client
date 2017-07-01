@@ -7,14 +7,19 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.Quest;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.Game;
 	import com.gt.towers.battle.fieldes.FieldData;
+	import com.gt.towers.battle.fieldes.PlaceData;
+	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
+	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
@@ -28,17 +33,20 @@ package com.gerantech.towercraft.controls.screens
 	{
 		private var list:FastList;
 
+		private var listLayout:VerticalLayout;
+
 		override protected function initialize():void
 		{
 			super.initialize();
 			backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 			layout = new AnchorLayout();
 			
-			var listLayout:VerticalLayout = new VerticalLayout();
+			listLayout = new VerticalLayout();
 			listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 			listLayout.useVirtualLayout = true;
-			listLayout.padding = 12 * appModel.scale;	
-			listLayout.gap = 6 * appModel.scale;	
+			listLayout.typicalItemHeight = 164 * appModel.scale;;
+			listLayout.padding = 24 * appModel.scale;	
+			listLayout.gap = 12 * appModel.scale;	
 			
 			list = new FastList();
 			list.layout = listLayout;
@@ -57,6 +65,29 @@ package com.gerantech.towercraft.controls.screens
 			backButton.backgroundSkin = new Image(Assets.getTexture("tab-1", "gui"));
 			backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
 			addChild(backButton);
+		}
+		
+		override protected function transitionInCompleteHandler(event:Event):void
+		{
+			super.transitionInCompleteHandler(event);
+			showTutorials();
+		}
+		
+		
+		private function showTutorials():void
+		{
+			trace("quest screen", player.get_questIndex());
+			if( player.get_questIndex() > 2 )
+				return;	
+			
+			var tutorialData:TutorialData = new TutorialData("");
+			if( player.get_questIndex() == 0 || player.get_questIndex() == 2 )
+				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
+			var pl:PlaceDataList = new PlaceDataList();
+			var py:Number = (listLayout.typicalItemHeight+listLayout.gap)*player.get_questIndex()+listLayout.typicalItemHeight/2+listLayout.padding;
+			pl.push(new PlaceData(0, stage.stageWidth/2/appModel.scale, py/appModel.scale, 0, 0, ""));
+			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, pl, 200));
+			tutorials.show(this, tutorialData);
 		}
 		
 		private function list_changeHandler(event:Event):void

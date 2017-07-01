@@ -27,12 +27,12 @@ package com.gerantech.towercraft.controls.popups
 		protected var declineButton:Button;
 		protected var acceptButton:Button;
 		
-		public function ConfirmPopup(message:String, acceptLabel:String, declineLabel:String)
+		public function ConfirmPopup(message:String, acceptLabel:String=null, declineLabel:String=null)
 		{
 			super();
 			this.message = message;
-			this.acceptLabel = acceptLabel;
-			this.declineLabel = declineLabel;
+			this.acceptLabel = acceptLabel==null ? loc("popup_accept_label") : acceptLabel;
+			this.declineLabel = declineLabel==null ? loc("popup_decline_label") : declineLabel;
 		}
 		
 		override protected function initialize():void
