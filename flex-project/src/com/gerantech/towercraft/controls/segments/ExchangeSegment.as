@@ -185,7 +185,7 @@ package com.gerantech.towercraft.controls.segments
 
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			trace(event.params.params.getDump());
+			//trace(event.params.params.getDump());
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			var data:SFSObject = event.params.params;
 			var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
@@ -200,13 +200,11 @@ package com.gerantech.towercraft.controls.segments
 					case ExchangeType.S_30_CHEST:
 						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(0, data.getSFSArray("rewards"));
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-						addChild(openChestOverlay);
+						appModel.navigator.addChild(openChestOverlay);
 						
 						exchanger.exchange(item, data.getInt("now"));
 						itemslist.dataProvider.updateItemAt(1);
 						
-						
-
 						break;
 				}
 				item.enabled = true;
