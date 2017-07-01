@@ -5,7 +5,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.events.GameEvent;
-	import com.gerantech.towercraft.managers.net.ResponseSender;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -329,7 +328,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showImproveFloating(placeView:PlaceView):void
 		{
-			if( appModel.battleFieldView.battleData.battleField.map.isQuest && player.get_questIndex() < 2 )
+			if( appModel.battleFieldView.battleData.battleField.map.isQuest && player.get_questIndex() < 3 )
 				return;
 			// create transition in data
 			var ti:TransitionData = new TransitionData();

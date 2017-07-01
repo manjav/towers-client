@@ -19,16 +19,16 @@ package com.gerantech.towercraft.controls.segments
 				appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 				return;
 			}
-			createElements();
+			coreLoaded();
 		}
 		
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
 			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			createElements();
+			coreLoaded();
 		}
 		
-		protected function createElements():void
+		protected function coreLoaded():void
 		{}
 	}
 }

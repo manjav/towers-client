@@ -40,7 +40,7 @@ package com.gerantech.towercraft.controls.segments
 			appModel.assetsManager.loadQueue(appModel_loadCallback)
 		}
 	
-		override protected function createElements():void
+		override protected function coreLoaded():void
 		{
 			if(appModel.assetsManager.isLoading || appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 				return;
@@ -77,7 +77,7 @@ package com.gerantech.towercraft.controls.segments
 		private function appModel_loadCallback(ratio:Number):void
 		{
 			if(ratio >= 1)
-				createElements();
+				coreLoaded();
 		}
 		
 		private function createShopData():Array
