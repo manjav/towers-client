@@ -8,13 +8,17 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
+	import starling.filters.ColorMatrixFilter;
 	import starling.textures.Texture;
+	import starling.textures.TextureSmoothing;
 	
 	public class BuildingIcon extends LayoutGroup
 	{
 		private var iconDisplay:ImageLoader;
 		private var progressbar:ProgressBar;
 		private var progressLabel:RTLLabel;
+
+		private var disableFilter:ColorMatrixFilter;
 		
 		public function BuildingIcon()
 		{
@@ -37,12 +41,19 @@ package com.gerantech.towercraft.controls
 			progressLabel.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 			progressLabel.height = progressHeight;
 			addChild(progressLabel);
+			
+			disableFilter = new ColorMatrixFilter();
+			disableFilter.resolution = 0.8;
+			disableFilter.adjustSaturation(-0.7);
+			//disableFilter.textureSmoothing = TextureSmoothing.BILINEAR
 		}
 		
 		public function set upgradable(value:Boolean):void
 		{
 			progressbar.visible = value;
 			progressLabel.visible = value;
+
+			iconDisplay.filter = value ? null : disableFilter;
 		}
 		
 		
