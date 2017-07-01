@@ -1,16 +1,20 @@
-package com.gerantech.towercraft.controls.segments
+package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.FastList;
+	import com.gerantech.towercraft.controls.items.RankItemRenderer;
+	import com.gerantech.towercraft.controls.segments.Segment;
 	
+	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
 
-	public class RankingSegment extends Segment
+	public class RankingScreen extends BaseCustomScreen
 	{
 		private var list:FastList;
 
 		private var _listCollection:ListCollection;
-		public function RankingSegment()
+		public function RankingScreen()
 		{
 		}
 		
@@ -21,7 +25,7 @@ package com.gerantech.towercraft.controls.segments
 			layout = new AnchorLayout();
 			_listCollection = new ListCollection();
 			
-			/*list = new FastList();
+			list = new FastList();
 			list.itemRendererFactory = function():IListItemRenderer
 			{
 				return new RankItemRenderer();
@@ -29,7 +33,7 @@ package com.gerantech.towercraft.controls.segments
 			list.dataProvider = _listCollection;
 			list.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(list);
-			
+			/*
 			var extraInfo:SFSObject = new SFSObject();
 			extraInfo.putUtfString(Commands.SFSOBJ_DATA_COMMAND, Commands.ORDER_GET_TOP_10);
 			extraInfo.putInt(Commands.SFSOBJ_DATA_UID, int(Game.get_instance().player.get_id()));

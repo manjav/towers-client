@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.MainSegment;
-import com.gerantech.towercraft.controls.segments.RankingSegment;
+import com.gerantech.towercraft.controls.screens.RankingScreen;
 import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gt.towers.constants.PageType;

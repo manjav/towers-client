@@ -1,4 +1,4 @@
-package com.gilass.tanks.controls.items
+package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
 	
