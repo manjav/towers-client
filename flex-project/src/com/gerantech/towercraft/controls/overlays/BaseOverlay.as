@@ -21,6 +21,7 @@ package com.gerantech.towercraft.controls.overlays
 		public var overlayFactory:Function;
 		public var transitionIn:TransitionData;
 		public var transitionOut:TransitionData;
+		public var data:Object;
 		
 		protected var overlay:DisplayObject;
 		

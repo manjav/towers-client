@@ -48,8 +48,8 @@ package
 				
 				this.stage.scaleMode = StageScaleMode.NO_SCALE;
 				this.stage.align = StageAlign.TOP_LEFT;
-				
 			}
+			
 			this.mouseEnabled = this.mouseChildren = false;
 			addChild(new SplashScreen());
 			this.loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
@@ -72,7 +72,6 @@ package
 			this.starling.skipUnchangedFrames = false;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
-			
 			
 			this.scaler = new ScreenDensityScaleFactorManager(this.starling);
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);

@@ -28,6 +28,8 @@ package com.gerantech.towercraft.managers.net
 		public static const STATE_LOADED:int = 3;
 		
 		private var sfsConnection:SFSConnection;
+
+		private var serverData:SFSObject;
 		
 		public function LoadingManager()
 		{
@@ -72,15 +74,15 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR, sfsConnection_loginErrorHandler);
 			
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
-			var data:SFSObject = event.params.data;
+			serverData = event.params.data;
 			
 			// in registring case
-			if(data.containsKey("password"))
+			if(serverData.containsKey("password"))
 			{
-				if(data.containsKey("id"))
-					UserData.getInstance().id = data.getLong("id");
+				if(serverData.containsKey("id"))
+					UserData.getInstance().id = serverData.getLong("id");
 				
-				UserData.getInstance().password = data.getText("password");
+				UserData.getInstance().password = serverData.getText("password");
 				UserData.getInstance().save();
 			}
 			
@@ -94,18 +96,21 @@ package com.gerantech.towercraft.managers.net
 				trace(event.params);
 			}*/		
 			
-			
-			if( AppModel.instance.descriptor.versionCode < data.getInt("noticeVersion") )
-				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
-			else if( AppModel.instance.descriptor.versionCode < data.getInt("forceVersion") )
+			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
+			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )
 				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
+			else if( AppModel.instance.descriptor.versionCode < serverData.getInt("noticeVersion") )
+				dispatchEvent(new LoadingEvent(LoadingEvent.NOTICE_UPDATE));
 			else
-			{
-				var coreLoader:CoreLoader = new CoreLoader(data.getText("coreVersion"), data);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
-				coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
-				coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
-				state = STATE_CORE_LOADING;
-			}
+				loadCore();
+		}
+		
+		public function loadCore():void
+		{
+			var coreLoader:CoreLoader = new CoreLoader(serverData.getText("coreVersion"), serverData);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
+			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
+			state = STATE_CORE_LOADING;			
 		}
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
