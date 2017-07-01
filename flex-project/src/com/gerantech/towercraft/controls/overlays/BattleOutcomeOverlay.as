@@ -33,14 +33,14 @@ package com.gerantech.towercraft.controls.overlays
 		public static const atlasDataClass: Class;
 		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_tex.png")]
 		public static const atlasImageClass: Class;
+
+		public static var factory: StarlingFactory;
+		public static var dragonBonesData:DragonBonesData;
 		
 		public var score:int;
-		public var tutorialMode:Boolean;
-
-		private var factory: StarlingFactory;
-		private var dragonBonesData:DragonBonesData;
-		private var armatureDisplay:StarlingArmatureDisplay ;
 		private var rewards:ISFSArray;
+		public var tutorialMode:Boolean;
+		private var armatureDisplay:StarlingArmatureDisplay ;
 		
 		public function BattleOutcomeOverlay(score:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 		{
@@ -48,9 +48,13 @@ package com.gerantech.towercraft.controls.overlays
 			
 			this.score = score;
 			this.rewards = rewards;
-			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+			this.tutorialMode = tutorialMode;
+			if(BattleOutcomeOverlay.factory == null)
+			{
+				BattleOutcomeOverlay.factory = new StarlingFactory();
+				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
+				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
+			}
 		}
 		
 		override protected function initialize():void
@@ -87,14 +91,14 @@ package com.gerantech.towercraft.controls.overlays
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 			buttons.addChild(closeBatton);
 
-			if(score == 0)
+		/*	if(score == 0)
 			{
 				var retryButton:Button = new Button();
 				retryButton.name = "retry";
 				retryButton.label = loc("retry_button");
 				retryButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				buttons.addChild(retryButton);
-			}
+			}*/
 		}
 		
 		private function buttons_triggeredHandler(event:Event):void

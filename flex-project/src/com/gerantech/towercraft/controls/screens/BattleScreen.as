@@ -4,6 +4,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
+	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -40,12 +41,13 @@ package com.gerantech.towercraft.controls.screens
 
 	public class BattleScreen extends BaseCustomScreen
 	{
+		public var requestField:FieldData;
+		public var waitingOverlay:WaitingOverlay;
+		
 		private var sourcePlaces:Vector.<PlaceView>;
 		private var sfsConnection:SFSConnection;
-		//private var battleRoom:Room;
-		//private var mapName:String;
 		private var timeoutId:uint;
-		private var transitionInCompleted:Boolean;
+		private var transitionInCompleted:Boolean = true;
 		
 		override protected function initialize():void
 		{
@@ -53,24 +55,24 @@ package com.gerantech.towercraft.controls.screens
 			layout = new AnchorLayout();
 			backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 			
+			var sfsObj:SFSObject = new SFSObject();
+			sfsObj.putBool("q", requestField!=null&&requestField.isQuest);
+			sfsObj.putInt("i", requestField!=null&&requestField.isQuest ? requestField.index : 0);
+
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			//sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
+			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
 			
-			appModel.battleFieldView = new BattleFieldView();
-			addChild(appModel.battleFieldView);
-			
-			addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		}
 		
-		private function transitionInCompleteHandler(event:Event):void
+		/*private function transitionInCompleteHandler(event:Event):void
 		{
 			transitionInCompleted = true;
 			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 			startBattle();
-		}	
+		}	*/
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
@@ -79,12 +81,15 @@ package com.gerantech.towercraft.controls.screens
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
 			var data:SFSObject = event.params.params as SFSObject;
-			trace(data.getDump());
+			//trace(data.getDump());
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
 					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getInt("troopType"), data.getInt("startAt"), sfsConnection.getRoomById(data.getInt("roomId")));
 					timeManager.now = battleData.startAt;
+					
+					appModel.battleFieldView = new BattleFieldView();
+					addChild(appModel.battleFieldView);
 					appModel.battleFieldView.createPlaces(battleData);
 					startBattle();
 					break;
@@ -104,7 +109,7 @@ package com.gerantech.towercraft.controls.screens
 					var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
 					battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 					battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-					addChild(battleOutcomeOverlay);
+					appModel.navigator.addChild(battleOutcomeOverlay);
 
 					break;
 			}
@@ -113,9 +118,21 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function startBattle():void
 		{
-			if(appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null || !transitionInCompleted)
+			if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
 				return;
+			
+			if( !waitingOverlay.ready )
+			{
+				waitingOverlay.addEventListener(Event.READY, waitingOverlay_readyHandler);
+				function waitingOverlay_readyHandler():void
+				{
+					waitingOverlay.removeEventListener(Event.READY, waitingOverlay_readyHandler);
+					startBattle();
+				}
+				return;
+			}
 
+			waitingOverlay.close(false);
 			updateTowersFromRoomVars();
 			
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
@@ -313,7 +330,6 @@ package com.gerantech.towercraft.controls.screens
 				}
 			}
 		}
-
 		
 		private function clearSources(sourceTowers:Vector.<PlaceView>):void
 		{

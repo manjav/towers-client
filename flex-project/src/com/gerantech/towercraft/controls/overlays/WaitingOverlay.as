@@ -1,52 +1,63 @@
 package com.gerantech.towercraft.controls.overlays
 {
-	import dragonBones.objects.DragonBonesData;
+	import dragonBones.events.EventObject;
 	import dragonBones.starling.StarlingArmatureDisplay;
+	import dragonBones.starling.StarlingEvent;
 	import dragonBones.starling.StarlingFactory;
 	
 	import starling.events.Event;
 
 	public class WaitingOverlay extends BaseOverlay
 	{
-		[Embed(source = "../../../../../assets/animations/battle-outcome-mc_ske.json", mimeType = "application/octet-stream")]
-		public static const skeletonClass: Class;
-		[Embed(source = "../../../../../assets/animations/battle-outcome-mc_tex.json", mimeType = "application/octet-stream")]
-		public static const atlasDataClass: Class;
-		[Embed(source = "../../../../../assets/animations/battle-outcome-mc_tex.png")]
-		public static const atlasImageClass: Class;
+		public var ready:Boolean;
 		
-		
-		private var factory: StarlingFactory;
-		private var dragonBonesData:DragonBonesData;
 		private var armatureDisplay:StarlingArmatureDisplay ;
 		
 		public function WaitingOverlay()
 		{
 			super();
-			
-			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+			if(BattleOutcomeOverlay.factory == null)
+			{
+				BattleOutcomeOverlay.factory = new StarlingFactory();
+				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
+				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
+			}
 		}
 		
 		override protected function addedToStageHandler(event:Event):void
 		{
 			super.addedToStageHandler(event);
 			closable = false;
-			if(dragonBonesData == null)
+			if(BattleOutcomeOverlay.dragonBonesData == null)
 				return;
 			
-			armatureDisplay = factory.buildArmatureDisplay(dragonBonesData.armatureNames[1]);
-			
-			/*for each(var a:String in dragonBonesData.armatureNames)
-			trace(a);*/
+			armatureDisplay = BattleOutcomeOverlay.factory.buildArmatureDisplay("waiting");
 			armatureDisplay.x = stage.stageWidth/2;
 			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;
-			armatureDisplay.animation.gotoAndPlayByTime("animtion0", 0, 1);
-			
-			this.addChild(armatureDisplay);
+			armatureDisplay.animation.gotoAndPlayByFrame("appear", 1, 1);
+			armatureDisplay.addEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
+			addChild(armatureDisplay);
 		}
 		
+		public function hide():void
+		{
+			armatureDisplay.animation.gotoAndPlayByFrame("disappear", 1, 1);trace("disappear")
+			armatureDisplay.addEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
+		}
+		
+		protected function armatureDisplay_completeHandler(event:StarlingEvent):void
+		{
+			armatureDisplay.removeEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
+			if(event.eventObject.animationState.name == "appear")
+			{
+				ready = true;
+				dispatchEventWith(Event.READY);
+			}
+			else if(event.eventObject.animationState.name == "disappear")
+			{
+				close();
+			}
+		}	
 	}
 }

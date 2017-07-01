@@ -4,6 +4,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.controls.items.QuestItemRenderer;
+	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
@@ -17,6 +18,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.utils.setTimeout;
+	
+	import feathers.controls.ScreenNavigatorItem;
+	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
@@ -92,13 +97,12 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function list_changeHandler(event:Event):void
 		{
-			var quest:Quest = list.selectedItem as Quest;
-
-			var sfsObj:SFSObject = new SFSObject();
-			sfsObj.putBool("q", true);
-			sfsObj.putInt("i", quest.index);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
-			appModel.navigator.pushScreen( Main.BATTLE_SCREEN );
+			var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
+			item.properties.requestField = list.selectedItem as Quest ;
+			item.properties.waitingOverlay = new WaitingOverlay() ;
+			appModel.navigator.addChild(item.properties.waitingOverlay);
+			appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+			appModel.navigator.addChild(item.properties.waitingOverlay);
 		}
 		
 		private function getQuestsData():ListCollection

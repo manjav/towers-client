@@ -5,8 +5,10 @@ import com.gerantech.towercraft.controls.GameLog;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.vo.Quest;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Point;
@@ -17,6 +19,8 @@ import flash.utils.setTimeout;
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingFactory;
+
+import feathers.controls.StackScreenNavigatorItem;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -152,11 +156,12 @@ public class MainSegment extends Segment
 						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
 						return;
 					}
-					var sfsObj:SFSObject = new SFSObject();
-					sfsObj.putBool("q", false);
-					sfsObj.putInt("i", 0);
-					SFSConnection.instance.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
-					appModel.navigator.pushScreen( Main.BATTLE_SCREEN );
+					
+					var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
+					item.properties.requestField = null ;
+					item.properties.waitingOverlay = new WaitingOverlay() ;
+					appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+					appModel.navigator.addChild(item.properties.waitingOverlay);
 					break;
 				case "dragon-cross":
 				case "portal-tower":
