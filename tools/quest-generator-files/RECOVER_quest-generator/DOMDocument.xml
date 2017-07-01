@@ -1,4 +1,4 @@
-<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="6" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="24" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="5" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="24" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
      <folders>
           <DOMFolderItem name="Component Assets" itemID="44e488a0-000016d6"/>
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
@@ -167,8 +167,8 @@
           <DOMBitmapItem name="images/hole-1.png" itemID="5939b72c-00000339" sourceExternalFilepath="../quest-generator/LIBRARY/images/hole-1.png" sourceLastImported="1496690972" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/hole-1.png" bitmapDataHRef="M 148 1496954469.dat" frameRight="1420" frameBottom="1140"/>
           <DOMBitmapItem name="images/hole-2.png" itemID="5939b72c-0000033a" sourceExternalFilepath="../quest-generator/LIBRARY/images/hole-2.png" sourceLastImported="1496690973" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/hole-2.png" bitmapDataHRef="M 149 1496954469.dat" frameRight="2040" frameBottom="1360"/>
           <DOMBitmapItem name="images/hut-0.png" itemID="5939b72c-0000033b" sourceExternalFilepath="../quest-generator/LIBRARY/images/hut-0.png" sourceLastImported="1496953816" externalFileSize="99852" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/hut-0.png" bitmapDataHRef="M 150 1496954469.dat" frameRight="6960" frameBottom="4200"/>
-          <DOMBitmapItem name="images/road-h.png" itemID="59577419-00000588" sourceExternalFilepath="./LIBRARY/images/road-h.png" sourceLastImported="1497027747" externalFileSize="32924" originalCompressionType="lossless" quality="50" href="images/road-h.png" bitmapDataHRef="M 85 1497027788.dat" frameRight="8300" frameBottom="1580"/>
-          <DOMBitmapItem name="images/road-v.png" itemID="59577419-00000589" sourceExternalFilepath="./LIBRARY/images/road-v.png" sourceLastImported="1497027748" externalFileSize="32685" originalCompressionType="lossless" quality="50" href="images/road-v.png" bitmapDataHRef="M 86 1497027789.dat" frameRight="1780" frameBottom="8060"/>
+          <DOMBitmapItem name="images/road-h.png" itemID="59577419-00000588" sourceExternalFilepath="../quest-generator/LIBRARY/images/road-h.png" sourceLastImported="1497027747" externalFileSize="32924" originalCompressionType="lossless" quality="50" href="images/road-h.png" bitmapDataHRef="M 85 1497027788.dat" frameRight="8300" frameBottom="1580"/>
+          <DOMBitmapItem name="images/road-v.png" itemID="59577419-00000589" sourceExternalFilepath="../quest-generator/LIBRARY/images/road-v.png" sourceLastImported="1497027748" externalFileSize="32685" originalCompressionType="lossless" quality="50" href="images/road-v.png" bitmapDataHRef="M 86 1497027789.dat" frameRight="1780" frameBottom="8060"/>
           <DOMBitmapItem name="images/rock-0.png" itemID="5939b72d-0000033e" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-0.png" sourceLastImported="1496690991" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-0.png" bitmapDataHRef="M 153 1496954469.dat" frameRight="1580" frameBottom="700"/>
           <DOMBitmapItem name="images/rock-1.png" itemID="5939b72d-0000033f" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-1.png" sourceLastImported="1496690992" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-1.png" bitmapDataHRef="M 154 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
           <DOMBitmapItem name="images/rock-2.png" itemID="5939b72d-00000340" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-2.png" sourceLastImported="1496690994" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-2.png" bitmapDataHRef="M 155 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
@@ -316,7 +316,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -343,7 +343,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -671,7 +671,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -698,7 +698,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1031,7 +1031,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1058,7 +1058,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1294,7 +1294,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1420,7 +1420,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1447,7 +1447,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1510,7 +1510,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -1825,7 +1825,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath='4'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1852,7 +1852,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath='5'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2224,7 +2224,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath='4'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2251,7 +2251,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath='5'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2644,7 +2644,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2671,7 +2671,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3061,7 +3061,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3088,7 +3088,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3489,7 +3489,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3516,7 +3516,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_4' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3824,20 +3824,30 @@
           </DOMTimeline>
      </timelines>
      <persistentData>
-          <PD n="TestMovieChecked" v="ADLDesktop"/>
           <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
+          <PD n="TestMovieChecked" v="ADLDesktop"/>
           <PD n="swf.folder.path" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/"/>
-          <PD n="com.air.artemis.pubcaptive" v="false"/>
-          <PD n="com.air.artemis.pubipa" v="false"/>
           <PD n="DebugMovieChecked" v="ADLDesktop"/>
+          <PD n="com.air.artemis.pubipa" v="false"/>
+          <PD n="com.air.artemis.pubcaptive" v="false"/>
           <PD n="com.air.artemis.pubair" v="true"/>
           <PD n="flash.swf.basename" v="canvas"/>
-          <PD n="com.air.artemis.pubexe" v="false"/>
           <PD n="com.air.sdk.path"/>
+          <PD n="com.air.artemis.pubexe" v="false"/>
           <PD n="com.air.artemis.airdest" v="canvas.air"/>
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
+          <PublishItem publishSize="1736249" publishTime="1498907348"/>
+          <PublishItem publishSize="1736246" publishTime="1498907248"/>
+          <PublishItem publishSize="1736240" publishTime="1498906435"/>
+          <PublishItem publishSize="1736238" publishTime="1498906339"/>
+          <PublishItem publishSize="1736168" publishTime="1498905880"/>
+          <PublishItem publishSize="1736167" publishTime="1498905733"/>
+          <PublishItem publishSize="1736166" publishTime="1498905723"/>
+          <PublishItem publishSize="1691599" publishTime="1498905372"/>
+          <PublishItem publishSize="1691601" publishTime="1498905294"/>
+          <PublishItem publishSize="1691599" publishTime="1498905019"/>
           <PublishItem publishSize="1735906" publishTime="1498902938"/>
           <PublishItem publishSize="1735912" publishTime="1498902793"/>
           <PublishItem publishSize="1730464" publishTime="1498900337"/>
@@ -3848,16 +3858,6 @@
           <PublishItem publishSize="1723279" publishTime="1497456625"/>
           <PublishItem publishSize="1723282" publishTime="1497456579"/>
           <PublishItem publishSize="1723283" publishTime="1497453171"/>
-          <PublishItem publishSize="1723283" publishTime="1497453165" publishDebug="true"/>
-          <PublishItem publishSize="1723283" publishTime="1497453122" publishDebug="true"/>
-          <PublishItem publishSize="1723287" publishTime="1497453107" publishDebug="true"/>
-          <PublishItem publishSize="1723289" publishTime="1497453082" publishDebug="true"/>
-          <PublishItem publishSize="1723302" publishTime="1497452988"/>
-          <PublishItem publishSize="1723298" publishTime="1497452909"/>
-          <PublishItem publishSize="1723300" publishTime="1497452824"/>
-          <PublishItem publishSize="1723300" publishTime="1497452735"/>
-          <PublishItem publishSize="1723298" publishTime="1497452731" publishDebug="true"/>
-          <PublishItem publishSize="1723299" publishTime="1497452646"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
