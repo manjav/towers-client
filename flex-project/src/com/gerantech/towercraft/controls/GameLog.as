@@ -2,8 +2,11 @@ package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.models.AppModel;
 	
+	import flash.filters.GlowFilter;
+	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.filters.GlowFilter;
 
 	public class GameLog extends RTLLabel
 	{
@@ -29,6 +32,8 @@ package com.gerantech.towercraft.controls
 			Starling.juggler.tween(this, 0.3, {y:positionY-30, scaleY:1, transition:Transitions.EASE_OUT});
 			Starling.juggler.tween(this, 4, {delay:0.3, y:positionY-40, transition:Transitions.LINEAR});
 			Starling.juggler.tween(this, 1, {delay:4.3, alpha:0, onComplete:animation_onCompleteCallback});
+			filter = new starling.filters.GlowFilter(0,2);
+//			nativeFilters = [new GlowFilter()]
 			pixelSnapping = false;
 		}
 		
