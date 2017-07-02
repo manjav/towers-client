@@ -49,11 +49,16 @@
 		private function level_btn_clickHandler(event:Event):void
 		{
 			var improveLevel:int = type%10;
-			if(improveLevel >= 4)
-				type = type - improveLevel + 1;
+			if(type == 1)
+				update();
 			else
-				type ++;
-			update();
+			{
+				if(improveLevel >= 4)
+					type = type - improveLevel + 1;
+				else
+					type ++;
+				update();
+			}
 		}
 		
 		private function body_mc_clickHandler(event:Event):void
@@ -68,7 +73,7 @@
 		private function tutor_btn_clickHandler(event:Event):void
 		{
 			tutorIndex ++;
-			if ( tutorIndex > 5 )
+			if ( tutorIndex > 15 )
 				tutorIndex = -2;
 			update();
 		}

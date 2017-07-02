@@ -17,13 +17,13 @@
     <aspectRatio>portrait</aspectRatio>
     <renderMode>auto</renderMode>
     <width>480</width>
-    <height>864</height>
+    <height>720</height>
     <y>2</y>
     <maximizable>true</maximizable>
     <minimizable>true</minimizable>
     <resizable>true</resizable>
     <x>1100</x>
-    <minSize>480 864</minSize>
+    <minSize>480 720</minSize>
   </initialWindow>
   <icon/>
   <customUpdateUI>false</customUpdateUI>
