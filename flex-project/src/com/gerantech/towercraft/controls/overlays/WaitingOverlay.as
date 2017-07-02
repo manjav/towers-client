@@ -40,9 +40,9 @@ package com.gerantech.towercraft.controls.overlays
 			addChild(armatureDisplay);
 		}
 		
-		public function hide():void
+		public function disappear():void
 		{
-			armatureDisplay.animation.gotoAndPlayByFrame("disappear", 1, 1);trace("disappear")
+			armatureDisplay.animation.gotoAndPlayByFrame("disappear", 1, 1);
 			armatureDisplay.addEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
 		}
 		
@@ -56,7 +56,7 @@ package com.gerantech.towercraft.controls.overlays
 			}
 			else if(event.eventObject.animationState.name == "disappear")
 			{
-				close();
+				close(false);
 			}
 		}	
 	}

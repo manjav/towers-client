@@ -23,6 +23,7 @@ package com.gerantech.towercraft.controls.overlays
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalAlign;
 	
+	import starling.display.Quad;
 	import starling.events.Event;
 
 	public class BattleOutcomeOverlay extends BaseOverlay
@@ -67,12 +68,16 @@ package com.gerantech.towercraft.controls.overlays
 			var hlayout:HorizontalLayout = new HorizontalLayout();
 			hlayout.horizontalAlign = HorizontalAlign.CENTER;
 			hlayout.verticalAlign = VerticalAlign.MIDDLE;
-			hlayout.gap = 20;
+			hlayout.paddingBottom = 42 * appModel.scale;
+			hlayout.gap = 32 * appModel.scale;
+			
 			
 			var rewardsList:List = new List();
+			rewardsList.backgroundSkin = new Quad(1, 1, 0);
+			rewardsList.backgroundSkin.alpha = 0.6;
 			rewardsList.height = 320*appModel.scale;
 			rewardsList.layout = hlayout;
-			rewardsList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 50);
+			rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
 			rewardsList.itemRendererFactory = function ():IListItemRenderer
 			{
 				return new BattleOutcomeRewardItemRenderer();	
@@ -109,7 +114,7 @@ package com.gerantech.towercraft.controls.overlays
 				setTimeout(close, 100);
 			}
 			else
-				close();
+				close(false);
 		}		
 		
 		override protected function addedToStageHandler(event:Event):void

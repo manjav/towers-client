@@ -132,7 +132,7 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 
-			waitingOverlay.close(false);
+			waitingOverlay.disappear();
 			updateTowersFromRoomVars();
 			
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
@@ -235,7 +235,6 @@ package com.gerantech.towercraft.controls.screens
 		{
 			if(!appModel.battleFieldView.battleData.room.containsVariable("towers"))
 				return;
-			
 			var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
 			for(var i:int=0; i<towers.size(); i++)
 			{
