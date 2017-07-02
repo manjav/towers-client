@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls.buttons
 	
 	import feathers.controls.ButtonState;
 	import feathers.events.FeathersEventType;
+	import feathers.skins.ImageSkin;
 	
 	import starling.events.Event;
 	import starling.events.Touch;
@@ -34,13 +35,25 @@ package com.gerantech.towercraft.controls.buttons
 		public var keepDownStateOnRollOut:Boolean = false;
 		private var _currentState:String = ButtonState.UP;
 
-		
+		protected var skin:ImageSkin;
+
 		public function SimpleLayoutButton()
 		{
 			super();
 			this.isQuickHitAreaEnabled = true;
 			this.addEventListener(TouchEvent.TOUCH, button_touchHandler);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, button_removedFromStageHandler);
+		}
+		
+		protected function set isEnabled(value:Boolean):void
+		{
+			super.isEnabled = value;
+			currentState = value ? ButtonState.UP : ButtonState.DISABLED;
+		}
+		
+		protected function get isEnabled():Boolean
+		{
+			return super.isEnabled;
 		}
 		
 		public function get currentState():String
@@ -50,14 +63,15 @@ package com.gerantech.towercraft.controls.buttons
 		public function set currentState(value:String):void
 		{
 			if(this._currentState == value)
-			{
 				return;
-			}
+			
 			if(this.stateNames.indexOf(value) < 0)
-			{
 				throw new ArgumentError("Invalid state: " + value + ".");
-			}
+			
 			_currentState = value;
+			if(skin)
+				skin.defaultTexture = skin.getTextureForState(_currentState);
+			//trace(name, _currentState)
 		}
 
 		/**

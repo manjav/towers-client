@@ -1,13 +1,13 @@
 package com.gerantech.towercraft.controls.floatings
 {
+	import com.gerantech.towercraft.controls.buttons.ImproveButton;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.buildings.Building;
 	
 	import feathers.controls.Button;
-	import feathers.controls.ButtonState;
-	import feathers.skins.ImageSkin;
 	
+	import starling.animation.Transitions;
+	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
 
@@ -16,33 +16,37 @@ package com.gerantech.towercraft.controls.floatings
 		public var placeDecorator:PlaceView;
 		
 		private var upgradeButton:Button;
-		private var buttons:Vector.<Button>;
+		private var buttons:Vector.<ImproveButton>;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
+			var raduis:int = 160 * appModel.scale;
 
-			//layout = new AnchorLayout();
-			buttons = new Vector.<Button>();
-			for (var i:int=0; i < placeDecorator.place.building.get_options().size(); i++) 
+			var circle:Image = new Image(Assets.getTexture("damage-range"));
+			circle.alignPivot();
+			circle.width = circle.height = raduis;
+			Starling.juggler.tween(circle, 0.2, {width:raduis*2, height:raduis*2, transition:Transitions.EASE_OUT});
+			addChild(circle);
+				
+			buttons = new Vector.<ImproveButton>();
+			var numButtons:int = placeDecorator.place.building.get_options().size();
+			for (var i:int=0; i < numButtons; i++) 
 			{
 				var impoveType:int = placeDecorator.place.building.get_options().get(i);
 				
-				var skin:ImageSkin = new ImageSkin(Assets.getTexture("improve-button-up", "gui"));
-				skin.setTextureForState(ButtonState.DOWN, Assets.getTexture("improve-button-selected", "gui") );
-				skin.disabledTexture = Assets.getTexture("improve-button-disabled", "gui");
+				buttons[i] = new ImproveButton(impoveType);
+				buttons[i].enabled = placeDecorator.place.building.improvable(impoveType);
 				
-				buttons[i] = new Button();
-				buttons[i].defaultSkin = skin;
-				buttons[i].name = impoveType.toString();
-				buttons[i].alignPivot();
-				buttons[i].y = i * -38;
-				buttons[i].width = buttons[i].height = 36;
-				buttons[i].isEnabled = placeDecorator.place.building.improvable(impoveType);
-				
-				var icon:Image = new Image(Assets.getTexture("improve-"+impoveType, "gui"));//trace("building-"+type+(type>0?"-"+level:""));
-				icon.width = icon.height = 32;
-				buttons[i].defaultIcon = icon
+				var angle:Number = Math.PI * 2/numButtons*i;
+				var _x:Number = Math.sin(angle) * raduis;
+				var _y:Number = Math.cos(angle) * raduis;
+				buttons[i].x = _x * 0.7;
+				buttons[i].y = _y * 0.7;
+				buttons[i].alpha = 0;
+				//trace(i, angle, Math.sin(angle), Math.cos(angle))
+				Starling.juggler.tween(buttons[i], 0.2, {delay:i*0.03+0.03, alpha:1, x:_x, y:_y, transition:Transitions.EASE_OUT_BACK});
+
 				buttons[i].addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				addChild(buttons[i]);
 			}
@@ -54,16 +58,13 @@ package com.gerantech.towercraft.controls.floatings
 			for (var i:int=0; i < placeDecorator.place.building.get_options().size(); i++) 
 			{
 				var impoveType:int = placeDecorator.place.building.get_options().get(i);
-				buttons[i].isEnabled = placeDecorator.place.building.improvable(impoveType);
-				//var b:Building = placeDecorator.place.building;
-				//trace(b.equalsCategory(impoveType), b.type, b.getAbstract(impoveType), b._population, b.get_capacity())
-				//equalsCategory(type) || this.type == BuildingType.B01_CAMP) && getAbstract(type) != null &&  _population >= get_capacity()
+				buttons[i].enabled = placeDecorator.place.building.improvable(impoveType);
 			}
 		}
 		
 		private function buttons_triggeredHandler(event:Event):void
 		{
-			dispatchEventWith(Event.SELECT, false, {index:placeDecorator.place.index, type:int(Button(event.currentTarget).name)});
+			dispatchEventWith(Event.SELECT, false, {index:placeDecorator.place.index, type:ImproveButton(event.currentTarget).type});
 			close();
 		}
 		

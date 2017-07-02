@@ -349,7 +349,7 @@ package com.gerantech.towercraft.controls.screens
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;
 			ti.sourceAlpha = 0;
-			ti.sourcePosition = new Point(placeView.x, placeView.y);
+			ti.sourcePosition = new Point(placeView.x, placeView.y-120*appModel.scale);
 			ti.destinationPosition = ti.sourcePosition;
 			
 			// create transition out data
