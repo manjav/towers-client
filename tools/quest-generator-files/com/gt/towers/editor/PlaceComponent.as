@@ -12,8 +12,9 @@
 		public var type_btn:MovieClip;
 		public var level_btn:MovieClip;
 		public var body_mc:MovieClip;
-		public var tutor_btn:MovieClip;
+		public var tutor_input:MovieClip;
 		public var enabled_btn:MovieClip;
+		public var radius_mc:MovieClip;
 		
 		public var type:int = 1;
 		public var index:int = 0;
@@ -31,7 +32,7 @@
 			level_btn.addEventListener(MouseEvent.CLICK, level_btn_clickHandler);
 			type_btn.addEventListener(MouseEvent.CLICK, type_btn_clickHandler);
 			body_mc.addEventListener(MouseEvent.CLICK, body_mc_clickHandler);
-			tutor_btn.addEventListener(MouseEvent.CLICK, tutor_btn_clickHandler);
+			tutor_input.txt.addEventListener(Event.CHANGE, tutor_input_changeHandler);
 			enabled_btn.addEventListener(MouseEvent.CLICK, enabled_btn_clickHandler);
 			update();
 		}
@@ -48,7 +49,6 @@
 		
 		private function level_btn_clickHandler(event:Event):void
 		{
-			var improveLevel:int = type%10;
 			if(type == 1)
 				update();
 			else
@@ -70,11 +70,11 @@
 			update();
 		}
 		
-		private function tutor_btn_clickHandler(event:Event):void
+		private function tutor_input_changeHandler(event:Event):void
 		{
-			tutorIndex ++;
+			/*tutorIndex ++;
 			if ( tutorIndex > 15 )
-				tutorIndex = -2;
+				tutorIndex = -2;*/
 			update();
 		}
 		
@@ -98,11 +98,30 @@
 			index_txt.text = index.toString();
 			type_btn.txt.text = "T:" + Math.floor(type/10);
 			level_btn.txt.text = "L:" + type%10;
-			tutor_btn.txt.text = "S:" + tutorIndex;
+			//tutor_input.txt.text = "S:" + tutorIndex;
 			enabled_btn.txt.text = enabled ? "E" : "D";
-			tutor_btn.alpha = tutorIndex==-2?0.3:1;
 			body_mc.gotoAndStop(type*10 + (troopType+2));
+			tutorIndex = int(tutor_input.txt.text);
+			tutor_input.alpha = tutorIndex==0?0.3:1;
+			var isCrystal:Boolean = (BuildingType.get_category(type) == BuildingType.B40_CRYSTAL);
+			radius_mc.visible = isCrystal;
+			if (isCrystal)
+			{
+				radius_mc.width = get_damageRadius() * 2 / (stage.stageWidth/1080) * 1.3;
+				radius_mc.scaleY = radius_mc.scaleX;
+				trace(stage.stageWidth, stage.width);
+				trace(radius_mc.width, radius_mc.scaleY);
+			}
+		}
+	
+		public function get_damageRadius():Number
+		{
+			return 60 + Math.round( (Math.log(improveLevel)) * 20);
 		}
 		
+		public function get improveLevel():int
+		{
+			return  type%10;
+		}
 	}
 }

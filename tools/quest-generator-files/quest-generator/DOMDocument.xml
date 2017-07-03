@@ -4,7 +4,7 @@
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
           <DOMFolderItem name="Component Assets/CheckBoxSkins" itemID="44c9141c-00000113"/>
           <DOMFolderItem name="Component Assets/Shared" itemID="44f892ff-0000001e"/>
-          <DOMFolderItem name="images" itemID="5937cf25-0000023b" isExpanded="true"/>
+          <DOMFolderItem name="images" itemID="5937cf25-0000023b"/>
      </folders>
      <media>
           <DOMBitmapItem name="images/arrow.png" itemID="59384662-000004e4" sourceExternalFilepath="../quest-generator/LIBRARY/images/arrow.png" sourceLastImported="1468087319" externalFileSize="1062" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/arrow.png" bitmapDataHRef="M 96 1496858590.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
@@ -78,8 +78,8 @@
           <DOMBitmapItem name="images/bush-2.png" itemID="5939b72c-0000032c" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-2.png" sourceLastImported="1496690981" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-2.png" bitmapDataHRef="M 170 1496954470.dat" frameRight="1240" frameBottom="1060"/>
           <DOMBitmapItem name="images/bush-3.png" itemID="5939b72c-0000032d" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-3.png" sourceLastImported="1496690982" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-3.png" bitmapDataHRef="M 171 1496954470.dat" frameRight="1140" frameBottom="660"/>
           <DOMBitmapItem name="images/bush-4.png" itemID="5939b72c-0000032e" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-4.png" sourceLastImported="1496690984" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-4.png" bitmapDataHRef="M 172 1496954470.dat" frameRight="1420" frameBottom="1120"/>
-          <DOMBitmapItem name="images/bush-5.png" itemID="5939b72c-0000032f" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-5.png" sourceLastImported="1496690985" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-5.png" bitmapDataHRef="M 173 1496954470.dat" frameRight="1120" frameBottom="880"/>
-          <DOMBitmapItem name="images/bush-6.png" itemID="5939b72c-00000330" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-6.png" sourceLastImported="1496690987" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-6.png" bitmapDataHRef="M 174 1496954470.dat" frameRight="980" frameBottom="800"/>
+          <DOMBitmapItem name="images/bush-5.png" itemID="5939b72c-0000032f" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-5.png" sourceLastImported="1496690985" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-5.png" bitmapDataHRef="M 173 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/bush-6.png" itemID="5939b72c-00000330" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-6.png" sourceLastImported="1496690987" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-6.png" bitmapDataHRef="M 174 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
           <DOMBitmapItem name="images/bush-7.png" itemID="5939b72c-00000331" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-7.png" sourceLastImported="1496690989" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-7.png" bitmapDataHRef="M 175 1496954470.dat" frameRight="1660" frameBottom="760"/>
           <DOMBitmapItem name="images/chair-0.png" itemID="5939b72c-00000332" sourceExternalFilepath="../quest-generator/LIBRARY/images/chair-0.png" sourceLastImported="1496690975" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/chair-0.png" bitmapDataHRef="M 176 1496954470.dat" frameRight="780" frameBottom="580"/>
           <DOMBitmapItem name="images/chair-1.png" itemID="5939b72c-00000333" sourceExternalFilepath="../quest-generator/LIBRARY/images/chair-1.png" sourceLastImported="1496690976" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/chair-1.png" bitmapDataHRef="M 177 1496954470.dat" frameRight="1800" frameBottom="1000"/>
@@ -175,7 +175,7 @@
                </customIcon>
                <SwcItem name="fl.core.ComponentShim" version="1292423059" isTopLevel="true"/>
           </DOMCompiledClipItem>
-          <DOMBitmapItem name="images/damage-range.png" itemID="5939b72c-00000334" sourceExternalFilepath="../quest-generator/LIBRARY/images/damage-range.png" sourceLastImported="1496594265" externalFileSize="13843" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/damage-range.png" bitmapDataHRef="M 178 1496954470.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/damage-range.png" itemID="595a007c-000002ab" sourceExternalFilepath="../quest-generator/LIBRARY/images/damage-range.png" sourceLastImported="1496594265" originalCompressionType="lossless" quality="50" href="images/damage-range.png" bitmapDataHRef="M 97 1499069777.dat" frameRight="4000" frameBottom="4000"/>
           <DOMBitmapItem name="images/foreground-0-l.png" itemID="5939b72c-00000335" sourceExternalFilepath="../quest-generator/LIBRARY/images/foreground-0-l.png" sourceLastImported="1496690372" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/foreground-0-l.png" bitmapDataHRef="M 144 1496954469.dat" frameRight="6640" frameBottom="3920"/>
           <DOMBitmapItem name="images/foreground-0-r.png" itemID="5939b72c-00000336" sourceExternalFilepath="../quest-generator/LIBRARY/images/foreground-0-r.png" sourceLastImported="1496690371" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/foreground-0-r.png" bitmapDataHRef="M 145 1496954469.dat" frameRight="8880" frameBottom="4640"/>
           <DOMBitmapItem name="images/ground-228.png" itemID="5939b72c-00000337" sourceExternalFilepath="../quest-generator/LIBRARY/images/ground-228.png" sourceLastImported="1496651187" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/ground-228.png" bitmapDataHRef="M 146 1496954469.dat" frameRight="4560" frameBottom="4560"/>
@@ -186,8 +186,8 @@
           <DOMBitmapItem name="images/road-h.png" itemID="59577419-00000588" sourceExternalFilepath="../quest-generator/LIBRARY/images/road-h.png" sourceLastImported="1497027747" externalFileSize="32924" originalCompressionType="lossless" quality="50" href="images/road-h.png" bitmapDataHRef="M 85 1497027788.dat" frameRight="8300" frameBottom="1580"/>
           <DOMBitmapItem name="images/road-v.png" itemID="59577419-00000589" sourceExternalFilepath="../quest-generator/LIBRARY/images/road-v.png" sourceLastImported="1497027748" externalFileSize="32685" originalCompressionType="lossless" quality="50" href="images/road-v.png" bitmapDataHRef="M 86 1497027789.dat" frameRight="1780" frameBottom="8060"/>
           <DOMBitmapItem name="images/rock-0.png" itemID="5939b72d-0000033e" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-0.png" sourceLastImported="1496690991" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-0.png" bitmapDataHRef="M 153 1496954469.dat" frameRight="1580" frameBottom="700"/>
-          <DOMBitmapItem name="images/rock-1.png" itemID="5939b72d-0000033f" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-1.png" sourceLastImported="1496690992" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-1.png" bitmapDataHRef="M 154 1496954469.dat" frameRight="640" frameBottom="500"/>
-          <DOMBitmapItem name="images/rock-2.png" itemID="5939b72d-00000340" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-2.png" sourceLastImported="1496690994" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-2.png" bitmapDataHRef="M 155 1496954469.dat" frameRight="700" frameBottom="620"/>
+          <DOMBitmapItem name="images/rock-1.png" itemID="5939b72d-0000033f" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-1.png" sourceLastImported="1496690992" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-1.png" bitmapDataHRef="M 154 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/rock-2.png" itemID="5939b72d-00000340" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-2.png" sourceLastImported="1496690994" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-2.png" bitmapDataHRef="M 155 1496954469.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
           <DOMBitmapItem name="images/rock-3.png" itemID="5939b72d-00000341" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-3.png" sourceLastImported="1496690995" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-3.png" bitmapDataHRef="M 156 1496954469.dat" frameRight="1080" frameBottom="600"/>
           <DOMBitmapItem name="images/rock-4.png" itemID="5939b72d-00000342" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-4.png" sourceLastImported="1496690997" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-4.png" bitmapDataHRef="M 157 1496954469.dat" frameRight="2580" frameBottom="920"/>
           <DOMBitmapItem name="images/rock-5.png" itemID="5939b72d-00000343" sourceExternalFilepath="../quest-generator/LIBRARY/images/rock-5.png" sourceLastImported="1496953817" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/rock-5.png" bitmapDataHRef="M 158 1496954469.dat" frameRight="2480" frameBottom="1460"/>
@@ -210,7 +210,9 @@
           <Include href="Component Assets/CheckBoxSkins/CheckBox_upIcon.xml" itemID="4397079e-00000cac" lastModified="1168287165"/>
           <Include href="Component Assets/Shared/focusRectSkin.xml" itemID="44d8b6f8-00000055" lastModified="1168290361"/>
           <Include href="num_btn.xml" loadImmediate="false" itemID="5936f75d-00000aea" lastModified="1497456646"/>
-          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1498913440"/>
+          <Include href="num_input.xml" loadImmediate="false" itemID="595a2711-000002b2" lastModified="1499080488"/>
+          <Include href="place_mc.xml" itemID="5936f750-00000ae9" lastModified="1499080479"/>
+          <Include href="radius_mc.xml" loadImmediate="false" itemID="5959ff74-000002aa" lastModified="1499070620"/>
           <Include href="simple_btn.xml" loadImmediate="false" itemID="5937c230-00000210" lastModified="1496827068"/>
           <Include href="troopType_btn.xml" loadImmediate="false" itemID="5936f76a-00000aeb" lastModified="1497027795"/>
      </symbols>
@@ -1719,7 +1721,7 @@
                                                   <Matrix tx="42.5" ty="1070.1"/>
                                              </matrix>
                                         </DOMBitmapInstance>
-                                        <DOMBitmapInstance selected="true" libraryItemName="images/tree-0.png">
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
                                              <matrix>
                                                   <Matrix tx="212.95" ty="915.1"/>
                                              </matrix>
@@ -2215,6 +2217,14 @@
                                                   <Point/>
                                              </transformationPoint>
                                         </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="736.7" centerPoint3DY="1252">
+                                             <matrix>
+                                                  <Matrix tx="686.7" ty="1202"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
                                    </elements>
                               </DOMFrame>
                          </frames>
@@ -2569,7 +2579,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/tree-0.png">
                                              <matrix>
-                                                  <Matrix tx="838" ty="937.6"/>
+                                                  <Matrix tx="870" ty="886.2"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="61" y="71.5"/>
@@ -2695,576 +2705,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
-                         <frames>
-                              <DOMFrame index="0" keyMode="9728">
-                                   <elements>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="857.95" centerPoint3DY="609.8">
-                                             <matrix>
-                                                  <Matrix tx="807.95" ty="559.8"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="609.45" centerPoint3DY="993.2">
-                                             <matrix>
-                                                  <Matrix tx="559.45" ty="943.2"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="441.05" centerPoint3DY="1324.9">
-                                             <matrix>
-                                                  <Matrix tx="391.05" ty="1274.9"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="741" centerPoint3DY="1476.45">
-                                             <matrix>
-                                                  <Matrix tx="691" ty="1426.45"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="349.55" centerPoint3DY="625.85">
-                                             <matrix>
-                                                  <Matrix tx="299.55" ty="575.85"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="305" centerPoint3DY="1581.65">
-                                             <matrix>
-                                                  <Matrix tx="255" ty="1531.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMSymbolInstance>
-                                   </elements>
-                              </DOMFrame>
-                         </frames>
-                    </DOMLayer>
-                    <DOMLayer name="controls" color="#FF800A" autoNamed="false">
-                         <frames>
-                              <DOMFrame index="0" keyMode="9728">
-                                   <elements>
-                                        <DOMDynamicText name="scene_txt" fontRenderingMode="device" width="201.7" height="59.05" isSelectable="false" border="true">
-                                             <matrix>
-                                                  <Matrix tx="60.85" ty="1849.75"/>
-                                             </matrix>
-                                             <textRuns>
-                                                  <DOMTextRun>
-                                                       <characters>Quest</characters>
-                                                       <textAttrs>
-                                                            <DOMTextAttrs aliasText="false" size="48" bitmapSize="960" face="Arial-BoldMT" fillColor="#333333"/>
-                                                       </textAttrs>
-                                                  </DOMTextRun>
-                                             </textRuns>
-                                        </DOMDynamicText>
-                                        <DOMSymbolInstance libraryItemName="simple_btn" name="save_btn" centerPoint3DX="1010.3" centerPoint3DY="1882.65">
-                                             <matrix>
-                                                  <Matrix tx="1010.3" ty="1882.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                             <filters>
-                                                  <DropShadowFilter angle="46.0000011383648"/>
-                                             </filters>
-                                        </DOMSymbolInstance>
-                                        <DOMInputText name="scene_txt" fontRenderingMode="device" width="191.35" height="55.85">
-                                             <matrix>
-                                                  <Matrix tx="66.05" ty="1850.55"/>
-                                             </matrix>
-                                             <textRuns>
-                                                  <DOMTextRun>
-                                                       <characters>0</characters>
-                                                       <textAttrs>
-                                                            <DOMTextAttrs alignment="right" aliasText="false" size="50" bitmapSize="1000" face="Arial-BoldMT" fillColor="#000033"/>
-                                                       </textAttrs>
-                                                  </DOMTextRun>
-                                             </textRuns>
-                                        </DOMInputText>
-                                        <DOMSymbolInstance libraryItemName="arrow_btn" name="next_btn" centerPoint3DX="290.5" centerPoint3DY="1878.35">
-                                             <matrix>
-                                                  <Matrix tx="290.5" ty="1878.35"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                             <filters>
-                                                  <DropShadowFilter angle="46.0000011383648"/>
-                                             </filters>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="simple_btn" name="load_btn" centerPoint3DX="875" centerPoint3DY="1882.65">
-                                             <matrix>
-                                                  <Matrix tx="875" ty="1882.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                             <filters>
-                                                  <DropShadowFilter angle="46.0000011383648"/>
-                                             </filters>
-                                        </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="arrow_btn" name="prev_btn" centerPoint3DX="32.95" centerPoint3DY="1878.35">
-                                             <matrix>
-                                                  <Matrix a="-1" tx="32.95" ty="1878.35"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                             <filters>
-                                                  <DropShadowFilter angle="46.0000011383648"/>
-                                             </filters>
-                                        </DOMSymbolInstance>
-                                        <DOMComponentInstance libraryItemName="CheckBox" name="intro_check" centerPoint3DX="983.7" centerPoint3DY="1779.05" uniqueID="4">
-                                             <matrix>
-                                                  <Matrix a="1.92599487304688" d="1.92599487304688" tx="887.4" ty="1757.85"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="50" y="11"/>
-                                             </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_9' oldCopiedComponentPath=''>
-</component>
-]]></dataBindingXML>
-                                             <parametersAsXML><![CDATA[   <property id="enabled">
-      <Inspectable name="enabled" variable="enabled" category="" verbose="1" defaultValue="true" type="Boolean"/>
-   </property>
-   <property id="label">
-      <Inspectable name="label" variable="label" category="" verbose="0" defaultValue="Has Intro" type="String"/>
-   </property>
-   <property id="labelPlacement">
-      <Inspectable name="labelPlacement" variable="labelPlacement" category="" verbose="0" defaultValue="right" enumeration="left,right,top,bottom" type="List"/>
-   </property>
-   <property id="selected">
-      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="false" type="Boolean"/>
-   </property>
-   <property id="visible">
-      <Inspectable name="visible" variable="visible" category="" verbose="1" defaultValue="true" type="Boolean"/>
-   </property>
-]]></parametersAsXML>
-                                        </DOMComponentInstance>
-                                        <DOMComponentInstance libraryItemName="CheckBox" name="final_check" centerPoint3DX="983.7" centerPoint3DY="1823.3" uniqueID="5">
-                                             <matrix>
-                                                  <Matrix a="1.92599487304688" d="1.92599487304688" tx="887.4" ty="1802.1"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="50" y="11"/>
-                                             </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_9' oldCopiedComponentPath=''>
-</component>
-]]></dataBindingXML>
-                                             <parametersAsXML><![CDATA[   <property id="enabled">
-      <Inspectable name="enabled" variable="enabled" category="" verbose="1" defaultValue="true" type="Boolean"/>
-   </property>
-   <property id="label">
-      <Inspectable name="label" variable="label" category="" verbose="0" defaultValue="Has Final" type="String"/>
-   </property>
-   <property id="labelPlacement">
-      <Inspectable name="labelPlacement" variable="labelPlacement" category="" verbose="0" defaultValue="right" enumeration="left,right,top,bottom" type="List"/>
-   </property>
-   <property id="selected">
-      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="false" type="Boolean"/>
-   </property>
-   <property id="visible">
-      <Inspectable name="visible" variable="visible" category="" verbose="1" defaultValue="true" type="Boolean"/>
-   </property>
-]]></parametersAsXML>
-                                        </DOMComponentInstance>
-                                        <DOMInputText name="time_0_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
-                                             <matrix>
-                                                  <Matrix a="0.750228881835938" tx="340.3" ty="1851.15"/>
-                                             </matrix>
-                                             <textRuns>
-                                                  <DOMTextRun>
-                                                       <characters>30</characters>
-                                                       <textAttrs>
-                                                            <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
-                                                       </textAttrs>
-                                                  </DOMTextRun>
-                                             </textRuns>
-                                        </DOMInputText>
-                                        <DOMInputText name="time_1_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
-                                             <matrix>
-                                                  <Matrix a="0.750228881835938" tx="468.7" ty="1851.15"/>
-                                             </matrix>
-                                             <textRuns>
-                                                  <DOMTextRun>
-                                                       <characters>55</characters>
-                                                       <textAttrs>
-                                                            <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
-                                                       </textAttrs>
-                                                  </DOMTextRun>
-                                             </textRuns>
-                                        </DOMInputText>
-                                        <DOMInputText name="time_2_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
-                                             <matrix>
-                                                  <Matrix a="0.750228881835938" tx="597.1" ty="1851.15"/>
-                                             </matrix>
-                                             <textRuns>
-                                                  <DOMTextRun>
-                                                       <characters>70</characters>
-                                                       <textAttrs>
-                                                            <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
-                                                       </textAttrs>
-                                                  </DOMTextRun>
-                                             </textRuns>
-                                        </DOMInputText>
-                                   </elements>
-                              </DOMFrame>
-                         </frames>
-                    </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
-                         <frames>
-                              <DOMFrame index="0" keyMode="9728">
-                                   <elements>
-                                        <DOMBitmapInstance libraryItemName="images/background-0-l.png">
-                                             <matrix>
-                                                  <Matrix a="1.18948364257813" d="1.18948364257813"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="0.05"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/background-0-r.png">
-                                             <matrix>
-                                                  <Matrix a="1.1715087890625" d="1.1715087890625" tx="701.7"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="2.95"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/foreground-0-l.png">
-                                             <matrix>
-                                                  <Matrix a="1.9007568359375" d="1.9007568359375" ty="1544.4"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/foreground-0-r.png">
-                                             <matrix>
-                                                  <Matrix a="1.14199829101563" d="1.14199829101563" tx="573.05" ty="1656.6"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="704.35" ty="1594.95"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="30" y="18"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-7.png">
-                                             <matrix>
-                                                  <Matrix a="2.24998474121094" d="2.24998474121094" tx="563" ty="301.15"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="41.5" y="19"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/chair-1.png">
-                                             <matrix>
-                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="486.65" ty="666.75"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="45.05" y="25.05"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/rock-0.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="597.8" ty="1211.9"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="39.5" y="17.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/rock-3.png">
-                                             <matrix>
-                                                  <Matrix a="1.71110534667969" d="1.71110534667969" tx="572.5" ty="1305.45"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="27" y="15"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="0.87652587890625" b="0.481353759765625" c="-0.481353759765625" d="0.87652587890625" tx="560" ty="880.2"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-h.png">
-                                             <matrix>
-                                                  <Matrix a="0.912872314453125" b="0.408218383789063" c="-0.408218383789063" d="0.912872314453125" tx="352.3" ty="1248.7"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="580" ty="1363.45"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="0.87652587890625" b="0.481353759765625" c="-0.481353759765625" d="0.87652587890625" tx="763.7" ty="543.4"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="696.95" ty="496.8"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
-                                             <matrix>
-                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="32.9" ty="853.75"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="35.55" y="28"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="3.05" ty="766.85"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="30" y="18"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/chair-0.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="486.65" ty="477.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="19.5" y="14.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-7.png">
-                                             <matrix>
-                                                  <Matrix a="2.24998474121094" d="2.24998474121094" tx="152.05" ty="719.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="41.5" y="19"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="0.855148315429688" b="-0.518386840820313" c="0.518386840820313" d="0.855148315429688" tx="261.9" ty="589.05"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="188.55" ty="512.85"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="448.45" ty="880.2"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="823.4" ty="274.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="30" y="18"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="190" ty="106.1"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="280.05" ty="191.25"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="423.7" ty="191.25"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="826.4" ty="1039.7"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="364.3" ty="259.7"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="499.95" ty="87.85"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="341.05" ty="48.25"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="701.7" ty="155.25"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="158.25" ty="172.15"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="70.65" ty="315.15"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
-                                             <matrix>
-                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="805.4" ty="910.95"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="775.55" ty="824.05"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="30" y="18"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
-                                             <matrix>
-                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="887.4" ty="1406.85"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
-                                             <matrix>
-                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="546.9" ty="1594.95"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="35.5" y="28"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="0.87652587890625" b="0.481353759765625" c="-0.481353759765625" d="0.87652587890625" tx="408.65" ty="1162.95"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="280.05" ty="1211.9"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="144" ty="1468.65"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-3.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="253.75" ty="947.15"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="28.5" y="16.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-3.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="887.4" ty="1036.95"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="28.5" y="16.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="387.45" ty="871.7"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="664.9" ty="1006.2"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-3.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="64.4" ty="1149.2"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="28.5" y="16.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
-                                             <matrix>
-                                                  <Matrix tx="3.4" ty="1077.7"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-1.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="876.15" ty="360.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="40.5" y="26"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/bush-2.png">
-                                             <matrix>
-                                                  <Matrix a="2.25" d="2.25" tx="876.15" ty="719.65"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="31" y="26.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                   </elements>
-                              </DOMFrame>
-                         </frames>
-                    </DOMLayer>
-                    <DOMLayer name="Layer 1" color="#4FFF4F" locked="true">
-                         <frames>
-                              <DOMFrame index="0" keyMode="9728">
-                                   <elements>
-                                        <DOMShape>
-                                             <fills>
-                                                  <FillStyle index="1">
-                                                       <BitmapFill bitmapPath="images/ground-228.png" bitmapIsClipped="false">
-                                                            <matrix>
-                                                                 <Matrix a="25.9790649414063" d="26.3335571289063" tx="391.95" ty="809.95"/>
-                                                            </matrix>
-                                                       </BitmapFill>
-                                                  </FillStyle>
-                                             </fills>
-                                             <edges>
-                                                  <Edge fillStyle1="1" edges="!21600 0|21600 38400!21600 38400|0 38400!0 38400|0 0!0 0|21600 0"/>
-                                             </edges>
-                                        </DOMShape>
-                                   </elements>
-                              </DOMFrame>
-                         </frames>
-                    </DOMLayer>
-               </layers>
-          </DOMTimeline>
-          <DOMTimeline name="quest_7">
-               <layers>
-                    <DOMLayer name="action" color="#4FFFFF" autoNamed="false">
-                         <frames>
-                              <DOMFrame index="0" keyMode="9728">
-                                   <Actionscript>
-                                        <script><![CDATA[stop();]]></script>
-                                   </Actionscript>
-                                   <elements/>
-                              </DOMFrame>
-                         </frames>
-                    </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -3483,7 +2924,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -3545,7 +2986,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/chair-1.png">
                                              <matrix>
-                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="428.65" ty="805.85"/>
+                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="352.55" ty="541.8"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="45.05" y="25.05"/>
@@ -3774,6 +3215,575 @@
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="39.5" y="17.5"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+                    <DOMLayer name="Layer 1" color="#4FFF4F" locked="true">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements>
+                                        <DOMShape>
+                                             <fills>
+                                                  <FillStyle index="1">
+                                                       <BitmapFill bitmapPath="images/ground-228.png" bitmapIsClipped="false">
+                                                            <matrix>
+                                                                 <Matrix a="25.9790649414063" d="26.3335571289063" tx="391.95" ty="809.95"/>
+                                                            </matrix>
+                                                       </BitmapFill>
+                                                  </FillStyle>
+                                             </fills>
+                                             <edges>
+                                                  <Edge fillStyle1="1" edges="!21600 0|21600 38400!21600 38400|0 38400!0 38400|0 0!0 0|21600 0"/>
+                                             </edges>
+                                        </DOMShape>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+               </layers>
+          </DOMTimeline>
+          <DOMTimeline name="quest_7">
+               <layers>
+                    <DOMLayer name="action" color="#4FFFFF" autoNamed="false">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <Actionscript>
+                                        <script><![CDATA[stop();]]></script>
+                                   </Actionscript>
+                                   <elements/>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="857.95" centerPoint3DY="609.8">
+                                             <matrix>
+                                                  <Matrix tx="807.95" ty="559.8"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="609.45" centerPoint3DY="993.2">
+                                             <matrix>
+                                                  <Matrix tx="559.45" ty="943.2"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="441.05" centerPoint3DY="1324.9">
+                                             <matrix>
+                                                  <Matrix tx="391.05" ty="1274.9"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="816" centerPoint3DY="1499.45">
+                                             <matrix>
+                                                  <Matrix tx="766" ty="1449.45"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="349.55" centerPoint3DY="625.85">
+                                             <matrix>
+                                                  <Matrix tx="299.55" ty="575.85"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="305" centerPoint3DY="1581.65">
+                                             <matrix>
+                                                  <Matrix tx="255" ty="1531.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMSymbolInstance>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+                    <DOMLayer name="controls" color="#FF800A" autoNamed="false">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements>
+                                        <DOMDynamicText name="scene_txt" fontRenderingMode="device" width="201.7" height="59.05" isSelectable="false" border="true">
+                                             <matrix>
+                                                  <Matrix tx="60.85" ty="1849.75"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>Quest</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs aliasText="false" size="48" bitmapSize="960" face="Arial-BoldMT" fillColor="#333333"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMDynamicText>
+                                        <DOMSymbolInstance libraryItemName="simple_btn" name="save_btn" centerPoint3DX="1010.3" centerPoint3DY="1882.65">
+                                             <matrix>
+                                                  <Matrix tx="1010.3" ty="1882.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                             <filters>
+                                                  <DropShadowFilter angle="46.0000011383648"/>
+                                             </filters>
+                                        </DOMSymbolInstance>
+                                        <DOMInputText name="scene_txt" fontRenderingMode="device" width="191.35" height="55.85">
+                                             <matrix>
+                                                  <Matrix tx="66.05" ty="1850.55"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>0</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs alignment="right" aliasText="false" size="50" bitmapSize="1000" face="Arial-BoldMT" fillColor="#000033"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMInputText>
+                                        <DOMSymbolInstance libraryItemName="arrow_btn" name="next_btn" centerPoint3DX="290.5" centerPoint3DY="1878.35">
+                                             <matrix>
+                                                  <Matrix tx="290.5" ty="1878.35"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                             <filters>
+                                                  <DropShadowFilter angle="46.0000011383648"/>
+                                             </filters>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="simple_btn" name="load_btn" centerPoint3DX="875" centerPoint3DY="1882.65">
+                                             <matrix>
+                                                  <Matrix tx="875" ty="1882.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                             <filters>
+                                                  <DropShadowFilter angle="46.0000011383648"/>
+                                             </filters>
+                                        </DOMSymbolInstance>
+                                        <DOMSymbolInstance libraryItemName="arrow_btn" name="prev_btn" centerPoint3DX="32.95" centerPoint3DY="1878.35">
+                                             <matrix>
+                                                  <Matrix a="-1" tx="32.95" ty="1878.35"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                             <filters>
+                                                  <DropShadowFilter angle="46.0000011383648"/>
+                                             </filters>
+                                        </DOMSymbolInstance>
+                                        <DOMComponentInstance libraryItemName="CheckBox" name="intro_check" centerPoint3DX="983.7" centerPoint3DY="1779.05" uniqueID="4">
+                                             <matrix>
+                                                  <Matrix a="1.92599487304688" d="1.92599487304688" tx="887.4" ty="1757.85"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="50" y="11"/>
+                                             </transformationPoint>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_9' oldCopiedComponentPath=''>
+</component>
+]]></dataBindingXML>
+                                             <parametersAsXML><![CDATA[   <property id="enabled">
+      <Inspectable name="enabled" variable="enabled" category="" verbose="1" defaultValue="true" type="Boolean"/>
+   </property>
+   <property id="label">
+      <Inspectable name="label" variable="label" category="" verbose="0" defaultValue="Has Intro" type="String"/>
+   </property>
+   <property id="labelPlacement">
+      <Inspectable name="labelPlacement" variable="labelPlacement" category="" verbose="0" defaultValue="right" enumeration="left,right,top,bottom" type="List"/>
+   </property>
+   <property id="selected">
+      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="false" type="Boolean"/>
+   </property>
+   <property id="visible">
+      <Inspectable name="visible" variable="visible" category="" verbose="1" defaultValue="true" type="Boolean"/>
+   </property>
+]]></parametersAsXML>
+                                        </DOMComponentInstance>
+                                        <DOMComponentInstance libraryItemName="CheckBox" name="final_check" centerPoint3DX="983.7" centerPoint3DY="1823.3" uniqueID="5">
+                                             <matrix>
+                                                  <Matrix a="1.92599487304688" d="1.92599487304688" tx="887.4" ty="1802.1"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="50" y="11"/>
+                                             </transformationPoint>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_9' oldCopiedComponentPath=''>
+</component>
+]]></dataBindingXML>
+                                             <parametersAsXML><![CDATA[   <property id="enabled">
+      <Inspectable name="enabled" variable="enabled" category="" verbose="1" defaultValue="true" type="Boolean"/>
+   </property>
+   <property id="label">
+      <Inspectable name="label" variable="label" category="" verbose="0" defaultValue="Has Final" type="String"/>
+   </property>
+   <property id="labelPlacement">
+      <Inspectable name="labelPlacement" variable="labelPlacement" category="" verbose="0" defaultValue="right" enumeration="left,right,top,bottom" type="List"/>
+   </property>
+   <property id="selected">
+      <Inspectable name="selected" variable="selected" category="" verbose="0" defaultValue="false" type="Boolean"/>
+   </property>
+   <property id="visible">
+      <Inspectable name="visible" variable="visible" category="" verbose="1" defaultValue="true" type="Boolean"/>
+   </property>
+]]></parametersAsXML>
+                                        </DOMComponentInstance>
+                                        <DOMInputText name="time_0_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                             <matrix>
+                                                  <Matrix a="0.750228881835938" tx="340.3" ty="1851.15"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>30</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMInputText>
+                                        <DOMInputText name="time_1_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                             <matrix>
+                                                  <Matrix a="0.750228881835938" tx="468.7" ty="1851.15"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>55</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMInputText>
+                                        <DOMInputText name="time_2_txt" fontRenderingMode="device" width="155.95" height="55.85" border="true">
+                                             <matrix>
+                                                  <Matrix a="0.750228881835938" tx="597.1" ty="1851.15"/>
+                                             </matrix>
+                                             <textRuns>
+                                                  <DOMTextRun>
+                                                       <characters>70</characters>
+                                                       <textAttrs>
+                                                            <DOMTextAttrs alignment="center" aliasText="false" size="50" bitmapSize="1000" face="ArialMT" fillColor="#000033"/>
+                                                       </textAttrs>
+                                                  </DOMTextRun>
+                                             </textRuns>
+                                        </DOMInputText>
+                                   </elements>
+                              </DOMFrame>
+                         </frames>
+                    </DOMLayer>
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
+                         <frames>
+                              <DOMFrame index="0" keyMode="9728">
+                                   <elements>
+                                        <DOMBitmapInstance libraryItemName="images/background-0-l.png">
+                                             <matrix>
+                                                  <Matrix a="1.18948364257813" d="1.18948364257813"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="0.05"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/background-0-r.png">
+                                             <matrix>
+                                                  <Matrix a="1.1715087890625" d="1.1715087890625" tx="701.7"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="2.95"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/foreground-0-l.png">
+                                             <matrix>
+                                                  <Matrix a="1.9007568359375" d="1.9007568359375" ty="1544.4"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/foreground-0-r.png">
+                                             <matrix>
+                                                  <Matrix a="1.14199829101563" d="1.14199829101563" tx="573.05" ty="1656.6"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="704.35" ty="1594.95"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="30" y="18"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-7.png">
+                                             <matrix>
+                                                  <Matrix a="2.24998474121094" d="2.24998474121094" tx="563" ty="301.15"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="41.5" y="19"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/chair-1.png">
+                                             <matrix>
+                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="486.65" ty="666.75"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="45.05" y="25.05"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/rock-0.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="597.8" ty="1211.9"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="39.5" y="17.5"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/rock-3.png">
+                                             <matrix>
+                                                  <Matrix a="1.71110534667969" d="1.71110534667969" tx="572.5" ty="1305.45"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="27" y="15"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="0.87652587890625" b="0.481353759765625" c="-0.481353759765625" d="0.87652587890625" tx="560" ty="880.2"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-h.png">
+                                             <matrix>
+                                                  <Matrix a="0.912872314453125" b="0.408218383789063" c="-0.408218383789063" d="0.912872314453125" tx="434.3" ty="1276.3"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="655" ty="1386.45"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="0.87652587890625" b="0.481353759765625" c="-0.481353759765625" d="0.87652587890625" tx="763.7" ty="543.4"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="696.95" ty="496.8"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
+                                             <matrix>
+                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="32.9" ty="853.75"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="35.55" y="28"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="3.05" ty="766.85"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="30" y="18"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/chair-0.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="486.65" ty="477.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="19.5" y="14.5"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-7.png">
+                                             <matrix>
+                                                  <Matrix a="2.24998474121094" d="2.24998474121094" tx="152.05" ty="719.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="41.5" y="19"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="0.855148315429688" b="-0.518386840820313" c="0.518386840820313" d="0.855148315429688" tx="261.9" ty="589.05"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="188.55" ty="512.85"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="448.45" ty="880.2"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="823.4" ty="274.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="30" y="18"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="190" ty="106.1"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="280.05" ty="191.25"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="423.7" ty="191.25"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="826.4" ty="1039.7"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="364.3" ty="259.7"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="499.95" ty="87.85"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="341.05" ty="48.25"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="701.7" ty="155.25"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="158.25" ty="172.15"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="70.65" ty="315.15"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
+                                             <matrix>
+                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="805.4" ty="910.95"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-0.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="775.55" ty="824.05"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="30" y="18"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
+                                             <matrix>
+                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="920.25" ty="1166.55"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-4.png">
+                                             <matrix>
+                                                  <Matrix a="2.25003051757813" d="2.25003051757813" tx="546.9" ty="1594.95"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="35.5" y="28"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="0.87652587890625" b="0.481353759765625" c="-0.481353759765625" d="0.87652587890625" tx="408.65" ty="1162.95"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="280.05" ty="1211.9"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="144" ty="1468.65"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-3.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="253.75" ty="947.15"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="28.5" y="16.5"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-3.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="887.4" ty="1036.95"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="28.5" y="16.5"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="387.45" ty="871.7"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="664.9" ty="1006.2"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-3.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="64.4" ty="1149.2"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="28.5" y="16.5"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/tree-0.png">
+                                             <matrix>
+                                                  <Matrix tx="3.4" ty="1077.7"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-1.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="876.15" ty="360.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="40.5" y="26"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/bush-2.png">
+                                             <matrix>
+                                                  <Matrix a="2.25" d="2.25" tx="876.15" ty="719.65"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="31" y="26.5"/>
                                              </transformationPoint>
                                         </DOMBitmapInstance>
                                    </elements>
@@ -4392,7 +4402,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -4619,7 +4629,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -4641,7 +4651,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/foreground-0-l.png">
                                              <matrix>
-                                                  <Matrix a="1.9007568359375" d="1.9007568359375" ty="1529.1"/>
+                                                  <Matrix a="1.9007568359375" d="1.9007568359375" ty="1544.75"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point/>
@@ -5916,40 +5926,40 @@
           </DOMTimeline>
      </timelines>
      <persistentData>
-          <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
           <PD n="TestMovieChecked" v="ADLDesktop"/>
+          <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
           <PD n="swf.folder.path" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/"/>
-          <PD n="DebugMovieChecked" v="ADLDesktop"/>
-          <PD n="com.air.artemis.pubipa" v="false"/>
           <PD n="com.air.artemis.pubcaptive" v="false"/>
+          <PD n="com.air.artemis.pubipa" v="false"/>
+          <PD n="DebugMovieChecked" v="ADLDesktop"/>
           <PD n="com.air.artemis.pubair" v="true"/>
           <PD n="flash.swf.basename" v="canvas"/>
-          <PD n="com.air.sdk.path"/>
           <PD n="com.air.artemis.pubexe" v="false"/>
+          <PD n="com.air.sdk.path"/>
           <PD n="com.air.artemis.airdest" v="canvas.air"/>
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
-          <PublishItem publishSize="1307463" publishTime="1499012626"/>
-          <PublishItem publishSize="1307469" publishTime="1499012450"/>
-          <PublishItem publishSize="1286875" publishTime="1499012070"/>
-          <PublishItem publishSize="1286876" publishTime="1499012036"/>
-          <PublishItem publishSize="1286883" publishTime="1499012020"/>
-          <PublishItem publishSize="1284103" publishTime="1498999854"/>
-          <PublishItem publishSize="1284101" publishTime="1498999742"/>
-          <PublishItem publishSize="1284102" publishTime="1498999559"/>
-          <PublishItem publishSize="1278613" publishTime="1498999065"/>
-          <PublishItem publishSize="1278628" publishTime="1498998940"/>
-          <PublishItem publishSize="1278632" publishTime="1498998932"/>
-          <PublishItem publishSize="1278170" publishTime="1498998550"/>
-          <PublishItem publishSize="1278167" publishTime="1498998480"/>
-          <PublishItem publishSize="1278171" publishTime="1498998451"/>
-          <PublishItem publishSize="1293619" publishTime="1498996641"/>
-          <PublishItem publishSize="1293622" publishTime="1498994477"/>
-          <PublishItem publishSize="1293454" publishTime="1498994122"/>
-          <PublishItem publishSize="1293439" publishTime="1498994031"/>
-          <PublishItem publishSize="1293405" publishTime="1498993908"/>
-          <PublishItem publishSize="1292571" publishTime="1498993668"/>
+          <PublishItem publishSize="1319337" publishTime="1499081273"/>
+          <PublishItem publishSize="1319337" publishTime="1499081126"/>
+          <PublishItem publishSize="1319331" publishTime="1499080897"/>
+          <PublishItem publishSize="1319335" publishTime="1499080869"/>
+          <PublishItem publishSize="1319335" publishTime="1499080775"/>
+          <PublishItem publishSize="1270949" publishTime="1499080721"/>
+          <PublishItem publishSize="1319309" publishTime="1499080199"/>
+          <PublishItem publishSize="1319300" publishTime="1499077546"/>
+          <PublishItem publishSize="1319302" publishTime="1499077236"/>
+          <PublishItem publishSize="1319302" publishTime="1499076953"/>
+          <PublishItem publishSize="1319302" publishTime="1499076925"/>
+          <PublishItem publishSize="1318921" publishTime="1499075695"/>
+          <PublishItem publishSize="1319165" publishTime="1499075564"/>
+          <PublishItem publishSize="1319116" publishTime="1499075058"/>
+          <PublishItem publishSize="1319137" publishTime="1499074840"/>
+          <PublishItem publishSize="1319092" publishTime="1499074720"/>
+          <PublishItem publishSize="1319062" publishTime="1499073864"/>
+          <PublishItem publishSize="1319231" publishTime="1499072771"/>
+          <PublishItem publishSize="1319224" publishTime="1499072090"/>
+          <PublishItem publishSize="1319228" publishTime="1499072037"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
