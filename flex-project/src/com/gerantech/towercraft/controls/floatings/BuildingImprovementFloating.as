@@ -35,8 +35,8 @@ package com.gerantech.towercraft.controls.floatings
 			{
 				var impoveType:int = placeDecorator.place.building.get_options().get(i);
 				
-				buttons[i] = new ImproveButton(impoveType);
-				buttons[i].enabled = placeDecorator.place.building.improvable(impoveType);
+				buttons[i] = new ImproveButton(placeDecorator.place.building, impoveType);
+				buttons[i].renable();
 				
 				var angle:Number = Math.PI * 2/numButtons*i;
 				var _x:Number = Math.sin(angle) * raduis;
@@ -55,11 +55,8 @@ package com.gerantech.towercraft.controls.floatings
 		
 		private function placeDecorator_updateHandler(event:Event):void
 		{
-			for (var i:int=0; i < placeDecorator.place.building.get_options().size(); i++) 
-			{
-				var impoveType:int = placeDecorator.place.building.get_options().get(i);
-				buttons[i].enabled = placeDecorator.place.building.improvable(impoveType);
-			}
+			for (var i:int=0; i < buttons.length; i++) 
+				buttons[i].renable();
 		}
 		
 		private function buttons_triggeredHandler(event:Event):void
