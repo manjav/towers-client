@@ -1,4 +1,4 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="place_mc" itemID="5936f750-00000ae9" linkageExportForAS="true" linkageClassName="com.gt.towers.editor.PlaceComponent" lastModified="1499080479" lastUniqueIdentifier="11" isSpriteSubclass="true">
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="place_mc" itemID="5936f750-00000ae9" linkageExportForAS="true" linkageClassName="com.gt.towers.editor.PlaceComponent" lastModified="1499162273" lastUniqueIdentifier="11">
   <timeline>
     <DOMTimeline name="place_mc">
       <layers>

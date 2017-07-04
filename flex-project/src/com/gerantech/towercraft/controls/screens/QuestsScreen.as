@@ -119,7 +119,7 @@ package com.gerantech.towercraft.controls.screens
 					source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.quests.get(field.index) ) );
 				}
 			}
-			source.sortOn("index");
+			source.sortOn("index", Array.NUMERIC);
 			return new ListCollection(source);
 		}
 	}
