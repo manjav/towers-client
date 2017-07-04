@@ -409,8 +409,8 @@ package com.gerantech.towercraft.controls.screens
 		}
 		override protected function backButtonFunction():void
 		{
-			trace("backButtonFunction");
-			appModel.battleFieldView.responseSender.leave();
+			if(appModel.battleFieldView.battleData.map.isQuest)
+				appModel.battleFieldView.responseSender.leave();
 		}
 	}
 

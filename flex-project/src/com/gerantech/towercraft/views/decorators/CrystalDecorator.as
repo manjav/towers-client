@@ -97,9 +97,11 @@ package com.gerantech.towercraft.views.decorators
 		
 		override public function dispose():void
 		{
-			crystalDisplay.removeFromParent(true);
-			radiusDisplay.removeFromParent(true);
-			if(plotDisplay !=null)
+			if(crystalDisplay != null)
+				crystalDisplay.removeFromParent(true);
+			if(radiusDisplay != null)
+				radiusDisplay.removeFromParent(true);
+			if(plotDisplay != null)
 				plotDisplay.removeFromParent(true);
 			super.dispose();
 		}
