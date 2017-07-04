@@ -14,7 +14,6 @@ package com.gerantech.towercraft.managers.net
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
-	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.gt.towers.utils.maps.StringFieldMap;

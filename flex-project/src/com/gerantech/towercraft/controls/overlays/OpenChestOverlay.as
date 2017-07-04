@@ -15,9 +15,6 @@ package com.gerantech.towercraft.controls.overlays
 	import feathers.controls.AutoSizeMode;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.HorizontalAlign;
-	import feathers.layout.HorizontalLayout;
-	import feathers.layout.VerticalAlign;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
