@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:38e5fa5a9b7fa96ebc03bb18a18cfd60:417cd13894b4eaf2ef7dc676a825fbee:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:f2780b8367447d32e44065d9b3c80b3c:a70ac079c9e1f35a36c6266d8b0b9833:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png">
     <SubTexture name="building-1002" x="804" y="896" width="273" height="309" frameX="-20" frameY="-39" frameWidth="320" frameHeight="366"/>
     <SubTexture name="building-1003" x="825" y="282" width="283" height="318" frameX="-20" frameY="-40" frameWidth="320" frameHeight="366"/>
@@ -23,24 +23,24 @@
     <SubTexture name="chars/allied-general" x="2" y="2" width="525" height="1072"/>
     <SubTexture name="finger-down" x="524" y="1485" width="184" height="173" frameX="-2" frameY="-6" frameWidth="188" frameHeight="188"/>
     <SubTexture name="improve--2" x="1061" y="1207" width="51" height="61" frameX="-9" frameY="-2" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-1" x="937" y="1977" width="60" height="64" frameX="-5" frameY="-5" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-11" x="112" y="1676" width="69" height="57" frameX="-1" frameY="-10" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-21" x="999" y="1977" width="59" height="64" frameX="-7" frameY="-4" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-1" x="58" y="1676" width="55" height="58" frameX="-8" frameY="-8" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-11" x="169" y="1676" width="69" height="57" frameX="-1" frameY="-10" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-21" x="1018" y="1954" width="59" height="64" frameX="-7" frameY="-4" frameWidth="72" frameHeight="72"/>
     <SubTexture name="improve-31" x="2" y="1676" width="54" height="59" frameX="-10" frameY="-8" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-41" x="58" y="1676" width="52" height="58" frameX="-8" frameY="-8" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-41" x="115" y="1676" width="52" height="58" frameX="-8" frameY="-8" frameWidth="72" frameHeight="72"/>
     <SubTexture name="improve-button-disabled" x="524" y="1660" width="66" height="68"/>
     <SubTexture name="improve-button-selected" x="592" y="1660" width="66" height="68"/>
     <SubTexture name="improve-button-up" x="660" y="1660" width="66" height="68"/>
     <SubTexture name="improve-lock" x="1061" y="1270" width="48" height="68"/>
     <SubTexture name="res-1000" x="728" y="1630" width="107" height="110" frameX="-3" frameY="-1" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1001" x="855" y="1944" width="80" height="98" frameX="-15" frameY="-9" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-1001" x="914" y="1819" width="80" height="98" frameX="-15" frameY="-9" frameWidth="112" frameHeight="112"/>
     <SubTexture name="res-1002" x="819" y="1841" width="93" height="101" frameX="-10" frameY="-7" frameWidth="112" frameHeight="112"/>
     <SubTexture name="res-1003" x="725" y="1742" width="106" height="97" frameX="-1" frameY="-8" frameWidth="112" frameHeight="112"/>
     <SubTexture name="res-1004" x="710" y="1485" width="140" height="143" frameX="-8" frameY="-11" frameWidth="160" frameHeight="160"/>
     <SubTexture name="speech-bubble" x="725" y="1945" width="128" height="96"/>
-    <SubTexture name="star-off" x="1005" y="1907" width="66" height="63" frameX="-1" frameY="-2" frameWidth="68" frameHeight="68"/>
-    <SubTexture name="star" x="937" y="1907" width="66" height="68" frameX="-1" frameY="0" frameWidth="68" frameHeight="68"/>
+    <SubTexture name="star-off" x="1018" y="1889" width="66" height="63" frameX="-1" frameY="-2" frameWidth="68" frameHeight="68"/>
+    <SubTexture name="star" x="996" y="1819" width="66" height="68" frameX="-1" frameY="0" frameWidth="68" frameHeight="68"/>
     <SubTexture name="tab-0" x="725" y="1841" width="92" height="102" frameX="-8" frameY="-6" frameWidth="110" frameHeight="110"/>
-    <SubTexture name="tab-1" x="914" y="1819" width="93" height="86" frameX="-7" frameY="-15" frameWidth="110" frameHeight="110"/>
-    <SubTexture name="tab-2" x="1009" y="1819" width="66" height="86" frameX="-20" frameY="-15" frameWidth="110" frameHeight="110"/>
+    <SubTexture name="tab-1" x="855" y="1944" width="93" height="86" frameX="-7" frameY="-15" frameWidth="110" frameHeight="110"/>
+    <SubTexture name="tab-2" x="950" y="1919" width="66" height="86" frameX="-20" frameY="-15" frameWidth="110" frameHeight="110"/>
 </TextureAtlas>

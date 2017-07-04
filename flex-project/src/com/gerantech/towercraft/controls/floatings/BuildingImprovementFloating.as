@@ -21,6 +21,8 @@ package com.gerantech.towercraft.controls.floatings
 		override protected function initialize():void
 		{
 			super.initialize();
+			transitionOut.destinationAlpha = 0;
+			overlay.visible = false;
 			var raduis:int = 160 * appModel.scale;
 
 			var circle:Image = new Image(Assets.getTexture("damage-range"));
