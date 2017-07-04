@@ -14,11 +14,13 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gt.towers.battle.BattleOutcome;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
+	import com.gt.towers.utils.maps.IntIntMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -27,7 +29,6 @@ package com.gerantech.towercraft.controls.screens
 	
 	import flash.geom.Point;
 	
-	import feathers.controls.StackScreenNavigator;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -99,18 +100,27 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case SFSCommands.END_BATTLE:
-					//trace(player.get_id());
 					var youWin:Boolean = data.getBool("youWin");
 					var score:int = data.getInt("score");
 					var rewards:ISFSArray = data.getSFSArray("rewards");
 					var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 					var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
 					
+					// set quest score
+					if ( quest.isQuest && player.quests.get( quest.index ) < score)
+						player.quests.set(quest.index, score);
+					
+					// reduce player resources
+					var outcomes:IntIntMap = new IntIntMap();
+					for(var i:int=0; i<rewards.size(); i++)
+						outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
+					BattleOutcome.consume_outcomes(player, outcomes);
+					
+					// show battle outcome overlay
 					var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
 					battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 					battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 					appModel.navigator.addChild(battleOutcomeOverlay);
-
 					break;
 			}
 		}
@@ -194,8 +204,6 @@ package com.gerantech.towercraft.controls.screens
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
 			}
-			if(quest.isQuest)
-				player.quests.set(quest.index, battleOutcomeOverlay.score);
 			
 			if( !battleOutcomeOverlay.tutorialMode )
 				dispatchEventWith(Event.COMPLETE);
@@ -213,7 +221,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			if(event.params.user.isItMe || owner == null)
 				return;
-			StackScreenNavigator(owner).popScreen();
+			//StackScreenNavigator(owner).popScreen();
 		}
 		
 		protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
@@ -377,13 +385,6 @@ package com.gerantech.towercraft.controls.screens
 		}
 		
 		
-		override protected function screen_removedFromStageHandler(event:Event):void
-		{
-			sfsConnection.send(new LeaveRoomRequest());
-			super.screen_removedFromStageHandler(event);
-			removeConnectionListeners();
-		}
-		
 		private function removeConnectionListeners():void
 		{
 			removeEventListener(TouchEvent.TOUCH, touchHandler);
@@ -393,12 +394,24 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 		}
 		
+		override protected function screen_removedFromStageHandler(event:Event):void
+		{
+			trace("screen_removedFromStageHandler");
+			super.screen_removedFromStageHandler(event);
+			removeConnectionListeners();
+		}
+		
 		override public function dispose():void
 		{
+			trace("dispose");
 			appModel.battleFieldView.dispose();
 			super.dispose();
 		}
-		
+		override protected function backButtonFunction():void
+		{
+			trace("backButtonFunction");
+			appModel.battleFieldView.responseSender.leave();
+		}
 	}
 
 }
