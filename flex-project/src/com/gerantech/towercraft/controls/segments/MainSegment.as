@@ -51,9 +51,9 @@ public class MainSegment extends Segment
 		if(appModel.loadingManager.inBattle)
 		{
 			gotoLiveBattle();
-			appModel.loadingManager.inBattle = false;
 			return;
 		}
+		
 		showMap();
 		showTutorial();
 	}

@@ -86,7 +86,7 @@ package com.gerantech.towercraft.controls.screens
 				return;	
 			
 			var tutorialData:TutorialData = new TutorialData("");
-			if( player.get_questIndex() == 0 || player.get_questIndex() == 2 )
+			if( player.get_questIndex() <= 2 )
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
 			var pl:PlaceDataList = new PlaceDataList();
 			var py:Number = (listLayout.typicalItemHeight+listLayout.gap)*player.get_questIndex()+listLayout.typicalItemHeight/2+listLayout.padding;
