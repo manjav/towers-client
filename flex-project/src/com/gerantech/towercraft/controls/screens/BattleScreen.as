@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.BattleHUD;
+	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -25,7 +26,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
-	import com.smartfoxserver.v2.requests.LeaveRoomRequest;
 	
 	import flash.geom.Point;
 	
@@ -97,6 +97,10 @@ package com.gerantech.towercraft.controls.screens
 				
 				case SFSCommands.BUILDING_IMPROVE:
 					appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
+					break;
+				
+				case SFSCommands.LEFT_BATTLE:
+					appModel.navigator.addChild(new GameLog(data.getInt("user") + " left battle."));
 					break;
 				
 				case SFSCommands.END_BATTLE:
@@ -204,9 +208,10 @@ package com.gerantech.towercraft.controls.screens
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
 			}
-			
-			if( !battleOutcomeOverlay.tutorialMode )
+			else
+			{
 				dispatchEventWith(Event.COMPLETE);
+			}
 		}
 		
 		

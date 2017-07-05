@@ -6,10 +6,6 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.vo.Quest;
-import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Point;
 import flash.utils.clearInterval;
@@ -52,6 +48,12 @@ public class MainSegment extends Segment
 	
 	protected override function coreLoaded() : void
 	{
+		if(appModel.loadingManager.inBattle)
+		{
+			gotoLiveBattle();
+			appModel.loadingManager.inBattle = false;
+			return;
+		}
 		showMap();
 		showTutorial();
 	}
@@ -157,11 +159,7 @@ public class MainSegment extends Segment
 						return;
 					}
 					
-					var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
-					item.properties.requestField = null ;
-					item.properties.waitingOverlay = new WaitingOverlay() ;
-					appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-					appModel.navigator.addChild(item.properties.waitingOverlay);
+					gotoLiveBattle();
 					break;
 				case "dragon-cross":
 				case "portal-tower":
@@ -169,6 +167,15 @@ public class MainSegment extends Segment
 					break;
 			}
 		}
+	}
+	
+	private function gotoLiveBattle():void
+	{
+		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
+		item.properties.requestField = null ;
+		item.properties.waitingOverlay = new WaitingOverlay() ;
+		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+		appModel.navigator.addChild(item.properties.waitingOverlay);		
 	}
 	
 	private function punchButton(mapElement:SimpleButton, time:Number = 0.6):void

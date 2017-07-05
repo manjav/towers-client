@@ -41,7 +41,6 @@ package com.gerantech.towercraft.managers.net
 		{
 			this.version = version;
 			initServerData(sfsObj);
-			
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 			var url:String = "http://"+(SFSConnection.instance.currentIp=="185.141.192.33"?"env-3589663.j.scaleforce.gr":SFSConnection.instance.currentIp)+"/cores/"+coreFileName;
