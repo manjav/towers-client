@@ -102,7 +102,7 @@
 			enabled_btn.txt.text = enabled ? "E" : "D";
 			body_mc.gotoAndStop(type*10 + (troopType+2));
 			tutorIndex = int(tutor_input.txt.text);
-			tutor_input.alpha = tutorIndex==0?0.3:1;
+			tutor_input.alpha = tutorIndex==-2?0.3:1;
 			var isCrystal:Boolean = (BuildingType.get_category(type) == BuildingType.B40_CRYSTAL);
 			radius_mc.visible = isCrystal;
 			if (isCrystal)

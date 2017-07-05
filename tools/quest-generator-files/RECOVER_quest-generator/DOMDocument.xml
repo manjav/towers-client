@@ -5101,7 +5101,7 @@
                                                   <Point/>
                                              </transformationPoint>
                                         </DOMSymbolInstance>
-                                        <DOMSymbolInstance libraryItemName="place_mc" selected="true" centerPoint3DX="528.65" centerPoint3DY="1041.1">
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="528.65" centerPoint3DY="1041.1">
                                              <matrix>
                                                   <Matrix tx="478.65" ty="991.1"/>
                                              </matrix>
@@ -8245,8 +8245,8 @@
           </DOMTimeline>
      </timelines>
      <persistentData>
-          <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
           <PD n="TestMovieChecked" v="ADLDesktop"/>
+          <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
           <PD n="swf.folder.path" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/"/>
           <PD n="com.air.artemis.pubcaptive" v="false"/>
           <PD n="com.air.artemis.pubipa" v="false"/>
@@ -8259,6 +8259,8 @@
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
+          <PublishItem publishSize="1317829" publishTime="1499251882"/>
+          <PublishItem publishSize="1317831" publishTime="1499249240"/>
           <PublishItem publishSize="1317828" publishTime="1499244024"/>
           <PublishItem publishSize="1317865" publishTime="1499238089"/>
           <PublishItem publishSize="1317868" publishTime="1499237662"/>
@@ -8277,8 +8279,6 @@
           <PublishItem publishSize="1323668" publishTime="1499155382"/>
           <PublishItem publishSize="1323330" publishTime="1499155316"/>
           <PublishItem publishSize="1323332" publishTime="1499155199"/>
-          <PublishItem publishSize="1323330" publishTime="1499155189"/>
-          <PublishItem publishSize="1323331" publishTime="1499153322"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
