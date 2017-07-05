@@ -46,5 +46,10 @@ package com.gerantech.towercraft.managers.net
 		{
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LEAVE, null, room);			
 		}
+		
+		public function resetAllVars():void
+		{
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.RESET_ALL_VARS, null, room);			
+		}
 	}
 }

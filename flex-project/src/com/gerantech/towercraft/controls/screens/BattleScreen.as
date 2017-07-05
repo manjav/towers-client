@@ -82,7 +82,7 @@ package com.gerantech.towercraft.controls.screens
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
 			var data:SFSObject = event.params.params as SFSObject;
-			//trace(data.getDump());
+			//trace(event.params.cmd, data.getDump());
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
@@ -100,7 +100,8 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case SFSCommands.LEFT_BATTLE:
-					appModel.navigator.addChild(new GameLog(data.getInt("user") + " left battle."));
+				case SFSCommands.REJOIN_BATTLE:
+					appModel.navigator.addChild(new GameLog( appModel.battleFieldView.battleData.room.getUserById(data.getInt("user")).name + event.params.cmd));
 					break;
 				
 				case SFSCommands.END_BATTLE:
@@ -114,7 +115,7 @@ package com.gerantech.towercraft.controls.screens
 					if ( quest.isQuest && player.quests.get( quest.index ) < score)
 						player.quests.set(quest.index, score);
 					
-					// reduce player resources
+				// reduce player resources
 					var outcomes:IntIntMap = new IntIntMap();
 					for(var i:int=0; i<rewards.size(); i++)
 						outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
@@ -151,7 +152,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			//trace("battle screen -> start", quest.index, quest.isQuest, player.quests.get(quest.index));
-			if(quest.isQuest && player.quests.get(quest.index)==0)
+			if( quest.isQuest && player.quests.get(quest.index) <= 2 )
 			{
 				// create tutorial steps
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.START_BATTLE);
@@ -178,6 +179,13 @@ package com.gerantech.towercraft.controls.screens
 			
 			sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
 			sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
+			
+			if(appModel.loadingManager.inBattle)
+			{
+				appModel.battleFieldView.responseSender.resetAllVars();
+				appModel.loadingManager.inBattle = false;
+			}		
+			
 			addEventListener(TouchEvent.TOUCH, touchHandler);
 		}
 		
