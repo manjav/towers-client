@@ -109,8 +109,8 @@
 			{
 				radius_mc.width = get_damageRadius() * 2 / (stage.stageWidth/1080) * 1.3;
 				radius_mc.scaleY = radius_mc.scaleX;
-				trace(stage.stageWidth, stage.width);
-				trace(radius_mc.width, radius_mc.scaleY);
+				//trace(stage.stageWidth, stage.width);
+				//trace(radius_mc.width, radius_mc.scaleY);
 			}
 		}
 	
