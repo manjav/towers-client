@@ -9,10 +9,8 @@ package com.gerantech.towercraft.controls.overlays
 	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.FlowLayout;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.VerticalAlign;
-	import feathers.media.TimeLabel;
 	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
@@ -23,10 +21,8 @@ package com.gerantech.towercraft.controls.overlays
 	{
 		private var finger:Image;
 		private var places:PlaceDataList;
-		private var tweenStep:int ;
+		private var placeIndex:int;
 		private var swipeTime:Number = 1;
-		private var isDoubleAttack:Boolean = true;
-		private var flag:Boolean = 0;
 		
 		public function TutorialSwipeOverlay(task:TutorialTask)
 		{
@@ -49,6 +45,8 @@ package com.gerantech.towercraft.controls.overlays
 
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
 			finger.alignPivot(HorizontalAlign.LEFT, VerticalAlign.TOP);
+			finger.x = places.get(0).x * appModel.scale;
+			finger.y = places.get(0).y * appModel.scale;
 			finger.touchable = false;
 			addChild(finger);
 			
@@ -84,89 +82,30 @@ package com.gerantech.towercraft.controls.overlays
 		}
 		protected override function transitionInCompleted():void
 		{
-			if(isDoubleAttack)
-				flag = true;
 			super.transitionInCompleted();
-			tweenCompleteCallback("stepLast")
+			goToPlace();
 		}
 		
-		private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, time:Number=1, doubleA:Boolean=true):void
+		private function goToPlace():void
 		{
-				animate( "stepMid",
-					places.get(from).x * appModel.scale, 
-					(places.get(from).y - 200) * appModel.scale, 
-					places.get(to).x * appModel.scale, 
-					(places.get(to).y - 200) * appModel.scale,
-					fromAlpha, toAlpha, time
-				);
-		}
-		
-		private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, time:Number=1, delayTime:Number =3):void
-		{
-			finger.x = startX;
-			finger.y = startY;
-			finger.alpha = startAlpha;
+			placeIndex ++;
+			if(placeIndex == places.size()+1)
+				placeIndex = 0;
+			
+			if( placeIndex == 0 )
+			{
+				finger.x = places.get(0).x * appModel.scale;
+				finger.y = places.get(0).y * appModel.scale;
+			}
 			
 			var tween:Tween = new Tween(finger, swipeTime, Transitions.EASE_IN_OUT);
-			tween.moveTo(endX, endY);
-			tween.delay = 0.5;
-			tween.fadeTo(endAlpha);
-			tween.onComplete = tweenCompleteCallback;
-			tween.onCompleteArgs = [name];
+			tween.delay = placeIndex == 0 ? 1 : 0.2;
+			tween.onComplete = goToPlace;
+			tween.fadeTo(placeIndex == places.size() ? 0 : 1);
+			if(placeIndex < places.size())
+				tween.moveTo(places.get(placeIndex).x * appModel.scale, places.get(placeIndex).y * appModel.scale);
 			Starling.juggler.add( tween );
 		}		
-		
-		private function tweenCompleteCallback(swipeName:String):void
-		{
-			switch(swipeName)
-			{
-				case "stepFirst":
-				case "stepMid":
-					if(swipeName == "stepMid")
-						tweenStep ++;
-					
-					if(tweenStep == places.size()-1)
-					{
-/*						if(true)
-							animate( "stepLast",
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-200) * appModel.scale, 
-								(places.get(tweenStep-1).x) * appModel.scale, 
-								(places.get(tweenStep-1).y-400) * appModel.scale,
-								1, 0);
-						else*/
-							animate( "stepLast",
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-200) * appModel.scale, 
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-250) * appModel.scale,
-								1, 0);
-							if(flag == true)
-							{
-								tweenStep -= 1;
-								swipe(tweenStep, tweenStep+1);
-								flag = false;
-							}
-					}
-					else
-					{
-						swipe(tweenStep, tweenStep+1);
-					}
-					break;
-				case "stepLast":
-					tweenStep = 0;
-					animate( "stepFirst",
-						(places.get(0).x) * appModel.scale, 
-						(places.get(0).y-150) * appModel.scale, 
-						(places.get(0).x) * appModel.scale, 
-						(places.get(0).y-200) * appModel.scale,
-						0, 1);	
-					trace("stepFirst animated.")
-					break;
-
-			}
-			trace("tweenStep:", tweenStep);
-		}
 		
 		public override function close(dispose:Boolean=true):void
 		{
