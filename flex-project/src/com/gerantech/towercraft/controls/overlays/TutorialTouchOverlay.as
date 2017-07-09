@@ -35,7 +35,7 @@ package com.gerantech.towercraft.controls.overlays
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
 			finger.alignPivot(HorizontalAlign.LEFT, VerticalAlign.TOP);
 			finger.x = task.places.get(0).x * appModel.scale;
-			finger.y = task.places.get(0).y * appModel.scale;
+			finger.y = (task.places.get(0).y - 200) * appModel.scale;
 			finger.touchable = false;
 			addChild(finger);
 			
