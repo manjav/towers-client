@@ -34,7 +34,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function backButtonFunction():void
 		{
-			dispatchEventWith(Event.COMPLETE);
+			appModel.navigator.popScreen();
 		}
 			
 		protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String

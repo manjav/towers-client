@@ -128,9 +128,12 @@ package com.gerantech.towercraft.controls.overlays
 			armatureDisplay.x = stage.stageWidth/2;
 			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;
-			armatureDisplay.animation.gotoAndPlayByTime("star_" + Math.max(0,score), 0, 1);
-			
 			this.addChild(armatureDisplay);
+			
+			if(!appModel.battleFieldView.battleData.map.isQuest && score==0)
+				armatureDisplay.animation.gotoAndPlayByTime("draw_0", 0, 1);
+			else
+				armatureDisplay.animation.gotoAndPlayByTime("star_" + Math.max(0,score), 0, 1);
 		}
 	}
 }

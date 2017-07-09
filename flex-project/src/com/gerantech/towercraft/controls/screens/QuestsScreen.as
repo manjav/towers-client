@@ -5,26 +5,18 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.controls.items.QuestItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
-	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.Quest;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-	import com.gt.towers.Game;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.PlaceDataList;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import flash.utils.setTimeout;
-	
-	import feathers.controls.ScreenNavigatorItem;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
-	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
@@ -66,7 +58,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			var backButton:SimpleLayoutButton = new SimpleLayoutButton();
 			backButton.width = backButton.height = 240*appModel.scale;
-			backButton.layoutData = new AnchorLayoutData(NaN,NaN,0, 0);
+			backButton.layoutData = new AnchorLayoutData(NaN, 0, 0, NaN);
 			backButton.backgroundSkin = new Image(Assets.getTexture("tab-1", "gui"));
 			backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
 			addChild(backButton);

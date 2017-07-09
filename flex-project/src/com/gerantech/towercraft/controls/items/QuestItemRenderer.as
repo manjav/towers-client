@@ -32,14 +32,6 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	{
 		super.initialize();
 		
-		/*		skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-		skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
-		skin.setTextureForState(STATE_DISABLED, appModel.theme.itemRendererUpSkinTexture);
-		skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererSelectedSkinTexture);
-		skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererSelectedSkinTexture);
-		skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
-		backgroundSkin = skin;*/
-		
 		skin = new ImageSkin(Assets.getTexture("building-button", "skin"));
 		skin.setTextureForState(STATE_NORMAL, Assets.getTexture("building-button", "skin"));
 		skin.setTextureForState(STATE_DOWN, Assets.getTexture("building-button", "skin"));

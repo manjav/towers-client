@@ -6,6 +6,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -101,7 +102,8 @@ package com.gerantech.towercraft.controls.screens
 				
 				case SFSCommands.LEFT_BATTLE:
 				case SFSCommands.REJOIN_BATTLE:
-					appModel.navigator.addChild(new GameLog( appModel.battleFieldView.battleData.room.getUserById(data.getInt("user")).name + event.params.cmd));
+					//trace(event.params.cmd, data.getText("user"))
+					appModel.navigator.addChild(new GameLog( loc(event.params.cmd+"_message", [data.getText("user")] ) ) );
 					break;
 				
 				case SFSCommands.END_BATTLE:
@@ -174,6 +176,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			
 			var hud:BattleHUD = new BattleHUD();
+			hud.addEventListener(Event.CLOSE, backButtonHandler);
 			hud.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(hud);
 			
@@ -397,7 +400,6 @@ package com.gerantech.towercraft.controls.screens
 			}
 		}
 		
-		
 		private function removeConnectionListeners():void
 		{
 			removeEventListener(TouchEvent.TOUCH, touchHandler);
@@ -422,8 +424,15 @@ package com.gerantech.towercraft.controls.screens
 		}
 		override protected function backButtonFunction():void
 		{
-			if(appModel.battleFieldView.battleData.map.isQuest)
+			if(!appModel.battleFieldView.battleData.map.isQuest)
+				return;
+				
+			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
+			confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
+			appModel.navigator.addChild(confirm);
+			function confirm_eventsHandler():void {
 				appModel.battleFieldView.responseSender.leave();
+			}
 		}
 	}
 
