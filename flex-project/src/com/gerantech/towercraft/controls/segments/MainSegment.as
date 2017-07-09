@@ -153,17 +153,19 @@ public class MainSegment extends Segment
 					appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 					break;
 				case "portal-center":
-					if(player.get_questIndex() < 5)
+					/*if(player.get_questIndex() < 5)
 					{
 						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
 						return;
-					}
+					}*/
 					
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
-				case "portal-tower":
 					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])])));
+					break;
+				case "portal-tower":
+					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
 					break;
 			}
 		}

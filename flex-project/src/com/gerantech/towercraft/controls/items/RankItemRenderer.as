@@ -1,16 +1,20 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
+	import com.gerantech.towercraft.models.Assets;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
+	
+	import flash.geom.Rectangle;
 	
 	import feathers.controls.Label;
 	import feathers.controls.text.TextBlockTextRenderer;
 	import feathers.core.ITextRenderer;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.HorizontalLayoutData;
+	import feathers.skins.ImageSkin;
 
 	public class RankItemRenderer extends BaseCustomItemRenderer
 	{
-		private var rankData:RankData;
+		private var rankData:SFSObject;
 		
 		private var nameText:Label;
 		private var pointText:Label;
@@ -22,6 +26,15 @@ package com.gerantech.towercraft.controls.items
 		//	hlayout.verticalAlign = VerticalAlign.JUSTIFY;
 			hlayout.padding = 10;
 			layout = hlayout;
+			height = 160 * appModel.scale;
+			
+			skin = new ImageSkin(Assets.getTexture("building-button", "skin"));
+			skin.setTextureForState(STATE_NORMAL, Assets.getTexture("building-button", "skin"));
+			skin.setTextureForState(STATE_DOWN, Assets.getTexture("building-button", "skin"));
+			skin.setTextureForState(STATE_SELECTED, Assets.getTexture("building-button", "skin"));
+			skin.setTextureForState(STATE_DISABLED, Assets.getTexture("building-button-disable", "skin"));
+			skin.scale9Grid = new Rectangle(10, 10, 56, 37);
+			backgroundSkin = skin;
 			
 			nameText = new Label();
 			nameText.textRendererFactory = function():ITextRenderer
@@ -46,9 +59,9 @@ package com.gerantech.towercraft.controls.items
 			if(_data ==null || _owner==null)
 				return;
 			
-			rankData = _data as RankData;
-			nameText.text = rankData.rank + ". " + rankData.name ;
-			pointText.text = rankData.xp.toString();
+			//rankData = _data as Object;
+			nameText.text = (index+1) + ". " + _data["n"] ;
+			pointText.text = "" + _data["p"];
 			
 		}
 		

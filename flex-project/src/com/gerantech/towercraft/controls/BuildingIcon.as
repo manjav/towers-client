@@ -42,9 +42,9 @@ package com.gerantech.towercraft.controls
 			progressLabel.height = progressHeight;
 			addChild(progressLabel);
 			
-			disableFilter = new ColorMatrixFilter();
-			disableFilter.resolution = 0.8;
-			disableFilter.adjustSaturation(-0.7);
+			//disableFilter = new ColorMatrixFilter();
+			//disableFilter.resolution = 0.8;
+		//	disableFilter.adjustSaturation(-0.7);
 			//disableFilter.textureSmoothing = TextureSmoothing.BILINEAR
 		}
 		
@@ -53,7 +53,8 @@ package com.gerantech.towercraft.controls
 			progressbar.visible = value;
 			progressLabel.visible = value;
 
-			iconDisplay.filter = value ? null : disableFilter;
+			//iconDisplay.filter = value ? null : disableFilter;
+			iconDisplay.alpha = value ? 1 : 0.7;
 		}
 		
 		

@@ -72,11 +72,17 @@ package com.gerantech.towercraft.managers.net
 		
 		private function initCoreData(game:*):void
 		{
+			// put arena data
+			AppModel.instance.game.arenas = new IntIntMap();
+			var arenaKeys:Vector.<int> = game.arenas.keys();
+			for ( var i:int=0; i<arenaKeys.length; i++ )
+				AppModel.instance.game.arenas.set( arenaKeys[i], game.arenas.get(arenaKeys[i]) );
+			
 			// put exchanger items
 			var extSource:*;
 			var extDest:ExchangeItem;
 			var exItemsKeys:Vector.<int> = game.exchanger.items.keys();
-			for ( var i:int=0; i<exItemsKeys.length; i++ )
+			for ( i=0; i<exItemsKeys.length; i++ )
 			{
 				extSource = game.exchanger.items.get(exItemsKeys[i]);
 				if ( ExchangeType.getCategory( extSource.type ) == ExchangeType.S_0_HARD || ExchangeType.getCategory( extSource.type ) == ExchangeType.S_10_SOFT )

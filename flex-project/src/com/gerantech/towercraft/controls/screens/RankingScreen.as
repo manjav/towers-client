@@ -2,8 +2,13 @@ package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.RankItemRenderer;
-	import com.gerantech.towercraft.controls.segments.Segment;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.SFSArray;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
@@ -23,7 +28,6 @@ package com.gerantech.towercraft.controls.screens
 			super.initialize();
 			
 			layout = new AnchorLayout();
-			_listCollection = new ListCollection();
 			
 			list = new FastList();
 			list.itemRendererFactory = function():IListItemRenderer
@@ -33,25 +37,17 @@ package com.gerantech.towercraft.controls.screens
 			list.dataProvider = _listCollection;
 			list.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(list);
-			/*
-			var extraInfo:SFSObject = new SFSObject();
-			extraInfo.putUtfString(Commands.SFSOBJ_DATA_COMMAND, Commands.ORDER_GET_TOP_10);
-			extraInfo.putInt(Commands.SFSOBJ_DATA_UID, int(Game.get_instance().player.get_id()));
-		//	extraInfo.putByte(Commands.SFSOBJ_DATA_MSG_SENDER_ID, 0);
-			SFSConnection.getInstance().addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			SFSConnection.getInstance().sendExtensionRequest( Commands.REQ_ROOM, extraInfo );*/
+			
+			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 		}
 
-		/*protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
+		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			SFSConnection.getInstance().removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			if(event.params.cmd == Commands.ORDER_GET_NEAR_RANKS || event.params.cmd == Commands.ORDER_GET_TOP_10)
-				filllistCollection(event.params.params);
-		}
-		
-		private function filllistCollection(sfsObject:SFSObject):void
-		{
-			var sfsList:ISFSArray = sfsObject.getSFSArray(Commands.SFSOBJ_DATA_KEY_2);
+			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			var params:SFSObject = event.params.params;
+			list.dataProvider = new ListCollection(SFSArray(params.getSFSArray("list")).toArray());
+			//trace(_listCollection);
+			/*var sfsList:ISFSArray = sfsObject.getSFSArray(Commands.SFSOBJ_DATA_KEY_2);
 			var sObj:SFSObject;
 			var rankData:RankData;
 			var listSize:int = sfsList.size();
@@ -60,8 +56,8 @@ package com.gerantech.towercraft.controls.screens
 				sObj = SFSObject(sfsList.getSFSObject(i));
 				rankData = new RankData(sObj.getInt("id"), i + 1, sObj.getUtfString("nickname"), sObj.getInt("xp"), 0);
 				_listCollection.addItem(rankData);
-			}
-		}*/
+			}*/
+		}
 
 	}
 }

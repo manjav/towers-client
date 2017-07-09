@@ -6,6 +6,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const END_BATTLE:String = "endBattle";
 		public static const LEFT_BATTLE:String = "leftBattle";
 		public static const REJOIN_BATTLE:String = "rejoinBattle";
+		public static const RANK:String = "rank";
 		
 		public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 		public static const EXCHANGE:String = "exchange";
