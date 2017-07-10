@@ -10,10 +10,11 @@ package com.gerantech.towercraft.controls.floatings
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
+	import com.gt.towers.utils.lists.IntList;
 
 	public class BuildingImprovementFloating extends BaseFloating
 	{
-		public var placeDecorator:PlaceView;
+		public var placeView:PlaceView;
 		
 		private var upgradeButton:Button;
 		private var buttons:Vector.<ImproveButton>;
@@ -32,12 +33,13 @@ package com.gerantech.towercraft.controls.floatings
 			addChild(circle);
 				
 			buttons = new Vector.<ImproveButton>();
-			var numButtons:int = placeDecorator.place.building.get_options().size();
+			var options:IntList = placeView.place.building.get_options();
+			var numButtons:int = options.size();
 			for (var i:int=0; i < numButtons; i++) 
 			{
-				var impoveType:int = placeDecorator.place.building.get_options().get(i);
+				var impoveType:int = options.get(i);
 				
-				buttons[i] = new ImproveButton(placeDecorator.place.building, impoveType);
+				buttons[i] = new ImproveButton(placeView.place.building, impoveType);
 				buttons[i].renable();
 				
 				var angle:Number = Math.PI * 2/numButtons*i;
@@ -52,10 +54,10 @@ package com.gerantech.towercraft.controls.floatings
 				buttons[i].addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				addChild(buttons[i]);
 			}
-			placeDecorator.addEventListener(Event.UPDATE, placeDecorator_updateHandler);
+			placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
 		}
 		
-		private function placeDecorator_updateHandler(event:Event):void
+		private function placeView_updateHandler(event:Event):void
 		{
 			for (var i:int=0; i < buttons.length; i++) 
 				buttons[i].renable();
@@ -63,13 +65,13 @@ package com.gerantech.towercraft.controls.floatings
 		
 		private function buttons_triggeredHandler(event:Event):void
 		{
-			dispatchEventWith(Event.SELECT, false, {index:placeDecorator.place.index, type:ImproveButton(event.currentTarget).type});
+			dispatchEventWith(Event.SELECT, false, {index:placeView.place.index, type:ImproveButton(event.currentTarget).type});
 			close();
 		}
 		
 		override public function close(dispose:Boolean=true):void
 		{
-			placeDecorator.removeEventListener(Event.UPDATE, placeDecorator_updateHandler);
+			placeView.removeEventListener(Event.UPDATE, placeView_updateHandler);
 			super.close(dispose);
 		}
 	}

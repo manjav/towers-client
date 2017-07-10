@@ -383,7 +383,7 @@ package com.gerantech.towercraft.controls.screens
 			to.destinationPosition = ti.destinationPosition;
 			
 			var floating:BuildingImprovementFloating = new BuildingImprovementFloating();
-			floating.placeDecorator = placeView;
+			floating.placeView = placeView;
 			floating.transitionIn = ti;
 			floating.transitionOut = to;
 			floating.addEventListener(Event.CLOSE, floating_closeHandler);

@@ -7,14 +7,14 @@ package com.gerantech.towercraft.views.decorators
 	import com.gt.towers.Game;
 	import com.gt.towers.Player;
 	import com.gt.towers.buildings.Place;
+	import com.gt.towers.utils.lists.IntList;
 	
-	import flash.text.TextFormat;
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.text.BitmapFontTextRenderer;
-	import feathers.controls.text.TextFieldTextRenderer;
 	import feathers.text.BitmapFontTextFormat;
 	
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
@@ -26,18 +26,38 @@ package com.gerantech.towercraft.views.decorators
 		private var populationIndicator:BitmapFontTextRenderer;
 /*		private var plotTexture:String;
 		private var plotDisplay:Image;*/
+
+		private var improvableIcon:Image;
 		
 		public function BuildingDecorator(placeView:PlaceView)
 		{
 			this.placeView = placeView;
 			this.place = placeView.place;
 			this.placeView.addEventListener(Event.SELECT, placeView_selectHandler);
+			if(place.building.troopType == player.troopType)
+				this.placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
 			
 			/*plotDisplay = new Image(Assets.getTexture("building-plot-0"));
 			plotDisplay.touchable = false;*/
 
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
+		}
+		
+		private function placeView_updateHandler(event:Event):void
+		{
+			var improvable:Boolean = false;
+			var options:IntList = placeView.place.building.get_options();
+			for (var i:int=0; i < options.size(); i++) 
+			{
+				trace(options.get(i), place.building.improvable(options.get(i)))
+				if(place.building.improvable(options.get(i)) && options.get(i)!=1)
+				{
+					improvable = true;
+					break;
+				}
+			}
+			improvableIcon.visible = improvable;
 		}
 		
 		protected function placeView_selectHandler(event:Event):void
@@ -55,6 +75,13 @@ package com.gerantech.towercraft.views.decorators
 			populationIndicator.x = parent.x - populationIndicator.width/2;
 			populationIndicator.y = parent.y + 32*appModel.scale;
 			setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationIndicator);
+			
+			if(place.building.troopType == player.troopType)
+			{
+			improvableIcon = new Image(Assets.getTexture("improve--2", "gui"));
+			improvableIcon.visible = false;
+			addChild(improvableIcon);
+			}
 		}
 		
 		public function updateElements(population:int, troopType:int):void
