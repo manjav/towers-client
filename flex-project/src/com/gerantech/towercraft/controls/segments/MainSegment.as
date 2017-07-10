@@ -162,8 +162,10 @@ public class MainSegment extends Segment
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
-				case "portal-tower":
 					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])])));
+					break;
+				case "portal-tower":
+					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
 					break;
 			}
 		}

@@ -76,13 +76,10 @@ package com.gerantech.towercraft.managers.net
 			
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 			serverData = event.params.data;
-			
 			// in registring case
 			if(serverData.containsKey("password"))
 			{
-				if(serverData.containsKey("id"))
-					UserData.getInstance().id = serverData.getLong("id");
-				
+				UserData.getInstance().id = serverData.getLong("id");
 				UserData.getInstance().password = serverData.getText("password");
 				UserData.getInstance().save();
 			}
