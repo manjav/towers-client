@@ -28,11 +28,11 @@ package com.gerantech.towercraft.controls.overlays
 
 	public class BattleOutcomeOverlay extends BaseOverlay
 	{
-		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_ske.json", mimeType = "application/octet-stream")]
+		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome_ske.json", mimeType = "application/octet-stream")]
 		public static const skeletonClass: Class;
-		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_tex.json", mimeType = "application/octet-stream")]
+		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome_tex.json", mimeType = "application/octet-stream")]
 		public static const atlasDataClass: Class;
-		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome-mc_tex.png")]
+		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome_tex.png")]
 		public static const atlasImageClass: Class;
 
 		public static var factory: StarlingFactory;
