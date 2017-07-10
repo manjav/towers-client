@@ -34,6 +34,13 @@ package com.gerantech.towercraft.controls.popups
 			}
 			
 			// execute popup transition
+			rejustLayoutByTransitionData();
+		}
+		
+		protected function rejustLayoutByTransitionData():void
+		{
+			Starling.juggler.removeTweens(this);
+			
 			alpha = transitionIn.sourceAlpha;
 			x = transitionIn.sourceBound.x;
 			y = transitionIn.sourceBound.y;
@@ -51,9 +58,8 @@ package com.gerantech.towercraft.controls.popups
 					onStart:transitionInStarted,
 					onComplete:transitionInCompleted
 				}
-			);
-		}
-		
+			);			
+		}		
 		
 		public override function close(dispose:Boolean=true):void
 		{

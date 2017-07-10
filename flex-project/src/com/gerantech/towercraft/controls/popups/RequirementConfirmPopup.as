@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.popups
 			acceptButton.defaultIcon = upgradeIcon;
 		}
 		
-		override protected function acceptButton_triggeredHandler():void
+		override protected function acceptButton_triggeredHandler(event:Event):void
 		{
 			if( numHards > player.get_hards() )
 				dispatchEventWith(FeathersEventType.ERROR);

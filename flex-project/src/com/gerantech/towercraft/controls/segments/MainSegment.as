@@ -6,6 +6,9 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.models.vo.UserData;
 
 import flash.geom.Point;
 import flash.utils.clearInterval;
@@ -35,7 +38,6 @@ public class MainSegment extends Segment
 	private var dragonBonesData:DragonBonesData;
 	private var floating:MapElementFloating;
 	
-	private var questButton:SimpleButton;
 	private var intervalId:uint;
 
 	public function MainSegment()
@@ -90,7 +92,6 @@ public class MainSegment extends Segment
 					case "gold-leaf":
 						btn.x = 324.5 * appModel.scale * 1.2;
 						btn.y = 768.5 * appModel.scale * 1.2;
-						questButton = btn;
 						break;
 					case "portal-center":
 						btn.x = 739.5 * appModel.scale * 1.2;
@@ -112,7 +113,20 @@ public class MainSegment extends Segment
 	private function showTutorial():void
 	{
 		if( player.inTutorial() )
-			intervalId = setInterval(punchButton, 2000,  questButton, 1);
+/*			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton, 1);
+		else if( UserData.getInstance().tuorStep == "leagues" )
+			intervalId = setInterval(punchButton, 2000,  getChildByName("portal-tower") as SimpleButton, 1);
+		else if( UserData.getInstance().tuorStep == "select-name" )*/
+		{
+			var confirm:SelectNamePopup = new SelectNamePopup(loc("popup_select_name_title"), loc("popup_register_label"));
+			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+			appModel.navigator.addChild(confirm);
+			function confirm_eventsHandler():void {
+				//UserData.getInstance().tuorStep = "leagues";
+				//UserData.getInstance().save();
+			}
+		}
+			
 	}
 	
 	private function mapElement_triggeredHandler(event:Event ):void

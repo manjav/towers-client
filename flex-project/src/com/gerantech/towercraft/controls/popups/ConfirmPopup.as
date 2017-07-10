@@ -13,6 +13,7 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalAlign;
+	import feathers.layout.VerticalLayout;
 	import feathers.skins.ImageSkin;
 	
 	import starling.animation.Transitions;
@@ -26,6 +27,9 @@ package com.gerantech.towercraft.controls.popups
 		protected var messageDisplay:RTLLabel;
 		protected var declineButton:Button;
 		protected var acceptButton:Button;
+
+		protected var padding:int;
+		protected var container:LayoutGroup;
 		
 		public function ConfirmPopup(message:String, acceptLabel:String=null, declineLabel:String=null)
 		{
@@ -57,12 +61,21 @@ package com.gerantech.towercraft.controls.popups
 			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			backgroundSkin = skin;
 			
-			var padding:int = 36 * appModel.scale;
+			padding = 36 * appModel.scale;
 			layout = new AnchorLayout();
 			
+			var containerLayout:VerticalLayout = new VerticalLayout();
+			containerLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+			//containerLayout.gap = padding;
+			
+			container = new LayoutGroup();
+			container.layoutData = new AnchorLayoutData (padding, padding, NaN, padding);
+			container.layout = containerLayout;
+			addChild(container);
+			
 			messageDisplay = new RTLLabel(message, 1, "center", null, true, "center", 45*appModel.scale);
-			messageDisplay.layoutData = new AnchorLayoutData (NaN, padding, NaN, padding, NaN, -appModel.theme.controlSize);
-			addChild(messageDisplay);
+			//messageDisplay.layoutData = new AnchorLayoutData (NaN, padding, NaN, padding, NaN, -appModel.theme.controlSize);
+			container.addChild(messageDisplay);
 			
 			var buttonLayout:HorizontalLayout = new HorizontalLayout();
 			buttonLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
@@ -84,13 +97,13 @@ package com.gerantech.towercraft.controls.popups
 			buttonContainer.addChild(acceptButton);
 		}
 		
-		protected function decline_triggeredHandler():void
+		protected function decline_triggeredHandler(event:Event):void
 		{
 			dispatchEventWith(Event.CANCEL);
 			close();
 		}
 		
-		protected function acceptButton_triggeredHandler():void
+		protected function acceptButton_triggeredHandler(event:Event):void
 		{
 			dispatchEventWith(Event.SELECT);
 			close();
