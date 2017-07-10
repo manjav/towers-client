@@ -2,17 +2,13 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
 	import flash.geom.Point;
-	import flash.utils.setTimeout;
 	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.FlowLayout;
-	import feathers.layout.HorizontalAlign;
-	import feathers.layout.VerticalAlign;
-	import feathers.media.TimeLabel;
 	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
@@ -24,9 +20,8 @@ package com.gerantech.towercraft.controls.overlays
 		private var finger:Image;
 		private var places:PlaceDataList;
 		private var tweenStep:int ;
-		private var swipeTime:Number = 1;
-		private var isDoubleAttack:Boolean = true;
-		private var flag:Boolean = false;
+		private var doubleSwipe:Boolean;
+		private var doubleCount:int = 0;
 		
 		public function TutorialSwipeOverlay(task:TutorialTask)
 		{
@@ -39,6 +34,8 @@ package com.gerantech.towercraft.controls.overlays
 			while(array.length > 0) 
 				this.places.push(array.pop());
 			
+			//for each(var p:PlaceData in this.places._list)
+				//trace(p.tutorIndex);
 			super(task);
 		}
 		
@@ -48,10 +45,7 @@ package com.gerantech.towercraft.controls.overlays
 			layout = new AnchorLayout();
 
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
-			finger.alignPivot(HorizontalAlign.LEFT, VerticalAlign.TOP);
 			finger.touchable = false;
-			addChild(finger);
-			
 			
 			if(transitionIn == null)
 			{
@@ -84,32 +78,34 @@ package com.gerantech.towercraft.controls.overlays
 		}
 		protected override function transitionInCompleted():void
 		{
-			if(isDoubleAttack)
-				flag = true;
 			super.transitionInCompleted();
+			doubleSwipe = this.places.get(0).tutorIndex >= 10;
+			addChild(finger);
 			tweenCompleteCallback("stepLast")
 		}
 		
-		private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, time:Number=1, doubleA:Boolean=true):void
+		private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, fromScale:Number=1, toScale:Number=1, time:Number=1, doubleA:Boolean=true):void
 		{
 				animate( "stepMid",
 					places.get(from).x * appModel.scale, 
-					(places.get(from).y - 200) * appModel.scale, 
+					(places.get(from).y - 100) * appModel.scale, 
 					places.get(to).x * appModel.scale, 
-					(places.get(to).y - 200) * appModel.scale,
-					fromAlpha, toAlpha, time
+					(places.get(to).y - 100) * appModel.scale,
+					fromAlpha, toAlpha, fromScale, toScale, time
 				);
 		}
 		
-		private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, time:Number=1, delayTime:Number =3):void
+		private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, startScale:Number=1, endScale:Number=1, time:Number=1, delayTime:Number=0):void
 		{
 			finger.x = startX;
 			finger.y = startY;
 			finger.alpha = startAlpha;
+			finger.scale = startScale;
 			
-			var tween:Tween = new Tween(finger, swipeTime, Transitions.EASE_IN_OUT);
+			var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
 			tween.moveTo(endX, endY);
-			tween.delay = 0.5;
+			tween.delay = delayTime;
+			tween.scaleTo(endScale);
 			tween.fadeTo(endAlpha);
 			tween.onComplete = tweenCompleteCallback;
 			tween.onCompleteArgs = [name];
@@ -118,35 +114,36 @@ package com.gerantech.towercraft.controls.overlays
 		
 		private function tweenCompleteCallback(swipeName:String):void
 		{
+			if(!isOpen)
+				return;
 			switch(swipeName)
 			{
 				case "stepFirst":
 				case "stepMid":
-					if(swipeName == "stepMid")
+					if( swipeName == "stepMid" )
 						tweenStep ++;
 					
 					if(tweenStep == places.size()-1)
 					{
-/*						if(true)
+						if ( doubleSwipe && doubleCount == 0 )
+						{
+							doubleCount ++;
+							animate( "doubleOut",
+								(places.get(tweenStep).x) * appModel.scale, 
+								(places.get(tweenStep).y-100) * appModel.scale, 
+								(places.get(tweenStep).x) * appModel.scale, 
+								(places.get(tweenStep).y-100) * appModel.scale,
+								1, 0, 1, 1, 0.2);
+						}
+						else
+						{
 							animate( "stepLast",
 								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-200) * appModel.scale, 
-								(places.get(tweenStep-1).x) * appModel.scale, 
-								(places.get(tweenStep-1).y-400) * appModel.scale,
-								1, 0);
-						else*/
-							animate( "stepLast",
+								(places.get(tweenStep).y-100) * appModel.scale, 
 								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-200) * appModel.scale, 
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-250) * appModel.scale,
-								1, 0);
-							if(flag == true)
-							{
-								tweenStep -= 1;
-								swipe(tweenStep, tweenStep+1);
-								flag = false;
-							}
+								(places.get(tweenStep).y-200) * appModel.scale,
+								1, 0, 1, 1.2, 0.8);
+						}
 					}
 					else
 					{
@@ -155,17 +152,22 @@ package com.gerantech.towercraft.controls.overlays
 					break;
 				case "stepLast":
 					tweenStep = 0;
+					doubleCount = 0;
 					animate( "stepFirst",
 						(places.get(0).x) * appModel.scale, 
-						(places.get(0).y-150) * appModel.scale, 
+						(places.get(0).y) * appModel.scale, 
 						(places.get(0).x) * appModel.scale, 
-						(places.get(0).y-200) * appModel.scale,
-						0, 1);	
-					trace("stepFirst animated.")
+						(places.get(0).y-100) * appModel.scale,
+						0, 1, 1.2, 1, 0.8, 0.7);	
+					break;
+				case "doubleOut":
+					tweenStep = 0;
+					finger.alpha = 1;
+					tweenCompleteCallback("stepFirst");
 					break;
 
 			}
-			trace("tweenStep:", tweenStep);
+			//trace("tweenStep:", tweenStep, places.get(tweenStep).tutorIndex);
 		}
 		
 		public override function close(dispose:Boolean=true):void

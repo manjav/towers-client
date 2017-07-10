@@ -22,6 +22,7 @@ package com.gerantech.towercraft.controls.overlays
 		public var transitionIn:TransitionData;
 		public var transitionOut:TransitionData;
 		public var data:Object;
+		public var isOpen:Boolean;
 		
 		protected var overlay:DisplayObject;
 		
@@ -46,6 +47,7 @@ package com.gerantech.towercraft.controls.overlays
 		}
 		protected function transitionInStarted():void
 		{
+			isOpen = true;
 			if(hasEventListener(FeathersEventType.TRANSITION_IN_START))
 				dispatchEventWith(FeathersEventType.TRANSITION_IN_START);
 		}
@@ -119,7 +121,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			if(transitionOut == null)
 				transitionOutCompleted(dispose);
-
+			isOpen = false;
 		}
 		protected function transitionOutStarted():void
 		{

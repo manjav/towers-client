@@ -2,16 +2,18 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
 	import flash.geom.Point;
-	import flash.utils.setTimeout;
 	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.VerticalAlign;
 	
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
 	
@@ -19,12 +21,13 @@ package com.gerantech.towercraft.controls.overlays
 	{
 		private var finger:Image;
 		private var places:PlaceDataList;
-		private var placeIndex:int;
-		private var fadeTime:Number = 0.3;
+		//private var placeIndex:int;
 		
 		public function TutorialTouchOverlay(task:TutorialTask)
 		{
 			super(task);
+			for each(var p:PlaceData in task.places._list)
+			trace(p.index, "tutorIndex", p.tutorIndex);
 		}
 		
 		override protected function initialize():void
@@ -33,12 +36,9 @@ package com.gerantech.towercraft.controls.overlays
 			layout = new AnchorLayout();
 
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
-			finger.alignPivot(HorizontalAlign.LEFT, VerticalAlign.TOP);
 			finger.x = task.places.get(0).x * appModel.scale;
 			finger.y = (task.places.get(0).y - 200) * appModel.scale;
 			finger.touchable = false;
-			addChild(finger);
-			
 			
 			if(transitionIn == null)
 			{
@@ -69,19 +69,17 @@ package com.gerantech.towercraft.controls.overlays
 				}
 			);
 		}
-		protected override function transitionInCompleted():void
+		protected override function transitionInStarted():void
 		{
-			super.transitionInCompleted();
+			super.transitionInStarted();
+			addChild(finger);
 			blinkHere();
 		}
 		
 		private function blinkHere():void
 		{
-			placeIndex ++;
-			if(placeIndex == 2)
-				placeIndex = 0;
-			
-			Starling.juggler.tween( finger, fadeTime, {delay : (placeIndex==0?1.5:0.5), alpha : (placeIndex==0?1:0), onComplete:blinkHere});
+			Starling.juggler.tween( finger, 0.15, {delay : 1.6, scale : 0.85});
+			Starling.juggler.tween( finger, 0.50, {delay : 2.0, scale : 1.00, onComplete:blinkHere, transition:Transitions.EASE_OUT_BACK});
 		}		
 		
 		public override function close(dispose:Boolean=true):void

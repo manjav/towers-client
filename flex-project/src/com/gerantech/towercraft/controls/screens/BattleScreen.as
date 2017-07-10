@@ -68,14 +68,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		}
-		
-		/*private function transitionInCompleteHandler(event:Event):void
-		{
-			transitionInCompleted = true;
-			removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
-			startBattle();
-		}	*/
-		
+
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
 			removeConnectionListeners();
