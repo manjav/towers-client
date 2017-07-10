@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
-	import com.gerantech.towercraft.controls.RTLLabel;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import flash.geom.Rectangle;
