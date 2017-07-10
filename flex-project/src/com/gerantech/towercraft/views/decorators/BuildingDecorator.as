@@ -14,7 +14,6 @@ package com.gerantech.towercraft.views.decorators
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.text.BitmapFontTextFormat;
 	
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	
@@ -27,18 +26,14 @@ package com.gerantech.towercraft.views.decorators
 /*		private var plotTexture:String;
 		private var plotDisplay:Image;*/
 
-		private var improvableIcon:Image;
+		private var improvablePanel:ImprovablePanel;
 		
 		public function BuildingDecorator(placeView:PlaceView)
 		{
 			this.placeView = placeView;
 			this.place = placeView.place;
 			this.placeView.addEventListener(Event.SELECT, placeView_selectHandler);
-			if(place.building.troopType == player.troopType)
-				this.placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
-			
-			/*plotDisplay = new Image(Assets.getTexture("building-plot-0"));
-			plotDisplay.touchable = false;*/
+			this.placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
 
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
@@ -46,18 +41,21 @@ package com.gerantech.towercraft.views.decorators
 		
 		private function placeView_updateHandler(event:Event):void
 		{
+			if(place.building.troopType != player.troopType)
+				return;
+			
 			var improvable:Boolean = false;
-			var options:IntList = placeView.place.building.get_options();
+			var options:IntList = place.building.get_options();
 			for (var i:int=0; i < options.size(); i++) 
 			{
-				trace(options.get(i), place.building.improvable(options.get(i)))
+				//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
 				if(place.building.improvable(options.get(i)) && options.get(i)!=1)
 				{
 					improvable = true;
 					break;
 				}
 			}
-			improvableIcon.visible = improvable;
+			improvablePanel.enabled = improvable;
 		}
 		
 		protected function placeView_selectHandler(event:Event):void
@@ -75,13 +73,12 @@ package com.gerantech.towercraft.views.decorators
 			populationIndicator.x = parent.x - populationIndicator.width/2;
 			populationIndicator.y = parent.y + 32*appModel.scale;
 			setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationIndicator);
-			
-			if(place.building.troopType == player.troopType)
-			{
-			improvableIcon = new Image(Assets.getTexture("improve--2", "gui"));
-			improvableIcon.visible = false;
-			addChild(improvableIcon);
-			}
+
+			improvablePanel = new ImprovablePanel();
+			improvablePanel.scale = appModel.scale * 2;
+			improvablePanel.x = parent.x - improvablePanel.width/2;
+			improvablePanel.y = parent.y + 32*appModel.scale;
+			setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, improvablePanel);
 		}
 		
 		public function updateElements(population:int, troopType:int):void

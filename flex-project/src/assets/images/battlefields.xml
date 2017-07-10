@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:9c69cf55eeed14bd2dfa579d3f968fbe:cdaccd7b0deaf5e4c0bb88cdeae85293:f35d6734face8652aa91c1defb5ab9b6$ -->
+<!-- $TexturePacker:SmartUpdate:ffadc1f8c94254616d4477660d3c5984:3e1e8cf760ad5fc2fe96d9f0fc794b08:f35d6734face8652aa91c1defb5ab9b6$ -->
 <TextureAtlas imagePath="battlefields.png">
     <SubTexture name="arrow" x="644" y="494" width="16" height="16"/>
     <SubTexture name="background-0-l" x="448" y="83" width="346" height="281"/>
@@ -153,7 +153,7 @@
     <SubTexture name="building-ex-4-4-8" x="796" y="83" width="67" height="91" frameX="-20" frameY="-11" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-9" x="1801" y="1165" width="63" height="89" frameX="-19" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-plot" x="443" y="366" width="222" height="126"/>
-    <SubTexture name="bush-0" x="1900" y="1466" width="60" height="36"/>
+    <SubTexture name="bush-0" x="1962" y="1532" width="60" height="36"/>
     <SubTexture name="bush-1" x="839" y="769" width="81" height="52"/>
     <SubTexture name="bush-2" x="1969" y="1295" width="62" height="53"/>
     <SubTexture name="bush-3" x="984" y="893" width="57" height="33"/>
@@ -171,6 +171,7 @@
     <SubTexture name="hole-1" x="1198" y="965" width="71" height="57"/>
     <SubTexture name="hole-2" x="1321" y="699" width="102" height="68"/>
     <SubTexture name="hut-0" x="865" y="2" width="348" height="210"/>
+    <SubTexture name="improvable" x="1900" y="1466" width="60" height="76"/>
     <SubTexture name="road-h" x="448" y="2" width="415" height="79"/>
     <SubTexture name="road-v" x="748" y="717" width="89" height="403"/>
     <SubTexture name="rock-0" x="839" y="823" width="79" height="35"/>
