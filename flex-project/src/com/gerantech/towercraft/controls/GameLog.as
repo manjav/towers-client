@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.filters.GlowFilter;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 
 	public class GameLog extends RTLLabel
 	{

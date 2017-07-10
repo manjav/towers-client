@@ -11,6 +11,7 @@ package com.gerantech.towercraft.controls
 	import starling.filters.ColorMatrixFilter;
 	import starling.textures.Texture;
 	import starling.textures.TextureSmoothing;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class BuildingIcon extends LayoutGroup
 	{

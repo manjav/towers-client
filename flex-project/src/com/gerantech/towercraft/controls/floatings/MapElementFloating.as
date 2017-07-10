@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.floatings
 {
-	import com.gerantech.towercraft.controls.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	

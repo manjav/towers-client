@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.ExchangeButton;
 	import com.gerantech.towercraft.controls.ExchangeHeader;
-	import com.gerantech.towercraft.controls.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.exchanges.Exchanger;

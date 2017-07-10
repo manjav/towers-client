@@ -9,6 +9,7 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayoutData;
 	
 	import starling.display.Image;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class ExchangeHeader extends LayoutGroup
 	{

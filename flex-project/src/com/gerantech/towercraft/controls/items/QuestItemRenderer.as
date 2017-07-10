@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.LTRLable;
-import com.gerantech.towercraft.controls.RTLLabel;
+import com.gerantech.towercraft.controls.texts.LTRLable;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.Quest;
@@ -77,6 +77,9 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	override protected function commitData():void
 	{
 		super.commitData();
+		
+		if(_data == null)
+			return;
 		
 		if(isFirstCommit)
 		{

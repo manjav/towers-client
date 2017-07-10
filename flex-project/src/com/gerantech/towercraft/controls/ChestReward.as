@@ -17,6 +17,7 @@ package com.gerantech.towercraft.controls
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.display.Image;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class ChestReward extends TowersLayout
 	{

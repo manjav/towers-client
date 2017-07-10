@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.controls.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.models.Assets;
 	

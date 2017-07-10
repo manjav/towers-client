@@ -12,6 +12,7 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.VerticalAlign;
 	
 	import starling.display.Image;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class ExchangeButton extends LayoutGroup
 	{

@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.ExchangeButton;
-	import com.gerantech.towercraft.controls.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
