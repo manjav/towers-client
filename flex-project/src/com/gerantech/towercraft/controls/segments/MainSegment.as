@@ -113,10 +113,10 @@ public class MainSegment extends Segment
 	private function showTutorial():void
 	{
 		if( player.inTutorial() )
-/*			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton, 1);
+			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton, 1);
 		else if( UserData.getInstance().tuorStep == "leagues" )
 			intervalId = setInterval(punchButton, 2000,  getChildByName("portal-tower") as SimpleButton, 1);
-		else if( UserData.getInstance().tuorStep == "select-name" )*/
+		else if( UserData.getInstance().tuorStep == "select-name" )
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup(loc("popup_select_name_title"), loc("popup_register_label"));
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
