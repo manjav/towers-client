@@ -66,7 +66,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			var containerLayout:VerticalLayout = new VerticalLayout();
 			containerLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-			//containerLayout.gap = padding;
+			containerLayout.gap = padding;
 			
 			container = new LayoutGroup();
 			container.layoutData = new AnchorLayoutData (padding, padding, NaN, padding);

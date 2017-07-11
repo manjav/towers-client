@@ -6,7 +6,6 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
-import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.models.vo.UserData;
 
@@ -114,19 +113,19 @@ public class MainSegment extends Segment
 	{
 		if( player.inTutorial() )
 			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton, 1);
-		else if( UserData.getInstance().tuorStep == "leagues" )
+		/*else if( UserData.getInstance().tuorStep == "leagues" )
 			intervalId = setInterval(punchButton, 2000,  getChildByName("portal-tower") as SimpleButton, 1);
 		else if( UserData.getInstance().tuorStep == "select-name" )
 		{
-			var confirm:SelectNamePopup = new SelectNamePopup(loc("popup_select_name_title"), loc("popup_register_label"));
+			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 			appModel.navigator.addChild(confirm);
 			function confirm_eventsHandler():void {
+				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 				//UserData.getInstance().tuorStep = "leagues";
 				//UserData.getInstance().save();
 			}
-		}
-			
+		}*/
 	}
 	
 	private function mapElement_triggeredHandler(event:Event ):void

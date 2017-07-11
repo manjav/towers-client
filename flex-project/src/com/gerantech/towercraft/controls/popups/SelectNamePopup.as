@@ -4,7 +4,6 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.smartfoxserver.v2.SmartFox;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
@@ -12,21 +11,19 @@ package com.gerantech.towercraft.controls.popups
 	import flash.text.ReturnKeyLabel;
 	import flash.text.SoftKeyboardType;
 	
-	import mx.resources.ResourceManager;
-	
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayoutData;
 	
-	import starling.core.Starling;
 	import starling.events.Event;
-	import starling.events.EventDispatcher;
 
 	public class SelectNamePopup extends ConfirmPopup
 	{
 		private var errorDisplay:RTLLabel;
-		public function SelectNamePopup(message:String, acceptLabel:String=null, declineLabel:String=null)
+
+		private var textInput:CustomTextInput;
+		public function SelectNamePopup()
 		{
-			super(message, acceptLabel, declineLabel);
+			super(loc("popup_select_name_title"), loc("popup_register_label"), null);
 		}
 		
 		override protected function initialize():void
@@ -35,7 +32,7 @@ package com.gerantech.towercraft.controls.popups
 			transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.35, stage.stageWidth*0.8, stage.stageHeight*0.3);
 			transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.35, stage.stageWidth*0.8, stage.stageHeight*0.3);
 
-			var textInput:CustomTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
+			textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 			textInput.prompt = loc( "popup_select_name_prompt" );
 			textInput.layoutData = new AnchorLayoutData(padding + messageDisplay.height, padding, NaN, padding);
 			//textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
@@ -58,7 +55,6 @@ package com.gerantech.towercraft.controls.popups
 		
 		protected override function acceptButton_triggeredHandler(event:Event):void
 		{
-			var textInput:CustomTextInput = event.currentTarget as CustomTextInput;
 			var selectedName:String = textInput.text;
 			if ( selectedName.length < game.loginData.nameMinLen || selectedName.length > game.loginData.nameMaxLen )
 			{
@@ -68,13 +64,13 @@ package com.gerantech.towercraft.controls.popups
 			
 			var sfs:SFSObject = SFSObject.newInstance();
 			sfs.putText( "name", selectedName );
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.SELECT_NAME, sfs );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.SELECT_NAME, sfs );
 		}
 		
 		protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			if( event.params.command != SFSCommands.SELECT_NAME )
+			if( event.params.cmd != SFSCommands.SELECT_NAME )
 				return;
 			
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
@@ -86,6 +82,7 @@ package com.gerantech.towercraft.controls.popups
 				return;
 			}
 			dispatchEventWith( Event.COMPLETE );
+			close();
 		}
 	}
 }
