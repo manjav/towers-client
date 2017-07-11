@@ -114,10 +114,10 @@ package com.gerantech.towercraft.themes
 	public class BaseMetalWorksMobileTheme extends StyleNameFunctionTheme
 	{
 		//[Embed(source="../../../../assets/fonts/Abdo.Fonts_Abdo.Logo.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
-		[Embed(source="../../../../assets/fonts/Lalezar-Regular.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		[Embed(source="../../../../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_REGULAR:Class;
 
-		[Embed(source="../../../../assets/fonts/Lalezar-Regular.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
+		[Embed(source="../../../../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_SEMIBOLD:Class;
  
 		/**

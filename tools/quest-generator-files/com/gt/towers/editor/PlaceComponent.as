@@ -20,7 +20,7 @@
 		public var index:int = 0;
 		public var troopType:int = -1;
 		public var links:Vector.<int>;
-		public var tutorIndex:int = -2;
+		public var tutorIndex:int = -1;
 		public var enabled:Boolean = true;
 		
 		public function PlaceComponent()
@@ -102,7 +102,7 @@
 			enabled_btn.txt.text = enabled ? "E" : "D";
 			body_mc.gotoAndStop(type*10 + (troopType+2));
 			tutorIndex = int(tutor_input.txt.text);
-			tutor_input.alpha = tutorIndex==-2?0.3:1;
+			tutor_input.alpha = tutorIndex == -3 ? 0.3 : 1;
 			var isCrystal:Boolean = (BuildingType.get_category(type) == BuildingType.B40_CRYSTAL);
 			radius_mc.visible = isCrystal;
 			if (isCrystal)

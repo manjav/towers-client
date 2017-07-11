@@ -1,4 +1,4 @@
-<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="num_input" itemID="595a2711-000002b2" lastModified="1499080488">
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="num_input" itemID="595a2711-000002b2" lastModified="1499755959">
   <timeline>
     <DOMTimeline name="num_input">
       <layers>
@@ -12,7 +12,7 @@
                   </matrix>
                   <textRuns>
                     <DOMTextRun>
-                      <characters>0</characters>
+                      <characters>-3</characters>
                       <textAttrs>
                         <DOMTextAttrs alignment="center" aliasText="false" size="20" bitmapSize="400" face="ArialMT"/>
                       </textAttrs>
