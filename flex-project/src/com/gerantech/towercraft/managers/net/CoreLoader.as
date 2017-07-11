@@ -62,7 +62,7 @@ package com.gerantech.towercraft.managers.net
 			var exchangeClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.exchanges.Exchange") as Class;
 			
 			AppModel.instance.game = new Game(initData);
-			var swfCore:* = new gameClass(new initClass())
+			var swfCore:* = new gameClass(new initClass());
 			initCoreData(swfCore);
 
 			trace("request version :	" + version+"\nserver core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);

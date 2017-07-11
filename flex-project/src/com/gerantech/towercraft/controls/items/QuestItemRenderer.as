@@ -77,7 +77,7 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	override protected function commitData():void
 	{
 		super.commitData();
-		
+		if(_data == null) return;
 		if(isFirstCommit)
 		{
 			height = VerticalLayout(_owner.layout).typicalItemHeight;
