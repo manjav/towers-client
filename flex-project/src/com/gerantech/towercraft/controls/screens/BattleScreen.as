@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.GameLog;
-	import com.gerantech.towercraft.controls.floatings.BuildingImprovementFloating;
+	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
@@ -375,7 +375,7 @@ package com.gerantech.towercraft.controls.screens
 			to.sourcePosition = ti.sourcePosition;
 			to.destinationPosition = ti.destinationPosition;
 			
-			var floating:BuildingImprovementFloating = new BuildingImprovementFloating();
+			var floating:ImproveFloating = new ImproveFloating();
 			floating.placeView = placeView;
 			floating.transitionIn = ti;
 			floating.transitionOut = to;

@@ -73,14 +73,17 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showTutorials():void
 		{
-			trace("quest screen", player.get_questIndex());
-			if( player.get_questIndex() > 3 )
+			trace(player.inTutorial(), "quest screen", player.get_questIndex());
+			if( !player.inTutorial())
+			{
+				if(player.get_questIndex() == 4 )
+					backButtonHandler();
 				return;	
-			
+			}
 			var tutorialData:TutorialData = new TutorialData("");
 			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
 			var pl:PlaceDataList = new PlaceDataList();
-			var py:Number = (listLayout.typicalItemHeight+listLayout.gap)*player.get_questIndex()+listLayout.typicalItemHeight/2+listLayout.padding + 60;
+			var py:Number = (listLayout.typicalItemHeight+listLayout.gap)*player.get_questIndex()+listLayout.typicalItemHeight/2+listLayout.padding;
 			pl.push(new PlaceData(0, stage.stageWidth/2/appModel.scale, py/appModel.scale, 0, 0, ""));
 			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, pl, 200));
 			tutorials.show(this, tutorialData);

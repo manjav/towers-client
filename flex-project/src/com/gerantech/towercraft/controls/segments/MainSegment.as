@@ -7,7 +7,6 @@ import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.models.vo.UserData;
 
 import flash.geom.Point;
 import flash.utils.clearInterval;
@@ -112,20 +111,20 @@ public class MainSegment extends Segment
 	private function showTutorial():void
 	{
 		if( player.inTutorial() )
-			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton, 1);
-		/*else if( UserData.getInstance().tuorStep == "leagues" )
-			intervalId = setInterval(punchButton, 2000,  getChildByName("portal-tower") as SimpleButton, 1);
-		else if( UserData.getInstance().tuorStep == "select-name" )
+		{
+			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton);
+		}
+		else if(player.nickName == "quest")
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 			appModel.navigator.addChild(confirm);
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-				//UserData.getInstance().tuorStep = "leagues";
-				//UserData.getInstance().save();
+				punchButton(getChildByName("portal-center") as SimpleButton);
+				intervalId = setInterval(punchButton, 2000,  getChildByName("portal-center") as SimpleButton);
 			}
-		}*/
+		}
 	}
 	
 	private function mapElement_triggeredHandler(event:Event ):void
@@ -197,10 +196,10 @@ public class MainSegment extends Segment
 		appModel.navigator.addChild(item.properties.waitingOverlay);		
 	}
 	
-	private function punchButton(mapElement:SimpleButton, time:Number = 0.6):void
+	private function punchButton(mapElement:SimpleButton):void
 	{
 		mapElement.scale = 0.4;
-		Starling.juggler.tween(mapElement, time, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
+		Starling.juggler.tween(mapElement, 0.9, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
 	}
 	override public function dispose():void
 	{

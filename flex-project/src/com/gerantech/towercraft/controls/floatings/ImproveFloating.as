@@ -1,18 +1,25 @@
 package com.gerantech.towercraft.controls.floatings
 {
 	import com.gerantech.towercraft.controls.buttons.ImproveButton;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gt.towers.battle.fieldes.FieldData;
+	import com.gt.towers.battle.fieldes.PlaceData;
+	import com.gt.towers.utils.lists.IntList;
+	import com.gt.towers.utils.lists.PlaceDataList;
 	
 	import feathers.controls.Button;
+	import feathers.controls.LayoutGroup;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
-	import com.gt.towers.utils.lists.IntList;
 
-	public class BuildingImprovementFloating extends BaseFloating
+	public class ImproveFloating extends BaseFloating
 	{
 		public var placeView:PlaceView;
 		
@@ -22,6 +29,7 @@ package com.gerantech.towercraft.controls.floatings
 		override protected function initialize():void
 		{
 			super.initialize();
+			
 			transitionOut.destinationAlpha = 0;
 			overlay.visible = false;
 			var raduis:int = 160 * appModel.scale;
@@ -56,6 +64,27 @@ package com.gerantech.towercraft.controls.floatings
 			}
 			placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
 		}
+		
+		override protected function transitionInCompleted():void
+		{
+			super.transitionInCompleted();
+			var pdata:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
+			for (var i:int=0; i < buttons.length; i++) 
+			{
+				if( pdata != null && buttons[i].type == -pdata.tutorIndex )
+				{
+					var tutorialData:TutorialData = new TutorialData(SFSCommands.BUILDING_IMPROVE);
+					{
+						var places:PlaceDataList = new PlaceDataList();
+						places.push(new PlaceData( 0, (x+buttons[i].x)/appModel.scale, (y+buttons[i].y)/appModel.scale, 0, 0, ""));
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places));
+					}
+					tutorials.show(LayoutGroup(parent), tutorialData);
+				}
+			}
+		}
+		
+		
 		
 		private function placeView_updateHandler(event:Event):void
 		{

@@ -9,25 +9,23 @@ package com.gerantech.towercraft.controls.overlays
 	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.HorizontalAlign;
-	import feathers.layout.VerticalAlign;
 	
 	import starling.animation.Transitions;
-	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
 	
 	public class TutorialTouchOverlay extends TutorialOverlay
 	{
 		private var finger:Image;
-		private var places:PlaceDataList;
 		//private var placeIndex:int;
+
+		private var place:PlaceData;
 		
 		public function TutorialTouchOverlay(task:TutorialTask)
 		{
 			super(task);
-			for each(var p:PlaceData in task.places._list)
-			trace(p.index, "tutorIndex", p.tutorIndex);
+			place = task.places.get(0);
+			trace(place.index, "tutorIndex", place.tutorIndex);
 		}
 		
 		override protected function initialize():void
@@ -36,8 +34,8 @@ package com.gerantech.towercraft.controls.overlays
 			layout = new AnchorLayout();
 
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
-			finger.x = task.places.get(0).x * appModel.scale;
-			finger.y = (task.places.get(0).y - 200) * appModel.scale;
+			finger.x = place.x * appModel.scale;
+			finger.y = (place.y - 0) * appModel.scale;
 			finger.touchable = false;
 			
 			if(transitionIn == null)

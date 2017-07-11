@@ -29,7 +29,8 @@ package com.gerantech.towercraft.controls.overlays
 		}
 		public override function set closable(value:Boolean):void
 		{
-			stage.touchable = value;
+			if(stage)
+				stage.touchable = value;
 		}
 	}
 	
