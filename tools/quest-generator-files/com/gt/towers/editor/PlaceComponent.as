@@ -86,7 +86,7 @@
 		
 		public function get classString():String
 		{
-			return '\t\tfield.places.push( new PlaceData( '+index+',\t'+x+',\t'+y+',\t'+type+',\t'+troopType+',\t"'+links+'"'+',\t'+enabled+',\t'+tutorIndex+'\t) );\r';
+			return '\t\tplaces.push( new PlaceData( '+index+',\t'+x+',\t'+y+',\t'+type+',\t'+troopType+',\t"'+links+'"'+',\t'+enabled+',\t'+tutorIndex+'\t) );\r';
 		}
 		public function get data():Object
 		{

@@ -6,6 +6,7 @@
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.filesystem.File;
+	import flash.filesystem.FileStream;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
 	import flash.text.TextField;
@@ -13,6 +14,7 @@
 	import flash.utils.setTimeout;
 	
 	import fl.controls.CheckBox;
+	import flash.filesystem.FileMode;
 	
 	public class XMLGenerator extends MovieClip
 	{
@@ -225,9 +227,12 @@
 			var times:Array = new Array();
 			for (var t:int=0; t < 3; t++)
 				times[t] = int(this["time_"+t+"_txt"].text);
-			
+						
 			var index:int = int(currentScene.name.split('_')[1]);
-			questClassStr = '\r\r\r\t\tfield = new FieldData(' + index + ', "' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" );\r\t\t// create places\r';
+			//questClassStr = '\r\r\r\t\tfield = new FieldData(' + index + ', "' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" );\r\t\t// create places\r';
+			
+			var className:String = currentScene.name.substr(0,1).toUpperCase()+ currentScene.name.substr(1);
+			trace('\r\t\tfields.set( "' + currentScene.name + '" , new ' + className + '( ' + index + ', "' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" ) );\r')
 
 			var tutorSteps:String = "";
 			var sceneIndex:int = getSceneIndex();
@@ -238,6 +243,7 @@
 			
 			sceneData.times = times;
 			
+			questClassStr = 'package com.gt.towers.battle.fieldes;\rclass ' + className + ' extends FieldData\r{\r\tpublic function new(index:Int, name:String, hasIntro:Bool=false, hasFinal:Bool=false, times:String="")\r\t{\r\t\tsuper(index, name, hasIntro, hasFinal, times);\r\t\t// create places\r';
 			var items:Array = new Array();
 			for (var i:int=0; i<places.length; i++)
 			{
@@ -248,11 +254,25 @@
 			sceneData.places = items;
 			sceneData.images = getImagesData(sceneIndex);
 			
-			questClassStr += '\t\tfields.set( "' + currentScene.name + '" , field );\r';
-			trace(questClassStr)
+			questClassStr += '\t}\r}';
+			//trace(questClassStr)
 			
-			var sceneJson:FileReference = new FileReference();
-			sceneJson.save( JSON.stringify(sceneData) , currentScene.name+".json");
+			var jsonFR:FileReference = new FileReference();
+			jsonFR.addEventListener(Event.SELECT, jsonFR_selectHandler);
+			jsonFR.save( JSON.stringify(sceneData) , currentScene.name+".json");
+			
+			function jsonFR_selectHandler (event:Event):void
+			{
+				jsonFR.removeEventListener(Event.SELECT, jsonFR_selectHandler);
+				
+				var hxFile:File = new File("D:\\_PROJECTS\\_FLEX\\towers-projects\\towers-core\\source\\src\\com\\gt\\towers\\battle\\fieldes\\"+className+".hx");
+				var stream:FileStream = new FileStream();
+				stream.open(hxFile, FileMode.WRITE);
+				stream.writeUTFBytes(questClassStr);
+				stream.close();
+				trace("saved to", hxFile.nativePath);
+			}
+
 		}
 		private function getSceneIndex():int
 		{
@@ -279,7 +299,7 @@
 					attName = attName.split(".")[0];
 					var ns:Array = attName.split("/");
 					item.name = ns[ns.length-1];
-					questClassStr+= '\t\tfield.images.push( new ImageData( "' + ns[ns.length-1] + '"\t';
+					questClassStr+= '\t\timages.push( new ImageData( "' + ns[ns.length-1] + '"\t';
 					if(bitmap.children().length() > 0)
 					{
 						var bitmapChildren:XMLList = bitmap.descendants("*");
