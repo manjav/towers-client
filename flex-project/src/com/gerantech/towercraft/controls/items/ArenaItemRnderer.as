@@ -1,20 +1,24 @@
 package com.gerantech.towercraft.controls.items
 {
+	import com.gerantech.towercraft.controls.Spacer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gt.towers.arenas.Arena;
 	
 	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingFactory;
 	
+	import feathers.controls.LayoutGroup;
+	import feathers.controls.List;
+	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.text.BitmapFontTextRenderer;
+	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.HorizontalLayout;
+	import feathers.layout.VerticalAlign;
 	import feathers.text.BitmapFontTextFormat;
-	
-	import starling.events.Event;
-	import starling.utils.Padding;
 
 	public class ArenaItemRnderer extends BaseCustomItemRenderer
 	{
@@ -28,16 +32,20 @@ package com.gerantech.towercraft.controls.items
 		
 		public static var factory: StarlingFactory;
 		public static var dragonBonesData:DragonBonesData;
+		
 		private var armatureDisplay:StarlingArmatureDisplay;
 		private var titleDisplay:RTLLabel;
 		private var messageDisplay:RTLLabel;
 		private var rangDisplay:BitmapFontTextRenderer;
 		
+		private var arena:Arena;
+		private var cardsDisplay:List;
+		
 		public function ArenaItemRnderer()
 		{
 			super();
 			layout = new AnchorLayout();
-			height = 540 * appModel.scale;
+			height = 600 * appModel.scale;
 			var padding:int = 28 * appModel.scale;
 			var iconSize:int = 400 * appModel.scale;
 
@@ -48,13 +56,13 @@ package com.gerantech.towercraft.controls.items
 				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 			}
 			
-			titleDisplay = new RTLLabel("", 1, null, null, false, null, 64*appModel.scale, null, "bold");
-			titleDisplay.layoutData = new AnchorLayoutData(0, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+			titleDisplay = new RTLLabel("", 1, null, null, false, null, 54*appModel.scale, null, "bold");
+			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 			addChild(titleDisplay);
 			
-			messageDisplay = new RTLLabel("", 1, "justify", null, true);
+			messageDisplay = new RTLLabel("", 1, "justify", null, true, null, 0.8);
 			messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?iconSize:padding, padding, appModel.isLTR?padding:iconSize);
-			messageDisplay.leading = -22*appModel.scale;
+			//messageDisplay.leading = -22*appModel.scale;
 			addChild(messageDisplay);
 			
 			rangDisplay = new BitmapFontTextRenderer();
@@ -65,6 +73,25 @@ package com.gerantech.towercraft.controls.items
 			rangDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
 			rangDisplay.y = height*0.7;
 			addChild(rangDisplay);
+			
+			var cardsLayout:HorizontalLayout = new HorizontalLayout();
+			cardsLayout.useVirtualLayout = true;
+			cardsLayout.gap = padding;
+			cardsLayout.typicalItemWidth = padding*6;
+			cardsLayout.typicalItemHeight = padding*7;
+			cardsLayout.horizontalAlign = appModel.align;
+			cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
+			
+			cardsDisplay = new List();
+			cardsDisplay.layout = cardsLayout;
+			cardsDisplay.height = cardsLayout.typicalItemHeight;
+			cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer (); };
+			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			addChild(cardsDisplay);
+			
+			var unlocksDisplay:RTLLabel = new RTLLabel(loc("achievements_label"), 1, null, null, true, null, 0.8);
+			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*2, appModel.isLTR?padding*2:NaN);
+			addChild(unlocksDisplay);
 		}
 		
 		override protected function commitData():void
@@ -73,9 +100,10 @@ package com.gerantech.towercraft.controls.items
 			if( index < 0 )
 				return;
 
+			arena = _data as Arena;
 			if(armatureDisplay!=null)
 				armatureDisplay.removeFromParent();
-			armatureDisplay = factory. buildArmatureDisplay("arena-"+index);
+			armatureDisplay = factory. buildArmatureDisplay("arena-"+arena.index);
 			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
 			armatureDisplay.y = height *0.35;
 			armatureDisplay.scale = appModel.scale;
@@ -87,7 +115,8 @@ package com.gerantech.towercraft.controls.items
 			
 			titleDisplay.text = loc("arena_title_" + index);
 			messageDisplay.text = loc("arena_message_" + index);
-			rangDisplay.text = game.arenas.get(index) + ( game.arenas.keys().length==index+1 ? "" : "-" + game.arenas.get(index+1) );
+			rangDisplay.text = arena.min + " - " + arena.max ;
+			cardsDisplay.dataProvider = new ListCollection(arena.cards._list);
 			//rangDisplay.x = ( appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale ) - rangDisplay.width/2;
 		}
 	}

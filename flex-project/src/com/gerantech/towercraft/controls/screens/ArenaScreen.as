@@ -39,9 +39,10 @@ package com.gerantech.towercraft.controls.screens
 			{
 				return new ArenaItemRnderer();
 			}
-			list.dataProvider = new ListCollection(game.arenas.keys());
+			list.dataProvider = new ListCollection(game.arenas.values());
 			list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			list.addEventListener(Event.CHANGE, list_changeHandler);
+			list.scrollToDisplayIndex(player.get_arena());
 			addChild(list);
 			
 			var backButton:SimpleLayoutButton = new SimpleLayoutButton();

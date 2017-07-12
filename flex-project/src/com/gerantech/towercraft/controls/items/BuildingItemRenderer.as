@@ -10,6 +10,8 @@ package com.gerantech.towercraft.controls.items
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.HorizontalLayout;
+	import feathers.layout.IVirtualLayout;
 	import feathers.layout.TiledRowsLayout;
 	import feathers.skins.ImageSkin;
 	
@@ -63,8 +65,17 @@ package com.gerantech.towercraft.controls.items
 		{
 			if(_firstCommit)
 			{
-				width = _width = TiledRowsLayout(_owner.layout).typicalItemWidth;
-				height = _height = TiledRowsLayout(_owner.layout).typicalItemHeight;
+				if(_owner.layout is HorizontalLayout)
+				{
+					width = _width = HorizontalLayout(_owner.layout).typicalItemWidth;
+					height = _height = HorizontalLayout(_owner.layout).typicalItemHeight;
+					buildingIcon.showSlider = false;
+				}
+				else if(_owner.layout is TiledRowsLayout)
+				{
+					width = _width = TiledRowsLayout(_owner.layout).typicalItemWidth;
+					height = _height = TiledRowsLayout(_owner.layout).typicalItemHeight;
+				}
 				container.width = _width;
 				container.height = _height;
 				//container.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);

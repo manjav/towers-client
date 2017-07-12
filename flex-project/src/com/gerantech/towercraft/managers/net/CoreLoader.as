@@ -8,6 +8,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gt.towers.Game;
 	import com.gt.towers.InitData;
+	import com.gt.towers.arenas.Arena;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.ImageData;
 	import com.gt.towers.battle.fieldes.PlaceData;
@@ -15,6 +16,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.utils.lists.PlaceDataList;
+	import com.gt.towers.utils.maps.IntArenaMap;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.gt.towers.utils.maps.StringFieldMap;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -73,10 +75,13 @@ package com.gerantech.towercraft.managers.net
 		private function initCoreData(game:*):void
 		{
 			// put arena data
-			AppModel.instance.game.arenas = new IntIntMap();
+			AppModel.instance.game.arenas = new IntArenaMap();
 			var arenaKeys:Vector.<int> = game.arenas.keys();
 			for ( var i:int=0; i<arenaKeys.length; i++ )
-				AppModel.instance.game.arenas.set( arenaKeys[i], game.arenas.get(arenaKeys[i]) );
+			{
+				var arenaSource:* = game.arenas.get(arenaKeys[i]);
+				AppModel.instance.game.arenas.set( arenaKeys[i], new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.cardsStr ) );
+			}
 			
 			// put exchanger items
 			var extSource:*;

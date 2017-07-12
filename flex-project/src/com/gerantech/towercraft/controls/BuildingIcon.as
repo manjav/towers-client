@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.AppModel;
 	
 	import feathers.controls.ImageLoader;
@@ -10,11 +11,11 @@ package com.gerantech.towercraft.controls
 	
 	import starling.filters.ColorMatrixFilter;
 	import starling.textures.Texture;
-	import starling.textures.TextureSmoothing;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class BuildingIcon extends LayoutGroup
 	{
+		public var showSlider:Boolean = true;
+		
 		private var iconDisplay:ImageLoader;
 		private var progressbar:ProgressBar;
 		private var progressLabel:RTLLabel;
@@ -29,8 +30,8 @@ package com.gerantech.towercraft.controls
 			var progressHeight:int = 64*AppModel.instance.scale;
 			
 			iconDisplay = new ImageLoader();
-			iconDisplay.maintainAspectRatio = false;
-			iconDisplay.layoutData = new AnchorLayoutData(0, 0, progressHeight, 0);
+		//	iconDisplay.maintainAspectRatio = false;
+			iconDisplay.layoutData = new AnchorLayoutData(0, 0, progressHeight/2, 0);
 			addChild(iconDisplay);
 		
 			progressbar = new ProgressBar();
@@ -51,8 +52,8 @@ package com.gerantech.towercraft.controls
 		
 		public function set upgradable(value:Boolean):void
 		{
-			progressbar.visible = value;
-			progressLabel.visible = value;
+			progressbar.visible = value && showSlider;
+			progressLabel.visible = value && showSlider;
 
 			//iconDisplay.filter = value ? null : disableFilter;
 			iconDisplay.alpha = value ? 1 : 0.7;
