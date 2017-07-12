@@ -11,6 +11,8 @@ package com.gerantech.towercraft.controls.floatings
 	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
+	import flash.text.ReturnKeyLabel;
+	
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	
@@ -69,9 +71,12 @@ package com.gerantech.towercraft.controls.floatings
 		{
 			super.transitionInCompleted();
 			var pdata:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
+			if(pdata == null || pdata.index != placeView.place.index )
+				return;
+			
 			for (var i:int=0; i < buttons.length; i++) 
 			{
-				if( pdata != null && buttons[i].type == -pdata.tutorIndex )
+				if( buttons[i].type == -pdata.tutorIndex )
 				{
 					var tutorialData:TutorialData = new TutorialData(SFSCommands.BUILDING_IMPROVE);
 					{

@@ -110,11 +110,13 @@ public class MainSegment extends Segment
 	// show tutorial steps
 	private function showTutorial():void
 	{
+		trace("player.inTutorial() : ", player.inTutorial());
+		trace("player.nickName : ", player.nickName);
 		if( player.inTutorial() )
 		{
 			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton);
 		}
-		else if(player.nickName == "quest")
+		else if(player.nickName == "guest")
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
