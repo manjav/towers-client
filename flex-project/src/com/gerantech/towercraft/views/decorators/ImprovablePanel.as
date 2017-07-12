@@ -27,7 +27,7 @@ package com.gerantech.towercraft.views.decorators
 		{
 			if( _enabled == value )
 				return;
-			parent.addChild(this);
+			//parent.addChild(this);
 			_enabled = value;
 			if(_enabled)
 				visible = true;
