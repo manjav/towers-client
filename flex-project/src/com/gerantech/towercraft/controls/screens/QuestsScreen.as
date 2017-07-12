@@ -73,10 +73,12 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showTutorials():void
 		{
+			list.scrollToDisplayIndex(player.get_questIndex(), 0.5);
+			
 			trace(player.inTutorial(), "quest screen", player.get_questIndex());
 			if( !player.inTutorial())
 			{
-				if(player.get_questIndex() == 4 )
+				if(player.get_questIndex() == 4 && player.nickName == "guest")
 					backButtonHandler();
 				return;	
 			}

@@ -89,8 +89,7 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		}
 		
 		quest = _data as Quest;
-		if(quest.locked)
-			currentState = STATE_DISABLED;
+		currentState = quest.locked ? STATE_DISABLED : STATE_NORMAL;
 		
 		questIndexLabel.text = quest.index.toString();
 		questNameLabel.text = loc("quest_label") + " " + StrUtils.getNumber(quest.index+1);
@@ -98,7 +97,5 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		star_2.isEnabled = quest.score >= 2;
 		star_3.isEnabled = quest.score >= 3;
 	}
-	
-	
 }
 }
