@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.vo.DashboardItemData;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import feathers.controls.ImageLoader;
@@ -11,6 +12,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.utils.Padding;
 
 	public class DashboardTabItemRenderer extends BaseCustomItemRenderer
@@ -20,8 +22,10 @@ package com.gerantech.towercraft.controls.items
 		private var titleDisplay:RTLLabel;
 		private var iconDisplay:ImageLoader;
 		private var iconLayoutData:AnchorLayoutData;
+		private var badgeDisplay:ImageLoader;
 
 		private var padding:int;
+		private var dashboardData:DashboardItemData;
 		public function DashboardTabItemRenderer(width:Number)
 		{
 			super();
@@ -50,6 +54,11 @@ package com.gerantech.towercraft.controls.items
 			titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*4)/2, 0);
 			addChild(titleDisplay);
 			
+			badgeDisplay = new ImageLoader();
+			badgeDisplay.source = Assets.getTexture("badge-notification", "skin")
+			badgeDisplay.width = badgeDisplay.height = padding*1.6;
+			badgeDisplay.layoutData = new AnchorLayoutData(padding/2, padding/2);
+			
 			itemWidth = width;
 		}
 	
@@ -62,8 +71,23 @@ package com.gerantech.towercraft.controls.items
 				_firstCommit = false;
 			}
 			super.commitData();
-			iconDisplay.source = Assets.getTexture("tab-"+index, "gui");
-			titleDisplay.text = loc("tab-"+index) ;
+			dashboardData = _data as DashboardItemData;
+			iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
+			titleDisplay.text = loc("tab-"+dashboardData.index) ;
+			updateBadge();
+		}
+		
+		private function updateBadge():void
+		{
+			if( dashboardData.badgeNumber <= 0 )
+			{
+				if(badgeDisplay.parent == this)
+					removeChild(badgeDisplay);
+			}
+			else
+			{
+				addChild(badgeDisplay);
+			}
 		}
 		
 		override public function set isSelected(value:Boolean):void
@@ -75,6 +99,11 @@ package com.gerantech.towercraft.controls.items
 			titleDisplay.visible = value;
 			iconLayoutData.horizontalCenter = value ? NaN : 0;
 			iconLayoutData.left = value ? padding : NaN;
+			if(dashboardData != null)
+			{
+				dashboardData.badgeNumber = 0;
+				updateBadge();
+			}
 		}
 	}
 }

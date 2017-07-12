@@ -3,8 +3,13 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
+	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.vo.DashboardItemData;
+	import com.gt.towers.buildings.Building;
+	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.PageType;
+	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
 	
@@ -61,7 +66,6 @@ package com.gerantech.towercraft.controls.screens
 			{
 				return new DashboardPageItemRenderer();
 			}
-			pageList.dataProvider = new ListCollection(PageType.getAll()._list);
 			addChild(pageList);
 			
 			tabSize = stage.stageWidth / 4;
@@ -84,7 +88,6 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.layout = tabLayout;
 			tabsList.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 			tabsList.height = footerSize;
-			tabsList.dataProvider = new ListCollection(PageType.getAll()._list);
 			tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
             tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
             tabsList.itemRendererFactory = function ():IListItemRenderer
@@ -92,7 +95,6 @@ package com.gerantech.towercraft.controls.screens
 				return new DashboardTabItemRenderer(tabSize);
 			}
 			tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
-			tabsList.selectedIndex = 1;
 			addChild(tabsList);
 			
 			var toolbar:Toolbar = new Toolbar();
@@ -101,6 +103,44 @@ package com.gerantech.towercraft.controls.screens
 			addChild(toolbar);
 			
 			addChild(tabBorder);
+			
+			appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+		}
+		
+		protected function loadingManager_loadedHandler(event:LoadingEvent):void
+		{
+			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			
+			var dashboardData:Array = getDashboardData();
+			pageList.dataProvider = new ListCollection(dashboardData);
+			tabsList.dataProvider = new ListCollection(dashboardData);
+			tabsList.selectedIndex = 1;
+		}
+		
+		private function getDashboardData():Array
+		{
+			var ret:Array = new Array();
+			for each(var p:int in PageType.getAll()._list)
+			{
+				var badgeNumber:int = 0;
+				var pd:DashboardItemData = new DashboardItemData(p);
+				if( p == 2 )
+				{
+					for each(var b:Building in player.buildings.values())
+						if(b.upgradable())
+							badgeNumber ++;
+				}
+				else if( p == 0 )
+				{
+					for each(var e:ExchangeItem in exchanger.items.values())
+						if( e.type> ExchangeType.S_20_BUILDING && e.expiredAt < timeManager.now )
+							badgeNumber ++;
+				}
+				pd.badgeNumber = badgeNumber;
+				ret.push(pd);
+			}
+			
+			return ret;
 		}
 		
 		private function pageList_enterHandler(event:Event):void
