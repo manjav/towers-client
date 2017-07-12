@@ -16,7 +16,7 @@ package com.gerantech.towercraft.controls.texts
 			{
 				var editor:StageTextTextEditor = new StageTextTextEditor();
 				editor.fontFamily = "SourceSans";
-				editor.textAlign = AppModel.instance.align;
+				editor.textAlign = "center"//AppModel.instance.align;
 				editor.fontSize = AppModel.instance.theme.regularFontSize ;
 				editor.color = textColor;
 				editor.softKeyboardType = softKeyboardType;
@@ -24,7 +24,7 @@ package com.gerantech.towercraft.controls.texts
 				return editor;
 			}
 			
-			promptProperties.textAlign = AppModel.instance.align;
+			promptProperties.textAlign = "center"//AppModel.instance.align;
 			promptProperties.bidiLevel = AppModel.instance.isLTR?0:1;
 			//backgroundFocusedSkin = null
 		}
