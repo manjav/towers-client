@@ -38,7 +38,10 @@
 
 	<!-- Description, displayed in the AIR application installer.
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
-	<!-- <description></description> -->
+	<description>
+		{"target":"android", "market":"cafebazaar"}
+	</description>
+    <!---myket-cando-google -->
 
 	<!-- Copyright information. Optional -->
 	<!-- <copyright></copyright> -->
@@ -293,7 +296,6 @@
      			<!--<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> -->
     			<!--<uses-permission android:name="ir.mservices.market.BILLING" />-->
 
-
 	            <application android:enabled="true" >
 	                <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 818896630544" />
 	                <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
@@ -315,12 +317,19 @@
 			]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
-	<extensions>
+
+	
+	
+<extensions>
         <extensionID>com.marpies.ane.androidsupport</extensionID>
+        <extensionID>com.marpies.ane.gameanalytics</extensionID>
         <extensionID>com.marpies.ane.gameServices</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.base</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.basement</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.games</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
+        <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+        <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     </extensions>
 </application>

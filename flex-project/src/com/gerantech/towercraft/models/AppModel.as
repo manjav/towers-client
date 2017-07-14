@@ -1,17 +1,19 @@
 package com.gerantech.towercraft.models
 {
 	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.managers.socials.SocialManager;
 	import com.gerantech.towercraft.models.vo.Descriptor;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
+	import com.gt.towers.Game;
 	
 	import flash.desktop.NativeApplication;
+	import flash.system.Capabilities;
 	
 	import feathers.controls.StackScreenNavigator;
 	
 	import starling.utils.AssetManager;
-	import com.gt.towers.Game;
-	import com.gerantech.towercraft.managers.socials.SocialManager;
+
 
 	public class AppModel
 	{
@@ -21,6 +23,12 @@ package com.gerantech.towercraft.models
 		public var navigator:StackScreenNavigator;
 		public var loadingManager:LoadingManager;
 		public var battleFieldView:BattleFieldView;
+		
+		public static const PLATFORM_WINDOWS:int = 0;
+		public static const PLATFORM_MAC:int = 1;
+		public static const PLATFORM_ANDROID:int = 2;
+		public static const PLATFORM_IOS:int = 3;
+		public var platform:int;
 
 		public var game:Game;
 		public var descriptor:Descriptor;
@@ -32,11 +40,18 @@ package com.gerantech.towercraft.models
 		public var assetsManager:AssetManager;
 		public var socials:SocialManager;
 		
+		
 		public function AppModel()
 		{
 			descriptor = new Descriptor(NativeApplication.nativeApplication.applicationDescriptor);
 			assetsManager = new AssetManager(2);
-			assetsManager.verbose = false
+			assetsManager.verbose = false;
+			switch( Capabilities.os.substr(0, 5) )
+			{
+				case "Mac O": platform = PLATFORM_MAC; break;
+				case "Linux": platform = PLATFORM_ANDROID; break;
+				case "iPhon": platform = PLATFORM_IOS; break;
+			}
 		}
 		
 		

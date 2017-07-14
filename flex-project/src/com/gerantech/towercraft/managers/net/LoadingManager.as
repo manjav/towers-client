@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.managers.net
 {
 
+	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
@@ -95,17 +96,7 @@ package com.gerantech.towercraft.managers.net
 				UserData.getInstance().password = serverData.getText("password");
 				UserData.getInstance().save();
 			}
-			GameAnalytics.config.setUserId("test_id");
-			
-			/* ------------ PURCHASE VERIFICATION EXAMPLE -----------
-			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, adfs);
-			var param:SFSObject = new SFSObject();
-			param.putText("productID", "coin_pack_03");
-			param.putText("purchaseToken", "SDu10PZdud5JoToeZa");
-			sfsConnection.sendExtensionRequest("verify", param);
-			function adfs(event:SFSEvent):void {
-				trace(event.params);
-			}*/		
+			//GameAnalytics.config.setUserId("test_id");
 			
 			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
 			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )
@@ -224,7 +215,8 @@ package com.gerantech.towercraft.managers.net
 				var sfs:SFSObject = confirm.data as SFSObject;
 				UserData.getInstance().id = sfs.getInt("playerId");
 				UserData.getInstance().password = sfs.getText("playerPassword");
-				AppModel.instance.navigator.addChild(new GameLog(sfs.getInt("playerId") + " " + AppModel.instance.game.player.id + " " + sfs.getText("playerPassword")))
+				NativeAbilities.instance.showToast(sfs.getInt("playerId") + " core:" + AppModel.instance.game.player.id, 2);
+				//AppModel.instance.navigator.addChild(new GameLog(sfs.getInt("playerId") + " " + AppModel.instance.game.player.id + " " + sfs.getText("playerPassword")))
 			}
 			
 			UserData.getInstance().save();	

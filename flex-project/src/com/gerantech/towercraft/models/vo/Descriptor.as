@@ -6,11 +6,13 @@ package com.gerantech.towercraft.models.vo
 	{
 		public var id:String;
 		public var copyright:String;
-		public var description:String;
 		public var versionLabel:String;
 		public var versionNumber:String;
 		public var versionCode:int;
+		
+		public var description:String;
 		public var market:String;
+		public var target:String;
 		
 		public function Descriptor(xml:XML)
 		{
@@ -21,9 +23,9 @@ package com.gerantech.towercraft.models.vo
 			versionNumber = getNodesByName(xml, "versionNumber");
 			versionCode = Utils.getVersionCode(versionNumber)
 			
-			/*var descriptJson:Object = JSON.parse(description);
+			var descriptJson:Object = JSON.parse(description);
 			for(var n:String in descriptJson)
-				this[n] = descriptJson[n];*/
+				this[n] = descriptJson[n];
 		}
 		
 		private function getNodesByName(xml:XML, nodeName:String) : String 
