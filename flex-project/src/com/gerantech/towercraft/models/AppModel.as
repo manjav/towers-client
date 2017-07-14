@@ -23,7 +23,7 @@ package com.gerantech.towercraft.models
 		public var battleFieldView:BattleFieldView;
 
 		public var game:Game;
-		public var descriptor:Object;
+		public var descriptor:Descriptor;
 		public var scale:Number;
 		public var offsetY:Number;
 		public var align:String = "right";

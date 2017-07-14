@@ -92,6 +92,8 @@ package com.gerantech.towercraft.controls.items.exchange
 		
 		private function list_changeHandler(event:Event):void
 		{
+			if(list.selectedItem == null)
+				return;
 			var ei:ExchangeItem = game.exchanger.items.get(list.selectedItem as int);
 			if(!ei.enabled)
 				return;
