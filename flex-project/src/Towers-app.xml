@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<application xmlns="http://ns.adobe.com/air/application/19.0">
+<application xmlns="http://ns.adobe.com/air/application/22.0">
 
 <!-- Adobe AIR Application Descriptor File Template.
 
@@ -38,7 +38,10 @@
 
 	<!-- Description, displayed in the AIR application installer.
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
-	<!-- <description></description> -->
+	<description>
+		{"target":"android", "market":"cafebazaar"}
+	</description>
+    <!---myket-cando-google -->
 
 	<!-- Copyright information. Optional -->
 	<!-- <copyright></copyright> -->
@@ -305,4 +308,8 @@
 		]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
+<extensions>
+        <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+    <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
+    </extensions>
 </application>
