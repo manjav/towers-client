@@ -3,6 +3,7 @@ package
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.marpies.ane.gameanalytics.GameAnalytics;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -35,6 +36,11 @@ package
 				trace(str);
 			}
 			return;*/
+			
+			GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
+				.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("8ecad253293db70a84469b3d79243f12").setGameSecretAndroid("6c3abba9c19b989f5e45749396bcb1b78b51fbf2")
+				/*.setBuildiOS(AppModel.instance.descriptor.versionNumber).setGameKeyiOS("[ios_game_key]").setGameSecretiOS("[ios_secret_key]")*/
+			GameAnalytics.init();
 			
 			t = getTimer();
 			if(this.stage)
