@@ -11,6 +11,7 @@ package com.gerantech.towercraft.models
 	
 	import starling.utils.AssetManager;
 	import com.gt.towers.Game;
+	import com.gerantech.towercraft.managers.socials.SocialManager;
 
 	public class AppModel
 	{
@@ -29,6 +30,7 @@ package com.gerantech.towercraft.models
 		public var direction:String = "rtl";
 		public var isLTR:Boolean = false;
 		public var assetsManager:AssetManager;
+		public var socials:SocialManager;
 		
 		public function AppModel()
 		{

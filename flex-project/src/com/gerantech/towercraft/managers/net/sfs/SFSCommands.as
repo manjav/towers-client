@@ -13,6 +13,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 		public static const EXCHANGE:String = "exchange";
 		public static const SELECT_NAME:String = "selectName";
+		public static const OAUTH:String = "oauth";
 		
 		
 		public static const FIGHT:String = "f";
