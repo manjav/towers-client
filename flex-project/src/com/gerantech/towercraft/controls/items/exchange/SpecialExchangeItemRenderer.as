@@ -1,11 +1,14 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
+	import com.gerantech.towercraft.controls.BuildingIcon;
 	import com.gerantech.towercraft.controls.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.utils.maps.IntIntMap;
+	
+	import flash.desktop.Icon;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
@@ -15,21 +18,22 @@ package com.gerantech.towercraft.controls.items.exchange
 	public class SpecialExchangeItemRenderer extends BaseExchangeItemRenderer
 	{
 		private var labelDisplay:RTLLabel;
-		private var iconDisplay:ImageLoader;
 		private var buttonDisplay:ExchangeButton;
 		private var timeDisplay:RTLLabel;
+		private var iconDisplay:BuildingIcon;
 
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 
-			labelDisplay = new RTLLabel("");
+			/*labelDisplay = new RTLLabel("");
 			labelDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-			addChild(labelDisplay);
+			addChild(labelDisplay);*/
 			
-			iconDisplay = new ImageLoader();
-			iconDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			iconDisplay = new BuildingIcon();
+			iconDisplay.width = 280 * appModel.scale;
+			iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
 			addChild(iconDisplay);
 			
 			buttonDisplay = new ExchangeButton();
@@ -51,8 +55,8 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			super.commitData();
 			//trace(exchange.type, exchange.outcomes.keys().length)
-			labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
-			iconDisplay.source = Assets.getTexture("improve-"+exchange.outcomes.keys()[0], "gui");
+			//labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
+			iconDisplay.setImage( Assets.getTexture("building-"+exchange.outcomes.keys()[0], "gui" ) );
 			var reqs:IntIntMap = exchanger.getSpecialRequierments(exchange);
 			buttonDisplay.price = reqs.values()[0];
 			buttonDisplay.type = reqs.keys()[0];

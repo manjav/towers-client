@@ -36,7 +36,7 @@ package com.gerantech.towercraft.controls.segments
 		public function ExchangeSegment()
 		{
 			super();
-			appModel.assetsManager.verbose = true;
+			//appModel.assetsManager.verbose = true;
 			if( appModel.assetsManager.getTexture("chest-31") != null )
 				return;
 			appModel.assetsManager.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
