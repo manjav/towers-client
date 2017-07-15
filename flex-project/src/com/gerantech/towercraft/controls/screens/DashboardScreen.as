@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.Assets;
@@ -91,6 +92,17 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
 			addChild(tabsList);
 			
+			
+		/*	var txt:String = "Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ ";
+			var text1:RTLLabel = new RTLLabel(txt, 1, null, null, true);
+			text1.width = stage.stageWidth/2
+			text1.layoutData = new AnchorLayoutData(0,NaN,NaN,0);
+			addChild(text1);	
+			var text2:RTLLabel = new RTLLabel(txt, 1, null, null, true, null, 0, "lalezarsupercell");
+			text2.width = stage.stageWidth/2
+			text2.layoutData = new AnchorLayoutData(0,0,NaN,NaN);
+			addChild(text2);
+			*/
 			var toolbar:Toolbar = new Toolbar();
 			toolbar.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 			toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);
