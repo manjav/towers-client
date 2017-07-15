@@ -316,6 +316,10 @@ package com.gerantech.towercraft.themes
 		 * A normal font size.
 		 */
 		public var regularFontSize:int;
+		/**
+		 * A game font size.
+		 */
+		public var gameFontSize:int;
 
 		/**
 		 * A larger font size for headers.
@@ -691,7 +695,8 @@ package com.gerantech.towercraft.themes
 		protected function initializeFonts():void
 		{
 			this.smallFontSize = 40;
-			this.regularFontSize = 56//12;
+			this.gameFontSize = 56//12;
+			this.regularFontSize = 12;
 			this.largeFontSize = 56;
 			this.extraLargeFontSize = 72;
 

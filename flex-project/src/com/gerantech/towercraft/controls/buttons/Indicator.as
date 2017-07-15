@@ -84,7 +84,9 @@ package com.gerantech.towercraft.controls.buttons
 		
 		override public function set currentState(value:String):void
 		{
-			if(hasIncreaseButton)
+			if( value == super.currentState )
+				return;
+			if( hasIncreaseButton )
 				scale = value == ButtonState.DOWN ? 0.9 : 1;
 			super.currentState = value;
 		}
