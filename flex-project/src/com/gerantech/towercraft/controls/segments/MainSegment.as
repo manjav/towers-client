@@ -46,8 +46,9 @@ public class MainSegment extends Segment
 		factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 	}
 	
-	protected override function coreLoaded() : void
+	override protected function initialize():void
 	{
+		super.initialize();
 		if(appModel.loadingManager.inBattle)
 		{
 			gotoLiveBattle();
