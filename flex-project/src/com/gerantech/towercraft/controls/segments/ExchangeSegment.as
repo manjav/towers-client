@@ -36,15 +36,19 @@ package com.gerantech.towercraft.controls.segments
 		public function ExchangeSegment()
 		{
 			super();
+			//appModel.assetsManager.verbose = true;
+			if( appModel.assetsManager.getTexture("chest-31") != null )
+				return;
 			appModel.assetsManager.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
 			appModel.assetsManager.loadQueue(appModel_loadCallback)
 		}
 	
-		override protected function coreLoaded():void
+		override protected function initialize():void
 		{
-			if(appModel.assetsManager.isLoading || appModel.loadingManager.state < LoadingManager.STATE_LOADED )
+			if(appModel.assetsManager.isLoading )
 				return;
 			
+			super.initialize()
 			layout = new AnchorLayout();
 			/*var listLayout:TiledRowsLayout = new TiledRowsLayout();
 			listLayout.padding = listLayout.gap = 10;
@@ -77,7 +81,7 @@ package com.gerantech.towercraft.controls.segments
 		private function appModel_loadCallback(ratio:Number):void
 		{
 			if(ratio >= 1)
-				coreLoaded();
+				initialize();
 		}
 		
 		private function createShopData():Array

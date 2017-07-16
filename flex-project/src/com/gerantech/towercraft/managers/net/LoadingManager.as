@@ -84,16 +84,6 @@ package com.gerantech.towercraft.managers.net
 				UserData.getInstance().save();
 			}
 			
-			/* ------------ PURCHASE VERIFICATION EXAMPLE -----------
-			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, adfs);
-			var param:SFSObject = new SFSObject();
-			param.putText("productID", "coin_pack_03");
-			param.putText("purchaseToken", "SDu10PZdud5JoToeZa");
-			sfsConnection.sendExtensionRequest("verify", param);
-			function adfs(event:SFSEvent):void {
-				trace(event.params);
-			}*/		
-			
 			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
 			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )
 				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
@@ -129,7 +119,5 @@ package com.gerantech.towercraft.managers.net
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			state = STATE_LOADED;
 		}
-
-
 	}
 }

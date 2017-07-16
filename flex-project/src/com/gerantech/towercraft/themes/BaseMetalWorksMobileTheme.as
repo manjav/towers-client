@@ -113,11 +113,15 @@ package com.gerantech.towercraft.themes
 	 */
 	public class BaseMetalWorksMobileTheme extends StyleNameFunctionTheme
 	{
-		//[Embed(source="../../../../assets/fonts/Abdo.Fonts_Abdo.Logo.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
-		[Embed(source="../../../../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		//[Embed(source="../../../../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_REGULAR:Class;
+		
+		//[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="lalezarsupercell", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		//protected static const LALEZAR_SUPERCELL:Class;
 
-		[Embed(source="../../../../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
+		//[Embed(source="../../../../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
+		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_SEMIBOLD:Class;
  
 		/**
@@ -312,6 +316,10 @@ package com.gerantech.towercraft.themes
 		 * A normal font size.
 		 */
 		public var regularFontSize:int;
+		/**
+		 * A game font size.
+		 */
+		public var gameFontSize:int;
 
 		/**
 		 * A larger font size for headers.
@@ -686,10 +694,11 @@ package com.gerantech.towercraft.themes
 		 */
 		protected function initializeFonts():void
 		{
-			this.smallFontSize = 10;
+			this.smallFontSize = 40;
+			this.gameFontSize = 56//12;
 			this.regularFontSize = 12;
-			this.largeFontSize = 14;
-			this.extraLargeFontSize = 18;
+			this.largeFontSize = 56;
+			this.extraLargeFontSize = 72;
 
 			this.lightFontStyles = new TextFormat(FONT_NAME, this.regularFontSize, LIGHT_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);
 			this.darkFontStyles = new TextFormat(FONT_NAME, this.regularFontSize, DARK_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);

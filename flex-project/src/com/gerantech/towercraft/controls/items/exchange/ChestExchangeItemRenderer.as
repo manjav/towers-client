@@ -5,6 +5,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.utils.StrUtils;
+	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.Exchanger;
 	
 	import flash.geom.Rectangle;
@@ -76,7 +77,7 @@ package com.gerantech.towercraft.controls.items.exchange
 				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
 				timeDisplay.text = StrUtils.uintToTime(t);
 				buttonDisplay.price = exchanger.timeToHard(t);
-				//buttonDisplay.type = exchange.requirements.keys()[0];
+				buttonDisplay.type = ResourceType.CURRENCY_HARD;
 			}
 			else
 			{

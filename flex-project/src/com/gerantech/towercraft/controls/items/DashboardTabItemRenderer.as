@@ -49,7 +49,7 @@ package com.gerantech.towercraft.controls.items
 			iconDisplay.layoutData = iconLayoutData;
 			addChild(iconDisplay); 
 			
-			titleDisplay = new RTLLabel("", 1, null, null, false, null, 48*appModel.scale, null, "bold");
+			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 			titleDisplay.visible = false;
 			titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*4)/2, 0);
 			addChild(titleDisplay);

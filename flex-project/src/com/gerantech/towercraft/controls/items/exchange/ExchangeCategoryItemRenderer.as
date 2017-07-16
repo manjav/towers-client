@@ -72,7 +72,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			switch(line.category)
 			{
 				case ExchangeType.S_20_BUILDING:
-					height = 460 * appModel.scale ; 
+					height = 560 * appModel.scale ; 
 					listLayout.typicalItemWidth = width-listLayout.padding * 2 ;
 					list.itemRendererFactory = function ():IListItemRenderer{ return new SpecialExchangeItemRenderer();}
 					break;
