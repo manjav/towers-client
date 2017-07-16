@@ -11,7 +11,9 @@ package com.gerantech.towercraft.controls.items.exchange
 	import flash.desktop.Icon;
 	
 	import feathers.controls.ImageLoader;
+	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.events.Event;
 
@@ -19,7 +21,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	{
 		private var labelDisplay:RTLLabel;
 		private var buttonDisplay:ExchangeButton;
-		private var timeDisplay:RTLLabel;
+		private var timeDisplay:BitmapFontTextRenderer;
 		private var iconDisplay:BuildingIcon;
 
 		
@@ -42,7 +44,11 @@ package com.gerantech.towercraft.controls.items.exchange
 			buttonDisplay.height = 120 * appModel.scale;
 			addChild(buttonDisplay);
 			
-			timeDisplay = new RTLLabel("");
+			timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+			timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
+			timeDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+			addChild(timeDisplay);	
+			
 			timeDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 			addChild(timeDisplay);
 
@@ -65,7 +71,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		
 		private function timeManager_changeHandler():void
 		{
-			timeDisplay.text = StrUtils.uintToTime(uint(exchange.expiredAt - TimeManager.instance.now));
+			timeDisplay.text = "< "+StrUtils.toTimeFormat(exchange.expiredAt - TimeManager.instance.now);//uintToTime(exchange.expiredAt - TimeManager.instance.now);
 		}		
 	
 	}

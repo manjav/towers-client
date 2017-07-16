@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.buttons
 {
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.geom.Rectangle;
@@ -8,9 +7,11 @@ package com.gerantech.towercraft.controls.buttons
 	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.ProgressBar;
+	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
+	import feathers.text.BitmapFontTextFormat;
 
 	public class Indicator extends SimpleLayoutButton
 	{
@@ -20,7 +21,7 @@ package com.gerantech.towercraft.controls.buttons
 		private var hasIncreaseButton:Boolean;
 
 		private var progressbar:ProgressBar;
-		private var progressLabel:RTLLabel;
+		private var progressLabel:BitmapFontTextRenderer;
 		
 		public function Indicator(direction:String = "ltr", resourceType:int = 0, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean=true)
 		{
@@ -50,8 +51,9 @@ package com.gerantech.towercraft.controls.buttons
 				addChild(progressbar);
 			}
 			
-			progressLabel = new RTLLabel("", 1, "cenetr", null, false, null, 0, null, "bold");
-			progressLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+			progressLabel = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+			progressLabel.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
+			progressLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height*0.15);
 			addChild(progressLabel);
 			
 			var iconDisplay:ImageLoader = new ImageLoader();

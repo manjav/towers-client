@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gt.towers.constants.ResourceType;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
@@ -42,7 +43,10 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			titleDisplay.text = loc("exchange_title_"+exchange.type);
 			iconDisplay.source = appModel.assetsManager.getTexture("currency-" + exchange.type);
-			countDisplay.text = String(exchange.outcomes.values()[0])
+			countDisplay.text = String(exchange.outcomes.values()[0]);
+
+			if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
+				buttonDisplay.currency = "ت";
 			buttonDisplay.price = exchange.requirements.values()[0];
 			buttonDisplay.type = exchange.requirements.keys()[0];
 		}

@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.segments
 		{
 			super();
 			//appModel.assetsManager.verbose = true;
-			if( appModel.assetsManager.getTexture("chest-31") != null )
+			if( appModel.assetsManager.getTexture("shop-line-header") != null )
 				return;
 			appModel.assetsManager.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
 			appModel.assetsManager.loadQueue(appModel_loadCallback)

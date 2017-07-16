@@ -71,23 +71,22 @@ package com.gerantech.towercraft.controls.overlays
 			hlayout.paddingBottom = 42 * appModel.scale;
 			hlayout.gap = 32 * appModel.scale;
 			
-			
-			var rewardsList:List = new List();
-			rewardsList.backgroundSkin = new Quad(1, 1, 0);
-			rewardsList.backgroundSkin.alpha = 0.6;
-			rewardsList.height = 320*appModel.scale;
-			rewardsList.layout = hlayout;
-			rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
-			rewardsList.itemRendererFactory = function ():IListItemRenderer
+			if( rewards.size() > 0 )
 			{
-				return new BattleOutcomeRewardItemRenderer();	
+				var rewardsList:List = new List();
+				rewardsList.backgroundSkin = new Quad(1, 1, 0);
+				rewardsList.backgroundSkin.alpha = 0.6;
+				rewardsList.height = 320*appModel.scale;
+				rewardsList.layout = hlayout;
+				rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
+				rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
+				rewardsList.dataProvider = new ListCollection(SFSArray(rewards).toArray());
+				addChild(rewardsList);
 			}
-			rewardsList.dataProvider = new ListCollection(SFSArray(rewards).toArray());
-			addChild(rewardsList);
 			
 			var buttons:LayoutGroup = new LayoutGroup();
 			buttons.layout = hlayout;
-			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 480*appModel.scale);
+			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
 			addChild(buttons);
 			
 			var closeBatton:Button = new Button();

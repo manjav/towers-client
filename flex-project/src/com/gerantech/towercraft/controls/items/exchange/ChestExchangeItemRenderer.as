@@ -5,6 +5,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.Exchanger;
@@ -18,7 +19,9 @@ package com.gerantech.towercraft.controls.items.exchange
 	import dragonBones.starling.StarlingEvent;
 	
 	import feathers.controls.ImageLoader;
+	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.events.Event;
 	
@@ -26,7 +29,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	{
 		//private var iconDisplay:ImageLoader;
 		private var labelDisplay:RTLLabel;
-		private var timeDisplay:RTLLabel;
+		private var timeDisplay:BitmapFontTextRenderer;
 		private var header:ExchangeHeader;
 		private var inWiating:Boolean;
 
@@ -45,7 +48,8 @@ package com.gerantech.towercraft.controls.items.exchange
 			header.height = 110*appModel.scale;
 			addChild(header);
 			
-			timeDisplay = new RTLLabel("");
+			timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+			timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
 			timeDisplay.layoutData = new AnchorLayoutData(padding*4, NaN, NaN, NaN, 0);
 			addChild(timeDisplay);	
 			
@@ -88,7 +92,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			if( inWiating )
 			{
 				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
-				timeDisplay.text = StrUtils.uintToTime(t);
+				timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
 				buttonDisplay.price = exchanger.timeToHard(t);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;
 				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);

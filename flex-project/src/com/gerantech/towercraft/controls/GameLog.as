@@ -1,13 +1,11 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.AppModel;
-	
-	import flash.filters.GlowFilter;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.filters.GlowFilter;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 
 	public class GameLog extends RTLLabel
 	{
@@ -15,7 +13,7 @@ package com.gerantech.towercraft.controls
 		public function GameLog(text:String, positionY:Number = -1)
 		{
 			this.positionY = positionY;
-			touchable = false;
+			touchable = touchGroup = false;
 			super(text, 1, "center", null, true, "center", 54*AppModel.instance.scale, null, "bold");
 		}
 		
