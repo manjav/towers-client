@@ -74,7 +74,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			chestArmature.y = -960*appModel.scale/2+height*0.3;
 			chestArmature.scale = appModel.scale/2;
 			chestArmature.animation.gotoAndStopByFrame("wait", 0);
-			addChild(chestArmature);
+			addChildAt(chestArmature, 1);
 			header.label = loc("exchange_title_"+exchange.type);
 		}
 		private function timeManager_changeHandler():void
