@@ -1,14 +1,16 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.Quest;
 import com.gerantech.towercraft.utils.StrUtils;
 
 import flash.geom.Rectangle;
 
+import feathers.controls.ImageLoader;
+import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalAlign;
@@ -27,6 +29,8 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	private var star_3:StarCheck;
 	private var quest:Quest;
 	private var isFirstCommit:Boolean = true;
+
+	private var lockDisplay:ImageLoader;
 
 	override protected function initialize():void
 	{
@@ -66,6 +70,11 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		star_3 = new StarCheck();
 		//star_3.width = star_3.height = height * 0.5
 		elements.push( star_3 );
+
+		lockDisplay = new ImageLoader();
+		lockDisplay.source = Assets.getTexture("improve-lock", "gui");
+		//lockDisplay.layoutData = new AnchorLayoutData(NaN, height*0.15, NaN, NaN, NaN, 0);
+		elements.push( lockDisplay );
 		
 		if(!appModel.isLTR)
 			elements.reverse();
@@ -85,17 +94,33 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		{
 			height = VerticalLayout(_owner.layout).typicalItemHeight;
 			star_1.width = star_1.height = star_2.width = star_2.height = star_3.width = star_3.height = height * 0.5;
+			lockDisplay.width = lockDisplay.height = height*0.6;
 			isFirstCommit = false;	
 		}
 		
 		quest = _data as Quest;
 		currentState = quest.locked ? STATE_DISABLED : STATE_NORMAL;
-		
+			
 		questIndexLabel.text = quest.index.toString();
 		questNameLabel.text = loc("quest_label") + " " + StrUtils.getNumber(quest.index+1);
-		star_1.isEnabled = quest.score >= 1;
-		star_2.isEnabled = quest.score >= 2;
-		star_3.isEnabled = quest.score >= 3;
+		
+		star_1.visible = !quest.locked;
+		star_2.visible = !quest.locked;
+		star_3.visible = !quest.locked;
+		if( !quest.locked )
+		{
+			star_1.isEnabled = quest.score >= 1;
+			star_2.isEnabled = quest.score >= 2;
+			star_3.isEnabled = quest.score >= 3;
+			lockDisplay.removeFromParent();
+		}
+		else
+		{
+			if ( appModel.isLTR )
+				addChild(lockDisplay);
+			else
+				addChildAt(lockDisplay, 0);
+		}
 	}
 }
 }

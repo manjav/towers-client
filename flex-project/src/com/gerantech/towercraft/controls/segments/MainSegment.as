@@ -85,8 +85,8 @@ public class MainSegment extends Segment
 				switch(mcName)
 				{
 					case "mine-lights":
-						btn.x = 516.4 * appModel.scale * 1.2;
-						btn.y = 433.5 * appModel.scale * 1.2;
+						btn.x = 499 * appModel.scale * 1.2;
+						btn.y = 449 * appModel.scale * 1.2;
 						break;
 					case "gold-leaf":
 						btn.x = 324.5 * appModel.scale * 1.2;
@@ -137,16 +137,21 @@ public class MainSegment extends Segment
 		if(floating != null && floating.element.name == mapElement.name)
 			return;
 		
+		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || mapElement.name == "dragon-cross";
+		var floatingWidth:int = locked ? 390 : 320;
+		
 		// create transitions data
 		var ti:TransitionData = new TransitionData();
 		var to:TransitionData = new TransitionData();
 		to.destinationAlpha = ti.sourceAlpha = 0;
 		ti.transition = Transitions.EASE_OUT_BACK;
-		to.destinationPosition = ti.sourcePosition = new Point(mapElement.x-160*appModel.scale, mapElement.y-200*appModel.scale);
+		to.destinationPosition = ti.sourcePosition = new Point(mapElement.x-floatingWidth/2*appModel.scale, mapElement.y-200*appModel.scale);
 		ti.destinationAlpha = to.sourceAlpha = 1;
-		to.sourcePosition = ti.destinationPosition = new Point(mapElement.x-160*appModel.scale, mapElement.y-280*appModel.scale);
+		to.sourcePosition = ti.destinationPosition = new Point(mapElement.x-floatingWidth/2*appModel.scale, mapElement.y-280*appModel.scale);
 		
-		floating = new MapElementFloating(mapElement);
+		floating = new MapElementFloating(mapElement, locked);
+		floating.width = floatingWidth*appModel.scale;
+		floating.height = 140*appModel.scale;
 		floating.transitionIn = ti;
 		floating.transitionOut = to;
 		floating.addEventListener(Event.SELECT, floating_selectHandler);
