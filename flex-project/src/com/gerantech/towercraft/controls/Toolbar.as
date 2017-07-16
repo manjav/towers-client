@@ -62,8 +62,9 @@ package com.gerantech.towercraft.controls
 		{
 			if(AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED)
 				return;
-			
-			pointIndicator.setData(0, player.get_point(), NaN);
+			pointIndicator.visible = !player.inTutorial();
+			if(pointIndicator.visible)
+				pointIndicator.setData(0, player.get_point(), NaN);
 			softIndicator.setData(0, player.get_softs(), NaN);
 			hardIndicator.setData(0, player.get_hards(), NaN);
 		}		
