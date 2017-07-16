@@ -81,6 +81,7 @@ package com.gerantech.towercraft.controls.popups
 				errorDisplay.text = error=="popup_select_name_size" ? loc("popup_select_name_size", [6, 12]) : error;
 				return;
 			}
+			player.nickName = textInput.text;
 			dispatchEventWith( Event.COMPLETE );
 			close();
 		}
