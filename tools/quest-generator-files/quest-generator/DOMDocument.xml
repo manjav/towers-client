@@ -1,4 +1,4 @@
-<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="27" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="87" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
+<DOMDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" backgroundColor="#009999" width="1080" height="1920" currentTimeline="29" xflVersion="2.2" creatorInfo="Adobe Flash Professional CS6" platform="Windows" versionInfo="Saved by Adobe Flash Windows 12.0 build 481" majorVersion="12" buildNumber="481" rulerVisible="true" viewAngle3D="91.258197287559" nextSceneIdentifier="87" playOptionsPlayLoop="false" playOptionsPlayPages="false" playOptionsPlayFrameActions="false" autoSaveHasPrompted="true">
      <folders>
           <DOMFolderItem name="Component Assets" itemID="44e488a0-000016d6"/>
           <DOMFolderItem name="Component Assets/_private" itemID="4573a4bc-000003c6"/>
@@ -7,7 +7,7 @@
           <DOMFolderItem name="images" itemID="5937cf25-0000023b" isExpanded="true"/>
      </folders>
      <media>
-          <DOMBitmapItem name="images/arrow.png" itemID="59384662-000004e4" sourceExternalFilepath="../quest-generator/LIBRARY/images/arrow.png" sourceLastImported="1468087319" externalFileSize="1062" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/arrow.png" bitmapDataHRef="M 96 1496858590.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/arrow.png" itemID="59384662-000004e4" sourceExternalFilepath="../quest-generator/LIBRARY/images/arrow.png" sourceLastImported="1468087319" externalFileSize="1062" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/arrow.png" bitmapDataHRef="M 96 1496858590.dat" frameRight="320" frameBottom="320"/>
           <DOMBitmapItem name="images/background-0-l.png" itemID="5936f8fc-00000afc" sourceExternalFilepath="../canvas-xml-generator/canvas/LIBRARY/background-0-l.png" sourceLastImported="1496690051" externalFileSize="141566" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/background-0-l.png" bitmapDataHRef="M 42 1496736068.dat" frameRight="6920" frameBottom="5620"/>
           <DOMBitmapItem name="images/background-0-r.png" itemID="5936f8fc-00000afd" sourceExternalFilepath="../canvas-xml-generator/canvas/LIBRARY/background-0-r.png" sourceLastImported="1496690052" externalFileSize="126660" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/background-0-r.png" bitmapDataHRef="M 43 1496736068.dat" frameRight="6460" frameBottom="5380"/>
           <DOMBitmapItem name="images/building-0.png" itemID="59383fde-00000355" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-0.png" sourceLastImported="1496065943" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-0.png" bitmapDataHRef="M 97 1496858590.dat" frameRight="4280" frameBottom="4280"/>
@@ -57,7 +57,7 @@
           <DOMBitmapItem name="images/building-4-4-1.png" itemID="593ab36d-000002f3" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-4-4-1.png" sourceLastImported="1497014970" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-4-4-1.png" bitmapDataHRef="M 83 1497018690.dat" frameRight="2000" frameBottom="2600"/>
           <DOMBitmapItem name="images/building-plot.png" itemID="593ad559-0000041a" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot.png" sourceLastImported="1497027748" originalCompressionType="lossless" quality="50" href="images/building-plot.png" bitmapDataHRef="M 84 1497027788.dat" frameRight="4440" frameBottom="2520"/>
           <DOMBitmapItem name="images/building-plot-0.png" itemID="59383fdd-0000031e" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-0.png" sourceLastImported="1495980640" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-0.png" bitmapDataHRef="M 86 1496858589.dat" frameRight="4180" frameBottom="2520"/>
-          <DOMBitmapItem name="images/building-plot-1.png" itemID="59383fdd-00000323" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-1.png" sourceLastImported="1495980636" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-1.png" bitmapDataHRef="M 87 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/building-plot-1.png" itemID="59383fdd-00000323" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-1.png" sourceLastImported="1495980636" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-1.png" bitmapDataHRef="M 87 1496858589.dat" frameRight="4180" frameBottom="2520"/>
           <DOMBitmapItem name="images/building-plot-2.png" itemID="59383fdd-00000328" sourceExternalFilepath="../../../../towers-assets/atlas-images-2/building-plot-2.png" sourceLastImported="1495980638" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-2.png" bitmapDataHRef="M 88 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
           <DOMBitmapItem name="images/building-plot-4-1.png" itemID="593ab36e-000002f4" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot-4-1.png" sourceLastImported="1497018166" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-4-1.png" bitmapDataHRef="M 84 1497018690.dat" frameRight="4280" frameBottom="4280"/>
           <DOMBitmapItem name="images/building-plot-4-1-0.png" itemID="593ab36e-000002f5" sourceExternalFilepath="../quest-generator/LIBRARY/images/building-plot-4-1-0.png" sourceLastImported="1497018163" externalFileSize="18360" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/building-plot-4-1-0.png" bitmapDataHRef="M 85 1497018690.dat" frameRight="4280" frameBottom="4280"/>
@@ -83,7 +83,7 @@
           <DOMBitmapItem name="images/bush-7.png" itemID="5939b72c-00000331" sourceExternalFilepath="../quest-generator/LIBRARY/images/bush-7.png" sourceLastImported="1496690989" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/bush-7.png" bitmapDataHRef="M 175 1496954470.dat" frameRight="1660" frameBottom="760"/>
           <DOMBitmapItem name="images/chair-0.png" itemID="5939b72c-00000332" sourceExternalFilepath="../quest-generator/LIBRARY/images/chair-0.png" sourceLastImported="1496690975" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/chair-0.png" bitmapDataHRef="M 176 1496954470.dat" frameRight="780" frameBottom="580"/>
           <DOMBitmapItem name="images/chair-1.png" itemID="5939b72c-00000333" sourceExternalFilepath="../quest-generator/LIBRARY/images/chair-1.png" sourceLastImported="1496690976" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/chair-1.png" bitmapDataHRef="M 177 1496954470.dat" frameRight="1800" frameBottom="1000"/>
-          <DOMBitmapItem name="images/circle.png" itemID="59384665-0000053e" sourceExternalFilepath="../quest-generator/LIBRARY/images/circle.png" sourceLastImported="1468962867" externalFileSize="21962" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/circle.png" bitmapDataHRef="M 95 1496858589.dat" frameLeft="-115200" frameTop="-115200" frameRight="-115200" frameBottom="-115200"/>
+          <DOMBitmapItem name="images/circle.png" itemID="59384665-0000053e" sourceExternalFilepath="../quest-generator/LIBRARY/images/circle.png" sourceLastImported="1468962867" externalFileSize="21962" allowSmoothing="true" useImportedJPEGData="false" compressionType="lossless" originalCompressionType="lossless" quality="50" href="images/circle.png" bitmapDataHRef="M 95 1496858589.dat" frameRight="4600" frameBottom="3500"/>
           <DOMCompiledClipItem name="Component Assets/_private/ComponentShim" itemID="4d08cfa8-000001ee" linkageExportForAS="true" linkageClassName="fl.core.ComponentShim" sourceLastImported="1292423080" displayAsComponent="false" customIconID="0" actionscriptClass="fl.core.ComponentShim" swfScmHRef="kbx0udh422.swf" swfScmSourceFilename="C:\Users\jkamerer\AppData\Local\Adobe\Flash CS5.5\en_US\Configuration\TMPkavphdh40p..swf" persistLivePreview11="true" livePreview11ScmHRef="kbx0udh4221.swf" livePreview11ScmSourceFilename="C:\Users\jkamerer\AppData\Local\Adobe\Flash CS5.5\en_US\Configuration\TMPkavphdh40p..swf" editFrameIndex="1" requiredMinimumPlayerVersion="0" requiredMinimumASVersion="0" parametersAreLocked="true" swcPath="Component Assets/_private/ComponentShim.xml" rootSymbolLinkageID="fl.core.ComponentShim" playerVersion="9" actionscriptVersion="3" hashKey="k718tUOF1.A1OSpQnqdJJ0">
                <classProperties><![CDATA[<component id="fl/core/ComponentShim" class="fl.core.ComponentShim" modified="1292423059130">
 <movieBounds xmin="0" xmax="0" ymin="0" ymax="0" />
@@ -334,7 +334,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -361,7 +361,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -580,9 +580,9 @@
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
-                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="601.6" centerPoint3DY="1091.15">
+                                        <DOMSymbolInstance libraryItemName="place_mc" centerPoint3DX="719.45" centerPoint3DY="1302.2">
                                              <matrix>
-                                                  <Matrix tx="551.6" ty="1041.15"/>
+                                                  <Matrix tx="669.45" ty="1252.2"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point/>
@@ -689,7 +689,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -716,7 +716,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -859,7 +859,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/rock-3.png">
                                              <matrix>
-                                                  <Matrix a="2.24998474121094" d="2.24998474121094" tx="510.8" ty="1224.1"/>
+                                                  <Matrix a="2.24998474121094" d="2.24998474121094" tx="393.8" ty="986"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="27" y="15"/>
@@ -867,7 +867,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/building-plot.png">
                                              <matrix>
-                                                  <Matrix tx="440.6" ty="978.15"/>
+                                                  <Matrix tx="558.45" ty="1189.2"/>
                                              </matrix>
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/building-plot.png">
@@ -1049,7 +1049,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1076,7 +1076,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1256,7 +1256,7 @@
                                                   <Matrix tx="572.55" ty="829.45"/>
                                              </matrix>
                                         </DOMBitmapInstance>
-                                        <DOMBitmapInstance selected="true" libraryItemName="images/chair-1.png">
+                                        <DOMBitmapInstance libraryItemName="images/chair-1.png">
                                              <matrix>
                                                   <Matrix a="2.24998474121094" d="2.24998474121094" tx="587.2" ty="515.85"/>
                                              </matrix>
@@ -1433,7 +1433,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -1460,7 +1460,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2323,7 +2323,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2350,7 +2350,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2786,7 +2786,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -2813,7 +2813,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3261,7 +3261,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3288,7 +3288,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3918,7 +3918,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -3945,7 +3945,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -4513,7 +4513,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -4540,7 +4540,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -5246,7 +5246,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -5273,7 +5273,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -5789,7 +5789,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -5816,7 +5816,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -6487,7 +6487,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -6514,7 +6514,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -7163,7 +7163,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -7190,7 +7190,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -7591,7 +7591,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -7728,7 +7728,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -7755,7 +7755,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -7818,7 +7818,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -7836,6 +7836,30 @@
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="44.55" y="201.6"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="-0.398178100585938" b="-0.917282104492188" c="0.73004150390625" d="-0.316909790039063" tx="255.65" ty="657.25"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="44.45" y="201.4"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="0.481353759765625" b="-0.87652587890625" c="0.443923950195313" d="0.243789672851563" tx="550" ty="1235.35"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="44.5" y="201.45"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
+                                             <matrix>
+                                                  <Matrix a="-0.398193359375" b="-0.917251586914063" c="0.595123291015625" d="-0.258331298828125" tx="324.6" ty="1345.9"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="44.45" y="201.4"/>
                                              </transformationPoint>
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/background-0-l.png">
@@ -7878,11 +7902,6 @@
                                                   <Point x="30" y="18"/>
                                              </transformationPoint>
                                         </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-h.png">
-                                             <matrix>
-                                                  <Matrix tx="324.2" ty="579.8"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/road-v.png">
                                              <matrix>
                                                   <Matrix a="0.481353759765625" b="-0.87652587890625" c="0.443923950195313" d="0.243789672851563" tx="511.6" ty="514"/>
@@ -7898,19 +7917,6 @@
                                              <transformationPoint>
                                                   <Point x="19.5" y="14.5"/>
                                              </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="-0.398178100585938" b="-0.917282104492188" c="0.495285034179688" d="-0.214996337890625" tx="296.4" ty="630.05"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="44.45" y="201.5"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="166.35" ty="568.7"/>
-                                             </matrix>
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/building-plot.png">
                                              <matrix>
@@ -8025,11 +8031,6 @@
                                                   <Point x="39.5" y="17.5"/>
                                              </transformationPoint>
                                         </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
-                                             <matrix>
-                                                  <Matrix tx="622.45" ty="524.1"/>
-                                             </matrix>
-                                        </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/tree-0.png">
                                              <matrix>
                                                   <Matrix tx="301.6" ty="71.5"/>
@@ -8067,22 +8068,6 @@
                                              <matrix>
                                                   <Matrix tx="362.6" ty="1301.15"/>
                                              </matrix>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="0.481353759765625" b="-0.87652587890625" c="0.443923950195313" d="0.243789672851563" tx="550" ty="1235.35"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="44.5" y="201.45"/>
-                                             </transformationPoint>
-                                        </DOMBitmapInstance>
-                                        <DOMBitmapInstance libraryItemName="images/road-v.png">
-                                             <matrix>
-                                                  <Matrix a="-0.398193359375" b="-0.917251586914063" c="0.595123291015625" d="-0.258331298828125" tx="324.6" ty="1345.9"/>
-                                             </matrix>
-                                             <transformationPoint>
-                                                  <Point x="44.45" y="201.4"/>
-                                             </transformationPoint>
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/building-plot.png">
                                              <matrix>
@@ -8122,6 +8107,21 @@
                                         <DOMBitmapInstance libraryItemName="images/bush-2.png">
                                              <matrix>
                                                   <Matrix tx="835.55" ty="815.4"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/road-h.png">
+                                             <matrix>
+                                                  <Matrix tx="324.2" ty="579.8"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="163" ty="552.65"/>
+                                             </matrix>
+                                        </DOMBitmapInstance>
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
+                                             <matrix>
+                                                  <Matrix tx="622.45" ty="524.1"/>
                                              </matrix>
                                         </DOMBitmapInstance>
                                    </elements>
@@ -8309,7 +8309,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -8336,7 +8336,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -8922,7 +8922,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -8949,7 +8949,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -9564,7 +9564,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -9591,7 +9591,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -10268,7 +10268,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -10295,7 +10295,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -10993,7 +10993,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -11020,7 +11020,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -11653,7 +11653,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -11680,7 +11680,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -12305,7 +12305,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -12332,7 +12332,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -12763,7 +12763,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -12790,7 +12790,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -13242,7 +13242,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -13269,7 +13269,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -13694,7 +13694,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -13721,7 +13721,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -14107,7 +14107,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -14134,7 +14134,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -14568,7 +14568,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath='4'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -14595,7 +14595,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath='5'>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -15148,7 +15148,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -15175,7 +15175,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -15662,7 +15662,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -15689,7 +15689,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -15918,6 +15918,14 @@
                                                   <Matrix tx="579" ty="1137"/>
                                              </matrix>
                                         </DOMBitmapInstance>
+                                        <DOMBitmapInstance selected="true" libraryItemName="images/hut-0.png">
+                                             <matrix>
+                                                  <Matrix a="1.50001525878906" d="1.50001525878906" tx="-196.8" ty="784"/>
+                                             </matrix>
+                                             <transformationPoint>
+                                                  <Point x="174" y="105"/>
+                                             </transformationPoint>
+                                        </DOMBitmapInstance>
                                    </elements>
                               </DOMFrame>
                          </frames>
@@ -16116,7 +16124,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath='4'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -16143,7 +16151,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath='5'>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -17317,7 +17325,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -17344,7 +17352,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -18528,7 +18536,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -18555,7 +18563,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -18994,7 +19002,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -19021,7 +19029,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -19470,7 +19478,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -19497,7 +19505,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -19907,7 +19915,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -19934,7 +19942,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -20320,7 +20328,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -20347,7 +20355,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -20775,7 +20783,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -20802,7 +20810,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -21221,7 +21229,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -21248,7 +21256,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -21644,7 +21652,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -21671,7 +21679,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -22083,7 +22091,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -22110,7 +22118,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -22506,7 +22514,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -22533,7 +22541,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -23006,7 +23014,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -23033,7 +23041,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -23483,7 +23491,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -23510,7 +23518,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -23956,7 +23964,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -23983,7 +23991,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -24445,7 +24453,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -24472,7 +24480,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -24888,7 +24896,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -24915,7 +24923,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -24992,7 +25000,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/road-v.png">
                                              <matrix>
-                                                  <Matrix a="0.766036987304688" b="0.642791748046875" c="-1.36965942382813" d="1.63227844238281" tx="765.1" ty="584.75"/>
+                                                  <Matrix a="0.766036987304688" b="0.642791748046875" c="-1.36965942382813" d="1.63226318359375" tx="765.1" ty="584.75"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="44.55" y="201.5"/>
@@ -25286,7 +25294,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -25313,7 +25321,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -25382,7 +25390,7 @@
                                    <elements>
                                         <DOMBitmapInstance libraryItemName="images/road-h.png">
                                              <matrix>
-                                                  <Matrix a="1.16212463378906" tx="288" ty="1269.1"/>
+                                                  <Matrix a="1.162109375" tx="288" ty="1269.1"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="207.5" y="39.5"/>
@@ -25735,7 +25743,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -25762,7 +25770,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -26174,7 +26182,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -26201,7 +26209,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -26640,7 +26648,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -26667,7 +26675,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -27249,7 +27257,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -27276,7 +27284,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -27674,7 +27682,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -27701,7 +27709,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -28106,7 +28114,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -28133,7 +28141,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -28531,7 +28539,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -28558,7 +28566,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -29744,7 +29752,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -29771,7 +29779,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -30311,7 +30319,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -30338,7 +30346,7 @@
                                              <transformationPoint>
                                                   <Point x="50" y="11"/>
                                              </transformationPoint>
-                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_2' oldCopiedComponentPath=''>
+                                             <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_201' oldCopiedComponentPath=''>
 </component>
 ]]></dataBindingXML>
                                              <parametersAsXML><![CDATA[   <property id="enabled">
@@ -31349,20 +31357,24 @@
           </DOMTimeline>
      </timelines>
      <persistentData>
-          <PD n="TestMovieChecked" v="ADLDesktop"/>
           <PD n="flash.fla.filepath" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/canvas/canvas.xfl"/>
+          <PD n="TestMovieChecked" v="ADLDesktop"/>
           <PD n="swf.folder.path" v="D:/_PROJECTS/_FLEX/towers-projects/towers-client/tools/canvas-xml-generator/"/>
-          <PD n="DebugMovieChecked" v="ADLDesktop"/>
-          <PD n="com.air.artemis.pubipa" v="false"/>
           <PD n="com.air.artemis.pubcaptive" v="false"/>
+          <PD n="com.air.artemis.pubipa" v="false"/>
+          <PD n="DebugMovieChecked" v="ADLDesktop"/>
           <PD n="com.air.artemis.pubair" v="true"/>
           <PD n="flash.swf.basename" v="canvas"/>
-          <PD n="com.air.sdk.path"/>
           <PD n="com.air.artemis.pubexe" v="false"/>
+          <PD n="com.air.sdk.path"/>
           <PD n="com.air.artemis.airdest" v="canvas.air"/>
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
+          <PublishItem publishSize="1403751" publishTime="1500203878"/>
+          <PublishItem publishSize="1403752" publishTime="1500203515"/>
+          <PublishItem publishSize="1403743" publishTime="1500202838"/>
+          <PublishItem publishSize="1403752" publishTime="1500196846"/>
           <PublishItem publishSize="1403090" publishTime="1500128404"/>
           <PublishItem publishSize="1403107" publishTime="1500127655"/>
           <PublishItem publishSize="1403138" publishTime="1500126642"/>
@@ -31379,10 +31391,6 @@
           <PublishItem publishSize="1399339" publishTime="1500101247"/>
           <PublishItem publishSize="1399333" publishTime="1500100921"/>
           <PublishItem publishSize="1399331" publishTime="1500099950"/>
-          <PublishItem publishSize="1398509" publishTime="1500099779"/>
-          <PublishItem publishSize="1398510" publishTime="1500099758"/>
-          <PublishItem publishSize="1398517" publishTime="1500099731"/>
-          <PublishItem publishSize="1398490" publishTime="1500099685"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
