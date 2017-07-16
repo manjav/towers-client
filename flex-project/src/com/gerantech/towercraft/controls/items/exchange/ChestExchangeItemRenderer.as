@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.ExchangeButton;
 	import com.gerantech.towercraft.controls.ExchangeHeader;
+	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.utils.StrUtils;
@@ -9,6 +10,12 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gt.towers.exchanges.Exchanger;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.clearTimeout;
+	import flash.utils.setTimeout;
+	
+	import dragonBones.events.EventObject;
+	import dragonBones.starling.StarlingArmatureDisplay;
+	import dragonBones.starling.StarlingEvent;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
@@ -17,24 +24,23 @@ package com.gerantech.towercraft.controls.items.exchange
 	
 	public class ChestExchangeItemRenderer extends BaseExchangeItemRenderer
 	{
-		private var iconDisplay:ImageLoader;
+		//private var iconDisplay:ImageLoader;
 		private var labelDisplay:RTLLabel;
 		private var timeDisplay:RTLLabel;
 		private var header:ExchangeHeader;
 		private var inWiating:Boolean;
 
 		private var buttonDisplay:ExchangeButton;
+		private var chestArmature:StarlingArmatureDisplay;
+		private var armatorTimeoutId:int = -1;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 
-			iconDisplay = new ImageLoader();
-			iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*6, NaN, 0);
-			iconDisplay.width = 220 * appModel.scale;
-			addChild(iconDisplay);
-			
-			header = new ExchangeHeader("chest-banner", new Rectangle(78, 0, 4, 74), 36*appModel.scale); 
+			OpenChestOverlay.createFactory();
+
+			header = new ExchangeHeader("chest-banner", new Rectangle(78, 0, 4, 74), 40*appModel.scale); 
 			header.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 			header.height = 110*appModel.scale;
 			addChild(header);
@@ -56,34 +62,64 @@ package com.gerantech.towercraft.controls.items.exchange
 				inWiating = game.exchanger.items.get(_data as int).expiredAt>TimeManager.instance.now;
 				TimeManager.instance.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			}
-			
 			super.commitData();
 			
-			iconDisplay.source = appModel.assetsManager.getTexture("chest-" + exchange.type);
+			clearTimeout(armatorTimeoutId);
+			armatorTimeoutId = -1;
+
+			if( chestArmature != null )
+				chestArmature.removeFromParent();
+			chestArmature = OpenChestOverlay.factory. buildArmatureDisplay(OpenChestOverlay.dragonBonesData.armatureNames[(exchange.type%10)-1]);
+			chestArmature.x = -540*appModel.scale/2+width/2-padding;
+			chestArmature.y = -960*appModel.scale/2+height*0.3;
+			chestArmature.scale = appModel.scale/2;
+			chestArmature.animation.gotoAndStopByFrame("wait", 0);
+			addChild(chestArmature);
 			header.label = loc("exchange_title_"+exchange.type);
 		}
-		
 		private function timeManager_changeHandler():void
 		{
 			inWiating = exchange.expiredAt > TimeManager.instance.now;
-			updateTexts();
+			updateElements();
 		}
-		
-		private function updateTexts():void
+		private function updateElements():void
 		{
 			timeDisplay.visible = inWiating;
-			if(inWiating)
+			if( inWiating )
 			{
 				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
 				timeDisplay.text = StrUtils.uintToTime(t);
 				buttonDisplay.price = exchanger.timeToHard(t);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;
+				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
+				clearTimeout(armatorTimeoutId);
+				armatorTimeoutId = -1;
 			}
 			else
 			{
 				buttonDisplay.price = -1;
 				buttonDisplay.type = -1;
+				
+				if( armatorTimeoutId == -1 )
+				{
+					chestArmature.addEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
+					armatorTimeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random()*10000, "wait", 0, 1);
+				}
 			}			
+		}
+		private function chestArmature_completeHandler(event:StarlingEvent):void
+		{
+			armatorTimeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random()*3000+10000, "wait", 0, 1);
+		}
+		
+		override public function dispose():void
+		{
+			TimeManager.instance.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+			if( chestArmature != null )
+				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
+			clearTimeout(armatorTimeoutId);
+			armatorTimeoutId = -1;
+			super.dispose();
 		}
 	}
 }

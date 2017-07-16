@@ -32,7 +32,7 @@ package com.gerantech.towercraft.controls
 			backgroundSkin = skin;
 			
 			labelDisplay = new RTLLabel("", 1, null, null, false, null, fontSize, null, "bold");
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -8*AppModel.instance.scale);
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10*AppModel.instance.scale);
 			addChild(labelDisplay);
 		}
 		

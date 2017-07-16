@@ -202,7 +202,7 @@ package com.gerantech.towercraft.controls.segments
 						break;
 					
 					case ExchangeType.S_30_CHEST:
-						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(0, data.getSFSArray("rewards"));
+						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item.type, data.getSFSArray("rewards"));
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						appModel.navigator.addChild(openChestOverlay);
 						

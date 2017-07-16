@@ -38,7 +38,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			header = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 48*appModel.scale);
+			header = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
 			header.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 			header.height = 112 * appModel.scale;
 			addChild(header);

@@ -50,11 +50,11 @@ package com.gerantech.towercraft.controls.overlays
 			this.score = score;
 			this.rewards = rewards;
 			this.tutorialMode = tutorialMode;
-			if(BattleOutcomeOverlay.factory == null)
+			if(factory == null)
 			{
-				BattleOutcomeOverlay.factory = new StarlingFactory();
-				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
-				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
+				factory = new StarlingFactory();
+				dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
+				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 			}
 		}
 		
