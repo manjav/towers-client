@@ -67,8 +67,8 @@ package com.gerantech.towercraft.views.decorators
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 
 			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 32*appModel.scale, 0xFFFFFF, "center")
-			populationIndicator.width = 180*appModel.scale;
+			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center")
+			populationIndicator.width = 220*appModel.scale;
 			populationIndicator.touchable = false;
 			populationIndicator.x = parent.x - populationIndicator.width/2;
 			populationIndicator.y = parent.y + 32*appModel.scale;
@@ -83,7 +83,7 @@ package com.gerantech.towercraft.views.decorators
 		
 		public function updateElements(population:int, troopType:int):void
 		{
-			populationIndicator.text = population+"/"+place.building.get_capacity();
+			populationIndicator.text = "> " + population+"/"+place.building.get_capacity();
 			
 			/*var txt2:String = "building-plot-" + (place.building.troopType+1);
 			if(place.building.troopType > -1)

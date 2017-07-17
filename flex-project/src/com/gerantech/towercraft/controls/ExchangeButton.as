@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -12,7 +13,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.VerticalAlign;
 	
 	import starling.display.Image;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class ExchangeButton extends LayoutGroup
 	{
@@ -21,6 +21,7 @@ package com.gerantech.towercraft.controls
 		
 		private var _type:int;
 		private var _price:int;
+		public var currency:String = "";
 		
 		override protected function initialize():void
 		{
@@ -57,7 +58,7 @@ package com.gerantech.towercraft.controls
 			else if(_price == 0)
 				labelDisplay.text = "Free";
 			else
-				labelDisplay.text = _price.toString();
+				labelDisplay.text = _price.toString() + " " + currency;
 			
 		}
 		

@@ -39,6 +39,7 @@ package com.gerantech.towercraft.controls.screens
 		private var tabsList:List;
 		private var tabBorder:ImageLoader;
 		private var tabSize:int;
+		private var scrollTime:Number = 0.01;
 		
 		public function DashboardScreen(){}
 
@@ -173,8 +174,9 @@ package com.gerantech.towercraft.controls.screens
 		private function tabsList_changeHandler(event:Event):void
 		{
 			pageList.selectedIndex = tabsList.selectedIndex;
-			pageList.scrollToDisplayIndex(tabsList.selectedIndex, 0.5);
+			pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 			Starling.juggler.tween(tabBorder, 0.3, {x:tabsList.selectedIndex * tabSize, transition:Transitions.EASE_OUT});
+			scrollTime = 0.5;
 		}
 	}
 }

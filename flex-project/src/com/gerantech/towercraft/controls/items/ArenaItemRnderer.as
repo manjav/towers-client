@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.controls.Spacer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.arenas.Arena;
@@ -9,7 +8,6 @@ package com.gerantech.towercraft.controls.items
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingFactory;
 	
-	import feathers.controls.LayoutGroup;
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.text.BitmapFontTextRenderer;

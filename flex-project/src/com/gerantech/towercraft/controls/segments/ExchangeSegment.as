@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.segments
 		{
 			super();
 			//appModel.assetsManager.verbose = true;
-			if( appModel.assetsManager.getTexture("chest-31") != null )
+			if( appModel.assetsManager.getTexture("shop-line-header") != null )
 				return;
 			appModel.assetsManager.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
 			appModel.assetsManager.loadQueue(appModel_loadCallback)
@@ -202,7 +202,7 @@ package com.gerantech.towercraft.controls.segments
 						break;
 					
 					case ExchangeType.S_30_CHEST:
-						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(0, data.getSFSArray("rewards"));
+						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item.type, data.getSFSArray("rewards"));
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						appModel.navigator.addChild(openChestOverlay);
 						

@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.ChestReward;
+	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	
@@ -18,6 +19,7 @@ package com.gerantech.towercraft.controls.overlays
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.display.DisplayObject;
 	import starling.events.Event;
 	
 	public class OpenChestOverlay extends BaseOverlay
@@ -29,12 +31,13 @@ package com.gerantech.towercraft.controls.overlays
 		[Embed(source = "../../../../../assets/animations/chests/chests_tex.png")]
 		public static const atlasImageClass: Class;
 		
+		public static var factory: StarlingFactory;
+		public static var dragonBonesData:DragonBonesData;
+		
 		public var type:int;
 		private var rewards:ISFSArray;
 		private var rewardItems:Vector.<ChestReward>;
-		
-		private var factory: StarlingFactory;
-		private var dragonBonesData:DragonBonesData;
+
 		private var openAnimation:StarlingArmatureDisplay ;
 		private var collectedItemIndex:int = 0;
 
@@ -46,10 +49,18 @@ package com.gerantech.towercraft.controls.overlays
 			
 			this.type = type;
 			this.rewards = rewards;
+			
+			createFactory();
+		}
+		
+		public static function createFactory():void
+		{
+			if(factory != null)
+				return;
 			factory = new StarlingFactory();
 			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
 			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
-		}
+		}			
 		
 		override protected function initialize():void
 		{
@@ -57,6 +68,21 @@ package com.gerantech.towercraft.controls.overlays
 			autoSizeMode = AutoSizeMode.STAGE;
 			
 			layout = new AnchorLayout();
+			overlay.alpha = 0;
+			Starling.juggler.tween(overlay, 0.5,
+				{
+					alpha:1,
+					onStart:transitionInStarted,
+					onComplete:transitionInCompleted
+				}
+			);
+		}
+		override protected function defaultOverlayFactory():DisplayObject
+		{
+			var overlay:DisplayObject = super.defaultOverlayFactory();
+			overlay.alpha = 1;
+			overlay.touchable = true;
+			return overlay;
 		}
 	
 		override protected function addedToStageHandler(event:Event):void
@@ -66,7 +92,8 @@ package com.gerantech.towercraft.controls.overlays
 			if(dragonBonesData == null)
 				return;
 			
-			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[type]);
+			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(type%10)-1]);
+			openAnimation.touchable = openAnimation.touchGroup = false
 			openAnimation.scale = appModel.scale;
 			openAnimation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
 			openAnimation.animation.gotoAndPlayByTime("fall", 0, 1);
