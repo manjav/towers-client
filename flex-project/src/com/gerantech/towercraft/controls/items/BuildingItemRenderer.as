@@ -11,7 +11,6 @@ package com.gerantech.towercraft.controls.items
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
-	import feathers.layout.IVirtualLayout;
 	import feathers.layout.TiledRowsLayout;
 	import feathers.skins.ImageSkin;
 	

@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.models
 {
+	import com.gerantech.towercraft.controls.StackNavigator;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.vo.Descriptor;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
@@ -9,8 +10,6 @@ package com.gerantech.towercraft.models
 	import flash.desktop.NativeApplication;
 	import flash.system.Capabilities;
 	
-	import feathers.controls.StackScreenNavigator;
-	
 	import starling.utils.AssetManager;
 
 	public class AppModel
@@ -18,7 +17,7 @@ package com.gerantech.towercraft.models
 		private static var _instance:AppModel;
 		
 		public var theme:MetalWorksMobileTheme;
-		public var navigator:StackScreenNavigator;
+		public var navigator:StackNavigator;
 		public var loadingManager:LoadingManager;
 		public var battleFieldView:BattleFieldView;
 		

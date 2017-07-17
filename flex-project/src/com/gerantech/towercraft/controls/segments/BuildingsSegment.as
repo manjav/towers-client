@@ -50,10 +50,7 @@ package com.gerantech.towercraft.controls.segments
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			buildingslist.layout = listLayout;
 			buildingslist.layoutData = new AnchorLayoutData(0,0,0,0);
-			buildingslist.itemRendererFactory = function():IListItemRenderer
-			{
-				return new BuildingItemRenderer();
-			}
+			buildingslist.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
 			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(buildingslist);
 
@@ -73,7 +70,7 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
-			
+			trace(item)
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;
@@ -120,7 +117,7 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function upgradeConfirm_errorHandler(event:Event):void
 		{
-			appModel.navigator.addChild(new GameLog("ssdf sddflkds"));
+			appModel.navigator.addLog("ssdf sddflkds");
 			dispatchEventWith(FeathersEventType.ENTER, true, ExchangeType.S_0_HARD);
 		}
 		private function upgradeConfirm_selectHandler(event:Event):void

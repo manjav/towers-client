@@ -175,18 +175,18 @@ public class MainSegment extends Segment
 				case "portal-center":
 					if( player.inTutorial() )
 					{
-						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
+						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 						return;
 					}
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
-					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])])));
+					appModel.navigator.addLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])]));
 					break;
 				case "portal-tower":
 					if( player.inTutorial() )
 					{
-						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
+						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 						return;
 					}
 					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		

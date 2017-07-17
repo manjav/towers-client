@@ -3,41 +3,55 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.AppModel;
 	
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
+	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
-	import starling.filters.GlowFilter;
+	import starling.events.Event;
 
-	public class GameLog extends RTLLabel
+	public class GameLog extends TowersLayout
 	{
-		private var positionY:Number;
-		public function GameLog(text:String, positionY:Number = -1)
+		public static var MOVING_DISTANCE:int;
+		public static var GAP:int;
+		
+		public var text:String;
+		
+		public function GameLog(text:String)
 		{
-			this.positionY = positionY;
-			touchable = touchGroup = false;
-			super(text, 1, "center", null, true, "center", 54*AppModel.instance.scale, null, "bold");
+			this.text = text;
 		}
 		
 		override protected function initialize():void
 		{
 			super.initialize();
+			layout = new AnchorLayout();
+			touchable = touchGroup = false;
 			
-			if( positionY == -1 )
-				positionY = (stage.height-height) / 2;
-
-			width = stage.width - 120 * AppModel.instance.scale;  
+			var labelDisplay:RTLLabel = new RTLLabel(text, 1, "center", null, true, "center", 1.2, null, "bold");
+			labelDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			labelDisplay.pixelSnapping = false;
+			addChild(labelDisplay);
+			
+			var shadowDisplay:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.2, null, "bold");
+			shadowDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
+			shadowDisplay.y = labelDisplay.y + 6 * appModel.scale;
+			shadowDisplay.pixelSnapping = false;
+			addChildAt(shadowDisplay, 0);
+			
+			width = stage.width - 120 * appModel.scale;  
 			x = ( stage.stageWidth-width ) / 2;
-			y = positionY;
-			scaleY = 0;
-			Starling.juggler.tween(this, 0.3, {y:positionY-30, scaleY:1, transition:Transitions.EASE_OUT});
-			Starling.juggler.tween(this, 4, {delay:0.3, y:positionY-40, transition:Transitions.LINEAR});
-			Starling.juggler.tween(this, 1, {delay:4.3, alpha:0, onComplete:animation_onCompleteCallback});
-			filter = new starling.filters.GlowFilter(0, 2, 0.5);
-//			nativeFilters = [new GlowFilter()]
-			pixelSnapping = false;
+			scaleY = 0.5;
+			alpha = 0;
+			Starling.juggler.tween(this, 0.3, {alpha:1, scaleY:1, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(this, 4, {delay:0.0, y:y + MOVING_DISTANCE, transition:Transitions.LINEAR});
+			Starling.juggler.tween(this, 1, {delay:3.5, alpha:0, onComplete:animation_onCompleteCallback});
+			//filter = new starling.filters.GlowFilter(0, 1, 0.3);
 		}
 		
 		private function animation_onCompleteCallback ():void
 		{
+			dispatchEventWith(Event.COMPLETE);
 			removeFromParent(true);
 		}
 	}

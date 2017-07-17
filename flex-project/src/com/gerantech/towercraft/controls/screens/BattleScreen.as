@@ -96,7 +96,7 @@ package com.gerantech.towercraft.controls.screens
 				case SFSCommands.LEFT_BATTLE:
 				case SFSCommands.REJOIN_BATTLE:
 					//trace(event.params.cmd, data.getText("user"))
-					appModel.navigator.addChild(new GameLog( loc(event.params.cmd+"_message", [data.getText("user")] ) ) );
+					appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
 					break;
 				
 				case SFSCommands.END_BATTLE:

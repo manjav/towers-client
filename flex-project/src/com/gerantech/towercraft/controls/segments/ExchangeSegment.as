@@ -175,7 +175,7 @@ package com.gerantech.towercraft.controls.segments
 		}
 		private function confirms_errorHandler(event:Event):void
 		{
-			appModel.navigator.addChild(new GameLog(loc("log_not_enough", [2])));
+			appModel.navigator.addLog(loc("log_not_enough", [2]));
 		}
 		private function confirms_selectHandler(event:Event):void
 		{

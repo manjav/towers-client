@@ -1,5 +1,6 @@
 package com.gerantech.towercraft
 {
+	import com.gerantech.towercraft.controls.StackNavigator;
 	import com.gerantech.towercraft.controls.screens.ArenaScreen;
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
@@ -35,7 +36,7 @@ package com.gerantech.towercraft
 			super.initialize();
 			
 			//EmbeddedAssets.initialize();
-			AppModel.instance.navigator =  new StackScreenNavigator();
+			AppModel.instance.navigator =  new StackNavigator();
 			this.content = AppModel.instance.navigator;
 
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(DashboardScreen);
