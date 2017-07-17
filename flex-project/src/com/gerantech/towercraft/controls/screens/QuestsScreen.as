@@ -14,6 +14,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
+	import feathers.controls.ScrollPolicy;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
@@ -48,6 +49,7 @@ package com.gerantech.towercraft.controls.screens
 			list = new FastList();
 			list.layout = listLayout;
 			list.layoutData = new AnchorLayoutData(0,0,0,0);
+			list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
 			list.itemRendererFactory = function():IListItemRenderer
 			{
 				return new QuestItemRenderer();

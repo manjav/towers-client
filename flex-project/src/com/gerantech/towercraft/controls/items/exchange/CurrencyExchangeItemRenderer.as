@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.ExchangeButton;
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gt.towers.constants.ResourceType;
 	

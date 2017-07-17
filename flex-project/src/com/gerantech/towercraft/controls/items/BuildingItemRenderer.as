@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.controls.BuildingIcon;
+	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
 	
@@ -27,11 +27,13 @@ package com.gerantech.towercraft.controls.items
 		private var _height:Number;
 		
 		private var container:LayoutGroup;
-		private var buildingIcon:BuildingIcon;
+		private var cardDisplay:BuildingCard;
+		private var inDeck:Boolean;
 		
-		public function BuildingItemRenderer()
+		public function BuildingItemRenderer(inDeck:Boolean=true)
 		{
 			super();
+			this.inDeck = inDeck;
 		}
 		
 		override protected function initialize():void
@@ -44,20 +46,13 @@ package com.gerantech.towercraft.controls.items
 			
 			container = new LayoutGroup();
 			addChild(container);
-			
-			skin = new ImageSkin(Assets.getTexture("building-button", "skin"));
-			skin.setTextureForState(STATE_NORMAL, Assets.getTexture("building-button", "skin"));
-			skin.setTextureForState(STATE_DOWN, Assets.getTexture("building-button", "skin"));
-			skin.setTextureForState(STATE_SELECTED, Assets.getTexture("building-button", "skin"));
-			skin.setTextureForState(STATE_DISABLED, Assets.getTexture("building-button-disable", "skin"));
-			skin.scale9Grid = new Rectangle(10, 10, 56, 37);
-			container.backgroundSkin = skin;
 
 			container.layout = new AnchorLayout();
 			
-			buildingIcon = new BuildingIcon();
-			buildingIcon.layoutData = new AnchorLayoutData(0,0,0,0);
-			container.addChild(buildingIcon);
+			cardDisplay = new BuildingCard();
+			cardDisplay.showSlider = inDeck;
+			cardDisplay.layoutData = new AnchorLayoutData(0,0,0,0);
+			container.addChild(cardDisplay);
 		}
 		
 		override protected function commitData():void
@@ -68,7 +63,6 @@ package com.gerantech.towercraft.controls.items
 				{
 					width = _width = HorizontalLayout(_owner.layout).typicalItemWidth;
 					height = _height = HorizontalLayout(_owner.layout).typicalItemHeight;
-					buildingIcon.showSlider = false;
 				}
 				else if(_owner.layout is TiledRowsLayout)
 				{
@@ -80,15 +74,14 @@ package com.gerantech.towercraft.controls.items
 				//container.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 				_firstCommit = false;
 			}
-			buildingIcon.setImage( Assets.getTexture("building-"+_data, "gui") );
-			building = player.buildings.get(_data as int);
+			/*building = player.buildings.get(_data as int);
 			
 			if(building == null)
 				currentState = STATE_DISABLED;
 			
-			buildingIcon.upgradable = currentState != STATE_DISABLED;
-			if(currentState != STATE_DISABLED)
-				buildingIcon.setData(0, player.resources.get(building.type), building.get_upgradeCards());
+			cardDisplay.upgradable = currentState != STATE_DISABLED;
+			if(currentState != STATE_DISABLED)*/
+				cardDisplay.type = _data as int;
 			super.commitData();
 		}
 		

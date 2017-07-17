@@ -54,11 +54,11 @@ package com.gerantech.towercraft.controls.items
 				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 			}
 			
-			titleDisplay = new RTLLabel("", 1, null, null, false, null, 54*appModel.scale, null, "bold");
+			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 			addChild(titleDisplay);
 			
-			messageDisplay = new RTLLabel("", 1, "justify", null, true, null, 0.8);
+			messageDisplay = new RTLLabel("", 1, "justify", null, true, null, 0.7);
 			messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?iconSize:padding, padding, appModel.isLTR?padding:iconSize);
 			//messageDisplay.leading = -22*appModel.scale;
 			addChild(messageDisplay);
@@ -66,7 +66,7 @@ package com.gerantech.towercraft.controls.items
 			rangDisplay = new BitmapFontTextRenderer();
 			//rangDisplay.pivotX = rangDisplay.width/2
 			rangDisplay.alignPivot();
-			rangDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 32*appModel.scale, 0xFFFFFF, "center");
+			rangDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center");
 			rangDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (appModel.isLTR?340:-340)*appModel.scale);
 			rangDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
 			rangDisplay.y = height*0.7;
@@ -83,7 +83,7 @@ package com.gerantech.towercraft.controls.items
 			cardsDisplay = new List();
 			cardsDisplay.layout = cardsLayout;
 			cardsDisplay.height = cardsLayout.typicalItemHeight;
-			cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer (); };
+			cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
 			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
 			addChild(cardsDisplay);
 			

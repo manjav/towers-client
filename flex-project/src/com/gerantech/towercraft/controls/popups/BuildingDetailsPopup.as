@@ -1,12 +1,13 @@
 package com.gerantech.towercraft.controls.popups
 {
-	import com.gerantech.towercraft.controls.BuildingIcon;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.BuildingCard;
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
-	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingFeatureType;
+	import com.gt.towers.constants.ResourceType;
 	
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
@@ -19,7 +20,6 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.HorizontalLayoutData;
-	import feathers.layout.RelativePosition;
 	import feathers.layout.TiledRowsLayout;
 	import feathers.layout.VerticalAlign;
 	import feathers.layout.VerticalLayout;
@@ -27,7 +27,6 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.skins.ImageSkin;
 	
 	import starling.core.Starling;
-	import starling.display.Image;
 	import starling.events.Event;
 
 	public class BuildingDetailsPopup extends BasePopup
@@ -35,10 +34,12 @@ package com.gerantech.towercraft.controls.popups
 		public var buildingType:int;
 		
 		private var building:Building;
-		private var upgradeButton:Button;
+		private var upgradeButton:ExchangeButton;
 		private var optionList:List;
 		private var header:LayoutGroup;
 		private var padding:int;
+
+		private var closeButton:ExchangeButton;
 
 		override protected function initialize():void
 		{
@@ -65,10 +66,9 @@ package com.gerantech.towercraft.controls.popups
 			header.height = transitionIn.destinationBound.height*0.3;
 			addChild(header);
 			
-			var buildingIcon:BuildingIcon = new BuildingIcon();
+			var buildingIcon:BuildingCard = new BuildingCard();
 			buildingIcon.layoutData = new HorizontalLayoutData(40, 100);
-			buildingIcon.setImage(Assets.getTexture("building-"+building.type, "gui"));
-			buildingIcon.setData(0, player.resources.get(building.type), building.get_upgradeCards());
+			buildingIcon.type = buildingType;
 			
 			var textLayout:VerticalLayout = new VerticalLayout();
 			textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
@@ -87,6 +87,19 @@ package com.gerantech.towercraft.controls.popups
 			var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
 			messageDisplay.layoutData = new VerticalLayoutData(100, 100);
 			textsContainer.addChild(messageDisplay);
+			
+			upgradeButton = new ExchangeButton();
+			upgradeButton.alpha = 0;
+			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
+			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+			addChild(upgradeButton);
+			
+			closeButton = new ExchangeButton();
+			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
+			closeButton.width = 84 * appModel.scale;
+			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+			addChild(closeButton);
+
 		}
 		
 		override protected function transitionInCompleted():void
@@ -113,25 +126,12 @@ package com.gerantech.towercraft.controls.popups
 			optionList.dataProvider = new ListCollection(BuildingFeatureType.getAll().keys());
 			addChild(optionList);
 			
-			upgradeButton = new Button();
-			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
-			upgradeButton.label = building.get_upgradeCost().toString();
-			upgradeButton.iconPosition = RelativePosition.RIGHT;
-			upgradeButton.iconOffsetX = 24*appModel.scale;
+			upgradeButton.type = ResourceType.CURRENCY_SOFT;
+			upgradeButton.price = building.get_upgradeCost();
 			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.2});
-			upgradeButton.alpha = 0;
-			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
-			addChild(upgradeButton);
-			
-			var upgradeIcon:Image = new Image(Assets.getTexture("res-1002", "gui"));
-			upgradeIcon.width = upgradeIcon.height = appModel.theme.controlSize;
-			upgradeButton.defaultIcon = upgradeIcon;
-			
-			var closeButton:Button = new Button();
+
+			closeButton.type = ResourceType.CURRENCY_REAL;
 			closeButton.label = "X";
-			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
-			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-			addChild(closeButton);
 		}
 		
 		

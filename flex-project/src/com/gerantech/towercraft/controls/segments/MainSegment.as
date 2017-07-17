@@ -138,7 +138,7 @@ public class MainSegment extends Segment
 			return;
 		
 		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || mapElement.name == "dragon-cross";
-		var floatingWidth:int = locked ? 390 : 320;
+		var floatingWidth:int = locked ? 380 : 320;
 		
 		// create transitions data
 		var ti:TransitionData = new TransitionData();

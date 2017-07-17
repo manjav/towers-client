@@ -159,7 +159,8 @@ package com.gerantech.towercraft.themes
 		public static var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
 
 		public static const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 1, 1);
-		public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 3, 1);//4, 4, 1, 20);
+		public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(6, 6, 1, 14);//4, 4, 1, 20);
+		public static const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(6, 5, 3, 13);//4, 4, 1, 20);
 		public static const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 1);
 		public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 		public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
@@ -2022,8 +2023,10 @@ package com.gerantech.towercraft.themes
 
 		protected function setProgressBarStyles(progress:ProgressBar):void
 		{
-			var backgroundSkin:Image = new Image(this.backgroundSkinTexture);
-			backgroundSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
+			//var backgroundSkin:Image = new Image(this.backgroundSkinTexture);
+			//backgroundSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
+			var backgroundSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-background", "skin"));
+			backgroundSkin.scale9Grid = SLIDER_SCALE9_GRID;
 			if(progress.direction == Direction.VERTICAL)
 			{
 				backgroundSkin.width = this.smallControlSize;
@@ -2036,8 +2039,10 @@ package com.gerantech.towercraft.themes
 			}
 			progress.backgroundSkin = backgroundSkin;
 
-			var backgroundDisabledSkin:Image = new Image(this.backgroundDisabledSkinTexture);
-			backgroundDisabledSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
+			var backgroundDisabledSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-background", "skin"));
+			backgroundDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
+			//var backgroundDisabledSkin:Image = new Image(this.backgroundDisabledSkinTexture);
+			//backgroundDisabledSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
 			if(progress.direction == Direction.VERTICAL)
 			{
 				backgroundDisabledSkin.width = this.smallControlSize;
@@ -2050,14 +2055,18 @@ package com.gerantech.towercraft.themes
 			}
 			progress.backgroundDisabledSkin = backgroundDisabledSkin;
 
-			var fillSkin:Image = new Image(this.buttonUpSkinTexture);
-			fillSkin.scale9Grid = BUTTON_SCALE9_GRID;
+			var fillSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-track", "skin"));
+			fillSkin.scale9Grid = SLIDER_SCALE9_GRID;
+			//var fillSkin:Image = new Image(this.buttonUpSkinTexture);
+			//fillSkin.scale9Grid = BUTTON_SCALE9_GRID;
 			fillSkin.width = this.smallControlSize;
 			fillSkin.height = this.smallControlSize;
 			progress.fillSkin = fillSkin;
 
-			var fillDisabledSkin:Image = new Image(this.buttonDisabledSkinTexture);
-			fillDisabledSkin.scale9Grid = BUTTON_SCALE9_GRID;
+			var fillDisabledSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-track-neutral", "skin"));
+			fillDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
+			//var fillDisabledSkin:Image = new Image(this.buttonDisabledSkinTexture);
+			//fillDisabledSkin.scale9Grid = BUTTON_SCALE9_GRID;
 			fillDisabledSkin.width = this.smallControlSize;
 			fillDisabledSkin.height = this.smallControlSize;
 			progress.fillDisabledSkin = fillDisabledSkin;

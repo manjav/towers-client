@@ -51,7 +51,7 @@ package com.gerantech.towercraft.controls.floatings
 				var lockDisplay:ImageLoader = new ImageLoader();
 				lockDisplay.width = lockDisplay.height = height*0.6;
 				lockDisplay.source = Assets.getTexture("improve-lock", "gui");
-				lockDisplay.layoutData = new AnchorLayoutData(NaN, height*0.15, NaN, NaN, NaN, 0);
+				lockDisplay.layoutData = new AnchorLayoutData(NaN, height*0.10, NaN, NaN, NaN, 0);
 				lockDisplay.touchable = false;
 				addChild(lockDisplay);
 			}

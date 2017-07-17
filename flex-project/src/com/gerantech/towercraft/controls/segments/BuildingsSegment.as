@@ -70,7 +70,7 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
-			trace(item)
+
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;

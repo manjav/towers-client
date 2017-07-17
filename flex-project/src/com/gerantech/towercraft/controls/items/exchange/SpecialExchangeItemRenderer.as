@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.BuildingIcon;
-	import com.gerantech.towercraft.controls.ExchangeButton;
+	import com.gerantech.towercraft.controls.BuildingCard;
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.models.Assets;
@@ -22,7 +22,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var labelDisplay:RTLLabel;
 		private var buttonDisplay:ExchangeButton;
 		private var timeDisplay:BitmapFontTextRenderer;
-		private var iconDisplay:BuildingIcon;
+		private var iconDisplay:BuildingCard;
 
 		
 		override protected function initialize():void
@@ -33,7 +33,8 @@ package com.gerantech.towercraft.controls.items.exchange
 			labelDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 			addChild(labelDisplay);*/
 			
-			iconDisplay = new BuildingIcon();
+			iconDisplay = new BuildingCard();
+			iconDisplay.showSlider = false;
 			iconDisplay.width = 280 * appModel.scale;
 			iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
 			addChild(iconDisplay);
@@ -62,7 +63,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.commitData();
 			//trace(exchange.type, exchange.outcomes.keys().length)
 			//labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
-			iconDisplay.setImage( Assets.getTexture("building-"+exchange.outcomes.keys()[0], "gui" ) );
+			iconDisplay.type = exchange.outcomes.keys()[0];
 			var reqs:IntIntMap = exchanger.getSpecialRequierments(exchange);
 			buttonDisplay.price = reqs.values()[0];
 			buttonDisplay.type = reqs.keys()[0];
