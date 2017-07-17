@@ -25,6 +25,7 @@
 		private var linksContainer:Sprite;
 		private var questClassStr:String;
 		
+		public var start_check:CheckBox;
 		public var intro_check:CheckBox;
 		public var final_check:CheckBox;
 		
@@ -134,6 +135,8 @@
 			
 			resetPlaces();
 			
+			if(start_check)
+				start_check.selected = json.hasStart;
 			intro_check.selected = json.hasIntro;
 			final_check.selected = json.hasFinal;
 			
@@ -232,7 +235,7 @@
 			//questClassStr = '\r\r\r\t\tfield = new FieldData(' + index + ', "' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" );\r\t\t// create places\r';
 			
 			var className:String = currentScene.name.substr(0,1).toUpperCase()+ currentScene.name.substr(1);
-			trace('\r\t\tfields.set( "' + currentScene.name + '" , new ' + className + '( ' + index + ', "' + currentScene.name + '", ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" ) );\r')
+			trace('\r\t\tfields.set( "' + currentScene.name + '" , new ' + className + '( ' + index + ', "' + currentScene.name + '", ' + (start_check ? start_check.selected : false) + ', ' + intro_check.selected + ', ' + final_check.selected + ', "' + times + '" ) );\r')
 
 			var tutorSteps:String = "";
 			var sceneIndex:int = getSceneIndex();
@@ -243,7 +246,7 @@
 			
 			sceneData.times = times;
 			
-			questClassStr = 'package com.gt.towers.battle.fieldes;\rclass ' + className + ' extends FieldData\r{\r\tpublic function new(index:Int, name:String, hasIntro:Bool=false, hasFinal:Bool=false, times:String="")\r\t{\r\t\tsuper(index, name, hasIntro, hasFinal, times);\r\t\t// create places\r';
+			questClassStr = 'package com.gt.towers.battle.fieldes;\rclass ' + className + ' extends FieldData\r{\r\tpublic function new(index:Int, name:String, hasStart:Bool=false, hasIntro:Bool=false, hasFinal:Bool=false, times:String="")\r\t{\r\t\tsuper(index, name, hasStart, hasIntro, hasFinal, times);\r\t\t// create places\r';
 			var items:Array = new Array();
 			for (var i:int=0; i<places.length; i++)
 			{
@@ -265,12 +268,12 @@
 			{
 				jsonFR.removeEventListener(Event.SELECT, jsonFR_selectHandler);
 				
-				var hxFile:File = new File("D:\\_PROJECTS\\_FLEX\\towers-projects\\towers-core\\source\\src\\com\\gt\\towers\\battle\\fieldes\\"+className+".hx");
+				var hxFile:File = new File("C:\\Users\\BSS\\WorkSpace\\Towers\\Towers-core\\source\\src\\com\\gt\\towers\\battle\\fieldes\\"+className+".hx");
 				var stream:FileStream = new FileStream();
 				stream.open(hxFile, FileMode.WRITE);
 				stream.writeUTFBytes(questClassStr);
 				stream.close();
-				trace("saved to", hxFile.nativePath);
+				//trace("saved to", hxFile.nativePath);
 			}
 
 		}
