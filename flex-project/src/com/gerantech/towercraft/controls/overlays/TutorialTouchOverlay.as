@@ -37,8 +37,6 @@ package com.gerantech.towercraft.controls.overlays
 			finger.x = place.x * appModel.scale;
 			finger.y = (place.y - 50) * appModel.scale;
 			finger.touchable = false;
-			addChild(finger);
-			touchFinger();
 			
 			if(transitionIn == null)
 			{
@@ -69,12 +67,18 @@ package com.gerantech.towercraft.controls.overlays
 				}
 			);
 		}
-		
-		private function touchFinger():void
+		protected override function transitionInStarted():void
 		{
-			Starling.juggler.tween( finger, 0.15, {delay : 1.6, scale : 0.85});
-			Starling.juggler.tween( finger, 0.50, {delay : 2.0, scale : 1.00, onComplete:touchFinger, transition:Transitions.EASE_OUT_BACK});
-		}		
+			super.transitionInStarted();
+			addChild(finger);
+			touchFinger();
+		}
+				
+		private function touchFinger(delay:Number=0):void
+		{
+			Starling.juggler.tween( finger, 0.15, {delay : delay,		scale : 0.85});
+			Starling.juggler.tween( finger, 0.50, {delay : delay+0.4,	scale : 1.00, onComplete:touchFinger, onCompleteArgs:[2], transition:Transitions.EASE_OUT_BACK});
+		}			
 		
 		public override function close(dispose:Boolean=true):void
 		{
