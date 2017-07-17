@@ -114,7 +114,7 @@ package com.gerantech.towercraft.managers.net
 			for ( i=0; i<fItemsKeys.length; i++ )
 			{
 				fieldSource = game.fieldProvider.fields.get(fItemsKeys[i]);
-				fieldDest = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
+				fieldDest = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasStart, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
 				fieldDest.places = new PlaceDataList();
 				for ( var p:int=0; p<fieldSource.places.size(); p++ )
 				{
