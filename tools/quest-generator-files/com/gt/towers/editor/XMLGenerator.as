@@ -151,6 +151,8 @@
 				places[p].troopType = json.places[p].troopType;
 				places[p].enabled = json.places[p].enabled;
 				places[p].tutorIndex = json.places[p].tutorIndex;
+				places[p].tutor_input.txt.text = "" + places[p].tutorIndex;
+
 				places[p].update();
 				
 				var jsonlink:int = -1;
@@ -241,6 +243,8 @@
 			var sceneIndex:int = getSceneIndex();
 			var sceneData:Object = new Object();
 			sceneData.name = currentScene.name;
+			if (start_check)
+				sceneData.hasStart = start_check.selected;
 			sceneData.hasIntro = intro_check.selected;
 			sceneData.hasFinal = final_check.selected;
 			
@@ -258,7 +262,7 @@
 			sceneData.images = getImagesData(sceneIndex);
 			
 			questClassStr += '\t}\r}';
-			//trace(questClassStr)
+			trace(questClassStr)
 			
 			var jsonFR:FileReference = new FileReference();
 			jsonFR.addEventListener(Event.SELECT, jsonFR_selectHandler);
