@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.FastList;
-	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.UpgradeOverlay;
@@ -12,7 +11,6 @@ package com.gerantech.towercraft.controls.segments
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.exchanges.Exchanger;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -39,12 +37,12 @@ package com.gerantech.towercraft.controls.segments
 			
 			layout = new AnchorLayout();
 			listLayout = new TiledRowsLayout();
-			listLayout.padding = listLayout.gap = 10;
-			listLayout.paddingBottom = listLayout.paddingTop = 50;
+			listLayout.padding = listLayout.gap = 16 * appModel.scale;
+			listLayout.paddingTop = 120 * appModel.scale;
 			listLayout.useSquareTiles = false;
 			listLayout.requestedColumnCount = 4;
 			listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
+			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.6;
 			
 			buildingslist = new FastList();
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
@@ -71,6 +69,12 @@ package com.gerantech.towercraft.controls.segments
 		{
 			var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
 
+			if( !player.buildings.exists( item.data as int) )
+			{
+				
+				appModel.navigator.addLog(loc("unlocked_at_arena", [loc("arena_title_"+game.unlockedBuildingAt(item.data as int ))]));
+				return;
+			}
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;

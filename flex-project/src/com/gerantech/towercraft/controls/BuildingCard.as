@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
 	
@@ -9,18 +10,20 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
+	import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 	
 	public class BuildingCard extends TowersLayout
 	{
-		
 		private var iconDisplay:ImageLoader;
 		private var slider:BuildingSlider;
 
 		private var _type:int = -1;
 		private var _locked:Boolean = false;
 		private var _showSlider:Boolean = true;
+		private var showLevel:Boolean = true;
 		
 		private var skin:ImageSkin;
+		private var levelDisplay:RTLLabel;
 		
 		public function BuildingCard()
 		{
@@ -40,6 +43,7 @@ package com.gerantech.towercraft.controls
 			
 			layout= new AnchorLayout();
 			var progressHeight:int = 56 * appModel.scale;
+			var padding:int = 16 * appModel.scale;
 			
 			iconDisplay = new ImageLoader();
 			iconDisplay.layoutData = new AnchorLayoutData(0, 0, progressHeight/2, 0);
@@ -50,6 +54,12 @@ package com.gerantech.towercraft.controls
 			slider.visible = !_locked && _showSlider;
 			slider.height = progressHeight;
 			addChild(slider);
+			
+			levelDisplay = new RTLLabel("Level 1", 0, "center", null, false, null, 0.8);
+			levelDisplay.alpha = 0.7;
+			levelDisplay.height = progressHeight;
+			levelDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
+			addChild(levelDisplay);
 
 			var t:int = type;
 			type = -1;
@@ -78,8 +88,12 @@ package com.gerantech.towercraft.controls
 			if ( slider )
 				slider.visible = !_locked && showSlider;
 
-			skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
-			iconDisplay.alpha = _locked ? 0.7 : 1;
+			if ( skin )
+				skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
+			if ( iconDisplay )
+				iconDisplay.alpha = _locked ? 0.7 : 1;
+			if( levelDisplay )
+				levelDisplay.visible = !_locked && showLevel;
 		}
 		
 		
@@ -108,11 +122,13 @@ package com.gerantech.towercraft.controls
 			var upgradeCards:int = building.get_upgradeCards();
 			var numBuildings:int = player.resources.get(type);
 			
-			if( slider && showSlider )
+			if( showSlider && slider )
 			{
 				slider.maximum = upgradeCards;
 				slider.value = numBuildings;
 			}
+			if ( showLevel && levelDisplay )
+				levelDisplay.text = "Level " + building.level;
 		}
 	}
 }

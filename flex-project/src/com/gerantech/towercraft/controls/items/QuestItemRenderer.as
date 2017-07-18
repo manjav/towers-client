@@ -10,7 +10,6 @@ import com.gerantech.towercraft.utils.StrUtils;
 import flash.geom.Rectangle;
 
 import feathers.controls.ImageLoader;
-import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalAlign;

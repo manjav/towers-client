@@ -1,19 +1,15 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
-import com.gerantech.towercraft.controls.segments.MainSegment;
-import com.gerantech.towercraft.controls.screens.RankingScreen;
-import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+import com.gerantech.towercraft.controls.segments.MainSegment;
+import com.gerantech.towercraft.controls.segments.Segment;
 import com.gt.towers.constants.PageType;
 
-import feathers.controls.List;
 import feathers.controls.renderers.LayoutGroupListItemRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.VerticalAlign;
-import feathers.layout.VerticalLayout;
 
 import starling.events.Event;
 	
@@ -49,6 +45,9 @@ import starling.events.Event;
 			}
 			
 			super.commitData();
+			
+			if( _data == null )
+				return;
 			
 			if(segment != null)
 				return;
