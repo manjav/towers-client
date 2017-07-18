@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.BattleHUD;
-	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -80,9 +79,7 @@ package com.gerantech.towercraft.controls.screens
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
-					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getInt("troopType"), data.getInt("startAt"), sfsConnection.getRoomById(data.getInt("roomId")));
-					timeManager.now = battleData.startAt;
-					
+					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getSFSObject("opponent"), data.getInt("troopType"), data.getInt("startAt"), sfsConnection.getRoomById(data.getInt("roomId")));
 					appModel.battleFieldView = new BattleFieldView();
 					addChild(appModel.battleFieldView);
 					appModel.battleFieldView.createPlaces(battleData);

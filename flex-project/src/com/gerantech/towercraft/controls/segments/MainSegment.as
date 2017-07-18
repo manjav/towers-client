@@ -51,7 +51,7 @@ public class MainSegment extends Segment
 		super.initialize();
 		if(appModel.loadingManager.inBattle)
 		{
-			gotoLiveBattle();
+			setTimeout(gotoLiveBattle, 100);
 			return;
 		}
 		
@@ -138,7 +138,7 @@ public class MainSegment extends Segment
 			return;
 		
 		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || mapElement.name == "dragon-cross";
-		var floatingWidth:int = locked ? 380 : 320;
+		var floatingWidth:int = locked ? 360 : 320;
 		
 		// create transitions data
 		var ti:TransitionData = new TransitionData();

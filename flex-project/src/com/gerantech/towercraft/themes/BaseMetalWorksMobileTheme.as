@@ -152,7 +152,7 @@ package com.gerantech.towercraft.themes
 		public static const VIDEO_OVERLAY_ALPHA:Number = 0.2;
 		
 		public static var SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
-		public static var PRIMARY_TEXT_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+		public static var PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
 		public static var DESCRIPTION_TEXT_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
@@ -1262,7 +1262,7 @@ package com.gerantech.towercraft.themes
 			button.minTouchWidth = button.minTouchHeight = this.gridSize;
 		}
 
-		protected function setDangerButtonStyles(button:Button):void
+		public function setDangerButtonStyles(button:Button):void
 		{
 			var skin:ImageSkin = new ImageSkin(this.buttonDangerUpSkinTexture);
 			skin.setTextureForState(ButtonState.DOWN, this.buttonDangerDownSkinTexture);
