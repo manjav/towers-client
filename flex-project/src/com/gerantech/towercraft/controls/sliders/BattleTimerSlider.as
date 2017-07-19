@@ -3,27 +3,14 @@ package com.gerantech.towercraft.controls.sliders
 	import com.gerantech.towercraft.controls.StarCheck;
 	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.items.TimerIcon;
-	import com.gerantech.towercraft.models.AppModel;
-	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.utils.clearTimeout;
-	import flash.utils.setTimeout;
 	
-	import feathers.controls.ImageLoader;
-	import feathers.controls.LayoutGroup;
-	import feathers.controls.ProgressBar;
-	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.Direction;
 	import feathers.layout.HorizontalAlign;
-	import feathers.layout.HorizontalLayout;
-	import feathers.text.BitmapFontTextFormat;
 	
-	import starling.animation.Transitions;
-	import starling.animation.Tween;
 	import starling.core.Starling;
-	import starling.display.BlendMode;
 	
 	public class BattleTimerSlider extends TowersLayout
 	{
@@ -54,8 +41,10 @@ package com.gerantech.towercraft.controls.sliders
 			addChild(progressBar)
 
 			iconDisplay = new TimerIcon();
-			iconDisplay.height = height * 2;
-			iconDisplay.layoutData = new AnchorLayoutData (NaN, -height/2, NaN, NaN, NaN, 0);
+			iconDisplay.width = iconDisplay.height = height * 2.4;
+			iconDisplay.x = width;
+			iconDisplay.y = height * 0.5;
+			//iconDisplay.layoutData = new AnchorLayoutData (NaN, -height/2, NaN, NaN, NaN, 0);
 			addChild(iconDisplay);
 			
 			stars = new Vector.<StarCheck>();
@@ -63,7 +52,7 @@ package com.gerantech.towercraft.controls.sliders
 			{
 				var star:StarCheck = new StarCheck();
 				star.width = star.height = height * 0.8;
-				star.x = i * (width-height)/4 + height*0.4;
+				star.x = i * (width-height)/4 + height*0.6;
 				star.y = height * 0.05;
 				addChild(star)
 				stars.push(star);
@@ -101,22 +90,6 @@ package com.gerantech.towercraft.controls.sliders
 			progressBar.maximum = value;
 		}
 		
-		private function animateFinished():void
-		{
-			timeoutId = setTimeout(animateUpgradeDisplay, 2000+Math.random()*1000);
-		}
-		private function animateUpgradeDisplay():void
-		{
-			Starling.juggler.tween(iconDisplay, 0.5, {y:-height*0.6, height:height*1.2, transition:Transitions.EASE_OUT_BACK, onComplete:animateFinished});
-			iconDisplay.y = -height*1.5;
-			iconDisplay.height = height*1.8;
-		}		
-		override public function dispose():void
-		{
-			clearTimeout(timeoutId);
-			Starling.juggler.removeTweens(iconDisplay);
-			super.dispose();
-		}
 		
 		public function enableStars(score:int):void
 		{
@@ -126,6 +99,16 @@ package com.gerantech.towercraft.controls.sliders
 				stars[i].alpha = 0;
 				Starling.juggler.tween(stars[i], 0.3, {delay:i/10, alpha:1});
 			}
+			if( score == 0 )
+				iconDisplay.punch();
 		}
+		
+		override public function dispose():void
+		{
+			clearTimeout(timeoutId);
+			Starling.juggler.removeTweens(iconDisplay);
+			super.dispose();
+		}
+		
 	}
 }

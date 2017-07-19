@@ -34,13 +34,13 @@ package com.gerantech.towercraft.controls
 			var gradient:ImageLoader = new ImageLoader();
 			gradient.maintainAspectRatio = false;
 			gradient.alpha = 0.5;
-			gradient.width = 440*appModel.scale;
-			gradient.height = 140*appModel.scale;
+			gradient.width = 440 * appModel.scale;
+			gradient.height = 140 * appModel.scale;
 			gradient.source = Assets.getTexture("grad-ro-right", "skin");
 			addChild(gradient);
 			
 			var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3;
-			var padding:int = 16*appModel.scale;
+			var padding:int = 16 * appModel.scale;
 			var leftPadding:int = (hasQuit ? 160 : 16) * appModel.scale;
 			if( hasQuit )
 			{
@@ -79,7 +79,7 @@ package com.gerantech.towercraft.controls
 			}
 			
 			timerSlider = new BattleTimerSlider();
-			timerSlider.layoutData = new AnchorLayoutData(padding*3, padding*3);
+			timerSlider.layoutData = new AnchorLayoutData(padding*4, padding*6);
 			addChild(timerSlider);
 			
 			addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);

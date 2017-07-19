@@ -58,27 +58,38 @@ package com.gerantech.towercraft.controls.sliders
 				upgradeDisplay.x = height*0.1;
 				upgradeDisplay.y = -height*0.6;
 				addChild(upgradeDisplay);
-				animateFinished();
+				punchArrow();
 				
 				labelDisplay.x = height*0.3;
 				labelDisplay.width = width-height*0.3;
 			}
+			else
+			{
+				stopPunching();
+				upgradeDisplay.removeFromParent();
+			}
 		}
 		
-		private function animateFinished():void
+		private function punchArrow():void
 		{
 			timeoutId = setTimeout(animateUpgradeDisplay, 2000+Math.random()*1000);
 		}
 		private function animateUpgradeDisplay():void
 		{
-			Starling.juggler.tween(upgradeDisplay, 0.5, {y:-height*0.6, height:height*1.2, transition:Transitions.EASE_OUT_BACK, onComplete:animateFinished});
+			Starling.juggler.tween(upgradeDisplay, 0.5, {y:-height*0.6, height:height*1.2, transition:Transitions.EASE_OUT_BACK, onComplete:punchArrow});
 			upgradeDisplay.y = -height*1.5;
 			upgradeDisplay.height = height*1.8;
-		}		
-		override public function dispose():void
+		}
+		
+		private function stopPunching():void
 		{
 			clearTimeout(timeoutId);
 			Starling.juggler.removeTweens(upgradeDisplay);
+		}
+
+		override public function dispose():void
+		{
+			stopPunching();
 			super.dispose();
 		}
 

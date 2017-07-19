@@ -62,6 +62,7 @@ package com.gerantech.towercraft.controls.items
 				_firstCommit = false;
 			}
 
+			trace(_data)
 			cardDisplay.type = _data as int;
 			super.commitData();
 		}

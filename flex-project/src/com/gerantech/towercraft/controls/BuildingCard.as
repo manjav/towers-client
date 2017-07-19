@@ -103,11 +103,11 @@ package com.gerantech.towercraft.controls
 		}
 		public function set type(value:int):void
 		{
-			if(_type == value)
+			/*if(_type == value)
 				return;
-			
+			*/
 			_type = value;
-			if(_type == -1)
+			if(_type < 0)
 				return;
 			
 			var building:Building = player.buildings.get(_type);

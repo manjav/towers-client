@@ -1,52 +1,39 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.utils.clearInterval;
+	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
-	
-	import feathers.controls.ImageLoader;
-	import feathers.controls.LayoutGroup;
-	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
+	import flash.utils.setTimeout;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.display.Sprite;
 
-	public class TimerIcon extends LayoutGroup
+	public class TimerIcon extends Sprite
 	{
+		private var background:Image;
 		private var needle:Image;
-		private var _time:Number = 0;
+		private var _scale:Number;
 
-		private var background:ImageLoader;
-		private var _deg:Number = 0.47;
 		private var intervalId:uint;
+		private var timeoutId:uint;
+		
 		public function TimerIcon()
 		{
-		}
-		
-		override protected function initialize():void
-		{
-			super.initialize();
-			layout = new AnchorLayout();
-			
-			background =  new ImageLoader();
-			background.source = Assets.getTexture("timer", "gui");
-			background.layoutData = new AnchorLayoutData(0, 0, 0 , 0);
+			background =  new Image(Assets.getTexture("timer", "gui"));
+			background.pivotX = background.width/2;
+			background.pivotY = background.height/2;
 			addChild(background);
 			
 			needle = new Image(Assets.getTexture("timer-needle", "gui"));
 			needle.pivotX = needle.width/2;
 			needle.pivotY = needle.height/2;
-			needle.height = 64*AppModel.instance.scale;
-			needle.scaleX = needle.scaleY;
-			//needle.rotation = Math.PI
-
-			//needle.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-			//needle.width = background.originalSourceHeight/height;
+			needle.rotation = 0.47;
 			addChild(needle);
+			
 			play()
 		}
 		
@@ -56,40 +43,33 @@ package com.gerantech.towercraft.controls.items
 			intervalId = setInterval(rotate, 1000);
 		}
 		
-		public function stop():void
-		{
-			time = _deg = 0.47;
-			clearInterval(intervalId);
-			Starling.juggler.removeTweens(this);
-		}
-		
 		public function rotate():void
 		{
-			_deg += Math.PI*0.5;
-			Starling.juggler.tween(this, 0.5, {time:_deg, transition:Transitions.EASE_OUT_ELASTIC});
+			Starling.juggler.tween(needle, 0.5, {rotation:needle.rotation+Math.PI*0.5, transition:Transitions.EASE_OUT_ELASTIC});
 		}
-		
-		public function get time():Number
+
+		public function punch():void
 		{
-			return _time;
+			_scale = scale;
+			timeoutId = setTimeout(animatePunchScale, 1000+Math.random()*1000);
 		}
-		public function set time(value:Number):void
+		private function animatePunchScale():void
 		{
-			if(_time == value)
-				return;
-			_time = value;
-			needle.rotation = _time;
-			needle.x = width/2;
-			needle.y = height/2;
-		}
+			Starling.juggler.tween(this, 0.5, {scale:_scale, transition:Transitions.EASE_OUT_BACK, onComplete:punch});
+			scale = _scale * 1.5;
+		}		
 		
+		public function stop():void
+		{
+			clearInterval(intervalId);
+			clearTimeout(timeoutId);
+			Starling.juggler.removeTweens(background);
+			Starling.juggler.removeTweens(this);
+		}
 		override public function dispose():void
 		{
 			stop();
 			super.dispose();
 		}
-		
-		
-		
 	}
 }
