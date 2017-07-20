@@ -25,6 +25,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 package com.gerantech.towercraft.themes
 {
 	
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.geom.Rectangle;
@@ -697,7 +698,7 @@ package com.gerantech.towercraft.themes
 		{
 			this.smallFontSize = 40;
 			this.gameFontSize = 56//12;
-			this.regularFontSize = 12;
+			this.regularFontSize = 4 / AppModel.instance.scale;// 12
 			this.largeFontSize = 56;
 			this.extraLargeFontSize = 72;
 
@@ -1212,9 +1213,6 @@ package com.gerantech.towercraft.themes
 			button.disabledFontStyles = this.darkDisabledUIFontStyles;
 
 			this.setBaseButtonStyles(button);
-			
-			
-			
 		}
 
 		protected function setQuietButtonStyles(button:Button):void
