@@ -47,7 +47,7 @@ package com.gerantech.towercraft.controls.items.exchange
 
 			if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
 				buttonDisplay.currency = "ت";
-			buttonDisplay.price = exchange.requirements.values()[0];
+			buttonDisplay.count = exchange.requirements.values()[0];
 			buttonDisplay.type = exchange.requirements.keys()[0];
 		}
 

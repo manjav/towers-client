@@ -8,9 +8,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.utils.maps.IntIntMap;
 	
-	import flash.desktop.Icon;
-	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.text.BitmapFontTextFormat;
@@ -29,11 +26,8 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			super.initialize();
 
-			/*labelDisplay = new RTLLabel("");
-			labelDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-			addChild(labelDisplay);*/
-			
 			iconDisplay = new BuildingCard();
+			iconDisplay.showLevel = false;
 			iconDisplay.showSlider = false;
 			iconDisplay.width = 280 * appModel.scale;
 			iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
@@ -52,7 +46,6 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			timeDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 			addChild(timeDisplay);
-
 		}
 		
 		override protected function commitData():void
@@ -65,7 +58,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			//labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
 			iconDisplay.type = exchange.outcomes.keys()[0];
 			var reqs:IntIntMap = exchanger.getSpecialRequierments(exchange);
-			buttonDisplay.price = reqs.values()[0];
+			buttonDisplay.count = reqs.values()[0];
 			buttonDisplay.type = reqs.keys()[0];
 			timeDisplay.text = StrUtils.uintToTime(uint(exchange.expiredAt - TimeManager.instance.now));
 		}

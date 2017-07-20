@@ -93,7 +93,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			{
 				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
 				timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
-				buttonDisplay.price = exchanger.timeToHard(t);
+				buttonDisplay.count = exchanger.timeToHard(t);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;
 				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 				clearTimeout(armatorTimeoutId);
@@ -101,7 +101,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			}
 			else
 			{
-				buttonDisplay.price = -1;
+				buttonDisplay.count = -1;
 				buttonDisplay.type = -1;
 				
 				if( armatorTimeoutId == -1 )

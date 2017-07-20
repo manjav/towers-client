@@ -18,7 +18,7 @@ package com.gerantech.towercraft.controls.buttons
 		private var iconDisplay:ImageLoader;
 		
 		private var _type:int;
-		private var _price:int;
+		private var _count:int;
 		public var currency:String = "";
 		private var _label:String;
 
@@ -58,18 +58,18 @@ package com.gerantech.towercraft.controls.buttons
 		}
 		
 		
-		public function set price(value:int):void
+		public function set count(value:int):void
 		{
-			if(_price == value)
+			if(_count == value)
 				return;
-			_price = value;
+			_count = value;
 			
-			if(_price == -1)
-				label = "Open";
-			else if(_price == 0)
-				label = "Free";
+			if(_count == -1)
+				label = loc("open_label");
+			else if(_count == 0)
+				label = loc("free_label");
 			else
-				label = _price.toString() + " " + currency;
+				label = _count.toString() + " " + currency;
 		}
 		
 		public function set type(value:int):void

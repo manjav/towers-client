@@ -30,6 +30,8 @@ package com.gerantech.towercraft.controls.segments
 	{
 		private var buildingslist:FastList;
 		private var listLayout:TiledRowsLayout;
+
+		private var detailsPopup:BuildingDetailsPopup;
 		
 		override protected function initialize():void
 		{
@@ -63,9 +65,6 @@ package com.gerantech.towercraft.controls.segments
 				buildingArray.push(buildings.pop());
 			buildingArray.sort();		
 			buildingslist.dataProvider = new ListCollection(buildingArray);
-			/*for each ( var b:int in buildingArray)
-				if(player.buildings.exists(b))
-					trace("buildings", b, player.buildings.get(b).level);*/
 		}
 		
 		private function list_changeHandler(event:Event):void
@@ -92,13 +91,13 @@ package com.gerantech.towercraft.controls.segments
 			to.sourceBound = ti.destinationBound.clone();
 			to.destinationBound = ti.sourceBound.clone();
 
-			var details:BuildingDetailsPopup = new BuildingDetailsPopup();
-			details.buildingType = item.data as int;
-			details.transitionIn = ti;
-			details.transitionOut = to;
-			details.addEventListener(Event.CLOSE, details_closeHandler);
-			appModel.navigator.addChild(details);
-			details.addEventListener(Event.UPDATE, details_updateHandler);
+			detailsPopup = new BuildingDetailsPopup();
+			detailsPopup.buildingType = item.data as int;
+			detailsPopup.transitionIn = ti;
+			detailsPopup.transitionOut = to;
+			detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
+			appModel.navigator.addChild(detailsPopup);
+			detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
 			function details_closeHandler():void
 			{
 				buildingslist.selectedIndex = -1;
@@ -121,25 +120,31 @@ package com.gerantech.towercraft.controls.segments
 			
 			seudUpgradeRequest(building, 0);
 		}
-		
 		private function upgradeConfirm_errorHandler(event:Event):void
 		{
-			appModel.navigator.addLog("ssdf sddflkds");
+			//appModel.navigator.addLog(loc("not_enough_resources"));
 			dispatchEventWith(FeathersEventType.ENTER, true, ExchangeType.S_0_HARD);
 		}
 		private function upgradeConfirm_selectHandler(event:Event):void
 		{
 			var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-			seudUpgradeRequest(confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)));
+			seudUpgradeRequest( confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)) );
 		}
 		
 		private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 		{
-			if(!building.upgrade(confirmedHards))
+			if( detailsPopup != null )
+			{
+				detailsPopup.close();
+				detailsPopup = null;
+			}
+			
+			if( !building.upgrade(confirmedHards) )
 				return;
 			
 			var sfs:SFSObject = new SFSObject();
 			sfs.putInt("type", building.type);
+			sfs.putInt("confirmedHards", confirmedHards);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 			
 			var upgradeOverlay:UpgradeOverlay = new UpgradeOverlay();

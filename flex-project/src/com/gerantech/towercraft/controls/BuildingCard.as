@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
@@ -10,7 +11,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
-	import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 	
 	public class BuildingCard extends TowersLayout
 	{
@@ -20,7 +20,7 @@ package com.gerantech.towercraft.controls
 		private var _type:int = -1;
 		private var _locked:Boolean = false;
 		private var _showSlider:Boolean = true;
-		private var showLevel:Boolean = true;
+		private var _showLevel:Boolean = true;
 		
 		private var skin:ImageSkin;
 		private var levelDisplay:RTLLabel;
@@ -29,7 +29,6 @@ package com.gerantech.towercraft.controls
 		{
 			super();
 		}
-
 
 		override protected function initialize():void
 		{
@@ -57,6 +56,7 @@ package com.gerantech.towercraft.controls
 			
 			levelDisplay = new RTLLabel("Level 1", 0, "center", null, false, null, 0.8);
 			levelDisplay.alpha = 0.7;
+			levelDisplay.visible = !_locked && _showLevel;
 			levelDisplay.height = progressHeight;
 			levelDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
 			addChild(levelDisplay);
@@ -64,6 +64,21 @@ package com.gerantech.towercraft.controls
 			var t:int = type;
 			type = -1;
 			type = t;
+		}
+		
+		
+		public function get showLevel():Boolean
+		{
+			return _showLevel;
+		}
+		public function set showLevel(value:Boolean):void
+		{
+			if ( _showLevel == value )
+				return;
+			
+			_showLevel = value;
+			if ( levelDisplay )
+				levelDisplay.visible = !_locked && _showLevel;
 		}
 		
 		public function get showSlider():Boolean
@@ -104,8 +119,8 @@ package com.gerantech.towercraft.controls
 		public function set type(value:int):void
 		{
 			/*if(_type == value)
-				return;
-			*/
+				return;*/
+			
 			_type = value;
 			if(_type < 0)
 				return;

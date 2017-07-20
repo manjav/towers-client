@@ -40,6 +40,7 @@ package com.gerantech.towercraft.controls.items
 			
 			cardLayoutData = new AnchorLayoutData(0,0,0,0);
 			cardDisplay = new BuildingCard();
+			cardDisplay.showLevel = inDeck;
 			cardDisplay.showSlider = inDeck;
 			cardDisplay.layoutData = cardLayoutData;
 			addChild(cardDisplay);
@@ -62,15 +63,14 @@ package com.gerantech.towercraft.controls.items
 				_firstCommit = false;
 			}
 
-			trace(_data)
 			cardDisplay.type = _data as int;
 			super.commitData();
 		}
 		override public function set isSelected(value:Boolean):void
 		{
-			if(super.isSelected == value)
+			if( super.isSelected == value )
 				return;
-			if( !super.isSelected )
+			if( !super.isSelected && inDeck )
 				cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = 0;
 			super.isSelected = value
 		}
@@ -82,8 +82,12 @@ package com.gerantech.towercraft.controls.items
 				return;
 
 			super.currentState = _state;
+			
+			if ( !this.inDeck )
+				return;
+			
 			cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
-			if(_state == STATE_SELECTED)
+			if( _state == STATE_SELECTED )
 				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 			
 			if ( player.buildings.exists( _data as int ) )

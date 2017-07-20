@@ -62,7 +62,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			header = new LayoutGroup();
 			header.layout = hLayout;
-			header.layoutData = new AnchorLayoutData(padding,padding,NaN,padding);
+			header.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
 			header.height = transitionIn.destinationBound.height*0.3;
 			addChild(header);
 			
@@ -127,7 +127,7 @@ package com.gerantech.towercraft.controls.popups
 			addChild(optionList);
 			
 			upgradeButton.type = ResourceType.CURRENCY_SOFT;
-			upgradeButton.price = building.get_upgradeCost();
+			upgradeButton.count = building.get_upgradeCost();
 			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.2});
 
 			closeButton.type = ResourceType.CURRENCY_REAL;
@@ -151,7 +151,6 @@ package com.gerantech.towercraft.controls.popups
 		private function upgradeButton_triggeredHandler():void
 		{
 			dispatchEventWith(Event.UPDATE, false, building);
-			close();
 		}
 		
 		override public function close(dispose:Boolean=true):void
