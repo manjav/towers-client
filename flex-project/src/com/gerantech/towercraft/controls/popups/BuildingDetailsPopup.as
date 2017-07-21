@@ -9,7 +9,6 @@ package com.gerantech.towercraft.controls.popups
 	import com.gt.towers.constants.BuildingFeatureType;
 	import com.gt.towers.constants.ResourceType;
 	
-	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;

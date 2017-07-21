@@ -95,7 +95,7 @@ package com.gerantech.towercraft.controls.overlays
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 			buttons.addChild(closeBatton);
 
-		/*	if(score == 0)
+			/*if(score == 0)
 			{
 				var retryButton:Button = new Button();
 				retryButton.name = "retry";

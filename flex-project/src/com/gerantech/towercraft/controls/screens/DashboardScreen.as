@@ -3,9 +3,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.DashboardItemData;
 	import com.gt.towers.buildings.Building;
@@ -13,7 +14,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.PageType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
+	import flash.desktop.NativeApplication;
 	import flash.geom.Rectangle;
+	
+	import mx.resources.ResourceManager;
 	
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.ImageLoader;
@@ -177,6 +181,18 @@ package com.gerantech.towercraft.controls.screens
 			pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 			Starling.juggler.tween(tabBorder, 0.3, {x:tabsList.selectedIndex * tabSize, transition:Transitions.EASE_OUT});
 			scrollTime = 0.5;
+		}
+		
+		override protected function backButtonFunction():void
+		{
+			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"));
+			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+			AppModel.instance.navigator.addChild(confirm);
+			function confirm_selectHandler ( event:Event ) : void
+			{
+				confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
+				NativeApplication.nativeApplication.exit();
+			}
 		}
 	}
 }
