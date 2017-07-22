@@ -42,7 +42,7 @@ package com.gerantech.towercraft.controls.screens
 			list.dataProvider = new ListCollection(game.arenas.values());
 			list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			list.addEventListener(Event.CHANGE, list_changeHandler);
-			list.scrollToDisplayIndex(player.get_arena());
+			list.scrollToDisplayIndex(player.get_arena(0));
 			addChild(list);
 			
 			var backButton:SimpleLayoutButton = new SimpleLayoutButton();

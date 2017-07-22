@@ -75,7 +75,6 @@ package com.gerantech.towercraft.controls.screens
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
 			var data:SFSObject = event.params.params as SFSObject;
-			//trace(event.params.cmd, data.getDump());
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
@@ -97,6 +96,7 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case SFSCommands.END_BATTLE:
+					trace(event.params.cmd, data.getDump());
 					var youWin:Boolean = data.getBool("youWin");
 					var score:int = data.getInt("score");
 					var rewards:ISFSArray = data.getSFSArray("rewards");

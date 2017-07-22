@@ -105,7 +105,7 @@ package com.gerantech.towercraft.controls.items
 			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
 			armatureDisplay.y = height *0.35;
 			armatureDisplay.scale = appModel.scale;
-			if( player.get_arena() == index )
+			if( player.get_arena(0) == index )
 				armatureDisplay.animation.gotoAndPlayByTime("animtion0", 0, -1);
 			else
 				armatureDisplay.animation.gotoAndStopByFrame("animtion0", 0);
