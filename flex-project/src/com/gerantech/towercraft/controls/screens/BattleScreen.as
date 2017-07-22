@@ -111,7 +111,7 @@ package com.gerantech.towercraft.controls.screens
 					var outcomes:IntIntMap = new IntIntMap();
 					for(var i:int=0; i<rewards.size(); i++)
 						outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-					BattleOutcome.consume_outcomes(player, outcomes);
+					BattleOutcome.consume_outcomes(game, outcomes);
 					
 					// show battle outcome overlay
 					var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
