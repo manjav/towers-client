@@ -62,10 +62,7 @@ package com.gerantech.towercraft.controls.segments
 			while(buildings.length > 0)
 				buildingArray.push(buildings.pop());
 			buildingArray.sort();		
-			buildingslist.dataProvider = new ListCollection(buildingArray);
-			/*for each ( var b:int in buildingArray)
-				if(player.buildings.exists(b))
-					trace("buildings", b, player.buildings.get(b).level);*/
+			buildingslist.dataProvider = new ListCollection(buildingArray);			
 		}
 		
 		private function list_changeHandler(event:Event):void
@@ -74,10 +71,10 @@ package com.gerantech.towercraft.controls.segments
 
 			if( !player.buildings.exists( item.data as int) )
 			{
-				appModel.navigator.addLog(loc("unlocked_at_arena", [loc("arena_title_"+game.unlockedBuildingAt(item.data as int ))]));
+				
+			//	appModel.navigator.addLog(loc("unlocked_at_arena", [loc("arena_title_"+game.unlockedBuildingAt(item.data as int ))]));
 				return;
 			}
-			
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;
@@ -145,7 +142,6 @@ package com.gerantech.towercraft.controls.segments
 			var upgradeOverlay:UpgradeOverlay = new UpgradeOverlay();
 			upgradeOverlay.building = building;
 			appModel.navigator.addChild(upgradeOverlay);
-			
 			updateBuildingData();
 		}
 	}
