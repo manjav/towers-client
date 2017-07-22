@@ -262,7 +262,7 @@
 			sceneData.images = getImagesData(sceneIndex);
 			
 			questClassStr += '\t}\r}';
-			trace(questClassStr)
+			//trace(questClassStr)
 			
 			var jsonFR:FileReference = new FileReference();
 			jsonFR.addEventListener(Event.SELECT, jsonFR_selectHandler);

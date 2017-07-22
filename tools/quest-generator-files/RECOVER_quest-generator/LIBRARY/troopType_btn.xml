@@ -1,0 +1,21 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="troopType_btn" itemID="5936f76a-00000aeb" lastModified="1497027795">
+  <timeline>
+    <DOMTimeline name="troopType_btn">
+      <layers>
+        <DOMLayer name="building-plot.png" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance selected="true" libraryItemName="images/building-plot.png">
+                  <matrix>
+                    <Matrix tx="-109" ty="-52"/>
+                  </matrix>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
