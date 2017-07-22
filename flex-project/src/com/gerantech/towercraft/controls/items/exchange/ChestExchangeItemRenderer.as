@@ -4,7 +4,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ResourceType;
@@ -61,8 +60,8 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			if(firstCommit )
 			{
-				inWiating = game.exchanger.items.get(_data as int).expiredAt>TimeManager.instance.now;
-				TimeManager.instance.addEventListener(Event.CHANGE, timeManager_changeHandler);
+				inWiating = game.exchanger.items.get(_data as int).expiredAt > timeManager.now;
+				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			}
 			super.commitData();
 			
@@ -81,7 +80,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		}
 		private function timeManager_changeHandler():void
 		{
-			inWiating = exchange.expiredAt > TimeManager.instance.now;
+			inWiating = exchange.expiredAt > timeManager.now;
 			updateElements();
 		}
 		private function updateElements():void
@@ -89,7 +88,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			timeDisplay.visible = inWiating;
 			if( inWiating )
 			{
-				var t:uint = uint(exchange.expiredAt - TimeManager.instance.now);
+				var t:uint = uint(exchange.expiredAt - timeManager.now);
 				timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
 				buttonDisplay.count = exchanger.timeToHard(t);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;
@@ -116,7 +115,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		
 		override public function dispose():void
 		{
-			TimeManager.instance.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+			timeManager.removeEventListeners(Event.CHANGE);
 			if( chestArmature != null )
 				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 			clearTimeout(armatorTimeoutId);

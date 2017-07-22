@@ -2,6 +2,7 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.towercraft.events.LoadingEvent;
+	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
@@ -86,6 +87,11 @@ package com.gerantech.towercraft.managers.net
 				UserData.getInstance().password = serverData.getText("password");
 				UserData.getInstance().save();
 			}
+			
+			if( TimeManager.instance != null )
+				TimeManager.instance.dispose();
+			new TimeManager(serverData.getLong("serverTime"));
+
 			
 			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
 			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )

@@ -24,13 +24,9 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.filesystem.File;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
 	
 	[Event(name="complete", type="flash.events.Event")]
 	[Event(name="error", type="flash.events.ErrorEvent")]
@@ -134,7 +130,6 @@ package com.gerantech.towercraft.managers.net
 			initData = new InitData();
 			initData.nickName = sfsObj.getText("name");
 			initData.id = sfsObj.getInt("id");
-			new TimeManager(sfsObj.getLong("serverTime"));
 			
 			var elements:ISFSArray = sfsObj.getSFSArray("resources");
 			var element:ISFSObject;
