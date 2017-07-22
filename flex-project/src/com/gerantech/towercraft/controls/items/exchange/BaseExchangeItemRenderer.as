@@ -5,8 +5,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import feathers.layout.AnchorLayout;
-	import feathers.layout.HorizontalLayout;
-	import feathers.skins.ImageSkin;
+	import feathers.layout.TiledColumnsLayout;
 	
 	import starling.display.Image;
 
@@ -41,8 +40,8 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			if(firstCommit)
 			{
-				width = HorizontalLayout(_owner.layout).typicalItemWidth;
-				//height = HorizontalLayout(_owner.layout).typicalItemHeight;
+				width = TiledColumnsLayout(_owner.layout).typicalItemWidth;
+				height = TiledColumnsLayout(_owner.layout).typicalItemHeight;
 				firstCommit = false;
 			}
 			exchange = exchanger.items.get(_data as int);

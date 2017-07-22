@@ -1,12 +1,9 @@
 package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.FastList;
-	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
-	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
-	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.ShopLine;
@@ -63,7 +60,6 @@ package com.gerantech.towercraft.controls.segments
 			listLayout.hasVariableItemDimensions = true;
 			listLayout.paddingTop = 148 * appModel.scale;
 			listLayout.useVirtualLayout = true;
-			
 			
 			itemslist = new FastList();
 			itemslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;

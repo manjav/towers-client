@@ -15,7 +15,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.HorizontalLayout;
+	import feathers.layout.TiledColumnsLayout;
 	import feathers.layout.VerticalAlign;
 	
 	import starling.events.Event;
@@ -26,7 +26,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var line:ShopLine;
 		private var list:List;
 
-		private var listLayout:HorizontalLayout;
+		private var listLayout:TiledColumnsLayout;
 		private var header:ExchangeHeader;
 		public function ExchangeCategoryItemRenderer()
 		{
@@ -43,8 +43,11 @@ package com.gerantech.towercraft.controls.items.exchange
 			header.height = 112 * appModel.scale;
 			addChild(header);
 			
-			listLayout = new HorizontalLayout();
-			listLayout.verticalAlign = VerticalAlign.JUSTIFY;
+			listLayout = new TiledColumnsLayout();
+			listLayout.requestedColumnCount = 3;
+			listLayout.tileHorizontalAlign = listLayout.horizontalAlign = appModel.align;
+			listLayout.verticalAlign = VerticalAlign.TOP;
+			listLayout.useSquareTiles = false;
 			listLayout.useVirtualLayout = false;
 			listLayout.padding = listLayout.gap = 12 * appModel.scale;
 			
@@ -67,25 +70,31 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			header.label = loc("exchange_title_" + line.category);
 			
-			height = 620 * appModel.scale ; 
-			listLayout.typicalItemWidth = (width-listLayout.gap*4) / 3 ; 
-			switch(line.category)
+			var CELL_SIZE:int = 480 * appModel.scale;
+			switch( line.category )
 			{
 				case ExchangeType.S_20_BUILDING:
-					height = 560 * appModel.scale ; 
+					CELL_SIZE = 460 * appModel.scale;
 					listLayout.typicalItemWidth = width-listLayout.padding * 2 ;
 					list.itemRendererFactory = function ():IListItemRenderer{ return new SpecialExchangeItemRenderer();}
 					break;
 				
 				case ExchangeType.S_30_CHEST:
-					height = 720 * appModel.scale ; 
+					CELL_SIZE = 620 * appModel.scale;
+					listLayout.typicalItemWidth = (width-listLayout.gap*4) / 3 ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ChestExchangeItemRenderer();}
 					break;
 				
 				default:
+					CELL_SIZE = 480 * appModel.scale;
+					listLayout.typicalItemWidth = (width-listLayout.gap*4) / 3 ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new CurrencyExchangeItemRenderer();}
 					break;
 			}
+			
+			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + header.height; 
+			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap*2;
+			
 			list.dataProvider = new ListCollection(line.items);
 		}
 		

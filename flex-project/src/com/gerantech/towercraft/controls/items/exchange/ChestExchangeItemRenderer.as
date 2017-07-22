@@ -1,14 +1,13 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.ExchangeHeader;
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.Exchanger;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.clearTimeout;
@@ -18,7 +17,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingEvent;
 	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.text.BitmapFontTextFormat;
