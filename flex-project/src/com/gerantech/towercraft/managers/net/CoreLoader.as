@@ -6,6 +6,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.utils.LoadAndSaver;
 	import com.gt.towers.Game;
 	import com.gt.towers.InitData;
 	import com.gt.towers.arenas.Arena;
@@ -46,22 +47,18 @@ package com.gerantech.towercraft.managers.net
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 			var url:String = "http://"+(SFSConnection.instance.currentIp=="185.141.192.33"?"env-3589663.j.scaleforce.gr":SFSConnection.instance.currentIp)+"/cores/"+coreFileName;
-			//trace(coreFileName, "loaded.");
-			/*var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
-			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);*/
 			
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-			loader.load(new URLRequest(url), new LoaderContext(false, ApplicationDomain.currentDomain));
+			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
+			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 		}
 
 		
 		private function loaderInfo_completeHandler(e:Event):void
 		{
-			e.currentTarget.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-			var gameClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
-			var initClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
-			var exchangeClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.exchanges.Exchange") as Class;
+			var loader:LoadAndSaver = e.currentTarget as LoadAndSaver;
+			loader.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
+			var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 			
 			AppModel.instance.game = new Game(initData);
 			var swfCore:* = new gameClass(new initClass());

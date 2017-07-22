@@ -8,10 +8,10 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import flash.desktop.NativeApplication;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.utils.getTimer;
 	
 	[Event(name="loaded",				type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="loginError",			type="com.gerantech.towercraft.events.LoadingEvent")]
@@ -26,14 +26,17 @@ package com.gerantech.towercraft.managers.net
 		public static const STATE_LOGIN:int = 1;
 		public static const STATE_CORE_LOADING:int = 2;
 		public static const STATE_LOADED:int = 3;
+		public var inBattle:Boolean;
+		public var loadStartAt:int;
 		
 		private var sfsConnection:SFSConnection;
 
 		private var serverData:SFSObject;
-		public var inBattle:Boolean;
 		
-		public function LoadingManager()
+		public function load():void
 		{
+			loadStartAt = getTimer();
+			SFSConnection.dispose();
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
@@ -103,7 +106,7 @@ package com.gerantech.towercraft.managers.net
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
-			NativeApplication.nativeApplication.exit();
+			dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST));
 		}
 		
 		protected function coreLoader_errorHandler(event:ErrorEvent):void
@@ -119,5 +122,6 @@ package com.gerantech.towercraft.managers.net
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			state = STATE_LOADED;
 		}
+
 	}
 }

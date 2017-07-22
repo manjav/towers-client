@@ -13,13 +13,16 @@ package com.gerantech.towercraft.controls.screens
 	import flash.net.navigateToURL;
 	import flash.utils.getTimer;
 	
-	import starling.core.Starling;
+	import mx.resources.ResourceManager;
+	
 	import starling.events.Event;
+	import flash.display.DisplayObjectContainer;
 	
 	public class SplashScreen extends Sprite
 	{
 		private var logo:Bitmap;
 		private var _alpha:Number = 1;
+		private var _parent:DisplayObjectContainer;
 		
 		public function SplashScreen()
 		{
@@ -31,6 +34,8 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CONNECTION_LOST,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.load();
 			
 			logo = new Assets.splash_bitmap();
 			logo.smoothing = true;
@@ -39,7 +44,7 @@ package com.gerantech.towercraft.controls.screens
 		protected function addedToStageHadnler(event:*):void
 		{
 			removeEventListener("addedToStage", addedToStageHadnler);
-			
+			_parent = parent;
 			graphics.beginFill(0x3d4759);
 			graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
 			
@@ -57,26 +62,28 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			
+			trace(event.type)
 			switch(event.type)
 			{
 				case LoadingEvent.LOADED:
-					trace("LoadingEvent.LOADED", "t["+(getTimer()-Towers.t)+"]")
-					addEventListener("enterFrame", enterFrameHandler); // fade-out splash screen
+					trace("LoadingEvent.LOADED", "t["+(getTimer()-Towers.t)+ ","+(getTimer()-AppModel.instance.loadingManager.loadStartAt)+"]")
+					if(parent)
+						addEventListener("enterFrame", enterFrameHandler); // fade-out splash screen
 					break;
 				
-				case LoadingEvent.NOTICE_UPDATE:
-				case LoadingEvent.FORCE_UPDATE:
-					var confirm:ConfirmPopup = new ConfirmPopup(event.type);
+				default:
+				/*case LoadingEvent.NOTICE_UPDATE:
+				case LoadingEvent.FORCE_UPDATE:*/
+					var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_"+event.type+"_message"));
 					confirm.data = event.type;
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 					confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 					AppModel.instance.navigator.addChild(confirm);
-					parent.removeChild(this);
-					break;
-				
-				default:
+					if(parent)
+						parent.removeChild(this);
+					/*break;
 					// complain !!!!! ..............
-					trace("LoadingEvent:", event.type, "t["+(getTimer()-Towers.t)+"]");
+					trace("LoadingEvent:", event.type, "t["+(getTimer()-Towers.t)+"]");*/
 					break;
 			}
 		}
@@ -88,13 +95,41 @@ package com.gerantech.towercraft.controls.screens
 			confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 			if(event.type == Event.SELECT)
 			{
-				navigateToURL(new URLRequest("http://per.city"));
-				NativeApplication.nativeApplication.exit();
+				switch(confirm.data)
+				{
+					case LoadingEvent.NOTICE_UPDATE:
+					case LoadingEvent.FORCE_UPDATE:
+						navigateToURL(new URLRequest("http://towers.grantech.ir/get"));
+						NativeApplication.nativeApplication.exit();
+						break;
+					
+					case LoadingEvent.CORE_LOADING_ERROR:
+					case LoadingEvent.NETWORK_ERROR:
+					case LoadingEvent.CONNECTION_LOST:
+						reload();
+				}
 				return;
 			}
 			
-			if(confirm.data == LoadingEvent.NOTICE_UPDATE)
-				AppModel.instance.loadingManager.loadCore();
+			switch(confirm.data)
+			{
+				case LoadingEvent.NOTICE_UPDATE:
+					AppModel.instance.loadingManager.loadCore();
+					return;
+			}
+			NativeApplication.nativeApplication.exit();
+		}
+		
+		private function reload():void
+		{
+			alpha = _alpha = 1;
+			_parent.addChild(this);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.load();
 		}
 		
 		protected function enterFrameHandler(event:*):void

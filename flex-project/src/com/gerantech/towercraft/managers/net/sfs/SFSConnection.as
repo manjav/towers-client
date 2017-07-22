@@ -7,9 +7,6 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.ExtensionRequest;
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
-	
-	import flash.events.IOErrorEvent;
-	
 
 	[Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 	[Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -183,5 +180,10 @@ package com.gerantech.towercraft.managers.net.sfs
 				_instance = new SFSConnection();
 			return _instance;
 		}
+		
+		public static function dispose():void
+		{
+			_instance = null
+		}	
 	}
 }
