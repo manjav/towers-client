@@ -24,7 +24,7 @@ package com.gerantech.towercraft.models
 				img.x *= AppModel.instance.scale;
 				img.y *= AppModel.instance.scale;
 				img.scale *= AppModel.instance.scale*2;
-				trace(item.name, img.x, img.y, img.scale);
+				//trace(item.name, img.x, img.y, img.scale);
 				ret.push(img);
 			}
 			return ret;
