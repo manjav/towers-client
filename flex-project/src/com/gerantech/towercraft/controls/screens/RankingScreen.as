@@ -28,13 +28,12 @@ package com.gerantech.towercraft.controls.screens
 			
 			layout = new AnchorLayout();
 			
+			var padding:int = 12 * appModel.scale;
+			
 			list = new FastList();
-			list.itemRendererFactory = function():IListItemRenderer
-			{
-				return new RankItemRenderer();
-			}
+			list.itemRendererFactory = function():IListItemRenderer { return new RankItemRenderer(); }
 			list.dataProvider = _listCollection;
-			list.layoutData = new AnchorLayoutData(0,0,0,0);
+			list.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
 			addChild(list);
 			
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);

@@ -43,7 +43,7 @@ package com.gerantech.towercraft.controls.items
 		{
 			super();
 			layout = new AnchorLayout();
-			height = 600 * appModel.scale;
+			height = 640 * appModel.scale;
 			var padding:int = 28 * appModel.scale;
 			var iconSize:int = 400 * appModel.scale;
 
@@ -84,11 +84,11 @@ package com.gerantech.towercraft.controls.items
 			cardsDisplay.layout = cardsLayout;
 			cardsDisplay.height = cardsLayout.typicalItemHeight;
 			cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
-			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding*3, appModel.isLTR?padding:NaN);
 			addChild(cardsDisplay);
 			
-			var unlocksDisplay:RTLLabel = new RTLLabel(loc("achievements_label"), 1, null, null, true, null, 0.8);
-			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*2, appModel.isLTR?padding*2:NaN);
+			var unlocksDisplay:RTLLabel = new RTLLabel(loc("achievements_label"), 0xCCCCCC, null, null, true, null, 0.8);
+			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*4, appModel.isLTR?padding*2:NaN);
 			addChild(unlocksDisplay);
 		}
 		
