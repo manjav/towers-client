@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.ExchangeHeader;
 	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.ExchangeItem;
@@ -27,7 +28,9 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var list:List;
 
 		private var listLayout:TiledColumnsLayout;
-		private var header:ExchangeHeader;
+		private var headerDisplay:ExchangeHeader;
+		private var descriptionDisplay:RTLLabel;
+		
 		public function ExchangeCategoryItemRenderer()
 		{
 			super();
@@ -38,15 +41,19 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			header = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
-			header.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
-			header.height = 112 * appModel.scale;
-			addChild(header);
+			headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
+			headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
+			headerDisplay.height = 112 * appModel.scale;
+			addChild(headerDisplay);
+			
+			descriptionDisplay = new RTLLabel(" ", 1, null, null, false, null, 0.74);
+			descriptionDisplay.layoutData = new AnchorLayoutData(headerDisplay.height, 24 * appModel.scale, NaN, 24 * appModel.scale);
+			addChild(descriptionDisplay);
 			
 			listLayout = new TiledColumnsLayout();
 			listLayout.requestedColumnCount = 3;
 			listLayout.tileHorizontalAlign = listLayout.horizontalAlign = appModel.align;
-			listLayout.verticalAlign = VerticalAlign.TOP;
+			listLayout.verticalAlign = VerticalAlign.BOTTOM;
 			listLayout.useSquareTiles = false;
 			listLayout.useVirtualLayout = false;
 			listLayout.padding = listLayout.gap = 12 * appModel.scale;
@@ -68,12 +75,15 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.commitData();
 			line = _data as ShopLine;
 			
-			header.label = loc("exchange_title_" + line.category);
+			headerDisplay.label = loc("exchange_title_" + line.category);
+			descriptionDisplay.visible = false;
 			
 			var CELL_SIZE:int = 480 * appModel.scale;
 			switch( line.category )
 			{
 				case ExchangeType.S_20_BUILDING:
+					descriptionDisplay.visible = true;
+					descriptionDisplay.text = loc("exchange_description_" + line.category);
 					CELL_SIZE = 460 * appModel.scale;
 					listLayout.typicalItemWidth = width-listLayout.padding * 2 ;
 					list.itemRendererFactory = function ():IListItemRenderer{ return new SpecialExchangeItemRenderer();}
@@ -92,12 +102,12 @@ package com.gerantech.towercraft.controls.items.exchange
 					break;
 			}
 			
-			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + header.height; 
+			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height + ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
 			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap*2;
 			
 			list.dataProvider = new ListCollection(line.items);
 		}
-		
+	
 		
 		private function list_changeHandler(event:Event):void
 		{

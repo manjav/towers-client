@@ -43,11 +43,11 @@ package com.gerantech.towercraft.controls.buttons
 			
 			layout = new AnchorLayout();
 			
-			shadowDisplay = new RTLLabel("", 0, "center", null, false, null, 0, null, "bold");
+			shadowDisplay = new RTLLabel("", 0x002200, "center");
 			shadowDisplay.touchable = false;
 			addChild(shadowDisplay);
 			
-			labelDisplay = new RTLLabel("", 1, "center", null, false, null, 0, null, "bold");
+			labelDisplay = new RTLLabel("", 0XCCFFBB, "center");
 			labelDisplay.touchable = false;
 			addChild(labelDisplay);
 			
@@ -88,8 +88,8 @@ package com.gerantech.towercraft.controls.buttons
 			{
 				iconDisplay.removeFromParent();
 			}
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, (hasIcon?10:1)*padding, NaN, padding, NaN, -padding*0.6);
-			shadowDisplay.layoutData = new AnchorLayoutData(NaN, (hasIcon?10:1)*padding, NaN, padding, NaN, 0);
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, (hasIcon?10:1)*padding, NaN, padding, NaN, 0);
+			shadowDisplay.layoutData = new AnchorLayoutData(NaN, (hasIcon?10:1)*padding, NaN, padding, NaN, -padding*0.60);
 		}
 		
 		

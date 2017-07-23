@@ -20,21 +20,31 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var buttonDisplay:ExchangeButton;
 		private var timeDisplay:BitmapFontTextRenderer;
 		private var iconDisplay:BuildingCard;
+		private var nameDisplay:RTLLabel;
+		private var nameShadowDisplay:RTLLabel;
 
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 
+			nameShadowDisplay = new RTLLabel("", 0);
+			nameShadowDisplay.layoutData = new AnchorLayoutData(padding+padding/6, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			addChild(nameShadowDisplay);
+			
+			nameDisplay = new RTLLabel("");
+			nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			addChild(nameDisplay);
+			
 			iconDisplay = new BuildingCard();
 			iconDisplay.showLevel = false;
 			iconDisplay.showSlider = false;
 			iconDisplay.width = 280 * appModel.scale;
-			iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding);
 			addChild(iconDisplay);
 			
 			buttonDisplay = new ExchangeButton();
-			buttonDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding);
+			buttonDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
 			buttonDisplay.width = 260 * appModel.scale;
 			buttonDisplay.height = 120 * appModel.scale;
 			addChild(buttonDisplay);
@@ -56,6 +66,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.commitData();
 			//trace(exchange.type, exchange.outcomes.keys().length)
 			//labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
+			nameShadowDisplay.text = nameDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
 			iconDisplay.type = exchange.outcomes.keys()[0];
 			var reqs:IntIntMap = exchanger.getSpecialRequierments(exchange);
 			buttonDisplay.count = reqs.values()[0];
