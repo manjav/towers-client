@@ -10,6 +10,7 @@ package
 	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
+	import flash.text.ReturnKeyLabel;
 	import flash.utils.getTimer;
 	
 	import feathers.utils.ScreenDensityScaleFactorManager;
@@ -33,6 +34,20 @@ package
 				for(var level:int=1; level<=10; level++)
 					str += level + " => " + ((  Math.round( Math.log(level * level) + Math.log(improveLevel * improveLevel))+1  )) + "  " ;
 				trace(str);
+			}
+			return;*/
+/*			var spawnGap:Number;
+			trace("\n##### Barrack:\n");
+			for (var level:int = 1; level < 11; level++) 
+			{
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(1)/Math.log(2.7) ) * 200 );
+				trace("spawnGap level(", level, ")--> \nType 11: ", spawnGap);
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(2)/Math.log(2.7) ) * 200 );
+				trace("    Type 12: ", spawnGap);
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(3)/Math.log(2.7) ) * 200 );
+				trace("        Type 13: ", spawnGap);
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(4)/Math.log(2.7) ) * 200 );
+				trace("            Type 14: ", spawnGap);
 			}
 			return;*/
 			
