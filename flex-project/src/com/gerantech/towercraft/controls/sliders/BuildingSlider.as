@@ -9,8 +9,6 @@ package com.gerantech.towercraft.controls.sliders
 	import feathers.controls.ImageLoader;
 	import feathers.controls.ProgressBar;
 	import feathers.controls.text.BitmapFontTextRenderer;
-	import feathers.layout.HorizontalAlign;
-	import feathers.layout.VerticalAlign;
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.animation.Transitions;

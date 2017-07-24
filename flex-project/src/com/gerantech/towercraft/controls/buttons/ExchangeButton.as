@@ -47,7 +47,7 @@ package com.gerantech.towercraft.controls.buttons
 			shadowDisplay.touchable = false;
 			addChild(shadowDisplay);
 			
-			labelDisplay = new RTLLabel("", 0XCCFFBB, "center");
+			labelDisplay = new RTLLabel("", 0XEEFFEE, "center");
 			labelDisplay.touchable = false;
 			addChild(labelDisplay);
 			

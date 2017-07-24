@@ -40,7 +40,16 @@ package com.gerantech.towercraft.controls.floatings
 			skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
 			simpleLayoutButton.backgroundSkin = skin;
 			
-			var txt:RTLLabel = new RTLLabel(loc("map-"+element.name), 0, "center", null, false, null, 0, null, "bold");
+			if( !locked )
+			{
+				var shadow:RTLLabel = new RTLLabel(loc("map-"+element.name), 0x002200, "center", null, false, null, 0, null, "bold");
+				shadow.touchable = false
+				shadow.pixelSnapping = false;
+				shadow.layoutData = new AnchorLayoutData(NaN, locked?height*0.5:0, NaN, 0, NaN, -4*appModel.scale);
+				addChild(shadow);
+			}
+			
+			var txt:RTLLabel = new RTLLabel(loc("map-"+element.name), locked?0x111111:0XEEFFEE, "center", null, false, null, 0, null, "bold");
 			txt.touchable = false
 			txt.pixelSnapping = false;
 			txt.layoutData = new AnchorLayoutData(NaN, locked?height*0.5:0, NaN, 0, NaN, 0);

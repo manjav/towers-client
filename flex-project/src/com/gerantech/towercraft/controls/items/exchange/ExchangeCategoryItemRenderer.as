@@ -5,6 +5,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
@@ -87,6 +88,7 @@ package com.gerantech.towercraft.controls.items.exchange
 					CELL_SIZE = 460 * appModel.scale;
 					listLayout.typicalItemWidth = width-listLayout.padding * 2 ;
 					list.itemRendererFactory = function ():IListItemRenderer{ return new SpecialExchangeItemRenderer();}
+					list.addEventListener(FeathersEventType.END_INTERACTION, list_endSpecialExchangeHandler);
 					break;
 				
 				case ExchangeType.S_30_CHEST:
@@ -107,11 +109,16 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			list.dataProvider = new ListCollection(line.items);
 		}
-	
+		
+		private function list_endSpecialExchangeHandler(event:Event):void
+		{
+			if( event.data is ExchangeItem )
+				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, event.data);
+		}	
 		
 		private function list_changeHandler(event:Event):void
 		{
-			if(list.selectedItem == null)
+			if( list.selectedItem == null || line.category == ExchangeType.S_20_BUILDING )
 				return;
 			var ei:ExchangeItem = game.exchanger.items.get(list.selectedItem as int);
 			if(!ei.enabled)

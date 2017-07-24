@@ -4,12 +4,14 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
+	import com.gt.towers.utils.GameError;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -116,6 +118,7 @@ package com.gerantech.towercraft.controls.segments
 			var item:ExchangeItem = event.data as ExchangeItem;
 			if(ExchangeType.getCategory(item.type) == ExchangeType.S_0_HARD)
 			{
+//				BillingManager.instance.purchase("");
 				trace("Go to Purchase Manager");
 				return;
 			}
@@ -152,7 +155,17 @@ package com.gerantech.towercraft.controls.segments
 			}
 			else
 			{
-				exchanger.exchange(item, 0);
+				try
+				{
+					exchanger.exchange(item, 0);
+				} 
+				catch(error:GameError) 
+				{
+					if ( error.id == 0 )
+						appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
+					return;
+				}
+				
 				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
 			}
@@ -160,8 +173,6 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function openChestOverlay_closeHandler():void
 		{
-			// TODO Auto Generated method stub
-			
 		}
 		
 		private function confirms_cancelHandler(event:Event):void
@@ -171,7 +182,7 @@ package com.gerantech.towercraft.controls.segments
 		}
 		private function confirms_errorHandler(event:Event):void
 		{
-			appModel.navigator.addLog(loc("log_not_enough", [2]));
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
 		}
 		private function confirms_selectHandler(event:Event):void
 		{
