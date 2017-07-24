@@ -5,9 +5,17 @@ package com.gerantech.towercraft.controls.segments
 	
 	public class Segment extends TowersLayout
 	{
+		public var initializeStarted:Boolean;
+		public var initializeCompleted:Boolean;
+		
 		public function Segment()
 		{
 			super();
+		}
+		
+		public function init():void
+		{
+			initializeStarted = true;
 		}
 	}
 }

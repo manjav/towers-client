@@ -32,23 +32,27 @@ public class MainSegment extends Segment
 	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.png")]
 	public static const atlasImageClass: Class;
 	
-	private var factory:StarlingFactory;
-	private var dragonBonesData:DragonBonesData;
-	private var floating:MapElementFloating;
+	private static var factory:StarlingFactory;
+	private static var dragonBonesData:DragonBonesData;
+	private static var floating:MapElementFloating;
 	
 	private var intervalId:uint;
 
 	public function MainSegment()
 	{
 		super();
+		if( factory != null )
+			return;
+		
 		factory = new StarlingFactory();
 		dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
 		factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 	}
 	
-	override protected function initialize():void
+	override public function init():void
 	{
-		super.initialize();
+		super.init();
+
 		if(appModel.loadingManager.inBattle)
 		{
 			setTimeout(gotoLiveBattle, 100);
@@ -57,6 +61,7 @@ public class MainSegment extends Segment
 		
 		showMap();
 		showTutorial();
+		initializeCompleted = true;
 	}
 	
 	private function showMap():void
@@ -170,6 +175,7 @@ public class MainSegment extends Segment
 			switch(event.data['name'])
 			{
 				case "gold-leaf":
+					floating = null;
 					appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 					break;
 				case "portal-center":
@@ -178,6 +184,7 @@ public class MainSegment extends Segment
 						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 						return;
 					}
+					floating = null;
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
@@ -189,6 +196,7 @@ public class MainSegment extends Segment
 						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 						return;
 					}
+					floating = null;
 					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
 					break;
 			}

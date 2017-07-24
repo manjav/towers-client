@@ -33,9 +33,9 @@ package com.gerantech.towercraft.controls.segments
 
 		private var detailsPopup:BuildingDetailsPopup;
 		
-		override protected function initialize():void
+		override public function init():void
 		{
-			super.initialize();
+			super.init();
 			
 			layout = new AnchorLayout();
 			listLayout = new TiledRowsLayout();
@@ -55,6 +55,7 @@ package com.gerantech.towercraft.controls.segments
 			addChild(buildingslist);
 
 			updateBuildingData();
+			initializeCompleted = true;
 		}
 		
 		private function updateBuildingData():void

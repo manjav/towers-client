@@ -28,10 +28,6 @@ import starling.events.Event;
 		{
 			super.initialize();
 			layout = new AnchorLayout();;
-			
-/*			var q:Quad = new Quad(1,1);
-			addChild(q);*/
-			
 		}
 		
 		override protected function commitData():void
@@ -80,10 +76,11 @@ import starling.events.Event;
 		private function owner_scrollCompleteHandler(event:Event):void
 		{
 			visible = stage.getBounds(this).x == 0;
-			if(visible)
+			if( visible )
 			{
-				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index); 
-//
+				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
+				if(!segment.initializeCompleted)
+					segment.init();
 			}
 		}
 	

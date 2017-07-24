@@ -5,7 +5,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
@@ -20,6 +19,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.layout.TiledColumnsLayout;
 	import feathers.layout.VerticalAlign;
 	
+	import starling.core.Starling;
 	import starling.events.Event;
 
 	public class ExchangeCategoryItemRenderer extends BaseCustomItemRenderer 
@@ -41,6 +41,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			super.initialize();
 			layout = new AnchorLayout();
+			alpha = 0;
 			
 			headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
 			headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
@@ -108,6 +109,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap*2;
 			
 			list.dataProvider = new ListCollection(line.items);
+			Starling.juggler.tween(this, 0.5, {delay:(index+1)*0.5, alpha:1});
 		}
 		
 		private function list_endSpecialExchangeHandler(event:Event):void

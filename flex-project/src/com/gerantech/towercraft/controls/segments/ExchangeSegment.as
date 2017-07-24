@@ -31,6 +31,7 @@ package com.gerantech.towercraft.controls.segments
 	public class ExchangeSegment extends Segment
 	{
 		private var itemslist:List;
+		
 		public function ExchangeSegment()
 		{
 			super();
@@ -40,13 +41,19 @@ package com.gerantech.towercraft.controls.segments
 			appModel.assetsManager.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
 			appModel.assetsManager.loadQueue(appModel_loadCallback)
 		}
-	
-		override protected function initialize():void
+		
+		private function appModel_loadCallback(ratio:Number):void
 		{
+			if(ratio >= 1 && initializeStarted && !initializeCompleted)
+				init();
+		}
+		
+		override public function init():void
+		{
+			super.init();
 			if(appModel.assetsManager.isLoading )
 				return;
 			
-			super.initialize()
 			layout = new AnchorLayout();
 
 			var listLayout:VerticalLayout = new VerticalLayout();
@@ -63,12 +70,7 @@ package com.gerantech.towercraft.controls.segments
 			itemslist.dataProvider = new ListCollection(createShopData());
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);
-		}
-		
-		private function appModel_loadCallback(ratio:Number):void
-		{
-			if(ratio >= 1)
-				initialize();
+			initializeCompleted = true;
 		}
 		
 		private function createShopData():Array

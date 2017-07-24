@@ -33,6 +33,7 @@ package com.gerantech.towercraft.controls.items
 		override protected function initialize():void
 		{
 			super.initialize();
+			alpha = 0;
 			backgroundSkin = new Quad(1,1);
 			backgroundSkin.visible = false;
 
@@ -64,6 +65,7 @@ package com.gerantech.towercraft.controls.items
 			}
 
 			cardDisplay.type = _data as int;
+			Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
 			super.commitData();
 		}
 		override public function set isSelected(value:Boolean):void
