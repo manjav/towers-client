@@ -1,10 +1,8 @@
 package com.gerantech.towercraft.controls.segments
 {
-	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
-	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.ShopLine;
@@ -18,6 +16,7 @@ package com.gerantech.towercraft.controls.segments
 	
 	import flash.filesystem.File;
 	
+	import feathers.controls.List;
 	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
@@ -31,7 +30,7 @@ package com.gerantech.towercraft.controls.segments
 
 	public class ExchangeSegment extends Segment
 	{
-		private var itemslist:FastList;
+		private var itemslist:List;
 		public function ExchangeSegment()
 		{
 			super();
@@ -49,28 +48,18 @@ package com.gerantech.towercraft.controls.segments
 			
 			super.initialize()
 			layout = new AnchorLayout();
-			/*var listLayout:TiledRowsLayout = new TiledRowsLayout();
-			listLayout.padding = listLayout.gap = 10;
-			listLayout.paddingBottom = listLayout.paddingTop = 50;
-			listLayout.useSquareTiles = false;
-			listLayout.requestedColumnCount = 3;
-			listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;*/
-			
+
 			var listLayout:VerticalLayout = new VerticalLayout();
 			listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 			listLayout.hasVariableItemDimensions = true;
 			listLayout.paddingTop = 148 * appModel.scale;
 			listLayout.useVirtualLayout = true;
 			
-			itemslist = new FastList();
+			itemslist = new List();
 			itemslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			itemslist.layout = listLayout;
 			itemslist.layoutData = new AnchorLayoutData(0,0,0,0);
-			itemslist.itemRendererFactory = function():IListItemRenderer
-			{
-				return new ExchangeCategoryItemRenderer();
-			}
+			itemslist.itemRendererFactory = function():IListItemRenderer { return new ExchangeCategoryItemRenderer(); }
 			itemslist.dataProvider = new ListCollection(createShopData());
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);

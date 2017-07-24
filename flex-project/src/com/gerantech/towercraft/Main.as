@@ -5,12 +5,10 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.screens.QuestsScreen;
-	import com.gerantech.towercraft.controls.screens.RankingScreen;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
 	
 	import feathers.controls.Drawers;
-	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.core.IFeathersControl;
 	
@@ -44,9 +42,6 @@ package com.gerantech.towercraft
 			
 			item = new StackScreenNavigatorItem(ArenaScreen);
 			AppModel.instance.navigator.addScreen(ARENA_SCREEN, item);
-			
-			item = new StackScreenNavigatorItem(RankingScreen);
-			AppModel.instance.navigator.addScreen(RANK_SCREEN, item);
 			
 			item = new StackScreenNavigatorItem(QuestsScreen);
 			item.addPopEvent(Event.COMPLETE);

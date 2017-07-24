@@ -15,7 +15,7 @@ package com.gerantech.towercraft.controls.items
 
 	public class RankItemRenderer extends BaseCustomItemRenderer
 	{
-		private static const DEFAULT_TEXT_COLOT:uint = 0xDDFFFF;
+		private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 		
 		private var nameDisplay:RTLLabel;
 		private var nameShadowDisplay:RTLLabel;
@@ -27,8 +27,8 @@ package com.gerantech.towercraft.controls.items
 			super.initialize();
 			
 			layout = new AnchorLayout();
-			height = 160 * appModel.scale;
-			var padding:int = 54 * appModel.scale;
+			//height = 140 * appModel.scale;
+			var padding:int = 36 * appModel.scale;
 			
 			skin = new ImageSkin(Assets.getTexture("building-button", "skin"));
 			skin.setTextureForState(STATE_NORMAL, Assets.getTexture("building-button", "skin"));
@@ -38,17 +38,17 @@ package com.gerantech.towercraft.controls.items
 			skin.scale9Grid = new Rectangle(10, 10, 56, 37);
 			backgroundSkin = skin;
 			
-			nameShadowDisplay = new RTLLabel("", 0);
+			nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
 			nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, 0);
 			nameShadowDisplay.pixelSnapping = false;
 			addChild(nameShadowDisplay);
 			
-			nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOT);
+			nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
 			nameDisplay.pixelSnapping = false;
 			nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/12);
 			addChild(nameDisplay);
 			
-			pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1.2);
+			pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1);
 			pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
 			addChild(pointDisplay);
 		}
@@ -59,12 +59,18 @@ package com.gerantech.towercraft.controls.items
 			if(_data ==null || _owner==null)
 				return;
 			
-			nameDisplay.text = (index+1) + ".  " + _data.n ;
-			nameShadowDisplay.text = (index+1) + ".  " + _data.n ;
+			var isGap:Boolean = _data.n == undefined;
+			height = (isGap?60:140) * appModel.scale;
+
+			alpha = isGap ? 0 : 1;
+			
+			var rankIndex:int = _data.s ? (_data.s+1) : (index+1);
+			nameDisplay.text = rankIndex + ".  " + _data.n ;
+			nameShadowDisplay.text = rankIndex + ".  " + _data.n ;
 			pointDisplay.text = "" + _data.p;
 			//trace(_data.i, player.id);
-			var fs:int = AppModel.instance.theme.gameFontSize * (_data.i==player.id?1.2:1) * appModel.scale;
-			var fc:int = _data.i==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOT;
+			var fs:int = AppModel.instance.theme.gameFontSize * (_data.i==player.id?1:0.9) * appModel.scale;
+			var fc:int = _data.i==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 			if( fs != nameDisplay.fontSize )
 			{
 				nameDisplay.fontSize = fs;
