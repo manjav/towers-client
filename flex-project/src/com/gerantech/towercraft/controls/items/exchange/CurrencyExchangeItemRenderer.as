@@ -42,7 +42,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.commitData();
 			
 			titleDisplay.text = loc("exchange_title_"+exchange.type);
-			iconDisplay.source = appModel.assetsManager.getTexture("currency-" + exchange.type);
+			iconDisplay.source = appModel.assets.getTexture("currency-" + exchange.type);
 			countDisplay.text = String(exchange.outcomes.values()[0]);
 
 			if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )

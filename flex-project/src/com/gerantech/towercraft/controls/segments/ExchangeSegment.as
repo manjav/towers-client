@@ -36,10 +36,10 @@ package com.gerantech.towercraft.controls.segments
 		{
 			super();
 			//appModel.assetsManager.verbose = true;
-			if( appModel.assetsManager.getTexture("shop-line-header") != null )
+			if( appModel.assets.getTexture("shop-line-header") != null )
 				return;
-			appModel.assetsManager.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
-			appModel.assetsManager.loadQueue(appModel_loadCallback)
+			appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
+			appModel.assets.loadQueue(appModel_loadCallback)
 		}
 		
 		private function appModel_loadCallback(ratio:Number):void
@@ -51,7 +51,7 @@ package com.gerantech.towercraft.controls.segments
 		override public function init():void
 		{
 			super.init();
-			if(appModel.assetsManager.isLoading )
+			if(appModel.assets.isLoading )
 				return;
 			
 			layout = new AnchorLayout();

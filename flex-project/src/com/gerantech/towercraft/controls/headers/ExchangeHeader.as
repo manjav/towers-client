@@ -1,5 +1,7 @@
 package com.gerantech.towercraft.controls.headers
 {
+	import com.gerantech.towercraft.controls.TowersLayout;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.AppModel;
 	
 	import flash.geom.Rectangle;
@@ -9,9 +11,8 @@ package com.gerantech.towercraft.controls.headers
 	import feathers.layout.AnchorLayoutData;
 	
 	import starling.display.Image;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
-	public class ExchangeHeader extends LayoutGroup
+	public class ExchangeHeader extends TowersLayout
 	{
 		
 		private var fontSize:int;
@@ -21,7 +22,7 @@ package com.gerantech.towercraft.controls.headers
 		public function ExchangeHeader(texture:String, scale9Grid:Rectangle, fontSize:int)
 		{
 			this.fontSize = fontSize;
-			skin = new Image(AppModel.instance.assetsManager.getTexture(texture));
+			skin = new Image(appModel.assets.getTexture(texture));
 			skin.scale9Grid = scale9Grid;
 		}
 		override protected function initialize():void
@@ -32,7 +33,7 @@ package com.gerantech.towercraft.controls.headers
 			backgroundSkin = skin;
 			
 			labelDisplay = new RTLLabel("", 1, null, null, false, null, fontSize, null, "bold");
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10*AppModel.instance.scale);
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10*appModel.scale);
 			addChild(labelDisplay);
 		}
 		

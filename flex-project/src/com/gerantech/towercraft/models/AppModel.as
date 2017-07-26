@@ -11,6 +11,7 @@ package com.gerantech.towercraft.models
 	import flash.system.Capabilities;
 	
 	import starling.utils.AssetManager;
+	import com.gerantech.towercraft.managers.SoundManager;
 
 	public class AppModel
 	{
@@ -34,14 +35,19 @@ package com.gerantech.towercraft.models
 		public var align:String = "right";
 		public var direction:String = "rtl";
 		public var isLTR:Boolean = false;
-		public var assetsManager:AssetManager;
+		
+		public var assets:AssetManager;
+		public var sounds:SoundManager;
 		
 		
 		public function AppModel()
 		{
 			descriptor = new Descriptor(NativeApplication.nativeApplication.applicationDescriptor);
-			assetsManager = new AssetManager(2);
-			assetsManager.verbose = false;
+			assets = new AssetManager(2);
+			assets.verbose = false;
+			
+			sounds = new SoundManager();
+			
 			switch( Capabilities.os.substr(0, 5) )
 			{
 				case "Mac O": platform = PLATFORM_MAC; break;

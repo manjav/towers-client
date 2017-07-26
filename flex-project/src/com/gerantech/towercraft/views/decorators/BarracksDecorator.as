@@ -3,7 +3,6 @@ package com.gerantech.towercraft.views.decorators
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.Game;
 	import com.gt.towers.constants.BuildingType;
 	
 	import starling.display.Image;
