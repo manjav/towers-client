@@ -103,12 +103,14 @@ package
 			this.starling.stop(true);
 			stage.frameRate = 0;
 			this.stage.addEventListener(Event.ACTIVATE, stage_activateHandler, false, 0, true);
+			AppModel.instance.sounds.muteAll(true);
 		}
 		private function stage_activateHandler(event:Event):void
 		{
 			this.stage.removeEventListener(Event.ACTIVATE, stage_activateHandler);
 			stage.frameRate = 60;
 			this.starling.start();
+			AppModel.instance.sounds.muteAll(false);
 		}
 	}
 }

@@ -23,6 +23,7 @@ package com.gerantech.towercraft.controls.overlays
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalAlign;
 	
+	import starling.core.Starling;
 	import starling.display.Quad;
 	import starling.events.Event;
 
@@ -103,6 +104,7 @@ package com.gerantech.towercraft.controls.overlays
 				retryButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				buttons.addChild(retryButton);
 			}*/
+			appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
 		}
 		
 		private function buttons_triggeredHandler(event:Event):void

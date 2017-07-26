@@ -96,32 +96,12 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case SFSCommands.END_BATTLE:
-					trace(event.params.cmd, data.getDump());
-					var youWin:Boolean = data.getBool("youWin");
-					var score:int = data.getInt("score");
-					var rewards:ISFSArray = data.getSFSArray("rewards");
-					var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-					var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
-					
-					// set quest score
-					if ( quest.isQuest && player.quests.get( quest.index ) < score)
-						player.quests.set(quest.index, score);
-					
-				// reduce player resources
-					var outcomes:IntIntMap = new IntIntMap();
-					for(var i:int=0; i<rewards.size(); i++)
-						outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-					BattleOutcome.consume_outcomes(game, outcomes);
-					
-					// show battle outcome overlay
-					var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
-					battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-					battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-					appModel.navigator.addChild(battleOutcomeOverlay);
+					//trace(event.params.cmd, data.getDump());
+					endBattle(data);
 					break;
 			}
 		}
-
+		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function startBattle():void
 		{
@@ -180,9 +160,41 @@ package com.gerantech.towercraft.controls.screens
 			}		
 			
 			addEventListener(TouchEvent.TOUCH, touchHandler);
+			
+			// play battle theme -_-_-_
+			appModel.sounds.stopSound("main-theme");
+			appModel.sounds.addSound("battle-theme", null,  themeLoaded);
+			function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+		private function endBattle(data:SFSObject):void
+		{
+			var youWin:Boolean = data.getBool("youWin");
+			var score:int = data.getInt("score");
+			var rewards:ISFSArray = data.getSFSArray("rewards");
+			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
+			
+			// set quest score
+			if ( quest.isQuest && player.quests.get( quest.index ) < score)
+				player.quests.set(quest.index, score);
+			
+			// reduce player resources
+			var outcomes:IntIntMap = new IntIntMap();
+			for(var i:int=0; i<rewards.size(); i++)
+				outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
+			BattleOutcome.consume_outcomes(game, outcomes);
+			
+			// show battle outcome overlay
+			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
+			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
+			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+			appModel.navigator.addChild(battleOutcomeOverlay);
+			
+			appModel.sounds.stopSound("battle-theme");
+		}
+		
 		private function battleOutcomeOverlay_retryHandler(event:Event):void
 		{
 			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
@@ -386,6 +398,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			function floating_selectHandler(event:Event):void
 			{
+				appModel.sounds.addAndPlaySound("battle-improve");
 				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}
@@ -408,7 +421,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		override public function dispose():void
 		{
-			trace("dispose");
+			appModel.sounds.playSoundUnique("main-theme", 1, 100);
 			appModel.battleFieldView.dispose();
 			super.dispose();
 		}

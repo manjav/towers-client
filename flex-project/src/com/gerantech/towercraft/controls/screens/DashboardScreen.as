@@ -129,6 +129,9 @@ package com.gerantech.towercraft.controls.screens
 			pageList.dataProvider = new ListCollection(dashboardData);
 			tabsList.dataProvider = new ListCollection(dashboardData);
 			tabsList.selectedIndex = 1;
+			
+			appModel.sounds.addSound("main-theme", null,  themeLoaded);
+			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 		}
 		
 		private function getDashboardData():Array
@@ -172,7 +175,6 @@ package com.gerantech.towercraft.controls.screens
 			var focusIndex:int = event.data as int;
 			if(tabsList.selectedIndex != focusIndex)
 				tabsList.selectedIndex = focusIndex;
-			//trace(tabsList.selectedIndex, pageList.selectedIndex, focusIndex)
 		}
 		
 		private function tabsList_changeHandler(event:Event):void
@@ -181,6 +183,8 @@ package com.gerantech.towercraft.controls.screens
 			pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 			Starling.juggler.tween(tabBorder, 0.3, {x:tabsList.selectedIndex * tabSize, transition:Transitions.EASE_OUT});
 			scrollTime = 0.5;
+			
+			appModel.sounds.addAndPlaySound("tab");
 		}
 		
 		override protected function backButtonFunction():void
