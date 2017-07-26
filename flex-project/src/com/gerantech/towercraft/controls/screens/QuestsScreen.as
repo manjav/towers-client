@@ -137,9 +137,9 @@ package com.gerantech.towercraft.controls.screens
 			var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 			item.properties.requestField = list.selectedItem as Quest ;
 			item.properties.waitingOverlay = new WaitingOverlay() ;
-			appModel.navigator.addChild(item.properties.waitingOverlay);
+			appModel.navigator.addOverlay(item.properties.waitingOverlay);
+
 			appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-			appModel.navigator.addChild(item.properties.waitingOverlay);
 		}
 		
 		private function getQuestsData():ListCollection

@@ -116,7 +116,7 @@ package com.gerantech.towercraft.controls.screens
 			rankingPopup.arenaIndex = arenaIndex;
 			rankingPopup.transitionIn = transitionIn;
 			rankingPopup.transitionOut = transitionOut;
-			appModel.navigator.addChild(rankingPopup);
+			appModel.navigator.addPopup(rankingPopup);
 		}		
 
 	}

@@ -128,7 +128,7 @@ package com.gerantech.towercraft.controls.segments
 					confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
 					confirm.addEventListener(Event.SELECT, confirms_selectHandler);
 					confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
-					appModel.navigator.addChild(confirm);
+					appModel.navigator.addPopup(confirm);
 					return;
 				}
 				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
@@ -141,7 +141,7 @@ package com.gerantech.towercraft.controls.segments
 				confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
 				confirm.addEventListener(Event.SELECT, confirms_selectHandler);
 				confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
-				appModel.navigator.addChild(confirm);
+				appModel.navigator.addPopup(confirm);
 				return;
 			}
 			else
@@ -202,7 +202,7 @@ package com.gerantech.towercraft.controls.segments
 					case ExchangeType.S_30_CHEST:
 						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item.type, data.getSFSArray("rewards"));
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-						appModel.navigator.addChild(openChestOverlay);
+						appModel.navigator.addOverlay(openChestOverlay);
 						
 						exchanger.exchange(item, data.getInt("now"));
 						itemslist.dataProvider.updateItemAt(1);

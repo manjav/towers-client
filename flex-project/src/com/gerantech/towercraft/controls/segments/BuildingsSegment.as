@@ -97,7 +97,7 @@ package com.gerantech.towercraft.controls.segments
 			detailsPopup.transitionIn = ti;
 			detailsPopup.transitionOut = to;
 			detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
-			appModel.navigator.addChild(detailsPopup);
+			appModel.navigator.addPopup(detailsPopup);
 			detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
 			function details_closeHandler():void
 			{
@@ -115,7 +115,7 @@ package com.gerantech.towercraft.controls.segments
 				confirm.data = building;
 				confirm.addEventListener(FeathersEventType.ERROR, upgradeConfirm_errorHandler);
 				confirm.addEventListener(Event.SELECT, upgradeConfirm_selectHandler);
-				appModel.navigator.addChild(confirm);
+				appModel.navigator.addPopup(confirm);
 				return;
 			}
 			
@@ -150,7 +150,7 @@ package com.gerantech.towercraft.controls.segments
 			
 			var upgradeOverlay:UpgradeOverlay = new UpgradeOverlay();
 			upgradeOverlay.building = building;
-			appModel.navigator.addChild(upgradeOverlay);
+			appModel.navigator.addOverlay(upgradeOverlay);
 			
 			updateBuildingData();
 		}

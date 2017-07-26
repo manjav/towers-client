@@ -78,7 +78,7 @@ package com.gerantech.towercraft.controls.screens
 					confirm.data = event.type;
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 					confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
-					AppModel.instance.navigator.addChild(confirm);
+					AppModel.instance.navigator.addPopup(confirm);
 					if(parent)
 						parent.removeChild(this);
 					/*break;

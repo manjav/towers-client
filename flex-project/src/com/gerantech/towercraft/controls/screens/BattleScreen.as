@@ -190,7 +190,7 @@ package com.gerantech.towercraft.controls.screens
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			appModel.navigator.addChild(battleOutcomeOverlay);
+			appModel.navigator.addOverlay(battleOutcomeOverlay);
 			
 			appModel.sounds.stopSound("battle-theme");
 		}
@@ -432,7 +432,7 @@ package com.gerantech.towercraft.controls.screens
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
 			confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
-			appModel.navigator.addChild(confirm);
+			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
 				appModel.battleFieldView.responseSender.leave();
 			}

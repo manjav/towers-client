@@ -126,7 +126,7 @@ public class MainSegment extends Segment
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
-			appModel.navigator.addChild(confirm);
+			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 				punchButton(getChildByName("portal-center") as SimpleButton);
@@ -209,7 +209,7 @@ public class MainSegment extends Segment
 		item.properties.requestField = null ;
 		item.properties.waitingOverlay = new WaitingOverlay() ;
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-		appModel.navigator.addChild(item.properties.waitingOverlay);		
+		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
 	
 	private function punchButton(mapElement:SimpleButton):void

@@ -94,6 +94,8 @@ package com.gerantech.towercraft.controls.overlays
 			closeBatton.name = "close";
 			closeBatton.label = loc("close_button");
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
+			Starling.juggler.tween(closeBatton, 0.5, {delay:3, alpha:1});
+			closeBatton.alpha = 0;
 			buttons.addChild(closeBatton);
 
 			/*if(score == 0)

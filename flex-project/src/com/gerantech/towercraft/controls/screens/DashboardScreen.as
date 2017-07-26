@@ -191,7 +191,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"));
 			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
-			AppModel.instance.navigator.addChild(confirm);
+			AppModel.instance.navigator.addPopup(confirm);
 			function confirm_selectHandler ( event:Event ) : void
 			{
 				confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
