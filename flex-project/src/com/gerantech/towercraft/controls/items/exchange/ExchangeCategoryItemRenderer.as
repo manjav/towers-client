@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.ExchangeHeader;
+	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
 	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.vo.ShopLine;

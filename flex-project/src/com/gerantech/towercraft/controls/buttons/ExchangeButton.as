@@ -20,7 +20,7 @@ package com.gerantech.towercraft.controls.buttons
 		private var _type:int;
 		private var _count:int;
 		public var currency:String = "";
-		private var _label:String;
+		private var _label:String = "";
 
 		private var padding:Number;
 
@@ -43,12 +43,14 @@ package com.gerantech.towercraft.controls.buttons
 			
 			layout = new AnchorLayout();
 			
-			shadowDisplay = new RTLLabel("", 0x002200, "center");
+			shadowDisplay = new RTLLabel(_label, 0x002200, "center");
 			shadowDisplay.touchable = false;
+			shadowDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.60);
 			addChild(shadowDisplay);
 			
-			labelDisplay = new RTLLabel("", 0XEEFFEE, "center");
+			labelDisplay = new RTLLabel(_label, 0XEEFFEE, "center");
 			labelDisplay.touchable = false;
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 			addChild(labelDisplay);
 			
 			iconDisplay = new ImageLoader();
@@ -102,8 +104,10 @@ package com.gerantech.towercraft.controls.buttons
 			if(_label == value)
 				return;
 			_label = value;
-			labelDisplay.text = _label
-			shadowDisplay.text = _label
+			if( labelDisplay )
+				labelDisplay.text = _label
+			if( shadowDisplay )
+				shadowDisplay.text = _label
 		}
 
 	}

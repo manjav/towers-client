@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.ExchangeHeader;
+	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
