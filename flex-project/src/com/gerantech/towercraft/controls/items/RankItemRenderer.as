@@ -49,6 +49,7 @@ package com.gerantech.towercraft.controls.items
 			addChild(nameDisplay);
 			
 			pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1);
+			pointDisplay.pixelSnapping = false;
 			pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
 			addChild(pointDisplay);
 		}

@@ -1,22 +1,29 @@
 package com.gerantech.towercraft.controls.items
 {
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.arenas.Arena;
 	
 	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingFactory;
 	
+	import feathers.controls.ImageLoader;
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.data.ListCollection;
+	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalAlign;
+	import feathers.skins.ImageSkin;
 	import feathers.text.BitmapFontTextFormat;
+	
+	import starling.events.Event;
 
 	public class ArenaItemRnderer extends BaseCustomItemRenderer
 	{
@@ -34,7 +41,7 @@ package com.gerantech.towercraft.controls.items
 		private var armatureDisplay:StarlingArmatureDisplay;
 		private var titleDisplay:RTLLabel;
 		private var messageDisplay:RTLLabel;
-		private var rangDisplay:BitmapFontTextRenderer;
+		private var rangeDisplay:BitmapFontTextRenderer;
 		
 		private var arena:Arena;
 		private var cardsDisplay:List;
@@ -46,6 +53,14 @@ package com.gerantech.towercraft.controls.items
 			height = 640 * appModel.scale;
 			var padding:int = 28 * appModel.scale;
 			var iconSize:int = 400 * appModel.scale;
+			
+			skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
+			skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
+			skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererUpSkinTexture);
+			skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererUpSkinTexture);
+			skin.setTextureForState(STATE_DISABLED, Assets.getTexture("item-renderer-neutral-skin", "skin"));
+			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+			backgroundSkin = skin;
 
 			if(factory == null)
 			{
@@ -63,14 +78,13 @@ package com.gerantech.towercraft.controls.items
 			//messageDisplay.leading = -22*appModel.scale;
 			addChild(messageDisplay);
 			
-			rangDisplay = new BitmapFontTextRenderer();
-			//rangDisplay.pivotX = rangDisplay.width/2
-			rangDisplay.alignPivot();
-			rangDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center");
-			rangDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (appModel.isLTR?340:-340)*appModel.scale);
-			rangDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
-			rangDisplay.y = height*0.7;
-			addChild(rangDisplay);
+			rangeDisplay = new BitmapFontTextRenderer();
+			rangeDisplay.alignPivot();
+			rangeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center");
+			rangeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (appModel.isLTR?340:-340)*appModel.scale);
+			rangeDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
+			rangeDisplay.y = height*0.6;
+			addChild(rangeDisplay);
 			
 			var cardsLayout:HorizontalLayout = new HorizontalLayout();
 			cardsLayout.useVirtualLayout = true;
@@ -84,12 +98,25 @@ package com.gerantech.towercraft.controls.items
 			cardsDisplay.layout = cardsLayout;
 			cardsDisplay.height = cardsLayout.typicalItemHeight;
 			cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
-			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding*3, appModel.isLTR?padding:NaN);
+			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
 			addChild(cardsDisplay);
 			
 			var unlocksDisplay:RTLLabel = new RTLLabel(loc("achievements_label"), 0xCCCCCC, null, null, true, null, 0.8);
-			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*4, appModel.isLTR?padding*2:NaN);
+			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*2, appModel.isLTR?padding*2:NaN);
 			addChild(unlocksDisplay);
+			
+			var rankButton:ExchangeButton = new ExchangeButton();
+			rankButton.label = loc("ranking_label", [""]);
+			rankButton.width = 320 * appModel.scale;
+			rankButton.height = 110 * appModel.scale;
+			rankButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, (appModel.isLTR?340:-340)*appModel.scale);
+			rankButton.addEventListener(Event.TRIGGERED, rankButton_triggeredHandler);
+			addChild(rankButton);
+		}
+		
+		private function rankButton_triggeredHandler():void
+		{
+			_owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, arena);
 		}
 		
 		override protected function commitData():void
@@ -105,6 +132,7 @@ package com.gerantech.towercraft.controls.items
 			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
 			armatureDisplay.y = height *0.35;
 			armatureDisplay.scale = appModel.scale;
+			currentState = player.get_arena(0) == index ? STATE_DISABLED : STATE_NORMAL;
 			if( player.get_arena(0) == index )
 				armatureDisplay.animation.gotoAndPlayByTime("animtion0", 0, -1);
 			else
@@ -113,7 +141,7 @@ package com.gerantech.towercraft.controls.items
 			
 			titleDisplay.text = loc("arena_title_" + index);
 			messageDisplay.text = loc("arena_message_" + index);
-			rangDisplay.text = arena.min + " - " + arena.max ;
+			rangeDisplay.text = arena.min + " - " + arena.max ;
 			cardsDisplay.dataProvider = new ListCollection(arena.cards._list);
 			//rangDisplay.x = ( appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale ) - rangDisplay.width/2;
 		}

@@ -1,11 +1,12 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.Main;
+	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.FastList;
-	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+	import com.gerantech.towercraft.controls.headers.ScreenHeader;
 	import com.gerantech.towercraft.controls.items.QuestItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
-	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.Quest;
@@ -14,6 +15,9 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
+	import flash.utils.setTimeout;
+	
+	import feathers.controls.LayoutGroup;
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.controls.renderers.IListItemRenderer;
@@ -29,26 +33,32 @@ package com.gerantech.towercraft.controls.screens
 
 	public class QuestsScreen extends BaseCustomScreen
 	{
-		private var list:FastList;
-
 		private var listLayout:VerticalLayout;
+		private var list:FastList;
+		private var header:ScreenHeader;
+		
+		private var headerSize:int = 0;
+		private var startScrollBarIndicator:Number = 0;
 
 		override protected function initialize():void
 		{
 			super.initialize();
-			backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
+			//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 			layout = new AnchorLayout();
 			
+			headerSize = 150 * appModel.scale;
+
 			listLayout = new VerticalLayout();
 			listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+			listLayout.padding = 24 * appModel.scale;	
+			listLayout.paddingTop = headerSize+listLayout.padding;
 			listLayout.useVirtualLayout = true;
 			listLayout.typicalItemHeight = 164 * appModel.scale;;
-			listLayout.padding = 24 * appModel.scale;	
 			listLayout.gap = 12 * appModel.scale;	
 			
 			list = new FastList();
 			list.layout = listLayout;
-			list.layoutData = new AnchorLayoutData(0,0,0,0);
+			list.layoutData = new AnchorLayoutData(0,0,headerSize,0);
 			list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
 			list.itemRendererFactory = function():IListItemRenderer
 			{
@@ -56,15 +66,37 @@ package com.gerantech.towercraft.controls.screens
 			}
 			list.dataProvider = getQuestsData();
 			list.addEventListener(Event.CHANGE, list_changeHandler);
+			setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);
 			addChild(list);
 			
-			var backButton:SimpleLayoutButton = new SimpleLayoutButton();
-			backButton.width = backButton.height = 240*appModel.scale;
-			backButton.layoutData = new AnchorLayoutData(NaN, 0, 0, NaN);
-			backButton.backgroundSkin = new Image(Assets.getTexture("tab-1", "gui"));
-			backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
-			addChild(backButton);
+			header = new ScreenHeader(loc("map-gold-leaf"));
+			header.height = headerSize;
+			header.layoutData = new AnchorLayoutData(NaN,0,NaN,0);
+			addChild(header);
+			
+			var footer:LayoutGroup = new LayoutGroup();
+			footer.backgroundSkin = new Image(appModel.theme.tabUpSkinTexture);
+			Image(footer.backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
+			footer.height = headerSize;
+			footer.layoutData = new AnchorLayoutData(NaN,0,0,0);
+			addChild(footer);
+			
+			var closeButton:ExchangeButton = new ExchangeButton();
+			closeButton.height = 110 * appModel.scale;
+			closeButton.layoutData = new AnchorLayoutData(NaN, NaN, 18*appModel.scale, NaN, 0);
+			closeButton.addEventListener(Event.TRIGGERED, backButtonHandler);
+			closeButton.label = loc("close_button");
+			addChild(closeButton);
 		}
+		
+		private function list_scrollHandler(event:Event):void
+		{
+			var scrollPos:Number = Math.max(0,list.verticalScrollPosition);
+			var changes:Number = startScrollBarIndicator-scrollPos;
+			header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
+			startScrollBarIndicator = scrollPos;
+		}
+
 		
 		override protected function transitionInCompleteHandler(event:Event):void
 		{

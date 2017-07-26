@@ -12,7 +12,10 @@ package com.gerantech.towercraft.controls.popups
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.utils.setTimeout;
+	
 	import feathers.controls.ImageLoader;
+	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;
@@ -33,9 +36,12 @@ package com.gerantech.towercraft.controls.popups
 		private var _listCollection:ListCollection;
 		private var padding:int;
 
+		private var list:FastList;
+
 		public function RankingPopup()
 		{
 			super();
+			_listCollection = new ListCollection();
 		}
 	
 		override protected function initialize():void
@@ -83,23 +89,28 @@ package com.gerantech.towercraft.controls.popups
 			listLayout.useVirtualLayout = true;
 			listLayout.hasVariableItemDimensions = true;
 			
-			var list:FastList = new FastList();
+			list = new FastList();
 			list.itemRendererFactory = function():IListItemRenderer { return new RankItemRenderer(); }
 			list.dataProvider = _listCollection;
 			list.layout = listLayout;
 			list.layoutData = new AnchorLayoutData(padding*5, padding, padding*6, padding);
 			addChild(list);
+			
+			
+			var indexOfMe:int = findMe();
+			if ( indexOfMe > -1 )
+				setTimeout(list.scrollToDisplayIndex, 500, indexOfMe, 0.5);
+
 
 			list.alpha = 0;
 			Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
 			
 			addChild(closeButton);
 			closeButton.y = height - closeButton.height - padding*2;
-			closeButton.type = ResourceType.CURRENCY_REAL;
 			closeButton.label = loc("close_button");
 			Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
 		}
-		
+	
 		
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
@@ -108,7 +119,15 @@ package com.gerantech.towercraft.controls.popups
 			
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			var params:SFSObject = event.params.params;
-			_listCollection = new ListCollection(SFSArray(params.getSFSArray("list")).toArray());
+			_listCollection.data = SFSArray(params.getSFSArray("list")).toArray();;
+		}
+		
+		private function findMe():int
+		{
+			for (var i:int=0; i<_listCollection.length; i++)
+				if( _listCollection.getItemAt(i).i == player.id)
+					return i;
+			return -1;
 		}
 		
 		override public function dispose():void
