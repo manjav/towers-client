@@ -108,9 +108,10 @@ package com.gerantech.towercraft.views
 		
 		public function update(population:int, troopType:int) : void
 		{
+			decorator.updateElements(population, troopType);
+			
 			place.building._population = population;
 			place.building.troopType = troopType;
-			decorator.updateElements(population, troopType);
 			
 			if(hasEventListener(Event.UPDATE))
 				dispatchEventWith(Event.UPDATE, false);

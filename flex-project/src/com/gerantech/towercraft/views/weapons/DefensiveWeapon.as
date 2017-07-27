@@ -15,6 +15,7 @@ package com.gerantech.towercraft.views.weapons
 
 		public function DefensiveWeapon(placeView:PlaceView)
 		{
+			//trace(placeView.place.index, "DefensiveWeapon")
 			this.placeView = placeView;
 			hitTimeoutId = setInterval(hitTestTroopsInterval, placeView.place.building.get_damageGap());
 		}
@@ -23,6 +24,7 @@ package com.gerantech.towercraft.views.weapons
 		{
 			if(disposed)
 				return;
+			//trace(placeView.place.index, "hitTest Troops Interval.")
 			var tlen:int = AppModel.instance.battleFieldView.troopsList.length;
 			var troop:TroopView;
 			for(var i:int=0; i<tlen; i++)
@@ -51,6 +53,7 @@ package com.gerantech.towercraft.views.weapons
 		
 		public function dispose():void
 		{
+			//trace(placeView.place.index, "defensive weapon disposed.")
 			disposed = true;
 			clearTimeout(hitTimeoutId);
 		}
