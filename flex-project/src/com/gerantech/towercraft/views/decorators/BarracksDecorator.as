@@ -63,7 +63,16 @@ package com.gerantech.towercraft.views.decorators
 			{
 				troopTypeTexture = txt;
 				troopTypeDisplay.texture = Assets.getTexture(troopTypeTexture);
-				appModel.sounds.addAndPlaySound(place.building.troopType == player.troopType?"battle-capture":"battle-lost");
+				
+				// play change troop sounds
+				if( BuildingType.get_category(place.building.type) == BuildingType.B00_CAMP )
+				{
+					var tsound:String = place.building.troopType == player.troopType?"battle-capture":"battle-lost";
+					if(appModel.sounds.soundIsAdded(tsound))
+						appModel.sounds.playSound(tsound);
+					else
+						appModel.sounds.addSound(tsound);
+				}
 			}
 		}
 		

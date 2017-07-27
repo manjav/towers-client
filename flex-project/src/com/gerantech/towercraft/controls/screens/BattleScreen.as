@@ -87,6 +87,7 @@ package com.gerantech.towercraft.controls.screens
 				
 				case SFSCommands.BUILDING_IMPROVE:
 					appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
+					appModel.sounds.addAndPlaySound("battle-improve");
 					break;
 				
 				case SFSCommands.LEFT_BATTLE:
@@ -398,7 +399,6 @@ package com.gerantech.towercraft.controls.screens
 			}
 			function floating_selectHandler(event:Event):void
 			{
-				appModel.sounds.addAndPlaySound("battle-improve");
 				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}
