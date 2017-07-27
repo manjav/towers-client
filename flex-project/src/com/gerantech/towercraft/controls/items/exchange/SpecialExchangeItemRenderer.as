@@ -100,6 +100,8 @@ package com.gerantech.towercraft.controls.items.exchange
 				return;
 			}
 			
+			appModel.sounds.addAndPlaySound("chest-open");
+			
 			TimeManager.instance.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 			
 			buttonDisplay.removeEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);

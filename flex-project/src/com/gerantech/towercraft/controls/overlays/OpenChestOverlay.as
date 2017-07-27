@@ -92,10 +92,13 @@ package com.gerantech.towercraft.controls.overlays
 			if(dragonBonesData == null)
 				return;
 			
+			appModel.sounds.setVolume("main-theme", 0.3);
+			
 			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(type%10)-1]);
 			openAnimation.touchable = openAnimation.touchGroup = false
 			openAnimation.scale = appModel.scale;
 			openAnimation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
+			openAnimation.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
 			openAnimation.animation.gotoAndPlayByTime("fall", 0, 1);
 			addChild(openAnimation);
 
@@ -105,6 +108,11 @@ package com.gerantech.towercraft.controls.overlays
 			addChild(buttonOverlay);
 			
 			rewardItems = new Vector.<ChestReward>();
+		}
+		
+		private function openAnimation_soundEventHandler(event:StarlingEvent):void
+		{
+			appModel.sounds.addAndPlaySound(event.eventObject.name)
 		}
 		
 		protected function openAnimation_completeHandler(event:StarlingEvent):void
@@ -179,7 +187,9 @@ package com.gerantech.towercraft.controls.overlays
 		
 		override public function dispose():void
 		{
+			appModel.sounds.setVolume("main-theme", 1);
 			buttonOverlay.removeEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
+			openAnimation.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
 			openAnimation.removeEventListener(dragonBones.events.EventObject.COMPLETE, openAnimation_completeHandler);
 			super.dispose();
 		}
