@@ -43,8 +43,8 @@ package com.gerantech.towercraft.controls
 			super.initialize();
 	
 			var padding:int = 16 *appModel.scale;
-			width = 600 * appModel.scale;
-			height = 300 * appModel.scale;
+			width = 800 * appModel.scale;
+			height = 400 * appModel.scale;
 			
 			var iconContainer:LayoutGroup = new LayoutGroup ();
 			iconContainer.x = appModel.isLTR ? -width*0.4-padding : padding;
@@ -64,8 +64,8 @@ package com.gerantech.towercraft.controls
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
 			countInsideDisplay.visible = false;
-			countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60*appModel.scale, 0xFFFFFF, appModel.align);
-			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96*appModel.scale, 0xFFFFFF, appModel.align);
+			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3, 0, appModel.isLTR?padding*3:NaN);
 			countInsideDisplay.text = "x " + count; 
 			iconContainer.addChild(countInsideDisplay);
 			
@@ -85,7 +85,7 @@ package com.gerantech.towercraft.controls
 			detailsContainer.addChild(titleDisplay);
 			
 			var countDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-			countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 74*appModel.scale, 16777215, appModel.align);
+			countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96*appModel.scale, 16777215, appModel.align);
 			countDisplay.layoutData = new VerticalLayoutData(100);
 			countDisplay.text = "x " + count; 
 			detailsContainer.addChild(countDisplay);
