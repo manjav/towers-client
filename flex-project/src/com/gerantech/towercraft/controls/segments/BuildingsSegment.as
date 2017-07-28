@@ -28,6 +28,7 @@ package com.gerantech.towercraft.controls.segments
 	
 	public class BuildingsSegment extends Segment
 	{
+		private var buildingsListCollection:ListCollection;
 		private var buildingslist:FastList;
 		private var listLayout:TiledRowsLayout;
 
@@ -51,21 +52,23 @@ package com.gerantech.towercraft.controls.segments
 			buildingslist.layout = listLayout;
 			buildingslist.layoutData = new AnchorLayoutData(0,0,0,0);
 			buildingslist.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+			buildingslist.dataProvider = buildingsListCollection;
 			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(buildingslist);
 
-			updateBuildingData();
 			initializeCompleted = true;
 		}
 		
-		private function updateBuildingData():void
+		override public function updateData():void
 		{
+			if(buildingsListCollection == null)
+				buildingsListCollection = new ListCollection();
 			var buildings:Vector.<int> = BuildingType.getAll().keys();
 			var buildingArray:Array = new Array();
 			while(buildings.length > 0)
 				buildingArray.push(buildings.pop());
-			buildingArray.sort();		
-			buildingslist.dataProvider = new ListCollection(buildingArray);
+			buildingArray.sort();
+			buildingsListCollection.data = buildingArray;
 		}
 		
 		private function list_changeHandler(event:Event):void
@@ -152,7 +155,7 @@ package com.gerantech.towercraft.controls.segments
 			upgradeOverlay.building = building;
 			appModel.navigator.addOverlay(upgradeOverlay);
 			
-			updateBuildingData();
+			updateData();
 		}
 	}
 }

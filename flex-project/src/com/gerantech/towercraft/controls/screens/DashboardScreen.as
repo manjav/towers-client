@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
-	import com.gerantech.towercraft.controls.Toolbar;
+	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -58,7 +58,7 @@ package com.gerantech.towercraft.controls.screens
 			var pageLayout:HorizontalLayout = new HorizontalLayout();
 			pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 			pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
-			pageLayout.useVirtualLayout = true;
+			pageLayout.useVirtualLayout = false;
 			pageLayout.hasVariableItemDimensions = true;
 			
 			pageList = new List();

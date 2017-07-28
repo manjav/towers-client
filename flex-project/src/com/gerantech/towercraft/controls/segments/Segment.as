@@ -17,5 +17,9 @@ package com.gerantech.towercraft.controls.segments
 		{
 			initializeStarted = true;
 		}
+		
+		public function updateData():void
+		{
+		}
 	}
 }

@@ -12,8 +12,6 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
-	import starling.display.Image;
-	import starling.utils.Padding;
 
 	public class DashboardTabItemRenderer extends BaseCustomItemRenderer
 	{

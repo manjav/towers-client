@@ -30,6 +30,7 @@ package com.gerantech.towercraft.controls.segments
 
 	public class ExchangeSegment extends Segment
 	{
+		private var itemslistData:ListCollection;
 		private var itemslist:List;
 		
 		public function ExchangeSegment()
@@ -67,14 +68,17 @@ package com.gerantech.towercraft.controls.segments
 			itemslist.layout = listLayout;
 			itemslist.layoutData = new AnchorLayoutData(0,0,0,0);
 			itemslist.itemRendererFactory = function():IListItemRenderer { return new ExchangeCategoryItemRenderer(); }
-			itemslist.dataProvider = new ListCollection(createShopData());
+			itemslist.dataProvider = itemslistData;
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);
 			initializeCompleted = true;
 		}
 		
-		private function createShopData():Array
+		override public function updateData():void
 		{
+			if( itemslistData == null )
+				itemslistData = new ListCollection();
+			
 			var itemKeys:Vector.<int> = exchanger.items.keys();
 			var offers:ShopLine = new ShopLine(ExchangeType.S_20_BUILDING);
 			var chests:ShopLine = new ShopLine(ExchangeType.S_30_CHEST);
@@ -99,9 +103,8 @@ package com.gerantech.towercraft.controls.segments
 				categoreis[i].items.sort();
 				if(!appModel.isLTR)
 					categoreis[i].items.reverse();
-
 			}
-			return categoreis;
+			itemslistData.data = categoreis;
 		}
 		
 		private function list_changeHandler(event:Event):void

@@ -37,6 +37,7 @@ import starling.events.Event;
 				width = _owner.width
 				height = _owner.height;
 				_firstCommit = false;
+				_owner.addEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
 				_owner.addEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
 			}
 			
@@ -71,6 +72,14 @@ import starling.events.Event;
 				segment.height = _owner.height;
 				addChild(segment);
 			}
+		}
+		
+		private function owner_scrollStartHandler(event:Event):void
+		{
+			visible = true;
+			trace(index, isSelected)
+			if( segment != null && isSelected )
+				segment.updateData();
 		}
 		
 		private function owner_scrollCompleteHandler(event:Event):void
