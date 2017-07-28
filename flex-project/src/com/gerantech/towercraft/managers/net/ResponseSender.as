@@ -54,6 +54,13 @@ package com.gerantech.towercraft.managers.net
 			send(SFSCommands.RESET_ALL_VARS, null, room);			
 		}
 		
+		public function sendSticker(stickerType:int):void
+		{
+			var sfsObj:SFSObject = new SFSObject();
+			sfsObj.putInt("t", stickerType);
+			send(SFSCommands.SEND_STICKER, sfsObj, room);			
+		}
+		
 		
 		
 		
@@ -64,6 +71,7 @@ package com.gerantech.towercraft.managers.net
 				return false;
 			SFSConnection.instance.sendExtensionRequest(extCmd, params, room);
 			return true;
+	
 		}
 	}
 }

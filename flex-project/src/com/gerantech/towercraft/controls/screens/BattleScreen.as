@@ -49,6 +49,8 @@ package com.gerantech.towercraft.controls.screens
 		private var sfsConnection:SFSConnection;
 		private var timeoutId:uint;
 		private var transitionInCompleted:Boolean = true;
+
+		private var hud:BattleHUD;
 		
 		override protected function initialize():void
 		{
@@ -97,10 +99,14 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case SFSCommands.END_BATTLE:
-					//trace(event.params.cmd, data.getDump());
 					endBattle(data);
 					break;
+				
+				case SFSCommands.SEND_STICKER:
+					hud.showBubble(data.getInt("t"), false);
+					break;
 			}
+//				trace(event.params.cmd, data.getDump());
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -146,7 +152,7 @@ package com.gerantech.towercraft.controls.screens
 				tutorials.show(this, tutorialData);
 			}
 			
-			var hud:BattleHUD = new BattleHUD();
+			hud = new BattleHUD();
 			hud.addEventListener(Event.CLOSE, backButtonHandler);
 			hud.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(hud);

@@ -1,24 +1,48 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
+	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.BattleData;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.constants.StickerType;
+	
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.Button;
 	import feathers.controls.ImageLoader;
+	import feathers.controls.List;
+	import feathers.controls.ScrollPolicy;
+	import feathers.controls.renderers.IListItemRenderer;
+	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.HorizontalAlign;
+	import feathers.layout.TiledColumnsLayout;
+	import feathers.layout.TiledRowsLayout;
+	import feathers.layout.VerticalAlign;
 	
+	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.events.Event;
 
 	public class BattleHUD extends TowersLayout
 	{
 		private var battleData:BattleData;
 		private var timerSlider:BattleTimerSlider;
+		private var stickerList:List;
+
+		private var padding:int;
+
+		private var stickerCloserOveraly:SimpleLayoutButton;
+		private var myBubble:StickerBubble;
+		private var opponentBubble:StickerBubble;
 		
 		public function BattleHUD()
 		{
@@ -40,7 +64,7 @@ package com.gerantech.towercraft.controls
 			addChild(gradient);
 			
 			var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3;
-			var padding:int = 16 * appModel.scale;
+			padding = 16 * appModel.scale;
 			var leftPadding:int = (hasQuit ? 160 : 16) * appModel.scale;
 			if( hasQuit )
 			{
@@ -51,6 +75,13 @@ package com.gerantech.towercraft.controls
 				closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 				addChild(closeButton);			
 			}
+			
+			var stickerButton:Button = new Button();
+			stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
+			//stickerButton.label = "Q";
+			stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
+			stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
+			addChild(stickerButton);			
 			
 			// main name
 			var _name:String = battleData.opponent!=null ? battleData.opponent.getText("name") : battleData.map.name;
@@ -83,6 +114,12 @@ package com.gerantech.towercraft.controls
 			addChild(timerSlider);
 			
 			addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
+			
+			myBubble = new StickerBubble();
+			myBubble.layoutData = new AnchorLayoutData( NaN, padding, padding);
+			
+			opponentBubble = new StickerBubble(true);
+			opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
 		}
 		
 		private function createCompleteHandler(event:Event):void
@@ -118,6 +155,77 @@ package com.gerantech.towercraft.controls
 		private function closeButton_triggeredHandler(event:Event):void
 		{
 			dispatchEventWith(Event.CLOSE);
+		}
+		
+		private function stickerButton_triggeredHandler(event:Event):void
+		{
+			if( stickerList == null )
+			{
+				var stickersLayout:TiledColumnsLayout = new TiledColumnsLayout();
+				stickersLayout.padding = stickersLayout.gap = padding;
+				stickersLayout.tileHorizontalAlign = HorizontalAlign.JUSTIFY;
+				stickersLayout.tileVerticalAlign = VerticalAlign.JUSTIFY;
+				stickersLayout.useSquareTiles = false;
+				stickersLayout.distributeWidths = true;
+				stickersLayout.distributeHeights = true;
+				//stickersLayout.typicalItemWidth = (stage.stageWidth-padding*4)/3;
+				//stickersLayout.typicalItemHeight = padding*5;
+				stickersLayout.requestedColumnCount = 3;
+				
+				stickerList = new List();
+				stickerList.layout = stickersLayout;
+				stickerList.layoutData = new AnchorLayoutData(NaN,0,NaN,0);
+				stickerList.height = padding*20;
+				stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
+				stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
+				stickerList.dataProvider = new ListCollection(StickerType.getAll()._list);
+
+				
+				stickerCloserOveraly = new SimpleLayoutButton();
+				stickerCloserOveraly.backgroundSkin = new Quad(1,1,0);
+				stickerCloserOveraly.backgroundSkin.alpha = 0.1;
+				stickerCloserOveraly.layoutData = new AnchorLayoutData(0,0,0,0);
+				stickerCloserOveraly.addEventListener(Event.TRIGGERED, stickerCloserOveraly_triggeredHandler);
+			}
+			addChild(stickerCloserOveraly);
+
+			AnchorLayoutData(stickerList.layoutData).bottom = -padding*20;
+			Starling.juggler.tween(stickerList.layoutData, 0.2, {bottom:0, transition:Transitions.EASE_OUT});
+			stickerList.addEventListener(Event.CHANGE, stickerList_changeHandler);
+			addChild(stickerList);
+		}
+		private function hideStickerList():void
+		{
+			stickerList.removeEventListener(Event.CHANGE, stickerList_changeHandler);
+			removeChild(stickerCloserOveraly);
+			AnchorLayoutData(stickerList.layoutData).bottom = 0;
+			Starling.juggler.tween(stickerList.layoutData, 0.2, {bottom:-padding*20, transition:Transitions.EASE_IN, onComplete:stickerList.removeFromParent});
+		}
+		
+		private function stickerCloserOveraly_triggeredHandler(event:Event):void
+		{
+			hideStickerList();
+		}
+		
+		private function stickerList_changeHandler(event:Event):void
+		{
+			hideStickerList();
+			appModel.battleFieldView.responseSender.sendSticker(stickerList.selectedIndex);
+			showBubble(stickerList.selectedItem as int);
+			stickerList.selectedIndex = -1;
+		}
+		
+		public function showBubble(type:int, itsMe:Boolean=true):void
+		{
+			var bubble:StickerBubble = itsMe ? myBubble : opponentBubble;
+
+			Starling.juggler.removeTweens(bubble);
+			bubble.type = type;
+			bubble.scale = 0.5;
+			addChild(bubble);
+			Starling.juggler.tween(bubble, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(bubble, 0.2, {scale:0.5, transition:Transitions.EASE_IN_BACK, delay:4, onComplete:bubble.removeFromParent});
+			appModel.sounds.addAndPlaySound("whoosh");
 		}
 	}
 }
