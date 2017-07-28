@@ -171,6 +171,8 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function endBattle(data:SFSObject):void
 		{
+			appModel.battleFieldView.responseSender.actived = false;
+			
 			var youWin:Boolean = data.getBool("youWin");
 			var score:int = data.getInt("score");
 			var rewards:ISFSArray = data.getSFSArray("rewards");
@@ -232,35 +234,35 @@ package com.gerantech.towercraft.controls.screens
 		private function tutorials_tasksFinishHandler(event:Event):void
 		{
 			var tutorial:TutorialData = event.data as TutorialData;
-			if(tutorial.name == SFSCommands.END_BATTLE)
+			if( tutorial.name == SFSCommands.END_BATTLE )
 				dispatchEventWith(Event.COMPLETE);
 		}
 		
 		protected function sfsConnection_userExitRoomHandler(event:SFSEvent):void
 		{
-			if(event.params.user.isItMe || owner == null)
+			if( event.params.user.isItMe || owner == null )
 				return;
 			//StackScreenNavigator(owner).popScreen();
 		}
 		
 		protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		{
-			if(event.params.changedVars.indexOf("towers") > -1 )
+			if( event.params.changedVars.indexOf("towers") > -1 )
 				updateTowersFromRoomVars();
 			
-			if(event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
+			if( event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
 			{
 				var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("s").getValue() as SFSArray;
 				var destination:int = appModel.battleFieldView.battleData.room.getVariable("d").getValue();
 				
-				for(var i:int=0; i<towers.size(); i++)
+				for( var i:int=0; i<towers.size(); i++ )
 					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
 			}
 		}
 		
 		private function updateTowersFromRoomVars():void
 		{
-			if(!appModel.battleFieldView.battleData.room.containsVariable("towers"))
+			if( !appModel.battleFieldView.battleData.room.containsVariable("towers") )
 				return;
 			var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
 			for(var i:int=0; i<towers.size(); i++)

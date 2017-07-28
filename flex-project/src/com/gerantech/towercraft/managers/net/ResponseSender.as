@@ -4,11 +4,13 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.views.PlaceView;
 	import com.smartfoxserver.v2.entities.Room;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 
 	public class ResponseSender
 	{
 		public var room:Room;
+		public var actived:Boolean = true;
 		public function ResponseSender(room:Room)
 		{
 			this.room = room;
@@ -22,7 +24,7 @@ package com.gerantech.towercraft.managers.net
 				sources.push(tp.place.index);
 			sfsObj.putIntArray("s", sources);
 			sfsObj.putInt("d", destination.place.index);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.FIGHT, sfsObj, room);
+			send(SFSCommands.FIGHT, sfsObj, room);
 			//trace("sources", sources);
 			//trace("destination", destination.place.index);			
 		}
@@ -31,7 +33,7 @@ package com.gerantech.towercraft.managers.net
 		{
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putInt("i", troopId);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.HIT, sfsObj, room);			
+			send(SFSCommands.HIT, sfsObj, room);			
 		}
 
 		public function improveBuilding(index:int, upgradeType:int):void
@@ -39,17 +41,29 @@ package com.gerantech.towercraft.managers.net
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putInt("i", index);
 			sfsObj.putInt("t", upgradeType);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_IMPROVE, sfsObj, room);
+			send(SFSCommands.BUILDING_IMPROVE, sfsObj, room);
 		}
 		
 		public function leave():void
 		{
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LEAVE, null, room);			
+			send(SFSCommands.LEAVE, null, room);			
 		}
 		
 		public function resetAllVars():void
 		{
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.RESET_ALL_VARS, null, room);			
+			send(SFSCommands.RESET_ALL_VARS, null, room);			
+		}
+		
+		
+		
+		
+		
+		private function send (extCmd:String, params:ISFSObject, room:Room) : Boolean
+		{
+			if ( !actived )
+				return false;
+			SFSConnection.instance.sendExtensionRequest(extCmd, params, room);
+			return true;
 		}
 	}
 }
