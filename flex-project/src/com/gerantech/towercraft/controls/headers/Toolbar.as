@@ -1,9 +1,12 @@
-package com.gerantech.towercraft.controls
+package com.gerantech.towercraft.controls.headers
 {
+	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.buttons.Indicator;
+	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.events.CoreEvent;
 	
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
@@ -19,26 +22,17 @@ package com.gerantech.towercraft.controls
 		private var softIndicator:Indicator;
 		private var hardIndicator:Indicator;
 		
-		private var intervalID:uint;
-		
 		override protected function initialize():void
 		{
 			super.initialize();
 
 			height = 120 * AppModel.instance.scale;
 			var padding:Number = 48 * AppModel.instance.scale;
-			/*var hlayout:HorizontalLayout = new HorizontalLayout();
-			hlayout.gap = 96 * AppModel.instance.scale;
-			hlayout.padding = 48 * AppModel.instance.scale;
-			hlayout.verticalAlign = VerticalAlign.MIDDLE;
-			layout = hlayout;*/
 			layout = new AnchorLayout();
 			
 			pointIndicator = new Indicator("ltr", ResourceType.POINT, false, false);
 			pointIndicator.layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding, NaN, 0);
 			addChild(pointIndicator);
-			
-			//addChild(new Spacer(false));
 			
 			softIndicator = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
 			softIndicator.addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
@@ -50,18 +44,31 @@ package com.gerantech.towercraft.controls
 			hardIndicator.layoutData = new AnchorLayoutData(NaN, padding*3+softIndicator.width, NaN, NaN, NaN, 0);
 			addChild(hardIndicator);
 			
-			intervalID = setInterval(updateIndicators, 100);
+			if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
+				init();
+			else
+				appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+		}
+		protected function loadingManager_loadedHandler(event:LoadingEvent):void
+		{
+			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			init();
 		}
 		
-		private function indicators_triggerredHandler(event:Event):void
+		private function init():void
 		{
-			dispatchEventWith(Event.TRIGGERED);
+			player.resources.addEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
+			updateIndicators();
+		}
+		
+		protected function playerResources_changeHandler(event:CoreEvent):void
+		{
+			trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
+			updateIndicators();
 		}
 		
 		private function updateIndicators():void
 		{
-			if(AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED)
-				return;
 			pointIndicator.visible = !player.inTutorial();
 			if(pointIndicator.visible)
 				pointIndicator.setData(0, player.get_point(), NaN);
@@ -69,9 +76,14 @@ package com.gerantech.towercraft.controls
 			hardIndicator.setData(0, player.get_hards(), NaN);
 		}		
 		
+		private function indicators_triggerredHandler(event:Event):void
+		{
+			dispatchEventWith(Event.TRIGGERED);
+		}
+
 		override public function dispose():void
 		{
-			clearInterval(intervalID);
+			player.resources.removeEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
 			super.dispose();
 		}
 		
