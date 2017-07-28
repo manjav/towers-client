@@ -3,6 +3,7 @@ package
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.mesmotronic.ane.AndroidFullScreen;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -51,15 +52,16 @@ package
 			}
 			return;*/
 			
+
 			t = getTimer();
 			if(this.stage)
 			{
-				/*// full screen for android platform
-				if(Capabilities.manufacturer.indexOf("droid")>-1)
+				// full screen for android platform
+				if( AppModel.instance.platform == AppModel.PLATFORM_ANDROID )//if(Capabilities.manufacturer.indexOf("droid")>-1)
 				{
-				AndroidFullScreen.stage = stage;
-				AndroidFullScreen.fullScreen();
-				}*/
+					AndroidFullScreen.stage = stage; // Set this to your app's stage
+					AndroidFullScreen.fullScreen();
+				}
 				
 				this.stage.scaleMode = StageScaleMode.NO_SCALE;
 				this.stage.align = StageAlign.TOP_LEFT;

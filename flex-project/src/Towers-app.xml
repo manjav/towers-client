@@ -311,5 +311,6 @@
 <extensions>
         <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
+    <extensionID>com.mesmotronic.ane.fullscreen</extensionID>
     </extensions>
 </application>

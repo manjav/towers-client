@@ -46,12 +46,12 @@ package com.gerantech.towercraft.controls.screens
 			removeEventListener("addedToStage", addedToStageHadnler);
 			_parent = parent;
 			graphics.beginFill(0x3d4759);
-			graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
+			graphics.drawRect(0, 0, stage.fullScreenWidth*2, stage.fullScreenHeight*2);
 			
-			logo.width = Math.max(width, height)/3;
+			logo.width = Math.max(stage.fullScreenWidth, stage.fullScreenHeight)/3;
 			logo.scaleY = logo.scaleX;
-			logo.x = (width-logo.width)/2;
-			logo.y = (height-logo.height)/2;
+			logo.x = (stage.fullScreenWidth-logo.width)/2;
+			logo.y = (stage.fullScreenHeight-logo.height)/2;
 		}
 		
 		protected function loadingManager_eventsHandler(event:LoadingEvent):void
