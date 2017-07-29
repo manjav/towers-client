@@ -8,6 +8,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
@@ -24,13 +25,13 @@ package com.gerantech.towercraft.controls.items.exchange
 
 	public class ExchangeCategoryItemRenderer extends BaseCustomItemRenderer 
 	{
-		private var _firstCommit:Boolean = true;
 		private var line:ShopLine;
 		private var list:List;
 
 		private var listLayout:TiledColumnsLayout;
 		private var headerDisplay:ExchangeHeader;
 		private var descriptionDisplay:RTLLabel;
+		private var categoryCollection:ListCollection;
 		
 		public function ExchangeCategoryItemRenderer()
 		{
@@ -65,22 +66,23 @@ package com.gerantech.towercraft.controls.items.exchange
 			list.layoutData = new AnchorLayoutData(120 * appModel.scale,0,0,0);
 			list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 			list.addEventListener(Event.CHANGE, list_changeHandler);
+			list.dataProvider = categoryCollection;
 			addChild(list);
 		}
 
 		override protected function commitData():void
 		{
-			if(_firstCommit)
-
-				_firstCommit = false;
-
 			super.commitData();
 			line = _data as ShopLine;
 			
 			headerDisplay.label = loc("exchange_title_" + line.category);
-			descriptionDisplay.visible = false;
-			
+			setTimeout(createCategory, 100*index);
+		}
+		
+		private function createCategory():void
+		{
 			var CELL_SIZE:int = 480 * appModel.scale;
+			descriptionDisplay.visible = false;
 			switch( line.category )
 			{
 				case ExchangeType.S_20_BUILDING:
@@ -107,9 +109,19 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height + ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
 			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap*2;
+			updateCategoryCollection()
+			Starling.juggler.tween(this, 0.3, {alpha:1});
+		}
+		
+		private function updateCategoryCollection():void
+		{
+			if(categoryCollection == null)
+			{
+				categoryCollection = new ListCollection();
+				list.dataProvider = categoryCollection;
+			}
 			
-			list.dataProvider = new ListCollection(line.items);
-			Starling.juggler.tween(this, 0.5, {delay:(index+1)*0.5, alpha:1});
+			categoryCollection.data = line.items;
 		}
 		
 		private function list_endSpecialExchangeHandler(event:Event):void
@@ -132,6 +144,5 @@ package com.gerantech.towercraft.controls.items.exchange
 			list.selectedIndex = -1;
 			list.addEventListener(Event.CHANGE, list_changeHandler);
 		}		
-
 	}
 }
