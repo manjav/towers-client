@@ -42,14 +42,17 @@ package com.gerantech.towercraft.views.decorators
 				return;
 			
 			var improvable:Boolean = false;
-			var options:IntList = place.building.get_options();
-			for (var i:int=0; i < options.size(); i++) 
+			if( !player.inTutorial() )
 			{
-				//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
-				if(place.building.improvable(options.get(i)) && options.get(i)!=1)
+				var options:IntList = place.building.get_options();
+				for (var i:int=0; i < options.size(); i++) 
 				{
-					improvable = true;
-					break;
+					//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
+					if(place.building.improvable(options.get(i)) && options.get(i)!=1)
+					{
+						improvable = true;
+						break;
+					}
 				}
 			}
 			improvablePanel.enabled = improvable;

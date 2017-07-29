@@ -1,16 +1,13 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
-	import com.gt.towers.buildings.Building;
 	
-	import feathers.controls.LayoutGroup;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.TiledRowsLayout;
 	
-	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.Quad;
 
