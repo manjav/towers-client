@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
+	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	
@@ -70,18 +71,18 @@ package com.gerantech.towercraft.controls.overlays
 			hlayout.horizontalAlign = HorizontalAlign.CENTER;
 			hlayout.verticalAlign = VerticalAlign.MIDDLE;
 			hlayout.paddingBottom = 42 * appModel.scale;
-			hlayout.gap = 32 * appModel.scale;
+			hlayout.gap = 24 * appModel.scale;
 			
 			if( rewards.size() > 0 )
 			{
 				var rewardsList:List = new List();
 				rewardsList.backgroundSkin = new Quad(1, 1, 0);
 				rewardsList.backgroundSkin.alpha = 0.6;
-				rewardsList.height = 320*appModel.scale;
+				rewardsList.height = 400*appModel.scale;
 				rewardsList.layout = hlayout;
 				rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
 				rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
-				rewardsList.dataProvider = new ListCollection(SFSArray(rewards).toArray());
+				rewardsList.dataProvider = getRewardsCollection();
 				addChild(rewardsList);
 			}
 			
@@ -107,6 +108,17 @@ package com.gerantech.towercraft.controls.overlays
 				buttons.addChild(retryButton);
 			}*/
 			appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+		}
+		
+		private function getRewardsCollection():ListCollection
+		{
+			var rw:Array = SFSArray(rewards).toArray();
+			var ret:ListCollection = new ListCollection();
+			for ( var i:int=0; i<rw.length; i++ )
+				if( rw[i].t != ResourceType.XP )
+					ret.addItem( rw[i] );
+				
+			return ret;
 		}
 		
 		private function buttons_triggeredHandler(event:Event):void
