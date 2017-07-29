@@ -16,6 +16,8 @@ package com.gerantech.towercraft.controls.sliders
 	
 	public class BuildingSlider extends ProgressBar
 	{
+		public var showUpgradeIcon:Boolean = true;
+		
 		private var labelDisplay:BitmapFontTextRenderer;
 		private var upgradeDisplay:ImageLoader;
 		private var timeoutId:uint;
@@ -31,9 +33,12 @@ package com.gerantech.towercraft.controls.sliders
 			labelDisplay = new BitmapFontTextRenderer();
 			labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*AppModel.instance.scale, 0xFFFFFF, "center");
 			
-			upgradeDisplay = new ImageLoader();
-			upgradeDisplay.maintainAspectRatio = false;
-			upgradeDisplay.source = Assets.getTexture("upgrade-ready", "skin");
+			if( showUpgradeIcon )
+			{
+				upgradeDisplay = new ImageLoader();
+				upgradeDisplay.maintainAspectRatio = false;
+				upgradeDisplay.source = Assets.getTexture("upgrade-ready", "skin");
+			}
 		}
 		
 		override protected function draw():void
@@ -49,7 +54,7 @@ package com.gerantech.towercraft.controls.sliders
 			addChild(labelDisplay);
 			isEnabled = newValue >= maximum;
 			
-			if( newValue >= maximum )
+			if( showUpgradeIcon && newValue >= maximum )
 			{
 				upgradeDisplay.height = height * 1.2;
 				upgradeDisplay.width = upgradeDisplay.height;
@@ -57,15 +62,17 @@ package com.gerantech.towercraft.controls.sliders
 				upgradeDisplay.y = -height*0.6;
 				addChild(upgradeDisplay);
 				punchArrow();
-				
-				labelDisplay.x = height*0.3;
-				labelDisplay.width = width-height*0.3;
 			}
 			else
 			{
+				if(upgradeDisplay)
+					upgradeDisplay.removeFromParent();
 				stopPunching();
-				upgradeDisplay.removeFromParent();
 			}
+			
+			var gap:Number = (showUpgradeIcon && newValue >= maximum ) ? height*0.3 : 0;
+			labelDisplay.x = gap;
+			labelDisplay.width = width-gap;
 		}
 		
 		private function punchArrow():void
@@ -82,7 +89,8 @@ package com.gerantech.towercraft.controls.sliders
 		private function stopPunching():void
 		{
 			clearTimeout(timeoutId);
-			Starling.juggler.removeTweens(upgradeDisplay);
+			if(upgradeDisplay)
+				Starling.juggler.removeTweens(upgradeDisplay);
 		}
 
 		override public function dispose():void

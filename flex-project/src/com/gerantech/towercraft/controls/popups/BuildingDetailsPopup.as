@@ -94,6 +94,7 @@ package com.gerantech.towercraft.controls.popups
 			addChild(upgradeButton);
 			
 			closeButton = new ExchangeButton();
+			closeButton.label = "X";
 			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
 			closeButton.width = 84 * appModel.scale;
 			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
@@ -129,8 +130,6 @@ package com.gerantech.towercraft.controls.popups
 			upgradeButton.count = building.get_upgradeCost();
 			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.2});
 
-			closeButton.type = ResourceType.CURRENCY_REAL;
-			closeButton.label = "X";
 		}
 		
 		

@@ -50,6 +50,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			slider.layoutData = new AnchorLayoutData(padding*5, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 			slider.width = padding * 10;
 			slider.height = padding * 2.4;
+			slider.showUpgradeIcon = false;
 			addChild(slider);
 			
 			// empty rear pages ....
@@ -124,7 +125,8 @@ package com.gerantech.towercraft.controls.items.exchange
 				slider.scale = 1.2;
 				Starling.juggler.tween(slider, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK});
 				buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
-				setTimeout(_owner.dispatchEventWith, 100, FeathersEventType.END_INTERACTION, false, exchange);
+				if(_owner != null)
+					setTimeout(_owner.dispatchEventWith, 100, FeathersEventType.END_INTERACTION, false, exchange);
 			}
 		}
 		
