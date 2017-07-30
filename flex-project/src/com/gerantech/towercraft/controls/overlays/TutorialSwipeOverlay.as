@@ -158,7 +158,7 @@ package com.gerantech.towercraft.controls.overlays
 						(places.get(0).y) * appModel.scale, 
 						(places.get(0).x) * appModel.scale, 
 						(places.get(0).y-100) * appModel.scale,
-						0, 1, 1.2, 1, 0.8, 0.7);	
+						0, 1, 1.2, 1, 0.8, 0);	
 					break;
 				case "doubleOut":
 					tweenStep = 0;
