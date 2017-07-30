@@ -202,6 +202,7 @@ package com.gerantech.towercraft.controls.screens
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
 			
 			appModel.sounds.stopSound("battle-theme");
+			appModel.sounds.stopSound("battle-clock-ticking");
 		}
 		
 		private function battleOutcomeOverlay_retryHandler(event:Event):void

@@ -141,7 +141,10 @@ package com.gerantech.towercraft.managers
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Stop a sound */
-		public function stopSound(id:String):void {			
+		public function stopSound(id:String):void {
+			if( !soundIsAdded(id) )
+				return;
+			
 			if (soundIsPlaying(id))
 			{
 				SoundChannel(currPlayingSounds[id].channel).stop();				

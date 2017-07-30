@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -23,7 +22,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.TiledColumnsLayout;
-	import feathers.layout.TiledRowsLayout;
 	import feathers.layout.VerticalAlign;
 	
 	import starling.animation.Transitions;
@@ -43,6 +41,9 @@ package com.gerantech.towercraft.controls
 		private var stickerCloserOveraly:SimpleLayoutButton;
 		private var myBubble:StickerBubble;
 		private var opponentBubble:StickerBubble;
+
+		private var starsNotice:StarsNotice;
+		private var scoreIndex:int = 0;
 		
 		public function BattleHUD()
 		{
@@ -78,7 +79,6 @@ package com.gerantech.towercraft.controls
 			
 			var stickerButton:Button = new Button();
 			stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
-			//stickerButton.label = "Q";
 			stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
 			stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 			addChild(stickerButton);			
@@ -113,6 +113,11 @@ package com.gerantech.towercraft.controls
 			timerSlider.layoutData = new AnchorLayoutData(padding*4, padding*6);
 			addChild(timerSlider);
 			
+			starsNotice = new StarsNotice();
+			starsNotice.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
+			starsNotice.alpha = 0;
+			starsNotice.y = 480 * appModel.scale;
+			
 			addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 			
 			myBubble = new StickerBubble();
@@ -125,32 +130,57 @@ package com.gerantech.towercraft.controls
 		private function createCompleteHandler(event:Event):void
 		{
 			removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
-			gotoCurrentTime();
+			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
+			setTimePosition();
 		}
 		
-		private function gotoCurrentTime():void
+		private function timeManager_changeHandler(event:Event):void
 		{
-			for(var i:int=0; i<battleData.map.times.size(); i++)
+			//trace(timeManager.now-battleData.startAt , battleData.map.times._list)
+			if( scoreIndex<battleData.map.times.size() && timeManager.now-battleData.startAt > battleData.map.times.get(scoreIndex) )
 			{
-				if( timeManager.now-battleData.startAt < battleData.map.times.get(i) )
+				scoreIndex ++;
+				if( scoreIndex<battleData.map.times.size() )
 				{
-					setTimePosition((i>0?battleData.map.times.get(i-1):0), timeManager.now-battleData.startAt, battleData.map.times.get(i), 2-i);
-					return;
+					setTimePosition();
+				}
+				else
+				{
+					timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+					timerSlider.enableStars(0);
 				}
 			}
-			//trace(timeManager.now-battleData.startAt , battleData.map.times._list)
+			var time:int = timeManager.now - battleData.startAt - timerSlider.minimum;
+			if( time % 2 == 0 )
+				Starling.juggler.tween(timerSlider, 1, {value:timerSlider.maximum - time, transition:Transitions.EASE_OUT_ELASTIC});
 		}
 		
-		private function setTimePosition(startTime:int, time:int, endTime:int, score:int):void
+		private function setTimePosition():void
 		{
-			timerSlider.enableStars(score);
-			timerSlider.minimum = startTime;
-			timerSlider.maximum = endTime;
-			timerSlider.value = endTime-time+startTime;
-			trace("["+battleData.map.times._list+"]", "min:", startTime, "val:", endTime-time, "max:", endTime, score)
-			Starling.juggler.tween(timerSlider, endTime-time, {value:startTime, onComplete:gotoCurrentTime});
+			timerSlider.enableStars(2-scoreIndex);
+			timerSlider.minimum = scoreIndex>0?battleData.map.times.get(scoreIndex-1):0;
+			timerSlider.maximum = battleData.map.times.get(scoreIndex);
+			timerSlider.value = battleData.map.times.get(scoreIndex);
+			showTimeNotice(2-scoreIndex);
+			trace("["+battleData.map.times._list+"]", "min:", timerSlider.minimum, "max:", timerSlider.maximum, "score:", 2-scoreIndex)
 		}		
+		
+		private function showTimeNotice(score:int):void
+		{
+			if ( score > 1 )
+				return;
+			
+			if( score == 1 )
+				appModel.sounds.addAndPlaySound("battle-clock-ticking");
+			else if( score == 0 )
+				appModel.sounds.playSoundUnique("battle-clock-ticking", 0.4, 300, 0.3);
 
+			addChild(starsNotice);
+			setTimeout(starsNotice.pass, 1, score);
+			Starling.juggler.tween(starsNotice, 0.3, {alpha:1, y:400*appModel.scale, transition:Transitions.EASE_OUT});
+			Starling.juggler.tween(starsNotice, 0.3, {delay:3, alpha:0, y:480*appModel.scale, transition:Transitions.EASE_IN, onComplete:starsNotice.removeFromParent});
+			appModel.sounds.addAndPlaySound("whoosh");
+		}
 		
 		private function closeButton_triggeredHandler(event:Event):void
 		{
@@ -168,8 +198,6 @@ package com.gerantech.towercraft.controls
 				stickersLayout.useSquareTiles = false;
 				stickersLayout.distributeWidths = true;
 				stickersLayout.distributeHeights = true;
-				//stickersLayout.typicalItemWidth = (stage.stageWidth-padding*4)/3;
-				//stickersLayout.typicalItemHeight = padding*5;
 				stickersLayout.requestedColumnCount = 3;
 				
 				stickerList = new List();
@@ -227,5 +255,12 @@ package com.gerantech.towercraft.controls
 			Starling.juggler.tween(bubble, 0.2, {scale:0.5, transition:Transitions.EASE_IN_BACK, delay:4, onComplete:bubble.removeFromParent});
 			appModel.sounds.addAndPlaySound("whoosh");
 		}
+		
+		override public function dispose():void
+		{
+			timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+			super.dispose();
+		}
 	}
+
 }

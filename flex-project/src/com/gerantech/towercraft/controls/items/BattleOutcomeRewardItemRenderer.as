@@ -57,7 +57,6 @@ package com.gerantech.towercraft.controls.items
 			
 			labelDisplay.text = _data.c.toString();
 			addChild(labelDisplay);
-
 		}
 	}
 }
