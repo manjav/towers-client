@@ -40,8 +40,8 @@ package com.gerantech.towercraft.controls.buttons
 			skin.scale9Grid = new Rectangle(4, 6, 2, 2);
 			backgroundSkin = skin;
 			
-			height = 74 * appModel.scale;
-			width = 220 * appModel.scale;
+			height = 64 * appModel.scale;
+			width = 180 * appModel.scale;
 			var padding:int = 12 * appModel.scale;
 			
 			if(hasProgressbar)
@@ -52,8 +52,8 @@ package com.gerantech.towercraft.controls.buttons
 			}
 			
 			progressLabel = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			progressLabel.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
-			progressLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height*0.15);
+			progressLabel.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center")
+			progressLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height*0.1);
 			addChild(progressLabel);
 			
 			var iconDisplay:ImageLoader = new ImageLoader();

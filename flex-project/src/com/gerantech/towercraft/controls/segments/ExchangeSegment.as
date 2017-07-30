@@ -124,8 +124,7 @@ package com.gerantech.towercraft.controls.segments
 			{
 				if(item.expiredAt > timeManager.now )
 				{
-					var req:IntIntMap = new IntIntMap();
-					req.set(ResourceType.CURRENCY_HARD, exchanger.timeToHard(item.expiredAt-timeManager.now));
+					var req:IntIntMap = exchanger.getChestRequierement( item.expiredAt-timeManager.now );
 					var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_timetogem_message"), req);
 					confirm.data = item;
 					confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);

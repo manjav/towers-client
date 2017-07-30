@@ -21,13 +21,14 @@ package com.gerantech.towercraft.controls.headers
 		private var pointIndicator:Indicator;
 		private var softIndicator:Indicator;
 		private var hardIndicator:Indicator;
+		private var keyIndicator:Indicator;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 
 			height = 120 * AppModel.instance.scale;
-			var padding:Number = 48 * AppModel.instance.scale;
+			var padding:Number = 44 * AppModel.instance.scale;
 			layout = new AnchorLayout();
 			
 			pointIndicator = new Indicator("ltr", ResourceType.POINT, false, false);
@@ -43,6 +44,11 @@ package com.gerantech.towercraft.controls.headers
 			hardIndicator.addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
 			hardIndicator.layoutData = new AnchorLayoutData(NaN, padding*3+softIndicator.width, NaN, NaN, NaN, 0);
 			addChild(hardIndicator);
+			
+			keyIndicator = new Indicator("rtl", ResourceType.KEY);
+			keyIndicator.addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
+			keyIndicator.layoutData = new AnchorLayoutData(NaN, padding*5+softIndicator.width*2, NaN, NaN, NaN, 0);
+			addChild(keyIndicator);
 			
 			if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
 				init();
@@ -74,6 +80,7 @@ package com.gerantech.towercraft.controls.headers
 				pointIndicator.setData(0, player.get_point(), NaN);
 			softIndicator.setData(0, player.get_softs(), NaN);
 			hardIndicator.setData(0, player.get_hards(), NaN);
+			keyIndicator.setData(0, player.get_keys(), NaN);
 		}		
 		
 		private function indicators_triggerredHandler(event:Event):void
