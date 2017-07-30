@@ -8,9 +8,14 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -56,7 +61,32 @@ package com.gerantech.towercraft.controls.segments
 			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(buildingslist);
 
+			showTutorial();
 			initializeCompleted = true;
+		}
+		
+		private function showTutorial():void
+		{
+			if( UserData.getInstance().buildingsOpened )
+				return;
+			UserData.getInstance().buildingsOpened = true;
+			UserData.getInstance().save();
+			
+			var tutorialData:TutorialData = new TutorialData("buildings");
+			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
+/*			
+			var places:PlaceDataList = quest.getSwipeTutorPlaces();
+			if(places.size() > 0)
+				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
+			
+			var place:PlaceData = quest.getImprovableTutorPlace()
+			if(place != null)
+			{
+				places = new PlaceDataList();
+				places.push(place);
+				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
+			}*/
+			tutorials.show(this, tutorialData);
 		}
 		
 		override public function updateData():void

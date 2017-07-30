@@ -31,12 +31,9 @@ package com.gerantech.towercraft.controls.items
 			padding = 36 * appModel.scale;
 			
 			skin = new ImageSkin(appModel.theme.tabUpSkinTexture);
-			//skin.selectedTexture = appModel.theme.tabSelectedUpSkinTexture;
 			skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
-			skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedUpSkinTexture);
+			skin.setTextureForState(STATE_SELECTED, appModel.theme.tabDownSkinTexture);
 			skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
-			//skin.setTextureForState(ButtonState.DISABLED, appModel.theme.tabDisabledSkinTexture);
-			//skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedDisabledSkinTexture);
 			skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 			backgroundSkin = skin;
 			
@@ -70,6 +67,7 @@ package com.gerantech.towercraft.controls.items
 			}
 			super.commitData();
 			dashboardData = _data as DashboardItemData;
+			iconDisplay.alpha = player.inTutorial()&& index!=1 ? 0.5 : 1;
 			iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 			titleDisplay.text = loc("tab-"+dashboardData.index) ;
 			updateBadge();

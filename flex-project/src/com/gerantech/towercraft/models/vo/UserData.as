@@ -8,7 +8,7 @@ public class UserData
 {
     public var id:int = -1;
 	public var password:String = "";
-   // public var tuorStep:String = "quests";
+    public var buildingsOpened:Boolean;
 
     private static var _instance:UserData;
 
@@ -23,14 +23,14 @@ public class UserData
 				return;
 			id = so.data.id;
 			password = so.data.password;
-			//tuorStep = so.data.tuorStep;
+			buildingsOpened = so.data.buildingsOpened;
 		}
 		public function save():void
 		{
 			var so:SharedObject = SharedObject.getLocal(SFSConnection.instance.currentIp + "-user-data");
 			so.data.id = id;
 			so.data.password = password;
-			//so.data.tuorStep = tuorStep;
+			so.data.buildingsOpened = buildingsOpened;
 			so.flush(100000);
 		}
 		public function clear():void

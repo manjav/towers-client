@@ -67,7 +67,7 @@ package com.gerantech.towercraft.controls.screens
 			pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			pageList.snapToPages = true;
 			pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
-			pageList.addEventListener(FeathersEventType.ENTER, pageList_enterHandler);
+			//pageList.addEventListener(FeathersEventType.ENTER, pageList_enterHandler);
 			pageList.verticalScrollPolicy = ScrollPolicy.OFF;
 			pageList.itemRendererFactory = function ():IListItemRenderer { return new DashboardPageItemRenderer(); }
 			addChild(pageList);
@@ -93,8 +93,8 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.height = footerSize;
 			tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
             tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
-			tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabItemRenderer(tabSize); }
 			tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
+			tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabItemRenderer(tabSize); }
 			addChild(tabsList);
 			
 			
@@ -123,13 +123,14 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
-			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			
 			var dashboardData:Array = getDashboardData();
 			pageList.dataProvider = new ListCollection(dashboardData);
+			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 			tabsList.dataProvider = new ListCollection(dashboardData);
+			tabsList.touchable = !player.inTutorial();
 			tabsList.selectedIndex = 1;
 			
+			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 			appModel.sounds.addSound("main-theme", null,  themeLoaded);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 		}
@@ -141,33 +142,37 @@ package com.gerantech.towercraft.controls.screens
 			{
 				var badgeNumber:int = 0;
 				var pd:DashboardItemData = new DashboardItemData(p);
-				if( p == 2 )
+				if( !player.inTutorial() )
 				{
-					for each(var b:Building in player.buildings.values())
-						if(b.upgradable())
-							badgeNumber ++;
+					if( p == 2 )
+					{
+						for each(var b:Building in player.buildings.values())
+							if(b.upgradable())
+								badgeNumber ++;
+					}
+					else if( p == 0 )
+					{
+						for each(var e:ExchangeItem in exchanger.items.values())
+							if( e.type> ExchangeType.S_20_BUILDING && e.expiredAt < timeManager.now )
+								badgeNumber ++;
+					}
+					pd.badgeNumber = badgeNumber;
 				}
-				else if( p == 0 )
-				{
-					for each(var e:ExchangeItem in exchanger.items.values())
-						if( e.type> ExchangeType.S_20_BUILDING && e.expiredAt < timeManager.now )
-							badgeNumber ++;
-				}
-				pd.badgeNumber = badgeNumber;
 				ret.push(pd);
 			}
 			
 			return ret;
 		}
 		
-		private function pageList_enterHandler(event:Event):void
+	/*	private function pageList_enterHandler(event:Event):void
 		{
 			tabsList.selectedIndex = 0;
 		}
-		
+		*/
 		private function toolbar_triggerredHandler(event:Event):void
 		{
-			tabsList.selectedIndex = 0;
+			if( !player.inTutorial())
+				tabsList.selectedIndex = 0;
 		}
 		
 		private function pageList_focusInHandler(event:Event):void
@@ -179,6 +184,8 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function tabsList_changeHandler(event:Event):void
 		{
+			if(player.inTutorial() && tabsList.selectedIndex != 1)
+				return;
 			pageList.selectedIndex = tabsList.selectedIndex;
 			pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 			Starling.juggler.tween(tabBorder, 0.3, {x:tabsList.selectedIndex * tabSize, transition:Transitions.EASE_OUT});
