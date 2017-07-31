@@ -6,6 +6,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.constants.StickerType;
 	
@@ -77,14 +78,9 @@ package com.gerantech.towercraft.controls
 				addChild(closeButton);			
 			}
 			
-			var stickerButton:Button = new Button();
-			stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
-			stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
-			stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
-			addChild(stickerButton);			
 			
 			// main name
-			var _name:String = battleData.opponent!=null ? battleData.opponent.getText("name") : battleData.map.name;
+			var _name:String = battleData.opponent!=null ? battleData.opponent.getText("name") : (battleData.map.isQuest ? (loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1)) : battleData.map.name);
 			var nameShadow:RTLLabel = new RTLLabel(_name, 0, "left", null, false, null, 1.2);
 			nameShadow.layoutData = new AnchorLayoutData(padding*0.5, NaN, NaN, leftPadding );
 			addChild(nameShadow);
@@ -120,11 +116,20 @@ package com.gerantech.towercraft.controls
 			
 			addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 			
-			myBubble = new StickerBubble();
-			myBubble.layoutData = new AnchorLayoutData( NaN, padding, padding);
-			
-			opponentBubble = new StickerBubble(true);
-			opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
+			if( !battleData.map.isQuest )
+			{
+				var stickerButton:Button = new Button();
+				stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
+				stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
+				stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
+				addChild(stickerButton);
+				
+				myBubble = new StickerBubble();
+				myBubble.layoutData = new AnchorLayoutData( NaN, padding, padding);
+				
+				opponentBubble = new StickerBubble(true);
+				opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
+			}
 		}
 		
 		private function createCompleteHandler(event:Event):void
