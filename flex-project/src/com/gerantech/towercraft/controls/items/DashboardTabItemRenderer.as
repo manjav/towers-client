@@ -50,7 +50,6 @@ package com.gerantech.towercraft.controls.items
 			addChild(titleDisplay);
 			
 			badgeDisplay = new ImageLoader();
-			badgeDisplay.source = Assets.getTexture("badge-notification", "skin")
 			badgeDisplay.width = badgeDisplay.height = padding*1.6;
 			badgeDisplay.layoutData = new AnchorLayoutData(padding/2, padding/2);
 			
@@ -75,13 +74,14 @@ package com.gerantech.towercraft.controls.items
 		
 		private function updateBadge():void
 		{
-			if( dashboardData.badgeNumber <= 0 )
+			if( dashboardData.badgeNumber+dashboardData.newBadgeNumber <= 0 )
 			{
 				if(badgeDisplay.parent == this)
 					removeChild(badgeDisplay);
 			}
 			else
 			{
+				badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "badge-notification-new" : "badge-notification", "skin")
 				addChild(badgeDisplay);
 			}
 		}
@@ -97,7 +97,7 @@ package com.gerantech.towercraft.controls.items
 			iconLayoutData.left = value ? padding : NaN;
 			if(dashboardData != null)
 			{
-				dashboardData.badgeNumber = 0;
+				dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
 				updateBadge();
 			}
 		}

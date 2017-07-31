@@ -22,6 +22,8 @@ package com.gerantech.towercraft.controls.items
 		private var cardDisplay:BuildingCard;
 		private var inDeck:Boolean;
 		private var cardLayoutData:AnchorLayoutData;
+
+		private var newDisplay:ImageLoader;
 		
 		public function BuildingItemRenderer(inDeck:Boolean=true)
 		{
@@ -69,7 +71,9 @@ package com.gerantech.towercraft.controls.items
 			
 			if ( appModel.game.loginData.buildingsLevel.exists( cardDisplay.type ) )
 			{
-				var newDisplay:ImageLoader = new ImageLoader();
+				appModel.game.loginData.buildingsLevel.remove( cardDisplay.type );
+				
+				newDisplay = new ImageLoader();
 				newDisplay.source = Assets.getTexture("new-badge", "gui");
 				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
 				newDisplay.height = newDisplay.width = width * 0.6;
@@ -86,7 +90,6 @@ package com.gerantech.towercraft.controls.items
 				cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = 0;
 			super.isSelected = value
 		}
-
 		
 		override public function set currentState(_state:String):void
 		{
@@ -100,7 +103,11 @@ package com.gerantech.towercraft.controls.items
 			
 			cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
 			if( _state == STATE_SELECTED )
+			{
+				if(newDisplay)
+					newDisplay.removeFromParent(true);
 				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+			}
 			
 			if ( player.buildings.exists( _data as int ) )
 				visible = _state != STATE_SELECTED;

@@ -140,23 +140,27 @@ package com.gerantech.towercraft.controls.screens
 			var ret:Array = new Array();
 			for each(var p:int in PageType.getAll()._list)
 			{
-				var badgeNumber:int = 0;
 				var pd:DashboardItemData = new DashboardItemData(p);
 				if( !player.inTutorial() )
 				{
 					if( p == 2 )
 					{
-						for each(var b:Building in player.buildings.values())
+						var bs:Vector.<Building> = player.buildings.values();
+						for each(var b:Building in bs)
+						{
 							if(b.upgradable())
-								badgeNumber ++;
+								pd.badgeNumber ++;
+							
+							if( game.loginData.buildingsLevel.exists(b.type) )
+								pd.newBadgeNumber ++;
+						}
 					}
 					else if( p == 0 )
 					{
 						for each(var e:ExchangeItem in exchanger.items.values())
 							if( e.type> ExchangeType.S_20_BUILDING && e.expiredAt < timeManager.now )
-								badgeNumber ++;
+								pd.badgeNumber ++;
 					}
-					pd.badgeNumber = badgeNumber;
 				}
 				ret.push(pd);
 			}
@@ -164,11 +168,6 @@ package com.gerantech.towercraft.controls.screens
 			return ret;
 		}
 		
-	/*	private function pageList_enterHandler(event:Event):void
-		{
-			tabsList.selectedIndex = 0;
-		}
-		*/
 		private function toolbar_triggerredHandler(event:Event):void
 		{
 			if( !player.inTutorial())

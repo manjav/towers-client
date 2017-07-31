@@ -177,6 +177,7 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function endBattle(data:SFSObject):void
 		{
+			removeChild(hud, true);
 			appModel.battleFieldView.responseSender.actived = false;
 			
 			var youWin:Boolean = data.getBool("youWin");

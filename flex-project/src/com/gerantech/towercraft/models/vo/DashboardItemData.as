@@ -4,6 +4,7 @@ package com.gerantech.towercraft.models.vo
 	{
 		public var index:int;
 		public var badgeNumber:int;
+		public var newBadgeNumber:int;
 		public function DashboardItemData(index:int)
 		{
 			this.index = index;
