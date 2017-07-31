@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.controls.LayoutGroup;
@@ -74,7 +75,7 @@ package com.gerantech.towercraft.controls
 				iconContainer.addChild(newDisplay);
 				appModel.game.loginData.buildingsLevel.set(type, 1);
 				
-				appModel.sounds.addAndPlaySound("chest-open-new")
+				setTimeout(appModel.sounds.addAndPlaySound, 100, "chest-open-new")
 			}
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
