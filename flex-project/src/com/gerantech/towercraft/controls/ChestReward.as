@@ -75,7 +75,7 @@ package com.gerantech.towercraft.controls
 				iconContainer.addChild(newDisplay);
 				appModel.game.loginData.buildingsLevel.set(type, 1);
 				
-				setTimeout(appModel.sounds.addAndPlaySound, 100, "chest-open-new")
+				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
 			}
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
