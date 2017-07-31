@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.overlays
 	import com.gerantech.towercraft.controls.ChestReward;
 	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+	import com.gt.towers.exchanges.ExchangeItem;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	
 	import flash.utils.setTimeout;
@@ -33,23 +34,19 @@ package com.gerantech.towercraft.controls.overlays
 		
 		public static var factory: StarlingFactory;
 		public static var dragonBonesData:DragonBonesData;
-		
-		public var type:int;
-		private var rewards:ISFSArray;
-		private var rewardItems:Vector.<ChestReward>;
+		public var item:ExchangeItem;
 
+		private var rewardKeys:Vector.<int>;
+		private var rewardItems:Vector.<ChestReward>;
 		private var openAnimation:StarlingArmatureDisplay ;
 		private var collectedItemIndex:int = 0;
-
 		private var buttonOverlay:SimpleLayoutButton;
 
-		public function OpenChestOverlay(type:int, rewards:ISFSArray)
+		public function OpenChestOverlay(item:ExchangeItem)
 		{
 			super();
 			
-			this.type = type;
-			this.rewards = rewards;
-			
+			this.item = item;
 			createFactory();
 		}
 		
@@ -94,7 +91,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			appModel.sounds.setVolume("main-theme", 0.3);
 			
-			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(type%10)-1]);
+			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(item.type%10)-1]);
 			openAnimation.touchable = openAnimation.touchGroup = false
 			openAnimation.scale = appModel.scale;
 			openAnimation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
@@ -108,6 +105,7 @@ package com.gerantech.towercraft.controls.overlays
 			addChild(buttonOverlay);
 			
 			rewardItems = new Vector.<ChestReward>();
+			rewardKeys = item.outcomes.keys();
 		}
 		
 		private function openAnimation_soundEventHandler(event:StarlingEvent):void
@@ -126,13 +124,13 @@ package com.gerantech.towercraft.controls.overlays
 		protected function buttonOverlay_triggeredHandler():void
 		{
 			grabAllRewards();
-			if(collectedItemIndex < rewards.size())
+			if( collectedItemIndex < item.outcomes.keys().length )
 			{
-				openAnimation.animation.gotoAndPlayByTime(collectedItemIndex < rewards.size()-1?"open":"openLast", 0, 1);
+				openAnimation.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length-1?"open":"openLast", 0, 1);
 				buttonOverlay.touchable = false;
 				showReward();
 			}
-			else if(collectedItemIndex == rewards.size()+1)
+			else if(collectedItemIndex == rewardKeys.length+1)
 			{
 				setTimeout(openAnimation.animation.gotoAndPlayByTime, 500, "hide", 0, 1);
 				hideAllRewards();
@@ -153,7 +151,7 @@ package com.gerantech.towercraft.controls.overlays
 		
 		private function showReward():void
 		{
-			var chestReward:ChestReward = new ChestReward(collectedItemIndex, rewards.getSFSObject(collectedItemIndex));
+			var chestReward:ChestReward = new ChestReward(collectedItemIndex, rewardKeys[collectedItemIndex], item.outcomes.get(rewardKeys[collectedItemIndex]));
 			chestReward.y = stage.height * 0.7;
 			rewardItems[collectedItemIndex] = chestReward;
 			addChild(chestReward);
@@ -175,11 +173,11 @@ package com.gerantech.towercraft.controls.overlays
 			
 			chestReward.hideDetails();
 			var scal:Number = 0.8;
-			var numCol:int = rewards.size() > 2 ? 3 : 2;
-			var paddingH:int = (appModel.isLTR?chestReward.width*0.4:0)*scal + 140*appModel.scale;
-			var paddingV:int = chestReward.height*0.5*scal + 140*appModel.scale;
+			var numCol:int = rewardKeys.length==2||rewardKeys.length==4 ? 2 : 3;
+			var paddingH:int = (appModel.isLTR?chestReward.width*0.4:0)*scal + 80*appModel.scale;
+			var paddingV:int = chestReward.height*0.5*scal + 80*appModel.scale;
 			var cellH:int = ((stage.stageWidth-chestReward.width*0.4*scal-paddingH*2) / (numCol-1));
-			Starling.juggler.tween(chestReward, 0.5, {scale:scal, x:(chestReward.index%numCol)*cellH + paddingH, y:Math.floor(chestReward.index/numCol)*chestReward.height + paddingV, transition:Transitions.EASE_OUT_BACK, onComplete:grabCompleted});
+			Starling.juggler.tween(chestReward, 0.5, {scale:scal, x:(chestReward.index%numCol)*cellH + paddingH, y:Math.floor(chestReward.index/numCol)*chestReward.height*scal + paddingV, transition:Transitions.EASE_OUT_BACK, onComplete:grabCompleted});
 			function grabCompleted():void
 			{
 			}

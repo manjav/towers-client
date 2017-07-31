@@ -1,7 +1,9 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
+	import com.gerantech.towercraft.models.Assets;
 	
+	import feathers.controls.ImageLoader;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -42,6 +44,7 @@ package com.gerantech.towercraft.controls.items
 			cardDisplay.showSlider = inDeck;
 			cardDisplay.layoutData = cardLayoutData;
 			addChild(cardDisplay);
+
 		}
 		
 		override protected function commitData():void
@@ -63,6 +66,16 @@ package com.gerantech.towercraft.controls.items
 
 			cardDisplay.type = _data as int;
 			Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
+			
+			if ( appModel.game.loginData.buildingsLevel.exists( cardDisplay.type ) )
+			{
+				var newDisplay:ImageLoader = new ImageLoader();
+				newDisplay.source = Assets.getTexture("new-badge", "gui");
+				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
+				newDisplay.height = newDisplay.width = width * 0.6;
+				addChild(newDisplay);
+			}
+			
 			super.commitData();
 		}
 		override public function set isSelected(value:Boolean):void

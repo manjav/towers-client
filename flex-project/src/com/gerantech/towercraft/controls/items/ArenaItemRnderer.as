@@ -101,7 +101,7 @@ package com.gerantech.towercraft.controls.items
 			cardsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
 			addChild(cardsDisplay);
 			
-			var unlocksDisplay:RTLLabel = new RTLLabel(loc("achievements_label"), 0xCCCCCC, null, null, true, null, 0.8);
+			var unlocksDisplay:RTLLabel = new RTLLabel(loc("arena_chance_to"), 0xCCCCCC, null, null, true, null, 0.8);
 			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*2, appModel.isLTR?padding*2:NaN);
 			addChild(unlocksDisplay);
 			

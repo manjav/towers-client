@@ -3,7 +3,6 @@
  */
 package com.gerantech.towercraft.managers.net
 {
-	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.utils.LoadAndSaver;
@@ -61,7 +60,7 @@ package com.gerantech.towercraft.managers.net
 			initCoreData(swfCore);
 
 			trace("request version :	" + version+"\nserver core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);
-
+			AppModel.instance.game.loginData.buildingsLevel = new IntIntMap();
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		

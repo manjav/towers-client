@@ -125,13 +125,16 @@ package com.gerantech.towercraft.controls.segments
 				if(item.expiredAt > timeManager.now )
 				{
 					var req:IntIntMap = exchanger.getChestRequierement( item.expiredAt-timeManager.now );
-					var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_timetogem_message"), req);
-					confirm.data = item;
-					confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
-					confirm.addEventListener(Event.SELECT, confirms_selectHandler);
-					confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
-					appModel.navigator.addPopup(confirm);
-					return;
+					if( !player.has(req) )
+					{
+						var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_timetogem_message"), req);
+						confirm.data = item;
+						confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
+						confirm.addEventListener(Event.SELECT, confirms_selectHandler);
+						confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
+						appModel.navigator.addPopup(confirm);
+						return;
+					}
 				}
 				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
@@ -163,10 +166,7 @@ package com.gerantech.towercraft.controls.segments
 				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
 			}
 		}
-		
-		private function openChestOverlay_closeHandler():void
-		{
-		}
+
 		
 		private function confirms_cancelHandler(event:Event):void
 		{
@@ -202,13 +202,18 @@ package com.gerantech.towercraft.controls.segments
 						break;
 					
 					case ExchangeType.S_30_CHEST:
-						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item.type, data.getSFSArray("rewards"));
+						item.outcomes = new IntIntMap();
+						for(var i:int=0; i< data.getSFSArray("rewards").size(); i++ )
+							item.outcomes.set(data.getSFSArray("rewards").getSFSObject(i).getInt("t"), data.getSFSArray("rewards").getSFSObject(i).getInt("c"));
+			
+						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item);
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						appModel.navigator.addOverlay(openChestOverlay);
-						
-						exchanger.exchange(item, data.getInt("now"));
-						itemslist.dataProvider.updateItemAt(1);
-						
+						function openChestOverlay_closeHandler(event:Event):void {
+							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+							exchanger.exchange(item, data.getInt("now"), data.getInt("hards"));
+							itemslist.dataProvider.updateItemAt(1);
+						}
 						break;
 				}
 				item.enabled = true;

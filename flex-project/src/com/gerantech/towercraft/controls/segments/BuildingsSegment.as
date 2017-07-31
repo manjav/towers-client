@@ -107,7 +107,7 @@ package com.gerantech.towercraft.controls.segments
 
 			if( !player.buildings.exists( item.data as int) )
 			{
-				appModel.navigator.addLog(loc("unlocked_at_arena", [loc("arena_title_"+game.unlockedBuildingAt(item.data as int ))]));
+				appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_title_"+game.unlockedBuildingAt(item.data as int ))]));
 				return;
 			}
 			

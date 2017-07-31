@@ -1,6 +1,9 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.exchanges.ExchangeItem;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	
 	import flash.geom.Rectangle;
@@ -17,7 +20,6 @@ package com.gerantech.towercraft.controls
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.display.Image;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class ChestReward extends TowersLayout
 	{
@@ -29,12 +31,12 @@ package com.gerantech.towercraft.controls
 		private var detailsContainer:LayoutGroup;
 		private var countInsideDisplay:BitmapFontTextRenderer;
 		
-		public function ChestReward(index:int, reward:ISFSObject)
+		public function ChestReward(index:int, type:int, count:int)
 		{
 			super();
 			this.index = index;
-			type = reward.getInt("t");
-			count = reward.getInt("c");
+			this.type = type;
+			this.count = count;
 			touchable = touchGroup = false;
 		}
 		
@@ -61,6 +63,19 @@ package com.gerantech.towercraft.controls
 			iconDisplay.horizontalAlign = HorizontalAlign.CENTER;
 			iconDisplay.verticalAlign = VerticalAlign.MIDDLE;
 			iconContainer.addChild(iconDisplay);
+			
+			if( ResourceType.isBuilding(type) && !player.buildings.exists(type) )
+			{
+				var newDisplay:ImageLoader = new ImageLoader();
+				newDisplay.source = Assets.getTexture("new-badge", "gui");
+				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
+				newDisplay.width = 200 * appModel.scale;
+				newDisplay.height = 200 * appModel.scale;
+				iconContainer.addChild(newDisplay);
+				appModel.game.loginData.buildingsLevel.set(type, 1);
+				
+				appModel.sounds.addAndPlaySound("chest-open-new")
+			}
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
 			countInsideDisplay.visible = false;
