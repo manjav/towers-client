@@ -83,6 +83,7 @@ package com.gerantech.towercraft.controls.popups
 			buttonLayout.gap = padding;
 			var buttonContainer:LayoutGroup = new LayoutGroup();
 			buttonContainer.layoutData = new AnchorLayoutData (NaN, NaN, padding, NaN, 0);
+			buttonContainer.height = 120 * appModel.scale;
 			buttonContainer.layout = buttonLayout;
 			addChild(buttonContainer);
 			

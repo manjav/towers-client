@@ -8,7 +8,7 @@ package com.gerantech.towercraft.controls.texts
 	
 	public class CustomTextInput extends TextInput
 	{
-		public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=16777215)
+		public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=16777215, multiline:Boolean=false)
 		{
 			super();
 			
@@ -20,6 +20,7 @@ package com.gerantech.towercraft.controls.texts
 				editor.fontSize = AppModel.instance.theme.regularFontSize ;
 				editor.color = textColor;
 				editor.softKeyboardType = softKeyboardType;
+				editor.multiline = multiline;
 				editor.returnKeyLabel = returnKeyLabel;
 				return editor;
 			}

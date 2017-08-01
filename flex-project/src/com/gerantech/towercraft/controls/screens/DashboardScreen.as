@@ -1,8 +1,10 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.buttons.SimpleButton;
 	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
+	import com.gerantech.towercraft.controls.popups.BugReportPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -35,6 +37,7 @@ package com.gerantech.towercraft.controls.screens
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.events.Event;
 
 	public class DashboardScreen extends BaseCustomScreen
@@ -133,6 +136,28 @@ package com.gerantech.towercraft.controls.screens
 			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 			appModel.sounds.addSound("main-theme", null,  themeLoaded);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+			
+			if( !player.inTutorial() )
+			{
+				var bugReportButton:SimpleButton = new SimpleButton();
+				bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
+				bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
+				bugReportButton.x = 12 * AppModel.instance.scale;
+				bugReportButton.y = stage.stageHeight - 300 * AppModel.instance.scale;
+				bugReportButton.width = 120*AppModel.instance.scale;
+				bugReportButton.scaleY = bugReportButton.scaleX;
+				parent.addChild(bugReportButton);
+				function bugReportButton_triggeredHandler(event:Event):void {
+					var reportPopup:BugReportPopup = new BugReportPopup();
+					reportPopup.addEventListener(Event.COMPLETE, reportPopup_completeHandler);
+					appModel.navigator.addPopup(reportPopup);
+					function reportPopup_completeHandler(event:Event):void {
+						var reportPopup:BugReportPopup = new BugReportPopup();
+						appModel.navigator.addLog(loc("popup_bugreport_fine"));
+					}
+				}
+			}
+
 		}
 		
 		private function getDashboardData():Array
@@ -158,7 +183,7 @@ package com.gerantech.towercraft.controls.screens
 					else if( p == 0 )
 					{
 						for each(var e:ExchangeItem in exchanger.items.values())
-							if( e.type> ExchangeType.S_20_BUILDING && e.expiredAt < timeManager.now )
+							if( e.type> ExchangeType.S_20_SPECIALS && e.expiredAt < timeManager.now )
 								pd.badgeNumber ++;
 					}
 				}
