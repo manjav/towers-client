@@ -76,7 +76,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			var sfs:SFSObject = SFSObject.newInstance();
 			sfs.putText( "email", emailInput.text );
-			sfs.putText( "description", descriptionInput.text );
+			sfs.putUtfString("description", descriptionInput.text );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUG_REPORT, sfs );
 		}

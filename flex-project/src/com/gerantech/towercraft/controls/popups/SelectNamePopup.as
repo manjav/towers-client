@@ -62,7 +62,7 @@ package com.gerantech.towercraft.controls.popups
 			}
 			
 			var sfs:SFSObject = SFSObject.newInstance();
-			sfs.putText( "name", selectedName );
+			sfs.putUtfString( "name", selectedName );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.SELECT_NAME, sfs );
 		}
