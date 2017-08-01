@@ -85,7 +85,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			descriptionDisplay.visible = false;
 			switch( line.category )
 			{
-				case ExchangeType.S_20_BUILDING:
+				case ExchangeType.S_20_SPECIALS:
 					descriptionDisplay.visible = true;
 					descriptionDisplay.text = loc("exchange_description_" + line.category);
 					CELL_SIZE = 460 * appModel.scale;
@@ -132,7 +132,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		
 		private function list_changeHandler(event:Event):void
 		{
-			if( list.selectedItem == null || line.category == ExchangeType.S_20_BUILDING )
+			if( list.selectedItem == null || line.category == ExchangeType.S_20_SPECIALS )
 				return;
 			var ei:ExchangeItem = game.exchanger.items.get(list.selectedItem as int);
 			if(!ei.enabled)

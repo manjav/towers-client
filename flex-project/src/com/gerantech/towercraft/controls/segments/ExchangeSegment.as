@@ -80,7 +80,7 @@ package com.gerantech.towercraft.controls.segments
 				itemslistData = new ListCollection();
 			
 			var itemKeys:Vector.<int> = exchanger.items.keys();
-			var offers:ShopLine = new ShopLine(ExchangeType.S_20_BUILDING);
+			var offers:ShopLine = new ShopLine(ExchangeType.S_20_SPECIALS);
 			var chests:ShopLine = new ShopLine(ExchangeType.S_30_CHEST);
 			var hards:ShopLine = new ShopLine(ExchangeType.S_0_HARD);
 			var softs:ShopLine = new ShopLine(ExchangeType.S_10_SOFT);
@@ -91,7 +91,7 @@ package com.gerantech.towercraft.controls.segments
 					hards.add(itemKeys[i]);
 				else if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_10_SOFT )
 					softs.add(itemKeys[i]);
-				else if(ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_20_BUILDING )
+				else if(ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_20_SPECIALS )
 					offers.add(itemKeys[i]);
 				else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_30_CHEST )
 					chests.add(itemKeys[i]);
@@ -197,7 +197,7 @@ package com.gerantech.towercraft.controls.segments
 			{
 				switch(ExchangeType.getCategory(item.type))
 				{
-					case ExchangeType.S_20_BUILDING:
+					case ExchangeType.S_20_SPECIALS:
 						itemslist.dataProvider.updateItemAt(0);
 						break;
 					
