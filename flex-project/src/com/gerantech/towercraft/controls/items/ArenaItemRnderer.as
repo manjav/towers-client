@@ -6,6 +6,8 @@ package com.gerantech.towercraft.controls.items
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.arenas.Arena;
 	
+	import flash.utils.setTimeout;
+	
 	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingFactory;
@@ -44,6 +46,7 @@ package com.gerantech.towercraft.controls.items
 		private var rangeDisplay:BitmapFontTextRenderer;
 		
 		private var arena:Arena;
+		private var playerArena:int;
 		private var cardsDisplay:List;
 		
 		public function ArenaItemRnderer()
@@ -53,6 +56,7 @@ package com.gerantech.towercraft.controls.items
 			height = 640 * appModel.scale;
 			var padding:int = 28 * appModel.scale;
 			var iconSize:int = 400 * appModel.scale;
+			playerArena = player.get_arena(0);
 			
 			skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 			skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
@@ -112,8 +116,14 @@ package com.gerantech.towercraft.controls.items
 			rankButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, (appModel.isLTR?340:-340)*appModel.scale);
 			rankButton.addEventListener(Event.TRIGGERED, rankButton_triggeredHandler);
 			addChild(rankButton);
+
+			armatureDisplay = factory.buildArmatureDisplay("all");
+			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
+			armatureDisplay.y = height *0.35;
+			armatureDisplay.scale = appModel.scale;
+			addChild(armatureDisplay);
 		}
-		
+
 		private function rankButton_triggeredHandler():void
 		{
 			_owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, arena);
@@ -124,26 +134,25 @@ package com.gerantech.towercraft.controls.items
 			super.commitData();
 			if( index < 0 )
 				return;
-
-			arena = _data as Arena;
-			if(armatureDisplay!=null)
-				armatureDisplay.removeFromParent();
-			armatureDisplay = factory. buildArmatureDisplay("arena-"+arena.index);
-			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
-			armatureDisplay.y = height *0.35;
-			armatureDisplay.scale = appModel.scale;
-			currentState = player.get_arena(0) == index ? STATE_DISABLED : STATE_NORMAL;
-			if( player.get_arena(0) == index )
-				armatureDisplay.animation.gotoAndPlayByTime("animtion0", 0, -1);
-			else
-				armatureDisplay.animation.gotoAndStopByFrame("animtion0", 0);
-			addChild(armatureDisplay);
 			
+			arena = _data as Arena;
 			titleDisplay.text = loc("arena_title_" + index);
 			messageDisplay.text = loc("arena_message_" + index);
 			rangeDisplay.text = arena.min + " - " + arena.max ;
 			cardsDisplay.dataProvider = new ListCollection(arena.cards._list);
-			//rangDisplay.x = ( appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale ) - rangDisplay.width/2;
+			currentState = playerArena == index ? STATE_DISABLED : STATE_NORMAL;
+
+			if( playerArena == index )
+				armatureDisplay.animation.gotoAndPlayByTime("arena-"+index+"-selected", 0, 20);
+			else
+				armatureDisplay.animation.gotoAndStopByTime("arena-"+index+"-normal", 0);
+		}
+		
+		override public function dispose():void
+		{
+			armatureDisplay.animation.stop();
+			armatureDisplay.removeFromParent(false)
+			super.dispose();
 		}
 	}
 }
