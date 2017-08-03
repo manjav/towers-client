@@ -27,6 +27,7 @@ package com.gerantech.towercraft.controls
 		override protected function initialize():void
 		{
 			super.initialize();
+			touchGroup = touchable = false;
 			
 			var sk:Image = new Image(Assets.getTexture("sticker-bubble-"+(inverse?"opponent":"me"), "gui"));
 			sk.scale9Grid = new Rectangle(inverse?19:7, inverse?17:7, 1, 1);

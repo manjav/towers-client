@@ -11,6 +11,7 @@ package com.gerantech.towercraft.controls
 		public function StarsNotice()
 		{
 			super();
+			touchGroup = touchable = false;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			
 			backgroundSkin = new Quad(1,1,0);
