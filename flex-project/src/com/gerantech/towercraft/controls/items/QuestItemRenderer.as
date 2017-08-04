@@ -51,8 +51,8 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		
 		var elements:Vector.<DisplayObject> = new Vector.<DisplayObject>();
 		
-		questIndexLabel = new LTRLable("");
-		elements.push( questIndexLabel );
+		/*questIndexLabel = new LTRLable("");
+		elements.push( questIndexLabel );*/
 		
 		questNameLabel = new RTLLabel("");
 		questNameLabel.layoutData = new HorizontalLayoutData(100);
@@ -100,7 +100,7 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		quest = _data as Quest;
 		currentState = quest.locked ? STATE_DISABLED : STATE_NORMAL;
 			
-		questIndexLabel.text = quest.index.toString();
+	//	questIndexLabel.text = quest.index.toString();
 		questNameLabel.text = loc("quest_label") + " " + StrUtils.getNumber(quest.index+1);
 		
 		star_1.visible = !quest.locked;
