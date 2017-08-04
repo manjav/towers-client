@@ -18,7 +18,6 @@ import feathers.skins.ImageSkin;
 
 import starling.display.DisplayObject;
 
-
 public class QuestItemRenderer extends BaseCustomItemRenderer
 {
 	private var questIndexLabel:LTRLable;
@@ -59,20 +58,16 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		elements.push( questNameLabel );
 		
 		star_1 = new StarCheck();
-		//star_1.width = star_1.height = height * 0.5;
 		elements.push( star_1 );
 		
 		star_2 = new StarCheck();
-		//star_2.width = star_2.height = height * 0.5
 		elements.push( star_2 );
 		
 		star_3 = new StarCheck();
-		//star_3.width = star_3.height = height * 0.5
 		elements.push( star_3 );
 
 		lockDisplay = new ImageLoader();
 		lockDisplay.source = Assets.getTexture("improve-lock", "gui");
-		//lockDisplay.layoutData = new AnchorLayoutData(NaN, height*0.15, NaN, NaN, NaN, 0);
 		elements.push( lockDisplay );
 		
 		if(!appModel.isLTR)

@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.overlays
 	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingFeatureType;
 	
@@ -48,7 +49,6 @@ package com.gerantech.towercraft.controls.overlays
 			height = stage.stageHeight;
 			overlay.alpha = 1;
 			
-			
 			if(BattleOutcomeOverlay.dragonBonesData == null)
 				return;
 			
@@ -57,7 +57,6 @@ package com.gerantech.towercraft.controls.overlays
 			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;
 			armatureDisplay.animation.gotoAndPlayByFrame("appearin", 1, 1);
-			//armatureDisplay.addEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
 			addChild(armatureDisplay);
 			
 			
@@ -74,19 +73,25 @@ package com.gerantech.towercraft.controls.overlays
 			card.scale = 1.6;
 			
 			appModel.sounds.setVolume("main-theme", 0.3);
-			appModel.sounds.addAndPlaySound("levelup");
 			setTimeout(levelUp, 500);
 			setTimeout(showFeatures, 1800);
 			function levelUp():void {
+				var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, "center", null, false, null, 1.5);
+				titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+				titleDisplay.y = (stage.stageHeight-card.height)/3;
+				addChild(titleDisplay);
+			
 				card.scale = 2.4;
 				card.level = building.level; 
 				Starling.juggler.tween(card, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
-				Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y-120*appModel.scale, transition:Transitions.EASE_IN_OUT});
+				Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y-150*appModel.scale, transition:Transitions.EASE_IN_OUT});
+				
+				appModel.sounds.addAndPlaySound("upgrade");
 			}
 			function showFeatures():void {
 				var featureList:List = new List();
 				featureList.width = stage.stageWidth/2;
-				featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width);
+				featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width*0.7);
 				featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 				featureList.itemRendererFactory = function ():IListItemRenderer { return new FeatureItemRenderer(building); }
 				featureList.dataProvider = new ListCollection(BuildingFeatureType.getChangables(building.type)._list);
@@ -97,8 +102,6 @@ package com.gerantech.towercraft.controls.overlays
 				buttonOverlay.layoutData = new AnchorLayoutData(0,0,0,0);
 				addChild(buttonOverlay);
 			}
-			
-			trace(BuildingFeatureType.getChangables(building.type)._list)
 		}
 		
 		private function buttonOverlay_triggeredHandler(event:Event):void

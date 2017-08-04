@@ -149,7 +149,6 @@ package com.gerantech.towercraft.controls.segments
 		}
 		private function upgradeConfirm_errorHandler(event:Event):void
 		{
-			//appModel.navigator.addLog(loc("not_enough_resources"));
 			dispatchEventWith(FeathersEventType.ENTER, true, ExchangeType.S_0_HARD);
 		}
 		private function upgradeConfirm_selectHandler(event:Event):void

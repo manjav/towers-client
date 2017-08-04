@@ -1,10 +1,8 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.ChestReward;
-	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gt.towers.exchanges.ExchangeItem;
-	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	
 	import flash.utils.setTimeout;
 	

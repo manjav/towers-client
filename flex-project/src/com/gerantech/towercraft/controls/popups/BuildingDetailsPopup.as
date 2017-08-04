@@ -19,7 +19,6 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.HorizontalLayoutData;
-	import feathers.layout.TiledRowsLayout;
 	import feathers.layout.VerticalAlign;
 	import feathers.layout.VerticalLayout;
 	import feathers.layout.VerticalLayoutData;
@@ -104,20 +103,12 @@ package com.gerantech.towercraft.controls.popups
 			closeButton.width = 84 * appModel.scale;
 			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 			addChild(closeButton);
-
 		}
 		
 		override protected function transitionInCompleted():void
 		{
 			super.transitionInCompleted();
 			
-			/*var listLayout:TiledRowsLayout = new TiledRowsLayout();
-			listLayout.gap = padding;
-			listLayout.horizontalAlign = HorizontalAlign.RIGHT;
-			listLayout.useSquareTiles = false;
-			listLayout.requestedColumnCount = 2;
-			listLayout.typicalItemWidth = (transitionIn.destinationBound.width-padding*3) / 2;
-			listLayout.typicalItemHeight = 72 * appModel.scale;*/
 			textsContainer.addChild(titleDisplay);
 			textsContainer.addChild(messageDisplay);
 			
@@ -136,7 +127,6 @@ package com.gerantech.towercraft.controls.popups
 
 		}
 		
-		
 		override protected function transitionOutStarted():void
 		{
 			removeChild(header);
@@ -144,7 +134,6 @@ package com.gerantech.towercraft.controls.popups
 			super.transitionOutStarted();
 			Starling.juggler.tween(upgradeButton , 0.05, {alpha:0});
 		}
-		
 		
 		private function closeButton_triggeredHandler():void
 		{
@@ -154,13 +143,9 @@ package com.gerantech.towercraft.controls.popups
 		{
 			dispatchEventWith(Event.UPDATE, false, building);
 		}
-		
 		override public function close(dispose:Boolean=true):void
 		{
 			super.close(dispose);
 		}
-		
-		
-	
 	}
 }
