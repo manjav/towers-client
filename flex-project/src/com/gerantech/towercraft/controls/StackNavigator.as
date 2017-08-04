@@ -1,8 +1,14 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.Main;
+	import com.gerantech.towercraft.controls.buttons.SimpleButton;
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 	import com.gerantech.towercraft.controls.popups.BasePopup;
+	import com.gerantech.towercraft.controls.popups.BugReportPopup;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.models.Assets;
+	
+	import mx.resources.ResourceManager;
 	
 	import avmplus.getQualifiedClassName;
 	
@@ -11,6 +17,7 @@ package com.gerantech.towercraft.controls
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.events.Event;
 
 	public class StackNavigator extends StackScreenNavigator
@@ -100,6 +107,37 @@ package com.gerantech.towercraft.controls
 			logsContainer.addChild(log);
 			logs.push(log);
 			Starling.juggler.tween(logsContainer, 0.3, {y : logsContainer.y - GameLog.GAP, transition:Transitions.EASE_OUT, onComplete:function():void{busyLogger=false;}});
+		}
+		
+		
+		
+		public function showBugReportButton():void
+		{
+			if( !AppModel.instance.game.player.inTutorial() )
+			{
+				var bugReportButton:SimpleButton = new SimpleButton();
+				bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
+				bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
+				bugReportButton.x = 12 * AppModel.instance.scale;
+				bugReportButton.y = stage.stageHeight - 300 * AppModel.instance.scale;
+				bugReportButton.width = 120*AppModel.instance.scale;
+				bugReportButton.scaleY = bugReportButton.scaleX;
+				addChild(bugReportButton);
+				function bugReportButton_triggeredHandler(event:Event):void {
+					var reportPopup:BugReportPopup = new BugReportPopup();
+					reportPopup.addEventListener(Event.COMPLETE, reportPopup_completeHandler);
+					addPopup(reportPopup);
+					function reportPopup_completeHandler(event:Event):void {
+						var reportPopup:BugReportPopup = new BugReportPopup();
+						addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
+					}
+				}
+				addEventListener(Event.CHANGE, changeHandler);
+				function changeHandler(event:Event):void {
+					addChild(bugReportButton);
+					bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
+				}
+			}
 		}
 	}
 }

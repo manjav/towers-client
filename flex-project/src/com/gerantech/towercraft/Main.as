@@ -20,7 +20,6 @@ package com.gerantech.towercraft
 		public static const BATTLE_SCREEN:String = "battleScreen";
 		public static const QUESTS_SCREEN:String = "questsScreen";
 		public static const ARENA_SCREEN:String = "arenaScreen";
-		public static const RANK_SCREEN:String = "rankScreen";
 		
 		public function Main(content:IFeathersControl=null)
 		{
