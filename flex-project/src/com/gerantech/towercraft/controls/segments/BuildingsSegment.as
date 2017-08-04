@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
-	import com.gerantech.towercraft.controls.overlays.UpgradeOverlay;
+	import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -74,18 +74,6 @@ package com.gerantech.towercraft.controls.segments
 			
 			var tutorialData:TutorialData = new TutorialData("buildings");
 			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
-/*			
-			var places:PlaceDataList = quest.getSwipeTutorPlaces();
-			if(places.size() > 0)
-				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
-			
-			var place:PlaceData = quest.getImprovableTutorPlace()
-			if(place != null)
-			{
-				places = new PlaceDataList();
-				places.push(place);
-				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
-			}*/
 			tutorials.show(this, tutorialData);
 		}
 		
@@ -105,9 +93,14 @@ package com.gerantech.towercraft.controls.segments
 		{
 			var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
 
-			if( !player.buildings.exists( item.data as int) )
+			var buildingType:int = item.data as int;
+			if( !player.buildings.exists( buildingType ) )
 			{
-				appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_title_"+game.unlockedBuildingAt(item.data as int ))]));
+				var unlockedAt:int = game.unlockedBuildingAt( buildingType );
+				if( unlockedAt <= player.get_arena(0) )
+					appModel.navigator.addLog(loc("earn_at_chests"));
+				else
+					appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_title_"+unlockedAt)]));
 				return;
 			}
 			
@@ -117,7 +110,7 @@ package com.gerantech.towercraft.controls.segments
 			ti.sourceAlpha = 1;
 			ti.sourceBound = item.getBounds(this);
 			ti.destinationConstrain = this.getBounds(stage);
-			ti.destinationBound = new Rectangle(width*0.1, height*0.3, width*0.8, height*0.6);
+			ti.destinationBound = new Rectangle(width*0.1, height*0.2, width*0.8, height*0.64);
 
 			// create transition out data
 			var to:TransitionData = new TransitionData();
@@ -181,7 +174,7 @@ package com.gerantech.towercraft.controls.segments
 			sfs.putInt("confirmedHards", confirmedHards);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 			
-			var upgradeOverlay:UpgradeOverlay = new UpgradeOverlay();
+			var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 			upgradeOverlay.building = building;
 			appModel.navigator.addOverlay(upgradeOverlay);
 			

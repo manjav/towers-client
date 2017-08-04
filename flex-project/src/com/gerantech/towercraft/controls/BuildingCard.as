@@ -18,6 +18,7 @@ package com.gerantech.towercraft.controls
 		private var slider:BuildingSlider;
 
 		private var _type:int = -1;
+		private var _level:int = 0;
 		private var _locked:Boolean = false;
 		private var _showSlider:Boolean = true;
 		private var _showLevel:Boolean = true;
@@ -81,6 +82,20 @@ package com.gerantech.towercraft.controls
 				levelDisplay.visible = !_locked && _showLevel;
 		}
 		
+		public function get level():int
+		{
+			return _level;
+		}
+		public function set level(value:int):void
+		{
+			if ( _level == value )
+				return;
+			
+			_level = value;
+			if ( showLevel && levelDisplay )
+				levelDisplay.text = "Level " + _level;
+		}
+		
 		public function get showSlider():Boolean
 		{
 			return _showSlider;
@@ -142,8 +157,8 @@ package com.gerantech.towercraft.controls
 				slider.maximum = upgradeCards;
 				slider.value = numBuildings;
 			}
-			if ( showLevel && levelDisplay )
-				levelDisplay.text = "Level " + building.level;
+			
+			level = building.level;
 		}
 	}
 }

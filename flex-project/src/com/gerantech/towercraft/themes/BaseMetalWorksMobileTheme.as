@@ -117,13 +117,14 @@ package com.gerantech.towercraft.themes
 		//[Embed(source="../../../../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
 		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_REGULAR:Class;
-		
-		//[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="lalezarsupercell", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
-		//protected static const LALEZAR_SUPERCELL:Class;
-
+	
 		//[Embed(source="../../../../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
 		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_SEMIBOLD:Class;
+ 
+		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSans", fontWeight="normal", mimeType="application/x-font", embedAsCFF="false")]
+		protected static const SOURCE_SANS_PRO_REGULAR2:Class;
+
  
 		/**
 		 * The name of the embedded font used by controls in this theme. Comes

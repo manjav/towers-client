@@ -34,11 +34,17 @@ package com.gerantech.towercraft.controls.popups
 		
 		private var building:Building;
 		private var upgradeButton:ExchangeButton;
-		private var optionList:List;
+		private var featureList:List;
 		private var header:LayoutGroup;
 		private var padding:int;
 
 		private var closeButton:ExchangeButton;
+
+		private var textsContainer:LayoutGroup;
+
+		private var titleDisplay:RTLLabel;
+
+		private var messageDisplay:RTLLabel;
 
 		override protected function initialize():void
 		{
@@ -73,21 +79,20 @@ package com.gerantech.towercraft.controls.popups
 			textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 			textLayout.gap = padding;
 			
-			var textsContainer:LayoutGroup = new LayoutGroup();
+			textsContainer = new LayoutGroup();
 			textsContainer.layoutData = new HorizontalLayoutData (100, 100);
 			textsContainer.layout = textLayout;
 			
 			header.addChild(appModel.isLTR ? buildingIcon : textsContainer);
 			header.addChild(appModel.isLTR ? textsContainer : buildingIcon);
 			
-			var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
-			textsContainer.addChild(titleDisplay);
+			titleDisplay = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
 			
-			var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
+			messageDisplay = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
 			messageDisplay.layoutData = new VerticalLayoutData(100, 100);
-			textsContainer.addChild(messageDisplay);
 			
 			upgradeButton = new ExchangeButton();
+			upgradeButton.height = 120*appModel.scale;
 			upgradeButton.alpha = 0;
 			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
@@ -106,29 +111,28 @@ package com.gerantech.towercraft.controls.popups
 		{
 			super.transitionInCompleted();
 			
-			var listLayout:TiledRowsLayout = new TiledRowsLayout();
+			/*var listLayout:TiledRowsLayout = new TiledRowsLayout();
 			listLayout.gap = padding;
 			listLayout.horizontalAlign = HorizontalAlign.RIGHT;
 			listLayout.useSquareTiles = false;
 			listLayout.requestedColumnCount = 2;
 			listLayout.typicalItemWidth = (transitionIn.destinationBound.width-padding*3) / 2;
-			listLayout.typicalItemHeight = 72 * appModel.scale;
+			listLayout.typicalItemHeight = 72 * appModel.scale;*/
+			textsContainer.addChild(titleDisplay);
+			textsContainer.addChild(messageDisplay);
 			
-			optionList = new List();
-			optionList.layout = listLayout;
-			optionList.layoutData = new AnchorLayoutData(header.height + padding*2, padding, NaN, padding);
-			optionList.height = (listLayout.typicalItemHeight+padding) * 4
-			optionList.horizontalScrollPolicy = optionList.verticalScrollPolicy = ScrollPolicy.OFF;
-			optionList.itemRendererFactory = function ():IListItemRenderer
-			{
-				return new FeatureItemRenderer(building);
-			}
-			optionList.dataProvider = new ListCollection(BuildingFeatureType.getAll().keys());
-			addChild(optionList);
+			featureList = new List();
+			//featureList.layout = listLayout;
+			featureList.layoutData = new AnchorLayoutData(header.height + padding*2, padding*2, NaN, padding*2);
+			//featureList.height = (listLayout.typicalItemHeight+padding) * 4
+			featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
+			featureList.itemRendererFactory = function ():IListItemRenderer { return new FeatureItemRenderer(building); }
+			featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
+			addChild(featureList);
 			
 			upgradeButton.type = ResourceType.CURRENCY_SOFT;
 			upgradeButton.count = building.get_upgradeCost();
-			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.2});
+			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});
 
 		}
 		
@@ -136,7 +140,7 @@ package com.gerantech.towercraft.controls.popups
 		override protected function transitionOutStarted():void
 		{
 			removeChild(header);
-			removeChild(optionList);
+			removeChild(featureList);
 			super.transitionOutStarted();
 			Starling.juggler.tween(upgradeButton , 0.05, {alpha:0});
 		}
