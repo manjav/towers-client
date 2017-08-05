@@ -243,8 +243,9 @@ package com.gerantech.towercraft.controls
 		private function stickerList_changeHandler(event:Event):void
 		{
 			hideStickerList();
-			appModel.battleFieldView.responseSender.sendSticker(stickerList.selectedIndex);
-			showBubble(stickerList.selectedItem as int);
+			var sticker:int = stickerList.selectedItem as int
+			appModel.battleFieldView.responseSender.sendSticker(sticker);
+			showBubble(sticker);
 			stickerList.selectedIndex = -1;
 		}
 		
