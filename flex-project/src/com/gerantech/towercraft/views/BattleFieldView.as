@@ -35,7 +35,7 @@ package com.gerantech.towercraft.views
 			super.initialize();
 			layout = new AnchorLayout();
 			backgroundSkin = new Quad(1,1,0xb7bb3c);
-			y = -AppModel.instance.offsetY / 2;
+			y = (1920*appModel.scale-stage.stageHeight)/2;
 
 			troopsContainer = new Sprite();
 			buildingsContainer = new Sprite();
@@ -76,7 +76,7 @@ package com.gerantech.towercraft.views
 			
 			var images:Vector.<Image> = Fields.getField(battleData.battleField.map);
 			for each(var img:Image in images)
-			addChild(img);
+				addChild(img);
 			
 			// tile grass ground
 			var tileTexture:Texture = Assets.getTexture("ground-228","battlefields");
