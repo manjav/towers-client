@@ -24,6 +24,11 @@ package com.gerantech.towercraft.controls.buttons
 
 		private var padding:Number;
 
+		private var hasIcon:Boolean;
+
+		private var labelLayoutData:AnchorLayoutData;
+		private var shadowLayoutData:AnchorLayoutData;
+
 		override protected function initialize():void
 		{
 			super.initialize();
@@ -43,20 +48,21 @@ package com.gerantech.towercraft.controls.buttons
 			
 			layout = new AnchorLayout();
 			
+			shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.60);
 			shadowDisplay = new RTLLabel(_label, 0x002200, "center");
 			shadowDisplay.touchable = false;
-			shadowDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.60);
+			shadowDisplay.layoutData = shadowLayoutData;
 			addChild(shadowDisplay);
-			
+		
+			labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 			labelDisplay = new RTLLabel(_label, 0XEEFFEE, "center");
 			labelDisplay.touchable = false;
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
+			labelDisplay.layoutData = labelLayoutData;
 			addChild(labelDisplay);
 			
 			iconDisplay = new ImageLoader();
 			labelDisplay.touchable = false;
 			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*2, NaN);
-		//	iconDisplay.layoutData = new HorizontalLayoutData(NaN, 80);
 		}
 		
 		
@@ -80,7 +86,7 @@ package com.gerantech.towercraft.controls.buttons
 				return;
 			_type = value;
 			
-			var hasIcon:Boolean = _type > 0 && _type!= ResourceType.CURRENCY_REAL;
+			hasIcon = _type > 0 && _type!= ResourceType.CURRENCY_REAL;
 			if( hasIcon )
 			{
 				iconDisplay.source = Assets.getTexture("res-"+_type, "gui");
@@ -90,10 +96,9 @@ package com.gerantech.towercraft.controls.buttons
 			{
 				iconDisplay.removeFromParent();
 			}
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, (hasIcon?10:1)*padding, NaN, padding, NaN, 0);
-			shadowDisplay.layoutData = new AnchorLayoutData(NaN, (hasIcon?10:1)*padding, NaN, padding, NaN, -padding*0.60);
+			labelLayoutData.right = (hasIcon?10:1)*padding;
+			shadowLayoutData.right = (hasIcon?10:1)*padding;
 		}
-		
 		
 		public function get label():String
 		{
@@ -109,6 +114,14 @@ package com.gerantech.towercraft.controls.buttons
 			if( shadowDisplay )
 				shadowDisplay.text = _label
 		}
-
+		
+		override public function set currentState(value:String):void
+		{
+			if(super.currentState == value)
+				return;
+			
+			super.currentState = value;
+			shadowLayoutData.verticalCenter = -padding*(value==ButtonState.DOWN?0.2:0.6)
+		}
 	}
 }

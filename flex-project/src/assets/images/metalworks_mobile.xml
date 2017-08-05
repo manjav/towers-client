@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:fe9a79f3cb235f70c9e5010a425464e6:530c93365cc43c46ded4ddf32d1d7d63:bd4b57f46e4d0b4891de5debabaa5c30$ -->
+<!-- $TexturePacker:SmartUpdate:40348b238ddc2ef58432fce6b17328b1:f432237d23b8b153c8385325b0abc078:bd4b57f46e4d0b4891de5debabaa5c30$ -->
 <TextureAtlas imagePath="metalworks_mobile.png" width="512" height="512">
     <SubTexture name="back-button-disabled-skin" x="264" y="2" width="37" height="56"/>
     <SubTexture name="back-button-down-skin" x="200" y="170" width="37" height="56"/>
@@ -20,9 +20,9 @@
     <SubTexture name="building-button-disable" x="2" y="352" width="152" height="118"/>
     <SubTexture name="building-button" x="34" y="176" width="152" height="118"/>
     <SubTexture name="button-disabled-skin" x="34" y="296" width="22" height="54"/>
-    <SubTexture name="button-down-skin" x="58" y="296" width="22" height="54"/>
-    <SubTexture name="button-neutral-skin" x="82" y="296" width="22" height="54"/>
-    <SubTexture name="button-up-skin" x="106" y="296" width="22" height="54"/>
+    <SubTexture name="button-down-skin" x="130" y="296" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
+    <SubTexture name="button-neutral-skin" x="58" y="296" width="22" height="54"/>
+    <SubTexture name="button-up-skin" x="82" y="296" width="22" height="54"/>
     <SubTexture name="callout-arrow-bottom-skin" x="258" y="433" width="40" height="26"/>
     <SubTexture name="callout-arrow-left-skin" x="255" y="296" width="26" height="40"/>
     <SubTexture name="callout-arrow-right-skin" x="283" y="290" width="26" height="40"/>
@@ -33,8 +33,8 @@
     <SubTexture name="check-selected-down-icon" x="166" y="471" width="32" height="32"/>
     <SubTexture name="check-selected-up-icon" x="190" y="437" width="32" height="32"/>
     <SubTexture name="check-up-icon" x="200" y="471" width="32" height="32"/>
-    <SubTexture name="danger-button-down-skin" x="130" y="296" width="22" height="54"/>
-    <SubTexture name="danger-button-up-skin" x="130" y="296" width="22" height="54"/>
+    <SubTexture name="danger-button-down-skin" x="106" y="296" width="22" height="54"/>
+    <SubTexture name="danger-button-up-skin" x="106" y="296" width="22" height="54"/>
     <SubTexture name="danger-callout-arrow-bottom-skin" x="256" y="262" width="40" height="26"/>
     <SubTexture name="danger-callout-arrow-left-skin" x="301" y="344" width="26" height="40"/>
     <SubTexture name="danger-callout-arrow-right-skin" x="311" y="283" width="26" height="40"/>

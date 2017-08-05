@@ -5,9 +5,11 @@ package com.gerantech.towercraft.controls.floatings
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
+	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.skins.ImageSkin;
 	
 	import starling.display.DisplayObject;
 	import starling.display.Image;
@@ -32,13 +34,17 @@ package com.gerantech.towercraft.controls.floatings
 			layout = new AnchorLayout();
 			
 			var simpleLayoutButton:SimpleLayoutButton = new SimpleLayoutButton();
+			simpleLayoutButton.isEnabled = !locked;
 			simpleLayoutButton.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			simpleLayoutButton.addEventListener(Event.TRIGGERED, buttonTrigeredHandler);
 			addChild(simpleLayoutButton);
 			
-			var skin:Image = new Image(locked?appModel.theme.buttonDisabledSkinTexture:appModel.theme.buttonUpSkinTexture);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
-			simpleLayoutButton.backgroundSkin = skin;
+			simpleLayoutButton.skin = new ImageSkin(locked?appModel.theme.buttonDisabledSkinTexture:appModel.theme.buttonUpSkinTexture);
+			simpleLayoutButton.skin.setTextureForState(ButtonState.UP, appModel.theme.buttonUpSkinTexture);
+			simpleLayoutButton.skin.setTextureForState(ButtonState.DOWN, appModel.theme.buttonDownSkinTexture);
+			simpleLayoutButton.skin.setTextureForState(ButtonState.DISABLED, appModel.theme.buttonDisabledSkinTexture);
+			simpleLayoutButton.skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
+			simpleLayoutButton.backgroundSkin = simpleLayoutButton.skin;
 			
 			if( !locked )
 			{

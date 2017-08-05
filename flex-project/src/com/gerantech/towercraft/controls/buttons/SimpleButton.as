@@ -113,11 +113,14 @@ package com.gerantech.towercraft.controls.buttons
 				
 				touch.getLocation(this.stage, HELPER_POINT);
 				var isInBounds:Boolean = this.contains(this.stage.hitTest(HELPER_POINT));
-				if(touch.phase == TouchPhase.MOVED)
+				if(touch.phase == TouchPhase.BEGAN)
 				{
 					if(isInBounds || this.keepDownStateOnRollOut)
 						this.currentState = ButtonState.DOWN;
-					else
+				}
+				else if(touch.phase == TouchPhase.MOVED)
+				{
+					if( this.currentState == ButtonState.DOWN && !isInBounds )
 						this.currentState = ButtonState.UP;
 				}
 				else if(touch.phase == TouchPhase.ENDED)
@@ -129,6 +132,7 @@ package com.gerantech.towercraft.controls.buttons
 					{
 						this.trigger();
 					}
+					this.currentState = ButtonState.UP;
 				}
 				return;
 			}
