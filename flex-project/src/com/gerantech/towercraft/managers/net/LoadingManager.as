@@ -104,7 +104,7 @@ package com.gerantech.towercraft.managers.net
 		
 		public function loadCore():void
 		{
-			var coreLoader:CoreLoader = new CoreLoader(serverData.getText("coreVersion"), serverData);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			var coreLoader:CoreLoader = new CoreLoader(serverData.getText("coreVersion"), serverData);
 			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			state = STATE_CORE_LOADING;			

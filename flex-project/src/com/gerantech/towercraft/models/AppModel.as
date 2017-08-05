@@ -31,7 +31,7 @@ package com.gerantech.towercraft.models
 		public var game:Game;
 		public var descriptor:Descriptor;
 		public var scale:Number;
-		public var offsetY:Number;
+	//	public var offsetY:Number;
 		public var align:String = "right";
 		public var direction:String = "rtl";
 		public var isLTR:Boolean = false;

@@ -23,8 +23,10 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
 	
 	[Event(name="complete", type="flash.events.Event")]
@@ -45,13 +47,22 @@ package com.gerantech.towercraft.managers.net
 			
 			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
 			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			ls.addEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
 		}
-
 		
-		private function loaderInfo_completeHandler(e:Event):void
+		protected function loaderInfo_ioErrorHandler(event:IOErrorEvent):void
 		{
-			var loader:LoadAndSaver = e.currentTarget as LoadAndSaver;
+			var loader:LoadAndSaver = event.currentTarget as LoadAndSaver;
 			loader.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
+			dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
+		}
+		
+		private function loaderInfo_completeHandler(event:Event):void
+		{
+			var loader:LoadAndSaver = event.currentTarget as LoadAndSaver;
+			loader.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
 			var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
 			var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 			

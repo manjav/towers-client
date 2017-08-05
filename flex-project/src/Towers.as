@@ -11,7 +11,6 @@ package
 	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
-	import flash.text.ReturnKeyLabel;
 	import flash.utils.getTimer;
 	
 	import feathers.utils.ScreenDensityScaleFactorManager;
@@ -94,7 +93,6 @@ package
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
-			AppModel.instance.offsetY = (1920*AppModel.instance.scale)-this.starling.stage.stageHeight;//trace(AppModel.instance.scale, AppModel.instance.offsetY)
 		}
 		private function starling_rootCreatedHandler(event:Object):void
 		{
