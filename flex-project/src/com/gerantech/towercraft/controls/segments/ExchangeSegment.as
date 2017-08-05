@@ -63,6 +63,7 @@ package com.gerantech.towercraft.controls.segments
 			listLayout.paddingTop = 148 * appModel.scale;
 			listLayout.useVirtualLayout = true;
 			
+			updateData();
 			itemslist = new List();
 			itemslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			itemslist.layout = listLayout;

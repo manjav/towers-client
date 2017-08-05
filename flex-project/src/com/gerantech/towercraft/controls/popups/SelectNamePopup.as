@@ -12,7 +12,6 @@ package com.gerantech.towercraft.controls.popups
 	import flash.text.SoftKeyboardType;
 	
 	import feathers.events.FeathersEventType;
-	import feathers.layout.AnchorLayoutData;
 	
 	import starling.events.Event;
 
@@ -42,7 +41,7 @@ package com.gerantech.towercraft.controls.popups
 			errorDisplay = new RTLLabel("", 0xFF0000);
 			container.addChild(errorDisplay);
 			
-			
+			acceptButton.visible = false;
 			declineButton.removeFromParent();
 			rejustLayoutByTransitionData();
 		}

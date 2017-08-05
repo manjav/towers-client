@@ -52,6 +52,7 @@ package com.gerantech.towercraft.controls.segments
 			listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
 			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.6;
 			
+			updateData();
 			buildingslist = new FastList();
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			buildingslist.layout = listLayout;
@@ -60,7 +61,6 @@ package com.gerantech.towercraft.controls.segments
 			buildingslist.dataProvider = buildingsListCollection;
 			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(buildingslist);
-
 			showTutorial();
 			initializeCompleted = true;
 		}

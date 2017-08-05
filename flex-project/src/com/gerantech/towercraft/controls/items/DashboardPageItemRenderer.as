@@ -77,7 +77,7 @@ import starling.events.Event;
 		private function owner_scrollStartHandler(event:Event):void
 		{
 			visible = true;
-			if( segment != null && isSelected )
+			if( isSelected && segment != null && segment.initializeCompleted )
 				segment.updateData();
 		}
 		
