@@ -91,16 +91,20 @@ package com.gerantech.towercraft.controls.popups
 			messageDisplay.layoutData = new VerticalLayoutData(100, 100);
 			
 			upgradeButton = new ExchangeButton();
-			upgradeButton.height = 120*appModel.scale;
+			upgradeButton.height = 110*appModel.scale;
 			upgradeButton.alpha = 0;
 			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 			addChild(upgradeButton);
+
+			var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
+			upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, 0);
+			addChild(upgradeLabel);
 			
 			closeButton = new ExchangeButton();
 			closeButton.label = "X";
 			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
-			closeButton.width = 84 * appModel.scale;
+			closeButton.width = closeButton.height = 96 * appModel.scale;
 			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 			addChild(closeButton);
 		}
