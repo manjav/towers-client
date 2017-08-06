@@ -5,6 +5,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 	import com.gerantech.towercraft.controls.popups.BasePopup;
 	import com.gerantech.towercraft.controls.popups.BugReportPopup;
+	import com.gerantech.towercraft.controls.popups.RestorePopup;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
@@ -14,6 +15,7 @@ package com.gerantech.towercraft.controls
 	
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.StackScreenNavigator;
+	import feathers.events.FeathersEventType;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
@@ -116,8 +118,10 @@ package com.gerantech.towercraft.controls
 			if( !AppModel.instance.game.player.inTutorial() )
 			{
 				var bugReportButton:SimpleButton = new SimpleButton();
+				bugReportButton.isLongPressEnabled = true;
 				bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
 				bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
+				bugReportButton.addEventListener(FeathersEventType.LONG_PRESS, bugReportButton_longPressHandler);
 				bugReportButton.x = 12 * AppModel.instance.scale;
 				bugReportButton.y = stage.stageHeight - 300 * AppModel.instance.scale;
 				bugReportButton.width = 120*AppModel.instance.scale;
@@ -131,6 +135,10 @@ package com.gerantech.towercraft.controls
 						var reportPopup:BugReportPopup = new BugReportPopup();
 						addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
 					}
+				}
+				function bugReportButton_longPressHandler(event:Event):void {
+					var restorePopup:RestorePopup = new RestorePopup();
+					addPopup(restorePopup);
 				}
 				addEventListener(Event.CHANGE, changeHandler);
 				function changeHandler(event:Event):void {
