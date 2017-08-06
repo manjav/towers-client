@@ -11,6 +11,8 @@ package com.gerantech.towercraft.controls.buttons
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
 	
+	import starling.textures.Texture;
+	
 	public class ExchangeButton extends SimpleLayoutButton
 	{
 		private var labelDisplay:RTLLabel;
@@ -28,17 +30,24 @@ package com.gerantech.towercraft.controls.buttons
 
 		private var labelLayoutData:AnchorLayoutData;
 		private var shadowLayoutData:AnchorLayoutData;
+		private var _icon:Texture;
 
-		override protected function initialize():void
+		public function ExchangeButton()
 		{
-			super.initialize();
 			if( width == 0 )
 				width = 240 * appModel.scale;
 			minWidth = 72 * appModel.scale;
 			minHeight = 72 * appModel.scale;
-			maxHeight = 96 * appModel.scale;
+			maxHeight = 128 * appModel.scale;
 			padding = 8 * appModel.scale;
-			
+			layout = new AnchorLayout();
+			shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.8);
+			labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.3);
+		}
+		
+		override protected function initialize():void
+		{
+			super.initialize();
 			skin = new ImageSkin(appModel.theme.buttonUpSkinTexture);
 			skin.setTextureForState(ButtonState.UP, appModel.theme.buttonUpSkinTexture);
 			skin.setTextureForState(ButtonState.DOWN, appModel.theme.buttonDownSkinTexture);
@@ -46,26 +55,23 @@ package com.gerantech.towercraft.controls.buttons
 			skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
 			backgroundSkin = skin;
 			
-			layout = new AnchorLayout();
-			
-			shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.60);
 			shadowDisplay = new RTLLabel(_label, 0x002200, "center");
 			shadowDisplay.touchable = false;
 			shadowDisplay.layoutData = shadowLayoutData;
 			addChild(shadowDisplay);
 		
-			labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 			labelDisplay = new RTLLabel(_label, 0XEEFFEE, "center");
 			labelDisplay.touchable = false;
 			labelDisplay.layoutData = labelLayoutData;
 			addChild(labelDisplay);
 			
 			iconDisplay = new ImageLoader();
-			labelDisplay.touchable = false;
-			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*2, NaN);
+			iconDisplay.touchable = false;
+			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, NaN, NaN, -padding*0.3);
+			iconDisplay.source = _icon;
+			addChild(iconDisplay);
 		}
-		
-		
+			
 		public function set count(value:int):void
 		{
 			if(_count == value)
@@ -89,12 +95,9 @@ package com.gerantech.towercraft.controls.buttons
 			hasIcon = _type > 0 && _type!= ResourceType.CURRENCY_REAL;
 			if( hasIcon )
 			{
-				iconDisplay.source = Assets.getTexture("res-"+_type, "gui");
-				addChild(iconDisplay);
-			}
-			else
-			{
-				iconDisplay.removeFromParent();
+				_icon = Assets.getTexture("res-"+_type, "gui");
+				if ( iconDisplay )
+					iconDisplay.source = _icon;
 			}
 			labelLayoutData.right = (hasIcon?10:1)*padding;
 			shadowLayoutData.right = (hasIcon?10:1)*padding;
@@ -121,7 +124,7 @@ package com.gerantech.towercraft.controls.buttons
 				return;
 			
 			super.currentState = value;
-			shadowLayoutData.verticalCenter = -padding*(value==ButtonState.DOWN?0.2:0.6)
+			shadowLayoutData.verticalCenter = -padding*(value==ButtonState.DOWN?0.5:0.8)
 		}
 	}
 }

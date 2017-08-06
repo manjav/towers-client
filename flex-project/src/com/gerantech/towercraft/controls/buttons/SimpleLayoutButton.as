@@ -45,15 +45,17 @@ package com.gerantech.towercraft.controls.buttons
 			this.addEventListener(Event.REMOVED_FROM_STAGE, button_removedFromStageHandler);
 		}
 		
-		protected function set isEnabled(value:Boolean):void
+		override protected function initialize():void
+		{
+			super.initialize();
+			currentState = isEnabled ? ButtonState.UP : ButtonState.DISABLED;
+		}
+		
+		
+		override public function set isEnabled(value:Boolean):void
 		{
 			super.isEnabled = value;
 			currentState = value ? ButtonState.UP : ButtonState.DISABLED;
-		}
-		
-		protected function get isEnabled():Boolean
-		{
-			return super.isEnabled;
 		}
 		
 		public function get currentState():String

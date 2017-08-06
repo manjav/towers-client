@@ -60,10 +60,7 @@ package com.gerantech.towercraft.controls.screens
 			list.layout = listLayout;
 			list.layoutData = new AnchorLayoutData(0,0,headerSize,0);
 			list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
-			list.itemRendererFactory = function():IListItemRenderer
-			{
-				return new QuestItemRenderer();
-			}
+			list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 			list.dataProvider = getQuestsData();
 			list.addEventListener(Event.CHANGE, list_changeHandler);
 			setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);
