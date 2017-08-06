@@ -156,7 +156,7 @@ public class MainSegment extends Segment
 		
 		floating = new MapElementFloating(mapElement, locked);
 		floating.width = floatingWidth*appModel.scale;
-		floating.height = 140*appModel.scale;
+		floating.height = 128*appModel.scale;
 		floating.transitionIn = ti;
 		floating.transitionOut = to;
 		floating.addEventListener(Event.SELECT, floating_selectHandler);

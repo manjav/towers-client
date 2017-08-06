@@ -1,18 +1,14 @@
 package com.gerantech.towercraft.controls.floatings
 {
-	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.skins.ImageSkin;
 	
 	import starling.display.DisplayObject;
-	import starling.display.Image;
 	import starling.events.Event;
 
 	public class MapElementFloating extends BaseFloating
@@ -33,33 +29,15 @@ package com.gerantech.towercraft.controls.floatings
 			overlay.visible = false;
 			layout = new AnchorLayout();
 			
-			var simpleLayoutButton:SimpleLayoutButton = new SimpleLayoutButton();
-			simpleLayoutButton.isEnabled = !locked;
+			var simpleLayoutButton:ExchangeButton = new ExchangeButton();
 			simpleLayoutButton.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			simpleLayoutButton.label = loc("map-"+element.name);
 			simpleLayoutButton.addEventListener(Event.TRIGGERED, buttonTrigeredHandler);
+			simpleLayoutButton.initializeNow()
+			simpleLayoutButton.skin.defaultTexture = locked?appModel.theme.buttonDisabledSkinTexture:appModel.theme.buttonUpSkinTexture;
+			simpleLayoutButton.skin.setTextureForState(ButtonState.UP, locked?appModel.theme.buttonDisabledSkinTexture:appModel.theme.buttonUpSkinTexture);
+			simpleLayoutButton.skin.setTextureForState(ButtonState.DOWN, locked?appModel.theme.buttonDisabledSkinTexture:appModel.theme.buttonDownSkinTexture);
 			addChild(simpleLayoutButton);
-			
-			simpleLayoutButton.skin = new ImageSkin(locked?appModel.theme.buttonDisabledSkinTexture:appModel.theme.buttonUpSkinTexture);
-			simpleLayoutButton.skin.setTextureForState(ButtonState.UP, appModel.theme.buttonUpSkinTexture);
-			simpleLayoutButton.skin.setTextureForState(ButtonState.DOWN, appModel.theme.buttonDownSkinTexture);
-			simpleLayoutButton.skin.setTextureForState(ButtonState.DISABLED, appModel.theme.buttonDisabledSkinTexture);
-			simpleLayoutButton.skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
-			simpleLayoutButton.backgroundSkin = simpleLayoutButton.skin;
-			
-			if( !locked )
-			{
-				var shadow:RTLLabel = new RTLLabel(loc("map-"+element.name), 0x002200, "center", null, false, null, 0, null, "bold");
-				shadow.touchable = false
-				shadow.pixelSnapping = false;
-				shadow.layoutData = new AnchorLayoutData(NaN, locked?height*0.5:0, NaN, 0, NaN, -4*appModel.scale);
-				addChild(shadow);
-			}
-			
-			var txt:RTLLabel = new RTLLabel(loc("map-"+element.name), locked?0x111111:0XEEFFEE, "center", null, false, null, 0, null, "bold");
-			txt.touchable = false
-			txt.pixelSnapping = false;
-			txt.layoutData = new AnchorLayoutData(NaN, locked?height*0.5:0, NaN, 0, NaN, 0);
-			addChild(txt);
 			
 			if( locked )
 			{
