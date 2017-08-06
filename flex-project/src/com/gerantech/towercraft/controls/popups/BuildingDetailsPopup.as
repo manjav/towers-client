@@ -32,24 +32,13 @@ package com.gerantech.towercraft.controls.popups
 		public var buildingType:int;
 		
 		private var building:Building;
-		private var upgradeButton:ExchangeButton;
-		private var featureList:List;
-		private var header:LayoutGroup;
 		private var padding:int;
 
-		private var closeButton:ExchangeButton;
-
-		private var textsContainer:LayoutGroup;
-
-		private var titleDisplay:RTLLabel;
-
-		private var messageDisplay:RTLLabel;
 
 		override protected function initialize():void
 		{
 			closable = false;
 			super.initialize();
-			layout = new AnchorLayout();
 			
 			building = player.buildings.get(buildingType);
 			
@@ -60,83 +49,70 @@ package com.gerantech.towercraft.controls.popups
 			padding = 36 * appModel.scale;
 			layout = new AnchorLayout();
 			
-			var hLayout:HorizontalLayout = new HorizontalLayout();
-			hLayout.verticalAlign = VerticalAlign.JUSTIFY;
-			hLayout.gap = padding;
-			
-			header = new LayoutGroup();
-			header.layout = hLayout;
-			header.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
-			header.height = transitionIn.destinationBound.height*0.3;
-			addChild(header);
-			
 			var buildingIcon:BuildingCard = new BuildingCard();
-			buildingIcon.layoutData = new HorizontalLayoutData(40, 100);
+			buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+			buildingIcon.width = padding * 7;
+			buildingIcon.height = padding * 10;
 			buildingIcon.type = buildingType;
-			
-			var textLayout:VerticalLayout = new VerticalLayout();
-			textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-			textLayout.gap = padding;
-			
-			textsContainer = new LayoutGroup();
-			textsContainer.layoutData = new HorizontalLayoutData (100, 100);
-			textsContainer.layout = textLayout;
-			
-			header.addChild(appModel.isLTR ? buildingIcon : textsContainer);
-			header.addChild(appModel.isLTR ? textsContainer : buildingIcon);
-			
-			titleDisplay = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
-			
-			messageDisplay = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
-			messageDisplay.layoutData = new VerticalLayoutData(100, 100);
-			
-			upgradeButton = new ExchangeButton();
-			upgradeButton.height = 110*appModel.scale;
-			upgradeButton.alpha = 0;
-			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
-			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
-			addChild(upgradeButton);
-
-			var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
-			upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, 0);
-			addChild(upgradeLabel);
-			
-			closeButton = new ExchangeButton();
-			closeButton.label = "X";
-			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
-			closeButton.width = closeButton.height = 96 * appModel.scale;
-			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-			addChild(closeButton);
+			addChild(buildingIcon);
 		}
 		
 		override protected function transitionInCompleted():void
 		{
 			super.transitionInCompleted();
 			
-			textsContainer.addChild(titleDisplay);
-			textsContainer.addChild(messageDisplay);
+			var textLayout:VerticalLayout = new VerticalLayout();
+			textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+			textLayout.gap = padding;
 			
-			featureList = new List();
-			//featureList.layout = listLayout;
-			featureList.layoutData = new AnchorLayoutData(header.height + padding*2, padding*2, NaN, padding*2);
-			//featureList.height = (listLayout.typicalItemHeight+padding) * 4
+			var textsContainer:LayoutGroup = new LayoutGroup();
+			textsContainer.layout = textLayout;
+			addChild(textsContainer);
+			
+			var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
+			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*9, NaN, appModel.isLTR?padding*9:padding);
+			addChild(titleDisplay);
+			
+			var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
+			messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?padding:padding*9, NaN, appModel.isLTR?padding*9:padding);
+			addChild(messageDisplay);
+			
+			var featureList:List = new List();
+			featureList.layoutData = new AnchorLayoutData(padding*12, padding*2, NaN, padding*2);
 			featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 			featureList.itemRendererFactory = function ():IListItemRenderer { return new FeatureItemRenderer(building); }
 			featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
 			addChild(featureList);
 			
-			upgradeButton.type = ResourceType.CURRENCY_SOFT;
+			var upgradeButton:ExchangeButton = new ExchangeButton();
 			upgradeButton.count = building.get_upgradeCost();
-			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});
-
+			upgradeButton.type = ResourceType.CURRENCY_SOFT;
+			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
+			upgradeButton.height = 110*appModel.scale;
+			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+			addChild(upgradeButton);
+			
+			/*upgradeButton.alpha = 0;
+			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});*/
+			
+			var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
+			upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, 0);
+			upgradeLabel.alpha = 0;
+			Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
+			addChild(upgradeLabel);
+			
+			var closeButton:ExchangeButton = new ExchangeButton();
+			closeButton.label = "X";
+			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
+			closeButton.width = closeButton.height = 96 * appModel.scale;
+			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+			addChild(closeButton);		
 		}
 		
 		override protected function transitionOutStarted():void
 		{
-			removeChild(header);
-			removeChild(featureList);
+			removeChildren();
 			super.transitionOutStarted();
-			Starling.juggler.tween(upgradeButton , 0.05, {alpha:0});
 		}
 		
 		private function closeButton_triggeredHandler():void
