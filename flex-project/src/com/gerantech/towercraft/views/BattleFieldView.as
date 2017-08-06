@@ -35,7 +35,7 @@ package com.gerantech.towercraft.views
 			super.initialize();
 			layout = new AnchorLayout();
 			backgroundSkin = new Quad(1,1,0xb7bb3c);
-			y = (1920*appModel.scale-stage.stageHeight)/2;
+			y = (stage.stageHeight-1920*appModel.scale)/2;
 
 			troopsContainer = new Sprite();
 			buildingsContainer = new Sprite();
