@@ -70,7 +70,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			chestArmature = OpenChestOverlay.factory. buildArmatureDisplay(OpenChestOverlay.dragonBonesData.armatureNames[(exchange.type%10)-1]);
 			chestArmature.x = -540*appModel.scale/2+width/2-padding;
-			chestArmature.y = -960*appModel.scale/2+height*0.3;
+			chestArmature.y = -940*appModel.scale/2+height*0.3;
 			chestArmature.scale = appModel.scale/2;
 			chestArmature.addEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 			chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
