@@ -12,8 +12,6 @@ package com.gerantech.towercraft.controls.popups
 	import flash.text.ReturnKeyLabel;
 	import flash.text.SoftKeyboardType;
 	
-	import feathers.controls.ImageLoader;
-	
 	import starling.events.Event;
 
 	public class BugReportPopup extends ConfirmPopup
@@ -45,10 +43,7 @@ package com.gerantech.towercraft.controls.popups
 			errorDisplay = new RTLLabel("", 0xFF0000, null, null, true, null, 0.8);
 			container.addChild(errorDisplay);
 			
-			var iconDisplay:ImageLoader = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("bug-icon", "gui");
-			iconDisplay.height = 72*appModel.scale;
-			acceptButton.defaultIcon = iconDisplay;
+			acceptButton.icon = Assets.getTexture("bug-icon", "gui");;
 			
 			rejustLayoutByTransitionData();
 		}

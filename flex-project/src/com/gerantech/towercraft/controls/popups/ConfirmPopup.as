@@ -1,12 +1,12 @@
 package com.gerantech.towercraft.controls.popups
 {
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -25,8 +25,8 @@ package com.gerantech.towercraft.controls.popups
 		protected var acceptLabel:String;
 		protected var declineLabel:String;
 		protected var messageDisplay:RTLLabel;
-		protected var declineButton:Button;
-		protected var acceptButton:Button;
+		protected var declineButton:CustomButton;
+		protected var acceptButton:CustomButton;
 
 		protected var padding:int;
 		protected var container:LayoutGroup;
@@ -87,12 +87,12 @@ package com.gerantech.towercraft.controls.popups
 			buttonContainer.layout = buttonLayout;
 			addChild(buttonContainer);
 			
-			declineButton = new Button();
+			declineButton = new CustomButton();
 			declineButton.label = declineLabel;
 			declineButton.addEventListener(Event.TRIGGERED, decline_triggeredHandler);
 			buttonContainer.addChild(declineButton);
 			
-			acceptButton = new Button();
+			acceptButton = new CustomButton();
 			acceptButton.label = acceptLabel;
 			acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
 			buttonContainer.addChild(acceptButton);

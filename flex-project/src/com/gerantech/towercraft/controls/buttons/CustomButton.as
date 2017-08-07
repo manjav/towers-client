@@ -61,7 +61,8 @@ package com.gerantech.towercraft.controls.buttons
 			
 			iconDisplay = new ImageLoader();
 			iconDisplay.touchable = false;
-			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, NaN, NaN, -padding*0.3);
+			iconDisplay.height = height*0.7;
+			iconDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, -padding*0.4);
 			iconDisplay.source = _icon;
 			addChild(iconDisplay);
 		}
