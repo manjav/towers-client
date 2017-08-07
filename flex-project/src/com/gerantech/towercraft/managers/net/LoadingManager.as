@@ -125,8 +125,8 @@ package com.gerantech.towercraft.managers.net
 			inBattle = serverData.getBool("inBattle");
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
-			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			state = STATE_LOADED;
+			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 		}
 
 	}
