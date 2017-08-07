@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.floatings
 {
-	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import feathers.controls.ButtonState;
@@ -29,7 +29,7 @@ package com.gerantech.towercraft.controls.floatings
 			overlay.visible = false;
 			layout = new AnchorLayout();
 			
-			var simpleLayoutButton:ExchangeButton = new ExchangeButton();
+			var simpleLayoutButton:CustomButton = new CustomButton();
 			simpleLayoutButton.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			simpleLayoutButton.label = loc("map-"+element.name);
 			simpleLayoutButton.addEventListener(Event.TRIGGERED, buttonTrigeredHandler);

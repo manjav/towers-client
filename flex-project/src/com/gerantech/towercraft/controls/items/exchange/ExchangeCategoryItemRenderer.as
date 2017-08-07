@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var listLayout:TiledColumnsLayout;
 		private var headerDisplay:ExchangeHeader;
 		private var descriptionDisplay:RTLLabel;
-		private var categoryCollection:ListCollection;
+		private var categoryCollection:ListCollection = new ListCollection();
 		
 		public function ExchangeCategoryItemRenderer()
 		{
@@ -42,7 +42,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			alpha = 0;
+			//alpha = 0;
 			
 			headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
 			headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
@@ -76,11 +76,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			line = _data as ShopLine;
 			
 			headerDisplay.label = loc("exchange_title_" + line.category);
-			setTimeout(createCategory, 100*index);
-		}
-		
-		private function createCategory():void
-		{
+
 			var CELL_SIZE:int = 480 * appModel.scale;
 			descriptionDisplay.visible = false;
 			switch( line.category )
@@ -109,20 +105,10 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height + ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
 			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap*2;
-			updateCategoryCollection()
-			Starling.juggler.tween(this, 0.3, {alpha:1});
+			categoryCollection.data = line.items;
+		//	Starling.juggler.tween(this, 0.3, {alpha:1});
 		}
 		
-		private function updateCategoryCollection():void
-		{
-			if(categoryCollection == null)
-			{
-				categoryCollection = new ListCollection();
-				list.dataProvider = categoryCollection;
-			}
-			
-			categoryCollection.data = line.items;
-		}
 		
 		private function list_endSpecialExchangeHandler(event:Event):void
 		{

@@ -8,17 +8,13 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.buildings.Building;
-	import com.gt.towers.utils.maps.IntIntMap;
-	import com.hurlant.crypto.symmetric.ECBMode;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
-	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
@@ -77,7 +73,6 @@ package com.gerantech.towercraft.controls.items.exchange
 			iconAnimation = new BuildingCard();
 			iconAnimation.showLevel = false;
 			iconAnimation.showSlider = false;
-
 			
 			buttonDisplay = new ExchangeButton();
 			buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);

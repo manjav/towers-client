@@ -2,11 +2,9 @@ package com.gerantech.towercraft.controls.headers
 {
 	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.models.AppModel;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.LayoutGroup;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
@@ -18,6 +16,7 @@ package com.gerantech.towercraft.controls.headers
 		private var fontSize:int;
 		private var skin:Image;
 		private var labelDisplay:RTLLabel;
+		private var _label:String;
 		
 		public function ExchangeHeader(texture:String, scale9Grid:Rectangle, fontSize:int)
 		{
@@ -32,14 +31,19 @@ package com.gerantech.towercraft.controls.headers
 
 			backgroundSkin = skin;
 			
-			labelDisplay = new RTLLabel("", 1, null, null, false, null, fontSize, null, "bold");
+			labelDisplay = new RTLLabel(_label, 1, null, null, false, null, fontSize, null, "bold");
 			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10*appModel.scale);
 			addChild(labelDisplay);
 		}
 		
 		public function set label(value:String):void
 		{
-			labelDisplay.text = value;
+			if(_label == value)
+				return;
+			
+			_label = value;
+			if(labelDisplay)
+				labelDisplay.text = _label;
 		}
 	}
 }

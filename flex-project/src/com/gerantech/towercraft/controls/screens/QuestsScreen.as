@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.FastList;
-	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.headers.ScreenHeader;
 	import com.gerantech.towercraft.controls.items.QuestItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
@@ -78,7 +78,7 @@ package com.gerantech.towercraft.controls.screens
 			footer.layoutData = new AnchorLayoutData(NaN,0,0,0);
 			addChild(footer);
 			
-			var closeButton:ExchangeButton = new ExchangeButton();
+			var closeButton:CustomButton = new CustomButton();
 			closeButton.height = 110 * appModel.scale;
 			closeButton.layoutData = new AnchorLayoutData(NaN, NaN, 18*appModel.scale, NaN, 0);
 			closeButton.addEventListener(Event.TRIGGERED, backButtonHandler);

@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
@@ -24,23 +24,28 @@ package com.gerantech.towercraft.controls.items.exchange
 	
 	public class ChestExchangeItemRenderer extends BaseExchangeItemRenderer
 	{
-		//private var iconDisplay:ImageLoader;
 		private var labelDisplay:RTLLabel;
 		private var timeDisplay:BitmapFontTextRenderer;
 		private var header:ExchangeHeader;
-		private var inWiating:Boolean;
 
 		private var buttonDisplay:ExchangeButton;
 		private var chestArmature:StarlingArmatureDisplay;
 		private var armatorTimeoutId:int = -1;
+		private var state:int = -1;
 		
-		override protected function initialize():void
+		override protected function commitData():void
 		{
-			super.initialize();
-
-			OpenChestOverlay.createFactory();
-
+			if( index < 0 )
+				return;
+			super.commitData();
+			if(firstCommit)
+			{
+				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
+				firstCommit = false;
+			}
+			
 			header = new ExchangeHeader("chest-banner", new Rectangle(78, 0, 4, 74), 40*appModel.scale); 
+			header.label = loc("exchange_title_"+exchange.type);
 			header.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 			header.height = 110*appModel.scale;
 			addChild(header);
@@ -54,69 +59,77 @@ package com.gerantech.towercraft.controls.items.exchange
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 			buttonDisplay.height = 96*appModel.scale;
 			addChild(buttonDisplay);
-		}
-
-		override protected function commitData():void
-		{
-			if(firstCommit )
-			{
-				inWiating = game.exchanger.items.get(_data as int).expiredAt > timeManager.now;
-				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-			}
-			super.commitData();
 			
-			clearTimeout(armatorTimeoutId);
-			armatorTimeoutId = -1;
-
-			if( chestArmature != null )
-				chestArmature.removeFromParent();
+			updateElements(exchange.expiredAt > timeManager.now ? 1 : 0);
+			setTimeout(AddArmature, 600+index*300);
+		}
+		
+		private function AddArmature():void
+		{
+			OpenChestOverlay.createFactory();
+			
 			chestArmature = OpenChestOverlay.factory. buildArmatureDisplay(OpenChestOverlay.dragonBonesData.armatureNames[(exchange.type%10)-1]);
 			chestArmature.x = -540*appModel.scale/2+width/2-padding;
 			chestArmature.y = -960*appModel.scale/2+height*0.3;
 			chestArmature.scale = appModel.scale/2;
-			chestArmature.animation.gotoAndStopByFrame("wait", 0);
-			addChildAt(chestArmature, 1);
-			header.label = loc("exchange_title_"+exchange.type);
+			chestArmature.addEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
+			chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
+			addChildAt(chestArmature, 1);		
 		}
+		private function chestArmature_completeHandler(event:StarlingEvent):void
+		{
+			chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
+			if( event.eventObject.animationState.name == "fall")
+				updateArmature(state, true);
+		}
+		
 		private function timeManager_changeHandler():void
 		{
-			inWiating = exchange.expiredAt > timeManager.now;
-			updateElements();
+			updateElements(exchange.expiredAt > timeManager.now ? 1 : 0);
 		}
-		private function updateElements():void
+		private function updateElements(state:int):void
 		{
-			timeDisplay.visible = inWiating;
-			if( inWiating )
+			if(	this.state == state)
+				return;
+			
+			this.state = state;
+			timeDisplay.visible = state==1;
+			if( state==1 )
 			{
 				var t:uint = uint(exchange.expiredAt - timeManager.now);
 				timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
 				buttonDisplay.count = exchanger.timeToKey(t);
 				buttonDisplay.type = ResourceType.KEY;
-				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
-				clearTimeout(armatorTimeoutId);
-				armatorTimeoutId = -1;
 			}
-			else
+			else if( state==0)
 			{
 				buttonDisplay.count = -1;
 				buttonDisplay.type = -1;
-				
-				if( armatorTimeoutId == -1 )
-				{
-					chestArmature.addEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
-					armatorTimeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random()*10000, "wait", 0, 1);
-				}
-			}			
+
+			}
+			updateArmature(state);
 		}
-		private function chestArmature_completeHandler(event:StarlingEvent):void
+		
+		private function updateArmature(state:int, force:Boolean=false):void
 		{
-			armatorTimeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random()*3000+10000, "wait", 0, 1);
+			if( !chestArmature)
+				return;
+			
+			if(state==1)
+			{
+				clearTimeout(armatorTimeoutId);
+				armatorTimeoutId = -1;
+			}
+			else if( state==0 && armatorTimeoutId == -1 )
+			{
+				armatorTimeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, force?0:(Math.random()*3000+10000), "wait", 0, 1);
+			}			
 		}
 		
 		override public function dispose():void
 		{
 			timeManager.removeEventListeners(Event.CHANGE);
-			if( chestArmature != null )
+			if( chestArmature )
 				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 			clearTimeout(armatorTimeoutId);
 			armatorTimeoutId = -1;

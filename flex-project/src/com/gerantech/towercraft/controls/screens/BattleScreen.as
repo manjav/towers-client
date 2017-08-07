@@ -380,7 +380,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showImproveFloating(placeView:PlaceView):void
 		{
-			if( appModel.battleFieldView.battleData.battleField.map.isQuest && player.get_questIndex() < 3 )
+			if( appModel.battleFieldView.battleData.battleField.map.isQuest && player.get_questIndex() < 2 )
 				return;
 			// create transition in data
 			var ti:TransitionData = new TransitionData();

@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -109,7 +109,7 @@ package com.gerantech.towercraft.controls.items
 			unlocksDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, cardsLayout.typicalItemHeight+padding*2, appModel.isLTR?padding*2:NaN);
 			addChild(unlocksDisplay);
 			
-			var rankButton:ExchangeButton = new ExchangeButton();
+			var rankButton:CustomButton = new CustomButton();
 			rankButton.label = loc("ranking_label", [""]);
 			rankButton.width = 320 * appModel.scale;
 			rankButton.height = 110 * appModel.scale;

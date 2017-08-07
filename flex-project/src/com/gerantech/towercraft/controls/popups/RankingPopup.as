@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.FastList;
-	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.RankItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.popups
 		public var arenaIndex:int = 0		
 
 		private var titleDisplay:RTLLabel;
-		private var closeButton:ExchangeButton;
+		private var closeButton:CustomButton;
 		
 		private var _listCollection:ListCollection;
 		private var padding:int;
@@ -63,7 +63,7 @@ package com.gerantech.towercraft.controls.popups
 			titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 			titleDisplay.alpha = 0;
 			
-			closeButton = new ExchangeButton();
+			closeButton = new CustomButton();
 			closeButton.alpha = 0;
 			closeButton.height = 110 * appModel.scale;
 			closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);

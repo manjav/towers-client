@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -17,11 +18,7 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
-	import feathers.layout.HorizontalLayout;
-	import feathers.layout.HorizontalLayoutData;
-	import feathers.layout.VerticalAlign;
 	import feathers.layout.VerticalLayout;
-	import feathers.layout.VerticalLayoutData;
 	import feathers.skins.ImageSkin;
 	
 	import starling.core.Starling;
@@ -101,7 +98,7 @@ package com.gerantech.towercraft.controls.popups
 			Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
 			addChild(upgradeLabel);
 			
-			var closeButton:ExchangeButton = new ExchangeButton();
+			var closeButton:CustomButton = new CustomButton();
 			closeButton.label = "X";
 			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
 			closeButton.width = closeButton.height = 96 * appModel.scale;
