@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.Main;
-	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.headers.ScreenHeader;
@@ -28,7 +27,6 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.layout.VerticalLayout;
 	
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.events.Event;
 
 	public class QuestsScreen extends BaseCustomScreen
@@ -108,7 +106,7 @@ package com.gerantech.towercraft.controls.screens
 			var lastQuest:FieldData = game.fieldProvider.fields.get( "quest_" + player.get_questIndex() );
 			
 			trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
-			if(player.get_questIndex() == 4 && player.nickName == "guest")
+			if(player.get_questIndex() == 3 && player.nickName == "guest")
 			{
 				backButtonHandler();
 				return;	
