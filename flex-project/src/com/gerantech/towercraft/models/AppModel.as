@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.models
 {
+	import com.gerantech.towercraft.controls.StackNavigator;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
 	import com.gerantech.towercraft.models.vo.Descriptor;
@@ -10,9 +11,8 @@ package com.gerantech.towercraft.models
 	import flash.desktop.NativeApplication;
 	import flash.system.Capabilities;
 	
-	import feathers.controls.StackScreenNavigator;
-	
 	import starling.utils.AssetManager;
+	import com.gerantech.towercraft.managers.SoundManager;
 
 
 	public class AppModel
@@ -20,7 +20,7 @@ package com.gerantech.towercraft.models
 		private static var _instance:AppModel;
 		
 		public var theme:MetalWorksMobileTheme;
-		public var navigator:StackScreenNavigator;
+		public var navigator:StackNavigator;
 		public var loadingManager:LoadingManager;
 		public var battleFieldView:BattleFieldView;
 		
@@ -33,19 +33,23 @@ package com.gerantech.towercraft.models
 		public var game:Game;
 		public var descriptor:Descriptor;
 		public var scale:Number;
-		public var offsetY:Number;
 		public var align:String = "right";
 		public var direction:String = "rtl";
 		public var isLTR:Boolean = false;
 		public var assetsManager:AssetManager;
 		public var socials:SocialManager;
+		public var assets:AssetManager;
+		public var sounds:SoundManager;
 		
 		
 		public function AppModel()
 		{
 			descriptor = new Descriptor(NativeApplication.nativeApplication.applicationDescriptor);
-			assetsManager = new AssetManager(2);
-			assetsManager.verbose = false;
+			assets = new AssetManager(2);
+			assets.verbose = false;
+			
+			sounds = new SoundManager();
+			
 			switch( Capabilities.os.substr(0, 5) )
 			{
 				case "Mac O": platform = PLATFORM_MAC; break;

@@ -23,9 +23,6 @@ package com.gerantech.towercraft.views.decorators
 		protected var place:Place;
 		
 		private var populationIndicator:BitmapFontTextRenderer;
-/*		private var plotTexture:String;
-		private var plotDisplay:Image;*/
-
 		private var improvablePanel:ImprovablePanel;
 		
 		public function BuildingDecorator(placeView:PlaceView)
@@ -45,14 +42,17 @@ package com.gerantech.towercraft.views.decorators
 				return;
 			
 			var improvable:Boolean = false;
-			var options:IntList = place.building.get_options();
-			for (var i:int=0; i < options.size(); i++) 
+			if( !player.inTutorial() )
 			{
-				//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
-				if(place.building.improvable(options.get(i)) && options.get(i)!=1)
+				var options:IntList = place.building.get_options();
+				for (var i:int=0; i < options.size(); i++) 
 				{
-					improvable = true;
-					break;
+					//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
+					if(place.building.improvable(options.get(i)) && options.get(i)!=1)
+					{
+						improvable = true;
+						break;
+					}
 				}
 			}
 			improvablePanel.enabled = improvable;
@@ -67,8 +67,8 @@ package com.gerantech.towercraft.views.decorators
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 
 			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 32*appModel.scale, 0xFFFFFF, "center")
-			populationIndicator.width = 180*appModel.scale;
+			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center")
+			populationIndicator.width = 220*appModel.scale;
 			populationIndicator.touchable = false;
 			populationIndicator.x = parent.x - populationIndicator.width/2;
 			populationIndicator.y = parent.y + 32*appModel.scale;
@@ -83,21 +83,14 @@ package com.gerantech.towercraft.views.decorators
 		
 		public function updateElements(population:int, troopType:int):void
 		{
-			populationIndicator.text = population+"/"+place.building.get_capacity();
-			
-			/*var txt2:String = "building-plot-" + (place.building.troopType+1);
-			if(place.building.troopType > -1)
-				txt2 = "building-plot-" + (place.building.troopType == Game.get_instance().player.troopType?"1":"2");
-			if(plotTexture != txt2)
-			{			
-				plotTexture = txt2;
-				plotDisplay.texture = Assets.getTexture(plotTexture)	
-			}*/
+			//trace("> " + population+"/"+place.building.get_capacity())
+			try{
+			populationIndicator.text = "> " + population+"/"+place.building.get_capacity();
+			}catch(e:Error){trace(e.message, "> " + population+"/"+place.building.get_capacity())}
 		}
 		
 		override public function dispose():void
 		{
-			//plotDisplay.removeFromParent(true);
 			populationIndicator.removeFromParent(true);
 			placeView.removeEventListener(Event.SELECT, placeView_selectHandler);
 			super.dispose();

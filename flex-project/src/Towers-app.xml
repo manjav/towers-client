@@ -22,7 +22,7 @@
 
 	<!-- The name that is displayed in the AIR application installer. 
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
-	<name>Towers</name>
+	<name>TowerStory</name>
 	
 	<!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade. 
 	Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
@@ -141,37 +141,37 @@
 
 	<!-- The icon the system uses for the application. For at least one resolution,
 	specify the path to a PNG file included in the AIR package. Optional. -->
-	<!-- <icon>
-		<image16x16></image16x16>
-		<image29x29></image29x29>
-		<image32x32></image32x32>
-		<image36x36></image36x36>
-		<image40x40></image40x40>
-		<image44x44></image44x44>
-		<image48x48></image48x48>
-		<image50x50></image50x50>
-		<image57x57></image57x57>
-		<image58x58></image58x58>
-		<image60x60></image60x60>
-		<image66x66></image66x66>
-		<image72x72></image72x72>
-		<image75x75></image75x75>
-		<image76x76></image76x76>
-		<image80x80></image80x80>
-		<image87x87></image87x87>
-		<image96x96></image96x96>
-		<image100x100></image100x100>
-		<image114x114></image114x114>
-		<image120x120></image120x120>
-		<image128x128></image128x128>
-		<image144x144></image144x144>
-		<image152x152></image152x152>
-		<image180x180></image180x180>
-		<image192x192></image192x192>
-		<image512x512></image512x512>
-		<image732x412></image732x412>
-		<image1024x1024></image1024x1024>
-	</icon> -->
+	 <icon>
+<!-- 		<image16x16></image16x16> -->
+<!-- 		<image29x29></image29x29> -->
+<!-- 		<image32x32></image32x32> -->
+		<image36x36>assets/images/icon/ic_36.png</image36x36>
+<!-- 		<image40x40></image40x40> -->
+<!-- 		<image44x44></image44x44> -->
+		<image48x48>assets/images/icon/ic_48.png</image48x48>
+<!-- 		<image50x50></image50x50> -->
+<!-- 		<image57x57></image57x57> -->
+<!-- 		<image58x58></image58x58> -->
+<!-- 		<image60x60></image60x60> -->
+<!-- 		<image66x66></image66x66> -->
+		<image72x72>assets/images/icon/ic_72.png</image72x72>
+<!-- 		<image75x75></image75x75> -->
+<!-- 		<image76x76></image76x76> -->
+<!-- 		<image80x80></image80x80> -->
+<!-- 		<image87x87></image87x87> -->
+		<image96x96>assets/images/icon/ic_96.png</image96x96>
+<!-- 		<image100x100></image100x100> -->
+<!-- 		<image114x114></image114x114> -->
+<!-- 		<image120x120></image120x120> -->
+<!-- 		<image128x128></image128x128> -->
+		<image144x144>assets/images/icon/ic_144.png</image144x144>
+<!-- 		<image152x152></image152x152> -->
+<!-- 		<image180x180></image180x180> -->
+		<image192x192>assets/images/icon/ic_192.png</image192x192>
+<!-- 		<image512x512></image512x512> -->
+<!-- 		<image732x412></image732x412> -->
+<!-- 		<image1024x1024></image1024x1024> -->
+	</icon>
 
 	<!-- Whether the application handles the update when a user double-clicks an update version
 	of the AIR file (true), or the default AIR application installer handles the update (false).
@@ -305,14 +305,16 @@
 				<!-- End: ShortcutBadger -->
 				
 			
-			
-				<!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+			    <!--See the Adobe AIR documentation for more information about setting Google Android permissions-->
+			    <!--Removing the permission android.permission.INTERNET will have the side effect of preventing you from debugging your application on your device-->
+			    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
 			    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
-			    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-			    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 			    <!--<uses-permission android:name="android.permission.CAMERA"/>-->
 			    <!--<uses-permission android:name="android.permission.RECORD_AUDIO"/>-->
 			    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
+
+<!-- 			    <uses-permission android:name="android.permission.WAKE_LOCK"/> -->
+<!-- 			    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/> -->
 			
    			    <uses-permission android:name="android.permission.INTERNET" />
 			    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -321,7 +323,7 @@
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 			    
 			    <!--<uses-permission android:name="com.android.vending.BILLING" />-->
-     			<!--<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> -->
+     			<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
     			<!--<uses-permission android:name="ir.mservices.market.BILLING" />-->
 
 	            <application android:enabled="true" >
@@ -360,8 +362,8 @@
 					</receiver>
 					<!-- OneSignal END -->
 					
+					<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
 	            </application>
-	            
 			</manifest>
 		]]></manifestAdditions>
     </android>
@@ -394,6 +396,7 @@
     </iPhone>
 	
 	<extensions>
+    	<extensionID>com.mesmotronic.ane.fullscreen</extensionID>
         <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
         <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
         <extensionID>com.marpies.ane.onesignal</extensionID>

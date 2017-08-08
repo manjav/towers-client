@@ -12,8 +12,6 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
-	import starling.display.Image;
-	import starling.utils.Padding;
 
 	public class DashboardTabItemRenderer extends BaseCustomItemRenderer
 	{
@@ -33,12 +31,9 @@ package com.gerantech.towercraft.controls.items
 			padding = 36 * appModel.scale;
 			
 			skin = new ImageSkin(appModel.theme.tabUpSkinTexture);
-			//skin.selectedTexture = appModel.theme.tabSelectedUpSkinTexture;
 			skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
-			skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedUpSkinTexture);
+			skin.setTextureForState(STATE_SELECTED, appModel.theme.tabDownSkinTexture);
 			skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
-			//skin.setTextureForState(ButtonState.DISABLED, appModel.theme.tabDisabledSkinTexture);
-			//skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedDisabledSkinTexture);
 			skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 			backgroundSkin = skin;
 			
@@ -49,13 +44,12 @@ package com.gerantech.towercraft.controls.items
 			iconDisplay.layoutData = iconLayoutData;
 			addChild(iconDisplay); 
 			
-			titleDisplay = new RTLLabel("", 1, null, null, false, null, 48*appModel.scale, null, "bold");
+			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 			titleDisplay.visible = false;
 			titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*4)/2, 0);
 			addChild(titleDisplay);
 			
 			badgeDisplay = new ImageLoader();
-			badgeDisplay.source = Assets.getTexture("badge-notification", "skin")
 			badgeDisplay.width = badgeDisplay.height = padding*1.6;
 			badgeDisplay.layoutData = new AnchorLayoutData(padding/2, padding/2);
 			
@@ -72,6 +66,7 @@ package com.gerantech.towercraft.controls.items
 			}
 			super.commitData();
 			dashboardData = _data as DashboardItemData;
+			iconDisplay.alpha = player.inTutorial()&& index!=1 ? 0.5 : 1;
 			iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 			titleDisplay.text = loc("tab-"+dashboardData.index) ;
 			updateBadge();
@@ -79,13 +74,14 @@ package com.gerantech.towercraft.controls.items
 		
 		private function updateBadge():void
 		{
-			if( dashboardData.badgeNumber <= 0 )
+			if( dashboardData.badgeNumber+dashboardData.newBadgeNumber <= 0 )
 			{
 				if(badgeDisplay.parent == this)
 					removeChild(badgeDisplay);
 			}
 			else
 			{
+				badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "badge-notification-new" : "badge-notification", "skin")
 				addChild(badgeDisplay);
 			}
 		}
@@ -101,7 +97,7 @@ package com.gerantech.towercraft.controls.items
 			iconLayoutData.left = value ? padding : NaN;
 			if(dashboardData != null)
 			{
-				dashboardData.badgeNumber = 0;
+				dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
 				updateBadge();
 			}
 		}

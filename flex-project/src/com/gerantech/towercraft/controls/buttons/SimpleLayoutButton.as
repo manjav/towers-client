@@ -35,7 +35,7 @@ package com.gerantech.towercraft.controls.buttons
 		public var keepDownStateOnRollOut:Boolean = false;
 		private var _currentState:String = ButtonState.UP;
 
-		protected var skin:ImageSkin;
+		public var skin:ImageSkin;
 
 		public function SimpleLayoutButton()
 		{
@@ -45,15 +45,17 @@ package com.gerantech.towercraft.controls.buttons
 			this.addEventListener(Event.REMOVED_FROM_STAGE, button_removedFromStageHandler);
 		}
 		
-		protected function set isEnabled(value:Boolean):void
+		override protected function initialize():void
+		{
+			super.initialize();
+			currentState = isEnabled ? ButtonState.UP : ButtonState.DISABLED;
+		}
+		
+		
+		override public function set isEnabled(value:Boolean):void
 		{
 			super.isEnabled = value;
 			currentState = value ? ButtonState.UP : ButtonState.DISABLED;
-		}
-		
-		protected function get isEnabled():Boolean
-		{
-			return super.isEnabled;
 		}
 		
 		public function get currentState():String
@@ -67,11 +69,9 @@ package com.gerantech.towercraft.controls.buttons
 			
 			if(this.stateNames.indexOf(value) < 0)
 				throw new ArgumentError("Invalid state: " + value + ".");
-			
-			_currentState = value;
+			this._currentState = value;
 			if(skin)
-				skin.defaultTexture = skin.getTextureForState(_currentState);
-			//trace(name, _currentState)
+				skin.defaultTexture = skin.getTextureForState(this._currentState);
 		}
 
 		/**
@@ -93,7 +93,10 @@ package com.gerantech.towercraft.controls.buttons
 		protected function trigger():void
 		{
 			if(hasEventListener(Event.TRIGGERED))
+			{
 				this.dispatchEventWith(Event.TRIGGERED, false, this);
+				appModel.sounds.addAndPlaySound("button");
+			}
 		}
 		
 				
@@ -127,11 +130,14 @@ package com.gerantech.towercraft.controls.buttons
 				
 				touch.getLocation(this.stage, HELPER_POINT);
 				var isInBounds:Boolean = this.contains(this.stage.hitTest(HELPER_POINT));
-				if(touch.phase == TouchPhase.MOVED)
+				if(touch.phase == TouchPhase.BEGAN)
 				{
 					if(isInBounds || this.keepDownStateOnRollOut)
 						this.currentState = ButtonState.DOWN;
-					else
+				}
+				else if(touch.phase == TouchPhase.MOVED)
+				{
+					if( this.currentState == ButtonState.DOWN && !isInBounds )
 						this.currentState = ButtonState.UP;
 				}
 				else if(touch.phase == TouchPhase.ENDED)
@@ -143,6 +149,7 @@ package com.gerantech.towercraft.controls.buttons
 					{
 						this.trigger();
 					}
+					this.currentState = ButtonState.UP;
 				}
 				return;
 			}

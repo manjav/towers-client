@@ -8,17 +8,15 @@ package com.gerantech.towercraft.controls
 	
 	public class StarCheck extends LayoutGroup
 	{
-
 		private var skin:ImageSkin;
 
 		override protected function initialize():void
 		{
 			super.initialize();
 			
-			skin = new ImageSkin(null);
+			skin = new ImageSkin(Assets.getTexture("star", "gui"));
 			skin.setTextureForState(ButtonState.UP, Assets.getTexture("star", "gui"));
 			skin.setTextureForState(ButtonState.DISABLED, Assets.getTexture("star-off", "gui"));
-
 			backgroundSkin = skin;
 		}
 		
@@ -26,10 +24,7 @@ package com.gerantech.towercraft.controls
 		{
 			super.isEnabled = value;
 			skin.defaultTexture = skin.getTextureForState(value ? ButtonState.UP : ButtonState.DISABLED );
-			
 		}
-		
-		
-		
+
 	}
 }

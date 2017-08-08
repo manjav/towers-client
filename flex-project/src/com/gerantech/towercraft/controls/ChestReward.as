@@ -1,9 +1,13 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.exchanges.ExchangeItem;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.controls.LayoutGroup;
@@ -17,7 +21,6 @@ package com.gerantech.towercraft.controls
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.display.Image;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
 	public class ChestReward extends TowersLayout
 	{
@@ -29,12 +32,12 @@ package com.gerantech.towercraft.controls
 		private var detailsContainer:LayoutGroup;
 		private var countInsideDisplay:BitmapFontTextRenderer;
 		
-		public function ChestReward(index:int, reward:ISFSObject)
+		public function ChestReward(index:int, type:int, count:int)
 		{
 			super();
 			this.index = index;
-			type = reward.getInt("t");
-			count = reward.getInt("c");
+			this.type = type;
+			this.count = count;
 			touchable = touchGroup = false;
 		}
 		
@@ -43,8 +46,8 @@ package com.gerantech.towercraft.controls
 			super.initialize();
 	
 			var padding:int = 16 *appModel.scale;
-			width = 600 * appModel.scale;
-			height = 300 * appModel.scale;
+			width = 800 * appModel.scale;
+			height = 400 * appModel.scale;
 			
 			var iconContainer:LayoutGroup = new LayoutGroup ();
 			iconContainer.x = appModel.isLTR ? -width*0.4-padding : padding;
@@ -62,10 +65,23 @@ package com.gerantech.towercraft.controls
 			iconDisplay.verticalAlign = VerticalAlign.MIDDLE;
 			iconContainer.addChild(iconDisplay);
 			
+			if( ResourceType.isBuilding(type) && !player.buildings.exists(type) )
+			{
+				var newDisplay:ImageLoader = new ImageLoader();
+				newDisplay.source = Assets.getTexture("new-badge", "gui");
+				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
+				newDisplay.width = 200 * appModel.scale;
+				newDisplay.height = 200 * appModel.scale;
+				iconContainer.addChild(newDisplay);
+				appModel.game.loginData.buildingsLevel.set(type, 1);
+				
+				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
+			}
+			
 			countInsideDisplay = new BitmapFontTextRenderer();
 			countInsideDisplay.visible = false;
-			countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60*appModel.scale, 0xFFFFFF, appModel.align);
-			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, padding, appModel.isLTR?padding:NaN);
+			countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96*appModel.scale, 0xFFFFFF, appModel.align);
+			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3, 0, appModel.isLTR?padding*3:NaN);
 			countInsideDisplay.text = "x " + count; 
 			iconContainer.addChild(countInsideDisplay);
 			
@@ -85,7 +101,7 @@ package com.gerantech.towercraft.controls
 			detailsContainer.addChild(titleDisplay);
 			
 			var countDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-			countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 74*appModel.scale, 16777215, appModel.align);
+			countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96*appModel.scale, 16777215, appModel.align);
 			countDisplay.layoutData = new VerticalLayoutData(100);
 			countDisplay.text = "x " + count; 
 			detailsContainer.addChild(countDisplay);

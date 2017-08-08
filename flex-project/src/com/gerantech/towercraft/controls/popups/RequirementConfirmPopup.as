@@ -5,9 +5,7 @@ package com.gerantech.towercraft.controls.popups
 	import com.gt.towers.utils.maps.IntIntMap;
 	
 	import feathers.events.FeathersEventType;
-	import feathers.layout.RelativePosition;
 	
-	import starling.display.Image;
 	import starling.events.Event;
 
 	public class RequirementConfirmPopup extends ConfirmPopup
@@ -27,14 +25,9 @@ package com.gerantech.towercraft.controls.popups
 		override protected function initialize():void
 		{
 			super.initialize();
-			
-			acceptButton.iconPosition = RelativePosition.RIGHT;
-			acceptButton.iconOffsetX = 24*appModel.scale;
+
 			acceptButton.label = String(numHards);
-			
-			var upgradeIcon:Image = new Image(Assets.getTexture("res-"+ResourceType.CURRENCY_HARD, "gui"));
-			upgradeIcon.width = upgradeIcon.height = appModel.theme.controlSize;
-			acceptButton.defaultIcon = upgradeIcon;
+			acceptButton.icon = Assets.getTexture("res-"+ResourceType.CURRENCY_HARD, "gui");
 		}
 		
 		override protected function acceptButton_triggeredHandler(event:Event):void

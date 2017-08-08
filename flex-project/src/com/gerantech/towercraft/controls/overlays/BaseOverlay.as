@@ -86,12 +86,11 @@ package com.gerantech.towercraft.controls.overlays
 		
 		protected function stage_keyUpHandler(event:KeyboardEvent):void
 		{
-			if( !closable || !_isEnabled )
-				return;
-			if(event.keyCode==Keyboard.BACK)
+			if( event.keyCode == Keyboard.BACK )
 			{
 				event.preventDefault();
-				close();
+				if( closable && _isEnabled )
+					close();
 			}
 		}
 		protected function stage_touchHandler(event:TouchEvent):void

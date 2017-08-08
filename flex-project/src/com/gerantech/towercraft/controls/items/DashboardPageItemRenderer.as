@@ -1,19 +1,15 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
-import com.gerantech.towercraft.controls.segments.MainSegment;
-import com.gerantech.towercraft.controls.screens.RankingScreen;
-import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+import com.gerantech.towercraft.controls.segments.MainSegment;
+import com.gerantech.towercraft.controls.segments.Segment;
 import com.gt.towers.constants.PageType;
 
-import feathers.controls.List;
 import feathers.controls.renderers.LayoutGroupListItemRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.VerticalAlign;
-import feathers.layout.VerticalLayout;
 
 import starling.events.Event;
 	
@@ -32,10 +28,6 @@ import starling.events.Event;
 		{
 			super.initialize();
 			layout = new AnchorLayout();;
-			
-/*			var q:Quad = new Quad(1,1);
-			addChild(q);*/
-			
 		}
 		
 		override protected function commitData():void
@@ -45,10 +37,14 @@ import starling.events.Event;
 				width = _owner.width
 				height = _owner.height;
 				_firstCommit = false;
+				_owner.addEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
 				_owner.addEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
 			}
 			
 			super.commitData();
+			
+			if( _data == null )
+				return;
 			
 			if(segment != null)
 				return;
@@ -78,13 +74,21 @@ import starling.events.Event;
 			}
 		}
 		
+		private function owner_scrollStartHandler(event:Event):void
+		{
+			visible = true;
+			if( isSelected && segment != null && segment.initializeCompleted )
+				segment.updateData();
+		}
+		
 		private function owner_scrollCompleteHandler(event:Event):void
 		{
 			visible = stage.getBounds(this).x == 0;
-			if(visible)
+			if( visible )
 			{
-				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index); 
-//
+				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
+				if(!segment.initializeCompleted)
+					segment.init();
 			}
 		}
 	

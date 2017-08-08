@@ -8,8 +8,14 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
 	
-	import flash.events.IOErrorEvent;
-	
+	/*import flash.events.DNSResolverEvent;
+	import flash.events.ErrorEvent;
+	import flash.net.dns.AAAARecord;
+	import flash.net.dns.ARecord;
+	import flash.net.dns.DNSResolver;
+	import flash.net.dns.MXRecord;
+	import flash.net.dns.PTRRecord;
+	import flash.net.dns.SRVRecord;*/
 
 	[Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 	[Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -38,9 +44,29 @@ package com.gerantech.towercraft.managers.net.sfs
 			// Turn on the debug feature
 			//debug = false;
 			
-			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadSuccessHandler);
-			//sfs.addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadFailureHandler);
 			
+/*			var resolver:DNSResolver = new DNSResolver();
+			resolver.addEventListener(DNSResolverEvent.LOOKUP, resolver_lookupHandler);
+			resolver.addEventListener(ErrorEvent.ERROR, resolver_errorHandler);
+			resolver.lookup( "http://desktop-f2u0ghu", ARecord );
+
+			//resolver.lookup( "google.com", MXRecord );
+			//resolver.lookup( "google.com", PTRRecord );
+		//	resolver.lookup( "google.com", SRVRecord );
+			//resolver.lookup( "208.77.188.166", PTRRecord );
+			//resolver.lookup( "127.0.0.1", PTRRecord );
+			//resolver.lookup( "2001:1890:110b:1e19:f06b:72db:7026:3d7a", PTRRecord );
+			//resolver.lookup( "_sip._tcp.example.com.", SRVRecord );
+			function resolver_errorHandler(e:ErrorEvent):void {
+				trace(e.text);
+			}
+			function resolver_lookupHandler(event:DNSResolverEvent):void {
+				for each( var record:ARecord in event.resourceRecords )
+					trace( record.name + " : " + record.address + " : " + record.ttl );
+			}*/
+			//addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadHandler);
+			//addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadHandler);
+
 			addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
 			addEventListener(SFSEvent.SOCKET_ERROR,			sfs_connectionHandler);
 			addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
@@ -51,7 +77,6 @@ package com.gerantech.towercraft.managers.net.sfs
 			addEventListener(SFSEvent.LOGIN_ERROR, 			sfs_loginErrorHandler);
 			
 			//addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
-
 			loadConfig();
 		}
 		
@@ -96,6 +121,10 @@ package com.gerantech.towercraft.managers.net.sfs
 		// SFS2X event handlers
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		
+		/*protected function sfs_configLoadHandler(event:SFSEvent):void
+		{
+			dispatchEvent(event.clone());
+		}*/
 		// Connection ....................................................
 		protected function sfs_connectionHandler(event:SFSEvent):void
 		{
@@ -183,5 +212,10 @@ package com.gerantech.towercraft.managers.net.sfs
 				_instance = new SFSConnection();
 			return _instance;
 		}
+		
+		public static function dispose():void
+		{
+			_instance = null
+		}	
 	}
 }

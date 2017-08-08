@@ -12,7 +12,6 @@ package com.gerantech.towercraft.controls.popups
 	import flash.text.SoftKeyboardType;
 	
 	import feathers.events.FeathersEventType;
-	import feathers.layout.AnchorLayoutData;
 	
 	import starling.events.Event;
 
@@ -33,24 +32,23 @@ package com.gerantech.towercraft.controls.popups
 			transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.35, stage.stageWidth*0.8, stage.stageHeight*0.3);
 
 			textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
+			textInput.maxChars = game.loginData.nameMaxLen ;
 			textInput.prompt = loc( "popup_select_name_prompt" );
-			textInput.layoutData = new AnchorLayoutData(padding + messageDisplay.height, padding, NaN, padding);
-			//textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
-			textInput.addEventListener(FeathersEventType.ENTER, textInput_enterHandler);
+			textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
+			textInput.addEventListener(FeathersEventType.ENTER, acceptButton_triggeredHandler);
 			container.addChild(textInput);
 			
 			errorDisplay = new RTLLabel("", 0xFF0000);
-			//messageDisplay.layoutData = new AnchorLayoutData (NaN, padding, NaN, padding, NaN, -appModel.theme.controlSize);
 			container.addChild(errorDisplay);
 			
-			
+			acceptButton.visible = false;
 			declineButton.removeFromParent();
 			rejustLayoutByTransitionData();
 		}
 		
-		protected function textInput_enterHandler(event:Event):void
+		protected function textInput_changeHandler(event:Event):void
 		{
-			//Starling.current.nativeStage.focus = null;
+			acceptButton.visible = textInput.text.length >= game.loginData.nameMinLen
 		}
 		
 		protected override function acceptButton_triggeredHandler(event:Event):void
@@ -63,7 +61,7 @@ package com.gerantech.towercraft.controls.popups
 			}
 			
 			var sfs:SFSObject = SFSObject.newInstance();
-			sfs.putText( "name", selectedName );
+			sfs.putUtfString( "name", selectedName );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.SELECT_NAME, sfs );
 		}
@@ -81,6 +79,7 @@ package com.gerantech.towercraft.controls.popups
 				errorDisplay.text = error=="popup_select_name_size" ? loc("popup_select_name_size", [6, 12]) : error;
 				return;
 			}
+			player.nickName = textInput.text;
 			dispatchEventWith( Event.COMPLETE );
 			close();
 		}

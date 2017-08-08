@@ -25,6 +25,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 package com.gerantech.towercraft.themes
 {
 	
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.geom.Rectangle;
@@ -113,12 +114,17 @@ package com.gerantech.towercraft.themes
 	 */
 	public class BaseMetalWorksMobileTheme extends StyleNameFunctionTheme
 	{
-		//[Embed(source="../../../../assets/fonts/Abdo.Fonts_Abdo.Logo.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
-		[Embed(source="../../../../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		//[Embed(source="../../../../assets/fonts/segoeadan.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSansPro", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_REGULAR:Class;
-
-		[Embed(source="../../../../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
+	
+		//[Embed(source="../../../../assets/fonts/segoeadanb.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
+		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSansPro", fontWeight="bold", mimeType="application/x-font", embedAsCFF="true")]
 		protected static const SOURCE_SANS_PRO_SEMIBOLD:Class;
+ 
+		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSans", fontWeight="normal", mimeType="application/x-font", embedAsCFF="false")]
+		protected static const SOURCE_SANS_PRO_REGULAR2:Class;
+
  
 		/**
 		 * The name of the embedded font used by controls in this theme. Comes
@@ -148,14 +154,15 @@ package com.gerantech.towercraft.themes
 		public static const VIDEO_OVERLAY_ALPHA:Number = 0.2;
 		
 		public static var SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
-		public static var PRIMARY_TEXT_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+		public static var PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
 		public static var DESCRIPTION_TEXT_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
 
 		public static const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 1, 1);
-		public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 3, 1);//4, 4, 1, 20);
+		public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(6, 6, 1, 14);//4, 4, 1, 20);
+		public static const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(6, 5, 3, 13);//4, 4, 1, 20);
 		public static const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 1);
 		public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 		public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
@@ -312,6 +319,10 @@ package com.gerantech.towercraft.themes
 		 * A normal font size.
 		 */
 		public var regularFontSize:int;
+		/**
+		 * A game font size.
+		 */
+		public var gameFontSize:int;
 
 		/**
 		 * A larger font size for headers.
@@ -686,10 +697,11 @@ package com.gerantech.towercraft.themes
 		 */
 		protected function initializeFonts():void
 		{
-			this.smallFontSize = 10;
-			this.regularFontSize = 12;
-			this.largeFontSize = 14;
-			this.extraLargeFontSize = 18;
+			this.smallFontSize = 40;
+			this.gameFontSize = 56//12;
+			this.regularFontSize = 4 / AppModel.instance.scale;// 12
+			this.largeFontSize = 56;
+			this.extraLargeFontSize = 72;
 
 			this.lightFontStyles = new TextFormat(FONT_NAME, this.regularFontSize, LIGHT_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);
 			this.darkFontStyles = new TextFormat(FONT_NAME, this.regularFontSize, DARK_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);
@@ -1202,9 +1214,6 @@ package com.gerantech.towercraft.themes
 			button.disabledFontStyles = this.darkDisabledUIFontStyles;
 
 			this.setBaseButtonStyles(button);
-			
-			
-			
 		}
 
 		protected function setQuietButtonStyles(button:Button):void
@@ -1252,7 +1261,7 @@ package com.gerantech.towercraft.themes
 			button.minTouchWidth = button.minTouchHeight = this.gridSize;
 		}
 
-		protected function setDangerButtonStyles(button:Button):void
+		public function setDangerButtonStyles(button:Button):void
 		{
 			var skin:ImageSkin = new ImageSkin(this.buttonDangerUpSkinTexture);
 			skin.setTextureForState(ButtonState.DOWN, this.buttonDangerDownSkinTexture);
@@ -2013,8 +2022,10 @@ package com.gerantech.towercraft.themes
 
 		protected function setProgressBarStyles(progress:ProgressBar):void
 		{
-			var backgroundSkin:Image = new Image(this.backgroundSkinTexture);
-			backgroundSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
+			//var backgroundSkin:Image = new Image(this.backgroundSkinTexture);
+			//backgroundSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
+			var backgroundSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-background", "skin"));
+			backgroundSkin.scale9Grid = SLIDER_SCALE9_GRID;
 			if(progress.direction == Direction.VERTICAL)
 			{
 				backgroundSkin.width = this.smallControlSize;
@@ -2027,8 +2038,10 @@ package com.gerantech.towercraft.themes
 			}
 			progress.backgroundSkin = backgroundSkin;
 
-			var backgroundDisabledSkin:Image = new Image(this.backgroundDisabledSkinTexture);
-			backgroundDisabledSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
+			var backgroundDisabledSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-background", "skin"));
+			backgroundDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
+			//var backgroundDisabledSkin:Image = new Image(this.backgroundDisabledSkinTexture);
+			//backgroundDisabledSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
 			if(progress.direction == Direction.VERTICAL)
 			{
 				backgroundDisabledSkin.width = this.smallControlSize;
@@ -2041,14 +2054,18 @@ package com.gerantech.towercraft.themes
 			}
 			progress.backgroundDisabledSkin = backgroundDisabledSkin;
 
-			var fillSkin:Image = new Image(this.buttonUpSkinTexture);
-			fillSkin.scale9Grid = BUTTON_SCALE9_GRID;
+			var fillSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-track", "skin"));
+			fillSkin.scale9Grid = SLIDER_SCALE9_GRID;
+			//var fillSkin:Image = new Image(this.buttonUpSkinTexture);
+			//fillSkin.scale9Grid = BUTTON_SCALE9_GRID;
 			fillSkin.width = this.smallControlSize;
 			fillSkin.height = this.smallControlSize;
 			progress.fillSkin = fillSkin;
 
-			var fillDisabledSkin:Image = new Image(this.buttonDisabledSkinTexture);
-			fillDisabledSkin.scale9Grid = BUTTON_SCALE9_GRID;
+			var fillDisabledSkin:ImageSkin = new ImageSkin(Assets.getTexture("slider-track-neutral", "skin"));
+			fillDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
+			//var fillDisabledSkin:Image = new Image(this.buttonDisabledSkinTexture);
+			//fillDisabledSkin.scale9Grid = BUTTON_SCALE9_GRID;
 			fillDisabledSkin.width = this.smallControlSize;
 			fillDisabledSkin.height = this.smallControlSize;
 			progress.fillDisabledSkin = fillDisabledSkin;

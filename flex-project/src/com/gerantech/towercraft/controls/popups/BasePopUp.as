@@ -58,7 +58,9 @@ package com.gerantech.towercraft.controls.popups
 					onStart:transitionInStarted,
 					onComplete:transitionInCompleted
 				}
-			);			
+			);
+			appModel.sounds.addAndPlaySound("whoosh");
+
 		}		
 		
 		public override function close(dispose:Boolean=true):void

@@ -1,32 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 	SFS2X Client Configuration file
 	(c) 2011 gotoAndPlay
 	:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 -->
-
 <SmartFoxConfig>
-
-	<!-- Mandatory Settings -->
-	<!--	SERVER: 	-->
-	
-<!-- 	<ip>185.141.192.33</ip> -->
-<!-- 	<port>11001</port> -->
-	
-	<!-- 	LOCAL:      -->
-	
-<!-- 	<ip>127.0.0.1</ip> -->
-	<ip>192.168.1.146</ip>
-<!-- 	<ip>192.168.43.87</ip> -->
-	<port>9933</port>
-
-	<zone>towers</zone>
-	<!-- End Mandatory Settings -->
-
-	<debug>false</debug>
-
-	<httpPort>8080</httpPort>
-	<useBlueBox>false</useBlueBox>
-	<blueBoxPollingRate>500</blueBoxPollingRate>
-
+   <!-- Mandatory Settings -->
+<!--    <ip>127.0.0.1</ip> -->
+   <ip>192.168.43.87</ip>
+<!--    <ip>130.185.74.249</ip> -->
+   <port>9933</port>
+   <zone>towers</zone>
+   <!-- End Mandatory Settings -->
+   
+   <debug>false</debug>
+   <httpPort>8080</httpPort>
+   <useBlueBox>false</useBlueBox>
+   <blueBoxPollingRate>500</blueBoxPollingRate>
 </SmartFoxConfig>

@@ -1,18 +1,21 @@
 package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.FastList;
-	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
-	import com.gerantech.towercraft.controls.overlays.UpgradeOverlay;
+	import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.exchanges.Exchanger;
+	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -30,47 +33,76 @@ package com.gerantech.towercraft.controls.segments
 	
 	public class BuildingsSegment extends Segment
 	{
+		private var buildingsListCollection:ListCollection;
 		private var buildingslist:FastList;
 		private var listLayout:TiledRowsLayout;
+
+		private var detailsPopup:BuildingDetailsPopup;
 		
-		override protected function coreLoaded():void
+		override public function init():void
 		{
+			super.init();
+			
 			layout = new AnchorLayout();
 			listLayout = new TiledRowsLayout();
-			listLayout.padding = listLayout.gap = 10;
-			listLayout.paddingBottom = listLayout.paddingTop = 50;
+			listLayout.padding = listLayout.gap = 16 * appModel.scale;
+			listLayout.paddingTop = 120 * appModel.scale;
 			listLayout.useSquareTiles = false;
 			listLayout.requestedColumnCount = 4;
 			listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
+			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.6;
 			
+			updateData();
 			buildingslist = new FastList();
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			buildingslist.layout = listLayout;
 			buildingslist.layoutData = new AnchorLayoutData(0,0,0,0);
-			buildingslist.itemRendererFactory = function():IListItemRenderer
-			{
-				return new BuildingItemRenderer();
-			}
+			buildingslist.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+			buildingslist.dataProvider = buildingsListCollection;
 			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(buildingslist);
-
-			updateBuildingData();
+			showTutorial();
+			initializeCompleted = true;
 		}
 		
-		private function updateBuildingData():void
+		private function showTutorial():void
 		{
+			if( UserData.getInstance().buildingsOpened )
+				return;
+			UserData.getInstance().buildingsOpened = true;
+			UserData.getInstance().save();
+			
+			var tutorialData:TutorialData = new TutorialData("buildings");
+			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
+			tutorials.show(this, tutorialData);
+		}
+		
+		override public function updateData():void
+		{
+			if(buildingsListCollection == null)
+				buildingsListCollection = new ListCollection();
 			var buildings:Vector.<int> = BuildingType.getAll().keys();
 			var buildingArray:Array = new Array();
 			while(buildings.length > 0)
 				buildingArray.push(buildings.pop());
-			buildingArray.sort();		
-			buildingslist.dataProvider = new ListCollection(buildingArray);			
+			buildingArray.sort();
+			buildingsListCollection.data = buildingArray;
 		}
 		
 		private function list_changeHandler(event:Event):void
 		{
 			var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
+
+			var buildingType:int = item.data as int;
+			if( !player.buildings.exists( buildingType ) )
+			{
+				var unlockedAt:int = game.unlockedBuildingAt( buildingType );
+				if( unlockedAt <= player.get_arena(0) )
+					appModel.navigator.addLog(loc("earn_at_chests"));
+				else
+					appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_title_"+unlockedAt)]));
+				return;
+			}
 			
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
@@ -78,7 +110,7 @@ package com.gerantech.towercraft.controls.segments
 			ti.sourceAlpha = 1;
 			ti.sourceBound = item.getBounds(this);
 			ti.destinationConstrain = this.getBounds(stage);
-			ti.destinationBound = new Rectangle(width*0.1, height*0.3, width*0.8, height*0.6);
+			ti.destinationBound = new Rectangle(width*0.1, height*0.2, width*0.8, height*0.64);
 
 			// create transition out data
 			var to:TransitionData = new TransitionData();
@@ -86,13 +118,13 @@ package com.gerantech.towercraft.controls.segments
 			to.sourceBound = ti.destinationBound.clone();
 			to.destinationBound = ti.sourceBound.clone();
 
-			var details:BuildingDetailsPopup = new BuildingDetailsPopup();
-			details.buildingType = item.data as int;
-			details.transitionIn = ti;
-			details.transitionOut = to;
-			details.addEventListener(Event.CLOSE, details_closeHandler);
-			appModel.navigator.addChild(details);
-			details.addEventListener(Event.UPDATE, details_updateHandler);
+			detailsPopup = new BuildingDetailsPopup();
+			detailsPopup.buildingType = item.data as int;
+			detailsPopup.transitionIn = ti;
+			detailsPopup.transitionOut = to;
+			detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
+			appModel.navigator.addPopup(detailsPopup);
+			detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
 			function details_closeHandler():void
 			{
 				buildingslist.selectedIndex = -1;
@@ -109,37 +141,43 @@ package com.gerantech.towercraft.controls.segments
 				confirm.data = building;
 				confirm.addEventListener(FeathersEventType.ERROR, upgradeConfirm_errorHandler);
 				confirm.addEventListener(Event.SELECT, upgradeConfirm_selectHandler);
-				appModel.navigator.addChild(confirm);
+				appModel.navigator.addPopup(confirm);
 				return;
 			}
 			
 			seudUpgradeRequest(building, 0);
 		}
-		
 		private function upgradeConfirm_errorHandler(event:Event):void
 		{
-			appModel.navigator.addChild(new GameLog("ssdf sddflkds"));
 			dispatchEventWith(FeathersEventType.ENTER, true, ExchangeType.S_0_HARD);
 		}
 		private function upgradeConfirm_selectHandler(event:Event):void
 		{
 			var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-			seudUpgradeRequest(confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)));
+			seudUpgradeRequest( confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)) );
 		}
 		
 		private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 		{
-			if(!building.upgrade(confirmedHards))
+			if( detailsPopup != null )
+			{
+				detailsPopup.close();
+				detailsPopup = null;
+			}
+			
+			if( !building.upgrade(confirmedHards) )
 				return;
 			
 			var sfs:SFSObject = new SFSObject();
 			sfs.putInt("type", building.type);
+			sfs.putInt("confirmedHards", confirmedHards);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 			
-			var upgradeOverlay:UpgradeOverlay = new UpgradeOverlay();
+			var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 			upgradeOverlay.building = building;
-			appModel.navigator.addChild(upgradeOverlay);
-			updateBuildingData();
+			appModel.navigator.addOverlay(upgradeOverlay);
+			
+			updateData();
 		}
 	}
 }

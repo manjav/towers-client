@@ -32,30 +32,36 @@ public class MainSegment extends Segment
 	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.png")]
 	public static const atlasImageClass: Class;
 	
-	private var factory:StarlingFactory;
-	private var dragonBonesData:DragonBonesData;
-	private var floating:MapElementFloating;
+	private static var factory:StarlingFactory;
+	private static var dragonBonesData:DragonBonesData;
+	private static var floating:MapElementFloating;
 	
 	private var intervalId:uint;
 
 	public function MainSegment()
 	{
 		super();
+		if( factory != null )
+			return;
+		
 		factory = new StarlingFactory();
 		dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
 		factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 	}
 	
-	protected override function coreLoaded() : void
+	override public function init():void
 	{
+		super.init();
+
 		if(appModel.loadingManager.inBattle)
 		{
-			gotoLiveBattle();
+			setTimeout(gotoLiveBattle, 100);
 			return;
 		}
 		
 		showMap();
 		showTutorial();
+		initializeCompleted = true;
 	}
 	
 	private function showMap():void
@@ -84,8 +90,8 @@ public class MainSegment extends Segment
 				switch(mcName)
 				{
 					case "mine-lights":
-						btn.x = 516.4 * appModel.scale * 1.2;
-						btn.y = 433.5 * appModel.scale * 1.2;
+						btn.x = 499 * appModel.scale * 1.2;
+						btn.y = 449 * appModel.scale * 1.2;
 						break;
 					case "gold-leaf":
 						btn.x = 324.5 * appModel.scale * 1.2;
@@ -120,7 +126,7 @@ public class MainSegment extends Segment
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
-			appModel.navigator.addChild(confirm);
+			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 				punchButton(getChildByName("portal-center") as SimpleButton);
@@ -136,16 +142,21 @@ public class MainSegment extends Segment
 		if(floating != null && floating.element.name == mapElement.name)
 			return;
 		
+		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || mapElement.name == "dragon-cross";
+		var floatingWidth:int = locked ? 360 : 320;
+		
 		// create transitions data
 		var ti:TransitionData = new TransitionData();
 		var to:TransitionData = new TransitionData();
 		to.destinationAlpha = ti.sourceAlpha = 0;
 		ti.transition = Transitions.EASE_OUT_BACK;
-		to.destinationPosition = ti.sourcePosition = new Point(mapElement.x-160*appModel.scale, mapElement.y-200*appModel.scale);
+		to.destinationPosition = ti.sourcePosition = new Point(mapElement.x-floatingWidth/2*appModel.scale, mapElement.y-200*appModel.scale);
 		ti.destinationAlpha = to.sourceAlpha = 1;
-		to.sourcePosition = ti.destinationPosition = new Point(mapElement.x-160*appModel.scale, mapElement.y-280*appModel.scale);
+		to.sourcePosition = ti.destinationPosition = new Point(mapElement.x-floatingWidth/2*appModel.scale, mapElement.y-280*appModel.scale);
 		
-		floating = new MapElementFloating(mapElement);
+		floating = new MapElementFloating(mapElement, locked);
+		floating.width = floatingWidth*appModel.scale;
+		floating.height = 128*appModel.scale;
 		floating.transitionIn = ti;
 		floating.transitionOut = to;
 		floating.addEventListener(Event.SELECT, floating_selectHandler);
@@ -164,25 +175,28 @@ public class MainSegment extends Segment
 			switch(event.data['name'])
 			{
 				case "gold-leaf":
+					floating = null;
 					appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 					break;
 				case "portal-center":
 					if( player.inTutorial() )
 					{
-						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
+						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 						return;
 					}
+					floating = null;
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
-					appModel.navigator.addChild(new GameLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])])));
+					appModel.navigator.addLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])]));
 					break;
 				case "portal-tower":
 					if( player.inTutorial() )
 					{
-						appModel.navigator.addChild(new GameLog(loc("map-button-locked", [loc("map-"+event.data['name'])])));
+						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 						return;
 					}
+					floating = null;
 					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
 					break;
 			}
@@ -195,7 +209,7 @@ public class MainSegment extends Segment
 		item.properties.requestField = null ;
 		item.properties.waitingOverlay = new WaitingOverlay() ;
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-		appModel.navigator.addChild(item.properties.waitingOverlay);		
+		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
 	
 	private function punchButton(mapElement:SimpleButton):void

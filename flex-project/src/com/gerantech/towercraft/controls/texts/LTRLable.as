@@ -16,17 +16,17 @@ package com.gerantech.towercraft.controls.texts
 		
 		public function LTRLable(text:String, color:uint=0, align:String=null, wordWrap:Boolean=false, fontSize:Number=0, fontFamily:String=null, bold:Boolean=false, italic:Boolean=false)
 		{
-			if(fontSize==0)
-				this.fontSize = 12//BaseMetalWorksMobileTheme.;
-			else if(fontSize<1)
-				this.fontSize = fontSize//*AppModel.instance.sizes.orginalFontSize;
+			if(fontSize == 0)
+				this.fontSize = AppModel.instance.theme.gameFontSize * AppModel.instance.scale;
+			else if(fontSize<4)
+				this.fontSize = fontSize * AppModel.instance.theme.gameFontSize * AppModel.instance.scale;
 			else
 				this.fontSize = fontSize;
 
 			embedFonts = true;
 			this.align = align==null ? "right"/*AppModel.instance.align*/ : align;
 			this.fontFamily = fontFamily==null ? "SourceSans" : fontFamily;
-			this.color = color==0 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
+			this.color = color==1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
 			this.wordWrap = wordWrap;
 			textFormat = new TextFormat(this.fontFamily, this.fontSize, this.color, bold, italic, null, null, null, align, null, null, null);//, -fontSize/1.2
 		}

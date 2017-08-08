@@ -108,9 +108,10 @@ package com.gerantech.towercraft.views
 		
 		public function update(population:int, troopType:int) : void
 		{
+			decorator.updateElements(population, troopType);
+			
 			place.building._population = population;
 			place.building.troopType = troopType;
-			decorator.updateElements(population, troopType);
 			
 			if(hasEventListener(Event.UPDATE))
 				dispatchEventWith(Event.UPDATE, false);
@@ -130,7 +131,21 @@ package com.gerantech.towercraft.views
 				t.y = y ;
 				BattleFieldView(parent).troopsContainer.addChild(t);
 				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i, t);
-			}			
+			}
+			
+			if ( place.building.troopType == AppModel.instance.game.player.troopType )
+			{
+				var soundIndex:int = 0;
+				if( len > 5 && len < 10 )
+					soundIndex = 1;
+				else if ( len >= 10 && len < 20 )
+					soundIndex = 2;
+				else if ( len >= 20 )
+					soundIndex = 3;
+				
+				if( !AppModel.instance.sounds.soundIsPlaying("battle-go-army-"+soundIndex) )
+					AppModel.instance.sounds.addAndPlaySound("battle-go-army-"+soundIndex);
+			}
 		}
 		public function rush(t:TroopView):void
 		{

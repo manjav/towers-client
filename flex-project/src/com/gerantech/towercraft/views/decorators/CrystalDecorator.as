@@ -13,8 +13,6 @@ package com.gerantech.towercraft.views.decorators
 	{
 		private var crystalTexture:String;
 		private var crystalDisplay:MovieClip;
-		
-		private var plotDisplay:Image;
 		private var radiusDisplay:Image;
 		
 		public function CrystalDecorator(placeView:PlaceView)
@@ -55,7 +53,7 @@ package com.gerantech.towercraft.views.decorators
 			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.7;
 			
 			// plot :
-			createPlotDisplay();
+			/*createPlotDisplay();
 			plotDisplay.visible = place.building.level == 2 || place.building.level == 3;
 			if( plotDisplay.visible )
 			{
@@ -63,10 +61,10 @@ package com.gerantech.towercraft.views.decorators
 				if(troopType > -1)
 					txt += "-" + troopType;
 				plotDisplay.texture = Assets.getTexture(txt);
-			}
+			}*/
 		}
 		
-		private function createPlotDisplay():void
+		/*private function createPlotDisplay():void
 		{
 			if(plotDisplay != null)
 				return;
@@ -80,7 +78,7 @@ package com.gerantech.towercraft.views.decorators
 			plotDisplay.y = parent.y;
 			BattleFieldView(parent.parent).buildingsContainer.addChild(plotDisplay);
 		}
-		
+		*/
 		private function createRadiusDisplay():void
 		{
 			if(radiusDisplay != null)
@@ -101,8 +99,8 @@ package com.gerantech.towercraft.views.decorators
 				crystalDisplay.removeFromParent(true);
 			if(radiusDisplay != null)
 				radiusDisplay.removeFromParent(true);
-			if(plotDisplay != null)
-				plotDisplay.removeFromParent(true);
+/*			if(plotDisplay != null)
+				plotDisplay.removeFromParent(true);*/
 			super.dispose();
 		}
 	}

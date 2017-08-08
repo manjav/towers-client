@@ -232,6 +232,44 @@ package com.gerantech.towercraft.utils
 			return ret;
 		}
 		
+		public static function toTimeFormat(seconds:int):String
+		{
+			var minutes:int = Math.floor( seconds / 60 );
+			seconds -= minutes * 60;
+			
+			var hours:int = Math.floor( minutes / 60 );
+			minutes -= hours * 60;
+			
+			var days:int = Math.floor( hours / 24 );
+			hours -= days * 24;
+			
+			if (days > 0)
+			{
+				if (hours <= 0)
+					return days + "d";
+				return days + "d " + hours + "h";
+			}
+			else if (hours > 0)
+			{
+				if (minutes <= 0)
+					return hours + "h";
+				
+				return hours + "h " + minutes + "m";
+			}
+			else if (minutes > 0)
+			{
+				if (seconds <= 0)
+					return minutes + "m";
+				
+				return minutes+ "m " + seconds + "s";
+			}
+			else
+			{
+				return seconds + "s";
+			}
+		}
+
+		
 		public static function getDateString(_date:Date, isTime:Boolean=false):String
 		{
 			var ret:String = _date.fullYear+'-'+uint(_date.month+1)+'-'+_date.date ;

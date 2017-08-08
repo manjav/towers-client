@@ -9,12 +9,14 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const RANK:String = "rank";
 		public static const LEAVE:String = "leave";
 		public static const RESET_ALL_VARS:String = "resetAllVars";
+		public static const SEND_STICKER:String = "ss";
 		
 		public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 		public static const EXCHANGE:String = "exchange";
 		public static const SELECT_NAME:String = "selectName";
 		public static const OAUTH:String = "oauth";
-		
+		public static const BUG_REPORT:String = "bugReport";
+		public static const VERIFY_PURCHASE:String = "verify";
 		
 		public static const FIGHT:String = "f";
 		public static const BUILDING_IMPROVE:String = "i";

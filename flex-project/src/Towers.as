@@ -2,7 +2,9 @@ package
 {
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
+	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.mesmotronic.ane.AndroidFullScreen;
 	import com.marpies.ane.gameanalytics.GameAnalytics;
 	
 	import flash.display.Sprite;
@@ -36,21 +38,35 @@ package
 				trace(str);
 			}
 			return;*/
+/*			var spawnGap:Number;
+			trace("\n##### Barrack:\n");
+			for (var level:int = 1; level < 11; level++) 
+			{
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(1)/Math.log(2.7) ) * 200 );
+				trace("spawnGap level(", level, ")--> \nType 11: ", spawnGap);
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(2)/Math.log(2.7) ) * 200 );
+				trace("    Type 12: ", spawnGap);
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(3)/Math.log(2.7) ) * 200 );
+				trace("        Type 13: ", spawnGap);
+				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(4)/Math.log(2.7) ) * 200 );
+				trace("            Type 14: ", spawnGap);
+			}
+			return;*/
 			
 			GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
 				.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("8ecad253293db70a84469b3d79243f12").setGameSecretAndroid("6c3abba9c19b989f5e45749396bcb1b78b51fbf2")
 				/*.setBuildiOS(AppModel.instance.descriptor.versionNumber).setGameKeyiOS("[ios_game_key]").setGameSecretiOS("[ios_secret_key]")*/
 			GameAnalytics.init();
-			
+
 			t = getTimer();
 			if(this.stage)
 			{
-				/*// full screen for android platform
-				if(Capabilities.manufacturer.indexOf("droid")>-1)
+				// full screen for android platform
+				if( AppModel.instance.platform == AppModel.PLATFORM_ANDROID )//if(Capabilities.manufacturer.indexOf("droid")>-1)
 				{
-				AndroidFullScreen.stage = stage;
-				AndroidFullScreen.fullScreen();
-				}*/
+					AndroidFullScreen.stage = stage; // Set this to your app's stage
+					AndroidFullScreen.fullScreen();
+				}
 				
 				this.stage.scaleMode = StageScaleMode.NO_SCALE;
 				this.stage.align = StageAlign.TOP_LEFT;
@@ -83,7 +99,8 @@ package
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
-			AppModel.instance.offsetY = (1920*AppModel.instance.scale)-this.starling.stage.stageHeight;//trace(AppModel.instance.scale, AppModel.instance.offsetY)
+			
+			BillingManager.instance.init();
 		}
 		private function starling_rootCreatedHandler(event:Object):void
 		{
@@ -94,12 +111,14 @@ package
 			this.starling.stop(true);
 			stage.frameRate = 0;
 			this.stage.addEventListener(Event.ACTIVATE, stage_activateHandler, false, 0, true);
+			AppModel.instance.sounds.muteAll(true);
 		}
 		private function stage_activateHandler(event:Event):void
 		{
 			this.stage.removeEventListener(Event.ACTIVATE, stage_activateHandler);
 			stage.frameRate = 60;
 			this.starling.start();
+			AppModel.instance.sounds.muteAll(false);
 		}
 	}
 }

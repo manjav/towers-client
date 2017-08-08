@@ -3,36 +3,32 @@ package com.gerantech.towercraft.controls.items
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
 	import flash.text.engine.ElementFormat;
-	import flash.text.engine.FontDescription;
-	import flash.text.engine.FontLookup;
 	
-	import feathers.controls.Label;
-	import feathers.controls.text.TextBlockTextRenderer;
-	import feathers.core.ITextRenderer;
-	import feathers.layout.HorizontalLayout;
-	import feathers.layout.HorizontalLayoutData;
-	import feathers.layout.VerticalAlign;
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
 
 	public class RankItemRenderer extends BaseCustomItemRenderer
 	{
-		private var rankData:SFSObject;
+		private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 		
-		private var nameText:RTLLabel;
-		private var pointText:RTLLabel;
+		private var nameDisplay:RTLLabel;
+		private var nameShadowDisplay:RTLLabel;
+
+		private var pointDisplay:RTLLabel;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
-			var hlayout:HorizontalLayout = new HorizontalLayout();
-			hlayout.verticalAlign = VerticalAlign.MIDDLE;
-			hlayout.paddingRight = hlayout.paddingLeft = 32*appModel.scale;
-			layout = hlayout;
-			height = 160 * appModel.scale;
+			
+			layout = new AnchorLayout();
+			//height = 140 * appModel.scale;
+			var padding:int = 36 * appModel.scale;
 			
 			skin = new ImageSkin(Assets.getTexture("building-button", "skin"));
 			skin.setTextureForState(STATE_NORMAL, Assets.getTexture("building-button", "skin"));
@@ -42,17 +38,21 @@ package com.gerantech.towercraft.controls.items
 			skin.scale9Grid = new Rectangle(10, 10, 56, 37);
 			backgroundSkin = skin;
 			
-			nameText = new RTLLabel("");
-			nameText.height = height * 0.9;
-			nameText.layoutData = new HorizontalLayoutData(100);
+			nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
+			nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, 0);
+			nameShadowDisplay.pixelSnapping = false;
+			addChild(nameShadowDisplay);
 			
-			pointText = new RTLLabel("");
-			pointText.height = height * 0.9;
-
-			addChild(!appModel.isLTR ? pointText : nameText);
-			addChild(appModel.isLTR ? pointText : nameText);
+			nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
+			nameDisplay.pixelSnapping = false;
+			nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/12);
+			addChild(nameDisplay);
+			
+			pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1);
+			pointDisplay.pixelSnapping = false;
+			pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
+			addChild(pointDisplay);
 		}
-		
 		
 		override protected function commitData():void
 		{
@@ -60,15 +60,27 @@ package com.gerantech.towercraft.controls.items
 			if(_data ==null || _owner==null)
 				return;
 			
-			nameText.text = (index+1) + ". " + _data.n ;
-			pointText.text = "" + _data.p;
+			var isGap:Boolean = _data.n == undefined;
+			height = (isGap?60:140) * appModel.scale;
+
+			alpha = isGap ? 0 : 1;
+			
+			var rankIndex:int = _data.s ? (_data.s+1) : (index+1);
+			nameDisplay.text = rankIndex + ".  " + _data.n ;
+			nameShadowDisplay.text = rankIndex + ".  " + _data.n ;
+			pointDisplay.text = "" + _data.p;
 			//trace(_data.i, player.id);
-			var fs:Number = AppModel.instance.theme.regularFontSize * (_data.i==player.id?1:1.2);
-			if( fs != nameText.fontSize )
+			var fs:int = AppModel.instance.theme.gameFontSize * (_data.i==player.id?1:0.9) * appModel.scale;
+			var fc:int = _data.i==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
+			if( fs != nameDisplay.fontSize )
 			{
-				nameText.fontSize = fs;
-				nameText.elementFormat = new ElementFormat(nameText.fontDescription, fs, nameText.color);
+				nameDisplay.fontSize = fs;
+				nameShadowDisplay.fontSize = fs;
+				
+				nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
+				nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
 			}
+			currentState = _data.i==player.id ? STATE_NORMAL : STATE_DISABLED;
 		}
 } 
 }

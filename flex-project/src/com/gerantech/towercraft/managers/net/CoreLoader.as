@@ -3,9 +3,9 @@
  */
 package com.gerantech.towercraft.managers.net
 {
-	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.utils.LoadAndSaver;
 	import com.gt.towers.Game;
 	import com.gt.towers.InitData;
 	import com.gt.towers.arenas.Arena;
@@ -23,13 +23,11 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import flash.display.Loader;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.events.IOErrorEvent;
 	import flash.filesystem.File;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
 	
 	[Event(name="complete", type="flash.events.Event")]
 	[Event(name="error", type="flash.events.ErrorEvent")]
@@ -46,29 +44,34 @@ package com.gerantech.towercraft.managers.net
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 			var url:String = "http://"+(SFSConnection.instance.currentIp=="185.141.192.33"?"env-3589663.j.scaleforce.gr":SFSConnection.instance.currentIp)+"/cores/"+coreFileName;
-			//trace(coreFileName, "loaded.");
-			/*var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
-			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);*/
 			
-			var loader:Loader = new Loader();
-			loader.contentLoaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-			loader.load(new URLRequest(url), new LoaderContext(false, ApplicationDomain.currentDomain));
+			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
+			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			ls.addEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
 		}
-
 		
-		private function loaderInfo_completeHandler(e:Event):void
+		protected function loaderInfo_ioErrorHandler(event:IOErrorEvent):void
 		{
-			e.currentTarget.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-			var gameClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
-			var initClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
-			var exchangeClass:Class = e.currentTarget.applicationDomain.getDefinition("com.gt.towers.exchanges.Exchange") as Class;
+			var loader:LoadAndSaver = event.currentTarget as LoadAndSaver;
+			loader.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
+			dispatchEvent(new ErrorEvent(ErrorEvent.ERROR));
+		}
+		
+		private function loaderInfo_completeHandler(event:Event):void
+		{
+			var loader:LoadAndSaver = event.currentTarget as LoadAndSaver;
+			loader.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			loader.removeEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
+			var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
+			var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 			
 			AppModel.instance.game = new Game(initData);
 			var swfCore:* = new gameClass(new initClass());
 			initCoreData(swfCore);
 
 			trace("request version :	" + version+"\nserver core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);
-
+			AppModel.instance.game.loginData.buildingsLevel = new IntIntMap();
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		
@@ -114,7 +117,7 @@ package com.gerantech.towercraft.managers.net
 			for ( i=0; i<fItemsKeys.length; i++ )
 			{
 				fieldSource = game.fieldProvider.fields.get(fItemsKeys[i]);
-				fieldDest = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
+				fieldDest = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasStart, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
 				fieldDest.places = new PlaceDataList();
 				for ( var p:int=0; p<fieldSource.places.size(); p++ )
 				{
@@ -137,7 +140,6 @@ package com.gerantech.towercraft.managers.net
 			initData = new InitData();
 			initData.nickName = sfsObj.getText("name");
 			initData.id = sfsObj.getInt("id");
-			new TimeManager(sfsObj.getLong("serverTime"));
 			
 			var elements:ISFSArray = sfsObj.getSFSArray("resources");
 			var element:ISFSObject;

@@ -1,9 +1,12 @@
 package com.gerantech.towercraft.controls.screens
 {
-	import com.gerantech.towercraft.controls.Toolbar;
+	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
+	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
+	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.DashboardItemData;
 	import com.gt.towers.buildings.Building;
@@ -11,7 +14,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.PageType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
+	import flash.desktop.NativeApplication;
 	import flash.geom.Rectangle;
+	
+	import mx.resources.ResourceManager;
 	
 	import feathers.controls.AutoSizeMode;
 	import feathers.controls.ImageLoader;
@@ -37,6 +43,7 @@ package com.gerantech.towercraft.controls.screens
 		private var tabsList:List;
 		private var tabBorder:ImageLoader;
 		private var tabSize:int;
+		private var scrollTime:Number = 0.01;
 		
 		public function DashboardScreen(){}
 
@@ -51,7 +58,7 @@ package com.gerantech.towercraft.controls.screens
 			var pageLayout:HorizontalLayout = new HorizontalLayout();
 			pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 			pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
-			pageLayout.useVirtualLayout = true;
+			pageLayout.useVirtualLayout = false;
 			pageLayout.hasVariableItemDimensions = true;
 			
 			pageList = new List();
@@ -60,12 +67,9 @@ package com.gerantech.towercraft.controls.screens
 			pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			pageList.snapToPages = true;
 			pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
-			pageList.addEventListener(FeathersEventType.ENTER, pageList_enterHandler);
+			//pageList.addEventListener(FeathersEventType.ENTER, pageList_enterHandler);
 			pageList.verticalScrollPolicy = ScrollPolicy.OFF;
-			pageList.itemRendererFactory = function ():IListItemRenderer
-			{
-				return new DashboardPageItemRenderer();
-			}
+			pageList.itemRendererFactory = function ():IListItemRenderer { return new DashboardPageItemRenderer(); }
 			addChild(pageList);
 			
 			tabSize = stage.stageWidth / 4;
@@ -73,7 +77,7 @@ package com.gerantech.towercraft.controls.screens
 			tabBorder = new ImageLoader();
 			tabBorder.touchable = false;
 			tabBorder.source = Assets.getTexture("tab-selected-border", "skin");
-			tabBorder.width = tabSize*2;
+			tabBorder.width = tabSize * 2;
 			tabBorder.height = footerSize;
 			tabBorder.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
 			tabBorder.scale9Grid = new Rectangle(11,10,2,2);
@@ -83,20 +87,27 @@ package com.gerantech.towercraft.controls.screens
 			tabLayout.useVirtualLayout = true;
 			tabLayout.hasVariableItemDimensions = true;	
 			
-	
 			tabsList = new List();
 			tabsList.layout = tabLayout;
 			tabsList.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 			tabsList.height = footerSize;
 			tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
             tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
-            tabsList.itemRendererFactory = function ():IListItemRenderer
-			{
-				return new DashboardTabItemRenderer(tabSize);
-			}
 			tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
+			tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabItemRenderer(tabSize); }
 			addChild(tabsList);
 			
+			
+		/*	var txt:String = "Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ ";
+			var text1:RTLLabel = new RTLLabel(txt, 1, null, null, true);
+			text1.width = stage.stageWidth/2
+			text1.layoutData = new AnchorLayoutData(0,NaN,NaN,0);
+			addChild(text1);	
+			var text2:RTLLabel = new RTLLabel(txt, 1, null, null, true, null, 0, "lalezarsupercell");
+			text2.width = stage.stageWidth/2
+			text2.layoutData = new AnchorLayoutData(0,0,NaN,NaN);
+			addChild(text2);
+			*/
 			var toolbar:Toolbar = new Toolbar();
 			toolbar.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 			toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);
@@ -104,17 +115,26 @@ package com.gerantech.towercraft.controls.screens
 			
 			addChild(tabBorder);
 			
-			appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
+				appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			else
+				loadingManager_loadedHandler(null);
 		}
 		
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
-			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			
 			var dashboardData:Array = getDashboardData();
 			pageList.dataProvider = new ListCollection(dashboardData);
+			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 			tabsList.dataProvider = new ListCollection(dashboardData);
+			tabsList.touchable = !player.inTutorial();
 			tabsList.selectedIndex = 1;
+			
+			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			appModel.sounds.addSound("main-theme", null,  themeLoaded);
+			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+			
+			appModel.navigator.showBugReportButton();
 		}
 		
 		private function getDashboardData():Array
@@ -122,35 +142,38 @@ package com.gerantech.towercraft.controls.screens
 			var ret:Array = new Array();
 			for each(var p:int in PageType.getAll()._list)
 			{
-				var badgeNumber:int = 0;
 				var pd:DashboardItemData = new DashboardItemData(p);
-				if( p == 2 )
+				if( !player.inTutorial() )
 				{
-					for each(var b:Building in player.buildings.values())
-						if(b.upgradable())
-							badgeNumber ++;
+					if( p == 2 )
+					{
+						var bs:Vector.<Building> = player.buildings.values();
+						for each(var b:Building in bs)
+						{
+							if(b.upgradable())
+								pd.badgeNumber ++;
+							
+							if( game.loginData.buildingsLevel.exists(b.type) )
+								pd.newBadgeNumber ++;
+						}
+					}
+					else if( p == 0 )
+					{
+						for each(var e:ExchangeItem in exchanger.items.values())
+							if( e.type> ExchangeType.S_20_SPECIALS && e.expiredAt < timeManager.now )
+								pd.badgeNumber ++;
+					}
 				}
-				else if( p == 0 )
-				{
-					for each(var e:ExchangeItem in exchanger.items.values())
-						if( e.type> ExchangeType.S_20_BUILDING && e.expiredAt < timeManager.now )
-							badgeNumber ++;
-				}
-				pd.badgeNumber = badgeNumber;
 				ret.push(pd);
 			}
 			
 			return ret;
 		}
 		
-		private function pageList_enterHandler(event:Event):void
-		{
-			tabsList.selectedIndex = 0;
-		}
-		
 		private function toolbar_triggerredHandler(event:Event):void
 		{
-			tabsList.selectedIndex = 0;
+			if( !player.inTutorial())
+				tabsList.selectedIndex = 0;
 		}
 		
 		private function pageList_focusInHandler(event:Event):void
@@ -158,15 +181,30 @@ package com.gerantech.towercraft.controls.screens
 			var focusIndex:int = event.data as int;
 			if(tabsList.selectedIndex != focusIndex)
 				tabsList.selectedIndex = focusIndex;
-			//trace(tabsList.selectedIndex, pageList.selectedIndex, focusIndex)
 		}
 		
 		private function tabsList_changeHandler(event:Event):void
 		{
+			if(player.inTutorial() && tabsList.selectedIndex != 1)
+				return;
 			pageList.selectedIndex = tabsList.selectedIndex;
-			pageList.scrollToDisplayIndex(tabsList.selectedIndex, 0.5);
+			pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 			Starling.juggler.tween(tabBorder, 0.3, {x:tabsList.selectedIndex * tabSize, transition:Transitions.EASE_OUT});
+			scrollTime = 0.5;
+			
+			appModel.sounds.addAndPlaySound("tab");
 		}
 		
+		override protected function backButtonFunction():void
+		{
+			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"));
+			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+			AppModel.instance.navigator.addPopup(confirm);
+			function confirm_selectHandler ( event:Event ) : void
+			{
+				confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
+				NativeApplication.nativeApplication.exit();
+			}
+		}
 	}
 }

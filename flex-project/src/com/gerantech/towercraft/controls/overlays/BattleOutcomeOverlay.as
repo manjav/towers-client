@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.controls.overlays
 {
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
+	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	
@@ -23,6 +25,7 @@ package com.gerantech.towercraft.controls.overlays
 	import feathers.layout.HorizontalLayout;
 	import feathers.layout.VerticalAlign;
 	
+	import starling.core.Starling;
 	import starling.display.Quad;
 	import starling.events.Event;
 
@@ -50,11 +53,11 @@ package com.gerantech.towercraft.controls.overlays
 			this.score = score;
 			this.rewards = rewards;
 			this.tutorialMode = tutorialMode;
-			if(BattleOutcomeOverlay.factory == null)
+			if(factory == null)
 			{
-				BattleOutcomeOverlay.factory = new StarlingFactory();
-				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
-				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
+				factory = new StarlingFactory();
+				dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
+				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 			}
 		}
 		
@@ -69,34 +72,35 @@ package com.gerantech.towercraft.controls.overlays
 			hlayout.horizontalAlign = HorizontalAlign.CENTER;
 			hlayout.verticalAlign = VerticalAlign.MIDDLE;
 			hlayout.paddingBottom = 42 * appModel.scale;
-			hlayout.gap = 32 * appModel.scale;
+			hlayout.gap = 24 * appModel.scale;
 			
-			
-			var rewardsList:List = new List();
-			rewardsList.backgroundSkin = new Quad(1, 1, 0);
-			rewardsList.backgroundSkin.alpha = 0.6;
-			rewardsList.height = 320*appModel.scale;
-			rewardsList.layout = hlayout;
-			rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
-			rewardsList.itemRendererFactory = function ():IListItemRenderer
+			if( rewards.size() > 0 )
 			{
-				return new BattleOutcomeRewardItemRenderer();	
+				var rewardsList:List = new List();
+				rewardsList.backgroundSkin = new Quad(1, 1, 0);
+				rewardsList.backgroundSkin.alpha = 0.6;
+				rewardsList.height = 400*appModel.scale;
+				rewardsList.layout = hlayout;
+				rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
+				rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
+				rewardsList.dataProvider = getRewardsCollection();
+				addChild(rewardsList);
 			}
-			rewardsList.dataProvider = new ListCollection(SFSArray(rewards).toArray());
-			addChild(rewardsList);
 			
 			var buttons:LayoutGroup = new LayoutGroup();
 			buttons.layout = hlayout;
-			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 480*appModel.scale);
+			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
 			addChild(buttons);
 			
-			var closeBatton:Button = new Button();
+			var closeBatton:CustomButton = new CustomButton();
 			closeBatton.name = "close";
 			closeBatton.label = loc("close_button");
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
+			Starling.juggler.tween(closeBatton, 0.5, {delay:3, alpha:1});
+			closeBatton.alpha = 0;
 			buttons.addChild(closeBatton);
 
-		/*	if(score == 0)
+			/*if(score == 0)
 			{
 				var retryButton:Button = new Button();
 				retryButton.name = "retry";
@@ -104,11 +108,23 @@ package com.gerantech.towercraft.controls.overlays
 				retryButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				buttons.addChild(retryButton);
 			}*/
+			appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+		}
+		
+		private function getRewardsCollection():ListCollection
+		{
+			var rw:Array = SFSArray(rewards).toArray();
+			var ret:ListCollection = new ListCollection();
+			for ( var i:int=0; i<rw.length; i++ )
+				if( rw[i].t != ResourceType.XP )
+					ret.addItem( rw[i] );
+				
+			return ret;
 		}
 		
 		private function buttons_triggeredHandler(event:Event):void
 		{
-			if(Button(event.currentTarget).name == "retry")
+			if(CustomButton(event.currentTarget).name == "retry")
 			{
 				dispatchEventWith(FeathersEventType.CLEAR, false);
 				setTimeout(close, 100);

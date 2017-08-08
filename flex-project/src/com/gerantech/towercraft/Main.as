@@ -1,15 +1,14 @@
 package com.gerantech.towercraft
 {
+	import com.gerantech.towercraft.controls.StackNavigator;
 	import com.gerantech.towercraft.controls.screens.ArenaScreen;
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.screens.QuestsScreen;
-	import com.gerantech.towercraft.controls.screens.RankingScreen;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
 	
 	import feathers.controls.Drawers;
-	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.core.IFeathersControl;
 	
@@ -21,7 +20,6 @@ package com.gerantech.towercraft
 		public static const BATTLE_SCREEN:String = "battleScreen";
 		public static const QUESTS_SCREEN:String = "questsScreen";
 		public static const ARENA_SCREEN:String = "arenaScreen";
-		public static const RANK_SCREEN:String = "rankScreen";
 		
 		public function Main(content:IFeathersControl=null)
 		{
@@ -35,7 +33,7 @@ package com.gerantech.towercraft
 			super.initialize();
 			
 			//EmbeddedAssets.initialize();
-			AppModel.instance.navigator =  new StackScreenNavigator();
+			AppModel.instance.navigator =  new StackNavigator();
 			this.content = AppModel.instance.navigator;
 
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(DashboardScreen);
@@ -43,9 +41,6 @@ package com.gerantech.towercraft
 			
 			item = new StackScreenNavigatorItem(ArenaScreen);
 			AppModel.instance.navigator.addScreen(ARENA_SCREEN, item);
-			
-			item = new StackScreenNavigatorItem(RankingScreen);
-			AppModel.instance.navigator.addScreen(RANK_SCREEN, item);
 			
 			item = new StackScreenNavigatorItem(QuestsScreen);
 			item.addPopEvent(Event.COMPLETE);

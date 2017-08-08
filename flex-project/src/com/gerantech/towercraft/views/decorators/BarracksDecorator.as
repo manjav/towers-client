@@ -3,7 +3,6 @@ package com.gerantech.towercraft.views.decorators
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.Game;
 	import com.gt.towers.constants.BuildingType;
 	
 	import starling.display.Image;
@@ -56,14 +55,25 @@ package com.gerantech.towercraft.views.decorators
 				bodyTexture = txt;
 				bodyDisplay.texture = Assets.getTexture(bodyTexture)	
 			}
-			
+		//	trace(place.index, place.building.type, troopType, place.building.troopType)
+
 			if(troopType > -1)
-				txt += "-" + (place.building.troopType == player.troopType?"0":"1");
+				txt += "-" + (troopType == player.troopType ? "0" : "1");
 			
 			if(troopTypeTexture != txt)
 			{
 				troopTypeTexture = txt;
-				troopTypeDisplay.texture = Assets.getTexture(troopTypeTexture)	
+				troopTypeDisplay.texture = Assets.getTexture(troopTypeTexture);
+				
+				// play change troop sounds
+				if( BuildingType.get_category(place.building.type) == BuildingType.B00_CAMP )
+				{
+					var tsound:String = troopType == player.troopType?"battle-capture":"battle-lost";
+					if(appModel.sounds.soundIsAdded(tsound))
+						appModel.sounds.playSound(tsound);
+					else
+						appModel.sounds.addSound(tsound);
+				}
 			}
 		}
 		

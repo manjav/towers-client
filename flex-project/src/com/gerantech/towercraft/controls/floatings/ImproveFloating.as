@@ -6,12 +6,9 @@ package com.gerantech.towercraft.controls.floatings
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
-	
-	import flash.text.ReturnKeyLabel;
 	
 	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
@@ -82,7 +79,7 @@ package com.gerantech.towercraft.controls.floatings
 					{
 						var places:PlaceDataList = new PlaceDataList();
 						places.push(new PlaceData( 0, (x+buttons[i].x)/appModel.scale, (y+buttons[i].y)/appModel.scale, 0, 0, ""));
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places));
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
 					}
 					tutorials.show(LayoutGroup(parent), tutorialData);
 				}

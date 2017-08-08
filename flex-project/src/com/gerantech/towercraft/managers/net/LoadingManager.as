@@ -6,6 +6,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.managers.socials.SocialEvent;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
@@ -17,10 +18,10 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import flash.desktop.NativeApplication;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.utils.getTimer;
 	
 	import mx.resources.ResourceManager;
 	
@@ -37,15 +38,17 @@ package com.gerantech.towercraft.managers.net
 		public static const STATE_LOGIN:int = 1;
 		public static const STATE_CORE_LOADING:int = 2;
 		public static const STATE_LOADED:int = 3;
+		public var inBattle:Boolean;
+		public var loadStartAt:int;
 		
 		private var sfsConnection:SFSConnection;
-
 		private var serverData:SFSObject;
-		public var inBattle:Boolean;
 		private var socials:SocialManager;
 		
-		public function LoadingManager()
+		public function load():void
 		{
+			loadStartAt = getTimer();
+			SFSConnection.dispose();
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
@@ -110,6 +113,11 @@ package com.gerantech.towercraft.managers.net
 			}
 			//GameAnalytics.config.setUserId("test_id");
 			
+			if( TimeManager.instance != null )
+				TimeManager.instance.dispose();
+			new TimeManager(serverData.getLong("serverTime"));
+
+			
 			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
 			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )
 				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
@@ -119,16 +127,15 @@ package com.gerantech.towercraft.managers.net
 				loadCore();
 		}
 		
-		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
-			NativeApplication.nativeApplication.exit();
+			dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST));
 		}
 		
 		/*******************************   LOAD CORE FILE   **********************************/
 		public function loadCore():void
 		{
-			var coreLoader:CoreLoader = new CoreLoader(serverData.getText("coreVersion"), serverData);//  "http://51.254.79.215/home/arman/SmartFoxServer_2X/SFS2X/extensions/MyZoneExts/core.swf")
+			var coreLoader:CoreLoader = new CoreLoader(serverData.getText("coreVersion"), serverData);
 			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			state = STATE_CORE_LOADING;			
@@ -240,5 +247,6 @@ package com.gerantech.towercraft.managers.net
 			state = STATE_LOADED;
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 		}
+
 	}
 }

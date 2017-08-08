@@ -51,6 +51,7 @@ package com.gerantech.towercraft.controls.floatings
 					onComplete:transitionInCompleted
 				}
 			);
+			appModel.sounds.addAndPlaySound("whoosh");
 		}
 		
 		protected override function stage_touchHandler(event:TouchEvent):void

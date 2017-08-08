@@ -53,7 +53,7 @@ package com.gerantech.towercraft.controls.overlays
 			var labelDisplay:RTLLabel = new RTLLabel(loc(task.message), 0, "justify", null, true);
 			labelDisplay.layoutData = new AnchorLayoutData(10, 10, 10, 10);
 			balloonDisplay.addChild(labelDisplay);
-			balloonDisplay.height = labelDisplay.height + 104;
+			balloonDisplay.height = labelDisplay.height + 420*appModel.scale;
 			
 			if(transitionIn == null)
 			{
