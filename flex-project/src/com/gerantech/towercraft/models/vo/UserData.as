@@ -9,6 +9,7 @@ public class UserData
     public var id:int = -1;
 	public var password:String = "";
     public var buildingsOpened:Boolean;
+    public var rated:Boolean;
 
     private static var _instance:UserData;
 

@@ -1,29 +1,44 @@
 package com.gerantech.towercraft.managers
 {
 	import com.gerantech.extensions.NativeAbilities;
-	import com.gerantech.extensions.events.AndroidEvent;
-	import com.gerantech.islamic.models.AppModel;
-	import com.gerantech.islamic.models.UserModel;
+	import com.gerantech.towercraft.controls.popups.MessagePopup;
+	import com.gerantech.towercraft.events.LoadingEvent;
+	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.exchanges.ExchangeItem;
+	import com.gt.towers.exchanges.Exchanger;
 	import com.pozirk.payment.android.InAppPurchase;
 	import com.pozirk.payment.android.InAppPurchaseDetails;
 	import com.pozirk.payment.android.InAppPurchaseEvent;
 	import com.pozirk.payment.android.InAppSkuDetails;
+	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
 	import mx.resources.ResourceManager;
 	
-	public class BillingManager
+	import feathers.events.FeathersEventType;
+	
+	import starling.events.Event;
+	import starling.events.EventDispatcher;
+	
+	public class BillingManager extends EventDispatcher
 	{
 		private var _iap:InAppPurchase;
 			
 		private static var _instance:BillingManager;
 		private var inited:Boolean;
 		
-		//public var premium:String = "air.com.gerantech.islamic.premium"
+		private var items:Array;
+		private var skus:Vector.<InAppSkuDetails>;
+		private var purchases:Vector.<InAppPurchaseDetails>;
+		private var retryPurchase:String;
 		
 		public static function get instance():BillingManager
 		{
@@ -34,9 +49,26 @@ package com.gerantech.towercraft.managers
 
 		
 		public function BillingManager(){}
-		
+		protected function loadingManager_loadedHandler(event:LoadingEvent):void
+		{
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			init();
+		}		
 		public function init():void
 		{
+			if( AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
+			{
+				AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+				return;
+			}
+			
+			// provide all sku items
+			items = new Array("com.grantech.towers.item_0");
+			var keys:Vector.<int> = AppModel.instance.game.exchanger.items.keys();
+			for each(var k:int in keys)
+				if( ExchangeType.getCategory(k) == ExchangeType.S_0_HARD )
+					items.push("com.grantech.towers.item_" + k);
+			
 			var base64Key:String, bindURL:String, packageURL:String;
 			switch(AppModel.instance.descriptor.market)
 			{
@@ -47,14 +79,13 @@ package com.gerantech.towercraft.managers
 					break;
 				
 				case "cafebazaar":
-					base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDNYE/Gp6vrAVhSRF/s/kixANnXtuCFkJbfLzVbwYimNlTw5bzben5xiSAb1aQtG3pDwT238aLnPBnqSAOhAQOryT5rC9w3BXloftI3Kgt+8ERKkG/BJyv/8u0KCVm9v3PqdbdAnacsfMMGyhT4zozGW8PxTh2AX1o8AagoqPkgOlUUYQ8COSFGNO9IftYb3Mq8kzG26t4oaYoxPV/m2VPQhfjJbWSX5Crn6FxvVDECAwEAAQ==";
+					base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
 					bindURL = "ir.cafebazaar.pardakht.InAppBillingService.BIND";
 					packageURL = "com.farsitel.bazaar";
 					break;
 				
 				case "myket":
 					base64Key = "MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgLrZzgFzF3P/4iYbG+kI/OseAo4pmfmvwgGjDLZFUFu7d5SZKBj5hGPOUg5Mu1Q8wEaj9LvI9jlybZkjpYmCn7ljCxbQ/QaCMwbNfp4gyF7EgEWOVeudzXNCXlhEoDSb1z63aNsD2opf294Cu64BzqLNQ+rlp0yW2YwjNiMU2O2/AgMBAAE=";
-					//base64Key = "MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgJMpfaXOx6tVOeg4RE63Z8GVqOiT8MigKw42dcTfwKuzo9n8vjjBtLX5XSatS0bsnkfBuNIq/w+FsXYFrHpU5TA/C0OMKBAr8BxCURX4LlYosQrXCBGzdKpGm242h+Oyco0Z9phXNs3jxBSe1qj9SKzofWObgPAUlUOjGL3gpfUZAgMBAAE=";
 					bindURL = "ir.mservices.market.InAppBillingService.BIND";
 					packageURL = "ir.mservices.market";
 					break;
@@ -67,159 +98,201 @@ package com.gerantech.towercraft.managers
 			}			
 
 			_iap = new InAppPurchase();
-			_iap.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, onInitSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.INIT_ERROR, onInitError);
+			_iap.addEventListener(InAppPurchaseEvent.INIT_SUCCESS, iap_initSuccessHandler);
+			_iap.addEventListener(InAppPurchaseEvent.INIT_ERROR, iap_initErrorHandler);
 			if(AppModel.instance.platform == AppModel.PLATFORM_ANDROID)
 				_iap.init(base64Key, bindURL, packageURL);
 		}
-
-		protected function onInitSuccess(event:InAppPurchaseEvent):void
+		protected function iap_initSuccessHandler(event:InAppPurchaseEvent):void
 		{
+			_iap.removeEventListener(InAppPurchaseEvent.INIT_SUCCESS, iap_initSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.INIT_ERROR, iap_initErrorHandler);
 			inited = true;
-		//	NativeAbilities.instance.showToast("Billing_extension_test.onInitSuccess", 1)
 			restore();
-			trace("Billing_extension_test.onInitSuccess(event)", event.data);
+			trace("iap_initSuccessHandler(event)", event.data);
+			dispatchEventWith(FeathersEventType.INITIALIZE);
 		}
-		protected function onInitError(event:InAppPurchaseEvent):void
+		protected function iap_initErrorHandler(event:InAppPurchaseEvent):void
 		{
-			trace("Billing_extension_test.onInitError(event)", event.data);
+			_iap.removeEventListener(InAppPurchaseEvent.INIT_SUCCESS, iap_initSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.INIT_ERROR, iap_initErrorHandler);
+			trace("iap_initErrorHandler(event)", event.data);
+			dispatchEventWith(FeathersEventType.INITIALIZE);
 		}
+
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		/**Getting purchased product details, _iap should be initialized first</br>
+		 * if put items args getting purchased and not purchased product details
+		 */
+		public function restore(items:Array=null, subs:Array=null, retryPurchase:String=null):void
+		{
+			if(!inited)
+			{
+				dispatchEventWith(FeathersEventType.END_INTERACTION);
+				explain("popup_purchase_not_initialized");
+				//lostMarket();
+				return;
+			}
+			this.retryPurchase = retryPurchase;
+			_iap.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, iap_restoreSuccessHandler);
+			_iap.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, iap_restoreErrorHandler);
+			_iap.restore(items, subs); //restoring purchased in-app items and subscriptions
+		}
+		protected function iap_restoreSuccessHandler(event:InAppPurchaseEvent):void
+		{
+			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, iap_restoreSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_ERROR, iap_restoreErrorHandler);
+			loadDetails();
+			if(retryPurchase != null)
+				purchase(retryPurchase);
+			trace("iap_restoreSuccessHandler", event.data);
+		}
+		protected function iap_restoreErrorHandler(event:InAppPurchaseEvent):void
+		{
+			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, iap_restoreSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_ERROR, iap_restoreErrorHandler);
+			trace("iap_restoreErrorHandler", event.data);
+		}			
 		
-		//> making the purchase, _iap should be initialized first ---------------------------------------------------------------------
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		/**
+		 * Making the purchase, _iap should be initialized first 
+		 */
 		public function purchase(sku:String=null):void
 		{
-//			if(sku==null)
-//				sku = premium;
-			
 			if(!inited)
 			{
 				lostMarket();
 				return;
 			}
-			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, onPurchaseSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, onPurchaseSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, onPurchaseError);
+			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, iap_purchaseSuccessHandler);
+			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, iap_purchaseSuccessHandler);
+			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
 			_iap.purchase(sku, InAppPurchaseDetails.TYPE_INAPP);
 		}
 		
-		protected function onPurchaseSuccess(event:InAppPurchaseEvent):void
+		protected function iap_purchaseSuccessHandler(event:InAppPurchaseEvent):void
 		{
-			_iap.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onRestoreSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onRestoreError);
-			_iap.restore([event.data]);
+			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, iap_purchaseSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, iap_purchaseSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
 
-			
-			/* ------------ PURCHASE VERIFICATION EXAMPLE -----------
-			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, adfs);
-			var param:SFSObject = new SFSObject();
-			param.putText("productID", "coin_pack_03");
-			param.putText("purchaseToken", "SDu10PZdud5JoToeZa");
-			sfsConnection.sendExtensionRequest("verify", param);
-			function adfs(event:SFSEvent):void {
-			trace(event.params);
-			}*/		
-			
-			trace("onPurchaseSuccess", event.data); //product id
+			//restore([event.data]);
+			var purchaseDetails:InAppPurchaseDetails = _iap.getPurchaseDetails(event.data);
+			if(purchaseDetails != null)
+			{
+				AppModel.instance.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
+				/* ------------ PURCHASE VERIFICATION AND CONSUMPTION -----------*/
+				var param:SFSObject = new SFSObject();
+				param.putText("productID", purchaseDetails._sku);
+				param.putText("purchaseToken", purchaseDetails._token);
+				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
+				SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
+				function sfsConnection_purchaseVerifyHandler(event:SFSEvent):void {
+					if(event.params.cmd != SFSCommands.VERIFY_PURCHASE)
+						return;
+					SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
+					var result:SFSObject = event.params.params;
+					trace(result.getDump());
+					if (result.getBool("success") && result.getInt("consumptionState") == 1)
+						consume(purchaseDetails._sku);
+					else
+						explain("popup_purchase_invalid");
+				}
+			}
+			else
+			{
+				restore(null, null, event.data);
+			}
+			trace("iap_purchaseSuccessHandler", event.data); //product id
 		}
-		protected function onPurchaseError(event:InAppPurchaseEvent):void
+		
+		private function explain(message:String):void
 		{
-			trace("onPurchaseError", event.data); //trace error message
+			var popup:MessagePopup = new MessagePopup(ResourceManager.getInstance().getString("loc", message));
+			AppModel.instance.navigator.addPopup(popup);
 		}
+		protected function iap_purchaseErrorHandler(event:InAppPurchaseEvent):void
+		{
+			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, iap_purchaseSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, iap_purchaseSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
+			explain("popup_purchase_error");
+			trace("iap_purchaseErrorHandler", event.data);
+			dispatchEventWith(FeathersEventType.END_INTERACTION);
+		}
+
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_- CONSUMING PURCHASED ITEM -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		public function consume(sku:String=null):void
+		{
+			if(!inited)
+			{
+				lostMarket();
+				return;
+			}
+			trace("consume", sku); 
+			_iap.addEventListener(InAppPurchaseEvent.CONSUME_SUCCESS, iap_consumeSuccessHandler);
+			_iap.addEventListener(InAppPurchaseEvent.CONSUME_ERROR, iap_consumeErrorHandler);
+			_iap.consume(sku);
+		}
+		
+		protected function iap_consumeSuccessHandler(event:InAppPurchaseEvent):void
+		{
+			_iap.removeEventListener(InAppPurchaseEvent.CONSUME_SUCCESS, iap_consumeSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.CONSUME_ERROR, iap_consumeErrorHandler);
 			
+			var exchanger:Exchanger = AppModel.instance.game.exchanger;
+			
+			var sku:String = event.data;
+			var item:ExchangeItem = exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
+			exchanger.exchange(item, 0);
+			restore();
+			dispatchEventWith(FeathersEventType.END_INTERACTION);
+			trace("iap_consumeSuccessHandler", event.data);
+		}
+		protected function iap_consumeErrorHandler(event:InAppPurchaseEvent):void
+		{
+			_iap.removeEventListener(InAppPurchaseEvent.CONSUME_SUCCESS, iap_consumeSuccessHandler);
+			_iap.removeEventListener(InAppPurchaseEvent.CONSUME_ERROR, iap_consumeErrorHandler);
+			trace("iap_consumeErrorHandler", event.data);
+		}
+		
+		
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- LOAD DETAILS -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		private function loadDetails():void
+		{
+			//getting details of purchase and skus: time, etc.
+			purchases = new Vector.<InAppPurchaseDetails>();
+			skus = new Vector.<InAppSkuDetails>();
+			
+			var purchase:InAppPurchaseDetails;
+			var sku:InAppSkuDetails;
+			
+			for(var s:String in items)
+			{
+				purchase = _iap.getPurchaseDetails(s);
+				if(purchase!=null)
+					purchases.push(purchase);
+				
+				sku = _iap.getSkuDetails(s);
+				if(sku!=null)
+					skus.push(sku);
+			}
+			trace("purchases:", purchases, "skus:", skus);
+		}
+		
+		
 		private function lostMarket():void
 		{
 			NativeAbilities.instance.showToast(ResourceManager.getInstance().getString("loc", "purchase_lost"), 1);
 			init();
 		}
-
-			
-		//> getting purchased product details, _iap should be initialized first --------------------------------------------------
-		public function restore():void
-		{
-			if(!inited)
-			{
-				lostMarket();
-				return;
-			}
-			_iap.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onRestoreSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onRestoreError);
-			_iap.restore([premium]); //restoring purchased in-app items and subscriptions
-		}
 		
-		protected function onRestoreSuccess(event:InAppPurchaseEvent):void
-		{
-			//getting details of purchase: time, etc.
-			var premiumPurchase:InAppPurchaseDetails = _iap.getPurchaseDetails(premium);
-			if(premiumPurchase)
-			{
-				//NativeAbilities.instance.showToast("Restore premium "+ premiumPurchase._json, 1);
-				//UserModel.instance.premiumMode = true;
-				
-			}
-			trace("onRestoreSuccess", premiumPurchase); //product id
-		}
-		protected function onRestoreError(event:InAppPurchaseEvent):void
-		{
-			//NativeAbilities.instance.showToast("onRestoreError", 1)
-			trace("onRestoreError", event.data); //trace error message
-		}
-	
-		//> getting purchased and not purchased product details ----------------------------------------------------------------------
-		public function restoreAll():void
-		{
-			if(!inited)
-			{
-				NativeAbilities.instance.showToast(ResourceManager.getInstance().getString("loc", "purchase_lost"), 1);
-				return;
-			}
-			_iap.addEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, onRestoreAllSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.RESTORE_ERROR, onRestoreError);
-			
-			var items:Array = ["my.product.id1", "my.product.id2", "my.product.id3"];
-			
-			var subs:Array = ["my.subs.id1", "my.subs.id2", "my.subs.id3"];
-			_iap.restore(items, subs); //restoring purchased + not purchased in-app items and subscriptions
-		}
-		
-		protected function onRestoreAllSuccess(event:InAppPurchaseEvent):void
-		{
-			//getting details of product: time, etc.
-			var skuDetails1:InAppSkuDetails = _iap.getSkuDetails("my.product.id1");
-			
-			//getting details of product: time, etc.
-			var skuDetails2:InAppSkuDetails = _iap.getSkuDetails("my.subs.id1");
-			
-			//getting details of purchase: time, etc.
-			var purchase:InAppPurchaseDetails = _iap.getPurchaseDetails(premium);
-		}
-		
-		//> consuming purchased item ------------------------------------------------------------------------------------------
-		public function consume(sku:String=null):void
-		{
-			if(sku==null)
-				sku = premium;
-			if(!inited)
-			{
-				lostMarket();
-				return;
-			}
-			_iap.addEventListener(InAppPurchaseEvent.CONSUME_SUCCESS, onConsumeSuccess);
-			_iap.addEventListener(InAppPurchaseEvent.CONSUME_ERROR, onConsumeError);
-			_iap.consume(sku);
-		}
-		
-		protected function onConsumeSuccess(event:InAppPurchaseEvent):void
-		{
-			trace(event.data); //trace error message				
-		}
-		protected function onConsumeError(event:InAppPurchaseEvent):void
-		{
-			trace(event.data); //trace error message				
-		}		
-		
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- RATING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function rate():void
 		{
 			UserData.getInstance().rated = true;
+			UserData.getInstance().save();
 			switch(AppModel.instance.descriptor.market)
 			{
 				case "google":
@@ -240,6 +313,7 @@ package com.gerantech.towercraft.managers
 			}			
 		}
 		
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- SHARING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function share():void
 		{
 			var link:String;

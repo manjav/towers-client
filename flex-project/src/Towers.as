@@ -2,6 +2,7 @@ package
 {
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
+	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.mesmotronic.ane.AndroidFullScreen;
 	
@@ -93,6 +94,8 @@ package
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
+			
+			BillingManager.instance.init();
 		}
 		private function starling_rootCreatedHandler(event:Object):void
 		{

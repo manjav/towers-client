@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.ShopLine;
@@ -112,8 +113,11 @@ package com.gerantech.towercraft.controls.segments
 			var item:ExchangeItem = event.data as ExchangeItem;
 			if(ExchangeType.getCategory(item.type) == ExchangeType.S_0_HARD)
 			{
-//				BillingManager.instance.purchase("");
-				trace("Go to Purchase Manager");
+				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
+				BillingManager.instance.purchase("com.grantech.towers.item_"+item.type);
+				function billinManager_endInteractionHandler ( event:Event ) : void {
+					item.enabled = true;
+				}
 				return;
 			}
 			
