@@ -30,7 +30,8 @@ package com.gerantech.towercraft.controls.buttons
 				width = 240 * appModel.scale;
 			minWidth = 72 * appModel.scale;
 			minHeight = 72 * appModel.scale;
-			maxHeight = 128 * appModel.scale;
+			height = maxHeight = 128 * appModel.scale;
+			
 			padding = 8 * appModel.scale;
 			layout = new AnchorLayout();
 			shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.8);

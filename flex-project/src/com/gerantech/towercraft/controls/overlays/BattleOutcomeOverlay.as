@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
 	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -91,7 +92,7 @@ package com.gerantech.towercraft.controls.overlays
 			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
 			addChild(buttons);
 			
-			var closeBatton:Button = new Button();
+			var closeBatton:CustomButton = new CustomButton();
 			closeBatton.name = "close";
 			closeBatton.label = loc("close_button");
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
@@ -123,7 +124,7 @@ package com.gerantech.towercraft.controls.overlays
 		
 		private function buttons_triggeredHandler(event:Event):void
 		{
-			if(Button(event.currentTarget).name == "retry")
+			if(CustomButton(event.currentTarget).name == "retry")
 			{
 				dispatchEventWith(FeathersEventType.CLEAR, false);
 				setTimeout(close, 100);
