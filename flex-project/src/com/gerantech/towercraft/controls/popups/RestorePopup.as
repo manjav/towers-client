@@ -2,18 +2,11 @@ package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.texts.CustomTextInput;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.UserData;
-	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
 	import flash.text.ReturnKeyLabel;
 	import flash.text.SoftKeyboardType;
-	
-	import feathers.controls.ImageLoader;
 	
 	import starling.events.Event;
 

@@ -27,6 +27,8 @@ package com.gerantech.towercraft.controls.texts
 			
 			promptProperties.textAlign = "center"//AppModel.instance.align;
 			promptProperties.bidiLevel = AppModel.instance.isLTR?0:1;
+			
+			width = 128 * AppModel.instance.scale;
 			//backgroundFocusedSkin = null
 		}
 		
