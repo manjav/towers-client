@@ -77,11 +77,12 @@
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
-      <airSettings airCertificatePath="D:/_PROJECTS/_FLEX/towers-projects/towers-assets/towers=p1~5.p12" airTimestamp="true" anePathSet="true" version="1">
+      <airSettings airCertificatePath="C:/_projects/towers-projects/towers-assets/towers=p1~5.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes>
           <pathEntry path="assets/images/game.xml"/>
         </airExcludes>
         <anePaths>
+          <anePathEntry path="ane/android-fullscreen.ane"/>
           <anePathEntry path="ane/com.marpies.ane.androidsupport.ane"/>
           <anePathEntry path="ane/com.marpies.ane.gameanalytics.ane"/>
           <anePathEntry path="ane/com.marpies.ane.gameServices.ane"/>
