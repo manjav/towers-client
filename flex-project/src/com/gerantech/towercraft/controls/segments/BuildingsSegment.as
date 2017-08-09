@@ -113,7 +113,7 @@ package com.gerantech.towercraft.controls.segments
 			// create transition out data
 			var to:TransitionData = new TransitionData();
 			to.sourceAlpha = 1;
-			to.destinationAlpha = 0.5;
+			to.destinationAlpha = 0.8;
 			to.sourceBound = ti.destinationBound.clone();
 			to.destinationBound = ti.sourceBound.clone();
 
