@@ -4,6 +4,7 @@ package com.gerantech.towercraft.models.vo
 
 	public class Descriptor
 	{
+		public var name:String;
 		public var id:String;
 		public var copyright:String;
 		public var versionLabel:String;
@@ -16,6 +17,7 @@ package com.gerantech.towercraft.models.vo
 		
 		public function Descriptor(xml:XML)
 		{
+			name = getNodesByName(xml, "name");
 			id = getNodesByName(xml, "id");
 			copyright = getNodesByName(xml, "copyright");
 			description = getNodesByName(xml, "description");
