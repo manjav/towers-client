@@ -52,6 +52,7 @@ package com.gerantech.towercraft.controls.screens
 			super.initialize();
 			autoSizeMode = AutoSizeMode.STAGE; 
 			layout = new AnchorLayout();
+			visible = false;
 			
 			var footerSize:int = 180 * appModel.scale;
 			
@@ -124,6 +125,7 @@ package com.gerantech.towercraft.controls.screens
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
 			var dashboardData:Array = getDashboardData();
+			visible = true;
 			pageList.dataProvider = new ListCollection(dashboardData);
 			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 			tabsList.dataProvider = new ListCollection(dashboardData);
