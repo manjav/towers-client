@@ -99,6 +99,7 @@ package com.gerantech.towercraft.controls.popups
 			addChild(upgradeLabel);
 			
 			var closeButton:CustomButton = new CustomButton();
+			closeButton.style = "danger";
 			closeButton.label = "X";
 			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
 			closeButton.width = closeButton.height = 96 * appModel.scale;

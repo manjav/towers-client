@@ -21,10 +21,13 @@ package com.gerantech.towercraft.controls.popups
 
 	public class ConfirmPopup extends BasePopup
 	{
-		protected var message:String;
-		protected var acceptLabel:String;
-		protected var declineLabel:String;
-		protected var messageDisplay:RTLLabel;
+		public var message:String;
+		public var acceptStyle:String = "normal";
+		public var declineStyle:String = "normal";
+		public var acceptLabel:String;
+		public var declineLabel:String;
+		public var messageDisplay:RTLLabel;
+		
 		protected var declineButton:CustomButton;
 		protected var acceptButton:CustomButton;
 
@@ -88,11 +91,13 @@ package com.gerantech.towercraft.controls.popups
 			addChild(buttonContainer);
 			
 			declineButton = new CustomButton();
+			declineButton.style = declineStyle;
 			declineButton.label = declineLabel;
 			declineButton.addEventListener(Event.TRIGGERED, decline_triggeredHandler);
 			buttonContainer.addChild(declineButton);
 			
 			acceptButton = new CustomButton();
+			acceptButton.style = acceptStyle;
 			acceptButton.label = acceptLabel;
 			acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
 			buttonContainer.addChild(acceptButton);

@@ -197,7 +197,8 @@ package com.gerantech.towercraft.controls.screens
 		
 		override protected function backButtonFunction():void
 		{
-			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"));
+			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"), loc("popup_exit_label"));
+			confirm.acceptStyle = "danger";
 			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 			AppModel.instance.navigator.addPopup(confirm);
 			function confirm_selectHandler ( event:Event ) : void

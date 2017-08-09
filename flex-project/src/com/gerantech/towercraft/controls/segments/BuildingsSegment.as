@@ -2,8 +2,8 @@ package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
-	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
+	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -11,11 +11,9 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.UserData;
-	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -115,6 +113,7 @@ package com.gerantech.towercraft.controls.segments
 			// create transition out data
 			var to:TransitionData = new TransitionData();
 			to.sourceAlpha = 1;
+			to.destinationAlpha = 0.5;
 			to.sourceBound = ti.destinationBound.clone();
 			to.destinationBound = ti.sourceBound.clone();
 

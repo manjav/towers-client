@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
@@ -70,9 +71,10 @@ package com.gerantech.towercraft.controls
 			var leftPadding:int = (hasQuit ? 160 : 16) * appModel.scale;
 			if( hasQuit )
 			{
-				var closeButton:Button = new Button();
+				var closeButton:CustomButton = new CustomButton();
+				closeButton.style = "danger";
 				closeButton.label = "X";
-				appModel.theme.setDangerButtonStyles(closeButton);
+				closeButton.height = closeButton.width = 120 * appModel.scale;
 				closeButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 				closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 				addChild(closeButton);			

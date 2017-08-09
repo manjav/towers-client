@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+	import com.gerantech.towercraft.controls.popups.MessagePopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
@@ -8,6 +9,7 @@ package com.gerantech.towercraft.controls.screens
 	
 	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
@@ -16,7 +18,6 @@ package com.gerantech.towercraft.controls.screens
 	import mx.resources.ResourceManager;
 	
 	import starling.events.Event;
-	import flash.display.DisplayObjectContainer;
 	
 	public class SplashScreen extends Sprite
 	{
@@ -72,11 +73,19 @@ package com.gerantech.towercraft.controls.screens
 					if(parent)
 						addEventListener("enterFrame", enterFrameHandler); // fade-out splash screen
 					break;
-				
+				case LoadingEvent.CONNECTION_LOST:
+					var reloadpopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_reload_label"));
+					reloadpopup.data = event.type;
+					reloadpopup.addEventListener(Event.SELECT, confirm_eventsHandler);
+					AppModel.instance.navigator.addPopup(reloadpopup);
+					if(parent)
+						parent.removeChild(this);
+					break;
+		
 				default:
 				/*case LoadingEvent.NOTICE_UPDATE:
 				case LoadingEvent.FORCE_UPDATE:*/
-					var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_"+event.type+"_message"));
+					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"));
 					confirm.data = event.type;
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 					confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
@@ -144,6 +153,11 @@ package com.gerantech.towercraft.controls.screens
 				removeEventListener("enterFrame", enterFrameHandler);
 				parent.removeChild(this);
 			}
+		}
+		
+		protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
+		{
+			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 		}
 	}
 }

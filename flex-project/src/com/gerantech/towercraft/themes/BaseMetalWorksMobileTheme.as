@@ -137,7 +137,7 @@ package com.gerantech.towercraft.themes
 		 */
 		public static const FONT_NAME_STACK:String = "Source Sans Pro,Helvetica,_sans";
 
-		public static const PRIMARY_BACKGROUND_COLOR:uint = 0x4a4137;
+		public static const PRIMARY_BACKGROUND_COLOR:uint = 0x3d4759;
 		public static const LIGHT_TEXT_COLOR:uint = 0xe5e5e5;
 		public static const DARK_TEXT_COLOR:uint = 0x1a1816;
 		public static const SELECTED_TEXT_COLOR:uint = 0xff9900;
@@ -545,6 +545,8 @@ package com.gerantech.towercraft.themes
 		public var buttonCallToActionDownSkinTexture:Texture;
 		public var buttonDangerUpSkinTexture:Texture;
 		public var buttonDangerDownSkinTexture:Texture;
+		public var buttonNeutralUpSkinTexture:Texture;
+		public var buttonNeutralDownSkinTexture:Texture;
 		public var buttonBackUpSkinTexture:Texture;
 		public var buttonBackDownSkinTexture:Texture;
 		public var buttonBackDisabledSkinTexture:Texture;
@@ -769,15 +771,17 @@ package com.gerantech.towercraft.themes
 			this.backgroundDarkBorderSkinTexture = Assets.getTexture("background-dark-border-skin", "skin");
 			this.backgroundDangerBorderSkinTexture = Assets.getTexture("background-danger-border-skin", "skin");
 
-			this.buttonUpSkinTexture = Assets.getTexture("button-up-skin", "skin");
-			this.buttonDownSkinTexture = Assets.getTexture("button-down-skin", "skin");
+			this.buttonUpSkinTexture = Assets.getTexture("button-normal-up-skin", "skin");
+			this.buttonDownSkinTexture = Assets.getTexture("button-normal-down-skin", "skin");
+			this.buttonDangerUpSkinTexture = Assets.getTexture("button-danger-up-skin", "skin");
+			this.buttonDangerDownSkinTexture = Assets.getTexture("button-danger-down-skin", "skin");
+			this.buttonNeutralUpSkinTexture = Assets.getTexture("button-neutral-up-skin", "skin");
+			this.buttonNeutralDownSkinTexture = Assets.getTexture("button-neutral-down-skin", "skin");
 			this.buttonDisabledSkinTexture = Assets.getTexture("button-disabled-skin", "skin");
 			this.buttonSelectedUpSkinTexture = Assets.getTexture("toggle-button-selected-up-skin", "skin");
 			this.buttonSelectedDisabledSkinTexture = Assets.getTexture("toggle-button-selected-disabled-skin", "skin");
 			this.buttonCallToActionUpSkinTexture = Assets.getTexture("call-to-action-button-up-skin", "skin");
 			this.buttonCallToActionDownSkinTexture = Assets.getTexture("call-to-action-button-down-skin", "skin");
-			this.buttonDangerUpSkinTexture = Assets.getTexture("danger-button-up-skin", "skin");
-			this.buttonDangerDownSkinTexture = Assets.getTexture("danger-button-down-skin", "skin");
 			this.buttonBackUpSkinTexture = Assets.getTexture("back-button-up-skin", "skin");
 			this.buttonBackDownSkinTexture = Assets.getTexture("back-button-down-skin", "skin");
 			this.buttonBackDisabledSkinTexture = Assets.getTexture("back-button-disabled-skin", "skin");

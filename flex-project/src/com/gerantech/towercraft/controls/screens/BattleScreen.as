@@ -440,7 +440,8 @@ package com.gerantech.towercraft.controls.screens
 			if(!appModel.battleFieldView.battleData.map.isQuest)
 				return;
 				
-			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
+			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("popup_exit_label"), loc("popup_continue_label"));
+			confirm.acceptStyle = "danger";
 			confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
