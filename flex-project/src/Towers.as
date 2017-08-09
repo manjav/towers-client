@@ -1,5 +1,6 @@
 package
 {
+	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.managers.BillingManager;
@@ -112,6 +113,7 @@ package
 			stage.frameRate = 0;
 			this.stage.addEventListener(Event.ACTIVATE, stage_activateHandler, false, 0, true);
 			AppModel.instance.sounds.muteAll(true);
+			AppModel.instance.notifier.reset();
 		}
 		private function stage_activateHandler(event:Event):void
 		{
@@ -119,6 +121,7 @@ package
 			stage.frameRate = 60;
 			this.starling.start();
 			AppModel.instance.sounds.muteAll(false);
+			//AppModel.instance.notifier.clear();
 		}
 	}
 }

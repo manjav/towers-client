@@ -52,6 +52,7 @@ package com.gerantech.towercraft.controls.screens
 			super.initialize();
 			autoSizeMode = AutoSizeMode.STAGE; 
 			layout = new AnchorLayout();
+			visible = false;
 			
 			var footerSize:int = 180 * appModel.scale;
 			
@@ -124,6 +125,7 @@ package com.gerantech.towercraft.controls.screens
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
 			var dashboardData:Array = getDashboardData();
+			visible = true;
 			pageList.dataProvider = new ListCollection(dashboardData);
 			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 			tabsList.dataProvider = new ListCollection(dashboardData);
@@ -197,7 +199,8 @@ package com.gerantech.towercraft.controls.screens
 		
 		override protected function backButtonFunction():void
 		{
-			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"));
+			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"), loc("popup_exit_label"));
+			confirm.acceptStyle = "danger";
 			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 			AppModel.instance.navigator.addPopup(confirm);
 			function confirm_selectHandler ( event:Event ) : void

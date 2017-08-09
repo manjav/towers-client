@@ -28,7 +28,7 @@
 	Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
 	An updated version of application must have a versionNumber value higher than the previous version. Required for namespace >= 2.5 .
     For iOS Apps, this represents build number. -->
-	<versionNumber>0.1.8</versionNumber>
+	<versionNumber>0.1.15</versionNumber>
 		         
 	<!-- A string value (such as "v1", "2.5", or "Alpha 1") that represents the version of the application, as it should be shown to users. 
      For iOS Apps, this represents application version number and format should be (<0-999>.<0-999>.<0-999>).
@@ -362,7 +362,23 @@
 					</receiver>
 					<!-- OneSignal END -->
 					
+					<activity android:excludeFromRecents="false">
+						<intent-filter>
+
+							<action android:name="android.intent.action.MAIN"/>
+							<category android:name="android.intent.category.LAUNCHER"/>
+<!-- 							<category android:name="tv.ouya.intent.category.GAME" /> -->
+						</intent-filter>
+						<intent-filter>
+						    <action android:name="android.intent.action.VIEW"/>
+						    <category android:name="android.intent.category.BROWSABLE"/>
+						    <category android:name="android.intent.category.DEFAULT"/>
+						    <data android:scheme="towers"/>
+						</intent-filter>
+					</activity>
 					<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
+	    	        <receiver android:name="com.gerantech.extensions.recievers.LocalNotificationReceiver"/>
+<!-- 			    <receiver android:name="com.gerantech.extensions.recievers.InvokeAppReceiver"/> -->
 	            </application>
 			</manifest>
 		]]></manifestAdditions>

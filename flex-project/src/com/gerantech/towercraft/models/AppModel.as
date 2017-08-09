@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.models
 {
 	import com.gerantech.towercraft.controls.StackNavigator;
+	import com.gerantech.towercraft.managers.NotificationManager;
+	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
 	import com.gerantech.towercraft.models.vo.Descriptor;
@@ -12,7 +14,6 @@ package com.gerantech.towercraft.models
 	import flash.system.Capabilities;
 	
 	import starling.utils.AssetManager;
-	import com.gerantech.towercraft.managers.SoundManager;
 
 
 	public class AppModel
@@ -40,6 +41,7 @@ package com.gerantech.towercraft.models
 		public var socials:SocialManager;
 		public var assets:AssetManager;
 		public var sounds:SoundManager;
+		public var notifier:NotificationManager;
 		
 		
 		public function AppModel()
@@ -49,6 +51,7 @@ package com.gerantech.towercraft.models
 			assets.verbose = false;
 			
 			sounds = new SoundManager();
+			notifier = new NotificationManager();
 			
 			switch( Capabilities.os.substr(0, 5) )
 			{

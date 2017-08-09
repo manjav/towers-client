@@ -13,6 +13,8 @@ package com.gerantech.towercraft.controls.buttons
 	
 	public class CustomButton extends SimpleLayoutButton
 	{
+		public var style:String = "normal"
+		
 		private var labelDisplay:RTLLabel;
 		private var shadowDisplay:RTLLabel;
 		private var iconDisplay:ImageLoader;
@@ -43,19 +45,31 @@ package com.gerantech.towercraft.controls.buttons
 		{
 			super.initialize();
 			
-			skin = new ImageSkin(appModel.theme.buttonUpSkinTexture);
-			skin.setTextureForState(ButtonState.UP, appModel.theme.buttonUpSkinTexture);
-			skin.setTextureForState(ButtonState.DOWN, appModel.theme.buttonDownSkinTexture);
+			var defaultTextue:Texture = appModel.theme.buttonUpSkinTexture;
+			if( style == "danger" )
+				defaultTextue = appModel.theme.buttonDangerUpSkinTexture;
+			else if( style == "neutral" )
+				defaultTextue = appModel.theme.buttonNeutralUpSkinTexture;
+				
+			var downTextue:Texture = appModel.theme.buttonDownSkinTexture;
+			if( style == "danger" )
+				downTextue = appModel.theme.buttonDangerDownSkinTexture;
+			else if( style == "neutral" )
+				downTextue = appModel.theme.buttonNeutralDownSkinTexture;
+			
+			skin = new ImageSkin(defaultTextue);
+			skin.setTextureForState(ButtonState.UP, defaultTextue);
+			skin.setTextureForState(ButtonState.DOWN, downTextue);
 			skin.setTextureForState(ButtonState.DISABLED, appModel.theme.buttonDisabledSkinTexture);
 			skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
 			backgroundSkin = skin;
 			
-			shadowDisplay = new RTLLabel(_label, 0x002200, "center");
+			shadowDisplay = new RTLLabel(_label, 0x000000, "center");
 			shadowDisplay.touchable = false;
 			shadowDisplay.layoutData = shadowLayoutData;
 			addChild(shadowDisplay);
 		
-			labelDisplay = new RTLLabel(_label, 0XEEFFEE, "center");
+			labelDisplay = new RTLLabel(_label, 0XFFFFFF, "center");
 			labelDisplay.touchable = false;
 			labelDisplay.layoutData = labelLayoutData;
 			addChild(labelDisplay);
