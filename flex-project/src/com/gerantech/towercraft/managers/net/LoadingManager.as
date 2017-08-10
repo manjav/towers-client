@@ -5,16 +5,14 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
-	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.TimeManager;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.managers.socials.SocialEvent;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
-	import com.gerantech.towercraft.managers.socials.SocialUser;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.marpies.ane.onesignal.OneSignal;
-	import com.marpies.ane.onesignal.OneSignalNotification;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
@@ -56,6 +54,9 @@ package com.gerantech.towercraft.managers.net
 			
 			socials = new SocialManager();
 			socials.init( SocialManager.TYPE_GOOGLEPLAY );
+			
+			if( AppModel.instance.navigator != null )
+				AppModel.instance.navigator.popToRootScreen();
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
