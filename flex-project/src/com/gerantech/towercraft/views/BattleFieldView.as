@@ -3,7 +3,6 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.managers.DropTargets;
 	import com.gerantech.towercraft.managers.net.ResponseSender;
-	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.Fields;
 	import com.gerantech.towercraft.models.vo.BattleData;

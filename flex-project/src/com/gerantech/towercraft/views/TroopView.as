@@ -2,7 +2,6 @@ package com.gerantech.towercraft.views
 {
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gt.towers.Game;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.buildings.Place;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -139,8 +138,8 @@ package com.gerantech.towercraft.views
 				return;
 			
 			movieClip.muted = true;
-			/*dispatchEventWith(Event.TRIGGERED);
-			
+			dispatchEventWith(Event.TRIGGERED);
+			/*
 			Starling.juggler.remove(movieClip);
 			Starling.juggler.removeTweens(this);
 			Starling.juggler.tween(this, 0.2, {x:x+50, y:y-40, onComplete:onTroopKilled, onCompleteArgs:[placeView], transition:Transitions.EASE_OUT});
