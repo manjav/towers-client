@@ -1,6 +1,5 @@
 package
 {
-	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.managers.BillingManager;

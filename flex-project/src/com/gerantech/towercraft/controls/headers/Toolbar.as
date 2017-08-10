@@ -8,9 +8,6 @@ package com.gerantech.towercraft.controls.headers
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.events.CoreEvent;
 	
-	import flash.utils.clearInterval;
-	import flash.utils.setInterval;
-	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
@@ -49,23 +46,19 @@ package com.gerantech.towercraft.controls.headers
 			keyIndicator.addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
 			keyIndicator.layoutData = new AnchorLayoutData(NaN, padding*5+softIndicator.width*2, NaN, NaN, NaN, 0);
 			addChild(keyIndicator);
+
 			
 			if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
-				init();
+				loadingManager_loadedHandler(null);
 			else
 				appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 		}
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
-			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			init();
-		}
-		
-		private function init():void
-		{
 			player.resources.addEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
 			updateIndicators();
 		}
+
 		
 		protected function playerResources_changeHandler(event:CoreEvent):void
 		{
@@ -90,6 +83,7 @@ package com.gerantech.towercraft.controls.headers
 
 		override public function dispose():void
 		{
+			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 			player.resources.removeEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
 			super.dispose();
 		}
