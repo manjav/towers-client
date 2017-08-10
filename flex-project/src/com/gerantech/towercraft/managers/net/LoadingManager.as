@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.managers.net
 {
 
+	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -42,6 +43,8 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			state = STATE_CONNECT;
+			if( AppModel.instance.navigator != null )
+				AppModel.instance.navigator.popToRootScreen();
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
