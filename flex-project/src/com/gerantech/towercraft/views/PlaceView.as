@@ -15,6 +15,8 @@ package com.gerantech.towercraft.views
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
 	
+	import feathers.core.PopUpManager;
+	
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -154,11 +156,14 @@ package com.gerantech.towercraft.views
 		}
 		
 		public function replaceBuilding(type:int, level:int):void
-		{ 
-			//trace(place.index, type, level);
+		{
+			var tt:int = place.building.troopType;
+			var p:int = place.building._population;
+			trace("replaceBuilding", place.index, type, level, place.building._population);
 			place.building = BuildingType.instantiate(AppModel.instance.game ,type, place, place.index);
 			place.building.level = level;
 			createDecorator();
+			update(p,tt);
 		}
 		
 		override public function dispose():void
