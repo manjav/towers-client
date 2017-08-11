@@ -6,6 +6,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
 	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
 	import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
+	import com.gt.towers.buildings.Building;
 	import com.gt.towers.buildings.Place;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
@@ -159,11 +160,12 @@ package com.gerantech.towercraft.views
 		{
 			var tt:int = place.building.troopType;
 			var p:int = place.building._population;
-			trace("replaceBuilding", place.index, type, level, place.building._population);
+			//trace("replaceBuilding", place.index, type, level, place.building._population);
 			place.building = BuildingType.instantiate(AppModel.instance.game ,type, place, place.index);
 			place.building.level = level;
 			createDecorator();
-			update(p,tt);
+			if( type == BuildingType.B01_CAMP )
+				update(p,tt);
 		}
 		
 		override public function dispose():void
