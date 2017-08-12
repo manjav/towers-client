@@ -6,7 +6,6 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
 	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
 	import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
-	import com.gt.towers.buildings.Building;
 	import com.gt.towers.buildings.Place;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
@@ -15,8 +14,6 @@ package com.gerantech.towercraft.views
 	import flash.geom.Rectangle;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
-	
-	import feathers.core.PopUpManager;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;
