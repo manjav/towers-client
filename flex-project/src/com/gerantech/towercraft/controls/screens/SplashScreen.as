@@ -37,6 +37,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CONNECTION_LOST,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.load();
 			
 			logo = new Assets.splash_bitmap();
@@ -80,6 +81,10 @@ package com.gerantech.towercraft.controls.screens
 					AppModel.instance.navigator.addPopup(reloadpopup);
 					if(parent)
 						parent.removeChild(this);
+					break;
+				
+				case LoadingEvent.FORCE_RELOAD:
+					reload();
 					break;
 		
 				default:

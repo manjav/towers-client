@@ -27,6 +27,11 @@ package com.gerantech.towercraft.managers.net
 	[Event(name="loginError",			type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="noticeUpdate",			type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="forceUpdate",			type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="networkError",			type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="coreLoadingError",		type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="connectionLost",		type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="forceReload",			type="com.gerantech.towercraft.events.LoadingEvent")]
+
 	public class LoadingManager extends EventDispatcher
 	{
 		public var state:int = -1;
@@ -184,6 +189,7 @@ package com.gerantech.towercraft.managers.net
 			AppModel.instance.navigator.addChild(new GameLog("Authentication Failed."))
 			socials.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
 			socials.removeEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
+			NativeAbilities.instance.showToast("Your ISP not allowed to connect google play service.", 2);
 			finalize();
 		}	
 		protected function socialManager_authenticateHandler(event:SocialEvent):void
@@ -237,9 +243,11 @@ package com.gerantech.towercraft.managers.net
 				UserData.getInstance().password = sfs.getText("playerPassword");
 				NativeAbilities.instance.showToast(sfs.getInt("playerId") + " core:" + AppModel.instance.game.player.id, 2);
 				//AppModel.instance.navigator.addChild(new GameLog(sfs.getInt("playerId") + " " + AppModel.instance.game.player.id + " " + sfs.getText("playerPassword")))
+				UserData.getInstance().save();
+				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
+				return;
 			}
-			
-			UserData.getInstance().save();	
+			UserData.getInstance().save();
 		}
 		
 		/***********************************   FINALIZE   ***************************************/
