@@ -4,15 +4,17 @@ package
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.models.AppModel;
-	import com.mesmotronic.ane.AndroidFullScreen;
 	import com.marpies.ane.gameanalytics.GameAnalytics;
+	import com.mesmotronic.ane.AndroidFullScreen;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
+	import flash.events.ErrorEvent;
 	import flash.events.Event;
+	import flash.events.UncaughtErrorEvent;
 	import flash.utils.getTimer;
 	
 	import feathers.utils.ScreenDensityScaleFactorManager;
@@ -101,7 +103,33 @@ package
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
 			
 			BillingManager.instance.init();
+			
+			loaderInfo.uncaughtErrorEvents.addEventListener( UncaughtErrorEvent.UNCAUGHT_ERROR, uncaughtErrorHandler );
 		}
+		
+		protected function uncaughtErrorHandler(event:UncaughtErrorEvent):void
+		{
+			var errorText:String;
+			var stack:String;
+			if( event.error is Error )
+			{
+				errorText = (event.error as Error).message;
+				stack = (event.error as Error).getStackTrace();
+				if(stack != null){
+					errorText += stack;
+				}
+			} else if( event.error is ErrorEvent )
+			{
+				errorText = (event.error as ErrorEvent).text;
+			} else
+			{
+				errorText = event.text;
+			}
+			if(GameAnalytics.isInitialized)
+				GameAnalytics.addErrorEvent(0, errorText);
+			//event.preventDefault();
+		}
+		
 		private function starling_rootCreatedHandler(event:Object):void
 		{
 		}
