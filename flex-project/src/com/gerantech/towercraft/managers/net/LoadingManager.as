@@ -19,6 +19,11 @@ package com.gerantech.towercraft.managers.net
 	[Event(name="loginError",			type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="noticeUpdate",			type="com.gerantech.towercraft.events.LoadingEvent")]
 	[Event(name="forceUpdate",			type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="networkError",			type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="coreLoadingError",		type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="connectionLost",		type="com.gerantech.towercraft.events.LoadingEvent")]
+	[Event(name="forceReload",			type="com.gerantech.towercraft.events.LoadingEvent")]
+	
 	public class LoadingManager extends EventDispatcher
 	{
 		public var state:int = -1;
