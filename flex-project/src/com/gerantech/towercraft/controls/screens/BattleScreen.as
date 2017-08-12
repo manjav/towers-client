@@ -15,7 +15,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.battle.BattleOutcome;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.PathFinder;
@@ -386,7 +385,7 @@ package com.gerantech.towercraft.controls.screens
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;
 			ti.sourceAlpha = 0;
-			ti.sourcePosition = new Point(placeView.x, placeView.y-120*appModel.scale);
+			ti.sourcePosition = new Point(placeView.x, placeView.y-50*appModel.scale);
 			ti.destinationPosition = ti.sourcePosition;
 			
 			// create transition out data
