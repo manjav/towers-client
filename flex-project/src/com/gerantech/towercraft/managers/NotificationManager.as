@@ -53,7 +53,7 @@ package com.gerantech.towercraft.managers
 		{
 			var title:String = AppModel.instance.descriptor.name;
 			NativeAbilities.instance.scheduleLocalNotification(title, title, loc(message), time);
-			trace(title, message, time)
+		//	trace(title, message, time)
 		}
 		
 		public function clear():void

@@ -85,8 +85,9 @@ package com.gerantech.towercraft.controls.screens
 				default:
 				/*case LoadingEvent.NOTICE_UPDATE:
 				case LoadingEvent.FORCE_UPDATE:*/
-					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"));
+					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"), loc("popup_update_label"));
 					confirm.data = event.type;
+					confirm.declineStyle = "danger";
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 					confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 					AppModel.instance.navigator.addPopup(confirm);
@@ -110,7 +111,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					case LoadingEvent.NOTICE_UPDATE:
 					case LoadingEvent.FORCE_UPDATE:
-						navigateToURL(new URLRequest("http://towers.grantech.ir/get"));
+						navigateToURL(new URLRequest("http://towers.grantech.ir/get/towerstory.apk"));
 					case LoadingEvent.CORE_LOADING_ERROR:
 						NativeApplication.nativeApplication.exit();
 						break;

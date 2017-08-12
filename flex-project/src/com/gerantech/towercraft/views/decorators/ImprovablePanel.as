@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views.decorators
 {
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import feathers.layout.HorizontalAlign;
@@ -19,9 +20,8 @@ package com.gerantech.towercraft.views.decorators
 			alignPivot(HorizontalAlign.CENTER, VerticalAlign.BOTTOM);
 			touchable = false;
 			visible = false;
-			initialScale = scale;
+			initialScale = AppModel.instance.scale;
 		}
-		
 		
 		public function set enabled(value:Boolean):void
 		{
@@ -38,6 +38,5 @@ package com.gerantech.towercraft.views.decorators
 					visible = false;
 			}
 		}
-		
 	}
 }

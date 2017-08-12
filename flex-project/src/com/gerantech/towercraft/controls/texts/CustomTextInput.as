@@ -5,6 +5,11 @@ package com.gerantech.towercraft.controls.texts
 	import feathers.controls.TextInput;
 	import feathers.controls.text.StageTextTextEditor;
 	import feathers.core.ITextEditor;
+	import feathers.core.ITextRenderer;
+	import feathers.layout.HorizontalAlign;
+	import feathers.layout.VerticalAlign;
+	
+	import starling.text.TextFormat;
 	
 	public class CustomTextInput extends TextInput
 	{
@@ -17,7 +22,7 @@ package com.gerantech.towercraft.controls.texts
 				var editor:StageTextTextEditor = new StageTextTextEditor();
 				editor.fontFamily = "SourceSans";
 				editor.textAlign = "center"//AppModel.instance.align;
-				editor.fontSize = AppModel.instance.theme.regularFontSize ;
+				editor.fontSize = AppModel.instance.theme.gameFontSize * AppModel.instance.scale ;
 				editor.color = textColor;
 				editor.softKeyboardType = softKeyboardType;
 				editor.multiline = multiline;
@@ -25,10 +30,12 @@ package com.gerantech.towercraft.controls.texts
 				return editor;
 			}
 			
-			promptProperties.textAlign = "center"//AppModel.instance.align;
-			promptProperties.bidiLevel = AppModel.instance.isLTR?0:1;
-			
-			width = 128 * AppModel.instance.scale;
+			promptFactory = function():ITextRenderer
+			{
+				return new RTLLabel("", textColor, "center");
+			}
+
+			height = 128 * AppModel.instance.scale;
 			//backgroundFocusedSkin = null
 		}
 		

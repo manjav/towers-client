@@ -75,7 +75,6 @@ package com.gerantech.towercraft.views.decorators
 			setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationIndicator);
 
 			improvablePanel = new ImprovablePanel();
-			improvablePanel.scale = appModel.scale * 2;
 			improvablePanel.x = parent.x - improvablePanel.width/2;
 			improvablePanel.y = parent.y + 32*appModel.scale;
 			setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, improvablePanel);

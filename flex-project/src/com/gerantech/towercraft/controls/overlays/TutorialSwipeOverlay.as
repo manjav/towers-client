@@ -45,6 +45,7 @@ package com.gerantech.towercraft.controls.overlays
 			layout = new AnchorLayout();
 
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
+			finger.scale = appModel.scale*3;
 			finger.touchable = false;
 			
 			if(transitionIn == null)
