@@ -138,12 +138,9 @@ package com.gerantech.towercraft.views
 			
 			if(health > 0)
 				return;
-			movieClip.muted = true;
+
+			AppModel.instance.sounds.addAndPlaySound("kill");
 			
-			/*Starling.juggler.remove(movieClip);
-			Starling.juggler.removeTweens(this);
-			Starling.juggler.tween(this, 0.2, {x:x+50, y:y-40, onComplete:onTroopKilled, onCompleteArgs:[placeView], transition:Transitions.EASE_OUT});
-*/
 			var blood:Image = new Image(Assets.getTexture("blood"));
 			blood.pivotX = blood.width/2;
 			blood.pivotY = blood.height/2;
