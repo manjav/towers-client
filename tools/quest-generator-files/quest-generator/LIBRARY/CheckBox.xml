@@ -164,7 +164,7 @@
                   <matrix>
                     <Matrix d="1.00311279296875" tx="10" ty="10"/>
                   </matrix>
-                  <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='battle_301' oldCopiedComponentPath='5.16'>
+                  <dataBindingXML><![CDATA[<component metaDataFetched='true' schemaUrl='' schemaOperation='' sceneRootLabel='quest_5' oldCopiedComponentPath='5.16'>
 </component>
 ]]></dataBindingXML>
                 </DOMCompiledClipInstance>

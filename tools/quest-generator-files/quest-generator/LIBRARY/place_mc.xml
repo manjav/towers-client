@@ -6,7 +6,7 @@
           <frames>
             <DOMFrame index="0" keyMode="9728">
               <elements>
-                <DOMSymbolInstance libraryItemName="num_input" name="tutor_input" selected="true" centerPoint3DX="-91.5" centerPoint3DY="38.9">
+                <DOMSymbolInstance libraryItemName="num_input" name="tutor_input" centerPoint3DX="-91.5" centerPoint3DY="38.9">
                   <matrix>
                     <Matrix tx="-105.85" ty="24.65"/>
                   </matrix>
