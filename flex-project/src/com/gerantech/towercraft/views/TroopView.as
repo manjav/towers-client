@@ -134,13 +134,13 @@ package com.gerantech.towercraft.views
 			placeView.arrowTo(x-placeView.x, y-placeView.y)
 			setTimeout(function():void { placeView.arrowContainer.visible = false; }, 200);
 
+			dispatchEventWith(Event.TRIGGERED, false, damage);
+			
 			if(health > 0)
 				return;
-			
 			movieClip.muted = true;
-			dispatchEventWith(Event.TRIGGERED);
-			/*
-			Starling.juggler.remove(movieClip);
+			
+			/*Starling.juggler.remove(movieClip);
 			Starling.juggler.removeTweens(this);
 			Starling.juggler.tween(this, 0.2, {x:x+50, y:y-40, onComplete:onTroopKilled, onCompleteArgs:[placeView], transition:Transitions.EASE_OUT});
 */
