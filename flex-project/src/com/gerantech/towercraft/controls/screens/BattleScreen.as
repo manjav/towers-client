@@ -79,7 +79,7 @@ package com.gerantech.towercraft.controls.screens
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
-					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getSFSObject("opponent"), data.getInt("troopType"), data.getInt("startAt"), sfsConnection.getRoomById(data.getInt("roomId")));
+					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getSFSObject("opponent"), data.getInt("troopType"), data.getInt("startAt"), data.getBool("singleMode"), sfsConnection.getRoomById(data.getInt("roomId")));
 					appModel.battleFieldView = new BattleFieldView();
 					addChild(appModel.battleFieldView);
 					appModel.battleFieldView.createPlaces(battleData);

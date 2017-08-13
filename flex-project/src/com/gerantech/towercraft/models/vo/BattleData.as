@@ -8,30 +8,23 @@ package com.gerantech.towercraft.models.vo
 
 	public class BattleData
 	{
+		public var room:Room;
 		public var map:FieldData;
 		public var troopType:int;
 		public var startAt:int;
-		public var room:Room;
-		public var battleField:BattleField;
+		public var singleMode:Boolean;
 		public var opponent:ISFSObject;
+		public var battleField:BattleField;
 
-		
-		public function BattleData(mapName:String, opponent:ISFSObject, troopType:int, startAt:int, room:Room)
+		public function BattleData(mapName:String, opponent:ISFSObject, troopType:int, startAt:int, singleMode:Boolean, room:Room)
 		{
 			this.room = room;
 			this.startAt = startAt;
 			this.opponent = opponent;
+			this.singleMode = singleMode;
 			AppModel.instance.game.player.troopType = this.troopType = troopType;
 			battleField = new BattleField(AppModel.instance.game, mapName, troopType);
 			map = battleField.map;
 		}
-
-		public function get singleMode():Boolean
-		{
-			if(room == null)
-				return false;
-			return room.playerList.length == 1;
-		}
-
 	}
 }
