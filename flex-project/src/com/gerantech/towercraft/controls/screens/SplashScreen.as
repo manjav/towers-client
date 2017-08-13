@@ -83,9 +83,8 @@ package com.gerantech.towercraft.controls.screens
 					break;
 		
 				default:
-				/*case LoadingEvent.NOTICE_UPDATE:
-				case LoadingEvent.FORCE_UPDATE:*/
-					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"), loc("popup_update_label"));
+					var acceptLabel:String = event.type==LoadingEvent.NOTICE_UPDATE || event.type==LoadingEvent.FORCE_UPDATE ? "popup_update_label" :  "popup_reload_label";
+					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"), loc(acceptLabel));
 					confirm.data = event.type;
 					confirm.declineStyle = "danger";
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
