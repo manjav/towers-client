@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.texts.CustomTextInput;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.models.vo.UserData;
 	
 	import flash.geom.Rectangle;
@@ -53,8 +54,7 @@ package com.gerantech.towercraft.controls.popups
 			UserData.getInstance().id = int(uernameInput.text);
 			UserData.getInstance().password = passwordInput.text;
 			UserData.getInstance().save();
-			appModel.loadingManager.load();
+			appModel.loadingManager.dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
 		}
-
 	}
 }
