@@ -28,6 +28,8 @@ package com.gerantech.towercraft.managers
 	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	
+	import com.marpies.ane.gameanalytics.GameAnalytics;
+	
 	public class BillingManager extends EventDispatcher
 	{
 		private var _iap:InAppPurchase;
@@ -249,6 +251,8 @@ package com.gerantech.towercraft.managers
 			restore();
 			dispatchEventWith(FeathersEventType.END_INTERACTION);
 			trace("iap_consumeSuccessHandler", event.data);
+			//Game Analytic
+			//GameAnalytics.addBusinessEvent("Toman", 1000, "item", "id", "cart", "[receipt]", "[signature]");
 		}
 		protected function iap_consumeErrorHandler(event:InAppPurchaseEvent):void
 		{

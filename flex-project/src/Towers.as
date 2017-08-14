@@ -4,6 +4,8 @@ package
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.ResourceType;
 	import com.marpies.ane.gameanalytics.GameAnalytics;
 	import com.mesmotronic.ane.AndroidFullScreen;
 	
@@ -55,8 +57,19 @@ package
 			}
 			return;*/
 			
+			// GameAnalytic Configurations
+			
+			var resources:Vector.<String> = new Vector.<String>();
+			for( var r:int in BuildingType.getAll() )
+				resources.push(r+"");
+			resources.push(ResourceType.XP);
+			resources.push(ResourceType.POINT);
+
 			GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
 				.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("8ecad253293db70a84469b3d79243f12").setGameSecretAndroid("6c3abba9c19b989f5e45749396bcb1b78b51fbf2")
+				.setResourceCurrencies(new  <String>[ResourceType.CURRENCY_HARD.toString(), ResourceType.CURRENCY_SOFT.toString()])
+				.setResourceItemTypes(resources)
+				
 				/*.setBuildiOS(AppModel.instance.descriptor.versionNumber).setGameKeyiOS("[ios_game_key]").setGameSecretiOS("[ios_secret_key]")*/
 			GameAnalytics.init();
 

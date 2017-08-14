@@ -21,6 +21,9 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.gt.towers.utils.maps.IntIntMap;
+	import com.marpies.ane.gameanalytics.GameAnalytics;
+	import com.marpies.ane.gameanalytics.data.GAProgressionStatus;
+	import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -171,6 +174,10 @@ package com.gerantech.towercraft.controls.screens
 			appModel.sounds.stopSound("main-theme");
 			appModel.sounds.addSound("battle-theme", null,  themeLoaded);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
+			
+			//Game Analytic
+			if(GameAnalytics.isInitialized)
+				GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -200,6 +207,15 @@ package com.gerantech.towercraft.controls.screens
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
+			
+			// Game Analytic
+			if( GameAnalytics.isInitialized )
+			{
+				GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
+				for each (var k:int in outcomes.keys())
+					GameAnalytics.addResourceEvent(GAResourceFlowType.SINK, k.toString(), outcomes.get(k), quest.isQuest?"Quests":"Battles", "BattleOutCome-reward");
+				
+			}
 			
 			appModel.sounds.stopSound("battle-theme");
 			appModel.sounds.stopSound("battle-clock-ticking");
