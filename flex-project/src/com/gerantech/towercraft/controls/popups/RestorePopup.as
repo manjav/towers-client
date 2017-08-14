@@ -55,6 +55,7 @@ package com.gerantech.towercraft.controls.popups
 			UserData.getInstance().password = passwordInput.text;
 			UserData.getInstance().save();
 			appModel.loadingManager.dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
+			close();
 		}
 	}
 }
