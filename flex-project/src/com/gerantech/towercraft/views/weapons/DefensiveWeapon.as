@@ -32,6 +32,7 @@ package com.gerantech.towercraft.views.weapons
 				troop = AppModel.instance.battleFieldView.troopsList[i];
 				if(checkTriggerd(troop))
 				{
+					AppModel.instance.sounds.addAndPlaySound("shot-tower");
 					troop.hit(placeView);
 					//dispatchEventWith(Event.TRIGGERED, false, troop);
 					return;
@@ -41,7 +42,7 @@ package com.gerantech.towercraft.views.weapons
 		
 		private function checkTriggerd(troop:TroopView):Boolean
 		{
-			if(troop.type == placeView.place.building.troopType || troop.muted)
+			if( troop.type == placeView.place.building.troopType )
 				return false;
 			
 			var distance:Number = Math.sqrt(Math.pow(placeView.x-troop.x, 2) + Math.pow((placeView.y-troop.y)*1.2, 2));
