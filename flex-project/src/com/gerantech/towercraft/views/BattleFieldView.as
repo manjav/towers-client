@@ -63,8 +63,9 @@ package com.gerantech.towercraft.views
 		private function troopView_triggeredHandler(event:Event):void
 		{
 			var troopView:TroopView = event.target as TroopView;
+			//trace("hitTroop", battleData.singleMode, troopView.type, player.troopType, troopView.id);
 			if(battleData.singleMode || troopView.type == player.troopType)
-				responseSender.hitTroop(troopView.id);
+				responseSender.hitTroop(troopView.id, event.data as Number);
 		}		
 		
 		

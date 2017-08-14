@@ -12,9 +12,8 @@ package com.gerantech.towercraft.controls.segments
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.utils.GameError;
 	import com.gt.towers.utils.maps.IntIntMap;
-	import com.marpies.ane.gameanalytics.GameAnalytics;
-	import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
 	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.filesystem.File;
@@ -206,18 +205,18 @@ package com.gerantech.towercraft.controls.segments
 				{
 					case ExchangeType.S_20_SPECIALS:
 						itemslist.dataProvider.updateItemAt(0);
-						//Game Analytic
-						// track 
-						//GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, ResourceType.CURRENCY_HARD.toString(), 400, "IAP", "Coins400");
-						//GameAnalytics.addResourceEvent(GAResourceFlowType.SINK, ResourceType.CURRENCY_SOFT.toString(), 400, "IAP", "Coins400");
 						break;
 					
 					case ExchangeType.S_30_CHEST:
 						item.outcomes = new IntIntMap();
+						trace(data.getSFSArray("rewards").getDump());
+						var reward:ISFSObject;
 						for(var i:int=0; i< data.getSFSArray("rewards").size(); i++ )
-							item.outcomes.set(data.getSFSArray("rewards").getSFSObject(i).getInt("t"), data.getSFSArray("rewards").getSFSObject(i).getInt("c"));
-						//Game Analytic
-						//GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, ResourceType.CURRENCY_HARD.toString(), 400, "IAP", "Coins400");
+						{
+							reward = data.getSFSArray("rewards").getSFSObject(i);
+							if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
+								item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
+						}
 			
 						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item);
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);

@@ -51,6 +51,7 @@ package com.gerantech.towercraft.controls.popups
 			buildingIcon.width = padding * 7;
 			buildingIcon.height = padding * 10;
 			buildingIcon.type = buildingType;
+			buildingIcon.level = building.level;
 			addChild(buildingIcon);
 		}
 		
