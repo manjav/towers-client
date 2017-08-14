@@ -55,7 +55,7 @@ package com.gerantech.towercraft.controls
 			slider.height = progressHeight;
 			addChild(slider);
 			
-			levelDisplay = new RTLLabel("Level 1", 0, "center", null, false, null, 0.8);
+			levelDisplay = new RTLLabel("Level "+ _level, 0, "center", null, false, null, 0.8);
 			levelDisplay.alpha = 0.7;
 			levelDisplay.visible = !_locked && _showLevel;
 			levelDisplay.height = progressHeight;
