@@ -5,6 +5,8 @@ package com.gerantech.towercraft.managers.socials
 	import com.marpies.ane.gameservices.events.GSIdentityEvent;
 	
 	import flash.events.EventDispatcher;
+	import flash.utils.clearTimeout;
+	import flash.utils.setTimeout;
 
 	[Event(name="init", type="com.gerantech.towercraft.managers.socials.SocialEvent")]
 	[Event(name="failure", type="com.gerantech.towercraft.managers.socials.SocialEvent")]
@@ -18,10 +20,13 @@ package com.gerantech.towercraft.managers.socials
 		
 		public var type:int;
 		public var user:SocialUser;
+		public var signinTimeout:int = 10;
+		private var timeoutID:uint;
 		
 		public function init(type:int):void
 		{
 			this.type = type;
+			timeoutID = setTimeout( timeoutCallback, signinTimeout * 1000);
 			if( type == TYPE_GOOGLEPLAY )
 			{
 				GameServices.addEventListener( GSAuthEvent.SUCCESS, gameServices_successHandler );
@@ -32,8 +37,17 @@ package com.gerantech.towercraft.managers.socials
 			}
 		}
 		
+		private function timeoutCallback():void
+		{
+			timeoutID = -1;
+			dispatchEvent(new SocialEvent(SocialEvent.FAILURE, "Sign in toumout."));
+		}
+		
 		public function signin():void
 		{
+			if( timeoutID == -1 )
+				return;
+			
 			if( type == TYPE_GOOGLEPLAY )
 			{
 				//GameServices.addEventListener( GSAuthEvent.DIALOG_WILL_APPEAR, onGameServicesAuthDialogWillAppear );
@@ -49,6 +63,10 @@ package com.gerantech.towercraft.managers.socials
 		
 		private function gameServices_successHandler(event:GSAuthEvent):void
 		{
+			if( timeoutID == -1 )
+				return;
+			clearTimeout(timeoutID);
+			
 			//log( "User authenticated: "+ event.player );
 			user = new SocialUser();
 			user.id = event.player.id;

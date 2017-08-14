@@ -2,7 +2,6 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.extensions.NativeAbilities;
-	import com.gerantech.towercraft.controls.GameLog;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
@@ -20,6 +19,7 @@ package com.gerantech.towercraft.managers.net
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.getTimer;
+	import flash.utils.setTimeout;
 	
 	import mx.resources.ResourceManager;
 	
@@ -40,7 +40,9 @@ package com.gerantech.towercraft.managers.net
 		public static const STATE_CONNECT:int = 0;
 		public static const STATE_LOGIN:int = 1;
 		public static const STATE_CORE_LOADING:int = 2;
-		public static const STATE_LOADED:int = 3;
+		public static const STATE_SOCIAL_SIGNIN:int = 5;
+		public static const STATE_SEND_SOCIAL_DATA:int = 6;
+		public static const STATE_LOADED:int = 10;
 		public var inBattle:Boolean;
 		public var loadStartAt:int;
 		
@@ -177,6 +179,7 @@ package com.gerantech.towercraft.managers.net
 			
 			if( !socials.authenticated )
 			{
+				state = STATE_SOCIAL_SIGNIN;			
 				socials.addEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
 				socials.addEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
 				socials.signin();
@@ -186,9 +189,10 @@ package com.gerantech.towercraft.managers.net
 		}
 		protected function socialManager_failureHandler(event:SocialEvent):void
 		{
-			AppModel.instance.navigator.addChild(new GameLog("Authentication Failed."))
 			socials.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
 			socials.removeEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
+
+			setTimeout(AppModel.instance.navigator.addLog, 3000, "Authentication Failed.");
 			NativeAbilities.instance.showToast("Your ISP not allowed to connect google play service.", 2);
 			finalize();
 		}	
@@ -200,6 +204,7 @@ package com.gerantech.towercraft.managers.net
 		}
 		private function sendSocialData():void
 		{
+			state = STATE_SEND_SOCIAL_DATA;			
 			var sfs:SFSObject = SFSObject.newInstance();
 			sfs.putInt("accountType", socials.type);
 			sfs.putText("accountId", socials.user.id);
