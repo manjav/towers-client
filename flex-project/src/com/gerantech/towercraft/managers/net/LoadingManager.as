@@ -2,11 +2,7 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.extensions.NativeAbilities;
-<<<<<<< HEAD
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
-=======
-	import com.gerantech.towercraft.Main;
->>>>>>> 120-redesign
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -19,7 +15,6 @@ package com.gerantech.towercraft.managers.net
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
-	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
