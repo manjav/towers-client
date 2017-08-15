@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.managers.net
 {
 
+	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
@@ -8,12 +9,14 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.system.Capabilities;
 	import flash.utils.getTimer;
 	
 	[Event(name="loaded",				type="com.gerantech.towercraft.events.LoadingEvent")]
@@ -75,13 +78,24 @@ package com.gerantech.towercraft.managers.net
 			UserData.getInstance().load();
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
-			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "");
+			
+			var loginParams:ISFSObject;
+			// new player
+			if( UserData.getInstance().id < 0 )
+			{
+				loginParams = new SFSObject();
+				if( UserData.getInstance().id == -1 )
+				{
+					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.IMEI : Capabilities.serverString.substr(Math.max(0,Capabilities.serverString.length-150)));
+					loginParams.putText("device", Capabilities.manufacturer);
+				}
+			}
+			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
 		}
 		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void
 		{
 			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
 			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
-			//trace(event.params["errorCode"])
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_ERROR, event.params["errorCode"]));
 		}
 		protected function sfsConnection_loginHandler(event:SFSEvent):void
@@ -91,6 +105,13 @@ package com.gerantech.towercraft.managers.net
 			
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 			serverData = event.params.data;
+			
+			if(serverData.containsKey("exists"))
+			{
+				dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
+				return;
+			}
+			
 			// in registring case
 			if(serverData.containsKey("password"))
 			{
