@@ -12,6 +12,9 @@ package com.gerantech.towercraft.controls.segments
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.utils.GameError;
 	import com.gt.towers.utils.maps.IntIntMap;
+	import com.marpies.ane.gameanalytics.GameAnalytics;
+	import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
+	import com.pozirk.payment.android.InAppPurchaseDetails;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -119,6 +122,9 @@ package com.gerantech.towercraft.controls.segments
 				BillingManager.instance.purchase("com.grantech.towers.item_"+item.type);
 				function billinManager_endInteractionHandler ( event:Event ) : void {
 					item.enabled = true;
+					var pd:InAppPurchaseDetails = event.data as InAppPurchaseDetails;
+					var k:int = item.outcomes.keys()[0];
+					GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, k.toString(), item.outcomes.get(k), "IAP", pd._sku);
 				}
 				return;
 			}

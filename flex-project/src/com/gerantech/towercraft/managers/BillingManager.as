@@ -10,8 +10,10 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.exchanges.Exchanger;
+	import com.marpies.ane.gameanalytics.GameAnalytics;
 	import com.pozirk.payment.android.InAppPurchase;
 	import com.pozirk.payment.android.InAppPurchaseDetails;
 	import com.pozirk.payment.android.InAppPurchaseEvent;
@@ -27,8 +29,6 @@ package com.gerantech.towercraft.managers
 	import feathers.events.FeathersEventType;
 	
 	import starling.events.EventDispatcher;
-	
-	import com.marpies.ane.gameanalytics.GameAnalytics;
 	
 	public class BillingManager extends EventDispatcher
 	{
@@ -204,9 +204,14 @@ package com.gerantech.towercraft.managers
 						var result:SFSObject = event.params.params;
 						trace(result.getDump());
 						if (result.getBool("success") && result.getInt("consumptionState") == 1)
+						{
 							consume(purchaseDetails._sku);
+						}
 						else
+						{
+							sendGAEvent(purchaseDetails._sku);
 							explain("popup_purchase_invalid");
+						}
 					}
 				}
 				else
@@ -231,6 +236,7 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, iap_purchaseSuccessHandler);
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, iap_purchaseSuccessHandler);
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
+			sendGAEvent(event.data);
 			explain("popup_purchase_error");
 			trace("iap_purchaseErrorHandler", event.data);
 			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
@@ -262,23 +268,27 @@ package com.gerantech.towercraft.managers
 			exchanger.exchange(item, 0);
 			restore();
 			
-			var priceList:Array = skuDetails._price.split(" ");
+			sendGAEvent(sku);
+			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
+			trace("iap_consumeSuccessHandler", event.data);
+		}
+		
+		private function sendGAEvent(sku:String, pDetails:InAppPurchaseDetails=null):void
+		{
+			/*var priceList:Array = skuDetails._price.split(" ");
 			var price:String = priceList[0];
 			var currency:String = priceList[1];
 			price = price.split('٬').join('');
 			if( currency == "ریال" )
-				currency = "IRR";;
-			price = StrUtils.getLatinNumber(price);
-			trace(int(price), currency)
-			//GameAnalytics.addBusinessEvent("USD", 1000, "item", "id", "cart", "[receipt]", "[signature]");
-			
-			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
-			
-			
-			
-			trace("iap_consumeSuccessHandler", event.data);
-			//Game Analytic
-			//GameAnalytics.addBusinessEvent("Toman", 1000, "item", "id", "cart", "[receipt]", "[signature]");
+				currency = "IRR";
+			price = StrUtils.getLatinNumber(price);*/
+
+			var item:ExchangeItem = AppModel.instance.game.exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
+			var rkey:int = item.requirements.keys()[0];
+			var okey:int = item.outcomes.keys()[0];
+			var currency:String = AppModel.instance.descriptor.market == "google" ? "USD" : "IRR";
+			var price:int = item.requirements.get(rkey) * (AppModel.instance.descriptor.market == "google" ? 1 : 10);
+			GameAnalytics.addBusinessEvent(currency, price, "inapp", sku, okey.toString(), pDetails!=null?pDetails._json:null, pDetails!=null?pDetails._signature:null);
 		}
 		protected function iap_consumeErrorHandler(event:InAppPurchaseEvent):void
 		{
