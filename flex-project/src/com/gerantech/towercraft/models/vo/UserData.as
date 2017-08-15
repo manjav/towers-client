@@ -11,6 +11,7 @@ public class UserData
     public var authenticated:Boolean = false;
     public var buildingsOpened:Boolean;
     public var rated:Boolean;
+    public var authenticationAttemps:int;
 
     private static var _instance:UserData;
 
@@ -27,6 +28,7 @@ public class UserData
 			password = so.data.password;
 			authenticated = so.data.authenticated;
 			buildingsOpened = so.data.buildingsOpened;
+			authenticationAttemps = so.data.authenticationAttemps;
 			rated = so.data.rated;
 		}
 		public function save():void
@@ -36,6 +38,7 @@ public class UserData
 			so.data.password = password;
 			so.data.authenticated = authenticated;
 			so.data.buildingsOpened = buildingsOpened;
+			so.data.authenticationAttemps = authenticationAttemps;
 			so.data.rated = rated;
 			
 			so.flush(100000);

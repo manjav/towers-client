@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.managers.socials
 {
+	import com.gerantech.towercraft.models.vo.UserData;
 	import com.marpies.ane.gameservices.GameServices;
 	import com.marpies.ane.gameservices.events.GSAuthEvent;
 	import com.marpies.ane.gameservices.events.GSIdentityEvent;
@@ -8,9 +9,9 @@ package com.gerantech.towercraft.managers.socials
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
 
-	[Event(name="init", type="com.gerantech.towercraft.managers.socials.SocialEvent")]
-	[Event(name="failure", type="com.gerantech.towercraft.managers.socials.SocialEvent")]
-	[Event(name="authenticate", type="com.gerantech.towercraft.managers.socials.SocialEvent")]
+	[Event(name="init",			type="com.gerantech.towercraft.managers.socials.SocialEvent")]
+	[Event(name="failure",		type="com.gerantech.towercraft.managers.socials.SocialEvent")]
+	[Event(name="authenticate",	type="com.gerantech.towercraft.managers.socials.SocialEvent")]
 	
 	public class SocialManager extends EventDispatcher
 	{
@@ -21,11 +22,18 @@ package com.gerantech.towercraft.managers.socials
 		public var type:int;
 		public var user:SocialUser;
 		public var signinTimeout:int = 10;
+		
 		private var timeoutID:uint;
 		
 		public function init(type:int):void
 		{
 			this.type = type;
+			if( UserData.getInstance().authenticationAttemps > 2 )
+			{
+				dispatchFailurEvent("out of authentication attemps");
+				return;
+			}
+			
 			timeoutID = setTimeout( timeoutCallback, signinTimeout * 1000);
 			if( type == TYPE_GOOGLEPLAY )
 			{
@@ -39,8 +47,9 @@ package com.gerantech.towercraft.managers.socials
 		
 		private function timeoutCallback():void
 		{
-			timeoutID = -1;
-			dispatchEvent(new SocialEvent(SocialEvent.FAILURE, "Sign in toumout."));
+			dispatchFailurEvent("Sign in timeout.");
+			UserData.getInstance().authenticationAttemps ++;
+			UserData.getInstance().save();
 		}
 		
 		public function signin():void
@@ -76,8 +85,20 @@ package com.gerantech.towercraft.managers.socials
 		}
 		private function gameServices_errorHandler(event:GSAuthEvent):void
 		{
+			if( timeoutID == -1 )
+				return;
+			clearTimeout(timeoutID);
+			
 			//log( "Auth error occurred: "+ event.errorMessage );
-			dispatchEvent(new SocialEvent(SocialEvent.FAILURE, event.errorMessage));
+			dispatchFailurEvent(event.errorMessage);
+			UserData.getInstance().authenticationAttemps ++;
+			UserData.getInstance().save();
+		}
+		
+		private function dispatchFailurEvent(errorMessag:String):void
+		{
+			timeoutID = -1;
+			dispatchEvent(new SocialEvent(SocialEvent.FAILURE, errorMessag));			
 		}
 		
 		private function onGameServicesIdentitySuccess( event:GSIdentityEvent ):void {
