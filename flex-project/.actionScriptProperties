@@ -38,6 +38,7 @@
       <libraryPathEntry kind="5" linkType="2" path="ane/android-fullscreen.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/native_android.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/android-device-info.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -64,7 +65,6 @@
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="C:/_projects/towers-projects/towers-assets/towers=p1~5.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes>
           <pathEntry path="assets/images/game.xml"/>
@@ -79,6 +79,7 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget buildTargetName="default" isCurrent="true" platformId="default">

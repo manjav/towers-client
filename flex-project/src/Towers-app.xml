@@ -340,5 +340,6 @@
     <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>com.mesmotronic.ane.fullscreen</extensionID>
+    <extensionID>com.janumedia.ane.deviceinfo</extensionID>
     </extensions>
 </application>

@@ -2,16 +2,15 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.extensions.NativeAbilities;
-	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.janumedia.ane.deviceinfo.DeviceInfoExtension;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
-	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -87,7 +86,7 @@ package com.gerantech.towercraft.managers.net
 				if( UserData.getInstance().id == -1 )
 				{
 					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.IMEI : Capabilities.serverString.substr(Math.max(0,Capabilities.serverString.length-150)));
-					loginParams.putText("device", Capabilities.manufacturer);
+					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? DeviceInfoExtension.instance.deviceInfo.manufacturer+"-"+DeviceInfoExtension.instance.deviceInfo.model : Capabilities.manufacturer);
 				}
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
