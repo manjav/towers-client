@@ -5639,7 +5639,7 @@
           </DOMTimeline>
           <DOMTimeline name="quest_9">
                <layers>
-                    <DOMLayer name="action" color="#4FFFFF" locked="true" autoNamed="false">
+                    <DOMLayer name="action" color="#4FFFFF" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <Actionscript>
@@ -5649,7 +5649,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="places" color="#4FFF4F" locked="true" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="places" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -5713,7 +5713,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="controls" color="#FF800A" locked="true" autoNamed="false">
+                    <DOMLayer name="controls" color="#FF800A" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -5884,7 +5884,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="images" color="#9933CC" locked="true" autoNamed="false">
+                    <DOMLayer name="images" color="#9933CC" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -6042,7 +6042,7 @@
                                         </DOMBitmapInstance>
                                         <DOMBitmapInstance libraryItemName="images/tree-0.png">
                                              <matrix>
-                                                  <Matrix a="0.999984741210938" d="0.999984741210938" tx="947" ty="1876.15"/>
+                                                  <Matrix a="0.999984741210938" d="0.999984741210938" tx="573.05" ty="1600.15"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point x="61" y="71.5"/>
@@ -6053,7 +6053,7 @@
                                                   <Matrix tx="650.45" ty="1374.75"/>
                                              </matrix>
                                         </DOMBitmapInstance>
-                                        <DOMBitmapInstance selected="true" libraryItemName="images/building-plot.png">
+                                        <DOMBitmapInstance libraryItemName="images/building-plot.png">
                                              <matrix>
                                                   <Matrix tx="222.8" ty="558.4"/>
                                              </matrix>
@@ -6193,7 +6193,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="Layer 1" color="#4FFF4F" locked="true">
+                    <DOMLayer name="Layer 1" color="#4FFF4F">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -28022,6 +28022,10 @@
      </persistentData>
      <PrinterSettings/>
      <publishHistory>
+          <PublishItem publishSize="1399804" publishTime="1502797227"/>
+          <PublishItem publishSize="1399812" publishTime="1502790983"/>
+          <PublishItem publishSize="1399813" publishTime="1502790918"/>
+          <PublishItem publishSize="1399832" publishTime="1502790207"/>
           <PublishItem publishSize="1399417" publishTime="1502789342"/>
           <PublishItem publishSize="1399414" publishTime="1502789311"/>
           <PublishItem publishSize="1399415" publishTime="1502789264"/>
@@ -28038,10 +28042,6 @@
           <PublishItem publishSize="1399364" publishTime="1502781666"/>
           <PublishItem publishSize="1399364" publishTime="1502781150"/>
           <PublishItem publishSize="1399255" publishTime="1502722030"/>
-          <PublishItem publishSize="1399237" publishTime="1502721919"/>
-          <PublishItem publishSize="1399255" publishTime="1502721493"/>
-          <PublishItem publishSize="1399248" publishTime="1502721082"/>
-          <PublishItem publishSize="1399250" publishTime="1502721046"/>
      </publishHistory>
      <swcCache>
           <Swc hashKey="k718tUOF1.A1OSpQnqdJJ0" href="eyicdrbpjl.swc">
