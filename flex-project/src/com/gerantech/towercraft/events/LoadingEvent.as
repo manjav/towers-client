@@ -6,6 +6,7 @@ package com.gerantech.towercraft.events
 	{
 		public static const LOADED:String = "loaded";
 		public static const LOGIN_ERROR:String = "loginError";
+		public static const LOGIN_USER_EXISTS:String = "loginUserExists";
 		public static const NOTICE_UPDATE:String = "noticeUpdate";
 		public static const FORCE_UPDATE:String = "forceUpdate";
 		public static const NETWORK_ERROR:String = "networkError";
@@ -13,11 +14,11 @@ package com.gerantech.towercraft.events
 		public static const CONNECTION_LOST:String = "connectionLost";
 		public static const FORCE_RELOAD:String = "forceReload";
 		
-		public var message:String;
+		public var data:Object;
 		
-		public function LoadingEvent(type:String, message:String="", bubbles:Boolean=false, cancelable:Boolean=false)
+		public function LoadingEvent(type:String, data:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
-			this.message =  message;
+			this.data =  data;
 			super(type, bubbles, cancelable);
 		}
 	}

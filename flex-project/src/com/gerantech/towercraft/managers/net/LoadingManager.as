@@ -2,7 +2,11 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.extensions.NativeAbilities;
+<<<<<<< HEAD
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+=======
+	import com.gerantech.towercraft.Main;
+>>>>>>> 120-redesign
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -13,11 +17,14 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.marpies.ane.onesignal.OneSignal;
 	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
+	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.system.Capabilities;
 	import flash.utils.getTimer;
 	import flash.utils.setTimeout;
 	
@@ -98,12 +105,25 @@ package com.gerantech.towercraft.managers.net
 			UserData.getInstance().load();
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
-			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "");
+			
+			var loginParams:ISFSObject;
+			// new player
+			if( UserData.getInstance().id < 0 )
+			{
+				loginParams = new SFSObject();
+				if( UserData.getInstance().id == -1 )
+				{
+					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.IMEI : Capabilities.serverString.substr(Math.max(0,Capabilities.serverString.length-150)));
+					loginParams.putText("device", Capabilities.manufacturer);
+				}
+			}
+			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
 		}
 		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void
 		{
 			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
 			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
+			dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_ERROR, event.params["errorCode"]));
 		}
 		protected function sfsConnection_loginHandler(event:SFSEvent):void
 		{
@@ -112,6 +132,13 @@ package com.gerantech.towercraft.managers.net
 			
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 			serverData = event.params.data;
+			
+			if(serverData.containsKey("exists"))
+			{
+				dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
+				return;
+			}
+			
 			// in registring case
 			if(serverData.containsKey("password"))
 			{
@@ -137,6 +164,7 @@ package com.gerantech.towercraft.managers.net
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
+			sfsConnection.logout();
 			dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST));
 		}
 		
@@ -148,6 +176,7 @@ package com.gerantech.towercraft.managers.net
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			state = STATE_CORE_LOADING;			
 		}
+
 		protected function coreLoader_errorHandler(event:ErrorEvent):void
 		{
 			dispatchEvent(new LoadingEvent(LoadingEvent.CORE_LOADING_ERROR));
