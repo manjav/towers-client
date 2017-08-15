@@ -8,6 +8,7 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.exchanges.Exchanger;
@@ -25,7 +26,6 @@ package com.gerantech.towercraft.managers
 	
 	import feathers.events.FeathersEventType;
 	
-	import starling.events.Event;
 	import starling.events.EventDispatcher;
 	
 	import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -41,6 +41,10 @@ package com.gerantech.towercraft.managers
 		private var skus:Vector.<InAppSkuDetails>;
 		private var purchases:Vector.<InAppPurchaseDetails>;
 		private var retryPurchase:String;
+
+		private var purchaseDetails:InAppPurchaseDetails;
+
+		private var skuDetails:InAppSkuDetails;
 		
 		public static function get instance():BillingManager
 		{
@@ -180,26 +184,34 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
 
 			//restore([event.data]);
-			var purchaseDetails:InAppPurchaseDetails = _iap.getPurchaseDetails(event.data);
+			purchaseDetails = _iap.getPurchaseDetails(event.data);
+			skuDetails = _iap.getSkuDetails(event.data);
 			if(purchaseDetails != null)
 			{
 				AppModel.instance.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
-				/* ------------ PURCHASE VERIFICATION AND CONSUMPTION -----------*/
-				var param:SFSObject = new SFSObject();
-				param.putText("productID", purchaseDetails._sku);
-				param.putText("purchaseToken", purchaseDetails._token);
-				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
-				SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
-				function sfsConnection_purchaseVerifyHandler(event:SFSEvent):void {
-					if(event.params.cmd != SFSCommands.VERIFY_PURCHASE)
-						return;
-					SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
-					var result:SFSObject = event.params.params;
-					trace(result.getDump());
-					if (result.getBool("success") && result.getInt("consumptionState") == 1)
-						consume(purchaseDetails._sku);
-					else
-						explain("popup_purchase_invalid");
+				if( AppModel.instance.descriptor.market == "cafebazaar" )
+				{
+					/* ------------ PURCHASE VERIFICATION AND CONSUMPTION -----------*/
+					var param:SFSObject = new SFSObject();
+					param.putText("productID", purchaseDetails._sku);
+					param.putText("purchaseToken", purchaseDetails._token);
+					SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
+					SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
+					function sfsConnection_purchaseVerifyHandler(event:SFSEvent):void {
+						if(event.params.cmd != SFSCommands.VERIFY_PURCHASE)
+							return;
+						SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
+						var result:SFSObject = event.params.params;
+						trace(result.getDump());
+						if (result.getBool("success") && result.getInt("consumptionState") == 1)
+							consume(purchaseDetails._sku);
+						else
+							explain("popup_purchase_invalid");
+					}
+				}
+				else
+				{
+					consume(purchaseDetails._sku);
 				}
 			}
 			else
@@ -221,7 +233,7 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
 			explain("popup_purchase_error");
 			trace("iap_purchaseErrorHandler", event.data);
-			dispatchEventWith(FeathersEventType.END_INTERACTION);
+			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
 		}
 
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_- CONSUMING PURCHASED ITEM -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -249,7 +261,21 @@ package com.gerantech.towercraft.managers
 			var item:ExchangeItem = exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
 			exchanger.exchange(item, 0);
 			restore();
-			dispatchEventWith(FeathersEventType.END_INTERACTION);
+			
+			var priceList:Array = skuDetails._price.split(" ");
+			var price:String = priceList[0];
+			var currency:String = priceList[1];
+			price = price.split('٬').join('');
+			if( currency == "ریال" )
+				currency = "IRR";;
+			price = StrUtils.getLatinNumber(price);
+			trace(int(price), currency)
+			//GameAnalytics.addBusinessEvent("USD", 1000, "item", "id", "cart", "[receipt]", "[signature]");
+			
+			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
+			
+			
+			
 			trace("iap_consumeSuccessHandler", event.data);
 			//Game Analytic
 			//GameAnalytics.addBusinessEvent("Toman", 1000, "item", "id", "cart", "[receipt]", "[signature]");

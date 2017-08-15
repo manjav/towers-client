@@ -36,9 +36,12 @@ package
 		{
 			/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 			{
-				var str:String = improveLevel + " :  ";
+				var str:String = improveLevel + " : ";
 				for(var level:int=1; level<=10; level++)
-					str += level + " => " + ((  Math.round( Math.log(level * level) + Math.log(improveLevel * improveLevel))+1  )) + "  " ;
+				{
+					str += level + "[" + ((  1.1 + ( Math.log(level) * 0.7 + Math.log(improveLevel) ) * 0.3  )).toFixed(2) + "-" ;
+					str += ((  1.05 + ( Math.log(level) * 0.7 + Math.log(improveLevel) ) * 0.3  )).toFixed(2) + "] " ;
+				}
 				trace(str);
 			}
 			return;*/
