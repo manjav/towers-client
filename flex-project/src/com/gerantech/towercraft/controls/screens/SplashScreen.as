@@ -7,7 +7,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.UserData;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.desktop.NativeApplication;
