@@ -9,6 +9,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
+	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -80,6 +81,8 @@ package com.gerantech.towercraft.managers.net
 		{
 			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
 			sfsConnection.removeEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
+			//trace(event.params["errorCode"])
+			dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_ERROR, event.params["errorCode"]));
 		}
 		protected function sfsConnection_loginHandler(event:SFSEvent):void
 		{
@@ -120,6 +123,7 @@ package com.gerantech.towercraft.managers.net
 		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
+			sfsConnection.logout();
 			dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST));
 		}
 		

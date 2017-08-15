@@ -88,8 +88,13 @@ package com.gerantech.towercraft.controls.screens
 					break;
 		
 				default:
+					var message:String = loc("popup_"+event.type+"_message");
+					if( event.type == LoadingEvent.LOGIN_ERROR )
+						if( event.data == 2 || event.data == 3 || event.data == 6 )
+							message = loc("popup_loginError_" + event.data + "_message")
 					var acceptLabel:String = event.type==LoadingEvent.NOTICE_UPDATE || event.type==LoadingEvent.FORCE_UPDATE ? "popup_update_label" :  "popup_reload_label";
-					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"), loc(acceptLabel));
+					
+					var confirm:ConfirmPopup = new ConfirmPopup(message, loc(acceptLabel));
 					confirm.data = event.type;
 					confirm.declineStyle = "danger";
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
@@ -120,8 +125,7 @@ package com.gerantech.towercraft.controls.screens
 						NativeApplication.nativeApplication.exit();
 						break;
 					
-					case LoadingEvent.NETWORK_ERROR:
-					case LoadingEvent.CONNECTION_LOST:
+					default:
 						reload();
 				}
 				return;

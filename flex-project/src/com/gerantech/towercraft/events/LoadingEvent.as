@@ -13,11 +13,11 @@ package com.gerantech.towercraft.events
 		public static const CONNECTION_LOST:String = "connectionLost";
 		public static const FORCE_RELOAD:String = "forceReload";
 		
-		public var message:String;
+		public var data:Object;
 		
-		public function LoadingEvent(type:String, message:String="", bubbles:Boolean=false, cancelable:Boolean=false)
+		public function LoadingEvent(type:String, data:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
-			this.message =  message;
+			this.data =  data;
 			super(type, bubbles, cancelable);
 		}
 	}
