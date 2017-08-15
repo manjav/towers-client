@@ -312,7 +312,7 @@
 			    <!--<uses-permission android:name="android.permission.CAMERA"/>-->
 			    <!--<uses-permission android:name="android.permission.RECORD_AUDIO"/>-->
 			    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>-->
-
+				
 <!-- 			    <uses-permission android:name="android.permission.WAKE_LOCK"/> -->
 <!-- 			    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/> -->
 			
@@ -415,6 +415,7 @@
     	<extensionID>com.mesmotronic.ane.fullscreen</extensionID>
         <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
         <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+		<extensionID>com.janumedia.ane.deviceinfo</extensionID>
         <extensionID>com.marpies.ane.onesignal</extensionID>
         <extensionID>com.marpies.ane.androidsupport</extensionID>
         <extensionID>com.marpies.ane.gameanalytics</extensionID>
@@ -429,4 +430,5 @@
         <extensionID>com.marpies.ane.googleplayservices.iid</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.location</extensionID>
     </extensions>
+	
 </application>

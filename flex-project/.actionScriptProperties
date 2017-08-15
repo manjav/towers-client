@@ -51,6 +51,7 @@
       <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.onesignal.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/native_android.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/android-device-info.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -99,6 +100,7 @@
           <anePathEntry path="ane/com.marpies.ane.onesignal.ane"/>
           <anePathEntry path="ane/iab.ane"/>
           <anePathEntry path="ane/native_android.ane"/>
+          <anePathEntry path="ane/android-device-info.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>
