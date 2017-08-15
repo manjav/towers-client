@@ -150,7 +150,10 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_ERROR, iap_restoreErrorHandler);
 			loadDetails();
 			if(retryPurchase != null)
+			{
 				purchase(retryPurchase);
+				retryPurchase = null;
+			}
 			trace("iap_restoreSuccessHandler", event.data);
 		}
 		protected function iap_restoreErrorHandler(event:InAppPurchaseEvent):void
@@ -221,7 +224,8 @@ package com.gerantech.towercraft.managers
 			}
 			else
 			{
-				restore(null, null, event.data);
+				if(retryPurchase == null)
+					restore(null, null, event.data);
 			}
 			trace("iap_purchaseSuccessHandler", event.data); //product id
 		}
