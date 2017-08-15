@@ -19,6 +19,31 @@ package com.gerantech.towercraft.utils
 		}
 		
 		
+		public static function getLatinNumber(input:Object):String
+		{
+			var _str:String = input.toString();
+			_str = _str.split('۰').join('0')
+			_str = _str.split('٠').join('0')
+			_str = _str.split('۱').join('1')
+			_str = _str.split('١').join('1')
+			_str = _str.split('۲').join('2')
+			_str = _str.split('٢').join('2')
+			_str = _str.split('۳').join('3')
+			_str = _str.split('٣').join('3')
+			_str = _str.split('۴').join('4')
+			_str = _str.split('٤').join('4')
+			_str = _str.split('۵').join('5')
+			_str = _str.split('٥').join('5')
+			_str = _str.split('۶').join('6')
+			_str = _str.split('٦').join('6')
+			_str = _str.split('۷').join('7')
+			_str = _str.split('٧').join('7')
+			_str = _str.split('۸').join('8')
+			_str = _str.split('٨').join('8')
+			_str = _str.split('۹').join('9');
+			_str = _str.split('٩').join('9');
+			return(_str)
+		}
 		public static function getArabicNumber(input:Object):String
 		{
 			var _str:String = input.toString();
