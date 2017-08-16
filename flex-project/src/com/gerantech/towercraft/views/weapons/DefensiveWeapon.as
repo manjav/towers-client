@@ -7,7 +7,10 @@ package com.gerantech.towercraft.views.weapons
 	import flash.utils.clearTimeout;
 	import flash.utils.setInterval;
 	
-	public class DefensiveWeapon 
+	import starling.events.Event;
+	import starling.events.EventDispatcher;
+	
+	public class DefensiveWeapon extends EventDispatcher
 	{
 		private var placeView:PlaceView;
 		private var hitTimeoutId:uint;
@@ -34,6 +37,7 @@ package com.gerantech.towercraft.views.weapons
 				{
 					AppModel.instance.sounds.addAndPlaySound("shot-tower");
 					troop.hit(placeView);
+					dispatchEventWith(Event.TRIGGERED, false, troop);
 					//dispatchEventWith(Event.TRIGGERED, false, troop);
 					return;
 				}	

@@ -130,9 +130,6 @@ package com.gerantech.towercraft.views
 			var damage:Number = placeView.place.building.get_damage()
 			health -= damage;
 			//trace("damage", damage, "health", health)
-			placeView.arrowContainer.visible = true;
-			placeView.arrowTo(x-placeView.x, y-placeView.y)
-			setTimeout(function():void { placeView.arrowContainer.visible = false; }, 200);
 
 			dispatchEventWith(Event.TRIGGERED, false, damage);
 			
