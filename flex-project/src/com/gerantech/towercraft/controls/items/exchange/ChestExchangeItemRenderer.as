@@ -13,8 +13,10 @@ package com.gerantech.towercraft.controls.items.exchange
 	import flash.utils.setTimeout;
 	
 	import dragonBones.events.EventObject;
+	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingEvent;
+	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayoutData;
@@ -32,6 +34,19 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var chestArmature:StarlingArmatureDisplay;
 		private var armatorTimeoutId:int = -1;
 		private var state:int = -1;
+		
+		private static var factory:StarlingFactory;
+		private static var dragonBonesData:DragonBonesData;
+		
+		private function createFactory():void
+		{
+			if(factory != null)
+				return;
+			factory = new StarlingFactory();
+			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new OpenChestOverlay.skeletonLightClass()) );
+			factory.parseTextureAtlasData( JSON.parse(new OpenChestOverlay.atlasDataClass()), new OpenChestOverlay.atlasImageClass() );
+		}
+		
 		
 		override protected function commitData():void
 		{
@@ -61,14 +76,14 @@ package com.gerantech.towercraft.controls.items.exchange
 			addChild(buttonDisplay);
 			
 			updateElements(exchange.expiredAt > timeManager.now ? 1 : 0);
-			setTimeout(AddArmature, 600+index*300);
+			setTimeout(AddArmature, (factory==null?1200:100)+index*300);
 		}
 		
 		private function AddArmature():void
 		{
-			OpenChestOverlay.createFactory();
+			createFactory();
 			
-			chestArmature = OpenChestOverlay.factory. buildArmatureDisplay(OpenChestOverlay.dragonBonesData.armatureNames[(exchange.type%10)-1]);
+			chestArmature = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(exchange.type%10)-1]);
 			chestArmature.x = -540*appModel.scale/2+width/2-padding;
 			chestArmature.y = -940*appModel.scale/2+height*0.3;
 			chestArmature.scale = appModel.scale/2;
