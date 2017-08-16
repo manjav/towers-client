@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.buttons
 {
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
@@ -9,14 +8,11 @@ package com.gerantech.towercraft.controls.buttons
 	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.ProgressBar;
-	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
-	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.text.TextField;
-	import starling.text.TextFieldAutoSize;
 	import starling.text.TextFormat;
 
 	public class Indicator extends SimpleLayoutButton
