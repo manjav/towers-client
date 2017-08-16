@@ -53,7 +53,7 @@ package com.gerantech.towercraft.controls.buttons
 				addChild(progressbar);
 			}
 			
-			progressLabel = new TextField(width-padding*(hasIncreaseButton?8:4), height+padding, "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale, BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR));
+			progressLabel = new TextField(width-padding*(hasIncreaseButton?8:4), height, "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR));
 			progressLabel.x = padding*4;
 			progressLabel.autoScale = true;
 			addChild(progressLabel);
