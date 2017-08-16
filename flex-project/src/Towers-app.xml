@@ -400,5 +400,18 @@
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>com.mesmotronic.ane.fullscreen</extensionID>
     <extensionID>com.janumedia.ane.deviceinfo</extensionID>
+    <extensionID>com.marpies.ane.androidsupport</extensionID>
+        <extensionID>com.marpies.ane.gameanalytics</extensionID>
+        <extensionID>com.marpies.ane.gameServices</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.analytics</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.base</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.basement</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.games</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.gcm</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.iid</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.location</extensionID>
+        <extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
+        <extensionID>com.marpies.ane.onesignal</extensionID>
     </extensions>
 </application>
