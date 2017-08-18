@@ -171,31 +171,27 @@ public class MainSegment extends Segment
 		}
 		function floating_selectHandler(event:Event):void
 		{
+			if(	player.inTutorial() && event.data['name'] != "gold-leaf")
+			{
+				appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
+				return;
+			}
+			floating = null;
+
 			//trace(event.data['name'])
 			switch(event.data['name'])
 			{
 				case "gold-leaf":
-					floating = null;
 					appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 					break;
 				case "portal-center":
-					if( player.inTutorial() )
-					{
-						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
-						return;
-					}
 					floating = null;
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
-					appModel.navigator.addLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])]));
+					appModel.navigator.pushScreen( Main.VILLAGE_SCREEN );		
 					break;
 				case "portal-tower":
-					if( player.inTutorial() )
-					{
-						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
-						return;
-					}
 					floating = null;
 					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
 					break;

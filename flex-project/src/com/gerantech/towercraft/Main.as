@@ -5,6 +5,7 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.screens.QuestsScreen;
+	import com.gerantech.towercraft.controls.screens.VillageScreen;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
 	
@@ -20,6 +21,7 @@ package com.gerantech.towercraft
 		public static const BATTLE_SCREEN:String = "battleScreen";
 		public static const QUESTS_SCREEN:String = "questsScreen";
 		public static const ARENA_SCREEN:String = "arenaScreen";
+		public static const VILLAGE_SCREEN:String = "villageScreen";
 		
 		public function Main(content:IFeathersControl=null)
 		{
@@ -43,14 +45,13 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator.addScreen(ARENA_SCREEN, item);
 			
 			item = new StackScreenNavigatorItem(QuestsScreen);
-			item.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(QUESTS_SCREEN, item);
 			
 			item = new StackScreenNavigatorItem(BattleScreen);
-			//item.pushTransition = null;
-			//item.popTransition = null;
-			item.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(BATTLE_SCREEN, item);
+			
+			item = new StackScreenNavigatorItem(VillageScreen);
+			AppModel.instance.navigator.addScreen(VILLAGE_SCREEN, item);
 			
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 			//AppModel.instance.navigator.pushTransition = Iris.createIrisOpenTransition();

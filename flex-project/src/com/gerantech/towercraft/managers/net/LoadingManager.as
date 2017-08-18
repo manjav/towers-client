@@ -42,7 +42,7 @@ package com.gerantech.towercraft.managers.net
 		
 		private var sfsConnection:SFSConnection;
 
-		private var serverData:SFSObject;
+		public var serverData:SFSObject;
 		
 		public function load():void
 		{
@@ -111,7 +111,7 @@ package com.gerantech.towercraft.managers.net
 				dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 				return;
 			}
-			
+
 			// in registring case
 			if(serverData.containsKey("password"))
 			{
