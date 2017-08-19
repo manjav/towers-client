@@ -26,13 +26,8 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			layout = new AnchorLayout();
 			padding = 24 * appModel.scale;
-
 				
-			var sk:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
-			/*skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_DISABLED, appModel.theme.itemRendererUpSkinTexture);*/
+			var sk:Image = new Image(appModel.theme.itemRendererDisabledSkinTexture);
 			sk.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			backgroundSkin = sk;
 		}

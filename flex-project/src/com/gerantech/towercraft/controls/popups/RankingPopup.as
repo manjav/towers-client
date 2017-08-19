@@ -52,9 +52,9 @@ package com.gerantech.towercraft.controls.popups
 			layout = new AnchorLayout();
 			
 			var skin:ImageLoader = new ImageLoader();
-			skin.source = appModel.theme.itemRendererUpSkinTexture;
+			skin.source = appModel.theme.popupBackgroundSkinTexture;
+			skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
 			skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			addChild( skin );
 			
 			padding = 28 * appModel.scale;
