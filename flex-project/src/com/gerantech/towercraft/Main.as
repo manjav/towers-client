@@ -34,7 +34,6 @@ package com.gerantech.towercraft
 			//never forget to call super.initialize()
 			super.initialize();
 			
-			//EmbeddedAssets.initialize();
 			AppModel.instance.navigator =  new StackNavigator();
 			this.content = AppModel.instance.navigator;
 
@@ -43,10 +42,7 @@ package com.gerantech.towercraft
 			sddScreen(QUESTS_SCREEN, 	QuestsScreen);
 			sddScreen(BATTLE_SCREEN, 	BattleScreen);
 			sddScreen(VILLAGE_SCREEN, 	VillageScreen);
-			
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
-			//AppModel.instance.navigator.pushTransition = Iris.createIrisOpenTransition();
-			//AppModel.instance.navigator.popTransition = Iris.createIrisCloseTransition();
 		}
 		
 		private function sddScreen(screenType:String, screenClass:Object):void
