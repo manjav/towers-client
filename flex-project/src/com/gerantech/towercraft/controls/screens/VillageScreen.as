@@ -37,7 +37,8 @@ package com.gerantech.towercraft.controls.screens
 			
 			if( selectedItem.name=="" && selectedItem.point==-1)
 			{
-				NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n http://towers.grantech.ir/invite?ii="+player.id+"&ic="+appModel.loadingManager.serverData.getText("invitationCode"));
+				var url:String = "http://towers.grantech.ir/invite?ic="+appModel.loadingManager.serverData.getText("invitationCode").toUpperCase();
+				NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + url);
 				return;
 			}
 		}
