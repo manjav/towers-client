@@ -38,24 +38,22 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator =  new StackNavigator();
 			this.content = AppModel.instance.navigator;
 
-			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(DashboardScreen);
-			AppModel.instance.navigator.addScreen(DASHBOARD_SCREEN, item);
-			
-			item = new StackScreenNavigatorItem(ArenaScreen);
-			AppModel.instance.navigator.addScreen(ARENA_SCREEN, item);
-			
-			item = new StackScreenNavigatorItem(QuestsScreen);
-			AppModel.instance.navigator.addScreen(QUESTS_SCREEN, item);
-			
-			item = new StackScreenNavigatorItem(BattleScreen);
-			AppModel.instance.navigator.addScreen(BATTLE_SCREEN, item);
-			
-			item = new StackScreenNavigatorItem(VillageScreen);
-			AppModel.instance.navigator.addScreen(VILLAGE_SCREEN, item);
+			sddScreen(DASHBOARD_SCREEN,	DashboardScreen);
+			sddScreen(ARENA_SCREEN,		ArenaScreen);
+			sddScreen(QUESTS_SCREEN, 	QuestsScreen);
+			sddScreen(BATTLE_SCREEN, 	BattleScreen);
+			sddScreen(VILLAGE_SCREEN, 	VillageScreen);
 			
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 			//AppModel.instance.navigator.pushTransition = Iris.createIrisOpenTransition();
 			//AppModel.instance.navigator.popTransition = Iris.createIrisCloseTransition();
+		}
+		
+		private function sddScreen(screenType:String, screenClass:Object):void
+		{
+			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
+			item.addPopEvent(Event.COMPLETE);
+			AppModel.instance.navigator.addScreen(screenType, item);			
 		}
 	}
 }
