@@ -136,7 +136,7 @@ package com.gerantech.towercraft.controls.segments
 			var confirmedHards:int = 0;
 			if( !player.has(building.get_upgradeRequirements()) )
 			{
-				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), building.get_upgradeRequirements());
+				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_cardtogem_message"), building.get_upgradeRequirements());
 				confirm.data = building;
 				confirm.addEventListener(FeathersEventType.ERROR, upgradeConfirm_errorHandler);
 				confirm.addEventListener(Event.SELECT, upgradeConfirm_selectHandler);

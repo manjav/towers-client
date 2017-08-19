@@ -6,6 +6,8 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.vo.UserData;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.desktop.NativeApplication;
 	import flash.display.Bitmap;
@@ -30,13 +32,15 @@ package com.gerantech.towercraft.controls.screens
 			addEventListener("addedToStage", addedToStageHadnler);
 			
 			AppModel.instance.loadingManager = new LoadingManager();
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CONNECTION_LOST,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.load();
 			
 			logo = new Assets.splash_bitmap();
@@ -58,14 +62,19 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function loadingManager_eventsHandler(event:LoadingEvent):void
 		{
-
-			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_ERROR, 			loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,			loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
+
 			trace(event.type)
+			
+			var confirmData:SFSObject = new SFSObject();
+			confirmData.putText("type", event.type);			
+			
 			switch(event.type)
 			{
 				case LoadingEvent.LOADED:
@@ -75,18 +84,40 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				case LoadingEvent.CONNECTION_LOST:
 					var reloadpopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_reload_label"));
-					reloadpopup.data = event.type;
+					reloadpopup.data = confirmData;
 					reloadpopup.addEventListener(Event.SELECT, confirm_eventsHandler);
 					AppModel.instance.navigator.addPopup(reloadpopup);
 					if(parent)
 						parent.removeChild(this);
 					break;
+				
+				case LoadingEvent.FORCE_RELOAD:
+					reload();
+					break;
 		
 				default:
-				/*case LoadingEvent.NOTICE_UPDATE:
-				case LoadingEvent.FORCE_UPDATE:*/
-					var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_"+event.type+"_message"), loc("popup_update_label"));
-					confirm.data = event.type;
+					var message:String = loc("popup_"+event.type+"_message");
+					if( event.type == LoadingEvent.LOGIN_ERROR )
+					{
+						if( event.data == 2 || event.data == 3 || event.data == 6 )
+							message = loc("popup_loginError_" + event.data + "_message");
+					}
+					else if( event.type == LoadingEvent.LOGIN_USER_EXISTS )
+					{
+						message = loc("popup_reload_authenticated_label", [event.data.getText("name")]);
+					}
+					
+					var acceptLabel:String = "popup_reload_label";
+					if( event.type == LoadingEvent.NOTICE_UPDATE || event.type == LoadingEvent.FORCE_UPDATE )
+						acceptLabel = "popup_update_label";
+					else if( event.type == LoadingEvent.LOGIN_USER_EXISTS )
+						acceptLabel = "popup_accept_label";
+					
+					if( event.type == LoadingEvent.LOGIN_USER_EXISTS )
+						confirmData.putSFSObject("serverData", event.data as SFSObject);
+					
+					var confirm:ConfirmPopup = new ConfirmPopup(message, loc(acceptLabel));
+					confirm.data = confirmData;
 					confirm.declineStyle = "danger";
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 					confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
@@ -105,9 +136,11 @@ package com.gerantech.towercraft.controls.screens
 			var confirm:ConfirmPopup = event.currentTarget as ConfirmPopup;
 			confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
 			confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
+			
+			var confirmData:SFSObject = confirm.data as SFSObject;
 			if(event.type == Event.SELECT)
 			{
-				switch(confirm.data)
+				switch(confirmData.getText("type"))
 				{
 					case LoadingEvent.NOTICE_UPDATE:
 					case LoadingEvent.FORCE_UPDATE:
@@ -116,17 +149,31 @@ package com.gerantech.towercraft.controls.screens
 						NativeApplication.nativeApplication.exit();
 						break;
 					
-					case LoadingEvent.NETWORK_ERROR:
-					case LoadingEvent.CONNECTION_LOST:
+					case LoadingEvent.LOGIN_USER_EXISTS:
+						UserData.getInstance().id = confirmData.getSFSObject("serverData").getLong("id");
+						UserData.getInstance().password = confirmData.getSFSObject("serverData").getText("password");
+						UserData.getInstance().save();
+						reload();
+						break;
+
+					default:
 						reload();
 				}
 				return;
 			}
 			
-			switch(confirm.data)
+			switch(confirmData.getText("type"))
 			{
 				case LoadingEvent.NOTICE_UPDATE:
+					AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
+					AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
 					AppModel.instance.loadingManager.loadCore();
+					return;
+					
+				case LoadingEvent.LOGIN_USER_EXISTS:
+					UserData.getInstance().id = -2;
+					UserData.getInstance().save();
+					reload();
 					return;
 			}
 			NativeApplication.nativeApplication.exit();
@@ -136,11 +183,13 @@ package com.gerantech.towercraft.controls.screens
 		{
 			alpha = _alpha = 1;
 			_parent.addChild(this);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,			loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,	loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 	loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,	loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.load();
 		}
 		

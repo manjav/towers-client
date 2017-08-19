@@ -118,8 +118,7 @@ package com.gerantech.towercraft.controls.popups
 				return;
 			
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			var params:SFSObject = event.params.params;
-			_listCollection.data = SFSArray(params.getSFSArray("list")).toArray();;
+			_listCollection.data = SFSArray(event.params.params.getSFSArray("list")).toArray();
 		}
 		
 		private function findMe():int

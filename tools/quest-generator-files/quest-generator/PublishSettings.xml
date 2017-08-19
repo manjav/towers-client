@@ -116,7 +116,7 @@
         <rsl-url>textLayout_2.0.0.232.swz</rsl-url>
       </library-path-entry>
       <library-path-entry>
-        <swc-path>C:\_projects\towers-projects\towers-core\source\bin\flash\core.swc</swc-path>
+        <swc-path>C:\Users\Babak\Documents\Workspace\Towers\Towers-core\source\bin\flash\core.swc</swc-path>
         <linkage>merge</linkage>
       </library-path-entry>
     </LibraryPath>

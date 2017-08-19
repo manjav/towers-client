@@ -9,8 +9,6 @@ package com.gerantech.towercraft.views
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
-	import starling.display.Image;
-	
 	public class HealthBar extends LayoutGroup
 	{
 		private static const SCALE_RECT:Rectangle = new Rectangle(3, 4, 2, 3);

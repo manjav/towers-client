@@ -29,10 +29,12 @@ package com.gerantech.towercraft.managers.net
 			//trace("destination", destination.place.index);			
 		}
 		
-		public function hitTroop(troopId:int):void
+		public function hitTroop(troopId:int, damage:Number):void
 		{
+			//trace("hitTroop", troopId);
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putInt("i", troopId);
+			sfsObj.putDouble("d", damage);
 			send(SFSCommands.HIT, sfsObj, room);			
 		}
 

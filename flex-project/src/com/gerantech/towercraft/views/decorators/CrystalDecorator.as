@@ -3,17 +3,27 @@ package com.gerantech.towercraft.views.decorators
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gerantech.towercraft.views.TroopView;
 	import com.gt.towers.constants.BuildingType;
+	
+	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.MovieClip;
+	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.utils.MathUtil;
 	
 	public class CrystalDecorator extends BarracksDecorator
 	{
 		private var crystalTexture:String;
 		private var crystalDisplay:MovieClip;
 		private var radiusDisplay:Image;
+		private var rayImage:Image;
+		private var raySprite:Sprite;
+		private var lightingDisplay:MovieClip;
 		
 		public function CrystalDecorator(placeView:PlaceView)
 		{
@@ -51,39 +61,21 @@ package com.gerantech.towercraft.views.decorators
 			createRadiusDisplay();
 			radiusDisplay.width = place.building.get_damageRadius() * 2;
 			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.7;
+		
+			// ray
+			createRayDisplay();
+			rayImage.scale = appModel.scale * place.building.get_damage() * 1.5;
 			
-			// plot :
-			/*createPlotDisplay();
-			plotDisplay.visible = place.building.level == 2 || place.building.level == 3;
-			if( plotDisplay.visible )
-			{
-				txt = "building-plot-4-"+place.building.level;
-				if(troopType > -1)
-					txt += "-" + troopType;
-				plotDisplay.texture = Assets.getTexture(txt);
-			}*/
+			// lighting
+			createLightingDisplay();
+			lightingDisplay.scale = appModel.scale * place.building.get_damage() * 2;
 		}
 		
-		/*private function createPlotDisplay():void
-		{
-			if(plotDisplay != null)
-				return;
-			
-			plotDisplay = new Image(Assets.getTexture("building-plot-4-"+place.building.level));
-			plotDisplay.touchable = false;
-			plotDisplay.pivotX = plotDisplay.width/2;
-			plotDisplay.pivotY = plotDisplay.height * 0.85;
-			plotDisplay.scale = appModel.scale * 2;
-			plotDisplay.x = parent.x;
-			plotDisplay.y = parent.y;
-			BattleFieldView(parent.parent).buildingsContainer.addChild(plotDisplay);
-		}
-		*/
 		private function createRadiusDisplay():void
 		{
 			if(radiusDisplay != null)
 				return;
-
+			
 			radiusDisplay = new Image(Assets.getTexture("damage-range"));
 			radiusDisplay.touchable = false;
 			radiusDisplay.pivotX = radiusDisplay.width/2
@@ -93,14 +85,73 @@ package com.gerantech.towercraft.views.decorators
 			parent.parent.addChild(radiusDisplay);
 		}
 		
+		private function createRayDisplay():void
+		{
+			if( raySprite != null )
+				return;
+			
+			raySprite = new Sprite();
+			raySprite.visible = raySprite.touchable = false;
+			raySprite.x = parent.x;
+			raySprite.y = parent.y - 132*appModel.scale ;
+			BattleFieldView(parent.parent).buildingsContainer.addChild(raySprite);
+			
+			rayImage = new Image(Assets.getTexture("crystal-ray"));
+		//	flameDisplay.scale9Grid = new Rectangle(1, 1, 3, 2);
+			rayImage.alignPivot("center", "bottom");
+			raySprite.addChild(rayImage);
+			
+			placeView.defensiveWeapon.addEventListener(Event.TRIGGERED, defensiveWeapon_triggeredHandler);
+		}
+		
+		private function createLightingDisplay():void
+		{
+			if( lightingDisplay != null )
+				return;
+			
+			lightingDisplay = new MovieClip(Assets.getTextures("crystal-lighting"));
+			lightingDisplay.touchable = false;
+			lightingDisplay.pivotX = lightingDisplay.width/2;
+			lightingDisplay.pivotY = lightingDisplay.height/2;
+			BattleFieldView(parent.parent).buildingsContainer.addChild(lightingDisplay);
+		}
+		
+		
+		private function defensiveWeapon_triggeredHandler(event:Event):void
+		{
+			var troop:TroopView = event.data as TroopView;
+			
+			raySprite.visible = true;
+			var dx:Number = troop.x-raySprite.x;
+			var dy:Number = troop.y-raySprite.y;
+			rayImage.height = Math.sqrt( dx*dx + dy*dy );
+			raySprite.rotation = MathUtil.normalizeAngle(-Math.atan2(-dx, -dy));
+			
+			lightingDisplay.x = troop.x;
+			lightingDisplay.y = troop.y;
+			lightingDisplay.play();
+			lightingDisplay.visible = true;
+			Starling.juggler.add(lightingDisplay);
+			
+			setTimeout(function():void { raySprite.visible = false;}, 100);
+			setTimeout(function():void { 
+				
+				Starling.juggler.remove(lightingDisplay);
+				lightingDisplay.stop();
+				lightingDisplay.visible = false; 
+			}, 300);
+		}
+		
+
+		
 		override public function dispose():void
 		{
  			if(crystalDisplay != null)
 				crystalDisplay.removeFromParent(true);
 			if(radiusDisplay != null)
 				radiusDisplay.removeFromParent(true);
-/*			if(plotDisplay != null)
-				plotDisplay.removeFromParent(true);*/
+			if(placeView.defensiveWeapon != null)
+				placeView.defensiveWeapon.removeEventListener(Event.TRIGGERED, defensiveWeapon_triggeredHandler);
 			super.dispose();
 		}
 	}

@@ -26,6 +26,7 @@ package com.gerantech.towercraft.controls.overlays
 	import feathers.layout.VerticalAlign;
 	
 	import starling.core.Starling;
+	import starling.core.starling_internal;
 	import starling.display.Quad;
 	import starling.events.Event;
 
@@ -116,7 +117,7 @@ package com.gerantech.towercraft.controls.overlays
 			var rw:Array = SFSArray(rewards).toArray();
 			var ret:ListCollection = new ListCollection();
 			for ( var i:int=0; i<rw.length; i++ )
-				if( rw[i].t != ResourceType.XP )
+				if( rw[i].t == ResourceType.POINT || rw[i].t == ResourceType.KEY || rw[i].t == ResourceType.CURRENCY_SOFT )
 					ret.addItem( rw[i] );
 				
 			return ret;

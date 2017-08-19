@@ -23,6 +23,8 @@ package com.gerantech.towercraft.controls.overlays
 	
 	public class OpenChestOverlay extends BaseOverlay
 	{
+		[Embed(source = "../../../../../assets/animations/chests/chests_light_ske.json", mimeType = "application/octet-stream")]
+		public static const skeletonLightClass: Class;
 		[Embed(source = "../../../../../assets/animations/chests/chests_ske.json", mimeType = "application/octet-stream")]
 		public static const skeletonClass: Class;
 		[Embed(source = "../../../../../assets/animations/chests/chests_tex.json", mimeType = "application/octet-stream")]
@@ -30,8 +32,8 @@ package com.gerantech.towercraft.controls.overlays
 		[Embed(source = "../../../../../assets/animations/chests/chests_tex.png")]
 		public static const atlasImageClass: Class;
 		
-		public static var factory: StarlingFactory;
-		public static var dragonBonesData:DragonBonesData;
+		private var factory: StarlingFactory;
+		private var dragonBonesData:DragonBonesData;
 		public var item:ExchangeItem;
 
 		private var rewardKeys:Vector.<int>;
@@ -48,7 +50,7 @@ package com.gerantech.towercraft.controls.overlays
 			createFactory();
 		}
 		
-		public static function createFactory():void
+		private function createFactory():void
 		{
 			if(factory != null)
 				return;

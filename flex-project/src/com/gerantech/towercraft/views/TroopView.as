@@ -130,20 +130,14 @@ package com.gerantech.towercraft.views
 			var damage:Number = placeView.place.building.get_damage()
 			health -= damage;
 			//trace("damage", damage, "health", health)
-			placeView.arrowContainer.visible = true;
-			placeView.arrowTo(x-placeView.x, y-placeView.y)
-			setTimeout(function():void { placeView.arrowContainer.visible = false; }, 200);
 
+			dispatchEventWith(Event.TRIGGERED, false, damage);
+			
 			if(health > 0)
 				return;
+
+			AppModel.instance.sounds.addAndPlaySound("kill");
 			
-			movieClip.muted = true;
-			dispatchEventWith(Event.TRIGGERED);
-			/*
-			Starling.juggler.remove(movieClip);
-			Starling.juggler.removeTweens(this);
-			Starling.juggler.tween(this, 0.2, {x:x+50, y:y-40, onComplete:onTroopKilled, onCompleteArgs:[placeView], transition:Transitions.EASE_OUT});
-*/
 			var blood:Image = new Image(Assets.getTexture("blood"));
 			blood.pivotX = blood.width/2;
 			blood.pivotY = blood.height/2;

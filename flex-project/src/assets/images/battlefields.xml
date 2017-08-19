@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:e71bb27d954ac0988f86a533ca3cc408:f2ff46e877c6e1edd103ac303b79ca2d:f35d6734face8652aa91c1defb5ab9b6$ -->
+<!-- $TexturePacker:SmartUpdate:6d719669f7d99125263028c3ee172fcc:cd8279cb67ae223a05fc123ed41e0e27:f35d6734face8652aa91c1defb5ab9b6$ -->
 <TextureAtlas imagePath="battlefields.png" width="2048" height="2048">
-    <SubTexture name="arrow" x="646" y="572" width="16" height="16"/>
+    <SubTexture name="arrow" x="177" y="631" width="16" height="16"/>
     <SubTexture name="background-0-l" x="448" y="83" width="346" height="281"/>
     <SubTexture name="background-0-r" x="1215" y="2" width="323" height="269"/>
     <SubTexture name="blood" x="1085" y="853" width="100" height="61"/>
@@ -61,15 +61,15 @@
     <SubTexture name="building-ex-4-1-2" x="1670" y="952" width="72" height="89" frameX="-15" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-3" x="1744" y="1028" width="72" height="89" frameX="-15" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-4" x="1656" y="1043" width="68" height="88" frameX="-17" frameY="-19" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-1-5" x="1898" y="1550" width="63" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-1-6" x="1833" y="1579" width="62" height="85" frameX="-20" frameY="-20" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-1-5" x="1963" y="1709" width="63" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-1-6" x="442" y="696" width="62" height="85" frameX="-20" frameY="-20" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-7" x="1781" y="652" width="61" height="83" frameX="-20" frameY="-21" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-1-8" x="1897" y="1637" width="59" height="81" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-1-9" x="1958" y="1638" width="59" height="79" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-1-8" x="1985" y="1456" width="59" height="81" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-1-9" x="1985" y="1539" width="59" height="79" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-10" x="1374" y="841" width="59" height="81" frameX="-22" frameY="-22" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-11" x="1986" y="645" width="60" height="83" frameX="-21" frameY="-21" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-12" x="1781" y="566" width="61" height="84" frameX="-20" frameY="-21" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-1-13" x="1769" y="1398" width="64" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-1-13" x="1702" y="1491" width="64" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-14" x="793" y="656" width="69" height="89" frameX="-16" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-15" x="1965" y="1175" width="71" height="89" frameX="-15" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-1-16" x="1237" y="1002" width="73" height="89" frameX="-14" frameY="-19" frameWidth="100" frameHeight="130"/>
@@ -77,50 +77,50 @@
     <SubTexture name="building-ex-4-2-2" x="1670" y="952" width="72" height="89" frameX="-15" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-3" x="1744" y="1028" width="72" height="89" frameX="-15" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-4" x="1656" y="1043" width="68" height="88" frameX="-17" frameY="-19" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-2-5" x="1898" y="1550" width="63" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-2-6" x="1833" y="1579" width="62" height="85" frameX="-20" frameY="-20" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-2-5" x="1963" y="1709" width="63" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-2-6" x="442" y="696" width="62" height="85" frameX="-20" frameY="-20" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-7" x="1781" y="652" width="61" height="83" frameX="-20" frameY="-21" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-2-8" x="1897" y="1637" width="59" height="81" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-2-9" x="1958" y="1638" width="59" height="79" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-2-8" x="1985" y="1456" width="59" height="81" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-2-9" x="1985" y="1539" width="59" height="79" frameX="-21" frameY="-22" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-10" x="1374" y="841" width="59" height="81" frameX="-22" frameY="-22" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-11" x="1986" y="645" width="60" height="83" frameX="-21" frameY="-21" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-12" x="1781" y="566" width="61" height="84" frameX="-20" frameY="-21" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-2-13" x="1769" y="1398" width="64" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-2-13" x="1702" y="1491" width="64" height="85" frameX="-19" frameY="-20" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-14" x="793" y="656" width="69" height="89" frameX="-16" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-15" x="1965" y="1175" width="71" height="89" frameX="-15" frameY="-19" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-2-16" x="1237" y="1002" width="73" height="89" frameX="-14" frameY="-19" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-1" x="1371" y="1192" width="65" height="93" frameX="-17" frameY="-11" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-2" x="1235" y="1093" width="66" height="93" frameX="-16" frameY="-11" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-3" x="1303" y="1115" width="66" height="91" frameX="-16" frameY="-12" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-4" x="1934" y="1266" width="66" height="90" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-1" x="1516" y="1111" width="65" height="93" frameX="-17" frameY="-11" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-2" x="1381" y="1098" width="66" height="93" frameX="-16" frameY="-11" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-3" x="1934" y="1266" width="66" height="91" frameX="-16" frameY="-12" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-4" x="1865" y="1298" width="66" height="90" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-3-5" x="1726" y="1119" width="68" height="88" frameX="-17" frameY="-13" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-3-6" x="1585" y="1021" width="69" height="88" frameX="-17" frameY="-13" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-3-7" x="1485" y="1022" width="67" height="87" frameX="-18" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-8" x="1637" y="1413" width="64" height="86" frameX="-18" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-9" x="1833" y="1491" width="63" height="86" frameX="-18" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-10" x="1571" y="1388" width="64" height="86" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-11" x="1703" y="1396" width="64" height="86" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-12" x="1571" y="1299" width="64" height="87" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-13" x="1637" y="1324" width="64" height="87" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-14" x="1505" y="1299" width="64" height="88" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-15" x="1716" y="1209" width="65" height="88" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-16" x="1979" y="1547" width="64" height="89" frameX="-18" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-17" x="1979" y="1455" width="64" height="90" frameX="-18" frameY="-15" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-18" x="1515" y="1206" width="65" height="91" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-19" x="1582" y="1111" width="65" height="92" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-20" x="1649" y="1133" width="65" height="92" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-21" x="1515" y="1111" width="65" height="93" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-22" x="1781" y="1302" width="64" height="94" frameX="-17" frameY="-13" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-23" x="1847" y="1395" width="64" height="94" frameX="-17" frameY="-13" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-24" x="1649" y="1227" width="64" height="95" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-25" x="1715" y="1299" width="64" height="95" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-26" x="1865" y="1298" width="65" height="95" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-8" x="1636" y="1420" width="64" height="86" frameX="-18" frameY="-14" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-9" x="1898" y="1639" width="63" height="86" frameX="-18" frameY="-14" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-10" x="1504" y="1296" width="64" height="86" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-11" x="1570" y="1361" width="64" height="86" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-12" x="1980" y="1620" width="64" height="87" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-13" x="1438" y="1208" width="64" height="87" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-14" x="1914" y="1549" width="64" height="88" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-15" x="1516" y="1206" width="65" height="88" frameX="-17" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-16" x="1848" y="1483" width="64" height="89" frameX="-18" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-17" x="1715" y="1399" width="64" height="90" frameX="-18" frameY="-15" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-18" x="1851" y="1390" width="65" height="91" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-19" x="1650" y="1133" width="65" height="92" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-20" x="1717" y="1209" width="65" height="92" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-21" x="1583" y="1111" width="65" height="93" frameX="-17" frameY="-14" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-22" x="1716" y="1303" width="64" height="94" frameX="-17" frameY="-13" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-23" x="1649" y="1324" width="64" height="94" frameX="-17" frameY="-13" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-24" x="1650" y="1227" width="64" height="95" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-25" x="1583" y="1264" width="64" height="95" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-26" x="1933" y="1359" width="65" height="95" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-3-27" x="796" y="185" width="67" height="95" frameX="-15" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-3-28" x="796" y="282" width="67" height="95" frameX="-15" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-3-29" x="1796" y="1205" width="67" height="95" frameX="-15" frameY="-12" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-30" x="1932" y="1358" width="65" height="95" frameX="-17" frameY="-11" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-31" x="1448" y="1111" width="65" height="94" frameX="-17" frameY="-11" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-3-32" x="1582" y="1205" width="65" height="92" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-30" x="1449" y="1111" width="65" height="95" frameX="-17" frameY="-11" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-31" x="1371" y="1193" width="65" height="94" frameX="-17" frameY="-11" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-3-32" x="1784" y="1302" width="65" height="92" frameX="-17" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-1" x="1965" y="954" width="78" height="109" frameX="-12" frameY="-6" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-2" x="1971" y="808" width="75" height="107" frameX="-13" frameY="-6" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-3" x="1162" y="963" width="73" height="105" frameX="-13" frameY="-6" frameWidth="100" frameHeight="130"/>
@@ -129,7 +129,7 @@
     <SubTexture name="building-ex-4-4-6" x="1085" y="916" width="75" height="97" frameX="-19" frameY="-9" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-7" x="1085" y="1015" width="73" height="95" frameX="-20" frameY="-10" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-8" x="793" y="561" width="69" height="93" frameX="-19" frameY="-10" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-4-9" x="1438" y="1207" width="65" height="91" frameX="-18" frameY="-11" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-4-9" x="1918" y="1456" width="65" height="91" frameX="-18" frameY="-11" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-10" x="1416" y="1006" width="67" height="90" frameX="-16" frameY="-12" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-11" x="1865" y="1208" width="67" height="88" frameX="-16" frameY="-14" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-12" x="793" y="472" width="70" height="87" frameX="-15" frameY="-15" frameWidth="100" frameHeight="130"/>
@@ -140,11 +140,11 @@
     <SubTexture name="building-ex-4-4-17" x="1670" y="860" width="72" height="90" frameX="-17" frameY="-18" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-18" x="1892" y="1115" width="71" height="91" frameX="-18" frameY="-18" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-19" x="795" y="379" width="68" height="91" frameX="-20" frameY="-19" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-4-20" x="1380" y="1098" width="66" height="92" frameX="-21" frameY="-19" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-4-21" x="1913" y="1455" width="64" height="93" frameX="-21" frameY="-19" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-4-22" x="1768" y="1485" width="63" height="94" frameX="-20" frameY="-18" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-4-23" x="1703" y="1484" width="63" height="97" frameX="-19" frameY="-17" frameWidth="100" frameHeight="130"/>
-    <SubTexture name="building-ex-4-4-24" x="1312" y="1014" width="66" height="99" frameX="-18" frameY="-16" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-4-20" x="1303" y="1136" width="66" height="92" frameX="-21" frameY="-19" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-4-21" x="1782" y="1396" width="64" height="93" frameX="-21" frameY="-19" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-4-22" x="1833" y="1574" width="63" height="94" frameX="-20" frameY="-18" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-4-23" x="1768" y="1491" width="63" height="97" frameX="-19" frameY="-17" frameWidth="100" frameHeight="130"/>
+    <SubTexture name="building-ex-4-4-24" x="1235" y="1093" width="66" height="99" frameX="-18" frameY="-16" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-25" x="796" y="83" width="67" height="100" frameX="-19" frameY="-15" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-26" x="1596" y="860" width="72" height="101" frameX="-15" frameY="-15" frameWidth="100" frameHeight="130"/>
     <SubTexture name="building-ex-4-4-27" x="1517" y="749" width="78" height="102" frameX="-11" frameY="-14" frameWidth="100" frameHeight="130"/>
@@ -156,21 +156,26 @@
     <SubTexture name="building-plot" x="445" y="366" width="222" height="126"/>
     <SubTexture name="bush-0" x="1374" y="803" width="60" height="36"/>
     <SubTexture name="bush-1" x="1754" y="777" width="81" height="52"/>
-    <SubTexture name="bush-2" x="1768" y="1581" width="62" height="53"/>
-    <SubTexture name="bush-3" x="1958" y="1719" width="57" height="33"/>
+    <SubTexture name="bush-2" x="334" y="719" width="62" height="53"/>
+    <SubTexture name="bush-3" x="334" y="774" width="57" height="33"/>
     <SubTexture name="bush-4" x="1585" y="963" width="71" height="56"/>
-    <SubTexture name="bush-5" x="442" y="696" width="56" height="44"/>
+    <SubTexture name="bush-5" x="506" y="696" width="56" height="44"/>
     <SubTexture name="bush-6" x="1991" y="512" width="49" height="40"/>
     <SubTexture name="bush-7" x="1754" y="737" width="83" height="38"/>
     <SubTexture name="chair-0" x="1991" y="554" width="39" height="29"/>
     <SubTexture name="chair-1" x="994" y="612" width="90" height="50"/>
+    <SubTexture name="crystal-lighting-0" x="1583" y="1206" width="65" height="56"/>
+    <SubTexture name="crystal-lighting-1" x="1583" y="1206" width="65" height="56"/>
+    <SubTexture name="crystal-lighting-2" x="1312" y="1076" width="67" height="58"/>
+    <SubTexture name="crystal-lighting-3" x="1312" y="1014" width="67" height="60"/>
+    <SubTexture name="crystal-ray" x="646" y="494" width="19" height="25"/>
     <SubTexture name="damage-range" x="444" y="494" width="200" height="200"/>
     <SubTexture name="foreground-0-l" x="2" y="236" width="332" height="196"/>
     <SubTexture name="foreground-0-r" x="2" y="2" width="444" height="232"/>
     <SubTexture name="ground-228" x="865" y="214" width="228" height="228"/>
-    <SubTexture name="healthbar-0" x="646" y="494" width="16" height="24"/>
-    <SubTexture name="healthbar-1" x="646" y="520" width="16" height="24"/>
-    <SubTexture name="healthbar-bg" x="646" y="546" width="16" height="24"/>
+    <SubTexture name="healthbar-0" x="646" y="521" width="16" height="24"/>
+    <SubTexture name="healthbar-1" x="646" y="547" width="16" height="24"/>
+    <SubTexture name="healthbar-bg" x="646" y="573" width="16" height="24"/>
     <SubTexture name="hole-0" x="1435" y="856" width="76" height="43"/>
     <SubTexture name="hole-1" x="1512" y="963" width="71" height="57"/>
     <SubTexture name="hole-2" x="1191" y="792" width="102" height="68"/>

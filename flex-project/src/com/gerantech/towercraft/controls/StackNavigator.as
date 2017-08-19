@@ -115,36 +115,35 @@ package com.gerantech.towercraft.controls
 		
 		public function showBugReportButton():void
 		{
-			if( !AppModel.instance.game.player.inTutorial() )
-			{
-				var bugReportButton:SimpleButton = new SimpleButton();
-				bugReportButton.isLongPressEnabled = true;
-				bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
-				bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
-				bugReportButton.addEventListener(FeathersEventType.LONG_PRESS, bugReportButton_longPressHandler);
-				bugReportButton.x = 12 * AppModel.instance.scale;
-				bugReportButton.y = stage.stageHeight - 300 * AppModel.instance.scale;
-				bugReportButton.width = 120*AppModel.instance.scale;
-				bugReportButton.scaleY = bugReportButton.scaleX;
-				addChild(bugReportButton);
-				function bugReportButton_triggeredHandler(event:Event):void {
+			var bugReportButton:SimpleButton = new SimpleButton();
+			bugReportButton.isLongPressEnabled = true;
+			bugReportButton.alpha = AppModel.instance.game.player.inTutorial() ? 0 : 1;
+			bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
+			bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
+			bugReportButton.addEventListener(FeathersEventType.LONG_PRESS, bugReportButton_longPressHandler);
+			bugReportButton.x = 12 * AppModel.instance.scale;
+			bugReportButton.y = stage.stageHeight - 300 * AppModel.instance.scale;
+			bugReportButton.width = 120*AppModel.instance.scale;
+			bugReportButton.scaleY = bugReportButton.scaleX;
+			addChild(bugReportButton);
+			function bugReportButton_triggeredHandler(event:Event):void {
+				var reportPopup:BugReportPopup = new BugReportPopup();
+				reportPopup.addEventListener(Event.COMPLETE, reportPopup_completeHandler);
+				addPopup(reportPopup);
+				function reportPopup_completeHandler(event:Event):void {
 					var reportPopup:BugReportPopup = new BugReportPopup();
-					reportPopup.addEventListener(Event.COMPLETE, reportPopup_completeHandler);
-					addPopup(reportPopup);
-					function reportPopup_completeHandler(event:Event):void {
-						var reportPopup:BugReportPopup = new BugReportPopup();
-						addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
-					}
+					addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
 				}
-				function bugReportButton_longPressHandler(event:Event):void {
-					var restorePopup:RestorePopup = new RestorePopup();
-					addPopup(restorePopup);
-				}
-				addEventListener(Event.CHANGE, changeHandler);
-				function changeHandler(event:Event):void {
-					addChild(bugReportButton);
-					bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
-				}
+			}
+			function bugReportButton_longPressHandler(event:Event):void {
+				var restorePopup:RestorePopup = new RestorePopup();
+				addPopup(restorePopup);
+			}
+			addEventListener(Event.CHANGE, changeHandler);
+			function changeHandler(event:Event):void {
+				removeChild(bugReportButton);
+				addChild(bugReportButton);
+				bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
 			}
 		}
 	}
