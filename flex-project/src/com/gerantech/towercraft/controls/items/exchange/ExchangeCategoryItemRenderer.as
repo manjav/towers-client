@@ -8,7 +8,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
-	import flash.utils.setTimeout;
 	
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
@@ -20,7 +19,6 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.layout.TiledColumnsLayout;
 	import feathers.layout.VerticalAlign;
 	
-	import starling.core.Starling;
 	import starling.events.Event;
 
 	public class ExchangeCategoryItemRenderer extends BaseCustomItemRenderer 
@@ -92,19 +90,19 @@ package com.gerantech.towercraft.controls.items.exchange
 				
 				case ExchangeType.S_30_CHEST:
 					CELL_SIZE = 620 * appModel.scale;
-					listLayout.typicalItemWidth = (width-listLayout.gap*4) / 3 ; 
+					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ChestExchangeItemRenderer();}
 					break;
 				
 				default:
 					CELL_SIZE = 480 * appModel.scale;
-					listLayout.typicalItemWidth = (width-listLayout.gap*4) / 3 ; 
+					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new CurrencyExchangeItemRenderer();}
 					break;
 			}
 			
 			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height + ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
-			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap*2;
+			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap * 2;
 			categoryCollection.data = line.items;
 		//	Starling.juggler.tween(this, 0.3, {alpha:1});
 		}
