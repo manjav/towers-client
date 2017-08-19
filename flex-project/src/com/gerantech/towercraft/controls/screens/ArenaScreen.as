@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.screens
 {
-	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.headers.ScreenHeader;
 	import com.gerantech.towercraft.controls.items.ArenaItemRnderer;
@@ -12,6 +11,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.arenas.Arena;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
@@ -37,15 +37,31 @@ package com.gerantech.towercraft.controls.screens
 
 		private var headerSize:int = 0;
 		private var startScrollBarIndicator:Number = 0;
+		private var initialized:Boolean;
 
 		public function ArenaScreen()
 		{
 			super();
+			 appModel.assets.verbose = true;
+			if( appModel.assets.getTexture("factions_ske") == null )
+			{
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/factions" ));
+				appModel.assets.loadQueue(assets_loadCallback)
+			}
+		}
+		
+		private function assets_loadCallback(ratio:Number):void
+		{
+			if( ratio >= 1 && initialized )
+				initialize();
 		}
 		
 		override protected function initialize():void
 		{
 			super.initialize();
+			initialized = true;
+			if( appModel.assets.isLoading )
+				return;
 			
 			layout = new AnchorLayout();
 			headerSize = 150 * appModel.scale;
