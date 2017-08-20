@@ -71,7 +71,7 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 		if(_data ==null || _owner==null)
 			return;
 		
-		isInviteButton = _data.name == "" && _data.point == -1;
+		isInviteButton = _data.name == "" && _data.count == -1;
 		height = (isInviteButton?160:120) * appModel.scale;
 		
 		if( isInviteButton )

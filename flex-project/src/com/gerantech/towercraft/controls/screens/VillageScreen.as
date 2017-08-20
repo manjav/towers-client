@@ -25,7 +25,7 @@ package com.gerantech.towercraft.controls.screens
 			var ret:ListCollection = new ListCollection();
 			if( appModel.loadingManager.serverData.containsKey("friends") )
 				ret.data = SFSArray(appModel.loadingManager.serverData.getSFSArray("friends")).toArray();
-			ret.addItem( {name:"", point:-1} );
+			ret.addItem( {name:"", count:-1} );
 			return ret;
 		}
 		
@@ -35,9 +35,9 @@ package com.gerantech.towercraft.controls.screens
 			if( selectedItem == null )
 				return;
 			
-			if( selectedItem.name == "" && selectedItem.point == -1 )
+			if( selectedItem.name == "" && selectedItem.count == -1 )
 			{
-				var url:String = "http://towers.grantech.ir/invite?un="+player.nickName+"&ic="+appModel.loadingManager.serverData.getText("invitationCode").toUpperCase();
+				var url:String = "http://towers.grantech.ir/invite?un="+player.nickName+"&ic="+appModel.loadingManager.serverData.getText("invitationCode").toLowerCase();
 				NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + url);trace(url)
 				return;
 			}
