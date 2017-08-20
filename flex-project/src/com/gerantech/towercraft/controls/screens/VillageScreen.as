@@ -35,10 +35,10 @@ package com.gerantech.towercraft.controls.screens
 			if( selectedItem == null )
 				return;
 			
-			if( selectedItem.name=="" && selectedItem.point==-1)
+			if( selectedItem.name == "" && selectedItem.point == -1 )
 			{
-				var url:String = "http://towers.grantech.ir/invite?ic="+appModel.loadingManager.serverData.getText("invitationCode").toUpperCase();
-				NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + url);
+				var url:String = "http://towers.grantech.ir/invite?un="+player.nickName+"&ic="+appModel.loadingManager.serverData.getText("invitationCode").toUpperCase();
+				NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + url);trace(url)
 				return;
 			}
 		}

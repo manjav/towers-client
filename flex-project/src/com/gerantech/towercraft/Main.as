@@ -37,15 +37,14 @@ package com.gerantech.towercraft
 			AppModel.instance.navigator =  new StackNavigator();
 			this.content = AppModel.instance.navigator;
 
-			sddScreen(DASHBOARD_SCREEN,	DashboardScreen);
-			sddScreen(ARENA_SCREEN,		ArenaScreen);
-			sddScreen(QUESTS_SCREEN, 	QuestsScreen);
-			sddScreen(BATTLE_SCREEN, 	BattleScreen);
-			sddScreen(VILLAGE_SCREEN, 	VillageScreen);
+			addScreen(DASHBOARD_SCREEN,	DashboardScreen);
+			addScreen(ARENA_SCREEN,		ArenaScreen);
+			addScreen(QUESTS_SCREEN, 	QuestsScreen);
+			addScreen(BATTLE_SCREEN, 	BattleScreen);
+			addScreen(VILLAGE_SCREEN, 	VillageScreen);
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
-		}
-		
-		private function sddScreen(screenType:String, screenClass:Object):void
+		}		
+		private function addScreen(screenType:String, screenClass:Object):void
 		{
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
 			item.addPopEvent(Event.COMPLETE);

@@ -6,12 +6,14 @@ package
 	import com.gerantech.towercraft.models.AppModel;
 	import com.mesmotronic.ane.AndroidFullScreen;
 	
+	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.display3D.Context3DProfile;
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.Event;
+	import flash.events.InvokeEvent;
 	import flash.utils.getTimer;
 	
 	import feathers.utils.ScreenDensityScaleFactorManager;
@@ -73,6 +75,13 @@ package
 			this.mouseEnabled = this.mouseChildren = false;
 			addChild(new SplashScreen());
 			this.loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
+		}
+		
+		protected function nativeApplication_invokeHandler(event:InvokeEvent):void
+		{
+			NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
+			AppModel.instance.invokes = event.arguments;
 		}
 		
 		private function loaderInfo_completeHandler(event:Event):void
@@ -97,9 +106,9 @@ package
 			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
-			
 			BillingManager.instance.init();
 		}
+		
 		private function starling_rootCreatedHandler(event:Object):void
 		{
 		}

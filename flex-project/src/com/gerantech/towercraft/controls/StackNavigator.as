@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.buttons.SimpleButton;
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
@@ -8,6 +9,11 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.popups.RestorePopup;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.utils.StrUtils;
+	
+	import flash.desktop.NativeApplication;
+	import flash.events.InvokeEvent;
+	import flash.utils.Dictionary;
 	
 	import mx.resources.ResourceManager;
 	
@@ -145,6 +151,35 @@ package com.gerantech.towercraft.controls
 				addChild(bugReportButton);
 				bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
 			}
+		}
+		
+		public function handleInvokes():void
+		{
+			if( AppModel.instance.invokes != null )
+				handleSchemeQuery( AppModel.instance.invokes );
+		}
+		
+		private function handleSchemeQuery(arguments:Array):void
+		{
+			for each( var a:String in arguments )
+			{
+				if( a.indexOf("open?")> -1 )
+				{
+					var pars:Dictionary = StrUtils.getParams(a.split("open?")[1]);
+					switch ( pars["controls"] )
+					{
+						case "popup":
+							break;
+						
+						case "screen":
+							pushScreen(pars["type"]);
+							break;
+					}
+				}
+			}
+			AppModel.instance.invokes = null;
+			
+			//trace("k:", a, "v:", pars[a]);	
 		}
 	}
 }
