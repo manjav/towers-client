@@ -26,6 +26,14 @@ package com.gerantech.towercraft.controls.items
 
 	public class ArenaItemRnderer extends BaseCustomItemRenderer
 	{
+		
+		[Embed(source = "../../../../../assets/animations/factions/factions_ske.json", mimeType = "application/octet-stream")]
+		public static const skeletonClass: Class;
+		[Embed(source = "../../../../../assets/animations/factions/factions_tex.json", mimeType = "application/octet-stream")]
+		public static const atlasDataClass: Class;
+		[Embed(source = "../../../../../assets/animations/factions/factions_tex.png")]
+		public static const atlasImageClass: Class;
+		
 		public static var factory: StarlingFactory;
 		public static var dragonBonesData:DragonBonesData;
 		
@@ -56,8 +64,8 @@ package com.gerantech.towercraft.controls.items
 			if(factory == null)
 			{
 				factory = new StarlingFactory();
-				dragonBonesData = factory.parseDragonBonesData( appModel.assets.getObject("factions_ske"), null, 0.5 );
-				factory.parseTextureAtlasData( appModel.assets.getObject("factions_tex"), appModel.assets.getTexture("factions_tex"), null, 0, 2 );
+				dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
+				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
 			}
 			
 			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
@@ -105,7 +113,9 @@ package com.gerantech.towercraft.controls.items
 			addChild(rankButton);
 
 			armatureDisplay = factory.buildArmatureDisplay("all");
-			armatureDisplay.scale = appModel.scale * 1.8;
+			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
+			armatureDisplay.y = height *0.35;
+			armatureDisplay.scale = appModel.scale;
 			addChild(armatureDisplay);
 		}
 
@@ -131,8 +141,6 @@ package com.gerantech.towercraft.controls.items
 				armatureDisplay.animation.gotoAndPlayByTime("arena-"+index+"-selected", 0, 20);
 			else
 				armatureDisplay.animation.gotoAndStopByTime("arena-"+index+"-normal", 0);
-			armatureDisplay.x = appModel.isLTR ? (width-120*appModel.scale) : 120*appModel.scale;
-			armatureDisplay.y = height * 0.25;
 		}
 		
 		override public function dispose():void
