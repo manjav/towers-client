@@ -85,7 +85,7 @@
                         </FillStyle>
                       </fills>
                       <edges>
-                        <Edge fillStyle1="1" edges="!20 20|260 20!260 20|260 260!260 260|20 260!20 260|20 20"/>
+                        <Edge fillStyle1="1" edges="!260 260|20 260!20 260|20 20!20 20|260 20!260 20|260 260"/>
                       </edges>
                     </DOMShape>
                   </members>
