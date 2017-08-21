@@ -79,15 +79,18 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 
-			var loginParams:ISFSObject;
+			var loginParams:ISFSObject = new SFSObject();
 			// new player
 			if( UserData.getInstance().id < 0 )
 			{
-				loginParams = new SFSObject();
 				if( UserData.getInstance().id == -1 )
 				{
 					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
 					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
+				}
+				else
+				{
+					loginParams.putText("pushToken", "sdfsdgs");
 				}
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
