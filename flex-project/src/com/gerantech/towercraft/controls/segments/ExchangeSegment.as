@@ -37,15 +37,19 @@ package com.gerantech.towercraft.controls.segments
 	{
 		private var itemslistData:ListCollection;
 		private var itemslist:List;
+
+		private var openChestOverlay:OpenChestOverlay;
 		
 		public function ExchangeSegment()
 		{
 			super();
-			//appModel.assetsManager.verbose = true;
-			if( appModel.assets.getTexture("shop-line-header") != null )
-				return;
-			appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop"));
-			appModel.assets.loadQueue(appModel_loadCallback)
+			// appModel.assets.verbose = true;
+			if( appModel.assets.getTexture("shop-line-header") == null )
+			{
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop" ));
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
+				appModel.assets.loadQueue(appModel_loadCallback)
+			}
 		}
 		
 		private function appModel_loadCallback(ratio:Number):void
@@ -148,8 +152,7 @@ package com.gerantech.towercraft.controls.segments
 						return;
 					}
 				}
-				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+				sendData(item, params)
 			}
 			else if( !player.has(item.requirements) )
 			{
@@ -173,10 +176,19 @@ package com.gerantech.towercraft.controls.segments
 						appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
 					return;
 				}
-				
-				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-				SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+				sendData(item, params)
 			}
+		}
+		private function sendData(item:ExchangeItem, params:SFSObject):void
+		{
+			if( ExchangeType.getCategory( item.type ) == ExchangeType.S_30_CHEST )
+			{
+				openChestOverlay = new OpenChestOverlay(item.type);
+				appModel.navigator.addOverlay(openChestOverlay);
+			}
+			
+			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);			
 		}
 
 		
@@ -195,8 +207,7 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
 			params.putInt("hards", RequirementConfirmPopup(event.currentTarget).numHards );
-			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+			sendData(item, params);
 		}
 
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
@@ -223,12 +234,11 @@ package com.gerantech.towercraft.controls.segments
 							if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
 								item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
 						}
-			
-						var openChestOverlay:OpenChestOverlay = new OpenChestOverlay(item);
+						openChestOverlay.setItem( item );
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-						appModel.navigator.addOverlay(openChestOverlay);
 						function openChestOverlay_closeHandler(event:Event):void {
 							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+							openChestOverlay = null;
 							exchanger.exchange(item, data.getInt("now"), data.getInt("hards"));
 							itemslist.dataProvider.updateItemAt(1);
 						}

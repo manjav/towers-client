@@ -49,15 +49,20 @@ package com.gerantech.towercraft.controls.screens
 		}
 		protected function addedToStageHadnler(event:*):void
 		{
+			stage.addEventListener("resize", stage_resizeHandler);
 			removeEventListener("addedToStage", addedToStageHadnler);
 			_parent = parent;
-			graphics.beginFill(0x3d4759);
-			graphics.drawRect(0, 0, stage.fullScreenWidth*2, stage.fullScreenHeight*2);
+		}
+		protected function stage_resizeHandler(event:*):void
+		{
+			graphics.clear();
+			graphics.beginFill(0);
+			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			
-			logo.width = Math.max(stage.fullScreenWidth, stage.fullScreenHeight)/3;
+			logo.width = Math.max(stage.stageWidth, stage.stageHeight)/3;
 			logo.scaleY = logo.scaleX;
-			logo.x = (stage.fullScreenWidth-logo.width)/2;
-			logo.y = (stage.fullScreenHeight-logo.height)/2;
+			logo.x = (stage.stageWidth-logo.width)/2;
+			logo.y = (stage.stageHeight-logo.height)/2;
 		}
 		
 		protected function loadingManager_eventsHandler(event:LoadingEvent):void
@@ -195,7 +200,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function enterFrameHandler(event:*):void
 		{
-			_alpha -= 0.08;
+			_alpha -= 0.1;
 			alpha = _alpha;
 
 			if(_alpha <= 0)

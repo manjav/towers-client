@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.controls.items.exchange
+	package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
@@ -35,7 +35,7 @@ package com.gerantech.towercraft.controls.items.exchange
 		private var armatorTimeoutId:int = -1;
 		private var state:int = -1;
 		
-		private static var factory:StarlingFactory;
+		/*private static var factory:StarlingFactory;
 		private static var dragonBonesData:DragonBonesData;
 		
 		private function createFactory():void
@@ -46,7 +46,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new OpenChestOverlay.skeletonLightClass()) );
 			factory.parseTextureAtlasData( JSON.parse(new OpenChestOverlay.atlasDataClass()), new OpenChestOverlay.atlasImageClass() );
 		}
-		
+		*/
 		
 		override protected function commitData():void
 		{
@@ -76,26 +76,27 @@ package com.gerantech.towercraft.controls.items.exchange
 			addChild(buttonDisplay);
 			
 			updateElements(exchange.expiredAt > timeManager.now ? 1 : 0);
-			setTimeout(AddArmature, (factory==null?1200:100)+index*300);
+			setTimeout(AddArmature, (OpenChestOverlay.factory==null?600:10)+index*200);
 		}
 		
 		private function AddArmature():void
 		{
-			createFactory();
+			if( chestArmature != null )
+				return;
 			
-			chestArmature = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(exchange.type%10)-1]);
-			chestArmature.x = -540*appModel.scale/2+width/2-padding;
-			chestArmature.y = -940*appModel.scale/2+height*0.3;
-			chestArmature.scale = appModel.scale/2;
+			OpenChestOverlay.createFactory();
+			
+			chestArmature = OpenChestOverlay.factory.buildArmatureDisplay(OpenChestOverlay.dragonBonesData.armatureNames[(exchange.type%10)-1]);
+			chestArmature.x = -680*appModel.scale/2+width/2-padding;
+			chestArmature.y = -940*appModel.scale/2+height*0.22;
+			chestArmature.scale = appModel.scale * 2;
 			chestArmature.addEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 			chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
 			addChildAt(chestArmature, 1);		
 		}
 		private function chestArmature_completeHandler(event:StarlingEvent):void
 		{
-			chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
-			if( event.eventObject.animationState.name == "fall")
-				updateArmature(state, true);
+			updateArmature(state, event.eventObject.animationState.name == "fall");
 		}
 		
 		private function timeManager_changeHandler():void
@@ -109,36 +110,41 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			this.state = state;
 			timeDisplay.visible = state==1;
-			if( state==1 )
+			if( state == 1 )
 			{
 				var t:uint = uint(exchange.expiredAt - timeManager.now);
 				timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
 				buttonDisplay.count = exchanger.timeToKey(t);
 				buttonDisplay.type = ResourceType.KEY;
 			}
-			else if( state==0)
+			else if( state==0 )
 			{
 				buttonDisplay.count = -1;
 				buttonDisplay.type = -1;
-
 			}
 			updateArmature(state);
 		}
 		
-		private function updateArmature(state:int, force:Boolean=false):void
+		private function updateArmature(state:int, immediatly:Boolean=false):void
 		{
-			if( !chestArmature)
+			if( chestArmature == null)
 				return;
-			
-			if(state==1)
+
+			if(state == 1)
 			{
 				clearTimeout(armatorTimeoutId);
 				armatorTimeoutId = -1;
 			}
-			else if( state==0 && armatorTimeoutId == -1 )
+			else if( state == 0 && armatorTimeoutId == -1 )
 			{
-				armatorTimeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, force?0:(Math.random()*3000+10000), "wait", 0, 1);
+				armatorTimeoutId = setTimeout(animateWaitArmature, immediatly?0:(Math.random()*3000+10000));
 			}			
+		}
+		
+		private function animateWaitArmature():void
+		{
+			chestArmature.animation.gotoAndPlayByTime("wait", 0, 1);			
+			armatorTimeoutId = -1;
 		}
 		
 		override public function dispose():void

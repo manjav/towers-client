@@ -142,7 +142,7 @@ public class MainSegment extends Segment
 		if(floating != null && floating.element.name == mapElement.name)
 			return;
 		
-		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || mapElement.name == "dragon-cross";
+		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || (mapElement.name == "dragon-cross" && !player.villageEnabled());
 		var floatingWidth:int = locked ? 360 : 320;
 		
 		// create transitions data
@@ -171,31 +171,33 @@ public class MainSegment extends Segment
 		}
 		function floating_selectHandler(event:Event):void
 		{
+			if(	player.inTutorial() && event.data['name'] != "gold-leaf")
+			{
+				appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
+				return;
+			}
+			floating = null;
+
 			//trace(event.data['name'])
 			switch(event.data['name'])
 			{
 				case "gold-leaf":
-					floating = null;
 					appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 					break;
 				case "portal-center":
-					if( player.inTutorial() )
-					{
-						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
-						return;
-					}
 					floating = null;
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
-					appModel.navigator.addLog(loc("map-button-unavailabled", [loc("map-"+event.data['name'])]));
-					break;
-				case "portal-tower":
-					if( player.inTutorial() )
+					if( !player.villageEnabled() )
 					{
-						appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
+						appModel.navigator.addLog(loc("map-dragon-cross-availabledat", [loc("arena_title_1")]));
+						punchButton(getChildByName("portal-tower") as SimpleButton);
 						return;
 					}
+					appModel.navigator.pushScreen( Main.VILLAGE_SCREEN );		
+					break;
+				case "portal-tower":
 					floating = null;
 					appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
 					break;

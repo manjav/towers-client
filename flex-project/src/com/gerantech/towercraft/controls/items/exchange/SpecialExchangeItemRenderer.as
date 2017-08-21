@@ -153,14 +153,6 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			timeDisplay.text = loc( "exchange_special_availabled", [(50-exchange.numExchanges), StrUtils.toTimeFormat(uint(exchange.expiredAt - TimeManager.instance.now))] );
 		}
-		
-		public function showAchieveAnimation():void
-		{
-			// TODO Auto Generated method stub
-			
-		}		
-		
 	
-		
 	}
 }

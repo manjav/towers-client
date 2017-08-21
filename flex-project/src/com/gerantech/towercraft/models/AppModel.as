@@ -42,6 +42,7 @@ package com.gerantech.towercraft.models
 		public var assets:AssetManager;
 		public var sounds:SoundManager;
 		public var notifier:NotificationManager;
+		public var invokes:Array;
 		
 		
 		public function AppModel()

@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.ChestReward;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.utils.setTimeout;
@@ -23,40 +24,32 @@ package com.gerantech.towercraft.controls.overlays
 	
 	public class OpenChestOverlay extends BaseOverlay
 	{
-		[Embed(source = "../../../../../assets/animations/chests/chests_light_ske.json", mimeType = "application/octet-stream")]
-		public static const skeletonLightClass: Class;
-		[Embed(source = "../../../../../assets/animations/chests/chests_ske.json", mimeType = "application/octet-stream")]
-		public static const skeletonClass: Class;
-		[Embed(source = "../../../../../assets/animations/chests/chests_tex.json", mimeType = "application/octet-stream")]
-		public static const atlasDataClass: Class;
-		[Embed(source = "../../../../../assets/animations/chests/chests_tex.png")]
-		public static const atlasImageClass: Class;
-		
-		private var factory: StarlingFactory;
-		private var dragonBonesData:DragonBonesData;
+		public static var factory: StarlingFactory;
+		public static var dragonBonesData:DragonBonesData;
 		public var item:ExchangeItem;
 
+		private var type:int;
 		private var rewardKeys:Vector.<int>;
 		private var rewardItems:Vector.<ChestReward>;
 		private var openAnimation:StarlingArmatureDisplay ;
 		private var collectedItemIndex:int = 0;
 		private var buttonOverlay:SimpleLayoutButton;
+		private var readyToWait:Boolean;
 
-		public function OpenChestOverlay(item:ExchangeItem)
+		public function OpenChestOverlay(type:int)
 		{
 			super();
-			
-			this.item = item;
+			this.type = type;
 			createFactory();
 		}
 		
-		private function createFactory():void
+		public static function createFactory():void
 		{
 			if(factory != null)
 				return;
 			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("chests_ske"), null, 0.5);
+			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("chests_tex"), AppModel.instance.assets.getTexture("chests_tex"), null, 0, 2);
 		}			
 		
 		override protected function initialize():void
@@ -66,7 +59,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			layout = new AnchorLayout();
 			overlay.alpha = 0;
-			Starling.juggler.tween(overlay, 0.5,
+			Starling.juggler.tween(overlay, 0.3,
 				{
 					alpha:1,
 					onStart:transitionInStarted,
@@ -91,21 +84,28 @@ package com.gerantech.towercraft.controls.overlays
 			
 			appModel.sounds.setVolume("main-theme", 0.3);
 			
-			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(item.type%10)-1]);
-			openAnimation.touchable = openAnimation.touchGroup = false
-			openAnimation.scale = appModel.scale;
+			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(type%10)-1]);
+			openAnimation.touchable = openAnimation.touchGroup = false;
+			openAnimation.y = 320 * appModel.scale;
+			openAnimation.scale = appModel.scale*3;
 			openAnimation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
 			openAnimation.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
 			openAnimation.animation.gotoAndPlayByTime("fall", 0, 1);
 			addChild(openAnimation);
-
+		}
+		
+		public function setItem(item:ExchangeItem) : void
+		{
 			buttonOverlay = new SimpleLayoutButton();
 			buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 			buttonOverlay.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(buttonOverlay);
 			
+			this.item = item;
 			rewardItems = new Vector.<ChestReward>();
 			rewardKeys = item.outcomes.keys();
+			if( readyToWait )
+				openAnimation.animation.gotoAndPlayByTime("wait", 0, -1);
 		}
 		
 		private function openAnimation_soundEventHandler(event:StarlingEvent):void
@@ -116,10 +116,16 @@ package com.gerantech.towercraft.controls.overlays
 		protected function openAnimation_completeHandler(event:StarlingEvent):void
 		{
 			if(event.eventObject.animationState.name == "fall")
-				openAnimation.animation.gotoAndPlayByTime("wait", 0, -1);
+			{
+				readyToWait = true;
+				if ( item != null )
+					openAnimation.animation.gotoAndPlayByTime("wait", 0, -1);
+			}
 			else if(event.eventObject.animationState.name == "hide")
+			{
 				close();
-		}		
+			}
+		}
 		
 		protected function buttonOverlay_triggeredHandler():void
 		{
@@ -178,9 +184,7 @@ package com.gerantech.towercraft.controls.overlays
 			var paddingV:int = chestReward.height*0.5*scal + 80*appModel.scale;
 			var cellH:int = ((stage.stageWidth-chestReward.width*0.4*scal-paddingH*2) / (numCol-1));
 			Starling.juggler.tween(chestReward, 0.5, {scale:scal, x:(chestReward.index%numCol)*cellH + paddingH, y:Math.floor(chestReward.index/numCol)*chestReward.height*scal + paddingV, transition:Transitions.EASE_OUT_BACK, onComplete:grabCompleted});
-			function grabCompleted():void
-			{
-			}
+			function grabCompleted():void { }
 		}
 		
 		override public function dispose():void
