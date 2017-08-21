@@ -200,7 +200,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function enterFrameHandler(event:*):void
 		{
-			_alpha -= 0.08;
+			_alpha -= 0.1;
 			alpha = _alpha;
 
 			if(_alpha <= 0)

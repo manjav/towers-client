@@ -58,7 +58,6 @@ package
 			
 
 			t = getTimer();
-			trace(stage)
 			if(this.stage)
 			{
 				this.stage.scaleMode = StageScaleMode.NO_SCALE;
