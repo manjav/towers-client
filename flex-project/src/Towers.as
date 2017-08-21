@@ -4,7 +4,6 @@ package
 	import com.gerantech.towercraft.controls.screens.SplashScreen;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.models.AppModel;
-	import com.mesmotronic.ane.AndroidFullScreen;
 	
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
@@ -22,7 +21,7 @@ package
 	
 	[ResourceBundle("loc")]
 	
-	[SWF(frameRate="60", backgroundColor="#3d4759")]
+	[SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
 	public class Towers extends Sprite
 	{
 		private var starling:Starling;
@@ -59,15 +58,9 @@ package
 			
 
 			t = getTimer();
+			trace(stage)
 			if(this.stage)
 			{
-				// full screen for android platform
-				if( AppModel.instance.platform == AppModel.PLATFORM_ANDROID )//if(Capabilities.manufacturer.indexOf("droid")>-1)
-				{
-					AndroidFullScreen.stage = stage; // Set this to your app's stage
-					AndroidFullScreen.fullScreen();
-				}
-				
 				this.stage.scaleMode = StageScaleMode.NO_SCALE;
 				this.stage.align = StageAlign.TOP_LEFT;
 			}
@@ -103,7 +96,6 @@ package
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 			
 			this.scaler = new ScreenDensityScaleFactorManager(this.starling);
-			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 			
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
 			BillingManager.instance.init();
@@ -111,6 +103,7 @@ package
 		
 		private function starling_rootCreatedHandler(event:Object):void
 		{
+			this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 		}
 		
 		private function stage_deactivateHandler(event:Event):void
