@@ -395,10 +395,9 @@
 		]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
-	<extensions>
-		<extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
-		<extensionID>com.gerantech.extensions.nativeabilities</extensionID>
-		<extensionID>com.marpies.ane.androidsupport</extensionID>
+	
+<extensions>
+        <extensionID>com.marpies.ane.androidsupport</extensionID>
         <extensionID>com.marpies.ane.gameanalytics</extensionID>
         <extensionID>com.marpies.ane.gameServices</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
@@ -411,5 +410,7 @@
         <extensionID>com.marpies.ane.googleplayservices.location</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
         <extensionID>com.marpies.ane.onesignal</extensionID>
+        <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+        <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     </extensions>
 </application>

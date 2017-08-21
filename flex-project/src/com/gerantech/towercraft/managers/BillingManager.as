@@ -8,9 +8,7 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
-	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.exchanges.Exchanger;
 	import com.marpies.ane.gameanalytics.GameAnalytics;

@@ -11,11 +11,10 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.socials.SocialManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
-
-	import com.marpies.ane.onesignal.OneSignal;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gerantech.towercraft.utils.Utils;
-
+	import com.marpies.ane.onesignal.OneSignal;
+	import com.marpies.ane.onesignal.OneSignalNotification;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -86,16 +85,6 @@ package com.gerantech.towercraft.managers.net
 				dispatchEvent(new LoadingEvent(LoadingEvent.NETWORK_ERROR));
 				state = STATE_DISCONNECTED;
 			}
-			
-			OneSignal.settings.setAutoRegister( false ).setEnableInAppAlerts( false ).setShowLogs( true )
-			if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
-				//NativeAbilities.instance.showToast("OneSignal.init", 2);
-			}
-			/*OneSignal.addNotificationReceivedCallback( onNotificationReceived );
-			function onNotificationReceived( notification:OneSignalNotification ):void {
-				NativeAbilities.instance.showToast(notification.message, 2);
-			}
-			*/
 		}
 		
 		/***********************************   LOGIN   ***********************************/
@@ -105,7 +94,23 @@ package com.gerantech.towercraft.managers.net
 			UserData.getInstance().load();
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
-
+			
+			var reservedOneSignalUserId:String = "no_id";
+			var reservedOneSignalToken:String = "no_token";
+			OneSignal.settings.setAutoRegister( false ).setEnableInAppAlerts( false ).setShowLogs( true );
+			if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
+				//NativeAbilities.instance.showToast("OneSignal.init", 2);
+			}
+			OneSignal.idsAvailable( onOneSignalIdsAvailable );
+			function onOneSignalIdsAvailable( oneSignalUserId:String, pushToken:String ):void {
+				reservedOneSignalUserId = oneSignalUserId;
+				reservedOneSignalToken = pushToken;// 'pushToken' may be null if there's a server or connection error
+			}
+			/*OneSignal.addNotificationReceivedCallback( onNotificationReceived );
+			function onNotificationReceived( notification:OneSignalNotification ):void {
+			NativeAbilities.instance.showToast(notification.message, 2);
+			}*/
+				
 			var loginParams:ISFSObject = new SFSObject();
 			// new player
 			if( UserData.getInstance().id < 0 )
@@ -117,7 +122,8 @@ package com.gerantech.towercraft.managers.net
 				}
 				else
 				{
-					loginParams.putText("pushToken", "sdfsdgs");
+					loginParams.putText("pushId", reservedOneSignalUserId);
+					//loginParams.putText("pushToken", reservedOneSignalToken);
 				}
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);

@@ -7,14 +7,14 @@
         <excludedEntries>
           <libraryPathEntry kind="1" linkType="1" path="${PROJECT_FRAMEWORKS}/locale/{locale}"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/advancedgrids.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/charts.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/charts.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/netmon.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/spark.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/sparkskins.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/rpc.swc" useDefaultLinkType="false"/>
-          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/videoPlayer.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp_air.swc" useDefaultLinkType="false"/>
+          <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/videoPlayer.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/flash-integration.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/authoringsupport.swc" useDefaultLinkType="false"/>
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/qtp.swc" useDefaultLinkType="false"/>
@@ -35,7 +35,6 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/android-fullscreen.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.androidsupport.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.gameanalytics.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.gameServices.ane"/>
@@ -50,8 +49,7 @@
       <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.tasks.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.onesignal.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/native_android.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/android-device-info.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/native-android.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -66,6 +64,7 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="" releasePackageType="">
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
@@ -74,7 +73,6 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
@@ -84,7 +82,6 @@
           <pathEntry path="assets/images/game.xml"/>
         </airExcludes>
         <anePaths>
-          <anePathEntry path="ane/android-fullscreen.ane"/>
           <anePathEntry path="ane/com.marpies.ane.androidsupport.ane"/>
           <anePathEntry path="ane/com.marpies.ane.gameanalytics.ane"/>
           <anePathEntry path="ane/com.marpies.ane.gameServices.ane"/>
@@ -99,8 +96,7 @@
           <anePathEntry path="ane/com.marpies.ane.googleplayservices.tasks.ane"/>
           <anePathEntry path="ane/com.marpies.ane.onesignal.ane"/>
           <anePathEntry path="ane/iab.ane"/>
-          <anePathEntry path="ane/native_android.ane"/>
-          <anePathEntry path="ane/android-device-info.ane"/>
+          <anePathEntry path="ane/native-android.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>
@@ -110,6 +106,7 @@
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget buildTargetName="default" isCurrent="true" platformId="default">
+      <multiPlatformSettings enabled="false" hideAneLibSymbols="0" includePlatformLibs="false" platformID="default" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
@@ -118,7 +115,6 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
-      <multiPlatformSettings enabled="false" hideAneLibSymbols="0" includePlatformLibs="false" platformID="default" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
   </buildTargets>
