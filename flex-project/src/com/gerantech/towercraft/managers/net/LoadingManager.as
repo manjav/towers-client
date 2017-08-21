@@ -7,6 +7,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gerantech.towercraft.utils.Utils;
 	import com.janumedia.ane.deviceinfo.DeviceInfoExtension;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -87,7 +88,7 @@ package com.gerantech.towercraft.managers.net
 				if( UserData.getInstance().id == -1 )
 				{
 					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.IMEI : Utils.getPCUniqueCode());
-					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? (DeviceInfoExtension.instance.deviceInfo.manufacturer+"-"+DeviceInfoExtension.instance.deviceInfo.model) : Capabilities.manufacturer);
+					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(DeviceInfoExtension.instance.deviceInfo.manufacturer+"-"+DeviceInfoExtension.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 				}
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);

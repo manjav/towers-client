@@ -327,9 +327,9 @@ package com.gerantech.towercraft.utils
 			return uint('0x'+_str.substr(1));
 		}		
 		//  SUMMERY TEXT   _________________________________________________________________________
-		public static function summaryText(str:String, len:uint):String
+		public static function truncateText(str:String, len:uint, truncatePost:String = " ..."):String
 		{
-			return ( str.length > len ? str.substr(0, len-2) + " ..." : str );
+			return ( str.length > len ? str.substr(0, len-truncatePost.length) + truncatePost : str );
 		}
 		
 		public static function getParams(queryString:String):Dictionary
