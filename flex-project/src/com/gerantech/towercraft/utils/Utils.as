@@ -1,7 +1,10 @@
 package com.gerantech.towercraft.utils
 {
+	import com.hurlant.crypto.hash.MD5;
+	
 	import flash.geom.Point;
 	import flash.net.registerClassAlias;
+	import flash.system.Capabilities;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	
@@ -284,6 +287,11 @@ package com.gerantech.towercraft.utils
 				return min + (Math.random() * (max - min + 1));
 			else
 				return max + (Math.random() * (min - max + 1));
+		}
+		
+		public static function getPCUniqueCode():String
+		{
+			return Capabilities.screenDPI+"-"+Capabilities.screenResolutionX+"-"+Capabilities.screenResolutionY;
 		}
 	}
 }

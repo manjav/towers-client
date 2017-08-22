@@ -52,9 +52,9 @@ package com.gerantech.towercraft.controls.popups
 			layout = new AnchorLayout();
 			
 			var skin:ImageLoader = new ImageLoader();
-			skin.source = appModel.theme.itemRendererUpSkinTexture;
+			skin.source = appModel.theme.popupBackgroundSkinTexture;
+			skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
 			skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			addChild( skin );
 			
 			padding = 28 * appModel.scale;
@@ -118,8 +118,7 @@ package com.gerantech.towercraft.controls.popups
 				return;
 			
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			var params:SFSObject = event.params.params;
-			_listCollection.data = SFSArray(params.getSFSArray("list")).toArray();;
+			_listCollection.data = SFSArray(event.params.params.getSFSArray("list")).toArray();
 		}
 		
 		private function findMe():int

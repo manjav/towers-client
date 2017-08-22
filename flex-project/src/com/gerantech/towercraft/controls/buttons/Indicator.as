@@ -1,17 +1,19 @@
 package com.gerantech.towercraft.controls.buttons
 {
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import flash.geom.Rectangle;
 	
 	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.ProgressBar;
-	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
-	import feathers.text.BitmapFontTextFormat;
+	
+	import starling.text.TextField;
+	import starling.text.TextFormat;
 
 	public class Indicator extends SimpleLayoutButton
 	{
@@ -21,7 +23,7 @@ package com.gerantech.towercraft.controls.buttons
 		private var hasIncreaseButton:Boolean;
 
 		private var progressbar:ProgressBar;
-		private var progressLabel:BitmapFontTextRenderer;
+		private var progressLabel:TextField;
 		
 		public function Indicator(direction:String = "ltr", resourceType:int = 0, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean=true)
 		{
@@ -51,9 +53,9 @@ package com.gerantech.towercraft.controls.buttons
 				addChild(progressbar);
 			}
 			
-			progressLabel = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			progressLabel.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*appModel.scale, 0xFFFFFF, "center")
-			progressLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height*0.1);
+			progressLabel = new TextField(width-padding*(hasIncreaseButton?8:4), height, "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR));
+			progressLabel.x = padding*4;
+			progressLabel.autoScale = true;
 			addChild(progressLabel);
 			
 			var iconDisplay:ImageLoader = new ImageLoader();
@@ -80,7 +82,7 @@ package com.gerantech.towercraft.controls.buttons
 				progressbar.maximum = maximum;
 				progressbar.value = Math.max(minimum, Math.min( maximum, value ) );
 			}
-			
+
 			progressLabel.text = value.toString();
 		}
 		

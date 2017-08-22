@@ -7,7 +7,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.UserData;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.desktop.NativeApplication;
@@ -33,13 +32,13 @@ package com.gerantech.towercraft.controls.screens
 			addEventListener("addedToStage", addedToStageHadnler);
 			
 			AppModel.instance.loadingManager = new LoadingManager();
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CONNECTION_LOST,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.load();
@@ -50,26 +49,32 @@ package com.gerantech.towercraft.controls.screens
 		}
 		protected function addedToStageHadnler(event:*):void
 		{
+			stage.addEventListener("resize", stage_resizeHandler);
 			removeEventListener("addedToStage", addedToStageHadnler);
 			_parent = parent;
-			graphics.beginFill(0x3d4759);
-			graphics.drawRect(0, 0, stage.fullScreenWidth*2, stage.fullScreenHeight*2);
+		}
+		protected function stage_resizeHandler(event:*):void
+		{
+			graphics.clear();
+			graphics.beginFill(0);
+			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			
-			logo.width = Math.max(stage.fullScreenWidth, stage.fullScreenHeight)/3;
+			logo.width = Math.max(stage.stageWidth, stage.stageHeight)/3;
 			logo.scaleY = logo.scaleX;
-			logo.x = (stage.fullScreenWidth-logo.width)/2;
-			logo.y = (stage.fullScreenHeight-logo.height)/2;
+			logo.x = (stage.stageWidth-logo.width)/2;
+			logo.y = (stage.stageHeight-logo.height)/2;
 		}
 		
 		protected function loadingManager_eventsHandler(event:LoadingEvent):void
 		{
-			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_ERROR, 			loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,			loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
+
 			trace(event.type)
 			
 			var confirmData:SFSObject = new SFSObject();
@@ -165,6 +170,8 @@ package com.gerantech.towercraft.controls.screens
 			switch(confirmData.getText("type"))
 			{
 				case LoadingEvent.NOTICE_UPDATE:
+					AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
+					AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
 					AppModel.instance.loadingManager.loadCore();
 					return;
 					
@@ -181,18 +188,19 @@ package com.gerantech.towercraft.controls.screens
 		{
 			alpha = _alpha = 1;
 			_parent.addChild(this);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.load();
 		}
 		
 		protected function enterFrameHandler(event:*):void
 		{
-			_alpha -= 0.08;
+			_alpha -= 0.1;
 			alpha = _alpha;
 
 			if(_alpha <= 0)

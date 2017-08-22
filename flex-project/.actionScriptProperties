@@ -35,9 +35,8 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/android-fullscreen.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/native_android.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/native-android.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -70,9 +69,8 @@
           <pathEntry path="assets/images/game.xml"/>
         </airExcludes>
         <anePaths>
-          <anePathEntry path="ane/android-fullscreen.ane"/>
           <anePathEntry path="ane/iab.ane"/>
-          <anePathEntry path="ane/native_android.ane"/>
+          <anePathEntry path="ane/native-android.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>

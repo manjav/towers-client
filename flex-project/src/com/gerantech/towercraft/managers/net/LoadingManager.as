@@ -2,16 +2,16 @@ package com.gerantech.towercraft.managers.net
 {
 
 	import com.gerantech.extensions.NativeAbilities;
-	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gerantech.towercraft.utils.StrUtils;
+	import com.gerantech.towercraft.utils.Utils;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
-	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -42,7 +42,7 @@ package com.gerantech.towercraft.managers.net
 		
 		private var sfsConnection:SFSConnection;
 
-		private var serverData:SFSObject;
+		public var serverData:SFSObject;
 		
 		public function load():void
 		{
@@ -79,19 +79,18 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 			
-			var loginParams:ISFSObject;
+			var loginParams:ISFSObject = new SFSObject();
+			loginParams.putInt("id", UserData.getInstance().id);
+
 			// new player
-			if( UserData.getInstance().id < 0 )
+			if( UserData.getInstance().id == -1 )
 			{
-				loginParams = new SFSObject();
-				if( UserData.getInstance().id == -1 )
-				{
-					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.IMEI : Capabilities.serverString.substr(Math.max(0,Capabilities.serverString.length-150)));
-					loginParams.putText("device", Capabilities.manufacturer);
-				}
+				loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
+				loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
-		}
+		}		
+
 		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void
 		{
 			sfsConnection.removeEventListener(SFSEvent.LOGIN,		sfsConnection_loginHandler);
@@ -111,7 +110,7 @@ package com.gerantech.towercraft.managers.net
 				dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 				return;
 			}
-			
+
 			// in registring case
 			if(serverData.containsKey("password"))
 			{

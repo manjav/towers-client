@@ -25,13 +25,13 @@ package com.gerantech.towercraft.views
 		public var place:Place;
 		public var raduis:Number;
 		public var arrowContainer:Sprite;
+		public var decorator:BuildingDecorator;
+		public var defensiveWeapon:DefensiveWeapon;
 		
 		private var arrow:Image;
 		private var rushTimeoutId:uint;
 		private var _selectable:Boolean;
 		
-		private var decorator:BuildingDecorator;
-		private var defensiveWeapon:DefensiveWeapon;
 		
 		public function PlaceView(place:Place)
 		{
