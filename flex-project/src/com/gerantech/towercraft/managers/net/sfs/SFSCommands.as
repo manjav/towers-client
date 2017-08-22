@@ -17,6 +17,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const OAUTH:String = "oauth";
 		public static const BUG_REPORT:String = "bugReport";
 		public static const VERIFY_PURCHASE:String = "verify";
+		public static const REGISTER_PUSH:String = "registerPush";
 		
 		public static const FIGHT:String = "f";
 		public static const BUILDING_IMPROVE:String = "i";

@@ -95,36 +95,14 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 			
-			var reservedOneSignalUserId:String = "no_id";
-			var reservedOneSignalToken:String = "no_token";
-			OneSignal.settings.setAutoRegister( false ).setEnableInAppAlerts( false ).setShowLogs( true );
-			if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
-				//NativeAbilities.instance.showToast("OneSignal.init", 2);
-			}
-			OneSignal.idsAvailable( onOneSignalIdsAvailable );
-			function onOneSignalIdsAvailable( oneSignalUserId:String, pushToken:String ):void {
-				reservedOneSignalUserId = oneSignalUserId;
-				reservedOneSignalToken = pushToken;// 'pushToken' may be null if there's a server or connection error
-			}
-			/*OneSignal.addNotificationReceivedCallback( onNotificationReceived );
-			function onNotificationReceived( notification:OneSignalNotification ):void {
-			NativeAbilities.instance.showToast(notification.message, 2);
-			}*/
-				
 			var loginParams:ISFSObject = new SFSObject();
+			loginParams.putInt("id", UserData.getInstance().id);
+
 			// new player
-			if( UserData.getInstance().id < 0 )
+			if( UserData.getInstance().id == -1 )
 			{
-				if( UserData.getInstance().id == -1 )
-				{
-					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
-					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
-				}
-				else
-				{
-					loginParams.putText("pushId", reservedOneSignalUserId);
-					//loginParams.putText("pushToken", reservedOneSignalToken);
-				}
+				loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
+				loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
 		}
@@ -232,8 +210,8 @@ package com.gerantech.towercraft.managers.net
 			socials.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
 			socials.removeEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
 
-			setTimeout(AppModel.instance.navigator.addLog, 3000, "Authentication Failed.");
-			NativeAbilities.instance.showToast("Your ISP not allowed to connect google play service.", 2);
+			//setTimeout(AppModel.instance.navigator.addLog, 3000, "Authentication Failed.");
+			NativeAbilities.instance.showToast("Your ISP not allowed to connect google play service.", 1);
 			finalize();
 		}	
 		protected function socialManager_authenticateHandler(event:SocialEvent):void
@@ -300,7 +278,38 @@ package com.gerantech.towercraft.managers.net
 		{
 			state = STATE_LOADED;
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
+			
+			registerPushManager();
 		}
-
+		
+		private function registerPushManager():void
+		{
+			
+			OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );
+			OneSignal.idsAvailable( onOneSignalIdsAvailable );
+			function onOneSignalIdsAvailable( oneSignalUserId:String, oneSignalPushToken:String ):void {
+				var pushParams:ISFSObject = new SFSObject();
+				if( UserData.getInstance().oneSignalUserId != oneSignalUserId )
+				{
+					pushParams.putText("oneSignalUserId", oneSignalUserId);
+					UserData.getInstance().oneSignalUserId = oneSignalUserId;
+				}
+				if( UserData.getInstance().oneSignalPushToken != oneSignalPushToken )
+				{
+					pushParams.putText("oneSignalPushToken", oneSignalPushToken);
+					UserData.getInstance().oneSignalPushToken = oneSignalPushToken;// 'pushToken' may be null if there's a server or connection error
+				}
+				UserData.getInstance().save();
+				sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
+			}
+			if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
+				//NativeAbilities.instance.showToast("OneSignal.init", 2);
+			}
+			/*OneSignal.addNotificationReceivedCallback( onNotificationReceived );
+			function onNotificationReceived( notification:OneSignalNotification ):void {
+			NativeAbilities.instance.showToast(notification.message, 2);
+			}*/			
+		}
+		
 	}
 }

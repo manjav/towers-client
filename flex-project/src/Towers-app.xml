@@ -357,7 +357,7 @@
 					</receiver>
 					<receiver android:name="com.onesignal.UpgradeReceiver">
 						<intent-filter>
-							<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+							<action android:name="android.intent.action.air.com.grantech.towers" />
 						</intent-filter>
 					</receiver>
 					<!-- OneSignal END -->

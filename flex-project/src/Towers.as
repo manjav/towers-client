@@ -7,8 +7,7 @@ package
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ResourceType;
 	import com.marpies.ane.gameanalytics.GameAnalytics;
-	import com.mesmotronic.ane.AndroidFullScreen;
-
+	
 	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -17,10 +16,12 @@ package
 	import flash.display3D.Context3DRenderMode;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-	import flash.events.UncaughtErrorEvent;
 	import flash.events.InvokeEvent;
+	import flash.events.UncaughtErrorEvent;
 	import flash.utils.getTimer;
+	
 	import feathers.utils.ScreenDensityScaleFactorManager;
+	
 	import starling.core.Starling;
 	
 	[ResourceBundle("loc")]

@@ -12,6 +12,8 @@ public class UserData
     public var buildingsOpened:Boolean;
     public var rated:Boolean;
     public var authenticationAttemps:int;
+    public var oneSignalUserId:String;
+    public var oneSignalPushToken:String;
 
     private static var _instance:UserData;
 
