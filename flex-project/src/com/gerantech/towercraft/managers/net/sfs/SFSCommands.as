@@ -11,6 +11,11 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const RESET_ALL_VARS:String = "resetAllVars";
 		public static const SEND_STICKER:String = "ss";
 		
+		public static const PROFILE:String = "profile";
+		
+		public static const REMOVE_FRIEND:String = "removeFriend";
+
+		
 		public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 		public static const EXCHANGE:String = "exchange";
 		public static const SELECT_NAME:String = "selectName";

@@ -8,9 +8,12 @@ import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import flash.text.engine.ElementFormat;
 
 import feathers.controls.ImageLoader;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
+
+import starling.events.Event;
 
 public class FriendItemRenderer extends BaseCustomItemRenderer
 {
@@ -62,7 +65,8 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 		inviteDisplay.pixelSnapping = false;
 		inviteDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding/12);
 		addChild(inviteDisplay);
-
+		
+		addEventListener(Event.TRIGGERED, item_triggeredHandler);
 	}
 	
 	override protected function commitData():void
@@ -95,15 +99,17 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 		mySkin.defaultTexture = _data.id==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 	}
 	
+	private function item_triggeredHandler():void
+	{
+		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+	}
+	
 	public function get isInviteButton():Boolean
 	{
 		return _isInviteButton;
 	}
 	public function set isInviteButton(value:Boolean):void
 	{
-/*		if( _isInviteButton == value )
-			return;
-		*/
 		_isInviteButton = value;
 
 		nameDisplay.visible = !_isInviteButton;

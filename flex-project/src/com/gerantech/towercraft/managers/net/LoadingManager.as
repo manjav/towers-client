@@ -103,8 +103,7 @@ package com.gerantech.towercraft.managers.net
 				loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 			}
 			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
-		}
-		
+		}		
 
 		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void
 		{

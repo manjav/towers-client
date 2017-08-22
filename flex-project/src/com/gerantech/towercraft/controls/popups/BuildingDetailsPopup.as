@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
-	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
+	import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.buildings.Building;
@@ -78,7 +78,7 @@ package com.gerantech.towercraft.controls.popups
 			var featureList:List = new List();
 			featureList.layoutData = new AnchorLayoutData(padding*12, padding*2, NaN, padding*2);
 			featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-			featureList.itemRendererFactory = function ():IListItemRenderer { return new FeatureItemRenderer(building); }
+			featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
 			featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
 			addChild(featureList);
 			
