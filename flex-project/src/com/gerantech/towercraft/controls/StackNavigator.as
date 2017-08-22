@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.popups.BugReportPopup;
 	import com.gerantech.towercraft.controls.popups.InvitationPopup;
 	import com.gerantech.towercraft.controls.popups.RestorePopup;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
@@ -186,9 +187,9 @@ package com.gerantech.towercraft.controls
 								var sfs:SFSObject = new SFSObject();
 								sfs.putText("invitationCode", pars["ic"]);
 								SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
-								SFSConnection.instance.sendExtensionRequest("addFriend", sfs);
+								SFSConnection.instance.sendExtensionRequest(SFSCommands.ADD_FRIEND, sfs);
 								function sfsConnection_responseHandler(event:SFSEvent):void{
-									if( event.params.cmd != "addFriend" )
+									if( event.params.cmd != SFSCommands.ADD_FRIEND )
 										return
 									SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
 									addPopup( new InvitationPopup(event.params.params ) );
