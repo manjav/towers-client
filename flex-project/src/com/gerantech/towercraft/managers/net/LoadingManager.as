@@ -14,7 +14,6 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gerantech.towercraft.utils.Utils;
 	import com.marpies.ane.onesignal.OneSignal;
-	import com.marpies.ane.onesignal.OneSignalNotification;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -24,7 +23,6 @@ package com.gerantech.towercraft.managers.net
 	import flash.events.EventDispatcher;
 	import flash.system.Capabilities;
 	import flash.utils.getTimer;
-	import flash.utils.setTimeout;
 	
 	import mx.resources.ResourceManager;
 	
@@ -299,8 +297,11 @@ package com.gerantech.towercraft.managers.net
 					pushParams.putText("oneSignalPushToken", oneSignalPushToken);
 					UserData.getInstance().oneSignalPushToken = oneSignalPushToken;// 'pushToken' may be null if there's a server or connection error
 				}
-				UserData.getInstance().save();
-				sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
+				if( pushParams.containsKey("oneSignalUserId") )
+				{
+					UserData.getInstance().save();
+					sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
+				}
 			}
 			if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
 				//NativeAbilities.instance.showToast("OneSignal.init", 2);
