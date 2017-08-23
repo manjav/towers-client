@@ -142,7 +142,7 @@ public class MainSegment extends Segment
 		if(floating != null && floating.element.name == mapElement.name)
 			return;
 		
-		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || mapElement.name == "dragon-cross";
+		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || (mapElement.name == "dragon-cross" && !player.villageEnabled());
 		var floatingWidth:int = locked ? 360 : 320;
 		
 		// create transitions data
@@ -189,6 +189,12 @@ public class MainSegment extends Segment
 					gotoLiveBattle();
 					break;
 				case "dragon-cross":
+					if( !player.villageEnabled() )
+					{
+						appModel.navigator.addLog(loc("map-dragon-cross-availabledat", [loc("arena_title_1")]));
+						punchButton(getChildByName("portal-tower") as SimpleButton);
+						return;
+					}
 					appModel.navigator.pushScreen( Main.VILLAGE_SCREEN );		
 					break;
 				case "portal-tower":

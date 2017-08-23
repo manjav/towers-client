@@ -166,6 +166,7 @@ package com.gerantech.towercraft.themes
 		public static const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 1);
 		public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 		public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
+		public static const POPUP_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 8);
 		public static const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(7, 8, 1, 68);//1, 1, 1, 42);
 		public static const INSET_ITEM_RENDERER_MIDDLE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 40);
 		public static const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
@@ -527,6 +528,7 @@ package com.gerantech.towercraft.themes
 
 		public var headerBackgroundSkinTexture:Texture;
 		public var popUpHeaderBackgroundSkinTexture:Texture;
+		public var popupBackgroundSkinTexture:Texture;
 		public var backgroundSkinTexture:Texture;
 		public var backgroundDisabledSkinTexture:Texture;
 		public var backgroundInsetSkinTexture:Texture;
@@ -579,6 +581,7 @@ package com.gerantech.towercraft.themes
 		public var pageIndicatorSelectedSkinTexture:Texture;
 		public var itemRendererUpSkinTexture:Texture;
 		public var itemRendererSelectedSkinTexture:Texture;
+		public var itemRendererDisabledSkinTexture:Texture;
 		public var insetItemRendererUpSkinTexture:Texture;
 		public var insetItemRendererSelectedSkinTexture:Texture;
 		public var insetItemRendererFirstUpSkinTexture:Texture;
@@ -823,7 +826,8 @@ package com.gerantech.towercraft.themes
 			this.searchIconDisabledTexture = Assets.getTexture("search-disabled-icon", "skin");
 
 			this.itemRendererUpSkinTexture = Assets.getTexture("item-renderer-up-skin", "skin");
-			this.itemRendererSelectedSkinTexture = Assets.getTexture("item-renderer-selected-up-skin", "skin");
+			this.itemRendererSelectedSkinTexture = Assets.getTexture("item-renderer-selected-skin", "skin");
+			this.itemRendererDisabledSkinTexture = Assets.getTexture("item-renderer-disabled-skin", "skin");
 			this.insetItemRendererUpSkinTexture = Assets.getTexture("inset-item-renderer-up-skin", "skin");
 			this.insetItemRendererSelectedSkinTexture = Assets.getTexture("inset-item-renderer-selected-up-skin", "skin");
 			this.insetItemRendererFirstUpSkinTexture = Assets.getTexture("first-inset-item-renderer-up-skin", "skin");
@@ -832,7 +836,7 @@ package com.gerantech.towercraft.themes
 			this.insetItemRendererLastSelectedSkinTexture = Assets.getTexture("last-inset-item-renderer-selected-up-skin", "skin");
 			this.insetItemRendererSingleUpSkinTexture = Assets.getTexture("single-inset-item-renderer-up-skin", "skin");
 			this.insetItemRendererSingleSelectedSkinTexture = Assets.getTexture("single-inset-item-renderer-selected-up-skin", "skin");
-
+			this.popupBackgroundSkinTexture = Assets.getTexture("popup-background-skin", "skin");
 			/*var headerBackgroundSkinTexture:Texture = Assets.getTexture("header-background-skin", "skin");
 			var popUpHeaderBackgroundSkinTexture:Texture = Assets.getTexture("header-popup-background-skin", "skin");
 			this.headerBackgroundSkinTexture = Texture.fromTexture(headerBackgroundSkinTexture, HEADER_SKIN_TEXTURE_REGION);

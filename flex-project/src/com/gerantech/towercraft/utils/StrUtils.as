@@ -3,6 +3,7 @@ package com.gerantech.towercraft.utils
 	import com.gerantech.towercraft.models.AppModel;
 	
 	import flash.system.Capabilities;
+	import flash.utils.Dictionary;
 
 	public class StrUtils
 	{
@@ -326,9 +327,21 @@ package com.gerantech.towercraft.utils
 			return uint('0x'+_str.substr(1));
 		}		
 		//  SUMMERY TEXT   _________________________________________________________________________
-		public static function summaryText(str:String, len:uint):String
+		public static function truncateText(str:String, len:uint, truncatePost:String = " ..."):String
 		{
-			return ( str.length > len ? str.substr(0, len-2) + " ..." : str );
+			return ( str.length > len ? str.substr(0, len-truncatePost.length) + truncatePost : str );
+		}
+		
+		public static function getParams(queryString:String):Dictionary
+		{
+			var ret:Dictionary = new Dictionary();
+			var cmds:Array = queryString.split("&");
+			for each( var condition:String in cmds )
+			{
+				var sides:Array = condition.split("=");
+				ret[sides[0]] = sides[1];
+			}
+			return ret;
 		}
 	}
 }

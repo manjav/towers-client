@@ -6,13 +6,10 @@ package com.gerantech.towercraft.controls.items
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.arenas.Arena;
 	
-	import flash.utils.setTimeout;
-	
 	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingFactory;
 	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.controls.text.BitmapFontTextRenderer;
@@ -48,23 +45,21 @@ package com.gerantech.towercraft.controls.items
 		private var arena:Arena;
 		private var playerArena:int;
 		private var cardsDisplay:List;
+		private var mySkin:ImageSkin;
 		
 		public function ArenaItemRnderer()
 		{
 			super();
+			isEnabled = false;
 			layout = new AnchorLayout();
 			height = 640 * appModel.scale;
 			var padding:int = 28 * appModel.scale;
 			var iconSize:int = 400 * appModel.scale;
 			playerArena = player.get_arena(0);
 			
-			skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererUpSkinTexture);
-			skin.setTextureForState(STATE_DISABLED, Assets.getTexture("item-renderer-neutral-skin", "skin"));
-			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
-			backgroundSkin = skin;
+			mySkin = new ImageSkin(appModel.theme.itemRendererDisabledSkinTexture);
+			mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+			backgroundSkin = mySkin;
 
 			if(factory == null)
 			{
@@ -140,7 +135,7 @@ package com.gerantech.towercraft.controls.items
 			messageDisplay.text = loc("arena_message_" + index);
 			rangeDisplay.text = arena.min + " - " + arena.max ;
 			cardsDisplay.dataProvider = new ListCollection(arena.cards._list);
-			currentState = playerArena == index ? STATE_DISABLED : STATE_NORMAL;
+			mySkin.defaultTexture = playerArena == index ? appModel.theme.itemRendererUpSkinTexture : appModel.theme.itemRendererDisabledSkinTexture;
 
 			if( playerArena == index )
 				armatureDisplay.animation.gotoAndPlayByTime("arena-"+index+"-selected", 0, 20);

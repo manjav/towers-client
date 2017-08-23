@@ -5,9 +5,17 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 	import com.gerantech.towercraft.controls.popups.BasePopup;
 	import com.gerantech.towercraft.controls.popups.BugReportPopup;
+	import com.gerantech.towercraft.controls.popups.InvitationPopup;
 	import com.gerantech.towercraft.controls.popups.RestorePopup;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.utils.StrUtils;
+	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
+	
+	import flash.utils.Dictionary;
 	
 	import mx.resources.ResourceManager;
 	
@@ -145,6 +153,59 @@ package com.gerantech.towercraft.controls
 				addChild(bugReportButton);
 				bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
 			}
+		}
+		
+		public function handleInvokes():void
+		{
+			/*var sfs:SFSObject = new SFSObject();
+			sfs.putText("invitationCode", "bg3z8go");
+			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
+			SFSConnection.instance.sendExtensionRequest("addFriend", sfs);
+			function sfsConnection_responseHandler(event:SFSEvent):void{
+				if( event.params.cmd != "addFriend" )
+					return
+				SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
+				addPopup( new InvitationPopup(event.params.params ) );
+			}
+			return;*/
+			if( AppModel.instance.invokes != null )
+				handleSchemeQuery( AppModel.instance.invokes );
+		}
+		
+		private function handleSchemeQuery(arguments:Array):void
+		{
+			for each( var a:String in arguments )
+			{
+				if( a.indexOf("open?")> -1 )
+				{
+					var pars:Dictionary = StrUtils.getParams(a.split("open?")[1]);
+					switch ( pars["controls"] )
+					{
+						case "popup":
+							if( pars["type"] == "invitation" )
+							{
+								var sfs:SFSObject = new SFSObject();
+								sfs.putText("invitationCode", pars["ic"]);
+								SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
+								SFSConnection.instance.sendExtensionRequest(SFSCommands.ADD_FRIEND, sfs);
+								function sfsConnection_responseHandler(event:SFSEvent):void{
+									if( event.params.cmd != SFSCommands.ADD_FRIEND )
+										return
+									SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
+									addPopup( new InvitationPopup(event.params.params ) );
+								}
+							}
+							break;
+						
+						case "screen":
+							pushScreen(pars["type"]);
+							break;
+					}
+				}
+			}
+			AppModel.instance.invokes = null;
+			
+			//trace("k:", a, "v:", pars[a]);	
 		}
 	}
 }

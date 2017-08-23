@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+	import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
 	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gt.towers.buildings.Building;
@@ -93,7 +94,7 @@ package com.gerantech.towercraft.controls.overlays
 				featureList.width = stage.stageWidth/2;
 				featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width*0.7);
 				featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-				featureList.itemRendererFactory = function ():IListItemRenderer { return new FeatureItemRenderer(building); }
+				featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
 				featureList.dataProvider = new ListCollection(BuildingFeatureType.getChangables(building.type)._list);
 				addChild(featureList);
 				

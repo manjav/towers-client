@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import flash.geom.Rectangle;
@@ -26,7 +27,7 @@ package com.gerantech.towercraft.controls.popups
 		public var declineStyle:String = "normal";
 		public var acceptLabel:String;
 		public var declineLabel:String;
-		public var messageDisplay:RTLLabel;
+		public var messageDisplay:ShadowLabel;
 		
 		protected var declineButton:CustomButton;
 		protected var acceptButton:CustomButton;
@@ -60,8 +61,8 @@ package com.gerantech.towercraft.controls.popups
 			//overlay.alpha = 0.8;
 			layout = new AnchorLayout();
 			
-			var skin:ImageSkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+			var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
+			skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
 			backgroundSkin = skin;
 			
 			padding = 36 * appModel.scale;
@@ -76,7 +77,7 @@ package com.gerantech.towercraft.controls.popups
 			container.layout = containerLayout;
 			addChild(container);
 			
-			messageDisplay = new RTLLabel(message, 1, "center", null, true, "center", 45*appModel.scale);
+			messageDisplay = new ShadowLabel(message, 1, 0, "center", null, true, "center", 1);
 			//messageDisplay.layoutData = new AnchorLayoutData (NaN, padding, NaN, padding, NaN, -appModel.theme.controlSize);
 			container.addChild(messageDisplay);
 			
