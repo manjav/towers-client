@@ -21,14 +21,14 @@ package com.gerantech.towercraft.managers.socials
 		
 		public var type:int;
 		public var user:SocialUser;
-		public var signinTimeout:int = 10;
+		public var signinTimeout:int = 14;
 		
 		private var timeoutID:uint;
 		
 		public function init(type:int):void
 		{
 			this.type = type;
-			if( UserData.getInstance().authenticationAttemps > 2 )
+			if( UserData.getInstance().authenticationAttemps > 1 )
 			{
 				dispatchFailurEvent("out of authentication attemps");
 				return;
