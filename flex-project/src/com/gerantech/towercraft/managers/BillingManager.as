@@ -82,12 +82,6 @@ package com.gerantech.towercraft.managers
 					packageURL = "com.android.vending";
 					break;
 				
-				case "cafebazaar":
-					base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
-					bindURL = "ir.cafebazaar.pardakht.InAppBillingService.BIND";
-					packageURL = "com.farsitel.bazaar";
-					break;
-				
 				case "myket":
 					base64Key = "MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgLrZzgFzF3P/4iYbG+kI/OseAo4pmfmvwgGjDLZFUFu7d5SZKBj5hGPOUg5Mu1Q8wEaj9LvI9jlybZkjpYmCn7ljCxbQ/QaCMwbNfp4gyF7EgEWOVeudzXNCXlhEoDSb1z63aNsD2opf294Cu64BzqLNQ+rlp0yW2YwjNiMU2O2/AgMBAAE=";
 					bindURL = "ir.mservices.market.InAppBillingService.BIND";
@@ -99,6 +93,13 @@ package com.gerantech.towercraft.managers
 					bindURL = "com.ada.market.service.payment.BIND";
 					packageURL = "com.ada.market";
 					break;
+				
+				default://cafebazaar
+					base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
+					bindURL = "ir.cafebazaar.pardakht.InAppBillingService.BIND";
+					packageURL = "com.farsitel.bazaar";
+					break;
+				
 			}			
 
 			_iap = new InAppPurchase();
@@ -338,50 +339,40 @@ package com.gerantech.towercraft.managers
 			switch(AppModel.instance.descriptor.market)
 			{
 				case "google":
-					navigateToURL(new URLRequest("https://play.google.com/store/apps/details?id=air."+AppModel.instance.descriptor.id));
+					navigateToURL(new URLRequest("https://play.google.com/store/apps/details?id=air." + AppModel.instance.descriptor.id));
 					break;
 				
 				case "cafebazaar":
-					NativeAbilities.instance.runIntent("android.intent.action.EDIT", "bazaar://details?id=air."+AppModel.instance.descriptor.id);
+					NativeAbilities.instance.runIntent("android.intent.action.EDIT", "bazaar://details?id=air." + AppModel.instance.descriptor.id);
 					break;
 				
 				case "myket":
-					navigateToURL(new URLRequest("http://myket.ir/App/air.com.gerantech.islamic/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA"));
+					navigateToURL(new URLRequest("http://myket.ir/App/air." + AppModel.instance.descriptor.id + "/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA"));
 					break;
 				
 				case "cando":
-					navigateToURL(new URLRequest("cando://leave-review?id=air."+AppModel.instance.descriptor.id));
+					navigateToURL(new URLRequest("cando://leave-review?id=air." + AppModel.instance.descriptor.id));
 					break;
 			}			
+		}
+		
+		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- GET DOWNLOAD URL -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+		public function getDownloadURL():String
+		{
+			switch(AppModel.instance.descriptor.market)
+			{
+				case "google":		return 'https://play.google.com/store/apps/details?id=air.' + AppModel.instance.descriptor.id;			
+				case "cafebazaar":	return 'https://cafebazaar.ir/app/air.' + AppModel.instance.descriptor.id;			
+				case "myket":		return 'http://myket.ir/App/air.' + AppModel.instance.descriptor.id + '/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA';			
+				case "cando":		return 'cando://details?id=air.'+AppModel.instance.descriptor.id;			
+			}
+			return "http://towers.grantech.ir/get/towerstory.apk";
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- SHARING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function share():void
 		{
-			var link:String;
-			switch(AppModel.instance.descriptor.market)
-			{
-				case "google":
-					//link = '<a href="https://play.google.com/store/apps/details?id=air.'+AppModel.instance.descriptor.id+'">'+ResourceManager.getInstance().getString("loc", "download_link")+'</a>';			
-					link = 'https://play.google.com/store/apps/details?id=air.'+AppModel.instance.descriptor.id;			
-					break;
-				
-				case "cafebazaar":
-				//	link = '<a href="bazaar://details?id=air.'+AppModel.instance.descriptor.id+'">'+ResourceManager.getInstance().getString("loc", "download_link")+'</a>';			
-					link = 'https://cafebazaar.ir/app/air.'+AppModel.instance.descriptor.id;			
-					break;
-				
-				case "myket":
-				//	link = '<a href="http://myket.ir/App/air.com.gerantech.islamic/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA">'+ResourceManager.getInstance().getString("loc", "download_link")+'</a>';			
-					link = 'http://myket.ir/App/air.com.gerantech.islamic/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA';			
-					break;
-				
-				case "cando":
-				//	link = '<a href="cando://details?id=air.'+AppModel.instance.descriptor.id+'">'+ResourceManager.getInstance().getString("loc", "download_link")+'</a>';			
-					link = 'cando://details?id=air.'+AppModel.instance.descriptor.id;			
-					break;
-			}			
-			NativeAbilities.instance.shareText(ResourceManager.getInstance().getString("loc", "app_title"), ResourceManager.getInstance().getString("loc", "app_descript")+"\n"+link);
+			NativeAbilities.instance.shareText(ResourceManager.getInstance().getString("loc", "app_title"), ResourceManager.getInstance().getString("loc", "app_brief") + "\n" + getDownloadURL());
 		}
 	}
 }
