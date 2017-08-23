@@ -63,9 +63,11 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			state = STATE_CONNECT;
 			
-			socials = new SocialManager();
-			socials.init( SocialManager.TYPE_GOOGLEPLAY );
-			
+			if( socials == null )
+			{
+				socials = new SocialManager();
+				socials.init( SocialManager.TYPE_GOOGLEPLAY );
+			}
 			if( AppModel.instance.navigator != null )
 				AppModel.instance.navigator.popToRootScreen();
 		}
