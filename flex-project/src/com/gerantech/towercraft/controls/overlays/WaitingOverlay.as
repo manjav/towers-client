@@ -5,6 +5,7 @@ package com.gerantech.towercraft.controls.overlays
 	import dragonBones.starling.StarlingEvent;
 	import dragonBones.starling.StarlingFactory;
 	
+	import starling.display.DisplayObject;
 	import starling.events.Event;
 
 	public class WaitingOverlay extends BaseOverlay
@@ -22,6 +23,13 @@ package com.gerantech.towercraft.controls.overlays
 				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
 				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
 			}
+		}
+		
+		override protected function defaultOverlayFactory():DisplayObject
+		{
+			var overlay:DisplayObject = super.defaultOverlayFactory();
+			overlay.alpha = 1;
+			return overlay;
 		}
 		
 		override protected function addedToStageHandler(event:Event):void
