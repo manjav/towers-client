@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.models.vo.DashboardItemData;
+	import com.gerantech.towercraft.models.vo.TabItemData;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import feathers.controls.ImageLoader;
@@ -23,7 +23,7 @@ package com.gerantech.towercraft.controls.items
 		private var badgeDisplay:ImageLoader;
 
 		private var padding:int;
-		private var dashboardData:DashboardItemData;
+		private var dashboardData:TabItemData;
 		public function DashboardTabItemRenderer(width:Number)
 		{
 			super();
@@ -65,7 +65,7 @@ package com.gerantech.towercraft.controls.items
 				_firstCommit = false;
 			}
 			super.commitData();
-			dashboardData = _data as DashboardItemData;
+			dashboardData = _data as TabItemData;
 			iconDisplay.alpha = player.inTutorial()&& index!=1 ? 0.5 : 1;
 			iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 			titleDisplay.text = loc("tab-"+dashboardData.index) ;

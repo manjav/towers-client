@@ -1,17 +1,17 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.headers.Toolbar;
-	import com.gerantech.towercraft.controls.items.DashboardPageItemRenderer;
+	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.models.vo.DashboardItemData;
+	import com.gerantech.towercraft.models.vo.TabItemData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.constants.PageType;
+	import com.gt.towers.constants.SegmentType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.desktop.NativeApplication;
@@ -70,7 +70,7 @@ package com.gerantech.towercraft.controls.screens
 			pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
 			//pageList.addEventListener(FeathersEventType.ENTER, pageList_enterHandler);
 			pageList.verticalScrollPolicy = ScrollPolicy.OFF;
-			pageList.itemRendererFactory = function ():IListItemRenderer { return new DashboardPageItemRenderer(); }
+			pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 			addChild(pageList);
 			
 			tabSize = stage.stageWidth / 4;
@@ -124,11 +124,11 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
-			var dashboardData:Array = getDashboardData();
+			var listsData:Array = getListData();
 			visible = true;
-			pageList.dataProvider = new ListCollection(dashboardData);
+			pageList.dataProvider = new ListCollection(listsData);
 			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
-			tabsList.dataProvider = new ListCollection(dashboardData);
+			tabsList.dataProvider = new ListCollection(listsData);
 			tabsList.touchable = !player.inTutorial();
 			tabsList.selectedIndex = 1;
 			
@@ -140,12 +140,12 @@ package com.gerantech.towercraft.controls.screens
 			appModel.navigator.handleInvokes();
 		}
 		
-		private function getDashboardData():Array
+		private function getListData():Array
 		{
 			var ret:Array = new Array();
-			for each(var p:int in PageType.getAll()._list)
+			for each(var p:int in SegmentType.getDashboardsSegments()._list)
 			{
-				var pd:DashboardItemData = new DashboardItemData(p);
+				var pd:TabItemData = new TabItemData(p);
 				if( !player.inTutorial() )
 				{
 					if( p == 2 )

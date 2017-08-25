@@ -2,9 +2,13 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+import com.gerantech.towercraft.controls.segments.FriendsSegment;
+import com.gerantech.towercraft.controls.segments.LobbySegment;
 import com.gerantech.towercraft.controls.segments.MainSegment;
+import com.gerantech.towercraft.controls.segments.SearchLobbySegment;
 import com.gerantech.towercraft.controls.segments.Segment;
-import com.gt.towers.constants.PageType;
+import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gt.towers.constants.SegmentType;
 
 import feathers.controls.renderers.LayoutGroupListItemRenderer;
 import feathers.events.FeathersEventType;
@@ -14,12 +18,12 @@ import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
 	
 	
-	public class DashboardPageItemRenderer extends LayoutGroupListItemRenderer
+	public class SegmentsItemRenderer extends LayoutGroupListItemRenderer
 	{
 		private var _firstCommit:Boolean = true;
 		private var segment:Segment;
 		
-		public function DashboardPageItemRenderer()
+		public function SegmentsItemRenderer()
 		{
 			super();
 		}
@@ -49,16 +53,27 @@ import starling.events.Event;
 			if(segment != null)
 				return;
 			
-			switch(index)
+			var tab:TabItemData = _data as TabItemData;trace(tab.index)
+			switch(tab.index)
 			{
-				case PageType.S0_SHOP:
+				case SegmentType.S0_SHOP:
 					segment = new ExchangeSegment();
 					break;
-				case PageType.S1_BATTLE:
+				case SegmentType.S1_MAP:
 					segment = new MainSegment();
 					break;
-				case PageType.S2_DECK:
+				case SegmentType.S2_DECK:
 					segment = new BuildingsSegment();
+					break;
+
+				case SegmentType.S10_LOBBY_SEARCH:
+					segment = new SearchLobbySegment();
+					break;
+				case SegmentType.S11_LOBBY_MAIN:
+					segment = new LobbySegment();
+					break;
+				case SegmentType.S12_FRIENDS:
+					segment = new FriendsSegment();
 					break;
 				
 				default:
