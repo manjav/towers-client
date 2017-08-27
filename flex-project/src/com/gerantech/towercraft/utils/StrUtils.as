@@ -154,7 +154,7 @@ package com.gerantech.towercraft.utils
 			return str;
 		}
 		
-		public static function  getSimpleString (str:String, loc:String="ar"):String
+		public static function  getSimpleString (str:String, loc:String="ar", toLower:Boolean=false):String
 		{
 			if(loc=="ar")
 			{
@@ -174,7 +174,9 @@ package com.gerantech.towercraft.utils
 				
 				str = str.split("ك").join("ک");
 			}
-			return str.toLowerCase();
+			if( toLower )
+				str = str.toLowerCase();
+			return str;
 		}
 		
 		public static function  getFullPath (path:String, sura:uint, aya:uint, post:String="dat"):String
@@ -225,7 +227,6 @@ package com.gerantech.towercraft.utils
 		//  UINT TO TIME _________________________________________________________________________
 		public static function uintToTime(_time:uint, _mode:String='Second', separator:String=":"):String
 		{
-			
 			var ret:String;
 			var mili:uint;
 			if (_mode == 'Milisecond')
@@ -294,7 +295,6 @@ package com.gerantech.towercraft.utils
 				return seconds + "s";
 			}
 		}
-
 		
 		public static function getDateString(_date:Date, isTime:Boolean=false):String
 		{
