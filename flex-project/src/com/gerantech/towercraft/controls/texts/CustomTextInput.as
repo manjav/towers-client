@@ -6,10 +6,6 @@ package com.gerantech.towercraft.controls.texts
 	import feathers.controls.text.StageTextTextEditor;
 	import feathers.core.ITextEditor;
 	import feathers.core.ITextRenderer;
-	import feathers.layout.HorizontalAlign;
-	import feathers.layout.VerticalAlign;
-	
-	import starling.text.TextFormat;
 	
 	public class CustomTextInput extends TextInput
 	{

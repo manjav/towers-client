@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.texts.LTRLable;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gt.towers.buildings.Building;
 	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
