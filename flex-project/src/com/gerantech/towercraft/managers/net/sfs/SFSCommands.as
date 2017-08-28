@@ -24,5 +24,13 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const FIGHT:String = "f";
 		public static const BUILDING_IMPROVE:String = "i";
 		public static const HIT:String = "h";
+		
+		public static const LOBBY_CREATE:String = "lobbyCreate";
+		public static const LOBBY_DATA:String = "lobbyData";
+		public static const LOBBY_INFO:String = "lobbyInfo";
+		public static const LOBBY_JOIN:String = "lobbyJoin";
+		public static const LOBBY_LEAVE:String = "lobbyLeave";
+		public static const LOBBY_EDIT:String = "lobbyEdit";
+		public static const LOBBY_PUBLIC_MESSAGE:String = "m";
 	}
 }

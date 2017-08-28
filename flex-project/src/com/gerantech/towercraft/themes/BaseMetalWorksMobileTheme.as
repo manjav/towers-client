@@ -125,6 +125,9 @@ package com.gerantech.towercraft.themes
 		[Embed(source="../../../../assets/fonts/lalezar-supercell.ttf", fontFamily="SourceSans", fontWeight="normal", mimeType="application/x-font", embedAsCFF="false")]
 		protected static const SOURCE_SANS_PRO_REGULAR2:Class;
 
+		[Embed(source="../../../../assets/fonts/OpenSansEmoji.ttf", fontFamily="OpenEmoji", fontWeight="normal", mimeType="application/x-font", embedAsCFF="true")]
+		protected static const OPEN_SANS:Class;
+
  
 		/**
 		 * The name of the embedded font used by controls in this theme. Comes
@@ -155,7 +158,7 @@ package com.gerantech.towercraft.themes
 		
 		public static var SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
 		public static var PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
-		public static var DESCRIPTION_TEXT_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+		public static var DESCRIPTION_TEXT_COLOR:uint = 0xA0B2B1;//0xE0F2F1;
 		public static var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 		public static var ACCENT_COLOR:uint = 0x96000E;//0x96000E;

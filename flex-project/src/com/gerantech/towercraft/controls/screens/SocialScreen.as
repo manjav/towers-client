@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.ExchangeType;
@@ -38,7 +39,7 @@ override protected function initialize():void
 	autoSizeMode = AutoSizeMode.STAGE; 
 	layout = new AnchorLayout();
 
-	var footerSize:int = 100 * appModel.scale;
+	var footerSize:int = 120 * appModel.scale;
 	
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
@@ -76,8 +77,6 @@ override protected function initialize():void
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new SocialTabItemRenderer(tabSize); }
 	tabsList.dataProvider = new ListCollection(listData);
 	addChild(tabsList);
-	
-	tabsList.selectedIndex = 1;
 }
 	
 private function pageList_focusInHandler(event:Event):void
@@ -102,7 +101,7 @@ private function tabsList_changeHandler(event:Event):void
 private function getListData():Array
 {
 	var ret:Array = new Array();
-	for each(var p:int in SegmentType.getSocialSegments()._list)
+	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.lastJoinedRoom)._list)
 	{
 		var pd:TabItemData = new TabItemData(p);
 		/*if( !player.inTutorial() )

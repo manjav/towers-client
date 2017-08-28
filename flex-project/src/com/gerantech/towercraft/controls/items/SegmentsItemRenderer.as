@@ -3,10 +3,12 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.FriendsSegment;
-import com.gerantech.towercraft.controls.segments.LobbySegment;
+import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
+import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
+import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
 import com.gerantech.towercraft.controls.segments.MainSegment;
-import com.gerantech.towercraft.controls.segments.SearchLobbySegment;
 import com.gerantech.towercraft.controls.segments.Segment;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
 
@@ -53,7 +55,7 @@ import starling.events.Event;
 			if(segment != null)
 				return;
 			
-			var tab:TabItemData = _data as TabItemData;trace(tab.index)
+			var tab:TabItemData = _data as TabItemData;
 			switch(tab.index)
 			{
 				case SegmentType.S0_SHOP:
@@ -66,13 +68,16 @@ import starling.events.Event;
 					segment = new BuildingsSegment();
 					break;
 
-				case SegmentType.S10_LOBBY_SEARCH:
-					segment = new SearchLobbySegment();
+				case SegmentType.S10_LOBBY_MAIN:
+						segment = new LobbyChatSegment();
 					break;
-				case SegmentType.S11_LOBBY_MAIN:
-					segment = new LobbySegment();
+				case SegmentType.S11_LOBBY_SEARCH:
+					segment = new LobbySearchSegment();
 					break;
-				case SegmentType.S12_FRIENDS:
+				case SegmentType.S12_LOBBY_CREATE:
+					segment = new LobbyCreateSegment();
+					break;
+				case SegmentType.S13_FRIENDS:
 					segment = new FriendsSegment();
 					break;
 				

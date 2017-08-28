@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.TabItemData;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -12,11 +13,7 @@ package com.gerantech.towercraft.controls.items
 	
 	public class SocialTabItemRenderer extends BaseCustomItemRenderer
 	{
-		private var itemWidth:Number;
-		private var _firstCommit:Boolean = true;
-		private var titleDisplay:RTLLabel;
-		private var iconDisplay:ImageLoader;
-		private var iconLayoutData:AnchorLayoutData;
+		private var titleDisplay:ShadowLabel;
 		private var badgeDisplay:ImageLoader;
 		
 		private var padding:int;
@@ -24,39 +21,36 @@ package com.gerantech.towercraft.controls.items
 		public function SocialTabItemRenderer(width:Number)
 		{
 			super();
+			this.width = width;
+		}
+		
+		override protected function commitData():void
+		{
+			super.commitData();
+			if(_data == null || _owner == null )
+				return;
+			
 			layout = new AnchorLayout();
-			padding = 36 * appModel.scale;
+			
+			this.height = _owner.height;
+			padding = 16 * appModel.scale;
+			dashboardData = _data as TabItemData;
 			
 			skin = new ImageSkin(appModel.theme.tabUpSkinTexture);
 			skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
-			skin.setTextureForState(STATE_SELECTED, appModel.theme.tabDownSkinTexture);
-			skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
+			skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedUpSkinTexture);
+			skin.setTextureForState(STATE_DOWN, appModel.theme.tabSelectedUpSkinTexture);
 			skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 			backgroundSkin = skin;
 			
-			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
-			titleDisplay.visible = false;
-			titleDisplay.layoutData = new AnchorLayoutData(padding,padding,padding,padding);
+			titleDisplay = new ShadowLabel(loc("tab-"+dashboardData.index), 1, 0, "center");
+			titleDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 			addChild(titleDisplay);
 			
 			badgeDisplay = new ImageLoader();
 			badgeDisplay.width = badgeDisplay.height = padding*1.6;
 			badgeDisplay.layoutData = new AnchorLayoutData(padding/2, padding/2);
-			
-			itemWidth = width;
-		}
-		
-		override protected function commitData():void
-		{
-			if(_firstCommit)
-			{
-				width = itemWidth;
-				height = _owner.height;
-				_firstCommit = false;
-			}
-			super.commitData();
-			dashboardData = _data as TabItemData;
-			titleDisplay.text = loc("tab-"+dashboardData.index) ;
+
 			updateBadge();
 		}
 		

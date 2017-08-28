@@ -156,7 +156,6 @@ package com.gerantech.towercraft.controls.screens
 			hud.layoutData = new AnchorLayoutData(0,0,0,0);
 			addChild(hud);
 			
-			sfsConnection.addEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
 			sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 			
 			if(appModel.loadingManager.inBattle)
@@ -245,15 +244,11 @@ package com.gerantech.towercraft.controls.screens
 				dispatchEventWith(Event.COMPLETE);
 		}
 		
-		protected function sfsConnection_userExitRoomHandler(event:SFSEvent):void
-		{
-			if( event.params.user.isItMe || owner == null )
-				return;
-			//StackScreenNavigator(owner).popScreen();
-		}
-		
 		protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		{
+			if( event.params.room == null || (event.params.room.groupId!="battles"&&event.params.room.groupId!="quests") )
+				return;
+				
 			if( event.params.changedVars.indexOf("towers") > -1 )
 				updateTowersFromRoomVars();
 			
@@ -417,7 +412,6 @@ package com.gerantech.towercraft.controls.screens
 			removeEventListener(TouchEvent.TOUCH, touchHandler);
 			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			sfsConnection.removeEventListener(SFSEvent.USER_EXIT_ROOM, sfsConnection_userExitRoomHandler);
 			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 		}
 		
