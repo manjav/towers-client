@@ -83,12 +83,21 @@ package com.gerantech.towercraft.managers.net
 			loginParams.putInt("id", UserData.getInstance().id);
 
 			// new player
-			if( UserData.getInstance().id == -1 )
+			var __id:int = UserData.getInstance().id;
+			if( __id < 0 )
 			{
-				loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
-				loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
+				if( __id == -1 )
+					__id = - Math.random()*(int.MAX_VALUE/2);
+				else if( __id == -2 )
+					__id = - int.MAX_VALUE/2 - Math.random()*(int.MAX_VALUE/2);
+				
+				if( __id > - int.MAX_VALUE/2 )
+				{
+					loginParams.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
+					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
+				}
 			}
-			sfsConnection.login(UserData.getInstance().id.toString(), UserData.getInstance().password, "", loginParams);
+			sfsConnection.login(__id.toString(), UserData.getInstance().password, "", loginParams);
 		}		
 
 		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void

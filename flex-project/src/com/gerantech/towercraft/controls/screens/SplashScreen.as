@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.MessagePopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
+	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
@@ -149,7 +150,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					case LoadingEvent.NOTICE_UPDATE:
 					case LoadingEvent.FORCE_UPDATE:
-						navigateToURL(new URLRequest("http://towers.grantech.ir/get/towerstory.apk"));
+						navigateToURL(new URLRequest(BillingManager.instance.getDownloadURL()));
 					case LoadingEvent.CORE_LOADING_ERROR:
 						NativeApplication.nativeApplication.exit();
 						break;
