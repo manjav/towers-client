@@ -1,0 +1,270 @@
+package com.gerantech.towercraft.controls.popups
+{
+import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.towercraft.controls.FastList;
+import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.items.FriendItemRenderer;
+import com.gerantech.towercraft.controls.items.LobbyFeatureItemRenderer;
+import com.gerantech.towercraft.controls.items.LobbyMemberItemRenderer;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.smartfoxserver.v2.requests.KickUserRequest;
+
+import flash.geom.Rectangle;
+
+import feathers.controls.LayoutGroup;
+import feathers.controls.List;
+import feathers.controls.ScrollPolicy;
+import feathers.controls.renderers.IListItemRenderer;
+import feathers.data.ListCollection;
+import feathers.events.FeathersEventType;
+import feathers.layout.AnchorLayout;
+import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
+import feathers.skins.ImageSkin;
+
+import starling.animation.Transitions;
+import starling.events.Event;
+
+public class LobbyDetailsPopup extends BasePopup
+{
+private var responseCode:int;
+private var params:SFSObject;
+private var padding:int;
+private var roomData:Object;
+
+private var itsMyRoom:Boolean;
+
+private var memberCollection:ListCollection;
+private var buttonsPopup:SimpleListPopup;
+
+public function LobbyDetailsPopup(roomData:Object)
+{
+	this.roomData = roomData;
+	
+	var params:SFSObject = new SFSObject();
+	params.putInt("id", roomData.id);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_DATA, params);
+}
+
+override protected function initialize():void
+{
+	super.initialize();
+	closable = false;
+	transitionOut.destinationBound = transitionOut.sourceBound = transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
+	rejustLayoutByTransitionData();
+	
+	var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
+	skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
+	backgroundSkin = skin;
+	
+	padding = 36 * appModel.scale;
+	layout = new AnchorLayout();
+	
+	/*var buildingIcon:BuildingCard = new BuildingCard();
+	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+	buildingIcon.width = padding * 4;
+	buildingIcon.height = padding * 6;
+	addChild(buildingIcon);*/
+
+	var textLayout:VerticalLayout = new VerticalLayout();
+	textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	textLayout.gap = padding;
+	
+	var textsContainer:LayoutGroup = new LayoutGroup();
+	textsContainer.layout = textLayout;
+	addChild(textsContainer);
+	
+	var titleDisplay:RTLLabel = new RTLLabel(roomData.name);
+	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	addChild(titleDisplay);
+}
+
+protected function sfsConnection_roomGetHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.LOBBY_DATA )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
+	var sfsData:SFSObject = event.params.params;
+	
+	var messageDisplay:RTLLabel = new RTLLabel(sfsData.getText("bio"), 1, "justify", null, true, null, 0.6);
+	messageDisplay.layoutData = new AnchorLayoutData(padding*3, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	addChild(messageDisplay);
+
+	var features:Array = new Array();
+	features.push( {key:"min", value:sfsData.getInt("min")} );
+	features.push( {key:"sum", value:roomData.sum} );
+	features.push( {key:"max", value:roomData.max} );
+	
+	//trace(sfsData.getDump())
+	var featureList:List = new List();
+	featureList.layoutData = new AnchorLayoutData(padding*7, padding*2, NaN, padding*2);
+	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
+	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
+	featureList.dataProvider = new ListCollection(features);
+	addChild(featureList);
+	
+	memberCollection = new ListCollection(SFSArray(sfsData.getSFSArray("all")).toArray());
+	var membersList:FastList = new FastList();
+	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("slider-background", "skin");
+	membersList.layoutData = new AnchorLayoutData(padding*16, padding, padding, padding);
+	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
+	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
+	membersList.dataProvider = memberCollection
+	addChild(membersList);
+	
+	var room:Room = SFSConnection.instance.lastJoinedRoom;
+	itsMyRoom = room != null && room.id == roomData.id;
+	
+	var joinleaveButton:CustomButton = new CustomButton();
+	joinleaveButton.height = 96 * appModel.scale;
+	joinleaveButton.isEnabled = roomData.max > roomData.num || room != null;
+	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
+	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
+	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
+	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
+	addChild(joinleaveButton);
+	
+	var closeButton:CustomButton = new CustomButton();
+	closeButton.style = "danger";
+	closeButton.label = "X";
+	closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
+	closeButton.width = closeButton.height = 96 * appModel.scale;
+	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+	addChild(closeButton);
+}
+
+private function membersList_focusInHandler(event:Event):void
+{
+	var selectedItem:LobbyMemberItemRenderer = event.data as LobbyMemberItemRenderer;
+	if( selectedItem == null )
+		return;
+	
+	var selectedData:Object = selectedItem.data;
+	if( selectedData.id == player.id )
+		return;
+	var btns:Array = ["lobby_profile"];trace(findUser(player.id).pr , selectedData.pr)
+	if(findUser(player.id).pr > selectedData.pr )
+		btns.push( "lobby_kick" );
+	buttonsPopup = new SimpleListPopup();
+	buttonsPopup.buttons = btns;
+	buttonsPopup.data = selectedData;
+	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
+	buttonsPopup.paddind = 24 * appModel.scale;
+	buttonsPopup.buttonsWidth = 320 * appModel.scale;
+	buttonsPopup.buttonHeight = 120 * appModel.scale;
+	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.paddind * 2;
+	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.paddind * 2;
+	
+	var ti:TransitionData = new TransitionData(0.1);
+	ti.transition = Transitions.EASE_IN_OUT_BACK;
+	ti.sourceBound = new Rectangle(stage.stageWidth/3, selectedItem.getBounds(stage).y-floatingH/8, floatingW/2, floatingH/2);
+	ti.destinationBound = new Rectangle(stage.stageWidth/3-floatingW/2, selectedItem.getBounds(stage).y-floatingH/4, floatingW, floatingH);
+	
+	var to:TransitionData = new TransitionData(0.1);
+	to.sourceAlpha = 1;
+	to.destinationAlpha = 0;
+	to.sourceBound = ti.destinationBound;
+	to.destinationBound = ti.destinationBound;
+	
+	buttonsPopup.transitionIn = ti;
+	buttonsPopup.transitionOut = to;
+	addChild(buttonsPopup);
+}		
+private function buttonsPopup_selectHandler(event:Event):void
+{
+	event.currentTarget.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
+	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
+	if( event.data == "lobby_profile" )
+	{
+		var profilePopup:ProfilePopup = new ProfilePopup(buttonsPopup.data.na, buttonsPopup.data.id);
+		//profilePopup.addEventListener(Event.SELECT, profilePopup_eventsHandler);
+		//profilePopup.addEventListener(Event.CANCEL, profilePopup_eventsHandler);
+		//profilePopup.declineStyle = "danger";
+		appModel.navigator.addPopup( profilePopup );
+	}
+	else if( event.data == "lobby_kick" )
+	{
+		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
+		confirm.acceptStyle = "danger";
+		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+		appModel.navigator.addPopup(confirm);
+		function confirm_selectHandler(evet:Event):void
+		{
+			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
+			var params:SFSObject = new SFSObject();
+			params.putInt("id", buttonsPopup.data.id);
+			params.putUtfString("name", buttonsPopup.data.na);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_KICK, params, SFSConnection.instance.lastJoinedRoom);
+		}
+	}
+	/*function profilePopup_eventsHandler ( event:Event ):void {
+		event.currentTarget.removeEventListener(Event.SELECT, profilePopup_eventsHandler);
+		event.currentTarget.removeEventListener(Event.CANCEL, profilePopup_eventsHandler);
+		if( event.type == Event.SELECT )
+			appModel.navigator.addLog(loc("navailable_messeage"));
+		else if ( event.type == Event.CANCEL )
+			removeFriend(buttonsPopup.data);
+	}*/
+	
+}
+private function joinleaveButton_triggeredHandler(event:Event):void
+{
+	var params:SFSObject = new SFSObject();
+	params.putInt("id", roomData.id);
+	if( itsMyRoom )
+	{
+		var confirm:ConfirmPopup = new ConfirmPopup(loc(memberCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
+		confirm.acceptStyle = "danger";
+		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+		appModel.navigator.addPopup(confirm);
+		function confirm_selectHandler(evet:Event):void
+		{
+			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE, params);
+			updateLobbyLayout();
+		}
+		return;
+	}
+	//SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomJoinHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
+	updateLobbyLayout();
+}
+
+private function updateLobbyLayout():void
+{
+	dispatchEventWith(Event.UPDATE);
+	close();
+}
+
+protected function sfsConnection_roomJoinHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.LOBBY_JOIN && event.params.cmd != SFSCommands.LOBBY_LEAVE )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomJoinHandler);
+}
+
+private function findUser(id:int):Object
+{
+	for (var i:int=0; i<memberCollection.length; i++)
+		if( memberCollection.getItemAt(i).id == id )
+			return memberCollection.getItemAt(i);
+	return null;
+}
+
+private function closeButton_triggeredHandler(event:Event):void
+{
+	close();
+}
+}
+}

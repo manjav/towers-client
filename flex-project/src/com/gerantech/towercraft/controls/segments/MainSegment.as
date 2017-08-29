@@ -194,7 +194,7 @@ public class MainSegment extends Segment
 						punchButton(getChildByName("portal-tower") as SimpleButton);
 						return;
 					}
-					appModel.navigator.pushScreen( Main.VILLAGE_SCREEN );		
+					appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
 					break;
 				case "portal-tower":
 					floating = null;

@@ -76,7 +76,7 @@ package com.gerantech.towercraft.controls.popups
 			if( !result.getBool("succeed") )
 			{
 				var error:String = result.getText("errorCode");
-				errorDisplay.text = error=="popup_select_name_size" ? loc("popup_select_name_size", [6, 12]) : error;
+				errorDisplay.text = error=="popup_select_name_size" ? loc("text_size_warn", [loc("popup_select_name_prompt"), 6, 12]) : error;
 				return;
 			}
 			player.nickName = textInput.text;

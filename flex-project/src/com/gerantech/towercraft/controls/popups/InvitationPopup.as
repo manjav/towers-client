@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.popups
 				f.putText("name", params.getText("inviter") );
 				f.putInt("count", 120 );
 				appModel.loadingManager.serverData.getSFSArray("friends").addSFSObject(f);
-				setTimeout(appModel.navigator.pushScreen, 800, Main.VILLAGE_SCREEN);
+				setTimeout(appModel.navigator.pushScreen, 800, Main.SOCIAL_SCREEN);
 			}
 		}
 	}

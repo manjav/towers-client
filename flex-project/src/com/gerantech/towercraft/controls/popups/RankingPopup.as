@@ -7,15 +7,12 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
-	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayout;

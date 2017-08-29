@@ -3,14 +3,11 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.headers.ScreenHeader;
-	import com.gerantech.towercraft.controls.items.QuestItemRenderer;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.LayoutGroup;
-	import feathers.controls.ScrollPolicy;
-	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
