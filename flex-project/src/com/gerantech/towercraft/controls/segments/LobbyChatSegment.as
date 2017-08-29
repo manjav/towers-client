@@ -4,17 +4,12 @@ import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
-import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -34,7 +29,6 @@ import starling.events.Event;
 
 public class LobbyChatSegment extends Segment
 {
-private var room:Room;
 private var chatList:FastList;
 private var inputText:CustomTextInput;
 private var sendButton:CustomButton;
@@ -45,11 +39,10 @@ private var startScrollBarIndicator:Number = 0;
 
 public function LobbyChatSegment()
 {
-	room = SFSConnection.instance.lastJoinedRoom;
 	var params:SFSObject = new SFSObject();
-	params.putInt("id", room.id);
+	params.putInt("id", SFSConnection.instance.myLobby.id);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_INFO, params, room);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_INFO, params, SFSConnection.instance.myLobby);
 }
 
 protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
@@ -84,22 +77,22 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 	addChild(chatList);
 
-	header = new LobbyHeader(room);
+	header = new LobbyHeader(SFSConnection.instance.myLobby);
 	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
-	inputText = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE );
+	inputText = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0xAAAAAA, false, appModel.align );
 	inputText.textEditorProperties.autoCorrect = true;
 	inputText.height = footerSize;
-	inputText.layoutData = new AnchorLayoutData(NaN, footerSize + padding, 0, padding);
+	inputText.layoutData = new AnchorLayoutData(NaN, footerSize + padding*2, 0, padding);
 	inputText.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
 	addChild(inputText);
 	
 	sendButton = new CustomButton();
 	sendButton.label = loc("lobby_send");
 	sendButton.width = sendButton.height = footerSize;
-	sendButton.layoutData = new AnchorLayoutData(NaN, 0, 0, NaN);
+	sendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
 	sendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
 	addChild(sendButton);
 	
@@ -121,7 +114,7 @@ protected function sendButton_triggeredHandler(event:Event):void
 	
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("t", StrUtils.getSimpleString(inputText.text));
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, room );
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, SFSConnection.instance.myLobby );
 	inputText.text = "";
 }
 

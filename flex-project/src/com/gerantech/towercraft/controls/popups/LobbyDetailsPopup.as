@@ -1,9 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.items.FriendItemRenderer;
 import com.gerantech.towercraft.controls.items.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.LobbyMemberItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -13,10 +11,8 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import com.smartfoxserver.v2.requests.KickUserRequest;
 
 import flash.geom.Rectangle;
 
@@ -123,7 +119,7 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 	membersList.dataProvider = memberCollection
 	addChild(membersList);
 	
-	var room:Room = SFSConnection.instance.lastJoinedRoom;
+	var room:Room = SFSConnection.instance.myLobby;
 	itsMyRoom = room != null && room.id == roomData.id;
 	
 	var joinleaveButton:CustomButton = new CustomButton();
@@ -153,7 +149,7 @@ private function membersList_focusInHandler(event:Event):void
 	var selectedData:Object = selectedItem.data;
 	if( selectedData.id == player.id )
 		return;
-	var btns:Array = ["lobby_profile"];trace(findUser(player.id).pr , selectedData.pr)
+	var btns:Array = ["lobby_profile"];//trace(findUser(player.id).pr , selectedData.pr)
 	if(findUser(player.id).pr > selectedData.pr )
 		btns.push( "lobby_kick" );
 	buttonsPopup = new SimpleListPopup();
@@ -205,7 +201,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 			var params:SFSObject = new SFSObject();
 			params.putInt("id", buttonsPopup.data.id);
 			params.putUtfString("name", buttonsPopup.data.na);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_KICK, params, SFSConnection.instance.lastJoinedRoom);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_KICK, params, SFSConnection.instance.myLobby);
 		}
 	}
 	/*function profilePopup_eventsHandler ( event:Event ):void {
@@ -232,18 +228,19 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 		{
 			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE, params);
-			updateLobbyLayout();
+			SFSConnection.instance.lastJoinedRoom = null;
+			updateLobbyLayout(false);
 		}
 		return;
 	}
 	//SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomJoinHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
-	updateLobbyLayout();
+	updateLobbyLayout(true);
 }
 
-private function updateLobbyLayout():void
+private function updateLobbyLayout(isJoin:Boolean):void
 {
-	dispatchEventWith(Event.UPDATE);
+	dispatchEventWith(Event.UPDATE, false, isJoin);
 	close();
 }
 

@@ -9,7 +9,7 @@ package com.gerantech.towercraft.controls.texts
 	
 	public class CustomTextInput extends TextInput
 	{
-		public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=16777215, multiline:Boolean=false)
+		public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=16777215, multiline:Boolean=false, textAlign:String="center")
 		{
 			super();
 			
@@ -17,7 +17,7 @@ package com.gerantech.towercraft.controls.texts
 			{
 				var editor:StageTextTextEditor = new StageTextTextEditor();
 				editor.fontFamily = "SourceSans";
-				editor.textAlign = "center"//AppModel.instance.align;
+				editor.textAlign = textAlign;
 				editor.fontSize = AppModel.instance.theme.gameFontSize * AppModel.instance.scale ;
 				editor.color = textColor;
 				editor.softKeyboardType = softKeyboardType;

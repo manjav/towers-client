@@ -8,7 +8,6 @@ import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
 import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
 import com.gerantech.towercraft.controls.segments.MainSegment;
 import com.gerantech.towercraft.controls.segments.Segment;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
 

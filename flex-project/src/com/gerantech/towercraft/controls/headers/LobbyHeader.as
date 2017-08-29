@@ -94,10 +94,10 @@ protected function infoButton_triggeredHandler(event:Event):void
 	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:room.id, name:room.name, num:members.size(), sum:lobbyScore, max:room.maxUsers});
 	detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);
-	function detailsPopup_updateHandler(event:Event):void 
+	function detailsPopup_updateHandler(ev:Event):void 
 	{
 		detailsPopup.removeEventListener(Event.UPDATE, detailsPopup_updateHandler);
-		dispatchEventWith(Event.UPDATE, true);
+		dispatchEventWith(Event.UPDATE, true, ev.data);
 	}
 }
 override public function dispose():void
