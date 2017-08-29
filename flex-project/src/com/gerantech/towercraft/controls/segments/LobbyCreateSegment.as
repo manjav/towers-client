@@ -111,7 +111,14 @@ protected function sfsConnectionroomCreateRresponseHandler(event:SFSEvent):void
 	if( event.params.cmd != SFSCommands.LOBBY_CREATE )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnectionroomCreateRresponseHandler);
-	dispatchEventWith(Event.UPDATE, true);
+	var data:SFSObject = event.params.params as SFSObject;
+	if( data.getInt("response") >= 0 )
+	{
+		dispatchEventWith(Event.UPDATE, true);
+		return;
+	}
+	if( data.getInt("response") == -1 )
+		appModel.navigator.addLog(loc("lobby_exits_message"));
 }
 }
 }
