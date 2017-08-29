@@ -128,13 +128,18 @@ private function tabsList_changeHandler(event:Event):void
 
 private function refreshListData(): void
 {
+	if ( SFSConnection.instance.lastJoinedRoom!=null && SFSConnection.instance.lastJoinedRoom.groupId=="lobbies" )
+		SFSConnection.instance.myLobby = SFSConnection.instance.lastJoinedRoom ;
+	else if( SFSConnection.instance.lastJoinedRoom == null )
+		SFSConnection.instance.myLobby = null;
+		
 	if( listCollection == null )
 		listCollection = new ListCollection();
 	else
 		listCollection.removeAll();
 	
 	var ret:Array = new Array();
-	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.lastJoinedRoom)._list)
+	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.myLobby!=null)._list)
 	{
 		var pd:TabItemData = new TabItemData(p);
 		/*if( !player.inTutorial() )

@@ -188,9 +188,9 @@ private function showComment(msgPack:ISFSObject):void
 
 private function findUser(uid:int):ISFSObject
 {
-	if( SFSConnection.instance.lastJoinedRoom == null )
+	if( SFSConnection.instance.myLobby == null )
 		return null;
-	var all:ISFSArray = SFSConnection.instance.lastJoinedRoom.getVariable("all").getSFSArrayValue();
+	var all:ISFSArray = SFSConnection.instance.myLobby.getVariable("all").getSFSArrayValue();
 	var allSize:int = all.size();
 	for( var i:int=0; i<allSize; i++ )
 	{

@@ -39,9 +39,9 @@ package com.gerantech.towercraft.controls.segments
 			
 			textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 			textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
-			//textInput.maxChars = game.loginData.nameMaxLen ;
+			textInput.maxChars = 16 ;
 			//textInput.prompt = "آنم آرزوست"//loc( "village_name" );
-			textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
+			//textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
 			textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
 			textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?buttonW+padding*2:padding, NaN, appModel.isLTR?padding:buttonW+padding*2 );
 			textInput.height = buttonH;
@@ -63,18 +63,12 @@ package com.gerantech.towercraft.controls.segments
 			list.addEventListener(Event.CHANGE, list_changeHandler);
 			addChild(list);
 		}
-
-		
-		protected function textInput_changeHandler(event:Event):void
-		{
-			//acceptButton.visible = textInput.text.length >= game.loginData.nameMinLen
-		}
 		
 		protected function searchButton_triggeredHandler(event:Event):void
 		{
-			if( textInput.text.length < 4 || textInput.text.length > 16 )
+			if( textInput.text.length < 2 || textInput.text.length > 16 )
 			{
-				//errorDisplay.text = loc("text_size_warn", [loc("lobby_name"), 4, 16]);
+				appModel.navigator.addLog( loc("text_size_warn", [loc("lobby_name"), 2, 16] ));
 				return;
 			}
 			var params:SFSObject = new SFSObject();
@@ -99,10 +93,10 @@ package com.gerantech.towercraft.controls.segments
 			var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup(list.selectedItem);
 			detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 			appModel.navigator.addPopup(detailsPopup);
-			function detailsPopup_updateHandler(event:Event):void 
+			function detailsPopup_updateHandler(e:Event):void 
 			{
 				detailsPopup.removeEventListener(Event.UPDATE, detailsPopup_updateHandler);
-				dispatchEventWith(Event.UPDATE, true);
+				dispatchEventWith(Event.UPDATE, true, e.data);
 			}
 			list.selectedIndex = -1;
 			_listCollection.removeAll();

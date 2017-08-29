@@ -25,12 +25,14 @@ package com.gerantech.towercraft.managers.net.sfs
 		public var userName:String;
 		public var password:String;
 		public var zoneName:String;
+		public var myLobby:Room;
+
 		private var loginParams:ISFSObject;
 		
 		public var retryTimeout:int = 500;
 		public var retryMax:int = 3;
 		public var retryIndex:int = 1;
-		
+
 		private static var _instance:SFSConnection;
 		
 		public static const SUCCEED:String = "succeed";
