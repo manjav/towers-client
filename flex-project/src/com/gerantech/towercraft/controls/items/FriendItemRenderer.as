@@ -99,7 +99,7 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 		mySkin.defaultTexture = _data.id==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 	}
 	
-	private function item_triggeredHandler():void
+	private function item_triggeredHandler(event:Event):void
 	{
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}

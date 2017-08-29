@@ -41,7 +41,7 @@ package com.gerantech.towercraft.controls.items
 			if(_firstCommit)
 			{
 				_firstCommit = false;
-				height = 68 * appModel.scale;
+				height = 60 * appModel.scale;
 			}
 			
 			alpha = 0;

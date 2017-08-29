@@ -96,6 +96,9 @@ import starling.events.Event;
 		
 		private function owner_scrollStartHandler(event:Event):void
 		{
+			if( stage == null )
+				return;
+			
 			visible = true;
 			if( isSelected && segment != null && segment.initializeCompleted )
 				segment.updateData();
@@ -103,6 +106,9 @@ import starling.events.Event;
 		
 		private function owner_scrollCompleteHandler(event:Event):void
 		{
+			if( stage == null )
+				return;
+			
 			visible = stage.getBounds(this).x == 0;
 			if( visible )
 			{
@@ -111,7 +117,16 @@ import starling.events.Event;
 					segment.init();
 			}
 		}
-	
+		
+		override public function dispose():void
+		{
+			if( _owner != null )
+				_owner.removeEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
+			if( _owner != null )
+				_owner.removeEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
+			super.dispose();
+		}
+		
 		
 	}
 }

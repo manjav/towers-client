@@ -66,6 +66,8 @@ override protected function initialize():void
 	pointIconDisplay.source = Assets.getTexture("res-1001", "gui");
 	pointIconDisplay.layoutData = new AnchorLayoutData(padding/3, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
 	addChild(pointIconDisplay);
+	
+	addEventListener(Event.TRIGGERED, item_triggeredHandler);
 }
 
 override protected function commitData():void
@@ -93,6 +95,10 @@ override protected function commitData():void
 		nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
 	}
 	mySkin.defaultTexture = _data.id==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+}
+protected function item_triggeredHandler(event:Event):void
+{
+	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 }
 }
 }

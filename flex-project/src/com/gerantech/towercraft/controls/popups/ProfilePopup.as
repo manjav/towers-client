@@ -15,13 +15,13 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.data.ListCollection;
 	import feathers.layout.AnchorLayoutData;
 
-	public class ProfilePopup extends ConfirmPopup
+	public class ProfilePopup extends MessagePopup //ConfirmPopup
 	{
 		
 		public function ProfilePopup(playerName:String, playerId:int)
 		{
 			message = playerName;
-			super(message, loc("friendship_friendly_battle"), loc("friendship_remove_friend"));
+			super(message)//, loc("friendship_friendly_battle"), loc("friendship_remove_friend"));
 			
 			var params:SFSObject = new SFSObject();
 			params.putInt("id", playerId);
@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.popups
 			transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.3, stage.stageWidth*0.8, stage.stageHeight*0.35);
 			rejustLayoutByTransitionData();
 			
-			acceptButton.width = declineButton.width = width*0.4;
+		//	acceptButton.width = declineButton.width = width*0.4;
 			container.layoutData = new AnchorLayoutData(padding, padding*2, NaN, padding*2);
 		}
 		

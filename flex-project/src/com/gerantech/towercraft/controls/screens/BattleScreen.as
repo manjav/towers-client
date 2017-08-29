@@ -246,9 +246,9 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		{
-			if( event.params.room == null || (event.params.room.groupId!="battles"&&event.params.room.groupId!="quests") )
+			/*if( event.params.room == null || (event.params.room.groupId!="battles"&&event.params.room.groupId!="quests") )
 				return;
-				
+				*/
 			if( event.params.changedVars.indexOf("towers") > -1 )
 				updateTowersFromRoomVars();
 			

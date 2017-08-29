@@ -3,9 +3,6 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.LobbyItemRenderer;
-	import com.gerantech.towercraft.controls.items.RankItemRenderer;
-	import com.gerantech.towercraft.controls.overlays.TransitionData;
-	import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 	import com.gerantech.towercraft.controls.texts.CustomTextInput;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -14,7 +11,6 @@ package com.gerantech.towercraft.controls.segments
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
-	import flash.geom.Rectangle;
 	import flash.text.ReturnKeyLabel;
 	import flash.text.SoftKeyboardType;
 	
@@ -24,7 +20,6 @@ package com.gerantech.towercraft.controls.segments
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
-	import starling.animation.Transitions;
 	import starling.events.Event;
 
 	public class LobbySearchSegment extends Segment
@@ -55,7 +50,7 @@ package com.gerantech.towercraft.controls.segments
 			var searchButton:CustomButton = new CustomButton();
 			searchButton.width = buttonW;
 			searchButton.height = buttonH;
-			searchButton.label = "Search";
+			searchButton.label = loc("lobby_search");
 			searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 			searchButton.addEventListener(Event.TRIGGERED,  searchButton_triggeredHandler);
 			addChild(searchButton);
@@ -102,8 +97,15 @@ package com.gerantech.towercraft.controls.segments
 				return;
 			
 			var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup(list.selectedItem);
+			detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 			appModel.navigator.addPopup(detailsPopup);
+			function detailsPopup_updateHandler(event:Event):void 
+			{
+				detailsPopup.removeEventListener(Event.UPDATE, detailsPopup_updateHandler);
+				dispatchEventWith(Event.UPDATE, true);
+			}
 			list.selectedIndex = -1;
+			_listCollection.removeAll();
 		}
 	}
 }
