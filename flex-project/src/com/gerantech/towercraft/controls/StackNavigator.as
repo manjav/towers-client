@@ -187,9 +187,9 @@ package com.gerantech.towercraft.controls
 								var sfs:SFSObject = new SFSObject();
 								sfs.putText("invitationCode", pars["ic"]);
 								SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
-								SFSConnection.instance.sendExtensionRequest(SFSCommands.ADD_FRIEND, sfs);
+								SFSConnection.instance.sendExtensionRequest(SFSCommands.BUDDY_ADD, sfs);
 								function sfsConnection_responseHandler(event:SFSEvent):void{
-									if( event.params.cmd != SFSCommands.ADD_FRIEND )
+									if( event.params.cmd != SFSCommands.BUDDY_ADD )
 										return
 									SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
 									addPopup( new InvitationPopup(event.params.params ) );

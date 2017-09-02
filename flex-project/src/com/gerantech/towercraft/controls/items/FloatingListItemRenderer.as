@@ -39,8 +39,8 @@ package com.gerantech.towercraft.controls.items
 		
 		private function createElements(label:String):void
 		{
-			var mySkin:ImageSkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-			mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+			var mySkin:ImageSkin = new ImageSkin(String(_data).indexOf("$")>-1?appModel.theme.itemRendererSelectedSkinTexture:appModel.theme.itemRendererUpSkinTexture);
+			mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			backgroundSkin = mySkin;	
 			
 			layout = new AnchorLayout();

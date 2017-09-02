@@ -4,10 +4,15 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.smartfoxserver.v2.entities.Buddy;
+import com.smartfoxserver.v2.entities.variables.BuddyVariable;
+import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
+import com.smartfoxserver.v2.util.BuddyOnlineState;
 
 import flash.text.engine.ElementFormat;
 
 import feathers.controls.ImageLoader;
+import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -15,7 +20,7 @@ import feathers.skins.ImageSkin;
 
 import starling.events.Event;
 
-public class FriendItemRenderer extends BaseCustomItemRenderer
+public class BuddyItemRenderer extends BaseCustomItemRenderer
 {
 	private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 	
@@ -27,6 +32,9 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 
 	private var _isInviteButton:Boolean;
 	private var mySkin:ImageSkin;
+	private var statusSkin:ImageSkin;
+	private var buddy:Buddy;
+	private var statusDisplay:LayoutGroup;
 
 	
 
@@ -40,15 +48,27 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 		mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 		mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
 		backgroundSkin = mySkin;
+
+		statusSkin = new ImageSkin(appModel.theme.buttonUpSkinTexture);
+		statusSkin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
+		statusSkin.setTextureForState("Available", appModel.theme.buttonUpSkinTexture );
+		statusSkin.setTextureForState("Away", appModel.theme.buttonDisabledSkinTexture );
+		statusSkin.setTextureForState("Occupied", appModel.theme.buttonDangerUpSkinTexture );
+		
+		statusDisplay = new LayoutGroup();
+		statusDisplay.backgroundSkin = statusSkin;
+		statusDisplay.width = statusDisplay.height = 50 * appModel.scale;
+		statusDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/10);
+		addChild(statusDisplay);
 		
 		nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
-		nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, 0);
+		nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3, NaN, appModel.isLTR?padding*3:NaN, NaN, 0);
 		nameShadowDisplay.pixelSnapping = false;
 		addChild(nameShadowDisplay);
 		
 		nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
 		nameDisplay.pixelSnapping = false;
-		nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/12);
+		nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3, NaN, appModel.isLTR?padding*3:NaN, NaN, -padding/12);
 		addChild(nameDisplay);
 		
 		pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1);
@@ -72,22 +92,24 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 	override protected function commitData():void
 	{
 		super.commitData();
-		if(_data ==null || _owner==null)
+		if(_data == null || _owner == null)
 			return;
+		buddy = _data as Buddy;
 		
-		isInviteButton = _data.name == "" && _data.count == -1;
+		isInviteButton = buddy == null;
 		height = (isInviteButton?160:120) * appModel.scale;
-		
+		statusDisplay.visible = !isInviteButton;
 		if( isInviteButton )
 			return;
 		
-		var rankIndex:int = _data.s ? (_data.s+1) : (index+1);
-		nameDisplay.text = rankIndex + ".  " + _data.name ;
-		nameShadowDisplay.text = rankIndex + ".  " + _data.name ;
-		pointDisplay.text = "" + _data.count;
+		var rankIndex:int = index+1;
+		nameDisplay.text = rankIndex + ".  " + buddy.nickName ;
+		nameShadowDisplay.text = rankIndex + ".  " + buddy.nickName ;
+		pointDisplay.text = buddy.containsVariable("$point") ? ("" + buddy.getVariable("$point").getIntValue()) : "";
 		//trace(_data.i, player.id);
-		var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9) * appModel.scale;
-		var fc:int = _data.id==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
+		var itsMe:Boolean = buddy.nickName == player.nickName;
+		var fs:int = AppModel.instance.theme.gameFontSize * (itsMe?1:0.9) * appModel.scale;
+		var fc:int = itsMe?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 		if( fs != nameDisplay.fontSize )
 		{
 			nameDisplay.fontSize = fs;
@@ -96,7 +118,13 @@ public class FriendItemRenderer extends BaseCustomItemRenderer
 			nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
 			nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
 		}
-		mySkin.defaultTexture = _data.id==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+		mySkin.defaultTexture = itsMe ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+		
+		// Set status display
+		if( buddy.state != "Occupied" )
+			buddy.setVariable( new SFSBuddyVariable("$__BV_STATE__", buddy.isOnline?"Available":"Away"));
+		statusSkin.defaultTexture = statusSkin.getTextureForState(buddy.state);
+		//trace(buddy.nickName, buddy.state, buddy.isOnline)
 	}
 	
 	private function item_triggeredHandler(event:Event):void
