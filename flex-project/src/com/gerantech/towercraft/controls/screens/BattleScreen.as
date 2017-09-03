@@ -42,6 +42,7 @@ package com.gerantech.towercraft.controls.screens
 	public class BattleScreen extends BaseCustomScreen
 	{
 		public var requestField:FieldData;
+		public var spectatedUser:String;
 		public var waitingOverlay:WaitingOverlay;
 		
 		private var sourcePlaces:Vector.<PlaceView>;
@@ -60,6 +61,8 @@ package com.gerantech.towercraft.controls.screens
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putBool("q", requestField!=null&&requestField.isQuest);
 			sfsObj.putInt("i", requestField!=null&&requestField.isQuest ? requestField.index : 0);
+			if( spectatedUser != null && spectatedUser != "" )
+				sfsObj.putText("su", spectatedUser);
 
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
@@ -79,7 +82,7 @@ package com.gerantech.towercraft.controls.screens
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
-					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getSFSObject("opponent"), data.getInt("troopType"), data.getInt("startAt"), data.getBool("singleMode"), sfsConnection.getRoomById(data.getInt("roomId")));
+					var battleData:BattleData = new BattleData(data);
 					appModel.battleFieldView = new BattleFieldView();
 					addChild(appModel.battleFieldView);
 					appModel.battleFieldView.createPlaces(battleData);
@@ -162,9 +165,10 @@ package com.gerantech.towercraft.controls.screens
 			{
 				appModel.battleFieldView.responseSender.resetAllVars();
 				appModel.loadingManager.inBattle = false;
-			}		
-			
-			addEventListener(TouchEvent.TOUCH, touchHandler);
+			}
+
+			if( !sfsConnection.mySelf.isSpectator )
+				addEventListener(TouchEvent.TOUCH, touchHandler);
 			
 			// play battle theme -_-_-_
 			appModel.sounds.stopSound("main-theme");
@@ -406,31 +410,18 @@ package com.gerantech.towercraft.controls.screens
 				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}
+
 		
-		private function removeConnectionListeners():void
-		{
-			removeEventListener(TouchEvent.TOUCH, touchHandler);
-			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
-		}
-		
-		override protected function screen_removedFromStageHandler(event:Event):void
-		{
-			trace("screen_removedFromStageHandler");
-			super.screen_removedFromStageHandler(event);
-			removeConnectionListeners();
-		}
-		
-		override public function dispose():void
-		{
-			appModel.sounds.playSoundUnique("main-theme", 1, 100);
-			appModel.battleFieldView.dispose();
-			super.dispose();
-		}
 		override protected function backButtonFunction():void
 		{
-			if(!appModel.battleFieldView.battleData.map.isQuest)
+			if( sfsConnection.mySelf.isSpectator )
+			{
+				appModel.battleFieldView.responseSender.leave();
+				dispatchEventWith(Event.COMPLETE);
+				return;
+			}
+			
+			if( !appModel.battleFieldView.battleData.map.isQuest )
 				return;
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("popup_exit_label"), loc("popup_continue_label"));
@@ -440,6 +431,22 @@ package com.gerantech.towercraft.controls.screens
 			function confirm_eventsHandler():void {
 				appModel.battleFieldView.responseSender.leave();
 			}
+		}
+		
+		override public function dispose():void
+		{
+			removeConnectionListeners();
+			appModel.sounds.playSoundUnique("main-theme", 1, 100);
+			appModel.battleFieldView.dispose();
+			super.dispose();
+		}
+		
+		private function removeConnectionListeners():void
+		{
+			removeEventListener(TouchEvent.TOUCH, touchHandler);
+			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 		}
 	}
 
