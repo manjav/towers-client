@@ -1,14 +1,17 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.BuddyItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
@@ -19,6 +22,7 @@ import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 
+import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
@@ -40,6 +44,8 @@ public function BuddiesSegment()
 	SFSConnection.instance.buddyManager.setInited(true);
 	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_VARIABLES_UPDATE,		sfs_buddyVariablesUpdateHandler); 
 	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_ONLINE_STATE_UPDATE,	sfs_buddyVariablesUpdateHandler); 
+	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_ADD,					sfs_buddyChangeHandler); 
+	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_REMOVE,					sfs_buddyChangeHandler); 
 }
 
 override public function updateData():void
@@ -81,11 +87,26 @@ override public function init():void
 
 protected function sfs_buddyVariablesUpdateHandler(event:SFSBuddyEvent):void
 {
+	if( buddyCollection == null || buddyCollection.length == 0 )
+		return;
+	
 	var buddy:Buddy = event.params.buddy as Buddy;
 	var buddyIndex:int = buddyCollection.getItemIndex(buddy);
 	buddyCollection.data[buddyIndex] = buddy;
 	buddyCollection.updateItemAt(buddyIndex);
 }
+protected function sfs_buddyChangeHandler(event:SFSBuddyEvent):void
+{
+	if( buddyCollection == null || buddyCollection.length == 0 )
+		return;
+	
+	var buddy:Buddy = event.params.buddy as Buddy;
+	if( event.type == SFSBuddyEvent.BUDDY_ADD )
+		buddyCollection.addItemAt(buddy, buddyCollection.length-2);
+	else if( event.type == SFSBuddyEvent.BUDDY_REMOVE )
+		buddyCollection.removeItemAt(buddyCollection.getItemIndex(buddy))
+}
+
 
 protected function list_scrollHandler(event:Event):void
 {
@@ -158,9 +179,22 @@ private function buttonsPopup_selectHandler(event:Event):void
 			removeFriend(buddy);
 			break;
 		case "buddy_spectate$":
-			//removeFriend(buddy);
+			spectate(buddy);
 			break;
 	}
+}
+
+private function spectate(buddy:Buddy):void
+{
+	if( !buddy.containsVariable("br") )
+		return;
+	
+	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
+	item.properties.requestField = new FieldData(100000 + buddy.getVariable("br").getIntValue(), "quest_100000") ;
+	item.properties.spectatedUser = buddy.name;
+	item.properties.waitingOverlay = new WaitingOverlay() ;
+	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+	appModel.navigator.addOverlay(item.properties.waitingOverlay);
 }
 
 private function removeFriend( buddy:Buddy ):void
@@ -191,6 +225,8 @@ override public function dispose():void
 {
 	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_VARIABLES_UPDATE,	sfs_buddyVariablesUpdateHandler); 
 	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_ONLINE_STATE_UPDATE,	sfs_buddyVariablesUpdateHandler); 
+	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_ADD,					sfs_buddyChangeHandler); 
+	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_REMOVE,				sfs_buddyChangeHandler); 
 	super.dispose();
 }
 

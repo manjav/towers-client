@@ -121,8 +121,7 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 		mySkin.defaultTexture = itsMe ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 		
 		// Set status display
-		if( buddy.state != "Occupied" )
-			buddy.setVariable( new SFSBuddyVariable("$__BV_STATE__", buddy.isOnline?"Available":"Away"));
+		buddy.setVariable( new SFSBuddyVariable("$__BV_STATE__", buddy.isOnline?(buddy.state!="Occupied"?"Available":"Occupied"):"Away"));
 		statusSkin.defaultTexture = statusSkin.getTextureForState(buddy.state);
 		//trace(buddy.nickName, buddy.state, buddy.isOnline)
 	}
