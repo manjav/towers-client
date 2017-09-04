@@ -12,7 +12,6 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.constants.StickerType;
-	import com.smartfoxserver.v2.entities.SFSConstants;
 	
 	import flash.utils.setTimeout;
 	

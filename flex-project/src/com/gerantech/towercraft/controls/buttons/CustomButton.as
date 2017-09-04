@@ -3,10 +3,13 @@ package com.gerantech.towercraft.controls.buttons
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	
+	import flash.geom.Point;
+	
 	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.layout.ILayoutData;
 	import feathers.skins.ImageSkin;
 	
 	import starling.textures.Texture;
@@ -14,6 +17,7 @@ package com.gerantech.towercraft.controls.buttons
 	public class CustomButton extends SimpleLayoutButton
 	{
 		public var style:String = "normal"
+		public var iconPosition:Point;
 		
 		private var labelDisplay:RTLLabel;
 		private var shadowDisplay:RTLLabel;
@@ -38,6 +42,7 @@ package com.gerantech.towercraft.controls.buttons
 			layout = new AnchorLayout();
 			shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.8);
 			labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.3);
+			iconPosition = new Point();
 		}
 
 
@@ -77,7 +82,7 @@ package com.gerantech.towercraft.controls.buttons
 			iconDisplay = new ImageLoader();
 			iconDisplay.touchable = false;
 			iconDisplay.height = height*0.7;
-			iconDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, -padding*0.4);
+			iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, iconPosition.x, iconPosition.y-padding*0.4);;
 			iconDisplay.source = _icon;
 			addChild(iconDisplay);
 		}
