@@ -70,7 +70,7 @@ package com.gerantech.towercraft.controls.overlays
 			card.height = card.width*1.4;
 			card.y = (stage.stageHeight-card.height)/2;
 			addChild(card);
-			card.level = building.level-1;
+			card.level = building.get_level()-1;
 			card.scale = 1.6;
 			
 			appModel.sounds.setVolume("main-theme", 0.3);
@@ -83,7 +83,7 @@ package com.gerantech.towercraft.controls.overlays
 				addChild(titleDisplay);
 			
 				card.scale = 2.4;
-				card.level = building.level; 
+				card.level = building.get_level(); 
 				Starling.juggler.tween(card, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
 				Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y-150*appModel.scale, transition:Transitions.EASE_IN_OUT});
 				
