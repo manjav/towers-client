@@ -25,18 +25,19 @@ package com.gerantech.towercraft.models.vo
 			this.startAt = data.getInt("startAt");
 			this.singleMode = data.getBool("singleMode");
 			this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
+			AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 			battleField = new BattleField(AppModel.instance.game, data.getText("mapName"), troopType);
 			map = battleField.map;
 			var playerIndex:int = getPlayerIndex();
 			if( !map.isQuest )
 				this.opponent = room.playerList[ playerIndex==0?1:0 ];
 			
-			trace(this.troopType, "tt", data.getText("mapName"))	
+			/*trace(this.troopType, "tt", data.getText("mapName"))	
 			for (var i:int = 0; i < room.userList.length; i++) 
 				trace("userList", i, room.userList[i].name);
 			for (i = 0; i < room.playerList.length; i++) 
 				trace("playerList", i, room.playerList[i].name);
-			trace("troopType", troopType, playerIndex)
+			trace("troopType", troopType, playerIndex)*/
 		}
 		
 		private function getPlayerIndex():int

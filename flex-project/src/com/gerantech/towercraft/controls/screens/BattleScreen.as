@@ -41,6 +41,7 @@ package com.gerantech.towercraft.controls.screens
 
 	public class BattleScreen extends BaseCustomScreen
 	{
+		public var isFriendly:Boolean;
 		public var requestField:FieldData;
 		public var spectatedUser:String;
 		public var waitingOverlay:WaitingOverlay;
@@ -67,7 +68,8 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+			if( !isFriendly )
+				sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
 			
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		}
@@ -435,6 +437,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		override public function dispose():void
 		{
+			player.inFriendlyBattle = false;
 			removeConnectionListeners();
 			appModel.sounds.playSoundUnique("main-theme", 1, 100);
 			appModel.battleFieldView.dispose();

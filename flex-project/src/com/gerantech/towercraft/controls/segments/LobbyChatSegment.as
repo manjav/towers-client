@@ -1,12 +1,15 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
+import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -17,6 +20,7 @@ import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
 
+import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
@@ -54,7 +58,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	layout = new AnchorLayout();
 	
 	messageCollection = new ListCollection();
-	var data:ISFSObject = event.params.params as SFSObject;
+	var data:ISFSObject = event.params.params as SFSObject;trace(data.getDump());
 	for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
 		messageCollection.addItem(data.getSFSArray("messages").getSFSObject(i));
 	
@@ -73,6 +77,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	chatList.layoutData = new AnchorLayoutData(0, 0, footerSize+padding, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
 	chatList.dataProvider = messageCollection;
+	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);
 	setTimeout(chatList.scrollToDisplayIndex, 100, messageCollection.length-1, 0.2);
 	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 	addChild(chatList);
@@ -85,18 +90,57 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	inputText = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0xAAAAAA, false, appModel.align );
 	inputText.textEditorProperties.autoCorrect = true;
 	inputText.height = footerSize;
-	inputText.layoutData = new AnchorLayoutData(NaN, footerSize + padding*2, 0, padding);
+	inputText.layoutData = new AnchorLayoutData(NaN, footerSize*2 + padding*3, 0, padding);
 	inputText.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
 	addChild(inputText);
 	
 	sendButton = new CustomButton();
-	sendButton.label = loc("lobby_send");
+	//sendButton.label = loc("lobby_send");
 	sendButton.width = sendButton.height = footerSize;
-	sendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+	sendButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
+	sendButton.iconPosition.x -= padding*0.2;
+	sendButton.layoutData = new AnchorLayoutData(NaN, footerSize+padding*2, 0, NaN);
 	sendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
 	addChild(sendButton);
 	
+	var battleButton:CustomButton = new CustomButton();
+	//battleButton.label = "بزن"//loc("lobby_send");
+	battleButton.style = "danger";
+	battleButton.icon = Assets.getTexture("res-1001", "gui");
+	battleButton.width = battleButton.height = footerSize;
+	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
+	addChild(battleButton);
+	
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
+}
+
+private function chatList_changeHandler(event:Event):void
+{
+	if( chatList.selectedItem == null )
+		return;
+	var msgPack:ISFSObject = chatList.selectedItem as SFSObject;
+	if( msgPack.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && (msgPack.getShort("st") == 0 || msgPack.getShort("st") == 1) )
+	{
+		var params:SFSObject = new SFSObject();
+		params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
+		params.putInt("bid", msgPack.getInt("bid"));
+		params.putShort("st", msgPack.getShort("st"));
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, SFSConnection.instance.myLobby );
+		
+		// Go to battle screen
+		if( msgPack.getInt("i") != player.id )
+			gotoBattle();
+	}
+}
+
+private function gotoBattle():void
+{
+	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
+	item.properties.isFriendly = true;
+	item.properties.waitingOverlay = new WaitingOverlay() ;
+	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+	appModel.navigator.addOverlay(item.properties.waitingOverlay);	
 }
 
 protected function chatList_scrollHandler(event:Event):void
@@ -117,6 +161,15 @@ protected function sendButton_triggeredHandler(event:Event):void
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, SFSConnection.instance.myLobby );
 	inputText.text = "";
 }
+protected function battleButton_triggeredHandler(event:Event):void
+{
+	var readyBattleIndex:int = containMyBattle();
+	var params:SFSObject = new SFSObject();
+	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
+	params.putInt("bid", readyBattleIndex>-1?messageCollection.getItemAt(readyBattleIndex).getInt("bid"):readyBattleIndex);
+	params.putShort("st", 0);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, SFSConnection.instance.myLobby );
+}
 
 protected function sfs_publicMessageHandler(event:SFSEvent):void
 {
@@ -130,11 +183,50 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		last.putUtfString("t", msg.getUtfString("t"));
 		messageCollection.updateItemAt(messageCollection.length-1);
 	}
+	else if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE )
+	{
+		trace(msg.getDump())
+		var lastBattleIndex:int = containBattle(msg.getInt("bid"));
+		if( lastBattleIndex > -1 )
+		{
+			var battleMsg:ISFSObject = messageCollection.getItemAt(lastBattleIndex) as SFSObject;
+			if( msg.getShort("st") >= 2 )
+			{
+				messageCollection.removeItemAt(lastBattleIndex);
+			}
+			else
+			{
+				battleMsg.putShort("st", msg.getShort("st"));
+				battleMsg.putInt("u", msg.getInt("u"));
+				messageCollection.updateItemAt(lastBattleIndex);
+				
+				if( battleMsg.getShort("st") == 1 && battleMsg.getInt("i") == player.id )
+					gotoBattle();
+			}
+			return;
+		}
+		messageCollection.addItem(msg);
+	}
 	else
 	{
 		messageCollection.addItem(msg);
 	}
 	setTimeout(chatList.scrollToDisplayIndex, 100, messageCollection.length-1, 0.2);
+}
+
+private function containBattle(battleId:int):int
+{
+	for (var i:int = 0; i < messageCollection.length; i++) 
+		if( messageCollection.getItemAt(i).getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && messageCollection.getItemAt(i).getInt("bid") == battleId )
+			return i;
+	return -1;
+}
+private function containMyBattle():int
+{
+	for (var i:int = 0; i < messageCollection.length; i++) 
+		if( messageCollection.getItemAt(i).containsKey("bid") && messageCollection.getItemAt(i).getInt("i") == player.id && messageCollection.getItemAt(i).getShort("st") == 0 )
+			return i;
+	return -1;
 }
 
 override public function dispose():void
