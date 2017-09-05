@@ -24,7 +24,7 @@ package com.gerantech.towercraft.views.decorators
 		protected var place:Place;
 		
 		private var populationIndicator:BitmapFontTextRenderer;
-		private var improvablePanel:ImprovablePanel;
+		public var improvablePanel:ImprovablePanel;
 		
 		public function BuildingDecorator(placeView:PlaceView)
 		{

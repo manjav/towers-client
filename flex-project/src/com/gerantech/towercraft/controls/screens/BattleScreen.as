@@ -17,6 +17,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -27,6 +28,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Point;
+	import flash.utils.setTimeout;
 	
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
@@ -284,7 +286,7 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function touchHandler(event:TouchEvent):void
 		{
-			var tp:PlaceView; 
+			var tp:PlaceView;
 			var touch:Touch = event.getTouch(this);
 			if(touch == null)
 				return;
@@ -345,7 +347,19 @@ package com.gerantech.towercraft.controls.screens
 						clearSource(sourcePlaces[self]);
 						sourcePlaces.removeAt(self);
 					}
-					
+					var map:FieldData = appModel.battleFieldView.battleData.battleField.map; 
+					var improvable:PlaceData = map.getImprovableTutorPlace();
+					if( map.isQuest && improvable!= null )
+					{
+						if ( appModel.battleFieldView.battleData.battleField.places.get(improvable.index).building.type == BuildingType.B01_CAMP )
+						{
+							appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
+							setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
+							clearSources(sourcePlaces);
+							return;
+						}
+					}
+
 					// check sources has a path to destination
 					var all:PlaceList = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
