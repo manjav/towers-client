@@ -9,12 +9,14 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gt.towers.battle.BattleField;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.constants.BuildingType;
@@ -43,7 +45,6 @@ package com.gerantech.towercraft.controls.screens
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import com.gt.towers.battle.BattleField;
 
 	public class BattleScreen extends BaseCustomScreen
 	{
@@ -185,7 +186,14 @@ package com.gerantech.towercraft.controls.screens
 			
 			//Game Analytic
 			if(GameAnalytics.isInitialized)
-				GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
+			{
+				if(AppModel.instance.game.player.inFriendlyBattle)
+					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"FriendlyQuests":"FriendlyBattles", quest.index.toString());
+				if(sfsConnection.mySelf.isSpectator)
+					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"SpectatorQuests":"SpectatorBattles", quest.index.toString());
+				else
+					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
+			}
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -217,7 +225,7 @@ package com.gerantech.towercraft.controls.screens
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
 			
 			// Game Analytic
-			if( GameAnalytics.isInitialized )
+			if( GameAnalytics.isInitialized && !AppModel.instance.game.player.inFriendlyBattle && !sfsConnection.mySelf.isSpectator)
 			{
 				GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
 				for each (var k:int in outcomes.keys())
