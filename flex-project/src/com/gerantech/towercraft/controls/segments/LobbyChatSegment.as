@@ -186,7 +186,6 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	}
 	else if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE )
 	{
-		trace(msg.getDump())
 		var lastBattleIndex:int = containBattle(msg.getInt("bid"));
 		if( lastBattleIndex > -1 )
 		{
@@ -199,6 +198,8 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			{
 				battleMsg.putShort("st", msg.getShort("st"));
 				battleMsg.putInt("u", msg.getInt("u"));
+				if( msg.containsKey("o") )
+					battleMsg.putText("o", msg.getText("o"));
 				messageCollection.updateItemAt(lastBattleIndex);
 				
 				if( battleMsg.getShort("st") == 1 && battleMsg.getInt("i") == player.id )
