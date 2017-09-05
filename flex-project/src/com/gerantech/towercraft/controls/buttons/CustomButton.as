@@ -82,7 +82,7 @@ package com.gerantech.towercraft.controls.buttons
 			iconDisplay = new ImageLoader();
 			iconDisplay.touchable = false;
 			iconDisplay.height = height*0.7;
-			iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, iconPosition.x, iconPosition.y-padding*0.4);;
+			iconDisplay.layoutData = new AnchorLayoutData(NaN, padding+iconPosition.x, NaN, NaN, NaN, iconPosition.y-padding*0.4);
 			iconDisplay.source = _icon;
 			addChild(iconDisplay);
 		}
