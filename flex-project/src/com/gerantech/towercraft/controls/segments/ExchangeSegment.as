@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -160,19 +161,36 @@ package com.gerantech.towercraft.controls.segments
 			}
 			else
 			{
-				try
+				if( ExchangeType.getCategory(item.type) == ExchangeType.S_10_SOFT )
 				{
-					exchanger.exchange(item, 0);
-				} 
-				catch(error:GameError) 
-				{
-					if ( error.id == 0 )
-						appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
+					var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
+					confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
+					appModel.navigator.addPopup(confirm1);
+					function confirm1_selectHandler ( event:Event ):void {
+						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+						echange(item, params);
+					}
 					return;
 				}
-				sendData(item, params)
+				echange(item, params);
 			}
 		}
+		
+		private function echange(item:ExchangeItem, params:SFSObject):void
+		{
+			try
+			{
+				exchanger.exchange(item, 0);
+			} 
+			catch(error:GameError) 
+			{
+				if ( error.id == 0 )
+					appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
+				return;
+			}
+			sendData(item, params)			
+		}
+		
 		private function sendData(item:ExchangeItem, params:SFSObject):void
 		{
 			if( ExchangeType.getCategory( item.type ) == ExchangeType.S_30_CHEST )
