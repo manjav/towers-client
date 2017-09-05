@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.overlays
 						
 			layout = new AnchorLayout();
 			var padding:int = 36 * appModel.scale;
-			tipDisplay = new RTLLabel(loc("tip_"+Math.min(player.get_arena(0), 1)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center");
+			tipDisplay = new RTLLabel(loc("tip_"+Math.min(player.get_arena(0), 2)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center");
 			tipDisplay.x = padding;
 			tipDisplay.y = stage.stageHeight - padding*5;
 			tipDisplay.width = stage.stageWidth-padding*2;
