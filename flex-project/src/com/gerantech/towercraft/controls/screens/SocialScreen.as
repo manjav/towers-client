@@ -6,11 +6,7 @@ import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-import com.gt.towers.buildings.Building;
-import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.SegmentType;
-import com.gt.towers.exchanges.ExchangeItem;
-import com.smartfoxserver.v2.entities.Room;
 
 import flash.utils.setTimeout;
 
@@ -38,6 +34,8 @@ private var tabsList:List;
 private var scrollTime:Number = 0.01;
 private var listCollection:ListCollection;
 private var tabSize:int;
+
+private var closeButton:CustomButton;
 
 override protected function initialize():void
 {
@@ -79,7 +77,7 @@ override protected function initialize():void
 	tabsList.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	tabsList.height = tabsSize;
 	tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
+	tabsList.horizontalScrollPolicy = tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
 	tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new SocialTabItemRenderer(tabSize); }
 	tabsList.dataProvider = listCollection;
@@ -92,7 +90,7 @@ override protected function initialize():void
 	footer.layoutData = new AnchorLayoutData(NaN,0,0,0);
 	addChild(footer);
 	
-	var closeButton:CustomButton = new CustomButton();
+	closeButton = new CustomButton();
 	closeButton.height = footerSize * 0.8;
 	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, footerSize*0.1, NaN, 0);
 	closeButton.addEventListener(Event.TRIGGERED, backButtonHandler);
@@ -100,6 +98,14 @@ override protected function initialize():void
 	addChild(closeButton);
 	
 	pageList.addEventListener(Event.UPDATE, pageList_updateHandler);
+	pageList.addEventListener(Event.READY, pageList_readyHandler);
+}
+
+private function pageList_readyHandler(event:Event):void
+{
+	closeButton.isEnabled = event.data;
+	tabsList.isEnabled = event.data;
+	pageList.horizontalScrollPolicy = event.data ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 }
 
 private function pageList_updateHandler(event:Event):void
@@ -163,6 +169,13 @@ private function refreshListData(): void
 		ret.push(pd);
 	}
 	listCollection.data = ret;
+}
+
+override protected function backButtonFunction():void
+{
+	if( !closeButton.isEnabled )
+		return;
+	super.backButtonFunction();
 }
 
 override public function dispose():void
