@@ -23,7 +23,7 @@ package com.gerantech.towercraft.views.weapons
 			//trace(placeView.place.index, "DefensiveWeapon")
 			this.placeView = placeView;
 			hitTimeoutId = setInterval(hitTestTroopsInterval, placeView.place.building.get_damageGap());
-			minDamagRadius = AppModel.instance.scale * 3;
+			minDamagRadius = AppModel.instance.scale * 30;
 			maxDamagRadius = AppModel.instance.scale * placeView.place.building.get_damageRadius();
 		}
 		

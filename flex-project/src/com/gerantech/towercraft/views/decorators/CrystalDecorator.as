@@ -59,7 +59,7 @@ package com.gerantech.towercraft.views.decorators
 			
 			// radius :
 			createRadiusDisplay();
-			radiusDisplay.width = place.building.get_damageRadius() * appModel.scale;
+			radiusDisplay.width = place.building.get_damageRadius() * appModel.scale * 2;
 			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.7;
 		
 			// ray
