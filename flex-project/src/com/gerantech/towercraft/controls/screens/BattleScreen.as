@@ -40,6 +40,7 @@ package com.gerantech.towercraft.controls.screens
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import com.gt.towers.battle.BattleField;
 
 	public class BattleScreen extends BaseCustomScreen
 	{
@@ -347,17 +348,16 @@ package com.gerantech.towercraft.controls.screens
 						clearSource(sourcePlaces[self]);
 						sourcePlaces.removeAt(self);
 					}
-					var map:FieldData = appModel.battleFieldView.battleData.battleField.map; 
-					var improvable:PlaceData = map.getImprovableTutorPlace();
-					if( map.isQuest && improvable!= null )
+					
+					// force improve in tutorial mode
+					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
+					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
+					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP )
 					{
-						if ( appModel.battleFieldView.battleData.battleField.places.get(improvable.index).building.type == BuildingType.B01_CAMP )
-						{
-							appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
-							setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
-							clearSources(sourcePlaces);
-							return;
-						}
+						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
+						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
+						clearSources(sourcePlaces);
+						return;
 					}
 
 					// check sources has a path to destination
