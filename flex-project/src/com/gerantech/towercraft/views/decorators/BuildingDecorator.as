@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views.decorators
 {
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.BattleFieldView;
@@ -23,7 +24,7 @@ package com.gerantech.towercraft.views.decorators
 		protected var place:Place;
 		
 		private var populationIndicator:BitmapFontTextRenderer;
-		private var improvablePanel:ImprovablePanel;
+		public var improvablePanel:ImprovablePanel;
 		
 		public function BuildingDecorator(placeView:PlaceView)
 		{
@@ -42,13 +43,13 @@ package com.gerantech.towercraft.views.decorators
 				return;
 			
 			var improvable:Boolean = false;
-			if( !player.inTutorial() )
+			if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
 			{
 				var options:IntList = place.building.get_options();
 				for (var i:int=0; i < options.size(); i++) 
 				{
 					//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
-					if(place.building.improvable(options.get(i)) && options.get(i)!=1)
+					if( place.building.improvable(options.get(i)) && options.get(i)!=1 )
 					{
 						improvable = true;
 						break;

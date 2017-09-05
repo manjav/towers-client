@@ -12,8 +12,6 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const SEND_STICKER:String = "ss";
 		
 		public static const PROFILE:String = "profile";
-		public static const ADD_FRIEND:String = "addFriend";
-		public static const REMOVE_FRIEND:String = "removeFriend";
 		
 		public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 		public static const EXCHANGE:String = "exchange";
@@ -35,5 +33,9 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const LOBBY_KICK:String = "lobbyKick";
 		public static const LOBBY_EDIT:String = "lobbyEdit";
 		public static const LOBBY_PUBLIC_MESSAGE:String = "m";
+		
+		public static const BUDDY_ADD:String = "buddyAdd";
+		public static const BUDDY_REMOVE:String = "buddyRemove";
+
 	}
 }

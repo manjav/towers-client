@@ -1,9 +1,12 @@
 package com.gerantech.towercraft.models.vo
 {
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gt.towers.battle.BattleField;
 	import com.gt.towers.battle.fieldes.FieldData;
+	import com.smartfoxserver.v2.entities.Buddy;
 	import com.smartfoxserver.v2.entities.Room;
+	import com.smartfoxserver.v2.entities.User;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 
 	public class BattleData
@@ -13,18 +16,46 @@ package com.gerantech.towercraft.models.vo
 		public var troopType:int;
 		public var startAt:int;
 		public var singleMode:Boolean;
-		public var opponent:ISFSObject;
 		public var battleField:BattleField;
+		public var opponent:User;
 
-		public function BattleData(mapName:String, opponent:ISFSObject, troopType:int, startAt:int, singleMode:Boolean, room:Room)
+		public function BattleData(data:ISFSObject)
 		{
-			this.room = room;
-			this.startAt = startAt;
-			this.opponent = opponent;
-			this.singleMode = singleMode;
-			AppModel.instance.game.player.troopType = this.troopType = troopType;
-			battleField = new BattleField(AppModel.instance.game, mapName, troopType);
+			this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
+			this.startAt = data.getInt("startAt");
+			this.singleMode = data.getBool("singleMode");
+			this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
+			AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
+			battleField = new BattleField(AppModel.instance.game, data.getText("mapName"), troopType);
 			map = battleField.map;
+			var playerIndex:int = getPlayerIndex();
+			if( !map.isQuest )
+				this.opponent = room.playerList[ playerIndex==0?1:0 ];
+			
+			/*trace(this.troopType, "tt", data.getText("mapName"))	
+			for (var i:int = 0; i < room.userList.length; i++) 
+				trace("userList", i, room.userList[i].name);
+			for (i = 0; i < room.playerList.length; i++) 
+				trace("playerList", i, room.playerList[i].name);
+			trace("troopType", troopType, playerIndex)*/
+		}
+		
+		private function getPlayerIndex():int
+		{
+			if( SFSConnection.instance.mySelf.isSpectator )
+			{
+				for each ( var b:Buddy in SFSConnection.instance.buddyManager.buddyList ) 
+					for ( var i:int = 0; i < room.playerList.length; i++ ) 
+						if( room.playerList[i].name == b.name )
+							return i;
+			}
+			else 
+			{
+				for ( i = 0; i < room.playerList.length; i++ ) 
+					if( room.playerList[i].name == SFSConnection.instance.mySelf.name )
+						return i;
+			}
+			return -1;
 		}
 	}
 }

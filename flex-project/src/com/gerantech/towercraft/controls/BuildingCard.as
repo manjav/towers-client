@@ -158,7 +158,7 @@ package com.gerantech.towercraft.controls
 				slider.value = numBuildings;
 			}
 			
-			level = building.level;
+			level = building.get_level();
 		}
 	}
 }

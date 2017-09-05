@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
-import com.gerantech.towercraft.controls.segments.FriendsSegment;
+import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
 import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
@@ -77,7 +77,7 @@ import starling.events.Event;
 					segment = new LobbyCreateSegment();
 					break;
 				case SegmentType.S13_FRIENDS:
-					segment = new FriendsSegment();
+					segment = new BuddiesSegment();
 					break;
 				
 				default:

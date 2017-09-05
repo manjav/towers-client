@@ -1,9 +1,14 @@
 package com.gerantech.towercraft.controls.overlays
 {
+	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	
 	import dragonBones.events.EventObject;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingEvent;
 	import dragonBones.starling.StarlingFactory;
+	
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
 	
 	import starling.display.DisplayObject;
 	import starling.events.Event;
@@ -13,6 +18,8 @@ package com.gerantech.towercraft.controls.overlays
 		public var ready:Boolean;
 		
 		private var armatureDisplay:StarlingArmatureDisplay ;
+
+		private var tipDisplay:RTLLabel;
 		
 		public function WaitingOverlay()
 		{
@@ -23,6 +30,19 @@ package com.gerantech.towercraft.controls.overlays
 				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
 				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
 			}
+		}
+		override protected function initialize():void
+		{
+			super.initialize();
+						
+			layout = new AnchorLayout();
+			var padding:int = 36 * appModel.scale;
+			tipDisplay = new RTLLabel(loc("tip_"+Math.min(player.get_arena(0), 1)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center");
+			tipDisplay.x = padding;
+			tipDisplay.y = stage.stageHeight - padding*5;
+			tipDisplay.width = stage.stageWidth-padding*2;
+			tipDisplay.touchable = false;
+			addChild(tipDisplay);
 		}
 		
 		override protected function defaultOverlayFactory():DisplayObject

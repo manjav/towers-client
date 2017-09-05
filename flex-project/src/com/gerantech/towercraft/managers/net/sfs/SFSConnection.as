@@ -207,6 +207,13 @@ package com.gerantech.towercraft.managers.net.sfs
 			sfs.removeEventListener(SFSEvent.LOGIN_ERROR,			sfs_loginErrorHandler);
 			sfs.removeEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 		}*/
+		public function getLobby():Room
+		{
+			for each (var r:Room in SFSConnection.instance.roomList) 
+				if( r.groupId == "lobbies" )
+					return r;
+			return null;
+		}
 
 		public static function get instance():SFSConnection
 		{

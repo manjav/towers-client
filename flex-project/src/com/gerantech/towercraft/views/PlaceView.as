@@ -159,7 +159,7 @@ package com.gerantech.towercraft.views
 			var p:int = place.building._population;
 			//trace("replaceBuilding", place.index, type, level, place.building._population);
 			place.building = BuildingType.instantiate(AppModel.instance.game ,type, place, place.index);
-			place.building.level = level;
+			place.building.set_level( level );
 			createDecorator();
 			if( type == BuildingType.B01_CAMP )
 				update(p,tt);

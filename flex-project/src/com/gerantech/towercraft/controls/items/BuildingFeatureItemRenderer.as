@@ -25,9 +25,9 @@ package com.gerantech.towercraft.controls.items
 			titleDisplay.text = loc("building_feature_" + feature);
 			
 			var baseValue:Number = building.getFeatureBaseValue(feature);
-			building.level ++;
+			building.set_level( building.get_level() + 1 );
 			var newValue:Number = building.getFeatureValue(feature);
-			building.level --;
+			building.set_level( building.get_level() - 1 );
 			var oldValue:Number = building.getFeatureValue(feature);
 
 			var diff:Number = newValue - oldValue;
