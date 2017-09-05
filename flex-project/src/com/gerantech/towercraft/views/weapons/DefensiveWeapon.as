@@ -15,12 +15,16 @@ package com.gerantech.towercraft.views.weapons
 		private var placeView:PlaceView;
 		private var hitTimeoutId:uint;
 		private var disposed:Boolean;
+		private var minDamagRadius:Number;
+		private var maxDamagRadius:Number;
 
 		public function DefensiveWeapon(placeView:PlaceView)
 		{
 			//trace(placeView.place.index, "DefensiveWeapon")
 			this.placeView = placeView;
 			hitTimeoutId = setInterval(hitTestTroopsInterval, placeView.place.building.get_damageGap());
+			minDamagRadius = AppModel.instance.scale * 3;
+			maxDamagRadius = AppModel.instance.scale * placeView.place.building.get_damageRadius();
 		}
 		
 		private function hitTestTroopsInterval():void
@@ -50,7 +54,7 @@ package com.gerantech.towercraft.views.weapons
 				return false;
 			
 			var distance:Number = Math.sqrt(Math.pow(placeView.x-troop.x, 2) + Math.pow((placeView.y-troop.y)*1.2, 2));
-			if(distance < placeView.place.building.get_damageRadius() && distance > 0.5)
+			if( distance > minDamagRadius && distance < maxDamagRadius )
 				return true
 			
 			return false;
