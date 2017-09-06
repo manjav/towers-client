@@ -53,7 +53,7 @@ package com.gerantech.towercraft.managers.net
 		
 		public function resetAllVars():void
 		{
-			send(SFSCommands.RESET_ALL_VARS, null, room, false);			
+			send(SFSCommands.RESET_ALL, null, room, false);			
 		}
 		
 		public function sendSticker(stickerType:int):void
