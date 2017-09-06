@@ -30,7 +30,6 @@ override public function init():void
 	addChild(background);
 	
 	actionButton = new CustomButton();
-	actionButton.style = "danger";
 	actionButton.layoutData = new AnchorLayoutData( NaN, padding*0.5, NaN, NaN, NaN, 0);
 	addChild(actionButton);
 	
@@ -47,6 +46,7 @@ override public function commitData(_data:ISFSObject):void
 	
 	if( data.getShort("st") == 0 )
 	{
+		actionButton.style = itsMe ? "neutral" : "danger";
 		actionButton.label = loc( itsMe ? "popup_cancel_label" : "lobby_battle_accept" );
 		messageDisplay.text = loc( itsMe ? "lobby_battle_me" : "lobby_battle_request", [data.getText("s")]);
 	}
