@@ -8,7 +8,6 @@ package com.gerantech.towercraft.controls.overlays
 	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
 	
 	import starling.display.DisplayObject;
 	import starling.events.Event;
