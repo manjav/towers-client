@@ -9,14 +9,13 @@ package com.gerantech.towercraft.controls.buttons
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.layout.ILayoutData;
 	import feathers.skins.ImageSkin;
 	
 	import starling.textures.Texture;
 	
 	public class CustomButton extends SimpleLayoutButton
 	{
-		public var style:String = "normal"
+		private var _style:String = "normal"
 		public var iconPosition:Point;
 		
 		private var labelDisplay:RTLLabel;
@@ -29,6 +28,10 @@ package com.gerantech.towercraft.controls.buttons
 		private var _label:String = "";
 		private var _icon:Texture;
 		private var padding:Number;
+
+		private var defaultTextue:Texture;
+
+		private var downTextue:Texture;
 		
 		public function CustomButton()
 		{
@@ -46,22 +49,24 @@ package com.gerantech.towercraft.controls.buttons
 		}
 
 
+		public function get style():String
+		{
+			return _style;
+		}
+		public function set style(value:String):void
+		{
+			if( _style == value )
+				return;
+			
+			_style = value;
+			updateTextures();
+		}
+
 		override protected function initialize():void
 		{
 			super.initialize();
 			
-			var defaultTextue:Texture = appModel.theme.buttonUpSkinTexture;
-			if( style == "danger" )
-				defaultTextue = appModel.theme.buttonDangerUpSkinTexture;
-			else if( style == "neutral" )
-				defaultTextue = appModel.theme.buttonNeutralUpSkinTexture;
-				
-			var downTextue:Texture = appModel.theme.buttonDownSkinTexture;
-			if( style == "danger" )
-				downTextue = appModel.theme.buttonDangerDownSkinTexture;
-			else if( style == "neutral" )
-				downTextue = appModel.theme.buttonNeutralDownSkinTexture;
-			
+			updateTextures();
 			skin = new ImageSkin(defaultTextue);
 			skin.setTextureForState(ButtonState.UP, defaultTextue);
 			skin.setTextureForState(ButtonState.DOWN, downTextue);
@@ -87,6 +92,20 @@ package com.gerantech.towercraft.controls.buttons
 			addChild(iconDisplay);
 		}
 		
+		private function updateTextures():void
+		{
+			defaultTextue = appModel.theme.buttonUpSkinTexture;
+			if( style == "danger" )
+				defaultTextue = appModel.theme.buttonDangerUpSkinTexture;
+			else if( style == "neutral" )
+				defaultTextue = appModel.theme.buttonNeutralUpSkinTexture;
+			
+			downTextue = appModel.theme.buttonDownSkinTexture;
+			if( style == "danger" )
+				downTextue = appModel.theme.buttonDangerDownSkinTexture;
+			else if( style == "neutral" )
+				downTextue = appModel.theme.buttonNeutralDownSkinTexture;			
+		}		
 		
 		public function get label():String
 		{
