@@ -10,10 +10,6 @@ package com.gerantech.towercraft.controls.popups
 	
 	public class BasePopup extends BaseOverlay
 	{
-		public function BasePopup()
-		{
-			super();
-		}
 		
 		override protected function initialize():void
 		{
