@@ -34,6 +34,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		
 		public static const BUDDY_ADD:String = "buddyAdd";
 		public static const BUDDY_REMOVE:String = "buddyRemove";
+		public static const BUDDY_BATTLE:String = "buddyBattle";
 
 	}
 }
