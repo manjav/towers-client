@@ -10,6 +10,7 @@ import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.SegmentType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.smartfoxserver.v2.entities.Room;
 
 import flash.utils.setTimeout;
 
@@ -128,11 +129,7 @@ private function tabsList_changeHandler(event:Event):void
 
 private function refreshListData(): void
 {
-	if ( SFSConnection.instance.lastJoinedRoom!=null && SFSConnection.instance.lastJoinedRoom.groupId=="lobbies" )
-		SFSConnection.instance.myLobby = SFSConnection.instance.lastJoinedRoom ;
-	else if( SFSConnection.instance.lastJoinedRoom == null )
-		SFSConnection.instance.myLobby = null;
-		
+	SFSConnection.instance.myLobby = SFSConnection.instance.getLobby();
 	if( listCollection == null )
 		listCollection = new ListCollection();
 	else

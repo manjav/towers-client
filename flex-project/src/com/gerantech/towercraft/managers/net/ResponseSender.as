@@ -48,12 +48,12 @@ package com.gerantech.towercraft.managers.net
 		
 		public function leave():void
 		{
-			send(SFSCommands.LEAVE, null, room);			
+			send(SFSCommands.LEAVE, null, room, false);			
 		}
 		
 		public function resetAllVars():void
 		{
-			send(SFSCommands.RESET_ALL_VARS, null, room);			
+			send(SFSCommands.RESET_ALL_VARS, null, room, false);			
 		}
 		
 		public function sendSticker(stickerType:int):void
@@ -63,17 +63,14 @@ package com.gerantech.towercraft.managers.net
 			send(SFSCommands.SEND_STICKER, sfsObj, room);			
 		}
 		
-		
-		
-		
-		
-		private function send (extCmd:String, params:ISFSObject, room:Room) : Boolean
+		private function send (extCmd:String, params:ISFSObject, room:Room, dislabledForSpectators:Boolean=true) : Boolean
 		{
-			if ( !actived )
+			if( !actived )
+				return false;
+			if ( dislabledForSpectators && SFSConnection.instance.mySelf.isSpectator )
 				return false;
 			SFSConnection.instance.sendExtensionRequest(extCmd, params, room);
 			return true;
-	
 		}
 	}
 }

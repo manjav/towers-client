@@ -5,6 +5,8 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.ShadowLabel;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.BattleData;
 	import com.gerantech.towercraft.utils.StrUtils;
@@ -66,7 +68,7 @@ package com.gerantech.towercraft.controls
 			gradient.source = Assets.getTexture("grad-ro-right", "skin");
 			addChild(gradient);
 			
-			var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3;
+			var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3 || SFSConnection.instance.mySelf.isSpectator;
 			padding = 16 * appModel.scale;
 			var leftPadding:int = (hasQuit ? 160 : 16) * appModel.scale;
 			if( hasQuit )
@@ -82,7 +84,8 @@ package com.gerantech.towercraft.controls
 			
 			
 			// main name
-			var _name:String = battleData.opponent!=null ? battleData.opponent.getText("name") : (battleData.map.isQuest ? (loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1)) : battleData.map.name);
+			
+			var _name:String = battleData.map.isQuest ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.opponent.getVariable("name").getStringValue();
 			var nameShadow:RTLLabel = new RTLLabel(_name, 0, "left", null, false, null, 1.2);
 			nameShadow.layoutData = new AnchorLayoutData(padding*0.5, NaN, NaN, leftPadding );
 			addChild(nameShadow);
@@ -91,7 +94,7 @@ package com.gerantech.towercraft.controls
 			addChild(nameLabel);
 			
 			// point name
-			if( battleData.opponent!=null )
+			if( !battleData.map.isQuest )
 			{
 				var pointIcon:ImageLoader = new ImageLoader();
 				pointIcon.width = padding*5;
@@ -99,12 +102,13 @@ package com.gerantech.towercraft.controls
 				pointIcon.layoutData = new AnchorLayoutData(padding*5, NaN, NaN, leftPadding-padding*0.5 );
 				addChild(pointIcon);
 
-				var pointShadow:RTLLabel = new RTLLabel(battleData.opponent.getInt("point").toString(), 0, "left", null, false, null, 0.9);
-				pointShadow.layoutData = new AnchorLayoutData(padding*5.6, NaN, NaN, leftPadding+padding*5 );
-				addChild(pointShadow);
-				var pointLabel:RTLLabel = new RTLLabel(battleData.opponent.getInt("point").toString(), 1, "left", null, false, null, 0.9);
+				var pointDisplay:ShadowLabel = new ShadowLabel(battleData.opponent.getVariable("point").getIntValue().toString(), 1, 0, "left", null, false, null, 0.9);
+				//var pointShadow:RTLLabel = new RTLLabel(battleData.opponent.getInt("point").toString(), 0, "left", null, false, null, 0.9);
+				pointDisplay.layoutData = new AnchorLayoutData(padding*5.6, NaN, NaN, leftPadding+padding*5 );
+				addChild(pointDisplay);
+				/*var pointLabel:RTLLabel = new RTLLabel(battleData.opponent.getInt("point").toString(), 1, "left", null, false, null, 0.9);
 				pointLabel.layoutData = new AnchorLayoutData(padding*5.3, NaN, NaN, leftPadding+padding*5 );
-				addChild(pointLabel);
+				addChild(pointLabel);*/
 			}
 			
 			timerSlider = new BattleTimerSlider();
@@ -120,11 +124,14 @@ package com.gerantech.towercraft.controls
 			
 			if( !battleData.map.isQuest )
 			{
-				var stickerButton:Button = new Button();
-				stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
-				stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
-				stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
-				addChild(stickerButton);
+				if( !SFSConnection.instance.mySelf.isSpectator )
+				{
+					var stickerButton:Button = new Button();
+					stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
+					stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
+					stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
+					addChild(stickerButton);
+				}
 				
 				myBubble = new StickerBubble();
 				myBubble.layoutData = new AnchorLayoutData( NaN, padding, padding);

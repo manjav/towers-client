@@ -9,14 +9,17 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
+	import com.gt.towers.battle.BattleField;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -30,6 +33,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Point;
+	import flash.utils.setTimeout;
 	
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
@@ -44,7 +48,9 @@ package com.gerantech.towercraft.controls.screens
 
 	public class BattleScreen extends BaseCustomScreen
 	{
+		public var isFriendly:Boolean;
 		public var requestField:FieldData;
+		public var spectatedUser:String;
 		public var waitingOverlay:WaitingOverlay;
 		
 		private var sourcePlaces:Vector.<PlaceView>;
@@ -63,11 +69,14 @@ package com.gerantech.towercraft.controls.screens
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putBool("q", requestField!=null&&requestField.isQuest);
 			sfsObj.putInt("i", requestField!=null&&requestField.isQuest ? requestField.index : 0);
+			if( spectatedUser != null && spectatedUser != "" )
+				sfsObj.putText("su", spectatedUser);
 
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+			if( !isFriendly )
+				sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
 			
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		}
@@ -82,7 +91,7 @@ package com.gerantech.towercraft.controls.screens
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
-					var battleData:BattleData = new BattleData(data.getText("mapName"), data.getSFSObject("opponent"), data.getInt("troopType"), data.getInt("startAt"), data.getBool("singleMode"), sfsConnection.getRoomById(data.getInt("roomId")));
+					var battleData:BattleData = new BattleData(data);
 					appModel.battleFieldView = new BattleFieldView();
 					addChild(appModel.battleFieldView);
 					appModel.battleFieldView.createPlaces(battleData);
@@ -165,9 +174,10 @@ package com.gerantech.towercraft.controls.screens
 			{
 				appModel.battleFieldView.responseSender.resetAllVars();
 				appModel.loadingManager.inBattle = false;
-			}		
-			
-			addEventListener(TouchEvent.TOUCH, touchHandler);
+			}
+
+			if( !sfsConnection.mySelf.isSpectator )
+				addEventListener(TouchEvent.TOUCH, touchHandler);
 			
 			// play battle theme -_-_-_
 			appModel.sounds.stopSound("main-theme");
@@ -176,7 +186,22 @@ package com.gerantech.towercraft.controls.screens
 			
 			//Game Analytic
 			if(GameAnalytics.isInitialized)
-				GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
+			{
+				if(AppModel.instance.game.player.inFriendlyBattle)
+				{
+					if(sfsConnection.mySelf.isSpectator)
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FB-Spectator", quest.index.toString());
+					else
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
+				}
+				else
+				{
+					if(sfsConnection.mySelf.isSpectator)
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "Spectator", quest.index.toString());
+					else
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
+				}
+			}
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -208,9 +233,12 @@ package com.gerantech.towercraft.controls.screens
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
 			
 			// Game Analytic
-			if( GameAnalytics.isInitialized )
+			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator)
 			{
-				GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
+				if(AppModel.instance.game.player.inFriendlyBattle)
+					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
+				else
+					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
 				for each (var k:int in outcomes.keys())
 					GameAnalytics.addResourceEvent(GAResourceFlowType.SINK, k.toString(), outcomes.get(k), quest.isQuest?"Quests":"Battles", "BattleOutCome-reward");
 				
@@ -294,7 +322,7 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function touchHandler(event:TouchEvent):void
 		{
-			var tp:PlaceView; 
+			var tp:PlaceView;
 			var touch:Touch = event.getTouch(this);
 			if(touch == null)
 				return;
@@ -356,6 +384,17 @@ package com.gerantech.towercraft.controls.screens
 						sourcePlaces.removeAt(self);
 					}
 					
+					// force improve in tutorial mode
+					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
+					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
+					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP )
+					{
+						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
+						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
+						clearSources(sourcePlaces);
+						return;
+					}
+
 					// check sources has a path to destination
 					var all:PlaceList = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
@@ -422,31 +461,18 @@ package com.gerantech.towercraft.controls.screens
 				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}
+
 		
-		private function removeConnectionListeners():void
-		{
-			removeEventListener(TouchEvent.TOUCH, touchHandler);
-			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
-		}
-		
-		override protected function screen_removedFromStageHandler(event:Event):void
-		{
-			trace("screen_removedFromStageHandler");
-			super.screen_removedFromStageHandler(event);
-			removeConnectionListeners();
-		}
-		
-		override public function dispose():void
-		{
-			appModel.sounds.playSoundUnique("main-theme", 1, 100);
-			appModel.battleFieldView.dispose();
-			super.dispose();
-		}
 		override protected function backButtonFunction():void
 		{
-			if(!appModel.battleFieldView.battleData.map.isQuest)
+			if( sfsConnection.mySelf.isSpectator )
+			{
+				appModel.battleFieldView.responseSender.leave();
+				dispatchEventWith(Event.COMPLETE);
+				return;
+			}
+			
+			if( !appModel.battleFieldView.battleData.map.isQuest )
 				return;
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("popup_exit_label"), loc("popup_continue_label"));
@@ -456,6 +482,23 @@ package com.gerantech.towercraft.controls.screens
 			function confirm_eventsHandler():void {
 				appModel.battleFieldView.responseSender.leave();
 			}
+		}
+		
+		override public function dispose():void
+		{
+			player.inFriendlyBattle = false;
+			removeConnectionListeners();
+			appModel.sounds.playSoundUnique("main-theme", 1, 100);
+			appModel.battleFieldView.dispose();
+			super.dispose();
+		}
+		
+		private function removeConnectionListeners():void
+		{
+			removeEventListener(TouchEvent.TOUCH, touchHandler);
+			sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 		}
 	}
 
