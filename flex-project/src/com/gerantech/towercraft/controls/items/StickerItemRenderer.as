@@ -9,7 +9,6 @@ package com.gerantech.towercraft.controls.items
 	import feathers.layout.AnchorLayoutData;
 	
 	import starling.display.Image;
-	import starling.display.Quad;
 
 	public class StickerItemRenderer extends BaseCustomItemRenderer
 	{

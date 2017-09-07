@@ -26,6 +26,7 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.TiledColumnsLayout;
+	import feathers.layout.TiledRowsLayout;
 	import feathers.layout.VerticalAlign;
 	
 	import starling.animation.Transitions;
@@ -205,7 +206,7 @@ package com.gerantech.towercraft.controls
 		{
 			if( stickerList == null )
 			{
-				var stickersLayout:TiledColumnsLayout = new TiledColumnsLayout();
+				var stickersLayout:TiledRowsLayout = new TiledRowsLayout();
 				stickersLayout.padding = stickersLayout.gap = padding;
 				stickersLayout.tileHorizontalAlign = HorizontalAlign.JUSTIFY;
 				stickersLayout.tileVerticalAlign = VerticalAlign.JUSTIFY;
@@ -221,7 +222,6 @@ package com.gerantech.towercraft.controls
 				stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 				stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
 				stickerList.dataProvider = new ListCollection(StickerType.getAll()._list);
-
 				
 				stickerCloserOveraly = new SimpleLayoutButton();
 				stickerCloserOveraly.backgroundSkin = new Quad(1,1,0);
