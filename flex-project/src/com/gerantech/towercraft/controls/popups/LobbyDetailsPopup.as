@@ -99,7 +99,7 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 
 	var features:Array = new Array();
 	features.push( {key:"min", value:sfsData.getInt("min")} );
-	features.push( {key:"sum", value:roomData.sum} );
+	features.push( {key:"sum", value:Math.floor(roomData.sum/roomData.num)} );
 	features.push( {key:"max", value:roomData.max} );
 	
 	//trace(sfsData.getDump())

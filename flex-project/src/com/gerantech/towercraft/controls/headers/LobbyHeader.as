@@ -25,6 +25,8 @@ private var members:ISFSArray;
 
 private var scoreDisplay:RTLLabel;
 
+private var infoButton:CustomButton;
+
 public function LobbyHeader(room:Room)
 {
 	super();
@@ -56,7 +58,7 @@ override protected function initialize():void
 	usersDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*9:NaN, NaN, appModel.isLTR?NaN:padding*9, NaN, -padding*0.5 );
 	addChild(usersDisplay);
 	
-	var infoButton:CustomButton = new CustomButton();
+	infoButton = new CustomButton();
 	infoButton.label = "i";
 	infoButton.width = infoButton.height = 84*appModel.scale;
 	infoButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 , NaN, -padding*0.5);
@@ -91,7 +93,7 @@ protected function room_userChangeHandler(event:SFSEvent):void
 
 protected function infoButton_triggeredHandler(event:Event):void
 {
-	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:room.id, name:room.name, num:members.size(), sum:lobbyScore, max:room.maxUsers});
+	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:room.id, name:room.name, num:members.size(), sum:lobbyScore*members.size(), max:room.maxUsers});
 	detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	function detailsPopup_updateHandler(ev:Event):void 
@@ -100,6 +102,14 @@ protected function infoButton_triggeredHandler(event:Event):void
 		dispatchEventWith(Event.UPDATE, true, ev.data);
 	}
 }
+
+override public function set isEnabled(value:Boolean):void
+{
+	super.isEnabled = value;
+	infoButton.isEnabled = value;
+}
+
+
 override public function dispose():void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);

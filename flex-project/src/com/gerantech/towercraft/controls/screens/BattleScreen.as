@@ -29,6 +29,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
+	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
@@ -103,6 +104,10 @@ package com.gerantech.towercraft.controls.screens
 					appModel.sounds.addAndPlaySound("battle-improve");
 					break;
 				
+				case SFSCommands.RESET_ALL:
+					resetAll(data);
+					break;
+				
 				case SFSCommands.LEFT_BATTLE:
 				case SFSCommands.REJOIN_BATTLE:
 					//trace(event.params.cmd, data.getText("user"))
@@ -170,11 +175,10 @@ package com.gerantech.towercraft.controls.screens
 			
 			sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 			
-			if(appModel.loadingManager.inBattle)
-			{
+			if( timeManager.now - appModel.battleFieldView.battleData.startAt > 5 )
 				appModel.battleFieldView.responseSender.resetAllVars();
-				appModel.loadingManager.inBattle = false;
-			}
+
+			appModel.loadingManager.inBattle = false;
 
 			if( !sfsConnection.mySelf.isSpectator )
 				addEventListener(TouchEvent.TOUCH, touchHandler);
@@ -317,7 +321,16 @@ package com.gerantech.towercraft.controls.screens
 				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
 			}			
 		}
-
+		private function resetAll(data:SFSObject):void
+		{
+			var bSize:int = data.getSFSArray("buildings").size();
+			for( var i:int=0; i < bSize; i++ )
+			{
+				var b:ISFSObject = data.getSFSArray("buildings").getSFSObject(i);
+				appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"));
+				appModel.battleFieldView.places[b.getInt("i")].update(b.getInt("p"), b.getInt("tt"));
+			}
+		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function touchHandler(event:TouchEvent):void

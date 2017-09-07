@@ -40,6 +40,7 @@ private var messageCollection:ListCollection;
 private var header:LobbyHeader;
 private var headerSize:int;
 private var startScrollBarIndicator:Number = 0;
+private var _buttonsEnabled:Boolean = true;
 
 public function LobbyChatSegment()
 {
@@ -47,6 +48,18 @@ public function LobbyChatSegment()
 	params.putInt("id", SFSConnection.instance.myLobby.id);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_INFO, params, SFSConnection.instance.myLobby);
+}
+
+public function set buttonsEnabled(value:Boolean):void
+{
+	if( _buttonsEnabled == value )
+		return;
+	
+	_buttonsEnabled = value;
+	header.isEnabled = _buttonsEnabled;
+	inputText.isEnabled = _buttonsEnabled;
+	sendButton.isEnabled = _buttonsEnabled;
+	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }
 
 protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
@@ -58,7 +71,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	layout = new AnchorLayout();
 	
 	messageCollection = new ListCollection();
-	var data:ISFSObject = event.params.params as SFSObject;trace(data.getDump());
+	var data:ISFSObject = event.params.params as SFSObject;
 	for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
 		messageCollection.addItem(data.getSFSArray("messages").getSFSObject(i));
 	
@@ -137,6 +150,7 @@ private function chatList_changeHandler(event:Event):void
 
 private function gotoBattle():void
 {
+	buttonsEnabled = true;
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.isFriendly = true;
 	item.properties.waitingOverlay = new WaitingOverlay() ;
@@ -164,6 +178,7 @@ protected function sendButton_triggeredHandler(event:Event):void
 }
 protected function battleButton_triggeredHandler(event:Event):void
 {
+	buttonsEnabled = !_buttonsEnabled;
 	var readyBattleIndex:int = containMyBattle();
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
@@ -192,6 +207,8 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			var battleMsg:ISFSObject = messageCollection.getItemAt(lastBattleIndex) as SFSObject;
 			if( msg.getShort("st") >= 2 )
 			{
+				if( battleMsg.getInt("i") == player.id )
+					buttonsEnabled = true;
 				messageCollection.removeItemAt(lastBattleIndex);
 			}
 			else
@@ -230,6 +247,8 @@ private function containMyBattle():int
 			return i;
 	return -1;
 }
+
+
 
 override public function dispose():void
 {

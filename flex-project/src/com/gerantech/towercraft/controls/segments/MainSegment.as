@@ -121,15 +121,22 @@ public class MainSegment extends Segment
 		{
 			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton);
 		}
-		else if(player.nickName == "guest")
+		else
 		{
-			var confirm:SelectNamePopup = new SelectNamePopup();
-			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
-			appModel.navigator.addPopup(confirm);
-			function confirm_eventsHandler():void {
-				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-				punchButton(getChildByName("portal-center") as SimpleButton);
-				intervalId = setInterval(punchButton, 2000,  getChildByName("portal-center") as SimpleButton);
+			if( player.nickName == "guest" )
+			{
+				var confirm:SelectNamePopup = new SelectNamePopup();
+				confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+				appModel.navigator.addPopup(confirm);
+				function confirm_eventsHandler():void {
+					confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
+					punchButton(getChildByName("portal-center") as SimpleButton);
+					intervalId = setInterval(punchButton, 2000,  getChildByName("portal-center") as SimpleButton);
+				}
+			}
+			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
+			{
+				intervalId = setInterval(punchButton, 3000,  getChildByName("gold-leaf") as SimpleButton);
 			}
 		}
 	}

@@ -11,11 +11,13 @@ import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.SFSBuddy;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
 
@@ -39,6 +41,7 @@ public class BuddiesSegment extends Segment
 private var list:FastList;
 private var buttonsPopup:SimpleListPopup;
 private var buddyCollection:ListCollection;
+private var _buttonsEnabled:Boolean = true;
 public function BuddiesSegment()
 {
 	SFSConnection.instance.buddyManager.setInited(true);
@@ -46,6 +49,7 @@ public function BuddiesSegment()
 	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_ONLINE_STATE_UPDATE,	sfs_buddyVariablesUpdateHandler); 
 	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_ADD,					sfs_buddyChangeHandler); 
 	SFSConnection.instance.addEventListener(SFSBuddyEvent.BUDDY_REMOVE,					sfs_buddyChangeHandler); 
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, 				sfs_buddyBattleHandler);
 }
 
 override public function updateData():void
@@ -173,7 +177,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 			appModel.navigator.addPopup( new ProfilePopup(buddy.nickName, int(buddy.name)) );
 			break;
 		case "buddy_battle":
-			appModel.navigator.addLog(loc("unavailable_messeage"));
+			appModel.navigator.invokeBuddyBattle(buddy);
 			break;
 		case "buddy_remove":
 			removeFriend(buddy);
@@ -182,6 +186,16 @@ private function buttonsPopup_selectHandler(event:Event):void
 			spectate(buddy);
 			break;
 	}
+}
+
+protected function sfs_buddyBattleHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.BUDDY_BATTLE )
+		return;
+	var p:ISFSObject = event.params.params as SFSObject;
+	if( p.getShort("bs") == 0 && p.getInt("s") != AppModel.instance.game.player.id )
+		return;
+	buttonsEnabled = p.getShort("bs") > 0;
 }
 
 private function spectate(buddy:Buddy):void
@@ -207,22 +221,34 @@ private function removeFriend( buddy:Buddy ):void
 		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 		var params:SFSObject = new SFSObject();
 		params.putText("buddyId", buddy.name);
-		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyRemoveHandler);
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.BUDDY_REMOVE, params);
 	}
 }
 
-protected function sfsConnection_responseHandler(event:SFSEvent):void
+protected function sfs_buddyRemoveHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.BUDDY_REMOVE )
 		return;
 	
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyRemoveHandler);
 	appModel.navigator.addLog(loc("buddy_remove_message"));
 }
 
+public function set buttonsEnabled(value:Boolean):void
+{
+	if( _buttonsEnabled == value )
+		return;
+	
+	_buttonsEnabled = value;
+	dispatchEventWith(Event.READY, true, _buttonsEnabled);
+	list.isEnabled = _buttonsEnabled;
+
+}
 override public function dispose():void
 {
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, 			sfs_buddyRemoveHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, 			sfs_buddyBattleHandler);
 	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_VARIABLES_UPDATE,	sfs_buddyVariablesUpdateHandler); 
 	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_ONLINE_STATE_UPDATE,	sfs_buddyVariablesUpdateHandler); 
 	SFSConnection.instance.removeEventListener(SFSBuddyEvent.BUDDY_ADD,					sfs_buddyChangeHandler); 
