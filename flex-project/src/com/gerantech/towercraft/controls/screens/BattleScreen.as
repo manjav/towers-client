@@ -189,15 +189,17 @@ package com.gerantech.towercraft.controls.screens
 			{
 				if(AppModel.instance.game.player.inFriendlyBattle)
 				{
-					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
 					if(sfsConnection.mySelf.isSpectator)
 						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FB-Spectator", quest.index.toString());
+					else
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
 				}
 				else
 				{
-					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
 					if(sfsConnection.mySelf.isSpectator)
 						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "Spectator", quest.index.toString());
+					else
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
 				}
 			}
 		}
