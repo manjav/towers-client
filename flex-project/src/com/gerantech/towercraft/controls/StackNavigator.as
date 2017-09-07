@@ -10,6 +10,7 @@ import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
+import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
@@ -41,6 +42,12 @@ public class StackNavigator extends StackScreenNavigator
 public function StackNavigator()
 {
 	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+}
+
+protected function loadingManager_loadedHandler(event:LoadingEvent):void
+{
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
 }
 
 private function addedToStageHandler(event:Event):void
@@ -58,7 +65,6 @@ private function addedToStageHandler(event:Event):void
 	GameLog.GAP = 80 * AppModel.instance.scale;
 	logsContainer = new LayoutGroup();
 	parent.addChild(logsContainer);
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
 }		
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  POPUPS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
