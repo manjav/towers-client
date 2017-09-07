@@ -110,13 +110,16 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
 	
-	memberCollection = new ListCollection(SFSArray(sfsData.getSFSArray("all")).toArray());
+	var ms:Array = SFSArray(sfsData.getSFSArray("all")).toArray();
+	ms.sortOn("po", Array.NUMERIC|Array.DESCENDING);
+	memberCollection = new ListCollection(ms);
+	
 	var membersList:FastList = new FastList();
 	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("slider-background", "skin");
 	membersList.layoutData = new AnchorLayoutData(padding*16, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
-	membersList.dataProvider = memberCollection
+	membersList.dataProvider = memberCollection;
 	addChild(membersList);
 	
 	var room:Room = SFSConnection.instance.myLobby;
