@@ -56,10 +56,10 @@ public function set buttonsEnabled(value:Boolean):void
 		return;
 	
 	_buttonsEnabled = value;
-	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 	header.isEnabled = _buttonsEnabled;
 	inputText.isEnabled = _buttonsEnabled;
 	sendButton.isEnabled = _buttonsEnabled;
+	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }
 
 protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
@@ -71,7 +71,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	layout = new AnchorLayout();
 	
 	messageCollection = new ListCollection();
-	var data:ISFSObject = event.params.params as SFSObject;trace(data.getDump());
+	var data:ISFSObject = event.params.params as SFSObject;
 	for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
 		messageCollection.addItem(data.getSFSArray("messages").getSFSObject(i));
 	
@@ -207,7 +207,8 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			var battleMsg:ISFSObject = messageCollection.getItemAt(lastBattleIndex) as SFSObject;
 			if( msg.getShort("st") >= 2 )
 			{
-				buttonsEnabled = battleMsg.getInt("i") == player.id;
+				if( battleMsg.getInt("i") == player.id )
+					buttonsEnabled = true;
 				messageCollection.removeItemAt(lastBattleIndex);
 			}
 			else
