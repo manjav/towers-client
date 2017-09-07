@@ -188,11 +188,17 @@ package com.gerantech.towercraft.controls.screens
 			if(GameAnalytics.isInitialized)
 			{
 				if(AppModel.instance.game.player.inFriendlyBattle)
-					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"FriendlyQuests":"FriendlyBattles", quest.index.toString());
-				if(sfsConnection.mySelf.isSpectator)
-					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"SpectatorQuests":"SpectatorBattles", quest.index.toString());
+				{
+					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
+					if(sfsConnection.mySelf.isSpectator)
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FB-Spectator", quest.index.toString());
+				}
 				else
+				{
 					GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
+					if(sfsConnection.mySelf.isSpectator)
+						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "Spectator", quest.index.toString());
+				}
 			}
 		}
 		
@@ -225,9 +231,12 @@ package com.gerantech.towercraft.controls.screens
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
 			
 			// Game Analytic
-			if( GameAnalytics.isInitialized && !AppModel.instance.game.player.inFriendlyBattle && !sfsConnection.mySelf.isSpectator)
+			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator)
 			{
-				GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
+				if(AppModel.instance.game.player.inFriendlyBattle)
+					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
+				else
+					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
 				for each (var k:int in outcomes.keys())
 					GameAnalytics.addResourceEvent(GAResourceFlowType.SINK, k.toString(), outcomes.get(k), quest.isQuest?"Quests":"Battles", "BattleOutCome-reward");
 				
