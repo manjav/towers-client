@@ -35,27 +35,11 @@ package
 				var str:String = improveLevel + " : ";
 				for(var level:int=1; level<=10; level++)
 				{
-					str += level + "[" + ((  1.1 + ( Math.log(level) * 0.7 + Math.log(improveLevel) ) * 0.3  )).toFixed(2) + "-" ;
-					str += ((  1.05 + ( Math.log(level) * 0.7 + Math.log(improveLevel) ) * 0.3  )).toFixed(2) + "] " ;
+					str += level + "[" + ((  0.25 + Math.log(level) * 0.25 + Math.log(improveLevel) * 0.3  )).toFixed(2) + "   " ;
 				}
 				trace(str);
 			}
 			return;*/
-/*			var spawnGap:Number;
-			trace("\n##### Barrack:\n");
-			for (var level:int = 1; level < 11; level++) 
-			{
-				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(1)/Math.log(2.7) ) * 200 );
-				trace("spawnGap level(", level, ")--> \nType 11: ", spawnGap);
-				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(2)/Math.log(2.7) ) * 200 );
-				trace("    Type 12: ", spawnGap);
-				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(3)/Math.log(2.7) ) * 200 );
-				trace("        Type 13: ", spawnGap);
-				spawnGap = 2000 - Math.round( ( (Math.log(level)*Math.log(level))/(Math.log(2.7)*Math.log(2.7)) + 3*Math.log(4)/Math.log(2.7) ) * 200 );
-				trace("            Type 14: ", spawnGap);
-			}
-			return;*/
-			
 
 			t = getTimer();
 			if(this.stage)
