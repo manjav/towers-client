@@ -54,12 +54,18 @@ package com.gerantech.towercraft.controls.popups
 		protected override function acceptButton_triggeredHandler(event:Event):void
 		{
 			var selectedName:String = textInput.text;
-			if ( selectedName.length < game.loginData.nameMinLen || selectedName.length > game.loginData.nameMaxLen )
+			var nameLen:int = selectedName.length;
+			if ( nameLen < game.loginData.nameMinLen || nameLen > game.loginData.nameMaxLen )
 			{
-				errorDisplay.text = loc( "popup_select_name_size", [game.loginData.nameMinLen, game.loginData.nameMaxLen] );
+				errorDisplay.text = loc( "text_size_warn", [loc("popup_select_name_prompt"), game.loginData.nameMinLen, game.loginData.nameMaxLen] );
 				return;
 			}
 			
+			if ( selectedName.substr(nameLen-2) == " " || selectedName.substr(0,1) == " " || selectedName.indexOf("  ") > -1 || selectedName=="root" || selectedName=="super-user" )
+			{
+				errorDisplay.text = loc("popup_select_name_invalid");
+				return;
+			}
 			var sfs:SFSObject = SFSObject.newInstance();
 			sfs.putUtfString( "name", selectedName );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
