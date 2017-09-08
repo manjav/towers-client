@@ -25,10 +25,11 @@ package com.gerantech.towercraft.controls.headers
 			super.initialize();
 
 			height = 120 * AppModel.instance.scale;
-			var padding:Number = 44 * AppModel.instance.scale;
+			var padding:Number = 36 * AppModel.instance.scale;
 			layout = new AnchorLayout();
 			
 			pointIndicator = new Indicator("ltr", ResourceType.POINT, false, false);
+			pointIndicator.width = 150 * appModel.scale;
 			pointIndicator.layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding, NaN, 0);
 			addChild(pointIndicator);
 			
