@@ -202,10 +202,13 @@ package com.gerantech.towercraft.controls.screens
 				player.quests.set(quest.index, score);
 			
 			// reduce player resources
-			var outcomes:IntIntMap = new IntIntMap();
-			for(var i:int=0; i<rewards.size(); i++)
-				outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-			player.addResources(outcomes);
+			if( !sfsConnection.mySelf.isSpectator )
+			{
+				var outcomes:IntIntMap = new IntIntMap();
+				for(var i:int=0; i<rewards.size(); i++)
+					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
+				player.addResources(outcomes);
+			}
 			
 			// show battle outcome overlay
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);

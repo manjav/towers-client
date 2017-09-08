@@ -13,7 +13,6 @@ package com.gerantech.towercraft.controls.overlays
 	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.controls.AutoSizeMode;
-	import feathers.controls.Button;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
@@ -26,7 +25,6 @@ package com.gerantech.towercraft.controls.overlays
 	import feathers.layout.VerticalAlign;
 	
 	import starling.core.Starling;
-	import starling.core.starling_internal;
 	import starling.display.Quad;
 	import starling.events.Event;
 
