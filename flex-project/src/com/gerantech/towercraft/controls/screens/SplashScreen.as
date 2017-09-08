@@ -152,7 +152,9 @@ package com.gerantech.towercraft.controls.screens
 					case LoadingEvent.FORCE_UPDATE:
 						navigateToURL(new URLRequest(BillingManager.instance.getDownloadURL()));
 					case LoadingEvent.CORE_LOADING_ERROR:
-						NativeApplication.nativeApplication.exit();
+						AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
+						AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
+						AppModel.instance.loadingManager.loadCore();
 						break;
 					
 					case LoadingEvent.LOGIN_USER_EXISTS:

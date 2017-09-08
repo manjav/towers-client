@@ -144,7 +144,7 @@ package com.gerantech.towercraft.managers.net
 		
 		public function loadCore():void
 		{
-			var coreLoader:CoreLoader = new CoreLoader(serverData.getText("coreVersion"), serverData);
+			var coreLoader:CoreLoader = new CoreLoader(serverData);
 			coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
 			coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			state = STATE_CORE_LOADING;			

@@ -34,18 +34,18 @@ package com.gerantech.towercraft.managers.net
 	public class CoreLoader extends EventDispatcher
 	{
 		private var version:String;
-		private var sfsObj:SFSObject;
+		private var serverData:SFSObject;
 		private var initData:InitData;
-		
-		public function CoreLoader(version:String, sfsObj:SFSObject)
+
+		public function CoreLoader(sfsObj:SFSObject)
 		{
-			this.version = version;
-			initServerData(sfsObj);
+			this.serverData = sfsObj;
+			this.version = serverData.getText("coreVersion");
+			initServerData(serverData);
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 			var url:String = "http://"+SFSConnection.instance.currentIp+"/cores/"+coreFileName;
-			
-			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true);
+			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true, serverData.getInt("coreSize"));
 			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 			ls.addEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
 		}
@@ -70,7 +70,7 @@ package com.gerantech.towercraft.managers.net
 			var swfCore:* = new gameClass(new initClass());
 			initCoreData(swfCore);
 
-			trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nplayerId :		" + initData.id);
+			trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
 			AppModel.instance.game.loginData.buildingsLevel = new IntIntMap();
 			dispatchEvent(new Event(Event.COMPLETE));
 		}

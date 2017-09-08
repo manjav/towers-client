@@ -151,7 +151,8 @@
 					return;
 				}
 			}*/
-			if(sizeCheck>0 && sizeCheck!=data.length)
+			trace(localPath, sizeCheck, data.length)
+			if( sizeCheck > 0 && sizeCheck != data.length )
 			{
 				webFileErrorHandler(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, "size check failed."));
 				return;
