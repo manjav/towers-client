@@ -3,14 +3,40 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.utils.LoadAndSaver;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.Exchanger;
+	
+	import flash.events.Event;
+	import flash.filesystem.File;
 	
 	import mx.resources.ResourceManager;
 
 	public class NotificationManager
 	{
-		public function NotificationManager(){}
+		private var iconFile:File;
+		private var soundFile:File;
+
+		public function init():void
+		{
+			soundFile = File.applicationStorageDirectory.resolvePath("sounds/chest-open.mp3");
+			var soundLoader:LoadAndSaver = new LoadAndSaver(soundFile.nativePath, File.applicationDirectory.resolvePath("assets/sounds/chest-open.mp3").url);
+			soundLoader.addEventListener(Event.COMPLETE, sound_completeHandler);
+			function sound_completeHandler(event:Event):void
+			{
+				soundLoader.removeEventListener(Event.COMPLETE, sound_completeHandler);
+				soundLoader.closeLoader(false);
+			}
+
+			iconFile = File.applicationStorageDirectory.resolvePath("images/icon/ic_notifications.png");
+			var iconLoader:LoadAndSaver = new LoadAndSaver(iconFile.nativePath, File.applicationDirectory.resolvePath("assets/images/icon/ic_notifications.png").url);
+			iconLoader.addEventListener(Event.COMPLETE, icon_completeHandler);
+			function icon_completeHandler(event:Event):void
+			{
+				iconLoader.removeEventListener(Event.COMPLETE, icon_completeHandler);
+				iconLoader.closeLoader(false);
+			}
+		}
 		
 		public function reset():void
 		{
@@ -52,7 +78,8 @@ package com.gerantech.towercraft.managers
 		private function notify(message:String, time:Number):void
 		{
 			var title:String = AppModel.instance.descriptor.name;
-			NativeAbilities.instance.scheduleLocalNotification(title, title, loc(message), time);
+			trace(title, iconFile.exists ,soundFile.exists  )
+			NativeAbilities.instance.scheduleLocalNotification(title, title, loc(message), time, 0, "", "", iconFile.exists?iconFile.nativePath:"", soundFile.exists?soundFile.nativePath:"");
 		//	trace(title, message, time)
 		}
 		
