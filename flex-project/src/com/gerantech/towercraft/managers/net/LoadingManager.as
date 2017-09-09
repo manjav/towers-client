@@ -75,15 +75,15 @@ package com.gerantech.towercraft.managers.net
 		private function login():void 
 		{
 			state = STATE_LOGIN;
-			UserData.getInstance().load();
+			UserData.instance.load();
 			sfsConnection.addEventListener(SFSEvent.LOGIN,			sfsConnection_loginHandler);
 			sfsConnection.addEventListener(SFSEvent.LOGIN_ERROR,	sfsConnection_loginErrorHandler);
 			
 			var loginParams:ISFSObject = new SFSObject();
-			loginParams.putInt("id", UserData.getInstance().id);
+			loginParams.putInt("id", UserData.instance.id);
 
 			// new player
-			var __id:int = UserData.getInstance().id;
+			var __id:int = UserData.instance.id;
 			if( __id < 0 )
 			{
 				if( __id == -1 )
@@ -97,7 +97,7 @@ package com.gerantech.towercraft.managers.net
 					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 				}
 			}
-			sfsConnection.login(__id.toString(), UserData.getInstance().password, "", loginParams);
+			sfsConnection.login(__id.toString(), UserData.instance.password, "", loginParams);
 		}		
 
 		protected function sfsConnection_loginErrorHandler(event:SFSEvent):void
@@ -123,9 +123,9 @@ package com.gerantech.towercraft.managers.net
 			// in registring case
 			if(serverData.containsKey("password"))
 			{
-				UserData.getInstance().id = serverData.getLong("id");
-				UserData.getInstance().password = serverData.getText("password");
-				UserData.getInstance().save();
+				UserData.instance.id = serverData.getLong("id");
+				UserData.instance.password = serverData.getText("password");
+				UserData.instance.save();
 			}
 			
 			if( TimeManager.instance != null )

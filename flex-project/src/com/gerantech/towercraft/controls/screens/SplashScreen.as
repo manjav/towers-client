@@ -158,9 +158,9 @@ package com.gerantech.towercraft.controls.screens
 						break;
 					
 					case LoadingEvent.LOGIN_USER_EXISTS:
-						UserData.getInstance().id = confirmData.getSFSObject("serverData").getLong("id");
-						UserData.getInstance().password = confirmData.getSFSObject("serverData").getText("password");
-						UserData.getInstance().save();
+						UserData.instance.id = confirmData.getSFSObject("serverData").getLong("id");
+						UserData.instance.password = confirmData.getSFSObject("serverData").getText("password");
+						UserData.instance.save();
 						reload();
 						break;
 
@@ -179,8 +179,8 @@ package com.gerantech.towercraft.controls.screens
 					return;
 					
 				case LoadingEvent.LOGIN_USER_EXISTS:
-					UserData.getInstance().id = -2;
-					UserData.getInstance().save();
+					UserData.instance.id = -2;
+					UserData.instance.save();
 					reload();
 					return;
 			}

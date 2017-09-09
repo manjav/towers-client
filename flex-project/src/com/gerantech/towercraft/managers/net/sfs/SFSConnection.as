@@ -160,7 +160,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		// Login ....................................................
 		public function sfs_loginHandler(event:SFSEvent):void
 		{
-		//	trace("Login Succeed:", UserData.getInstance().userName, UserData.getInstance().password, "t["+(getTimer()-Tanks.t)+"]");
+		//	trace("Login Succeed:", UserData.instance.userName, UserData.instance.password, "t["+(getTimer()-Tanks.t)+"]");
 		//	dispatchEvent(event.clone());
 		}
 		protected function sfs_logoutHandler(event:SFSEvent):void
