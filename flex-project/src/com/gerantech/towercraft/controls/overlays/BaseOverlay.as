@@ -24,10 +24,13 @@ package com.gerantech.towercraft.controls.overlays
 		public var data:Object;
 		public var isOpen:Boolean;
 		
+		public var closeOnOverlay:Boolean = false;
+		protected var _closeOnStage:Boolean = true;
+		
 		protected var overlay:DisplayObject;
+		protected var transitionState:int;
 		
 		protected static const HELPER_POINT:Point = new Point();
-		private var _closable:Boolean = true;
 		
 		public function BaseOverlay()
 		{
@@ -47,12 +50,14 @@ package com.gerantech.towercraft.controls.overlays
 		}
 		protected function transitionInStarted():void
 		{
+			transitionState = TransitionData.STATE_IN_STARTED;
 			isOpen = true;
 			if(hasEventListener(FeathersEventType.TRANSITION_IN_START))
 				dispatchEventWith(FeathersEventType.TRANSITION_IN_START);
 		}
 		protected function transitionInCompleted():void
 		{
+			transitionState = TransitionData.STATE_IN_FINISHED;
 			if(hasEventListener(FeathersEventType.TRANSITION_IN_COMPLETE))
 				dispatchEventWith(FeathersEventType.TRANSITION_IN_COMPLETE);
 		}
@@ -65,7 +70,6 @@ package com.gerantech.towercraft.controls.overlays
 			overlay.height = stage.height * 3;
 			overlay.x = -overlay.width / 2;
 			overlay.y = -overlay.height / 2;
-			overlay.touchable = false;
 			return overlay;
 		}
 		
@@ -89,17 +93,31 @@ package com.gerantech.towercraft.controls.overlays
 			if( event.keyCode == Keyboard.BACK )
 			{
 				event.preventDefault();
-				if( closable && _isEnabled )
+				if( ( closeOnStage || closeOnOverlay ) && _isEnabled )
 					close();
 			}
 		}
 		protected function stage_touchHandler(event:TouchEvent):void
 		{
-			if( !closable || !_isEnabled )
+			if( !_isEnabled )
 				return;
 			
+			var touch:Touch;
+			if( closeOnOverlay )
+			{
+				touch = event.getTouch(overlay, TouchPhase.ENDED);
+				if( touch != null )
+				{
+					close();
+					return;
+				}
+			}
+			
+			if( !closeOnStage )
+				return;
+
 			// we aren't tracking another touch, so let's look for a new one.
-			var touch:Touch = event.getTouch( stage, TouchPhase.BEGAN);
+			touch = event.getTouch(stage, TouchPhase.BEGAN);
 			if( touch == null )
 				return;
 
@@ -124,24 +142,27 @@ package com.gerantech.towercraft.controls.overlays
 		}
 		protected function transitionOutStarted():void
 		{
+			transitionState = TransitionData.STATE_OUT_STARTED;
 			if(hasEventListener(FeathersEventType.TRANSITION_OUT_START))
 				dispatchEventWith(FeathersEventType.TRANSITION_OUT_START);
 		}
 		protected function transitionOutCompleted(dispose:Boolean=true):void
 		{
+			transitionState = TransitionData.STATE_OUT_FINISHED;
 			if(hasEventListener(FeathersEventType.TRANSITION_OUT_COMPLETE))
 				dispatchEventWith(FeathersEventType.TRANSITION_OUT_COMPLETE);
 			removeFromParent(dispose);
 		}
 		
-		public function get closable():Boolean
-		{
-			return _closable;
-		}
-		public function set closable(value:Boolean):void
-		{
-			_closable = value;
-		}
 		
+		public function get closeOnStage():Boolean
+		{
+			return _closeOnStage;
+		}
+		public function set closeOnStage(value:Boolean):void
+		{
+			_closeOnStage = value;
+		}
+	
 	}
 }

@@ -1,11 +1,9 @@
 package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
-	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingFeatureType;
 	import com.gt.towers.constants.ResourceType;
@@ -15,36 +13,24 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
-	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.VerticalLayout;
-	import feathers.skins.ImageSkin;
 	
 	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class BuildingDetailsPopup extends BasePopup
+	public class BuildingDetailsPopup extends SimplePopup
 	{
 		public var buildingType:int;
 		
 		private var building:Building;
-		private var padding:int;
-
 
 		override protected function initialize():void
 		{
-			closable = false;
 			super.initialize();
 			
 			building = player.buildings.get(buildingType);
-			
-			var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
-			backgroundSkin = skin;
-			
-			padding = 36 * appModel.scale;
-			layout = new AnchorLayout();
 			
 			var buildingIcon:BuildingCard = new BuildingCard();
 			buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
@@ -99,25 +85,25 @@ package com.gerantech.towercraft.controls.popups
 			Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
 			addChild(upgradeLabel);
 			
-			var closeButton:CustomButton = new CustomButton();
+			/*var closeButton:CustomButton = new CustomButton();
 			closeButton.style = "danger";
 			closeButton.label = "X";
 			closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
 			closeButton.width = closeButton.height = 96 * appModel.scale;
 			closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-			addChild(closeButton);		
+			addChild(closeButton);	*/	
 		}
 		
 		override protected function transitionOutStarted():void
 		{
-			removeChildren();
+			removeChildren(2);
 			super.transitionOutStarted();
 		}
 		
-		private function closeButton_triggeredHandler():void
+		/*private function closeButton_triggeredHandler():void
 		{
 			close();
-		}
+		}*/
 		private function upgradeButton_triggeredHandler():void
 		{
 			dispatchEventWith(Event.UPDATE, false, building);

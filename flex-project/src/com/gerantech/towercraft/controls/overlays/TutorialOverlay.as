@@ -19,15 +19,15 @@ package com.gerantech.towercraft.controls.overlays
 		protected override function addedToStageHandler(event:Event):void
 		{
 			super.addedToStageHandler(event);
-			closable = false;
-			setTimeout(function():void{closable = true}, task.skipableAfter);
+			closeOnStage = false;
+			setTimeout(function():void{closeOnStage = true}, task.skipableAfter);
 		}
 		
-		public override function get closable():Boolean
+		public override function get closeOnStage():Boolean
 		{
 			return stage.touchable;
 		}
-		public override function set closable(value:Boolean):void
+		public override function set closeOnStage(value:Boolean):void
 		{
 			if(stage)
 				stage.touchable = value;

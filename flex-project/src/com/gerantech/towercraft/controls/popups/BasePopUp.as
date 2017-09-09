@@ -14,19 +14,24 @@ package com.gerantech.towercraft.controls.popups
 		override protected function initialize():void
 		{
 			super.initialize();
-			overlay.touchable = true;
-			if(transitionIn == null)
+			closeOnStage = false;
+			closeOnOverlay = true;
+			
+			if( transitionIn == null )
 			{
 				transitionIn = new TransitionData();
-				transitionIn.sourceAlpha = 0;
-				transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.25, stage.stageWidth*0.7, stage.stageHeight*0.5);
+				transitionIn.transition = Transitions.EASE_OUT_BACK;
+				transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.45, stage.stageWidth*0.8, stage.stageHeight*0.1);
+				transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.4, stage.stageWidth*0.7, stage.stageHeight*0.2);
 			}
-			if(transitionOut== null)
+			if( transitionOut== null )
 			{
 				transitionOut = new TransitionData();
+				transitionOut.sourceAlpha = 1;
 				transitionOut.destinationAlpha = 0;
 				transitionOut.transition = Transitions.EASE_IN;
-				transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.25, stage.stageWidth*0.7, stage.stageHeight*0.5);
+				transitionOut.sourceBound = transitionIn.destinationBound
+				transitionOut.destinationBound = transitionIn.sourceBound
 			}
 			
 			// execute popup transition

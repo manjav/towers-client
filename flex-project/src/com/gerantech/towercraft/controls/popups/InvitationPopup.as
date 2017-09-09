@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.Main;
-	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.utils.setTimeout;

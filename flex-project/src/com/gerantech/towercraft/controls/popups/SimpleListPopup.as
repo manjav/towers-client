@@ -44,7 +44,6 @@ package com.gerantech.towercraft.controls.popups
 		override protected function transitionInCompleted():void
 		{
 			super.transitionInCompleted();
-			closable = false;
 			list = new List();
 			list.layoutData = new AnchorLayoutData( paddind, paddind, paddind, paddind);
 			list.itemRendererFactory = function ():IListItemRenderer { return new FloatingListItemRenderer(buttonHeight);};

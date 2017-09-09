@@ -43,7 +43,7 @@ package com.gerantech.towercraft.controls.popups
 			errorDisplay = new RTLLabel("", 0xFF0000, null, null, true, null, 0.8);
 			container.addChild(errorDisplay);
 			
-			acceptButton.icon = Assets.getTexture("bug-icon", "gui");;
+			acceptButton.icon = Assets.getTexture("settings-"+21, "gui");;
 			
 			rejustLayoutByTransitionData();
 		}

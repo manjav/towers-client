@@ -78,7 +78,7 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function addedToStageHandler(event:Event):void
 		{
 			super.addedToStageHandler(event);
-			closable = false;
+			closeOnStage = false;
 			if(dragonBonesData == null)
 				return;
 			

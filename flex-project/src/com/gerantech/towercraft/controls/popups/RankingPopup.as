@@ -6,16 +6,13 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	
 	import flash.utils.setTimeout;
 	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
-	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.VerticalLayout;
@@ -23,16 +20,13 @@ package com.gerantech.towercraft.controls.popups
 	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class RankingPopup extends BasePopup
+	public class RankingPopup extends SimplePopup
 	{
 		public var arenaIndex:int = 0		
 
 		private var titleDisplay:RTLLabel;
 		private var closeButton:CustomButton;
-		
 		private var _listCollection:ListCollection;
-		private var padding:int;
-
 		private var list:FastList;
 
 		public function RankingPopup()
@@ -43,16 +37,8 @@ package com.gerantech.towercraft.controls.popups
 	
 		override protected function initialize():void
 		{
-			closable = false;
 			super.initialize();
 			overlay.alpha = 0.8;
-			layout = new AnchorLayout();
-			
-			var skin:ImageLoader = new ImageLoader();
-			skin.source = appModel.theme.popupBackgroundSkinTexture;
-			skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
-			skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			addChild( skin );
 			
 			padding = 28 * appModel.scale;
 			
