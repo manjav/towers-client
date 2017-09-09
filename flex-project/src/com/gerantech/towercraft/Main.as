@@ -13,6 +13,8 @@ package com.gerantech.towercraft
 	import feathers.controls.Drawers;
 	import feathers.controls.StackScreenNavigatorItem;
 	import feathers.core.IFeathersControl;
+	import feathers.motion.Cover;
+	import feathers.motion.Reveal;
 	
 	import starling.events.Event;
 	
@@ -42,14 +44,16 @@ package com.gerantech.towercraft
 			addScreen(DASHBOARD_SCREEN,	DashboardScreen);
 			addScreen(ARENA_SCREEN,		ArenaScreen);
 			addScreen(QUESTS_SCREEN, 	QuestsScreen);
-			addScreen(BATTLE_SCREEN, 	BattleScreen);
+			addScreen(BATTLE_SCREEN, 	BattleScreen, false);
 			addScreen(SOCIAL_SCREEN, 	SocialScreen);
 			addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 		}		
-		private function addScreen(screenType:String, screenClass:Object):void
+		private function addScreen(screenType:String, screenClass:Object, hasTranstion:Boolean = true):void
 		{
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
+			item.pushTransition = Cover.createCoverUpTransition();
+			item.popTransition = Reveal.createRevealDownTransition()
 			item.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(screenType, item);			
 		}
