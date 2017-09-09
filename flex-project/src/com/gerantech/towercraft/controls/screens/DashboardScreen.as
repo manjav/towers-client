@@ -136,7 +136,6 @@ package com.gerantech.towercraft.controls.screens
 			appModel.sounds.addSound("main-theme", null,  themeLoaded);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 			
-			appModel.navigator.showBugReportButton();
 			appModel.navigator.handleInvokes();
 		}
 		

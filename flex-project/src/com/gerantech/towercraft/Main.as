@@ -5,6 +5,7 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.screens.QuestsScreen;
+	import com.gerantech.towercraft.controls.screens.SettingsScreen;
 	import com.gerantech.towercraft.controls.screens.SocialScreen;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
@@ -22,6 +23,7 @@ package com.gerantech.towercraft
 		public static const QUESTS_SCREEN:String = "questsScreen";
 		public static const ARENA_SCREEN:String = "arenaScreen";
 		public static const SOCIAL_SCREEN:String = "socialScreen";
+		public static const SETTINGS_SCREEN:String = "settingsScreen";
 		
 		public function Main(content:IFeathersControl=null)
 		{
@@ -42,6 +44,7 @@ package com.gerantech.towercraft
 			addScreen(QUESTS_SCREEN, 	QuestsScreen);
 			addScreen(BATTLE_SCREEN, 	BattleScreen);
 			addScreen(SOCIAL_SCREEN, 	SocialScreen);
+			addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 		}		
 		private function addScreen(screenType:String, screenClass:Object):void

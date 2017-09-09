@@ -139,7 +139,7 @@ public function addLogGame(log:GameLog) : void
 
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BUG REPORT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-public function showBugReportButton():void
+/*public function showBugReportButton():void
 {
 	var bugReportButton:SimpleButton = new SimpleButton();
 	bugReportButton.isLongPressEnabled = true;
@@ -171,7 +171,7 @@ public function showBugReportButton():void
 		addChild(bugReportButton);
 		bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
 	}
-}
+}*/
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  INVOKE   -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function handleInvokes():void
