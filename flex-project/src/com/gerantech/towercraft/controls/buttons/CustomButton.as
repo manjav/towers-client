@@ -12,10 +12,13 @@ import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 
 import starling.textures.Texture;
+import feathers.layout.ILayoutData;
 
 public class CustomButton extends SimpleLayoutButton
 {
+public var iconLayout:ILayoutData;
 public var iconPosition:Point;
+public var data:Object;
 
 private var labelDisplay:RTLLabel;
 private var shadowDisplay:RTLLabel;
@@ -40,11 +43,12 @@ public function CustomButton()
 	minHeight = 72 * appModel.scale;
 	height = maxHeight = 128 * appModel.scale;
 	
+	iconPosition = new Point();
 	padding = 8 * appModel.scale;
 	layout = new AnchorLayout();
 	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.8);
 	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.3);
-	iconPosition = new Point();
+	iconLayout = new AnchorLayoutData(NaN, padding+iconPosition.x, NaN, NaN, NaN, iconPosition.y-padding*0.4)
 }
 
 override protected function initialize():void
@@ -60,19 +64,21 @@ override protected function initialize():void
 	backgroundSkin = skin;
 	
 	shadowDisplay = new RTLLabel(_label, 0x000000, "center");
+	shadowDisplay.pixelSnapping = false;
 	shadowDisplay.touchable = false;
 	shadowDisplay.layoutData = shadowLayoutData;
 	addChild(shadowDisplay);
 
 	labelDisplay = new RTLLabel(_label, 0XFFFFFF, "center");
+	labelDisplay.pixelSnapping = false;
 	labelDisplay.touchable = false;
 	labelDisplay.layoutData = labelLayoutData;
 	addChild(labelDisplay);
 	
 	iconDisplay = new ImageLoader();
 	iconDisplay.touchable = false;
-	iconDisplay.height = height*0.7;
-	iconDisplay.layoutData = new AnchorLayoutData(NaN, padding+iconPosition.x, NaN, NaN, NaN, iconPosition.y-padding*0.4);
+	iconDisplay.height = height * 0.7;
+	iconDisplay.layoutData = iconLayout;
 	iconDisplay.source = _icon;
 	addChild(iconDisplay);
 }
