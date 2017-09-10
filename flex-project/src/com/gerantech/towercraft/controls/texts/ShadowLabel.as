@@ -9,6 +9,8 @@ package com.gerantech.towercraft.controls.texts
 	public class ShadowLabel extends LayoutGroup
 	{
 		public var shadowDistance:Number = 0;
+		public var mainLayout:AnchorLayoutData;
+		public var shadowLayout:AnchorLayoutData;
 		
 		private var mainLabel:RTLLabel;
 		private var shadowLabel:RTLLabel;
@@ -24,6 +26,8 @@ package com.gerantech.towercraft.controls.texts
 
 			shadowLabel = new RTLLabel(text, shadowColor,	align, direction, wordWrap, lastAlign, fontSize, fontFamily, fontWeight, fontPosture);
 			shadowLabel.pixelSnapping = false;
+			
+			
 		}
 
 		override protected function initialize():void
@@ -31,19 +35,22 @@ package com.gerantech.towercraft.controls.texts
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			mainLabel.layoutData = new AnchorLayoutData(-shadowDistance, 0, shadowDistance, 0);
-			shadowLabel.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			if( mainLayout == null )
+				mainLayout = new AnchorLayoutData(-shadowDistance, 0, shadowDistance, 0);
+			if( shadowLayout == null )
+				shadowLayout = new AnchorLayoutData(0, 0, 0, 0);
+			
+			mainLabel.layoutData = mainLayout;
+			shadowLabel.layoutData = shadowLayout;
 			
 			addChild(shadowLabel)
 			addChild(mainLabel);
 		}
 		
-		
 		public function get text():String
 		{
 			return _text;
 		}
-		
 		public function set text(value:String):void
 		{
 			if( _text == value )
@@ -53,6 +60,5 @@ package com.gerantech.towercraft.controls.texts
 			mainLabel.text = _text;
 			shadowLabel.text = _text;
 		}
-
 	}
 }

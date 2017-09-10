@@ -83,7 +83,7 @@ package com.gerantech.towercraft.managers
 					break;
 				
 				case "myket":
-					base64Key = "MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgLrZzgFzF3P/4iYbG+kI/OseAo4pmfmvwgGjDLZFUFu7d5SZKBj5hGPOUg5Mu1Q8wEaj9LvI9jlybZkjpYmCn7ljCxbQ/QaCMwbNfp4gyF7EgEWOVeudzXNCXlhEoDSb1z63aNsD2opf294Cu64BzqLNQ+rlp0yW2YwjNiMU2O2/AgMBAAE=";
+					base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCfyHCc9OS523q+g7p/Deo3EVu89t0O2x5jjNqM74ojc1UfrXLsETjMcmS6FAtDYhL5gZT6fWkMe7Vx2sKKeFP1mdops4xLK4cQURMd5f7WqRls9cMiaitdnEV6x1kIr/VrS1ieypH9NqtF739LOyptXERLuY/GWgEnU30x7nj4swIDAQAB";
 					bindURL = "ir.mservices.market.InAppBillingService.BIND";
 					packageURL = "ir.mservices.market";
 					break;
@@ -334,8 +334,8 @@ package com.gerantech.towercraft.managers
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- RATING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function rate():void
 		{
-			UserData.getInstance().rated = true;
-			UserData.getInstance().save();
+			UserData.instance.rated = true;
+			UserData.instance.save();
 			switch(AppModel.instance.descriptor.market)
 			{
 				case "google":
@@ -347,7 +347,7 @@ package com.gerantech.towercraft.managers
 					break;
 				
 				case "myket":
-					navigateToURL(new URLRequest("http://myket.ir/App/air." + AppModel.instance.descriptor.id + "/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA"));
+					navigateToURL(new URLRequest("http://myket.ir/App/air." + AppModel.instance.descriptor.id));
 					break;
 				
 				case "cando":
@@ -363,7 +363,7 @@ package com.gerantech.towercraft.managers
 			{
 				case "google":		return 'https://play.google.com/store/apps/details?id=air.' + AppModel.instance.descriptor.id;			
 				case "cafebazaar":	return 'https://cafebazaar.ir/app/air.' + AppModel.instance.descriptor.id;			
-				case "myket":		return 'http://myket.ir/App/air.' + AppModel.instance.descriptor.id + '/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA';			
+				case "myket":		return 'http://myket.ir/App/air.' + AppModel.instance.descriptor.id;
 				case "cando":		return 'cando://details?id=air.'+AppModel.instance.descriptor.id;			
 			}
 			return "http://towers.grantech.ir/get/towerstory.apk";

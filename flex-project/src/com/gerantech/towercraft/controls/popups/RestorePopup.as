@@ -51,9 +51,9 @@ package com.gerantech.towercraft.controls.popups
 				errorDisplay.text = loc( "popup_select_inputs_size" );
 				return;
 			}
-			UserData.getInstance().id = int(uernameInput.text);
-			UserData.getInstance().password = passwordInput.text;
-			UserData.getInstance().save();
+			UserData.instance.id = int(uernameInput.text);
+			UserData.instance.password = passwordInput.text;
+			UserData.instance.save();
 			appModel.loadingManager.dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
 			close();
 		}

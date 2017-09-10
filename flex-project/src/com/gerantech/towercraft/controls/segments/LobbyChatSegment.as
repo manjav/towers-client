@@ -108,19 +108,17 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	addChild(inputText);
 	
 	sendButton = new CustomButton();
-	//sendButton.label = loc("lobby_send");
 	sendButton.width = sendButton.height = footerSize;
 	sendButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
-	sendButton.iconPosition.x += padding*0.75;
+	sendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 	sendButton.layoutData = new AnchorLayoutData(NaN, footerSize+padding*2, 0, NaN);
 	sendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
 	addChild(sendButton);
 	
 	var battleButton:CustomButton = new CustomButton();
-	//battleButton.label = "بزن"//loc("lobby_send");
 	battleButton.style = "danger";
 	battleButton.icon = Assets.getTexture("res-1001", "gui");
-	battleButton.iconPosition.x += padding*0.6;
+	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 	battleButton.width = battleButton.height = footerSize;
 	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);

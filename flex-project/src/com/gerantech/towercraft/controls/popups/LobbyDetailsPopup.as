@@ -8,7 +8,6 @@ import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -22,26 +21,24 @@ import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
-import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-import feathers.skins.ImageSkin;
 
 import starling.animation.Transitions;
 import starling.events.Event;
 
-public class LobbyDetailsPopup extends BasePopup
+public class LobbyDetailsPopup extends SimplePopup
 {
 private var responseCode:int;
 private var params:SFSObject;
-private var padding:int;
 private var roomData:Object;
 
 private var itsMyRoom:Boolean;
 
 private var memberCollection:ListCollection;
 private var buttonsPopup:SimpleListPopup;
+private var roomServerData:*;
 
 public function LobbyDetailsPopup(roomData:Object)
 {
@@ -56,16 +53,9 @@ public function LobbyDetailsPopup(roomData:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	closable = false;
-	transitionOut.destinationBound = transitionOut.sourceBound = transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.1, stage.stageWidth*0.8, stage.stageHeight*0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
 	rejustLayoutByTransitionData();
-	
-	var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
-	backgroundSkin = skin;
-	
-	padding = 36 * appModel.scale;
-	layout = new AnchorLayout();
 	
 	/*var buildingIcon:BuildingCard = new BuildingCard();
 	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
@@ -90,15 +80,27 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.LOBBY_DATA )
 		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
-	var sfsData:SFSObject = event.params.params;
 	
-	var messageDisplay:RTLLabel = new RTLLabel(sfsData.getText("bio"), 1, "justify", null, true, null, 0.6);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
+	roomServerData = event.params.params as SFSObject;
+	if( transitionState >= TransitionData.STATE_IN_FINISHED )
+		showDetails();
+}
+protected override function transitionInCompleted():void
+{
+	super.transitionInCompleted();
+	if( roomServerData != null )
+		showDetails();
+}
+
+private function showDetails():void
+{
+	var messageDisplay:RTLLabel = new RTLLabel(roomServerData.getText("bio"), 1, "justify", null, true, null, 0.6);
 	messageDisplay.layoutData = new AnchorLayoutData(padding*3, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
 	addChild(messageDisplay);
-
+	
 	var features:Array = new Array();
-	features.push( {key:"min", value:sfsData.getInt("min")} );
+	features.push( {key:"min", value:roomServerData.getInt("min")} );
 	features.push( {key:"sum", value:Math.floor(roomData.sum/roomData.num)} );
 	features.push( {key:"max", value:roomData.max} );
 	
@@ -110,7 +112,7 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
 	
-	var ms:Array = SFSArray(sfsData.getSFSArray("all")).toArray();
+	var ms:Array = SFSArray(roomServerData.getSFSArray("all")).toArray();
 	ms.sortOn("po", Array.NUMERIC|Array.DESCENDING);
 	memberCollection = new ListCollection(ms);
 	
@@ -140,7 +142,7 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 	closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
 	closeButton.width = closeButton.height = 96 * appModel.scale;
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	addChild(closeButton);
+	addChild(closeButton);	
 }
 
 private function membersList_focusInHandler(event:Event):void
@@ -153,7 +155,8 @@ private function membersList_focusInHandler(event:Event):void
 	if( selectedData.id == player.id )
 		return;
 	var btns:Array = ["lobby_profile"];//trace(findUser(player.id).pr , selectedData.pr)
-	if(findUser(player.id).pr > selectedData.pr )
+	var user:Object = findUser(player.id);
+	if( user != null && user.pr != null && user.pr > selectedData.pr )
 		btns.push( "lobby_kick" );
 	buttonsPopup = new SimpleListPopup();
 	buttonsPopup.buttons = btns;
@@ -262,6 +265,11 @@ private function findUser(id:int):Object
 	return null;
 }
 
+override protected function transitionOutStarted():void
+{
+	removeChildren(2);
+	super.transitionOutStarted();
+}
 private function closeButton_triggeredHandler(event:Event):void
 {
 	close();

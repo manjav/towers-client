@@ -33,7 +33,6 @@ public function ConfirmToast(message:String, acceptLabel:String="", declineLabel
 override protected function initialize():void
 {
 	super.initialize();
-	closable = false;
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.gap = hlayout.padding = 32 * appModel.scale;

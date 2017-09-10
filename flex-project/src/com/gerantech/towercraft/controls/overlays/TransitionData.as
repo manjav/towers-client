@@ -3,10 +3,13 @@ package com.gerantech.towercraft.controls.overlays
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
-	
-
 	public class TransitionData
 	{
+		public static const STATE_IN_STARTED:int = 0;
+		public static const STATE_IN_FINISHED:int = 1;
+		public static const STATE_OUT_STARTED:int = 2;
+		public static const STATE_OUT_FINISHED:int = 3;
+
 		public var time:Number;
 		public var delay:Number;
 		public var sourceAlpha:Number = 0;

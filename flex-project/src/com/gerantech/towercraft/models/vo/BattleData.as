@@ -18,6 +18,7 @@ package com.gerantech.towercraft.models.vo
 		public var singleMode:Boolean;
 		public var battleField:BattleField;
 		public var opponent:User;
+		public var me:User;
 
 		public function BattleData(data:ISFSObject)
 		{
@@ -30,8 +31,14 @@ package com.gerantech.towercraft.models.vo
 			map = battleField.map;
 			var playerIndex:int = getPlayerIndex();
 			if( !map.isQuest )
+			{
+				this.me = room.playerList[ playerIndex ];
 				this.opponent = room.playerList[ playerIndex==0?1:0 ];
-			
+			}
+			else
+			{
+				this.me = room.playerList[ 0 ];
+			}
 			/*trace(this.troopType, "tt", data.getText("mapName"))	
 			for (var i:int = 0; i < room.userList.length; i++) 
 				trace("userList", i, room.userList[i].name);

@@ -56,7 +56,7 @@ package com.gerantech.towercraft.controls.floatings
 		
 		protected override function stage_touchHandler(event:TouchEvent):void
 		{
-			if( !closable || !_isEnabled )
+			if( !closeOnStage || !_isEnabled )
 				return;
 			
 			// we aren't tracking another touch, so let's look for a new one.

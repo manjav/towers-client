@@ -44,7 +44,7 @@ package com.gerantech.towercraft.controls.overlays
 			super.addedToStageHandler(event);
 
 			layout = new AnchorLayout();
-			closable = false;
+			closeOnStage = false;
 
 			width = stage.stageWidth;
 			height = stage.stageHeight;

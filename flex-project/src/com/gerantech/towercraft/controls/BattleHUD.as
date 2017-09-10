@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+	import com.gerantech.towercraft.controls.headers.AttendeeHeader;
 	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -26,6 +27,7 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
 	import feathers.layout.TiledColumnsLayout;
+	import feathers.layout.TiledRowsLayout;
 	import feathers.layout.VerticalAlign;
 	
 	import starling.animation.Transitions;
@@ -70,7 +72,7 @@ package com.gerantech.towercraft.controls
 			
 			var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3 || SFSConnection.instance.mySelf.isSpectator;
 			padding = 16 * appModel.scale;
-			var leftPadding:int = (hasQuit ? 160 : 16) * appModel.scale;
+			var leftPadding:int = (hasQuit ? 150 : 0) * appModel.scale;
 			if( hasQuit )
 			{
 				var closeButton:CustomButton = new CustomButton();
@@ -82,33 +84,19 @@ package com.gerantech.towercraft.controls
 				addChild(closeButton);			
 			}
 			
-			
-			// main name
-			
 			var _name:String = battleData.map.isQuest ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.opponent.getVariable("name").getStringValue();
-			var nameShadow:RTLLabel = new RTLLabel(_name, 0, "left", null, false, null, 1.2);
-			nameShadow.layoutData = new AnchorLayoutData(padding*0.5, NaN, NaN, leftPadding );
-			addChild(nameShadow);
-			var nameLabel:RTLLabel = new RTLLabel(_name, 0xFFFFFF, "left", null, false, null, 1.2);
-			nameLabel.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
-			addChild(nameLabel);
+			var _point:int = battleData.map.isQuest ? 0 : battleData.opponent.getVariable("point").getIntValue();
+			var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
+			opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
+			addChild(opponentHeader);
 			
-			// point name
-			if( !battleData.map.isQuest )
+			if( SFSConnection.instance.mySelf.isSpectator )
 			{
-				var pointIcon:ImageLoader = new ImageLoader();
-				pointIcon.width = padding*5;
-				pointIcon.source = Assets.getTexture("res-"+ResourceType.POINT, "gui");
-				pointIcon.layoutData = new AnchorLayoutData(padding*5, NaN, NaN, leftPadding-padding*0.5 );
-				addChild(pointIcon);
-
-				var pointDisplay:ShadowLabel = new ShadowLabel(battleData.opponent.getVariable("point").getIntValue().toString(), 1, 0, "left", null, false, null, 0.9);
-				//var pointShadow:RTLLabel = new RTLLabel(battleData.opponent.getInt("point").toString(), 0, "left", null, false, null, 0.9);
-				pointDisplay.layoutData = new AnchorLayoutData(padding*5.6, NaN, NaN, leftPadding+padding*5 );
-				addChild(pointDisplay);
-				/*var pointLabel:RTLLabel = new RTLLabel(battleData.opponent.getInt("point").toString(), 1, "left", null, false, null, 0.9);
-				pointLabel.layoutData = new AnchorLayoutData(padding*5.3, NaN, NaN, leftPadding+padding*5 );
-				addChild(pointLabel);*/
+				_name = battleData.me.getVariable("name").getStringValue();
+				_point = battleData.me.getVariable("point").getIntValue();
+				var meHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
+				meHeader.layoutData = new AnchorLayoutData(NaN, NaN, 0, leftPadding );
+				addChild(meHeader);
 			}
 			
 			timerSlider = new BattleTimerSlider();
@@ -205,7 +193,7 @@ package com.gerantech.towercraft.controls
 		{
 			if( stickerList == null )
 			{
-				var stickersLayout:TiledColumnsLayout = new TiledColumnsLayout();
+				var stickersLayout:TiledRowsLayout = new TiledRowsLayout();
 				stickersLayout.padding = stickersLayout.gap = padding;
 				stickersLayout.tileHorizontalAlign = HorizontalAlign.JUSTIFY;
 				stickersLayout.tileVerticalAlign = VerticalAlign.JUSTIFY;
@@ -221,7 +209,6 @@ package com.gerantech.towercraft.controls
 				stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 				stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
 				stickerList.dataProvider = new ListCollection(StickerType.getAll()._list);
-
 				
 				stickerCloserOveraly = new SimpleLayoutButton();
 				stickerCloserOveraly.backgroundSkin = new Quad(1,1,0);

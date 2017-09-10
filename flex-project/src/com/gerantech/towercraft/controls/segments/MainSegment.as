@@ -1,22 +1,31 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.GameLog;
+import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.models.Assets;
 
 import flash.geom.Point;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
 import flash.utils.setTimeout;
 
+import adobe.utils.CustomActions;
+
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingFactory;
 
+import feathers.controls.ImageLoader;
 import feathers.controls.StackScreenNavigatorItem;
+import feathers.layout.AnchorLayout;
+import feathers.layout.AnchorLayoutData;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -51,6 +60,7 @@ public class MainSegment extends Segment
 	override public function init():void
 	{
 		super.init();
+		layout = new AnchorLayout();		
 
 		if(appModel.loadingManager.inBattle)
 		{
@@ -60,7 +70,39 @@ public class MainSegment extends Segment
 		
 		showMap();
 		showTutorial();
+		showButtons();
+		
 		initializeCompleted = true;
+	}
+	
+	private function showButtons():void
+	{
+		var gradient:ImageLoader = new ImageLoader();
+		gradient.maintainAspectRatio = false;
+		gradient.alpha = 0.5;
+		gradient.width = 500 * appModel.scale;
+		gradient.height = 120 * appModel.scale;
+		gradient.source = Assets.getTexture("grad-ro-right", "skin");
+		gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
+		addChild(gradient);
+		
+		var settingButton:IconButton = new IconButton(Assets.getTexture("button-settings", "gui"));
+		settingButton.width = settingButton.height = 120 * appModel.scale;
+		settingButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);});
+		settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 6*appModel.scale);
+		addChild(settingButton);
+		
+		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton.width = inboxButton.height = 120 * appModel.scale;
+		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 126*appModel.scale);
+		addChild(inboxButton);
+		
+		var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
+		newsButton.width = newsButton.height = 110 * appModel.scale;
+		newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 246*appModel.scale);
+		addChild(newsButton);
 	}
 	
 	private function showMap():void

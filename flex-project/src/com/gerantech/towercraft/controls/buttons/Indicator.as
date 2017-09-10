@@ -31,6 +31,8 @@ package com.gerantech.towercraft.controls.buttons
 			this.resourceType = resourceType;
 			this.hasProgressbar = hasProgressbar;
 			this.hasIncreaseButton = hasIncreaseButton;
+			height = 64 * appModel.scale;
+			width = 200 * appModel.scale;
 		}
 		
 		override protected function initialize():void
@@ -42,8 +44,7 @@ package com.gerantech.towercraft.controls.buttons
 			skin.scale9Grid = new Rectangle(4, 6, 2, 2);
 			backgroundSkin = skin;
 			
-			height = 64 * appModel.scale;
-			width = 180 * appModel.scale;
+
 			var padding:int = 12 * appModel.scale;
 			
 			if(hasProgressbar)

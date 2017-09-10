@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.GameEvent;
+	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
@@ -185,7 +186,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			// play battle theme -_-_-_
 			appModel.sounds.stopSound("main-theme");
-			appModel.sounds.addSound("battle-theme", null,  themeLoaded);
+			appModel.sounds.addSound("battle-theme", null,  themeLoaded, SoundManager.CATE_THEME);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 			
 			//Game Analytic
@@ -225,10 +226,13 @@ package com.gerantech.towercraft.controls.screens
 				player.quests.set(quest.index, score);
 			
 			// reduce player resources
-			var outcomes:IntIntMap = new IntIntMap();
-			for(var i:int=0; i<rewards.size(); i++)
-				outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-			player.addResources(outcomes);
+			if( !sfsConnection.mySelf.isSpectator )
+			{
+				var outcomes:IntIntMap = new IntIntMap();
+				for(var i:int=0; i<rewards.size(); i++)
+					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
+				player.addResources(outcomes);
+			}
 			
 			// show battle outcome overlay
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
@@ -377,7 +381,7 @@ package com.gerantech.towercraft.controls.screens
 				else if(touch.phase == TouchPhase.ENDED)
 				{
 					var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if(destination == null)
+					if( destination == null )
 					{
 						clearSources(sourcePlaces);
 						return;

@@ -15,7 +15,7 @@ package com.gerantech.towercraft.controls.popups
 	import starling.display.Quad;
 	import starling.events.Event;
 
-	public class SimpleListPopup extends BasePopup
+	public class SimpleListPopup extends AbstractPopup
 	{
 		public var buttons:Array;
 		public var paddind:int = 24;
@@ -44,7 +44,6 @@ package com.gerantech.towercraft.controls.popups
 		override protected function transitionInCompleted():void
 		{
 			super.transitionInCompleted();
-			closable = false;
 			list = new List();
 			list.layoutData = new AnchorLayoutData( paddind, paddind, paddind, paddind);
 			list.itemRendererFactory = function ():IListItemRenderer { return new FloatingListItemRenderer(buttonHeight);};

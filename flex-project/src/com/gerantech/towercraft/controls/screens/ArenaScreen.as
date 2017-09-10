@@ -108,7 +108,7 @@ package com.gerantech.towercraft.controls.screens
 			var transitionOut:TransitionData = new TransitionData();
 			transitionOut.destinationAlpha = 0;
 			transitionOut.transition = Transitions.EASE_IN;
-			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding,		padding,	stage.stageWidth-padding*2,	stage.stageHeight-padding*2);
+			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding*2,		padding,	stage.stageWidth-padding*4,	stage.stageHeight-padding*2);
 			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(padding*2,	padding*2,	stage.stageWidth-padding*4,	stage.stageHeight-padding*4);
 
 			//appModel.navigator.pushScreen( Main.RANK_SCREEN );

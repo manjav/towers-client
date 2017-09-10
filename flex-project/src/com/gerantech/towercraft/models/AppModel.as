@@ -53,6 +53,7 @@ package com.gerantech.towercraft.models
 			
 			sounds = new SoundManager();
 			notifier = new NotificationManager();
+			notifier.init();
 			
 			switch( Capabilities.os.substr(0, 5) )
 			{

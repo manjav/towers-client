@@ -65,10 +65,10 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showTutorial():void
 		{
-			if( UserData.getInstance().buildingsOpened )
+			if( UserData.instance.buildingsOpened )
 				return;
-			UserData.getInstance().buildingsOpened = true;
-			UserData.getInstance().save();
+			UserData.instance.buildingsOpened = true;
+			UserData.instance.save();
 			
 			var tutorialData:TutorialData = new TutorialData("buildings");
 			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
