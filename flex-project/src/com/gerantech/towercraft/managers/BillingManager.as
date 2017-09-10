@@ -335,7 +335,7 @@ package com.gerantech.towercraft.managers
 					break;
 				
 				case "myket":
-					navigateToURL(new URLRequest("http://myket.ir/App/air." + AppModel.instance.descriptor.id + "/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA"));
+					navigateToURL(new URLRequest("http://myket.ir/App/air." + AppModel.instance.descriptor.id));
 					break;
 				
 				case "cando":
@@ -351,7 +351,7 @@ package com.gerantech.towercraft.managers
 			{
 				case "google":		return 'https://play.google.com/store/apps/details?id=air.' + AppModel.instance.descriptor.id;			
 				case "cafebazaar":	return 'https://cafebazaar.ir/app/air.' + AppModel.instance.descriptor.id;			
-				case "myket":		return 'http://myket.ir/App/air.' + AppModel.instance.descriptor.id + '/%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1-%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C-%D9%87%D8%AF%D8%A7%DB%8C%D8%AA';			
+				case "myket":		return 'http://myket.ir/App/air.' + AppModel.instance.descriptor.id;
 				case "cando":		return 'cando://details?id=air.'+AppModel.instance.descriptor.id;			
 			}
 			return "http://towers.grantech.ir/get/towerstory.apk";
