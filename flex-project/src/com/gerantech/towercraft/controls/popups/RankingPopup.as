@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.RankItemRenderer;
+	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -28,12 +29,6 @@ package com.gerantech.towercraft.controls.popups
 		private var closeButton:CustomButton;
 		private var _listCollection:ListCollection;
 		private var list:FastList;
-
-		public function RankingPopup()
-		{
-			super();
-			_listCollection = new ListCollection();
-		}
 	
 		override protected function initialize():void
 		{
@@ -66,7 +61,24 @@ package com.gerantech.towercraft.controls.popups
 			
 			Starling.juggler.tween(titleDisplay, 0.2, {alpha:1});
 			addChild(titleDisplay);
-
+			
+			if( _listCollection != null )
+				showRanking();
+		}
+	
+		
+		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
+		{
+			if( event.params.cmd != SFSCommands.RANK )
+				return;
+			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+			_listCollection = new ListCollection( SFSArray(event.params.params.getSFSArray("list")).toArray() );
+			if( transitionState >= TransitionData.STATE_IN_FINISHED )
+				showRanking();
+		}
+		
+		private function showRanking():void
+		{
 			var listLayout:VerticalLayout = new VerticalLayout();
 			listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 			listLayout.useVirtualLayout = true;
@@ -79,29 +91,18 @@ package com.gerantech.towercraft.controls.popups
 			list.layoutData = new AnchorLayoutData(padding*5, padding, padding*6, padding);
 			addChild(list);
 			
-			
-			var indexOfMe:int = findMe();
-			if ( indexOfMe > -1 )
-				setTimeout(list.scrollToDisplayIndex, 500, indexOfMe, 0.5);
-
-
-			list.alpha = 0;
-			Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
-			
 			addChild(closeButton);
 			closeButton.y = height - closeButton.height - padding*2;
 			closeButton.label = loc("close_button");
 			Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
-		}
-	
-		
-		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
-		{
-			if( event.params.cmd != SFSCommands.RANK )
-				return;
 			
-			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			_listCollection.data = SFSArray(event.params.params.getSFSArray("list")).toArray();
+			var indexOfMe:int = findMe();
+			if ( indexOfMe > -1 )
+				setTimeout(list.scrollToDisplayIndex, 500, indexOfMe, 0.5);
+			
+			list.alpha = 0;
+			Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
+
 		}
 		
 		private function findMe():int

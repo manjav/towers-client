@@ -34,7 +34,7 @@ package com.gerantech.towercraft.controls.sliders
 			labelDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.85);
 			labelDisplay.mainLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			labelDisplay.shadowLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*AppModel.instance.scale);
-			labelDisplay.y = -6*AppModel.instance.scale
+			labelDisplay.y = -6*AppModel.instance.scale;
 			//labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*AppModel.instance.scale, 0xFFFFFF, "center");
 			
 			if( showUpgradeIcon )
