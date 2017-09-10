@@ -37,7 +37,14 @@ package com.gerantech.towercraft.controls.screens
 			if( settingData.type == SettingsData.TYPE_TOGGLE )
 			{
 				UserData.instance.setSetting(settingData.key, settingData.value as int );
-				list.dataProvider.updateItemAt(settingData.index)
+				list.dataProvider.updateItemAt(settingData.index);
+				if( settingData.key == SettingsData.MUSIC )
+				{
+					if( UserData.instance.getSetting(SettingsData.MUSIC) == 1 )
+						appModel.sounds.playSoundUnique("main-theme", 1, 100);
+					else
+						appModel.sounds.stopSound("main-theme");
+				}
 			}
 			else if( settingData.type == SettingsData.TYPE_BUTTON )
 			{
