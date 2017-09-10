@@ -72,8 +72,8 @@ public class SettingsItemRenderer extends BaseCustomItemRenderer
 				addChild(new Spacer(false));
 			addIconButton(SettingsData.SOCIAL_TELEGRAM);
 			addIconButton(SettingsData.SOCIAL_INSTAGRAM);
-			addIconButton(SettingsData.SOCIAL_FACEBOOOK);
-			addIconButton(SettingsData.SOCIAL_YOUTUBE);
+			//addIconButton(SettingsData.SOCIAL_FACEBOOOK);
+			//addIconButton(SettingsData.SOCIAL_YOUTUBE);
 			addIconButton(SettingsData.RATING);
 		}
 		else if( settingData.type == SettingsData.TYPE_LABEL_BUTTONS )
