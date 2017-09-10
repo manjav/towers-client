@@ -1,10 +1,11 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.headers.Toolbar;
-	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
+	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
+	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
@@ -133,7 +134,7 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.selectedIndex = 1;
 			
 			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-			appModel.sounds.addSound("main-theme", null,  themeLoaded);
+			appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 			
 			appModel.navigator.handleInvokes();

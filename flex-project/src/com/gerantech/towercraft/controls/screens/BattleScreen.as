@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.GameEvent;
+	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -181,7 +182,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			// play battle theme -_-_-_
 			appModel.sounds.stopSound("main-theme");
-			appModel.sounds.addSound("battle-theme", null,  themeLoaded);
+			appModel.sounds.addSound("battle-theme", null,  themeLoaded, SoundManager.CATE_THEME);
 			function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 		}
 		

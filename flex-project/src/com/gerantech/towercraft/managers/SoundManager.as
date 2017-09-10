@@ -2,6 +2,8 @@ package com.gerantech.towercraft.managers
 {
 	
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.models.vo.SettingsData;
+	import com.gerantech.towercraft.models.vo.UserData;
 	
 	import flash.events.Event;
 	import flash.media.Sound;
@@ -11,12 +13,16 @@ package com.gerantech.towercraft.managers
 	
 	import starling.core.Starling;
 	
-	public class SoundManager {
+	public class SoundManager 
+	{
+		
+		public static const CATE_THEME:int = 0;
+		public static const CATE_SFX:int = 1;
 		
 		//private static var _instance:SoundManager;
 		private var _isMuted:Boolean = false;		// When true, every change in volume for ALL sounds is ignored
 		
-		public var sounds:Dictionary;			// contains all the sounds registered with the Sound Manager
+		public var sounds:Dictionary;				// contains all the sounds registered with the Sound Manager
 		public var currPlayingSounds:Dictionary;	// contains all the sounds that are currently playing
 		
 		public function SoundManager() 
@@ -30,14 +36,14 @@ package com.gerantech.towercraft.managers
 			currPlayingSounds = null;
 		}
 		
-		public function addAndPlaySound(id:String, sound:Sound=null):void 
+		public function addAndPlaySound(id:String, sound:Sound=null, category:int=1):void 
 		{
-			addSound(id, sound, soundAdded);
+			addSound(id, sound, soundAdded, category);
 			function soundAdded():void{playSound(id);}
 		}
 		// -------------------------------------------------------------------------------------------------------------------------			
 		/** Add sounds to the sound dictionary */
-		public function addSound(id:String, sound:Sound=null, callback:Function=null):void 
+		public function addSound(id:String, sound:Sound=null, callback:Function=null, category:int=1):void 
 		{
 			if ( soundIsAdded(id) )
 			{
@@ -52,13 +58,13 @@ package com.gerantech.towercraft.managers
 				AppModel.instance.assets.loadQueue(assets_loadCallback);
 				return;
 			}
-			sounds[id] = sound;
+			sounds[id] = {s:sound, c:category};
 			function assets_loadCallback(ratio:Number):void
 			{
 				if(ratio < 1)
 					return;
 				sound = AppModel.instance.assets.getSound(id);
-				sounds[id] = sound;
+				sounds[id] = {s:sound, c:category};
 				if(callback != null)
 					callback();
 			}
@@ -103,13 +109,16 @@ package com.gerantech.towercraft.managers
 		/** Play a sound */
 		public function playSound(id:String, volume:Number = 1.0, repetitions:int = 1, panning:Number = 0):void {			
 			
-			if (soundIsAdded(id))
+			if( soundIsAdded(id) )
 			{
-				var soundObject:Sound = sounds[id];
-				
-				var channel:SoundChannel = new SoundChannel();
-				
-				channel = soundObject.play(0, repetitions);
+				var category:int = sounds[id].c;
+				if( category == CATE_SFX && UserData.instance.getSetting(SettingsData.SFX) == 0 )
+					return;
+				if( category == CATE_THEME && UserData.instance.getSetting(SettingsData.MUSIC) == 0 )
+					return;
+
+				var soundObject:Sound = sounds[id].s;
+				var channel:SoundChannel = soundObject.play(0, repetitions);
 				
 				if (!channel)
 					return;
@@ -168,7 +177,8 @@ package com.gerantech.towercraft.managers
 			}
 			else
 			{
-				throw Error("This sound (id = " + id + " ) is not currently playing");
+				trace("This sound (id = " + id + " ) is not currently playing");
+				//throw Error("This sound (id = " + id + " ) is not currently playing");
 			}
 		}
 		// -------------------------------------------------------------------------------------------------------------------------
