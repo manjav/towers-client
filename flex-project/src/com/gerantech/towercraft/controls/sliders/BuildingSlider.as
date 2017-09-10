@@ -13,7 +13,6 @@ package com.gerantech.towercraft.controls.sliders
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
-	import starling.core.starling_internal;
 	
 	public class BuildingSlider extends ProgressBar
 	{
@@ -31,9 +30,9 @@ package com.gerantech.towercraft.controls.sliders
 		{
 			super.initialize();
 			
-			labelDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.85);
+			labelDisplay = new ShadowLabel("", 0xEEEEFF, 0, "center", null, false, null, 0.85);
 			labelDisplay.mainLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-			labelDisplay.shadowLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*AppModel.instance.scale);
+			labelDisplay.shadowLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3*AppModel.instance.scale);
 			labelDisplay.y = -6*AppModel.instance.scale;
 			//labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48*AppModel.instance.scale, 0xFFFFFF, "center");
 			
