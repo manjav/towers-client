@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.toasts
 {
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.popups.BasePopup;
+import com.gerantech.towercraft.controls.popups.AbstractPopup;
 
 import flash.geom.Rectangle;
 
@@ -10,7 +10,7 @@ import feathers.controls.LayoutGroup;
 import starling.animation.Transitions;
 import starling.display.DisplayObject;
 
-public class BaseToast extends BasePopup
+public class BaseToast extends AbstractPopup
 {
 
 override protected function initialize():void
