@@ -65,7 +65,7 @@ package com.gerantech.towercraft.controls.popups
 			newDeviceLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			addChild(newDeviceLabel);
 			
-			restoreCodeInput = new CustomTextInput(SoftKeyboardType.NUMBER, ReturnKeyLabel.DEFAULT);
+			restoreCodeInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
 			restoreCodeInput.layoutData = new AnchorLayoutData(NaN, NaN, padding*8, NaN, 0);
 			restoreCodeInput.prompt = loc("popup_link_new_promp");
 			addChild(restoreCodeInput);

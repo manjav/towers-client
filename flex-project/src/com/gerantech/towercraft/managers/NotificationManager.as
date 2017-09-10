@@ -3,6 +3,8 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
+	import com.gerantech.towercraft.models.vo.SettingsData;
+	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.utils.LoadAndSaver;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.Exchanger;
@@ -40,10 +42,13 @@ package com.gerantech.towercraft.managers
 		
 		public function reset():void
 		{
-			if(AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
+			if( AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
+				return;
+
+			clear();
+			if( UserData.instance.getSetting(SettingsData.NOTIFICATION) == 0 )
 				return;
 			
-			clear();
 			// notify exchanger items ...
 			var date:Date = new Date();
 			var secondsInDay:int = 24 * 3600000;
