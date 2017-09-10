@@ -165,10 +165,17 @@ package com.gerantech.towercraft.controls.segments
 				{
 					var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
 					confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
+					confirm1.addEventListener(Event.CANCEL, confirm1_cancelHandler);
 					appModel.navigator.addPopup(confirm1);
 					function confirm1_selectHandler ( event:Event ):void {
 						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+						confirm1.removeEventListener(Event.CANCEL, confirm1_cancelHandler);
 						echange(item, params);
+					}
+					function confirm1_cancelHandler ( event:Event ):void {
+						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+						confirm1.removeEventListener(Event.CANCEL, confirm1_cancelHandler);
+						item.enabled = true;
 					}
 					return;
 				}
