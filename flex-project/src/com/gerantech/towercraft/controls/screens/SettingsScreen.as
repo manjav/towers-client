@@ -7,6 +7,9 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.vo.SettingsData;
 	import com.gerantech.towercraft.models.vo.UserData;
 	
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+	
 	import mx.resources.ResourceManager;
 	
 	import feathers.controls.ScrollPolicy;
@@ -49,7 +52,7 @@ package com.gerantech.towercraft.controls.screens
 			else if( settingData.type == SettingsData.TYPE_BUTTON )
 			{
 				if( settingData.key == SettingsData.LEGALS )
-					trace("navigate to", loc("setting_value_"+settingData.key));
+					navigateTo(settingData.key);
 				else if( settingData.key == SettingsData.LINK_DEVICE )
 					appModel.navigator.addPopup(new LinkDevicePopup());
 			}
@@ -70,10 +73,15 @@ package com.gerantech.towercraft.controls.screens
 						BillingManager.instance.rate();
 						break;
 					default:
-						trace("navigate to", loc("setting_value_"+settingData.value));
+						navigateTo(settingData.value as int);
 						break;
 				}
 			}
+		}
+		
+		private function navigateTo(key:int):void
+		{
+			navigateToURL(new URLRequest(loc("setting_value_"+key)));		
 		}
 		
 		private function getSettingsData():ListCollection
