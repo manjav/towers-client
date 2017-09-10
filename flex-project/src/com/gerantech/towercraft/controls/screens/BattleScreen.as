@@ -346,7 +346,7 @@ package com.gerantech.towercraft.controls.screens
 				else if(touch.phase == TouchPhase.ENDED)
 				{
 					var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if(destination == null)
+					if( destination == null )
 					{
 						clearSources(sourcePlaces);
 						return;
