@@ -6,7 +6,7 @@ package com.gerantech.towercraft.controls.popups
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 
-	public class SimplePopup extends BasePopup
+	public class SimplePopup extends AbstractPopup
 	{
 		protected var padding:int;
 		

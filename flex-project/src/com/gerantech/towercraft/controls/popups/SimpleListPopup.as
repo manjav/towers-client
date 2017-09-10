@@ -15,7 +15,7 @@ package com.gerantech.towercraft.controls.popups
 	import starling.display.Quad;
 	import starling.events.Event;
 
-	public class SimpleListPopup extends BasePopup
+	public class SimpleListPopup extends AbstractPopup
 	{
 		public var buttons:Array;
 		public var paddind:int = 24;

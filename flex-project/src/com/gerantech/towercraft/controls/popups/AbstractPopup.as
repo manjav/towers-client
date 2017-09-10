@@ -8,7 +8,7 @@ package com.gerantech.towercraft.controls.popups
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	
-	public class BasePopup extends BaseOverlay
+	public class AbstractPopup extends BaseOverlay
 	{
 		
 		override protected function initialize():void

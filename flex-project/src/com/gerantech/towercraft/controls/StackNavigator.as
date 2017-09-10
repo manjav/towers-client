@@ -4,7 +4,7 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
-import com.gerantech.towercraft.controls.popups.BasePopup;
+import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.BugReportPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
@@ -52,7 +52,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 
 private function addedToStageHandler(event:Event):void
 {
-	popups = new Vector.<BasePopup>();
+	popups = new Vector.<AbstractPopup>();
 	popupsContainer = new LayoutGroup();
 	parent.addChild(popupsContainer);
 	
@@ -68,9 +68,9 @@ private function addedToStageHandler(event:Event):void
 }		
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  POPUPS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-private var popups:Vector.<BasePopup>;
+private var popups:Vector.<AbstractPopup>;
 private var popupsContainer:LayoutGroup;
-public function addPopup(popup:BasePopup) : void
+public function addPopup(popup:AbstractPopup) : void
 {
 	for( var i:int=0; i<popups.length; i++)
 	{
@@ -82,7 +82,7 @@ public function addPopup(popup:BasePopup) : void
 	popups.push(popup);
 	popup.addEventListener(Event.CLOSE, popup_closeHandler); 
 	function popup_closeHandler(event:Event):void {
-		var p:BasePopup = event.currentTarget as BasePopup;
+		var p:AbstractPopup = event.currentTarget as AbstractPopup;
 		p.removeEventListener(Event.CLOSE, popup_closeHandler);
 		popups.removeAt(popups.indexOf(p));
 	}
