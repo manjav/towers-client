@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.headers
 {
-import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -16,7 +16,7 @@ import feathers.layout.AnchorLayoutData;
 import starling.display.Quad;
 import starling.events.Event;
 
-public class LobbyHeader extends TowersLayout
+public class LobbyHeader extends SimpleLayoutButton
 {
 private var room:Room;
 private var usersDisplay:RTLLabel;
@@ -62,7 +62,7 @@ override protected function initialize():void
 	infoButton.label = "i";
 	infoButton.width = infoButton.height = 84*appModel.scale;
 	infoButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 , NaN, -padding*0.5);
-	infoButton.addEventListener(Event.TRIGGERED, infoButton_triggeredHandler);
+	addEventListener(Event.TRIGGERED, infoButton_triggeredHandler);
 	addChild(infoButton);
 }
 
