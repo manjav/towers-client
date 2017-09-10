@@ -52,7 +52,8 @@ package com.gerantech.towercraft
 		private function addScreen(screenType:String, screenClass:Object, hasTranstion:Boolean = true):void
 		{
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
-			item.pushTransition = Cover.createCoverUpTransition();
+			if( hasTranstion )
+				item.pushTransition = Cover.createCoverUpTransition();
 			item.popTransition = Reveal.createRevealDownTransition()
 			item.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(screenType, item);			
