@@ -28,7 +28,7 @@ package com.gerantech.towercraft.managers.socials
 		public function init(type:int):void
 		{
 			this.type = type;
-			if( UserData.getInstance().authenticationAttemps > 1 )
+			if( UserData.instance.authenticationAttemps > 1 )
 			{
 				dispatchFailurEvent("out of authentication attemps");
 				return;
@@ -48,8 +48,8 @@ package com.gerantech.towercraft.managers.socials
 		private function timeoutCallback():void
 		{
 			dispatchFailurEvent("Sign in timeout.");
-			UserData.getInstance().authenticationAttemps ++;
-			UserData.getInstance().save();
+			UserData.instance.authenticationAttemps ++;
+			UserData.instance.save();
 		}
 		
 		public function signin():void
@@ -91,8 +91,8 @@ package com.gerantech.towercraft.managers.socials
 			
 			//log( "Auth error occurred: "+ event.errorMessage );
 			dispatchFailurEvent(event.errorMessage);
-			UserData.getInstance().authenticationAttemps ++;
-			UserData.getInstance().save();
+			UserData.instance.authenticationAttemps ++;
+			UserData.instance.save();
 		}
 		
 		private function dispatchFailurEvent(errorMessag:String):void

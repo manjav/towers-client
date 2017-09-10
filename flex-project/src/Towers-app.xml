@@ -28,7 +28,7 @@
 	Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
 	An updated version of application must have a versionNumber value higher than the previous version. Required for namespace >= 2.5 .
     For iOS Apps, this represents build number. -->
-	<versionNumber>0.1.50</versionNumber>
+	<versionNumber>0.1.60</versionNumber>
 		         
 	<!-- A string value (such as "v1", "2.5", or "Alpha 1") that represents the version of the application, as it should be shown to users. 
      For iOS Apps, this represents application version number and format should be (<0-999>.<0-999>.<0-999>).
@@ -39,9 +39,9 @@
 	<!-- Description, displayed in the AIR application installer.
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
 	<description>
-		{"target":"android", "market":"cafebazaar"}
+		{"target":"android", "market":"myket"}
 	</description>
-    <!---myket-cando-google -->
+    <!--- cafebazaar-myket-cando-google -->
 
 	<!-- Copyright information. Optional -->
 	<!-- <copyright></copyright> -->
@@ -323,8 +323,8 @@
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 			    
 			    <!--<uses-permission android:name="com.android.vending.BILLING" />-->
-     			<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
-    			<!--<uses-permission android:name="ir.mservices.market.BILLING" />-->
+<!--      			<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> -->
+    			<uses-permission android:name="ir.mservices.market.BILLING" />
 
 	            <application android:enabled="true" >
 								
@@ -395,10 +395,9 @@
 		]]></InfoAdditions>
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
-	<extensions>
-	    <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
-	    <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
-    <extensionID>com.marpies.ane.androidsupport</extensionID>
+	
+<extensions>
+        <extensionID>com.marpies.ane.androidsupport</extensionID>
         <extensionID>com.marpies.ane.gameanalytics</extensionID>
         <extensionID>com.marpies.ane.gameServices</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
@@ -411,5 +410,7 @@
         <extensionID>com.marpies.ane.googleplayservices.location</extensionID>
         <extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
         <extensionID>com.marpies.ane.onesignal</extensionID>
+        <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
+        <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     </extensions>
 </application>

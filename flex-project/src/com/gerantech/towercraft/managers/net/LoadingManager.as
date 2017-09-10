@@ -183,10 +183,10 @@ package com.gerantech.towercraft.managers.net
 			inBattle = serverData.getBool("inBattle");
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
-			if( UserData.getInstance().authenticated )
+			//if( UserData.instance.authenticated )
 				finalize();
-			else
-				authenticateSocial();
+			//else
+			//	authenticateSocial();
 		}
 		
 		/************************   AUTHENTICATE SOCIAL OR GAME SERVICES   ***************************/
@@ -245,14 +245,14 @@ package com.gerantech.towercraft.managers.net
 			if( event.params.cmd != SFSCommands.OAUTH )
 				return;
 			sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-			UserData.getInstance().authenticated = true;
+			UserData.instance.authenticated = true;
 
 			finalize();
 			
 			var sfs:SFSObject = event.params.params;
 			if( sfs.getInt("playerId") == AppModel.instance.game.player.id )
 			{
-				UserData.getInstance().save();	
+				UserData.instance.save();	
 				return;
 			}
 			
@@ -270,15 +270,15 @@ package com.gerantech.towercraft.managers.net
 			if(event.type == "select")
 			{
 				var sfs:SFSObject = confirm.data as SFSObject;
-				UserData.getInstance().id = sfs.getInt("playerId");
-				UserData.getInstance().password = sfs.getText("playerPassword");
+				UserData.instance.id = sfs.getInt("playerId");
+				UserData.instance.password = sfs.getText("playerPassword");
 				NativeAbilities.instance.showToast(sfs.getInt("playerId") + " core:" + AppModel.instance.game.player.id, 2);
 				//AppModel.instance.navigator.addChild(new GameLog(sfs.getInt("playerId") + " " + AppModel.instance.game.player.id + " " + sfs.getText("playerPassword")))
-				UserData.getInstance().save();
+				UserData.instance.save();
 				dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
 				return;
 			}
-			UserData.getInstance().save();
+			UserData.instance.save();
 		}
 		
 		/***********************************   FINALIZE   ***************************************/
@@ -297,19 +297,19 @@ package com.gerantech.towercraft.managers.net
 			OneSignal.idsAvailable( onOneSignalIdsAvailable );
 			function onOneSignalIdsAvailable( oneSignalUserId:String, oneSignalPushToken:String ):void {
 				var pushParams:ISFSObject = new SFSObject();
-				if( UserData.getInstance().oneSignalUserId != oneSignalUserId )
+				if( UserData.instance.oneSignalUserId != oneSignalUserId )
 				{
 					pushParams.putText("oneSignalUserId", oneSignalUserId);
-					UserData.getInstance().oneSignalUserId = oneSignalUserId;
+					UserData.instance.oneSignalUserId = oneSignalUserId;
 				}
-				if( UserData.getInstance().oneSignalPushToken != oneSignalPushToken )
+				if( UserData.instance.oneSignalPushToken != oneSignalPushToken )
 				{
 					pushParams.putText("oneSignalPushToken", oneSignalPushToken);
-					UserData.getInstance().oneSignalPushToken = oneSignalPushToken;// 'pushToken' may be null if there's a server or connection error
+					UserData.instance.oneSignalPushToken = oneSignalPushToken;// 'pushToken' may be null if there's a server or connection error
 				}
 				if( pushParams.containsKey("oneSignalUserId") )
 				{
-					UserData.getInstance().save();
+					UserData.instance.save();
 					sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
 				}
 			}
