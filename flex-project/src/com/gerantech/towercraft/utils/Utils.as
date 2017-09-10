@@ -1,7 +1,5 @@
 package com.gerantech.towercraft.utils
 {
-	import com.hurlant.crypto.hash.MD5;
-	
 	import flash.geom.Point;
 	import flash.net.registerClassAlias;
 	import flash.system.Capabilities;
@@ -16,7 +14,7 @@ package com.gerantech.towercraft.utils
 		public static function getVersionCode(version : String):int
 		{
 			var vs:Array = version.split(".");
-			return (int(vs[0])*10000) + (int(vs[1])*100) + int(vs[2]);
+			return (int(vs[0])*1000000) + (int(vs[1])*1000) + int(vs[2]);
 		}
 		//private static var _images:Vector.<Image> = new Vector.<Image>();
 		
