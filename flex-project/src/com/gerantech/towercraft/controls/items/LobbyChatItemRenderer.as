@@ -46,7 +46,10 @@ override protected function commitData():void
 		return;
 	
 	if( segment )
+	{
 		segment.removeFromParent();
+		segment = null;		
+	}
 
 	type = SFSObject(_data).getShort("m");
 	if( MessageTypes.isComment(type) )
@@ -63,9 +66,10 @@ override protected function commitData():void
 		case TYPE_DONATE:
 			break;
 		case TYPE_BATTLE:
-			segment = battleSegment;
+			segment =  battleSegment;
 			break;
 	}
+	
 	segment.commitData(_data as SFSObject);//trace(index, type, segment.data.getDump())
 	addChild(segment);
 	resetSize();
