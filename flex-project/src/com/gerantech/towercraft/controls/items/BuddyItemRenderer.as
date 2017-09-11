@@ -5,9 +5,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.smartfoxserver.v2.entities.Buddy;
-import com.smartfoxserver.v2.entities.variables.BuddyVariable;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
-import com.smartfoxserver.v2.util.BuddyOnlineState;
 
 import flash.text.engine.ElementFormat;
 
@@ -19,6 +17,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 
 import starling.events.Event;
+import starling.events.Touch;
 
 public class BuddyItemRenderer extends BaseCustomItemRenderer
 {
@@ -36,7 +35,10 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 	private var buddy:Buddy;
 	private var statusDisplay:LayoutGroup;
 
-	
+	public function getTouch():Touch
+	{
+		return touch;
+	}
 
 	override protected function initialize():void
 	{

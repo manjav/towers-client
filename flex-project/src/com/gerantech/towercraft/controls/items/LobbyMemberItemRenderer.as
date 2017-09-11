@@ -14,6 +14,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 
 import starling.events.Event;
+import starling.events.Touch;
 
 public class LobbyMemberItemRenderer extends BaseCustomItemRenderer
 {
@@ -99,6 +100,10 @@ override protected function commitData():void
 protected function item_triggeredHandler(event:Event):void
 {
 	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+}
+public function getTouch():Touch
+{
+	return touch;
 }
 }
 }
