@@ -19,6 +19,7 @@ package com.gerantech.towercraft.controls.overlays
 		protected override function addedToStageHandler(event:Event):void
 		{
 			super.addedToStageHandler(event);
+			overlay.touchable = false;
 			closeOnStage = false;
 			setTimeout(function():void{closeOnStage = true}, task.skipableAfter);
 		}
