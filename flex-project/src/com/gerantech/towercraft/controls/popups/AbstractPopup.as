@@ -10,12 +10,15 @@ package com.gerantech.towercraft.controls.popups
 	
 	public class AbstractPopup extends BaseOverlay
 	{
+		public function AbstractPopup()
+		{
+			closeOnStage = false;
+			closeOnOverlay = true;
+		}
 		
 		override protected function initialize():void
 		{
 			super.initialize();
-			closeOnStage = false;
-			closeOnOverlay = true;
 			
 			if( transitionIn == null )
 			{

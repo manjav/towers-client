@@ -54,6 +54,10 @@ override public function commitData(_data:ISFSObject):void
 	{
 		actionButton.label = loc( "lobby_battle_spectate" );
 		messageDisplay.text = loc( "lobby_battle_in", [data.getText("s"), data.getText("o")]);
+	}	
+	else if( data.getShort("st") == 2 )
+	{
+		messageDisplay.text = loc( "lobby_battle_ended", [data.getText("s"), data.getText("o")]);
 	}
 }
 

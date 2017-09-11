@@ -152,12 +152,14 @@ private function membersList_focusInHandler(event:Event):void
 		return;
 	
 	var selectedData:Object = selectedItem.data;
-	if( selectedData.id == player.id )
-		return;
+
 	var btns:Array = ["lobby_profile"];//trace(findUser(player.id).pr , selectedData.pr)
-	var user:Object = findUser(player.id);
-	if( user != null && user.pr != null && user.pr > selectedData.pr )
-		btns.push( "lobby_kick" );
+	if( selectedData.id != player.id )
+	{
+		var user:Object = findUser(player.id);
+		if( user != null && user.pr != null && user.pr > selectedData.pr )
+			btns.push( "lobby_kick" );
+	}
 	buttonsPopup = new SimpleListPopup();
 	buttonsPopup.buttons = btns;
 	buttonsPopup.data = selectedData;
@@ -167,21 +169,18 @@ private function membersList_focusInHandler(event:Event):void
 	buttonsPopup.buttonHeight = 120 * appModel.scale;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.paddind * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.paddind * 2;
-	
-	var ti:TransitionData = new TransitionData(0.1);
-	ti.transition = Transitions.EASE_IN_OUT_BACK;
-	ti.sourceBound = new Rectangle(stage.stageWidth/3, selectedItem.getBounds(stage).y-floatingH/8, floatingW/2, floatingH/2);
-	ti.destinationBound = new Rectangle(stage.stageWidth/3-floatingW/2, selectedItem.getBounds(stage).y-floatingH/4, floatingW, floatingH);
-	
-	var to:TransitionData = new TransitionData(0.1);
+	var floatingY:int = selectedItem.getBounds(stage).y
+	var ti:TransitionData = new TransitionData(0.2);
+	ti.transition = Transitions.EASE_OUT_BACK;
+	var to:TransitionData = new TransitionData(0.2);
 	to.sourceAlpha = 1;
 	to.destinationAlpha = 0;
-	to.sourceBound = ti.destinationBound;
-	to.destinationBound = ti.destinationBound;
-	
+	to.destinationBound = ti.sourceBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.4, floatingW, floatingH*0.8);
+	to.sourceBound = ti.destinationBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.5, floatingW, floatingH);
 	buttonsPopup.transitionIn = ti;
 	buttonsPopup.transitionOut = to;
-	addChild(buttonsPopup);
+	appModel.navigator.addPopup(buttonsPopup);
+
 }		
 private function buttonsPopup_selectHandler(event:Event):void
 {

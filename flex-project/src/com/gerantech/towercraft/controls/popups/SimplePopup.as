@@ -17,7 +17,6 @@ package com.gerantech.towercraft.controls.popups
 		
 		override protected function initialize():void
 		{
-			closeOnStage = false;
 			super.initialize();
 			
 			layout = new AnchorLayout();

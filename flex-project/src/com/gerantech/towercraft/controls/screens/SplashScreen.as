@@ -91,6 +91,7 @@ package com.gerantech.towercraft.controls.screens
 				case LoadingEvent.CONNECTION_LOST:
 					var reloadpopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_reload_label"));
 					reloadpopup.data = confirmData;
+					reloadpopup.closeOnOverlay = false;
 					reloadpopup.addEventListener(Event.SELECT, confirm_eventsHandler);
 					AppModel.instance.navigator.addPopup(reloadpopup);
 					if(parent)
@@ -123,6 +124,7 @@ package com.gerantech.towercraft.controls.screens
 						confirmData.putSFSObject("serverData", event.data as SFSObject);
 					
 					var confirm:ConfirmPopup = new ConfirmPopup(message, loc(acceptLabel));
+					confirm.closeOnOverlay = false;
 					confirm.data = confirmData;
 					confirm.declineStyle = "danger";
 					confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
@@ -140,6 +142,7 @@ package com.gerantech.towercraft.controls.screens
 		private function confirm_eventsHandler(event:Event):void
 		{
 			var confirm:ConfirmPopup = event.currentTarget as ConfirmPopup;
+			confirm.closeOnOverlay = false;
 			confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
 			confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 			

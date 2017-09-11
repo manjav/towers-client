@@ -5,13 +5,10 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.headers.AttendeeHeader;
 	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.BattleData;
 	import com.gerantech.towercraft.utils.StrUtils;
-	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.constants.StickerType;
 	
 	import flash.utils.setTimeout;
@@ -26,7 +23,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
-	import feathers.layout.TiledColumnsLayout;
 	import feathers.layout.TiledRowsLayout;
 	import feathers.layout.VerticalAlign;
 	
@@ -95,7 +91,7 @@ package com.gerantech.towercraft.controls
 				_name = battleData.me.getVariable("name").getStringValue();
 				_point = battleData.me.getVariable("point").getIntValue();
 				var meHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
-				meHeader.layoutData = new AnchorLayoutData(NaN, NaN, 0, leftPadding );
+				meHeader.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0 );
 				addChild(meHeader);
 			}
 			
