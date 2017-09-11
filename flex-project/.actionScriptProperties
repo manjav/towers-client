@@ -65,9 +65,7 @@
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
       <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.android.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="C:/_projects/towers-projects/towers-assets/towers=p1~5.p12" airTimestamp="true" anePathSet="true" version="1">
-        <airExcludes>
-          <pathEntry path="assets/images/game.xml"/>
-        </airExcludes>
+        <airExcludes/>
         <anePaths>
           <anePathEntry path="ane/iab.ane"/>
           <anePathEntry path="ane/native-android.ane"/>
