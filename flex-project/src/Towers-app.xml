@@ -39,7 +39,7 @@
 	<!-- Description, displayed in the AIR application installer.
 	May have multiple values for each language. See samples or xsd schema file. Optional. -->
 	<description>
-		{"target":"android", "market":"myket"}
+		{"target":"android", "market":"cafebazaar"}
 	</description>
     <!--- cafebazaar-myket-cando-google -->
 
@@ -323,8 +323,8 @@
 				<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 			    
 			    <!--<uses-permission android:name="com.android.vending.BILLING" />-->
-<!--      			<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> -->
-    			<uses-permission android:name="ir.mservices.market.BILLING" />
+	     			<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
+<!--     			<uses-permission android:name="ir.mservices.market.BILLING" /> -->
 
 	            <application android:enabled="true" >
 								
