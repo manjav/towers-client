@@ -97,6 +97,9 @@ package com.gerantech.towercraft.managers.net
 					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 				}
 			}
+			loginParams.putInt("appver", AppModel.instance.descriptor.versionCode);
+			loginParams.putText("market", AppModel.instance.descriptor.market);
+
 			sfsConnection.login(__id.toString(), UserData.instance.password, "", loginParams);
 		}		
 
