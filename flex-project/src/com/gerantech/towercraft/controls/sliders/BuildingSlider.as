@@ -30,7 +30,7 @@ package com.gerantech.towercraft.controls.sliders
 		{
 			super.initialize();
 			
-			labelDisplay = new ShadowLabel("", 0xEEEEFF, 0, "center", null, false, null, 0.85);
+			labelDisplay = new ShadowLabel("", 0xEEEEFF, 0, "center", "ltr", false, null, 0.85);
 			labelDisplay.mainLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 			labelDisplay.shadowLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3*AppModel.instance.scale);
 			labelDisplay.y = -6*AppModel.instance.scale;
