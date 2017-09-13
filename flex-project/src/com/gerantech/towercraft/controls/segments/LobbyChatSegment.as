@@ -196,7 +196,6 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	
 	
 	var msg:ISFSObject = event.params.params as SFSObject;
-	trace(";;;;;", msg.getDump());
 	if( msg.getShort("m") == MessageTypes.M0_TEXT )
 	{
 		var last:SFSObject = messageCollection.length > 0 ? SFSObject(messageCollection.getItemAt(messageCollection.length-1)) : null;
