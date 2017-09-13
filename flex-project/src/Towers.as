@@ -39,6 +39,7 @@ package
 				}
 				trace(str);
 			}
+			NativeApplication.nativeApplication.exit();
 			return;*/
 
 			t = getTimer();
