@@ -110,8 +110,10 @@ package com.gerantech.towercraft.controls
 			{
 				if( !SFSConnection.instance.mySelf.isSpectator )
 				{
-					var stickerButton:Button = new Button();
-					stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
+					var stickerButton:CustomButton = new CustomButton();
+					stickerButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
+					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+					stickerButton.width = 140 * appModel.scale;
 					stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
 					stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 					addChild(stickerButton);
