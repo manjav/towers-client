@@ -1,22 +1,21 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.GameLog;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.constants.ResourceType;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Point;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
 import flash.utils.setTimeout;
-
-import adobe.utils.CustomActions;
 
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -44,7 +43,7 @@ public class MainSegment extends Segment
 	private static var dragonBonesData:DragonBonesData;
 	private static var floating:MapElementFloating;
 	
-	private var intervalId:uint;
+	private var intervalId:uint = 0;
 
 	public function MainSegment()
 	{
@@ -74,37 +73,7 @@ public class MainSegment extends Segment
 		
 		initializeCompleted = true;
 	}
-	
-	private function showButtons():void
-	{
-		var gradient:ImageLoader = new ImageLoader();
-		gradient.maintainAspectRatio = false;
-		gradient.alpha = 0.5;
-		gradient.width = 500 * appModel.scale;
-		gradient.height = 120 * appModel.scale;
-		gradient.source = Assets.getTexture("grad-ro-right", "skin");
-		gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
-		addChild(gradient);
-		
-		var settingButton:IconButton = new IconButton(Assets.getTexture("button-settings", "gui"));
-		settingButton.width = settingButton.height = 120 * appModel.scale;
-		settingButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);});
-		settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 6*appModel.scale);
-		addChild(settingButton);
-		
-		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
-		inboxButton.width = inboxButton.height = 120 * appModel.scale;
-		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
-		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 126*appModel.scale);
-		addChild(inboxButton);
-		
-		var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
-		newsButton.width = newsButton.height = 110 * appModel.scale;
-		newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
-		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 246*appModel.scale);
-		addChild(newsButton);
-	}
-	
+
 	private function showMap():void
 	{
 		if(dragonBonesData == null)
@@ -176,9 +145,13 @@ public class MainSegment extends Segment
 					intervalId = setInterval(punchButton, 2000,  getChildByName("portal-center") as SimpleButton);
 				}
 			}
-			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
+			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT) )
 			{
 				intervalId = setInterval(punchButton, 3000,  getChildByName("gold-leaf") as SimpleButton);
+			}
+			if( intervalId == 0 && player.get_arena(0) == 0 && Math.random() > 0.6 )
+			{
+				intervalId = setInterval(punchButton, 3000,  getChildByName("portal-tower") as SimpleButton);
 			}
 		}
 	}
@@ -251,6 +224,44 @@ public class MainSegment extends Segment
 					break;
 			}
 		}
+	}
+	
+	private function showButtons():void
+	{
+		if( player.inTutorial() )
+			return;
+		
+		var gradient:ImageLoader = new ImageLoader();
+		gradient.maintainAspectRatio = false;
+		gradient.alpha = 0.5;
+		gradient.width = 500 * appModel.scale;
+		gradient.height = 120 * appModel.scale;
+		gradient.source = Assets.getTexture("grad-ro-right", "skin");
+		gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
+		addChild(gradient);
+		
+		var settingButton:IconButton = new IconButton(Assets.getTexture("button-settings", "gui"));
+		settingButton.width = settingButton.height = 120 * appModel.scale;
+		settingButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);});
+		settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 6*appModel.scale);
+		addChild(settingButton);
+		
+		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton.width = inboxButton.height = 120 * appModel.scale;
+		//inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		
+		inboxButton.addEventListener(Event.TRIGGERED, function():void{
+			var p:SFSObject = new SFSObject();
+			p.putInt("id", SFSConnection.instance.myLobby.id);
+			SFSConnection.instance.sendExtensionRequest("resetalllobbies", p)});
+		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 126*appModel.scale);
+		addChild(inboxButton);
+		
+		var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
+		newsButton.width = newsButton.height = 110 * appModel.scale;
+		newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 246*appModel.scale);
+		addChild(newsButton);
 	}
 	
 	private function gotoLiveBattle():void
