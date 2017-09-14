@@ -221,8 +221,6 @@ private function buttonsPopup_selectHandler(event:Event):void
 }
 private function joinleaveButton_triggeredHandler(event:Event):void
 {
-	var params:SFSObject = new SFSObject();
-	params.putInt("id", roomData.id);
 	if( itsMyRoom )
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc(memberCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
@@ -234,11 +232,20 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE, params);
 			SFSConnection.instance.lastJoinedRoom = null;
+			SFSConnection.instance.myLobby = null;
 			updateLobbyLayout(false);
 		}
 		return;
 	}
-	//SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomJoinHandler);
+	
+	if( SFSConnection.instance.myLobby != null )
+	{
+		appModel.navigator.addLog(loc("lobby_join_error", [SFSConnection.instance.myLobby.name]));
+		return;
+	}
+
+	var params:SFSObject = new SFSObject();
+	params.putInt("id", roomData.id);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
 	updateLobbyLayout(true);
 }
