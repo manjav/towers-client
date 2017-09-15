@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
@@ -21,8 +22,10 @@ import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingFactory;
 
+import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.controls.StackScreenNavigatorItem;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 
@@ -228,6 +231,14 @@ public class MainSegment extends Segment
 	
 	private function showButtons():void
 	{
+		var restoreButton:Button = new Button();
+		restoreButton.alpha = 0;
+		restoreButton.isLongPressEnabled = true;
+		restoreButton.longPressDuration = 3;
+		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.addPopup(new RestorePopup());});
+		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
+		addChild(restoreButton);
+		
 		if( player.inTutorial() )
 			return;
 		
