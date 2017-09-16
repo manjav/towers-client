@@ -1,27 +1,17 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.Spacer;
-import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.SettingsData;
-import com.gerantech.towercraft.utils.StrUtils;
 
-import flash.geom.Rectangle;
-
-import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalAlign;
-import feathers.layout.VerticalLayout;
-import feathers.skins.ImageSkin;
 
-import starling.display.DisplayObject;
 import starling.events.Event;
 
 public class SettingsItemRenderer extends BaseCustomItemRenderer
@@ -84,7 +74,7 @@ public class SettingsItemRenderer extends BaseCustomItemRenderer
 		else
 		{
 			buttonDisplay = new CustomButton();
-			buttonDisplay.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+			buttonDisplay.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3*appModel.scale);
 			buttonDisplay.width = 140 * appModel.scale;
 			if( settingData.type == SettingsData.TYPE_BUTTON )
 				buttonDisplay.label = loc("setting_label_"+settingData.key);
