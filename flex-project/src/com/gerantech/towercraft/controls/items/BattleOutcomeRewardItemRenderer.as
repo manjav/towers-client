@@ -66,8 +66,11 @@ package com.gerantech.towercraft.controls.items
 		
 		override protected function feathersControl_removedFromStageHandler(event:Event):void
 		{
-			var rect:Rectangle = getBounds(stage);
-			appModel.navigator.dispatchEventWith("itemAchieved", true, {index:index, x:rect.x+rect.width/2, y:rect.y+rect.height/2, type:_data.t, count:_data.c});
+			if( _data.c != 0 )
+			{
+				var rect:Rectangle = getBounds(stage);
+				appModel.navigator.dispatchEventWith("itemAchieved", true, {index:index, x:rect.x+rect.width/2, y:rect.y+rect.height/2, type:_data.t, count:_data.c});
+			}
 			super.feathersControl_removedFromStageHandler(event);
 		}
 		

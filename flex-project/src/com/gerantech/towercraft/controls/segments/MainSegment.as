@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.models.Assets;
@@ -253,9 +254,9 @@ public class MainSegment extends Segment
 	{
 		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 		item.properties.requestField = null ;
-		//item.properties.waitingOverlay = new WaitingOverlay() ;
+		item.properties.waitingOverlay = new WaitingOverlay() ;
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-		//appModel.navigator.addOverlay(item.properties.waitingOverlay);		
+		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
 	
 	private function punchButton(mapElement:SimpleButton):void
