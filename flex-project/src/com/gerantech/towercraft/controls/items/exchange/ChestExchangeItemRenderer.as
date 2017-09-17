@@ -129,7 +129,7 @@
 			if( state != 1 )
 				return;
 			
-			var t:uint = uint(exchange.expiredAt - timeManager.now);trace(index, t)
+			var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
 			timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
 			buttonDisplay.count = exchanger.timeToKey(t);			
 		}
