@@ -6,8 +6,8 @@ package com.gerantech.towercraft.controls.buttons
 	public class ExchangeButton extends CustomButton
 	{
 		public var currency:String = "";		
-		private var _type:int;
-		private var _count:int;
+		private var _type:int = -2;
+		private var _count:int = -2;
 
 		public function ExchangeButton()
 		{
@@ -34,7 +34,7 @@ package com.gerantech.towercraft.controls.buttons
 				return;
 			_type = value;
 			
-			var hasIcon:Boolean = _type > 0 && _type!= ResourceType.CURRENCY_REAL;
+			var hasIcon:Boolean = _count > 0 && _type > 0 && _type!= ResourceType.CURRENCY_REAL;
 			if( hasIcon )
 				icon = Assets.getTexture("res-"+_type, "gui");
 		}

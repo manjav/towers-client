@@ -54,10 +54,10 @@
 				return;
 			super.commitData();
 			if(firstCommit)
-			{
-				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 				firstCommit = false;
-			}
+			
+			timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			
 			header = new ExchangeHeader("chest-banner", new Rectangle(78, 0, 4, 74), 40*appModel.scale); 
 			header.label = loc("exchange_title_"+exchange.type);
@@ -99,9 +99,10 @@
 			updateArmature(state, event.eventObject.animationState.name == "fall");
 		}
 		
-		private function timeManager_changeHandler():void
+		private function timeManager_changeHandler(event:Event):void
 		{
 			updateElements(exchange.expiredAt > timeManager.now ? 1 : 0);
+			updateCounter();
 		}
 		private function updateElements(state:int):void
 		{
@@ -112,17 +113,25 @@
 			timeDisplay.visible = state==1;
 			if( state == 1 )
 			{
-				var t:uint = uint(exchange.expiredAt - timeManager.now);
-				timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
-				buttonDisplay.count = exchanger.timeToKey(t);
+				updateCounter();
 				buttonDisplay.type = ResourceType.KEY;
 			}
-			else if( state==0 )
+			else if( state == 0 )
 			{
 				buttonDisplay.count = -1;
 				buttonDisplay.type = -1;
 			}
 			updateArmature(state);
+		}
+		
+		private function updateCounter():void
+		{
+			if( state != 1 )
+				return;
+			
+			var t:uint = uint(exchange.expiredAt - timeManager.now);trace(index, t)
+			timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
+			buttonDisplay.count = exchanger.timeToKey(t);			
 		}
 		
 		private function updateArmature(state:int, immediatly:Boolean=false):void
@@ -149,7 +158,7 @@
 		
 		override public function dispose():void
 		{
-			timeManager.removeEventListeners(Event.CHANGE);
+			timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 			if( chestArmature )
 				chestArmature.removeEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 			clearTimeout(armatorTimeoutId);
