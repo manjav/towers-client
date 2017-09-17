@@ -1,13 +1,10 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.GameLog;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.models.Assets;
@@ -16,8 +13,6 @@ import flash.geom.Point;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
 import flash.utils.setTimeout;
-
-import adobe.utils.CustomActions;
 
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -258,9 +253,9 @@ public class MainSegment extends Segment
 	{
 		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 		item.properties.requestField = null ;
-		item.properties.waitingOverlay = new WaitingOverlay() ;
+		//item.properties.waitingOverlay = new WaitingOverlay() ;
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
+		//appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
 	
 	private function punchButton(mapElement:SimpleButton):void

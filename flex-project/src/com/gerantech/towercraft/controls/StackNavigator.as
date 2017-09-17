@@ -1,26 +1,28 @@
 package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.buttons.SimpleButton;
+import com.gerantech.towercraft.controls.animations.AchievedItem;
+import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
-import com.gerantech.towercraft.controls.popups.BugReportPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
-import com.gerantech.towercraft.controls.popups.RestorePopup;
+import com.gerantech.towercraft.controls.screens.ArenaScreen;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
+import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
 import mx.resources.ResourceManager;
@@ -30,11 +32,9 @@ import avmplus.getQualifiedClassName;
 import feathers.controls.LayoutGroup;
 import feathers.controls.StackScreenNavigator;
 import feathers.controls.StackScreenNavigatorItem;
-import feathers.events.FeathersEventType;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.Image;
 import starling.events.Event;
 
 public class StackNavigator extends StackScreenNavigator
@@ -42,12 +42,33 @@ public class StackNavigator extends StackScreenNavigator
 public function StackNavigator()
 {
 	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	addEventListener("itemAchieved", itemAchievedHandler);
+	addEventListener(Event.CHANGE, navigator_changeHandler);
 	AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+}
+
+private function navigator_changeHandler(event:Event):void
+{
+	if( toolbar )
+	{
+		if( activeScreenID != Main.DASHBOARD_SCREEN )
+		{
+			toolbar.removeFromParent();
+			return;
+		}
+		addChild(toolbar);
+		toolbar.alpha = 0;
+		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
+	}
 }
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
+	
+	toolbar = new Toolbar();
+	toolbar.width = stage.stageWidth;
+	addChild(toolbar);
 }
 
 private function addedToStageHandler(event:Event):void
@@ -108,7 +129,7 @@ public function addOverlay(overlay:BaseOverlay) : void
 	}
 }
 
-// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  OVERLAYS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function addToast(toast:BaseToast) : void
 {
 	addPopup(toast);
@@ -137,6 +158,28 @@ public function addLogGame(log:GameLog) : void
 	Starling.juggler.tween(logsContainer, 0.3, {y : logsContainer.y - GameLog.GAP, transition:Transitions.EASE_OUT, onComplete:function():void{busyLogger=false;}});
 }
 
+// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ANIMATIONS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+public var toolbar:Toolbar;
+public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
+{
+	var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
+	indicator.value -= count;
+	var zone:Rectangle = indicator.iconDisplay.getBounds(stage);
+	var anim:AchievedItem = new AchievedItem(resourceType, count);
+	anim.x = x;
+	anim.y = y;
+	anim.scale = 0;
+	Starling.juggler.tween(anim, 0.7, {scaleX:1.0, transition:Transitions.EASE_OUT_ELASTIC});
+	Starling.juggler.tween(anim, 0.7, {scaleY:1.0, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(anim, 0.5, {scale:0.3, delay:1+delay, x:zone.x+zone.width/2, y:zone.y, transition:Transitions.EASE_IN, onComplete:function():void{indicator.punch();anim.removeFromParent(true);}});
+	parent.addChild(anim);
+}
+private function itemAchievedHandler(event:Event):void
+{
+	if( activeScreenID != Main.DASHBOARD_SCREEN )
+		return;
+	addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
+}
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BUG REPORT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 /*public function showBugReportButton():void
