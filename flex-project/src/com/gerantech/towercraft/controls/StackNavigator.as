@@ -74,9 +74,12 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
 	
-	toolbar = new Toolbar();
-	toolbar.width = stage.stageWidth;
-	addChild(toolbar);
+	if( toolbar == null )
+	{
+		toolbar = new Toolbar();
+		toolbar.width = stage.stageWidth;
+		addChild(toolbar);
+	}
 }
 
 private function addedToStageHandler(event:Event):void
