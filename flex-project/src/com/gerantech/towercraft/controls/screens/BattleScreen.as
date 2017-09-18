@@ -163,7 +163,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					places = new PlaceDataList();
 					places.push(place);
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
+					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
 				}
 				tutorials.show(this, tutorialData);
 			}
@@ -296,6 +296,16 @@ package com.gerantech.towercraft.controls.screens
 			for(var i:int=0; i<towers.size(); i++)
 			{
 				var t:Array = towers.getText(i).split(",");//trace(t)
+				if( appModel.battleFieldView.battleData.map.name == "quest_2" && appModel.battleFieldView.places[t[0]].place.building.troopType != 0 && t[0] == 0 && t[2] == player.troopType )
+				{
+					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = t[0];
+					var tutorialData:TutorialData = new TutorialData("roomVariablesUpdate");
+					var places:PlaceDataList = appModel.battleFieldView.battleData.map.getSwipeTutorPlaces();
+					if( places.size() > 0 )
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
+					tutorials.show(this, tutorialData);
+					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = -1;
+				}
 				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
 			}			
 		}
