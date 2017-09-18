@@ -4,6 +4,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
+	import com.gerantech.towercraft.managers.UserPrefs;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
@@ -54,6 +55,9 @@ package com.gerantech.towercraft.managers.net
 			state = STATE_CONNECT;
 			if( AppModel.instance.navigator != null )
 				AppModel.instance.navigator.popToRootScreen();
+			
+			if(UserData.instance.prefs == null )
+				UserData.instance.prefs = new UserPrefs();
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
@@ -134,7 +138,6 @@ package com.gerantech.towercraft.managers.net
 			if( TimeManager.instance != null )
 				TimeManager.instance.dispose();
 			new TimeManager(serverData.getLong("serverTime"));
-
 			
 			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
 			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )
@@ -171,6 +174,8 @@ package com.gerantech.towercraft.managers.net
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 			state = STATE_LOADED;
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
+			
+			UserData.instance.prefs.requestData();
 		}
 
 	}

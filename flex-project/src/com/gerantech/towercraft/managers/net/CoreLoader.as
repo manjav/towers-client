@@ -67,6 +67,7 @@ package com.gerantech.towercraft.managers.net
 			var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 			
 			AppModel.instance.game = new Game(initData);
+			AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
 			var swfCore:* = new gameClass(new initClass());
 			initCoreData(swfCore);
 

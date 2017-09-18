@@ -5,24 +5,32 @@ import com.gerantech.towercraft.controls.animations.AchievedItem;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
+import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.screens.ArenaScreen;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.events.LoadingEvent;
+import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.utils.maps.IntStrMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
 import flash.utils.Dictionary;
 
 import mx.resources.ResourceManager;
@@ -325,6 +333,66 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
 	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
+}
+
+public function showOffer():void
+{
+	var sessions:int = AppModel.instance.game.sessionsCount;
+	var prefs:IntStrMap = AppModel.instance.game.player.prefs;
+	var type:int = 0;
+	if( sessions > prefs.getAsInt(PrefsTypes.P30_OFFER_RATING) )
+		type = PrefsTypes.P30_OFFER_RATING;
+	else if( sessions > prefs.getAsInt(PrefsTypes.P31_OFFER_TELEGRAM) )
+		type = PrefsTypes.P31_OFFER_TELEGRAM;
+	else if( sessions > prefs.getAsInt(PrefsTypes.P32_OFFER_INSTAGRAM) )
+		type = PrefsTypes.P32_OFFER_INSTAGRAM;
+	else if( sessions > prefs.getAsInt(PrefsTypes.P33_OFFER_FRIENDSHIP) )
+		type = PrefsTypes.P33_OFFER_FRIENDSHIP;
+//trace(sessions, type, prefs.keys(), prefs.values());
+	
+	if( type > 0 )
+	{
+		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_offer_"+type), loc("go_label"));
+		confirm.closeOnOverlay = false;
+		confirm.data = type;
+		var ti:TransitionData = new TransitionData(1);
+		ti.transition = Transitions.EASE_IN_OUT_ELASTIC;
+		ti.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.4, stage.stageWidth*0.7, stage.stageHeight*0.2);
+		ti.destinationBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.38, stage.stageWidth*0.7, stage.stageHeight*0.24);
+		confirm.transitionIn = ti;
+		confirm.addEventListener(Event.SELECT, confirm_handler);
+		confirm.addEventListener(Event.CANCEL, confirm_handler);
+		addPopup(confirm);
+		function confirm_handler(e:Event):void{
+			confirm.removeEventListener(Event.SELECT, confirm_handler);
+			confirm.removeEventListener(Event.CANCEL, confirm_handler);
+			var t:int = int(confirm.data);
+			if( e.type == Event.SELECT )
+			{
+				switch(t)
+				{
+					case PrefsTypes.P30_OFFER_RATING:
+						BillingManager.instance.rate();
+						break;
+					case PrefsTypes.P31_OFFER_TELEGRAM:
+						navigateToURL(new URLRequest(loc("setting_value_311")));
+						break;
+					case PrefsTypes.P32_OFFER_INSTAGRAM:
+						navigateToURL(new URLRequest(loc("setting_value_312")));
+						break;
+					case PrefsTypes.P33_OFFER_FRIENDSHIP:
+						break;
+				}
+				UserData.instance.prefs.send(t, prefs.getAsInt(t)+1000);
+			}
+			else
+			{
+				UserData.instance.prefs.send(t, prefs.getAsInt(t)+50);
+			}
+		}
+		
+	}
+	
 }
 }
 }

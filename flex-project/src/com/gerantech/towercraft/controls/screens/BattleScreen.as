@@ -240,7 +240,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0)
+			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
 			{
 				//trace("battle screen -> end", player.get_questIndex());
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
@@ -249,6 +249,8 @@ package com.gerantech.towercraft.controls.screens
 			}
 			else
 			{
+				if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
+					appModel.navigator.showOffer();
 				dispatchEventWith(Event.COMPLETE);
 			}
 		}
