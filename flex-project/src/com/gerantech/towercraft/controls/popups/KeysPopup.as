@@ -19,6 +19,7 @@ package com.gerantech.towercraft.controls.popups
 		
 		override protected function initialize():void
 		{
+			closeOnStage = true
 			super.initialize();
 			transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.40, stage.stageWidth*0.8, stage.stageHeight*0.2);
 			transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.35, stage.stageWidth*0.8, stage.stageHeight*0.3);
@@ -40,6 +41,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			slider = new BuildingSlider();
 			slider.showUpgradeIcon = false;
+			slider.width = transitionIn.destinationBound.width/2;
 			slider.height = 52 * appModel.scale;
 			slider.alpha = 0;
 			slider.minimum = 0;
@@ -51,7 +53,7 @@ package com.gerantech.towercraft.controls.popups
 		override protected function transitionInCompleted():void
 		{
 			Starling.juggler.tween(slider, 0.2, {alpha:1});
-			slider.value = game.exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges;
+			slider.value = exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges;
 			super.transitionInCompleted();
 		}
 		

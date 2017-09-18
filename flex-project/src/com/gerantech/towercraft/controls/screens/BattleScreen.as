@@ -20,6 +20,8 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -43,6 +45,7 @@ package com.gerantech.towercraft.controls.screens
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import com.gt.towers.exchanges.ExchangeItem;
 
 	public class BattleScreen extends BaseCustomScreen
 	{
@@ -207,7 +210,11 @@ package com.gerantech.towercraft.controls.screens
 			{
 				var outcomes:IntIntMap = new IntIntMap();
 				for(var i:int=0; i<rewards.size(); i++)
+				{
 					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
+					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY )
+						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
+				}
 				player.addResources(outcomes);
 			}
 			
