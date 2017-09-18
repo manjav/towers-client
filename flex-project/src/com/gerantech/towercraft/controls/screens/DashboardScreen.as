@@ -5,6 +5,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+	import com.gerantech.towercraft.controls.popups.KeysPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -152,7 +153,8 @@ package com.gerantech.towercraft.controls.screens
 				case ResourceType.POINT:
 					ArenaScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
 					break;
-				default:
+				case ResourceType.KEY:
+					appModel.navigator.addPopup(new KeysPopup());
 					//addResourceAnimation(120, 330, ResourceType.CURRENCY_HARD, 10 ); 
 					break;
 			}
