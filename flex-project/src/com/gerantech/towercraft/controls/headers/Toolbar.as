@@ -67,11 +67,11 @@ package com.gerantech.towercraft.controls.headers
 			updateIndicators();
 		}
 		
-		private function updateIndicators():void
+		public function updateIndicators():void
 		{
-			indicators[ResourceType.POINT].visible = !player.inTutorial();
-			if(indicators[ResourceType.POINT].visible)
-				indicators[ResourceType.POINT].setData(0, player.get_point(), NaN);
+			indicators[ResourceType.KEY].visible = indicators[ResourceType.POINT].visible = !player.inTutorial();
+			
+			indicators[ResourceType.POINT].setData(0, player.get_point(), NaN);
 			indicators[ResourceType.CURRENCY_SOFT].setData(0, player.get_softs(), NaN);
 			indicators[ResourceType.CURRENCY_HARD].setData(0, player.get_hards(), NaN);
 			indicators[ResourceType.KEY].setData(0, player.get_keys(), NaN);

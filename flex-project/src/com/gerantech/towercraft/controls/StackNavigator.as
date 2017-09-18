@@ -66,6 +66,7 @@ private function navigator_changeHandler(event:Event):void
 		}
 		addChild(toolbar);
 		toolbar.alpha = 0;
+		toolbar.updateIndicators();
 		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
 	}
 }
@@ -73,7 +74,6 @@ private function navigator_changeHandler(event:Event):void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
-	
 	if( toolbar == null )
 	{
 		toolbar = new Toolbar();

@@ -74,6 +74,9 @@ public class MainSegment extends Segment
 	
 	private function showButtons():void
 	{
+		if( player.inTutorial() )
+			return;
+		
 		var gradient:ImageLoader = new ImageLoader();
 		gradient.maintainAspectRatio = false;
 		gradient.alpha = 0.5;
