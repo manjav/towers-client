@@ -80,10 +80,7 @@ package com.gerantech.towercraft.controls.screens
 			for( var i:int=0; i<fkeys.length; i++)
 			{
 				field = game.fieldProvider.quests.get(fkeys[i]);
-				if(field.isQuest)
-				{
-					source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.quests.get(field.index) ) );
-				}
+				source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.quests.get(field.index) ) );
 			}
 			source.sortOn("index", Array.NUMERIC);
 			return new ListCollection(source);
