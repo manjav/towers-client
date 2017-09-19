@@ -22,6 +22,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -45,7 +46,6 @@ package com.gerantech.towercraft.controls.screens
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-	import com.gt.towers.exchanges.ExchangeItem;
 
 	public class BattleScreen extends BaseCustomScreen
 	{
@@ -60,6 +60,9 @@ package com.gerantech.towercraft.controls.screens
 		private var transitionInCompleted:Boolean = true;
 
 		private var hud:BattleHUD;
+		private var state:int = 0;
+		private static const STATE_CREATED:int = 0;
+		private static const STATE_STARTED:int = 1;
 		
 		override protected function initialize():void
 		{
@@ -388,7 +391,7 @@ package com.gerantech.towercraft.controls.screens
 					// force improve in tutorial mode
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP )
+					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
@@ -459,6 +462,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			function floating_selectHandler(event:Event):void
 			{
+				state = STATE_STARTED;
 				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}
