@@ -54,6 +54,7 @@ package com.gerantech.towercraft.controls.screens
 		public var spectatedUser:String;
 		public var waitingOverlay:WaitingOverlay;
 		
+		private var endPoint:Point = new Point();
 		private var sourcePlaces:Vector.<PlaceView>;
 		private var sfsConnection:SFSConnection;
 		private var timeoutId:uint;
@@ -352,17 +353,22 @@ package com.gerantech.towercraft.controls.screens
 				if(touch.phase == TouchPhase.MOVED)
 				{
 					tp = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if(tp != null)
+					if( tp != null )
 					{
 						// check next tower liked by selected places
 						if(sourcePlaces.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
 							sourcePlaces.push(tp);
+						endPoint.setTo(tp.x, tp.y);
+					}
+					else
+					{
+						endPoint.setTo(touch.globalX-appModel.battleFieldView.x, touch.globalY-appModel.battleFieldView.y);
 					}
 					
 					for each(tp in sourcePlaces)
 					{
 						tp.arrowContainer.visible = true;
-						tp.arrowTo(touch.globalX-tp.x-appModel.battleFieldView.x, touch.globalY-tp.y-appModel.battleFieldView.y);
+						tp.arrowTo(endPoint.x-tp.x, endPoint.y-tp.y);
 					}
 				}
 				else if(touch.phase == TouchPhase.ENDED)
