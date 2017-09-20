@@ -64,6 +64,7 @@ package com.gerantech.towercraft.controls.screens
 		private var state:int = 0;
 		private static const STATE_CREATED:int = 0;
 		private static const STATE_STARTED:int = 1;
+		private var allPlacesInTouch:PlaceList;
 		
 		override protected function initialize():void
 		{
@@ -343,6 +344,7 @@ package com.gerantech.towercraft.controls.screens
 				if(tp.place.building.troopType != player.troopType)
 					return;
 				
+				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 				sourcePlaces.push(tp);
 			}
 			else 
@@ -353,7 +355,7 @@ package com.gerantech.towercraft.controls.screens
 				if(touch.phase == TouchPhase.MOVED)
 				{
 					tp = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if( tp != null )
+					if( tp != null && PathFinder.find(sourcePlaces[0].place, tp.place, allPlacesInTouch) != null)
 					{
 						// check next tower liked by selected places
 						if(sourcePlaces.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
@@ -406,10 +408,9 @@ package com.gerantech.towercraft.controls.screens
 					}
 
 					// check sources has a path to destination
-					var all:PlaceList = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
 					{
-						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, all) == null)
+						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, allPlacesInTouch) == null)
 						{
 							clearSource(sourcePlaces[i]);
 							sourcePlaces.removeAt(i);
@@ -431,6 +432,7 @@ package com.gerantech.towercraft.controls.screens
 			for each(var tp:PlaceView in sourceTowers)
 				clearSource(tp);
 			sourceTowers = null;
+			allPlacesInTouch = null;
 		}
 		private function clearSource(sourceTower:PlaceView):void
 		{
