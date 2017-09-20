@@ -357,7 +357,7 @@ package com.gerantech.towercraft.controls.screens
 				if(touch.phase == TouchPhase.MOVED)
 				{
 					tp = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if( tp != null && PathFinder.find(sourcePlaces[0].place, tp.place, allPlacesInTouch) != null)
+					if( tp != null && (PathFinder.find(sourcePlaces[0].place, tp.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == tp.place.building.troopType))
 					{
 						// check next tower liked by selected places
 						if(sourcePlaces.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
