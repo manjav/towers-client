@@ -54,17 +54,19 @@ package com.gerantech.towercraft.controls.screens
 		public var spectatedUser:String;
 		public var waitingOverlay:WaitingOverlay;
 		
+		private var hud:BattleHUD;
+		
 		private var endPoint:Point = new Point();
 		private var sourcePlaces:Vector.<PlaceView>;
+		private var allPlacesInTouch:PlaceList;
+		
 		private var sfsConnection:SFSConnection;
 		private var timeoutId:uint;
 		private var transitionInCompleted:Boolean = true;
 
-		private var hud:BattleHUD;
 		private var state:int = 0;
 		private static const STATE_CREATED:int = 0;
 		private static const STATE_STARTED:int = 1;
-		private var allPlacesInTouch:PlaceList;
 		
 		override protected function initialize():void
 		{
