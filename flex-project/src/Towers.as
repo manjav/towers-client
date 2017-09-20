@@ -46,16 +46,19 @@ package
 			return;*/
 			
 			// GameAnalytic Configurations
-			var resources:Vector.<String> = new Vector.<String>();
+			var currencies:Vector.<String> = new Vector.<String>();
 			for( var r:int in BuildingType.getAll() )
-				resources.push(r+"");
-			resources.push(ResourceType.XP);
-			resources.push(ResourceType.POINT);
+				currencies.push(r.toString());
+			currencies.push(ResourceType.XP.toString());
+			currencies.push(ResourceType.POINT.toString());
+			currencies.push(ResourceType.KEY.toString());
+			currencies.push(ResourceType.CURRENCY_HARD.toString());
+			currencies.push(ResourceType.CURRENCY_SOFT.toString());
 			
 			GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
 				.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("8ecad253293db70a84469b3d79243f12").setGameSecretAndroid("6c3abba9c19b989f5e45749396bcb1b78b51fbf2")
-				.setResourceCurrencies(new  <String>[ResourceType.CURRENCY_HARD.toString(), ResourceType.CURRENCY_SOFT.toString()])
-				.setResourceItemTypes(resources)
+				.setResourceCurrencies(currencies)
+				.setResourceItemTypes(new <String>["outcome", "special", "chest", "purchase", "exchange", "upgrade", "donate"])
 			/*.setBuildiOS(AppModel.instance.descriptor.versionNumber).setGameKeyiOS("[ios_game_key]").setGameSecretiOS("[ios_secret_key]")*/
 			GameAnalytics.init();
 
