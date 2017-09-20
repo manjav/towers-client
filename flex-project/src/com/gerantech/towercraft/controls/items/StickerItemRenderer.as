@@ -27,8 +27,8 @@ package com.gerantech.towercraft.controls.items
 			backgroundSkin = sk;
 			layout = new AnchorLayout();
 			
-			labelDisplay = new RTLLabel("", 0);
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -6*appModel.scale);
+			labelDisplay = new RTLLabel("", 0, null, null, false, null, 0.9);
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -5*appModel.scale);
 			addChild(labelDisplay);
 		}
 		
@@ -37,7 +37,5 @@ package com.gerantech.towercraft.controls.items
 			super.commitData();
 			labelDisplay.text = loc("sticker_" + _data );
 		}
-		
-		
 	}
 }
