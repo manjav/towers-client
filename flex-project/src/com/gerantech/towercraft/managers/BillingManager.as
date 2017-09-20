@@ -113,8 +113,8 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.INIT_SUCCESS, iap_initSuccessHandler);
 			_iap.removeEventListener(InAppPurchaseEvent.INIT_ERROR, iap_initErrorHandler);
 			inited = true;
-			restore();
 			trace("iap_initSuccessHandler(event)", event.data);
+			restore();
 			dispatchEventWith(FeathersEventType.INITIALIZE);
 		}
 		protected function iap_initErrorHandler(event:InAppPurchaseEvent):void
@@ -170,9 +170,12 @@ package com.gerantech.towercraft.managers
 		{
 			if(!inited)
 			{
-				lostMarket();
+				dispatchEventWith(FeathersEventType.END_INTERACTION);
+				explain("popup_purchase_not_initialized");
+				//lostMarket();
 				return;
 			}
+			trace(inited, "purchase => sku:", sku);
 			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, iap_purchaseSuccessHandler);
 			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, iap_purchaseSuccessHandler);
 			_iap.addEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
@@ -250,7 +253,9 @@ package com.gerantech.towercraft.managers
 		{
 			if(!inited)
 			{
-				lostMarket();
+				dispatchEventWith(FeathersEventType.END_INTERACTION);
+				explain("popup_purchase_not_initialized");
+				//lostMarket();
 				return;
 			}
 			trace("consume", sku); 
@@ -325,11 +330,11 @@ package com.gerantech.towercraft.managers
 		}
 		
 		
-		private function lostMarket():void
+	/*	private function lostMarket():void
 		{
 			NativeAbilities.instance.showToast(ResourceManager.getInstance().getString("loc", "purchase_lost"), 1);
 			init();
-		}
+		}*/
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- RATING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function rate():void

@@ -44,13 +44,13 @@ override protected function initialize():void
 	backgroundSkin = mySkin;
 	
 	nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
-	nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.5);
+	nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.6);
 	nameShadowDisplay.pixelSnapping = false;
 	addChild(nameShadowDisplay);
 	
 	nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
 	nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.6);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.7);
 	addChild(nameDisplay);
 	
 	roleDisplay = new RTLLabel("", 0, appModel.isLTR?"right":"left", null, false, null, 0.7);
@@ -64,8 +64,8 @@ override protected function initialize():void
 	addChild(pointDisplay);
 	
 	pointIconDisplay = new ImageLoader();
-	pointIconDisplay.source = Assets.getTexture("res-1001", "gui");
-	pointIconDisplay.layoutData = new AnchorLayoutData(padding/3, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
+	pointIconDisplay.width = 80 * appModel.scale;
+	pointIconDisplay.layoutData = new AnchorLayoutData(padding/2, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
 	addChild(pointIconDisplay);
 	
 	addEventListener(Event.TRIGGERED, item_triggeredHandler);
@@ -84,6 +84,7 @@ override protected function commitData():void
 	nameShadowDisplay.text = rankIndex + ".  " + _data.na ;
 	roleDisplay.text = loc("lobby_role_"+_data.pr);
 	pointDisplay.text = "" + _data.po;
+	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.po)), "gui");
 
 	var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9) * appModel.scale;
 	var fc:int = _data.id==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;

@@ -42,6 +42,7 @@ package
 				}
 				trace(str);
 			}
+			NativeApplication.nativeApplication.exit();
 			return;*/
 			
 			// GameAnalytic Configurations

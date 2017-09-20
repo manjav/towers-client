@@ -79,7 +79,7 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 		addChild(pointDisplay);
 		
 		pointIconDisplay = new ImageLoader();
-		pointIconDisplay.source = Assets.getTexture("res-1001", "gui");
+		pointIconDisplay.width = 80 * appModel.scale;
 		pointIconDisplay.layoutData = new AnchorLayoutData(padding/3, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
 		addChild(pointIconDisplay);
 		
@@ -107,7 +107,9 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 		var rankIndex:int = index+1;
 		nameDisplay.text = rankIndex + ".  " + buddy.nickName ;
 		nameShadowDisplay.text = rankIndex + ".  " + buddy.nickName ;
-		pointDisplay.text = buddy.containsVariable("$point") ? ("" + buddy.getVariable("$point").getIntValue()) : "";
+		var point:int = buddy.containsVariable("$point") ? buddy.getVariable("$point").getIntValue() : 0;
+		pointDisplay.text = point>0 ? ("" + point) : "";
+		pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(point)), "gui");
 		//trace(_data.i, player.id);
 		var itsMe:Boolean = buddy.nickName == player.nickName;
 		var fs:int = AppModel.instance.theme.gameFontSize * (itsMe?1:0.9) * appModel.scale;

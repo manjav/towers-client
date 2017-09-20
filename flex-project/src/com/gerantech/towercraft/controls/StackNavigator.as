@@ -1,26 +1,36 @@
 package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.buttons.SimpleButton;
+import com.gerantech.towercraft.controls.animations.AchievedItem;
+import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
-import com.gerantech.towercraft.controls.popups.BugReportPopup;
+import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
-import com.gerantech.towercraft.controls.popups.RestorePopup;
+import com.gerantech.towercraft.controls.screens.ArenaScreen;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.events.LoadingEvent;
+import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
+import com.gt.towers.utils.maps.IntStrMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
+import flash.geom.Rectangle;
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
 import flash.utils.Dictionary;
 
 import mx.resources.ResourceManager;
@@ -30,11 +40,9 @@ import avmplus.getQualifiedClassName;
 import feathers.controls.LayoutGroup;
 import feathers.controls.StackScreenNavigator;
 import feathers.controls.StackScreenNavigatorItem;
-import feathers.events.FeathersEventType;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.Image;
 import starling.events.Event;
 
 public class StackNavigator extends StackScreenNavigator
@@ -42,12 +50,36 @@ public class StackNavigator extends StackScreenNavigator
 public function StackNavigator()
 {
 	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	addEventListener("itemAchieved", itemAchievedHandler);
+	addEventListener(Event.CHANGE, navigator_changeHandler);
 	AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+}
+
+private function navigator_changeHandler(event:Event):void
+{
+	if( toolbar )
+	{
+		if( activeScreenID != Main.DASHBOARD_SCREEN )
+		{
+			toolbar.removeFromParent();
+			return;
+		}
+		addChild(toolbar);
+		toolbar.alpha = 0;
+		toolbar.updateIndicators();
+		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
+	}
 }
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
+	if( toolbar == null )
+	{
+		toolbar = new Toolbar();
+		toolbar.width = stage.stageWidth;
+		addChild(toolbar);
+	}
 }
 
 private function addedToStageHandler(event:Event):void
@@ -108,7 +140,7 @@ public function addOverlay(overlay:BaseOverlay) : void
 	}
 }
 
-// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  OVERLAYS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function addToast(toast:BaseToast) : void
 {
 	addPopup(toast);
@@ -137,6 +169,28 @@ public function addLogGame(log:GameLog) : void
 	Starling.juggler.tween(logsContainer, 0.3, {y : logsContainer.y - GameLog.GAP, transition:Transitions.EASE_OUT, onComplete:function():void{busyLogger=false;}});
 }
 
+// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ANIMATIONS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+public var toolbar:Toolbar;
+public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
+{
+	var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
+	indicator.value -= count;
+	var zone:Rectangle = indicator.iconDisplay.getBounds(stage);
+	var anim:AchievedItem = new AchievedItem(resourceType, count);
+	anim.x = x;
+	anim.y = y;
+	anim.scale = 0;
+	Starling.juggler.tween(anim, 0.7, {scaleX:1.0, transition:Transitions.EASE_OUT_ELASTIC});
+	Starling.juggler.tween(anim, 0.7, {scaleY:1.0, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(anim, 0.5, {scale:0.3, delay:1+delay, x:zone.x+zone.width/2, y:zone.y, transition:Transitions.EASE_IN, onComplete:function():void{indicator.punch();anim.removeFromParent(true);}});
+	parent.addChild(anim);
+}
+private function itemAchievedHandler(event:Event):void
+{
+	if( activeScreenID != Main.DASHBOARD_SCREEN )
+		return;
+	addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
+}
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BUG REPORT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 /*public function showBugReportButton():void
@@ -282,6 +336,66 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
 	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
+}
+
+public function showOffer():void
+{
+	var sessions:int = AppModel.instance.game.sessionsCount;
+	var prefs:IntStrMap = AppModel.instance.game.player.prefs;
+	var type:int = 0;
+	if( sessions > prefs.getAsInt(PrefsTypes.P30_OFFER_RATING) )
+		type = PrefsTypes.P30_OFFER_RATING;
+	else if( sessions > prefs.getAsInt(PrefsTypes.P31_OFFER_TELEGRAM) )
+		type = PrefsTypes.P31_OFFER_TELEGRAM;
+	else if( sessions > prefs.getAsInt(PrefsTypes.P32_OFFER_INSTAGRAM) )
+		type = PrefsTypes.P32_OFFER_INSTAGRAM;
+	else if( sessions > prefs.getAsInt(PrefsTypes.P33_OFFER_FRIENDSHIP) )
+		type = PrefsTypes.P33_OFFER_FRIENDSHIP;
+//trace(sessions, type, prefs.keys(), prefs.values());
+	
+	if( type > 0 )
+	{
+		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_offer_"+type), loc("go_label"));
+		confirm.closeOnOverlay = false;
+		confirm.data = type;
+		var ti:TransitionData = new TransitionData(1);
+		ti.transition = Transitions.EASE_IN_OUT_ELASTIC;
+		ti.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.4, stage.stageWidth*0.7, stage.stageHeight*0.2);
+		ti.destinationBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.38, stage.stageWidth*0.7, stage.stageHeight*0.24);
+		confirm.transitionIn = ti;
+		confirm.addEventListener(Event.SELECT, confirm_handler);
+		confirm.addEventListener(Event.CANCEL, confirm_handler);
+		addPopup(confirm);
+		function confirm_handler(e:Event):void{
+			confirm.removeEventListener(Event.SELECT, confirm_handler);
+			confirm.removeEventListener(Event.CANCEL, confirm_handler);
+			var t:int = int(confirm.data);
+			if( e.type == Event.SELECT )
+			{
+				switch(t)
+				{
+					case PrefsTypes.P30_OFFER_RATING:
+						BillingManager.instance.rate();
+						break;
+					case PrefsTypes.P31_OFFER_TELEGRAM:
+						navigateToURL(new URLRequest(loc("setting_value_311")));
+						break;
+					case PrefsTypes.P32_OFFER_INSTAGRAM:
+						navigateToURL(new URLRequest(loc("setting_value_312")));
+						break;
+					case PrefsTypes.P33_OFFER_FRIENDSHIP:
+						break;
+				}
+				UserData.instance.prefs.send(t, prefs.getAsInt(t)+1000);
+			}
+			else
+			{
+				UserData.instance.prefs.send(t, prefs.getAsInt(t)+50);
+			}
+		}
+		
+	}
+	
 }
 }
 }

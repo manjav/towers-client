@@ -25,16 +25,16 @@ override public function init():void
 	height = 220*appModel.scale;
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
-	background.layoutData = new AnchorLayoutData( padding*0.2, padding*0.2, padding*0.2, padding*0.2);
+	background.layoutData = new AnchorLayoutData( 0, padding*0.5, 0, padding*0.5);
 	background.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
 	addChild(background);
 	
 	actionButton = new CustomButton();
-	actionButton.layoutData = new AnchorLayoutData( NaN, padding*0.5, NaN, NaN, NaN, 0);
+	actionButton.layoutData = new AnchorLayoutData( NaN, padding, NaN, NaN, NaN, 0);
 	addChild(actionButton);
 	
 	messageDisplay = new RTLLabel("", 1, "center", null, false, null, 1);
-	messageLayout = new AnchorLayoutData( NaN, actionButton.width + padding, NaN, padding*0.5, NaN, 0);
+	messageLayout = new AnchorLayoutData( NaN, actionButton.width + padding, NaN, padding, NaN, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 }

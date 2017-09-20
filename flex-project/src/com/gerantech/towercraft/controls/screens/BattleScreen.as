@@ -21,6 +21,9 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -55,12 +58,19 @@ package com.gerantech.towercraft.controls.screens
 		public var spectatedUser:String;
 		public var waitingOverlay:WaitingOverlay;
 		
+		private var hud:BattleHUD;
+		
+		private var endPoint:Point = new Point();
 		private var sourcePlaces:Vector.<PlaceView>;
+		private var allPlacesInTouch:PlaceList;
+		
 		private var sfsConnection:SFSConnection;
 		private var timeoutId:uint;
 		private var transitionInCompleted:Boolean = true;
 
-		private var hud:BattleHUD;
+		private var state:int = 0;
+		private static const STATE_CREATED:int = 0;
+		private static const STATE_STARTED:int = 1;
 		
 		override protected function initialize():void
 		{
@@ -164,7 +174,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					places = new PlaceDataList();
 					places.push(place);
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
+					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
 				}
 				tutorials.show(this, tutorialData);
 			}
@@ -230,7 +240,11 @@ package com.gerantech.towercraft.controls.screens
 			{
 				var outcomes:IntIntMap = new IntIntMap();
 				for(var i:int=0; i<rewards.size(); i++)
+				{
 					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
+					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY )
+						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
+				}
 				player.addResources(outcomes);
 			}
 			
@@ -275,7 +289,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0)
+			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
 			{
 				//trace("battle screen -> end", player.get_questIndex());
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
@@ -284,6 +298,8 @@ package com.gerantech.towercraft.controls.screens
 			}
 			else
 			{
+				if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
+					appModel.navigator.showOffer();
 				dispatchEventWith(Event.COMPLETE);
 			}
 		}
@@ -322,6 +338,16 @@ package com.gerantech.towercraft.controls.screens
 			for(var i:int=0; i<towers.size(); i++)
 			{
 				var t:Array = towers.getText(i).split(",");//trace(t)
+				if( appModel.battleFieldView.battleData.map.name == "quest_2" && appModel.battleFieldView.places[t[0]].place.building.troopType != 0 && t[0] == 0 && t[2] == player.troopType )
+				{
+					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = t[0];
+					var tutorialData:TutorialData = new TutorialData("roomVariablesUpdate");
+					var places:PlaceDataList = appModel.battleFieldView.battleData.map.getSwipeTutorPlaces();
+					if( places.size() > 0 )
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
+					tutorials.show(this, tutorialData);
+					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = -1;
+				}
 				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
 			}			
 		}
@@ -355,6 +381,7 @@ package com.gerantech.towercraft.controls.screens
 				if(tp.place.building.troopType != player.troopType)
 					return;
 				
+				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 				sourcePlaces.push(tp);
 			}
 			else 
@@ -365,17 +392,22 @@ package com.gerantech.towercraft.controls.screens
 				if(touch.phase == TouchPhase.MOVED)
 				{
 					tp = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if(tp != null)
+					if( tp != null && PathFinder.find(sourcePlaces[0].place, tp.place, allPlacesInTouch) != null)
 					{
 						// check next tower liked by selected places
 						if(sourcePlaces.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
 							sourcePlaces.push(tp);
+						endPoint.setTo(tp.x, tp.y);
+					}
+					else
+					{
+						endPoint.setTo(touch.globalX-appModel.battleFieldView.x, touch.globalY-appModel.battleFieldView.y);
 					}
 					
 					for each(tp in sourcePlaces)
 					{
 						tp.arrowContainer.visible = true;
-						tp.arrowTo(touch.globalX-tp.x-appModel.battleFieldView.x, touch.globalY-tp.y-appModel.battleFieldView.y);
+						tp.arrowTo(endPoint.x-tp.x, endPoint.y-tp.y);
 					}
 				}
 				else if(touch.phase == TouchPhase.ENDED)
@@ -404,7 +436,7 @@ package com.gerantech.towercraft.controls.screens
 					// force improve in tutorial mode
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP )
+					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
@@ -413,10 +445,9 @@ package com.gerantech.towercraft.controls.screens
 					}
 
 					// check sources has a path to destination
-					var all:PlaceList = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
 					{
-						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, all) == null)
+						if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, allPlacesInTouch) == null)
 						{
 							clearSource(sourcePlaces[i]);
 							sourcePlaces.removeAt(i);
@@ -438,6 +469,7 @@ package com.gerantech.towercraft.controls.screens
 			for each(var tp:PlaceView in sourceTowers)
 				clearSource(tp);
 			sourceTowers = null;
+			allPlacesInTouch = null;
 		}
 		private function clearSource(sourceTower:PlaceView):void
 		{
@@ -475,6 +507,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			function floating_selectHandler(event:Event):void
 			{
+				state = STATE_STARTED;
 				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
 			}
 		}

@@ -1,17 +1,21 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.buttons.Indicator;
 	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+	import com.gerantech.towercraft.controls.popups.KeysPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.TabItemData;
+	import com.gt.towers.arenas.Arena;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.constants.SegmentType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
@@ -110,10 +114,6 @@ package com.gerantech.towercraft.controls.screens
 			text2.layoutData = new AnchorLayoutData(0,0,NaN,NaN);
 			addChild(text2);
 			*/
-			var toolbar:Toolbar = new Toolbar();
-			toolbar.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
-			toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);
-			addChild(toolbar);
 			
 			addChild(tabBorder);
 			
@@ -138,8 +138,27 @@ package com.gerantech.towercraft.controls.screens
 			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 			
 			appModel.navigator.handleInvokes();
+			appModel.navigator.toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);;
 		}
-		
+		private function toolbar_triggerredHandler(event:Event):void
+		{
+			if( AppModel.instance.game.player.inTutorial())
+				return;
+			switch(event.data.resourceType)
+			{
+				case ResourceType.CURRENCY_SOFT:
+				case ResourceType.CURRENCY_HARD:
+					tabsList.selectedIndex = 0;
+					break;
+				case ResourceType.POINT:
+					ArenaScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
+					break;
+				case ResourceType.KEY:
+					appModel.navigator.addPopup(new KeysPopup());
+					//addResourceAnimation(120, 330, ResourceType.CURRENCY_HARD, 10 ); 
+					break;
+			}
+		}		
 		private function getListData():Array
 		{
 			var ret:Array = new Array();
@@ -163,22 +182,15 @@ package com.gerantech.towercraft.controls.screens
 					else if( p == 0 )
 					{
 						for each(var e:ExchangeItem in exchanger.items.values())
-							if( e.type> ExchangeType.S_20_SPECIALS && e.expiredAt < timeManager.now )
+							if( e.type > ExchangeType.S_20_SPECIALS && e.expiredAt < timeManager.now )
 								pd.badgeNumber ++;
 					}
 				}
 				ret.push(pd);
 			}
-			
 			return ret;
 		}
-		
-		private function toolbar_triggerredHandler(event:Event):void
-		{
-			if( !player.inTutorial())
-				tabsList.selectedIndex = 0;
-		}
-		
+
 		private function pageList_focusInHandler(event:Event):void
 		{
 			var focusIndex:int = event.data as int;

@@ -21,6 +21,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const VERIFY_PURCHASE:String = "verify";
 		public static const REGISTER_PUSH:String = "registerPush";
 		public static const RESTORE:String = "restore";
+		public static const PREFS:String = "prefs";
 		
 		public static const FIGHT:String = "f";
 		public static const BUILDING_IMPROVE:String = "i";

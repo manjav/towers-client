@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	
 	import dragonBones.events.EventObject;
 	import dragonBones.starling.StarlingArmatureDisplay;
@@ -9,6 +10,8 @@ package com.gerantech.towercraft.controls.overlays
 	
 	import feathers.layout.AnchorLayout;
 	
+	import starling.animation.Transitions;
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 
@@ -36,6 +39,16 @@ package com.gerantech.towercraft.controls.overlays
 						
 			layout = new AnchorLayout();
 			var padding:int = 36 * appModel.scale;
+			
+			var waitDisplay:RTLLabel = new RTLLabel(loc("tip_over"), 1, "center", null, false, null, 1.2);
+			waitDisplay.x = padding;
+			waitDisplay.y = stage.stageHeight * 0.6;
+			waitDisplay.alpha = 0;
+			waitDisplay.width = stage.stageWidth-padding*2;
+			waitDisplay.touchable = false;
+			addChild(waitDisplay);
+			Starling.juggler.tween(waitDisplay, 0.5, {delay:2, alpha:1, y:stage.stageHeight*0.7, transition:Transitions.EASE_OUT_BACK});
+			
 			tipDisplay = new RTLLabel(loc("tip_"+Math.min(player.get_arena(0), 2)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center", 0.9);
 			tipDisplay.x = padding;
 			tipDisplay.y = stage.stageHeight - padding*5;

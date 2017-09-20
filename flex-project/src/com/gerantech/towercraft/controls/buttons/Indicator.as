@@ -12,18 +12,23 @@ package com.gerantech.towercraft.controls.buttons
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
 	
+	import starling.animation.Transitions;
+	import starling.core.Starling;
 	import starling.text.TextField;
 	import starling.text.TextFormat;
 
 	public class Indicator extends SimpleLayoutButton
 	{
-		private var direction:String;
-		private var resourceType:int;
-		private var hasProgressbar:Boolean;
-		private var hasIncreaseButton:Boolean;
+		public var direction:String;
+		public var resourceType:int;
+		public var hasProgressbar:Boolean;
+		public var hasIncreaseButton:Boolean;
 
 		private var progressbar:ProgressBar;
 		private var progressLabel:TextField;
+
+		public var iconDisplay:ImageLoader;
+		private var _value:Number = -0.1;
 		
 		public function Indicator(direction:String = "ltr", resourceType:int = 0, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean=true)
 		{
@@ -54,12 +59,13 @@ package com.gerantech.towercraft.controls.buttons
 				addChild(progressbar);
 			}
 			
-			progressLabel = new TextField(width-padding*(hasIncreaseButton?8:4), height, "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR));
+			progressLabel = new TextField(width-padding*(hasIncreaseButton?8:5), height, "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR));
 			progressLabel.x = padding*4;
+			progressLabel.pixelSnapping = false;
 			progressLabel.autoScale = true;
 			addChild(progressLabel);
 			
-			var iconDisplay:ImageLoader = new ImageLoader();
+			iconDisplay = new ImageLoader();
 			iconDisplay.source = Assets.getTexture("res-"+resourceType, "gui");
 			iconDisplay.width = iconDisplay.height = height + padding*2;
 			iconDisplay.layoutData = new AnchorLayoutData(NaN, direction=="ltr"?NaN:-height/2, NaN, direction=="ltr"?-height/2:NaN, NaN, 0);
@@ -84,7 +90,7 @@ package com.gerantech.towercraft.controls.buttons
 				progressbar.value = Math.max(minimum, Math.min( maximum, value ) );
 			}
 
-			progressLabel.text = value.toString();
+			this.value = value;
 		}
 		
 		override public function set currentState(value:String):void
@@ -96,7 +102,30 @@ package com.gerantech.towercraft.controls.buttons
 			super.currentState = value;
 		}
 		
+		public function get value():Number
+		{
+			return _value;
+		}
 		
+		public function set value(val:Number):void
+		{
+			if( _value == val )
+				return;
+			_value = val;
+			if(progressLabel)
+				progressLabel.text = _value.toString();
+		}
+
 		
+		public function punch():void
+		{
+			value = player.resources.get(resourceType);
+			var diff:int = 48 * appModel.scale;
+			//iconDisplay.scale = 1.5;
+			y -= diff;
+			Starling.juggler.tween(this, 0.4, {y:y+diff, transition:Transitions.EASE_OUT_ELASTIC});
+			//Starling.juggler.tween(iconDisplay, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK});
+
+		}
 	}
 }

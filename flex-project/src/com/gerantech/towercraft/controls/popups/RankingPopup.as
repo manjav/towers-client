@@ -52,6 +52,7 @@ package com.gerantech.towercraft.controls.popups
 		
 		private function closeButton_triggeredHandler():void
 		{
+			closeButton.removeEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 			close();
 		}
 		

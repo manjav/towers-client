@@ -6,6 +6,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.UserPrefs;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.managers.socials.SocialEvent;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
@@ -70,6 +71,9 @@ package com.gerantech.towercraft.managers.net
 			}
 			if( AppModel.instance.navigator != null )
 				AppModel.instance.navigator.popToRootScreen();
+			
+			if(UserData.instance.prefs == null )
+				UserData.instance.prefs = new UserPrefs();
 		}
 		
 		protected function sfsConnection_connectionHandler(event:SFSEvent):void
@@ -113,6 +117,9 @@ package com.gerantech.towercraft.managers.net
 					loginParams.putText("device", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
 				}
 			}
+			loginParams.putInt("appver", AppModel.instance.descriptor.versionCode);
+			loginParams.putText("market", AppModel.instance.descriptor.market);
+
 			sfsConnection.login(__id.toString(), UserData.instance.password, "", loginParams);
 		}		
 
@@ -148,7 +155,6 @@ package com.gerantech.towercraft.managers.net
 			if( TimeManager.instance != null )
 				TimeManager.instance.dispose();
 			new TimeManager(serverData.getLong("serverTime"));
-
 			
 			//trace(AppModel.instance.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
 			if( AppModel.instance.descriptor.versionCode < serverData.getInt("forceVersion") )
@@ -288,6 +294,7 @@ package com.gerantech.towercraft.managers.net
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			
 			registerPushManager();
+			UserData.instance.prefs.requestData();
 		}
 		
 		private function registerPushManager():void

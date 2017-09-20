@@ -1,13 +1,12 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.GameLog;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.models.Assets;
 
@@ -15,8 +14,6 @@ import flash.geom.Point;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
 import flash.utils.setTimeout;
-
-import adobe.utils.CustomActions;
 
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -77,6 +74,9 @@ public class MainSegment extends Segment
 	
 	private function showButtons():void
 	{
+		if( player.inTutorial() )
+			return;
+		
 		var gradient:ImageLoader = new ImageLoader();
 		gradient.maintainAspectRatio = false;
 		gradient.alpha = 0.5;
@@ -92,17 +92,17 @@ public class MainSegment extends Segment
 		settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 6*appModel.scale);
 		addChild(settingButton);
 		
+		var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
+		newsButton.width = newsButton.height = 110 * appModel.scale;
+		newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addPopup(new NewsPopup())});
+		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 126*appModel.scale);
+		addChild(newsButton);
+		
 		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
 		inboxButton.width = inboxButton.height = 120 * appModel.scale;
 		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
-		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 126*appModel.scale);
+		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
 		addChild(inboxButton);
-		
-		var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
-		newsButton.width = newsButton.height = 110 * appModel.scale;
-		newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
-		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 246*appModel.scale);
-		addChild(newsButton);
 	}
 	
 	private function showMap():void

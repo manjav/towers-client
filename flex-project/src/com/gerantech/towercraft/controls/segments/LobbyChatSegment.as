@@ -129,7 +129,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
-	traceList()
+	//traceList()
 
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
 }
@@ -196,7 +196,6 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	
 	
 	var msg:ISFSObject = event.params.params as SFSObject;
-	trace(";;;;;", msg.getDump());
 	if( msg.getShort("m") == MessageTypes.M0_TEXT )
 	{
 		var last:SFSObject = messageCollection.length > 0 ? SFSObject(messageCollection.getItemAt(messageCollection.length-1)) : null;
@@ -228,7 +227,6 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 				if( msg.containsKey("o") )
 					battleMsg.putText("o", msg.getText("o"));
 				messageCollection.updateItemAt(lastBattleIndex);
-				trace(msg.getDump())
 				if( msg.getShort("st") == 1 && (msg.getText("s") == player.nickName || msg.getText("o") == player.nickName) )
 					gotoBattle();
 			}
@@ -238,7 +236,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			messageCollection.addItem(msg);
 		}
 	}
-	traceList()
+	//traceList()
 	buttonsEnabled = getMyRequestBattleIndex() == -1;
 	setTimeout(chatList.scrollToDisplayIndex, 100, messageCollection.length-1, 0.2);
 }

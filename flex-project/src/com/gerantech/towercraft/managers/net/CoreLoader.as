@@ -67,6 +67,7 @@ package com.gerantech.towercraft.managers.net
 			var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 			
 			AppModel.instance.game = new Game(initData);
+			AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
 			var swfCore:* = new gameClass(new initClass());
 			initCoreData(swfCore);
 
@@ -83,7 +84,14 @@ package com.gerantech.towercraft.managers.net
 			for ( var i:int=0; i<arenaKeys.length; i++ )
 			{
 				var arenaSource:* = game.arenas.get(arenaKeys[i]);
-				AppModel.instance.game.arenas.set( arenaKeys[i], new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.cardsStr ) );
+				var arenaDest:Arena = new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.cardsStr );
+				var fKeys:Vector.<String> = arenaSource.fields.keys();
+				for ( var j:int = 0; j < fKeys.length; j++ ) 
+				{
+					var fSource:* = arenaSource.fields.get(fKeys[j]);
+					arenaDest.fields.set(fSource.name, fSource);
+				}
+				AppModel.instance.game.arenas.set( arenaKeys[i], arenaDest );
 			}
 			
 			// put exchanger items
@@ -110,13 +118,13 @@ package com.gerantech.towercraft.managers.net
 			}
 			
 			// put fields items
-			AppModel.instance.game.fieldProvider.fields = new StringFieldMap();
+			AppModel.instance.game.fieldProvider.quests = new StringFieldMap();
 			var fieldSource:*;
 			var fieldDest:FieldData;
-			var fItemsKeys:Vector.<String> = game.fieldProvider.fields.keys();
+			var fItemsKeys:Vector.<String> = game.fieldProvider.quests.keys();
 			for ( i=0; i<fItemsKeys.length; i++ )
 			{
-				fieldSource = game.fieldProvider.fields.get(fItemsKeys[i]);
+				fieldSource = game.fieldProvider.quests.get(fItemsKeys[i]);
 				fieldDest = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasStart, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
 				fieldDest.places = new PlaceDataList();
 				for ( var p:int=0; p<fieldSource.places.size(); p++ )
@@ -129,7 +137,7 @@ package com.gerantech.towercraft.managers.net
 					var id:* = fieldSource.images.get(g);
 					fieldDest.images.push( new ImageData( id.name, id.tx, id.ty, id.a, id.b, id.c, id.d, id.px, id.py ) );
 				}
-				AppModel.instance.game.fieldProvider.fields.set( fItemsKeys[i] , fieldDest );
+				AppModel.instance.game.fieldProvider.quests.set( fItemsKeys[i] , fieldDest );
 			}
 		}		
 		

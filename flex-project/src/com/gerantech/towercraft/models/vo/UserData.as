@@ -4,6 +4,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.utils.maps.IntIntMap;
 
 import flash.net.SharedObject;
+import com.gerantech.towercraft.managers.UserPrefs;
 
 public class UserData
 {
@@ -18,6 +19,7 @@ public class UserData
 	private var settingsMap:IntIntMap;
 
     private static var _instance:UserData;
+    public var prefs:UserPrefs;
 
 		public function UserData() 
 		{

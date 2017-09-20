@@ -13,7 +13,6 @@ package com.gerantech.towercraft.controls
 	
 	import flash.utils.setTimeout;
 	
-	import feathers.controls.Button;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
@@ -28,7 +27,6 @@ package com.gerantech.towercraft.controls
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
-	import starling.display.Image;
 	import starling.display.Quad;
 	import starling.events.Event;
 
@@ -110,8 +108,10 @@ package com.gerantech.towercraft.controls
 			{
 				if( !SFSConnection.instance.mySelf.isSpectator )
 				{
-					var stickerButton:Button = new Button();
-					stickerButton.defaultIcon = new Image(Assets.getTexture("sticker-bubble-me", "gui"));
+					var stickerButton:CustomButton = new CustomButton();
+					stickerButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
+					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+					stickerButton.width = 140 * appModel.scale;
 					stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
 					stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 					addChild(stickerButton);
@@ -196,7 +196,7 @@ package com.gerantech.towercraft.controls
 				stickersLayout.useSquareTiles = false;
 				stickersLayout.distributeWidths = true;
 				stickersLayout.distributeHeights = true;
-				stickersLayout.requestedColumnCount = 3;
+				stickersLayout.requestedColumnCount = 4;
 				
 				stickerList = new List();
 				stickerList.layout = stickersLayout;
@@ -204,7 +204,7 @@ package com.gerantech.towercraft.controls
 				stickerList.height = padding*20;
 				stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 				stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
-				stickerList.dataProvider = new ListCollection(StickerType.getAll()._list);
+				stickerList.dataProvider = new ListCollection(StickerType.getAll(game)._list);
 				
 				stickerCloserOveraly = new SimpleLayoutButton();
 				stickerCloserOveraly.backgroundSkin = new Quad(1,1,0);

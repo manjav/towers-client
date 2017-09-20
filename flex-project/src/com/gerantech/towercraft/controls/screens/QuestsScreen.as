@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.screens
 		private function showTutorials():void
 		{
 			list.scrollToDisplayIndex(player.get_questIndex(), 0.5);
-			var lastQuest:FieldData = game.fieldProvider.fields.get( "quest_" + player.get_questIndex() );
+			var lastQuest:FieldData = game.fieldProvider.quests.get( "quest_" + player.get_questIndex() );
 			
 			trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
 			if(player.get_questIndex() == 3 && player.nickName == "guest")
@@ -47,7 +47,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			
 			var tutorialData:TutorialData = new TutorialData("");
-			if( game.fieldProvider.fields.get( "quest_" + player.get_questIndex() ).hasStart )
+			if( game.fieldProvider.quests.get( "quest_" + player.get_questIndex() ).hasStart )
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
 			
 			if(player.inTutorial())
@@ -76,14 +76,11 @@ package com.gerantech.towercraft.controls.screens
 			var field:FieldData;
 			var source:Array = new Array();
 			
-			var fkeys:Vector.<String> = game.fieldProvider.fields.keys();
+			var fkeys:Vector.<String> = game.fieldProvider.quests.keys();
 			for( var i:int=0; i<fkeys.length; i++)
 			{
-				field = game.fieldProvider.fields.get(fkeys[i]);
-				if(field.isQuest)
-				{
-					source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.quests.get(field.index) ) );
-				}
+				field = game.fieldProvider.quests.get(fkeys[i]);
+				source.push( new Quest(field, field.index>player.get_questIndex() ? -1 : player.quests.get(field.index) ) );
 			}
 			source.sortOn("index", Array.NUMERIC);
 			return new ListCollection(source);

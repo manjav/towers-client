@@ -8,6 +8,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.popups.RankingPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.arenas.Arena;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -27,6 +28,7 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.layout.VerticalLayout;
 	
 	import starling.animation.Transitions;
+	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
 
@@ -97,27 +99,31 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function list_focusInHandler(event:Event):void
 		{
-			var arenaIndex:int = Arena(event.data).index;
+			showRanking(Arena(event.data).index);
+		}		
+		
+		public static function showRanking(arenaIndex:int):void
+		{
 			var extraInfo:SFSObject = new SFSObject();
 			extraInfo.putInt("arena", arenaIndex );
 			SFSConnection.instance.sendExtensionRequest( SFSCommands.RANK, extraInfo );
 			
-			var padding:int = 36*appModel.scale;
+			var padding:int = 36*AppModel.instance.scale;
 			var transitionIn:TransitionData = new TransitionData();
 			transitionIn.sourceAlpha = 0;
 			var transitionOut:TransitionData = new TransitionData();
 			transitionOut.destinationAlpha = 0;
 			transitionOut.transition = Transitions.EASE_IN;
-			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding*2,		padding,	stage.stageWidth-padding*4,	stage.stageHeight-padding*2);
-			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(padding*2,	padding*2,	stage.stageWidth-padding*4,	stage.stageHeight-padding*4);
-
+			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding*2,	padding,	Starling.current.stage.stageWidth-padding*4,	Starling.current.stage.stageHeight-padding*2);
+			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(padding*2,	padding*2,	Starling.current.stage.stageWidth-padding*4,	Starling.current.stage.stageHeight-padding*4);
+			
 			//appModel.navigator.pushScreen( Main.RANK_SCREEN );
 			var rankingPopup:RankingPopup = new RankingPopup();
 			rankingPopup.arenaIndex = arenaIndex;
 			rankingPopup.transitionIn = transitionIn;
 			rankingPopup.transitionOut = transitionOut;
-			appModel.navigator.addPopup(rankingPopup);
-		}		
-
+			AppModel.instance.navigator.addPopup(rankingPopup);			
+		}
+		
 	}
 }
