@@ -220,7 +220,7 @@ package com.gerantech.towercraft.controls.screens
 				for(var i:int=0; i<rewards.size(); i++)
 				{
 					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY )
+					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY && !quest.isQuest )
 						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
 				}
 				if( !quest.isQuest )
