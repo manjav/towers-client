@@ -87,10 +87,7 @@ package com.gerantech.towercraft.managers.net
 				var arenaDest:Arena = new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.cardsStr );
 				var fKeys:Vector.<String> = arenaSource.fields.keys();
 				for ( var j:int = 0; j < fKeys.length; j++ ) 
-				{
-					var fSource:* = arenaSource.fields.get(fKeys[j]);
-					arenaDest.fields.set(fSource.name, fSource);
-				}
+					arenaDest.fields.set(fKeys[j], convertField(arenaSource.fields.get(fKeys[j])));
 				AppModel.instance.game.arenas.set( arenaKeys[i], arenaDest );
 			}
 			
@@ -119,28 +116,28 @@ package com.gerantech.towercraft.managers.net
 			
 			// put fields items
 			AppModel.instance.game.fieldProvider.quests = new StringFieldMap();
-			var fieldSource:*;
 			var fieldDest:FieldData;
 			var fItemsKeys:Vector.<String> = game.fieldProvider.quests.keys();
 			for ( i=0; i<fItemsKeys.length; i++ )
-			{
-				fieldSource = game.fieldProvider.quests.get(fItemsKeys[i]);
-				fieldDest = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasStart, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
-				fieldDest.places = new PlaceDataList();
-				for ( var p:int=0; p<fieldSource.places.size(); p++ )
-				{
-					var pd:* = fieldSource.places.get(p);
-					fieldDest.places.push( new PlaceData( pd.index,	pd.x, pd.y, pd.type, pd.troopType, pd.links._list.join(','), pd.enabled, pd.tutorIndex) );
-				}
-				for ( var g:int=0; g<fieldSource.images.size(); g++ )
-				{
-					var id:* = fieldSource.images.get(g);
-					fieldDest.images.push( new ImageData( id.name, id.tx, id.ty, id.a, id.b, id.c, id.d, id.px, id.py ) );
-				}
-				AppModel.instance.game.fieldProvider.quests.set( fItemsKeys[i] , fieldDest );
-			}
+				AppModel.instance.game.fieldProvider.quests.set( fItemsKeys[i] , convertField( game.fieldProvider.quests.get(fItemsKeys[i]) ));
 		}		
 		
+		private function convertField(fieldSource:*):FieldData
+		{
+			var ret:FieldData = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasStart, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
+			ret.places = new PlaceDataList();
+			for ( var p:int=0; p<fieldSource.places.size(); p++ )
+			{
+				var pd:* = fieldSource.places.get(p);
+				ret.places.push( new PlaceData( pd.index,	pd.x, pd.y, pd.type, pd.troopType, pd.links._list.join(','), pd.enabled, pd.tutorIndex) );
+			}
+			for ( var g:int=0; g<fieldSource.images.size(); g++ )
+			{
+				var id:* = fieldSource.images.get(g);
+				ret.images.push( new ImageData( id.name, id.tx, id.ty, id.a, id.b, id.c, id.d, id.px, id.py ) );
+			}
+			return ret;
+		}		
 		
 		private function initServerData(sfsObj:SFSObject):void
 		{
