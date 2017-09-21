@@ -107,7 +107,7 @@ public class MainSegment extends Segment
 	
 	private function showMap():void
 	{
-		if(dragonBonesData == null)
+		if( dragonBonesData == null )
 			return;
 		var mcName:String;
 		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
@@ -122,13 +122,13 @@ public class MainSegment extends Segment
 				var btn:SimpleButton = new SimpleButton();
 				btn.addChild(mapElement)
 				this.addChild(btn);
-				if(mcName != "background" && mcName != "mine-lights")
+				if( mcName != "background" && mcName != "mine-lights" )
 				{
 					btn.name = mcName;
 					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
 				}
 				
-				switch(mcName)
+				switch( mcName )
 				{
 					case "mine-lights":
 						btn.x = 499 * appModel.scale * 1.2;

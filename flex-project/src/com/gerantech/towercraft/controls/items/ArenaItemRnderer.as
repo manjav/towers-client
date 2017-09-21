@@ -61,12 +61,7 @@ package com.gerantech.towercraft.controls.items
 			mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			backgroundSkin = mySkin;
 
-			if(factory == null)
-			{
-				factory = new StarlingFactory();
-				dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
-			}
+			createFactory();
 			
 			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
@@ -118,7 +113,17 @@ package com.gerantech.towercraft.controls.items
 			armatureDisplay.scale = appModel.scale;
 			addChild(armatureDisplay);
 		}
-
+		
+		public static function createFactory():void
+		{
+			if( factory != null )
+				return;
+			factory = new StarlingFactory();
+			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
+			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+	
+		}
+		
 		private function rankButton_triggeredHandler():void
 		{
 			_owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, arena);

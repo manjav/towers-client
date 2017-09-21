@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
+	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -222,7 +223,14 @@ package com.gerantech.towercraft.controls.screens
 					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY )
 						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
 				}
-				player.addResources(outcomes);
+				if( !quest.isQuest )
+				{
+					var prevArena:int = player.get_arena(0);
+					player.addResources(outcomes);
+					var nextArena:int = player.get_arena(0);
+					if( prevArena != nextArena )
+						setTimeout(appModel.navigator.addOverlay, 3000, new FactionChangeOverlay(prevArena, nextArena));
+				}
 			}
 			
 			// show battle outcome overlay
