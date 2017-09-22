@@ -30,11 +30,11 @@ package com.gerantech.towercraft.controls.popups
 			
 			uernameInput = new CustomTextInput(SoftKeyboardType.NUMBER, ReturnKeyLabel.DEFAULT);
 			uernameInput.restrict = "0-9";
-			uernameInput.prompt = loc( "popup_restore_name_prompt" );
+			uernameInput.prompt = "id";
 			container.addChild(uernameInput);
 			
 			passwordInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
-			passwordInput.prompt = loc( "popup_restore_pass_prompt" );
+			passwordInput.prompt = "pass";
 			container.addChild(passwordInput);
 			
 			errorDisplay = new RTLLabel("", 0xFF0000, null, null, true, null, 0.8);
