@@ -25,7 +25,7 @@ package com.gerantech.towercraft.controls.animations
 			labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 72*AppModel.instance.scale, 0xFFFFFF, "left");
 			labelDisplay.pixelSnapping = false;
 			labelDisplay.y = -size * 0.5;
-			labelDisplay.text = (count>0 ? "+":"-") + count;
+			labelDisplay.text = count.toString();
 			addChild(labelDisplay);
 			
 			var iconDisplay:ImageLoader = new ImageLoader();
