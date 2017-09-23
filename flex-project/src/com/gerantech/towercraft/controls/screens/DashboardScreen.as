@@ -4,6 +4,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
+	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.KeysPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
@@ -21,6 +22,7 @@ package com.gerantech.towercraft.controls.screens
 	
 	import flash.desktop.NativeApplication;
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import mx.resources.ResourceManager;
 	
@@ -156,6 +158,8 @@ package com.gerantech.towercraft.controls.screens
 				case ResourceType.KEY:
 					appModel.navigator.addPopup(new KeysPopup());
 					//addResourceAnimation(120, 330, ResourceType.CURRENCY_HARD, 10 ); 
+					//appModel.navigator.addOverlay(new FactionChangeOverlay(5, 7));
+
 					break;
 			}
 		}		

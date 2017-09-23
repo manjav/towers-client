@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
+import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.models.Assets;
 
@@ -19,8 +20,10 @@ import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingFactory;
 
+import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.controls.StackScreenNavigatorItem;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 
@@ -103,11 +106,21 @@ public class MainSegment extends Segment
 		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
 		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
 		addChild(inboxButton);
+		
+		var restoreButton:Button = new Button();
+		restoreButton.alpha = 0;
+		restoreButton.isLongPressEnabled = true;
+		restoreButton.longPressDuration = 3;
+		restoreButton.width = restoreButton.height = 120 * appModel.scale;
+		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.addPopup(new RestorePopup())});
+		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
+		addChild(restoreButton);
+	
 	}
 	
 	private function showMap():void
 	{
-		if(dragonBonesData == null)
+		if( dragonBonesData == null )
 			return;
 		var mcName:String;
 		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
@@ -122,13 +135,13 @@ public class MainSegment extends Segment
 				var btn:SimpleButton = new SimpleButton();
 				btn.addChild(mapElement)
 				this.addChild(btn);
-				if(mcName != "background" && mcName != "mine-lights")
+				if( mcName != "background" && mcName != "mine-lights" )
 				{
 					btn.name = mcName;
 					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
 				}
 				
-				switch(mcName)
+				switch( mcName )
 				{
 					case "mine-lights":
 						btn.x = 499 * appModel.scale * 1.2;

@@ -81,7 +81,7 @@ package com.gerantech.towercraft.controls
 			countInsideDisplay = new BitmapFontTextRenderer();
 			countInsideDisplay.visible = false;
 			countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96*appModel.scale, 0xFFFFFF, appModel.align);
-			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3, 0, appModel.isLTR?padding*3:NaN);
+			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, padding, appModel.isLTR?padding*2:NaN);
 			countInsideDisplay.text = "x " + count; 
 			iconContainer.addChild(countInsideDisplay);
 			
