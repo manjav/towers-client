@@ -69,10 +69,11 @@ package com.gerantech.towercraft.managers
 				i++;
 			}
 			
+			var later:int  = 1000 + Math.random() * 10000;
 			if( numForgots == 1 )
-				notify("notify_chest_forgot_a_chest", date.time+5000);
+				notify("notify_chest_forgot_a_chest", date.time+later);
 			else if( numForgots > 1 )
-				notify("notify_chest_forgot_chests", date.time+5000);
+				notify("notify_chest_forgot_chests", date.time+later);
 			
 			// remember after a day, 3 days and a week ...
 			notify("notify_remember_day", date.time+secondsInDay);
