@@ -70,8 +70,10 @@ package com.gerantech.towercraft.managers.net
 				socials.init( SocialManager.TYPE_GOOGLEPLAY );
 			}
 			if( AppModel.instance.navigator != null )
+			{
 				AppModel.instance.navigator.popToRootScreen();
-			
+				AppModel.instance.navigator.removeAllPopups();
+			}
 			if(UserData.instance.prefs == null )
 				UserData.instance.prefs = new UserPrefs();
 		}

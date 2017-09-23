@@ -117,7 +117,11 @@ public function addPopup(popup:AbstractPopup) : void
 		popups.removeAt(popups.indexOf(p));
 	}
 }
-
+public function removeAllPopups() : void
+{
+	popupsContainer.removeChildren(0, -1, true);
+	popups = new Vector.<AbstractPopup>();
+}
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  OVERLAYS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 private var overlays:Vector.<BaseOverlay>;
