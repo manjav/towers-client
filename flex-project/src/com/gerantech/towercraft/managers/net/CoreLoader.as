@@ -84,11 +84,7 @@ package com.gerantech.towercraft.managers.net
 			for ( var i:int=0; i<arenaKeys.length; i++ )
 			{
 				var arenaSource:* = game.arenas.get(arenaKeys[i]);
-				var arenaDest:Arena = new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.cardsStr );
-				var fKeys:Vector.<String> = arenaSource.fields.keys();
-				for ( var j:int = 0; j < fKeys.length; j++ ) 
-					arenaDest.fields.set(fKeys[j], convertField(arenaSource.fields.get(fKeys[j])));
-				AppModel.instance.game.arenas.set( arenaKeys[i], arenaDest );
+				AppModel.instance.game.arenas.set( arenaKeys[i], new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.cardsStr ) );
 			}
 			
 			// put exchanger items
@@ -120,6 +116,11 @@ package com.gerantech.towercraft.managers.net
 			var fItemsKeys:Vector.<String> = game.fieldProvider.quests.keys();
 			for ( i=0; i<fItemsKeys.length; i++ )
 				AppModel.instance.game.fieldProvider.quests.set( fItemsKeys[i] , convertField( game.fieldProvider.quests.get(fItemsKeys[i]) ));
+			
+			AppModel.instance.game.fieldProvider.battles = new StringFieldMap();
+			fItemsKeys = game.fieldProvider.battles.keys();
+			for ( i=0; i<fItemsKeys.length; i++ )
+				AppModel.instance.game.fieldProvider.battles.set( fItemsKeys[i] , convertField( game.fieldProvider.battles.get(fItemsKeys[i]) ));
 		}		
 		
 		private function convertField(fieldSource:*):FieldData
