@@ -54,8 +54,10 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 			state = STATE_CONNECT;
 			if( AppModel.instance.navigator != null )
+			{
 				AppModel.instance.navigator.popToRootScreen();
-			
+				AppModel.instance.navigator.removeAllPopups();
+			}
 			if(UserData.instance.prefs == null )
 				UserData.instance.prefs = new UserPrefs();
 		}
