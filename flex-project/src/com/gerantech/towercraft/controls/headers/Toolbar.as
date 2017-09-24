@@ -33,15 +33,15 @@ package com.gerantech.towercraft.controls.headers
 			indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding, NaN, 0);
 			addChild(indicators[ResourceType.POINT]);
 			
-			indicators[ResourceType.CURRENCY_SOFT] = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
-			indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
-			indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, 0);
-			addChild(indicators[ResourceType.CURRENCY_SOFT]);
-			
 			indicators[ResourceType.CURRENCY_HARD] = new Indicator("rtl", ResourceType.CURRENCY_HARD);
 			indicators[ResourceType.CURRENCY_HARD].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
-			indicators[ResourceType.CURRENCY_HARD].layoutData = new AnchorLayoutData(NaN, padding*3+indicators[ResourceType.CURRENCY_SOFT].width, NaN, NaN, NaN, 0);
+			indicators[ResourceType.CURRENCY_HARD].layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, 0);
 			addChild(indicators[ResourceType.CURRENCY_HARD]);
+			
+			indicators[ResourceType.CURRENCY_SOFT] = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
+			indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
+			indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding*3+indicators[ResourceType.CURRENCY_HARD].width, NaN, NaN, NaN, 0);
+			addChild(indicators[ResourceType.CURRENCY_SOFT]);
 			
 			indicators[ResourceType.KEY] = new Indicator("ltr", ResourceType.KEY, false, false);
 			indicators[ResourceType.KEY].width = 160 * appModel.scale;

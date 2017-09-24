@@ -14,6 +14,7 @@ package com.gerantech.towercraft.controls.buttons
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.events.Event;
 	import starling.text.TextField;
 	import starling.text.TextFormat;
 
@@ -43,7 +44,7 @@ package com.gerantech.towercraft.controls.buttons
 		override protected function initialize():void
 		{
 			super.initialize();
-			
+			this.isQuickHitAreaEnabled = false;
 			layout = new AnchorLayout();
 			var skin:ImageSkin = new ImageSkin(Assets.getTexture("indicator-background", "skin"));
 			skin.scale9Grid = new Rectangle(4, 6, 2, 2);
@@ -97,8 +98,12 @@ package com.gerantech.towercraft.controls.buttons
 		{
 			if( value == super.currentState )
 				return;
-			if( hasIncreaseButton )
-				scale = value == ButtonState.DOWN ? 0.9 : 1;
+			if( hasEventListener(Event.TRIGGERED) )
+			{
+				scale = value == ButtonState.DOWN ? 1.1 : 1;
+				if( value == ButtonState.DOWN && parent != null )
+					parent.addChild(this);
+			}
 			super.currentState = value;
 		}
 		
