@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.BattleHUD;
+	import com.gerantech.towercraft.controls.buttons.ImproveButton;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
 	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
@@ -23,7 +24,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -481,7 +481,20 @@ package com.gerantech.towercraft.controls.screens
 			function floating_selectHandler(event:Event):void
 			{
 				state = STATE_STARTED;
-				appModel.battleFieldView.responseSender.improveBuilding(event.data["index"], event.data["type"]);
+				var btn:ImproveButton = event.data as ImproveButton;
+				if( btn.locked )
+				{
+					if( player.get_arena(0) == 0 )
+						appModel.navigator.addLog(loc("improve_locked_meaagse"));
+					return;
+				}
+				if( !btn.touchGroup )
+				{
+					if( player.get_arena(0) == 0 )
+						appModel.navigator.addLog(loc("improve_disabled_meaagse"));
+					return;
+				}
+				appModel.battleFieldView.responseSender.improveBuilding(btn.building.index, btn.type);
 			}
 		}
 
