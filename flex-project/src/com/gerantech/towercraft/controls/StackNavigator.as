@@ -145,6 +145,8 @@ public function addOverlay(overlay:BaseOverlay) : void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function addToast(toast:BaseToast) : void
 {
+	if( activeScreenID == Main.BATTLE_SCREEN )
+		return;
 	addPopup(toast);
 }
 
