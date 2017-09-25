@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-	public class PlayerFeatureItemRenderer extends FeatureItemRenderer
+	public class ProfileFeatureItemRenderer extends FeatureItemRenderer
 	{
 		override protected function commitData():void
 		{
