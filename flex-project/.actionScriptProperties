@@ -37,6 +37,7 @@
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/native-android.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/tapsell-3.0.1-a3.0.27-i3.0.4.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -69,6 +70,7 @@
         <anePaths>
           <anePathEntry path="ane/iab.ane"/>
           <anePathEntry path="ane/native-android.ane"/>
+          <anePathEntry path="ane/tapsell-3.0.1-a3.0.27-i3.0.4.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>

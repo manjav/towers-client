@@ -2,12 +2,15 @@ package com.gerantech.towercraft.controls.segments
 {
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.BillingManager;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.vo.ShopLine;
+	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
@@ -147,7 +150,7 @@ package com.gerantech.towercraft.controls.segments
 						return;
 					}
 				}
-				sendData(item, params)
+				sendData(item.type, params)
 			}
 			else if( !player.has(item.requirements) )
 			{
@@ -195,14 +198,14 @@ package com.gerantech.towercraft.controls.segments
 					appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
 				return;
 			}
-			sendData(item, params)			
+			sendData(item.type, params)			
 		}
 		
-		private function sendData(item:ExchangeItem, params:SFSObject):void
+		private function sendData(type:int, params:SFSObject):void
 		{
-			if( ExchangeType.getCategory( item.type ) == ExchangeType.S_30_CHEST )
+			if( ExchangeType.getCategory( type ) == ExchangeType.S_30_CHEST )
 			{
-				openChestOverlay = new OpenChestOverlay(item.type);
+				openChestOverlay = new OpenChestOverlay(type, params.containsKey("isAd"));
 				appModel.navigator.addOverlay(openChestOverlay);
 			}
 			
@@ -226,12 +229,13 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
 			params.putInt("hards", RequirementConfirmPopup(event.currentTarget).numHards );
-			sendData(item, params);
+			sendData(item.type, params);
 		}
 
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			//trace(event.params.params.getDump());
+			if( event.params.cmd != SFSCommands.EXCHANGE )
+				return;
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			var data:SFSObject = event.params.params;
 			var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
@@ -245,7 +249,7 @@ package com.gerantech.towercraft.controls.segments
 					
 					case ExchangeType.S_30_CHEST:
 						item.outcomes = new IntIntMap();
-						trace(data.getSFSArray("rewards").getDump());
+						//trace(data.getSFSArray("rewards").getDump());
 						var reward:ISFSObject;
 						for(var i:int=0; i< data.getSFSArray("rewards").size(); i++ )
 						{
@@ -257,6 +261,8 @@ package com.gerantech.towercraft.controls.segments
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						function openChestOverlay_closeHandler(event:Event):void {
 							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+							if( !openChestOverlay.isAd )
+								showAd(item.type);
 							openChestOverlay = null;
 							exchanger.exchange(item, data.getInt("now"), data.getInt("hards"));
 							itemslist.dataProvider.updateItemAt(1);
@@ -266,6 +272,32 @@ package com.gerantech.towercraft.controls.segments
 				item.enabled = true;
 			}
 
+		}
+		
+		private function showAd(type:int):void
+		{
+			var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup(type);
+			adConfirmPopup.addEventListener(Event.SELECT, adConfirmPopup_selectHandler);
+			appModel.navigator.addPopup(adConfirmPopup);
+			function adConfirmPopup_selectHandler(event:Event):void {
+				adConfirmPopup.removeEventListener(Event.SELECT, adConfirmPopup_selectHandler);
+				VideoAdsManager.instance.requestAd(type, false);
+				VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+			}
+		}
+		private function videoIdsManager_completeHandler(event:Event):void
+		{
+			VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+			var ad:VideoAd = event.data as VideoAd;
+			
+			trace(ad.completed, ad.rewarded);
+			if( !ad.completed || !ad.rewarded )
+				return;
+			
+			var params:SFSObject = new SFSObject();
+			params.putInt("type", ad.type );
+			params.putBool("isAd", true );
+			sendData(ad.type, params);
 		}
 		
 	}

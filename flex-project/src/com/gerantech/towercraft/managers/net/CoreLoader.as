@@ -3,6 +3,8 @@
  */
 package com.gerantech.towercraft.managers.net
 {
+	import com.gerantech.towercraft.managers.TimeManager;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.utils.LoadAndSaver;
@@ -169,7 +171,10 @@ package com.gerantech.towercraft.managers.net
 			{
 				element = elements.getSFSObject(i);
 				initData.exchanges.set( element.getInt("type"), new Exchange( element.getInt("type"), element.getInt("num_exchanges"), element.getLong("expired_at"), element.getInt("outcome")));
-			}			
+				
+				if( ExchangeType.getCategory(element.getInt("type"))==ExchangeType.S_30_CHEST && element.getLong("expired_at")<TimeManager.instance.now )
+					VideoAdsManager.instance.requestAd(element.getInt("type"), true);
+			}
 		}
 	}
 }
