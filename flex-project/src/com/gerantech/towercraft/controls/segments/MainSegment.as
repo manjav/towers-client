@@ -62,7 +62,7 @@ public class MainSegment extends Segment
 		super.init();
 		layout = new AnchorLayout();		
 
-		if(appModel.loadingManager.inBattle)
+		if( appModel.loadingManager.serverData.getBool("inBattle") )
 		{
 			setTimeout(gotoLiveBattle, 100);
 			return;

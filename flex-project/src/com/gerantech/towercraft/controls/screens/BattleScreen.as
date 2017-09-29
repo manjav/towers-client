@@ -186,7 +186,7 @@ package com.gerantech.towercraft.controls.screens
 			if( timeManager.now - appModel.battleFieldView.battleData.startAt > 5 )
 				appModel.battleFieldView.responseSender.resetAllVars();
 
-			appModel.loadingManager.inBattle = false;
+			appModel.loadingManager.serverData.putBool("inBattle", false);
 
 			if( !sfsConnection.mySelf.isSpectator )
 				addEventListener(TouchEvent.TOUCH, touchHandler);

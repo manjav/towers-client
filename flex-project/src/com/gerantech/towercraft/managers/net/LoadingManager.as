@@ -38,7 +38,6 @@ package com.gerantech.towercraft.managers.net
 		public static const STATE_LOGIN:int = 1;
 		public static const STATE_CORE_LOADING:int = 2;
 		public static const STATE_LOADED:int = 3;
-		public var inBattle:Boolean;
 		public var loadStartAt:int;
 		
 		private var sfsConnection:SFSConnection;
@@ -171,7 +170,6 @@ package com.gerantech.towercraft.managers.net
 		
 		protected function coreLoader_completeHandler(event:Event):void
 		{
-			inBattle = serverData.getBool("inBattle");
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 			state = STATE_LOADED;
