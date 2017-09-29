@@ -89,7 +89,7 @@ package com.gerantech.towercraft.controls.screens
 				case LoadingEvent.LOADED:
 					trace("LoadingEvent.LOADED", "t["+(getTimer()-Towers.t)+ ","+(getTimer()-AppModel.instance.loadingManager.loadStartAt)+"]");
 					logo.addEventListener("cancel", logo_cancelHandler);
-					stage.dispatchEvent(new Event("play"));trace("playyyyyyyyyy")
+					stage.dispatchEvent(new Event("continue"));
 					break;
 				case LoadingEvent.CONNECTION_LOST:
 					var reloadpopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_reload_label"));
@@ -199,7 +199,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
 			_parent.addChild(this);
 			logo.addEventListener("clear", logo_clearHandler);
-			stage.dispatchEvent(new Event("play"));
+			stage.dispatchEvent(new Event("start"));
 		}
 		protected function logo_cancelHandler(event:*):void
 		{
