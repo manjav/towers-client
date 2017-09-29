@@ -57,7 +57,7 @@ public function StackNavigator()
 private function navigator_changeHandler(event:Event):void
 {
 	if( toolbar && AppModel.instance.loadingManager.state >= LoadingManager.STATE_LOADED )
-	{
+	{trace("navigator_changeHandler")
 		if( activeScreenID != Main.DASHBOARD_SCREEN )
 		{
 			toolbar.removeFromParent();
@@ -73,6 +73,12 @@ private function navigator_changeHandler(event:Event):void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
+	if( toolbar == null )
+	{
+		toolbar = new Toolbar();
+		toolbar.width = stage.stageWidth;
+		addChild(toolbar);
+	}
 }
 
 private function addedToStageHandler(event:Event):void
@@ -90,13 +96,6 @@ private function addedToStageHandler(event:Event):void
 	GameLog.GAP = 80 * AppModel.instance.scale;
 	logsContainer = new LayoutGroup();
 	parent.addChild(logsContainer);
-	
-	if( toolbar == null )
-	{
-		toolbar = new Toolbar();
-		toolbar.width = stage.stageWidth;
-		addChild(toolbar);
-	}
 }		
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  POPUPS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
