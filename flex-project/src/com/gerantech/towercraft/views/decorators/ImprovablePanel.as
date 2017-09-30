@@ -12,22 +12,21 @@ package com.gerantech.towercraft.views.decorators
 	
 	public class ImprovablePanel extends Image
 	{
-		private var _enabled:Boolean;
-		private var initialScale:Number;
+		private var _enabled:Boolean = true;
+		private var initialScale:Number = 0;
 		public function ImprovablePanel()
 		{
 			super(Assets.getTexture("improvable"));
 			alignPivot(HorizontalAlign.CENTER, VerticalAlign.BOTTOM);
 			touchable = false;
-			visible = false;
-			initialScale = AppModel.instance.scale;
+			initialScale = scale;
 		}
 		
 		public function set enabled(value:Boolean):void
 		{
 			if( _enabled == value )
 				return;
-			//parent.addChild(this);
+			
 			_enabled = value;
 			if(_enabled)
 				visible = true;
