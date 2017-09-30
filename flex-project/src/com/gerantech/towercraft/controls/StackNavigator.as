@@ -57,7 +57,7 @@ public function StackNavigator()
 private function navigator_changeHandler(event:Event):void
 {
 	if( toolbar && AppModel.instance.loadingManager.state >= LoadingManager.STATE_LOADED )
-	{trace("navigator_changeHandler")
+	{
 		if( activeScreenID != Main.DASHBOARD_SCREEN )
 		{
 			toolbar.removeFromParent();

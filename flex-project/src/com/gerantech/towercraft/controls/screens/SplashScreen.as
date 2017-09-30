@@ -89,7 +89,8 @@ package com.gerantech.towercraft.controls.screens
 				case LoadingEvent.LOADED:
 					trace("LoadingEvent.LOADED", "t["+(getTimer()-Towers.t)+ ","+(getTimer()-AppModel.instance.loadingManager.loadStartAt)+"]");
 					logo.addEventListener("cancel", logo_cancelHandler);
-					stage.dispatchEvent(new Event("continue"));
+					if( stage != null )
+						stage.dispatchEvent(new Event("continue"));
 					break;
 				case LoadingEvent.CONNECTION_LOST:
 					var reloadpopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_reload_label"));
