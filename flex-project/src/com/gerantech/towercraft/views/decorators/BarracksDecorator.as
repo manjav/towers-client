@@ -28,8 +28,6 @@ package com.gerantech.towercraft.views.decorators
 		
 		override protected function addedToStageHandler():void
 		{
-			super.addedToStageHandler();
-			
 			bodyDisplay.pivotX = bodyDisplay.width/2
 			bodyDisplay.pivotY = bodyDisplay.height * 0.85;
 			bodyDisplay.scale = appModel.scale * 2;
@@ -43,6 +41,8 @@ package com.gerantech.towercraft.views.decorators
 			troopTypeDisplay.x = parent.x;
 			troopTypeDisplay.y = parent.y// - 16;
 			BattleFieldView(parent.parent).buildingsContainer.addChild(troopTypeDisplay);
+
+			super.addedToStageHandler();
 		}
 		
 		override public function updateElements(population:int, troopType:int):void
