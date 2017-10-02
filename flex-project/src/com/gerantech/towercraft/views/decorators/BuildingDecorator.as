@@ -122,7 +122,7 @@ package com.gerantech.towercraft.views.decorators
 		public function updateElements(population:int, troopType:int):void
 		{
 			populationIndicator.text = population+"/"+place.building.get_capacity();
-			populationBar.troopType = troopType;
+			populationBar.troopType = troopType == player.troopType ? 0 : 1;
 			populationBar.value = population;
 			populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
 		}
