@@ -194,29 +194,22 @@ package com.gerantech.towercraft.managers
 			if(purchaseDetails != null)
 			{
 				AppModel.instance.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
-				if( AppModel.instance.descriptor.market == "cafebazaar" )
-				{
-					/* ------------ PURCHASE VERIFICATION AND CONSUMPTION -----------*/
-					var param:SFSObject = new SFSObject();
-					param.putText("productID", purchaseDetails._sku);
-					param.putText("purchaseToken", purchaseDetails._token);
-					SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
-					SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
-					function sfsConnection_purchaseVerifyHandler(event:SFSEvent):void {
-						if(event.params.cmd != SFSCommands.VERIFY_PURCHASE)
-							return;
-						SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
-						var result:SFSObject = event.params.params;
-						trace(result.getDump());
-						if (result.getBool("success") && result.getInt("consumptionState") == 1)
-							consume(purchaseDetails._sku);
-						else
-							explain("popup_purchase_invalid");
-					}
-				}
-				else
-				{
-					consume(purchaseDetails._sku);
+				/* ------------ PURCHASE VERIFICATION AND CONSUMPTION -----------*/
+				var param:SFSObject = new SFSObject();
+				param.putText("productID", purchaseDetails._sku);
+				param.putText("purchaseToken", purchaseDetails._token);
+				SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
+				SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
+				function sfsConnection_purchaseVerifyHandler(event:SFSEvent):void {
+					if(event.params.cmd != SFSCommands.VERIFY_PURCHASE)
+						return;
+					SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
+					var result:SFSObject = event.params.params;
+					trace(result.getDump());
+					if (result.getBool("success") && result.getInt("consumptionState") == 1)
+						consume(purchaseDetails._sku);
+					else
+						explain("popup_purchase_invalid");
 				}
 			}
 			else
