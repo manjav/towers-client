@@ -19,7 +19,7 @@ package com.gerantech.towercraft.controls.buttons
 		private var iconDisplay:ImageLoader;
 
 		private var backgroundDisplay:Image;
-		private var locked:Boolean;
+		public var locked:Boolean;
 		
 		public function ImproveButton(building:Building, type:int)
 		{

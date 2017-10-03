@@ -12,26 +12,28 @@ package com.gerantech.towercraft.views.decorators
 	
 	public class ImprovablePanel extends Image
 	{
-		private var _enabled:Boolean;
-		private var initialScale:Number;
+		private var _enabled:Boolean = true;
+		private var initialScale:Number = 0;
 		public function ImprovablePanel()
 		{
 			super(Assets.getTexture("improvable"));
 			alignPivot(HorizontalAlign.CENTER, VerticalAlign.BOTTOM);
 			touchable = false;
-			visible = false;
-			initialScale = AppModel.instance.scale;
 		}
 		
 		public function set enabled(value:Boolean):void
 		{
 			if( _enabled == value )
 				return;
-			//parent.addChild(this);
+			
+			if( initialScale == 0 )
+				initialScale = scale;
+			
 			_enabled = value;
+			
 			if(_enabled)
 				visible = true;
-			Starling.juggler.tween(this, _enabled?0.3:0.1, {scale:_enabled?1:0.5*initialScale, transition:_enabled?Transitions.EASE_OUT_BACK:Transitions.EASE_IN, onComplete:tweenCompleted});
+			Starling.juggler.tween(this, _enabled?0.3:0.1, {scale:(_enabled?1:0.5)*initialScale, transition:_enabled?Transitions.EASE_OUT_BACK:Transitions.EASE_IN, onComplete:tweenCompleted});
 			function tweenCompleted ():void
 			{
 				if(!_enabled)

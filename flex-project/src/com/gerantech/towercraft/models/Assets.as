@@ -33,9 +33,6 @@ package com.gerantech.towercraft.models
 			return fonts[name];
 		}
 		
-
-		[Embed(source="../../../../assets/images/splash-logo.png")]
-		public static const splash_bitmap:Class;
 		/**
 		 * Texture Atlas 
 		 */

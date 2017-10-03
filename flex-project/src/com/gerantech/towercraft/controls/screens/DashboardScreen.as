@@ -140,7 +140,7 @@ package com.gerantech.towercraft.controls.screens
 			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 			
 			appModel.navigator.handleInvokes();
-			appModel.navigator.toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);;
+			appModel.navigator.toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);
 		}
 		private function toolbar_triggerredHandler(event:Event):void
 		{

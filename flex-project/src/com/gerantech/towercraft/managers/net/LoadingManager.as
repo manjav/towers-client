@@ -188,7 +188,6 @@ package com.gerantech.towercraft.managers.net
 		}
 		protected function coreLoader_completeHandler(event:Event):void
 		{
-			inBattle = serverData.getBool("inBattle");
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 			//if( UserData.instance.authenticated )

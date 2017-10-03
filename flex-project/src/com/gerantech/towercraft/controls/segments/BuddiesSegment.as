@@ -72,7 +72,6 @@ override public function init():void
 	list = new FastList();
 	list.layout = listLayout;
 	list.layoutData = new AnchorLayoutData(0,0,0,0);
-	setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);
 	addChild(list);
 	
 	buddyCollection = new ListCollection(SFSConnection.instance.buddyManager.buddyList);
@@ -111,13 +110,6 @@ protected function sfs_buddyChangeHandler(event:SFSBuddyEvent):void
 		buddyCollection.removeItemAt(buddyCollection.getItemIndex(buddy))
 }
 
-
-protected function list_scrollHandler(event:Event):void
-{
-	super.list_scrollHandler(event);
-	if( buttonsPopup != null && buttonsPopup.parent == this )
-		buttonsPopup.close();
-}
 protected function list_focusInHandler(event:Event):void
 {
 	var selectedItem:BuddyItemRenderer = event.data as BuddyItemRenderer;

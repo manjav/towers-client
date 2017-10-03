@@ -14,6 +14,7 @@ import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.BillingManager;
+import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
@@ -55,7 +56,7 @@ public function StackNavigator()
 
 private function navigator_changeHandler(event:Event):void
 {
-	if( toolbar )
+	if( toolbar && AppModel.instance.loadingManager.state >= LoadingManager.STATE_LOADED )
 	{
 		if( activeScreenID != Main.DASHBOARD_SCREEN )
 		{
@@ -145,6 +146,8 @@ public function addOverlay(overlay:BaseOverlay) : void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function addToast(toast:BaseToast) : void
 {
+	if( activeScreenID == Main.BATTLE_SCREEN )
+		return;
 	addPopup(toast);
 }
 

@@ -23,7 +23,7 @@ package com.gerantech.towercraft.models.vo
 		public function BattleData(data:ISFSObject)
 		{
 			this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
-			this.startAt = data.getInt("startAt");
+			this.startAt = data.getInt("startAt")-1;
 			this.singleMode = data.getBool("singleMode");
 			this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
 			AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");

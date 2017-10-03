@@ -134,7 +134,7 @@ package com.gerantech.towercraft.managers
 			}
 			else
 			{
-				throw Error("The sound you are trying to play (" + id + ") is not in the Sound Manager. Try adding it to the Sound Manager first.");
+				trace("The sound you are trying to play (" + id + ") is not in the Sound Manager. Try adding it to the Sound Manager first.");
 			}
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		

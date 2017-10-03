@@ -17,6 +17,7 @@ package com.gerantech.towercraft.controls.floatings
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
+	import starling.events.EventDispatcher;
 
 	public class ImproveFloating extends BaseFloating
 	{
@@ -86,8 +87,6 @@ package com.gerantech.towercraft.controls.floatings
 			}
 		}
 		
-		
-		
 		private function placeView_updateHandler(event:Event):void
 		{
 			for (var i:int=0; i < buttons.length; i++) 
@@ -96,7 +95,7 @@ package com.gerantech.towercraft.controls.floatings
 		
 		private function buttons_triggeredHandler(event:Event):void
 		{
-			dispatchEventWith(Event.SELECT, false, {index:placeView.place.index, type:ImproveButton(event.currentTarget).type});
+			dispatchEventWith(Event.SELECT, false, event.currentTarget as ImproveButton);
 			close();
 		}
 		

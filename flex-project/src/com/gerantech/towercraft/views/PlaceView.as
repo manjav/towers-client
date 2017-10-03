@@ -31,6 +31,7 @@ package com.gerantech.towercraft.views
 		private var arrow:Image;
 		private var rushTimeoutId:uint;
 		private var _selectable:Boolean;
+		private var wishedPopulation:int;
 		
 		
 		public function PlaceView(place:Place)
@@ -52,11 +53,11 @@ package com.gerantech.towercraft.views
 			createDecorator();
 			createArrow();
 			place.building.createEngine(place.building.troopType);
+			place.building._population = wishedPopulation = place.building.get_population();
 		}
 		
 		private function createDecorator():void
 		{
-			//trace("createDecorator");
 			if(defensiveWeapon != null)
 				defensiveWeapon.dispose();
 			defensiveWeapon = null;
@@ -110,6 +111,13 @@ package com.gerantech.towercraft.views
 		{
 			decorator.updateElements(population, troopType);
 			
+			if( population < wishedPopulation )
+			{
+				decorator.showUnderAttack();
+				//trace(place.index, population, place.building._population, wishedPopulation);
+			}
+			if( population == place.building._population+1 || population == place.building._population+2 || wishedPopulation == 0)
+				wishedPopulation = population;
 			place.building._population = population;
 			place.building.troopType = troopType;
 			
@@ -119,6 +127,7 @@ package com.gerantech.towercraft.views
 		
 		public function fight(destination:Place) : void
 		{
+			wishedPopulation = Math.floor(place.building._population/2);
 			var path:PlaceList = PathFinder.find(place, destination, AppModel.instance.battleFieldView.battleData.battleField.getAllTowers(-1));
 			if(path == null || destination.building == place.building)
 				return;
@@ -130,7 +139,7 @@ package com.gerantech.towercraft.views
 				t.x = x;
 				t.y = y ;
 				BattleFieldView(parent).troopsContainer.addChild(t);
-				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i, t);
+				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i + 300, t);
 			}
 			
 			if ( place.building.troopType == AppModel.instance.game.player.troopType )
@@ -155,6 +164,7 @@ package com.gerantech.towercraft.views
 		
 		public function replaceBuilding(type:int, level:int):void
 		{
+			wishedPopulation = Math.floor(place.building._population/2);
 			var tt:int = place.building.troopType;
 			var p:int = place.building._population;
 			//trace("replaceBuilding", place.index, type, level, place.building._population);

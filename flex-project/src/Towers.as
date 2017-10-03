@@ -30,6 +30,9 @@ package
 		private var starling:Starling;
 		private var scaler:ScreenDensityScaleFactorManager;
 		public static var t:int;
+		private var loadingState:int = 0;
+
+		private var splash:SplashScreen;
 		
 		public function Towers()
 		{
@@ -70,7 +73,9 @@ package
 			}
 			
 			this.mouseEnabled = this.mouseChildren = false;
-			addChild(new SplashScreen());
+			splash = new SplashScreen();
+			splash.addEventListener(Event.CLEAR, loaderInfo_completeHandler);
+			addChild(splash);
 			this.loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 			NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
 		}
@@ -83,18 +88,24 @@ package
 		
 		private function loaderInfo_completeHandler(event:Event):void
 		{
-			this.loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
-			/*var originalWidth:Number = 1920;
-			var originalHeight:Number = 1080;
-			var x:Number = originalWidth/stage.stageWidth;
-			var y:Number = originalHeight/stage.stageHeight;*/
-			
+			loadingState ++;
+			if( event.currentTarget == this.loaderInfo )
+				this.loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+			else
+				splash.removeEventListener(Event.CLEAR, loaderInfo_completeHandler);
+
+			if( loadingState >= 2 )
+				starStarling();
+		}
+		
+		private function starStarling():void
+		{
 			Starling.multitouchEnabled = true;
 			this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
 			//this.starling.showStats = true;
-			//this.starling.showStatsAt()//"left", "bottom", 0.8);
+			//this.starling.showStatsAt("right", "bottom", 0.8);
 			this.starling.skipUnchangedFrames = false;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
@@ -102,7 +113,7 @@ package
 			this.scaler = new ScreenDensityScaleFactorManager(this.starling);
 			
 			AppModel.instance.scale = this.starling.stage.stageWidth/1080;
-			BillingManager.instance.init();
+			BillingManager.instance.init();			
 		}
 		
 		private function starling_rootCreatedHandler(event:Object):void
