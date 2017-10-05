@@ -115,7 +115,7 @@ package com.gerantech.towercraft.controls.overlays
 				if( !keyExists && score < 3 )
 				{
 					retryButton.label = "+   " + loc("retry_button");
-					retryButton.icon = Assets.getTexture("timer", "gui");
+					retryButton.icon = Assets.getTexture("extra-time", "gui");
 				}
 				else
 				{

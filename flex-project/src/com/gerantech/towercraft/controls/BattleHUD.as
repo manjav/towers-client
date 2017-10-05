@@ -143,7 +143,7 @@ package com.gerantech.towercraft.controls
 			setTimePosition();
 			
 			if( battleData.battleField.extraTime > 0 )
-				appModel.navigator.addAnimation(stage.stageWidth*0.5, stage.stageHeight*0.5, 240, Assets.getTexture("timer", "gui"), battleData.battleField.extraTime, timerSlider.iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
+				appModel.navigator.addAnimation(stage.stageWidth*0.5, stage.stageHeight*0.5, 240, Assets.getTexture("extra-time", "gui"), battleData.battleField.extraTime, timerSlider.iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
 			function punchTimer():void {
 				var diff:int = 48 * appModel.scale;
 				timerSlider.y -= diff;
