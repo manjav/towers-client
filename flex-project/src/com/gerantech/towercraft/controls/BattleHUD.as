@@ -12,6 +12,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.StickerType;
 	
+	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
@@ -140,6 +141,14 @@ package com.gerantech.towercraft.controls
 			removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			setTimePosition();
+			
+			if( battleData.battleField.extraTime > 0 )
+				appModel.navigator.addAnimation(stage.stageWidth*0.5, stage.stageHeight*0.5, 240, Assets.getTexture("timer", "gui"), battleData.battleField.extraTime, timerSlider.iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
+			function punchTimer():void {
+				var diff:int = 48 * appModel.scale;
+				timerSlider.y -= diff;
+				Starling.juggler.tween(timerSlider, 0.4, {y:y+diff, transition:Transitions.EASE_OUT_ELASTIC});
+			}
 		}
 		
 		private function timeManager_changeHandler(event:Event):void

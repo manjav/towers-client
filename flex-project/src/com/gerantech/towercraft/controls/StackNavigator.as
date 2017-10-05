@@ -18,6 +18,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
@@ -31,6 +32,7 @@ import flash.geom.Rectangle;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.Dictionary;
+import flash.utils.setTimeout;
 
 import mx.resources.ResourceManager;
 
@@ -43,6 +45,7 @@ import feathers.controls.StackScreenNavigatorItem;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
+import starling.textures.Texture;
 
 public class StackNavigator extends StackScreenNavigator
 {
@@ -176,25 +179,28 @@ public function addLogGame(log:GameLog) : void
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ANIMATIONS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public var toolbar:Toolbar;
-public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
-{
-	var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-	indicator.value -= count;
-	var zone:Rectangle = indicator.iconDisplay.getBounds(stage);
-	var anim:AchievedItem = new AchievedItem(resourceType, count);
-	anim.x = x;
-	anim.y = y;
-	anim.scale = 0;
-	Starling.juggler.tween(anim, 0.7, {scaleX:1.0, transition:Transitions.EASE_OUT_ELASTIC});
-	Starling.juggler.tween(anim, 0.7, {scaleY:1.0, transition:Transitions.EASE_OUT_BACK});
-	Starling.juggler.tween(anim, 0.5, {scale:0.3, delay:1+delay, x:zone.x+zone.width/2, y:zone.y, transition:Transitions.EASE_IN, onComplete:function():void{indicator.punch();anim.removeFromParent(true);}});
-	parent.addChild(anim);
-}
 private function itemAchievedHandler(event:Event):void
 {
 	if( activeScreenID != Main.DASHBOARD_SCREEN )
 		return;
 	addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
+}
+public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
+{
+	var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
+	indicator.value -= count;
+	addAnimation(x, y, 140, Assets.getTexture("res-"+resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay, indicator.punch);
+}
+public function addAnimation(x:Number, y:Number, size:int, texture:Texture, count:int, zone:Rectangle, delay:Number=0, completeCallback:Function=null, prefix:String="") : void
+{
+	var anim:AchievedItem = new AchievedItem(texture, count, size, prefix);
+	anim.x = x;
+	anim.y = y;
+	anim.scale = 0;
+	Starling.juggler.tween(anim, 0.7, {delay:0.0+delay, scaleX:1.0, transition:Transitions.EASE_OUT_ELASTIC});
+	Starling.juggler.tween(anim, 0.7, {delay:0.0+delay, scaleY:1.0, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(anim, 0.5, {delay:1.5+delay, scale:0.3,  x:zone.x+zone.width/2, y:zone.y, transition:Transitions.EASE_IN, onComplete:function():void{if(completeCallback)completeCallback();anim.removeFromParent(true);}});
+	parent.addChild(anim);
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BUG REPORT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_

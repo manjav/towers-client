@@ -249,10 +249,10 @@ package com.gerantech.towercraft.controls.screens
 		{
 			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			if( event.data && VideoAdsManager.instance.getVersion() != null ) 
+			if( event.data && VideoAdsManager.instance.getVersion() != "Unsupported Platform" ) 
 				showExtraTimeAd();
 			else
-				retryQuest(appModel.battleFieldView.battleData.map.index, 0);
+				retryQuest(appModel.battleFieldView.battleData.map.index, false);
 		}
 		
 		private function showExtraTimeAd():void
@@ -264,7 +264,7 @@ package com.gerantech.towercraft.controls.screens
 				VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 				var ad:VideoAd = event.data as VideoAd;
 				if( ad.completed && ad.rewarded )
-					retryQuest(appModel.battleFieldView.battleData.map.index, appModel.battleFieldView.battleData.map.times.get(0)/10);
+					retryQuest(appModel.battleFieldView.battleData.map.index, true);
 				else
 					dispatchEventWith(Event.COMPLETE);
 			}
@@ -548,7 +548,10 @@ package com.gerantech.towercraft.controls.screens
 			confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
+				confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
 				appModel.battleFieldView.responseSender.leave();
+				appModel.battleFieldView.battleData.isLeft = true;
+				appModel.battleFieldView.responseSender.actived = false;
 			}
 		}
 		

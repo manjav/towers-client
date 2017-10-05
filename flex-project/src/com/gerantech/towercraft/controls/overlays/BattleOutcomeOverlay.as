@@ -92,10 +92,13 @@ package com.gerantech.towercraft.controls.overlays
 			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
 			addChild(buttons);
 			
+			var hasRetry:Boolean = appModel.battleFieldView.battleData.map.isQuest && !player.inTutorial() && !appModel.battleFieldView.battleData.isLeft;
+			
 			var closeBatton:CustomButton = new CustomButton();
 			closeBatton.width = 300 * appModel.scale;
 			closeBatton.height = 120 * appModel.scale;
-			closeBatton.style = "danger";
+			if( hasRetry )
+				closeBatton.style = "danger";
 			closeBatton.name = "close";
 			closeBatton.label = loc("close_button");
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
@@ -103,7 +106,7 @@ package com.gerantech.towercraft.controls.overlays
 			closeBatton.alpha = 0;
 			buttons.addChild(closeBatton);
 
-			if( appModel.battleFieldView.battleData.map.isQuest && !player.inTutorial())
+			if( hasRetry )
 			{
 				var retryButton:CustomButton = new CustomButton();
 				retryButton.name = "retry";

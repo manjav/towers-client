@@ -16,7 +16,7 @@ package com.gerantech.towercraft.controls.sliders
 	{
 		private var timeoutId:uint;
 		private var progressBar:Slider;
-		private var iconDisplay:TimerIcon;
+		public var iconDisplay:TimerIcon;
 		private var stars:Vector.<StarCheck>;
 		private var _value:Number = 0;
 		
