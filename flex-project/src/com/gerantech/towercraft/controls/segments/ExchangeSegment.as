@@ -136,7 +136,7 @@ package com.gerantech.towercraft.controls.segments
 			
 			if(ExchangeType.getCategory(item.type) == ExchangeType.S_30_CHEST)
 			{
-				if(item.expiredAt > timeManager.now )
+				if( item.expiredAt > timeManager.now )
 				{
 					var req:IntIntMap = exchanger.getChestRequierement( item.expiredAt-timeManager.now );
 					if( !player.has(req) )
@@ -290,7 +290,6 @@ package com.gerantech.towercraft.controls.segments
 			VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 			var ad:VideoAd = event.data as VideoAd;
 			
-			trace(ad.completed, ad.rewarded);
 			if( !ad.completed || !ad.rewarded )
 				return;
 			

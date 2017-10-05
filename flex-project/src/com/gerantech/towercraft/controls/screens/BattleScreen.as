@@ -10,11 +10,13 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
@@ -247,13 +249,43 @@ package com.gerantech.towercraft.controls.screens
 		{
 			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			
-			removeChild(appModel.battleFieldView, true);			
-			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
-			
-			appModel.battleFieldView = new BattleFieldView();
-			addChild(appModel.battleFieldView);			
+			if( event.data && VideoAdsManager.instance.getVersion() != null ) 
+				showExtraTimeAd();
+			else
+				retryQuest(appModel.battleFieldView.battleData.map.index, 0);
 		}
+		
+		private function showExtraTimeAd():void
+		{
+			VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+			VideoAdsManager.instance.requestAd(ExchangeType.S_30_CHEST, false);
+			function videoIdsManager_completeHandler(event:Event):void
+			{
+				VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+				var ad:VideoAd = event.data as VideoAd;
+				if( ad.completed && ad.rewarded )
+					retryQuest(appModel.battleFieldView.battleData.map.index, appModel.battleFieldView.battleData.map.times.get(0)/10);
+				else
+					dispatchEventWith(Event.COMPLETE);
+			}
+		}
+		
+		private function retryQuest(index:int, hasExtraTime:Boolean):void
+		{
+			waitingOverlay = new WaitingOverlay() ;
+			appModel.navigator.addOverlay(waitingOverlay);
+			
+			var sfsObj:SFSObject = new SFSObject();
+			sfsObj.putBool("q", true);
+			sfsObj.putInt("i", index);
+			if( hasExtraTime )
+				sfsObj.putBool("e", true);
+			//if( spectatedUser != null && spectatedUser != "" )
+			//sfsObj.putText("su", spectatedUser);
+			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+			removeChild(appModel.battleFieldView, true);
+		}
+		
 		private function battleOutcomeOverlay_closeHandler(event:Event):void
 		{
 			var battleOutcomeOverlay:BattleOutcomeOverlay = event.currentTarget as BattleOutcomeOverlay;

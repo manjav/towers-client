@@ -27,7 +27,7 @@ package com.gerantech.towercraft.models.vo
 			this.singleMode = data.getBool("singleMode");
 			this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
 			AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
-			battleField = new BattleField(AppModel.instance.game, null, data.getText("mapName"), troopType);
+			battleField = new BattleField(AppModel.instance.game, null, data.getText("mapName"), troopType, data.containsKey("hasExtraTime"));
 			map = battleField.map;
 			var playerIndex:int = getPlayerIndex();
 			if( !map.isQuest )

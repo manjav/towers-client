@@ -32,8 +32,9 @@ package com.gerantech.towercraft.managers
 			tapsell.setDebugMode(true);
 			tapsell.setAdRequestListener(this);
 			tapsell.setAdShowFinishedListener(this);
-			
+
 			adIds = new Dictionary();
+			adIds["59d5f6814684650cb96b01ec"] = new VideoAd(ExchangeType.S_30_CHEST, "59d5f6814684650cb96b01ec") ;
 			adIds["59c921884684653f2563a9f2"] = new VideoAd(ExchangeType.S_31_CHEST, "59c921884684653f2563a9f2") ;
 			adIds["59c925d44684653f256499bc"] = new VideoAd(ExchangeType.S_32_CHEST, "59c925d44684653f256499bc") ;
 			adIds["59c8e6114684656c505cb957"] = new VideoAd(ExchangeType.S_33_CHEST, "59c8e6114684656c505cb957") ;

@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -71,7 +72,7 @@ package com.gerantech.towercraft.controls.overlays
 			hlayout.horizontalAlign = HorizontalAlign.CENTER;
 			hlayout.verticalAlign = VerticalAlign.MIDDLE;
 			hlayout.paddingBottom = 42 * appModel.scale;
-			hlayout.gap = 24 * appModel.scale;
+			hlayout.gap = 48 * appModel.scale;
 			
 			if( rewards.size() > 0 )
 			{
@@ -92,22 +93,46 @@ package com.gerantech.towercraft.controls.overlays
 			addChild(buttons);
 			
 			var closeBatton:CustomButton = new CustomButton();
+			closeBatton.width = 300 * appModel.scale;
+			closeBatton.height = 120 * appModel.scale;
+			closeBatton.style = "danger";
 			closeBatton.name = "close";
 			closeBatton.label = loc("close_button");
 			closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
-			Starling.juggler.tween(closeBatton, 0.5, {delay:3, alpha:1});
+			Starling.juggler.tween(closeBatton, 0.5, {delay:2, alpha:1});
 			closeBatton.alpha = 0;
 			buttons.addChild(closeBatton);
 
-			/*if(score == 0)
+			if( appModel.battleFieldView.battleData.map.isQuest && !player.inTutorial())
 			{
-				var retryButton:Button = new Button();
+				var retryButton:CustomButton = new CustomButton();
 				retryButton.name = "retry";
-				retryButton.label = loc("retry_button");
+				retryButton.width = 300 * appModel.scale;
+				retryButton.height = 120 * appModel.scale;
+				if( !keyExists && score < 3 )
+				{
+					retryButton.label = "+   " + loc("retry_button");
+					retryButton.icon = Assets.getTexture("timer", "gui");
+				}
+				else
+				{
+					retryButton.label = loc("retry_button");
+				}
 				retryButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
+				Starling.juggler.tween(retryButton, 0.5, {delay:2.1, alpha:1});
+				retryButton.alpha = 0;
 				buttons.addChild(retryButton);
-			}*/
+			}
+				
 			appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+		}
+		
+		private function get keyExists():Boolean
+		{
+			for (var i:int = 0; i < rewards.size(); i++) 
+				if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY )
+					return true;
+			return false;
 		}
 		
 		private function getRewardsCollection():ListCollection
@@ -125,8 +150,8 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			if(CustomButton(event.currentTarget).name == "retry")
 			{
-				dispatchEventWith(FeathersEventType.CLEAR, false);
-				setTimeout(close, 100);
+				dispatchEventWith(FeathersEventType.CLEAR, false, !keyExists && score < 3);
+				setTimeout(close, 10);
 			}
 			else
 				close(false);
