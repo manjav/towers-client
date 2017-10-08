@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.popups
 			iconDisplay.layoutData = new AnchorLayoutData(padding*3, appModel.isLTR?0:NaN, NaN, appModel.isLTR?NaN:0);
 			addChild(iconDisplay);
 			
-			var titleDisplay:ShadowLabel = new ShadowLabel(loc("popup_keys_title", [game.loginData.maxKeysPerDay]),1, 0, "center", null, false, null, 1.1);
+			var titleDisplay:ShadowLabel = new ShadowLabel(loc("popup_keys_title"),1, 0, "center", null, false, null, 1.1);
 			titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 			addChild(titleDisplay);
 			
