@@ -6,7 +6,9 @@ import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 
 import flash.geom.Rectangle;
 
@@ -17,12 +19,12 @@ import feathers.layout.AnchorLayoutData;
 
 public class ChestsDetailsPopup extends SimplePopup
 {
-private var type:int;
+private var item:ExchangeItem;
 private var chestArmature:StarlingArmatureDisplay;
 
-public function ChestsDetailsPopup(type:int)
+public function ChestsDetailsPopup(item:ExchangeItem)
 {
-	this.type = type;
+	this.item = item;
 	super();
 }
 
@@ -45,7 +47,7 @@ override protected function initialize():void
 	insideBG.layoutData = new AnchorLayoutData(padding*7, padding, padding*1.2, padding);
 	addChild(insideBG);
 	
-	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), "x 123");
+	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), "x "+ExchangeType.getRewardCount(item.outcome));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.38;
 	cardsPalette.layoutData = new AnchorLayoutData(padding*8, NaN, NaN, padding*2.4);
 	addChild(cardsPalette);
@@ -60,10 +62,10 @@ override protected function initialize():void
 	addChild(messageDisplay);
 
 	var batton:CustomButton = new CustomButton();
-	batton.label = "x 12"
-	batton.icon = Assets.getTexture("res-"+ResourceType.KEY, "gui");
+	batton.label = String(ExchangeType.getCategory(item.type)==ExchangeType.CHEST_CATE_110_BATTLES?ExchangeType.getKeyRequierement(item.outcome):ExchangeType.getHardRequierement(item.outcome));
+	batton.icon = Assets.getTexture("res-"+(ExchangeType.getCategory(item.type)==ExchangeType.CHEST_CATE_110_BATTLES?ResourceType.KEY:ResourceType.CURRENCY_HARD), "gui");
 	batton.width = 320 * appModel.scale;
-	batton.height = 140 * appModel.scale;
+	batton.height = 120 * appModel.scale;
 	batton.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
 	addChild(batton);
 }
@@ -73,13 +75,13 @@ override protected function transitionInCompleted():void
 	super.transitionInCompleted();
 
 	OpenChestOverlay.createFactory();
-	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-53");
-	chestArmature.scale = appModel.scale * 3;
-	chestArmature.alignPivot()
-	chestArmature.x = transitionIn.destinationBound.width * 0.5 + padding;
-	chestArmature.y = padding * 2;
+	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+item.outcome);
+	chestArmature.scale = appModel.scale * 4;
+	//chestArmature.alignPivot("left", "top")
 	chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
 	addChild(chestArmature);		
+	chestArmature.x = (transitionIn.destinationBound.width) * 0.5 * appModel.scale * 3;
+	chestArmature.y = -padding * 2;
 }
 
 

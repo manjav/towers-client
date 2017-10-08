@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
+	import com.gerantech.towercraft.controls.popups.ChestsDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.managers.BillingManager;
@@ -65,6 +66,8 @@ package com.gerantech.towercraft.controls.segments
 			if(appModel.assets.isLoading )
 				return;
 			
+			OpenChestOverlay.createFactory();
+
 			layout = new AnchorLayout();
 
 			var listLayout:VerticalLayout = new VerticalLayout();
@@ -89,26 +92,27 @@ package com.gerantech.towercraft.controls.segments
 		{
 			if( itemslistData == null )
 				itemslistData = new ListCollection();
+			else return;
 			
 			var itemKeys:Vector.<int> = exchanger.items.keys();
-			var offers:ShopLine = new ShopLine(ExchangeType.S_20_SPECIALS);
-			var chests:ShopLine = new ShopLine(ExchangeType.S_30_CHEST);
+			//var specials:ShopLine = new ShopLine(ExchangeType.S_20_SPECIALS);
+			var battles:ShopLine = new ShopLine(ExchangeType.CHEST_CATE_110_BATTLES);
+			var offers:ShopLine = new ShopLine(ExchangeType.CHEST_CATE_120_OFFERS);
 			var hards:ShopLine = new ShopLine(ExchangeType.S_0_HARD);
 			var softs:ShopLine = new ShopLine(ExchangeType.S_10_SOFT);
-
 			for (var i:int=0; i<itemKeys.length; i++)
 			{
 				if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_0_HARD )
 					hards.add(itemKeys[i]);
 				else if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_10_SOFT )
 					softs.add(itemKeys[i]);
-				else if(ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_20_SPECIALS )
+				else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.CHEST_CATE_110_BATTLES )
+					battles.add(itemKeys[i]);
+				else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.CHEST_CATE_120_OFFERS )
 					offers.add(itemKeys[i]);
-				else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_30_CHEST )
-					chests.add(itemKeys[i]);
 			}
 			
-			var categoreis:Array = new Array( offers, chests, hards, softs );
+			var categoreis:Array = new Array( battles, offers, hards, softs );
 			for (i=0; i<categoreis.length; i++)
 			{
 				categoreis[i].items.sort();
@@ -121,6 +125,7 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:ExchangeItem = event.data as ExchangeItem;
+			var cate:int = ExchangeType.getCategory(item.type);
 			if(ExchangeType.getCategory(item.type) == ExchangeType.S_0_HARD)
 			{
 				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
@@ -134,27 +139,14 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
 			
-			if(ExchangeType.getCategory(item.type) == ExchangeType.S_30_CHEST)
+			if( cate == ExchangeType.CHEST_CATE_110_BATTLES || cate == ExchangeType.CHEST_CATE_120_OFFERS )
 			{
-				if( item.expiredAt > timeManager.now )
-				{
-					var req:IntIntMap = exchanger.getChestRequierement( item.expiredAt-timeManager.now );
-					if( !player.has(req) )
-					{
-						var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_timetogem_message"), req);
-						confirm.data = item;
-						confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
-						confirm.addEventListener(Event.SELECT, confirms_selectHandler);
-						confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
-						appModel.navigator.addPopup(confirm);
-						return;
-					}
-				}
-				sendData(item.type, params)
+				appModel.navigator.addPopup(new ChestsDetailsPopup(item));
+				item.enabled = true;
 			}
 			else if( !player.has(item.requirements) )
 			{
-				confirm = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), item.requirements);
+				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), item.requirements);
 				confirm.data = item;
 				confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
 				confirm.addEventListener(Event.SELECT, confirms_selectHandler);
@@ -173,7 +165,7 @@ package com.gerantech.towercraft.controls.segments
 					function confirm1_selectHandler ( event:Event ):void {
 						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
 						confirm1.removeEventListener(Event.CANCEL, confirm1_cancelHandler);
-						echange(item, params);
+						exchange(item, params);
 					}
 					function confirm1_cancelHandler ( event:Event ):void {
 						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
@@ -182,11 +174,11 @@ package com.gerantech.towercraft.controls.segments
 					}
 					return;
 				}
-				echange(item, params);
+				exchange(item, params);
 			}
 		}
 		
-		private function echange(item:ExchangeItem, params:SFSObject):void
+		private function exchange(item:ExchangeItem, params:SFSObject):void
 		{
 			try
 			{

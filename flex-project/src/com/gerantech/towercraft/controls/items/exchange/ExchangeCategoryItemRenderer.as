@@ -87,12 +87,13 @@ package com.gerantech.towercraft.controls.items.exchange
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeSpecialItemRenderer();}
 					list.addEventListener(FeathersEventType.END_INTERACTION, list_endSpecialExchangeHandler);
 					break;
-				
-				case ExchangeType.S_30_CHEST:
-					CELL_SIZE = 620 * appModel.scale;
+
+				case ExchangeType.CHEST_CATE_110_BATTLES:
+				case ExchangeType.CHEST_CATE_120_OFFERS:
+					CELL_SIZE = 480 * appModel.scale;
 					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
-					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestItemRenderer();}
-					break;
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestOfferItemRenderer();}
+					break;				
 				
 				default:
 					CELL_SIZE = 480 * appModel.scale;

@@ -44,7 +44,7 @@ package com.gerantech.towercraft.controls
 			
 			var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 			labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 72*appModel.scale, textColor, "center")
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, padding * 5, NaN, -padding*0.5);
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, padding * 4, NaN, -padding*0.5);
 			labelDisplay.text = label;
 			addChild(labelDisplay);
 			
