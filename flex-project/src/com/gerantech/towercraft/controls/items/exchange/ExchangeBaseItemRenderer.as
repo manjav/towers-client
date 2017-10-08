@@ -9,13 +9,13 @@ package com.gerantech.towercraft.controls.items.exchange
 	
 	import starling.display.Image;
 
-	public class BaseExchangeItemRenderer extends BaseCustomItemRenderer
+	public class ExchangeBaseItemRenderer extends BaseCustomItemRenderer
 	{
 		protected var firstCommit:Boolean = true;
 		protected var exchange:ExchangeItem;
 		protected var padding:int;
 		
-		public function BaseExchangeItemRenderer()
+		public function ExchangeBaseItemRenderer()
 		{
 			super();
 		}

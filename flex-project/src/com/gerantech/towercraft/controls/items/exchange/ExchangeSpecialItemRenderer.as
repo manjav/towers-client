@@ -20,7 +20,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class SpecialExchangeItemRenderer extends BaseExchangeItemRenderer
+	public class ExchangeSpecialItemRenderer extends ExchangeBaseItemRenderer
 	{
 		private var nameDisplay:RTLLabel;
 		private var nameShadowDisplay:RTLLabel;

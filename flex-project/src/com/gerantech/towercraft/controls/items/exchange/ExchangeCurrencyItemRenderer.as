@@ -7,7 +7,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayoutData;
 
-	public class CurrencyExchangeItemRenderer extends BaseExchangeItemRenderer
+	public class ExchangeCurrencyItemRenderer extends ExchangeBaseItemRenderer
 	{
 		private var iconDisplay:ImageLoader;
 		private var titleDisplay:RTLLabel;

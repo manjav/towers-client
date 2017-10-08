@@ -13,10 +13,8 @@
 	import flash.utils.setTimeout;
 	
 	import dragonBones.events.EventObject;
-	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingEvent;
-	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.controls.text.BitmapFontTextRenderer;
 	import feathers.layout.AnchorLayoutData;
@@ -24,7 +22,7 @@
 	
 	import starling.events.Event;
 	
-	public class ChestExchangeItemRenderer extends BaseExchangeItemRenderer
+	public class ExchangeChestItemRenderer extends ExchangeBaseItemRenderer
 	{
 		private var labelDisplay:RTLLabel;
 		private var timeDisplay:BitmapFontTextRenderer;
@@ -86,10 +84,11 @@
 			
 			OpenChestOverlay.createFactory();
 			
-			chestArmature = OpenChestOverlay.factory.buildArmatureDisplay(OpenChestOverlay.dragonBonesData.armatureNames[(exchange.type%10)-1]);
-			chestArmature.x = -680*appModel.scale/2+width/2-padding;
-			chestArmature.y = -940*appModel.scale/2+height*0.22;
+			chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-54");
+			chestArmature.alignPivot()
 			chestArmature.scale = appModel.scale * 2;
+			chestArmature.x = width * 0.5 + padding;
+			chestArmature.y = height * 0.75;
 			chestArmature.addEventListener(EventObject.COMPLETE, chestArmature_completeHandler);
 			chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
 			addChildAt(chestArmature, 1);		
