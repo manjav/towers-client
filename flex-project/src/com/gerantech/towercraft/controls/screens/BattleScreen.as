@@ -543,15 +543,24 @@ package com.gerantech.towercraft.controls.screens
 			if( !appModel.battleFieldView.battleData.map.isQuest )
 				return;
 				
-			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("popup_exit_label"), loc("popup_continue_label"));
-			confirm.acceptStyle = "danger";
+			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
+			confirm.declineStyle = "danger";
 			confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
+			confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 			appModel.navigator.addPopup(confirm);
-			function confirm_eventsHandler():void {
+			function confirm_eventsHandler(event:Event):void {
+				confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 				confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
-				appModel.battleFieldView.responseSender.leave();
-				appModel.battleFieldView.battleData.isLeft = true;
-				appModel.battleFieldView.responseSender.actived = false;
+				if( event.type == Event.CANCEL )
+				{
+					appModel.battleFieldView.responseSender.leave();
+					appModel.battleFieldView.battleData.isLeft = true;
+					appModel.battleFieldView.responseSender.actived = false;
+				}
+				else if( event.type == Event.SELECT )
+				{
+					retryQuest(appModel.battleFieldView.battleData.map.index, false);
+				}
 			}
 		}
 		
