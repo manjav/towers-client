@@ -89,11 +89,16 @@ package com.gerantech.towercraft.controls.items.exchange
 					break;
 
 				case ExchangeType.CHEST_CATE_110_BATTLES:
+					CELL_SIZE = 480 * appModel.scale;
+					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestBattleItemRenderer();}
+					break;		
+				
 				case ExchangeType.CHEST_CATE_120_OFFERS:
 					CELL_SIZE = 480 * appModel.scale;
 					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestOfferItemRenderer();}
-					break;				
+					break;		
 				
 				default:
 					CELL_SIZE = 480 * appModel.scale;

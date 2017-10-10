@@ -92,7 +92,7 @@ package com.gerantech.towercraft.controls.overlays
 			buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
 			addChild(buttons);
 			
-			var hasRetry:Boolean = appModel.battleFieldView.battleData.map.isQuest && !player.inTutorial() && !appModel.battleFieldView.battleData.isLeft;
+			var hasRetry:Boolean = appModel.battleFieldView.battleData.map.isQuest && player.get_questIndex() > 3 && !appModel.battleFieldView.battleData.isLeft;
 			
 			var closeBatton:CustomButton = new CustomButton();
 			closeBatton.width = 300 * appModel.scale;

@@ -125,8 +125,7 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:ExchangeItem = event.data as ExchangeItem;
-			var cate:int = ExchangeType.getCategory(item.type);
-			if(ExchangeType.getCategory(item.type) == ExchangeType.S_0_HARD)
+			if( item.category == ExchangeType.S_0_HARD)
 			{
 				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 				BillingManager.instance.purchase("com.grantech.towers.item_"+item.type);
@@ -139,10 +138,19 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
 			
-			if( cate == ExchangeType.CHEST_CATE_110_BATTLES || cate == ExchangeType.CHEST_CATE_120_OFFERS )
+			if( item.category == ExchangeType.CHEST_CATE_110_BATTLES || item.category == ExchangeType.CHEST_CATE_120_OFFERS )
 			{
-				appModel.navigator.addPopup(new ChestsDetailsPopup(item));
+				var details:ChestsDetailsPopup = new ChestsDetailsPopup(item);
+				details.addEventListener(Event.SELECT, details_selectHandler);
+				appModel.navigator.addPopup(details);
+				function details_selectHandler(event:Event):void{
+					details.removeEventListener(Event.SELECT, details_selectHandler);
+					if( exchanger.readyToOpen(item.type, timeManager.now) )
+						params.putBool("startOpening", true );
+					exchange(item, params);
+				}
 				item.enabled = true;
+				return;
 			}
 			else if( !player.has(item.requirements) )
 			{
@@ -156,7 +164,7 @@ package com.gerantech.towercraft.controls.segments
 			}
 			else
 			{
-				if( ExchangeType.getCategory(item.type) == ExchangeType.S_10_SOFT )
+				if( item.category == ExchangeType.S_10_SOFT )
 				{
 					var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
 					confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
@@ -268,7 +276,7 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showAd(type:int):void
 		{
-			var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup(type);
+			var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup();
 			adConfirmPopup.addEventListener(Event.SELECT, adConfirmPopup_selectHandler);
 			appModel.navigator.addPopup(adConfirmPopup);
 			function adConfirmPopup_selectHandler(event:Event):void {

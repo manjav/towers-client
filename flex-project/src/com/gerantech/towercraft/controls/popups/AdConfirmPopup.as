@@ -8,9 +8,9 @@ package com.gerantech.towercraft.controls.popups
 	{
 		private var rewardCount:int;
 		
-		public function AdConfirmPopup(type:int)
+		public function AdConfirmPopup()
 		{
-			rewardCount = ExchangeType.getRewardCount(type);
+			rewardCount = ExchangeType.getNumSlots(ExchangeType.CHESTS_59_ADS);
 			declineStyle = "danger";
 			super(loc("popup_ad_title", [rewardCount]), loc("popup_ad_accept"), loc("popup_decline_label"));
 		}
