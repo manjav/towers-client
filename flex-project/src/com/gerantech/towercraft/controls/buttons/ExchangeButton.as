@@ -34,7 +34,7 @@ package com.gerantech.towercraft.controls.buttons
 				return;
 			_type = value;
 			
-			var hasIcon:Boolean = _count > 0 && _type > 0 && _type!= ResourceType.CURRENCY_REAL;
+			var hasIcon:Boolean = _count > 0 && _type > 0 && _type != ResourceType.CURRENCY_REAL;
 			if( hasIcon )
 				icon = Assets.getTexture("res-"+_type, "gui");
 		}

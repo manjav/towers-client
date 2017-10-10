@@ -64,13 +64,13 @@ package com.gerantech.towercraft.controls.buttons
 		}
 		public function set currentState(value:String):void
 		{
-			if(this._currentState == value)
+			if( this._currentState == value )
 				return;
 			
-			if(this.stateNames.indexOf(value) < 0)
+			if( this.stateNames.indexOf(value) < 0 )
 				throw new ArgumentError("Invalid state: " + value + ".");
 			this._currentState = value;
-			if(skin)
+			if( skin )
 				skin.defaultTexture = skin.getTextureForState(this._currentState);
 		}
 
