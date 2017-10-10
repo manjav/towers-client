@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.ResourcPalette;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -10,14 +10,15 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
-import com.gt.towers.utils.maps.IntIntMap;
 
 import flash.geom.Rectangle;
 
 import dragonBones.starling.StarlingArmatureDisplay;
 
 import feathers.controls.ImageLoader;
+import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
+import feathers.text.BitmapFontTextFormat;
 
 import starling.events.Event;
 
@@ -25,6 +26,8 @@ public class ChestsDetailsPopup extends SimplePopup
 {
 private var item:ExchangeItem;
 private var chestArmature:StarlingArmatureDisplay;
+private var buttonDisplay:ExchangeButton;
+private var timeDisplay:BitmapFontTextRenderer;
 
 public function ChestsDetailsPopup(item:ExchangeItem)
 {
@@ -51,6 +54,16 @@ override protected function initialize():void
 	insideBG.layoutData = new AnchorLayoutData(padding*7, padding, padding*1.2, padding);
 	addChild(insideBG);
 	
+	var downBG:ImageLoader = new ImageLoader();
+	downBG.alpha = 0.8;
+	downBG.color = 0xAAAAFF
+	downBG.scale9Grid = new Rectangle(2, 2, 1, 1);
+	downBG.maintainAspectRatio = false;
+	downBG.source = Assets.getTexture("popup-inside-background-skin", "skin");
+	downBG.layoutData = new AnchorLayoutData(NaN, padding*1.3, padding*1.5, padding*1.3);
+	downBG.height = transitionIn.destinationBound.height * 0.22;
+	addChild(downBG);
+	
 	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
 	cardsPalette.layoutData = new AnchorLayoutData(padding*8, NaN, NaN, padding*2.4);
@@ -61,31 +74,45 @@ override protected function initialize():void
 	softsPalette.layoutData = new AnchorLayoutData(padding*8, padding*2, NaN);
 	addChild(softsPalette);
 	
-	var messageDisplay:RTLLabel = new RTLLabel(loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]), 0, "center", null, false, null, 0.9);
-	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding*7, padding);
-	addChild(messageDisplay);
-
-	var req:IntIntMap = new IntIntMap();
+	if( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
+	{
+		var messageDisplay:RTLLabel = new RTLLabel(loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]), 0, "center", null, false, null, 0.9);
+		messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding*7, padding);
+		addChild(messageDisplay);
+	}
+	
+	buttonDisplay = new ExchangeButton();
+	buttonDisplay.width = 300 * appModel.scale;
+	buttonDisplay.height = 110 * appModel.scale;
+	buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
+	
 	if( item.category == ExchangeType.CHEST_CATE_110_BATTLES )
-		req.set(ResourceType.KEY, ExchangeType.getKeyRequierement(item.outcome));
+	{
+		if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
+		{
+			buttonDisplay.style = "danger";
+			buttonDisplay.width = 240 * appModel.scale;
+			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, NaN);
+			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
+			updateButton(ResourceType.CURRENCY_HARD, exchanger.timeToHard(item.expiredAt-timeManager.now));
+			updateCounter();
+		}
+		else if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_WAIT )
+		{
+			updateButton(ResourceType.KEY, ExchangeType.getKeyRequierement(item.outcome));
+		}
+	}
 	else
-		req.set(ResourceType.CURRENCY_HARD, ExchangeType.getHardRequierement(item.outcome));
-
-	var button:CustomButton = new CustomButton();
-	button.label = req.get(req.keys()[0]).toString();
-	button.icon = Assets.getTexture("res-"+req.keys()[0], "gui");
-	button.isEnabled = player.has(req);
-	button.width = 300 * appModel.scale;
-	button.height = 110 * appModel.scale;
-	button.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
-	button.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
-	addChild(button);
+	{
+		updateButton(ResourceType.CURRENCY_HARD, ExchangeType.getHardRequierement(item.outcome));
+	}
+	addChild(buttonDisplay);
 }
-
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-
+	
 	OpenChestOverlay.createFactory();
 	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+item.outcome);
 	chestArmature.scale = appModel.scale * 4;
@@ -96,10 +123,50 @@ override protected function transitionInCompleted():void
 	chestArmature.y = -padding * 2;
 }
 
+private function timeManager_changeHandler(event:Event):void
+{
+	updateButton(ResourceType.CURRENCY_HARD, exchanger.timeToHard(item.expiredAt-timeManager.now));
+	updateCounter();
+}
+
+private function updateButton(type:int, count:int):void
+{
+	buttonDisplay.count = count;
+	buttonDisplay.type = type;
+	if( item.category == ExchangeType.CHEST_CATE_120_OFFERS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
+		buttonDisplay.isEnabled = player.resources.get(type) >= count;
+	else 
+		buttonDisplay.isEnabled = exchanger.readyToStartOpening(item.type, timeManager.now)
+}
+private function updateCounter():void
+{
+	if( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
+		return;
+	if( timeDisplay == null )
+	{
+		timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+		timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
+		timeDisplay.layoutData = new AnchorLayoutData(NaN, 320*appModel.scale, padding*2, padding*2);
+		addChild(timeDisplay);	
+	}
+	var t:uint = uint(item.expiredAt - timeManager.now);
+	timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
+	buttonDisplay.count = exchanger.timeToHard(t);
+}
+
 private function batton_triggeredHandler(event:Event):void
 {
 	dispatchEventWith(Event.SELECT, false, item);
 	close();
 }
+
+override public function dispose():void
+{
+	buttonDisplay.removeEventListener(Event.TRIGGERED, batton_triggeredHandler);
+	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+	super.dispose();
+}
+
+
 }
 }

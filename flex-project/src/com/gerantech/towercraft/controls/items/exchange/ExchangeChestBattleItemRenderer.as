@@ -30,7 +30,7 @@
 		private var buttonDisplay:ExchangeButton;
 		private var chestArmature:StarlingArmatureDisplay;
 		private var armatorTimeoutId:int = -1;
-		private var _state:int = -1;
+		private var _state:int = -2;
 		
 		override protected function commitData():void
 		{
@@ -68,13 +68,14 @@
 		private function timeManager_changeHandler(event:Event):void
 		{
 			updateElements();
+			updateCounter();
 		}
 		private function updateElements():void
 		{
 			if(	_state == exchange.getState(timeManager.now))
 				return;
 			_state = exchange.getState(timeManager.now);
-			trace(index, "_state", _state)
+
 			timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 			if( timeDisplay != null )
 				timeDisplay.visible = _state == ExchangeItem.CHEST_STATE_BUSY;
@@ -105,11 +106,11 @@
 			{
 				timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 				timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
-				timeDisplay.layoutData = new AnchorLayoutData(padding*4, NaN, NaN, NaN, 0);
+				timeDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 				addChild(timeDisplay);	
 			}
 			var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
-			timeDisplay.text = "< "+StrUtils.toTimeFormat(t);//uintToTime(t);
+			timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
 			buttonDisplay.count = exchanger.timeToHard(t);			
 		}
 		

@@ -15,6 +15,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
+	import com.gt.towers.exchanges.Exchanger;
 	import com.gt.towers.utils.GameError;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -116,7 +117,7 @@ package com.gerantech.towercraft.controls.segments
 			for (i=0; i<categoreis.length; i++)
 			{
 				categoreis[i].items.sort();
-				if(!appModel.isLTR)
+				if( !appModel.isLTR )
 					categoreis[i].items.reverse();
 			}
 			itemslistData.data = categoreis;
@@ -138,18 +139,21 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
 			
-			if( item.category == ExchangeType.CHEST_CATE_110_BATTLES || item.category == ExchangeType.CHEST_CATE_120_OFFERS )
+			if( item.isChest() )
 			{
+				item.enabled = true;
+				if( item.category == ExchangeType.CHEST_CATE_110_BATTLES && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
+				{
+					exchange(item, params);
+					return;
+				}
 				var details:ChestsDetailsPopup = new ChestsDetailsPopup(item);
 				details.addEventListener(Event.SELECT, details_selectHandler);
 				appModel.navigator.addPopup(details);
 				function details_selectHandler(event:Event):void{
 					details.removeEventListener(Event.SELECT, details_selectHandler);
-					if( exchanger.readyToOpen(item.type, timeManager.now) )
-						params.putBool("startOpening", true );
 					exchange(item, params);
 				}
-				item.enabled = true;
 				return;
 			}
 			else if( !player.has(item.requirements) )
@@ -190,7 +194,14 @@ package com.gerantech.towercraft.controls.segments
 		{
 			try
 			{
-				exchanger.exchange(item, 0);
+				if( exchanger.exchange(item, timeManager.now) )
+				{
+					if( item.isChest() && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
+					{
+						openChestOverlay = new OpenChestOverlay(item.outcome, params.containsKey("isAd"));
+						appModel.navigator.addOverlay(openChestOverlay);
+					}
+				}
 			} 
 			catch(error:GameError) 
 			{
@@ -198,22 +209,15 @@ package com.gerantech.towercraft.controls.segments
 					appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
 				return;
 			}
-			sendData(item.type, params)			
+			sendData(params)			
 		}
 		
-		private function sendData(type:int, params:SFSObject):void
+		private function sendData(params:SFSObject):void
 		{
-			if( ExchangeType.getCategory( type ) == ExchangeType.S_30_CHEST )
-			{
-				openChestOverlay = new OpenChestOverlay(type, params.containsKey("isAd"));
-				appModel.navigator.addOverlay(openChestOverlay);
-			}
-			
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);			
 		}
 
-		
 		private function confirms_cancelHandler(event:Event):void
 		{
 			var item:ExchangeItem = RequirementConfirmPopup(event.currentTarget).data as ExchangeItem;
@@ -229,7 +233,7 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
 			params.putInt("hards", RequirementConfirmPopup(event.currentTarget).numHards );
-			sendData(item.type, params);
+			sendData(params);
 		}
 
 		protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
@@ -241,13 +245,19 @@ package com.gerantech.towercraft.controls.segments
 			var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
 			if( data.getBool("succeed") )
 			{
-				switch(ExchangeType.getCategory(item.type))
+				switch( item.category )
 				{
 					case ExchangeType.S_20_SPECIALS:
 						itemslist.dataProvider.updateItemAt(0);
 						break;
 					
 					case ExchangeType.S_30_CHEST:
+					case ExchangeType.CHEST_CATE_110_BATTLES:
+					case ExchangeType.CHEST_CATE_120_OFFERS:
+						itemslist.dataProvider.updateItemAt(0);
+						itemslist.dataProvider.updateItemAt(1);
+						if( !data.containsKey("rewards") )
+							return;
 						item.outcomes = new IntIntMap();
 						//trace(data.getSFSArray("rewards").getDump());
 						var reward:ISFSObject;
@@ -264,8 +274,6 @@ package com.gerantech.towercraft.controls.segments
 							if( !openChestOverlay.isAd )
 								showAd(item.type);
 							openChestOverlay = null;
-							exchanger.exchange(item, data.getInt("now"), data.getInt("hards"));
-							itemslist.dataProvider.updateItemAt(1);
 						}
 						break;
 				}
@@ -296,7 +304,7 @@ package com.gerantech.towercraft.controls.segments
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", ad.type );
 			params.putBool("isAd", true );
-			sendData(ad.type, params);
+			sendData(params);
 		}
 		
 	}
