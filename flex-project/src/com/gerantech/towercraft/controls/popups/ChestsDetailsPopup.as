@@ -29,6 +29,8 @@ private var chestArmature:StarlingArmatureDisplay;
 private var buttonDisplay:ExchangeButton;
 private var timeDisplay:BitmapFontTextRenderer;
 
+private var messageDisplay:RTLLabel;
+
 public function ChestsDetailsPopup(item:ExchangeItem)
 {
 	this.item = item;
@@ -56,7 +58,7 @@ override protected function initialize():void
 	
 	var downBG:ImageLoader = new ImageLoader();
 	downBG.alpha = 0.8;
-	downBG.color = 0xAAAAFF
+	downBG.color = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA
 	downBG.scale9Grid = new Rectangle(2, 2, 1, 1);
 	downBG.maintainAspectRatio = false;
 	downBG.source = Assets.getTexture("popup-inside-background-skin", "skin");
@@ -73,13 +75,11 @@ override protected function initialize():void
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
 	softsPalette.layoutData = new AnchorLayoutData(padding*8, padding*2, NaN);
 	addChild(softsPalette);
-	
-	if( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
-	{
-		var messageDisplay:RTLLabel = new RTLLabel(loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]), 0, "center", null, false, null, 0.9);
-		messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding*7, padding);
-		addChild(messageDisplay);
-	}
+
+	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [exchanger.timeToHard(item.expiredAt-timeManager.now)]) : loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
+	messageDisplay = new RTLLabel(message, 0, "center", null, false, null, 0.9);
+	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding*7, padding);
+	addChild(messageDisplay);
 	
 	buttonDisplay = new ExchangeButton();
 	buttonDisplay.width = 300 * appModel.scale;
@@ -115,12 +115,11 @@ override protected function transitionInCompleted():void
 	
 	OpenChestOverlay.createFactory();
 	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+item.outcome);
-	chestArmature.scale = appModel.scale * 4;
-	//chestArmature.alignPivot("left", "top")
+	chestArmature.scale = appModel.scale * 2;
 	chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
 	addChildAt(chestArmature, 2);		
-	chestArmature.x = (transitionIn.destinationBound.width) * 0.5 * appModel.scale * 3;
-	chestArmature.y = -padding * 2;
+	chestArmature.x = (transitionIn.destinationBound.width) * 0.5;
+	chestArmature.y = padding * 0.5
 }
 
 private function timeManager_changeHandler(event:Event):void
@@ -146,12 +145,13 @@ private function updateCounter():void
 	{
 		timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 		timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
-		timeDisplay.layoutData = new AnchorLayoutData(NaN, 320*appModel.scale, padding*2, padding*2);
+		timeDisplay.layoutData = new AnchorLayoutData(NaN, 340*appModel.scale, padding*3, padding*2);
 		addChild(timeDisplay);	
 	}
 	var t:uint = uint(item.expiredAt - timeManager.now);
 	timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
 	buttonDisplay.count = exchanger.timeToHard(t);
+	messageDisplay.text = loc("popup_chest_message_skip", [exchanger.timeToHard(t)])
 }
 
 private function batton_triggeredHandler(event:Event):void

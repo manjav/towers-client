@@ -21,6 +21,15 @@
 			super.commitData();
 			if(firstCommit)
 				firstCommit = false;
+			if( chestArmature == null )
+			{
+				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+exchange.outcome);
+				chestArmature.scale = appModel.scale;
+				chestArmature.x = width * 0.5;
+				chestArmature.y = height * 0.6;
+				chestArmature.animation.gotoAndStopByProgress("fall", 1);
+				addChild(chestArmature);
+			}
 			
 			if( buttonDisplay == null )
 			{
@@ -30,16 +39,6 @@
 				buttonDisplay.count = ExchangeType.getHardRequierement(exchange.outcome);		
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;		
 				addChild(buttonDisplay);
-			}
-			if( chestArmature == null )
-			{
-				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+exchange.outcome);
-				chestArmature.alignPivot()
-				chestArmature.scale = appModel.scale * 2;
-				chestArmature.x = width * 0.5 + padding;
-				chestArmature.y = height * 0.65;
-				chestArmature.animation.gotoAndStopByProgress("fall", 1);
-				addChildAt(chestArmature, 1);
 			}
 		}
 	}

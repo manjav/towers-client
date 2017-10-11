@@ -50,8 +50,8 @@ package com.gerantech.towercraft.controls.overlays
 			if(factory != null)
 				return;
 			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("chests_ske"), null, 0.5);
-			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("chests_tex"), AppModel.instance.assets.getTexture("chests_tex"), null, 0, 2);
+			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("chests_ske"));
+			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("chests_tex"), AppModel.instance.assets.getTexture("chests_tex"));
 		}			
 		
 		override protected function initialize():void
@@ -89,8 +89,8 @@ package com.gerantech.towercraft.controls.overlays
 			animation = factory.buildArmatureDisplay("chest-"+type);
 			animation.touchable = animation.touchGroup = false;
 			animation.x = stage.stageWidth * 0.5;
-			animation.y = stage.stageHeight * 0.8;
-			animation.scale = appModel.scale * 3;
+			animation.y = stage.stageHeight * 0.85;
+			animation.scale = appModel.scale * 2;
 			animation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
 			animation.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
 			animation.animation.gotoAndPlayByTime("fall", 0, 1);

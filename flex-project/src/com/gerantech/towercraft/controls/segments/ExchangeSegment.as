@@ -261,7 +261,7 @@ package com.gerantech.towercraft.controls.segments
 						item.outcomes = new IntIntMap();
 						//trace(data.getSFSArray("rewards").getDump());
 						var reward:ISFSObject;
-						for(var i:int=0; i< data.getSFSArray("rewards").size(); i++ )
+						for( var i:int=0; i<data.getSFSArray("rewards").size(); i++ )
 						{
 							reward = data.getSFSArray("rewards").getSFSObject(i);
 							if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )

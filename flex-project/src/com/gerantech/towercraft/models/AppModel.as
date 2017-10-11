@@ -46,7 +46,7 @@ package com.gerantech.towercraft.models
 		public function AppModel()
 		{
 			descriptor = new Descriptor(NativeApplication.nativeApplication.applicationDescriptor);
-			assets = new AssetManager(2);
+			assets = new AssetManager(1);
 			assets.verbose = false;
 			
 			sounds = new SoundManager();
