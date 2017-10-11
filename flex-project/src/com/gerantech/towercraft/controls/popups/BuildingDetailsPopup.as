@@ -34,8 +34,8 @@ package com.gerantech.towercraft.controls.popups
 			
 			var buildingIcon:BuildingCard = new BuildingCard();
 			buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-			buildingIcon.width = padding * 7;
-			buildingIcon.height = padding * 10;
+			buildingIcon.width = padding * 9;
+			buildingIcon.height = padding * 13;
 			buildingIcon.type = buildingType;
 			buildingIcon.level = building.get_level();
 			addChild(buildingIcon);
@@ -48,21 +48,17 @@ package com.gerantech.towercraft.controls.popups
 			var textLayout:VerticalLayout = new VerticalLayout();
 			textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 			textLayout.gap = padding;
-			
-			var textsContainer:LayoutGroup = new LayoutGroup();
-			textsContainer.layout = textLayout;
-			addChild(textsContainer);
-			
+				
 			var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
-			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*9, NaN, appModel.isLTR?padding*9:padding);
+			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*11, NaN, appModel.isLTR?padding*11:padding);
 			addChild(titleDisplay);
 			
 			var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
-			messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?padding:padding*9, NaN, appModel.isLTR?padding*9:padding);
+			messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?padding:padding*11, NaN, appModel.isLTR?padding*11:padding);
 			addChild(messageDisplay);
 			
 			var featureList:List = new List();
-			featureList.layoutData = new AnchorLayoutData(padding*12, padding*2, NaN, padding*2);
+			featureList.layoutData = new AnchorLayoutData(padding*15, padding*2, NaN, padding*2);
 			featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 			featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
 			featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);

@@ -108,7 +108,7 @@ package com.gerantech.towercraft.controls.segments
 			ti.sourceAlpha = 1;
 			ti.sourceBound = item.getBounds(this);
 			ti.destinationConstrain = this.getBounds(stage);
-			ti.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.2, stage.stageWidth*0.9, stage.stageHeight*0.6);
+			ti.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.18, stage.stageWidth*0.9, stage.stageHeight*0.64);
 
 			// create transition out data
 			var to:TransitionData = new TransitionData();
