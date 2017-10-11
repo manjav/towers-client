@@ -41,7 +41,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.35, stage.stageWidth*0.9, stage.stageHeight*0.3);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.30, stage.stageWidth*0.9, stage.stageHeight*0.4);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.27, stage.stageWidth*0.9, stage.stageHeight*0.42);
 	rejustLayoutByTransitionData();
 	
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_"+item.outcome),1, 0, "center", null, false, null, 1.1);
