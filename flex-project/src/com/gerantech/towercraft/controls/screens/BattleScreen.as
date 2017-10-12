@@ -212,7 +212,7 @@ package com.gerantech.towercraft.controls.screens
 			var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
 			
 			// set quest score
-			if ( quest.isQuest && player.quests.get( quest.index ) < score)
+			if( quest.isQuest && player.quests.get( quest.index ) < score )
 				player.quests.set(quest.index, score);
 			
 			// reduce player resources
@@ -225,18 +225,21 @@ package com.gerantech.towercraft.controls.screens
 					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY && !quest.isQuest )
 						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
 				}
-				if( !quest.isQuest )
-				{
-					var prevArena:int = player.get_arena(0);
-					player.addResources(outcomes);
-					var nextArena:int = player.get_arena(0);
-					if( prevArena != nextArena )
-						setTimeout(appModel.navigator.addOverlay, 3000, new FactionChangeOverlay(prevArena, nextArena));
-				}
 			}
 			
-			// show battle outcome overlay
+			// arena changes manipulation
+			var prevArena:int = 0;
+			var nextArena:int = 0;
+			if( !sfsConnection.mySelf.isSpectator )
+			{
+				prevArena = player.get_arena(0);
+				player.addResources(outcomes);
+				nextArena = player.get_arena(0);
+			}
+			
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
+			if( prevArena != nextArena && !quest.isQuest )
+				battleOutcomeOverlay.data = [prevArena, nextArena]
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
@@ -292,7 +295,7 @@ package com.gerantech.towercraft.controls.screens
 			var battleOutcomeOverlay:BattleOutcomeOverlay = event.currentTarget as BattleOutcomeOverlay;
 			battleOutcomeOverlay.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			
+
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
@@ -301,13 +304,25 @@ package com.gerantech.towercraft.controls.screens
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
+				return;
 			}
-			else
+			
+			// show faction changes overlay
+			if( battleOutcomeOverlay.data != null )
 			{
-				if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
-					appModel.navigator.showOffer();
-				dispatchEventWith(Event.COMPLETE);
+				var factionsOverlay:FactionChangeOverlay = new FactionChangeOverlay(battleOutcomeOverlay.data[0], battleOutcomeOverlay.data[1]);
+				factionsOverlay.addEventListener(Event.CLOSE, factionsOverlay_closeHandler);
+				appModel.navigator.addOverlay(factionsOverlay);
+				function factionsOverlay_closeHandler(event:Event):void {
+					factionsOverlay.removeEventListener(Event.CLOSE, factionsOverlay_closeHandler);
+					dispatchEventWith(Event.COMPLETE);
+				}
+				return;
 			}
+				
+			if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
+				appModel.navigator.showOffer();
+			dispatchEventWith(Event.COMPLETE);
 		}
 		
 		

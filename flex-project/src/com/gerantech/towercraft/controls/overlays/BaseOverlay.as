@@ -32,6 +32,7 @@ package com.gerantech.towercraft.controls.overlays
 		
 		protected static const HELPER_POINT:Point = new Point();
 		protected var initializingStarted:Boolean;
+		protected var initializingCompleted:Boolean;
 		
 		public function BaseOverlay()
 		{

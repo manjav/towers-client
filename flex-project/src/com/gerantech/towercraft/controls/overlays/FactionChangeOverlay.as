@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.items.ArenaItemRnderer;
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 import com.gerantech.towercraft.controls.screens.ArenaScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -18,7 +17,6 @@ import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
-import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
 
@@ -65,7 +63,7 @@ override protected function initialize():void
 	closeOnStage = false;
 	if( !initializingStarted )
 		super.initialize();
-	if( stage == null || appModel.assets.isLoading )
+	if( stage == null || appModel.assets.isLoading || initializingCompleted )
 		return;
 
 	layout = new AnchorLayout();
@@ -131,6 +129,8 @@ override protected function initialize():void
 	addChild(armatureDisplay);
 	armatureDisplay.animation.gotoAndPlayByTime("arena-"+newArena+"-selected", 0, 5);
 	Starling.juggler.tween(armatureDisplay, 1.3, {scale:appModel.scale*1.6, alpha:1.2, transition:newArena>oldArena?Transitions.EASE_OUT_ELASTIC:Transitions.EASE_OUT});
+	
+	initializingCompleted = true;
 }
 
 private function closeButton_triggeredHandler():void
