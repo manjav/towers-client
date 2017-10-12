@@ -47,6 +47,8 @@ package com.gerantech.towercraft.controls
 		private var scoreIndex:int = 0;
 		private var timeLog:RTLLabel;
 		private var debugMode:Boolean = false;
+
+		private var stickerButton:CustomButton;
 		
 		public function BattleHUD()
 		{
@@ -118,7 +120,7 @@ package com.gerantech.towercraft.controls
 			{
 				if( !SFSConnection.instance.mySelf.isSpectator )
 				{
-					var stickerButton:CustomButton = new CustomButton();
+					stickerButton = new CustomButton();
 					stickerButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
 					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 					stickerButton.width = 140 * appModel.scale;
@@ -207,6 +209,7 @@ package com.gerantech.towercraft.controls
 		
 		private function stickerButton_triggeredHandler(event:Event):void
 		{
+			stickerButton.visible = false;
 			if( stickerList == null )
 			{
 				var stickersLayout:TiledRowsLayout = new TiledRowsLayout();
@@ -250,6 +253,7 @@ package com.gerantech.towercraft.controls
 		private function stickerCloserOveraly_triggeredHandler(event:Event):void
 		{
 			hideStickerList();
+			stickerButton.visible = true;
 		}
 		
 		private function stickerList_changeHandler(event:Event):void
@@ -270,8 +274,14 @@ package com.gerantech.towercraft.controls
 			bubble.scale = 0.5;
 			addChild(bubble);
 			Starling.juggler.tween(bubble, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK});
-			Starling.juggler.tween(bubble, 0.2, {scale:0.5, transition:Transitions.EASE_IN_BACK, delay:4, onComplete:bubble.removeFromParent});
+			Starling.juggler.tween(bubble, 0.2, {scale:0.5, transition:Transitions.EASE_IN_BACK, delay:4, onComplete:hideBubble, onCompleteArgs:[bubble]});
 			appModel.sounds.addAndPlaySound("whoosh");
+		}
+		
+		private function hideBubble(bubble:StickerBubble):void
+		{
+			bubble.removeFromParent();
+			stickerButton.visible = true;
 		}
 		
 		override public function dispose():void
