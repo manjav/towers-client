@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.screens
 {
-	import com.gerantech.towercraft.controls.Devider;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.headers.ScreenHeader;
 	import com.gerantech.towercraft.controls.items.ArenaItemRnderer;
@@ -13,8 +12,12 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.arenas.Arena;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
+	
+	import dragonBones.objects.DragonBonesData;
+	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.List;
@@ -34,20 +37,62 @@ package com.gerantech.towercraft.controls.screens
 
 	public class ArenaScreen extends BaseCustomScreen
 	{
+		public static var animFactory:StarlingFactory;
+		public static var dragonBonesData:DragonBonesData;
+		private static var factoryCreateCallback:Function;
+		
 		private var list:List;
 		private var header:ScreenHeader;
 
 		private var headerSize:int = 0;
 		private var startScrollBarIndicator:Number = 0;
-
+		private var initializeStarted:Boolean;
+		
 		public function ArenaScreen()
 		{
 			super();
+			createFactionsFactory(initialize);
+		}
+		public static function createFactionsFactory(callback:Function):void
+		{
+			//AppModel.instance.assets.verbose = true;
+			if( AppModel.instance.assets.getTexture("factions_tex") == null )
+			{
+				AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/factions" ));
+				AppModel.instance.assets.loadQueue(assets_loadCallback)
+				factoryCreateCallback = callback;
+				return;
+			}
+			callback();
+		}
+		private static function assets_loadCallback(ratio:Number):void
+		{
+			if( ratio >= 1 )
+			{
+				if( animFactory != null )
+				{
+					if( factoryCreateCallback != null )
+						factoryCreateCallback = null;
+					factoryCreateCallback();
+					return;
+				}
+				
+				animFactory = new StarlingFactory();
+				dragonBonesData = animFactory.parseDragonBonesData(AppModel.instance.assets.getObject("factions_ske"));
+				animFactory.parseTextureAtlasData(AppModel.instance.assets.getObject("factions_tex"), AppModel.instance.assets.getTexture("factions_tex"));
+				if( factoryCreateCallback != null )
+					factoryCreateCallback();
+				factoryCreateCallback = null;
+			}
 		}
 		
 		override protected function initialize():void
 		{
-			super.initialize();
+			if( !initializeStarted )
+				super.initialize();
+			if( appModel.assets.isLoading )
+				return;
+			initializeStarted = true;
 			
 			layout = new AnchorLayout();
 			headerSize = 150 * appModel.scale;
@@ -124,6 +169,5 @@ package com.gerantech.towercraft.controls.screens
 			rankingPopup.transitionOut = transitionOut;
 			AppModel.instance.navigator.addPopup(rankingPopup);			
 		}
-		
 	}
 }

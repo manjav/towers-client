@@ -9,8 +9,10 @@ import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 
+import flash.filesystem.File;
 import flash.geom.Point;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
@@ -33,13 +35,6 @@ import starling.events.Event;
 
 public class MainSegment extends Segment
 {
-	[Embed(source = "../../../../../assets/animations/mainmap/main-map_ske.json", mimeType = "application/octet-stream")]
-	public static const skeletonClass: Class;
-	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.json", mimeType = "application/octet-stream")]
-	public static const atlasDataClass: Class;
-	[Embed(source = "../../../../../assets/animations/mainmap/main-map_tex.png")]
-	public static const atlasImageClass: Class;
-	
 	private static var factory:StarlingFactory;
 	private static var dragonBonesData:DragonBonesData;
 	private static var floating:MapElementFloating;
@@ -49,17 +44,28 @@ public class MainSegment extends Segment
 	public function MainSegment()
 	{
 		super();
-		if( factory != null )
-			return;
-		
-		factory = new StarlingFactory();
-		dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-		factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+		//appModel.assets.verbose = true;
+		if( appModel.assets.getTexture("main-map_tex") == null )
+		{
+			appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/mainmap" ));
+			appModel.assets.loadQueue(assets_loadCallback)
+		}
 	}
-	
+	private function assets_loadCallback(ratio:Number):void
+	{
+		if(ratio >= 1 && initializeStarted && !initializeCompleted)
+		{
+			factory = new StarlingFactory();
+			dragonBonesData = factory.parseDragonBonesData(appModel.assets.getObject("main-map_ske"));
+			factory.parseTextureAtlasData(appModel.assets.getObject("main-map_tex"), appModel.assets.getTexture("main-map_tex"));
+			init();
+		}
+	}
 	override public function init():void
 	{
 		super.init();
+		if(appModel.assets.isLoading )
+			return;
 		layout = new AnchorLayout();		
 
 		if( appModel.loadingManager.serverData.getBool("inBattle") )

@@ -1,12 +1,10 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	
 	import dragonBones.events.EventObject;
 	import dragonBones.starling.StarlingArmatureDisplay;
 	import dragonBones.starling.StarlingEvent;
-	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.layout.AnchorLayout;
 	
@@ -20,23 +18,27 @@ package com.gerantech.towercraft.controls.overlays
 		public var ready:Boolean;
 		
 		private var armatureDisplay:StarlingArmatureDisplay ;
-
 		private var tipDisplay:RTLLabel;
 		
 		public function WaitingOverlay()
 		{
 			super();
-			if(BattleOutcomeOverlay.factory == null)
-			{
-				BattleOutcomeOverlay.factory = new StarlingFactory();
-				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
-				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
-			}
+			BattleOutcomeOverlay.createFactionsFactory(assets_loadCompleted);
 		}
+		private function assets_loadCompleted():void
+		{
+			if( initializingStarted && stage != null )
+				initialize();
+		}
+		
 		override protected function initialize():void
 		{
-			super.initialize();
-						
+			closeOnStage = false;
+			if( !initializingStarted )
+				super.initialize();
+			if( appModel.assets.isLoading )
+				return;
+			
 			layout = new AnchorLayout();
 			var padding:int = 36 * appModel.scale;
 			
@@ -55,6 +57,14 @@ package com.gerantech.towercraft.controls.overlays
 			tipDisplay.width = stage.stageWidth-padding*2;
 			tipDisplay.touchable = false;
 			addChild(tipDisplay);
+			
+			armatureDisplay = BattleOutcomeOverlay.animFactory.buildArmatureDisplay("waiting");
+			armatureDisplay.x = stage.stageWidth/2;
+			armatureDisplay.y = stage.stageHeight / 2;
+			armatureDisplay.scale = appModel.scale;
+			armatureDisplay.animation.gotoAndPlayByFrame("appear", 1, 1);
+			armatureDisplay.addEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
+			addChild(armatureDisplay);
 		}
 		
 		override protected function defaultOverlayFactory():DisplayObject
@@ -62,22 +72,6 @@ package com.gerantech.towercraft.controls.overlays
 			var overlay:DisplayObject = super.defaultOverlayFactory();
 			overlay.alpha = 1;
 			return overlay;
-		}
-		
-		override protected function addedToStageHandler(event:Event):void
-		{
-			super.addedToStageHandler(event);
-			closeOnStage = false;
-			if(BattleOutcomeOverlay.dragonBonesData == null)
-				return;
-			
-			armatureDisplay = BattleOutcomeOverlay.factory.buildArmatureDisplay("waiting");
-			armatureDisplay.x = stage.stageWidth/2;
-			armatureDisplay.y = stage.stageHeight / 2;
-			armatureDisplay.scale = appModel.scale;
-			armatureDisplay.animation.gotoAndPlayByFrame("appear", 1, 1);
-			armatureDisplay.addEventListener(EventObject.COMPLETE, armatureDisplay_completeHandler);
-			addChild(armatureDisplay);
 		}
 		
 		public function disappear():void

@@ -46,24 +46,24 @@ package com.gerantech.towercraft.controls.segments
 		public function ExchangeSegment()
 		{
 			super();
-			// appModel.assets.verbose = true;
-			if( appModel.assets.getTexture("shop-line-header") == null )
-			{
-				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop" ));
-				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
-				appModel.assets.loadQueue(appModel_loadCallback)
-			}
 		}
 		
-		private function appModel_loadCallback(ratio:Number):void
+		private function assets_loadCallback(ratio:Number):void
 		{
-			if(ratio >= 1 && initializeStarted && !initializeCompleted)
+			if( ratio >= 1 && initializeStarted && !initializeCompleted )
 				init();
 		}
 		
 		override public function init():void
 		{
 			super.init();
+			//appModel.assets.verbose = true;
+			if( appModel.assets.getTexture("shop-line-header") == null )
+			{
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop" ));
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
+				appModel.assets.loadQueue(assets_loadCallback)
+			}
 			if(appModel.assets.isLoading )
 				return;
 			

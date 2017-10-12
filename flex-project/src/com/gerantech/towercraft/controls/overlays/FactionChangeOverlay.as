@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.ArenaItemRnderer;
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
+import com.gerantech.towercraft.controls.screens.ArenaScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
@@ -39,19 +40,34 @@ private var descriptionDisplay:RTLLabel;
 private var cardsDisplay:List;
 
 private var closeButton:CustomButton;
+private var initializeStarted:Boolean;
 
 public function FactionChangeOverlay(oldArena:int, newArena:int)
 {
 	super();
 	this.oldArena = oldArena;
 	this.newArena = newArena;
-	ArenaItemRnderer.createFactory();
+	ArenaScreen.createFactionsFactory(assets_loadCompleted);
 }
-
+private function assets_loadCompleted():void
+{
+	if( initializingStarted && stage != null )
+		initialize();
+}
+override protected function addedToStageHandler(event:Event):void
+{
+	super.addedToStageHandler(event);
+	if( initializingStarted && stage != null )
+		initialize();
+}
 override protected function initialize():void
 {
-	super.initialize();
 	closeOnStage = false;
+	if( !initializingStarted )
+		super.initialize();
+	if( stage == null || appModel.assets.isLoading )
+		return;
+
 	layout = new AnchorLayout();
 	var padding:int = 28 * appModel.scale;
 	appModel.sounds.addAndPlaySound("outcome-"+(newArena>oldArena?"victory":"defeat"));
@@ -107,11 +123,11 @@ override protected function initialize():void
 	Starling.juggler.tween(closeButton, 0.5, {delay:2, y:stage.stageHeight*0.75, alpha:1.2, transition:Transitions.EASE_OUT});
 	addChild(closeButton);
 	
-	armatureDisplay = ArenaItemRnderer.factory.buildArmatureDisplay("all");
+	armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
 	armatureDisplay.alpha = 0;
 	armatureDisplay.x = stage.stageWidth * 0.5;
 	armatureDisplay.y = stage.stageHeight * 0.36;
-	armatureDisplay.scale = appModel.scale * 0.5;
+	armatureDisplay.scale = appModel.scale ;
 	addChild(armatureDisplay);
 	armatureDisplay.animation.gotoAndPlayByTime("arena-"+newArena+"-selected", 0, 5);
 	Starling.juggler.tween(armatureDisplay, 1.3, {scale:appModel.scale*1.6, alpha:1.2, transition:newArena>oldArena?Transitions.EASE_OUT_ELASTIC:Transitions.EASE_OUT});

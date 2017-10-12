@@ -1,14 +1,13 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
+	import com.gerantech.towercraft.controls.screens.ArenaScreen;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.arenas.Arena;
 	
-	import dragonBones.objects.DragonBonesData;
 	import dragonBones.starling.StarlingArmatureDisplay;
-	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.controls.List;
 	import feathers.controls.renderers.IListItemRenderer;
@@ -26,17 +25,6 @@ package com.gerantech.towercraft.controls.items
 
 	public class ArenaItemRnderer extends BaseCustomItemRenderer
 	{
-		
-		[Embed(source = "../../../../../assets/animations/factions/factions_ske.json", mimeType = "application/octet-stream")]
-		public static const skeletonClass: Class;
-		[Embed(source = "../../../../../assets/animations/factions/factions_tex.json", mimeType = "application/octet-stream")]
-		public static const atlasDataClass: Class;
-		[Embed(source = "../../../../../assets/animations/factions/factions_tex.png")]
-		public static const atlasImageClass: Class;
-		
-		public static var factory: StarlingFactory;
-		public static var dragonBonesData:DragonBonesData;
-		
 		private var armatureDisplay:StarlingArmatureDisplay;
 		private var titleDisplay:RTLLabel;
 		private var messageDisplay:RTLLabel;
@@ -61,8 +49,6 @@ package com.gerantech.towercraft.controls.items
 			mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 			backgroundSkin = mySkin;
 
-			createFactory();
-			
 			titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 			titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 			addChild(titleDisplay);
@@ -107,22 +93,13 @@ package com.gerantech.towercraft.controls.items
 			rankButton.addEventListener(Event.TRIGGERED, rankButton_triggeredHandler);
 			addChild(rankButton);
 
-			armatureDisplay = factory.buildArmatureDisplay("all");
+			armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
 			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
 			armatureDisplay.y = height *0.35;
-			armatureDisplay.scale = appModel.scale;
+			armatureDisplay.scale = appModel.scale * 2;
 			addChild(armatureDisplay);
 		}
 		
-		public static function createFactory():void
-		{
-			if( factory != null )
-				return;
-			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-			factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
-	
-		}
 		
 		private function rankButton_triggeredHandler():void
 		{

@@ -2,11 +2,13 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	
+	import flash.filesystem.File;
 	import flash.utils.setTimeout;
 	
 	import dragonBones.objects.DragonBonesData;
@@ -31,41 +33,76 @@ package com.gerantech.towercraft.controls.overlays
 
 	public class BattleOutcomeOverlay extends BaseOverlay
 	{
-		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome_ske.json", mimeType = "application/octet-stream")]
-		public static const skeletonClass: Class;
-		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome_tex.json", mimeType = "application/octet-stream")]
-		public static const atlasDataClass: Class;
-		[Embed(source = "../../../../../assets/animations/battleoutcome/battle-outcome_tex.png")]
-		public static const atlasImageClass: Class;
-
-		public static var factory: StarlingFactory;
+		public static var animFactory: StarlingFactory;
 		public static var dragonBonesData:DragonBonesData;
+		private static var factoryCreateCallback:Function;
 		
 		public var score:int;
 		private var rewards:ISFSArray;
 		public var tutorialMode:Boolean;
 		private var armatureDisplay:StarlingArmatureDisplay ;
+		private var initialingCompleted:Boolean;
 		
 		public function BattleOutcomeOverlay(score:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 		{
 			super();
-			
 			this.score = score;
 			this.rewards = rewards;
 			this.tutorialMode = tutorialMode;
-			if(factory == null)
+			createFactionsFactory(assets_loadCompleted);
+		}
+		public static function createFactionsFactory(callback:Function):void
+		{
+			//AppModel.instance.assets.verbose = true;
+			if( AppModel.instance.assets.getTexture("battle-outcome_tex") == null )
 			{
-				factory = new StarlingFactory();
-				dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new skeletonClass()) );
-				factory.parseTextureAtlasData( JSON.parse(new atlasDataClass()), new atlasImageClass() );
+				AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/battleoutcome" ));
+				AppModel.instance.assets.loadQueue(assets_loadCallback)
+				factoryCreateCallback = callback;
+				return;
 			}
+			callback();
+		}
+		private static function assets_loadCallback(ratio:Number):void
+		{
+			if( ratio < 1 )
+				return;
+			if( animFactory != null )
+			{
+				if( factoryCreateCallback != null )
+					factoryCreateCallback();
+				factoryCreateCallback = null;
+				return;
+			}
+			
+			animFactory = new StarlingFactory();
+			dragonBonesData = animFactory.parseDragonBonesData(AppModel.instance.assets.getObject("battle-outcome_ske"));
+			animFactory.parseTextureAtlasData(AppModel.instance.assets.getObject("battle-outcome_tex"), AppModel.instance.assets.getTexture("battle-outcome_tex"));
+			if( factoryCreateCallback != null )
+				factoryCreateCallback();
+			factoryCreateCallback = null;
+		}
+		private function assets_loadCompleted():void
+		{
+			if( initializingStarted && stage != null )
+				initialize();
+		}
+		override protected function addedToStageHandler(event:Event):void
+		{
+			super.addedToStageHandler(event);
+			if( initializingStarted && stage != null )
+				initialize();
 		}
 		
 		override protected function initialize():void
 		{
-			super.initialize();
-			autoSizeMode = AutoSizeMode.STAGE;
+			closeOnStage = false;
+			if( !initializingStarted )
+				super.initialize();
+			if( stage == null || factoryCreateCallback != null || initialingCompleted )
+				return;
 
+			autoSizeMode = AutoSizeMode.STAGE;
 			layout = new AnchorLayout();
 			
 			var hlayout:HorizontalLayout = new HorizontalLayout();
@@ -126,8 +163,19 @@ package com.gerantech.towercraft.controls.overlays
 				retryButton.alpha = 0;
 				buttons.addChild(retryButton);
 			}
-				
+			
+			armatureDisplay = animFactory.buildArmatureDisplay(dragonBonesData.armatureNames[0]);
+			armatureDisplay.x = stage.stageWidth/2;
+			armatureDisplay.y = stage.stageHeight / 2;
+			armatureDisplay.scale = appModel.scale;
+			addChild(armatureDisplay);
+			if(!appModel.battleFieldView.battleData.map.isQuest && score==0)
+				armatureDisplay.animation.gotoAndPlayByTime("draw_0", 0, 1);
+			else
+				armatureDisplay.animation.gotoAndPlayByTime("star_" + Math.max(0,score), 0, 1);
+			
 			appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+			initialingCompleted = true;
 		}
 		
 		private function get keyExists():Boolean
@@ -159,24 +207,6 @@ package com.gerantech.towercraft.controls.overlays
 			else
 				close(false);
 		}		
-		
-		override protected function addedToStageHandler(event:Event):void
-		{
-			super.addedToStageHandler(event);
-			closeOnStage = false;
-			if(dragonBonesData == null)
-				return;
-			
-			armatureDisplay = factory.buildArmatureDisplay(dragonBonesData.armatureNames[0]);
-			armatureDisplay.x = stage.stageWidth/2;
-			armatureDisplay.y = stage.stageHeight / 2;
-			armatureDisplay.scale = appModel.scale;
-			this.addChild(armatureDisplay);
-			
-			if(!appModel.battleFieldView.battleData.map.isQuest && score==0)
-				armatureDisplay.animation.gotoAndPlayByTime("draw_0", 0, 1);
-			else
-				armatureDisplay.animation.gotoAndPlayByTime("star_" + Math.max(0,score), 0, 1);
-		}
+
 	}
 }
