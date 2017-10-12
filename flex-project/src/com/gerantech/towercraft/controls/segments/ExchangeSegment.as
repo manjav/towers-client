@@ -194,11 +194,12 @@ package com.gerantech.towercraft.controls.segments
 		{
 			try
 			{
+				var outcome:int = item.outcome; // reserved because outcome changed after exchange
 				if( exchanger.exchange(item, timeManager.now) )
 				{
 					if( item.isChest() && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
 					{
-						openChestOverlay = new OpenChestOverlay(item.outcome, params.containsKey("isAd"));
+						openChestOverlay = new OpenChestOverlay(outcome, params.containsKey("isAd"));
 						appModel.navigator.addOverlay(openChestOverlay);
 					}
 				}
