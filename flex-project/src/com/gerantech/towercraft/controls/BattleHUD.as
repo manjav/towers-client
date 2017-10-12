@@ -12,7 +12,6 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.StickerType;
 	
-	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
@@ -47,7 +46,7 @@ package com.gerantech.towercraft.controls
 		private var starsNotice:StarsNotice;
 		private var scoreIndex:int = 0;
 		private var timeLog:RTLLabel;
-		private var debugMode:Boolean = true;
+		private var debugMode:Boolean = false;
 		
 		public function BattleHUD()
 		{

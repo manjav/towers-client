@@ -14,6 +14,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.exchanges.Exchanger;
 	import com.gt.towers.utils.GameError;
@@ -194,12 +195,12 @@ package com.gerantech.towercraft.controls.segments
 		{
 			try
 			{
-				var outcome:int = item.outcome; // reserved because outcome changed after exchange
+				var chestType:int = item.category == ExchangeType.CHESTS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
 				if( exchanger.exchange(item, timeManager.now) )
 				{
 					if( item.isChest() && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
 					{
-						openChestOverlay = new OpenChestOverlay(outcome, params.containsKey("isAd"));
+						openChestOverlay = new OpenChestOverlay(chestType);
 						appModel.navigator.addOverlay(openChestOverlay);
 					}
 				}
@@ -253,6 +254,7 @@ package com.gerantech.towercraft.controls.segments
 						break;
 					
 					case ExchangeType.S_30_CHEST:
+					case ExchangeType.CHESTS_50:
 					case ExchangeType.CHEST_CATE_110_BATTLES:
 					case ExchangeType.CHEST_CATE_120_OFFERS:
 						itemslist.dataProvider.updateItemAt(0);
@@ -272,10 +274,11 @@ package com.gerantech.towercraft.controls.segments
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						function openChestOverlay_closeHandler(event:Event):void {
 							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-							if( !openChestOverlay.isAd )
-								showAd(item.type);
+							if( item.type != ExchangeType.CHESTS_59_ADS && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS) )
+								showAd();
 							openChestOverlay = null;
 						}
+						player.addResources(item.outcomes);
 						break;
 				}
 				item.enabled = true;
@@ -283,29 +286,29 @@ package com.gerantech.towercraft.controls.segments
 
 		}
 		
-		private function showAd(type:int):void
+		private function showAd():void
 		{
 			var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup();
 			adConfirmPopup.addEventListener(Event.SELECT, adConfirmPopup_selectHandler);
 			appModel.navigator.addPopup(adConfirmPopup);
 			function adConfirmPopup_selectHandler(event:Event):void {
 				adConfirmPopup.removeEventListener(Event.SELECT, adConfirmPopup_selectHandler);
-				VideoAdsManager.instance.requestAd(type, false);
+				VideoAdsManager.instance.showAd(VideoAdsManager.TYPE_CHESTS);
 				VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 			}
 		}
 		private function videoIdsManager_completeHandler(event:Event):void
 		{
 			VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+			VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 			var ad:VideoAd = event.data as VideoAd;
 			
 			if( !ad.completed || !ad.rewarded )
 				return;
 			
 			var params:SFSObject = new SFSObject();
-			params.putInt("type", ad.type );
-			params.putBool("isAd", true );
-			sendData(params);
+			params.putInt("type", ExchangeType.CHESTS_59_ADS );
+			exchange(exchanger.items.get(ExchangeType.CHESTS_59_ADS), params);
 		}
 		
 	}

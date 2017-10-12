@@ -5,6 +5,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.UserPrefs;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
@@ -176,6 +177,11 @@ package com.gerantech.towercraft.managers.net
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			
 			UserData.instance.prefs.requestData();
+			
+			// catch video ads
+			VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
+			if( AppModel.instance.game.player.get_questIndex() < AppModel.instance.game.fieldProvider.quests.keys().length )
+				VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
 		}
 
 	}

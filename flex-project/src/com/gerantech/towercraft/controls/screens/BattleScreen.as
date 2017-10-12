@@ -249,7 +249,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			if( event.data && VideoAdsManager.instance.getVersion() != "Unsupported Platform" ) 
+			if( event.data ) 
 				showExtraTimeAd();
 			else
 				retryQuest(appModel.battleFieldView.battleData.map.index, false);
@@ -258,7 +258,7 @@ package com.gerantech.towercraft.controls.screens
 		private function showExtraTimeAd():void
 		{
 			VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
-			VideoAdsManager.instance.requestAd(ExchangeType.S_30_CHEST, false);
+			VideoAdsManager.instance.showAd(VideoAdsManager.TYPE_QUESTS);
 			function videoIdsManager_completeHandler(event:Event):void
 			{
 				VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
@@ -267,6 +267,7 @@ package com.gerantech.towercraft.controls.screens
 					retryQuest(appModel.battleFieldView.battleData.map.index, true);
 				else
 					dispatchEventWith(Event.COMPLETE);
+				VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
 			}
 		}
 		

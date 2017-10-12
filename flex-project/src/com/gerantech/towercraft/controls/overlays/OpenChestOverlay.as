@@ -35,12 +35,10 @@ package com.gerantech.towercraft.controls.overlays
 		private var collectedItemIndex:int = 0;
 		private var buttonOverlay:SimpleLayoutButton;
 		private var readyToWait:Boolean;
-		public var isAd:Boolean;
 
-		public function OpenChestOverlay(type:int, isAd:Boolean=false)
+		public function OpenChestOverlay(type:int)
 		{
 			super();
-			this.isAd = isAd;
 			this.type = type;
 			createFactory();
 		}

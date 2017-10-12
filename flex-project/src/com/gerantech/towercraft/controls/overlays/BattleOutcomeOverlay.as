@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
@@ -42,6 +43,7 @@ package com.gerantech.towercraft.controls.overlays
 		public var tutorialMode:Boolean;
 		private var armatureDisplay:StarlingArmatureDisplay ;
 		private var initialingCompleted:Boolean;
+		private var showAdOffer:Boolean;
 		
 		public function BattleOutcomeOverlay(score:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 		{
@@ -149,7 +151,8 @@ package com.gerantech.towercraft.controls.overlays
 				retryButton.name = "retry";
 				retryButton.width = 300 * appModel.scale;
 				retryButton.height = 120 * appModel.scale;
-				if( !keyExists && score < 3 )
+				showAdOffer = !keyExists && score < 3 && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_QUESTS).available
+				if( showAdOffer )
 				{
 					retryButton.label = "+   " + loc("retry_button");
 					retryButton.icon = Assets.getTexture("extra-time", "gui");
@@ -201,7 +204,7 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			if(CustomButton(event.currentTarget).name == "retry")
 			{
-				dispatchEventWith(FeathersEventType.CLEAR, false, !keyExists && score < 3);
+				dispatchEventWith(FeathersEventType.CLEAR, false, showAdOffer);
 				setTimeout(close, 10);
 			}
 			else
