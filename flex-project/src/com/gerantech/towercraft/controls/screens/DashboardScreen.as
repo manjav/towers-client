@@ -1,10 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
-	import com.gerantech.towercraft.controls.buttons.Indicator;
-	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
-	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.KeysPopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
@@ -13,7 +10,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.TabItemData;
-	import com.gt.towers.arenas.Arena;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
@@ -22,7 +18,6 @@ package com.gerantech.towercraft.controls.screens
 	
 	import flash.desktop.NativeApplication;
 	import flash.geom.Rectangle;
-	import flash.utils.setTimeout;
 	
 	import mx.resources.ResourceManager;
 	
@@ -186,7 +181,7 @@ package com.gerantech.towercraft.controls.screens
 					else if( p == 0 )
 					{
 						for each(var e:ExchangeItem in exchanger.items.values())
-							if( e.type > ExchangeType.S_20_SPECIALS && e.expiredAt < timeManager.now )
+							if( e.category == ExchangeType.CHEST_CATE_110_BATTLES && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 								pd.badgeNumber ++;
 					}
 				}
