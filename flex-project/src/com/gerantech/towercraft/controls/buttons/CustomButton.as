@@ -56,7 +56,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	updateTextures();
-	skin = new ImageSkin(defaultTextue);
+	skin = new ImageSkin(isEnabled ? defaultTextue : appModel.theme.buttonDisabledSkinTexture);
 	skin.setTextureForState(ButtonState.UP, defaultTextue);
 	skin.setTextureForState(ButtonState.DOWN, downTextue);
 	skin.setTextureForState(ButtonState.DISABLED, appModel.theme.buttonDisabledSkinTexture);

@@ -117,7 +117,7 @@ private function showDetails():void
 	memberCollection = new ListCollection(ms);
 	
 	var membersList:FastList = new FastList();
-	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("slider-background", "skin");
+	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("theme/slider-background", "gui");
 	membersList.layoutData = new AnchorLayoutData(padding*16, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);

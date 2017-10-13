@@ -31,16 +31,14 @@ package com.gerantech.towercraft.controls.overlays
 		private var type:int;
 		private var rewardKeys:Vector.<int>;
 		private var rewardItems:Vector.<ChestReward>;
-		private var openAnimation:StarlingArmatureDisplay ;
+		private var animation:StarlingArmatureDisplay ;
 		private var collectedItemIndex:int = 0;
 		private var buttonOverlay:SimpleLayoutButton;
 		private var readyToWait:Boolean;
-		public var isAd:Boolean;
 
-		public function OpenChestOverlay(type:int, isAd:Boolean=false)
+		public function OpenChestOverlay(type:int)
 		{
 			super();
-			this.isAd = isAd;
 			this.type = type;
 			createFactory();
 		}
@@ -50,8 +48,8 @@ package com.gerantech.towercraft.controls.overlays
 			if(factory != null)
 				return;
 			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("chests_ske"), null, 0.5);
-			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("chests_tex"), AppModel.instance.assets.getTexture("chests_tex"), null, 0, 2);
+			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("chests_ske"));
+			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("chests_tex"), AppModel.instance.assets.getTexture("chests_tex"));
 		}			
 		
 		override protected function initialize():void
@@ -86,14 +84,15 @@ package com.gerantech.towercraft.controls.overlays
 			
 			appModel.sounds.setVolume("main-theme", 0.3);
 			
-			openAnimation = factory.buildArmatureDisplay(dragonBonesData.armatureNames[(type%10)-1]);
-			openAnimation.touchable = openAnimation.touchGroup = false;
-			openAnimation.y = 320 * appModel.scale;
-			openAnimation.scale = appModel.scale*3;
-			openAnimation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
-			openAnimation.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
-			openAnimation.animation.gotoAndPlayByTime("fall", 0, 1);
-			addChild(openAnimation);
+			animation = factory.buildArmatureDisplay("chest-"+type);
+			animation.touchable = animation.touchGroup = false;
+			animation.x = stage.stageWidth * 0.5;
+			animation.y = stage.stageHeight * 0.85;
+			animation.scale = appModel.scale * 2;
+			animation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
+			animation.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
+			animation.animation.gotoAndPlayByTime("fall", 0, 1);
+			addChild(animation);
 		}
 		
 		public function setItem(item:ExchangeItem) : void
@@ -107,7 +106,7 @@ package com.gerantech.towercraft.controls.overlays
 			rewardItems = new Vector.<ChestReward>();
 			rewardKeys = item.outcomes.keys();
 			if( readyToWait )
-				openAnimation.animation.gotoAndPlayByTime("wait", 0, -1);
+				animation.animation.gotoAndPlayByTime("wait", 0, -1);
 		}
 		
 		private function openAnimation_soundEventHandler(event:StarlingEvent):void
@@ -121,7 +120,7 @@ package com.gerantech.towercraft.controls.overlays
 			{
 				readyToWait = true;
 				if ( item != null )
-					openAnimation.animation.gotoAndPlayByTime("wait", 0, -1);
+					animation.animation.gotoAndPlayByTime("wait", 0, -1);
 			}
 			else if(event.eventObject.animationState.name == "hide")
 			{
@@ -134,13 +133,13 @@ package com.gerantech.towercraft.controls.overlays
 			grabAllRewards();
 			if( collectedItemIndex < item.outcomes.keys().length )
 			{
-				openAnimation.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length-1?"open":"openLast", 0, 1);
+				animation.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length-1?"open":"openLast", 0, 1);
 				buttonOverlay.touchable = false;
 				showReward();
 			}
 			else if(collectedItemIndex == rewardKeys.length+1)
 			{
-				setTimeout(openAnimation.animation.gotoAndPlayByTime, 500, "hide", 0, 1);
+				setTimeout(animation.animation.gotoAndPlayByTime, 500, "hide", 0, 1);
 				hideAllRewards();
 			}
 			collectedItemIndex ++;
@@ -193,8 +192,8 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			appModel.sounds.setVolume("main-theme", 1);
 			buttonOverlay.removeEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
-			openAnimation.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
-			openAnimation.removeEventListener(dragonBones.events.EventObject.COMPLETE, openAnimation_completeHandler);
+			animation.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
+			animation.removeEventListener(dragonBones.events.EventObject.COMPLETE, openAnimation_completeHandler);
 			super.dispose();
 		}
 	}

@@ -7,6 +7,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.UserPrefs;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.managers.socials.SocialEvent;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
@@ -296,6 +297,11 @@ package com.gerantech.towercraft.managers.net
 			
 			registerPushManager();
 			UserData.instance.prefs.requestData();
+			
+			// catch video ads
+			VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
+			if( AppModel.instance.game.player.get_questIndex() < AppModel.instance.game.fieldProvider.quests.keys().length )
+				VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
 		}
 		
 		private function registerPushManager():void

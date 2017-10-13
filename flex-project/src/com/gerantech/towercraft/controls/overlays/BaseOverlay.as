@@ -31,6 +31,8 @@ package com.gerantech.towercraft.controls.overlays
 		protected var transitionState:int;
 		
 		protected static const HELPER_POINT:Point = new Point();
+		protected var initializingStarted:Boolean;
+		protected var initializingCompleted:Boolean;
 		
 		public function BaseOverlay()
 		{
@@ -40,6 +42,7 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function initialize():void
 		{
 			super.initialize();
+			initializingStarted = true;
 			
 			if(overlayFactory == null)
 				overlayFactory = defaultOverlayFactory;

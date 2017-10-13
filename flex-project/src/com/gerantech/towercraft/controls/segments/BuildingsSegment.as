@@ -14,6 +14,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -108,7 +109,10 @@ package com.gerantech.towercraft.controls.segments
 			ti.sourceAlpha = 1;
 			ti.sourceBound = item.getBounds(this);
 			ti.destinationConstrain = this.getBounds(stage);
-			ti.destinationBound = new Rectangle(width*0.1, height*0.2, width*0.8, height*0.64);
+			ti.destinationBound = new Rectangle(stage.stageWidth*0.05, 
+				stage.stageHeight*(Math.floor(buildingType/10)==4?0.17:0.22), 
+				stage.stageWidth*0.9, 
+				stage.stageHeight*(Math.floor(buildingType/10)==4?0.66:0.56));
 
 			// create transition out data
 			var to:TransitionData = new TransitionData();

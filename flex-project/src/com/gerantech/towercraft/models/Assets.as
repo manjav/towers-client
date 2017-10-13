@@ -36,22 +36,17 @@ package com.gerantech.towercraft.models
 		/**
 		 * Texture Atlas 
 		 */
-		[Embed(source="../../../../assets/images/metalworks_mobile.png")]
-		public static const skinAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/metalworks_mobile.xml", mimeType="application/octet-stream")]
-		public static const skinAtlasXml:Class;
-		
 		[Embed(source="../../../../assets/images/troops.png")]
 		public static const troopsAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
 		public static const troopsAtlasXml:Class;
 		
-		[Embed(source="../../../../assets/images/battlefields.png")]
+		[Embed(source="../../../../assets/images/battlefields.atf", mimeType="application/octet-stream")]
 		public static const battlefieldsAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/battlefields.xml", mimeType="application/octet-stream")]
 		public static const battlefieldsAtlasXml:Class;		
 		
-		[Embed(source="../../../../assets/images/gui.png")]
+		[Embed(source="../../../../assets/images/gui.atf", mimeType="application/octet-stream")]
 		public static const guiAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/gui.xml", mimeType="application/octet-stream")]
 		public static const guiAtlasXml:Class;
@@ -76,10 +71,18 @@ package com.gerantech.towercraft.models
 		{
 			if (allTextures[name] == undefined)
 			{
-				var atlasBitmapData:BitmapData = Bitmap(new Assets[name]()).bitmapData;
-				allTextures[name] = Texture.fromBitmapData(atlasBitmapData, false, false, 2);
-				//atlasTexture.root.onRestore = this.atlasTexture_onRestore;
-				atlasBitmapData.dispose();
+				if( name == "battlefieldsAtlasTexture" || name == "guiAtlasTexture")
+				{
+					allTextures[name] = Texture.fromAtfData(new Assets[name](), 2, false);
+				}
+				else
+				{	
+					var atlasBitmapData:BitmapData = Bitmap(new Assets[name]()).bitmapData;
+					allTextures[name] = Texture.fromBitmapData(atlasBitmapData, false, false, 2);
+					
+					//atlasTexture.root.onRestore = this.atlasTexture_onRestore;
+					atlasBitmapData.dispose();
+				}
 				
 				//allTextures[name] = Texture.fromBitmap(new Assets[name]());
 			}
@@ -115,15 +118,7 @@ package com.gerantech.towercraft.models
 		{
 			return getAtlas(atlasName).getTextures(texturName);
 		} 
-		
-		/*	public static function getBackgroundTexture(state:String="normal"):Texture
-		{
-		return getTexture("background-small-" + state + "-" + (UserModel.instance.nightMode?"dark-":"") + "skin");
-		}		
-		public static function getCardTextures(state:String):Texture
-		{
-		return getSclaed9Textures((UserModel.instance.nightMode?"i_":"")+"item_roundrect_"+state);
-		}*/
+
 		
 		/**
 		 * Returns a scale9Textures from this class based on a string key.

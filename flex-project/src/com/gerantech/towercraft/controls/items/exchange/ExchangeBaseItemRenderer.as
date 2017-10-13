@@ -9,13 +9,13 @@ package com.gerantech.towercraft.controls.items.exchange
 	
 	import starling.display.Image;
 
-	public class BaseExchangeItemRenderer extends BaseCustomItemRenderer
+	public class ExchangeBaseItemRenderer extends BaseCustomItemRenderer
 	{
 		protected var firstCommit:Boolean = true;
 		protected var exchange:ExchangeItem;
 		protected var padding:int;
 		
-		public function BaseExchangeItemRenderer()
+		public function ExchangeBaseItemRenderer()
 		{
 			super();
 		}
@@ -27,8 +27,8 @@ package com.gerantech.towercraft.controls.items.exchange
 			layout = new AnchorLayout();
 			padding = 24 * appModel.scale;
 				
-			var sk:Image = new Image(appModel.theme.itemRendererDisabledSkinTexture);
-			sk.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+			var sk:Image = new Image(appModel.theme.popupBackgroundSkinTexture);
+			sk.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
 			backgroundSkin = sk;
 		}
 		override protected function commitData():void

@@ -15,9 +15,12 @@ package com.gerantech.towercraft.views
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
 	
+	import starling.core.Starling;
 	import starling.display.Image;
+	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.filters.ColorMatrixFilter;
 	import starling.utils.MathUtil;
 	
 	public class PlaceView extends Sprite
@@ -28,7 +31,7 @@ package com.gerantech.towercraft.views
 		public var decorator:BuildingDecorator;
 		public var defensiveWeapon:DefensiveWeapon;
 		
-		private var arrow:Image;
+		private var arrow:MovieClip;
 		private var rushTimeoutId:uint;
 		private var _selectable:Boolean;
 		private var wishedPopulation:int;
@@ -83,17 +86,18 @@ package com.gerantech.towercraft.views
 			arrowContainer.visible = arrowContainer.touchable = false;
 			addChildAt(arrowContainer, 0);
 			
-			arrow = new Image(Assets.getTexture("arrow"));
-			arrow.scale9Grid = new Rectangle(6, 6, 3, 2);
+			arrow = new MovieClip(Assets.getTextures("attack-line-"), 50);
+			arrow.width = 64 * AppModel.instance.scale;
+			arrow.tileGrid = new Rectangle(0, 0, arrow.width, arrow.width);
 			arrow.alignPivot("center", "bottom");
 			arrowContainer.addChild(arrow);
+			Starling.juggler.add(arrow);
 		}
 		public function arrowTo(disX:Number, disY:Number):void
 		{
 			arrow.height = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
 			arrowContainer.rotation = MathUtil.normalizeAngle(-Math.atan2(-disX, -disY));//trace(tp.arrow.scaleX, tp.arrow.scaleY, tp.arrow.height)
 		}
-
 		
 		public function get selectable():Boolean
 		{
@@ -177,6 +181,7 @@ package com.gerantech.towercraft.views
 		
 		override public function dispose():void
 		{
+			Starling.juggler.remove(arrow);
 			clearTimeout(rushTimeoutId);
 			if(defensiveWeapon != null)
 				defensiveWeapon.dispose();

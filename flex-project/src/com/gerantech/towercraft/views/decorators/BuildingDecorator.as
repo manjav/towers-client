@@ -110,7 +110,7 @@ package com.gerantech.towercraft.views.decorators
 			improvablePanel.y = parent.y + 32*appModel.scale;
 			bc.addChild(improvablePanel);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, improvablePanel);
 			
-			underAttack = new MovieClip(Assets.getTextures("war-icon-sword-"));
+			underAttack = new MovieClip(Assets.getTextures("war-icon-sword-"), 22);
 			underAttack.touchable = false;
 			underAttack.visible = false;
 			underAttack.scale = appModel.scale * 2;

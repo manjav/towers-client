@@ -10,12 +10,14 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
+	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
@@ -223,8 +225,7 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function endBattle(data:SFSObject):void
 		{
-			removeChild(hud, true);
-			appModel.battleFieldView.responseSender.actived = false;
+			disposeBattleAssets();
 			
 			var youWin:Boolean = data.getBool("youWin");
 			var score:int = data.getInt("score");
@@ -233,7 +234,7 @@ package com.gerantech.towercraft.controls.screens
 			var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
 			
 			// set quest score
-			if ( quest.isQuest && player.quests.get( quest.index ) < score)
+			if( quest.isQuest && player.quests.get( quest.index ) < score )
 				player.quests.set(quest.index, score);
 			
 			// reduce player resources
@@ -246,18 +247,21 @@ package com.gerantech.towercraft.controls.screens
 					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY && !quest.isQuest )
 						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
 				}
-				if( !quest.isQuest )
-				{
-					var prevArena:int = player.get_arena(0);
-					player.addResources(outcomes);
-					var nextArena:int = player.get_arena(0);
-					if( prevArena != nextArena )
-						setTimeout(appModel.navigator.addOverlay, 3000, new FactionChangeOverlay(prevArena, nextArena));
-				}
 			}
 			
-			// show battle outcome overlay
+			// arena changes manipulation
+			var prevArena:int = 0;
+			var nextArena:int = 0;
+			if( !sfsConnection.mySelf.isSpectator )
+			{
+				prevArena = player.get_arena(0);
+				player.addResources(outcomes);
+				nextArena = player.get_arena(0);
+			}
+			
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
+			if( prevArena != nextArena && !quest.isQuest )
+				battleOutcomeOverlay.data = [prevArena, nextArena]
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
@@ -274,28 +278,68 @@ package com.gerantech.towercraft.controls.screens
 					GameAnalytics.addResourceEvent(outcomes.get(k)>0?GAResourceFlowType.SOURCE:GAResourceFlowType.SINK, k.toString(), outcomes.get(k), "outcome", quest.isQuest?"quests":"battles");
 				
 			}
-			
+		}
+		
+		private function disposeBattleAssets():void
+		{
 			appModel.sounds.stopSound("battle-theme");
-			appModel.sounds.stopSound("battle-clock-ticking");
+			appModel.sounds.stopSound("battle-clock-ticking");			
+			appModel.battleFieldView.responseSender.actived = false;
+			removeChild(hud, true);
 		}
 		
 		private function battleOutcomeOverlay_retryHandler(event:Event):void
 		{
 			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			
-			removeChild(appModel.battleFieldView, true);			
-			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE);
-			
-			appModel.battleFieldView = new BattleFieldView();
-			addChild(appModel.battleFieldView);			
+			if( event.data ) 
+				showExtraTimeAd();
+			else
+				retryQuest(appModel.battleFieldView.battleData.map.index, false);
 		}
+		
+		private function showExtraTimeAd():void
+		{
+			VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+			VideoAdsManager.instance.showAd(VideoAdsManager.TYPE_QUESTS);
+			function videoIdsManager_completeHandler(event:Event):void
+			{
+				VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
+				var ad:VideoAd = event.data as VideoAd;
+				if( ad.completed && ad.rewarded )
+					retryQuest(appModel.battleFieldView.battleData.map.index, true);
+				else
+					dispatchEventWith(Event.COMPLETE);
+				VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
+			}
+		}
+		
+		private function retryQuest(index:int, hasExtraTime:Boolean):void
+		{
+			waitingOverlay = new WaitingOverlay() ;
+			appModel.navigator.addOverlay(waitingOverlay);
+			
+			disposeBattleAssets();
+			removeChild(appModel.battleFieldView, true);
+			
+			var sfsObj:SFSObject = new SFSObject();
+			sfsObj.putBool("q", true);
+			sfsObj.putInt("i", index);
+			if( hasExtraTime )
+				sfsObj.putBool("e", true);
+			//if( spectatedUser != null && spectatedUser != "" )
+			//sfsObj.putText("su", spectatedUser);
+			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
+			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+		}
+		
 		private function battleOutcomeOverlay_closeHandler(event:Event):void
 		{
 			var battleOutcomeOverlay:BattleOutcomeOverlay = event.currentTarget as BattleOutcomeOverlay;
 			battleOutcomeOverlay.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			
+
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
@@ -304,13 +348,25 @@ package com.gerantech.towercraft.controls.screens
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
+				return;
 			}
-			else
+			
+			// show faction changes overlay
+			if( battleOutcomeOverlay.data != null )
 			{
-				if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
-					appModel.navigator.showOffer();
-				dispatchEventWith(Event.COMPLETE);
+				var factionsOverlay:FactionChangeOverlay = new FactionChangeOverlay(battleOutcomeOverlay.data[0], battleOutcomeOverlay.data[1]);
+				factionsOverlay.addEventListener(Event.CLOSE, factionsOverlay_closeHandler);
+				appModel.navigator.addOverlay(factionsOverlay);
+				function factionsOverlay_closeHandler(event:Event):void {
+					factionsOverlay.removeEventListener(Event.CLOSE, factionsOverlay_closeHandler);
+					dispatchEventWith(Event.COMPLETE);
+				}
+				return;
 			}
+				
+			if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
+				appModel.navigator.showOffer();
+			dispatchEventWith(Event.COMPLETE);
 		}
 		
 		
@@ -331,8 +387,8 @@ package com.gerantech.towercraft.controls.screens
 			
 			if( event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
 			{
-				var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("s").getValue() as SFSArray;
-				var destination:int = appModel.battleFieldView.battleData.room.getVariable("d").getValue();
+				var towers:SFSArray = event.params.room.getVariable("s").getValue() as SFSArray;
+				var destination:int = event.params.room.getVariable("d").getValue();
 				
 				for( var i:int=0; i<towers.size(); i++ )
 					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
@@ -547,12 +603,21 @@ package com.gerantech.towercraft.controls.screens
 			if( !appModel.battleFieldView.battleData.map.isQuest )
 				return;
 				
-			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("popup_exit_label"), loc("popup_continue_label"));
-			confirm.acceptStyle = "danger";
+			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
+			confirm.declineStyle = "danger";
 			confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
+			confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 			appModel.navigator.addPopup(confirm);
-			function confirm_eventsHandler():void {
-				appModel.battleFieldView.responseSender.leave();
+			function confirm_eventsHandler(event:Event):void {
+				confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
+				confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
+
+				appModel.battleFieldView.responseSender.leave(event.type == Event.SELECT);
+				appModel.battleFieldView.battleData.isLeft = true;
+				appModel.battleFieldView.responseSender.actived = false;
+					
+				if( event.type == Event.SELECT )
+					retryQuest(appModel.battleFieldView.battleData.map.index, false);
 			}
 		}
 		
@@ -561,7 +626,7 @@ package com.gerantech.towercraft.controls.screens
 			player.inFriendlyBattle = false;
 			removeConnectionListeners();
 			appModel.sounds.playSoundUnique("main-theme", 1, 100);
-			appModel.battleFieldView.dispose();
+			removeChild(appModel.battleFieldView, true);
 			super.dispose();
 		}
 		

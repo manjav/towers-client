@@ -46,7 +46,7 @@ package com.gerantech.towercraft.controls.buttons
 			super.initialize();
 			this.isQuickHitAreaEnabled = false;
 			layout = new AnchorLayout();
-			var skin:ImageSkin = new ImageSkin(Assets.getTexture("indicator-background", "skin"));
+			var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background", "gui"));
 			skin.scale9Grid = new Rectangle(4, 6, 2, 2);
 			backgroundSkin = skin;
 			
@@ -75,7 +75,7 @@ package com.gerantech.towercraft.controls.buttons
 			if(hasIncreaseButton)
 			{
 				var addDisplay:ImageLoader = new ImageLoader();
-				addDisplay.source = Assets.getTexture("indicator-add", "skin");
+				addDisplay.source = Assets.getTexture("theme/indicator-add", "gui");
 				addDisplay.width = addDisplay.height = height + padding;
 				addDisplay.layoutData = new AnchorLayoutData(NaN, direction=="ltr"?-height/2:NaN, NaN, direction=="ltr"?NaN:-height/2, NaN, 0);
 				addChild(addDisplay);

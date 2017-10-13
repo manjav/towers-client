@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.overlays
 	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
-	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingFeatureType;
@@ -11,7 +10,6 @@ package com.gerantech.towercraft.controls.overlays
 	import flash.utils.setTimeout;
 	
 	import dragonBones.starling.StarlingArmatureDisplay;
-	import dragonBones.starling.StarlingFactory;
 	
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
@@ -27,22 +25,23 @@ package com.gerantech.towercraft.controls.overlays
 	public class BuildingUpgradeOverlay extends BaseOverlay
 	{
 		public var building:Building;
+		private var initializeStarted:Boolean;
 		
 		public function BuildingUpgradeOverlay()
 		{
 			super();
-			if(BattleOutcomeOverlay.factory == null)
-			{
-				BattleOutcomeOverlay.factory = new StarlingFactory();
-				BattleOutcomeOverlay.dragonBonesData = BattleOutcomeOverlay.factory.parseDragonBonesData( JSON.parse(new BattleOutcomeOverlay.skeletonClass()) );
-				BattleOutcomeOverlay.factory.parseTextureAtlasData( JSON.parse(new BattleOutcomeOverlay.atlasDataClass()), new BattleOutcomeOverlay.atlasImageClass() );
-			}
+			BattleOutcomeOverlay.createFactionsFactory(initialize);
 		}
 		
-		override protected function addedToStageHandler(event:Event):void
+		override protected function initialize():void
 		{
-			super.addedToStageHandler(event);
-
+			if( stage != null )
+				addChild(defaultOverlayFactory());
+			if( stage == null || appModel.assets.isLoading || initializeStarted )
+				return;
+			super.initialize();
+			initializeStarted = true;
+		
 			layout = new AnchorLayout();
 			closeOnStage = false;
 
@@ -53,7 +52,7 @@ package com.gerantech.towercraft.controls.overlays
 			if(BattleOutcomeOverlay.dragonBonesData == null)
 				return;
 			
-			var armatureDisplay:StarlingArmatureDisplay = BattleOutcomeOverlay.factory.buildArmatureDisplay("levelup");
+			var armatureDisplay:StarlingArmatureDisplay = BattleOutcomeOverlay.animFactory.buildArmatureDisplay("levelup");
 			armatureDisplay.x = stage.stageWidth/2;
 			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;

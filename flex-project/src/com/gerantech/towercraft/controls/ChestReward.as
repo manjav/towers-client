@@ -55,7 +55,7 @@ package com.gerantech.towercraft.controls
 			iconContainer.width = width * 0.4;
 			iconContainer.height = height;
 			iconContainer.layout = new AnchorLayout();
-			iconContainer.backgroundSkin = new Image(Assets.getTexture("building-button", "skin"));
+			iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
 			Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
 			
 			var iconDisplay:ImageLoader = new ImageLoader();

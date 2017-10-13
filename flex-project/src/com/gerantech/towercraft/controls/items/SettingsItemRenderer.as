@@ -26,9 +26,6 @@ public class SettingsItemRenderer extends BaseCustomItemRenderer
 	{
 		super.initialize();
 		
-		/*var mySkin:ImageSkin = new ImageSkin(Assets.getTexture("building-button", "skin"));
-		mySkin.scale9Grid = new Rectangle(10, 10, 56, 37);
-		backgroundSkin = mySkin;*/
 		height = 180 * appModel.scale;
 		
 		var hlayout:HorizontalLayout = new HorizontalLayout();

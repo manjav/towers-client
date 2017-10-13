@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls
 			minWidth = 120 * appModel.scale;
 			minHeight = controlSize;
 			
-			var skin:Image = new Image(Assets.getTexture("slider-background", "skin"));
+			var skin:Image = new Image(Assets.getTexture("theme/slider-background", "gui"));
 			skin.scale9Grid = BaseMetalWorksMobileTheme.SLIDER_SCALE9_GRID;
 			backgroundSkin = skin;
 			

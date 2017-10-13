@@ -40,7 +40,6 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			//alpha = 0;
 			
 			headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
 			headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
@@ -84,20 +83,26 @@ package com.gerantech.towercraft.controls.items.exchange
 					descriptionDisplay.text = loc("exchange_description_" + line.category);
 					CELL_SIZE = 460 * appModel.scale;
 					listLayout.typicalItemWidth = width-listLayout.padding * 2 ;
-					list.itemRendererFactory = function ():IListItemRenderer{ return new SpecialExchangeItemRenderer();}
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeSpecialItemRenderer();}
 					list.addEventListener(FeathersEventType.END_INTERACTION, list_endSpecialExchangeHandler);
 					break;
-				
-				case ExchangeType.S_30_CHEST:
-					CELL_SIZE = 620 * appModel.scale;
+
+				case ExchangeType.CHEST_CATE_110_BATTLES:
+					CELL_SIZE = 480 * appModel.scale;
 					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
-					list.itemRendererFactory = function ():IListItemRenderer{ return new ChestExchangeItemRenderer();}
-					break;
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestBattleItemRenderer();}
+					break;		
+				
+				case ExchangeType.CHEST_CATE_120_OFFERS:
+					CELL_SIZE = 480 * appModel.scale;
+					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestOfferItemRenderer();}
+					break;		
 				
 				default:
 					CELL_SIZE = 480 * appModel.scale;
 					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
-					list.itemRendererFactory = function ():IListItemRenderer{ return new CurrencyExchangeItemRenderer();}
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeCurrencyItemRenderer();}
 					break;
 			}
 			

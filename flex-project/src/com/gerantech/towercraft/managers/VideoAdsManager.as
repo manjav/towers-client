@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.managers
 {
 	import com.gerantech.towercraft.models.vo.VideoAd;
-	import com.gt.towers.constants.ExchangeType;
 	
 	import flash.utils.Dictionary;
 	
@@ -14,6 +13,9 @@ package com.gerantech.towercraft.managers
 
 	public class VideoAdsManager extends EventDispatcher implements TapsellAdRequestListener, TapsellAdShowFinishedListener
 	{
+		public static const TYPE_QUESTS:int = 0;
+		public static const TYPE_CHESTS:int = 1;
+		
 		private var adIds:Dictionary;
 		private var tapsell:Tapsell;
 		private static var _intance:VideoAdsManager;
@@ -32,11 +34,12 @@ package com.gerantech.towercraft.managers
 			tapsell.setDebugMode(true);
 			tapsell.setAdRequestListener(this);
 			tapsell.setAdShowFinishedListener(this);
-			
+
 			adIds = new Dictionary();
-			adIds["59c921884684653f2563a9f2"] = new VideoAd(ExchangeType.S_31_CHEST, "59c921884684653f2563a9f2") ;
-			adIds["59c925d44684653f256499bc"] = new VideoAd(ExchangeType.S_32_CHEST, "59c925d44684653f256499bc") ;
-			adIds["59c8e6114684656c505cb957"] = new VideoAd(ExchangeType.S_33_CHEST, "59c8e6114684656c505cb957") ;
+			adIds["59d5f6814684650cb96b01ec"] = new VideoAd(TYPE_QUESTS, "59d5f6814684650cb96b01ec") ;
+			adIds["59c921884684653f2563a9f2"] = new VideoAd(TYPE_CHESTS, "59c921884684653f2563a9f2") ;
+			//adIds["59c925d44684653f256499bc"] = new VideoAd(ExchangeType.S_32_CHEST, "59c925d44684653f256499bc") ;
+			//adIds["59c8e6114684656c505cb957"] = new VideoAd(ExchangeType.S_33_CHEST, "59c8e6114684656c505cb957") ;
 		}
 		
 		public function requestAll():void
@@ -57,6 +60,7 @@ package com.gerantech.towercraft.managers
 			if( vid.autoPlay )
 				showAd(vid.type);
 			dispatchEventWith(Event.ADDED, false, vid);
+			trace("onAdAvailable::Zone:", zoneId, "vid:", vid.type)
 		}
 		
 		public function getAdByType(type:int):VideoAd
@@ -87,7 +91,7 @@ package com.gerantech.towercraft.managers
 				trace("Type", type, "not found.")
 				return;
 			}
-			if( vid.adId == null )
+			if( !vid.available )
 			{
 				trace("Zone", vid.zoneId, "has not any ad.")
 				return;
@@ -116,7 +120,7 @@ package com.gerantech.towercraft.managers
 		public function onError(zoneId:String,error:String):void{
 			trace("Error...");
 		}
-		public function onAdShowFinished(zoneId:String,adId:String,completed:Boolean,rewarded:Boolean):void
+		public function onAdShowFinished(zoneId:String, adId:String, completed:Boolean, rewarded:Boolean):void
 		{
 			var vid:VideoAd = adIds[zoneId] as VideoAd;
 			if( vid == null )

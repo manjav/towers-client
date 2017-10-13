@@ -20,7 +20,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class SpecialExchangeItemRenderer extends BaseExchangeItemRenderer
+	public class ExchangeSpecialItemRenderer extends ExchangeBaseItemRenderer
 	{
 		private var nameDisplay:RTLLabel;
 		private var nameShadowDisplay:RTLLabel;
@@ -53,7 +53,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			function addEmptyPage(hPadding:Number):void
 			{
 				var page:ImageLoader = new ImageLoader();
-				page.source = Assets.getTexture("building-button", "skin");
+				page.source = Assets.getTexture("theme/building-button", "gui");
 				page.width = 280 * appModel.scale;
 				page.layoutData = new AnchorLayoutData(padding, appModel.isLTR?hPadding:NaN, padding, appModel.isLTR?NaN:hPadding);
 				page.scale9Grid = new Rectangle(10, 10, 56, 37);

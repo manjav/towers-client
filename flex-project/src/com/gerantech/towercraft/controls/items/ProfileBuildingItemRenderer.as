@@ -37,9 +37,9 @@ package com.gerantech.towercraft.controls.items
 			super.initialize();
 			alpha = 0;
 			
-			mySkin = new ImageSkin(Assets.getTexture("building-button", "skin"));
-			mySkin.setTextureForState("normal", Assets.getTexture("building-button", "skin"));
-			mySkin.setTextureForState("locked", Assets.getTexture("building-button-disable", "skin"));
+			mySkin = new ImageSkin(Assets.getTexture("theme/building-button", "gui"));
+			mySkin.setTextureForState("normal", Assets.getTexture("theme/building-button", "gui"));
+			mySkin.setTextureForState("locked", Assets.getTexture("theme/building-button-disable", "gui"));
 			mySkin.scale9Grid = new Rectangle(10, 10, 56, 37);
 			backgroundSkin = mySkin;
 			
