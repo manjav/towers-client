@@ -34,11 +34,11 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 	{
 		super.initialize();
 		
-		skin = new ImageSkin(Assets.getTexture("building-button", "skin"));
-		skin.setTextureForState(STATE_NORMAL, Assets.getTexture("building-button", "skin"));
-		skin.setTextureForState(STATE_DOWN, Assets.getTexture("building-button", "skin"));
-		skin.setTextureForState(STATE_SELECTED, Assets.getTexture("building-button", "skin"));
-		skin.setTextureForState(STATE_DISABLED, Assets.getTexture("building-button-disable", "skin"));
+		skin = new ImageSkin(Assets.getTexture("theme/building-button", "gui"));
+		skin.setTextureForState(STATE_NORMAL, Assets.getTexture("theme/building-button", "gui"));
+		skin.setTextureForState(STATE_DOWN, Assets.getTexture("theme/building-button", "gui"));
+		skin.setTextureForState(STATE_SELECTED, Assets.getTexture("theme/building-button", "gui"));
+		skin.setTextureForState(STATE_DISABLED, Assets.getTexture("theme/building-button-disable", "gui"));
 		skin.scale9Grid = new Rectangle(10, 10, 56, 37);
 		backgroundSkin = skin;
 		
@@ -49,9 +49,6 @@ public class QuestItemRenderer extends BaseCustomItemRenderer
 		layout = hlayout;
 		
 		var elements:Vector.<DisplayObject> = new Vector.<DisplayObject>();
-		
-		/*questIndexLabel = new LTRLable("");
-		elements.push( questIndexLabel );*/
 		
 		questNameLabel = new RTLLabel("");
 		questNameLabel.layoutData = new HorizontalLayoutData(100);

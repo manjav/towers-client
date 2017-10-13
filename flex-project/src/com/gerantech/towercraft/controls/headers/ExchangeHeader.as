@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.headers
 {
 	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.geom.Rectangle;
 	
@@ -21,7 +22,7 @@ package com.gerantech.towercraft.controls.headers
 		public function ExchangeHeader(texture:String, scale9Grid:Rectangle, fontSize:int)
 		{
 			this.fontSize = fontSize;
-			skin = new Image(appModel.assets.getTexture(texture));
+			skin = new Image(Assets.getTexture(texture, "gui"));
 			skin.scale9Grid = scale9Grid;
 		}
 		override protected function initialize():void

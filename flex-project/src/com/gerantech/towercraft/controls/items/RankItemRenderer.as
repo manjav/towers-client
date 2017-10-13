@@ -29,7 +29,7 @@ public class RankItemRenderer extends BaseCustomItemRenderer
 		layout = new AnchorLayout();
 		var padding:int = 36 * appModel.scale;
 		
-		mySkin = new ImageSkin(Assets.getTexture("building-button-disable", "skin"));
+		mySkin = new ImageSkin(Assets.getTexture("theme/building-button-disable", "gui"));
 		mySkin.scale9Grid = new Rectangle(10, 10, 56, 37);
 		backgroundSkin = mySkin;
 		
@@ -75,7 +75,7 @@ public class RankItemRenderer extends BaseCustomItemRenderer
 			nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
 			nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
 		}
-		mySkin.defaultTexture = Assets.getTexture(_data.i==player.id ? "building-button" : "building-button-disable", "skin");
+		mySkin.defaultTexture = Assets.getTexture(_data.i==player.id ? "theme/building-button" : "theme/building-button-disable", "gui");
 	}
 } 
 }

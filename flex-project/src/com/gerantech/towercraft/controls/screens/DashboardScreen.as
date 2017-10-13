@@ -79,7 +79,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			tabBorder = new ImageLoader();
 			tabBorder.touchable = false;
-			tabBorder.source = Assets.getTexture("tab-selected-border", "skin");
+			tabBorder.source = Assets.getTexture("theme/tab-selected-border", "gui");
 			tabBorder.width = tabSize * 2;
 			tabBorder.height = footerSize;
 			tabBorder.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);

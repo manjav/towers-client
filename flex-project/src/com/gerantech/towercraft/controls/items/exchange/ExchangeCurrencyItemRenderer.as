@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
 	
 	import feathers.controls.ImageLoader;
@@ -24,7 +25,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			addChild(titleDisplay);
 			
 			iconDisplay = new ImageLoader();
-			iconDisplay.source = appModel.assets.getTexture("currency-" + exchange.type);
+			iconDisplay.source = Assets.getTexture("currency-" + exchange.type, "gui");
 			iconDisplay.layoutData = new AnchorLayoutData(padding*4, NaN, NaN, NaN, 0);
 			iconDisplay.width = 180 * appModel.scale;
 			addChild(iconDisplay);

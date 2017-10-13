@@ -35,7 +35,7 @@ package com.gerantech.towercraft.controls
 			height = padding * 3;
 			
 			var skin:ImageLoader = new ImageLoader();
-			skin.source = Assets.getTexture("popup-inside-background-skin", "skin")
+			skin.source = Assets.getTexture("theme/popup-inside-background-skin", "gui")
 			skin.alpha = 0.8;
 			skin.scale9Grid = new Rectangle(2,2,1,1);
 			skin.color = 0x9bb7d2;

@@ -91,7 +91,7 @@ public class MainSegment extends Segment
 		gradient.alpha = 0.5;
 		gradient.width = 500 * appModel.scale;
 		gradient.height = 120 * appModel.scale;
-		gradient.source = Assets.getTexture("grad-ro-right", "skin");
+		gradient.source = Assets.getTexture("theme/grad-ro-right", "gui");
 		gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
 		addChild(gradient);
 		

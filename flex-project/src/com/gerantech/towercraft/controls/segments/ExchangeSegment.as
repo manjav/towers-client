@@ -59,9 +59,8 @@ package com.gerantech.towercraft.controls.segments
 		{
 			super.init();
 			//appModel.assets.verbose = true;
-			if( appModel.assets.getTexture("shop-line-header") == null )
+			if( appModel.assets.getTexture("chests_tex") == null )
 			{
-				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/images/shop" ));
 				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
 				appModel.assets.loadQueue(assets_loadCallback)
 			}

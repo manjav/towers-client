@@ -40,7 +40,7 @@ package com.gerantech.towercraft.controls.sliders
 			{
 				upgradeDisplay = new ImageLoader();
 				upgradeDisplay.maintainAspectRatio = false;
-				upgradeDisplay.source = Assets.getTexture("upgrade-ready", "skin");
+				upgradeDisplay.source = Assets.getTexture("theme/upgrade-ready", "gui");
 			}
 		}
 		

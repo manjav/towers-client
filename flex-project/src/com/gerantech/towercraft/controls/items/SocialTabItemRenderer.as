@@ -63,7 +63,7 @@ package com.gerantech.towercraft.controls.items
 			}
 			else
 			{
-				badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "badge-notification-new" : "badge-notification", "skin")
+				badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
 				addChild(badgeDisplay);
 			}
 		}

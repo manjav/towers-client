@@ -66,7 +66,7 @@ package com.gerantech.towercraft.controls
 			gradient.alpha = 0.5;
 			gradient.width = 440 * appModel.scale;
 			gradient.height = 140 * appModel.scale;
-			gradient.source = Assets.getTexture("grad-ro-right", "skin");
+			gradient.source = Assets.getTexture("theme/grad-ro-right", "gui");
 			addChild(gradient);
 			
 			var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3 || SFSConnection.instance.mySelf.isSpectator;
