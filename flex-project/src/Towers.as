@@ -36,9 +36,9 @@ package
 			/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 			{
 				var str:String = improveLevel + " : ";
-				for(var level:int=1; level<=10; level++)
+				for(var get_level:int=1; get_level<=10; get_level++)
 				{
-					str += level + "[" + ((  0.25 + Math.log(level) * 0.25 + Math.log(improveLevel) * 0.3  )).toFixed(2) + "   " ;
+					str += get_level + "[" + ((  180 + Math.round( (Math.log(improveLevel) + Math.log(get_level)) * 32)  )).toFixed(2) + "   " ;
 				}
 				trace(str);
 			}
@@ -84,7 +84,6 @@ package
 			this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
-			//this.starling.showStats = true;
 			//this.starling.showStatsAt("right", "bottom", 0.8);
 			this.starling.skipUnchangedFrames = false;
 			this.starling.start();

@@ -46,9 +46,13 @@ package com.gerantech.towercraft.managers.net
 			send(SFSCommands.BUILDING_IMPROVE, sfsObj, room);
 		}
 		
-		public function leave():void
+		public function leave(retryMode:Boolean=false):void
 		{
-			send(SFSCommands.LEAVE, null, room, false);			
+			var params:SFSObject = new SFSObject();
+			if( retryMode )
+				params.putBool("retryMode", true);
+				
+			send(SFSCommands.LEAVE, params, room, false);			
 		}
 		
 		public function resetAllVars():void

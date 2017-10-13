@@ -202,8 +202,7 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function endBattle(data:SFSObject):void
 		{
-			removeChild(hud, true);
-			appModel.battleFieldView.responseSender.actived = false;
+			disposeBattleAssets();
 			
 			var youWin:Boolean = data.getBool("youWin");
 			var score:int = data.getInt("score");
@@ -243,9 +242,14 @@ package com.gerantech.towercraft.controls.screens
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 			appModel.navigator.addOverlay(battleOutcomeOverlay);
-			
+		}
+		
+		private function disposeBattleAssets():void
+		{
 			appModel.sounds.stopSound("battle-theme");
-			appModel.sounds.stopSound("battle-clock-ticking");
+			appModel.sounds.stopSound("battle-clock-ticking");			
+			appModel.battleFieldView.responseSender.actived = false;
+			removeChild(hud, true);
 		}
 		
 		private function battleOutcomeOverlay_retryHandler(event:Event):void
@@ -279,6 +283,9 @@ package com.gerantech.towercraft.controls.screens
 			waitingOverlay = new WaitingOverlay() ;
 			appModel.navigator.addOverlay(waitingOverlay);
 			
+			disposeBattleAssets();
+			removeChild(appModel.battleFieldView, true);
+			
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putBool("q", true);
 			sfsObj.putInt("i", index);
@@ -286,8 +293,9 @@ package com.gerantech.towercraft.controls.screens
 				sfsObj.putBool("e", true);
 			//if( spectatedUser != null && spectatedUser != "" )
 			//sfsObj.putText("su", spectatedUser);
+			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
+			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
-			removeChild(appModel.battleFieldView, true);
 		}
 		
 		private function battleOutcomeOverlay_closeHandler(event:Event):void
@@ -343,8 +351,8 @@ package com.gerantech.towercraft.controls.screens
 			
 			if( event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
 			{
-				var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("s").getValue() as SFSArray;
-				var destination:int = appModel.battleFieldView.battleData.room.getVariable("d").getValue();
+				var towers:SFSArray = event.params.room.getVariable("s").getValue() as SFSArray;
+				var destination:int = event.params.room.getVariable("d").getValue();
 				
 				for( var i:int=0; i<towers.size(); i++ )
 					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
@@ -567,16 +575,13 @@ package com.gerantech.towercraft.controls.screens
 			function confirm_eventsHandler(event:Event):void {
 				confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 				confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
-				if( event.type == Event.CANCEL )
-				{
-					appModel.battleFieldView.responseSender.leave();
-					appModel.battleFieldView.battleData.isLeft = true;
-					appModel.battleFieldView.responseSender.actived = false;
-				}
-				else if( event.type == Event.SELECT )
-				{
+
+				appModel.battleFieldView.responseSender.leave(event.type == Event.SELECT);
+				appModel.battleFieldView.battleData.isLeft = true;
+				appModel.battleFieldView.responseSender.actived = false;
+					
+				if( event.type == Event.SELECT )
 					retryQuest(appModel.battleFieldView.battleData.map.index, false);
-				}
 			}
 		}
 		
@@ -585,7 +590,7 @@ package com.gerantech.towercraft.controls.screens
 			player.inFriendlyBattle = false;
 			removeConnectionListeners();
 			appModel.sounds.playSoundUnique("main-theme", 1, 100);
-			appModel.battleFieldView.dispose();
+			removeChild(appModel.battleFieldView, true);
 			super.dispose();
 		}
 		

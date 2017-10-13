@@ -66,8 +66,10 @@ package com.gerantech.towercraft.controls.sliders
 		}
 		public function set value(newValue:Number):void
 		{
-			if(_value == newValue)
+			if( _value == newValue )
 				return;
+			if( newValue < 0 )
+				newValue = 0;
 			
 			progressBar.value = _value = Math.max(0, Math.min( newValue, maximum ) );
 		}
