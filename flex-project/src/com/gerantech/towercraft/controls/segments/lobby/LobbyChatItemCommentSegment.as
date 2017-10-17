@@ -18,9 +18,9 @@ override public function init():void
 	labelDisplay.layoutData = new AnchorLayoutData( NaN, NaN, NaN, NaN, 0, 0);
 	addChild(labelDisplay);
 }
-override public function commitData(_data:ISFSObject):void
+override public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
 {
-	super.commitData(_data);
+	super.commitData(_data, lobbyData);
 	
 	var comment:String = "";
 	switch(data.getShort("m"))

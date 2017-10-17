@@ -131,11 +131,11 @@ protected function list_focusInHandler(event:Event):void
 	buttonsPopup.data = buddy;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
-	buttonsPopup.paddind = 24 * appModel.scale;
+	buttonsPopup.padding = 24 * appModel.scale;
 	buttonsPopup.buttonsWidth = 320 * appModel.scale;
 	buttonsPopup.buttonHeight = 120 * appModel.scale;
-	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.paddind * 2;
-	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.paddind * 2;
+	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
+	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
 	var floatingY:int = selectedItem.getBounds(stage).y
 	var ti:TransitionData = new TransitionData(0.2);
 	ti.transition = Transitions.EASE_OUT_BACK;

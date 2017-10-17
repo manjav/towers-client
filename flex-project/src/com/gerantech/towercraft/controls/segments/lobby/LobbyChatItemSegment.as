@@ -15,6 +15,7 @@ public var otherPadding:int;
 public var data:ISFSObject;
 
 protected var itsMe:Boolean;
+protected var lobbyData:ISFSObject;
 
 override public function init():void
 {
@@ -24,9 +25,10 @@ override public function init():void
 	otherPadding = 180 * appModel.scale;
 }
 
-public function commitData(_data:ISFSObject):void
+public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
 {
 	this.data = _data as SFSObject;
+	this.lobbyData = lobbyData as SFSObject;
 	itsMe = data.getInt("i") == player.id;
 	if( !initializeStarted )
 		init();
@@ -34,9 +36,7 @@ public function commitData(_data:ISFSObject):void
 	
 protected function findUser(uid:int):ISFSObject
 {
-	if( SFSConnection.instance.myLobby == null )
-		return null;
-	var all:ISFSArray = SFSConnection.instance.myLobby.getVariable("all").getSFSArrayValue();
+	var all:ISFSArray = lobbyData.getSFSArray("all");
 	var allSize:int = all.size();
 	for( var i:int=0; i<allSize; i++ )
 	{

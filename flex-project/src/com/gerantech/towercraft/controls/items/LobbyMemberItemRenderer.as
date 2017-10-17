@@ -80,11 +80,11 @@ override protected function commitData():void
 	height = 120 * appModel.scale;
 	
 	var rankIndex:int = index+1;
-	nameDisplay.text = rankIndex + ".  " + _data.na ;
-	nameShadowDisplay.text = rankIndex + ".  " + _data.na ;
-	roleDisplay.text = loc("lobby_role_"+_data.pr);
-	pointDisplay.text = "" + _data.po;
-	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.po)), "gui");
+	nameDisplay.text = rankIndex + ".  " + _data.name ;
+	nameShadowDisplay.text = rankIndex + ".  " + _data.name ;
+	roleDisplay.text = loc("lobby_role_"+_data.permission);
+	pointDisplay.text = "" + _data.point;
+	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.point)), "gui");
 
 	var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9) * appModel.scale;
 	var fc:int = _data.id==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
