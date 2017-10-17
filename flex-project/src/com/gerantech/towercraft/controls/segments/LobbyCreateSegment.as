@@ -127,7 +127,9 @@ protected function sfsConnectionroomCreateRresponseHandler(event:SFSEvent):void
 		return;
 	}
 	if( data.getInt("response") == -1 )
-		appModel.navigator.addLog(loc("lobby_exits_message"));
+		appModel.navigator.addLog(loc("lobby_create_exits_message"));
+	else 
+		appModel.navigator.addLog(loc("lobby_create_error_message"));
 }
 }
 }
