@@ -71,6 +71,7 @@ package com.gerantech.towercraft.controls.popups
 			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 			upgradeButton.height = 110*appModel.scale;
 			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+			upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 			upgradeButton.isEnabled = player.has(building.get_upgradeRequirements());
 			addChild(upgradeButton);
 			
