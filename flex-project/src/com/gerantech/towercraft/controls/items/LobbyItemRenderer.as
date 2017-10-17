@@ -78,7 +78,7 @@ public class LobbyItemRenderer extends BaseCustomItemRenderer
 		height = 120 * appModel.scale;
 		nameDisplay.text = _data.name ;
 		nameShadowDisplay.text = _data.name ;
-		activenessDisplay.text = "" + _data.act;
+		activenessDisplay.text = "" + Math.ceil(_data.act/10);
 		pointDisplay.text = "" + _data.sum;
 		populationDisplay.text = _data.num + "/" + _data.max;
 	}
