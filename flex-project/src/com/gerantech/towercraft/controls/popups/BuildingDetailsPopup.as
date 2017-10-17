@@ -6,9 +6,7 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingFeatureType;
-	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
