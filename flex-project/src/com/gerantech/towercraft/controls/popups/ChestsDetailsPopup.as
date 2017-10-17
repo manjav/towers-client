@@ -160,9 +160,9 @@ private function updateCounter():void
 private function batton_selectHandler(event:Event):void
 {
 	if( item.category == ExchangeType.CHEST_CATE_110_BATTLES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
-		appModel.navigator.addLog(loc("popup_chest_error_exists"));
+		appModel.navigator.addLog(loc(player.get_keys() <  ExchangeType.getKeyRequierement(item.outcome) ? "popup_chest_error_key" : "popup_chest_error_exists"));
 	else
-		appModel.navigator.addLog(loc("popup_chest_error_resource"));
+		appModel.navigator.addLog(loc("popup_chest_error_hard"));
 }
 private function batton_triggeredHandler(event:Event):void
 {
