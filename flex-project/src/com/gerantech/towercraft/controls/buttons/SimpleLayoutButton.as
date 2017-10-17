@@ -30,6 +30,7 @@ package com.gerantech.towercraft.controls.buttons
 		private var touchPointID:int;
 		protected var _touchBeginTime:int;
 		public var isLongPressEnabled:Boolean = false;
+		public var disableSelectDispatching:Boolean = false;
 		protected var _hasLongPressed:Boolean = false;
 		public var longPressDuration:Number = 0.5;
 		public var keepDownStateOnRollOut:Boolean = false;
@@ -113,15 +114,25 @@ package com.gerantech.towercraft.controls.buttons
 		 */
 		protected function button_touchHandler(event:TouchEvent):void
 		{
-			if(!this._isEnabled)
+			if( !this._isEnabled )
 			{
+				if( disableSelectDispatching )
+				{
+					var touch:Touch = event.getTouch(this, TouchPhase.BEGAN);
+					if( touch != null )
+					{
+						touch.getLocation(this.stage, HELPER_POINT);
+						if( this.contains(this.stage.hitTest(HELPER_POINT)) )
+							this.dispatchEventWith(Event.SELECT, false, this);
+					}
+				}
 				this.touchPointID = -1;
 				return;
 			}
 			
 			if(this.touchPointID >= 0)
 			{
-				var touch:Touch = event.getTouch(this, null, this.touchPointID);
+				touch = event.getTouch(this, null, this.touchPointID);
 				if(!touch)
 				{
 					//this should never happen
@@ -129,26 +140,24 @@ package com.gerantech.towercraft.controls.buttons
 				}
 				
 				touch.getLocation(this.stage, HELPER_POINT);
-				var isInBounds:Boolean = this.contains(this.stage.hitTest(HELPER_POINT));
+				var  isInBounds:Boolean = this.contains(this.stage.hitTest(HELPER_POINT));
 				if(touch.phase == TouchPhase.BEGAN)
 				{
-					if(isInBounds || this.keepDownStateOnRollOut)
+					if( isInBounds || this.keepDownStateOnRollOut )
 						this.currentState = ButtonState.DOWN;
 				}
-				else if(touch.phase == TouchPhase.MOVED)
+				else if( touch.phase == TouchPhase.MOVED )
 				{
-					if( this.currentState == ButtonState.DOWN && !isInBounds )
+					if( this.currentState == ButtonState.DOWN && ! isInBounds )
 						this.currentState = ButtonState.UP;
 				}
-				else if(touch.phase == TouchPhase.ENDED)
+				else if( touch.phase == TouchPhase.ENDED )
 				{
 					this.resetTouchState(touch);
 					//we we dispatched a long press, then triggered and change
 					//won't be able to happen until the next touch begins
-					if(!this._hasLongPressed && isInBounds)
-					{
+					if( !this._hasLongPressed && isInBounds )
 						this.trigger();
-					}
 					this.currentState = ButtonState.UP;
 				}
 				return;
@@ -156,11 +165,11 @@ package com.gerantech.towercraft.controls.buttons
 			else //if we get here, we don't have a saved touch ID yet
 			{
 				touch = event.getTouch(this, TouchPhase.BEGAN);
-				if(touch)
+				if( touch )
 				{
 					this.currentState = ButtonState.DOWN;
 					this.touchPointID = touch.id;
-					if(this.isLongPressEnabled)
+					if( this.isLongPressEnabled )
 					{
 						this._touchBeginTime = getTimer();
 						this._hasLongPressed = false;

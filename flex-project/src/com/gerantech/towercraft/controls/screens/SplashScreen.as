@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.MessagePopup;
+	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -46,6 +47,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.UNDER_MAINTENANCE, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
@@ -74,6 +76,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_ERROR, 			loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.UNDER_MAINTENANCE, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,			loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
@@ -104,6 +107,12 @@ package com.gerantech.towercraft.controls.screens
 				
 				case LoadingEvent.FORCE_RELOAD:
 					reload();
+					break;
+				
+				case LoadingEvent.UNDER_MAINTENANCE:
+					if(parent)
+						parent.removeChild(this);
+					AppModel.instance.navigator.addPopup(new UnderMaintenancePopup(event.data.getInt("umt")));
 					break;
 		
 				default:

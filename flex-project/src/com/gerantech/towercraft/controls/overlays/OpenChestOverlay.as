@@ -159,11 +159,11 @@ package com.gerantech.towercraft.controls.overlays
 		private function showReward():void
 		{
 			var chestReward:ChestReward = new ChestReward(collectedItemIndex, rewardKeys[collectedItemIndex], item.outcomes.get(rewardKeys[collectedItemIndex]));
-			chestReward.y = stage.height * 0.7;
+			chestReward.y = stage.height * 0.8;
 			rewardItems[collectedItemIndex] = chestReward;
 			addChild(chestReward);
 			
-			Starling.juggler.tween(chestReward, 0.5, {delay:0.2, scale:1, x:stage.width*0.5, y:stage.height*0.5, transition:Transitions.EASE_OUT_BACK, onComplete:chestRewardShown});
+			Starling.juggler.tween(chestReward, 0.5, {delay:0.3, scale:1, x:stage.width*0.5, y:stage.height*0.5, transition:Transitions.EASE_OUT_BACK, onComplete:chestRewardShown});
 			chestReward.scale = 0;
 			chestReward.x = stage.width/2;
 			function chestRewardShown():void

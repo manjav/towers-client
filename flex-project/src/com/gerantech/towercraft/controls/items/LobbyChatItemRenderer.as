@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemCommentSegm
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemMessageSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
 import com.gt.towers.constants.MessageTypes;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import feathers.layout.AnchorLayout;
@@ -22,6 +23,12 @@ private var messageSegment:LobbyChatItemMessageSegment;
 private var commentSegment:LobbyChatItemCommentSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
+private var lobbyData:ISFSObject;
+
+public function LobbyChatItemRenderer(lobbyData:ISFSObject)
+{
+	this.lobbyData = lobbyData;
+}
 
 override protected function initialize():void
 {
@@ -70,7 +77,7 @@ override protected function commitData():void
 			break;
 	}
 	
-	segment.commitData(_data as SFSObject);//trace(index, type, segment.data.getDump())
+	segment.commitData(_data as SFSObject, lobbyData);//trace(index, type, segment.data.getDump())
 	addChild(segment);
 	resetSize();
 }

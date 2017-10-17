@@ -75,7 +75,6 @@ package com.gerantech.towercraft.controls.popups
 			featuresData = playerData.getSFSArray("features");
 			buildingsData = playerData.getSFSArray("buildings");
 			
-			trace(event.params.params.getDump())
 			if( transitionState >= TransitionData.STATE_IN_FINISHED )
 				showProfile();
 		}
@@ -116,7 +115,6 @@ package com.gerantech.towercraft.controls.popups
 			featureList.dataProvider = new ListCollection(SFSArray(playerData.getSFSArray("features")).toArray());
 			featureList.layoutData = new AnchorLayoutData(padding*7, padding*2, NaN, padding*2);
 			addChild(featureList);
-			
 			
 			// buildings
 			var listLayout:TiledRowsLayout = new TiledRowsLayout();

@@ -10,6 +10,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -38,7 +39,7 @@ private var itsMyRoom:Boolean;
 
 private var memberCollection:ListCollection;
 private var buttonsPopup:SimpleListPopup;
-private var roomServerData:*;
+private var roomServerData:ISFSObject;
 
 public function LobbyDetailsPopup(roomData:Object)
 {
@@ -46,6 +47,8 @@ public function LobbyDetailsPopup(roomData:Object)
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
+	if( roomData.all == null )
+		params.putBool("all", true);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_DATA, params);
 }
@@ -83,6 +86,8 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 	
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
 	roomServerData = event.params.params as SFSObject;
+	if( roomServerData.containsKey("all") )
+		roomData.all = roomServerData.getSFSArray("all");
 	if( transitionState >= TransitionData.STATE_IN_FINISHED )
 		showDetails();
 }
@@ -101,7 +106,7 @@ private function showDetails():void
 	
 	var features:Array = new Array();
 	features.push( {key:"min", value:roomServerData.getInt("min")} );
-	features.push( {key:"sum", value:Math.floor(roomData.sum/roomData.num)} );
+	features.push( {key:"sum", value:roomData.sum} );
 	features.push( {key:"max", value:roomData.max} );
 	
 	//trace(sfsData.getDump())
@@ -112,9 +117,7 @@ private function showDetails():void
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
 	
-	var ms:Array = SFSArray(roomServerData.getSFSArray("all")).toArray();
-	ms.sortOn("po", Array.NUMERIC|Array.DESCENDING);
-	memberCollection = new ListCollection(ms);
+	memberCollection = new ListCollection(SFSArray(roomData.all).toArray());
 	
 	var membersList:FastList = new FastList();
 	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("theme/slider-background", "gui");
@@ -157,18 +160,18 @@ private function membersList_focusInHandler(event:Event):void
 	if( selectedData.id != player.id )
 	{
 		var user:Object = findUser(player.id);
-		if( user != null && user.pr != null && user.pr > selectedData.pr )
+		if( user != null && user.permission != null && user.permission > selectedData.permission )
 			btns.push( "lobby_kick" );
 	}
 	buttonsPopup = new SimpleListPopup();
 	buttonsPopup.buttons = btns;
 	buttonsPopup.data = selectedData;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	buttonsPopup.paddind = 24 * appModel.scale;
+	buttonsPopup.padding = 24 * appModel.scale;
 	buttonsPopup.buttonsWidth = 320 * appModel.scale;
 	buttonsPopup.buttonHeight = 120 * appModel.scale;
-	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.paddind * 2;
-	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.paddind * 2;
+	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
+	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
 	var floatingY:int = selectedItem.getBounds(stage).y
 	var ti:TransitionData = new TransitionData(0.2);
 	ti.transition = Transitions.EASE_OUT_BACK;
@@ -188,7 +191,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
 	if( event.data == "lobby_profile" )
 	{
-		var profilePopup:ProfilePopup = new ProfilePopup(buttonsPopup.data.na, buttonsPopup.data.id);
+		var profilePopup:ProfilePopup = new ProfilePopup(buttonsPopup.data.name, buttonsPopup.data.id);
 		//profilePopup.addEventListener(Event.SELECT, profilePopup_eventsHandler);
 		//profilePopup.addEventListener(Event.CANCEL, profilePopup_eventsHandler);
 		//profilePopup.declineStyle = "danger";
@@ -205,7 +208,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 			var params:SFSObject = new SFSObject();
 			params.putInt("id", buttonsPopup.data.id);
-			params.putUtfString("name", buttonsPopup.data.na);
+			params.putUtfString("name", buttonsPopup.data.name);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_KICK, params, SFSConnection.instance.myLobby);
 		}
 	}

@@ -108,9 +108,9 @@ public function set label(value:String):void
 		return;
 	_label = value;
 	if( labelDisplay )
-		labelDisplay.text = _label
+		labelDisplay.text = _label;
 	if( shadowDisplay )
-		shadowDisplay.text = _label
+		shadowDisplay.text = _label;
 }
 
 public function get icon():Texture
@@ -144,7 +144,6 @@ public function set style(value:String):void
 {
 	if( _style == value )
 		return;
-	
 	_style = value;
 	updateTextures();
 }

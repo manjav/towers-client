@@ -94,14 +94,14 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	chatList = new FastList();
 	chatList.layout = chatLayout;
 	chatList.layoutData = new AnchorLayoutData(0, 0, footerSize+padding, 0);
-	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
+	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer(data)};
 	chatList.dataProvider = messageCollection;
 	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);
 	setTimeout(chatList.scrollToDisplayIndex, 100, messageCollection.length-1, 0.2);
 	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 	addChild(chatList);
 
-	header = new LobbyHeader(SFSConnection.instance.myLobby);
+	header = new LobbyHeader(SFSConnection.instance.myLobby, data);
 	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);

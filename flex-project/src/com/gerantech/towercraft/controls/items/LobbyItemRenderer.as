@@ -1,13 +1,8 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 
-import flash.text.engine.ElementFormat;
-
-import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -22,10 +17,11 @@ public class LobbyItemRenderer extends BaseCustomItemRenderer
 	private var nameDisplay:RTLLabel;
 	private var nameShadowDisplay:RTLLabel;
 	private var pointDisplay:RTLLabel;
-	private var pointIconDisplay:ImageLoader;
 	private var populationDisplay:RTLLabel;
 
 	private var mySkin:ImageSkin;
+
+	private var activenessDisplay:RTLLabel;
 
 	override protected function initialize():void
 	{
@@ -48,20 +44,27 @@ public class LobbyItemRenderer extends BaseCustomItemRenderer
 		nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/12);
 		addChild(nameDisplay);
 		
-		populationDisplay = new RTLLabel("", 0, appModel.isLTR?"right":"left", null, false, null, 0.9);
+		activenessDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
+		activenessDisplay.width = padding * 4;
+		activenessDisplay.pixelSnapping = false;
+		activenessDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*11:NaN, NaN, appModel.isLTR?NaN:padding*11, NaN, 0);
+		addChild(activenessDisplay);
+		
+		populationDisplay = new RTLLabel("", 0, "center", null, false, null, 0.9);
+		populationDisplay.width = padding * 4;
 		populationDisplay.pixelSnapping = false;
-		populationDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*8:NaN, NaN, appModel.isLTR?NaN:padding*8, NaN, 0);
+		populationDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*6:NaN, NaN, appModel.isLTR?NaN:padding*6, NaN, 0);
 		addChild(populationDisplay);
 		
-		pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1);
+		pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
 		pointDisplay.pixelSnapping = false;
-		pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*3.2:NaN, NaN, appModel.isLTR?NaN:padding*3.2, NaN, 0);
+		pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
 		addChild(pointDisplay);
 		
-		pointIconDisplay = new ImageLoader();
+		/*pointIconDisplay = new ImageLoader();
 		pointIconDisplay.source = Assets.getTexture("res-1001", "gui");
 		pointIconDisplay.layoutData = new AnchorLayoutData(padding/3, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
-		addChild(pointIconDisplay);
+		addChild(pointIconDisplay);*/
 		
 		addEventListener(Event.TRIGGERED, item_triggeredHandler);
 	}
@@ -75,7 +78,8 @@ public class LobbyItemRenderer extends BaseCustomItemRenderer
 		height = 120 * appModel.scale;
 		nameDisplay.text = _data.name ;
 		nameShadowDisplay.text = _data.name ;
-		pointDisplay.text = "" + Math.floor(_data.sum / _data.num);
+		activenessDisplay.text = "" + Math.ceil(_data.act/10);
+		pointDisplay.text = "" + _data.sum;
 		populationDisplay.text = _data.num + "/" + _data.max;
 	}
 	

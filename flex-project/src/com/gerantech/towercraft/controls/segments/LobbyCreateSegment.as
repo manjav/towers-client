@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.Switcher;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -37,7 +38,7 @@ override protected function initialize():void
 	controlWidth = 240 * appModel.scale;
 	var controlH:int = 96 * appModel.scale;
 	
-	var tilteDisplay:RTLLabel = new RTLLabel("دهکده خودت رو بساز",1, "center" );
+	var tilteDisplay:RTLLabel = new RTLLabel(loc("lobby_create_message"), 1, "center" );
 	tilteDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
 	addChild(tilteDisplay);
 
@@ -50,9 +51,16 @@ override protected function initialize():void
 	errorDisplay.layoutData = new AnchorLayoutData( controlH*11, padding, controlH*2, padding );
 	addChild(errorDisplay);
 	
-	var createButton:CustomButton = new CustomButton();
-	createButton.layoutData = new AnchorLayoutData(NaN, NaN, controlH, NaN, 0);
-	createButton.label = "Create";
+	var createMessage:RTLLabel = new RTLLabel(loc("lobby_create_button"), 0, null, null, false, null, 0.8);
+	createMessage.layoutData = new AnchorLayoutData(NaN, NaN, controlH*2, NaN, 0);
+	addChild(createMessage);
+
+	var createButton:ExchangeButton = new ExchangeButton();
+	createButton.width = controlH * 4;
+	createButton.isEnabled = game.lobby.creatable();
+	createButton.count = game.lobby.get_createRequirements().values()[0];
+	createButton.type = game.lobby.get_createRequirements().keys()[0];
+	createButton.layoutData = new AnchorLayoutData(NaN, NaN, controlH*0.5, NaN, 0);
 	createButton.addEventListener(Event.TRIGGERED,  createButton_triggeredHandler);
 	addChild(createButton);
 }
@@ -114,11 +122,14 @@ protected function sfsConnectionroomCreateRresponseHandler(event:SFSEvent):void
 	var data:SFSObject = event.params.params as SFSObject;
 	if( data.getInt("response") >= 0 )
 	{
+		game.lobby.create();
 		dispatchEventWith(Event.UPDATE, true);
 		return;
 	}
 	if( data.getInt("response") == -1 )
-		appModel.navigator.addLog(loc("lobby_exits_message"));
+		appModel.navigator.addLog(loc("lobby_create_exits_message"));
+	else 
+		appModel.navigator.addLog(loc("lobby_create_error_message"));
 }
 }
 }

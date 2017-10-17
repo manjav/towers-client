@@ -8,7 +8,9 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 	import com.gerantech.towercraft.events.GameEvent;
+	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -106,6 +108,12 @@ package com.gerantech.towercraft.controls.screens
 			switch(event.params.cmd)
 			{
 				case SFSCommands.START_BATTLE:
+					if( data.containsKey("umt") )
+					{
+						showUMPopup(data);
+						return;
+					}	
+					
 					var battleData:BattleData = new BattleData(data);
 					appModel.battleFieldView = new BattleFieldView();
 					addChild(appModel.battleFieldView);
@@ -137,6 +145,21 @@ package com.gerantech.towercraft.controls.screens
 					break;
 			}
 //				trace(event.params.cmd, data.getDump());
+		}
+		
+		private function showUMPopup(data:SFSObject):void
+		{
+			if( !waitingOverlay.ready )
+			{
+				waitingOverlay.addEventListener(Event.READY, waitingOverlay_readyHandler);
+				function waitingOverlay_readyHandler():void {
+					showUMPopup(data);
+				}
+				return;
+			}
+			appModel.navigator.addPopup(new UnderMaintenancePopup(data.getInt("umt"), false));
+			waitingOverlay.disappear();
+			dispatchEventWith(Event.COMPLETE);			
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

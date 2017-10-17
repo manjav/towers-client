@@ -22,7 +22,6 @@ package com.gerantech.towercraft.controls.popups
 	public class BuildingDetailsPopup extends SimplePopup
 	{
 		public var buildingType:int;
-		
 		private var building:Building;
 
 		override protected function initialize():void
@@ -64,11 +63,14 @@ package com.gerantech.towercraft.controls.popups
 			addChild(featureList);
 			
 			var upgradeButton:ExchangeButton = new ExchangeButton();
+			upgradeButton.disableSelectDispatching = true;
 			upgradeButton.count = building.get_upgradeCost();
 			upgradeButton.type = ResourceType.CURRENCY_SOFT;
 			upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 			upgradeButton.height = 110*appModel.scale;
 			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+			upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
+			upgradeButton.isEnabled = player.has(building.get_upgradeRequirements());
 			addChild(upgradeButton);
 			
 			/*upgradeButton.alpha = 0;
@@ -99,6 +101,10 @@ package com.gerantech.towercraft.controls.popups
 		{
 			close();
 		}*/
+		private function upgradeButton_selectHandler(event:Event):void
+		{
+			appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("building_title_"+buildingType)]));
+		}
 		private function upgradeButton_triggeredHandler():void
 		{
 			dispatchEventWith(Event.UPDATE, false, building);

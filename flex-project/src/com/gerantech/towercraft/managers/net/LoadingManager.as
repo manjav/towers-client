@@ -140,7 +140,12 @@ package com.gerantech.towercraft.managers.net
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 			serverData = event.params.data;
 			
-			if(serverData.containsKey("exists"))
+			if( serverData.containsKey("umt") )
+			{
+				dispatchEvent(new LoadingEvent(LoadingEvent.UNDER_MAINTENANCE, serverData));
+				return;
+			}			
+			if( serverData.containsKey("exists") )
 			{
 				dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 				return;

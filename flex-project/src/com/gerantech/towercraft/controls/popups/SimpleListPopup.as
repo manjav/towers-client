@@ -18,7 +18,7 @@ package com.gerantech.towercraft.controls.popups
 	public class SimpleListPopup extends AbstractPopup
 	{
 		public var buttons:Array;
-		public var paddind:int = 24;
+		public var padding:int = 24;
 		public var buttonsWidth:int = 24;
 		public var buttonHeight:int = 24;
 
@@ -45,7 +45,7 @@ package com.gerantech.towercraft.controls.popups
 		{
 			super.transitionInCompleted();
 			list = new List();
-			list.layoutData = new AnchorLayoutData( paddind, paddind, paddind, paddind);
+			list.layoutData = new AnchorLayoutData( padding, padding, padding, padding);
 			list.itemRendererFactory = function ():IListItemRenderer { return new FloatingListItemRenderer(buttonHeight);};
 			list.dataProvider = new ListCollection(buttons);
 			list.addEventListener(Event.CHANGE, list_changeHandler);

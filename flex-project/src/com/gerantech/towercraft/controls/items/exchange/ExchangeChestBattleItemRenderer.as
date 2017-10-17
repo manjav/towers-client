@@ -45,7 +45,6 @@
 				buttonDisplay = new ExchangeButton();
 				buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 				buttonDisplay.height = 96 * appModel.scale;
-				addChild(buttonDisplay);
 			}
 			if( chestArmature == null )
 			{
@@ -54,9 +53,10 @@
 				chestArmature.x = width * 0.5;
 				chestArmature.y = height * 0.6;
 				chestArmature.animation.gotoAndStopByProgress("fall", 1);
-				addChildAt(chestArmature, 1);
 			}
 			updateElements();
+			addChild(chestArmature);
+			addChild(buttonDisplay);
 		}
 		
 		private function chestArmature_completeHandler(event:StarlingEvent):void
@@ -85,6 +85,7 @@
 			}
 			else if( _state == ExchangeItem.CHEST_STATE_BUSY )
 			{
+				buttonDisplay.style = "danger";
 				updateCounter();
 				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;
