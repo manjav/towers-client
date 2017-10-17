@@ -82,8 +82,10 @@ override protected function initialize():void
 	addChild(messageDisplay);
 	
 	buttonDisplay = new ExchangeButton();
+	buttonDisplay.disableSelectDispatching = true;
 	buttonDisplay.width = 300 * appModel.scale;
 	buttonDisplay.height = 110 * appModel.scale;
+	buttonDisplay.addEventListener(Event.SELECT, batton_selectHandler);
 	buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
 	
@@ -109,6 +111,7 @@ override protected function initialize():void
 	}
 	addChild(buttonDisplay);
 }
+
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
@@ -132,8 +135,8 @@ private function updateButton(type:int, count:int):void
 {
 	buttonDisplay.count = count;
 	buttonDisplay.type = type;
-	if( item.category == ExchangeType.CHEST_CATE_120_OFFERS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
-		buttonDisplay.isEnabled = player.resources.get(type) >= count;
+if( item.category == ExchangeType.CHEST_CATE_120_OFFERS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
+		buttonDisplay.isEnabled = player.resources.get(type) >= count;	
 	else 
 		buttonDisplay.isEnabled = exchanger.readyToStartOpening(item.type, timeManager.now)
 }
@@ -154,6 +157,13 @@ private function updateCounter():void
 	messageDisplay.text = loc("popup_chest_message_skip", [exchanger.timeToHard(t)])
 }
 
+private function batton_selectHandler(event:Event):void
+{
+	if( item.category == ExchangeType.CHEST_CATE_110_BATTLES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
+		appModel.navigator.addLog(loc("popup_chest_error_exists"));
+	else
+		appModel.navigator.addLog(loc("popup_chest_error_resource"));
+}
 private function batton_triggeredHandler(event:Event):void
 {
 	dispatchEventWith(Event.SELECT, false, item);
