@@ -3,8 +3,13 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.Fields;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
+import com.gt.towers.utils.lists.PlaceDataList;
+
+import flash.utils.clearInterval;
+import flash.utils.setInterval;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -18,6 +23,7 @@ public static var questIndex:int;
 
 private var shire:FieldData;
 private var container:Sprite;
+private var intervalId:uint;
 
 public function QuestMapItemRenderer()
 {
@@ -54,7 +60,7 @@ override protected function commitData():void
 			color = "passed";
 		else if( item.index == questIndex )
 			color = "current";
-		
+
 		var pin:Image = new Image(Assets.getTexture("map-pin-" + color, "quests"));
 		pin.alignPivot();
 		pin.touchable = false;
@@ -105,6 +111,9 @@ override protected function commitData():void
 					}
 				}
 			}
+			
+			if( item.index == questIndex )
+				intervalId = setInterval(punchButton, 2000,  pinButton);
 		} 
 		else
 		{
@@ -124,9 +133,20 @@ override protected function commitData():void
 private function pinButton_triggeredHandler(event:Event):void
 {
 	var btn:SimpleButton = event.currentTarget as SimpleButton;
-	btn.scale = 0.4;
-	Starling.juggler.tween(btn, 0.9, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
+	punchButton(btn);
 	owner.dispatchEventWith(Event.SELECT, false, btn);
+}
+
+private function punchButton(button:SimpleButton):void
+{
+	button.scale = 0.4;
+	Starling.juggler.tween(button, 0.9, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});	
+}
+
+override public function dispose():void
+{
+	clearInterval(intervalId);
+	super.dispose();
 }
 }
 }
