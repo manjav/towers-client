@@ -9,7 +9,6 @@ import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 
 import flash.filesystem.File;

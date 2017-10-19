@@ -5,7 +5,6 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.screens.QuestMapScreen;
-	import com.gerantech.towercraft.controls.screens.QuestsScreen;
 	import com.gerantech.towercraft.controls.screens.SettingsScreen;
 	import com.gerantech.towercraft.controls.screens.SocialScreen;
 	import com.gerantech.towercraft.models.AppModel;
