@@ -36,15 +36,20 @@ package com.gerantech.towercraft.models
 		/**
 		 * Texture Atlas 
 		 */
+		[Embed(source="../../../../assets/images/battlefields.atf", mimeType="application/octet-stream")]
+		public static const battlefieldsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/battlefields.xml", mimeType="application/octet-stream")]
+		public static const battlefieldsAtlasXml:Class;		
+		
 		[Embed(source="../../../../assets/images/troops.png")]
 		public static const troopsAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
 		public static const troopsAtlasXml:Class;
 		
-		[Embed(source="../../../../assets/images/battlefields.atf", mimeType="application/octet-stream")]
-		public static const battlefieldsAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/battlefields.xml", mimeType="application/octet-stream")]
-		public static const battlefieldsAtlasXml:Class;		
+		[Embed(source="../../../../assets/images/quests.atf", mimeType="application/octet-stream")]
+		public static const questsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/quests.xml", mimeType="application/octet-stream")]
+		public static const questsAtlasXml:Class;
 		
 		[Embed(source="../../../../assets/images/gui.atf", mimeType="application/octet-stream")]
 		public static const guiAtlasTexture:Class;
@@ -71,20 +76,16 @@ package com.gerantech.towercraft.models
 		{
 			if (allTextures[name] == undefined)
 			{
-				if( name == "battlefieldsAtlasTexture" || name == "guiAtlasTexture")
+				if( name == "troopsAtlasTexture" )
 				{
-					allTextures[name] = Texture.fromAtfData(new Assets[name](), 2, false);
+					var atlasBitmapData:BitmapData = Bitmap(new Assets[name]()).bitmapData;
+					allTextures[name] = Texture.fromBitmapData(atlasBitmapData, false, false, 2);
+					atlasBitmapData.dispose();
 				}
 				else
 				{	
-					var atlasBitmapData:BitmapData = Bitmap(new Assets[name]()).bitmapData;
-					allTextures[name] = Texture.fromBitmapData(atlasBitmapData, false, false, 2);
-					
-					//atlasTexture.root.onRestore = this.atlasTexture_onRestore;
-					atlasBitmapData.dispose();
+					allTextures[name] = Texture.fromAtfData(new Assets[name](), name=="questsAtlasTexture"?1:2, false);
 				}
-				
-				//allTextures[name] = Texture.fromBitmap(new Assets[name]());
 			}
 			return allTextures[name];
 		}
