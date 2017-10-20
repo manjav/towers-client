@@ -87,7 +87,7 @@ package com.gerantech.towercraft.managers
 			var title:String = AppModel.instance.descriptor.name;
 		//	trace(title, iconFile.exists ,soundFile.exists  )
 			NativeAbilities.instance.scheduleLocalNotification(title, title, loc(message), time, 0, "", "", iconFile.exists?iconFile.nativePath:"", soundFile.exists?soundFile.nativePath:"");
-			var d:Date = new Date();d.time=time;trace(title, message, d)
+			//var d:Date = new Date();d.time=time;trace(title, message, d)
 		}
 		
 		public function clear():void
