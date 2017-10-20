@@ -4,7 +4,7 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.controls.screens.ArenaScreen;
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
-	import com.gerantech.towercraft.controls.screens.QuestsScreen;
+	import com.gerantech.towercraft.controls.screens.QuestMapScreen;
 	import com.gerantech.towercraft.controls.screens.SettingsScreen;
 	import com.gerantech.towercraft.controls.screens.SocialScreen;
 	import com.gerantech.towercraft.models.AppModel;
@@ -43,7 +43,7 @@ package com.gerantech.towercraft
 
 			addScreen(DASHBOARD_SCREEN,	DashboardScreen);
 			addScreen(ARENA_SCREEN,		ArenaScreen);
-			addScreen(QUESTS_SCREEN, 	QuestsScreen);
+			addScreen(QUESTS_SCREEN, 	QuestMapScreen);
 			addScreen(BATTLE_SCREEN, 	BattleScreen, false);
 			addScreen(SOCIAL_SCREEN, 	SocialScreen);
 			addScreen(SETTINGS_SCREEN, 	SettingsScreen);

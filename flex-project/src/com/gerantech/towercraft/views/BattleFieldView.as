@@ -74,7 +74,7 @@ package com.gerantech.towercraft.views
 			this.battleData = battleData;
 			responseSender = new ResponseSender(battleData.room);
 			
-			var images:Vector.<Image> = Fields.getField(battleData.battleField.map);
+			var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields", true);
 			for each(var img:Image in images)
 				addChild(img);
 			

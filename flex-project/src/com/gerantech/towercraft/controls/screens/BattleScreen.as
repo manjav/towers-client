@@ -10,12 +10,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 	import com.gerantech.towercraft.events.GameEvent;
-	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
@@ -648,7 +646,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			player.inFriendlyBattle = false;
 			removeConnectionListeners();
-			appModel.sounds.playSoundUnique("main-theme", 1, 100);
+			setTimeout(appModel.sounds.playSoundUnique, 2000, "main-theme", 1, 100);
 			removeChild(appModel.battleFieldView, true);
 			super.dispose();
 		}
