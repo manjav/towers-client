@@ -224,9 +224,9 @@ package com.gerantech.towercraft.controls.screens
 			function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 			
 			//Game Analytic
-			if(GameAnalytics.isInitialized)
+			if( GameAnalytics.isInitialized )
 			{
-				if(AppModel.instance.game.player.inFriendlyBattle)
+				if( appModel.game.player.inFriendlyBattle )
 				{
 					if(sfsConnection.mySelf.isSpectator)
 						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "FB-Spectator", quest.index.toString());
@@ -235,7 +235,7 @@ package com.gerantech.towercraft.controls.screens
 				}
 				else
 				{
-					if(sfsConnection.mySelf.isSpectator)
+					if( sfsConnection.mySelf.isSpectator )
 						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", "Spectator", quest.index.toString());
 					else
 						GameAnalytics.addProgressionEvent(GAProgressionStatus.START, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString());
@@ -290,7 +290,7 @@ package com.gerantech.towercraft.controls.screens
 			// Game Analytic
 			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator)
 			{
-				if(AppModel.instance.game.player.inFriendlyBattle)
+				if( appModel.game.player.inFriendlyBattle )
 					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
 				else
 					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
