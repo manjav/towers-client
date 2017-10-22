@@ -41,7 +41,7 @@ package com.gerantech.towercraft.models
 		[Embed(source="../../../../assets/images/battlefields.xml", mimeType="application/octet-stream")]
 		public static const battlefieldsAtlasXml:Class;		
 		
-		[Embed(source="../../../../assets/images/troops.png")]
+		[Embed(source="../../../../assets/images/troops.atf", mimeType="application/octet-stream")]
 		public static const troopsAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
 		public static const troopsAtlasXml:Class;
@@ -76,16 +76,16 @@ package com.gerantech.towercraft.models
 		{
 			if (allTextures[name] == undefined)
 			{
-				if( name == "troopsAtlasTexture" )
+				/*if( name == "troopsAtlasTexture" )
 				{
 					var atlasBitmapData:BitmapData = Bitmap(new Assets[name]()).bitmapData;
 					allTextures[name] = Texture.fromBitmapData(atlasBitmapData, false, false, 2);
 					atlasBitmapData.dispose();
 				}
 				else
-				{	
+				{	*/
 					allTextures[name] = Texture.fromAtfData(new Assets[name](), name=="questsAtlasTexture"?1:2, false);
-				}
+				//}
 			}
 			return allTextures[name];
 		}

@@ -162,7 +162,7 @@ package com.gerantech.towercraft.views
 		}
 		public function rush(t:TroopView):void
 		{
-			if(place.building.get_population() > 0)
+			if( place.building.get_population() > 0 )
 				t.rush(place);
 		}
 		
