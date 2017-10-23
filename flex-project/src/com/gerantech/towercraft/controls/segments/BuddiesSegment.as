@@ -22,7 +22,6 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
 
 import flash.geom.Rectangle;
-import flash.utils.setTimeout;
 
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
@@ -59,6 +58,9 @@ override public function updateData():void
 override public function init():void
 {
 	super.init();
+	if( initializeCompleted )
+		return;
+	
 	layout = new AnchorLayout();
 	
 	var listLayout:VerticalLayout = new VerticalLayout();
@@ -86,6 +88,7 @@ override public function init():void
 	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
 	list.itemRendererFactory = function():IListItemRenderer { return new BuddyItemRenderer(); }
 	list.dataProvider = buddyCollection;
+	initializeCompleted = true;
 }
 
 protected function sfs_buddyVariablesUpdateHandler(event:SFSBuddyEvent):void
