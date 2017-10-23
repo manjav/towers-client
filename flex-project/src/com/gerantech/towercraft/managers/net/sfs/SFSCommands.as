@@ -30,7 +30,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const LOBBY_INFO:String = "lobbyInfo";
 		public static const LOBBY_JOIN:String = "lobbyJoin";
 		public static const LOBBY_LEAVE:String = "lobbyLeave";
-		public static const LOBBY_KICK:String = "lobbyKick";
+		public static const LOBBY_MODERATION:String = "lobbyModeration";
 		public static const LOBBY_EDIT:String = "lobbyEdit";
 		public static const LOBBY_PUBLIC_MESSAGE:String = "m";
 		

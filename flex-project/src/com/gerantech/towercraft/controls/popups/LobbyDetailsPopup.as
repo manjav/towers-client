@@ -8,6 +8,7 @@ import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -161,7 +162,14 @@ private function membersList_focusInHandler(event:Event):void
 	{
 		var user:Object = findUser(player.id);
 		if( user != null && user.permission != null && user.permission > selectedData.permission )
-			btns.push( "lobby_kick" );
+		{
+			if( user.permission > 1 )
+				btns.push( "lobby_kick" );
+			if( user.permission > selectedData.permission + 1 )
+				btns.push( "lobby_promote" );
+			if( selectedData.permission > 1 )
+				btns.push( "lobby_demote" );
+		}
 	}
 	buttonsPopup = new SimpleListPopup();
 	buttonsPopup.buttons = btns;
@@ -198,10 +206,11 @@ private function buttonsPopup_selectHandler(event:Event):void
 		//profilePopup.declineStyle = "danger";
 		appModel.navigator.addPopup( profilePopup );
 	}
-	else if( event.data == "lobby_kick" )
+	else if( event.data == "lobby_kick" || event.data == "lobby_promote" || event.data == "lobby_demote" )
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
 		confirm.acceptStyle = "danger";
+		confirm.data = event.data;
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_selectHandler(evet:Event):void
@@ -210,7 +219,14 @@ private function buttonsPopup_selectHandler(event:Event):void
 			var params:SFSObject = new SFSObject();
 			params.putInt("id", buttonsPopup.data.id);
 			params.putUtfString("name", buttonsPopup.data.name);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_KICK, params, SFSConnection.instance.myLobby);
+			if( confirm.data == "lobby_promote" )
+				params.putShort("pr", MessageTypes.M13_COMMENT_PROMOTE);
+			else if( confirm.data == "lobby_demote" )
+				params.putShort("pr", MessageTypes.M14_COMMENT_DEMOTE);
+			else
+				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
+			
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.myLobby);
 		}
 	}
 	/*function profilePopup_eventsHandler ( event:Event ):void {
