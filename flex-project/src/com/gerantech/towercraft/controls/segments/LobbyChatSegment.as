@@ -194,7 +194,6 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	if( event.params.cmd != SFSCommands.LOBBY_PUBLIC_MESSAGE )
 		return;
 	
-	
 	var msg:ISFSObject = event.params.params as SFSObject;
 	if( msg.getShort("m") == MessageTypes.M0_TEXT )
 	{
@@ -236,9 +235,13 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			messageCollection.addItem(msg);
 		}
 	}
+	else if( MessageTypes.isComment(msg.getShort("m")) )
+	{
+		messageCollection.addItem(msg);
+	}
 	//traceList()
 	buttonsEnabled = getMyRequestBattleIndex() == -1;
-	setTimeout(chatList.scrollToDisplayIndex, 100, messageCollection.length-1, 0.2);
+	setTimeout(chatList.scrollToDisplayIndex, 100, messageCollection.length-1, 0.3);
 }
 
 private function gotoBattle():void
