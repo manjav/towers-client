@@ -1,11 +1,11 @@
-package com.gerantech.towercraft.controls
+package com.gerantech.towercraft.controls.tooltips
 {
+	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalLayout;
 	
 	import starling.display.Image;
@@ -29,8 +29,9 @@ package com.gerantech.towercraft.controls
 			super.initialize();
 			touchGroup = touchable = false;
 			
-			var sk:Image = new Image(Assets.getTexture("sticker-bubble-"+(inverse?"opponent":"me"), "gui"));
-			sk.scale9Grid = new Rectangle(inverse?19:7, inverse?17:7, 1, 1);
+			var sk:Image = new Image(Assets.getTexture("tooltip-bg-"+(inverse?"top-left":"bot-right"), "gui"));
+			//sk.scale9Grid = new Rectangle(halign=="left"?19:8, valign=="top"?18:7, 1, 1);
+			sk.scale9Grid = new Rectangle(inverse?19:8, inverse?18:7, 1, 1);
 			backgroundSkin = sk;
 			
 			var hlayout:HorizontalLayout = new HorizontalLayout();

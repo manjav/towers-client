@@ -115,7 +115,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	
 	sendButton = new CustomButton();
 	sendButton.width = sendButton.height = footerSize;
-	sendButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
+	sendButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
 	sendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 	sendButton.layoutData = new AnchorLayoutData(NaN, footerSize+padding*2, 0, NaN);
 	sendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
