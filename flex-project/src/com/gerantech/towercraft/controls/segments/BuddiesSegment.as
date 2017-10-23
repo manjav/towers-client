@@ -141,8 +141,9 @@ protected function list_focusInHandler(event:Event):void
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
 	var floatingY:int = selectedItem.getBounds(stage).y
 	var ti:TransitionData = new TransitionData(0.2);
-	ti.transition = Transitions.EASE_OUT_BACK;
 	var to:TransitionData = new TransitionData(0.2);
+	to.sourceConstrain = ti.destinationConstrain = this.getBounds(stage);
+	ti.transition = Transitions.EASE_OUT_BACK;
 	to.sourceAlpha = 1;
 	to.destinationAlpha = 0;
 	to.destinationBound = ti.sourceBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.4, floatingW, floatingH*0.8);
