@@ -101,7 +101,7 @@ protected override function transitionInCompleted():void
 private function showDetails():void
 {
 	var messageDisplay:RTLLabel = new RTLLabel(roomServerData.getText("bio"), 1, "justify", null, true, null, 0.6);
-	messageDisplay.layoutData = new AnchorLayoutData(padding*3, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	messageDisplay.layoutData = new AnchorLayoutData(padding*3.4, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
 	addChild(messageDisplay);
 	
 	var features:Array = new Array();

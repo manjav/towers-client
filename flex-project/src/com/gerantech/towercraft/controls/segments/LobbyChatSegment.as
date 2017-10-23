@@ -86,7 +86,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	var padding:int = 16 * appModel.scale;
 	
 	var chatLayout:VerticalLayout = new VerticalLayout();
-	chatLayout.paddingTop = headerSize;
+	chatLayout.paddingTop = headerSize + padding * 2;
 	chatLayout.useVirtualLayout = true;
 	chatLayout.hasVariableItemDimensions = true;
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;

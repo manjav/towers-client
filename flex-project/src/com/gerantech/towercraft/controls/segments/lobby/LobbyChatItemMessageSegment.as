@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -22,16 +23,20 @@ private var meSkin:ImageLoader;
 private var otherSkin:ImageLoader;
 
 private var date:Date;
+private var inPadding:int;
 private var senderLayout:AnchorLayoutData;
 private var roleLayout:AnchorLayoutData;
 private var messageLayout:AnchorLayoutData;
 private var dateLayout:AnchorLayoutData;
+
 
 override public function init():void
 {
 	super.init();
 	
 	date = new Date();
+	inPadding = padding * 0.5;
+
 	meSkin = new ImageLoader();
 	meSkin.scale9Grid = new Rectangle(22, 17, 4, 4);
 	meSkin.visible = false;
@@ -47,23 +52,24 @@ override public function init():void
 	addChild(otherSkin);
 	
 	senderDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
-	senderLayout = new AnchorLayoutData( padding * 0.5 );
+	senderLayout = new AnchorLayoutData( padding );
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 	
 	roleDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.7);
-	roleLayout = new AnchorLayoutData( padding * 0.5 );
+	roleLayout = new AnchorLayoutData( padding );
 	roleDisplay.layoutData = roleLayout;
 	addChild(roleDisplay);
 	
 	messageDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
-	//messageDisplay.leading = -10*appModel.scale;
-	messageLayout = new AnchorLayoutData( padding * 1.3 );
+	if( appModel.platform == AppModel.PLATFORM_ANDROID )
+		messageDisplay.leading = -padding;
+	messageLayout = new AnchorLayoutData( padding * 2 , 0, padding, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 	
 	dateDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.7);
-	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding:NaN, padding * 0.5, appModel.isLTR?NaN:padding );
+	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding );
 	dateDisplay.layoutData = dateLayout;			
 	addChild(dateDisplay);
 }
@@ -76,19 +82,20 @@ override public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
 	otherSkin.visible = !itsMe;
 	
 	senderDisplay.text = data.getText("s");
-	senderLayout.right = itsMe ? padding : otherPadding;
+	senderLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	
 	var user:ISFSObject = findUser(data.getInt("i"));
-	roleDisplay.text = user==null?"":(loc("lobby_role_" + user.getShort("pr")));
-	roleLayout.left = itsMe ? otherPadding : padding;
+	roleDisplay.text = user==null?"":(loc("lobby_role_" + user.getShort("permission")));
+	roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
 	messageDisplay.text = data.getUtfString("t")+"\n\n";
-	messageLayout.right = itsMe ? padding : otherPadding;
-	messageLayout.left = itsMe ? otherPadding : padding;
+	messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
+	messageLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
 	date.time = data.getInt("u")*1000;
 	dateDisplay.text = StrUtils.dateToTime(date);
-	dateLayout.left = itsMe ? otherPadding : padding;
+	dateLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
+	validate();
 }
 }
 }

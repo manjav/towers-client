@@ -84,8 +84,8 @@ override protected function commitData():void
 
 private function resetSize():void
 {
-	if( height != 0 || type==TYPE_COMMENT )
-		height = type==TYPE_COMMENT ? segment.padding*1.4 :(segment.height + segment.padding);
+	//if( height != 0 || type==TYPE_COMMENT )
+	//	height = type==TYPE_COMMENT ? segment.padding*1.4 :(segment.height + segment.padding);
 }
 }
 }

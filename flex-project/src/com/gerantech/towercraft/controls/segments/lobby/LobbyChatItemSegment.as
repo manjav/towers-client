@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
 import com.gerantech.towercraft.controls.segments.Segment;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -21,8 +20,8 @@ override public function init():void
 {
 	super.init();
 	layout = new AnchorLayout();
-	padding = 80 * appModel.scale;
-	otherPadding = 180 * appModel.scale;
+	padding = 48 * appModel.scale;
+	otherPadding = 120 * appModel.scale;
 }
 
 public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
@@ -45,6 +44,5 @@ protected function findUser(uid:int):ISFSObject
 	}
 	return null;
 }		
-
 }
 }
