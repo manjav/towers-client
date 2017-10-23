@@ -132,7 +132,7 @@ private function showDetails():void
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.height = 96 * appModel.scale;
-	joinleaveButton.isEnabled = roomData.max > roomData.num || room != null;
+	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomServerData.getInt("min")) || room != null;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
