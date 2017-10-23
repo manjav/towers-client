@@ -107,11 +107,11 @@
 				timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 				timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
 				timeDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
-				addChild(timeDisplay);	
 			}
 			var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
 			timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
 			buttonDisplay.count = exchanger.timeToHard(t);			
+			addChild(timeDisplay);	
 		}
 		
 		/*private function updateArmature():void

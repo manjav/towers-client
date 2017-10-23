@@ -74,7 +74,7 @@ package com.gerantech.towercraft.controls.segments
 			var listLayout:VerticalLayout = new VerticalLayout();
 			listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 			listLayout.hasVariableItemDimensions = true;
-			listLayout.paddingTop = 148 * appModel.scale;
+			listLayout.paddingTop = 120 * appModel.scale;
 			listLayout.useVirtualLayout = true;
 			
 			updateData();
