@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.items.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.LobbyMemberItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -17,15 +18,12 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
 
-import feathers.controls.LayoutGroup;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalAlign;
-import feathers.layout.VerticalLayout;
 
 import starling.animation.Transitions;
 import starling.events.Event;
@@ -35,12 +33,10 @@ public class LobbyDetailsPopup extends SimplePopup
 private var responseCode:int;
 private var params:SFSObject;
 private var roomData:Object;
-
-private var itsMyRoom:Boolean;
-
-private var memberCollection:ListCollection;
-private var buttonsPopup:SimpleListPopup;
 private var roomServerData:ISFSObject;
+private var itsMyRoom:Boolean;
+private var buttonsPopup:SimpleListPopup;
+private var memberCollection:ListCollection;
 
 public function LobbyDetailsPopup(roomData:Object)
 {
@@ -61,22 +57,15 @@ override protected function initialize():void
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
 	rejustLayoutByTransitionData();
 	
-	/*var buildingIcon:BuildingCard = new BuildingCard();
-	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-	buildingIcon.width = padding * 4;
-	buildingIcon.height = padding * 6;
-	addChild(buildingIcon);*/
+	var iconDisplay:EmblemButton = new EmblemButton(roomData.pic);
+	iconDisplay.touchable = false;
+	iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+	iconDisplay.width = padding * 4;
+	iconDisplay.height = padding * 4.2
+	addChild(iconDisplay);
 
-	var textLayout:VerticalLayout = new VerticalLayout();
-	textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	textLayout.gap = padding;
-	
-	var textsContainer:LayoutGroup = new LayoutGroup();
-	textsContainer.layout = textLayout;
-	addChild(textsContainer);
-	
 	var titleDisplay:RTLLabel = new RTLLabel(roomData.name);
-	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	titleDisplay.layoutData = new AnchorLayoutData(padding*0.8, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
 	addChild(titleDisplay);
 }
 
@@ -89,6 +78,8 @@ protected function sfsConnection_roomGetHandler(event:SFSEvent):void
 	roomServerData = event.params.params as SFSObject;
 	if( roomServerData.containsKey("all") )
 		roomData.all = roomServerData.getSFSArray("all");
+	roomData.bio = roomServerData.getText("bio");
+	roomData.min = roomServerData.getInt("min")
 	if( transitionState >= TransitionData.STATE_IN_FINISHED )
 		showDetails();
 }
@@ -101,12 +92,12 @@ protected override function transitionInCompleted():void
 
 private function showDetails():void
 {
-	var messageDisplay:RTLLabel = new RTLLabel(roomServerData.getText("bio"), 1, "justify", null, true, null, 0.6);
-	messageDisplay.layoutData = new AnchorLayoutData(padding*3.4, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
-	addChild(messageDisplay);
+	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 1, "justify", null, true, null, 0.6);
+	bioDisplay.layoutData = new AnchorLayoutData(padding*3.4, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	addChild(bioDisplay);
 	
 	var features:Array = new Array();
-	features.push( {key:"min", value:roomServerData.getInt("min")} );
+	features.push( {key:"min", value:roomData.min} );
 	features.push( {key:"sum", value:roomData.sum} );
 	features.push( {key:"max", value:roomData.max} );
 	
@@ -133,7 +124,7 @@ private function showDetails():void
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.height = 96 * appModel.scale;
-	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomServerData.getInt("min")) || room != null;
+	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || room != null;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
@@ -146,7 +137,20 @@ private function showDetails():void
 	closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
 	closeButton.width = closeButton.height = 96 * appModel.scale;
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	addChild(closeButton);	
+	addChild(closeButton);
+	
+	var u:Object = findUser(player.id);
+	if( u == null || u.permission <= 1 )
+		return;
+	
+	var editButton:CustomButton = new CustomButton();
+	editButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 92 * appModel.scale);
+	editButton.label = loc("lobby_edit");
+	editButton.width = 160 * appModel.scale;
+	editButton.height = 96 * appModel.scale;
+	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
+	addChild(editButton);
+	
 }
 
 private function membersList_focusInHandler(event:Event):void
@@ -295,6 +299,11 @@ override protected function transitionOutStarted():void
 {
 	removeChildren(2);
 	super.transitionOutStarted();
+}
+private function editButton_triggeredHandler(event:Event):void
+{
+	appModel.navigator.addPopup(new LobbyEditPopup(roomData));
+	close();
 }
 private function closeButton_triggeredHandler(event:Event):void
 {

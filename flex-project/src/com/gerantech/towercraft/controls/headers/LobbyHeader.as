@@ -88,7 +88,7 @@ protected function room_userChangeHandler(event:SFSEvent):void
 
 protected function infoButton_triggeredHandler(event:Event):void
 {
-	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:room.id, name:room.name, num:roomData.getInt("num"), sum:roomData.getInt("sum"), all:roomData.containsKey("all")?roomData.getSFSArray("all"):null, max:room.maxUsers});
+	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:room.id, name:room.name, pic:roomData.getInt("pic"), num:roomData.getInt("num"), sum:roomData.getInt("sum"), all:roomData.containsKey("all")?roomData.getSFSArray("all"):null, max:room.maxUsers});
 	detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	function detailsPopup_updateHandler(ev:Event):void 
