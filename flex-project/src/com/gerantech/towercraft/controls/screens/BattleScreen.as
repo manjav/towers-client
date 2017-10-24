@@ -28,6 +28,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.utils.PathFinder;
+	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.gt.towers.utils.maps.IntIntMap;
@@ -183,8 +184,21 @@ package com.gerantech.towercraft.controls.screens
 			{
 				// create tutorial steps
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.START_BATTLE);
-				if(quest.hasIntro)
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+player.get_questIndex()+"_intro"));
+
+				//quest start
+				var tuteText:IntList = quest.startNum;
+				if(quest.startNum.size() > 0)
+				{
+					for each (var i:int in tuteText) 
+					{
+						if(tuteText[i] % 2 == 0)
+							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start_mentor_" + tuteText[i]));
+						else
+							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start_enemy_" + tuteText[i]));
+					}
+					
+				}
+				//tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+player.get_questIndex()+"_intro"));
 				
 				var places:PlaceDataList = quest.getSwipeTutorPlaces();
 				if(places.size() > 0)
@@ -230,7 +244,7 @@ package com.gerantech.towercraft.controls.screens
 			var score:int = data.getInt("score");
 			var rewards:ISFSArray = data.getSFSArray("rewards");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
+			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
 			
 			// set quest score
 			if( quest.isQuest && player.quests.get( quest.index ) < score )
@@ -328,6 +342,19 @@ package com.gerantech.towercraft.controls.screens
 
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			
+			//quest end
+			var tuteText:IntList = quest.startNum;
+			if(quest.startNum.size() > 0)
+			{
+				for each (var i:int in tuteText) 
+				{
+					if(battleOutcomeOverlay.score > 0 && tuteText[i] >= 0)
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_win_" + tuteText[i]));
+					else if (tuteText[i] < 0)
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_defeat_" + tuteText[i]));
+				}	
+			}
 			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
 			{
 				//trace("battle screen -> end", player.get_questIndex());

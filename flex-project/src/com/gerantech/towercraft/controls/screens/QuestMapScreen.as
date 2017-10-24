@@ -12,6 +12,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
+import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.lists.PlaceDataList;
 
 import flash.geom.Rectangle;
@@ -90,14 +91,36 @@ override protected function transitionInCompleteHandler(event:Event):void
 		backButtonHandler();
 		return;	
 	}
-	
+	//quest intro
 	var tutorialData:TutorialData = new TutorialData("");
-	if( game.fieldProvider.quests.get( "quest_" + player.get_questIndex() ).hasStart )
-		tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start",  null, 200));
-
+	var quest:FieldData = game.fieldProvider.quests.get( "quest_" + player.get_questIndex() );
+	var tuteText:IntList = quest.introNum;
+	trace("introNum size:",quest.introNum.size());
+	trace("startNum size:",quest.startNum.size());
+	trace("endNum size:",quest.endNum.size());
+	trace("time size:", quest.times.size());
+	//trace("tuteText[0]:", tuteText[0]);
+	if(true)
+	{
+		for (var i:int ; i < tuteText.size() ; i++) 
+		{
+			trace("tuteText["+i+"]:", tuteText.get(i));
+			if(tuteText.get(i) % 2 == 0)
+			{
+				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_intro_mentor_" + tuteText.get(i)));
+				trace("tutor task mentor: " + "tutor_quest_" + player.get_questIndex() + "_intro_mentor_" + tuteText.get(i));
+			}
+			else
+			{
+				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_intro_villain _" + tuteText.get(i)));
+				trace("tutor task villain: " + "tutor_quest_" + player.get_questIndex() + "_intro_villain _" + tuteText.get(i));
+			}
+		}	
+	}
 	tutorials.show(this, tutorialData);
+	trace("here!");
 }
-	
+
 
 private function getQuestsData():ListCollection
 {

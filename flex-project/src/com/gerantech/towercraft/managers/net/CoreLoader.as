@@ -127,7 +127,7 @@ package com.gerantech.towercraft.managers.net
 		
 		private function convertField(fieldSource:*):FieldData
 		{
-			var ret:FieldData = new FieldData(fieldSource.index, fieldSource.name, fieldSource.hasStart, fieldSource.hasIntro, fieldSource.hasFinal, fieldSource.times._list.join(','));
+			var ret:FieldData = new FieldData(fieldSource.index, fieldSource.name, fieldSource.introNum, fieldSource.startNum, fieldSource.endNum, fieldSource.times._list.join(','));
 			ret.places = new PlaceDataList();
 			for ( var p:int=0; p<fieldSource.places.size(); p++ )
 			{
