@@ -14,9 +14,9 @@ package com.gerantech.towercraft.controls
 	public class Switcher extends TowersLayout
 	{
 		public var min:int;
-		public var value:int;
 		public var max:int;
 		public var stepInterval:int;
+		private var _value:int;
 
 		private var labelDisplay:RTLLabel;
 		
@@ -27,7 +27,8 @@ package com.gerantech.towercraft.controls
 			this.max = max;
 			this.stepInterval = stepInterval;
 		}
-		
+
+
 		override protected function initialize():void
 		{
 			super.initialize();
@@ -63,13 +64,26 @@ package com.gerantech.towercraft.controls
 		private function leftButton_triggerdHandler(event:Event):void
 		{
 			value = Math.max(Math.min(max, value-stepInterval), min);
-			labelDisplay.text = value.toString();
 		}
 		
 		private function rightButton_triggerdHandler(event:Event):void
 		{
 			value = Math.max(Math.min(max, value+stepInterval), min);
-			labelDisplay.text = value.toString();
+		}
+		
+		
+		public function get value():int
+		{
+			return _value;
+		}
+		public function set value(val:int):void
+		{
+			if( _value == val )
+				return;
+			
+			_value = val;
+			if( labelDisplay )
+				labelDisplay.text = _value.toString();
 		}
 		
 	}
