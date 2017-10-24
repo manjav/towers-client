@@ -61,7 +61,7 @@ private function navigator_changeHandler(event:Event):void
 {
 	if( toolbar && AppModel.instance.loadingManager.state >= LoadingManager.STATE_LOADED )
 	{
-		if( activeScreenID != Main.DASHBOARD_SCREEN )
+		if( activeScreenID != Main.DASHBOARD_SCREEN && activeScreenID != Main.QUESTS_SCREEN )
 		{
 			toolbar.removeFromParent();
 			return;
