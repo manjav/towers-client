@@ -16,7 +16,6 @@ package com.gerantech.towercraft.controls.segments
 	import flash.text.SoftKeyboardType;
 	import flash.utils.setTimeout;
 	
-	import feathers.controls.ButtonState;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
 	import feathers.events.FeathersEventType;
