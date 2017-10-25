@@ -256,7 +256,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE, params);
 			SFSConnection.instance.lastJoinedRoom = null;
-			SFSConnection.instance.lobbyManager = null;
+			SFSConnection.instance.lobbyManager.lobby = null;
 			updateLobbyLayout(false);
 		}
 		return;
@@ -271,7 +271,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
-	SFSConnection.instance.lobbyManager = null;
+	SFSConnection.instance.lobbyManager.lobby = null;
 	updateLobbyLayout(true);
 }
 

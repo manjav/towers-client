@@ -28,11 +28,21 @@ private var player:Player;
 
 public function LobbyManager()
 {
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
-	lobby = SFSConnection.instance.getLobby();
-	if( lobby == null )
+	initialize();
+}
+
+public function initialize():void
+{
+	var _lobby:Room = SFSConnection.instance.getLobby();
+	if( _lobby == null )
+	{
+		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
+		return;
+	}
+	if( lobby != null && lobby.id == _lobby.id )
 		return;
 	
+	lobby = _lobby;
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", lobby.id);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
@@ -108,6 +118,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		else
 		{
 			messages.addItem(msg);
+			dispatchEventWith(Event.OPEN);
 		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )

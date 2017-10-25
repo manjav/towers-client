@@ -32,7 +32,6 @@ import flash.geom.Rectangle;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.Dictionary;
-import flash.utils.setTimeout;
 
 import mx.resources.ResourceManager;
 
@@ -76,6 +75,7 @@ private function navigator_changeHandler(event:Event):void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
+	SFSConnection.instance.lobbyManager.addEventListener(Event.OPEN, lobbyManager_friendlyBattleHandler);
 	if( toolbar == null )
 	{
 		toolbar = new Toolbar();
@@ -342,8 +342,12 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		battleconfirmToast.close();
 		battleconfirmToast = null;
 	}
-	
 }
+private function lobbyManager_friendlyBattleHandler(event:Event):void
+{
+	trace(event, "friendly battle.");
+}
+
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
 	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);

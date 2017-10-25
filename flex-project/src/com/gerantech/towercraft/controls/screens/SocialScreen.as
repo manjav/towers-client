@@ -135,10 +135,9 @@ private function tabsList_changeHandler(event:Event):void
 
 
 private function refreshListData(): void
-{trace(SFSConnection.instance.lobbyManager)
-	if( SFSConnection.instance.lobbyManager == null )
-		SFSConnection.instance.lobbyManager = new LobbyManager();
-	trace(SFSConnection.instance.lobbyManager.lobby)
+{
+	SFSConnection.instance.lobbyManager.initialize();
+	
 	if( listCollection == null )
 		listCollection = new ListCollection();
 	else
