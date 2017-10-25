@@ -33,8 +33,8 @@ package com.gerantech.towercraft.controls.buttons
 			backgroundSkin = skin;
 					
 			iconDisplay = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("emblems/emblems-"+StrUtils.getZeroNum(_value+""), "gui");
-			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
+			iconDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_value+""), "gui");
+			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.3, padding);
 			addChild(iconDisplay);
 		}
 		
@@ -49,7 +49,7 @@ package com.gerantech.towercraft.controls.buttons
 			
 			_value = val;
 			if( iconDisplay )
-				iconDisplay.source = Assets.getTexture("emblems/emblems-"+StrUtils.getZeroNum(_value+""), "gui");
+				iconDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_value+""), "gui");
 ;
 		}
 	}

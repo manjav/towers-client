@@ -4,7 +4,6 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 
-import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -34,8 +33,10 @@ override protected function initialize():void
 	backgroundSkin = skin;
 	
 	iconDisplay = new ImageLoader();
-	iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
+	iconDisplay.pixelSnapping = false;
+	iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.3, padding);
 	addChild(iconDisplay);
+	
 }
 override protected function commitData():void
 {
@@ -44,8 +45,7 @@ override protected function commitData():void
 		return;
 	width = TiledRowsLayout(_owner.layout).typicalItemWidth;
 	height = TiledRowsLayout(_owner.layout).typicalItemHeight;
-
-	iconDisplay.source = Assets.getTexture("emblems/emblems-"+StrUtils.getZeroNum(_data+""), "gui");
+	iconDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_data+""), "gui");
 }
 }
 }
