@@ -74,9 +74,9 @@ override public function init():void
 	addChild(dateDisplay);
 }
 
-override public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
+override public function commitData(_data:ISFSObject):void
 {
-	super.commitData(_data, lobbyData);
+	super.commitData(_data);
 	
 	meSkin.visible = itsMe;
 	otherSkin.visible = !itsMe;

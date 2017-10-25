@@ -54,9 +54,9 @@ protected override function initialize():void
 	addChild(bioInput);
 	
 	// lobby emblem
-	var labelDisplay:RTLLabel = new RTLLabel( loc("lobby_pic"), 0, null, null, false, null, 0.8 );
-	labelDisplay.layoutData = new AnchorLayoutData( padding*13.5, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
-	addChild(labelDisplay);
+	var emblemLabel:RTLLabel = new RTLLabel( loc("lobby_pic"), 0, null, null, false, null, 0.8 );
+	emblemLabel.layoutData = new AnchorLayoutData( padding*13.5, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	addChild(emblemLabel);
 	
 	emblemButton = new EmblemButton(roomData.pic as int);
 	emblemButton.layoutData = new AnchorLayoutData( padding*12, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
@@ -112,7 +112,8 @@ private function updateButton_triggeredHandler(event:Event):void
 	params.putUtfString("bio", bioInput.text);
 	params.putInt("min", minPointSwitcher.value);
 	params.putInt("pic", emblemButton.value);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_EDIT, params, SFSConnection.instance.myLobby);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_EDIT, params, SFSConnection.instance.lobbyManager.lobby);
+	SFSConnection.instance.lobbyManager.emblem = emblemButton.value;
 	close();
 }
 }

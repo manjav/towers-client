@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
 import com.gerantech.towercraft.controls.segments.Segment;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -14,7 +15,6 @@ public var otherPadding:int;
 public var data:ISFSObject;
 
 protected var itsMe:Boolean;
-protected var lobbyData:ISFSObject;
 
 override public function init():void
 {
@@ -24,10 +24,9 @@ override public function init():void
 	otherPadding = 120 * appModel.scale;
 }
 
-public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
+public function commitData(_data:ISFSObject):void
 {
 	this.data = _data as SFSObject;
-	this.lobbyData = lobbyData as SFSObject;
 	itsMe = data.getInt("i") == player.id;
 	if( !initializeStarted )
 		init();
@@ -35,7 +34,7 @@ public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
 	
 protected function findUser(uid:int):ISFSObject
 {
-	var all:ISFSArray = lobbyData.getSFSArray("all");
+	var all:ISFSArray = SFSConnection.instance.lobbyManager.members;//lobby.getSFSArray("all");
 	var allSize:int = all.size();
 	for( var i:int=0; i<allSize; i++ )
 	{

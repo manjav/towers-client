@@ -84,7 +84,7 @@ package com.gerantech.towercraft.controls.segments
 			list.dataProvider = _listCollection;
 			list.addEventListener(Event.CHANGE, list_changeHandler);
 			addChild(list);
-			if( SFSConnection.instance.myLobby == null )
+			if( SFSConnection.instance.lobbyManager.lobby == null )
 				search();
 		}
 		

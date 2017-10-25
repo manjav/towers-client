@@ -85,7 +85,7 @@ override protected function commitData():void
 		return;
 	height = 120 * appModel.scale;
 	
-	emblemDisplay.source = Assets.getTexture("emblems/emblems-"+StrUtils.getZeroNum(_data.pic+""), "gui");
+	emblemDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_data.pic+""), "gui");
 	nameDisplay.text = _data.name ;
 	nameShadowDisplay.text = _data.name ;
 	activenessDisplay.text = "" + Math.ceil(_data.act/10);

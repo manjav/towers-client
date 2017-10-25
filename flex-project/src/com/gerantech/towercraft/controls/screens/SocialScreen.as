@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
+import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -134,15 +135,17 @@ private function tabsList_changeHandler(event:Event):void
 
 
 private function refreshListData(): void
-{
-	SFSConnection.instance.myLobby = SFSConnection.instance.getLobby();
+{trace(SFSConnection.instance.lobbyManager)
+	if( SFSConnection.instance.lobbyManager == null )
+		SFSConnection.instance.lobbyManager = new LobbyManager();
+	trace(SFSConnection.instance.lobbyManager.lobby)
 	if( listCollection == null )
 		listCollection = new ListCollection();
 	else
 		listCollection.removeAll();
 	
 	var ret:Array = new Array();
-	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.myLobby!=null)._list)
+	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.lobbyManager.lobby != null)._list)
 	{
 		var pd:TabItemData = new TabItemData(p);
 		/*if( !player.inTutorial() )

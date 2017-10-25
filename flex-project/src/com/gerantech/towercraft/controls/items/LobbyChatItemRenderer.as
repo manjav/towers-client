@@ -23,11 +23,9 @@ private var messageSegment:LobbyChatItemMessageSegment;
 private var commentSegment:LobbyChatItemCommentSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
-private var lobbyData:ISFSObject;
 
-public function LobbyChatItemRenderer(lobbyData:ISFSObject)
+public function LobbyChatItemRenderer()
 {
-	this.lobbyData = lobbyData;
 }
 
 override protected function initialize():void
@@ -77,7 +75,7 @@ override protected function commitData():void
 			break;
 	}
 	
-	segment.commitData(_data as SFSObject, lobbyData);//trace(index, type, segment.data.getDump())
+	segment.commitData(_data as SFSObject);//trace(index, type, segment.data.getDump())
 	addChild(segment);
 	resetSize();
 }

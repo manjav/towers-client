@@ -119,12 +119,12 @@ private function showDetails():void
 	membersList.dataProvider = memberCollection;
 	addChild(membersList);
 	
-	var room:Room = SFSConnection.instance.myLobby;
-	itsMyRoom = room != null && room.id == roomData.id;
+	var lobby:Room = SFSConnection.instance.lobbyManager.lobby;
+	itsMyRoom = lobby != null && lobby.id == roomData.id;
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.height = 96 * appModel.scale;
-	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || room != null;
+	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || lobby != null;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
@@ -230,7 +230,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 			else
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
 			
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.myLobby);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
 		}
 	}
 	/*function profilePopup_eventsHandler ( event:Event ):void {
@@ -256,21 +256,22 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE, params);
 			SFSConnection.instance.lastJoinedRoom = null;
-			SFSConnection.instance.myLobby = null;
+			SFSConnection.instance.lobbyManager = null;
 			updateLobbyLayout(false);
 		}
 		return;
 	}
 	
-	if( SFSConnection.instance.myLobby != null )
+	if( SFSConnection.instance.lobbyManager.lobby != null )
 	{
-		appModel.navigator.addLog(loc("lobby_join_error", [SFSConnection.instance.myLobby.name]));
+		appModel.navigator.addLog(loc("lobby_join_error", [SFSConnection.instance.lobbyManager.lobby.name]));
 		return;
 	}
 
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
+	SFSConnection.instance.lobbyManager = null;
 	updateLobbyLayout(true);
 }
 
