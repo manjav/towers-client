@@ -36,25 +36,39 @@ public function initialize():void
 	var _lobby:Room = SFSConnection.instance.getLobby();
 	if( _lobby == null )
 	{
-		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
+		dispose();
 		return;
 	}
 	if( lobby != null && lobby.id == _lobby.id )
 		return;
 	
+	dispose();
 	lobby = _lobby;
+	requestData();
+
+	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfs_roomVariablesUpdateHandler);
+	player = AppModel.instance.game.player;
+}
+
+public function requestData(broadcast:Boolean=false):void
+{
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", lobby.id);
+	if( broadcast )
+		params.putBool("broadcast", true);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_INFO, params, lobby);
-	player = AppModel.instance.game.player;
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_INFO, params, lobby);	
+}
+
+protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void
+{
+	trace("sfs_roomVariablesUpdateHandler", event.params)
 }
 
 protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.LOBBY_INFO )
 		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
 
 	var data:ISFSObject = event.params.params as SFSObject;
 	point = data.getInt("sum");
@@ -87,7 +101,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		{
 			last.putInt("u", msg.getInt("u"));
 			last.putUtfString("t", msg.getUtfString("t"));
-			messages.updateItemAt(messages.length-1);
+			messages.updateItemAt(messages.length-1);trace("ss")
 		}
 		else
 		{
@@ -112,7 +126,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 					battleMsg.putText("o", msg.getText("o"));
 				messages.updateItemAt(lastBattleIndex);
 				if( msg.getShort("st") == 1 && (msg.getText("s") == player.nickName || msg.getText("o") == player.nickName) )
-					dispatchEventWith(Event.TRIGGERED, false);// go to friendly battle
+					dispatchEventWith(Event.TRIGGERED);// go to friendly battle
 			}
 		}
 		else
@@ -126,7 +140,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		messages.addItem(msg);
 	}
 	//traceList()
-	dispatchEventWith(Event.UPDATE, false);
+	dispatchEventWith(Event.UPDATE);
 }
 
 
@@ -155,9 +169,17 @@ private function traceList():void
 {
 	for (var i:int = 0; i < messages.length; i++) 
 	{
-		var msg:SFSObject =  messages.getItemAt(i) as SFSObject;
+		var msg:SFSObject =  messages.getItemAt(i) as SFSObject;//trace(i, msg.getText("t"))
 		trace(i, msg.getShort("m"), msg.getShort("st"), msg.getInt("i"), msg.containsKey("bid")?msg.getInt("bid"):"");
 	}
+}
+
+private function dispose():void
+{
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
+	if( messages )
+		messages.removeAll();
 }
 }
 }

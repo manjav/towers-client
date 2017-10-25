@@ -113,7 +113,7 @@ private function updateButton_triggeredHandler(event:Event):void
 	params.putInt("min", minPointSwitcher.value);
 	params.putInt("pic", emblemButton.value);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_EDIT, params, SFSConnection.instance.lobbyManager.lobby);
-	SFSConnection.instance.lobbyManager.emblem = emblemButton.value;
+	SFSConnection.instance.lobbyManager.requestData(true);
 	close();
 }
 }

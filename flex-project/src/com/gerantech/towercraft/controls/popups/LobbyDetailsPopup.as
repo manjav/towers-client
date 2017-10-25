@@ -46,7 +46,7 @@ public function LobbyDetailsPopup(roomData:Object)
 	params.putInt("id", roomData.id);
 	if( roomData.all == null )
 		params.putBool("all", true);
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_DATA, params);
 }
 
@@ -69,12 +69,12 @@ override protected function initialize():void
 	addChild(titleDisplay);
 }
 
-protected function sfsConnection_roomGetHandler(event:SFSEvent):void
+protected function sfsConnection_roomDataHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.LOBBY_DATA )
 		return;
 	
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomGetHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
 	roomServerData = event.params.params as SFSObject;
 	if( roomServerData.containsKey("all") )
 		roomData.all = roomServerData.getSFSArray("all");
@@ -231,6 +231,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
 			
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
+			SFSConnection.instance.lobbyManager.requestData(true);
 		}
 	}
 	/*function profilePopup_eventsHandler ( event:Event ):void {
