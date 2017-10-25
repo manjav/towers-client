@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.popups
 			listLayout.useSquareTiles = false;
 			listLayout.requestedColumnCount = 5;
 			listLayout.typicalItemWidth = (transitionIn.destinationBound.width-listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.1;
+			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.06;
 			
 			list = new List();
 			list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
@@ -45,7 +45,7 @@ package com.gerantech.towercraft.controls.popups
 		{
 			super.transitionInCompleted();
 			var collection:ListCollection = new ListCollection();
-			for (var i:int = 0; i < 115; i++) 
+			for (var i:int = 0; i < 110; i++) 
 				collection.addItem(i);
 			list.dataProvider = collection;
 		}
