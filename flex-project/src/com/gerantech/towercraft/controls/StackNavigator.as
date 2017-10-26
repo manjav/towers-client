@@ -182,9 +182,8 @@ public function addLogGame(log:GameLog) : void
 public var toolbar:Toolbar;
 private function itemAchievedHandler(event:Event):void
 {
-	if( activeScreenID != Main.DASHBOARD_SCREEN )
-		return;
-	addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
+	if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.QUESTS_SCREEN )
+		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
 }
 public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
 {
