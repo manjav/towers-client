@@ -45,10 +45,10 @@ package com.gerantech.towercraft.controls.items.exchange
 			headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 			headerDisplay.height = 112 * appModel.scale;
 			addChild(headerDisplay);
-			
+			/*
 			descriptionDisplay = new RTLLabel(" ", 1, null, null, false, null, 0.74);
 			descriptionDisplay.layoutData = new AnchorLayoutData(headerDisplay.height, 24 * appModel.scale, NaN, 24 * appModel.scale);
-			addChild(descriptionDisplay);
+			addChild(descriptionDisplay);*/
 			
 			listLayout = new TiledColumnsLayout();
 			listLayout.requestedColumnCount = 3;
@@ -73,9 +73,10 @@ package com.gerantech.towercraft.controls.items.exchange
 			line = _data as ShopLine;
 			
 			headerDisplay.label = loc("exchange_title_" + line.category);
+			headerDisplay.data = line.category;
 
 			var CELL_SIZE:int = 480 * appModel.scale;
-			descriptionDisplay.visible = false;
+			//descriptionDisplay.visible = false;
 			switch( line.category )
 			{
 				case ExchangeType.S_20_SPECIALS:
@@ -106,7 +107,7 @@ package com.gerantech.towercraft.controls.items.exchange
 					break;
 			}
 			
-			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height + ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
+			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height //+ ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
 			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap * 2;
 			categoryCollection.data = line.items;
 		//	Starling.juggler.tween(this, 0.3, {alpha:1});

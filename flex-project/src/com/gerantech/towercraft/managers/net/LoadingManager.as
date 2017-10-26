@@ -8,6 +8,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.UserPrefs;
 	import com.gerantech.towercraft.managers.VideoAdsManager;
+	import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.managers.socials.SocialEvent;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
@@ -298,6 +299,7 @@ package com.gerantech.towercraft.managers.net
 		private function finalize():void
 		{
 			state = STATE_LOADED;
+			sfsConnection.lobbyManager = new LobbyManager();
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			
 			registerPushManager();

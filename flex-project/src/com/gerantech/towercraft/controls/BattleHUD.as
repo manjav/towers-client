@@ -30,6 +30,7 @@ package com.gerantech.towercraft.controls
 	import starling.core.Starling;
 	import starling.display.Quad;
 	import starling.events.Event;
+	import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 
 	public class BattleHUD extends TowersLayout
 	{
@@ -121,7 +122,7 @@ package com.gerantech.towercraft.controls
 				if( !SFSConnection.instance.mySelf.isSpectator )
 				{
 					stickerButton = new CustomButton();
-					stickerButton.icon = Assets.getTexture("sticker-bubble-me", "gui");
+					stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
 					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 					stickerButton.width = 140 * appModel.scale;
 					stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);

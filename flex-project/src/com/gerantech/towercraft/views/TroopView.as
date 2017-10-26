@@ -4,6 +4,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.buildings.Place;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.utils.clearTimeout;
@@ -41,15 +42,13 @@ package com.gerantech.towercraft.views
 			this.building = building;
 			this.health = building.get_troopPower();
 			
-			textureType = type == AppModel.instance.game.player.troopType?"0/troop-0-move-":"1/troop-1-move-";
-			movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 20);
+			textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") +  get_troopName();
+			movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
 			movieClip.pivotX = movieClip.width/2;
-			movieClip.pivotY = movieClip.height;
+			movieClip.y = -56 ;
 			addChild(movieClip);
 			
 			this.scale = AppModel.instance.scale * 2;
-			alignPivot();
-			
 			touchable = false;
 			
 			this.path = new Vector.<PlaceView>();
@@ -72,27 +71,28 @@ package com.gerantech.towercraft.views
 			movieClip.muted = false;
 			Starling.juggler.add(movieClip);
 
+			var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() * 0.6 - Math.random()* building.get_exitGap() * 0.3) / 1000;
 			var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
-			Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance, {x:next.x, y:next.y, onComplete:onTroopArrived, onCompleteArgs:[next]});
+			Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 		}
 		private function onTroopArrived(next:PlaceView):void
 		{
 			visible = false;
 			movieClip.muted = true;
 			Starling.juggler.remove(movieClip);
-			if(next.place.building.troopType == type)
+			if( next.place.building.troopType == type )
 				rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);
 		}
 		
 		private function switchAnimation(source:Place, destination:Place):void
 		{
-			var rad:Number = Math.atan2(destination.x-source.x, destination.y-source.y);//trace(rad)
+			var rad:Number = Math.atan2(destination.x-source.x, destination.y-source.y);
 			var flipped:Boolean = false;
 			var dir:String = "down";
 
 			if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125)
 				dir = "down";
-			else if(rad <= Math.PI * -0.125 && rad > Math.PI * -0.375)//625 875
+			else if(rad <= Math.PI * -0.125 && rad > Math.PI * -0.375)
 				dir = "leftdown";
 			else if(rad <= Math.PI * -0.375 && rad > Math.PI * -0.625)
 				dir = "left";
@@ -113,16 +113,15 @@ package com.gerantech.towercraft.views
 				flipped = true;
 			}
 
-			movieClip.scaleX = (flipped ? -1 : 1 )// * Math.abs(scaleX);
+			movieClip.scaleX = (flipped ? -1 : 1 );
 			
 			if(direction == dir)
 				return;
 
-			movieClip.fps = 40000/building.get_troopSpeed();
+			movieClip.fps = get_troopSpriteCount()*3000/building.get_troopSpeed();
 			direction = dir;
-			//trace(textureType + direction)
 			for(var i:int=0; i < movieClip.numFrames; i++)
-				movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction+(i>8 ? "-0"+(i+1) : "-00"+(i+1)), "troops"));
+				movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction+( i>9 ? "-0"+(i) : "-00"+(i)), "troops"));
 		}
 
 		public function hit(placeView:PlaceView):void
@@ -209,6 +208,31 @@ package com.gerantech.towercraft.views
 		{
 			clearTimeout(rushTimeoutId);
 			super.dispose();
+		}
+		
+		
+		
+		public function get_troopName () : String
+		{
+			if( building == null )
+				return "dwarf3b-move-";
+			if( BuildingType.get_category(building.type) == BuildingType.B00_CAMP )
+				return "dwarfinf-move-";
+			if( BuildingType.get_category(building.type) == BuildingType.B20_RAPID )
+				return "darkelfassassin-move-";
+			if( BuildingType.get_category(building.type) == BuildingType.B30_HEAVY )
+				return "corruptedknight-move-";
+			return "dwarf3b-move-";
+		}
+		public function get_troopSpriteCount () : int
+		{
+			if( building == null )
+				return 12;
+			if( BuildingType.get_category(building.type) == BuildingType.B20_RAPID )
+				return 10;
+			if( BuildingType.get_category(building.type) == BuildingType.B30_HEAVY )
+				return 23;
+			return 12;
 		}
 	}
 }

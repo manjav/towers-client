@@ -10,12 +10,15 @@ public class UserData
 {
     public var id:int = -1;
 	public var password:String = "";
-    public var authenticated:Boolean = false;
     public var buildingsOpened:Boolean;
+	public var lastLobbeyMessageTime:int;
     public var rated:Boolean;
+
+    public var authenticated:Boolean = false;
     public var authenticationAttemps:int;
     public var oneSignalUserId:String;
     public var oneSignalPushToken:String;
+
 	private var settingsMap:IntIntMap;
 
     private static var _instance:UserData;
@@ -46,6 +49,7 @@ public class UserData
 			buildingsOpened = so.data.buildingsOpened;
 			authenticationAttemps = so.data.authenticationAttemps;
 			rated = so.data.rated;
+			lastLobbeyMessageTime = so.data.lastLobbeyMessageTime;
 		}
 		public function save():void
 		{
@@ -56,6 +60,7 @@ public class UserData
 			so.data.buildingsOpened = buildingsOpened;
 			so.data.authenticationAttemps = authenticationAttemps;
 			so.data.rated = rated;
+			so.data.lastLobbeyMessageTime = lastLobbeyMessageTime;
 			
 			if( so.data.setting == null )
 				so.data.setting = new Object();

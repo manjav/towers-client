@@ -19,15 +19,13 @@ protected static const TYPE_DONATE:int = 20;
 protected static const TYPE_BATTLE:int = 30;
 	
 private var type:int;
-private var messageSegment:LobbyChatItemMessageSegment;
+//private var messageSegment:LobbyChatItemMessageSegment;
 private var commentSegment:LobbyChatItemCommentSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
-private var lobbyData:ISFSObject;
 
-public function LobbyChatItemRenderer(lobbyData:ISFSObject)
+public function LobbyChatItemRenderer()
 {
-	this.lobbyData = lobbyData;
 }
 
 override protected function initialize():void
@@ -36,8 +34,8 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	var fitLayoutData:AnchorLayoutData = new AnchorLayoutData(0,0,NaN,0);
 	
-	messageSegment = new LobbyChatItemMessageSegment();
-	messageSegment.layoutData = fitLayoutData;
+	/*messageSegment = new LobbyChatItemMessageSegment();
+	messageSegment.layoutData = fitLayoutData;*/
 	
 	commentSegment = new LobbyChatItemCommentSegment();
 	commentSegment.layoutData = fitLayoutData;
@@ -65,7 +63,8 @@ override protected function commitData():void
 	switch(type)
 	{
 		case TYPE_MESSAGE:
-			segment = messageSegment;
+			segment = new LobbyChatItemMessageSegment();
+			segment.layoutData = new AnchorLayoutData(0,0,NaN,0);
 			break;
 		case TYPE_COMMENT:
 			segment = commentSegment;
@@ -77,15 +76,15 @@ override protected function commitData():void
 			break;
 	}
 	
-	segment.commitData(_data as SFSObject, lobbyData);//trace(index, type, segment.data.getDump())
+	segment.commitData(_data as SFSObject);//trace(index, type, segment.data.getDump())
 	addChild(segment);
 	resetSize();
 }
 
 private function resetSize():void
 {
-	if( height != 0 || type==TYPE_COMMENT )
-		height = type==TYPE_COMMENT ? segment.padding*1.4 :(segment.height + segment.padding);
+//	if( height != 0 || type==TYPE_COMMENT )
+	//	height = type==TYPE_COMMENT ? segment.padding*1.4 :(segment.height + segment.padding);
 }
 }
 }
