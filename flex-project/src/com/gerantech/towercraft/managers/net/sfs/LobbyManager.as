@@ -130,7 +130,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		else
 		{
 			messages.addItem(msg);
-			dispatchEventWith(Event.OPEN);
+			dispatchEventWith(Event.OPEN, false, msg.getText("s"));
 		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )

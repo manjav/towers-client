@@ -12,6 +12,7 @@ import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
+import com.gerantech.towercraft.controls.toasts.SimpleToast;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -345,8 +346,17 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 }
 private function lobbyManager_friendlyBattleHandler(event:Event):void
 {
-	trace(event, "friendly battle.");
+	if( activeScreenID == Main.SOCIAL_SCREEN )
+		return;
+	var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
+	battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);
+	addToast(battleToast);
+	function battleToast_selectHandler():void {
+		battleToast.removeEventListener(Event.SELECT, battleToast_selectHandler);
+		pushScreen(Main.SOCIAL_SCREEN);
+	}
 }
+
 
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
