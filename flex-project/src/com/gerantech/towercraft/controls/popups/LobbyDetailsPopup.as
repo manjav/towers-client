@@ -142,7 +142,7 @@ private function showDetails():void
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
 	joinleaveButton.height = 96 * appModel.scale;
-	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || lobby != null;
+	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
@@ -279,7 +279,10 @@ private function buttonsPopup_selectHandler(event:Event):void
 
 private function joinleaveButton_selectHandler():void
 {
-	appModel.navigator.addLog(loc("lobby_join_min_error"));
+	if( roomData.num >= roomData.max )
+		appModel.navigator.addLog(loc("lobby_join_error_full"));
+	else
+		appModel.navigator.addLog(loc("lobby_join_error_min"));
 }
 private function joinleaveButton_triggeredHandler(event:Event):void
 {
@@ -302,7 +305,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 	
 	if( SFSConnection.instance.lobbyManager.lobby != null )
 	{
-		appModel.navigator.addLog(loc("lobby_join_error", [SFSConnection.instance.lobbyManager.lobby.name]));
+		appModel.navigator.addLog(loc("lobby_join_error_joined", [SFSConnection.instance.lobbyManager.lobby.name]));
 		return;
 	}
 
