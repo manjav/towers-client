@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
+import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
 import com.gerantech.towercraft.controls.items.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.LobbyMemberItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -17,6 +18,7 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -36,7 +38,9 @@ private var roomData:Object;
 private var roomServerData:ISFSObject;
 private var itsMyRoom:Boolean;
 private var buttonsPopup:SimpleListPopup;
+private var memberList:Array;
 private var memberCollection:ListCollection;
+private var tabs:Vector.<LobbyTabButton>;
 
 public function LobbyDetailsPopup(roomData:Object)
 {
@@ -109,11 +113,23 @@ private function showDetails():void
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
 	
+	tabs = new Vector.<LobbyTabButton>();
+	tabs[0] = new LobbyTabButton("امتیاز", true);
+	tabs[0].isEnabled = false;
+	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
+	tabs[0].layoutData = new AnchorLayoutData( padding*15.5, appModel.isLTR?padding*2.5:NaN, NaN, appModel.isLTR?NaN:padding*2.5 );
+	addChild(tabs[0]);
+	tabs[1] = new LobbyTabButton("فعالیت هفتگی", true);
+	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
+	tabs[1].layoutData = new AnchorLayoutData( padding*15.5, appModel.isLTR?padding*7:NaN, NaN, appModel.isLTR?NaN:padding*7 );
+	addChild(tabs[1]);
+	
+	memberList = SFSArray(roomData.all).toArray();
 	memberCollection = new ListCollection(SFSArray(roomData.all).toArray());
 	
 	var membersList:FastList = new FastList();
 	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("theme/slider-background", "gui");
-	membersList.layoutData = new AnchorLayoutData(padding*16, padding, padding, padding);
+	membersList.layoutData = new AnchorLayoutData(padding*18, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
 	membersList.dataProvider = memberCollection;
@@ -151,6 +167,19 @@ private function showDetails():void
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
 	
+}
+
+private function tabs_triggeredHandler(event:Event):void
+{
+	setTimeout(function(sb:LobbyTabButton):void{
+		for each ( var b:LobbyTabButton in tabs )
+		b.isEnabled = b != sb;
+	}, 10, event.currentTarget);
+	
+	var searchMode:int = tabs.indexOf(event.currentTarget as LobbyTabButton);
+	memberList.sortOn(searchMode==0?"point":"activity", Array.NUMERIC|Array.DESCENDING);
+	memberCollection.data = memberList;
+	memberCollection.updateAll()
 }
 
 private function membersList_focusInHandler(event:Event):void
