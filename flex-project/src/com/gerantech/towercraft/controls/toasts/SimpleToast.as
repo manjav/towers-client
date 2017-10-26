@@ -40,7 +40,7 @@ override protected function initialize():void
 	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 	addChild(messageDisplay);
 	
-	setTimeout(close, 3000, true);
+	setTimeout(close, 4000, true);
 }
 
 private function background_triggeredHandler(event:Event):void
