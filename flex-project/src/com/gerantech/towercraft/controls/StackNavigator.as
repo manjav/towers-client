@@ -345,7 +345,7 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 }
 private function lobbyManager_friendlyBattleHandler(event:Event):void
 {
-	if( activeScreenID == Main.SOCIAL_SCREEN || activeScreen == Main.BATTLE_SCREEN )
+	if( activeScreenID == Main.SOCIAL_SCREEN || activeScreenID == Main.BATTLE_SCREEN )
 		return;
 	var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
 	battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);
