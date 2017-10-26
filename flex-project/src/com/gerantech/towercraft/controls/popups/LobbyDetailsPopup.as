@@ -231,7 +231,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
 			
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
-			SFSConnection.instance.lobbyManager.requestData(true);
+			SFSConnection.instance.lobbyManager.requestData(true, true);
 		}
 	}
 	/*function profilePopup_eventsHandler ( event:Event ):void {

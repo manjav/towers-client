@@ -63,7 +63,7 @@ override public function init():void
 	
 	messageDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
-		messageDisplay.leading = -padding;
+		messageDisplay.leading = -padding*0.2;
 	messageLayout = new AnchorLayoutData( padding * 2 , 0, padding, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
@@ -88,7 +88,7 @@ override public function commitData(_data:ISFSObject):void
 	roleDisplay.text = user==null?"":(loc("lobby_role_" + user.getShort("permission")));
 	roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
-	messageDisplay.text = data.getUtfString("t")+"\n\n";
+	messageDisplay.text = data.getUtfString("t");
 	messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	messageLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	

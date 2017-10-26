@@ -46,23 +46,19 @@ public function initialize():void
 	lobby = _lobby;
 	requestData();
 
-	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfs_roomVariablesUpdateHandler);
 	player = AppModel.instance.game.player;
 }
 
-public function requestData(broadcast:Boolean=false):void
+public function requestData(broadcast:Boolean = false, skipMessages:Boolean = false):void
 {
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", lobby.id);
 	if( broadcast )
 		params.putBool("broadcast", true);
+	if( skipMessages )
+		params.putBool("nomsg", true);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_INFO, params, lobby);	
-}
-
-protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void
-{
-	trace("sfs_roomVariablesUpdateHandler", event.params)
 }
 
 protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
@@ -75,15 +71,18 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	emblem = data.getInt("pic");
 	activeness = data.getInt("act");
 	members = data.getSFSArray("all");
-	messages = new ListCollection();
-	for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
-	{
-		var msg:ISFSObject = data.getSFSArray("messages").getSFSObject(i);
-		if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
-			continue;
-		messages.addItem(data.getSFSArray("messages").getSFSObject(i));
+	if( data.containsKey("messages") )
+	{trace("messages")
+		messages = new ListCollection();
+		for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
+		{
+			var msg:ISFSObject = data.getSFSArray("messages").getSFSObject(i);
+			if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
+				continue;
+			messages.addItem(data.getSFSArray("messages").getSFSObject(i));
+		}
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
 	}
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
 	isReady = true;
 	dispatchEventWith(Event.READY);
 }
@@ -92,7 +91,6 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.LOBBY_PUBLIC_MESSAGE )
 		return;
-	
 	var msg:ISFSObject = event.params.params as SFSObject;
 	if( msg.getShort("m") == MessageTypes.M0_TEXT )
 	{
@@ -101,7 +99,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		{
 			last.putInt("u", msg.getInt("u"));
 			last.putUtfString("t", msg.getUtfString("t"));
-			messages.updateItemAt(messages.length-1);trace("ss")
+			messages.updateItemAt(messages.length-1);
 		}
 		else
 		{
