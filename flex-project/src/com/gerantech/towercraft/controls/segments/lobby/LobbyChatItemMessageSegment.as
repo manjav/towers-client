@@ -63,7 +63,7 @@ override public function init():void
 	
 	messageDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
-		messageDisplay.leading = -padding*0.2;
+		messageDisplay.leading = -padding*0.5;
 	messageLayout = new AnchorLayoutData( padding * 2 , 0, padding, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
