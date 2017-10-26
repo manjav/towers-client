@@ -6,6 +6,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gerantech.towercraft.managers.TimeManager;
 	import com.gerantech.towercraft.managers.UserPrefs;
 	import com.gerantech.towercraft.managers.VideoAdsManager;
+	import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
@@ -179,6 +180,7 @@ package com.gerantech.towercraft.managers.net
 			event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 			//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 			state = STATE_LOADED;
+			sfsConnection.lobbyManager = new LobbyManager();
 			dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 			
 			UserData.instance.prefs.requestData();

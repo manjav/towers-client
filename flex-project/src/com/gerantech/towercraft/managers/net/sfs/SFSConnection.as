@@ -149,7 +149,6 @@ package com.gerantech.towercraft.managers.net.sfs
 		{
 		//	trace("Login Succeed:", UserData.instance.userName, UserData.instance.password, "t["+(getTimer()-Tanks.t)+"]");
 		//	dispatchEvent(event.clone());
-			lobbyManager = new LobbyManager();
 		}
 		protected function sfs_logoutHandler(event:SFSEvent):void
 		{
