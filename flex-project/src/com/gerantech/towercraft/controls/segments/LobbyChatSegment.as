@@ -10,6 +10,7 @@ import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -118,6 +119,9 @@ private function showElements():void
 	
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 	manager.addEventListener(Event.TRIGGERED, manager_triggerHandler);	
+
+	UserData.instance.lastLobbeyMessageTime = timeManager.now;
+	UserData.instance.save();
 }
 
 private function manager_triggerHandler(event:Event):void
@@ -127,6 +131,7 @@ private function manager_triggerHandler(event:Event):void
 
 private function manager_updateHandler(event:Event):void
 {
+	UserData.instance.lastLobbeyMessageTime = timeManager.now;
 	buttonsEnabled = manager.getMyRequestBattleIndex() == -1;
 	setTimeout(chatList.scrollToDisplayIndex, 100, manager.messages.length-1, 0.3);	
 }
@@ -211,6 +216,7 @@ public function set buttonsEnabled(value:Boolean):void
 
 override public function dispose():void
 {
+	UserData.instance.save();
 	if( manager != null )
 	{
 		manager.removeEventListener(Event.UPDATE, manager_updateHandler);

@@ -63,13 +63,13 @@ override public function init():void
 	
 	messageDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
-		messageDisplay.leading = -padding*0.5;
-	messageLayout = new AnchorLayoutData( padding * 2 , 0, padding, 0);
+		messageDisplay.leading = -padding * 0.4;
+	messageLayout = new AnchorLayoutData( padding * 2 , 0, padding*1.4, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.7);
-	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding );
+	dateDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.6);
+	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding*0.4:NaN, padding*0.6, appModel.isLTR?NaN:padding*0.4 );
 	dateDisplay.layoutData = dateLayout;			
 	addChild(dateDisplay);
 }

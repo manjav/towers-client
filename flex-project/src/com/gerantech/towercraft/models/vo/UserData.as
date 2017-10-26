@@ -11,7 +11,8 @@ public class UserData
     public var id:int = -1;
 	public var password:String = "";
     public var buildingsOpened:Boolean;
-    public var rated:Boolean;
+	public var rated:Boolean;
+	public var lastLobbeyMessageTime:int;
 	
 	private var settingsMap:IntIntMap;
 
@@ -40,6 +41,7 @@ public class UserData
 					settingsMap.set(int(key), int(so.data.setting[key]));
 
 			buildingsOpened = so.data.buildingsOpened;
+			lastLobbeyMessageTime = so.data.lastLobbeyMessageTime;
 		}
 		public function save():void
 		{
@@ -47,6 +49,7 @@ public class UserData
 			so.data.id = id;
 			so.data.password = password;
 			so.data.buildingsOpened = buildingsOpened;
+			so.data.lastLobbeyMessageTime = lastLobbeyMessageTime;
 			
 			if( so.data.setting == null )
 				so.data.setting = new Object();

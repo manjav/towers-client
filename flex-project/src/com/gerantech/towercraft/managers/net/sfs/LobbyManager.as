@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.managers.net.sfs
 {
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.Player;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -72,7 +73,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	activeness = data.getInt("act");
 	members = data.getSFSArray("all");
 	if( data.containsKey("messages") )
-	{trace("messages")
+	{
 		messages = new ListCollection();
 		for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
 		{
@@ -141,6 +142,16 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	dispatchEventWith(Event.UPDATE);
 }
 
+public function numUnreads():int
+{
+	var ret:int = 0;
+	for( var i:int=messages.length-1; i>=0; i-- )
+	{
+		if( UserData.instance.lastLobbeyMessageTime < messages.getItemAt(i).getInt("u") )
+			ret ++;
+	}
+	return ret;
+}
 
 private function containBattle(battleId:int):int
 {
