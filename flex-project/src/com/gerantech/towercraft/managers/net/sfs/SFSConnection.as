@@ -196,9 +196,9 @@ package com.gerantech.towercraft.managers.net.sfs
 		}*/
 		public function getLobby():Room
 		{
-			for each (var r:Room in SFSConnection.instance.roomList) {trace("room", r.name)
+			for each (var r:Room in SFSConnection.instance.roomList)
 				if( r.groupId == "lobbies" )
-					return r;}
+					return r;
 			return null;
 		}
 
