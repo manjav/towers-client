@@ -121,7 +121,7 @@ public class MainSegment extends Segment
 		var restoreButton:Button = new Button();
 		restoreButton.alpha = 0;
 		restoreButton.isLongPressEnabled = true;
-		restoreButton.longPressDuration = 0.3;
+		restoreButton.longPressDuration = 3;
 		restoreButton.width = restoreButton.height = 120 * appModel.scale;
 		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
