@@ -145,6 +145,8 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 public function numUnreads():int
 {
 	var ret:int = 0;
+	if( messages == null )
+		return ret;
 	for( var i:int=messages.length-1; i>=0; i-- )
 	{
 		if( UserData.instance.lastLobbeyMessageTime < messages.getItemAt(i).getInt("u") )

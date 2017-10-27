@@ -28,7 +28,6 @@ private var nameDisplay:RTLLabel;
 private var nameShadowDisplay:RTLLabel;
 private var pointDisplay:RTLLabel;
 private var pointIconDisplay:ImageLoader;
-private var inviteDisplay:RTLLabel;
 private var mySkin:ImageSkin;
 private var roleDisplay:RTLLabel;
 private var activityDisplay:RTLLabel;
