@@ -39,6 +39,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Point;
+	import flash.text.engine.BreakOpportunity;
 	import flash.utils.setTimeout;
 	
 	import feathers.events.FeathersEventType;
@@ -187,19 +188,17 @@ package com.gerantech.towercraft.controls.screens
 
 				//quest start
 				var tuteText:IntList = quest.startNum;
-				if(quest.startNum.size() >= 0)
+				var tuteMessage:String = "";
+				if(tuteText.size() >= 0)
 				{
-					var i:int = 0;
-					for ( i=0 ; i < tuteText.size() ; i++ )
+					for (var i:int ; i < tuteText.size() ; i++) 
 					{
-						if(tuteText.get(i) % 2 == 0)
-							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_start_mentor_" + tuteText.get(i)));
-						else
-							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_start_enemy_" + tuteText.get(i)));
+						tuteMessage = "tutor_quest_" + quest.index + ( (tuteText.get(i) % 2 == 0) ? "_start_mentor_" : "_start_villain_" ) + tuteText.get(i);
+						trace("tuteMessage:", tuteMessage);
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));
 					}
 					
 				}
-				//tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+player.get_questIndex()+"_intro"));
 				
 				var places:PlaceDataList = quest.getSwipeTutorPlaces();
 				if(places.size() > 0)
@@ -343,26 +342,44 @@ package com.gerantech.towercraft.controls.screens
 
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			
 			//quest end
-			var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
-			var tuteText:IntList = quest.startNum;
-			if(quest.startNum.size() >= 0)
+			if( quest.isQuest && player.inTutorial() )
 			{
-				var i:int = 0;
-				for ( i=0 ; i < tuteText.size() ; i++ )
+				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
+				var tuteText:IntList = quest.endNum;
+				var tuteMessage:String = "";
+				if(tuteText.size() >= 0)
 				{
-					if(battleOutcomeOverlay.score > 0 && tuteText.get(i) >= 0)
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_win_" + tuteText.get(i)));
-					else if (tuteText.get(i) < 0)
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_defeat_" + tuteText.get(i)));
+					for ( var i:int ; i < tuteText.size() ; i++ ) 
+					{
+						if ( battleOutcomeOverlay.score > 0 )
+						{
+							if ( tuteText.get(i) >= 0 )
+							{
+								if(tuteText.get(i) % 2 == 0)
+									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_mentor_win_" + tuteText.get(i)));
+								else
+									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_villain_win_" + tuteText.get(i)));
+							}
+						}
+						else if ( battleOutcomeOverlay.score <= 0 )
+						{
+							if ( tuteText.get(i) < 0 )
+							{
+								if(tuteText.get(i) % 2 == 0)
+									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_mentor_defeat_" + tuteText.get(i)));
+								else
+									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_villain_defeat_" + tuteText.get(i)));
+							}
+						}
+					} 
+					tutorials.show(this, tutorialData);
+					return;
 				}
-				tutorials.show(this, tutorialData);
 			}
 			/*if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
 			{
 				//trace("battle screen -> end", player.get_questIndex());
-				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
 				return;
