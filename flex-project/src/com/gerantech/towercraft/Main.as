@@ -5,6 +5,7 @@ package com.gerantech.towercraft
 	import com.gerantech.towercraft.controls.screens.ArenaScreen;
 	import com.gerantech.towercraft.controls.screens.BattleScreen;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
+	import com.gerantech.towercraft.controls.screens.InboxScreen;
 	import com.gerantech.towercraft.controls.screens.QuestMapScreen;
 	import com.gerantech.towercraft.controls.screens.SettingsScreen;
 	import com.gerantech.towercraft.controls.screens.SocialScreen;
@@ -30,6 +31,7 @@ package com.gerantech.towercraft
 		public static const SETTINGS_SCREEN:String = "settingsScreen";
 		public static const ADMIN_SCREEN:String = "adminScreen";
 		public static const SPECTATE_SCREEN:String = "spectateScreen";
+		public static const INBOX_SCREEN:String = "inboxScreen";
 		
 		public function Main(content:IFeathersControl=null)
 		{
@@ -53,6 +55,7 @@ package com.gerantech.towercraft
 			addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 			addScreen(ADMIN_SCREEN, 	AdminScreen);
 			addScreen(SPECTATE_SCREEN, 	SpectateScreen);
+			addScreen(INBOX_SCREEN, 	InboxScreen);
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 		}		
 		private function addScreen(screenType:String, screenClass:Object, hasTranstion:Boolean = true):void

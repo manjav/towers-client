@@ -299,7 +299,8 @@ package com.gerantech.towercraft.utils
 		public static function getDateString(_date:Date, isTime:Boolean=false):String
 		{
 			var ret:String = _date.fullYear+'-'+uint(_date.month+1)+'-'+_date.date ;
-			ret = isTime ? ret+'_'+getNumberString(_date.hours, 2)+"'"+getNumberString(_date.minutes, 2)+"'"+getNumberString(_date.seconds, 2) : ret;
+			if( isTime )
+				ret = getNumberString(_date.hours, 2)+":"+getNumberString(_date.minutes, 2)+":"+getNumberString(_date.seconds, 2) + "  " + ret;
 			return ret;
 		}
 		public static function getNumberString(_num:Number, _len:uint):String

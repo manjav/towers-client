@@ -114,7 +114,7 @@ public class MainSegment extends Segment
 		
 		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
 		inboxButton.width = inboxButton.height = 120 * appModel.scale;
-		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
 		addChild(inboxButton);
 		
@@ -126,7 +126,6 @@ public class MainSegment extends Segment
 		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
 		addChild(restoreButton);
-	
 	}
 	
 	private function showMap():void
