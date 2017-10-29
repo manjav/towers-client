@@ -10,7 +10,10 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.ShopLine;
+	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
@@ -87,6 +90,21 @@ package com.gerantech.towercraft.controls.segments
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);
 			initializeCompleted = true;
+			
+			showTutorial();
+		}
+		
+		private function showTutorial():void
+		{
+			var tutorialData:TutorialData = new TutorialData("shop");
+			var i:int = 0;
+			while ( i < 5 )
+			{
+				if ( i % 2 == 0 )
+					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_message_" + i));
+				i++;
+			}
+			tutorials.show(this, tutorialData);
 		}
 		
 		override public function updateData():void
