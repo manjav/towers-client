@@ -187,14 +187,15 @@ package com.gerantech.towercraft.controls.screens
 
 				//quest start
 				var tuteText:IntList = quest.startNum;
-				if(quest.startNum.size() > 0)
+				if(quest.startNum.size() >= 0)
 				{
-					for each (var i:int in tuteText) 
+					var i:int = 0;
+					for ( i=0 ; i < tuteText.size() ; i++ )
 					{
-						if(tuteText[i] % 2 == 0)
-							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start_mentor_" + tuteText[i]));
+						if(tuteText.get(i) % 2 == 0)
+							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_start_mentor_" + tuteText.get(i)));
 						else
-							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_start_enemy_" + tuteText[i]));
+							tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_start_enemy_" + tuteText.get(i)));
 					}
 					
 				}
@@ -344,25 +345,28 @@ package com.gerantech.towercraft.controls.screens
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			
 			//quest end
+			var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
 			var tuteText:IntList = quest.startNum;
-			if(quest.startNum.size() > 0)
+			if(quest.startNum.size() >= 0)
 			{
-				for each (var i:int in tuteText) 
+				var i:int = 0;
+				for ( i=0 ; i < tuteText.size() ; i++ )
 				{
-					if(battleOutcomeOverlay.score > 0 && tuteText[i] >= 0)
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_win_" + tuteText[i]));
-					else if (tuteText[i] < 0)
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_defeat_" + tuteText[i]));
-				}	
+					if(battleOutcomeOverlay.score > 0 && tuteText.get(i) >= 0)
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_win_" + tuteText.get(i)));
+					else if (tuteText.get(i) < 0)
+						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + player.get_questIndex() + "_end_defeat_" + tuteText.get(i)));
+				}
+				tutorials.show(this, tutorialData);
 			}
-			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
+			/*if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
 			{
 				//trace("battle screen -> end", player.get_questIndex());
 				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
 				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
 				return;
-			}
+			}*/
 			
 			// show faction changes overlay
 			if( battleOutcomeOverlay.data != null )

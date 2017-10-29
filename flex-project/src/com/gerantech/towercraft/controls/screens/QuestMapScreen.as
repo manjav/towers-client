@@ -100,7 +100,7 @@ override protected function transitionInCompleteHandler(event:Event):void
 	trace("endNum size:",quest.endNum.size());
 	trace("time size:", quest.times.size());
 	//trace("tuteText[0]:", tuteText[0]);
-	if(true)
+	if( tuteText.size() >= 0 )
 	{
 		for (var i:int ; i < tuteText.size() ; i++) 
 		{
