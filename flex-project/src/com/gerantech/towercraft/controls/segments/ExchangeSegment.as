@@ -96,6 +96,11 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showTutorial():void
 		{
+			if ( UserData.instance.shopOpened )
+				return;
+			UserData.instance.shopOpened = true;
+			UserData.instance.save();
+			
 			var tutorialData:TutorialData = new TutorialData("shop");
 			var i:int = 0;
 			while ( i < 5 )

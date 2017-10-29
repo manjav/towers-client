@@ -11,6 +11,7 @@ public class UserData
     public var id:int = -1;
 	public var password:String = "";
     public var buildingsOpened:Boolean;
+	public var shopOpened:Boolean;
     public var rated:Boolean;
 	
 	private var settingsMap:IntIntMap;
