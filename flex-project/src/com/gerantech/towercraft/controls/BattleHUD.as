@@ -282,7 +282,8 @@ package com.gerantech.towercraft.controls
 		private function hideBubble(bubble:StickerBubble):void
 		{
 			bubble.removeFromParent();
-			stickerButton.visible = true;
+			if( !SFSConnection.instance.mySelf.isSpectator )
+				stickerButton.visible = true;
 		}
 		
 		override public function dispose():void

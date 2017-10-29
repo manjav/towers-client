@@ -14,7 +14,7 @@ public class AdminScreen extends ListScreen
 {
 override protected function initialize():void
 {
-	title = loc("settings-page");
+	title = "Admin Screen";
 	super.initialize();
 	
 	listLayout.gap = 0;	
