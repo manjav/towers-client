@@ -21,6 +21,8 @@ import starling.events.Event;
 public class InboxScreen extends ListScreen
 {
 private static var messages:ListCollection;
+
+private var emptyLabel:RTLLabel;
 public function InboxScreen()
 {
 	super();
@@ -59,11 +61,13 @@ private function showMessages():void
 {
 	if( messages == null || messages.length == 0 )
 	{
-		var emptyLabel:RTLLabel = new RTLLabel(loc("inbox_empty_label"));
+		emptyLabel = new RTLLabel(loc("inbox_empty_label"));
 		emptyLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 		addChild(emptyLabel);
 		return;
-	}	
+	}
+	if( emptyLabel != null )
+		emptyLabel.removeFromParent(
 	list.dataProvider = messages;
 }
 
@@ -82,7 +86,7 @@ private function list_eventsHandler(event:Event):void
 		if( message.type == MessageTypes.M50_URL )
 			navigateToURL(new URLRequest(message.data));
 	}
-	if( message.type == MessageTypes.M40_CONFIRM )
+	if( MessageTypes.isConfirm(message.type) )
 	{
 		params = new SFSObject();
 		params.putInt("id", message.id);

@@ -3,16 +3,12 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 
-import flash.geom.Rectangle;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -150,7 +146,7 @@ override public function set isSelected(value:Boolean):void
 		declineButton.removeFromParent();
 	}
 	
-	var hasButton:Boolean = _data.type == MessageTypes.M40_CONFIRM || _data.type == MessageTypes.M50_URL;
+	var hasButton:Boolean = MessageTypes.isConfirm(_data.type) || _data.type == MessageTypes.M50_URL;
 	var _h:Number = value?(messageDisplay.height+padding*(4/messageDisplay.numLines)+padding+(hasButton?declineButton.height:0) ):(140*appModel.scale);
 	Starling.juggler.tween(this, TWEEN_TIME, {height:_h, transition:Transitions.EASE_IN_OUT, onComplete:tweenCompleted, onCompleteArgs:[value]});
 	function tweenCompleted(_selected:Boolean):void
@@ -161,7 +157,7 @@ override public function set isSelected(value:Boolean):void
 		if( hasButton )
 		{
 			appear(acceptButton)
-			if( _data.type == MessageTypes.M40_CONFIRM )
+			if( _data.type == MessageTypes.isConfirm(_data.type) )
 				appear(declineButton)
 		}
 	}

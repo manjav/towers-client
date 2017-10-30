@@ -38,8 +38,8 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const BUDDY_REMOVE:String = "buddyRemove";
 		public static const BUDDY_BATTLE:String = "buddyBattle";
 		
-		public static var INBOX_GET:String = "inboxGet";
-		public static var INBOX_OPEN:String = "inboxOpen";
-		public static var INBOX_CONFIRM:String = "inboxConfirm";
+		public static const INBOX_GET:String = "inboxGet";
+		public static const INBOX_OPEN:String = "inboxOpen";
+		public static const INBOX_CONFIRM:String = "inboxConfirm";
 	}
 }
