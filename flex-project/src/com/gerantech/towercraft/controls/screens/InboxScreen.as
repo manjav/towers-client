@@ -67,7 +67,7 @@ private function showMessages():void
 		return;
 	}
 	if( emptyLabel != null )
-		emptyLabel.removeFromParent(
+		emptyLabel.removeFromParent();
 	list.dataProvider = messages;
 }
 
