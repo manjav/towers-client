@@ -18,7 +18,6 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
-import flash.net.navigateToURL;
 import flash.utils.setTimeout;
 
 import feathers.controls.List;
@@ -143,10 +142,12 @@ private function showDetails():void
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
+	joinleaveButton.width = (roomServerData.getInt("pri")==0||itsMyRoom?240:370) * appModel.scale;
 	joinleaveButton.height = 96 * appModel.scale;
+	joinleaveButton.visible = roomServerData.getInt("pri")<2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding*13.2, NaN, NaN, padding);
-	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
+	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri")==0?"lobby_join_label":"lobby_request_label"));
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
 	joinleaveButton.addEventListener(Event.SELECT, joinleaveButton_selectHandler);
@@ -314,8 +315,20 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
 	SFSConnection.instance.lobbyManager.lobby = null;
-	updateLobbyLayout(true);
+}
+
+protected function sfs_joinHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.LOBBY_JOIN )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
+	var response:int = event.params.params.getInt("response")
+	if( response == 0 ) 
+		updateLobbyLayout(true);
+	else if( response == 1 ) 
+		appModel.navigator.addLog(loc("lobby_join_request_sent"));
 }
 
 private function updateLobbyLayout(isJoin:Boolean):void

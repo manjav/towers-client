@@ -84,6 +84,7 @@ private function showElements():void
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
 	chatList.dataProvider = manager.messages;
 	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);
+	chatList.addEventListener(Event.TRIGGERED, chatList_triggeredHandler);
 	setTimeout(chatList.scrollToDisplayIndex, 100, manager.messages.length-1, 0.2);
 	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 	addChild(chatList);
@@ -124,6 +125,13 @@ private function showElements():void
 	UserData.instance.save();
 }
 
+private function chatList_triggeredHandler(event:Event):void
+{
+	var params:SFSObject = event.data as SFSObject;
+	if( MessageTypes.isConfirm(params.getShort("m")) )
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+}
+
 private function manager_triggerHandler(event:Event):void
 {
 	gotoBattle();
@@ -155,10 +163,6 @@ private function chatList_changeHandler(event:Event):void
 		params.putInt("bid", msgPack.getInt("bid"));
 		params.putShort("st", msgPack.getShort("st"));
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-		
-	/*	// Go to battle screen
-		if( msgPack.getInt("i") != player.id )
-			gotoBattle();*/
 	}
 }
 
