@@ -85,6 +85,7 @@ protected function sfsConnection_roomDataHandler(event:SFSEvent):void
 		roomData.all = roomServerData.getSFSArray("all");
 	roomData.bio = roomServerData.getText("bio");
 	roomData.min = roomServerData.getInt("min")
+	roomData.pri = roomServerData.getInt("pri");
 	if( transitionState >= TransitionData.STATE_IN_FINISHED )
 		showDetails();
 }
@@ -105,10 +106,11 @@ private function showDetails():void
 	features.push( {key:"min", value:roomData.min} );
 	features.push( {key:"sum", value:roomData.sum} );
 	features.push( {key:"max", value:roomData.max} );
+	features.push( {key:"pri", value:roomData.pri} );
 	
 	//trace(sfsData.getDump())
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding*7, padding*2, NaN, padding*2);
+	featureList.layoutData = new AnchorLayoutData(padding*6, padding*2, NaN, padding*2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
 	featureList.dataProvider = new ListCollection(features);
@@ -118,11 +120,11 @@ private function showDetails():void
 	tabs[0] = new LobbyTabButton("امتیاز", true);
 	tabs[0].isEnabled = false;
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[0].layoutData = new AnchorLayoutData( padding*15.5, appModel.isLTR?padding*2.5:NaN, NaN, appModel.isLTR?NaN:padding*2.5 );
+	tabs[0].layoutData = new AnchorLayoutData( padding*16, appModel.isLTR?padding*2.5:NaN, NaN, appModel.isLTR?NaN:padding*2.5 );
 	addChild(tabs[0]);
 	tabs[1] = new LobbyTabButton("فعالیت هفتگی", true);
 	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding*15.5, appModel.isLTR?padding*7:NaN, NaN, appModel.isLTR?NaN:padding*7 );
+	tabs[1].layoutData = new AnchorLayoutData( padding*16, appModel.isLTR?padding*7:NaN, NaN, appModel.isLTR?NaN:padding*7 );
 	addChild(tabs[1]);
 	
 	memberList = SFSArray(roomData.all).toArray();
@@ -130,7 +132,7 @@ private function showDetails():void
 	
 	var membersList:FastList = new FastList();
 	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("theme/slider-background", "gui");
-	membersList.layoutData = new AnchorLayoutData(padding*18, padding, padding, padding);
+	membersList.layoutData = new AnchorLayoutData(padding*18.5, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
 	membersList.dataProvider = memberCollection;
@@ -143,7 +145,7 @@ private function showDetails():void
 	joinleaveButton.disableSelectDispatching = true;
 	joinleaveButton.height = 96 * appModel.scale;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom;
-	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
+	joinleaveButton.layoutData = new AnchorLayoutData(padding*13.2, NaN, NaN, padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
