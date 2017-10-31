@@ -89,7 +89,7 @@ override protected function commitData():void
 private function confirmSegment_triggeredHandler(event:Event):void
 {
 	segment.data.putShort( "pr", event.data ? MessageTypes.M16_COMMENT_JOIN_ACCEPT : MessageTypes.M17_COMMENT_JOIN_REJECT );
-	_owner.dispatchEventWith(event.type, false, segment.data);
+	_owner.dispatchEventWith(Event.ROOT_CREATED, false, segment.data);
 }
 }
 }
