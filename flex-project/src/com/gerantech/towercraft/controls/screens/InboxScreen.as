@@ -84,7 +84,7 @@ private function list_eventsHandler(event:Event):void
 	if( event.type == Event.SELECT )
 	{
 		if( message.type == MessageTypes.M50_URL )
-			navigateToURL(new URLRequest(message.data));
+			appModel.navigator.handleURL(message.data);
 	}
 	if( MessageTypes.isConfirm(message.type) )
 	{
