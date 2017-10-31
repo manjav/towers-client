@@ -41,7 +41,6 @@ package com.gerantech.towercraft.managers
 		private var retryPurchase:String;
 
 		private var purchaseDetails:InAppPurchaseDetails;
-
 		private var skuDetails:InAppSkuDetails;
 		
 		public static function get instance():BillingManager
@@ -148,7 +147,7 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_SUCCESS, iap_restoreSuccessHandler);
 			_iap.removeEventListener(InAppPurchaseEvent.RESTORE_ERROR, iap_restoreErrorHandler);
 			loadDetails();
-			if(retryPurchase != null)
+			if( retryPurchase != null )
 			{
 				purchase(retryPurchase);
 				retryPurchase = null;
@@ -260,7 +259,7 @@ package com.gerantech.towercraft.managers
 			
 			var sku:String = event.data;
 			var item:ExchangeItem = exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
-			exchanger.exchange(item, 0);
+			exchanger.exchange(item, TimeManager.instance.now);
 			restore();
 			
 			var priceList:Array = skuDetails._price.split(" ");
@@ -273,10 +272,13 @@ package com.gerantech.towercraft.managers
 			trace(int(price), currency)
 			//GameAnalytics.addBusinessEvent("USD", 1000, "item", "id", "cart", "[receipt]", "[signature]");
 			
+			var params:SFSObject = new SFSObject();
+			params.putText("productID", purchaseDetails._sku);
+			params.putText("purchaseToken", purchaseDetails._token);
+			params.putBool("consume", true);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, params);
+			
 			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
-			
-			
-			
 			trace("iap_consumeSuccessHandler", event.data);
 		}
 		protected function iap_consumeErrorHandler(event:InAppPurchaseEvent):void
@@ -297,7 +299,7 @@ package com.gerantech.towercraft.managers
 			var purchase:InAppPurchaseDetails;
 			var sku:InAppSkuDetails;
 			
-			for(var s:String in items)
+			for each(var s:String in items)
 			{
 				purchase = _iap.getPurchaseDetails(s);
 				if(purchase!=null)
