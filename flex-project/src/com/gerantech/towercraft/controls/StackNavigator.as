@@ -12,6 +12,7 @@ import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
+import com.gerantech.towercraft.controls.toasts.SimpleToast;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -32,7 +33,6 @@ import flash.geom.Rectangle;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.Dictionary;
-import flash.utils.setTimeout;
 
 import mx.resources.ResourceManager;
 
@@ -61,7 +61,7 @@ private function navigator_changeHandler(event:Event):void
 {
 	if( toolbar && AppModel.instance.loadingManager.state >= LoadingManager.STATE_LOADED )
 	{
-		if( activeScreenID != Main.DASHBOARD_SCREEN )
+		if( activeScreenID != Main.DASHBOARD_SCREEN && activeScreenID != Main.QUESTS_SCREEN )
 		{
 			toolbar.removeFromParent();
 			return;
@@ -76,6 +76,7 @@ private function navigator_changeHandler(event:Event):void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
+	SFSConnection.instance.lobbyManager.addEventListener(Event.OPEN, lobbyManager_friendlyBattleHandler);
 	if( toolbar == null )
 	{
 		toolbar = new Toolbar();
@@ -181,9 +182,8 @@ public function addLogGame(log:GameLog) : void
 public var toolbar:Toolbar;
 private function itemAchievedHandler(event:Event):void
 {
-	if( activeScreenID != Main.DASHBOARD_SCREEN )
-		return;
-	addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
+	if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.QUESTS_SCREEN )
+		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
 }
 public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
 {
@@ -239,6 +239,15 @@ public function addAnimation(x:Number, y:Number, size:int, texture:Texture, coun
 }*/
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  INVOKE   -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+public function handleURL(url:String):void
+{
+	if( url.substr(0,9) ==  "towers://" )
+	{
+		handleSchemeQuery([url.substr(9)]);
+		return;
+	}
+	navigateToURL(new URLRequest(url));
+}
 public function handleInvokes():void
 {
 	if( AppModel.instance.invokes != null )
@@ -342,8 +351,21 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		battleconfirmToast.close();
 		battleconfirmToast = null;
 	}
-	
 }
+private function lobbyManager_friendlyBattleHandler(event:Event):void
+{
+	if( activeScreenID == Main.SOCIAL_SCREEN || activeScreenID == Main.BATTLE_SCREEN )
+		return;
+	var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
+	battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);
+	addToast(battleToast);
+	function battleToast_selectHandler():void {
+		battleToast.removeEventListener(Event.SELECT, battleToast_selectHandler);
+		pushScreen(Main.SOCIAL_SCREEN);
+	}
+}
+
+
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
 	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);

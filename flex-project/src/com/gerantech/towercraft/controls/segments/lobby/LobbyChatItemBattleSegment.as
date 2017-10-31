@@ -38,9 +38,9 @@ override public function init():void
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 }
-override public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
+override public function commitData(_data:ISFSObject):void
 {
-	super.commitData(_data, lobbyData);
+	super.commitData(_data);
 	actionButton.visible = data.getShort("st") < 2;
 	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding*0.5);
 	

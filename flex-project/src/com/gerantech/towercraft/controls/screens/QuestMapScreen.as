@@ -11,12 +11,9 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.utils.lists.IntList;
-import com.gt.towers.utils.lists.PlaceDataList;
 
 import flash.geom.Rectangle;
-import flash.utils.clearInterval;
 import flash.utils.setTimeout;
 
 import feathers.controls.List;
@@ -137,7 +134,9 @@ private function list_selectHandler(event:Event):void
 	var ti:TransitionData = new TransitionData();
 	var to:TransitionData = new TransitionData();
 	to.destinationAlpha = ti.sourceAlpha = 0;
-	to.destinationConstrain = ti.destinationConstrain = list.getBounds(this);
+	var constrain:Rectangle = list.getBounds(this);
+	constrain.y += 80 * appModel.scale;
+	to.destinationConstrain = ti.destinationConstrain = constrain;
 	ti.transition = Transitions.EASE_OUT_BACK;
 	to.destinationBound = ti.sourceBound = new Rectangle(bounds.x-popupWidth*0.45, bounds.y+50*appModel.scale, popupWidth*0.9, popupHeight);
 	ti.destinationAlpha = to.sourceAlpha = 1;

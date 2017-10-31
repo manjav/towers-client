@@ -18,10 +18,11 @@ package com.gerantech.towercraft.controls.buttons
 
 		private var labelLayoutData:AnchorLayoutData;
 		
-		public function LobbyTabButton(label:String)
+		public function LobbyTabButton(label:String, visible:Boolean = false)
 		{
 			super();
 			this.label = label;
+			this.visible = visible;
 			labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 		}
 		
@@ -45,7 +46,6 @@ package com.gerantech.towercraft.controls.buttons
 			labelDisplay.touchable = false;
 			labelDisplay.layoutData = labelLayoutData;
 			addChild(labelDisplay);
-			visible = false;
 			changeStyle(currentState);
 		}
 		

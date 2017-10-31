@@ -19,18 +19,21 @@ override public function init():void
 	labelDisplay.layoutData = new AnchorLayoutData( NaN, padding, NaN, padding, NaN, 0);
 	addChild(labelDisplay);
 }
-override public function commitData(_data:ISFSObject, lobbyData:ISFSObject):void
+override public function commitData(_data:ISFSObject):void
 {
-	super.commitData(_data, lobbyData);
+	super.commitData(_data);
 	
 	var comment:String = "";
 	switch(data.getShort("m"))
 	{
-		case MessageTypes.M10_COMMENT_JOINT:	comment = loc("lobby_comment_join",		[data.getText("s")]);	break;
-		case MessageTypes.M11_COMMENT_LEAVE:	comment = loc("lobby_comment_leave",	[data.getText("s")]);	break;
-		case MessageTypes.M12_COMMENT_KICK:		comment = loc("lobby_comment_kick",		[data.getText("o"), data.getText("s")]);	break;
-		case MessageTypes.M13_COMMENT_PROMOTE:	comment = loc("lobby_comment_promote",	[data.getText("o"), data.getText("s"), loc("lobby_role_"+data.getShort("p"))]);	break;
-		case MessageTypes.M14_COMMENT_DEMOTE:	comment = loc("lobby_comment_demote",	[data.getText("o"), data.getText("s"), loc("lobby_role_"+data.getShort("p"))]);	break;
+		case MessageTypes.M10_COMMENT_JOINT:		comment = loc("lobby_comment_join",		[data.getText("s")]);	break;
+		case MessageTypes.M11_COMMENT_LEAVE:		comment = loc("lobby_comment_leave",	[data.getText("s")]);	break;
+		case MessageTypes.M15_COMMENT_EDIT:			comment = loc("lobby_comment_edit",		[data.getText("s")]);	break;
+		case MessageTypes.M16_COMMENT_JOIN_ACCEPT:	comment = loc("lobby_comment_jaccept",	[data.getText("o"), data.getText("s")]);	break;
+		case MessageTypes.M17_COMMENT_JOIN_REJECT:	comment = loc("lobby_comment_jreject",	[data.getText("o"), data.getText("s")]);	break;
+		case MessageTypes.M12_COMMENT_KICK:			comment = loc("lobby_comment_kick",		[data.getText("o"), data.getText("s")]);	break;
+		case MessageTypes.M13_COMMENT_PROMOTE:		comment = loc("lobby_comment_promote",	[data.getText("o"), data.getText("s"), loc("lobby_role_"+data.getShort("p"))]);	break;
+		case MessageTypes.M14_COMMENT_DEMOTE:		comment = loc("lobby_comment_demote",	[data.getText("o"), data.getText("s"), loc("lobby_role_"+data.getShort("p"))]);	break;
 	}
 	labelDisplay.text = comment;
 }

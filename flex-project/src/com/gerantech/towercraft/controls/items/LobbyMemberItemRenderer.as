@@ -28,9 +28,9 @@ private var nameDisplay:RTLLabel;
 private var nameShadowDisplay:RTLLabel;
 private var pointDisplay:RTLLabel;
 private var pointIconDisplay:ImageLoader;
-private var inviteDisplay:RTLLabel;
 private var mySkin:ImageSkin;
 private var roleDisplay:RTLLabel;
+private var activityDisplay:RTLLabel;
 
 override protected function initialize():void
 {
@@ -53,12 +53,18 @@ override protected function initialize():void
 	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.7);
 	addChild(nameDisplay);
 	
-	roleDisplay = new RTLLabel("", 0, appModel.isLTR?"right":"left", null, false, null, 0.7);
-	//roleDisplay.pixelSnapping = false;
+	roleDisplay = new RTLLabel("", 0, null, null, false, null, 0.7);
+	roleDisplay.pixelSnapping = false;
 	roleDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, padding*0.5);
 	addChild(roleDisplay);
 	
-	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 1);
+	activityDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
+	activityDisplay.width = padding * 3
+	activityDisplay.pixelSnapping = false;
+	activityDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*8:NaN, NaN, appModel.isLTR?NaN:padding*8, NaN, 0);
+	addChild(activityDisplay);
+	
+	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
 	pointDisplay.pixelSnapping = false;
 	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*3.2:NaN, NaN, appModel.isLTR?NaN:padding*3.2, NaN, 0);
 	addChild(pointDisplay);
@@ -83,6 +89,7 @@ override protected function commitData():void
 	nameDisplay.text = rankIndex + ".  " + _data.name ;
 	nameShadowDisplay.text = rankIndex + ".  " + _data.name ;
 	roleDisplay.text = loc("lobby_role_"+_data.permission);
+	activityDisplay.text = "" + _data.activity;
 	pointDisplay.text = "" + _data.point;
 	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.point)), "gui");
 

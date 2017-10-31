@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.LobbyBalloon;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
@@ -9,6 +10,8 @@ import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 
 import flash.filesystem.File;
@@ -23,6 +26,7 @@ import dragonBones.starling.StarlingFactory;
 
 import feathers.controls.Button;
 import feathers.controls.ImageLoader;
+import feathers.controls.LayoutGroup;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -30,6 +34,7 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 
 public class MainSegment extends Segment
@@ -39,6 +44,7 @@ public class MainSegment extends Segment
 	private static var floating:MapElementFloating;
 	
 	private var intervalId:uint;
+	private var lobbyBallon:LobbyBalloon;
 
 	public function MainSegment()
 	{
@@ -108,7 +114,7 @@ public class MainSegment extends Segment
 		
 		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
 		inboxButton.width = inboxButton.height = 120 * appModel.scale;
-		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
 		addChild(inboxButton);
 		
@@ -117,10 +123,9 @@ public class MainSegment extends Segment
 		restoreButton.isLongPressEnabled = true;
 		restoreButton.longPressDuration = 3;
 		restoreButton.width = restoreButton.height = 120 * appModel.scale;
-		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.addPopup(new RestorePopup())});
+		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
 		addChild(restoreButton);
-	
 	}
 	
 	private function showMap():void
@@ -163,6 +168,7 @@ public class MainSegment extends Segment
 					case "dragon-cross":
 						btn.x = 726 * appModel.scale * 1.2;
 						btn.y = 726 * appModel.scale * 1.2;
+						btn.addChild(showLobbyBalloon(10 * appModel.scale, -120 * appModel.scale));
 						break;
 					case "portal-tower":
 						btn.x = 454 * appModel.scale * 1.2;
@@ -172,6 +178,7 @@ public class MainSegment extends Segment
 			}
 		}
 	}
+	
 	// show tutorial steps
 	private function showTutorial():void
 	{
@@ -200,6 +207,22 @@ public class MainSegment extends Segment
 			}
 		}
 	}
+	
+	private function showLobbyBalloon(x:int, y:int):LobbyBalloon
+	{
+		lobbyBallon = new LobbyBalloon(SFSConnection.instance.lobbyManager.numUnreads());
+		lobbyBallon.scale = 0;
+		lobbyBallon.x = x;
+		lobbyBallon.y = y;
+		Starling.juggler.tween(lobbyBallon, 0.3, {delay:1, scale:appModel.scale * 2, transition:Transitions.EASE_OUT_BACK});
+		SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
+		return lobbyBallon;
+	}
+	private function lobbyManager_updateHandler(event:Event):void
+	{
+		lobbyBallon.unreads = SFSConnection.instance.lobbyManager.numUnreads();
+	}
+	
 	
 	private function mapElement_triggeredHandler(event:Event ):void
 	{
@@ -288,6 +311,7 @@ public class MainSegment extends Segment
 	override public function dispose():void
 	{
 		clearInterval(intervalId);
+		SFSConnection.instance.lobbyManager.removeEventListener(Event.UPDATE, lobbyManager_updateHandler);
 		super.dispose();
 	}
 }

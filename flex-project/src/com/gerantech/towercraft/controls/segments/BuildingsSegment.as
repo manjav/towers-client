@@ -13,12 +13,11 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
-	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.constants.ResourceType;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
 	
+	import feathers.controls.List;
 	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
@@ -33,7 +32,7 @@ package com.gerantech.towercraft.controls.segments
 	public class BuildingsSegment extends Segment
 	{
 		private var buildingsListCollection:ListCollection;
-		private var buildingslist:FastList;
+		private var buildingslist:List;
 		private var listLayout:TiledRowsLayout;
 
 		private var detailsPopup:BuildingDetailsPopup;
@@ -52,7 +51,7 @@ package com.gerantech.towercraft.controls.segments
 			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.6;
 			
 			updateData();
-			buildingslist = new FastList();
+			buildingslist = new List();
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			buildingslist.layout = listLayout;
 			buildingslist.layoutData = new AnchorLayoutData(0,0,0,0);

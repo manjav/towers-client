@@ -126,7 +126,7 @@ package com.gerantech.towercraft.controls.segments
 			var softs:ShopLine = new ShopLine(ExchangeType.S_10_SOFT);
 			for (var i:int=0; i<itemKeys.length; i++)
 			{
-				if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_0_HARD )
+				if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_0_HARD && itemKeys[i] != ExchangeType.S_0_HARD )//test
 					hards.add(itemKeys[i]);
 				else if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_10_SOFT )
 					softs.add(itemKeys[i]);

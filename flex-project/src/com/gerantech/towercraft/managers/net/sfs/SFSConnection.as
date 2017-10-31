@@ -8,44 +8,31 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
 	
-	/*import flash.events.DNSResolverEvent;
-	import flash.events.ErrorEvent;
-	import flash.net.dns.AAAARecord;
-	import flash.net.dns.ARecord;
-	import flash.net.dns.DNSResolver;
-	import flash.net.dns.MXRecord;
-	import flash.net.dns.PTRRecord;
-	import flash.net.dns.SRVRecord;*/
-
 	[Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 	[Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 
 	public class SFSConnection extends SmartFox
 	{
+		public static const SUCCEED:String = "succeed";
+		public static const FAILURE:String = "failure";
+		private static var _instance:SFSConnection;
+
 		public var userName:String;
 		public var password:String;
 		public var zoneName:String;
-		public var myLobby:Room;
+		public var lobbyManager:LobbyManager;
 
-		private var loginParams:ISFSObject;
-		
 		public var retryTimeout:int = 500;
 		public var retryMax:int = 3;
 		public var retryIndex:int = 1;
 
-		private static var _instance:SFSConnection;
-		
-		public static const SUCCEED:String = "succeed";
-		public static const FAILURE:String = "failure";
-		
-		
+		private var loginParams:ISFSObject;
+				
 		public function SFSConnection()
 		{
 			// Create an instance of the SmartFox class
-			
 			// Turn on the debug feature
 			//debug = false;
-			
 			
 /*			var resolver:DNSResolver = new DNSResolver();
 			resolver.addEventListener(DNSResolverEvent.LOOKUP, resolver_lookupHandler);
@@ -209,7 +196,7 @@ package com.gerantech.towercraft.managers.net.sfs
 		}*/
 		public function getLobby():Room
 		{
-			for each (var r:Room in SFSConnection.instance.roomList) 
+			for each (var r:Room in SFSConnection.instance.roomList)
 				if( r.groupId == "lobbies" )
 					return r;
 			return null;

@@ -4,6 +4,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.buildings.Place;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.utils.clearTimeout;
@@ -41,10 +42,10 @@ package com.gerantech.towercraft.views
 			this.building = building;
 			this.health = building.get_troopPower();
 			
-			textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") +  building.get_troopName();
+			textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") +  get_troopName();
 			movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
 			movieClip.pivotX = movieClip.width/2;
-			movieClip.y = -165 * AppModel.instance.scale;
+			movieClip.y = -56 ;
 			addChild(movieClip);
 			
 			this.scale = AppModel.instance.scale * 2;
@@ -117,7 +118,7 @@ package com.gerantech.towercraft.views
 			if(direction == dir)
 				return;
 
-			movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
+			movieClip.fps = get_troopSpriteCount()*3000/building.get_troopSpeed();
 			direction = dir;
 			for(var i:int=0; i < movieClip.numFrames; i++)
 				movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction+( i>9 ? "-0"+(i) : "-00"+(i)), "troops"));
@@ -207,6 +208,31 @@ package com.gerantech.towercraft.views
 		{
 			clearTimeout(rushTimeoutId);
 			super.dispose();
+		}
+		
+		
+		
+		public function get_troopName () : String
+		{
+			if( building == null )
+				return "dwarf3b-move-";
+			if( BuildingType.get_category(building.type) == BuildingType.B00_CAMP )
+				return "dwarfinf-move-";
+			if( BuildingType.get_category(building.type) == BuildingType.B20_RAPID )
+				return "darkelfassassin-move-";
+			if( BuildingType.get_category(building.type) == BuildingType.B30_HEAVY )
+				return "corruptedknight-move-";
+			return "dwarf3b-move-";
+		}
+		public function get_troopSpriteCount () : int
+		{
+			if( building == null )
+				return 12;
+			if( BuildingType.get_category(building.type) == BuildingType.B20_RAPID )
+				return 10;
+			if( BuildingType.get_category(building.type) == BuildingType.B30_HEAVY )
+				return 23;
+			return 12;
 		}
 	}
 }

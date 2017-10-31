@@ -3,8 +3,6 @@
  */
 package com.gerantech.towercraft.managers.net
 {
-	import com.gerantech.towercraft.managers.TimeManager;
-	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.utils.LoadAndSaver;
@@ -46,7 +44,7 @@ package com.gerantech.towercraft.managers.net
 			initServerData(serverData);
 			var coreFileName:String = "core-"+version+ ".swf";
 			var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
-			var url:String = "http://"+SFSConnection.instance.currentIp+"/cores/"+coreFileName;
+			var url:String = "http://"+SFSConnection.instance.currentIp+":8080/swfcores/"+coreFileName;
 			var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true, serverData.getInt("coreSize"));
 			ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 			ls.addEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);

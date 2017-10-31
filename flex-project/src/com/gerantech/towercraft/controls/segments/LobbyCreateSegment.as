@@ -1,8 +1,11 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.controls.Switcher;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.popups.EmblemsPopup;
+import com.gerantech.towercraft.controls.switchers.LabeledSwitcher;
+import com.gerantech.towercraft.controls.switchers.Switcher;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -28,6 +31,9 @@ private var bioInput:CustomTextInput;
 private var maxSwitcher:Switcher;
 private var minSwitcher:Switcher;
 private var errorDisplay:RTLLabel;
+private var emblemButton:EmblemButton;
+
+private var privacySwitcher:Switcher;
 
 override protected function initialize():void
 {
@@ -35,7 +41,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	padding = 36 * appModel.scale;
-	controlWidth = 240 * appModel.scale;
+	controlWidth = 440 * appModel.scale;
 	var controlH:int = 96 * appModel.scale;
 	
 	var tilteDisplay:RTLLabel = new RTLLabel(loc("lobby_create_message"), 1, "center" );
@@ -43,12 +49,26 @@ override protected function initialize():void
 	addChild(tilteDisplay);
 
 	nameInput = addInput("name", controlH*1.4, controlH*1.2);
-	bioInput = addInput("bio", controlH*3, controlH*3);
-	maxSwitcher = addSwitcher("max", controlH*6.5, controlH, 10, 30, 50, 20);
-	minSwitcher = addSwitcher("min", controlH*8, controlH, 0, 200, 3000, 200);
+	bioInput = addInput("bio", controlH*2.8, controlH*3);
+	
+	// lobby emblem
+	var emblemLabel:RTLLabel = new RTLLabel( loc("lobby_pic"), 0, null, null, false, null, 0.8 );
+	emblemLabel.layoutData = new AnchorLayoutData( controlH*6.6, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	addChild(emblemLabel);
+	
+	emblemButton = new EmblemButton(0);
+	emblemButton.layoutData = new AnchorLayoutData( controlH*6.1, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	emblemButton.width = padding * 4;
+	emblemButton.height = padding * 4.2;
+	emblemButton.addEventListener(Event.TRIGGERED, emblemButton_triggeredHandler);
+	addChild(emblemButton);
+
+	maxSwitcher = addSwitcher("max", controlH*8.0, controlH, 10, 30, 50, 20);
+	minSwitcher = addSwitcher("min", controlH*9.5, controlH, 0, 200, 3000, 200);
+	privacySwitcher = addSwitcher("pri", controlH*11, controlH, 0, 200, 3000, 200, "lobby_pri");
 	
 	errorDisplay = new RTLLabel( "", 0xFF0000, "center", null, false, null, 0.9 );
-	errorDisplay.layoutData = new AnchorLayoutData( controlH*11, padding, controlH*2, padding );
+	errorDisplay.layoutData = new AnchorLayoutData( NaN, padding, controlH*2.7, padding );
 	addChild(errorDisplay);
 	
 	var createMessage:RTLLabel = new RTLLabel(loc("lobby_create_button"), 0, null, null, false, null, 0.8);
@@ -65,6 +85,17 @@ override protected function initialize():void
 	addChild(createButton);
 }
 
+private function emblemButton_triggeredHandler(event:Event):void
+{
+	var emblemsPopup:EmblemsPopup = new EmblemsPopup();
+	emblemsPopup.addEventListener(Event.SELECT, emblemsPopup_selectHandler);
+	appModel.navigator.addPopup(emblemsPopup);
+	function emblemsPopup_selectHandler(eve:Event):void {
+		emblemsPopup.removeEventListener(Event.SELECT, emblemsPopup_selectHandler);
+		emblemButton.value = eve.data as int;
+	}
+}
+
 private function createButton_triggeredHandler(event:Event):void
 {
 	if( nameInput.text.length < 4 || nameInput.text.length > 16 )
@@ -77,10 +108,16 @@ private function createButton_triggeredHandler(event:Event):void
 		errorDisplay.text = loc("text_size_warn", [loc("lobby_bio"), 10, 128]);
 		return;
 	}
-		
+	if( minSwitcher.value > Math.max(0, player.get_point()-200) )
+	{
+		errorDisplay.text = loc("lobby_create_error_message_point", [200]);
+		return;
+	}
+	
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("name", nameInput.text);
 	params.putUtfString("bio", bioInput.text);
+	params.putInt("pri", privacySwitcher.value);
 	params.putInt("max", maxSwitcher.value);
 	params.putInt("min", minSwitcher.value);
 	params.putInt("pic", 10);
@@ -99,15 +136,15 @@ private function addInput(controlName:String, positionY:int, controlHeight:int):
 	addChild(inputControl);
 	return inputControl;
 }
-private function addSwitcher(controlName:String, positionY:int, controlHeight:int, min:int, value:int, max:int, stepInterval:int):Switcher
+private function addSwitcher(controlName:String, positionY:int, controlHeight:int, min:int, value:int, max:int, stepInterval:int, prefix:String=null):Switcher
 {
 	var labelDisplay:RTLLabel = new RTLLabel( loc("lobby_"+controlName), 0, null, null, false, null, 0.8 );
-	labelDisplay.width = controlWidth;
+	//labelDisplay.width = controlWidth;
 	labelDisplay.layoutData = new AnchorLayoutData( positionY+controlHeight/4, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(labelDisplay);
 	
-	var switcher:Switcher = new Switcher(min, value, max, stepInterval);
-	switcher.width = controlWidth * 2;
+	var switcher:Switcher = prefix == null ? (new Switcher(min, value, max, stepInterval)) : (new LabeledSwitcher(0, 1, prefix));
+	switcher.width = controlWidth;
 	switcher.layoutData = new AnchorLayoutData( positionY, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	//switcher.layoutData = new AnchorLayoutData( positionY, appModel.isLTR?padding:controlWidth+padding*2, NaN, appModel.isLTR?controlWidth+padding*2:padding );
 	switcher.height = controlHeight;
