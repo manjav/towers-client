@@ -195,6 +195,7 @@ private function membersList_focusInHandler(event:Event):void
 		return;
 	
 	var selectedData:Object = selectedItem.data;
+	selectedData.index = selectedItem.index;
 
 	var btns:Array = ["lobby_profile"];//trace(findUser(player.id).pr , selectedData.pr)
 	if( selectedData.id != player.id )
@@ -263,8 +264,10 @@ private function buttonsPopup_selectHandler(event:Event):void
 			else if( confirm.data == "lobby_demote" )
 				params.putShort("pr", MessageTypes.M14_COMMENT_DEMOTE);
 			else
+			{
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
-			
+				memberCollection.removeItemAt(buttonsPopup.data.index);
+			}
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
 			SFSConnection.instance.lobbyManager.requestData(true, true);
 		}
