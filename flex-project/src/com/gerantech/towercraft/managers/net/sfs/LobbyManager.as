@@ -74,19 +74,28 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	members = data.getSFSArray("all");
 	if( data.containsKey("messages") )
 	{
+		var u:ISFSObject = findUser(player.id);
 		messages = new ListCollection();
 		for( var i:int=0; i<data.getSFSArray("messages").size(); i++ )
 		{
 			var msg:ISFSObject = data.getSFSArray("messages").getSFSObject(i);
-			var u:ISFSObject = findUser(player.id);;
-			if( (msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2) || (MessageTypes.isConfirm(msg.getShort("m")) && msg.containsKey("pr")) )
-				continue;
-			messages.addItem(data.getSFSArray("messages").getSFSObject(i));
+			if( isLegal(msg, u) )
+				messages.addItem(data.getSFSArray("messages").getSFSObject(i));
 		}
 		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
 	}
 	isReady = true;
 	dispatchEventWith(Event.READY);
+}
+
+private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
+{
+	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
+		return false;
+	if( MessageTypes.isConfirm(msg.getShort("m")) )
+		if( u.getInt("permission") < 2 || msg.containsKey("pr") )
+			return false
+	return true;
 }
 
 protected function sfs_publicMessageHandler(event:SFSEvent):void
@@ -141,10 +150,10 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	}
 	else if( MessageTypes.isConfirm(msg.getShort("m")) )
 	{
-		var confirmIndex:int = getReplyedConfirm();
+		var confirmIndex:int = getReplyedConfirm(msg);
 		if( confirmIndex > -1 )
 			messages.removeItemAt(confirmIndex);
-		if( !msg.containsKey("pr") && findUser(player.id).getInt("permission") > 0 )
+		if( !msg.containsKey("pr") && findUser(player.id).getInt("permission") > 1 )
 			messages.addItem(msg);
 	}
 	//traceList()
@@ -153,25 +162,25 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 
 public function numUnreads():int
 {
-	var ret:int = 0;
+	var ret:int = -1;
 	if( messages == null )
-		return ret;
+		return 0;
 	for( var i:int=messages.length-1; i>=0; i-- )
 	{
 		if( UserData.instance.lastLobbeyMessageTime < messages.getItemAt(i).getInt("u") )
 			ret ++;
 	}
-	return ret;
+	return Math.max(0, ret);
 }
 
-private function getReplyedConfirm():int
+
+private function getReplyedConfirm(msg:ISFSObject):int
 {
-	for (var i:int = 0; i < messages.length; i++) 
-		if( MessageTypes.isConfirm(messages.getItemAt(i).getShort("m")) && messages.getItemAt(i).containsKey("pr") )
+	for (var i:int = messages.length - 1; i >= 0; i--)
+		if( MessageTypes.isConfirm(messages.getItemAt(i).getShort("m")) && messages.getItemAt(i).getInt("o")==msg.getInt("o") )
 			return i;
 	return -1;
 }
-
 private function containBattle(battleId:int):int
 {
 	for (var i:int = 0; i < messages.length; i++) 
