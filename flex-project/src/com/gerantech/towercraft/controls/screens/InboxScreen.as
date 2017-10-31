@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.InboxItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -9,13 +10,11 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
-import flash.net.URLRequest;
-import flash.net.navigateToURL;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 
+import starling.display.Quad;
 import starling.events.Event;
 
 public class InboxScreen extends ListScreen
@@ -48,13 +47,26 @@ override protected function initialize():void
 	title = loc("inbox_page");
 	super.initialize();
 	
+	var bgButton:SimpleLayoutButton = new SimpleLayoutButton();
+	bgButton.alpha = 0;
+	bgButton.backgroundSkin = new Quad(1,1,0xFF);
+	bgButton.addEventListener(Event.TRIGGERED, bg_triggeredHandler);
+	bgButton.layoutData = new AnchorLayoutData(0,0,0,0);
+	
 	listLayout.gap = 0;	
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new InboxItemRenderer(); }
 	list.addEventListener(Event.OPEN, list_eventsHandler);
 	list.addEventListener(Event.SELECT, list_eventsHandler);
 	list.addEventListener(Event.CANCEL, list_eventsHandler);
+	list.backgroundSkin = bgButton;
+	list.backgroundSkin.touchable = true;
 	showMessages();
+}
+
+private function bg_triggeredHandler(event:Event):void
+{
+	list.selectedIndex = -1;
 }
 
 private function showMessages():void

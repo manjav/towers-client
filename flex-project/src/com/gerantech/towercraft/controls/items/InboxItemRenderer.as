@@ -55,7 +55,7 @@ override protected function initialize():void
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 
-	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?5:8), NaN, padding*(appModel.isLTR?8:5) , NaN, offsetY);
+	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?6:8), NaN, padding*(appModel.isLTR?8:6) , NaN, offsetY);
 	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.7);
 	messageDisplay.wordWrap = false;
 	messageDisplay.layoutData = messageLayout;
@@ -128,8 +128,8 @@ override public function set isSelected(value:Boolean):void
 	messageDisplay.height = NaN;
 	messageLayout.top = value ? padding*2.4 : NaN;
 	messageLayout.verticalCenter = value ? NaN : offsetY;
-	messageLayout.right = padding*(value?1:(appModel.isLTR?5:8));
-	messageLayout.left = padding*(value?1:(appModel.isLTR?8:5));
+	messageLayout.right = padding*(value?1:(appModel.isLTR?6:8));
+	messageLayout.left = padding*(value?1:(appModel.isLTR?8:6));
 	
 	messageDisplay.wordWrap = value;
 	messageDisplay.validate();
