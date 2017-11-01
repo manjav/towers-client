@@ -213,7 +213,7 @@ package com.gerantech.towercraft.managers
 					}
 					else
 					{
-						sendGAEvent(purchaseDetails._sku);
+						//sendGAEvent(purchaseDetails._sku);
 						explain("popup_purchase_invalid");
 					}
 				}
@@ -236,7 +236,7 @@ package com.gerantech.towercraft.managers
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ALREADY_OWNED, iap_purchaseSuccessHandler);
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_SUCCESS, iap_purchaseSuccessHandler);
 			_iap.removeEventListener(InAppPurchaseEvent.PURCHASE_ERROR, iap_purchaseErrorHandler);
-			sendGAEvent(event.data);
+			//sendGAEvent(event.data);
 			explain("popup_purchase_error");
 			trace("iap_purchaseErrorHandler", event.data);
 			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
@@ -267,15 +267,22 @@ package com.gerantech.towercraft.managers
 			
 			var sku:String = event.data;
 			var item:ExchangeItem = exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
-			exchanger.exchange(item, 0);
+			exchanger.exchange(item, TimeManager.instance.now);
 			restore();
-			
-			sendGAEvent(sku);
+		
+			// send consume message
+			var params:SFSObject = new SFSObject();
+			params.putText("productID", purchaseDetails._sku);
+			params.putText("purchaseToken", purchaseDetails._token);
+			params.putBool("consume", true);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, params);
+
+			sendGAEvent(sku, purchaseDetails, item);
 			dispatchEventWith(FeathersEventType.END_INTERACTION, false, purchaseDetails);
 			trace("iap_consumeSuccessHandler", event.data);
 		}
 		
-		private function sendGAEvent(sku:String, pDetails:InAppPurchaseDetails=null):void
+		private function sendGAEvent(sku:String, pDetails:InAppPurchaseDetails, item:ExchangeItem):void
 		{
 			/*var priceList:Array = skuDetails._price.split(" ");
 			var price:String = priceList[0];
@@ -285,7 +292,6 @@ package com.gerantech.towercraft.managers
 				currency = "IRR";
 			price = StrUtils.getLatinNumber(price);*/
 
-			var item:ExchangeItem = AppModel.instance.game.exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
 			var rkey:int = item.requirements.keys()[0];
 			var okey:int = item.outcomes.keys()[0];
 			var currency:String = AppModel.instance.descriptor.market == "google" ? "USD" : "IRR";

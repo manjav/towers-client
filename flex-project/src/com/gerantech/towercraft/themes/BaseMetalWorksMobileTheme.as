@@ -170,7 +170,7 @@ package com.gerantech.towercraft.themes
 		public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 		public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
 		public static const POPUP_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 8);
-		public static const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(7, 8, 1, 68);//1, 1, 1, 42);
+		public static const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 2, 11);//1, 1, 1, 42);
 		public static const INSET_ITEM_RENDERER_MIDDLE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 40);
 		public static const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
 		public static const INSET_ITEM_RENDERER_LAST_SCALE9_GRID:Rectangle = new Rectangle(7, 2, 1, 35);

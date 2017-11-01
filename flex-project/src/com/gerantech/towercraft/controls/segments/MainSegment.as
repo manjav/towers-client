@@ -8,9 +8,7 @@ import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
-import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 
@@ -26,7 +24,6 @@ import dragonBones.starling.StarlingFactory;
 
 import feathers.controls.Button;
 import feathers.controls.ImageLoader;
-import feathers.controls.LayoutGroup;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -34,7 +31,6 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.Image;
 import starling.events.Event;
 
 public class MainSegment extends Segment
@@ -114,7 +110,7 @@ public class MainSegment extends Segment
 		
 		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
 		inboxButton.width = inboxButton.height = 120 * appModel.scale;
-		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addLog(loc("unavailable_messeage"));});
+		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
 		addChild(inboxButton);
 		
@@ -123,10 +119,9 @@ public class MainSegment extends Segment
 		restoreButton.isLongPressEnabled = true;
 		restoreButton.longPressDuration = 3;
 		restoreButton.width = restoreButton.height = 120 * appModel.scale;
-		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.addPopup(new RestorePopup())});
+		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
 		addChild(restoreButton);
-	
 	}
 	
 	private function showMap():void
@@ -187,7 +182,7 @@ public class MainSegment extends Segment
 		trace("player.nickName : ", player.nickName);
 		if( player.inTutorial() )
 		{
-			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton);
+			intervalId = setInterval(punchButton, 2000, getChildByName("gold-leaf") as SimpleButton);
 		}
 		else
 		{
@@ -199,12 +194,12 @@ public class MainSegment extends Segment
 				function confirm_eventsHandler():void {
 					confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 					punchButton(getChildByName("portal-center") as SimpleButton);
-					intervalId = setInterval(punchButton, 2000,  getChildByName("portal-center") as SimpleButton);
+					intervalId = setInterval(punchButton, 2000, getChildByName("portal-center") as SimpleButton);
 				}
 			}
 			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
 			{
-				intervalId = setInterval(punchButton, 3000,  getChildByName("gold-leaf") as SimpleButton);
+				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton);
 			}
 		}
 	}

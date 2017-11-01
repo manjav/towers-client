@@ -75,10 +75,8 @@
 					urlStream.addEventListener(ProgressEvent.PROGRESS, webFileProgressHandler);
 					urlStream.load(urlRequest);
 				}
-				////////if(user.language!=null && verbose)user.dispatchEvent(new UserEvent(UserEvent.PROGRESS, -1, progMessage+' '+user.language.download.@start, closeLoader));
 			}
 		}
-		
 
 		private function loacalFileLoadHandler(streamer:GTStreamer):void
 		{
@@ -93,7 +91,7 @@
 				dispatchEvent(event.clone());
 			else
 				trace(event.text);
-			setTimeout(closeLoader, 1000);
+			setTimeout(closeLoader, 500);
 		}
 		private function webFileProgressHandler(event:ProgressEvent):void
 		{

@@ -1,8 +1,9 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.towercraft.controls.Switcher;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
+import com.gerantech.towercraft.controls.switchers.LabeledSwitcher;
+import com.gerantech.towercraft.controls.switchers.Switcher;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -29,6 +30,7 @@ private var emblemButton:EmblemButton;
 private var minPointSwitcher:Switcher;
 
 private var bioInput:CustomTextInput;
+private var privacySwitcher:LabeledSwitcher;
 public function LobbyEditPopup(roomData:Object)
 {
 	this.roomData = roomData;
@@ -70,13 +72,22 @@ protected override function initialize():void
 	minPointLabel.layoutData = new AnchorLayoutData( padding*17.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(minPointLabel);
 	
-	minPointSwitcher = new Switcher(0, 200, 3000, 200);
-	minPointSwitcher.value = roomData.min;
+	minPointSwitcher = new Switcher(0, roomData.min, 3000, 200);
 	minPointSwitcher.width = padding * 12;
 	minPointSwitcher.height = padding * 3;
 	minPointSwitcher.layoutData = new AnchorLayoutData( padding*17, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	addChild(minPointSwitcher);
-
+	
+	// privacy mode
+	var privacyLabel:RTLLabel = new RTLLabel( loc("lobby_pri"), 0, null, null, false, null, 0.8 );
+	privacyLabel.layoutData = new AnchorLayoutData( padding*21.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	addChild(privacyLabel);
+	
+	privacySwitcher = new LabeledSwitcher(roomData.pri, 1, "lobby_pri");
+	privacySwitcher.width = padding * 12;
+	privacySwitcher.height = padding * 3;
+	privacySwitcher.layoutData = new AnchorLayoutData( padding*21, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	addChild(privacySwitcher);
 	
 	errorDisplay = new RTLLabel( "", 0xFF0000, "center", null, false, null, 0.9 );
 	errorDisplay.layoutData = new AnchorLayoutData( NaN, padding, padding*6, padding );
@@ -111,6 +122,7 @@ private function updateButton_triggeredHandler(event:Event):void
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("bio", bioInput.text);
 	params.putInt("min", minPointSwitcher.value);
+	params.putInt("pri", privacySwitcher.value);
 	params.putInt("pic", emblemButton.value);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_EDIT, params, SFSConnection.instance.lobbyManager.lobby);
 	SFSConnection.instance.lobbyManager.requestData(true, true);

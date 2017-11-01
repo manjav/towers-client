@@ -9,6 +9,7 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 
 import flash.geom.Rectangle;
 
+import feathers.controls.AutoSizeMode;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 
@@ -33,6 +34,7 @@ private var dateLayout:AnchorLayoutData;
 override public function init():void
 {
 	super.init();
+	autoSizeMode = AutoSizeMode.CONTENT;
 	
 	date = new Date();
 	inPadding = padding * 0.5;
@@ -64,7 +66,7 @@ override public function init():void
 	messageDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
 		messageDisplay.leading = -padding * 0.4;
-	messageLayout = new AnchorLayoutData( padding * 2 , 0, padding*1.4, 0);
+	messageLayout = new AnchorLayoutData( padding * 2);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 	
@@ -88,14 +90,16 @@ override public function commitData(_data:ISFSObject):void
 	roleDisplay.text = user==null?"":(loc("lobby_role_" + user.getShort("permission")));
 	roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
-	messageDisplay.text = data.getUtfString("t");
 	messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	messageLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
+	messageDisplay.text = data.getUtfString("t");
+	messageDisplay.validate();
 	
 	date.time = data.getInt("u")*1000;
 	dateDisplay.text = StrUtils.dateToTime(date);
 	dateLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
-	validate();
+	
+	height = messageDisplay.height + padding * 3.6;
 }
 }
 }

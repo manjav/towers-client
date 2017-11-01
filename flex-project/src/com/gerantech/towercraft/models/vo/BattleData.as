@@ -56,6 +56,7 @@ package com.gerantech.towercraft.models.vo
 					for ( var i:int = 0; i < room.playerList.length; i++ ) 
 						if( room.playerList[i].name == b.name )
 							return i;
+				return 0;
 			}
 			else 
 			{

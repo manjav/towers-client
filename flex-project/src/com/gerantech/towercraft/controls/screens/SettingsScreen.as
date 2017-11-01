@@ -23,7 +23,7 @@ package com.gerantech.towercraft.controls.screens
 	{
 		override protected function initialize():void
 		{
-			title = loc("settings-page");
+			title = loc("settings_page");
 			super.initialize();
 			
 			listLayout.gap = 0;	

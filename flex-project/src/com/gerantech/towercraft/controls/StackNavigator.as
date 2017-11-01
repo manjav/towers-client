@@ -239,6 +239,15 @@ public function addAnimation(x:Number, y:Number, size:int, texture:Texture, coun
 }*/
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  INVOKE   -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+public function handleURL(url:String):void
+{
+	if( url.substr(0,9) ==  "towers://" )
+	{
+		handleSchemeQuery([url.substr(9)]);
+		return;
+	}
+	navigateToURL(new URLRequest(url));
+}
 public function handleInvokes():void
 {
 	if( AppModel.instance.invokes != null )

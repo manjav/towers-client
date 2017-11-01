@@ -18,7 +18,6 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
-import flash.net.navigateToURL;
 import flash.utils.setTimeout;
 
 import feathers.controls.List;
@@ -85,6 +84,7 @@ protected function sfsConnection_roomDataHandler(event:SFSEvent):void
 		roomData.all = roomServerData.getSFSArray("all");
 	roomData.bio = roomServerData.getText("bio");
 	roomData.min = roomServerData.getInt("min")
+	roomData.pri = roomServerData.getInt("pri");
 	if( transitionState >= TransitionData.STATE_IN_FINISHED )
 		showDetails();
 }
@@ -105,10 +105,11 @@ private function showDetails():void
 	features.push( {key:"min", value:roomData.min} );
 	features.push( {key:"sum", value:roomData.sum} );
 	features.push( {key:"max", value:roomData.max} );
+	features.push( {key:"pri", value:roomData.pri} );
 	
 	//trace(sfsData.getDump())
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding*7, padding*2, NaN, padding*2);
+	featureList.layoutData = new AnchorLayoutData(padding*6, padding*2, NaN, padding*2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
 	featureList.dataProvider = new ListCollection(features);
@@ -118,11 +119,11 @@ private function showDetails():void
 	tabs[0] = new LobbyTabButton("امتیاز", true);
 	tabs[0].isEnabled = false;
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[0].layoutData = new AnchorLayoutData( padding*15.5, appModel.isLTR?padding*2.5:NaN, NaN, appModel.isLTR?NaN:padding*2.5 );
+	tabs[0].layoutData = new AnchorLayoutData( padding*16, appModel.isLTR?padding*2.5:NaN, NaN, appModel.isLTR?NaN:padding*2.5 );
 	addChild(tabs[0]);
 	tabs[1] = new LobbyTabButton("فعالیت هفتگی", true);
 	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding*15.5, appModel.isLTR?padding*7:NaN, NaN, appModel.isLTR?NaN:padding*7 );
+	tabs[1].layoutData = new AnchorLayoutData( padding*16, appModel.isLTR?padding*7:NaN, NaN, appModel.isLTR?NaN:padding*7 );
 	addChild(tabs[1]);
 	
 	memberList = SFSArray(roomData.all).toArray();
@@ -130,7 +131,7 @@ private function showDetails():void
 	
 	var membersList:FastList = new FastList();
 	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("theme/slider-background", "gui");
-	membersList.layoutData = new AnchorLayoutData(padding*18, padding, padding, padding);
+	membersList.layoutData = new AnchorLayoutData(padding*18.5, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
 	membersList.dataProvider = memberCollection;
@@ -141,10 +142,12 @@ private function showDetails():void
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
+	joinleaveButton.width = (roomServerData.getInt("pri")==0||itsMyRoom?240:370) * appModel.scale;
 	joinleaveButton.height = 96 * appModel.scale;
+	joinleaveButton.visible = roomServerData.getInt("pri")<2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom;
-	joinleaveButton.layoutData = new AnchorLayoutData(padding*12.5, NaN, NaN, padding);
-	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : "lobby_join_label");
+	joinleaveButton.layoutData = new AnchorLayoutData(padding*13.2, NaN, NaN, padding);
+	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri")==0?"lobby_join_label":"lobby_request_label"));
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
 	joinleaveButton.addEventListener(Event.SELECT, joinleaveButton_selectHandler);
@@ -192,6 +195,7 @@ private function membersList_focusInHandler(event:Event):void
 		return;
 	
 	var selectedData:Object = selectedItem.data;
+	selectedData.index = selectedItem.index;
 
 	var btns:Array = ["lobby_profile"];//trace(findUser(player.id).pr , selectedData.pr)
 	if( selectedData.id != player.id )
@@ -260,8 +264,10 @@ private function buttonsPopup_selectHandler(event:Event):void
 			else if( confirm.data == "lobby_demote" )
 				params.putShort("pr", MessageTypes.M14_COMMENT_DEMOTE);
 			else
+			{
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
-			
+				memberCollection.removeItemAt(buttonsPopup.data.index);
+			}
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
 			SFSConnection.instance.lobbyManager.requestData(true, true);
 		}
@@ -312,8 +318,20 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_JOIN, params);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
 	SFSConnection.instance.lobbyManager.lobby = null;
-	updateLobbyLayout(true);
+}
+
+protected function sfs_joinHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.LOBBY_JOIN )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
+	var response:int = event.params.params.getInt("response")
+	if( response == 0 ) 
+		updateLobbyLayout(true);
+	else if( response == 1 ) 
+		appModel.navigator.addLog(loc("lobby_join_request_sent"));
 }
 
 private function updateLobbyLayout(isJoin:Boolean):void
