@@ -8,9 +8,7 @@ import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
-import com.gerantech.towercraft.controls.popups.RestorePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 
@@ -26,7 +24,6 @@ import dragonBones.starling.StarlingFactory;
 
 import feathers.controls.Button;
 import feathers.controls.ImageLoader;
-import feathers.controls.LayoutGroup;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -34,7 +31,6 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.Image;
 import starling.events.Event;
 
 public class MainSegment extends Segment
@@ -186,7 +182,7 @@ public class MainSegment extends Segment
 		trace("player.nickName : ", player.nickName);
 		if( player.inTutorial() )
 		{
-			intervalId = setInterval(punchButton, 2000,  getChildByName("gold-leaf") as SimpleButton);
+			intervalId = setInterval(punchButton, 2000, getChildByName("gold-leaf") as SimpleButton);
 		}
 		else
 		{
@@ -198,12 +194,12 @@ public class MainSegment extends Segment
 				function confirm_eventsHandler():void {
 					confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 					punchButton(getChildByName("portal-center") as SimpleButton);
-					intervalId = setInterval(punchButton, 2000,  getChildByName("portal-center") as SimpleButton);
+					intervalId = setInterval(punchButton, 2000, getChildByName("portal-center") as SimpleButton);
 				}
 			}
 			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
 			{
-				intervalId = setInterval(punchButton, 3000,  getChildByName("gold-leaf") as SimpleButton);
+				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton);
 			}
 		}
 	}

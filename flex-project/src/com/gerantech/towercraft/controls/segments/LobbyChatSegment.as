@@ -28,6 +28,7 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
 
 import starling.events.Event;
@@ -73,22 +74,22 @@ private function showElements():void
 	
 	var chatLayout:VerticalLayout = new VerticalLayout();
 	chatLayout.paddingTop = headerSize + padding * 2;
-	chatLayout.useVirtualLayout = true;
 	chatLayout.hasVariableItemDimensions = true;
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	chatLayout.verticalAlign = VerticalAlign.BOTTOM;
 	
 	chatList = new List();
-	chatList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	chatList.layout = chatLayout;
 	chatList.layoutData = new AnchorLayoutData(0, 0, footerSize+padding, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
-	chatList.dataProvider = manager.messages;
+	chatList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);
-	chatList.addEventListener(Event.TRIGGERED, chatList_triggeredHandler);
-	setTimeout(chatList.scrollToDisplayIndex, 100, manager.messages.length-1, 0.2);
-	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
+	chatList.addEventListener(Event.ROOT_CREATED, chatList_triggeredHandler);
+	chatList.addEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
+	chatList.dataProvider = manager.messages;
+	chatList.validate();
 	addChild(chatList);
-	
+
 	header = new LobbyHeader();
 	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
@@ -125,6 +126,12 @@ private function showElements():void
 	UserData.instance.save();
 }
 
+private function chatList_createCompleteHandler():void
+{
+	chatList.scrollToDisplayIndex(manager.messages.length-1);	
+	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
+}
+
 private function chatList_triggeredHandler(event:Event):void
 {
 	var params:SFSObject = event.data as SFSObject;
@@ -141,7 +148,8 @@ private function manager_updateHandler(event:Event):void
 {
 	UserData.instance.lastLobbeyMessageTime = timeManager.now;
 	buttonsEnabled = manager.getMyRequestBattleIndex() == -1;
-	setTimeout(chatList.scrollToDisplayIndex, 100, manager.messages.length-1, 0.3);	
+	chatList.validate();
+	chatList.scrollToDisplayIndex(manager.messages.length-1);	
 }
 
 private function chatList_changeHandler(event:Event):void
@@ -220,7 +228,6 @@ public function set buttonsEnabled(value:Boolean):void
 
 override public function dispose():void
 {
-	UserData.instance.save();
 	if( manager != null )
 	{
 		manager.removeEventListener(Event.UPDATE, manager_updateHandler);
