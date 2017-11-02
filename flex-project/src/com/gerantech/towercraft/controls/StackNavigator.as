@@ -376,14 +376,14 @@ public function showOffer():void
 	var sessions:int = AppModel.instance.game.sessionsCount;
 	var prefs:IntStrMap = AppModel.instance.game.player.prefs;
 	var type:int = 0;
-	if( sessions > prefs.getAsInt(PrefsTypes.P30_OFFER_RATING) )
-		type = PrefsTypes.P30_OFFER_RATING;
-	else if( sessions > prefs.getAsInt(PrefsTypes.P31_OFFER_TELEGRAM) )
-		type = PrefsTypes.P31_OFFER_TELEGRAM;
-	else if( sessions > prefs.getAsInt(PrefsTypes.P32_OFFER_INSTAGRAM) )
-		type = PrefsTypes.P32_OFFER_INSTAGRAM;
-	else if( sessions > prefs.getAsInt(PrefsTypes.P33_OFFER_FRIENDSHIP) )
-		type = PrefsTypes.P33_OFFER_FRIENDSHIP;
+	if( sessions > prefs.getAsInt(PrefsTypes.OFFER_30_RATING) )
+		type = PrefsTypes.OFFER_30_RATING;
+	else if( sessions > prefs.getAsInt(PrefsTypes.OFFER_31_TELEGRAM) )
+		type = PrefsTypes.OFFER_31_TELEGRAM;
+	else if( sessions > prefs.getAsInt(PrefsTypes.OFFER_32_INSTAGRAM) )
+		type = PrefsTypes.OFFER_32_INSTAGRAM;
+	else if( sessions > prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP) )
+		type = PrefsTypes.OFFER_33_FRIENDSHIP;
 //trace(sessions, type, prefs.keys(), prefs.values());
 	
 	if( type > 0 )
@@ -407,16 +407,16 @@ public function showOffer():void
 			{
 				switch(t)
 				{
-					case PrefsTypes.P30_OFFER_RATING:
+					case PrefsTypes.OFFER_30_RATING:
 						BillingManager.instance.rate();
 						break;
-					case PrefsTypes.P31_OFFER_TELEGRAM:
+					case PrefsTypes.OFFER_31_TELEGRAM:
 						navigateToURL(new URLRequest(loc("setting_value_311")));
 						break;
-					case PrefsTypes.P32_OFFER_INSTAGRAM:
+					case PrefsTypes.OFFER_32_INSTAGRAM:
 						navigateToURL(new URLRequest(loc("setting_value_312")));
 						break;
-					case PrefsTypes.P33_OFFER_FRIENDSHIP:
+					case PrefsTypes.OFFER_33_FRIENDSHIP:
 						break;
 				}
 				UserData.instance.prefs.setInt(t, prefs.getAsInt(t)+1000);
