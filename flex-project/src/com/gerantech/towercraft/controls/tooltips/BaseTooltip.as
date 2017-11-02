@@ -18,11 +18,15 @@ package com.gerantech.towercraft.controls.tooltips
 	{
 		private var message:String;
 		private var position:Point;
+		private var fontScale:Number;
+		private var hSize:Number;
 		
-		public function BaseTooltip(message:String, position:Rectangle)
+		public function BaseTooltip(message:String, position:Rectangle, fontScale:Number=0.8, hSize:Number=0.5)
 		{
 			super();
 			this.message = message;
+			this.fontScale = fontScale;
+			this.hSize = hSize;
 			this.position = new Point(position.x + position.width * 0.5,position.y + position.height * 0.5) ;
 		}
 		
@@ -30,7 +34,7 @@ package com.gerantech.towercraft.controls.tooltips
 		{
 			super.initialize();
 			touchGroup = touchable = false;
-			maxWidth = stage.stageWidth * 0.5;
+			maxWidth = stage.stageWidth * hSize;
 			var padding:int = 36 * appModel.scale;
 			
 			var halign:String = position.x < stage.stageWidth * 0.5 ? "left" : "right";
@@ -40,16 +44,15 @@ package com.gerantech.towercraft.controls.tooltips
 			backgroundSkin = skin;
 			layout = new AnchorLayout();
 			
-
-			var labelDisplay:RTLLabel = new RTLLabel(message, 0, "justify", null, true, null, 0.8);
+			var labelDisplay:RTLLabel = new RTLLabel(message, 0, "justify", null, true, null, fontScale);
 			labelDisplay.layoutData = new AnchorLayoutData(padding*(valign == "top"?1.6:0.6), padding, padding*(valign=="top"?1:2), padding);
 			labelDisplay.pixelSnapping = false;
-			addChild(labelDisplay);
 			labelDisplay.validate();
+			addChild(labelDisplay);
 			
 			x = position.x;
 			y = position.y;
-			pivotX = (halign=="left" ? 0 : (labelDisplay.width + padding * 2))
+			pivotX = (halign=="left" ? 0 : maxWidth)
 			pivotY = (valign=="top" ? 0 : (labelDisplay.height + padding * 6))
 
 			scale = 0;

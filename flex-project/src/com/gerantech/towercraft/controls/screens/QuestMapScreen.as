@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.items.QuestMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
@@ -59,14 +60,17 @@ override protected function initialize():void
 	list.dataProvider = getQuestsData();
 	addChild(list);
 	
-	if( savedVerticalScrollPosition != 0 && !player.inTutorial() )
-		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
-	else
+	if( !player.inTutorial() )
 	{
-		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
-		//trace(pageIndex, player.get_questIndex(), game.fieldProvider.getCurrentShire(player.get_questIndex()).index, list.dataProvider.length)
-		if( pageIndex > 0 )
-			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
+		if( savedVerticalScrollPosition != 0 )
+			list.scrollToPosition(0, savedVerticalScrollPosition, 0);
+		else
+		{
+			var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
+			//trace(pageIndex, player.get_questIndex(), game.fieldProvider.getCurrentShire(player.get_questIndex()).index, list.dataProvider.length)
+			if( pageIndex > 0 )
+				setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
+		}
 	}
 
 	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
@@ -88,6 +92,7 @@ override protected function transitionInCompleteHandler(event:Event):void
 		backButtonHandler();
 		return;	
 	}
+	
 	//quest intro
 	var tutorialData:TutorialData = new TutorialData("");
 	var quest:FieldData = game.fieldProvider.quests.get( "quest_" + player.get_questIndex() );
@@ -97,15 +102,23 @@ override protected function transitionInCompleteHandler(event:Event):void
 	{
 		for (var i:int ; i < tuteText.size() ; i++) 
 		{
-			tuteMessage = "tutor_quest_" + quest.index + ( (tuteText.get(i) % 2 == 0) ? "_intro_mentor_" : "_intro_villain_" ) + tuteText.get(i);
+			tuteMessage = "tutor_quest_" + quest.index + "_intro_" + tuteText.get(i);
 			trace("tuteMessage:", tuteMessage);
-			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));	
+			var task:TutorialTask = new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage);
+			task.data = tuteText.get(i);
+			tutorialData.addTask(task);	
 		}
 	}
+	tutorials.addEventListener(GameEvent.SHOW_TUTORIAL, tutorials_showHandler);
 	tutorials.show(this, tutorialData);
 	trace("here!");
 }
 
+private function tutorials_showHandler(event:Event):void
+{
+	if( event.data.data == 2 )
+		list.scrollToPosition(0, list.maxVerticalScrollPosition, 2);
+}
 
 private function getQuestsData():ListCollection
 {

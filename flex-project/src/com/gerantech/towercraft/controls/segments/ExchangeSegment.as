@@ -102,7 +102,7 @@ package com.gerantech.towercraft.controls.segments
 			while ( i < 5 )
 			{
 				if ( i % 2 == 0 )
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_message_" + i));
+					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_message_" + i));
 				i++;
 			}
 			tutorials.show(this, tutorialData);
