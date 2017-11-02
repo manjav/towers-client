@@ -13,6 +13,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -65,10 +66,8 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showTutorial():void
 		{
-			if( UserData.instance.buildingsOpened )
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) > PrefsTypes.TUTE_114_SELECT_BUILDING )
 				return;
-			UserData.instance.buildingsOpened = true;
-			UserData.instance.save();
 			
 			var tutorialData:TutorialData = new TutorialData("buildings");
 			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));

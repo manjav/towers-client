@@ -7,6 +7,7 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.utils.LoadAndSaver;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.exchanges.ExchangeItem;
 	import com.gt.towers.exchanges.Exchanger;
 	
@@ -47,7 +48,7 @@ package com.gerantech.towercraft.managers
 				return;
 
 			clear();
-			if( UserData.instance.getSetting(SettingsData.NOTIFICATION) == 0 )
+			if( !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION) )
 				return;
 			
 			// notify exchanger items ...

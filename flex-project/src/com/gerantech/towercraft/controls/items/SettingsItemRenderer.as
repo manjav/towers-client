@@ -78,8 +78,7 @@ public class SettingsItemRenderer extends BaseCustomItemRenderer
 			else
 			{
 				buttonDisplay.icon = Assets.getTexture("settings-"+settingData.key, "gui");
-				buttonDisplay.style = settingData.value==1 ? "normal" : "danger"; 
-				
+				buttonDisplay.style = settingData.value ? "normal" : "danger"; 
 			}
 			
 			buttonDisplay.layoutData = new HorizontalLayoutData(settingData.type == SettingsData.TYPE_BUTTON ? 100 : NaN, 100);
@@ -113,7 +112,7 @@ public class SettingsItemRenderer extends BaseCustomItemRenderer
 	private function buttons_triggeredHandler(event:Event):void
 	{
 		if( settingData.type == SettingsData.TYPE_TOGGLE )
-			settingData.value = settingData.value==1 ? 0 : 1;
+			settingData.value = !settingData.value;
 		else 
 			settingData.value = CustomButton(event.currentTarget).data;
 		

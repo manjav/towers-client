@@ -419,16 +419,14 @@ public function showOffer():void
 					case PrefsTypes.P33_OFFER_FRIENDSHIP:
 						break;
 				}
-				UserData.instance.prefs.send(t, prefs.getAsInt(t)+1000);
+				UserData.instance.prefs.setInt(t, prefs.getAsInt(t)+1000);
 			}
 			else
 			{
-				UserData.instance.prefs.send(t, prefs.getAsInt(t)+50);
+				UserData.instance.prefs.setInt(t, prefs.getAsInt(t)+50);
 			}
 		}
-		
 	}
-	
 }
 }
 }

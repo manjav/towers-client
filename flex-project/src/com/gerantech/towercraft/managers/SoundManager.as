@@ -4,6 +4,7 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.SettingsData;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.constants.PrefsTypes;
 	
 	import flash.events.Event;
 	import flash.media.Sound;
@@ -112,9 +113,9 @@ package com.gerantech.towercraft.managers
 			if( soundIsAdded(id) )
 			{
 				var category:int = sounds[id].c;
-				if( category == CATE_SFX && UserData.instance.getSetting(SettingsData.SFX) == 0 )
+				if( category == CATE_SFX && !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_2_SFX) )
 					return;
-				if( category == CATE_THEME && UserData.instance.getSetting(SettingsData.MUSIC) == 0 )
+				if( category == CATE_THEME && !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC) )
 					return;
 
 				var soundObject:Sound = sounds[id].s;

@@ -322,8 +322,6 @@ package com.gerantech.towercraft.managers
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- RATING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function rate():void
 		{
-			UserData.instance.rated = true;
-			UserData.instance.save();
 			switch(AppModel.instance.descriptor.market)
 			{
 				case "google":

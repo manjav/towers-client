@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:eac1f1ff1014d20912b9d7b74e4e63e4:4b9b240aba258e21b745609be1ba3fb6:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:cd8c07b4111ebfe2359805a557e5cf6e:bccfc881e72b2f9746925739061ebd59:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
     <SubTexture name="arena-0" x="1454" y="453" width="93" height="99"/>
     <SubTexture name="arena-1" x="1549" y="453" width="93" height="99"/>
@@ -171,9 +171,9 @@
     <SubTexture name="res-1002" x="1059" y="917" width="95" height="103" frameX="-9" frameY="-6" frameWidth="112" frameHeight="112"/>
     <SubTexture name="res-1003" x="1337" y="917" width="108" height="99" frameX="0" frameY="-7" frameWidth="112" frameHeight="112"/>
     <SubTexture name="res-1004" x="948" y="933" width="109" height="111" frameX="-1" frameY="-1" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="settings-0" x="1986" y="304" width="60" height="82" frameX="-16" frameY="-2" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-1" x="1895" y="343" width="86" height="80" frameX="-3" frameY="-3" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-2" x="1823" y="370" width="66" height="82" frameX="-13" frameY="-2" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-1" x="1986" y="304" width="60" height="82" frameX="-16" frameY="-2" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-2" x="1895" y="343" width="86" height="80" frameX="-3" frameY="-3" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-3" x="1823" y="370" width="66" height="82" frameX="-13" frameY="-2" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-21" x="1114" y="1420" width="77" height="77" frameX="-6" frameY="-6" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-22" x="1529" y="1063" width="49" height="81" frameX="-24" frameY="-4" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-311" x="1644" y="530" width="81" height="76" frameX="-3" frameY="-7" frameWidth="92" frameHeight="92"/>

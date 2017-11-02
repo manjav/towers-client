@@ -16,10 +16,9 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
-	import com.gt.towers.exchanges.Exchanger;
 	import com.gt.towers.utils.GameError;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -96,10 +95,8 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showTutorial():void
 		{
-			if ( UserData.instance.shopOpened )
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) > PrefsTypes.TUTE_111_SELECT_EXCHANGE )
 				return;
-			UserData.instance.shopOpened = true;
-			UserData.instance.save();
 			
 			var tutorialData:TutorialData = new TutorialData("shop");
 			var i:int = 0;

@@ -2,11 +2,6 @@ package com.gerantech.towercraft.models.vo
 {
 	public class SettingsData
 	{
-		public static const MUSIC:int = 0;
-		public static const SFX:int = 1;
-		public static const NOTIFICATION:int = 2;
-		public static const LOCALE:int = 3;
-		
 		public static const LINK_DEVICE:int = 10;
 		public static const LEGALS:int = 11;
 		
