@@ -182,7 +182,7 @@ public class MainSegment extends Segment
 		trace("player.nickName : ", player.nickName);
 		if( player.inTutorial() )
 		{
-			intervalId = setInterval(punchButton, 2000, getChildByName("gold-leaf") as SimpleButton);
+			intervalId = setInterval(punchButton, 2000, getChildByName("gold-leaf") as SimpleButton, 2);
 		}
 		else
 		{
@@ -194,12 +194,12 @@ public class MainSegment extends Segment
 				function confirm_eventsHandler():void {
 					confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 					punchButton(getChildByName("portal-center") as SimpleButton);
-					intervalId = setInterval(punchButton, 2000, getChildByName("portal-center") as SimpleButton);
+					intervalId = setInterval(punchButton, 2000, getChildByName("portal-center") as SimpleButton, 2);
 				}
 			}
 			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
 			{
-				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton);
+				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton, 2);
 			}
 		}
 	}
@@ -299,9 +299,9 @@ public class MainSegment extends Segment
 		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
 	
-	private function punchButton(mapElement:SimpleButton):void
+	private function punchButton(mapElement:SimpleButton, initScale:Number = 1.5):void
 	{
-		mapElement.scale = 0.4;
+		mapElement.scale = initScale;
 		Starling.juggler.tween(mapElement, 0.9, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
 	}
 	override public function dispose():void
