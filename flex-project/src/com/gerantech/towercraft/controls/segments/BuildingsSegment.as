@@ -70,7 +70,7 @@ package com.gerantech.towercraft.controls.segments
 				return;
 			
 			var tutorialData:TutorialData = new TutorialData("buildings");
-			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
 			tutorials.show(this, tutorialData);
 		}
 		

@@ -3,7 +3,6 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
-	import com.gerantech.towercraft.controls.screens.BaseCustomScreen;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -34,13 +33,14 @@ package com.gerantech.towercraft.managers
 		
 		private function processTasks():void
 		{
-			var task:TutorialTask = tutorialData.tasks.shift();
+			var task:TutorialTask = tutorialData.shiftTask();
 			if(task == null)
 			{
 				dispatchEventWith(GameEvent.TUTORIAL_TASKS_FINISH, false, tutorialData);
 				return;
 			}
-			
+			dispatchEventWith(GameEvent.SHOW_TUTORIAL, false, task);
+		
 			switch(task.type)
 			{
 				case TutorialTask.TYPE_MESSAGE:

@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	
@@ -20,6 +21,8 @@ package com.gerantech.towercraft.controls.overlays
 	
 	public class TutorialMessageOverlay extends TutorialOverlay
 	{
+
+		private var side:int;
 		
 		public function TutorialMessageOverlay(task:TutorialTask):void
 		{
@@ -31,30 +34,33 @@ package com.gerantech.towercraft.controls.overlays
 			super.initialize();
 			layout = new AnchorLayout();
 
+			side = int(task.data) % 2;
 			var charachter:ImageLoader = new ImageLoader();
-			charachter.source =  Assets.getTexture("chars/allied-general", "gui");
+			charachter.source =  Assets.getTexture("chars/char-" + side, "gui");
 			charachter.verticalAlign = VerticalAlign.BOTTOM;
-			charachter.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0);
-			charachter.height = stage.height / 2;
+			charachter.layoutData = new AnchorLayoutData(NaN, side==0?NaN:0, 0, side==0?0:NaN);
+			charachter.width = stage.stageWidth * (side==0?0.6:0.7);
+			//charachter.height = stage.height / 2;
 			charachter.touchable = false;
 			addChild(charachter);
 			
-			var balloonSkin:Image = new Image(Assets.getTexture("speech-bubble", "gui"));
-			balloonSkin.scale9Grid = new Rectangle(53, 6, 2, 2);
+			/*var balloonSkin:Image = new Image(Assets.getTexture("tooltip-bg-bot-" + (side==0?"left":"right"), "gui"));
+			balloonSkin.scale9Grid = new Rectangle(side==0?19:8, 7, 1, 1);
 			
 			var balloonDisplay:LayoutGroup = new LayoutGroup();
 			balloonDisplay.autoSizeMode = AutoSizeMode.CONTENT;
 			balloonDisplay.backgroundSkin = balloonSkin;
 			balloonDisplay.layout = new AnchorLayout();
-			balloonDisplay.layoutData = new AnchorLayoutData(NaN, 10, stage.height / 2, 10);
+			balloonDisplay.layoutData = new AnchorLayoutData(NaN, side==0?10:stage.stageWidth*0.3, NaN, side==0?stage.stageWidth*0.3:10);
 			balloonDisplay.touchable = false;
 			addChild(balloonDisplay);
 			
 			var labelDisplay:RTLLabel = new RTLLabel(loc(task.message), 0, "justify", null, true);
-			labelDisplay.layoutData = new AnchorLayoutData(10, 10, 10, 10);
+			labelDisplay.layoutData = new AnchorLayoutData(10*appModel.scale, 10*appModel.scale, NaN, 10*appModel.scale);
 			balloonDisplay.addChild(labelDisplay);
-			balloonDisplay.height = labelDisplay.height + 420*appModel.scale;
-			
+			labelDisplay.validate();
+			balloonDisplay.height = labelDisplay.height + 40*appModel.scale;*/
+
 			if(transitionIn == null)
 			{
 				transitionIn = new TransitionData(0.2, task.startAfter / 1000);
@@ -89,6 +95,13 @@ package com.gerantech.towercraft.controls.overlays
 					onComplete:transitionInCompleted
 				}
 			);
+		}
+		
+		override protected function transitionInCompleted():void
+		{
+			super.transitionInCompleted();
+			appModel.navigator.addChild( new BaseTooltip(loc(task.message), new Rectangle((side==0?400:670)*appModel.scale, (side==0?1050:900)*appModel.scale, 2, 2), 1, 0.6));
+
 		}
 		
 		public override function close(dispose:Boolean=true):void

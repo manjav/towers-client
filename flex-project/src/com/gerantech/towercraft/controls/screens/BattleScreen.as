@@ -195,21 +195,21 @@ package com.gerantech.towercraft.controls.screens
 					{
 						tuteMessage = "tutor_quest_" + quest.index + ( (tuteText.get(i) % 2 == 0) ? "_start_mentor_" : "_start_villain_" ) + tuteText.get(i);
 						trace("tuteMessage:", tuteMessage);
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));
 					}
 					
 				}
 				
 				var places:PlaceDataList = quest.getSwipeTutorPlaces();
 				if(places.size() > 0)
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
+					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
 					
 				var place:PlaceData = quest.getImprovableTutorPlace()
 				if(place != null)
 				{
 					places = new PlaceDataList();
 					places.push(place);
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
+					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
 				}
 				tutorials.show(this, tutorialData);
 			}
@@ -357,9 +357,9 @@ package com.gerantech.towercraft.controls.screens
 							if ( tuteText.get(i) >= 0 )
 							{
 								if(tuteText.get(i) % 2 == 0)
-									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_mentor_win_" + tuteText.get(i)));
+									tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_mentor_win_" + tuteText.get(i)));
 								else
-									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_villain_win_" + tuteText.get(i)));
+									tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_villain_win_" + tuteText.get(i)));
 							}
 						}
 						else if ( battleOutcomeOverlay.score <= 0 )
@@ -367,9 +367,9 @@ package com.gerantech.towercraft.controls.screens
 							if ( tuteText.get(i) < 0 )
 							{
 								if(tuteText.get(i) % 2 == 0)
-									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_mentor_defeat_" + tuteText.get(i)));
+									tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_mentor_defeat_" + tuteText.get(i)));
 								else
-									tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_villain_defeat_" + tuteText.get(i)));
+									tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end_villain_defeat_" + tuteText.get(i)));
 							}
 						}
 					} 
@@ -380,7 +380,7 @@ package com.gerantech.towercraft.controls.screens
 			/*if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
 			{
 				//trace("battle screen -> end", player.get_questIndex());
-				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
+				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
 				tutorials.show(this, tutorialData);
 				return;
 			}*/
@@ -443,7 +443,7 @@ package com.gerantech.towercraft.controls.screens
 					var tutorialData:TutorialData = new TutorialData("roomVariablesUpdate");
 					var places:PlaceDataList = appModel.battleFieldView.battleData.map.getSwipeTutorPlaces();
 					if( places.size() > 0 )
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
 					tutorials.show(this, tutorialData);
 					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = -1;
 				}
