@@ -1,9 +1,13 @@
 package com.gerantech.towercraft.controls.items
 {
+	import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.TabItemData;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gt.towers.constants.PrefsTypes;
+	
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayout;
@@ -24,6 +28,7 @@ package com.gerantech.towercraft.controls.items
 
 		private var padding:int;
 		private var dashboardData:TabItemData;
+		private var focusRect:TutorialFocusOverlay;
 		public function DashboardTabItemRenderer(width:Number)
 		{
 			super();
@@ -63,6 +68,10 @@ package com.gerantech.towercraft.controls.items
 				width = itemWidth;
 				height = _owner.height;
 				_firstCommit = false;
+				
+				if( index == 0 && player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) == PrefsTypes.TUTE_111_SELECT_EXCHANGE 
+				|| index == 2 && player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) == PrefsTypes.TUTE_114_SELECT_BUILDING )
+				setTimeout(showFocus, 1000);
 			}
 			super.commitData();
 			dashboardData = _data as TabItemData;
@@ -90,6 +99,7 @@ package com.gerantech.towercraft.controls.items
 		{
 			if(value == super.isSelected)
 				return;
+			
 			super.isSelected = value;
 			Starling.juggler.tween(this, 0.08, {width:itemWidth * (value ? 2 : 1), transition:Transitions.EASE_IN_OUT});
 			titleDisplay.visible = value;
@@ -99,6 +109,20 @@ package com.gerantech.towercraft.controls.items
 			{
 				dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
 				updateBadge();
+			}
+			
+			if( focusRect != null )
+				focusRect.removeFromParent(true);
+		}
+		
+		private function showFocus () : void
+		{
+			if( dashboardData.index == 0 )
+			{
+				if( focusRect != null )
+					focusRect.removeFromParent(true);
+				focusRect = new TutorialFocusOverlay(this.getBounds(appModel.navigator))
+				appModel.navigator.addChild(focusRect);
 			}
 		}
 	}

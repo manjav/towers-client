@@ -13,7 +13,6 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.ShopLine;
-	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.PrefsTypes;
@@ -95,7 +94,7 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showTutorial():void
 		{
-			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) > PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
 				return;
 			
 			var tutorialData:TutorialData = new TutorialData("shop");

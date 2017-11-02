@@ -66,7 +66,7 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showTutorial():void
 		{
-			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) > PrefsTypes.TUTE_114_SELECT_BUILDING )
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
 				return;
 			
 			var tutorialData:TutorialData = new TutorialData("buildings");
