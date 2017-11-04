@@ -11,12 +11,15 @@ package com.gerantech.towercraft.models.tutorials
 			tasks = new Vector.<TutorialTask>;
 		}
 		
+		public function get numTasks():int
+		{
+			return tasks.length;
+		}
 		public function addTask(task:TutorialTask):void
 		{
 			task.index = tasks.length;
 			tasks.push(task);
 		}
-		
 		public function shiftTask():TutorialTask
 		{
 			return tasks.shift();
