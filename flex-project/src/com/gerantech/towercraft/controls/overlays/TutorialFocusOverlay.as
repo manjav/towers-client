@@ -36,15 +36,17 @@ private function addedToStageHandler(event:Event):void
 	skin.scale9Grid = new Rectangle(7,6,2,2);
 	backgroundSkin = skin;
 	setTimeout(focusNow, delay);
+	visible = false;
 }
 
 private function focusNow():void
 {
-	x = -10;
-	y = -10;
-	width = stage.stageWidth+20;
-	height = stage.stageHeight+20;
-	Starling.juggler.tween( this, time, {delay:gap, x:rect.x, y:rect.y, width:rect.width, height:rect.height, onComplete:focusNow, transition:Transitions.EASE_IN_OUT});
+	visible = false;
+	width = stage.stageWidth+8;
+	height = stage.stageHeight+8;
+	x = -4;
+	y = -4;
+	Starling.juggler.tween( this, time, {delay:gap, x:rect.x, y:rect.y, width:rect.width, height:rect.height, onStart:function():void{visible=true;}, onComplete:focusNow, transition:Transitions.EASE_IN_OUT});
 }
 
 override public function dispose():void
