@@ -7,11 +7,11 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
-	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.TabItemData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.constants.SegmentType;
 	import com.gt.towers.exchanges.ExchangeItem;
@@ -45,7 +45,6 @@ package com.gerantech.towercraft.controls.screens
 		private var tabsList:List;
 		private var tabBorder:ImageLoader;
 		private var tabSize:int;
-		private var scrollTime:Number = 0.01;
 		
 		public function DashboardScreen(){}
 
@@ -62,7 +61,7 @@ package com.gerantech.towercraft.controls.screens
 			pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 			pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
 			pageLayout.useVirtualLayout = false;
-			pageLayout.hasVariableItemDimensions = true;
+			//pageLayout.hasVariableItemDimensions = true;
 			
 			pageList = new List();
 			pageList.layout = pageLayout;
@@ -77,17 +76,9 @@ package com.gerantech.towercraft.controls.screens
 			
 			tabSize = stage.stageWidth / 4;
 			
-			tabBorder = new ImageLoader();
-			tabBorder.touchable = false;
-			tabBorder.source = Assets.getTexture("theme/tab-selected-border", "gui");
-			tabBorder.width = tabSize * 2;
-			tabBorder.height = footerSize;
-			tabBorder.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
-			tabBorder.scale9Grid = new Rectangle(11,10,2,2);
-			
 			var tabLayout:HorizontalLayout = new HorizontalLayout();
 			tabLayout.verticalAlign = VerticalAlign.JUSTIFY;
-			tabLayout.useVirtualLayout = true;
+			tabLayout.useVirtualLayout = false;
 			tabLayout.hasVariableItemDimensions = true;	
 			
 			tabsList = new List();
@@ -96,22 +87,17 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.height = footerSize;
 			tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
             tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
-			tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
+			tabsList.addEventListener(Event.SELECT, tabsList_selectHandler);
 			tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabItemRenderer(tabSize); }
 			addChild(tabsList);
 			
-			
-		/*	var txt:String = "Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ Hello word سلام بچه ها 123  ٠١٢ ";
-			var text1:RTLLabel = new RTLLabel(txt, 1, null, null, true);
-			text1.width = stage.stageWidth/2
-			text1.layoutData = new AnchorLayoutData(0,NaN,NaN,0);
-			addChild(text1);	
-			var text2:RTLLabel = new RTLLabel(txt, 1, null, null, true, null, 0, "lalezarsupercell");
-			text2.width = stage.stageWidth/2
-			text2.layoutData = new AnchorLayoutData(0,0,NaN,NaN);
-			addChild(text2);
-			*/
-			
+			tabBorder = new ImageLoader();
+			tabBorder.touchable = false;
+			tabBorder.source = Assets.getTexture("theme/tab-selected-border", "gui");
+			tabBorder.width = tabSize * 2;
+			tabBorder.height = footerSize;
+			tabBorder.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
+			tabBorder.scale9Grid = new Rectangle(11,10,2,2);
 			addChild(tabBorder);
 			
 			if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
@@ -127,34 +113,33 @@ package com.gerantech.towercraft.controls.screens
 			pageList.dataProvider = new ListCollection(listsData);
 			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 			tabsList.dataProvider = new ListCollection(listsData);
-			tabsList.touchable = !player.inTutorial();
-			tabsList.selectedIndex = 1;
+			//tabsList.touchable = !player.inTutorial();
+			gotoPage(1, 0.1);
 			
 			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+			
 			appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-			function themeLoaded():void { appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+			function themeLoaded():void { if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 			
 			appModel.navigator.handleInvokes();
 			appModel.navigator.toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);
 		}
+
 		private function toolbar_triggerredHandler(event:Event):void
 		{
-			if( AppModel.instance.game.player.inTutorial())
+			if( player.inTutorial())
 				return;
 			switch(event.data.resourceType)
 			{
 				case ResourceType.CURRENCY_SOFT:
 				case ResourceType.CURRENCY_HARD:
-					tabsList.selectedIndex = 0;
+					gotoPage(0);
 					break;
 				case ResourceType.POINT:
-					ArenaScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
+					ArenaScreen.showRanking( player.get_arena(0) );
 					break;
 				case ResourceType.KEY:
 					appModel.navigator.addPopup(new KeysPopup());
-					//addResourceAnimation(120, 330, ResourceType.CURRENCY_HARD, 10 ); 
-					//appModel.navigator.addOverlay(new FactionChangeOverlay(5, 7));
-
 					break;
 			}
 		}		
@@ -193,28 +178,29 @@ package com.gerantech.towercraft.controls.screens
 		private function pageList_focusInHandler(event:Event):void
 		{
 			var focusIndex:int = event.data as int;
-			if(tabsList.selectedIndex != focusIndex)
-				tabsList.selectedIndex = focusIndex;
+			if( tabsList.selectedIndex != focusIndex )
+				gotoPage(focusIndex);
 		}
 		
-		private function tabsList_changeHandler(event:Event):void
+		private function tabsList_selectHandler(event:Event):void
+		{trace(tabsList.selectedIndex, player.dashboadTabEnabled(tabsList.selectedIndex))
+			if( player.dashboadTabEnabled(tabsList.selectedIndex) )
+				gotoPage(tabsList.selectedIndex);
+		}
+		private function gotoPage(pageIndex:int, animDuration:Number = 0.3):void
 		{
-			if(player.inTutorial() && tabsList.selectedIndex != 1)
-				return;
-			pageList.selectedIndex = tabsList.selectedIndex;
-			pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
-			Starling.juggler.tween(tabBorder, 0.3, {x:tabsList.selectedIndex * tabSize, transition:Transitions.EASE_OUT});
-			scrollTime = 0.5;
-			
-			appModel.sounds.addAndPlaySound("tab");
-		}
-		
+			pageList.selectedIndex = tabsList.selectedIndex = pageIndex;
+			pageList.scrollToDisplayIndex(pageIndex, animDuration);
+			Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
+			if( animDuration > 0 )
+				appModel.sounds.addAndPlaySound("tab");
+		}		
 		override protected function backButtonFunction():void
 		{
 			var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"), loc("popup_exit_label"));
 			confirm.acceptStyle = "danger";
 			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
-			AppModel.instance.navigator.addPopup(confirm);
+			appModel.navigator.addPopup(confirm);
 			function confirm_selectHandler ( event:Event ) : void
 			{
 				confirm.removeEventListener(Event.SELECT, confirm_selectHandler);

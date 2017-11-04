@@ -63,7 +63,7 @@ package com.gerantech.towercraft
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
 			if( hasTranstion )
 				item.pushTransition = Cover.createCoverUpTransition();
-			item.popTransition = Reveal.createRevealDownTransition()
+			item.popTransition = Reveal.createRevealDownTransition();
 			item.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(screenType, item);			
 		}

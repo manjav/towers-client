@@ -60,19 +60,20 @@ override protected function initialize():void
 	list.dataProvider = getQuestsData();
 	addChild(list);
 	
-	if( !player.inTutorial() )
-	{
-		if( savedVerticalScrollPosition != 0 )
-			list.scrollToPosition(0, savedVerticalScrollPosition, 0);
-		else
-		{
-			var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
-			//trace(pageIndex, player.get_questIndex(), game.fieldProvider.getCurrentShire(player.get_questIndex()).index, list.dataProvider.length)
-			if( pageIndex > 0 )
-				setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
-		}
-	}
 
+	if( savedVerticalScrollPosition != 0 )
+		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
+	else if( player.get_questIndex() > 0 )
+	{
+		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
+		//trace(pageIndex, player.get_questIndex(), game.fieldProvider.getCurrentShire(player.get_questIndex()).index, list.dataProvider.length)
+		if( pageIndex > 0 )
+			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
+	}
+	
+	if( player.inTutorial() )
+		return;
+	
 	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
 	backButton.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
 	Image(backButton.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
@@ -87,31 +88,28 @@ override protected function transitionInCompleteHandler(event:Event):void
 	super.transitionInCompleteHandler(event);
 	var lastQuest:FieldData = game.fieldProvider.quests.get( "quest_" + player.get_questIndex() );
 	//trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
-	if(player.get_questIndex() == 3 && player.nickName == "guest")
+	if( lastQuest.index == 3 && player.nickName == "guest" )
 	{
 		backButtonHandler();
 		return;	
 	}
 	
+	if( lastQuest.index > 0 )
+		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
+	
 	//quest intro
-	var tutorialData:TutorialData = new TutorialData("");
-	var quest:FieldData = game.fieldProvider.quests.get( "quest_" + player.get_questIndex() );
-	var tuteText:IntList = quest.introNum;
-	var tuteMessage:String = "";
-	if(tuteText.size() >= 0)
+	var tutorialData:TutorialData = new TutorialData("quest_" + lastQuest.index + "_intro");
+	for (var i:int ; i < lastQuest.introNum.size() ; i++) 
 	{
-		for (var i:int ; i < tuteText.size() ; i++) 
-		{
-			tuteMessage = "tutor_quest_" + quest.index + "_intro_" + tuteText.get(i);
-			trace("tuteMessage:", tuteMessage);
-			var task:TutorialTask = new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage);
-			task.data = tuteText.get(i);
-			tutorialData.addTask(task);	
-		}
+		var tuteMessage:String = "tutor_quest_" + lastQuest.index + "_intro_" + lastQuest.introNum.get(i);
+		trace("tuteMessage:", tuteMessage);
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, lastQuest.introNum.get(i)));	
 	}
+	
 	tutorials.addEventListener(GameEvent.SHOW_TUTORIAL, tutorials_showHandler);
 	tutorials.show(this, tutorialData);
-	trace("here!");
+	if( tutorialData.numTasks > 0 )
+		appModel.sounds.addAndPlaySound("outcome-defeat");
 }
 
 private function tutorials_showHandler(event:Event):void
@@ -170,6 +168,12 @@ private function list_selectHandler(event:Event):void
 		appModel.navigator.addOverlay(item.properties.waitingOverlay);
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	}
+}
+
+override protected function backButtonFunction():void
+{
+	if( !player.inTutorial() )
+		super.backButtonFunction();
 }
 override public function dispose():void
 {

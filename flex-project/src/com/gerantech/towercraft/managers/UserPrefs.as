@@ -25,7 +25,7 @@ protected function sfs_getAllPrefsHandler(event:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getAllPrefsHandler);
 	
-	var map:ISFSArray = SFSObject(event.params.params).getSFSArray("map");trace(map.getDump())
+	var map:ISFSArray = SFSObject(event.params.params).getSFSArray("map");
 	for ( var i:int=0; i<map.size(); i++ )
 		player.prefs.set(int(map.getSFSObject(i).getText("k")), map.getSFSObject(i).getText("v"));
 }
