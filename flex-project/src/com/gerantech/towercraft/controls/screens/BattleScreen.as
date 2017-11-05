@@ -192,7 +192,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					tuteMessage = "tutor_quest_" + quest.index + "_start_" + quest.startNum.get(i);
 					trace("tuteMessage:", tuteMessage);
-					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));
+					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
 				}
 
 				if( !player.hardMode )
