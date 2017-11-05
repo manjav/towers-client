@@ -113,7 +113,7 @@ override protected function commitData():void
 			}
 			
 			if( item.index == questIndex )
-				intervalId = setInterval(punchButton, 2000,  pinButton);
+				intervalId = setInterval(punchButton, 2000,  pinButton, 2);
 		} 
 		else
 		{
@@ -137,9 +137,9 @@ private function pinButton_triggeredHandler(event:Event):void
 	owner.dispatchEventWith(Event.SELECT, false, btn);
 }
 
-private function punchButton(button:SimpleButton):void
+private function punchButton(button:SimpleButton, initScale:Number=0.4):void
 {
-	button.scale = 0.4;
+	button.scale = initScale;
 	Starling.juggler.tween(button, 0.9, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});	
 }
 
