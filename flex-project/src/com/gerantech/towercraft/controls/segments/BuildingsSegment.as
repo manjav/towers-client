@@ -70,6 +70,7 @@ package com.gerantech.towercraft.controls.segments
 			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK )
 				return;
 			
+			player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
 			var tutorialData:TutorialData = new TutorialData("deck_start");
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_2", null, 1000, 1000, 2));
