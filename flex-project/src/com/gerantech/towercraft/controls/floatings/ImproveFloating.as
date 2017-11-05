@@ -80,7 +80,7 @@ package com.gerantech.towercraft.controls.floatings
 					{
 						var places:PlaceDataList = new PlaceDataList();
 						places.push(new PlaceData( 0, (x+buttons[i].x)/appModel.scale, (y+buttons[i].y)/appModel.scale, 0, 0, ""));
-						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 200));
 					}
 					tutorials.show(LayoutGroup(parent), tutorialData);
 				}

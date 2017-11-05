@@ -181,14 +181,14 @@ package com.gerantech.towercraft.controls.screens
 			
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			//trace("battle screen -> start", quest.index, quest.isQuest, player.quests.get(quest.index));
-			if( quest.isQuest && player.inTutorial() )
+			if( quest.isQuest )
 			{
 				// create tutorial steps
 				var tutorialData:TutorialData = new TutorialData(quest.name+"_start");
 
 				//quest start
 				var tuteMessage:String = "";
-				for (var i:int ; i < quest.startNum.size() ; i++) 
+				for (var i:int=0 ; i < quest.startNum.size() ; i++) 
 				{
 					tuteMessage = "tutor_quest_" + quest.index + "_start_" + quest.startNum.get(i);
 					trace("tuteMessage:", tuteMessage);
@@ -381,7 +381,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 			var tutorial:TutorialData = event.data as TutorialData;
-			if( tutorial.name == "quest_1_end" )
+			if( tutorial.name == "quest_1_end" && player.inTutorial() )
 			{
 				if( player.resources.exists(BuildingType.B11_BARRACKS) )
 					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END); 
@@ -618,7 +618,7 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 			
-			if( !appModel.battleFieldView.battleData.map.isQuest )
+			if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
 				return;
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
