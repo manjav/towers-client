@@ -194,18 +194,21 @@ package com.gerantech.towercraft.controls.screens
 					trace("tuteMessage:", tuteMessage);
 					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));
 				}
-
-				var places:PlaceDataList = quest.getSwipeTutorPlaces();
-				if(places.size() > 0)
-					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
-					
-				var place:PlaceData = quest.getImprovableTutorPlace()
-				if(place != null)
+				if(quest.index == 1 && game.player.buildings.get(BuildingType.B11_BARRACKS)._level > 1)
 				{
-					places = new PlaceDataList();
-					places.push(place);
-					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
+					var places:PlaceDataList = quest.getSwipeTutorPlaces();
+					if(places.size() > 0)
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
+					
+					var place:PlaceData = quest.getImprovableTutorPlace()
+					if(place != null)
+					{
+						places = new PlaceDataList();
+						places.push(place);
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
+					}
 				}
+
 				tutorials.show(this, tutorialData);
 			}
 			
