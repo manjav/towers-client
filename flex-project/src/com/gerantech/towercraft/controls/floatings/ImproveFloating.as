@@ -74,7 +74,7 @@ package com.gerantech.towercraft.controls.floatings
 			
 			for (var i:int=0; i < buttons.length; i++) 
 			{
-				if( buttons[i].type == -pdata.tutorIndex )
+				if( buttons[i].type == -pdata.tutorIndex && player.buildings.exists(buttons[i].type) )
 				{
 					var tutorialData:TutorialData = new TutorialData(SFSCommands.BUILDING_IMPROVE);
 					{

@@ -194,14 +194,15 @@ package com.gerantech.towercraft.controls.screens
 					trace("tuteMessage:", tuteMessage);
 					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage));
 				}
-				if(quest.index == 1 && game.player.buildings.get(BuildingType.B11_BARRACKS)._level > 1)
+
+				if( !player.hardMode )
 				{
 					var places:PlaceDataList = quest.getSwipeTutorPlaces();
-					if(places.size() > 0)
+					if( places.size() > 0 )
 						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
-					
+				
 					var place:PlaceData = quest.getImprovableTutorPlace()
-					if(place != null)
+					if( place != null )
 					{
 						places = new PlaceDataList();
 						places.push(place);
@@ -513,8 +514,9 @@ package com.gerantech.towercraft.controls.screens
 					
 					// force improve in tutorial mode
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
+					
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
+					if( bf.map.isQuest && !player.hardMode && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
