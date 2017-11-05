@@ -61,7 +61,6 @@ package com.gerantech.towercraft.controls.screens
 			pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 			pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
 			pageLayout.useVirtualLayout = false;
-			//pageLayout.hasVariableItemDimensions = true;
 			
 			pageList = new List();
 			pageList.layout = pageLayout;
@@ -69,7 +68,6 @@ package com.gerantech.towercraft.controls.screens
 			pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			pageList.snapToPages = true;
 			pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
-			//pageList.addEventListener(FeathersEventType.ENTER, pageList_enterHandler);
 			pageList.verticalScrollPolicy = ScrollPolicy.OFF;
 			pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 			addChild(pageList);
@@ -183,7 +181,7 @@ package com.gerantech.towercraft.controls.screens
 		}
 		
 		private function tabsList_selectHandler(event:Event):void
-		{trace(tabsList.selectedIndex, player.dashboadTabEnabled(tabsList.selectedIndex))
+		{
 			if( player.dashboadTabEnabled(tabsList.selectedIndex) )
 				gotoPage(tabsList.selectedIndex);
 		}

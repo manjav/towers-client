@@ -381,13 +381,16 @@ package com.gerantech.towercraft.controls.screens
 		{
 			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 			var tutorial:TutorialData = event.data as TutorialData;
-			if( tutorial.name == "quest_1_end" && !player.resources.exists(BuildingType.B11_BARRACKS) )
+			if( tutorial.name == "quest_1_end" )
 			{
-				//UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE); 
-				player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE.toString()); 
+				if( player.resources.exists(BuildingType.B11_BARRACKS) )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END); 
+				else
+					player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE.toString());
 				appModel.navigator.popToRootScreen(Reveal.createRevealDownTransition());
 				return;
 			}
+
 			dispatchEventWith(Event.COMPLETE);
 		}
 		
