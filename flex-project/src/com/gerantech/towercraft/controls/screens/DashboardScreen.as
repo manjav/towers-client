@@ -154,6 +154,9 @@ package com.gerantech.towercraft.controls.screens
 						var bs:Vector.<Building> = player.buildings.values();
 						for each(var b:Building in bs)
 						{
+							if( b == null )
+								continue;
+							
 							if(b.upgradable())
 								pd.badgeNumber ++;
 							
