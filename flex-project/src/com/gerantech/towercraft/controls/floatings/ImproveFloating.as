@@ -74,13 +74,13 @@ package com.gerantech.towercraft.controls.floatings
 			
 			for (var i:int=0; i < buttons.length; i++) 
 			{
-				if( buttons[i].type == -pdata.tutorIndex )
+				if( buttons[i].type == -pdata.tutorIndex && player.buildings.exists(buttons[i].type) )
 				{
 					var tutorialData:TutorialData = new TutorialData(SFSCommands.BUILDING_IMPROVE);
 					{
 						var places:PlaceDataList = new PlaceDataList();
 						places.push(new PlaceData( 0, (x+buttons[i].x)/appModel.scale, (y+buttons[i].y)/appModel.scale, 0, 0, ""));
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 200));
 					}
 					tutorials.show(LayoutGroup(parent), tutorialData);
 				}

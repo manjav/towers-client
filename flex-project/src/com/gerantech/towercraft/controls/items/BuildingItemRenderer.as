@@ -1,7 +1,11 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
+	import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
+	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gt.towers.constants.BuildingType;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.events.FeathersEventType;
@@ -12,6 +16,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.core.Starling;
 	import starling.display.Quad;
+	import starling.events.Event;
 
 	public class BuildingItemRenderer extends BaseCustomItemRenderer
 	{
@@ -24,6 +29,7 @@ package com.gerantech.towercraft.controls.items
 		private var cardLayoutData:AnchorLayoutData;
 
 		private var newDisplay:ImageLoader;
+		private var focusRect:TutorialFocusOverlay;
 		
 		public function BuildingItemRenderer(inDeck:Boolean=true)
 		{
@@ -81,7 +87,25 @@ package com.gerantech.towercraft.controls.items
 			}
 			
 			super.commitData();
+			if( _data == BuildingType.B11_BARRACKS )
+				tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 		}
+		
+		private function tutorialManager_finishHandler(event:Event):void
+		{
+			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+			var tuteData:TutorialData = event.data as TutorialData;
+			if( tuteData.name == "deck_start" )
+				showFocus();
+		}
+		private function showFocus () : void
+		{
+			if( focusRect != null )
+				focusRect.removeFromParent(true);
+			focusRect = new TutorialFocusOverlay(this.getBounds(stage), 1.5, 0)
+			appModel.navigator.addChild(focusRect);
+		}
+		
 		override public function set isSelected(value:Boolean):void
 		{
 			if( super.isSelected == value )
@@ -89,6 +113,8 @@ package com.gerantech.towercraft.controls.items
 			if( !super.isSelected && inDeck )
 				cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = 0;
 			super.isSelected = value
+			if( focusRect != null )
+				focusRect.removeFromParent(true);
 		}
 		
 		override public function set currentState(_state:String):void

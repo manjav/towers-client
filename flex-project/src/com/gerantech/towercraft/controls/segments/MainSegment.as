@@ -11,6 +11,7 @@ import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.constants.PrefsTypes;
 
 import flash.filesystem.File;
 import flash.geom.Point;
@@ -38,6 +39,7 @@ public class MainSegment extends Segment
 	private static var factory:StarlingFactory;
 	private static var dragonBonesData:DragonBonesData;
 	private static var floating:MapElementFloating;
+	private static var assetsLoadingState:uint = 0;
 	
 	private var intervalId:uint;
 	private var lobbyBallon:LobbyBalloon;
@@ -46,29 +48,30 @@ public class MainSegment extends Segment
 	{
 		super();
 		//appModel.assets.verbose = true;
-		if( appModel.assets.getTexture("main-map_tex") == null )
+		if( assetsLoadingState == 0 )
 		{
+			assetsLoadingState = 1;
 			appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/mainmap" ));
 			appModel.assets.loadQueue(assets_loadCallback)
 		}
 	}
 	private function assets_loadCallback(ratio:Number):void
 	{
-		if(ratio >= 1 && initializeStarted && !initializeCompleted)
+		if( ratio >= 1 )
 		{
 			factory = new StarlingFactory();
 			dragonBonesData = factory.parseDragonBonesData(appModel.assets.getObject("main-map_ske"));
 			factory.parseTextureAtlasData(appModel.assets.getObject("main-map_tex"), appModel.assets.getTexture("main-map_tex"));
+			assetsLoadingState = 2;
 			init();
 		}
 	}
 	override public function init():void
 	{
 		super.init();
-		if(appModel.assets.isLoading )
+		if( assetsLoadingState < 2 )
 			return;
 		layout = new AnchorLayout();		
-
 		if( appModel.loadingManager.serverData.getBool("inBattle") )
 		{
 			setTimeout(gotoLiveBattle, 100);
@@ -76,10 +79,6 @@ public class MainSegment extends Segment
 		}
 		
 		showMap();
-		showTutorial();
-		showButtons();
-		
-		initializeCompleted = true;
 	}
 	
 	private function showButtons():void
@@ -126,8 +125,6 @@ public class MainSegment extends Segment
 	
 	private function showMap():void
 	{
-		if( dragonBonesData == null )
-			return;
 		var mcName:String;
 		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
 		{
@@ -173,6 +170,8 @@ public class MainSegment extends Segment
 				}
 			}
 		}
+		showTutorial();
+		showButtons();
 	}
 	
 	// show tutorial steps
@@ -180,27 +179,24 @@ public class MainSegment extends Segment
 	{
 		trace("player.inTutorial() : ", player.inTutorial());
 		trace("player.nickName : ", player.nickName);
-		if( player.inTutorial() )
+		clearInterval(intervalId);
+		if( player.get_questIndex() >= 2 && player.nickName == "guest" )
 		{
-			intervalId = setInterval(punchButton, 2000, getChildByName("gold-leaf") as SimpleButton);
+			var confirm:SelectNamePopup = new SelectNamePopup();
+			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+			appModel.navigator.addPopup(confirm);
+			function confirm_eventsHandler():void {
+				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
+				intervalId = setInterval(punchButton, 3000, getChildByName("portal-center") as SimpleButton, 2);
+			}
+			return;
 		}
-		else
+		
+		if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201)) )
 		{
-			if( player.nickName == "guest" )
-			{
-				var confirm:SelectNamePopup = new SelectNamePopup();
-				confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
-				appModel.navigator.addPopup(confirm);
-				function confirm_eventsHandler():void {
-					confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-					punchButton(getChildByName("portal-center") as SimpleButton);
-					intervalId = setInterval(punchButton, 2000, getChildByName("portal-center") as SimpleButton);
-				}
-			}
-			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
-			{
-				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton);
-			}
+			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+			if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
+				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton, 2);
 		}
 	}
 	
@@ -299,9 +295,9 @@ public class MainSegment extends Segment
 		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
 	
-	private function punchButton(mapElement:SimpleButton):void
+	private function punchButton(mapElement:SimpleButton, initScale:Number = 1.5):void
 	{
-		mapElement.scale = 0.4;
+		mapElement.scale = initScale;
 		Starling.juggler.tween(mapElement, 0.9, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
 	}
 	override public function dispose():void

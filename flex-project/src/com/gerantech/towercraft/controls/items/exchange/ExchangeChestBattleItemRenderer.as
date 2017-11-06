@@ -2,15 +2,17 @@
 {
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+	import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.utils.clearTimeout;
-	import flash.utils.setTimeout;
 	
 	import dragonBones.events.EventObject;
 	import dragonBones.starling.StarlingArmatureDisplay;
@@ -31,13 +33,14 @@
 		private var chestArmature:StarlingArmatureDisplay;
 		private var armatorTimeoutId:int = -1;
 		private var _state:int = -2;
+		private var focusRect:TutorialFocusOverlay;
 		
 		override protected function commitData():void
 		{
 			if( index < 0 || _data == null )
 				return;
 			super.commitData();
-			if(firstCommit)
+			if( firstCommit )
 				firstCommit = false;
 			
 			if( buttonDisplay == null )
@@ -57,6 +60,17 @@
 			updateElements();
 			addChild(chestArmature);
 			addChild(buttonDisplay);
+			
+			//if( !tutorials.hasEventListener(GameEvent.TUTORIAL_TASKS_FINISH) )
+				tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+		}
+		
+		private function tutorialManager_finishHandler(event:Event):void
+		{
+			if( index != (appModel.isLTR?0:2) || event.data.name != "shop_start" || stage == null )
+				return;
+			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+			showFocus();
 		}
 		
 		private function chestArmature_completeHandler(event:StarlingEvent):void
@@ -134,6 +148,23 @@
 			chestArmature.animation.gotoAndPlayByTime("wait", 0, 1);			
 			armatorTimeoutId = -1;
 		}*/
+		
+		private function showFocus () : void
+		{
+			if( focusRect != null )
+				focusRect.removeFromParent(true);
+			focusRect = new TutorialFocusOverlay(this.getBounds(stage), 1.5, 0)
+			appModel.navigator.addChild(focusRect);
+		}
+		override public function set isSelected(value:Boolean):void
+		{
+			if(value == super.isSelected)
+				return;
+			super.isSelected = value;
+			if( focusRect != null )
+				focusRect.removeFromParent(true);
+		}
+
 		
 		override public function dispose():void
 		{

@@ -6,17 +6,20 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.popups.ChestsDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.tutorials.TutorialData;
+	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.ShopLine;
+	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
-	import com.gt.towers.exchanges.Exchanger;
 	import com.gt.towers.utils.GameError;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -90,6 +93,19 @@ package com.gerantech.towercraft.controls.segments
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);
 			initializeCompleted = true;
+			
+			showTutorial();
+		}
+		
+		private function showTutorial():void
+		{
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+				return;
+			
+			var tutorialData:TutorialData = new TutorialData("shop_start");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_0", null, 1000, 1000, 0));
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_2", null, 1000, 1000, 2));
+			tutorials.show(this, tutorialData);
 		}
 		
 		override public function updateData():void
@@ -129,6 +145,9 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:ExchangeItem = event.data as ExchangeItem;
+			if( player.inTutorial() && item.outcome != ExchangeType.CHESTS_51_CHROME )
+				return;// disalble all items in tutorial
+
 			if( item.category == ExchangeType.S_0_HARD)
 			{
 				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
@@ -279,16 +298,27 @@ package com.gerantech.towercraft.controls.segments
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						function openChestOverlay_closeHandler(event:Event):void {
 							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-							if( item.type != ExchangeType.CHESTS_59_ADS && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS) )
+							if( !player.inTutorial() && item.type != ExchangeType.CHESTS_59_ADS && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS) )
 								showAd();
 							openChestOverlay = null;
+							gotoDeckTutorial();
 						}
 						player.addResources(item.outcomes);
 						break;
 				}
 				item.enabled = true;
 			}
-
+		}
+		
+		private function gotoDeckTutorial():void
+		{
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+				return;
+		
+			var tutorialData:TutorialData = new TutorialData("shop_end");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_4", null, 1000, 1000, 4));
+			tutorials.show(this, tutorialData);
+			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
 		}
 		
 		private function showAd():void

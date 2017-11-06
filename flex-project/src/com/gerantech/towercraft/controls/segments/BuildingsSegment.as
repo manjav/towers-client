@@ -13,6 +13,8 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
@@ -59,22 +61,21 @@ package com.gerantech.towercraft.controls.segments
 			buildingslist.dataProvider = buildingsListCollection;
 			buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(buildingslist);
-			showTutorial();
 			initializeCompleted = true;
+			showTutorial();
 		}
 		
 		private function showTutorial():void
 		{
-			if( UserData.instance.buildingsOpened )
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK )
 				return;
-			UserData.instance.buildingsOpened = true;
-			UserData.instance.save();
 			
-			var tutorialData:TutorialData = new TutorialData("buildings");
-			tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buildings_message", null, 0, 2000));
+			player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
+			var tutorialData:TutorialData = new TutorialData("deck_start");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_2", null, 1000, 1000, 2));
 			tutorials.show(this, tutorialData);
-		}
-		
+		}		
 		override public function updateData():void
 		{
 			if(buildingsListCollection == null)
@@ -90,8 +91,10 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
-
 			var buildingType:int = item.data as int;
+			if( player.inTutorial() && buildingType != BuildingType.B11_BARRACKS )
+				return;// disalble all items in tutorial
+
 			if( !player.buildings.exists( buildingType ) )
 			{
 				var unlockedAt:int = game.unlockedBuildingAt( buildingType );
@@ -99,6 +102,14 @@ package com.gerantech.towercraft.controls.segments
 					appModel.navigator.addLog(loc("earn_at_chests"));
 				else
 					appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_title_"+unlockedAt)]));
+				return;
+			}
+			
+			if( player.inTutorial() )
+			{
+				seudUpgradeRequest(player.buildings.get(buildingType), 0);
+				UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
+				tutorials.dispatchEventWith("upgrade");
 				return;
 			}
 			

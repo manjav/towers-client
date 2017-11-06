@@ -1,9 +1,11 @@
 package com.gerantech.towercraft.managers
 {
 	
+	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.SettingsData;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.constants.PrefsTypes;
 	
 	import flash.events.Event;
 	import flash.media.Sound;
@@ -19,7 +21,6 @@ package com.gerantech.towercraft.managers
 		public static const CATE_THEME:int = 0;
 		public static const CATE_SFX:int = 1;
 		
-		//private static var _instance:SoundManager;
 		private var _isMuted:Boolean = false;		// When true, every change in volume for ALL sounds is ignored
 		
 		public var sounds:Dictionary;				// contains all the sounds registered with the Sound Manager
@@ -111,10 +112,12 @@ package com.gerantech.towercraft.managers
 			
 			if( soundIsAdded(id) )
 			{
-				var category:int = sounds[id].c;
-				if( category == CATE_SFX && UserData.instance.getSetting(SettingsData.SFX) == 0 )
+				if( AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
 					return;
-				if( category == CATE_THEME && UserData.instance.getSetting(SettingsData.MUSIC) == 0 )
+				var category:int = sounds[id].c;
+				if( category == CATE_SFX && !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_2_SFX) )
+					return;
+				if( category == CATE_THEME && !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC) )
 					return;
 
 				var soundObject:Sound = sounds[id].s;

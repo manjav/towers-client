@@ -17,6 +17,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
@@ -26,8 +27,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ExchangeType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.utils.PathFinder;
+	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.gt.towers.utils.maps.IntIntMap;
@@ -46,6 +49,7 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
+	import feathers.motion.Reveal;
 	
 	import starling.animation.Transitions;
 	import starling.display.Quad;
@@ -92,8 +96,6 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			if( !isFriendly )
 				sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
-			
-			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		}
 
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
@@ -182,24 +184,35 @@ package com.gerantech.towercraft.controls.screens
 			
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			//trace("battle screen -> start", quest.index, quest.isQuest, player.quests.get(quest.index));
-			if( quest.isQuest && player.quests.get(quest.index) <= 2 )
+			if( quest.isQuest )
 			{
 				// create tutorial steps
-				var tutorialData:TutorialData = new TutorialData(SFSCommands.START_BATTLE);
-				if(quest.hasIntro)
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+player.get_questIndex()+"_intro"));
-				
-				var places:PlaceDataList = quest.getSwipeTutorPlaces();
-				if(places.size() > 0)
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
-					
-				var place:PlaceData = quest.getImprovableTutorPlace()
-				if(place != null)
+				var tutorialData:TutorialData = new TutorialData(quest.name+"_start");
+
+				//quest start
+				var tuteMessage:String = "";
+				for (var i:int=0 ; i < quest.startNum.size() ; i++) 
 				{
-					places = new PlaceDataList();
-					places.push(place);
-					tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
+					tuteMessage = "tutor_quest_" + quest.index + "_start_" + quest.startNum.get(i);
+					trace("tuteMessage:", tuteMessage);
+					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
 				}
+
+				if( !player.hardMode )
+				{
+					var places:PlaceDataList = quest.getSwipeTutorPlaces();
+					if( places.size() > 0 )
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
+				
+					var place:PlaceData = quest.getImprovableTutorPlace()
+					if( place != null )
+					{
+						places = new PlaceDataList();
+						places.push(place);
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
+					}
+				}
+
 				tutorials.show(this, tutorialData);
 			}
 			
@@ -252,7 +265,7 @@ package com.gerantech.towercraft.controls.screens
 			var score:int = data.getInt("score");
 			var rewards:ISFSArray = data.getSFSArray("rewards");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			var tutorialMode:Boolean = quest.isQuest && quest.hasFinal && player.quests.get(quest.index)==0;
+			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
 			
 			// set quest score
 			if( quest.isQuest && player.quests.get( quest.index ) < score )
@@ -285,7 +298,7 @@ package com.gerantech.towercraft.controls.screens
 				battleOutcomeOverlay.data = [prevArena, nextArena]
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
 			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			appModel.navigator.addOverlay(battleOutcomeOverlay);
+			setTimeout(appModel.navigator.addOverlay, player.get_arena(0)==0?1000:0, battleOutcomeOverlay);//delay for noobs
 			
 			// Game Analytic
 			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator)
@@ -363,15 +376,23 @@ package com.gerantech.towercraft.controls.screens
 
 			// create tutorial steps
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			if( battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score > 0 )
+			var winStr:String = battleOutcomeOverlay.score > 0 ? "_win_" : "_defeat_";
+			//quest end
+			if( quest.isQuest && player.inTutorial() )
 			{
-				//trace("battle screen -> end", player.get_questIndex());
-				var tutorialData:TutorialData = new TutorialData(SFSCommands.END_BATTLE);
-				tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_"+(player.get_questIndex()-1)+"_final"));
+				var tutorialData:TutorialData = new TutorialData(quest.name+"_end");
+				var task:TutorialTask
+				for ( var i:int=0; i < quest.endNum.size() ; i++ )
+				{
+					task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end" + winStr + quest.endNum.get(i));
+					task.data = quest.endNum.get(i);
+					tutorialData.addTask(task);
+				}
+				tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 				tutorials.show(this, tutorialData);
 				return;
 			}
-			
+						
 			// show faction changes overlay
 			if( battleOutcomeOverlay.data != null )
 			{
@@ -393,9 +414,19 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function tutorials_tasksFinishHandler(event:Event):void
 		{
+			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 			var tutorial:TutorialData = event.data as TutorialData;
-			if( tutorial.name == SFSCommands.END_BATTLE )
-				dispatchEventWith(Event.COMPLETE);
+			if( tutorial.name == "quest_1_end" )
+			{
+				if( player.resources.exists(BuildingType.B11_BARRACKS) )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END); 
+				else
+					player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE.toString());
+				appModel.navigator.popToRootScreen(Reveal.createRevealDownTransition());
+				return;
+			}
+
+			dispatchEventWith(Event.COMPLETE);
 		}
 		
 		protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
@@ -430,7 +461,7 @@ package com.gerantech.towercraft.controls.screens
 					var tutorialData:TutorialData = new TutorialData("roomVariablesUpdate");
 					var places:PlaceDataList = appModel.battleFieldView.battleData.map.getSwipeTutorPlaces();
 					if( places.size() > 0 )
-						tutorialData.tasks.push(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
 					tutorials.show(this, tutorialData);
 					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = -1;
 				}
@@ -521,8 +552,9 @@ package com.gerantech.towercraft.controls.screens
 					
 					// force improve in tutorial mode
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
+					
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
+					if( bf.map.isQuest && !player.hardMode && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
@@ -564,7 +596,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showImproveFloating(placeView:PlaceView):void
 		{
-			if( appModel.battleFieldView.battleData.battleField.map.isQuest && player.get_questIndex() < 2 )
+			if( player.get_questIndex() < 1 || player.hardMode  )
 				return;
 			// create transition in data
 			var ti:TransitionData = new TransitionData();
@@ -621,7 +653,7 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 			
-			if( !appModel.battleFieldView.battleData.map.isQuest )
+			if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
 				return;
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
