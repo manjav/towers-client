@@ -53,7 +53,7 @@ package com.gerantech.towercraft.views.weapons
 			if( troop.type == placeView.place.building.troopType )
 				return false;
 			
-			var distance:Number = Math.sqrt(Math.pow(placeView.x-troop.x, 2) + Math.pow((placeView.y-troop.y)*1.2, 2));
+			var distance:Number = Math.sqrt(Math.pow(placeView.x-troop.x, 2) + Math.pow((placeView.y-troop.y)*1.25, 2));
 			if( distance > minDamagRadius && distance < maxDamagRadius )
 				return true
 			

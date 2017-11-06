@@ -44,11 +44,10 @@ public function TroopView(building:Building, path:PlaceList)
 	
 	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
-	movieClip.pivotX = movieClip.width/2;
-	movieClip.y = -56 ;
+	movieClip.pivotX = movieClip.width * 0.5;
+	movieClip.pivotY = movieClip.height * 0.85;
 	addChild(movieClip);
 	
-	this.scale = AppModel.instance.scale * 2;
 	touchable = false;
 	
 	this.path = new Vector.<PlaceView>();
@@ -128,8 +127,6 @@ public function hit(placeView:PlaceView):void
 {
 	var damage:Number = placeView.place.building.get_damage()
 	health -= damage;
-	//trace("damage", damage, "health", health)
-
 	dispatchEventWith(Event.TRIGGERED, false, damage);
 	
 	if(health > 0)
@@ -203,36 +200,10 @@ public function get muted():Boolean
 	return movieClip.muted;
 }
 
-
 override public function dispose():void
 {
 	clearTimeout(rushTimeoutId);
 	super.dispose();
 }
-
-
-
-/*public function get_troopName () : String
-{
-	if( building == null )
-		return "dwarf3b-move-";
-	if( BuildingType.get_category(building.type) == BuildingType.B00_CAMP )
-		return "dwarfinf-move-";
-	if( BuildingType.get_category(building.type) == BuildingType.B20_RAPID )
-		return "darkelfassassin-move-";
-	if( BuildingType.get_category(building.type) == BuildingType.B30_HEAVY )
-		return "corruptedknight-move-";
-	return "dwarf3b-move-";
-}
-public function get_troopSpriteCount () : int
-{
-	if( building == null )
-		return 12;
-	if( BuildingType.get_category(building.type) == BuildingType.B20_RAPID )
-		return 10;
-	if( BuildingType.get_category(building.type) == BuildingType.B30_HEAVY )
-		return 23;
-	return 12;
-}*/
 }
 }

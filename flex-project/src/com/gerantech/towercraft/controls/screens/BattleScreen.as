@@ -30,7 +30,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.utils.PathFinder;
-	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
 	import com.gt.towers.utils.maps.IntIntMap;
@@ -41,6 +40,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
 	import feathers.events.FeathersEventType;
@@ -447,7 +447,7 @@ package com.gerantech.towercraft.controls.screens
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 		private function touchHandler(event:TouchEvent):void
 		{
-			var tp:PlaceView;
+			var pv:PlaceView;
 			var touch:Touch = event.getTouch(this);
 			if(touch == null)
 				return;
@@ -456,40 +456,41 @@ package com.gerantech.towercraft.controls.screens
 			{
 				sourcePlaces = new Vector.<PlaceView>();
 				//trace("BEGAN", touch.target, touch.target.parent);
-				if(!(touch.target.parent is PlaceView))
+				if( !(touch.target.parent is PlaceView) )
 					return;
-				tp = touch.target.parent as PlaceView;
 				
-				if(tp.place.building.troopType != player.troopType)
+				pv = touch.target.parent as PlaceView;
+				
+				if(pv.place.building.troopType != player.troopType)
 					return;
 				
 				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
-				sourcePlaces.push(tp);
+				sourcePlaces.push(pv);
 			}
 			else 
 			{
-				if(sourcePlaces == null || sourcePlaces.length == 0)
+				if( sourcePlaces == null || sourcePlaces.length == 0 )
 					return;
 				
-				if(touch.phase == TouchPhase.MOVED)
+				if( touch.phase == TouchPhase.MOVED )
 				{
-					tp = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-					if( tp != null && (PathFinder.find(sourcePlaces[0].place, tp.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == tp.place.building.troopType))
+					pv = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
+					if( pv != null && (PathFinder.find(sourcePlaces[0].place, pv.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == pv.place.building.troopType))
 					{
 						// check next tower liked by selected places
-						if(sourcePlaces.indexOf(tp)==-1 && tp.place.building.troopType == player.troopType)
-							sourcePlaces.push(tp);
-						endPoint.setTo(tp.x, tp.y);
+						if(sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType)
+							sourcePlaces.push(pv);
+						endPoint.setTo(pv.x, pv.y);
 					}
 					else
 					{
-						endPoint.setTo(touch.globalX-appModel.battleFieldView.x, touch.globalY-appModel.battleFieldView.y);
+						endPoint.setTo((touch.globalX-appModel.battleFieldView.x)/appModel.scale, (touch.globalY-appModel.battleFieldView.y)/appModel.scale);
 					}
 					
-					for each(tp in sourcePlaces)
+					for each(pv in sourcePlaces)
 					{
-						tp.arrowContainer.visible = true;
-						tp.arrowTo(endPoint.x-tp.x, endPoint.y-tp.y);
+						pv.arrowContainer.visible = true;
+						pv.arrowTo(endPoint.x-pv.x, endPoint.y-pv.y);
 					}
 				}
 				else if(touch.phase == TouchPhase.ENDED)
@@ -567,7 +568,7 @@ package com.gerantech.towercraft.controls.screens
 			var ti:TransitionData = new TransitionData();
 			ti.transition = Transitions.EASE_OUT_BACK;
 			ti.sourceAlpha = 0;
-			ti.sourcePosition = new Point(placeView.x, placeView.y-50*appModel.scale);
+			ti.sourcePosition = new Point(placeView.x*appModel.scale, placeView.y*appModel.scale+appModel.battleFieldView.y);
 			ti.destinationPosition = ti.sourcePosition;
 			
 			// create transition out data

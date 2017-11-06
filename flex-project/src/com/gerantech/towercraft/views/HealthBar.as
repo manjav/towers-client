@@ -11,7 +11,7 @@ package com.gerantech.towercraft.views
 	
 	public class HealthBar extends LayoutGroup
 	{
-		private static const SCALE_RECT:Rectangle = new Rectangle(2, 4, 2, 3);
+		private static const SCALE_RECT:Rectangle = new Rectangle(4, 8, 4, 6);
 		
 		private var _value:Number = 0;
 		private var _troopType:int = -2;

@@ -48,27 +48,27 @@ package com.gerantech.towercraft.views.decorators
 				crystalDisplay = new MovieClip(Assets.getTextures(crystalTexture));
 				crystalDisplay.play();
 				crystalDisplay.touchable = false;
-				crystalDisplay.pivotX = crystalDisplay.width/2;
+				crystalDisplay.pivotX = crystalDisplay.width * 0.5;
 				crystalDisplay.pivotY = crystalDisplay.height;
-				crystalDisplay.scale = appModel.scale * 2;
+				//crystalDisplay.scale = appModel.scale * 2;
 				crystalDisplay.x = parent.x;
 				crystalDisplay.y = parent.y - 24 ;
 				Starling.juggler.add(crystalDisplay);
-				BattleFieldView(parent.parent).buildingsContainer.addChild(crystalDisplay);
+				fieldView.buildingsContainer.addChild(crystalDisplay);
 			}
 			
 			// radius :
 			createRadiusDisplay();
-			radiusDisplay.width = place.building.get_damageRadius() * appModel.scale * 2;
-			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.7;
+			radiusDisplay.width = place.building.get_damageRadius() * 2;
+			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.8;
 		
 			// ray
 			createRayDisplay();
-			rayImage.scale = appModel.scale * place.building.get_damage() * 1.5;
+			rayImage.scale = place.building.get_damage() * 1.5;
 			
 			// lighting
 			createLightingDisplay();
-			lightingDisplay.scale = appModel.scale * place.building.get_damage() * 2;
+			lightingDisplay.scale = place.building.get_damage() * 2;
 		}
 		
 		private function createRadiusDisplay():void
@@ -78,11 +78,10 @@ package com.gerantech.towercraft.views.decorators
 			
 			radiusDisplay = new Image(Assets.getTexture("damage-range"));
 			radiusDisplay.touchable = false;
-			radiusDisplay.pivotX = radiusDisplay.width/2
-			radiusDisplay.pivotY = radiusDisplay.height/2;
+			radiusDisplay.alignPivot()
 			radiusDisplay.x = parent.x;
 			radiusDisplay.y = parent.y;
-			parent.parent.addChild(radiusDisplay);
+			addChildAt(radiusDisplay, 0);
 		}
 		
 		private function createRayDisplay():void
@@ -94,7 +93,7 @@ package com.gerantech.towercraft.views.decorators
 			raySprite.visible = raySprite.touchable = false;
 			raySprite.x = parent.x;
 			raySprite.y = parent.y - 132*appModel.scale ;
-			BattleFieldView(parent.parent).buildingsContainer.addChild(raySprite);
+			fieldView.buildingsContainer.addChild(raySprite);
 			
 			rayImage = new Image(Assets.getTexture("crystal-ray"));
 		//	flameDisplay.scale9Grid = new Rectangle(1, 1, 3, 2);
@@ -113,7 +112,7 @@ package com.gerantech.towercraft.views.decorators
 			lightingDisplay.touchable = false;
 			lightingDisplay.pivotX = lightingDisplay.width/2;
 			lightingDisplay.pivotY = lightingDisplay.height/2;
-			BattleFieldView(parent.parent).buildingsContainer.addChild(lightingDisplay);
+			fieldView.buildingsContainer.addChild(lightingDisplay);
 		}
 		
 		

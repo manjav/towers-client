@@ -80,48 +80,43 @@ package com.gerantech.towercraft.views.decorators
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			
-			var bc:Sprite = BattleFieldView(parent.parent).buildingsContainer;
-			
 			populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.get_capacity());
-			populationBar.width = 140 * appModel.scale;
-			populationBar.height = 38 * appModel.scale;
-			populationBar.x = parent.x - populationBar.width/2 + 24 * appModel.scale;
-			populationBar.y = parent.y + 32 * appModel.scale;
-			bc.addChild(populationBar);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationBar);
+			populationBar.width = 140
+			populationBar.height = 38
+			populationBar.x = parent.x - populationBar.width/2 + 24;
+			populationBar.y = parent.y + 32;
+			fieldView.guiImagesContainer.addChild(populationBar);
 
-			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36*appModel.scale, 0xFFFFFF, "center")
+			populationIndicator = new BitmapFontTextRenderer();
+			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
 			populationIndicator.width = populationBar.width;
 			populationIndicator.touchable = false;
-			populationIndicator.x = parent.x - populationIndicator.width/2 + 24 * appModel.scale;
-			populationIndicator.y = parent.y + 16 * appModel.scale;
-			bc.addChild(populationIndicator);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 110, populationIndicator);
+			populationIndicator.x = place.x - populationIndicator.width/2 + 24 ;
+			populationIndicator.y = place.y + 16;
+			fieldView.guiTextsContainer.addChild(populationIndicator);
 			
-			populationIcon = new Image(Assets.getTexture("population-"+place.building.troopType));
+			populationIcon = new Image(Assets.getTexture("population-" + place.building.troopType));
 			populationIcon.touchable = false;
-			populationIcon.scale = appModel.scale * 2;
-			populationIcon.x = parent.x - populationBar.width/2 - 18 * appModel.scale;
-			populationIcon.y = parent.y + 27 * appModel.scale;
-			bc.addChild(populationIcon);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationIcon);
+			populationIcon.x = place.x - populationBar.width/2 - 18;
+			populationIcon.y = place.y + 27;
+			fieldView.guiImagesContainer.addChild(populationIcon);
 
 			improvablePanel = new ImprovablePanel();
-			improvablePanel.scale = appModel.scale * 2;
-			improvablePanel.x = parent.x - improvablePanel.width/2;
-			improvablePanel.y = parent.y + 32*appModel.scale;
-			bc.addChild(improvablePanel);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, improvablePanel);
+			improvablePanel.x = place.x - improvablePanel.width/2;
+			improvablePanel.y = place.y + 32;
+			fieldView.guiImagesContainer.addChild(improvablePanel);
 			
 			underAttack = new MovieClip(Assets.getTextures("war-icon-sword-"), 22);
 			underAttack.touchable = false;
 			underAttack.visible = false;
-			underAttack.scale = appModel.scale * 2;
-			underAttack.x = parent.x - underAttack.width * 0.5;
-			underAttack.y = parent.y - underAttack.height * 2;
-			bc.addChild(underAttack);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, underAttack);
+			underAttack.x = place.x - underAttack.width * 0.5;
+			underAttack.y = place.y - underAttack.height * 2;
+			fieldView.guiImagesContainer.addChild(underAttack);
 		}
 		
 		public function updateElements(population:int, troopType:int):void
 		{
-			populationIndicator.text = population+"/"+place.building.get_capacity();
+			populationIndicator.text = population + "/" + place.building.get_capacity();
 			populationBar.troopType = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
 			populationBar.value = population;
 			populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
@@ -153,8 +148,9 @@ package com.gerantech.towercraft.views.decorators
 			super.dispose();
 		}
 		
-		protected function get appModel():		AppModel		{	return AppModel.instance;	}
-		protected function get game():			Game			{	return appModel.game;		}
-		protected function get player():		Player			{	return game.player;			}
+		protected function get appModel():		AppModel		{	return AppModel.instance;					}
+		protected function get game():			Game			{	return appModel.game;						}
+		protected function get player():		Player			{	return game.player;							}
+		protected function get fieldView():		BattleFieldView {	return AppModel.instance.battleFieldView;	}
 	}
 }

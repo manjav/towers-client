@@ -12,10 +12,8 @@ package com.gerantech.towercraft.views
 	import feathers.layout.AnchorLayout;
 	
 	import starling.display.Image;
-	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.textures.Texture;
 	
 	public class BattleFieldView extends TowersLayout
 	{
@@ -28,16 +26,33 @@ package com.gerantech.towercraft.views
 		public var dropTargets:DropTargets;
 		public var troopsContainer:Sprite;
 		public var buildingsContainer:Sprite;
+		public var guiImagesContainer:Sprite;
+		public var guiTextsContainer:Sprite;
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			backgroundSkin = new Quad(1,1,0xb7bb3c);
 			y = (stage.stageHeight-1920*appModel.scale)/2;
+			scale = appModel.scale;
+			
+			// add dummy object to tile arroud display
+			/*var sp:Sprite = new Sprite();
+			sp.visible = false;
+			sp.x = 1080;
+			sp.y = 1920;
+			addChild(sp);*/
+			
+			// tile grass ground
+			var tiledBG:Image = new Image(Assets.getTexture("ground-228"));
+			tiledBG.tileGrid = new Rectangle(0, 0, 228, 228);
+			//backgroundSkin = new Quad(1,1,0xb7bb3c);
+			backgroundSkin = tiledBG;
 
 			troopsContainer = new Sprite();
 			buildingsContainer = new Sprite();
+			guiImagesContainer = new Sprite();
+			guiTextsContainer = new Sprite();
 	
 			troopsList = new Vector.<TroopView>();
 			troopsContainer.addEventListener(Event.ADDED, battleField_addedHandler);
@@ -47,7 +62,7 @@ package com.gerantech.towercraft.views
 		private function battleField_addedHandler(event:Event):void
 		{
 			var troopView:TroopView = event.target as TroopView;
-			if(troopView == null)
+			if( troopView == null )
 				return;
 			troopView.addEventListener(Event.TRIGGERED, troopView_triggeredHandler);
 			troopsList.push(troopView);
@@ -55,7 +70,7 @@ package com.gerantech.towercraft.views
 		private function battleField_removedHandler(event:Event):void
 		{
 			var troopView:TroopView = event.target as TroopView;
-			if(troopView == null)
+			if( troopView == null )
 				return;
 			troopView.removeEventListener(Event.TRIGGERED, troopView_triggeredHandler);
 			troopsList.removeAt(troopsList.indexOf(troopView));
@@ -64,7 +79,7 @@ package com.gerantech.towercraft.views
 		{
 			var troopView:TroopView = event.target as TroopView;
 			//trace("hitTroop", battleData.singleMode, troopView.type, player.troopType, troopView.id);
-			if(battleData.singleMode || troopView.type == player.troopType)
+			if( battleData.singleMode || troopView.type == player.troopType )
 				responseSender.hitTroop(troopView.id, event.data as Number);
 		}		
 		
@@ -74,36 +89,29 @@ package com.gerantech.towercraft.views
 			this.battleData = battleData;
 			responseSender = new ResponseSender(battleData.room);
 			
-			var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields", true);
-			for each(var img:Image in images)
+			var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
+			for each( var img:Image in images )
 				addChild(img);
-			
-			// tile grass ground
-			var tileTexture:Texture = Assets.getTexture("ground-228","battlefields");
-			var image:Image = new Image(tileTexture);
-			image.tileGrid = new Rectangle(0, 0, 456, 456);
-			image.width = stage.width;
-			image.height = stage.height;
-			addChildAt(image, 0);
 			
 			var len:uint = battleData.battleField.places.size();
 			places = new Vector.<PlaceView>(len, true);
-			for (var i:uint=0; i<len; i++)
+			for ( var i:uint=0; i<len; i++ )
 			{
 				places[i] = new PlaceView(battleData.battleField.places.get(i));
-
 				places[i].selectable = true;
 				places[i].name = i;
 				addChild(places[i]);
 			}
 
 			dropTargets = new DropTargets(stage);
-			for each(var t:PlaceView in places)
-				if(t.selectable)
+			for each( var t:PlaceView in places )
+				if( t.selectable )
 					dropTargets.add(t);
 				
 			addChild(troopsContainer);
 			addChild(buildingsContainer);
+			addChild(guiImagesContainer);
+			addChild(guiTextsContainer);
 		}
 	}
 }

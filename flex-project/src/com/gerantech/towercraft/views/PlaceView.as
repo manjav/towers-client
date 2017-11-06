@@ -20,7 +20,6 @@ package com.gerantech.towercraft.views
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
-	import starling.filters.ColorMatrixFilter;
 	import starling.utils.MathUtil;
 	
 	public class PlaceView extends Sprite
@@ -40,18 +39,17 @@ package com.gerantech.towercraft.views
 		public function PlaceView(place:Place)
 		{
 			this.place = place;
-			this.raduis = 160 * AppModel.instance.scale;
+			this.raduis = 160;
 			
 			var bg:Image = new Image(Assets.getTexture("damage-range"));
 			bg.alignPivot();
 			bg.width = raduis * 2;
-			bg.scaleY = bg.scaleX * 0.7;
+			bg.scaleY = bg.scaleX * 0.8;
 			bg.alpha = 0.2;
 			addChild(bg);
-			//trace(place.index, place.links.size());
 			
-			x = place.x * AppModel.instance.scale;
-			y = place.y * AppModel.instance.scale;
+			x = place.x;
+			y = place.y;
 
 			createDecorator();
 			createArrow();
@@ -61,11 +59,11 @@ package com.gerantech.towercraft.views
 		
 		private function createDecorator():void
 		{
-			if(defensiveWeapon != null)
+			if( defensiveWeapon != null )
 				defensiveWeapon.dispose();
 			defensiveWeapon = null;
 			
-			if(decorator != null)
+			if( decorator != null )
 				decorator.removeFromParent(true); 
 			
 			if( place.building.equalsCategory(BuildingType.B40_CRYSTAL) )
@@ -87,7 +85,8 @@ package com.gerantech.towercraft.views
 			addChildAt(arrowContainer, 0);
 			
 			arrow = new MovieClip(Assets.getTextures("attack-line-"), 50);
-			arrow.width = 64 * AppModel.instance.scale;
+			arrow.touchable = false;
+			arrow.width = 64;
 			arrow.tileGrid = new Rectangle(0, 0, arrow.width, arrow.width);
 			arrow.alignPivot("center", "bottom");
 			arrowContainer.addChild(arrow);
@@ -107,20 +106,15 @@ package com.gerantech.towercraft.views
 		{
 			touchable = value;
 			_selectable = value;
-			//alpha = _selectable ? 1: 0.5;
 		}
 
-		
 		public function update(population:int, troopType:int) : void
 		{
 			decorator.updateElements(population, troopType);
-			
 			if( population < wishedPopulation )
-			{
 				decorator.showUnderAttack();
-				//trace(place.index, population, place.building._population, wishedPopulation);
-			}
-			if( population == place.building._population+1 || population == place.building._population+2 || wishedPopulation == 0)
+
+			if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
 				wishedPopulation = population;
 			place.building._population = population;
 			place.building.troopType = troopType;
@@ -131,7 +125,7 @@ package com.gerantech.towercraft.views
 		
 		public function fight(destination:Place) : void
 		{
-			wishedPopulation = Math.floor(place.building._population/2);
+			wishedPopulation = Math.floor(place.building._population * 0.5);
 			var path:PlaceList = PathFinder.find(place, destination, AppModel.instance.battleFieldView.battleData.battleField.getAllTowers(-1));
 			if(path == null || destination.building == place.building)
 				return;
