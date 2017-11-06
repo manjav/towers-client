@@ -102,8 +102,7 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function transitionInCompleted():void
 		{
 			super.transitionInCompleted();
-			appModel.navigator.addChild( new BaseTooltip(loc(task.message), new Rectangle((side==0?400:670)*appModel.scale, (side==0?1100:900)*appModel.scale, 2, 2), 1, 0.6));
-
+			appModel.navigator.addChild( new BaseTooltip(loc(task.message), new Rectangle((side==0?400:670)*appModel.scale, (1920-(side==0?860:1000))*appModel.scale, 2, 2), 1, 0.6));
 		}
 		
 		public override function close(dispose:Boolean=true):void

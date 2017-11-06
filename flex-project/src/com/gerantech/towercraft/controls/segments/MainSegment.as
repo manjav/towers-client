@@ -180,28 +180,23 @@ public class MainSegment extends Segment
 		trace("player.inTutorial() : ", player.inTutorial());
 		trace("player.nickName : ", player.nickName);
 		clearInterval(intervalId);
-		if( player.inTutorial() )
+		if( player.get_questIndex() >= 2 && player.nickName == "guest" )
+		{
+			var confirm:SelectNamePopup = new SelectNamePopup();
+			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+			appModel.navigator.addPopup(confirm);
+			function confirm_eventsHandler():void {
+				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
+				intervalId = setInterval(punchButton, 3000, getChildByName("portal-center") as SimpleButton, 2);
+			}
+			return;
+		}
+		
+		if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201)) )
 		{
 			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 			if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
 				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton, 2);
-		}
-		else
-		{
-			if( player.nickName == "guest" )
-			{
-				var confirm:SelectNamePopup = new SelectNamePopup();
-				confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
-				appModel.navigator.addPopup(confirm);
-				function confirm_eventsHandler():void {
-					confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-					intervalId = setInterval(punchButton, 3000, getChildByName("portal-center") as SimpleButton, 2);
-				}
-			}
-			else if( player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201) )
-			{
-				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton, 2);
-			}
 		}
 	}
 	
