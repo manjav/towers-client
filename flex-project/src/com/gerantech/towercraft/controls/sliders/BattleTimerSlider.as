@@ -70,7 +70,8 @@ package com.gerantech.towercraft.controls.sliders
 				return;
 			if( newValue < 0 )
 				newValue = 0;
-			
+			if( maximum == 0 )
+				return;
 			progressBar.value = _value = Math.max(0, Math.min( newValue, maximum ) );
 		}
 		

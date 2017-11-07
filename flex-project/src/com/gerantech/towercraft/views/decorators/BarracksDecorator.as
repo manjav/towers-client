@@ -25,7 +25,7 @@ package com.gerantech.towercraft.views.decorators
 			if( troopType > -1 )
 				txt += troopType == player.troopType ? "-0" : "-1";
 			else
-				txt += "n";
+				txt += "-n";
 					
 			if( flagTexture != txt )
 			{
