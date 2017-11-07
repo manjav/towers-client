@@ -66,16 +66,22 @@ package com.gerantech.towercraft.views
 			if( decorator != null )
 				decorator.removeFromParent(true); 
 			
-			if( place.building.equalsCategory(BuildingType.B40_CRYSTAL) )
-				decorator = new CrystalDecorator(this);
-			else
-				decorator = new  BarracksDecorator(this);
+			switch( place.building.category )
+			{
+				case BuildingType.B40_CRYSTAL:
+					decorator = new CrystalDecorator(this);
+					defensiveWeapon = new DefensiveWeapon(this);
+					break;
+				case BuildingType.B10_BARRACKS:
+					decorator = new BarracksDecorator(this);
+					break;
+				default:
+					decorator = new BuildingDecorator(this);
+					break;
+			}
 			decorator.x = 0;
 			decorator.y = 0;
 			addChild(decorator);
-			
-			if( place.building.equalsCategory(BuildingType.B40_CRYSTAL) )
-				defensiveWeapon = new DefensiveWeapon(this);
 		}
 		
 		public function createArrow():void

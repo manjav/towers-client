@@ -20,11 +20,10 @@ package com.gerantech.towercraft.views.weapons
 
 		public function DefensiveWeapon(placeView:PlaceView)
 		{
-			//trace(placeView.place.index, "DefensiveWeapon")
 			this.placeView = placeView;
 			hitTimeoutId = setInterval(hitTestTroopsInterval, placeView.place.building.get_damageGap());
-			minDamagRadius = AppModel.instance.scale * 30;
-			maxDamagRadius = AppModel.instance.scale * placeView.place.building.get_damageRadius();
+			minDamagRadius = 30;
+			maxDamagRadius = placeView.place.building.get_damageRadius();
 		}
 		
 		private function hitTestTroopsInterval():void
@@ -58,11 +57,10 @@ package com.gerantech.towercraft.views.weapons
 				return true
 			
 			return false;
-		}		
+		}
 		
 		public function dispose():void
 		{
-			//trace(placeView.place.index, "defensive weapon disposed.")
 			disposed = true;
 			clearTimeout(hitTimeoutId);
 		}
