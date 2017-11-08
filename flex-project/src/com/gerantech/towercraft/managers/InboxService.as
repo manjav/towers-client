@@ -35,13 +35,13 @@ protected function sfs_responseHandler(event:SFSEvent):void
 		for (var j:int = 0; j < messages.length; j++) 
 			if( !exists && msgs.getSFSObject(i).getInt("id") == messages.getItemAt(j).getInt("id") )
 				exists = true;
+		
 		if( !exists )
 		{
 			if( msgs.size() == 1 )
 				messages.addItemAt(msgs.getSFSObject(i), 0);
 			else
 				messages.addItem(msgs.getSFSObject(i));
-			
 		}
 	}
 	//trace(event.params.params.getDump())

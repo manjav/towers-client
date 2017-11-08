@@ -41,5 +41,6 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const INBOX_GET:String = "inboxGet";
 		public static const INBOX_OPEN:String = "inboxOpen";
 		public static const INBOX_CONFIRM:String = "inboxConfirm";
+		public static const INBOX_BROADCAST:String = "inboxBroadcast";
 	}
 }

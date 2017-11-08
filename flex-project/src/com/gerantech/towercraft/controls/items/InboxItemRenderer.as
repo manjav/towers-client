@@ -52,13 +52,13 @@ override protected function initialize():void
 	backgroundSkin = mySkin;
 	
 	senderLayout = new AnchorLayoutData( NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN , NaN, offsetY);
-	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.8);
+	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.72);
 	senderDisplay.width = padding * 6.4;
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 
 	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?6:8), NaN, padding*(appModel.isLTR?8:6) , NaN, offsetY);
-	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.7);
+	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.64);
 	messageDisplay.wordWrap = false;
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
