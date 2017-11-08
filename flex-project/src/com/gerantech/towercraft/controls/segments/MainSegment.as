@@ -79,7 +79,7 @@ public class MainSegment extends Segment
 		layout = new AnchorLayout();		
 		if( appModel.loadingManager.serverData.getBool("inBattle") )
 		{
-			setTimeout(gotoLiveBattle, 100);
+			setTimeout(gotoLiveBattle, 100, null);
 			return;
 		}
 		
@@ -281,7 +281,7 @@ public class MainSegment extends Segment
 					break;
 				case "portal-center":
 					floating = null;
-					gotoLiveBattle();
+					gotoLiveBattle("battle");
 					break;
 				case "dragon-cross":
 					if( !player.villageEnabled() )
@@ -300,11 +300,12 @@ public class MainSegment extends Segment
 		}
 	}
 	
-	private function gotoLiveBattle():void
+	private function gotoLiveBattle(waitingData:String):void
 	{
 		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 		item.properties.requestField = null ;
 		item.properties.waitingOverlay = new WaitingOverlay() ;
+		item.properties.waitingOverlay.data = waitingData;
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}
