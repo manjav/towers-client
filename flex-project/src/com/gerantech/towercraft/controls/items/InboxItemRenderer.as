@@ -121,8 +121,8 @@ override public function set isSelected(value:Boolean):void
 	
 	if( value && message.getShort("read") == 0 )
 	{
-		_owner.dispatchEventWith(Event.OPEN, false, message);
 		message.putShort("read", 1)
+		_owner.dispatchEventWith(Event.OPEN, false, message);
 	}
 	
 	senderLayout.top = value ? padding*0.8 : NaN;
