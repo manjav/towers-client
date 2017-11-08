@@ -26,8 +26,6 @@ package com.gerantech.towercraft.controls.texts
 
 			shadowLabel = new RTLLabel(text, shadowColor,	align, direction, wordWrap, lastAlign, fontSize, fontFamily, fontWeight, fontPosture);
 			shadowLabel.pixelSnapping = false;
-			
-			
 		}
 
 		override protected function initialize():void

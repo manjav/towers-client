@@ -80,7 +80,7 @@ package com.gerantech.towercraft.views.decorators
 
 			improvablePanel = new ImprovablePanel();
 			improvablePanel.x = place.x - improvablePanel.width/2;
-			improvablePanel.y = place.y + 40;
+			improvablePanel.y = place.y + 50;
 			fieldView.guiImagesContainer.addChild(improvablePanel);
 			
 			bodyDisplay = new Image(Assets.getTexture("building-1"));

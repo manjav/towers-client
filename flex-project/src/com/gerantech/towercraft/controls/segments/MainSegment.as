@@ -3,12 +3,15 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.LobbyBalloon;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.controls.screens.InboxScreen;
+import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.PrefsTypes;
@@ -43,6 +46,8 @@ public class MainSegment extends Segment
 	
 	private var intervalId:uint;
 	private var lobbyBallon:LobbyBalloon;
+
+	private var inboxButton:NotifierButton;
 
 	public function MainSegment()
 	{
@@ -107,7 +112,8 @@ public class MainSegment extends Segment
 		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 126*appModel.scale);
 		addChild(newsButton);
 		
-		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton.badgeNumber = InboxService.instance.numUnreads;
 		inboxButton.width = inboxButton.height = 120 * appModel.scale;
 		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
@@ -121,6 +127,14 @@ public class MainSegment extends Segment
 		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
 		addChild(restoreButton);
+		
+		InboxService.instance.request();
+		InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
+	}
+	
+	private function inboxService_updateHandler():void
+	{
+		inboxButton.badgeNumber = InboxService.instance.numUnreads;
 	}
 	
 	private function showMap():void
