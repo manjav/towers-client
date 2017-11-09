@@ -161,7 +161,7 @@ override public function set isSelected(value:Boolean):void
 		if( hasButton )
 		{
 			appear(acceptButton)
-			if( message.getShort("type") == MessageTypes.isConfirm(message.getShort("type")) )
+			if( MessageTypes.isConfirm(message.getShort("type")) )
 				appear(declineButton)
 		}
 	}
