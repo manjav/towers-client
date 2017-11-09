@@ -30,6 +30,8 @@ import starling.events.Event;
 
 public class SocialScreen extends BaseCustomScreen
 {
+public var selectedTab:int = 0;
+	
 private var pageList:List;
 private var tabsList:List;
 private var scrollTime:Number = 0.01;
@@ -82,6 +84,7 @@ override protected function initialize():void
 	tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new SocialTabItemRenderer(tabSize); }
 	tabsList.dataProvider = listCollection;
+	tabsList.selectedIndex = selectedTab;
 	addChild(tabsList);
 		
 	var footer:LayoutGroup = new LayoutGroup();

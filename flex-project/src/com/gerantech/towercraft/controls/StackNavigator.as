@@ -10,6 +10,7 @@ import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
+import com.gerantech.towercraft.controls.screens.SocialScreen;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.controls.toasts.SimpleToast;
@@ -417,6 +418,9 @@ public function showOffer():void
 						navigateToURL(new URLRequest(loc("setting_value_312")));
 						break;
 					case PrefsTypes.OFFER_33_FRIENDSHIP:
+						var item:StackScreenNavigatorItem = getScreen( Main.SOCIAL_SCREEN );
+						item.properties.selectedTab = 2;
+						pushScreen(Main.SOCIAL_SCREEN);
 						break;
 				}
 				UserData.instance.prefs.setInt(t, prefs.getAsInt(t)+1000);
