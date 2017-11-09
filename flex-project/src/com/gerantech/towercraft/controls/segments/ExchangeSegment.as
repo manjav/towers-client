@@ -6,7 +6,6 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.popups.ChestsDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
-	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.VideoAdsManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -145,7 +144,7 @@ package com.gerantech.towercraft.controls.segments
 			if( player.inTutorial() && item.outcome != ExchangeType.CHESTS_51_CHROME )
 				return;// disalble all items in tutorial
 
-			if( item.category == ExchangeType.S_0_HARD)
+			if( item.category == ExchangeType.S_0_HARD )
 			{
 				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 				BillingManager.instance.purchase("com.grantech.towers.item_"+item.type);
@@ -181,7 +180,7 @@ package com.gerantech.towercraft.controls.segments
 				confirm.data = item;
 				confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
 				confirm.addEventListener(Event.SELECT, confirms_selectHandler);
-				confirm.addEventListener(Event.CANCEL, confirms_cancelHandler);
+				confirm.addEventListener(Event.CLOSE, confirms_closeHandler);
 				appModel.navigator.addPopup(confirm);
 				return;
 			}
@@ -190,17 +189,18 @@ package com.gerantech.towercraft.controls.segments
 				if( item.category == ExchangeType.S_10_SOFT )
 				{
 					var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
+					confirm1.acceptStyle = "danger";
 					confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
-					confirm1.addEventListener(Event.CANCEL, confirm1_cancelHandler);
+					confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
 					appModel.navigator.addPopup(confirm1);
 					function confirm1_selectHandler ( event:Event ):void {
 						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-						confirm1.removeEventListener(Event.CANCEL, confirm1_cancelHandler);
+						confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
 						exchange(item, params);
 					}
-					function confirm1_cancelHandler ( event:Event ):void {
+					function confirm1_closeHandler ( event:Event ):void {
 						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-						confirm1.removeEventListener(Event.CANCEL, confirm1_cancelHandler);
+						confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
 						item.enabled = true;
 					}
 					return;
@@ -238,7 +238,7 @@ package com.gerantech.towercraft.controls.segments
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);			
 		}
 
-		private function confirms_cancelHandler(event:Event):void
+		private function confirms_closeHandler(event:Event):void
 		{
 			var item:ExchangeItem = RequirementConfirmPopup(event.currentTarget).data as ExchangeItem;
 			item.enabled = true;
