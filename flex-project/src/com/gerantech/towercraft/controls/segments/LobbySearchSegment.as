@@ -8,6 +8,7 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.controls.texts.CustomTextInput;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.Assets;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -40,39 +41,47 @@ package com.gerantech.towercraft.controls.segments
 			layout = new AnchorLayout();
 			
 			var padding:int = 24 * appModel.scale;
-			var buttonW:int = 240 * appModel.scale;
 			var buttonH:int = 96 * appModel.scale;
 			
 			textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 			textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
 			textInput.maxChars = 16 ;
-			//textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
+			textInput.prompt = loc("lobby_name");
 			textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
-			textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?buttonW+padding*2:padding, NaN, appModel.isLTR?padding:buttonW+padding*2 );
+			textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?buttonH*2+padding*3:padding, NaN, appModel.isLTR?padding:buttonH*2+padding*3 );
 			textInput.height = buttonH;
 			addChild(textInput);
 			
 			var searchButton:CustomButton = new CustomButton();
-			searchButton.width = buttonW;
+			searchButton.width = buttonH;
 			searchButton.height = buttonH;
-			searchButton.label = loc("lobby_search");
-			searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
+			searchButton.icon = Assets.getTexture("search-icon", "gui");
+			searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding*2+buttonH:NaN, NaN, appModel.isLTR?NaN:padding*2+buttonH );
 			searchButton.addEventListener(Event.TRIGGERED,  searchButton_triggeredHandler);
-			addChild(searchButton);
+			addChild(searchButton);	
+		
+			var rankButton:CustomButton = new CustomButton();
+			rankButton.style = "neutral";
+			rankButton.icon = Assets.getTexture("rank-icon", "gui");
+			rankButton.width = buttonH;
+			rankButton.height = buttonH;
+			rankButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
+			rankButton.addEventListener(Event.TRIGGERED,  rankButton_triggeredHandler);
+			addChild(rankButton);
 			
 			tabs = new Vector.<LobbyTabButton>();
-			tabs[0] = new LobbyTabButton("امتیاز");
+			tabs[0] = new LobbyTabButton(loc("lobby_point"));
 			tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 			tabs[0].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 );
 			tabs[0].isEnabled = false;
 			addChild(tabs[0]);
 			
-			tabs[1] = new LobbyTabButton("جمعیت");
+			tabs[1] = new LobbyTabButton(loc("lobby_population"));
 			tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 			tabs[1].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*9:NaN, NaN, appModel.isLTR?NaN:padding*9 );
 			addChild(tabs[1]);
 			
-			tabs[2] = new LobbyTabButton("فعالیت");
+			tabs[2] = new LobbyTabButton(loc("lobby_activeness"));
 			tabs[2].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 			tabs[2].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*17:NaN, NaN, appModel.isLTR?NaN:padding*17 );
 			addChild(tabs[2]);
@@ -98,6 +107,11 @@ package com.gerantech.towercraft.controls.segments
 			search();
 		}
 		
+		protected function rankButton_triggeredHandler(event:Event):void
+		{
+			searchPattern = "!@#$";
+			search();
+		}
 		protected function searchButton_triggeredHandler(event:Event):void
 		{
 			if( textInput.text.length < 2 || textInput.text.length > 16 )
@@ -107,8 +121,7 @@ package com.gerantech.towercraft.controls.segments
 			}
 			searchPattern = textInput.text;
 			search();
-		}
-		
+		}		
 		private function search():void
 		{
 			var params:SFSObject = new SFSObject();
@@ -136,9 +149,17 @@ package com.gerantech.towercraft.controls.segments
 			
 			var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup(list.selectedItem);
 			detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
+			detailsPopup.addEventListener(Event.CLOSE, detailsPopup_closeHandler);
 			appModel.navigator.addPopup(detailsPopup);
+			function detailsPopup_closeHandler(e:Event):void 
+			{
+				detailsPopup.removeEventListener(Event.CLOSE, detailsPopup_closeHandler);
+				detailsPopup.removeEventListener(Event.UPDATE, detailsPopup_updateHandler);
+				visible = true;
+			}
 			function detailsPopup_updateHandler(e:Event):void 
 			{
+				detailsPopup.removeEventListener(Event.CLOSE, detailsPopup_closeHandler);
 				detailsPopup.removeEventListener(Event.UPDATE, detailsPopup_updateHandler);
 				dispatchEventWith(Event.UPDATE, true, e.data);
 			}
@@ -146,9 +167,10 @@ package com.gerantech.towercraft.controls.segments
 			if( searchPattern == null )
 				return;
 			
-			_listCollection.removeAll();
+			/*_listCollection.removeAll();
 			for each ( var b:LobbyTabButton in tabs )
-				b.visible = false;
+				b.visible = false;*/
+			visible = false;
 		}
 	}
 }
