@@ -73,12 +73,12 @@ package com.gerantech.towercraft.controls.popups
 			sfs.putText( "email", emailInput.text );
 			sfs.putUtfString("description", descriptionInput.text );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUG_REPORT, sfs );
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_REPORT, sfs );
 		}
 		
 		protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			if( event.params.cmd != SFSCommands.BUG_REPORT )
+			if( event.params.cmd != SFSCommands.ISSUE_REPORT )
 				return;
 			
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);

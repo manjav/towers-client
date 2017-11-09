@@ -22,10 +22,13 @@ package com.gerantech.towercraft.controls.popups
 		private var errorDisplay:RTLLabel;
 		private var typeSwitcher:Switcher;
 		private var isPushSwitcher:Switcher;
+		private var receivers:String;
 		
-		public function BroadcastMessagePopup()
+		public function BroadcastMessagePopup(receivers:String=null, data:Object=null)
 		{
 			super("Push Message", "Send");
+			this.receivers = receivers;
+			this.data = data;
 		}
 		
 		override protected function initialize():void
@@ -40,12 +43,12 @@ package com.gerantech.towercraft.controls.popups
 			container.addChild(messageInput);
 			
 			dataInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
-			dataInput.prompt = "Insert data";
+			data == null ? (dataInput.prompt = "Insert data") : (dataInput.text = data+"");
 			dataInput.height = 100 * appModel.scale;
 			container.addChild(dataInput);
 			
 			reseiversInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
-			reseiversInput.prompt = "Recievers";
+			receivers == null ? reseiversInput.prompt = "Recievers" : reseiversInput.text = receivers;
 			reseiversInput.height = 300 * appModel.scale;
 			container.addChild(reseiversInput);
 			
@@ -98,6 +101,7 @@ package com.gerantech.towercraft.controls.popups
 				return;
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
 			errorDisplay.text = event.params.params.getInt("delivered") + " messages delivered.";
+			dispatchEventWith(Event.SELECT, false, data);
 		}
 	}
 }

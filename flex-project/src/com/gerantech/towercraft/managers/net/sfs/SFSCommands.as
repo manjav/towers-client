@@ -17,10 +17,13 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 		public static const EXCHANGE:String = "exchange";
 		public static const SELECT_NAME:String = "selectName";
-		public static const BUG_REPORT:String = "bugReport";
 		public static const VERIFY_PURCHASE:String = "verify";
 		public static const RESTORE:String = "restore";
 		public static const PREFS:String = "prefs";
+		
+		public static const ISSUE_REPORT:String = "issueReport";
+		public static const ISSUE_GET:String = "issueGet";
+		public static const ISSUE_TRACK:String = "issueTrack";
 		
 		public static const FIGHT:String = "f";
 		public static const BUILDING_IMPROVE:String = "i";

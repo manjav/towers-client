@@ -8,11 +8,9 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import feathers.controls.renderers.IListItemRenderer;
-import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 
 import starling.display.Quad;

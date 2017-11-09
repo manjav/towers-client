@@ -40,7 +40,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Point;
-	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
 	
 	import feathers.events.FeathersEventType;
@@ -345,7 +344,7 @@ package com.gerantech.towercraft.controls.screens
 			//quest end
 			if( quest.isQuest && player.inTutorial() )
 			{
-				var tutorialData:TutorialData = new TutorialData(quest.name+"_end");
+				var tutorialData:TutorialData = new TutorialData(quest.name + "_end");
 				var task:TutorialTask
 				for ( var i:int=0; i < quest.endNum.size() ; i++ )
 				{
