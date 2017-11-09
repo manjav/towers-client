@@ -62,6 +62,7 @@ package com.gerantech.towercraft.controls.segments
 		
 			var rankButton:CustomButton = new CustomButton();
 			rankButton.style = "neutral";
+			rankButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 			rankButton.icon = Assets.getTexture("rank-icon", "gui");
 			rankButton.width = buttonH;
 			rankButton.height = buttonH;

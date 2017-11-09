@@ -1,14 +1,19 @@
 package com.gerantech.towercraft.controls.screens
 {
+import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.InboxItemRenderer;
+import com.gerantech.towercraft.controls.popups.BugReportPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+
+import flash.geom.Point;
 
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.layout.AnchorLayoutData;
@@ -40,6 +45,20 @@ override protected function initialize():void
 	list.backgroundSkin = bgButton;
 	list.backgroundSkin.touchable = true;
 	showMessages();
+	
+	var bugReportButton:CustomButton = new CustomButton();
+	bugReportButton.style = "neutral";
+	bugReportButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+	bugReportButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+	bugReportButton.width = bugReportButton.height;
+	bugReportButton.layoutData = new AnchorLayoutData(NaN, 24 * appModel.scale, headerSize + 20 * appModel.scale);
+	bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
+	addChild(bugReportButton);
+}
+
+private function bugReportButton_triggeredHandler():void
+{
+	appModel.navigator.addPopup(new BugReportPopup());
 }
 
 private function bg_triggeredHandler(event:Event):void
