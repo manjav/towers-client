@@ -35,7 +35,12 @@ private var date:Date;
 private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
 private var message:SFSObject;
+private var readOnSelect:Boolean;
 
+public function InboxItemRenderer(readOnSelect:Boolean=true)
+{
+	this.readOnSelect = readOnSelect;
+}
 
 override protected function initialize():void
 {
@@ -106,7 +111,14 @@ private function updateSkin():void
 	if( isSelected )
 		mySkin.texture = appModel.theme.itemRendererUpSkinTexture;
 	else
-		mySkin.texture = message.getShort("read")==0 ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererDisabledSkinTexture;
+	{
+		switch(message.getShort("read"))
+		{
+			case 1:		mySkin.texture = appModel.theme.itemRendererDisabledSkinTexture; break;
+			case 2:		mySkin.texture = appModel.theme.itemRendererDangerSkinTexture; break;
+			default:	mySkin.texture = appModel.theme.itemRendererSelectedSkinTexture; break;
+		}
+	}
 	senderDisplay.alpha = message.getShort("read")==0 || isSelected ? 1 : 0.8;
 	messageDisplay.alpha = message.getShort("read")==0 || isSelected ? 0.92 : 0.8;
 }
@@ -119,7 +131,7 @@ override public function set isSelected(value:Boolean):void
 		return;
 	updateSkin();
 	
-	if( value && message.getShort("read") == 0 )
+	if( readOnSelect && value && message.getShort("read") == 0 )
 	{
 		message.putShort("read", 1)
 		_owner.dispatchEventWith(Event.OPEN, false, message);

@@ -585,6 +585,7 @@ package com.gerantech.towercraft.themes
 		public var itemRendererUpSkinTexture:Texture;
 		public var itemRendererSelectedSkinTexture:Texture;
 		public var itemRendererDisabledSkinTexture:Texture;
+		public var itemRendererDangerSkinTexture:Texture;
 		public var insetItemRendererUpSkinTexture:Texture;
 		public var insetItemRendererSelectedSkinTexture:Texture;
 		public var insetItemRendererFirstUpSkinTexture:Texture;
@@ -831,6 +832,7 @@ package com.gerantech.towercraft.themes
 			this.itemRendererUpSkinTexture = Assets.getTexture("theme/item-renderer-up-skin", "gui");
 			this.itemRendererSelectedSkinTexture = Assets.getTexture("theme/item-renderer-selected-skin", "gui");
 			this.itemRendererDisabledSkinTexture = Assets.getTexture("theme/item-renderer-disabled-skin", "gui");
+			this.itemRendererDangerSkinTexture = Assets.getTexture("theme/item-renderer-danger-skin", "gui");
 			this.insetItemRendererUpSkinTexture = Assets.getTexture("theme/inset-item-renderer-up-skin", "gui");
 			this.insetItemRendererSelectedSkinTexture = Assets.getTexture("theme/inset-item-renderer-selected-up-skin", "gui");
 			this.insetItemRendererFirstUpSkinTexture = Assets.getTexture("theme/first-inset-item-renderer-up-skin", "gui");
