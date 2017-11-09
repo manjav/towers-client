@@ -28,7 +28,9 @@ package com.gerantech.towercraft.controls.texts
 			
 			promptFactory = function():ITextRenderer
 			{
-				return new RTLLabel("", textColor, "center");
+				var pr:RTLLabel = new RTLLabel("", textColor, "center");
+				pr.alpha = 0.8;
+				return pr;
 			}
 
 			height = 128 * AppModel.instance.scale;
