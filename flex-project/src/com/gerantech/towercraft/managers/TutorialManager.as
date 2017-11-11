@@ -4,29 +4,18 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 	import com.gerantech.towercraft.events.GameEvent;
-	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
-	import com.gt.towers.Game;
-	import com.gt.towers.Player;
-	import com.gt.towers.exchanges.Exchanger;
-	
-	import mx.resources.ResourceManager;
-	
-	import feathers.controls.LayoutGroup;
 	
 	import starling.events.Event;
-	import starling.events.EventDispatcher;
 
-	public class TutorialManager extends EventDispatcher
+	public class TutorialManager extends BaseManager
 	{
 		private static var _instance:TutorialManager;
 		private var tutorialData:TutorialData;
-		private var containaer:LayoutGroup;
 		
-		public function show(containaer:LayoutGroup, data:TutorialData):void
+		public function show(data:TutorialData):void
 		{
-			this.containaer = containaer;
 			tutorialData = data;
 			processTasks();
 		}
@@ -46,19 +35,19 @@ package com.gerantech.towercraft.managers
 				case TutorialTask.TYPE_MESSAGE:
 					var messageoverlay:TutorialMessageOverlay = new TutorialMessageOverlay(task);
 					messageoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-					containaer.addChild(messageoverlay);					
+					appModel.navigator.addOverlay(messageoverlay);					
 					break;
 				
 				case TutorialTask.TYPE_SWIPE:
 					var swipeoverlay:TutorialSwipeOverlay = new TutorialSwipeOverlay(task);
 					swipeoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-					containaer.addChild(swipeoverlay);					
+					appModel.navigator.addOverlay(swipeoverlay);					
 					break;
 				
 				case TutorialTask.TYPE_TOUCH:
 					var touchoverlay:TutorialTouchOverlay = new TutorialTouchOverlay(task);
 					touchoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-					containaer.addChild(touchoverlay);					
+					appModel.navigator.addOverlay(touchoverlay);					
 					break;
 			}
 
@@ -76,16 +65,5 @@ package com.gerantech.towercraft.managers
 				_instance = new TutorialManager();
 			return _instance;
 		}
-		
-		
-		protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
-		{
-			return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
-		}
-		protected function get tutorials():		TutorialManager	{	return TutorialManager.instance;	}
-		protected function get appModel():		AppModel		{	return AppModel.instance;			}
-		protected function get game():			Game			{	return appModel.game;				}
-		protected function get player():		Player			{	return game.player;					}
-		protected function get exchanger():		Exchanger		{	return game.exchanger;				}
 	}
 }

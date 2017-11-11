@@ -155,7 +155,7 @@ package com.gerantech.towercraft.controls.screens
 			}
 			appModel.navigator.addPopup(new UnderMaintenancePopup(data.getInt("umt"), false));
 			waitingOverlay.disappear();
-			dispatchEventWith(Event.COMPLETE);			
+			dispatchEventWith(Event.COMPLETE);
 		}
 		
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -209,7 +209,7 @@ package com.gerantech.towercraft.controls.screens
 					}
 				}
 
-				tutorials.show(this, tutorialData);
+				tutorials.show(tutorialData);
 			}
 			
 			hud = new BattleHUD();
@@ -339,24 +339,24 @@ package com.gerantech.towercraft.controls.screens
 			battleOutcomeOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 
 			// create tutorial steps
-			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var winStr:String = battleOutcomeOverlay.score > 0 ? "_win_" : "_defeat_";
 			//quest end
-			if( quest.isQuest && player.inTutorial() )
+			if( field.isQuest && player.inTutorial() )
 			{
-				var tutorialData:TutorialData = new TutorialData(quest.name + "_end");
+				var tutorialData:TutorialData = new TutorialData(field.name + "_end");
 				var task:TutorialTask
-				for ( var i:int=0; i < quest.endNum.size() ; i++ )
+				for ( var i:int=0; i < field.endNum.size() ; i++ )
 				{
-					task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + quest.index + "_end" + winStr + quest.endNum.get(i));
-					task.data = quest.endNum.get(i);
+					task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + field.index + "_end" + winStr + field.endNum.get(i));
+					task.data = field.endNum.get(i);
 					tutorialData.addTask(task);
 				}
 				tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-				tutorials.show(this, tutorialData);
+				tutorials.show(tutorialData);
 				return;
 			}
-						
+			
 			// show faction changes overlay
 			if( battleOutcomeOverlay.data != null )
 			{
@@ -426,7 +426,7 @@ package com.gerantech.towercraft.controls.screens
 					var places:PlaceDataList = appModel.battleFieldView.battleData.map.getSwipeTutorPlaces();
 					if( places.size() > 0 )
 						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 700));
-					tutorials.show(this, tutorialData);
+					tutorials.show(tutorialData);
 					appModel.battleFieldView.battleData.map.places.get(t[0]).troopType = -1;
 				}
 				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);

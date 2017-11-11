@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.overlays
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gt.towers.battle.fieldes.PlaceData;
-	import com.gt.towers.utils.lists.PlaceDataList;
 	
 	import flash.geom.Point;
 	

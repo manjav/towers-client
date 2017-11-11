@@ -2,14 +2,9 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.CloasableObject;
 	import com.gerantech.towercraft.controls.Devider;
-	import com.gerantech.towercraft.controls.TowersLayout;
 	
-	import flash.geom.Point;
 	import flash.ui.Keyboard;
 	
-	import feathers.events.FeathersEventType;
-	
-	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
 	import starling.events.KeyboardEvent;

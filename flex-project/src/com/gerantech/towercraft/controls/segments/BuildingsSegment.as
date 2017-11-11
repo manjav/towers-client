@@ -74,7 +74,7 @@ package com.gerantech.towercraft.controls.segments
 			var tutorialData:TutorialData = new TutorialData("deck_start");
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_2", null, 1000, 1000, 2));
-			tutorials.show(this, tutorialData);
+			tutorials.show(tutorialData);
 		}		
 		override public function updateData():void
 		{
