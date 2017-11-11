@@ -5,12 +5,10 @@ import com.gerantech.towercraft.controls.animations.AchievedItem;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
-import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
-import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
-import com.gerantech.towercraft.controls.screens.SocialScreen;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.controls.toasts.SimpleToast;
@@ -21,6 +19,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
@@ -134,9 +133,9 @@ private var overlays:Vector.<BaseOverlay>;
 private var overlaysContainer:LayoutGroup;
 public function addOverlay(overlay:BaseOverlay) : void
 {
-	for( var i:int=0; i<overlays.length; i++)
-		if( getQualifiedClassName(overlay) == getQualifiedClassName(overlays[i]) )
-			return;
+	//for( var i:int=0; i<overlays.length; i++)
+	//	if( getQualifiedClassName(overlay) == getQualifiedClassName(overlays[i]) )
+	//		return;
 	
 	overlaysContainer.addChild(overlay);
 	overlays.push(overlay);
@@ -389,17 +388,12 @@ public function showOffer():void
 	
 	if( type > 0 )
 	{
-		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_offer_"+type), loc("go_label"));
-		confirm.closeOnOverlay = false;
-		confirm.data = type;
-		var ti:TransitionData = new TransitionData(1);
-		ti.transition = Transitions.EASE_IN_OUT_ELASTIC;
-		ti.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.4, stage.stageWidth*0.7, stage.stageHeight*0.2);
-		ti.destinationBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.38, stage.stageWidth*0.7, stage.stageHeight*0.24);
-		confirm.transitionIn = ti;
+		var confirm:TutorialMessageOverlay = new TutorialMessageOverlay(new TutorialTask(TutorialTask.TYPE_CONFIRM, "popup_offer_"+type));
 		confirm.addEventListener(Event.SELECT, confirm_handler);
 		confirm.addEventListener(Event.CANCEL, confirm_handler);
-		addPopup(confirm);
+		confirm.data = type;
+		addOverlay(confirm);
+		
 		function confirm_handler(e:Event):void{
 			confirm.removeEventListener(Event.SELECT, confirm_handler);
 			confirm.removeEventListener(Event.CANCEL, confirm_handler);
