@@ -13,6 +13,7 @@ import starling.events.Event;
 
 public class TutorialFocusOverlay extends TowersLayout
 {
+public var onTime:Boolean;
 private var rect:Rectangle;
 private var delay:Number;
 private var gap:Number;
@@ -46,13 +47,18 @@ private function focusNow():void
 	height = stage.stageHeight+8;
 	x = -4;
 	y = -4;
-	Starling.juggler.tween( this, time, {delay:gap, x:rect.x, y:rect.y, width:rect.width, height:rect.height, onStart:function():void{visible=true;}, onComplete:focusNow, transition:Transitions.EASE_IN_OUT});
+	Starling.juggler.tween( this, time, {delay:gap, x:rect.x, y:rect.y, width:rect.width, height:rect.height, onStart:function():void{visible=true;}, onComplete:onTime?close:focusNow, transition:Transitions.EASE_IN_OUT});
 }
 
 override public function dispose():void
 {
 	Starling.juggler.removeTweens(this);
 	super.dispose();
+}
+
+private function close():void
+{
+	removeFromParent(true);
 }
 }
 }

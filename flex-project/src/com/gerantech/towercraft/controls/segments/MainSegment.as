@@ -7,14 +7,21 @@ import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
+import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.InboxScreen;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 
 import flash.filesystem.File;
 import flash.geom.Point;
@@ -202,6 +209,22 @@ public class MainSegment extends Segment
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 				intervalId = setInterval(punchButton, 3000, getChildByName("portal-center") as SimpleButton, 2);
+			}
+			return;
+		}
+		
+		// show rank table tutorial
+		if( !player.inTutorial() && player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+		{
+			var tutorialData:TutorialData = new TutorialData("rank_tutorial");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank", null, 1000, 1000, 0));
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
+			tutorials.show(tutorialData);
+			function tutorials_completeHandler(e:Event):void {
+				var focusRect:TutorialFocusOverlay = new TutorialFocusOverlay(appModel.navigator.toolbar.indicators[ResourceType.POINT].getBounds(stage), 1.5, 0)
+				focusRect.onTime = true;
+				appModel.navigator.addChild(focusRect);
+				UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
 			}
 			return;
 		}
