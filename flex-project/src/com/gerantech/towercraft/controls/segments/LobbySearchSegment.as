@@ -43,7 +43,7 @@ package com.gerantech.towercraft.controls.segments
 			var padding:int = 24 * appModel.scale;
 			var buttonH:int = 96 * appModel.scale;
 			
-			textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
+			textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.SEARCH);
 			textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
 			textInput.maxChars = 16 ;
 			textInput.prompt = loc("lobby_name");

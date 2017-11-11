@@ -12,7 +12,6 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.utils.lists.IntList;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
