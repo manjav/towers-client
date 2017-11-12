@@ -8,11 +8,9 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
-import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.screens.InboxScreen;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -53,8 +51,11 @@ public class MainSegment extends Segment
 	
 	private var intervalId:uint;
 	private var lobbyBallon:LobbyBalloon;
-
 	private var inboxButton:NotifierButton;
+	private var questsButton:SimpleButton;
+	private var battlesButton:SimpleButton;
+	private var socialsButton:SimpleButton;
+	private var leaguesButton:SimpleButton;
 
 	public function MainSegment()
 	{
@@ -91,6 +92,62 @@ public class MainSegment extends Segment
 		}
 		
 		showMap();
+	}
+
+	
+	private function showMap():void
+	{
+		var mcName:String;
+		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
+		{
+			mcName = dragonBonesData.armatureNames[i];
+			if(mcName != "main")
+			{
+				var mapElement:StarlingArmatureDisplay = factory.buildArmatureDisplay(mcName);
+				mapElement.scale = appModel.scale * 1.2;
+				mapElement.animation.gotoAndPlayByTime("animtion0", 0, -1);
+				
+				var btn:SimpleButton = new SimpleButton();
+				btn.addChild(mapElement);
+				this.addChild(btn);
+				if( mcName != "background" && mcName != "mine-lights" )
+				{
+					btn.name = mcName;
+					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
+				}
+				
+				switch( mcName )
+				{
+					case "mine-lights":
+						btn.x = 499 * appModel.scale * 1.2;
+						btn.y = 449 * appModel.scale * 1.2;
+						break;
+					case "gold-leaf":
+						btn.x = 324.5 * appModel.scale * 1.2;
+						btn.y = 768.5 * appModel.scale * 1.2;
+						questsButton = btn;
+						break;
+					case "portal-center":
+						btn.x = 739.5 * appModel.scale * 1.2;
+						btn.y = 1068 * appModel.scale * 1.2;
+						battlesButton = btn;
+						break;
+					case "dragon-cross":
+						btn.x = 726 * appModel.scale * 1.2;
+						btn.y = 726 * appModel.scale * 1.2;
+						socialsButton = btn;
+						btn.addChild(showLobbyBalloon(10 * appModel.scale, -120 * appModel.scale));
+						break;
+					case "portal-tower":
+						btn.x = 454 * appModel.scale * 1.2;
+						btn.y = 1111 * appModel.scale * 1.2;
+						leaguesButton = btn;
+						break;
+				}
+			}
+		}
+		showButtons();
+		showTutorial();
 	}
 	
 	private function showButtons():void
@@ -142,59 +199,7 @@ public class MainSegment extends Segment
 	private function inboxService_updateHandler():void
 	{
 		inboxButton.badgeNumber = InboxService.instance.numUnreads;
-	}
-	
-	private function showMap():void
-	{
-		var mcName:String;
-		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
-		{
-			mcName = dragonBonesData.armatureNames[i];
-			if(mcName != "main")
-			{
-				var mapElement:StarlingArmatureDisplay = factory.buildArmatureDisplay(mcName);
-				mapElement.scale = appModel.scale * 1.2;
-				mapElement.animation.gotoAndPlayByTime("animtion0", 0, -1);
-				
-				var btn:SimpleButton = new SimpleButton();
-				btn.addChild(mapElement)
-				this.addChild(btn);
-				if( mcName != "background" && mcName != "mine-lights" )
-				{
-					btn.name = mcName;
-					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
-				}
-				
-				switch( mcName )
-				{
-					case "mine-lights":
-						btn.x = 499 * appModel.scale * 1.2;
-						btn.y = 449 * appModel.scale * 1.2;
-						break;
-					case "gold-leaf":
-						btn.x = 324.5 * appModel.scale * 1.2;
-						btn.y = 768.5 * appModel.scale * 1.2;
-						break;
-					case "portal-center":
-						btn.x = 739.5 * appModel.scale * 1.2;
-						btn.y = 1068 * appModel.scale * 1.2;
-						break;
-					case "dragon-cross":
-						btn.x = 726 * appModel.scale * 1.2;
-						btn.y = 726 * appModel.scale * 1.2;
-						btn.addChild(showLobbyBalloon(10 * appModel.scale, -120 * appModel.scale));
-						break;
-					case "portal-tower":
-						btn.x = 454 * appModel.scale * 1.2;
-						btn.y = 1111 * appModel.scale * 1.2;
-						break;
-				}
-			}
-		}
-		showTutorial();
-		showButtons();
-	}
-	
+	}	
 	// show tutorial steps
 	private function showTutorial():void
 	{
@@ -208,7 +213,7 @@ public class MainSegment extends Segment
 			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-				intervalId = setInterval(punchButton, 3000, getChildByName("portal-center") as SimpleButton, 2);
+				intervalId = setInterval(punchButton, 3000, battlesButton, 2);
 			}
 			return;
 		}
@@ -229,11 +234,11 @@ public class MainSegment extends Segment
 			return;
 		}
 		
-		if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201)) )
+		if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)) )
 		{
 			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 			if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
-				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton, 2);
+				intervalId = setInterval(punchButton, 3000, questsButton, 2);
 		}
 	}
 	
@@ -260,7 +265,7 @@ public class MainSegment extends Segment
 		if(floating != null && floating.element.name == mapElement.name)
 			return;
 		
-		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || (mapElement.name == "dragon-cross" && !player.villageEnabled());
+		var locked:Boolean = player.inTutorial() && mapElement != questsButton || (mapElement == socialsButton && !player.villageEnabled());
 		var floatingWidth:int = locked ? 360 : 320;
 		
 		// create transitions data
@@ -289,7 +294,7 @@ public class MainSegment extends Segment
 		}
 		function floating_selectHandler(event:Event):void
 		{
-			if(	player.inTutorial() && event.data['name'] != "gold-leaf")
+			if(	player.inTutorial() && event.data != questsButton )
 			{
 				appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 				return;
@@ -310,7 +315,7 @@ public class MainSegment extends Segment
 					if( !player.villageEnabled() )
 					{
 						appModel.navigator.addLog(loc("map-dragon-cross-availabledat", [loc("arena_title_1")]));
-						punchButton(getChildByName("portal-tower") as SimpleButton);
+						punchButton(leaguesButton);
 						return;
 					}
 					appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
