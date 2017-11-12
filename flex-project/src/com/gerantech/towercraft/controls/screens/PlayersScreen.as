@@ -72,15 +72,7 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 
 protected function list_focusHandler(event:Event):void
 {
-	appModel.navigator.addPopup(new ProfilePopup(event.data.data.name, event.data.data.id));
-}
-
-private function changeStatus(id:int, status:int):void
-{
-	var params:SFSObject = new SFSObject();
-	params.putInt("id", id);
-	params.putShort("status", status);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_TRACK , params);	
+	appModel.navigator.addPopup(new ProfilePopup(event.data.data.name, event.data.data.id, true));
 }
 }
 }
