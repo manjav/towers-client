@@ -33,6 +33,7 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	var padding:int = 36 * appModel.scale;
+	height = 120 * appModel.scale;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
@@ -83,7 +84,6 @@ override protected function commitData():void
 	super.commitData();
 	if(_data ==null || _owner==null)
 		return;
-	height = 120 * appModel.scale;
 	
 	emblemDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_data.pic+""), "gui");
 	nameDisplay.text = _data.name ;
