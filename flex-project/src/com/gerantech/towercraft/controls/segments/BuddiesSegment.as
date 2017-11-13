@@ -5,14 +5,21 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.BuddyItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
@@ -89,6 +96,18 @@ override public function init():void
 	list.itemRendererFactory = function():IListItemRenderer { return new BuddyItemRenderer(); }
 	list.dataProvider = buddyCollection;
 	initializeCompleted = true;
+	
+	showTutorials();
+}
+
+private function showTutorials():void
+{
+	if( player.prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP) > 50 )
+		return;
+	var tutorialData:TutorialData = new TutorialData("buddy_tutorial");
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buddy_0", null, 1000, 1000, 0));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buddy_2", null, 1000, 1000, 2));
+	tutorials.show(tutorialData);
 }
 
 protected function sfs_buddyVariablesUpdateHandler(event:SFSBuddyEvent):void
