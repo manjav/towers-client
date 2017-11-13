@@ -3,7 +3,10 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.Main;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
+	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
+	
+	import feathers.controls.StackScreenNavigatorItem;
 	
 	import starling.events.Event;
 
@@ -27,16 +30,26 @@ package com.gerantech.towercraft.controls.popups
 		override protected function acceptButton_triggeredHandler(event:Event):void
 		{
 			super.acceptButton_triggeredHandler(event);
-			if( responseCode == 0 && player.villageEnabled())
+			if( responseCode == 0 )
 			{
 				if( params.containsKey("rewardType") )
+				{
 					player.resources.increase(params.getInt("rewardType"), params.getInt("rewardCount") );
+					var rec:Rectangle = acceptButton.getBounds(stage);
+					appModel.navigator.addResourceAnimation(rec.x+rec.width*0.5, rec.y, params.getInt("rewardType"), params.getInt("rewardCount"));
+				}
 
 				var f:SFSObject = new SFSObject();
 				f.putText("name", params.getText("inviter") );
 				f.putInt("count", 120 );
 				appModel.loadingManager.serverData.getSFSArray("friends").addSFSObject(f);
-				setTimeout(appModel.navigator.pushScreen, 800, Main.SOCIAL_SCREEN);
+				
+				if ( player.villageEnabled() )
+				{
+					var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SOCIAL_SCREEN );
+					item.properties.selectedTab = 2;
+					setTimeout(appModel.navigator.pushScreen, 800, Main.SOCIAL_SCREEN);
+				}
 			}
 		}
 	}

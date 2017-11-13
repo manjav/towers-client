@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls
 {
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.animations.AchievedItem;
 import com.gerantech.towercraft.controls.buttons.Indicator;
@@ -22,6 +23,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.utils.Utils;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.utils.maps.IntStrMap;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -267,6 +269,7 @@ private function handleSchemeQuery(arguments:Array):void
 					{
 						var sfs:SFSObject = new SFSObject();
 						sfs.putText("invitationCode", pars["ic"]);
+						sfs.putText("udid", AppModel.instance.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
 						SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responseHandler);
 						SFSConnection.instance.sendExtensionRequest(SFSCommands.BUDDY_ADD, sfs);
 						function sfsConnection_responseHandler(event:SFSEvent):void{
