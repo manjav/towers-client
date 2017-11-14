@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.BuildingCard;
-	import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
+	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -29,7 +29,7 @@ package com.gerantech.towercraft.controls.items
 		private var cardLayoutData:AnchorLayoutData;
 
 		private var newDisplay:ImageLoader;
-		private var focusRect:TutorialFocusOverlay;
+		private var tutorialArrow:TutorialArrow;
 		
 		public function BuildingItemRenderer(inDeck:Boolean=true)
 		{
@@ -100,10 +100,12 @@ package com.gerantech.towercraft.controls.items
 		}
 		private function showFocus () : void
 		{
-			if( focusRect != null )
-				focusRect.removeFromParent(true);
-			focusRect = new TutorialFocusOverlay(this.getBounds(stage), 1.5, 0)
-			appModel.navigator.addChild(focusRect);
+			if( tutorialArrow != null )
+				tutorialArrow.removeFromParent(true);
+			
+			tutorialArrow = new TutorialArrow(true);
+			tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.3);
+			addChild(tutorialArrow);
 		}
 		
 		override public function set isSelected(value:Boolean):void
@@ -113,8 +115,8 @@ package com.gerantech.towercraft.controls.items
 			if( !super.isSelected && inDeck )
 				cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = 0;
 			super.isSelected = value
-			if( focusRect != null )
-				focusRect.removeFromParent(true);
+			if( tutorialArrow != null )
+				tutorialArrow.removeFromParent(true);
 		}
 		
 		override public function set currentState(_state:String):void

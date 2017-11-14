@@ -3,15 +3,23 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.LobbyBalloon;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.MapButton;
+import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.events.GameEvent;
+import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 
 import flash.filesystem.File;
 import flash.geom.Point;
@@ -43,6 +51,11 @@ public class MainSegment extends Segment
 	
 	private var intervalId:uint;
 	private var lobbyBallon:LobbyBalloon;
+	private var inboxButton:NotifierButton;
+	private var questsButton:MapButton;
+	private var battlesButton:MapButton;
+	private var socialsButton:MapButton;
+	private var leaguesButton:MapButton;
 
 	public function MainSegment()
 	{
@@ -74,11 +87,67 @@ public class MainSegment extends Segment
 		layout = new AnchorLayout();		
 		if( appModel.loadingManager.serverData.getBool("inBattle") )
 		{
-			setTimeout(gotoLiveBattle, 100);
+			setTimeout(gotoLiveBattle, 100, null);
 			return;
 		}
 		
 		showMap();
+	}
+
+	
+	private function showMap():void
+	{
+		var mcName:String;
+		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
+		{
+			mcName = dragonBonesData.armatureNames[i];
+			if(mcName != "main")
+			{
+				var mapElement:StarlingArmatureDisplay = factory.buildArmatureDisplay(mcName);
+				mapElement.scale = appModel.scale * 1.2;
+				mapElement.animation.gotoAndPlayByTime("animtion0", 0, -1);
+				
+				var btn:MapButton = new MapButton();
+				btn.addChild(mapElement);
+				this.addChild(btn);
+				if( mcName != "background" && mcName != "mine-lights" )
+				{
+					btn.name = mcName;
+					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
+				}
+				
+				switch( mcName )
+				{
+					case "mine-lights":
+						btn.x = 499 * appModel.scale * 1.2;
+						btn.y = 449 * appModel.scale * 1.2;
+						break;
+					case "gold-leaf":
+						btn.x = 324.5 * appModel.scale * 1.2;
+						btn.y = 768.5 * appModel.scale * 1.2;
+						questsButton = btn;
+						break;
+					case "portal-center":
+						btn.x = 739.5 * appModel.scale * 1.2;
+						btn.y = 1068 * appModel.scale * 1.2;
+						battlesButton = btn;
+						break;
+					case "dragon-cross":
+						btn.x = 726 * appModel.scale * 1.2;
+						btn.y = 726 * appModel.scale * 1.2;
+						socialsButton = btn;
+						btn.addChild(showLobbyBalloon(10 * appModel.scale, -120 * appModel.scale));
+						break;
+					case "portal-tower":
+						btn.x = 454 * appModel.scale * 1.2;
+						btn.y = 1111 * appModel.scale * 1.2;
+						leaguesButton = btn;
+						break;
+				}
+			}
+		}
+		showButtons();
+		showTutorial();
 	}
 	
 	private function showButtons():void
@@ -107,7 +176,8 @@ public class MainSegment extends Segment
 		newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 126*appModel.scale);
 		addChild(newsButton);
 		
-		var inboxButton:IconButton = new IconButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton.badgeNumber = InboxService.instance.numUnreads;
 		inboxButton.width = inboxButton.height = 120 * appModel.scale;
 		inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 		inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
@@ -121,82 +191,55 @@ public class MainSegment extends Segment
 		restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
 		addChild(restoreButton);
+		
+		InboxService.instance.request();
+		InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
 	}
 	
-	private function showMap():void
+	private function inboxService_updateHandler():void
 	{
-		var mcName:String;
-		for (var i:int=0; i<dragonBonesData.armatureNames.length; i++) 
-		{
-			mcName = dragonBonesData.armatureNames[i];
-			if(mcName != "main")
-			{
-				var mapElement:StarlingArmatureDisplay = factory.buildArmatureDisplay(mcName);
-				mapElement.scale = appModel.scale * 1.2;
-				mapElement.animation.gotoAndPlayByTime("animtion0", 0, -1);
-				
-				var btn:SimpleButton = new SimpleButton();
-				btn.addChild(mapElement)
-				this.addChild(btn);
-				if( mcName != "background" && mcName != "mine-lights" )
-				{
-					btn.name = mcName;
-					btn.addEventListener(Event.TRIGGERED, mapElement_triggeredHandler);
-				}
-				
-				switch( mcName )
-				{
-					case "mine-lights":
-						btn.x = 499 * appModel.scale * 1.2;
-						btn.y = 449 * appModel.scale * 1.2;
-						break;
-					case "gold-leaf":
-						btn.x = 324.5 * appModel.scale * 1.2;
-						btn.y = 768.5 * appModel.scale * 1.2;
-						break;
-					case "portal-center":
-						btn.x = 739.5 * appModel.scale * 1.2;
-						btn.y = 1068 * appModel.scale * 1.2;
-						break;
-					case "dragon-cross":
-						btn.x = 726 * appModel.scale * 1.2;
-						btn.y = 726 * appModel.scale * 1.2;
-						btn.addChild(showLobbyBalloon(10 * appModel.scale, -120 * appModel.scale));
-						break;
-					case "portal-tower":
-						btn.x = 454 * appModel.scale * 1.2;
-						btn.y = 1111 * appModel.scale * 1.2;
-						break;
-				}
-			}
-		}
-		showTutorial();
-		showButtons();
-	}
-	
+		inboxButton.badgeNumber = InboxService.instance.numUnreads;
+	}	
 	// show tutorial steps
 	private function showTutorial():void
 	{
 		trace("player.inTutorial() : ", player.inTutorial());
 		trace("player.nickName : ", player.nickName);
+
 		clearInterval(intervalId);
-		if( player.get_questIndex() >= 2 && player.nickName == "guest" )
+		if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-				intervalId = setInterval(punchButton, 3000, getChildByName("portal-center") as SimpleButton, 2);
+				battlesButton.showArrow();
+				//intervalId = setInterval(punchButton, 3000, battlesButton, 2);
 			}
 			return;
 		}
 		
-		if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(1201)) )
+		// show rank table tutorial
+		if( !player.inTutorial() && player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+		{
+			var tutorialData:TutorialData = new TutorialData("rank_tutorial");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 1000, 1000, 0));
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
+			tutorials.show(tutorialData);
+			function tutorials_completeHandler(e:Event):void {
+				appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
+				UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
+			}
+			return;
+		}
+		
+		if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)) )
 		{
 			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 			if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
-				intervalId = setInterval(punchButton, 3000, getChildByName("gold-leaf") as SimpleButton, 2);
+				questsButton.showArrow();
+				//intervalId = setInterval(punchButton, 3000, questsButton, 2);
 		}
 	}
 	
@@ -223,7 +266,7 @@ public class MainSegment extends Segment
 		if(floating != null && floating.element.name == mapElement.name)
 			return;
 		
-		var locked:Boolean = player.inTutorial() && mapElement.name != "gold-leaf" || (mapElement.name == "dragon-cross" && !player.villageEnabled());
+		var locked:Boolean = player.inTutorial() && mapElement != questsButton || (mapElement == socialsButton && !player.villageEnabled());
 		var floatingWidth:int = locked ? 360 : 320;
 		
 		// create transitions data
@@ -252,7 +295,7 @@ public class MainSegment extends Segment
 		}
 		function floating_selectHandler(event:Event):void
 		{
-			if(	player.inTutorial() && event.data['name'] != "gold-leaf")
+			if(	player.inTutorial() && event.data != questsButton )
 			{
 				appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 				return;
@@ -267,13 +310,13 @@ public class MainSegment extends Segment
 					break;
 				case "portal-center":
 					floating = null;
-					gotoLiveBattle();
+					gotoLiveBattle("battle");
 					break;
 				case "dragon-cross":
 					if( !player.villageEnabled() )
 					{
 						appModel.navigator.addLog(loc("map-dragon-cross-availabledat", [loc("arena_title_1")]));
-						punchButton(getChildByName("portal-tower") as SimpleButton);
+						punchButton(leaguesButton);
 						return;
 					}
 					appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
@@ -286,11 +329,12 @@ public class MainSegment extends Segment
 		}
 	}
 	
-	private function gotoLiveBattle():void
+	private function gotoLiveBattle(waitingData:String):void
 	{
 		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 		item.properties.requestField = null ;
 		item.properties.waitingOverlay = new WaitingOverlay() ;
+		item.properties.waitingOverlay.data = waitingData;
 		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 		appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 	}

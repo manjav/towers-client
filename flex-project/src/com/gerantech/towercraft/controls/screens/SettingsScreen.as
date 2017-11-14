@@ -11,8 +11,6 @@ package com.gerantech.towercraft.controls.screens
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
-	import mx.resources.ResourceManager;
-	
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
@@ -62,13 +60,7 @@ package com.gerantech.towercraft.controls.screens
 				switch(settingData.value)
 				{
 					case SettingsData.BUG_REPORT :
-						var reportPopup:BugReportPopup = new BugReportPopup();
-						reportPopup.addEventListener(Event.COMPLETE, reportPopup_completeHandler);
-						appModel.navigator.addPopup(reportPopup);
-						function reportPopup_completeHandler(event:Event):void {
-							var reportPopup:BugReportPopup = new BugReportPopup();
-							appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
-						}
+						appModel.navigator.addPopup(new BugReportPopup());
 						break;
 					case SettingsData.RATING :
 						BillingManager.instance.rate();

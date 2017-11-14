@@ -12,6 +12,8 @@ package com.gerantech.towercraft.controls.popups
 	import flash.text.ReturnKeyLabel;
 	import flash.text.SoftKeyboardType;
 	
+	import mx.resources.ResourceManager;
+	
 	import starling.events.Event;
 
 	public class BugReportPopup extends ConfirmPopup
@@ -28,12 +30,12 @@ package com.gerantech.towercraft.controls.popups
 		override protected function initialize():void
 		{
 			super.initialize();
-			transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.2, stage.stageWidth*0.8, stage.stageHeight*0.6);
-			transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.2, stage.stageWidth*0.8, stage.stageHeight*0.6);
-			
+			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.30, stage.stageWidth*0.8, stage.stageHeight*0.4);
+			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.25, stage.stageWidth*0.8, stage.stageHeight*0.5);
+			/*
 			emailInput = new CustomTextInput(SoftKeyboardType.EMAIL, ReturnKeyLabel.DEFAULT);
 			emailInput.prompt = loc( "popup_bugreport_email_prompt" );
-			container.addChild(emailInput);
+			container.addChild(emailInput);*/
 			
 			descriptionInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0xFFFFFF, true);
 			descriptionInput.prompt = loc( "popup_bugreport_description_prompt" );
@@ -51,7 +53,7 @@ package com.gerantech.towercraft.controls.popups
 		protected override function acceptButton_triggeredHandler(event:Event):void
 		{
 			
-			if ( emailInput.text.length == 0)
+			/*if ( emailInput.text.length == 0)
 			{
 				errorDisplay.text = loc( "popup_bugreport_email_prompt" );
 				return;
@@ -62,7 +64,7 @@ package com.gerantech.towercraft.controls.popups
 				errorDisplay.text = loc( "popup_bugreport_email_invalid" );
 				return;
 			}
-			
+			*/
 			if ( descriptionInput.text.length <= 10)
 			{
 				errorDisplay.text = loc( "popup_bugreport_size" );
@@ -70,15 +72,15 @@ package com.gerantech.towercraft.controls.popups
 			}
 			
 			var sfs:SFSObject = SFSObject.newInstance();
-			sfs.putText( "email", emailInput.text );
+			sfs.putText( "email", "");//emailInput.text );
 			sfs.putUtfString("description", descriptionInput.text );
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUG_REPORT, sfs );
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_REPORT, sfs );
 		}
 		
 		protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
 		{
-			if( event.params.cmd != SFSCommands.BUG_REPORT )
+			if( event.params.cmd != SFSCommands.ISSUE_REPORT )
 				return;
 			
 			SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
@@ -89,7 +91,9 @@ package com.gerantech.towercraft.controls.popups
 				errorDisplay.text = error=="popup_select_name_size" ? loc("text_size_warn", [loc( "popup_bugreport_description_prompt" ), 6, 12]) : error;
 				return;
 			}
+
 			dispatchEventWith( Event.COMPLETE );
+			appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
 			close();
 		}
 	}

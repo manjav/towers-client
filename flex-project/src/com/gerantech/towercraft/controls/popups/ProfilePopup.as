@@ -43,12 +43,14 @@ package com.gerantech.towercraft.controls.popups
 		private var featuresData:ISFSArray;
 		private var buildingsData:ISFSArray;
 		
-		public function ProfilePopup(playerName:String, playerId:int)
+		public function ProfilePopup(playerName:String, playerId:int, adminMode:Boolean=false)
 		{
 			this.playerName = playerName;
 			
 			var params:SFSObject = new SFSObject();
 			params.putInt("id", playerId);
+			if( adminMode )
+				params.putBool("am", true);
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responceHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.PROFILE, params);
 		}
@@ -56,8 +58,8 @@ package com.gerantech.towercraft.controls.popups
 		override protected function initialize():void
 		{
 			super.initialize();
-			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.10, stage.stageWidth*0.8, stage.stageHeight*0.8);
-			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.05, stage.stageWidth*0.8, stage.stageHeight*0.9);
+			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.10, stage.stageWidth*0.9, stage.stageHeight*0.8);
+			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
 			rejustLayoutByTransitionData();
 		}
 		protected override function transitionInCompleted():void
@@ -128,7 +130,7 @@ package com.gerantech.towercraft.controls.popups
 			var buildingslist:FastList = new FastList();
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 			buildingslist.layout = listLayout;
-			buildingslist.layoutData = new AnchorLayoutData(padding*16, 0, padding*5, 0);
+			buildingslist.layoutData = new AnchorLayoutData(padding*7 + featureList.dataProvider.length*padding*1.8, 0, padding*5, 0);
 			buildingslist.itemRendererFactory = function():IListItemRenderer { return new ProfileBuildingItemRenderer(); }
 			buildingslist.dataProvider = getBuildingData();
 			addChild(buildingslist);

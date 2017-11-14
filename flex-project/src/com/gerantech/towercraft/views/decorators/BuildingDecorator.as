@@ -9,6 +9,7 @@ package com.gerantech.towercraft.views.decorators
 	import com.gt.towers.Game;
 	import com.gt.towers.Player;
 	import com.gt.towers.buildings.Place;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.lists.IntList;
 	
 	import flash.utils.clearTimeout;
@@ -36,20 +37,122 @@ package com.gerantech.towercraft.views.decorators
 		private var underAttack:MovieClip;
 		private var underAttackId:uint;
 		
+		private var bodyDisplay:Image;
+		private var bodyTexture:String;
+		
+		private var troopTypeDisplay:Image;
+		private var troopTypeTexture:String;
+		
 		public function BuildingDecorator(placeView:PlaceView)
 		{
 			this.placeView = placeView;
 			this.place = placeView.place;
-			this.placeView.addEventListener(Event.SELECT, placeView_selectHandler);
 			this.placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
 
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			alignPivot();
 		}
+
+		protected function addedToStageHandler():void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			
+			populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.get_capacity());
+			populationBar.width = 140
+			populationBar.height = 38
+			populationBar.x = parent.x - populationBar.width * 0.5 + 24;
+			populationBar.y = parent.y + 40;
+			fieldView.guiImagesContainer.addChild(populationBar);
+
+			populationIndicator = new BitmapFontTextRenderer();
+			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
+			populationIndicator.width = populationBar.width;
+			populationIndicator.touchable = false;
+			populationIndicator.x = place.x - populationIndicator.width * 0.5 + 24 ;
+			populationIndicator.y = place.y + 24;
+			fieldView.guiTextsContainer.addChild(populationIndicator);
+			
+			populationIcon = new Image(Assets.getTexture("population-" + place.building.troopType));
+			populationIcon.touchable = false;
+			populationIcon.x = place.x - populationBar.width/2 - 18;
+			populationIcon.y = place.y + 35;
+			fieldView.guiImagesContainer.addChild(populationIcon);
+
+			improvablePanel = new ImprovablePanel();
+			improvablePanel.x = place.x - improvablePanel.width/2;
+			improvablePanel.y = place.y + 50;
+			fieldView.guiImagesContainer.addChild(improvablePanel);
+			
+			bodyDisplay = new Image(Assets.getTexture("building-1"));
+			bodyDisplay.touchable = false;
+			bodyDisplay.pivotX = bodyDisplay.width * 0.5;
+			bodyDisplay.pivotY = bodyDisplay.height * 0.8;
+			bodyDisplay.x = place.x;
+			bodyDisplay.y = place.y;	
+			fieldView.buildingsContainer.addChild(bodyDisplay);
+			
+			troopTypeDisplay = new Image(Assets.getTexture("building-1-0"));
+			troopTypeDisplay.touchable = false;
+			troopTypeDisplay.pivotX = troopTypeDisplay.width * 0.5;
+			troopTypeDisplay.pivotY = troopTypeDisplay.height * 0.8;
+			troopTypeDisplay.x = place.x;
+			troopTypeDisplay.y = place.y;
+			fieldView.buildingsContainer.addChild(troopTypeDisplay);
+			
+			underAttack = new MovieClip(Assets.getTextures("building-sword-"), 22);
+			underAttack.touchable = false;
+			underAttack.visible = false;
+			underAttack.x = place.x - underAttack.width * 0.5;
+			underAttack.y = place.y - underAttack.height * 2;
+			fieldView.buildingsContainer.addChild(underAttack);
+		}
+		
+		public function updateElements(population:int, troopType:int):void
+		{
+			populationIndicator.text = population + "/" + place.building.get_capacity();
+			populationBar.troopType = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
+			populationBar.value = population;
+			populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
+			
+			// _-_-_-_-_-_-_-_-_-_-_-_-  body -_-_-_-_-_-_-_-_-_-_-_-_-_
+			var txt:String = "building-" + place.building.type;
+			if( bodyTexture != txt )
+			{
+				bodyTexture = txt;
+				bodyDisplay.texture = Assets.getTexture(bodyTexture)	
+			}
+			//	trace(place.index, place.building.type, troopType, place.building.troopType)
+			
+			// _-_-_-_-_-_-_-_-_-_-_-_-  troop type -_-_-_-_-_-_-_-_-_-_-_-_-_
+			if( troopType > -1 )
+				txt += troopType == player.troopType ? "-0" : "-1";
+			
+			if( troopTypeTexture != txt )
+			{
+				troopTypeTexture = txt;
+				troopTypeDisplay.texture = Assets.getTexture(troopTypeTexture);
+				
+				// play change troop sounds
+				if( place.building.category == BuildingType.B00_CAMP )
+				{
+					// punch scale on occupation
+					bodyDisplay.scale = 1.3;
+					troopTypeDisplay.scale = 1.3;
+					Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
+					Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
+					
+					var tsound:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
+					if( appModel.sounds.soundIsAdded(tsound) )
+						appModel.sounds.playSound(tsound);
+					else
+						appModel.sounds.addSound(tsound);
+				}
+			}
+		}
 		
 		private function placeView_updateHandler(event:Event):void
 		{
-			if(place.building.troopType != player.troopType)
+			if( place.building.troopType != player.troopType )
 			{
 				improvablePanel.enabled = false;
 				return;
@@ -70,61 +173,6 @@ package com.gerantech.towercraft.views.decorators
 				}
 			}
 			improvablePanel.enabled = improvable;
-		}
-		
-		protected function placeView_selectHandler(event:Event):void
-		{
-		}
-		
-		protected function addedToStageHandler():void
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			
-			var bc:Sprite = BattleFieldView(parent.parent).buildingsContainer;
-			
-			populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.get_capacity());
-			populationBar.width = 140 * appModel.scale;
-			populationBar.height = 38 * appModel.scale;
-			populationBar.x = parent.x - populationBar.width/2 + 24 * appModel.scale;
-			populationBar.y = parent.y + 32 * appModel.scale;
-			bc.addChild(populationBar);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationBar);
-
-			populationIndicator = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-			populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36*appModel.scale, 0xFFFFFF, "center")
-			populationIndicator.width = populationBar.width;
-			populationIndicator.touchable = false;
-			populationIndicator.x = parent.x - populationIndicator.width/2 + 24 * appModel.scale;
-			populationIndicator.y = parent.y + 16 * appModel.scale;
-			bc.addChild(populationIndicator);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 110, populationIndicator);
-			
-			populationIcon = new Image(Assets.getTexture("population-"+place.building.troopType));
-			populationIcon.touchable = false;
-			populationIcon.scale = appModel.scale * 2;
-			populationIcon.x = parent.x - populationBar.width/2 - 18 * appModel.scale;
-			populationIcon.y = parent.y + 27 * appModel.scale;
-			bc.addChild(populationIcon);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, populationIcon);
-
-			improvablePanel = new ImprovablePanel();
-			improvablePanel.scale = appModel.scale * 2;
-			improvablePanel.x = parent.x - improvablePanel.width/2;
-			improvablePanel.y = parent.y + 32*appModel.scale;
-			bc.addChild(improvablePanel);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, improvablePanel);
-			
-			underAttack = new MovieClip(Assets.getTextures("war-icon-sword-"), 22);
-			underAttack.touchable = false;
-			underAttack.visible = false;
-			underAttack.scale = appModel.scale * 2;
-			underAttack.x = parent.x - underAttack.width * 0.5;
-			underAttack.y = parent.y - underAttack.height * 2;
-			bc.addChild(underAttack);// setTimeout(BattleFieldView(parent.parent).buildingsContainer.addChild, 100, underAttack);
-		}
-		
-		public function updateElements(population:int, troopType:int):void
-		{
-			populationIndicator.text = population+"/"+place.building.get_capacity();
-			populationBar.troopType = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
-			populationBar.value = population;
-			populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
 		}
 		
 		public function showUnderAttack():void
@@ -148,13 +196,13 @@ package com.gerantech.towercraft.views.decorators
 			populationBar.removeFromParent(true);
 			underAttack.removeFromParent(true);
 			improvablePanel.removeFromParent(true);
-			
-			placeView.removeEventListener(Event.SELECT, placeView_selectHandler);
+			bodyDisplay.removeFromParent(true);
+			troopTypeDisplay.removeFromParent(true);
 			super.dispose();
 		}
-		
-		protected function get appModel():		AppModel		{	return AppModel.instance;	}
-		protected function get game():			Game			{	return appModel.game;		}
-		protected function get player():		Player			{	return game.player;			}
+		protected function get appModel():		AppModel		{	return AppModel.instance;					}
+		protected function get game():			Game			{	return appModel.game;						}
+		protected function get player():		Player			{	return game.player;							}
+		protected function get fieldView():		BattleFieldView {	return AppModel.instance.battleFieldView;	}
 	}
 }

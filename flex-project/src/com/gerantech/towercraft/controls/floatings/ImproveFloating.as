@@ -11,13 +11,11 @@ package com.gerantech.towercraft.controls.floatings
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
 	import feathers.controls.Button;
-	import feathers.controls.LayoutGroup;
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.events.Event;
-	import starling.events.EventDispatcher;
 
 	public class ImproveFloating extends BaseFloating
 	{
@@ -82,7 +80,7 @@ package com.gerantech.towercraft.controls.floatings
 						places.push(new PlaceData( 0, (x+buttons[i].x)/appModel.scale, (y+buttons[i].y)/appModel.scale, 0, 0, ""));
 						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 200));
 					}
-					tutorials.show(LayoutGroup(parent), tutorialData);
+					tutorials.show(tutorialData);
 				}
 			}
 		}

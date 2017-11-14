@@ -1,9 +1,13 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
 
@@ -149,8 +153,21 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 		pointIconDisplay.visible = !_isInviteButton;
 		inviteDisplay.visible = _isInviteButton;
 		
-		if( _isInviteButton )
-			mySkin.defaultTexture = _isInviteButton ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+		if( !_isInviteButton )
+			return;
+		
+		mySkin.defaultTexture = _isInviteButton ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
+	}
+	
+	private function tutorials_completeHandler(event:Event):void
+	{
+		if( event.data.name != "buddy_tutorial" || stage == null )
+			return;
+		var tutorialArrow:TutorialArrow = new TutorialArrow(true);
+		tutorialArrow.layoutData = new AnchorLayoutData(height, NaN, NaN, NaN, 0);
+		addChild(tutorialArrow);
+		UserData.instance.prefs.setInt(PrefsTypes.OFFER_33_FRIENDSHIP, player.prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP)+50);
 	}
 } 
 }

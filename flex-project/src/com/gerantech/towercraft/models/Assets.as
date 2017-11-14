@@ -84,7 +84,7 @@ package com.gerantech.towercraft.models
 				}
 				else
 				{	*/
-					allTextures[name] = Texture.fromAtfData(new Assets[name](), name=="questsAtlasTexture"?1:2, false);
+					allTextures[name] = Texture.fromAtfData(new Assets[name](), name=="guiAtlasTexture"?2:1, false);
 				//}
 			}
 			return allTextures[name];

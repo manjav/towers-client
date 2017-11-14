@@ -1,13 +1,11 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 
 import flash.utils.setTimeout;
@@ -32,7 +30,8 @@ private var badgeDisplay:ImageLoader;
 
 private var padding:int;
 private var dashboardData:TabItemData;
-private var focusRect:TutorialFocusOverlay;
+private var tutorialArrow:TutorialArrow;
+
 public function DashboardTabItemRenderer(width:Number)
 {
 	super();
@@ -135,8 +134,8 @@ override public function set isSelected(value:Boolean):void
 		updateBadge();
 	}
 	
-	if( focusRect != null )
-		focusRect.removeFromParent(true);
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
 	
 	if( value && owner != null )
 		owner.dispatchEventWith(Event.SELECT, false, data);
@@ -159,10 +158,12 @@ private function tutorialManager_finishHandler(event:Event):void
 }
 private function showFocus () : void
 {
-	if( focusRect != null )
-		focusRect.removeFromParent(true);
-	focusRect = new TutorialFocusOverlay(this.getBounds(stage), 1.5)
-	appModel.navigator.addChild(focusRect);
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+	
+	tutorialArrow = new TutorialArrow(false);
+	tutorialArrow.layoutData = new AnchorLayoutData(-tutorialArrow.height, NaN, NaN, NaN, 0);
+	addChild(tutorialArrow);
 }
 }
 }

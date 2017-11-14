@@ -2,13 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
-	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.utils.lists.PlaceDataList;
-	
-	import flash.geom.Point;
-	
-	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
 	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
@@ -42,40 +36,9 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function initialize():void
 		{
 			super.initialize();
-			layout = new AnchorLayout();
-
 			finger = new Image(Assets.getTexture("finger-down", "gui"));
 			finger.scale = appModel.scale*3;
 			finger.touchable = false;
-			
-			if(transitionIn == null)
-			{
-				transitionIn = new TransitionData(0.2, task.startAfter / 1000);
-				transitionIn.sourcePosition = new Point(0, 0);
-				transitionIn.sourceAlpha = 0;
-				transitionIn.destinationPosition = new Point(0, 0);
-				
-				if(transitionOut== null)
-				{
-					transitionOut = new TransitionData(0.1);
-					transitionOut.destinationAlpha = 0;
-					transitionOut.sourcePosition = new Point(0, 0);
-					transitionOut.destinationPosition = transitionIn.sourcePosition;
-				}
-			}
-
-			// execute overlay transition
-			layoutData = new AnchorLayoutData(0,0,0,0);
-			alpha = transitionIn.sourceAlpha;
-			Starling.juggler.tween(this, transitionIn.time,
-				{
-					delay:transitionIn.delay,
-					alpha:transitionIn.destinationAlpha,
-					transition:transitionIn.transition,
-					onStart:transitionInStarted,
-					onComplete:transitionInCompleted
-				}
-			);
 		}
 		protected override function transitionInCompleted():void
 		{
@@ -169,21 +132,6 @@ package com.gerantech.towercraft.controls.overlays
 
 			}
 			//trace("tweenStep:", tweenStep, places.get(tweenStep).tutorIndex);
-		}
-		
-		public override function close(dispose:Boolean=true):void
-		{
-			super.close(dispose);
-			Starling.juggler.tween(this, transitionOut.time,
-			{
-				delay:transitionOut.delay,
-				alpha:transitionOut.destinationAlpha,
-				transition:transitionOut.transition,
-				onStart:transitionOutStarted,
-				onComplete:transitionOutCompleted,
-				onCompleteArgs:[dispose]
-			}
-			);
 		}
 	}
 }

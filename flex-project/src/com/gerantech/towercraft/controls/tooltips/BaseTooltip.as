@@ -16,14 +16,18 @@ package com.gerantech.towercraft.controls.tooltips
 	
 	public class BaseTooltip extends CloasableObject
 	{
+		protected var labelDisplay:RTLLabel;
+		protected var padding:int;
+
 		private var message:String;
 		private var position:Point;
 		private var fontScale:Number;
 		private var hSize:Number;
-		
+
 		public function BaseTooltip(message:String, position:Rectangle, fontScale:Number=0.8, hSize:Number=0.5)
 		{
 			super();
+			visible = false;
 			this.message = message;
 			this.fontScale = fontScale;
 			this.hSize = hSize;
@@ -33,9 +37,9 @@ package com.gerantech.towercraft.controls.tooltips
 		override protected function initialize():void
 		{
 			super.initialize();
-			touchGroup = touchable = false;
+			//touchable = false;
 			maxWidth = stage.stageWidth * hSize;
-			var padding:int = 36 * appModel.scale;
+			padding = 36 * appModel.scale;
 			
 			var halign:String = position.x < stage.stageWidth * 0.5 ? "left" : "right";
 			var valign:String = position.y < stage.stageHeight * 0.5 ? "top" : "bot";
@@ -44,9 +48,10 @@ package com.gerantech.towercraft.controls.tooltips
 			backgroundSkin = skin;
 			layout = new AnchorLayout();
 			
-			var labelDisplay:RTLLabel = new RTLLabel(message, 0, "justify", null, true, null, fontScale);
-			labelDisplay.layoutData = new AnchorLayoutData(padding*(valign == "top"?1.6:0.6), padding, padding*(valign=="top"?1:2), padding);
+			labelDisplay = new RTLLabel(message, 0, "justify", null, true, null, fontScale);
+			labelDisplay.touchable = false;
 			labelDisplay.pixelSnapping = false;
+			labelDisplay.layoutData = new AnchorLayoutData(padding*(valign == "top"?1.6:0.6), padding, padding*(valign=="top"?1:2), padding);
 			labelDisplay.validate();
 			addChild(labelDisplay);
 			
@@ -55,8 +60,14 @@ package com.gerantech.towercraft.controls.tooltips
 			pivotX = (halign=="left" ? 0 : maxWidth)
 			pivotY = (valign=="top" ? 0 : (labelDisplay.height + padding * 6))
 
+			Starling.juggler.tween(this, 0.2, {delay:0.1, scale:1, transition:Transitions.EASE_OUT_BACK, onStart:transitionInStarted, onComplete:transitionInCompleted});
+		}
+		
+		override protected function transitionInStarted():void
+		{
 			scale = 0;
-			Starling.juggler.tween(this, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK, onComplete:transitionInCompleted});
+			visible = true;
+			super.transitionInStarted();
 		}
 	}
 }

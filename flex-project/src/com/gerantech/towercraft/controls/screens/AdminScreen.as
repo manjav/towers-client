@@ -1,10 +1,9 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
 
-import feathers.controls.ScrollPolicy;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.data.ListCollection;
 
@@ -19,7 +18,7 @@ override protected function initialize():void
 	
 	listLayout.gap = 0;	
 //	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
-	list.dataProvider = new ListCollection(["Restore", "Quests", "Battles"])
+	list.dataProvider = new ListCollection(["Players", "Track Issues", "Push Message", "Restore", "Quests", "Battles"])
 }
 
 override protected function list_changeHandler(event:Event):void
@@ -27,8 +26,17 @@ override protected function list_changeHandler(event:Event):void
 	super.list_changeHandler(event);
 	switch(list.selectedItem)
 	{
+		case "Players":
+			appModel.navigator.pushScreen(Main.PLAYERS_SCREEN);
+			break;
+		case "Track Issues":
+			appModel.navigator.pushScreen(Main.ISSUES_SCREEN);
+			break;
 		case "Restore":
 			appModel.navigator.addPopup(new RestorePopup());
+			break;
+		case "Push Message":
+			appModel.navigator.addPopup(new BroadcastMessagePopup());
 			break;
 		case "Quests":
 		case "Battles":

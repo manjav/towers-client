@@ -6,6 +6,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -33,7 +34,13 @@ private var dateDisplay:RTLLabel;
 private var date:Date;
 private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
+private var message:SFSObject;
+private var readOnSelect:Boolean;
 
+public function InboxItemRenderer(readOnSelect:Boolean=true)
+{
+	this.readOnSelect = readOnSelect;
+}
 
 override protected function initialize():void
 {
@@ -50,13 +57,13 @@ override protected function initialize():void
 	backgroundSkin = mySkin;
 	
 	senderLayout = new AnchorLayoutData( NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN , NaN, offsetY);
-	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.8);
+	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.72);
 	senderDisplay.width = padding * 6.4;
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 
 	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?6:8), NaN, padding*(appModel.isLTR?8:6) , NaN, offsetY);
-	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.7);
+	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.64);
 	messageDisplay.wordWrap = false;
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
@@ -86,14 +93,16 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data == null || _owner == null)
+	if( _data == null || _owner == null )
 		return;
 
-	date.time = _data.utc * 1000;
-	senderDisplay.text = _data.sender;
-	messageDisplay.text = _data.text.substr(0,2)=="__"?loc(_data.text.substr(2), [_data.sender]):_data.text;
+	message = _data as SFSObject;
+	date.time = message.getInt("utc") * 1000;
+	senderDisplay.text = message.getUtfString("sender");
+	var txt:String = message.getUtfString("text");
+	messageDisplay.text = txt.substr(0,2)=="__"?loc(txt.substr(2), [message.getUtfString("sender")]):txt;
 	dateDisplay.text = StrUtils.getDateString(date);
-	acceptButton.label = loc(_data.type == MessageTypes.M50_URL ? "go_label" : "popup_accept_label");
+	acceptButton.label = loc(message.getShort("type") == MessageTypes.M50_URL ? "go_label" : "popup_accept_label");
 	updateSkin();
 }
 
@@ -102,9 +111,16 @@ private function updateSkin():void
 	if( isSelected )
 		mySkin.texture = appModel.theme.itemRendererUpSkinTexture;
 	else
-		mySkin.texture = _data.read==0 ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererDisabledSkinTexture;
-	senderDisplay.alpha = _data.read==0 || isSelected ? 1 : 0.8;
-	messageDisplay.alpha = _data.read==0 || isSelected ? 0.92 : 0.8;
+	{
+		switch(message.getShort("read"))
+		{
+			case 1:		mySkin.texture = appModel.theme.itemRendererDisabledSkinTexture; break;
+			case 2:		mySkin.texture = appModel.theme.itemRendererDangerSkinTexture; break;
+			default:	mySkin.texture = appModel.theme.itemRendererSelectedSkinTexture; break;
+		}
+	}
+	senderDisplay.alpha = message.getShort("read")==0 || isSelected ? 1 : 0.8;
+	messageDisplay.alpha = message.getShort("read")==0 || isSelected ? 0.92 : 0.8;
 }
 
 override public function set isSelected(value:Boolean):void
@@ -115,10 +131,10 @@ override public function set isSelected(value:Boolean):void
 		return;
 	updateSkin();
 	
-	if( value && _data.read == 0 )
+	if( readOnSelect && value && message.getShort("read") == 0 )
 	{
-		_owner.dispatchEventWith(Event.OPEN, false, _data);
-		_data.read = 1;
+		message.putShort("read", 1)
+		_owner.dispatchEventWith(Event.OPEN, false, message);
 	}
 	
 	senderLayout.top = value ? padding*0.8 : NaN;
@@ -146,7 +162,7 @@ override public function set isSelected(value:Boolean):void
 		declineButton.removeFromParent();
 	}
 	
-	var hasButton:Boolean = MessageTypes.isConfirm(_data.type) || _data.type == MessageTypes.M50_URL;
+	var hasButton:Boolean = MessageTypes.isConfirm(message.getShort("type")) || message.getShort("type") == MessageTypes.M50_URL;
 	var _h:Number = value?(messageDisplay.height+padding*(4/messageDisplay.numLines)+padding+(hasButton?declineButton.height:0) ):(140*appModel.scale);
 	Starling.juggler.tween(this, TWEEN_TIME, {height:_h, transition:Transitions.EASE_IN_OUT, onComplete:tweenCompleted, onCompleteArgs:[value]});
 	function tweenCompleted(_selected:Boolean):void
@@ -157,7 +173,7 @@ override public function set isSelected(value:Boolean):void
 		if( hasButton )
 		{
 			appear(acceptButton)
-			if( _data.type == MessageTypes.isConfirm(_data.type) )
+			if( MessageTypes.isConfirm(message.getShort("type")) )
 				appear(declineButton)
 		}
 	}
@@ -173,9 +189,9 @@ private function appear(button:CustomButton):void
 private function buttons_eventHandler(event:Event):void
 {
 	if( event.currentTarget == acceptButton )
-		_owner.dispatchEventWith(Event.SELECT, false, _data);
+		_owner.dispatchEventWith(Event.SELECT, false, message);
 	else
-		_owner.dispatchEventWith(Event.CANCEL, false, _data);
+		_owner.dispatchEventWith(Event.CANCEL, false, message);
 }
 
 override public function dispose():void

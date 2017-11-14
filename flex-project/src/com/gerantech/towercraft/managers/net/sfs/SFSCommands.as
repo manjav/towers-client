@@ -3,6 +3,7 @@ package com.gerantech.towercraft.managers.net.sfs
 	public class SFSCommands
 	{
 		public static const START_BATTLE:String = "startBattle";
+		public static const CANCEL_BATTLE:String = "cancelBattle" ;
 		public static const END_BATTLE:String = "endBattle";
 		public static const LEFT_BATTLE:String = "leftBattle";
 		public static const REJOIN_BATTLE:String = "rejoinBattle";
@@ -17,11 +18,14 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const EXCHANGE:String = "exchange";
 		public static const SELECT_NAME:String = "selectName";
 		public static const OAUTH:String = "oauth";
-		public static const BUG_REPORT:String = "bugReport";
 		public static const VERIFY_PURCHASE:String = "verify";
 		public static const REGISTER_PUSH:String = "registerPush";
 		public static const RESTORE:String = "restore";
 		public static const PREFS:String = "prefs";
+		
+		public static const ISSUE_REPORT:String = "issueReport";
+		public static const ISSUE_GET:String = "issueGet";
+		public static const ISSUE_TRACK:String = "issueTrack";
 		
 		public static const FIGHT:String = "f";
 		public static const BUILDING_IMPROVE:String = "i";
@@ -43,5 +47,6 @@ package com.gerantech.towercraft.managers.net.sfs
 		public static const INBOX_GET:String = "inboxGet";
 		public static const INBOX_OPEN:String = "inboxOpen";
 		public static const INBOX_CONFIRM:String = "inboxConfirm";
+		public static const INBOX_BROADCAST:String = "inboxBroadcast";
 	}
 }

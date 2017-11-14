@@ -40,7 +40,7 @@ package com.gerantech.towercraft.controls.items
 			super();
 			isEnabled = false;
 			layout = new AnchorLayout();
-			height = 640 * appModel.scale;
+			height = 680 * appModel.scale;
 			var padding:int = 28 * appModel.scale;
 			var iconSize:int = 400 * appModel.scale;
 			playerArena = player.get_arena(0);
@@ -69,8 +69,8 @@ package com.gerantech.towercraft.controls.items
 			var cardsLayout:HorizontalLayout = new HorizontalLayout();
 			cardsLayout.useVirtualLayout = true;
 			cardsLayout.gap = padding;
-			cardsLayout.typicalItemWidth = padding*6;
-			cardsLayout.typicalItemHeight = padding*7;
+			cardsLayout.typicalItemWidth = padding*7;
+			cardsLayout.typicalItemHeight = padding*9;
 			cardsLayout.horizontalAlign = appModel.align;
 			cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 			

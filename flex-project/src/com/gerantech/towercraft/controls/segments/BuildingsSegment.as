@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.segments
 {
-	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -13,7 +12,6 @@ package com.gerantech.towercraft.controls.segments
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingType;
-	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
@@ -73,8 +71,7 @@ package com.gerantech.towercraft.controls.segments
 			player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
 			var tutorialData:TutorialData = new TutorialData("deck_start");
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_2", null, 1000, 1000, 2));
-			tutorials.show(this, tutorialData);
+			tutorials.show(tutorialData);
 		}		
 		override public function updateData():void
 		{

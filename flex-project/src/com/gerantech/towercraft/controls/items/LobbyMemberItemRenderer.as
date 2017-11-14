@@ -37,6 +37,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
+	height = 120 * appModel.scale;
 	var padding:int = 36 * appModel.scale;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
@@ -82,8 +83,6 @@ override protected function commitData():void
 	super.commitData();
 	if(_data ==null || _owner==null)
 		return;
-	
-	height = 120 * appModel.scale;
 	
 	var rankIndex:int = index+1;
 	nameDisplay.text = rankIndex + ".  " + _data.name ;

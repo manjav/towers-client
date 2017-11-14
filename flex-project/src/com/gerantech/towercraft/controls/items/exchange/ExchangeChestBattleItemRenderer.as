@@ -2,11 +2,10 @@
 {
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
-	import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
+	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.ResourceType;
@@ -33,7 +32,7 @@
 		private var chestArmature:StarlingArmatureDisplay;
 		private var armatorTimeoutId:int = -1;
 		private var _state:int = -2;
-		private var focusRect:TutorialFocusOverlay;
+		private var tutorialArrow:TutorialArrow;
 		
 		override protected function commitData():void
 		{
@@ -61,8 +60,7 @@
 			addChild(chestArmature);
 			addChild(buttonDisplay);
 			
-			//if( !tutorials.hasEventListener(GameEvent.TUTORIAL_TASKS_FINISH) )
-				tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 		}
 		
 		private function tutorialManager_finishHandler(event:Event):void
@@ -151,18 +149,20 @@
 		
 		private function showFocus () : void
 		{
-			if( focusRect != null )
-				focusRect.removeFromParent(true);
-			focusRect = new TutorialFocusOverlay(this.getBounds(stage), 1.5, 0)
-			appModel.navigator.addChild(focusRect);
+			if( tutorialArrow != null )
+				tutorialArrow.removeFromParent(true);
+			
+			tutorialArrow = new TutorialArrow(false);
+			tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding*5);
+			addChild(tutorialArrow);
 		}
 		override public function set isSelected(value:Boolean):void
 		{
 			if(value == super.isSelected)
 				return;
 			super.isSelected = value;
-			if( focusRect != null )
-				focusRect.removeFromParent(true);
+			if( tutorialArrow != null )
+				tutorialArrow.removeFromParent(true);
 		}
 
 		
