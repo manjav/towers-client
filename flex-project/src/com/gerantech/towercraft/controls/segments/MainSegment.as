@@ -204,7 +204,7 @@ public class MainSegment extends Segment
 	private function showTutorial():void
 	{
 		trace("player.inTutorial() : ", player.inTutorial());
-		trace("player.nickName : ", player.nickName);				battlesButton.showArrow();
+		trace("player.nickName : ", player.nickName);
 
 		clearInterval(intervalId);
 		if( player.get_questIndex() >= 3 && player.nickName == "guest" )
