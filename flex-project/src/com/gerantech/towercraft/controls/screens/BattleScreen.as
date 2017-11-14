@@ -189,7 +189,10 @@ package com.gerantech.towercraft.controls.screens
 				var tuteMessage:String = "";
 				for (var i:int=0 ; i < quest.startNum.size() ; i++) 
 				{
-					tuteMessage = "tutor_quest_" + quest.index + "_start_" + quest.startNum.get(i);
+					tuteMessage = "tutor_quest_" + quest.index + "_start_";
+					if( quest.index == 2 )
+						tuteMessage += (player.buildings.exists(BuildingType.B11_BARRACKS)?"second_":"first_");
+					tuteMessage += quest.startNum.get(i);
 					trace("tuteMessage:", tuteMessage);
 					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
 				}
@@ -382,10 +385,18 @@ package com.gerantech.towercraft.controls.screens
 			var tutorial:TutorialData = event.data as TutorialData;
 			if( tutorial.name == "quest_2_end" )
 			{
-				if( player.resources.exists(BuildingType.B11_BARRACKS) )
-					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END); 
+				if( player.buildings.exists(BuildingType.B11_BARRACKS) )
+				{
+					if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
+						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END);
+					else
+						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK); 
+				}
 				else
-					player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE.toString());
+				{
+					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
+				}
+				
 				appModel.navigator.popToRootScreen();
 				return;
 			}
