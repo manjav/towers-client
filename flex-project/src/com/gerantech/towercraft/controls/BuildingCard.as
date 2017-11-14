@@ -12,6 +12,9 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
 	
+	import starling.display.BlendMode;
+	import starling.utils.ScaleMode;
+	
 	public class BuildingCard extends TowersLayout
 	{
 		private var iconDisplay:ImageLoader;
@@ -46,6 +49,10 @@ package com.gerantech.towercraft.controls
 			var padding:int = 16 * appModel.scale;
 			
 			iconDisplay = new ImageLoader();
+			iconDisplay.pixelSnapping = false;
+			iconDisplay.horizontalAlign = "left";
+			iconDisplay.padding = 8 * appModel.scale;
+			iconDisplay.scaleMode = ScaleMode.NO_BORDER;
 			iconDisplay.layoutData = new AnchorLayoutData(0, 0, progressHeight/2, 0);
 			addChild(iconDisplay);
 			
@@ -56,7 +63,7 @@ package com.gerantech.towercraft.controls
 			addChild(slider);
 			
 			levelDisplay = new RTLLabel("Level "+ _level, 0, "center", null, false, null, 0.8);
-			levelDisplay.alpha = 0.7;
+			levelDisplay.alpha = 0.9;
 			levelDisplay.visible = !_locked && _showLevel;
 			levelDisplay.height = progressHeight;
 			levelDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
