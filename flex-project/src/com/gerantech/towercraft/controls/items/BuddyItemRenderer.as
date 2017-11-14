@@ -164,8 +164,8 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 	{
 		if( event.data.name != "buddy_tutorial" || stage == null )
 			return;
-		var tutorialArrow:TutorialArrow = new TutorialArrow(false);
-		tutorialArrow.layoutData = new AnchorLayoutData(-height, NaN, NaN, NaN, 0);
+		var tutorialArrow:TutorialArrow = new TutorialArrow(true);
+		tutorialArrow.layoutData = new AnchorLayoutData(height, NaN, NaN, NaN, 0);
 		addChild(tutorialArrow);
 		UserData.instance.prefs.setInt(PrefsTypes.OFFER_33_FRIENDSHIP, player.prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP)+50);
 	}

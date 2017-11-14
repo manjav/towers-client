@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 	import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -18,6 +19,7 @@ package com.gerantech.towercraft.controls.screens
 	
 	import flash.desktop.NativeApplication;
 	import flash.geom.Rectangle;
+	import flash.utils.setInterval;
 	
 	import mx.resources.ResourceManager;
 	
@@ -51,6 +53,7 @@ package com.gerantech.towercraft.controls.screens
 		override protected function initialize():void
 		{
 			super.initialize();
+			
 			autoSizeMode = AutoSizeMode.STAGE; 
 			layout = new AnchorLayout();
 			visible = false;
@@ -107,6 +110,15 @@ package com.gerantech.towercraft.controls.screens
 		
 		protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		{
+			// tutorial mode
+			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+			if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK)
+			{
+				appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
+				return;
+			}
+			
+			
 			var listsData:Array = getListData();
 			visible = true;
 			pageList.dataProvider = new ListCollection(listsData);

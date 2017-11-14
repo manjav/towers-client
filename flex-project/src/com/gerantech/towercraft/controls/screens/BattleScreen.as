@@ -386,7 +386,7 @@ package com.gerantech.towercraft.controls.screens
 					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END); 
 				else
 					player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE.toString());
-				appModel.navigator.popToRootScreen(Reveal.createRevealDownTransition());
+				appModel.navigator.popToRootScreen();
 				return;
 			}
 
@@ -618,8 +618,8 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 			
-			//if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
-			//	return;
+			if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
+				return;
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
 			confirm.declineStyle = "danger";

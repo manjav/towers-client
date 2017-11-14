@@ -1,14 +1,11 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
-import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 
 import flash.utils.setTimeout;

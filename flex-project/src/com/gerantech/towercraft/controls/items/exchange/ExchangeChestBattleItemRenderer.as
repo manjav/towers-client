@@ -3,7 +3,6 @@
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
-	import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.events.GameEvent;
 	import com.gerantech.towercraft.models.Assets;
@@ -59,10 +58,9 @@
 			}
 			updateElements();
 			addChild(chestArmature);
-			addChild(buttonDisplay);showFocus()
+			addChild(buttonDisplay);
 			
-			//if( !tutorials.hasEventListener(GameEvent.TUTORIAL_TASKS_FINISH) )
-				tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 		}
 		
 		private function tutorialManager_finishHandler(event:Event):void
