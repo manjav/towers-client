@@ -76,7 +76,7 @@ package com.gerantech.towercraft.controls.buttons
 			iconDisplay.layoutData = new AnchorLayoutData(NaN, direction=="ltr"?NaN:-height/2, NaN, direction=="ltr"?-height/2:NaN, NaN, 0);
 			addChild(iconDisplay);
 			
-			if(hasIncreaseButton)
+			if( hasIncreaseButton )
 			{
 				var addDisplay:ImageLoader = new ImageLoader();
 				addDisplay.source = Assets.getTexture("theme/indicator-add", "gui");
@@ -136,6 +136,7 @@ package com.gerantech.towercraft.controls.buttons
 		{
 			if( tutorialArrow != null )
 				tutorialArrow.removeFromParent(true);
+			tutorialArrow = null;
 			super.trigger();
 		}
 		
