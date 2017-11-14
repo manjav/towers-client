@@ -100,7 +100,6 @@ package com.gerantech.towercraft.controls.segments
 			
 			var tutorialData:TutorialData = new TutorialData("shop_start");
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_0", null, 1000, 1000, 0));
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_2", null, 1000, 1000, 2));
 			tutorials.show(tutorialData);
 		}
 		
@@ -310,7 +309,7 @@ package com.gerantech.towercraft.controls.segments
 				return;
 		
 			var tutorialData:TutorialData = new TutorialData("shop_end");
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_4", null, 1000, 1000, 4));
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 1000, 1000, 4));
 			tutorials.show(tutorialData);
 			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
 		}

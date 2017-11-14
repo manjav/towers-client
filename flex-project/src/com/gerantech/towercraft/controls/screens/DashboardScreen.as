@@ -112,7 +112,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			// tutorial mode
 			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
-			if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK)
+			if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
 			{
 				appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
 				return;

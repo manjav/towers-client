@@ -12,6 +12,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.constants.BuildingType;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
@@ -100,7 +101,10 @@ override protected function transitionInCompleteHandler(event:Event):void
 	var tutorialData:TutorialData = new TutorialData("quest_" + lastQuest.index + "_intro");
 	for (var i:int ; i < lastQuest.introNum.size() ; i++) 
 	{
-		var tuteMessage:String = "tutor_quest_" + lastQuest.index + "_intro_" + lastQuest.introNum.get(i);
+		var tuteMessage:String = "tutor_quest_" + lastQuest.index + "_intro_"
+		if( lastQuest.index == 2 )
+			tuteMessage += (player.buildings.exists(BuildingType.B11_BARRACKS)?"second_":"first_");
+		tuteMessage += lastQuest.introNum.get(i);
 		trace("tuteMessage:", tuteMessage);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, lastQuest.introNum.get(i)));	
 	}

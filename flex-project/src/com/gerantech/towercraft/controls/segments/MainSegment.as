@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.LobbyBalloon;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.MapButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
@@ -51,10 +52,10 @@ public class MainSegment extends Segment
 	private var intervalId:uint;
 	private var lobbyBallon:LobbyBalloon;
 	private var inboxButton:NotifierButton;
-	private var questsButton:SimpleButton;
-	private var battlesButton:SimpleButton;
-	private var socialsButton:SimpleButton;
-	private var leaguesButton:SimpleButton;
+	private var questsButton:MapButton;
+	private var battlesButton:MapButton;
+	private var socialsButton:MapButton;
+	private var leaguesButton:MapButton;
 
 	public function MainSegment()
 	{
@@ -106,7 +107,7 @@ public class MainSegment extends Segment
 				mapElement.scale = appModel.scale * 1.2;
 				mapElement.animation.gotoAndPlayByTime("animtion0", 0, -1);
 				
-				var btn:SimpleButton = new SimpleButton();
+				var btn:MapButton = new MapButton();
 				btn.addChild(mapElement);
 				this.addChild(btn);
 				if( mcName != "background" && mcName != "mine-lights" )
@@ -203,7 +204,8 @@ public class MainSegment extends Segment
 	private function showTutorial():void
 	{
 		trace("player.inTutorial() : ", player.inTutorial());
-		trace("player.nickName : ", player.nickName);
+		trace("player.nickName : ", player.nickName);				battlesButton.showArrow();
+
 		clearInterval(intervalId);
 		if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 		{
@@ -212,7 +214,8 @@ public class MainSegment extends Segment
 			appModel.navigator.addPopup(confirm);
 			function confirm_eventsHandler():void {
 				confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-				intervalId = setInterval(punchButton, 3000, battlesButton, 2);
+				battlesButton.showArrow();
+				//intervalId = setInterval(punchButton, 3000, battlesButton, 2);
 			}
 			return;
 		}
@@ -221,7 +224,7 @@ public class MainSegment extends Segment
 		if( !player.inTutorial() && player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
 		{
 			var tutorialData:TutorialData = new TutorialData("rank_tutorial");
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank", null, 1000, 1000, 0));
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 1000, 1000, 0));
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 			tutorials.show(tutorialData);
 			function tutorials_completeHandler(e:Event):void {
@@ -235,7 +238,8 @@ public class MainSegment extends Segment
 		{
 			var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 			if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
-				intervalId = setInterval(punchButton, 3000, questsButton, 2);
+				questsButton.showArrow();
+				//intervalId = setInterval(punchButton, 3000, questsButton, 2);
 		}
 	}
 	
