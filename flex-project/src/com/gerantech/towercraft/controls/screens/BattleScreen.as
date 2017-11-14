@@ -45,7 +45,6 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
-	import feathers.motion.Reveal;
 	
 	import starling.animation.Transitions;
 	import starling.display.Quad;
@@ -201,7 +200,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					var places:PlaceDataList = quest.getSwipeTutorPlaces();
 					if( places.size() > 0 )
-						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3000));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 2000));
 				
 					var place:PlaceData = quest.getImprovableTutorPlace()
 					if( place != null )
@@ -273,6 +272,7 @@ package com.gerantech.towercraft.controls.screens
 				nextArena = player.get_arena(0);
 			}
 			
+			//tutorials.removeAll();
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
 			if( prevArena != nextArena && !quest.isQuest )
 				battleOutcomeOverlay.data = [prevArena, nextArena]

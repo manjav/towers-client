@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.managers
 {
 	import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
+	import com.gerantech.towercraft.controls.overlays.TutorialOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 	import com.gerantech.towercraft.events.GameEvent;
@@ -64,6 +65,23 @@ package com.gerantech.towercraft.managers
 			if(_instance == null)
 				_instance = new TutorialManager();
 			return _instance;
+		}
+		
+		public function removeAll():void
+		{
+			while( tutorialData.numTasks > 0 )
+				tutorialData.shiftTask();
+			
+			for(var i:uint=0; i<appModel.navigator.overlays.length; i++)
+			{
+				if( appModel.navigator.overlays[i] is TutorialOverlay )
+				{
+					trace(appModel.navigator.overlays[i])
+					appModel.navigator.overlays[i].removeEventListeners(Event.CLOSE);
+					appModel.navigator.overlays[i].removeFromParent(true);
+					appModel.navigator.overlays.removeAt(i);
+				}
+			}
 		}
 	}
 }

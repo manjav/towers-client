@@ -131,7 +131,7 @@ public function removeAllPopups() : void
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  OVERLAYS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-private var overlays:Vector.<BaseOverlay>;
+public var overlays:Vector.<BaseOverlay>;
 private var overlaysContainer:LayoutGroup;
 public function addOverlay(overlay:BaseOverlay) : void
 {
@@ -148,7 +148,15 @@ public function addOverlay(overlay:BaseOverlay) : void
 		overlays.removeAt(overlays.indexOf(o));
 	}
 }
-
+public function removeAllOverlays():void
+{
+	overlaysContainer.removeChildren();
+	while( overlays.length > 0 )
+	{
+		overlays[overlays.length-1].removeEventListeners(Event.CLOSE);
+		overlays.removeAt(overlays.length-1);
+	}
+}
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function addToast(toast:BaseToast) : void
 {

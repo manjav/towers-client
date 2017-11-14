@@ -145,7 +145,10 @@ package com.gerantech.towercraft.views
 				return;
 			if( place.index > appModel.battleFieldView.battleData.map.places.size()-2 )
 				return;
-			
+			if( !appModel.battleFieldView.responseSender.actived )
+				return;
+
+			tutorials.removeAll();
 			var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + place.index);
 			var places:PlaceDataList = new PlaceDataList();
 			places.push(getPlace(place.index));
