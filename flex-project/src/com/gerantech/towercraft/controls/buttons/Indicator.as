@@ -1,7 +1,9 @@
 package com.gerantech.towercraft.controls.buttons
 {
+	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gt.towers.constants.ResourceType;
 	
 	import flash.geom.Rectangle;
 	
@@ -30,6 +32,8 @@ package com.gerantech.towercraft.controls.buttons
 
 		public var iconDisplay:ImageLoader;
 		private var _value:Number = -0.1;
+
+		private var tutorialArrow:TutorialArrow;
 		
 		public function Indicator(direction:String = "ltr", resourceType:int = 0, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean=true)
 		{
@@ -121,15 +125,27 @@ package com.gerantech.towercraft.controls.buttons
 				progressLabel.text = _value.toString();
 		}
 
+		public function showArrow():void
+		{
+			tutorialArrow = new TutorialArrow(true);
+			tutorialArrow.layoutData = new AnchorLayoutData(height, NaN, NaN, NaN, 0);
+			addChild(tutorialArrow);	
+		}
+		
+		override protected function trigger():void
+		{
+			if( tutorialArrow != null )
+				tutorialArrow.removeFromParent(true);
+			super.trigger();
+		}
+		
 		
 		public function punch():void
 		{
 			value = player.resources.get(resourceType);
 			var diff:int = 48 * appModel.scale;
-			//iconDisplay.scale = 1.5;
 			y -= diff;
 			Starling.juggler.tween(this, 0.4, {y:y+diff, transition:Transitions.EASE_OUT_ELASTIC});
-			//Starling.juggler.tween(iconDisplay, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK});
 
 		}
 	}

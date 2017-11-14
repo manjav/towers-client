@@ -7,7 +7,6 @@ import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.floatings.MapElementFloating;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
@@ -206,7 +205,7 @@ public class MainSegment extends Segment
 		trace("player.inTutorial() : ", player.inTutorial());
 		trace("player.nickName : ", player.nickName);
 		clearInterval(intervalId);
-		if( player.get_questIndex() >= 2 && player.nickName == "guest" )
+		if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 		{
 			var confirm:SelectNamePopup = new SelectNamePopup();
 			confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
@@ -226,9 +225,7 @@ public class MainSegment extends Segment
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 			tutorials.show(tutorialData);
 			function tutorials_completeHandler(e:Event):void {
-				var focusRect:TutorialFocusOverlay = new TutorialFocusOverlay(appModel.navigator.toolbar.indicators[ResourceType.POINT].getBounds(stage), 1.5, 0)
-				focusRect.onTime = true;
-				appModel.navigator.addChild(focusRect);
+				appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 				UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
 			}
 			return;

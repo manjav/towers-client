@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.overlays.TutorialFocusOverlay;
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.AppModel;
@@ -8,7 +8,6 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.PrefsTypes;
-import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
 
@@ -165,9 +164,9 @@ public class BuddyItemRenderer extends BaseCustomItemRenderer
 	{
 		if( event.data.name != "buddy_tutorial" || stage == null )
 			return;
-		var focusRect:TutorialFocusOverlay = new TutorialFocusOverlay(this.getBounds(stage), 1.5, 0)
-		focusRect.onTime = true;
-		appModel.navigator.addChild(focusRect);
+		var tutorialArrow:TutorialArrow = new TutorialArrow(false);
+		tutorialArrow.layoutData = new AnchorLayoutData(-height, NaN, NaN, NaN, 0);
+		addChild(tutorialArrow);
 		UserData.instance.prefs.setInt(PrefsTypes.OFFER_33_FRIENDSHIP, player.prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP)+50);
 	}
 } 

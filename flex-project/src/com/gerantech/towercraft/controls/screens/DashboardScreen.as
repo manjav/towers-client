@@ -83,6 +83,7 @@ package com.gerantech.towercraft.controls.screens
 			tabsList.layout = tabLayout;
 			tabsList.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 			tabsList.height = footerSize;
+			tabsList.clipContent = false;
 			tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
             tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
 			tabsList.addEventListener(Event.SELECT, tabsList_selectHandler);

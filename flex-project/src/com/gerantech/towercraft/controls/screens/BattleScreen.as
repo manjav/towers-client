@@ -380,7 +380,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 			var tutorial:TutorialData = event.data as TutorialData;
-			if( tutorial.name == "quest_1_end" )
+			if( tutorial.name == "quest_2_end" )
 			{
 				if( player.resources.exists(BuildingType.B11_BARRACKS) )
 					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END); 
@@ -618,8 +618,8 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 			
-			if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
-				return;
+			//if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
+			//	return;
 				
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
 			confirm.declineStyle = "danger";
