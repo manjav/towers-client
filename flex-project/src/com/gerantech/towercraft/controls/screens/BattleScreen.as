@@ -272,7 +272,6 @@ package com.gerantech.towercraft.controls.screens
 				nextArena = player.get_arena(0);
 			}
 			
-			//tutorials.removeAll();
 			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
 			if( prevArena != nextArena && !quest.isQuest )
 				battleOutcomeOverlay.data = [prevArena, nextArena]

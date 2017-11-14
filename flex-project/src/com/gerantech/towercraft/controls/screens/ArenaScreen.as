@@ -47,6 +47,7 @@ package com.gerantech.towercraft.controls.screens
 		private var headerSize:int = 0;
 		private var startScrollBarIndicator:Number = 0;
 		private var initializeStarted:Boolean;
+		private var initialized:Boolean;
 		
 		public function ArenaScreen()
 		{
@@ -90,7 +91,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			if( !initializeStarted )
 				super.initialize();
-			if( appModel.assets.isLoading )
+			if( appModel.assets.isLoading || initialized )
 				return;
 			initializeStarted = true;
 			
@@ -132,6 +133,7 @@ package com.gerantech.towercraft.controls.screens
 			closeButton.addEventListener(Event.TRIGGERED, backButtonHandler);
 			closeButton.label = loc("close_button");
 			addChild(closeButton);
+			initialized = true;
 		}
 		
 		private function list_scrollHandler(event:Event):void
