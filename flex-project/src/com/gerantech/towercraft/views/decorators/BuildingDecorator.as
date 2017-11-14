@@ -135,6 +135,12 @@ package com.gerantech.towercraft.views.decorators
 				// play change troop sounds
 				if( place.building.category == BuildingType.B00_CAMP )
 				{
+					// punch scale on occupation
+					bodyDisplay.scale = 1.3;
+					troopTypeDisplay.scale = 1.3;
+					Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
+					Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
+					
 					var tsound:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
 					if( appModel.sounds.soundIsAdded(tsound) )
 						appModel.sounds.playSound(tsound);
