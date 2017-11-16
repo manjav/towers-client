@@ -29,23 +29,23 @@ package com.gerantech.towercraft.controls.headers
 			
 			indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
 			indicators[ResourceType.POINT].width = 160 * appModel.scale;
-			indicators[ResourceType.POINT].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
+			indicators[ResourceType.POINT].addEventListener(Event.SELECT, indicators_selectHandler);
 			indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding, NaN, 0);
 			addChild(indicators[ResourceType.POINT]);
 			
 			indicators[ResourceType.CURRENCY_HARD] = new Indicator("rtl", ResourceType.CURRENCY_HARD);
-			indicators[ResourceType.CURRENCY_HARD].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
+			indicators[ResourceType.CURRENCY_HARD].addEventListener(Event.SELECT, indicators_selectHandler);
 			indicators[ResourceType.CURRENCY_HARD].layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, 0);
 			addChild(indicators[ResourceType.CURRENCY_HARD]);
 			
 			indicators[ResourceType.CURRENCY_SOFT] = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
-			indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
+			indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.SELECT, indicators_selectHandler);
 			indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding*3+indicators[ResourceType.CURRENCY_HARD].width, NaN, NaN, NaN, 0);
 			addChild(indicators[ResourceType.CURRENCY_SOFT]);
 			
 			indicators[ResourceType.KEY] = new Indicator("ltr", ResourceType.KEY, false, false);
 			indicators[ResourceType.KEY].width = 160 * appModel.scale;
-			indicators[ResourceType.KEY].addEventListener(Event.TRIGGERED, indicators_triggerredHandler);
+			indicators[ResourceType.KEY].addEventListener(Event.SELECT, indicators_selectHandler);
 			indicators[ResourceType.KEY].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding*2.4+indicators[ResourceType.POINT].width, NaN, 0);
 			addChild(indicators[ResourceType.KEY]);
 
@@ -77,9 +77,9 @@ package com.gerantech.towercraft.controls.headers
 			indicators[ResourceType.KEY].setData(0, player.get_keys(), NaN);
 		}		
 		
-		private function indicators_triggerredHandler(event:Event):void
+		private function indicators_selectHandler(event:Event):void
 		{
-			dispatchEventWith(Event.TRIGGERED, false, event.currentTarget);
+			dispatchEventWith(Event.SELECT, false, event.currentTarget);
 		}
 
 		override public function dispose():void
