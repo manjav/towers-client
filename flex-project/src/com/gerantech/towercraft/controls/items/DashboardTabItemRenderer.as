@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
@@ -26,7 +27,7 @@ private var _firstCommit:Boolean = true;
 private var titleDisplay:RTLLabel;
 private var iconDisplay:ImageLoader;
 private var iconLayoutData:AnchorLayoutData;
-private var badgeDisplay:ImageLoader;
+private var badgeNumber:IndicatorButton;
 
 private var padding:int;
 private var dashboardData:TabItemData;
@@ -57,9 +58,9 @@ public function DashboardTabItemRenderer(width:Number)
 	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3)/2, 0);
 	addChild(titleDisplay);
 	
-	badgeDisplay = new ImageLoader();
-	badgeDisplay.width = badgeDisplay.height = padding*1.6;
-	badgeDisplay.layoutData = new AnchorLayoutData(padding/2, padding/2);
+	badgeNumber = new IndicatorButton("0", 0.8);
+	badgeNumber.width = badgeNumber.height = padding * 1.8;
+	badgeNumber.layoutData = new AnchorLayoutData(padding/2, padding/2);
 	
 	itemWidth = width;
 }
@@ -103,15 +104,17 @@ override protected function commitData():void
 
 private function updateBadge():void
 {
-	if( dashboardData.badgeNumber+dashboardData.newBadgeNumber <= 0 )
+	
+	if( dashboardData.badgeNumber <= 0 )
 	{
-		if(badgeDisplay.parent == this)
-			removeChild(badgeDisplay);
+		if(badgeNumber.parent == this)
+			removeChild(badgeNumber);
 	}
 	else
 	{
-		badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
-		addChild(badgeDisplay);
+		badgeNumber.label = dashboardData.badgeNumber.toString();
+		//badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
+		addChild(badgeNumber);
 	}
 }
 
