@@ -1,13 +1,14 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
-import com.gerantech.towercraft.controls.segments.BuddiesSegment;
+import com.gerantech.towercraft.controls.segments.HomeSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
 import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
-import com.gerantech.towercraft.controls.segments.MainSegment;
 import com.gerantech.towercraft.controls.segments.Segment;
+import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
 
@@ -61,12 +62,14 @@ import starling.events.Event;
 					segment = new ExchangeSegment();
 					break;
 				case SegmentType.S1_MAP:
-					segment = new MainSegment();
+					segment = new HomeSegment();
 					break;
 				case SegmentType.S2_DECK:
 					segment = new BuildingsSegment();
 					break;
-
+				case SegmentType.S3_SOCIALS:
+					segment = new SocialSegment();
+					break;
 				case SegmentType.S10_LOBBY_MAIN:
 						segment = new LobbyChatSegment();
 					break;

@@ -66,7 +66,7 @@ override protected function initialize():void
 	downBG.height = transitionIn.destinationBound.height * 0.22;
 	addChild(downBG);
 	
-	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
+	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("tab-2", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
 	cardsPalette.layoutData = new AnchorLayoutData(padding*8, NaN, NaN, padding*2.4);
 	addChild(cardsPalette);

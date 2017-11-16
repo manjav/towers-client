@@ -8,6 +8,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.events.LoadingEvent;
 	import com.gerantech.towercraft.managers.SoundManager;
 	import com.gerantech.towercraft.managers.net.LoadingManager;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.TabItemData;
 	import com.gt.towers.buildings.Building;
@@ -39,6 +40,7 @@ package com.gerantech.towercraft.controls.screens
 	
 	import starling.animation.Transitions;
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.events.Event;
 
 	public class DashboardScreen extends BaseCustomScreen
@@ -53,6 +55,15 @@ package com.gerantech.towercraft.controls.screens
 		override protected function initialize():void
 		{
 			super.initialize();
+			
+			var tiledBG:Image = new Image(Assets.getTexture("main-map-tile", "gui"));
+			tiledBG.tileGrid = new Rectangle(0, 0, 256*appModel.scale, 256*appModel.scale);
+			backgroundSkin = tiledBG;
+			
+			var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+			shadow.width = stage.stageWidth;
+			shadow.height = stage.stageHeight;
+			addChildAt(shadow, 0);
 			
 			autoSizeMode = AutoSizeMode.STAGE; 
 			layout = new AnchorLayout();
@@ -75,7 +86,7 @@ package com.gerantech.towercraft.controls.screens
 			pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 			addChild(pageList);
 			
-			tabSize = stage.stageWidth / 4;
+			tabSize = stage.stageWidth / 5;
 			
 			var tabLayout:HorizontalLayout = new HorizontalLayout();
 			tabLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -125,7 +136,7 @@ package com.gerantech.towercraft.controls.screens
 			pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 			tabsList.dataProvider = new ListCollection(listsData);
 			//tabsList.touchable = !player.inTutorial();
-			gotoPage(1, 0.1);
+			gotoPage(1, 0);
 			
 			appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 			
@@ -153,7 +164,8 @@ package com.gerantech.towercraft.controls.screens
 					appModel.navigator.addPopup(new KeysPopup());
 					break;
 			}
-		}		
+		}
+		
 		private function getListData():Array
 		{
 			var ret:Array = new Array();
@@ -187,6 +199,13 @@ package com.gerantech.towercraft.controls.screens
 				ret.push(pd);
 			}
 			return ret;
+			
+			/*SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
+			return lobbyBallon;
+		}
+		private function lobbyManager_updateHandler(event:Event):void
+		{
+			lobbyBallon.unreads = SFSConnection.instance.lobbyManager.numUnreads();*/
 		}
 
 		private function pageList_focusInHandler(event:Event):void

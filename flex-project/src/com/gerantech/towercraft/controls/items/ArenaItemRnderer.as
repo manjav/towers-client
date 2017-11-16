@@ -94,12 +94,11 @@ package com.gerantech.towercraft.controls.items
 			addChild(rankButton);
 
 			armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
-			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200*appModel.scale;
-			armatureDisplay.y = height *0.35;
-			armatureDisplay.scale = appModel.scale * 2;
+			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200 * appModel.scale;
+			armatureDisplay.y = height * 0.35;
+			armatureDisplay.scale = appModel.scale;
 			addChild(armatureDisplay);
 		}
-		
 		
 		private function rankButton_triggeredHandler():void
 		{

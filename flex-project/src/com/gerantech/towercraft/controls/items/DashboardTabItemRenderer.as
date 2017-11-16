@@ -48,13 +48,13 @@ public function DashboardTabItemRenderer(width:Number)
 	iconLayoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	
 	iconDisplay = new ImageLoader();
-	iconDisplay.width = iconDisplay.height = width-padding*4
+	iconDisplay.width = iconDisplay.height = width-padding*3;
 	iconDisplay.layoutData = iconLayoutData;
 	addChild(iconDisplay); 
 	
 	titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 	titleDisplay.visible = false;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*4)/2, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3)/2, 0);
 	addChild(titleDisplay);
 	
 	badgeDisplay = new ImageLoader();
