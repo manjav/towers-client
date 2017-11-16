@@ -133,10 +133,10 @@ package com.gerantech.towercraft.controls.screens
 			function themeLoaded():void { if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 			
 			appModel.navigator.handleInvokes();
-			appModel.navigator.toolbar.addEventListener(Event.TRIGGERED, toolbar_triggerredHandler);
+			appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
 		}
 
-		private function toolbar_triggerredHandler(event:Event):void
+		private function toolbar_selectHandler(event:Event):void
 		{
 			if( player.inTutorial())
 				return;
