@@ -49,7 +49,7 @@ public function DashboardTabItemRenderer(width:Number)
 	iconLayoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	
 	iconDisplay = new ImageLoader();
-	iconDisplay.width = iconDisplay.height = width-padding*3;
+	iconDisplay.width = iconDisplay.height = width - padding * 3;
 	iconDisplay.layoutData = iconLayoutData;
 	addChild(iconDisplay); 
 	
