@@ -1,13 +1,14 @@
 package com.gerantech.towercraft.controls.buttons
 {
+	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+	import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.constants.ResourceType;
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
 	import feathers.controls.ProgressBar;
 	import feathers.layout.AnchorLayout;
@@ -54,7 +55,6 @@ package com.gerantech.towercraft.controls.buttons
 			skin.scale9Grid = new Rectangle(4, 6, 2, 2);
 			backgroundSkin = skin;
 			
-
 			var padding:int = 12 * appModel.scale;
 			
 			if(hasProgressbar)
@@ -78,13 +78,14 @@ package com.gerantech.towercraft.controls.buttons
 			
 			if( hasIncreaseButton )
 			{
-				var addDisplay:ImageLoader = new ImageLoader();
-				addDisplay.source = Assets.getTexture("theme/indicator-add", "gui");
-				addDisplay.width = addDisplay.height = height + padding;
-				addDisplay.layoutData = new AnchorLayoutData(NaN, direction=="ltr"?-height/2:NaN, NaN, direction=="ltr"?NaN:-height/2, NaN, 0);
-				addChild(addDisplay);
+				var addButton:IndicatorButton = new IndicatorButton();
+				addButton.width = addButton.height = height + padding;
+				addButton.layoutData = new AnchorLayoutData(NaN, direction=="ltr"?-height/2:NaN, NaN, direction=="ltr"?NaN:-height/2, NaN, 0);
+				addButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
+				addChild(addButton);
 			}
 		}
+
 		
 		public function setData(minimum:Number, value:Number, maximum:Number):void
 		{
@@ -98,7 +99,7 @@ package com.gerantech.towercraft.controls.buttons
 			this.value = value;
 		}
 		
-		override public function set currentState(value:String):void
+		/*override public function set currentState(value:String):void
 		{
 			if( value == super.currentState )
 				return;
@@ -109,7 +110,7 @@ package com.gerantech.towercraft.controls.buttons
 					parent.addChild(this);
 			}
 			super.currentState = value;
-		}
+		}*/
 		
 		public function get value():Number
 		{
@@ -127,20 +128,34 @@ package com.gerantech.towercraft.controls.buttons
 
 		public function showArrow():void
 		{
+			if( tutorialArrow != null )
+				return;
+			
 			tutorialArrow = new TutorialArrow(true);
 			tutorialArrow.layoutData = new AnchorLayoutData(height, NaN, NaN, NaN, 0);
 			addChild(tutorialArrow);	
 		}
-		
-		override protected function trigger():void
+		public function hideArrow():void
 		{
 			if( tutorialArrow != null )
 				tutorialArrow.removeFromParent(true);
 			tutorialArrow = null;
-			super.trigger();
 		}
-		
-		
+		override protected function trigger():void
+		{
+			hideArrow();
+			super.trigger();
+			if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD )
+				appModel.navigator.addChild(new BaseTooltip(loc("tooltip_indicator_"+resourceType), iconDisplay.getBounds(stage)));
+			else
+				dispatchEventWith(Event.SELECT);
+		}	
+		private function addButton_triggerHandler(event:Event):void
+		{
+			hideArrow();
+			dispatchEventWith(Event.SELECT);
+		}		
+
 		public function punch():void
 		{
 			value = player.resources.get(resourceType);

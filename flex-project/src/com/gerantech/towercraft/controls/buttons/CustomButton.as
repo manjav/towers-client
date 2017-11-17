@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 
 import flash.geom.Point;
@@ -9,10 +10,10 @@ import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.ILayoutData;
 import feathers.skins.ImageSkin;
 
 import starling.textures.Texture;
-import feathers.layout.ILayoutData;
 
 public class CustomButton extends SimpleLayoutButton
 {
@@ -30,6 +31,7 @@ private var shadowLayoutData:AnchorLayoutData;
 private var _style:String = "normal"
 private var _label:String = "";
 private var _icon:Texture;
+private var _fontsize:Number = 0;
 private var padding:Number;
 
 private var defaultTextue:Texture;
@@ -55,6 +57,9 @@ override protected function initialize():void
 {
 	super.initialize();
 	
+	if( _fontsize == 0 )
+		_fontsize = appModel.theme.gameFontSize * appModel.scale;
+	
 	updateTextures();
 	skin = new ImageSkin(isEnabled ? defaultTextue : appModel.theme.buttonDisabledSkinTexture);
 	skin.setTextureForState(ButtonState.UP, defaultTextue);
@@ -63,13 +68,13 @@ override protected function initialize():void
 	skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	shadowDisplay = new RTLLabel(_label, 0x000000, "center");
+	shadowDisplay = new RTLLabel(_label, 0x000000, "center", null, false, null, _fontsize);
 	shadowDisplay.pixelSnapping = false;
 	shadowDisplay.touchable = false;
 	shadowDisplay.layoutData = shadowLayoutData;
 	addChild(shadowDisplay);
 
-	labelDisplay = new RTLLabel(_label, 0XFFFFFF, "center");
+	labelDisplay = new RTLLabel(_label, 0XFFFFFF, "center", null, false, null, _fontsize);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.touchable = false;
 	labelDisplay.layoutData = labelLayoutData;
@@ -113,6 +118,8 @@ public function set label(value:String):void
 		shadowDisplay.text = _label;
 }
 
+
+
 public function get icon():Texture
 {
 	return _icon;
@@ -147,6 +154,24 @@ public function set style(value:String):void
 	_style = value;
 	updateTextures();
 }
+
+public function get fontsize():Number
+{
+	return _fontsize;
+}
+public function set fontsize(value:Number):void
+{
+	if( _fontsize == value )
+		return;
+	_fontsize = value;
+	if( labelDisplay != null )
+	{
+		labelDisplay.fontSize = _fontsize;
+		shadowDisplay.fontSize = _fontsize;
+	}
+}
+
+
 
 }
 }

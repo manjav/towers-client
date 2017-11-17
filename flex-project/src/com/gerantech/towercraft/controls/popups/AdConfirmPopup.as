@@ -29,7 +29,7 @@ package com.gerantech.towercraft.controls.popups
 			
 			var cardsDisplay:ImageLoader = new ImageLoader();
 			cardsDisplay.height = padding * 8;
-			cardsDisplay.source = Assets.getTexture("cards", "gui");
+			cardsDisplay.source = Assets.getTexture("tab-2", "gui");
 			cardsDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*7, NaN, 0);
 			addChild(cardsDisplay)
 			

@@ -52,7 +52,7 @@ package com.gerantech.towercraft.controls.headers
 		
 		private function infoButton_trigeredHandler(event:Event):void
 		{
-			appModel.navigator.addChild(new BaseTooltip(loc("exchange_description_" + data), CustomButton(event.currentTarget).getBounds(stage)));
+			appModel.navigator.addChild(new BaseTooltip(loc("tooltip_exchange_" + data), CustomButton(event.currentTarget).getBounds(stage)));
 		}
 		
 		public function set label(value:String):void

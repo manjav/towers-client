@@ -45,7 +45,6 @@ package com.gerantech.towercraft
 			addScreen(ARENA_SCREEN,		ArenaScreen);
 			addScreen(QUESTS_SCREEN, 	QuestMapScreen);
 			addScreen(BATTLE_SCREEN, 	BattleScreen, false);
-			addScreen(SOCIAL_SCREEN, 	SocialScreen);
 			addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 			addScreen(ADMIN_SCREEN, 	AdminScreen);
 			addScreen(SPECTATE_SCREEN, 	SpectateScreen);
