@@ -43,6 +43,12 @@ override public function init():void
 	
 	layout = new AnchorLayout();
 	
+	if( player.inTutorial() )
+	{
+		appModel.navigator.addLog(loc("button_availabled_after_tutorial", [loc("button_socials")]));
+		return;
+	}
+	
 	var tabsSize:int = 120 * appModel.scale;
 	
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
