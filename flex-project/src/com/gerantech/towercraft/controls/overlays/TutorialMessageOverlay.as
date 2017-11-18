@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.overlays
 			charachter.source =  Assets.getTexture("chars/char-" + charName, "gui");
 			charachter.verticalAlign = VerticalAlign.BOTTOM;
 			charachter.layoutData = new AnchorLayoutData(NaN, side==0?NaN:0, 0, side==0?0:NaN);
-			charachter.width = stage.stageWidth * (side==0?0.6:0.7);
+			charachter.height = stage.stageHeight * (side==0?0.45:0.6);
 			charachter.touchable = false;
 			addChild(charachter);
 			
