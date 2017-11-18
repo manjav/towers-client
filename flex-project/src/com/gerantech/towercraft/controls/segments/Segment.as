@@ -16,9 +16,14 @@ package com.gerantech.towercraft.controls.segments
 		public function init():void
 		{
 			initializeStarted = true;
+			focus();
 		}
 		
 		public function updateData():void
+		{
+		}
+		
+		public function focus():void
 		{
 		}
 	}
