@@ -93,11 +93,6 @@ package com.gerantech.towercraft.controls.items
 			rankButton.addEventListener(Event.TRIGGERED, rankButton_triggeredHandler);
 			addChild(rankButton);
 
-			armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
-			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200 * appModel.scale;
-			armatureDisplay.y = height * 0.35;
-			armatureDisplay.scale = appModel.scale;
-			addChild(armatureDisplay);
 		}
 		
 		private function rankButton_triggeredHandler():void
@@ -118,16 +113,23 @@ package com.gerantech.towercraft.controls.items
 			cardsDisplay.dataProvider = new ListCollection(arena.cards._list);
 			mySkin.defaultTexture = playerArena == index ? appModel.theme.itemRendererUpSkinTexture : appModel.theme.itemRendererDisabledSkinTexture;
 
+			if( armatureDisplay != null )
+				armatureDisplay.removeFromParent(true);
+			armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, index));
+			armatureDisplay.x = appModel.isLTR ? (width-200*appModel.scale) : 200 * appModel.scale;
+			armatureDisplay.y = height * 0.35;
+			armatureDisplay.scale = appModel.scale;
 			if( playerArena == index )
-				armatureDisplay.animation.gotoAndPlayByTime("arena-"+index+"-selected", 0, 20);
+				armatureDisplay.animation.gotoAndPlayByTime("selected", 0, 50);
 			else
-				armatureDisplay.animation.gotoAndStopByTime("arena-"+index+"-normal", 0);
+				armatureDisplay.animation.gotoAndStopByTime("normal", 0);
+			addChild(armatureDisplay);
 		}
 		
 		override public function dispose():void
 		{
 			armatureDisplay.animation.stop();
-			armatureDisplay.removeFromParent(false)
+			armatureDisplay.removeFromParent(true)
 			super.dispose();
 		}
 	}

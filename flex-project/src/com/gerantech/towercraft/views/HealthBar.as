@@ -38,7 +38,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	backroundDisplay = new ImageLoader();
-	backroundDisplay.alpha = 0.6;
+	backroundDisplay.alpha = 0.5;
 	backroundDisplay.scale9Grid = SCALE_RECT;
 	backroundDisplay.source = Assets.getTexture("healthbar-bg-"+_troopType);
 	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);

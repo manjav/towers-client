@@ -49,8 +49,9 @@ public function HomeSegment()
 override public function init():void
 {
 	super.init();
-	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || ArenaScreen.animFactory == null || initializeCompleted )
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || ArenaScreen.animFactory == null )
 		return;
+	
 	layout = new AnchorLayout();		
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
@@ -63,24 +64,30 @@ override public function init():void
 	showTutorial();
 	initializeCompleted = true;
 }
+override public function focus():void
+{
+	if( initializeCompleted )
+		showTutorial();
+}
 
 private function showMainButtons():void
 {
-	var league:StarlingArmatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
-	league.animation.gotoAndPlayByTime("arena-"+player.get_arena(0)+"-selected", 0, 50);
+	var league:StarlingArmatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
+	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.8);
-	addButton(leaguesButton, 540, 510, 0.4, goUp);
+	league.pivotX = league.pivotY = 0
+	addButton(leaguesButton, "button_leagues", 540, 510, 0.4, goUp);
 	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:460*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")));
-	addButton(battlesButton, 540, 1040, 0.6);
+	addButton(battlesButton, "button_battles", 540, 1040, 0.6);
 	
 	questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")));
-	addButton(questsButton, 540, 1340, 0.8);
+	addButton(questsButton, "button_quests", 540, 1340, 0.8);
 }
 
-private function addButton(button:HomeButton, x:int, y:int, delay:Number, callback:Function=null):void
+private function addButton(button:HomeButton, name:String, x:int, y:int, delay:Number, callback:Function=null):void
 {
 	button.x = x * appModel.scale;
 	button.y = y * appModel.scale;
@@ -145,8 +152,8 @@ private function inboxService_updateHandler():void
 // show tutorial steps
 private function showTutorial():void
 {
-	trace("player.inTutorial() : ", player.inTutorial());
-	trace("player.nickName : ", player.nickName);
+	var tutorStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
 	if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 	{
@@ -161,7 +168,7 @@ private function showTutorial():void
 	}
 	
 	// show rank table tutorial
-	if( !player.inTutorial() && player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+	if( !player.inTutorial() && tutorStep < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
 	{
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 1000, 1000, 0));
@@ -174,10 +181,9 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)) )
+	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT) ) )
 	{
-		var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
-		if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
+		if( tutorStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tutorStep != PrefsTypes.TUTE_113_SELECT_DECK )
 			questsButton.showArrow();
 	}
 }

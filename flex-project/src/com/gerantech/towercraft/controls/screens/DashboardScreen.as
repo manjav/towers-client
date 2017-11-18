@@ -55,20 +55,20 @@ public function DashboardScreen(){}
 override protected function initialize():void
 {
 	super.initialize();
+	var footerSize:int = 180 * appModel.scale;
+	autoSizeMode = AutoSizeMode.STAGE; 
+	layout = new AnchorLayout();
+	visible = false;	
 	
 	var tiledBG:Image = new Image(Assets.getTexture("main-map-tile", "gui"));
-	tiledBG.tileGrid = new Rectangle(0, 0, 256*appModel.scale, 256*appModel.scale);
+	tiledBG.tileGrid = new Rectangle(appModel.scale, appModel.scale, 256*appModel.scale, 256*appModel.scale);
 	backgroundSkin = tiledBG;
-	var footerSize:int = 180 * appModel.scale;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
 	shadow.width = stage.stageWidth;
 	shadow.height = stage.stageHeight-footerSize;
 	addChildAt(shadow, 0);
-	
-	autoSizeMode = AutoSizeMode.STAGE; 
-	layout = new AnchorLayout();
-	visible = false;
+
 	
 	
 	var pageLayout:HorizontalLayout = new HorizontalLayout();

@@ -68,7 +68,13 @@ package com.gerantech.towercraft.managers.net
 			
 			AppModel.instance.game = new Game(initData);
 			AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
-			var swfCore:* = new gameClass(new initClass());
+			
+			var swfInitData:* = new initClass();
+			swfInitData.nickName = serverData.getText("name");
+			swfInitData.id = serverData.getInt("id");
+			swfInitData.appVersion = AppModel.instance.descriptor.versionCode;
+			swfInitData.market = AppModel.instance.descriptor.market;
+			var swfCore:* = new gameClass(swfInitData);
 			initCoreData(swfCore);
 
 			trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
@@ -146,7 +152,9 @@ package com.gerantech.towercraft.managers.net
 			initData = new InitData();
 			initData.nickName = sfsObj.getText("name");
 			initData.id = sfsObj.getInt("id");
-			
+			initData.appVersion = AppModel.instance.descriptor.versionCode;
+			initData.market = AppModel.instance.descriptor.market;
+
 			var elements:ISFSArray = sfsObj.getSFSArray("resources");
 			var element:ISFSObject;
 			for(var i:int=0; i<elements.size(); i++)

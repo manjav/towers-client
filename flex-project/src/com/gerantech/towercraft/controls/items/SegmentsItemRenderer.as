@@ -115,7 +115,9 @@ import starling.events.Event;
 			if( visible )
 			{
 				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
-				if(!segment.initializeCompleted)
+				if( segment.initializeCompleted )
+					segment.focus();
+				else
 					segment.init();
 			}
 		}

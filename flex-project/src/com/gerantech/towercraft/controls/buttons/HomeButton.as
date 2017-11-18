@@ -5,6 +5,7 @@ import com.gerantech.towercraft.models.AppModel;
 
 import feathers.controls.ButtonState;
 import feathers.events.FeathersEventType;
+import feathers.layout.AnchorLayoutData;
 
 import starling.display.DisplayObject;
 
@@ -32,7 +33,7 @@ private function tutorialArrow_createHandler():void
 {
 	tutorialArrow.removeEventListener(FeathersEventType.CREATION_COMPLETE , tutorialArrow_createHandler);
 	tutorialArrow.x = -tutorialArrow.width * 0.5;
-	tutorialArrow.y = -132 * AppModel.instance.scale;
+	tutorialArrow.y = -60 * AppModel.instance.scale;
 }
 
 override public function set currentState(value:String):void
@@ -46,6 +47,7 @@ override protected function trigger():void
 {
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
+	tutorialArrow = null;
 	super.trigger();
 }
 }
