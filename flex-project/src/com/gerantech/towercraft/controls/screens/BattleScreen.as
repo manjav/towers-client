@@ -561,7 +561,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function showImproveFloating(placeView:PlaceView):void
 		{
-			if( player.get_questIndex() < 1 || player.hardMode  )
+			if( player.get_questIndex() < 2 || player.hardMode  )
 				return;
 			// create transition in data
 			var ti:TransitionData = new TransitionData();

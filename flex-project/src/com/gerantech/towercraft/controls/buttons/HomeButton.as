@@ -47,6 +47,7 @@ override protected function trigger():void
 {
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
+	tutorialArrow = null;
 	super.trigger();
 }
 }
