@@ -66,9 +66,10 @@ override public function init():void
 
 private function showMainButtons():void
 {
-	var league:StarlingArmatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
-	league.animation.gotoAndPlayByTime("arena-"+player.get_arena(0)+"-selected", 0, 50);
+	var league:StarlingArmatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
+	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.8);
+	league.pivotX = league.pivotY = 0
 	addButton(leaguesButton, 540, 510, 0.4, goUp);
 	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:460*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
@@ -174,7 +175,7 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)) )
+	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT) ) )
 	{
 		var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 		if( tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
