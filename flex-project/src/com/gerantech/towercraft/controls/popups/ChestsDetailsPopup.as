@@ -93,7 +93,7 @@ override protected function initialize():void
 	{
 		if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
 		{
-			buttonDisplay.style = "danger";
+			buttonDisplay.style = "neutral";
 			buttonDisplay.width = 240 * appModel.scale;
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);

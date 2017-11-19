@@ -97,7 +97,7 @@
 			}
 			else if( _state == ExchangeItem.CHEST_STATE_BUSY )
 			{
-				buttonDisplay.style = "danger";
+				buttonDisplay.style = "neutral";
 				updateCounter();
 				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;
