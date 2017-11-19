@@ -36,12 +36,27 @@ public class QuestMapScreen extends BaseCustomScreen
 public static var savedVerticalScrollPosition:Number = 0;
 
 private var list:List;
+private static var questsCollection:ListCollection;
 
 public function QuestMapScreen()
 {
 	super();
+	provideQuestsData();
 }
-
+private function provideQuestsData():void
+{
+	if( questsCollection != null )
+		return;
+	
+	var field:FieldData;
+	var source:Array = new Array();
+	
+	var fields:Vector.<FieldData> = game.fieldProvider.shires.values();
+	for( var i:int=0; i < fields.length; i++)
+		source.push( fields[i] );
+	source.sortOn("index", Array.NUMERIC|Array.DESCENDING);
+	questsCollection = new ListCollection(source);
+}
 override protected function initialize():void
 {
 	super.initialize();
@@ -57,16 +72,16 @@ override protected function initialize():void
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestMapItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.elasticity = 0.03;
-	list.dataProvider = getQuestsData();
+	list.dataProvider = questsCollection;
 	addChild(list);
 	
 
 	if( savedVerticalScrollPosition != 0 )
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
-	else if( player.get_questIndex() > 0 )
+	else if( QuestMapItemRenderer.questIndex > 0 )
 	{
 		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
-		//trace(pageIndex, player.get_questIndex(), game.fieldProvider.getCurrentShire(player.get_questIndex()).index, list.dataProvider.length)
+		//trace(pageIndex, QuestMapItemRenderer.questIndex, game.fieldProvider.getCurrentShire(QuestMapItemRenderer.questIndex).index, list.dataProvider.length)
 		if( pageIndex > 0 )
 			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
 	}
@@ -86,7 +101,7 @@ override protected function initialize():void
 override protected function transitionInCompleteHandler(event:Event):void
 {
 	super.transitionInCompleteHandler(event);
-	var lastQuest:FieldData = game.fieldProvider.quests.get( "quest_" + player.get_questIndex() );
+	var lastQuest:FieldData = game.fieldProvider.quests.get( "quest_" + QuestMapItemRenderer.questIndex );
 	//trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
 	if( lastQuest.index == 3 && player.nickName == "guest" )
 	{
@@ -119,18 +134,6 @@ private function tutorials_showHandler(event:Event):void
 {
 	if( event.data.data == 2 )
 		list.scrollToPosition(0, list.maxVerticalScrollPosition, 2);
-}
-
-private function getQuestsData():ListCollection
-{
-	var field:FieldData;
-	var source:Array = new Array();
-	
-	var fields:Vector.<FieldData> = game.fieldProvider.shires.values();
-	for( var i:int=0; i < fields.length; i++)
-		source.push( fields[i] );
-	source.sortOn("index", Array.NUMERIC|Array.DESCENDING);
-	return new ListCollection(source);
 }
 
 private function list_selectHandler(event:Event):void
