@@ -222,7 +222,7 @@ private function toolbar_selectHandler(event:Event):void
 			gotoPage(0);
 			break;
 		case ResourceType.POINT:
-			ArenaScreen.showRanking( player.get_arena(0) );
+			FactionsScreen.showRanking( player.get_arena(0) );
 			break;
 		case ResourceType.KEY:
 			appModel.navigator.addPopup(new KeysPopup());

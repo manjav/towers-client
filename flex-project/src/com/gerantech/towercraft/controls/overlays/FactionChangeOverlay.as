@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.overlays
 import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
-import com.gerantech.towercraft.controls.screens.ArenaScreen;
+import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
@@ -45,7 +45,7 @@ public function FactionChangeOverlay(oldArena:int, newArena:int)
 	super();
 	this.oldArena = oldArena;
 	this.newArena = newArena;
-	ArenaScreen.createFactionsFactory(assets_loadCompleted);
+	FactionsScreen.createFactionsFactory(assets_loadCompleted);
 }
 private function assets_loadCompleted():void
 {
@@ -121,7 +121,7 @@ override protected function initialize():void
 	Starling.juggler.tween(closeButton, 0.5, {delay:2, y:stage.stageHeight*0.75, alpha:1.2, transition:Transitions.EASE_OUT});
 	addChild(closeButton);
 	
-	armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-"+newArena);
+	armatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+newArena);
 	armatureDisplay.alpha = 0;
 	armatureDisplay.x = stage.stageWidth * 0.5;
 	armatureDisplay.y = stage.stageHeight * 0.36;

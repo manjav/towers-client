@@ -7,7 +7,7 @@ import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.screens.ArenaScreen;
+import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -44,12 +44,12 @@ private var leaguesButton:HomeButton;
 public function HomeSegment()
 {
 	super();
-	ArenaScreen.createFactionsFactory(init);
+	FactionsScreen.createFactionsFactory(init);
 }
 override public function init():void
 {
 	super.init();
-	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || ArenaScreen.animFactory == null )
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
 		return;
 	
 	layout = new AnchorLayout();		
@@ -72,7 +72,7 @@ override public function focus():void
 
 private function showMainButtons():void
 {
-	var league:StarlingArmatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
+	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.8);
 	league.pivotX = league.pivotY = 0
@@ -215,7 +215,7 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			//appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
 			break;
 		case leaguesButton:
-			appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
+			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
 			break;
 	}
 }

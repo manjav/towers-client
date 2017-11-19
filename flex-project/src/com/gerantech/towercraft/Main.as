@@ -18,7 +18,7 @@ package com.gerantech.towercraft
 		public static const DASHBOARD_SCREEN:String = "dashboardScreen";
 		public static const BATTLE_SCREEN:String = "battleScreen";
 		public static const QUESTS_SCREEN:String = "questsScreen";
-		public static const ARENA_SCREEN:String = "arenaScreen";
+		public static const FACTIONS_SCREEN:String = "factionsScreen";
 		public static const SOCIAL_SCREEN:String = "socialScreen";
 		public static const SETTINGS_SCREEN:String = "settingsScreen";
 		public static const ADMIN_SCREEN:String = "adminScreen";
@@ -42,9 +42,9 @@ package com.gerantech.towercraft
 			this.content = AppModel.instance.navigator;
 
 			addScreen(DASHBOARD_SCREEN,	DashboardScreen);
-			addScreen(ARENA_SCREEN,		ArenaScreen);
+			addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);
 			addScreen(QUESTS_SCREEN, 	QuestMapScreen);
-			addScreen(BATTLE_SCREEN, 	BattleScreen, false);
+			addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);
 			addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 			addScreen(ADMIN_SCREEN, 	AdminScreen);
 			addScreen(SPECTATE_SCREEN, 	SpectateScreen);
@@ -53,12 +53,13 @@ package com.gerantech.towercraft
 			addScreen(PLAYERS_SCREEN, 	PlayersScreen);
 			AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 		}		
-		private function addScreen(screenType:String, screenClass:Object, hasTranstion:Boolean = true):void
+		private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = true, hasPopTranstion:Boolean = true):void
 		{
 			var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
-			if( hasTranstion )
+			if( hasPushTranstion )
 				item.pushTransition = Cover.createCoverUpTransition();
-			item.popTransition = Reveal.createRevealDownTransition();
+			if( hasPopTranstion )
+				item.popTransition = Reveal.createRevealDownTransition();
 			item.addPopEvent(Event.COMPLETE);
 			AppModel.instance.navigator.addScreen(screenType, item);			
 		}
