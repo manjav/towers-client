@@ -121,13 +121,13 @@ override protected function initialize():void
 	Starling.juggler.tween(closeButton, 0.5, {delay:2, y:stage.stageHeight*0.75, alpha:1.2, transition:Transitions.EASE_OUT});
 	addChild(closeButton);
 	
-	armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("all");
+	armatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-"+newArena);
 	armatureDisplay.alpha = 0;
 	armatureDisplay.x = stage.stageWidth * 0.5;
 	armatureDisplay.y = stage.stageHeight * 0.36;
 	armatureDisplay.scale = appModel.scale ;
 	addChild(armatureDisplay);
-	armatureDisplay.animation.gotoAndPlayByTime("arena-"+newArena+"-selected", 0, 5);
+	armatureDisplay.animation.gotoAndPlayByTime("selected", 0, 5);
 	Starling.juggler.tween(armatureDisplay, 1.3, {scale:appModel.scale*1.6, alpha:1.2, transition:newArena>oldArena?Transitions.EASE_OUT_ELASTIC:Transitions.EASE_OUT});
 	
 	initializingCompleted = true;
