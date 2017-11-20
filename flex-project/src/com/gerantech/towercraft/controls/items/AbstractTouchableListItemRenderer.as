@@ -51,9 +51,9 @@ protected function touchHandler( event:TouchEvent ):void
 			{
 				dispatchEventWith(Event.TRIGGERED);
 				if(_owner.allowMultipleSelection)
-					isSelected = !isSelected;
+					setSelection(!isSelected);
 				else
-					isSelected = true;
+					setSelection(true);
 			}
 			// the touch has ended, so now we can start watching for a new one.
 			touchID = -1;
@@ -77,12 +77,17 @@ protected function touchHandler( event:TouchEvent ):void
 		touchID = touch.id;
 	}
 }
+
 override protected function removedFromStageHandler( event:Event ):void
 {
 	super.removedFromStageHandler(event);
 	touchID = -1;
 }
 
+protected function setSelection(value:Boolean):void
+{
+	isSelected = value;
+}
 override public function set isSelected(value:Boolean):void
 {
 	if(currentState == STATE_DISABLED)

@@ -39,6 +39,7 @@ import starling.events.Event;
 				height = _owner.height;
 				_firstCommit = false;
 				_owner.addEventListener(Event.SCROLL, owner_scrollHandler);
+				_owner.addEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
 				_owner.addEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
 			}
 			
@@ -91,15 +92,14 @@ import starling.events.Event;
 			}
 		}
 		
-		/*private function owner_scrollStartHandler(event:Event):void
+		private function owner_scrollStartHandler(event:Event):void
 		{
 			if( stage == null )
 				return;
 			
-			visible = true;
 			if( isSelected && segment != null && segment.initializeCompleted )
 				segment.updateData();
-		}*/
+		}
 		
 		private function owner_scrollHandler():void
 		{
@@ -124,9 +124,11 @@ import starling.events.Event;
 		override public function dispose():void
 		{
 			if( _owner != null )
+			{
 				_owner.removeEventListener(Event.SCROLL, owner_scrollHandler);
-			if( _owner != null )
+				_owner.removeEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
 				_owner.removeEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
+			}
 			super.dispose();
 		}
 		

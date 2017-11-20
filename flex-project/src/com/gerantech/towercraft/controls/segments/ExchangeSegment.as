@@ -41,6 +41,7 @@ package com.gerantech.towercraft.controls.segments
 
 	public class ExchangeSegment extends Segment
 	{
+		public static var focusedCategory:int = 0
 		private var itemslistData:ListCollection;
 		private var itemslist:List;
 
@@ -66,7 +67,7 @@ package com.gerantech.towercraft.controls.segments
 				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
 				appModel.assets.loadQueue(assets_loadCallback)
 			}
-			if(appModel.assets.isLoading )
+			if( appModel.assets.isLoading )
 				return;
 			
 			OpenChestOverlay.createFactory();
@@ -89,9 +90,19 @@ package com.gerantech.towercraft.controls.segments
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);
 			initializeCompleted = true;
-			
-			showTutorial();
+			focus();
 		}
+		
+		override public function focus():void
+		{
+			if( !initializeCompleted )
+				return;
+			showTutorial();
+			var time:Number = Math.abs(focusedCategory * 480 * appModel.scale - itemslist.verticalScrollPosition) * 0.003;
+			itemslist.scrollToDisplayIndex(focusedCategory, time);
+			focusedCategory = 0;
+		}
+		
 		
 		private function showTutorial():void
 		{
