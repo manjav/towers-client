@@ -118,7 +118,7 @@ override protected function transitionInCompleteHandler(event:Event):void
 	{
 		var tuteMessage:String = "tutor_quest_" + lastQuest.index + "_intro_"
 		if( lastQuest.index == 2 )
-			tuteMessage += (player.buildings.exists(BuildingType.B11_BARRACKS)?"second_":"first_");
+			tuteMessage += (player.isHardMode()?"first_":"second_");
 		tuteMessage += lastQuest.introNum.get(i);
 		trace("tuteMessage:", tuteMessage);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, lastQuest.introNum.get(i)));	

@@ -190,7 +190,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					tuteMessage = "tutor_quest_" + quest.index + "_start_";
 					if( quest.index == 2 )
-						tuteMessage += (player.buildings.exists(BuildingType.B11_BARRACKS)?"second_":"first_");
+						tuteMessage += (player.isHardMode()?"first_":"second_");
 					tuteMessage += quest.startNum.get(i);
 					trace("tuteMessage:", tuteMessage);
 					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
