@@ -6,6 +6,7 @@ package com.gerantech.towercraft.controls.items
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.PrefsTypes;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.events.FeathersEventType;
@@ -112,12 +113,8 @@ package com.gerantech.towercraft.controls.items
 		
 		override public function set isSelected(value:Boolean):void
 		{
-			if( super.isSelected == value )
-				return;
-			if( !super.isSelected && inDeck )
-				cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = 0;
 			super.isSelected = value
-			if( tutorialArrow != null )
+			if( value && tutorialArrow != null )
 				tutorialArrow.removeFromParent(true);
 		}
 		
@@ -125,7 +122,6 @@ package com.gerantech.towercraft.controls.items
 		{
 			if(super.currentState == _state)
 				return;
-
 			super.currentState = _state;
 			
 			if ( !this.inDeck )
