@@ -16,7 +16,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.events.Event;
 
-	public class BattleOutcomeRewardItemRenderer extends BaseCustomItemRenderer
+	public class BattleOutcomeRewardItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var iconDisplay:ImageLoader;
 		private var labelDisplay:BitmapFontTextRenderer;

@@ -10,7 +10,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.display.Image;
 
-	public class StickerItemRenderer extends BaseCustomItemRenderer
+	public class StickerItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var labelDisplay:RTLLabel;
 		public function StickerItemRenderer()

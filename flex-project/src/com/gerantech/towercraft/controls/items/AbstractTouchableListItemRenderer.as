@@ -8,7 +8,7 @@ import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
 
-public class BaseCustomItemRenderer extends AbstractListItemRenderer
+public class AbstractTouchableListItemRenderer extends AbstractListItemRenderer
 {
 public static const STATE_NORMAL:String = "normal";
 public static const STATE_DOWN:String = "down";

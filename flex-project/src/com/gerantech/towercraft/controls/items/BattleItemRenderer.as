@@ -12,7 +12,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.events.Event;
 
-public class BattleItemRenderer extends BaseCustomItemRenderer
+public class BattleItemRenderer extends AbstractTouchableListItemRenderer
 {
 private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 

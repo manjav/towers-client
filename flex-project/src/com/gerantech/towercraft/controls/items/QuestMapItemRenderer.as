@@ -17,7 +17,7 @@ import starling.display.Image;
 import starling.display.Sprite;
 import starling.events.Event;
 
-public class QuestMapItemRenderer extends BaseCustomItemRenderer
+public class QuestMapItemRenderer extends AbstractTouchableListItemRenderer
 {
 public static var questIndex:int;
 

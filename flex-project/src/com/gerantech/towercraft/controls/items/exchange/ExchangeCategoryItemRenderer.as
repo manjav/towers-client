@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
-	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
+	import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
@@ -23,7 +23,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class ExchangeCategoryItemRenderer extends BaseCustomItemRenderer 
+	public class ExchangeCategoryItemRenderer extends AbstractTouchableListItemRenderer 
 	{
 		private var line:ShopLine;
 		private var list:List;

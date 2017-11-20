@@ -10,7 +10,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.core.Starling;
 
-	public class FloatingListItemRenderer extends BaseCustomItemRenderer
+	public class FloatingListItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var nameShadowDisplay:ShadowLabel;
 		private var labelDisplay:ShadowLabel;

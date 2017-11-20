@@ -20,7 +20,7 @@ import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
 
-public class DashboardTabItemRenderer extends BaseCustomItemRenderer
+public class DashboardTabItemRenderer extends AbstractTouchableListItemRenderer
 {
 private var itemWidth:Number;
 private var _firstCommit:Boolean = true;

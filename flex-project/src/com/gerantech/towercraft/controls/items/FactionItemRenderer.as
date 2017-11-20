@@ -28,7 +28,7 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
-public class FactionItemRenderer extends BaseCustomItemRenderer
+public class FactionItemRenderer extends AbstractTouchableListItemRenderer
 {
 public static var _height:Number;
 private var ready:Boolean;

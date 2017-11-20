@@ -18,7 +18,7 @@ package com.gerantech.towercraft.controls.items
 	import starling.display.Quad;
 	import starling.events.Event;
 
-	public class BuildingItemRenderer extends BaseCustomItemRenderer
+	public class BuildingItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var _firstCommit:Boolean = true;
 		private var _width:Number;
