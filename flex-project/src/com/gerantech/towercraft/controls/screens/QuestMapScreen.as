@@ -4,15 +4,14 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.items.QuestMapItemRenderer;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.constants.BuildingType;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
@@ -170,9 +169,9 @@ private function list_selectHandler(event:Event):void
 		var quest:FieldData = game.fieldProvider.quests.get("quest_" + index);
 		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 		item.properties.requestField = quest;
-		item.properties.waitingOverlay = new WaitingOverlay() ;
+		item.properties.waitingOverlay = new BattleStartOverlay(index, true) ;
 		appModel.navigator.addOverlay(item.properties.waitingOverlay);
-		appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+		setTimeout(appModel.navigator.pushScreen, 1000, Main.BATTLE_SCREEN ) ;
 	}
 }
 

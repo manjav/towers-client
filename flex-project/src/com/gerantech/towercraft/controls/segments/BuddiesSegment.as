@@ -4,8 +4,8 @@ import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.BuddyItemRenderer;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
@@ -212,7 +212,7 @@ private function spectate(buddy:Buddy):void
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = new FieldData(100000 + buddy.getVariable("br").getIntValue(), "quest_100000") ;
 	item.properties.spectatedUser = buddy.name;
-	item.properties.waitingOverlay = new WaitingOverlay() ;
+	item.properties.waitingOverlay = new BattleStartOverlay(-1, false) ;
 	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);
 }

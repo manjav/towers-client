@@ -4,7 +4,7 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
@@ -55,7 +55,7 @@ override public function init():void
 	layout = new AnchorLayout();		
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
-		setTimeout(gotoLiveBattle, 100, null);
+		setTimeout(gotoLiveBattle, 100, -1, false);
 		return;
 	}
 	
@@ -203,7 +203,7 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 			break;
 		case battlesButton:
-			gotoLiveBattle("battle");
+			gotoLiveBattle(-1);
 			break;
 		case "dragon-cross":
 			/*if( !player.villageEnabled() )
@@ -220,12 +220,12 @@ private function mainButtons_triggeredHandler(event:Event ):void
 	}
 }
 
-private function gotoLiveBattle(waitingData:String):void
+private function gotoLiveBattle(questIndex:int = -1, cancelable:Boolean=true):void
 {
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = null ;
-	item.properties.waitingOverlay = new WaitingOverlay() ;
-	item.properties.waitingOverlay.data = waitingData;
+	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable ) ;;
+	//item.properties.waitingOverlay.data = waitingData;
 	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 }

@@ -72,7 +72,7 @@ package com.gerantech.towercraft.controls
 			if( event.keyCode == Keyboard.BACK )
 			{
 				event.preventDefault();
-				if( ( closeOnStage ) && _isEnabled )
+				if( closeOnStage && _isEnabled )
 					close();
 			}
 		}
@@ -91,28 +91,28 @@ package com.gerantech.towercraft.controls
 		
 		public function close(dispose:Boolean=true):void
 		{
-			if(!dispose)
+			if( !dispose )
 				addEventListener( Event.ADDED_TO_STAGE, addedToStageHandler);
 			
-			if(hasEventListener(Event.CLOSE))
+			if( hasEventListener(Event.CLOSE) )
 				dispatchEventWith(Event.CLOSE);
 			
 			Starling.juggler.removeTweens(this);
 			
-			if(transitionOut == null)
+			if( transitionOut == null )
 				transitionOutCompleted(dispose);
 			isOpen = false;
 		}
 		protected function transitionOutStarted():void
 		{
 			transitionState = TransitionData.STATE_OUT_STARTED;
-			if(hasEventListener(FeathersEventType.TRANSITION_OUT_START))
+			if( hasEventListener(FeathersEventType.TRANSITION_OUT_START) )
 				dispatchEventWith(FeathersEventType.TRANSITION_OUT_START);
 		}
 		protected function transitionOutCompleted(dispose:Boolean=true):void
 		{
 			transitionState = TransitionData.STATE_OUT_FINISHED;
-			if(hasEventListener(FeathersEventType.TRANSITION_OUT_COMPLETE))
+			if( hasEventListener(FeathersEventType.TRANSITION_OUT_COMPLETE) )
 				dispatchEventWith(FeathersEventType.TRANSITION_OUT_COMPLETE);
 			removeFromParent(dispose);
 		}
@@ -126,6 +126,5 @@ package com.gerantech.towercraft.controls
 		{
 			_closeOnStage = value;
 		}
-		
 	}
 }

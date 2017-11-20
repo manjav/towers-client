@@ -4,7 +4,7 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -208,9 +208,9 @@ private function gotoBattle():void
 	buttonsEnabled = true;
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.isFriendly = true;
-	item.properties.waitingOverlay = new WaitingOverlay() ;
-	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+	item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);	
+	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 }
 
 public function set buttonsEnabled(value:Boolean):void

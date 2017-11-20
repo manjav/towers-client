@@ -6,8 +6,8 @@ import com.gerantech.towercraft.controls.animations.AchievedItem;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
@@ -345,9 +345,9 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		case 1:
 			var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
 			item.properties.isFriendly = true;
-			item.properties.waitingOverlay = new WaitingOverlay() ;
-			pushScreen( Main.BATTLE_SCREEN ) ;
+			item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
 			addOverlay( item.properties.waitingOverlay );	
+			pushScreen( Main.BATTLE_SCREEN ) ;
 			break;
 		
 		case 4:
