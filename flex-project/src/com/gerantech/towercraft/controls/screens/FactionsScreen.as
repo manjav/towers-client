@@ -154,7 +154,8 @@ override protected function initialize():void
 
 private function list_createCompleteHandler():void
 {
-	list.scrollToPosition(NaN, Math.min(FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1)), 0);
+//	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
+	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1), 0);
 }
 
 override protected function transitionInCompleteHandler(event:Event):void

@@ -28,7 +28,7 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
-public class FactionItemRenderer extends AbstractTouchableListItemRenderer
+public class FactionItemRenderer extends AbstractListItemRenderer
 {
 public static var _height:Number;
 private var ready:Boolean;
@@ -45,7 +45,6 @@ public function FactionItemRenderer()
 override protected function initialize():void
 {
 	super.initialize();
-	isEnabled = false;
 	layout = new AnchorLayout();
 	height = _height;
 	padding = 48 * appModel.scale;
@@ -58,11 +57,15 @@ override protected function commitData():void
 	if( index < 0 )
 		return;
 	
-	faction = _data as Arena;
+	faction = _data as Arena;//trace(index, faction.index , playerLeague)
 	ready = faction.index == playerLeague;
-	createElements();
-	_owner.addEventListener(Event.OPEN, _owner_openHandler);
-	_owner.addEventListener(Event.SCROLL, _owner_scrollHandler);
+	if( ready )
+		createElements();
+	else
+	{
+		_owner.addEventListener(Event.OPEN, _owner_openHandler);
+		_owner.addEventListener(Event.SCROLL, _owner_scrollHandler);
+	}
 }
 
 private function _owner_scrollHandler():void
@@ -74,10 +77,10 @@ private function _owner_openHandler(event:starling.events.Event):void
 {
 	_owner.removeEventListener(Event.OPEN, _owner_openHandler);
 	ready = true;
-	if( onScreen(getBounds(_owner)) )
+	if( visible )
 		createElements();
 	else
-		setTimeout(createElements, 1000);
+		setTimeout(createElements, 800);
 }
 
 private function createElements():void
@@ -162,7 +165,7 @@ private function createElements():void
 	function rankButton_triggeredHandler():void { _owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, faction); }
 	addChild(rankButton);
 	
-	if( onScreen(getBounds(_owner)) )
+	if( visible )
 	{
 		header.width = 0;
 		factionIcon.scale = appModel.scale * 1.6 * 0.9;

@@ -64,7 +64,8 @@ protected function onScreen (itemBounds:Rectangle) : Boolean
 {
 	if( ownerBounds == null )
 		return true;
-	return ownerBounds.contains(itemBounds.x, itemBounds.y) || ownerBounds.contains(itemBounds.x + itemBounds.width-1, itemBounds.y + itemBounds.height-1);
+	//trace(index, ownerBounds, itemBounds.x+1, itemBounds.y+1, itemBounds.x + itemBounds.width-1, itemBounds.y + itemBounds.height-1, ownerBounds.contains(itemBounds.x+1, itemBounds.y+1) , ownerBounds.contains(itemBounds.x + itemBounds.width-1, itemBounds.y + itemBounds.height-1))
+	return ownerBounds.contains(itemBounds.x+1, itemBounds.y+1) || ownerBounds.contains(itemBounds.x + itemBounds.width-1, itemBounds.y + itemBounds.height-1);
 }
 private function checkScrolling():void
 {
