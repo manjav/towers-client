@@ -10,6 +10,8 @@ import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
+import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.controls.toasts.SimpleToast;
@@ -365,14 +367,16 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 }
 private function lobbyManager_friendlyBattleHandler(event:Event):void
 {
-	if( activeScreenID == Main.SOCIAL_SCREEN || activeScreenID == Main.BATTLE_SCREEN )
+	if( (activeScreenID==Main.DASHBOARD_SCREEN && DashboardScreen.tabIndex==3 && SocialSegment.tabIndex==2) || activeScreenID == Main.BATTLE_SCREEN )
 		return;
 	var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
 	battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);
 	addToast(battleToast);
 	function battleToast_selectHandler():void {
+		DashboardScreen.tabIndex = 3;
+		SocialSegment.tabIndex = 2;
 		battleToast.removeEventListener(Event.SELECT, battleToast_selectHandler);
-		pushScreen(Main.SOCIAL_SCREEN);
+		popToRootScreen();
 	}
 }
 
@@ -423,9 +427,9 @@ public function showOffer():void
 						navigateToURL(new URLRequest(loc("setting_value_312")));
 						break;
 					case PrefsTypes.OFFER_33_FRIENDSHIP:
-						var item:StackScreenNavigatorItem = getScreen( Main.SOCIAL_SCREEN );
-						item.properties.selectedTab = 2;
-						pushScreen(Main.SOCIAL_SCREEN);
+						DashboardScreen.tabIndex = 3;
+						SocialSegment.tabIndex = 2;
+						popToRootScreen();
 						break;
 				}
 				UserData.instance.prefs.setInt(t, prefs.getAsInt(t)+1000);

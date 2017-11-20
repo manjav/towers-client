@@ -19,7 +19,6 @@ package com.gerantech.towercraft
 		public static const BATTLE_SCREEN:String = "battleScreen";
 		public static const QUESTS_SCREEN:String = "questsScreen";
 		public static const FACTIONS_SCREEN:String = "factionsScreen";
-		public static const SOCIAL_SCREEN:String = "socialScreen";
 		public static const SETTINGS_SCREEN:String = "settingsScreen";
 		public static const ADMIN_SCREEN:String = "adminScreen";
 		public static const SPECTATE_SCREEN:String = "spectateScreen";

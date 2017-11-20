@@ -44,6 +44,8 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
+public static var tabIndex:int = 1;
+	
 private var pageList:List;
 private var tabsList:List;
 private var tabBorder:ImageLoader;
@@ -121,6 +123,7 @@ override protected function initialize():void
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
+	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 	// tutorial mode
 	var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 	if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
@@ -129,14 +132,12 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		return;
 	}
 	
-	visible = true;
 	segmentsCollection = getListData();
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	tabsList.dataProvider = segmentsCollection;
-	gotoPage(1, 0);
-	
-	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+	gotoPage(tabIndex, 0);
+	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
 	function themeLoaded():void { if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
@@ -200,7 +201,7 @@ private function tabsList_selectHandler(event:Event):void
 }
 private function gotoPage(pageIndex:int, animDuration:Number = 0.3):void
 {
-	pageList.selectedIndex = tabsList.selectedIndex = pageIndex;
+	pageList.selectedIndex = tabsList.selectedIndex = tabIndex = pageIndex;
 	pageList.scrollToDisplayIndex(pageIndex, animDuration);
 	Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
 	if( animDuration > 0 )

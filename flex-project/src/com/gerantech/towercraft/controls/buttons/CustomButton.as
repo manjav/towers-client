@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 
 import flash.geom.Point;
