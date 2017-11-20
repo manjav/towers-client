@@ -372,7 +372,7 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 				
-			if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
+			if( !sfsConnection.mySelf.isSpectator && !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
 				appModel.navigator.showOffer();
 			dispatchEventWith(Event.COMPLETE);
 		}
