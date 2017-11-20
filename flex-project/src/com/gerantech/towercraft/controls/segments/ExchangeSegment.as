@@ -274,8 +274,7 @@ package com.gerantech.towercraft.controls.segments
 					case ExchangeType.CHESTS_50:
 					case ExchangeType.CHEST_CATE_110_BATTLES:
 					case ExchangeType.CHEST_CATE_120_OFFERS:
-						itemslist.dataProvider.updateItemAt(0);
-						itemslist.dataProvider.updateItemAt(1);
+						itemslist.dataProvider.updateItemAt(item.category==ExchangeType.CHEST_CATE_110_BATTLES?0:1);
 						if( !data.containsKey("rewards") )
 							return;
 						item.outcomes = new IntIntMap();
