@@ -1,14 +1,11 @@
 package com.gerantech.towercraft.controls.popups
 {
-	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.segments.SocialSegment;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
-	
-	import feathers.controls.StackScreenNavigatorItem;
 	
 	import starling.events.Event;
 

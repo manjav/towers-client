@@ -215,28 +215,18 @@ private function lobbyManager_updateHandler(event:Event):void
 }
 private function toolbar_selectHandler(event:Event):void
 {
-	if( player.inTutorial())
+	if( player.inTutorial() || tabIndex == 0 )
 		return;
-	switch(event.data.resourceType)
+	
+	if( event.data.resourceType == ResourceType.CURRENCY_SOFT )
 	{
-		case ResourceType.CURRENCY_SOFT:
-			if( tabIndex == 0 )
-				return;
-			ExchangeSegment.focusedCategory = 3;
-			gotoPage(0);
-			break;
-		case ResourceType.CURRENCY_HARD:
-			if( tabIndex == 0 )
-				return;
-			ExchangeSegment.focusedCategory = 2;
-			gotoPage(0);
-			break;
-		case ResourceType.POINT:
-			FactionsScreen.showRanking( player.get_arena(0) );
-			break;
-		case ResourceType.KEY:
-			appModel.navigator.addPopup(new KeysPopup());
-			break;
+		ExchangeSegment.focusedCategory = 3;
+		gotoPage(0);
+	}
+	else if( event.data.resourceType == ResourceType.CURRENCY_HARD )
+	{
+		ExchangeSegment.focusedCategory = 2;
+		gotoPage(0);
 	}
 }
 

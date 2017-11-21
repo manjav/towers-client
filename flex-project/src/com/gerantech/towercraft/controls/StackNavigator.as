@@ -10,7 +10,10 @@ import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
+import com.gerantech.towercraft.controls.popups.KeysPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
+import com.gerantech.towercraft.controls.screens.FactionsScreen;
+import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
@@ -27,6 +30,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.utils.maps.IntStrMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
@@ -76,6 +80,15 @@ private function navigator_changeHandler(event:Event):void
 		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
 	}
 }
+private function toolbar_selectHandler(event:Event):void
+{
+	if( AppModel.instance.game.player.inTutorial() )
+		return;
+	if( event.data.resourceType == ResourceType.POINT )
+		FactionsScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
+	else if( event.data.resourceType == ResourceType.KEY )
+		addPopup( new KeysPopup() );
+}
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
@@ -85,6 +98,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	{
 		toolbar = new Toolbar();
 		toolbar.width = stage.stageWidth;
+		toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
 		addChild(toolbar);
 	}
 }
