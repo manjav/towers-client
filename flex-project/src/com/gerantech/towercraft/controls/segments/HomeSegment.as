@@ -168,15 +168,15 @@ private function showTutorial():void
 	}
 	
 	// show rank table tutorial
-	if( !player.inTutorial() && tutorStep < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+	if( tutorStep > PrefsTypes.TUTE_116_END && tutorStep < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
 	{
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 1000, 1000, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
 		function tutorials_completeHandler(e:Event):void {
-			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
+			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 		}
 		return;
 	}
