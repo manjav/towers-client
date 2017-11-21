@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
+import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
@@ -30,6 +31,7 @@ import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
 
 import starling.core.Starling;
+import starling.display.DisplayObject;
 import starling.display.Quad;
 import starling.events.Event;
 
@@ -128,7 +130,7 @@ override protected function initialize():void
 	closeBatton.name = "close";
 	closeBatton.label = loc("close_button");
 	closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
-	Starling.juggler.tween(closeBatton, 0.5, {delay:2, alpha:1});
+	Starling.juggler.tween(closeBatton, 0.5, {delay:0.9, alpha:1});
 	closeBatton.alpha = 0;
 	buttons.addChild(closeBatton);
 	
@@ -138,7 +140,7 @@ override protected function initialize():void
 		retryButton.name = "retry";
 		retryButton.width = 300 * appModel.scale;
 		retryButton.height = 120 * appModel.scale;
-		showAdOffer = !keyExists && score < 3 && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_QUESTS).available
+		showAdOffer = !keyExists && score < 3 && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_QUESTS).available;
 		if( showAdOffer )
 		{
 			retryButton.label = "+   " + loc("retry_button");
@@ -149,7 +151,7 @@ override protected function initialize():void
 			retryButton.label = loc("retry_button");
 		}
 		retryButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
-		Starling.juggler.tween(retryButton, 0.5, {delay:2.1, alpha:1});
+		Starling.juggler.tween(retryButton, 0.5, {delay:1, alpha:1});
 		retryButton.alpha = 0;
 		buttons.addChild(retryButton);
 	}
@@ -158,6 +160,14 @@ override protected function initialize():void
 	initialingCompleted = true;
 }
 
+override protected function defaultOverlayFactory():DisplayObject
+{
+	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft?0x000000:(score>0?0x000099:0x990000));
+	overlay.alpha = 0.4;
+	overlay.width = stage.width;
+	overlay.height = stage.height * 3;
+	return overlay;
+}
 private function get keyExists():Boolean
 {
 	for( var i:int = 0; i < rewards.size(); i++ ) 
