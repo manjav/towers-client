@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
 	
@@ -11,8 +12,8 @@ package com.gerantech.towercraft.controls.items.exchange
 	public class ExchangeCurrencyItemRenderer extends ExchangeBaseItemRenderer
 	{
 		private var iconDisplay:ImageLoader;
-		private var titleDisplay:RTLLabel;
-		private var countDisplay:RTLLabel;
+		private var titleDisplay:ShadowLabel;
+		private var countDisplay:ShadowLabel;
 		private var buttonDisplay:ExchangeButton;
 
 		
@@ -20,18 +21,18 @@ package com.gerantech.towercraft.controls.items.exchange
 		{
 			super.commitData();
 			
-			titleDisplay = new RTLLabel(loc("exchange_title_"+exchange.type));
+			iconDisplay = new ImageLoader();
+			iconDisplay.source = Assets.getTexture("currency-" + exchange.type, "gui");
+			iconDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, NaN, 0);
+			iconDisplay.width = 320 * appModel.scale;
+			addChild(iconDisplay);
+			
+			titleDisplay = new ShadowLabel(loc("exchange_title_"+exchange.type));
 			titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 			addChild(titleDisplay);
 			
-			iconDisplay = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("currency-" + exchange.type, "gui");
-			iconDisplay.layoutData = new AnchorLayoutData(padding*4, NaN, NaN, NaN, 0);
-			iconDisplay.width = 180 * appModel.scale;
-			addChild(iconDisplay);
-			
-			countDisplay = new RTLLabel(String(exchange.outcomes.values()[0]));
-			countDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*6, NaN, 0);
+			countDisplay = new ShadowLabel(String(exchange.outcomes.values()[0]));
+			countDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*5, NaN, 0);
 			addChild(countDisplay);	
 			
 			buttonDisplay = new ExchangeButton();
