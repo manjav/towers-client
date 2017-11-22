@@ -33,7 +33,7 @@ package com.gerantech.towercraft.views.decorators
 		{
 			super.updateElements(population, troopType);
 			
-			var txt:String = "building-cr-" + place.building.type;
+			/*var txt:String = "building-cr-" + place.building.type;
 			if(crystalTexture != txt)
 			{
 				crystalTexture = txt;
@@ -56,7 +56,7 @@ package com.gerantech.towercraft.views.decorators
 				Starling.juggler.add(crystalDisplay);
 				fieldView.buildingsContainer.addChild(crystalDisplay);
 			}
-			
+			*/
 			// radius :
 			createRadiusDisplay();
 			radiusDisplay.width = place.building.get_damageRadius() * 2;
@@ -74,12 +74,12 @@ package com.gerantech.towercraft.views.decorators
 		private function get_crystalHeight():Number
 		{
 			if ( place.building.type == BuildingType.B42_CRYSTAL )
-				return 60;
+				return 90;
 			else if ( place.building.type == BuildingType.B43_CRYSTAL )
-				return 68;
+				return 96;
 			else if ( place.building.type == BuildingType.B44_CRYSTAL )
-				return 70;
-			return 5;
+				return 102;
+			return 84;
 		}
 		
 		private function createRadiusDisplay():void
@@ -103,7 +103,7 @@ package com.gerantech.towercraft.views.decorators
 			raySprite = new Sprite();
 			raySprite.visible = raySprite.touchable = false;
 			raySprite.x = parent.x;
-			raySprite.y = parent.y - 132;
+			raySprite.y = parent.y - get_crystalHeight();
 			fieldView.buildingsContainer.addChild(raySprite);
 			
 			rayImage = new Image(Assets.getTexture("crystal-ray"));

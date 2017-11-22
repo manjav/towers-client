@@ -44,8 +44,8 @@ package com.gerantech.towercraft.views
 			addChild(sp);*/
 			
 			// tile grass ground
-			var tiledBG:Image = new Image(Assets.getTexture("ground-228"));
-			tiledBG.tileGrid = new Rectangle(0, 0, 228, 228);
+			var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
+			tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
 			//backgroundSkin = new Quad(1,1,0xb7bb3c);
 			backgroundSkin = tiledBG;
 

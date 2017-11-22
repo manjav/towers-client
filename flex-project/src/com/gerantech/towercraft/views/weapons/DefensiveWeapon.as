@@ -36,7 +36,7 @@ package com.gerantech.towercraft.views.weapons
 			for(var i:int=0; i<tlen; i++)
 			{
 				troop = AppModel.instance.battleFieldView.troopsList[i];
-				if(checkTriggerd(troop))
+				if( checkTriggerd(troop) )
 				{
 					AppModel.instance.sounds.addAndPlaySound("shot-tower");
 					troop.hit(placeView);
