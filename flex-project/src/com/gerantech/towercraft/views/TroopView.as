@@ -42,7 +42,7 @@ public function TroopView(building:Building, path:PlaceList)
 	this.building = building;
 	this.health = building.get_troopPower();
 	
-	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + building.get_troopName();
+	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "crusader-move-";//building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.8;
@@ -117,7 +117,8 @@ private function switchAnimation(source:Place, destination:Place):void
 	if(direction == dir)
 		return;
 
-	movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
+	movieClip.fps = 12*3000/building.get_troopSpeed();
+	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
 	for(var i:int=0; i < movieClip.numFrames; i++)
 		movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction+( i>9 ? "-0"+(i) : "-00"+(i)), "troops"));

@@ -37,11 +37,11 @@ package com.gerantech.towercraft.views
 			scale = appModel.scale;
 			
 			// add dummy object to tile arroud display
-			/*var sp:Sprite = new Sprite();
+			var sp:Sprite = new Sprite();
 			sp.visible = false;
 			sp.x = 1080;
 			sp.y = 1920;
-			addChild(sp);*/
+			addChild(sp);
 			
 			// tile grass ground
 			var tiledBG:Image = new Image(Assets.getTexture("ground-232"));

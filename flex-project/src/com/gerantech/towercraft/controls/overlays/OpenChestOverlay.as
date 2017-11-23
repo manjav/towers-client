@@ -48,8 +48,8 @@ package com.gerantech.towercraft.controls.overlays
 			if(factory != null)
 				return;
 			factory = new StarlingFactory();
-			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("chests_ske"));
-			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("chests_tex"), AppModel.instance.assets.getTexture("chests_tex"));
+			dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("books_ske"));
+			factory.parseTextureAtlasData(AppModel.instance.assets.getObject("books_tex"), AppModel.instance.assets.getTexture("books_tex"));
 		}			
 		
 		override protected function initialize():void
@@ -84,7 +84,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			appModel.sounds.setVolume("main-theme", 0.3);
 			
-			animation = factory.buildArmatureDisplay("chest-"+type);
+			animation = factory.buildArmatureDisplay("book-"+type);
 			animation.touchable = animation.touchGroup = false;
 			animation.x = stage.stageWidth * 0.5;
 			animation.y = stage.stageHeight * 0.85;
@@ -133,7 +133,7 @@ package com.gerantech.towercraft.controls.overlays
 			grabAllRewards();
 			if( collectedItemIndex < item.outcomes.keys().length )
 			{
-				animation.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length-1?"open":"openLast", 0, 1);
+				animation.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length-1?"open":"open", 0, 1);
 				buttonOverlay.touchable = false;
 				showReward();
 			}

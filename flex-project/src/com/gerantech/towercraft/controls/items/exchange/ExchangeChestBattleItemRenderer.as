@@ -50,11 +50,11 @@
 			}
 			if( chestArmature == null )
 			{
-				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+exchange.outcome);
+				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
 				chestArmature.scale = appModel.scale;
 				chestArmature.x = width * 0.5;
-				chestArmature.y = height * 0.6;
-				chestArmature.animation.gotoAndStopByProgress("fall", 1);
+				chestArmature.y = height * 0.4;
+				chestArmature.animation.gotoAndStopByProgress("fall-closed", 1);
 			}
 			updateElements();
 			addChild(chestArmature);

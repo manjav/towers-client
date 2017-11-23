@@ -62,9 +62,9 @@ package com.gerantech.towercraft.controls.segments
 		{
 			super.init();
 			//appModel.assets.verbose = true;
-			if( appModel.assets.getTexture("chests_tex") == null )
+			if( appModel.assets.getTexture("books_tex") == null )
 			{
-				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/books" ));
 				appModel.assets.loadQueue(assets_loadCallback)
 			}
 			if( appModel.assets.isLoading )
