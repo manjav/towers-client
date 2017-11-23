@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.KeysPopup;
+import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -44,6 +45,8 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
+public static var tabIndex:int = 1;
+	
 private var pageList:List;
 private var tabsList:List;
 private var tabBorder:ImageLoader;
@@ -69,8 +72,6 @@ override protected function initialize():void
 	shadow.height = stage.stageHeight-footerSize;
 	addChildAt(shadow, 0);
 
-	
-	
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 	pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -121,6 +122,7 @@ override protected function initialize():void
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
+	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 	// tutorial mode
 	var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
 	if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
@@ -129,14 +131,12 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		return;
 	}
 	
-	visible = true;
 	segmentsCollection = getListData();
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	tabsList.dataProvider = segmentsCollection;
-	gotoPage(1, 0);
-	
-	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+	gotoPage(tabIndex, 0.1);
+	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
 	function themeLoaded():void { if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
@@ -190,7 +190,7 @@ private function pageList_focusInHandler(event:Event):void
 {
 	var focusIndex:int = event.data as int;
 	if( tabsList.selectedIndex != focusIndex )
-		gotoPage(focusIndex);
+		gotoPage(focusIndex, 0.5, false);
 }
 
 private function tabsList_selectHandler(event:Event):void
@@ -198,13 +198,15 @@ private function tabsList_selectHandler(event:Event):void
 	if( player.dashboadTabEnabled(tabsList.selectedIndex) )
 		gotoPage(tabsList.selectedIndex);
 }
-private function gotoPage(pageIndex:int, animDuration:Number = 0.3):void
+private function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Boolean = true):void
 {
-	pageList.selectedIndex = tabsList.selectedIndex = pageIndex;
-	pageList.scrollToDisplayIndex(pageIndex, animDuration);
-	Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
+	//trace("gotoPage", tabIndex, pageIndex, ExchangeSegment.focusedCategory, pageList.selectedIndex, tabsList.selectedIndex)
+	tabsList.selectedIndex = tabIndex = pageIndex;
+	if( scrollPage )
+		pageList.scrollToDisplayIndex(pageIndex, animDuration);
 	if( animDuration > 0 )
 		appModel.sounds.addAndPlaySound("tab");
+	Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
 }
 
 private function lobbyManager_updateHandler(event:Event):void
@@ -213,20 +215,18 @@ private function lobbyManager_updateHandler(event:Event):void
 }
 private function toolbar_selectHandler(event:Event):void
 {
-	if( player.inTutorial())
+	if( player.inTutorial() || tabIndex == 0 )
 		return;
-	switch(event.data.resourceType)
+	
+	if( event.data.resourceType == ResourceType.CURRENCY_SOFT )
 	{
-		case ResourceType.CURRENCY_SOFT:
-		case ResourceType.CURRENCY_HARD:
-			gotoPage(0);
-			break;
-		case ResourceType.POINT:
-			ArenaScreen.showRanking( player.get_arena(0) );
-			break;
-		case ResourceType.KEY:
-			appModel.navigator.addPopup(new KeysPopup());
-			break;
+		ExchangeSegment.focusedCategory = 3;
+		gotoPage(0);
+	}
+	else if( event.data.resourceType == ResourceType.CURRENCY_HARD )
+	{
+		ExchangeSegment.focusedCategory = 2;
+		gotoPage(0);
 	}
 }
 
@@ -241,6 +241,13 @@ override protected function backButtonFunction():void
 		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 		NativeApplication.nativeApplication.exit();
 	}
+}
+
+override public function dispose():void
+{
+	tabIndex = 1;
+	appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
+	super.dispose();
 }
 }
 }

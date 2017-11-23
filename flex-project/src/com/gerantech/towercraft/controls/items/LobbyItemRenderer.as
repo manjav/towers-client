@@ -13,7 +13,7 @@ import feathers.skins.ImageSkin;
 
 import starling.events.Event;
 
-public class LobbyItemRenderer extends BaseCustomItemRenderer
+public class LobbyItemRenderer extends AbstractTouchableListItemRenderer
 {
 private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 

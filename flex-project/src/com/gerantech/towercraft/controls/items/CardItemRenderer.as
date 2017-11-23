@@ -12,7 +12,7 @@ package com.gerantech.towercraft.controls.items
 	import starling.display.Quad;
 	import starling.events.Event;
 
-	public class CardItemRenderer extends BaseCustomItemRenderer
+	public class CardItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var tower:Building;
 

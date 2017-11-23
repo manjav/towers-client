@@ -3,10 +3,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.buttons.ImproveButton;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
-	import com.gerantech.towercraft.controls.overlays.BattleOutcomeOverlay;
+	import com.gerantech.towercraft.controls.overlays.BattleEndOverlay;
+	import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
-	import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 	import com.gerantech.towercraft.events.GameEvent;
@@ -61,7 +61,7 @@ package com.gerantech.towercraft.controls.screens
 		public var isFriendly:Boolean;
 		public var requestField:FieldData;
 		public var spectatedUser:String;
-		public var waitingOverlay:WaitingOverlay;
+		public var waitingOverlay:BattleStartOverlay;
 		
 		private var hud:BattleHUD;
 		
@@ -177,7 +177,8 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 
-			waitingOverlay.disappear();
+			waitingOverlay.setData(appModel.battleFieldView.battleData);
+			//waitingOverlay.disappear();
 			updateTowersFromRoomVars();
 			
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
@@ -193,7 +194,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					tuteMessage = "tutor_quest_" + quest.index + "_start_";
 					if( quest.index == 2 )
-						tuteMessage += (player.buildings.exists(BuildingType.B11_BARRACKS)?"second_":"first_");
+						tuteMessage += (player.isHardMode()?"first_":"second_");
 					tuteMessage += quest.startNum.get(i);
 					trace("tuteMessage:", tuteMessage);
 					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
@@ -294,7 +295,7 @@ package com.gerantech.towercraft.controls.screens
 				nextArena = player.get_arena(0);
 			}
 			
-			var battleOutcomeOverlay:BattleOutcomeOverlay = new BattleOutcomeOverlay(score, rewards, tutorialMode);
+			var battleOutcomeOverlay:BattleEndOverlay = new BattleEndOverlay(score, rewards, tutorialMode);
 			if( prevArena != nextArena && !quest.isQuest )
 				battleOutcomeOverlay.data = [prevArena, nextArena]
 			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
@@ -351,7 +352,7 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function retryQuest(index:int, hasExtraTime:Boolean):void
 		{
-			waitingOverlay = new WaitingOverlay() ;
+			waitingOverlay = new BattleStartOverlay(index, false) ;
 			appModel.navigator.addOverlay(waitingOverlay);
 			
 			disposeBattleAssets();
@@ -371,13 +372,13 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function battleOutcomeOverlay_closeHandler(event:Event):void
 		{
-			var battleOutcomeOverlay:BattleOutcomeOverlay = event.currentTarget as BattleOutcomeOverlay;
-			battleOutcomeOverlay.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			battleOutcomeOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+			var endOverlay:BattleEndOverlay = event.currentTarget as BattleEndOverlay;
+			endOverlay.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
+			endOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
 
 			// create tutorial steps
 			var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			var winStr:String = battleOutcomeOverlay.score > 0 ? "_win_" : "_defeat_";
+			var winStr:String = endOverlay.score > 0 ? "_win_" : "_defeat_";
 			//quest end
 			if( field.isQuest && player.inTutorial() )
 			{
@@ -395,9 +396,9 @@ package com.gerantech.towercraft.controls.screens
 			}
 			
 			// show faction changes overlay
-			if( battleOutcomeOverlay.data != null )
+			if( endOverlay.data != null )
 			{
-				var factionsOverlay:FactionChangeOverlay = new FactionChangeOverlay(battleOutcomeOverlay.data[0], battleOutcomeOverlay.data[1]);
+				var factionsOverlay:FactionChangeOverlay = new FactionChangeOverlay(endOverlay.data[0], endOverlay.data[1]);
 				factionsOverlay.addEventListener(Event.CLOSE, factionsOverlay_closeHandler);
 				appModel.navigator.addOverlay(factionsOverlay);
 				function factionsOverlay_closeHandler(event:Event):void {
@@ -407,7 +408,7 @@ package com.gerantech.towercraft.controls.screens
 				return;
 			}
 				
-			if( !battleOutcomeOverlay.tutorialMode && battleOutcomeOverlay.score == 3 )
+			if( !sfsConnection.mySelf.isSpectator && !endOverlay.tutorialMode && endOverlay.score == 3 )
 				appModel.navigator.showOffer();
 			dispatchEventWith(Event.COMPLETE);
 		}
@@ -554,7 +555,7 @@ package com.gerantech.towercraft.controls.screens
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
 					
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && !player.hardMode && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
+					if( bf.map.isQuest && !player.hardMode && improvable != null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);

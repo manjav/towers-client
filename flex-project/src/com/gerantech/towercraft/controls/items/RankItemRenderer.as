@@ -12,7 +12,7 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 
-public class RankItemRenderer extends BaseCustomItemRenderer
+public class RankItemRenderer extends AbstractTouchableListItemRenderer
 {
 	private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 	

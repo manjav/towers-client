@@ -44,6 +44,7 @@ package com.gerantech.towercraft.controls.segments
 
 	public class ExchangeSegment extends Segment
 	{
+		public static var focusedCategory:int = 0
 		private var itemslistData:ListCollection;
 		private var itemslist:List;
 
@@ -64,12 +65,12 @@ package com.gerantech.towercraft.controls.segments
 		{
 			super.init();
 			//appModel.assets.verbose = true;
-			if( appModel.assets.getTexture("chests_tex") == null )
+			if( appModel.assets.getTexture("books_tex") == null )
 			{
-				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/chests" ));
+				appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/books" ));
 				appModel.assets.loadQueue(assets_loadCallback)
 			}
-			if(appModel.assets.isLoading )
+			if( appModel.assets.isLoading )
 				return;
 			
 			OpenChestOverlay.createFactory();
@@ -92,9 +93,19 @@ package com.gerantech.towercraft.controls.segments
 			itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 			addChild(itemslist);
 			initializeCompleted = true;
-			
-			showTutorial();
+			focus();
 		}
+		
+		override public function focus():void
+		{
+			if( !initializeCompleted )
+				return;
+			showTutorial();
+			var time:Number = Math.abs(focusedCategory * 480 * appModel.scale - itemslist.verticalScrollPosition) * 0.003;
+			itemslist.scrollToDisplayIndex(focusedCategory, time);
+			focusedCategory = 0;
+		}
+		
 		
 		private function showTutorial():void
 		{
@@ -280,8 +291,7 @@ package com.gerantech.towercraft.controls.segments
 					case ExchangeType.CHESTS_50:
 					case ExchangeType.CHEST_CATE_110_BATTLES:
 					case ExchangeType.CHEST_CATE_120_OFFERS:
-						itemslist.dataProvider.updateItemAt(0);
-						itemslist.dataProvider.updateItemAt(1);
+						itemslist.dataProvider.updateItemAt(item.category==ExchangeType.CHEST_CATE_110_BATTLES?0:1);
 						if( !data.containsKey("rewards") )
 							return;
 						item.outcomes = new IntIntMap();

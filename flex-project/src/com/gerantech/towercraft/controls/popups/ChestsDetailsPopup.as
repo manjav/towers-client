@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.ResourcPalette;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
@@ -40,13 +39,9 @@ public function ChestsDetailsPopup(item:ExchangeItem)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.35, stage.stageWidth*0.9, stage.stageHeight*0.3);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.27, stage.stageWidth*0.9, stage.stageHeight*0.42);
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.30, stage.stageWidth*0.9, stage.stageHeight*0.4);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.25, stage.stageWidth*0.9, stage.stageHeight*0.5);
 	rejustLayoutByTransitionData();
-	
-	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_"+item.outcome),1, 0, "center", null, false, null, 1.1);
-	titleDisplay.layoutData = new AnchorLayoutData(padding*4, NaN, NaN, NaN, 0);
-	addChild(titleDisplay);
 	
 	var insideBG:ImageLoader = new ImageLoader();
 	insideBG.alpha = 0.8;
@@ -56,6 +51,10 @@ override protected function initialize():void
 	insideBG.layoutData = new AnchorLayoutData(padding*7, padding, padding*1.2, padding);
 	addChild(insideBG);
 	
+	var titleDisplay:RTLLabel = new RTLLabel(loc("exchange_title_"+item.outcome), 0, "center", null, false, null, 1.3);
+	titleDisplay.layoutData = new AnchorLayoutData(padding*7.6, NaN, NaN, NaN, 0);
+	addChild(titleDisplay);
+	
 	var downBG:ImageLoader = new ImageLoader();
 	downBG.alpha = 0.8;
 	downBG.color = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA
@@ -63,17 +62,17 @@ override protected function initialize():void
 	downBG.maintainAspectRatio = false;
 	downBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
 	downBG.layoutData = new AnchorLayoutData(NaN, padding*1.3, padding*1.5, padding*1.3);
-	downBG.height = transitionIn.destinationBound.height * 0.22;
+	downBG.height = padding * 4.4;
 	addChild(downBG);
 	
-	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("tab-2", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
+	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
-	cardsPalette.layoutData = new AnchorLayoutData(padding*8, NaN, NaN, padding*2.4);
+	cardsPalette.layoutData = new AnchorLayoutData(padding*13, NaN, NaN, padding*2.4);
 	addChild(cardsPalette);
 	
 	var softsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome)*1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
-	softsPalette.layoutData = new AnchorLayoutData(padding*8, padding*2, NaN);
+	softsPalette.layoutData = new AnchorLayoutData(padding*13, padding*2, NaN);
 	addChild(softsPalette);
 
 	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [exchanger.timeToHard(item.expiredAt-timeManager.now)]) : loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
@@ -93,7 +92,7 @@ override protected function initialize():void
 	{
 		if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
 		{
-			buttonDisplay.style = "danger";
+			buttonDisplay.style = "neutral";
 			buttonDisplay.width = 240 * appModel.scale;
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
@@ -117,9 +116,9 @@ override protected function transitionInCompleted():void
 	super.transitionInCompleted();
 	
 	OpenChestOverlay.createFactory();
-	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+item.outcome);
+	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+item.outcome);
 	chestArmature.scale = appModel.scale * 2;
-	chestArmature.animation.gotoAndPlayByTime("fall",0, 1);
+	chestArmature.animation.gotoAndPlayByTime("fall-closed",0, 1);
 	addChildAt(chestArmature, 2);		
 	chestArmature.x = (transitionIn.destinationBound.width) * 0.5;
 	chestArmature.y = padding * 0.5

@@ -16,7 +16,7 @@ import feathers.skins.ImageSkin;
 import starling.events.Event;
 import starling.events.Touch;
 
-public class LobbyMemberItemRenderer extends BaseCustomItemRenderer
+public class LobbyMemberItemRenderer extends AbstractTouchableListItemRenderer
 {
 public function LobbyMemberItemRenderer()
 {

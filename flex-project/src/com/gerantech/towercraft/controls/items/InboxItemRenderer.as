@@ -16,7 +16,7 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
-public class InboxItemRenderer extends BaseCustomItemRenderer
+public class InboxItemRenderer extends AbstractTouchableListItemRenderer
 {
 private static const READ_TEXT_COLOR:uint = 0xEEFFFF;
 private static const TWEEN_TIME:Number = 0.3;

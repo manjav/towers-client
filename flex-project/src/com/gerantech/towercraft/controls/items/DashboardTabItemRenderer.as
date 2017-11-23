@@ -12,6 +12,7 @@ import com.gt.towers.constants.PrefsTypes;
 import flash.utils.setTimeout;
 
 import feathers.controls.ImageLoader;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -20,7 +21,7 @@ import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
 
-public class DashboardTabItemRenderer extends BaseCustomItemRenderer
+public class DashboardTabItemRenderer extends AbstractTouchableListItemRenderer
 {
 private var itemWidth:Number;
 private var _firstCommit:Boolean = true;
@@ -139,9 +140,13 @@ override public function set isSelected(value:Boolean):void
 	
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
-	
-	if( value && owner != null )
-		owner.dispatchEventWith(Event.SELECT, false, data);
+}
+
+override protected function setSelection(value:Boolean):void
+{
+	super.setSelection(value);
+	if( value && _owner != null )
+		_owner.dispatchEventWith(Event.SELECT, false, data);
 }
 
 

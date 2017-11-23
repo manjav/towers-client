@@ -1,12 +1,11 @@
 package com.gerantech.towercraft.controls.popups
 {
-	import com.gerantech.towercraft.Main;
+	import com.gerantech.towercraft.controls.screens.DashboardScreen;
+	import com.gerantech.towercraft.controls.segments.SocialSegment;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
-	
-	import feathers.controls.StackScreenNavigatorItem;
 	
 	import starling.events.Event;
 
@@ -46,9 +45,9 @@ package com.gerantech.towercraft.controls.popups
 				
 				if ( player.villageEnabled() )
 				{
-					var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SOCIAL_SCREEN );
-					item.properties.selectedTab = 2;
-					setTimeout(appModel.navigator.pushScreen, 800, Main.SOCIAL_SCREEN);
+					DashboardScreen.tabIndex = 3;
+					SocialSegment.tabIndex = 2;
+					setTimeout(appModel.navigator.popToRootScreen, 500);
 				}
 			}
 		}

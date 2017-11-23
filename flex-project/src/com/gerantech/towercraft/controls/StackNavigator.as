@@ -6,10 +6,15 @@ import com.gerantech.towercraft.controls.animations.AchievedItem;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
+import com.gerantech.towercraft.controls.popups.KeysPopup;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
+import com.gerantech.towercraft.controls.screens.FactionsScreen;
+import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.controls.toasts.SimpleToast;
@@ -25,6 +30,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.utils.maps.IntStrMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
@@ -74,6 +80,15 @@ private function navigator_changeHandler(event:Event):void
 		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
 	}
 }
+private function toolbar_selectHandler(event:Event):void
+{
+	if( AppModel.instance.game.player.inTutorial() )
+		return;
+	if( event.data.resourceType == ResourceType.POINT )
+		FactionsScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
+	else if( event.data.resourceType == ResourceType.KEY )
+		addPopup( new KeysPopup() );
+}
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
@@ -83,6 +98,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	{
 		toolbar = new Toolbar();
 		toolbar.width = stage.stageWidth;
+		toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
 		addChild(toolbar);
 	}
 }
@@ -343,9 +359,9 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		case 1:
 			var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
 			item.properties.isFriendly = true;
-			item.properties.waitingOverlay = new WaitingOverlay() ;
-			pushScreen( Main.BATTLE_SCREEN ) ;
+			item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
 			addOverlay( item.properties.waitingOverlay );	
+			pushScreen( Main.BATTLE_SCREEN ) ;
 			break;
 		
 		case 4:
@@ -365,14 +381,16 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 }
 private function lobbyManager_friendlyBattleHandler(event:Event):void
 {
-	if( activeScreenID == Main.SOCIAL_SCREEN || activeScreenID == Main.BATTLE_SCREEN )
+	if( (activeScreenID==Main.DASHBOARD_SCREEN && DashboardScreen.tabIndex==3 && SocialSegment.tabIndex==2) || activeScreenID == Main.BATTLE_SCREEN )
 		return;
 	var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
 	battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);
 	addToast(battleToast);
 	function battleToast_selectHandler():void {
+		DashboardScreen.tabIndex = 3;
+		SocialSegment.tabIndex = 2;
 		battleToast.removeEventListener(Event.SELECT, battleToast_selectHandler);
-		pushScreen(Main.SOCIAL_SCREEN);
+		popToRootScreen();
 	}
 }
 
@@ -423,9 +441,9 @@ public function showOffer():void
 						navigateToURL(new URLRequest(loc("setting_value_312")));
 						break;
 					case PrefsTypes.OFFER_33_FRIENDSHIP:
-						var item:StackScreenNavigatorItem = getScreen( Main.SOCIAL_SCREEN );
-						item.properties.selectedTab = 2;
-						pushScreen(Main.SOCIAL_SCREEN);
+						DashboardScreen.tabIndex = 3;
+						SocialSegment.tabIndex = 2;
+						popToRootScreen();
 						break;
 				}
 				UserData.instance.prefs.setInt(t, prefs.getAsInt(t)+1000);

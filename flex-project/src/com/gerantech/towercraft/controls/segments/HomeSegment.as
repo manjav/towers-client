@@ -4,10 +4,10 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.screens.ArenaScreen;
+import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -44,18 +44,18 @@ private var leaguesButton:HomeButton;
 public function HomeSegment()
 {
 	super();
-	ArenaScreen.createFactionsFactory(init);
+	FactionsScreen.createFactionsFactory(init);
 }
 override public function init():void
 {
 	super.init();
-	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || ArenaScreen.animFactory == null )
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
 		return;
 	
 	layout = new AnchorLayout();		
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
-		setTimeout(gotoLiveBattle, 100, null);
+		setTimeout(gotoLiveBattle, 100, -1, false);
 		return;
 	}
 	
@@ -72,7 +72,7 @@ override public function focus():void
 
 private function showMainButtons():void
 {
-	var league:StarlingArmatureDisplay = ArenaScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
+	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.8);
 	league.pivotX = league.pivotY = 0
@@ -168,15 +168,15 @@ private function showTutorial():void
 	}
 	
 	// show rank table tutorial
-	if( !player.inTutorial() && tutorStep < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+	if( tutorStep > PrefsTypes.TUTE_116_END && tutorStep < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
 	{
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 1000, 1000, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
 		function tutorials_completeHandler(e:Event):void {
-			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
+			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 		}
 		return;
 	}
@@ -203,7 +203,7 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 			break;
 		case battlesButton:
-			gotoLiveBattle("battle");
+			gotoLiveBattle(-1);
 			break;
 		case "dragon-cross":
 			/*if( !player.villageEnabled() )
@@ -215,17 +215,17 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			//appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
 			break;
 		case leaguesButton:
-			appModel.navigator.pushScreen( Main.ARENA_SCREEN );		
+			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
 			break;
 	}
 }
 
-private function gotoLiveBattle(waitingData:String):void
+private function gotoLiveBattle(questIndex:int = -1, cancelable:Boolean=true):void
 {
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = null ;
-	item.properties.waitingOverlay = new WaitingOverlay() ;
-	item.properties.waitingOverlay.data = waitingData;
+	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable ) ;;
+	//item.properties.waitingOverlay.data = waitingData;
 	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 }

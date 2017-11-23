@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
-	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
+	import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
@@ -9,7 +9,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	
 	import starling.display.Image;
 
-	public class ExchangeBaseItemRenderer extends BaseCustomItemRenderer
+	public class ExchangeBaseItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		protected var firstCommit:Boolean = true;
 		protected var exchange:ExchangeItem;

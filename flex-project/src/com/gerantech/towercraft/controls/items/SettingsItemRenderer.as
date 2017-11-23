@@ -14,7 +14,7 @@ import feathers.layout.VerticalAlign;
 
 import starling.events.Event;
 
-public class SettingsItemRenderer extends BaseCustomItemRenderer
+public class SettingsItemRenderer extends AbstractTouchableListItemRenderer
 {
 	private var settingData:SettingsData;
 

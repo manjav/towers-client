@@ -30,15 +30,15 @@ package com.gerantech.towercraft.controls.overlays
 		public function BuildingUpgradeOverlay()
 		{
 			super();
-			BattleOutcomeOverlay.createFactionsFactory(initialize);
+			//BattleOutcomeOverlay.createFactionsFactory(initialize);
 		}
 		
 		override protected function initialize():void
 		{
 			if( stage != null )
 				addChild(defaultOverlayFactory());
-			if( stage == null || appModel.assets.isLoading || initializeStarted )
-				return;
+			//if( stage == null || appModel.assets.isLoading || initializeStarted )
+				//return;
 			super.initialize();
 			initializeStarted = true;
 		
@@ -48,7 +48,7 @@ package com.gerantech.towercraft.controls.overlays
 			width = stage.stageWidth;
 			height = stage.stageHeight;
 			overlay.alpha = 1;
-			
+		/*	
 			if(BattleOutcomeOverlay.dragonBonesData == null)
 				return;
 			
@@ -57,7 +57,7 @@ package com.gerantech.towercraft.controls.overlays
 			armatureDisplay.y = stage.stageHeight / 2;
 			armatureDisplay.scale = appModel.scale;
 			armatureDisplay.animation.gotoAndPlayByFrame("appearin", 1, 1);
-			addChild(armatureDisplay);
+			addChild(armatureDisplay);*/
 			
 			
 			var card:BuildingCard = new BuildingCard();

@@ -8,7 +8,7 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.core.Starling;
 
-public class FeatureItemRenderer extends BaseCustomItemRenderer
+public class FeatureItemRenderer extends AbstractTouchableListItemRenderer
 {
 protected var titleDisplay:RTLLabel  ;
 protected var valueDisplay:*;

@@ -11,7 +11,7 @@ package com.gerantech.towercraft.controls.items
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
 	
-	public class SocialTabItemRenderer extends BaseCustomItemRenderer
+	public class SocialTabItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var titleDisplay:ShadowLabel;
 		private var badgeDisplay:ImageLoader;

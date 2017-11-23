@@ -4,7 +4,7 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
-import com.gerantech.towercraft.controls.overlays.WaitingOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -105,7 +105,7 @@ private function showElements():void
 	sendButton = new CustomButton();
 	sendButton.width = sendButton.height = footerSize;
 	sendButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-	sendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+	sendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
 	sendButton.layoutData = new AnchorLayoutData(NaN, footerSize+padding*2, 0, NaN);
 	sendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
 	addChild(sendButton);
@@ -113,8 +113,8 @@ private function showElements():void
 	battleButton = new CustomButton();
 	battleButton.style = "danger";
 	battleButton.width = battleButton.height = footerSize;
-	battleButton.icon = Assets.getTexture("res-1001", "gui");
-	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+	battleButton.icon = Assets.getTexture("tab-1", "gui");
+	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
 	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
@@ -208,9 +208,9 @@ private function gotoBattle():void
 	buttonsEnabled = true;
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.isFriendly = true;
-	item.properties.waitingOverlay = new WaitingOverlay() ;
-	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
+	item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);	
+	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 }
 
 public function set buttonsEnabled(value:Boolean):void

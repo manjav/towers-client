@@ -50,11 +50,11 @@
 			}
 			if( chestArmature == null )
 			{
-				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("chest-"+exchange.outcome);
+				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
 				chestArmature.scale = appModel.scale;
 				chestArmature.x = width * 0.5;
-				chestArmature.y = height * 0.6;
-				chestArmature.animation.gotoAndStopByProgress("fall", 1);
+				chestArmature.y = height * 0.4;
+				chestArmature.animation.gotoAndStopByProgress("fall-closed", 1);
 			}
 			updateElements();
 			addChild(chestArmature);
@@ -97,7 +97,7 @@
 			}
 			else if( _state == ExchangeItem.CHEST_STATE_BUSY )
 			{
-				buttonDisplay.style = "danger";
+				buttonDisplay.style = "neutral";
 				updateCounter();
 				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;

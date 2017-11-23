@@ -24,7 +24,7 @@ import starling.events.Event;
 
 public class SocialSegment extends Segment
 {
-public var selectedTab:int = 0;
+public static var tabIndex:int = 0;
 	
 private var pageList:List;
 private var tabsList:List;
@@ -85,7 +85,7 @@ override public function init():void
 	tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new SocialTabItemRenderer(tabSize); }
 	tabsList.dataProvider = listCollection;
-	tabsList.selectedIndex = selectedTab;
+	tabsList.selectedIndex = tabIndex;
 	addChild(tabsList);
 	
 	pageList.addEventListener(Event.UPDATE, pageList_updateHandler);
@@ -108,15 +108,15 @@ private function pageList_updateHandler(event:Event):void
 private function pageList_focusInHandler(event:Event):void
 {
 	var focusIndex:int = event.data as int;
-	if(tabsList.selectedIndex != focusIndex)
+	if( tabsList.selectedIndex != focusIndex )
 		tabsList.selectedIndex = focusIndex;
 }
 
 private function tabsList_changeHandler(event:Event):void
 {
-	if(player.inTutorial() && tabsList.selectedIndex != 1)
+	if( player.inTutorial() && tabsList.selectedIndex != 1 )
 		return;
-	pageList.selectedIndex = tabsList.selectedIndex;
+	pageList.selectedIndex = tabIndex = tabsList.selectedIndex;
 	pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 	scrollTime = 0.5;
 	

@@ -1,13 +1,14 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 	import com.gerantech.towercraft.controls.headers.ExchangeHeader;
-	import com.gerantech.towercraft.controls.items.BaseCustomItemRenderer;
+	import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.vo.ShopLine;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.ExchangeItem;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.setTimeout;
 	
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
@@ -19,9 +20,10 @@ package com.gerantech.towercraft.controls.items.exchange
 	import feathers.layout.TiledColumnsLayout;
 	import feathers.layout.VerticalAlign;
 	
+	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class ExchangeCategoryItemRenderer extends BaseCustomItemRenderer 
+	public class ExchangeCategoryItemRenderer extends AbstractTouchableListItemRenderer 
 	{
 		private var line:ShopLine;
 		private var list:List;
@@ -109,8 +111,9 @@ package com.gerantech.towercraft.controls.items.exchange
 			
 			height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height //+ ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
 			listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap * 2;
-			categoryCollection.data = line.items;
-		//	Starling.juggler.tween(this, 0.3, {alpha:1});
+			setTimeout(function():void{categoryCollection.data = line.items}, index*300);
+			alpha = 0;
+			Starling.juggler.tween(this, 0.3, {delay:index*0.3, alpha:1});
 		}
 		
 		

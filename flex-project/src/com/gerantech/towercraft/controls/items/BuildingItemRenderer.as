@@ -6,6 +6,7 @@ package com.gerantech.towercraft.controls.items
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.PrefsTypes;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.events.FeathersEventType;
@@ -18,7 +19,7 @@ package com.gerantech.towercraft.controls.items
 	import starling.display.Quad;
 	import starling.events.Event;
 
-	public class BuildingItemRenderer extends BaseCustomItemRenderer
+	public class BuildingItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		private var _firstCommit:Boolean = true;
 		private var _width:Number;
@@ -93,6 +94,8 @@ package com.gerantech.towercraft.controls.items
 		
 		private function tutorialManager_finishHandler(event:Event):void
 		{
+			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
+				return;
 			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 			var tuteData:TutorialData = event.data as TutorialData;
 			if( tuteData.name == "deck_start" )
@@ -110,12 +113,8 @@ package com.gerantech.towercraft.controls.items
 		
 		override public function set isSelected(value:Boolean):void
 		{
-			if( super.isSelected == value )
-				return;
-			if( !super.isSelected && inDeck )
-				cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = 0;
 			super.isSelected = value
-			if( tutorialArrow != null )
+			if( value && tutorialArrow != null )
 				tutorialArrow.removeFromParent(true);
 		}
 		
@@ -123,7 +122,6 @@ package com.gerantech.towercraft.controls.items
 		{
 			if(super.currentState == _state)
 				return;
-
 			super.currentState = _state;
 			
 			if ( !this.inDeck )

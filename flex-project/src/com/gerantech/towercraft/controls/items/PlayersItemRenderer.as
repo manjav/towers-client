@@ -11,7 +11,7 @@ import feathers.skins.ImageSkin;
 import starling.events.Event;
 import starling.events.Touch;
 
-public class PlayersItemRenderer extends BaseCustomItemRenderer
+public class PlayersItemRenderer extends AbstractTouchableListItemRenderer
 {
 public function PlayersItemRenderer ()
 {

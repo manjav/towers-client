@@ -10,7 +10,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.TiledRowsLayout;
 import feathers.skins.ImageSkin;
 
-public class EmblemItemRenderer extends BaseCustomItemRenderer
+public class EmblemItemRenderer extends AbstractTouchableListItemRenderer
 {
 
 private var iconDisplay:ImageLoader;

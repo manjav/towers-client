@@ -13,7 +13,7 @@ package com.gerantech.towercraft.controls.items
 	
 	import starling.core.Starling;
 
-	public class ProfileBuildingItemRenderer extends BaseCustomItemRenderer
+	public class ProfileBuildingItemRenderer extends AbstractTouchableListItemRenderer
 	{
 		public var showLevel:Boolean;
 		private var _firstCommit:Boolean = true;

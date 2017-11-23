@@ -23,7 +23,7 @@ import feathers.skins.ImageSkin;
 import starling.events.Event;
 import starling.events.Touch;
 
-public class BuddyItemRenderer extends BaseCustomItemRenderer
+public class BuddyItemRenderer extends AbstractTouchableListItemRenderer
 {
 	private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 	

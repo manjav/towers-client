@@ -13,7 +13,7 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.events.Event;
 
-public class LobbyChatItemRenderer extends BaseCustomItemRenderer
+public class LobbyChatItemRenderer extends AbstractTouchableListItemRenderer
 {
 protected static const TYPE_MESSAGE:int = 0;
 protected static const TYPE_COMMENT:int = 10;
