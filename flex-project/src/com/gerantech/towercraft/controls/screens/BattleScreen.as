@@ -520,7 +520,7 @@ package com.gerantech.towercraft.controls.screens
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
 					
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && !player.hardMode && improvable!= null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
+					if( bf.map.isQuest && !player.hardMode && improvable != null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
