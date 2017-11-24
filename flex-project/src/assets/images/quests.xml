@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:b0e999929b4e9c90365eab0ab7c4b570:3e970daba3da4cece832a8c66bd0f3f3:024da9a414dc4d99d323ce35b0141ca1$ -->
+<!-- $TexturePacker:SmartUpdate:f091e0076d80e1bb4213042e0c0a1a61:ec5db4ba9ebbe00691bf18a046bbb811:024da9a414dc4d99d323ce35b0141ca1$ -->
 <TextureAtlas imagePath="quests.png" width="1024" height="1024">
     <SubTexture name="cols" x="563" y="302" width="130" height="110"/>
     <SubTexture name="house-0" x="637" y="261" width="43" height="39"/>
     <SubTexture name="house-1" x="563" y="214" width="72" height="86"/>
-    <SubTexture name="house-2" x="310" y="358" width="72" height="50"/>
-    <SubTexture name="house-3" x="384" y="391" rotated="true" width="32" height="29"/>
+    <SubTexture name="house-2" x="899" y="503" rotated="true" width="50" height="72"/>
+    <SubTexture name="house-3" x="985" y="542" width="29" height="32"/>
     <SubTexture name="house-4" x="963" y="72" rotated="true" width="59" height="95"/>
     <SubTexture name="house-5" x="958" y="316" width="64" height="46"/>
-    <SubTexture name="house-6" x="1" y="416" width="104" height="85"/>
-    <SubTexture name="house-7" x="107" y="416" rotated="true" width="45" height="90"/>
+    <SubTexture name="house-6" x="390" y="359" width="104" height="85"/>
+    <SubTexture name="house-7" x="310" y="358" rotated="true" width="45" height="90"/>
     <SubTexture name="house-8" x="899" y="357" rotated="true" width="55" height="45"/>
     <SubTexture name="house-9" x="848" y="413" rotated="true" width="49" height="85"/>
     <SubTexture name="house-10" x="899" y="324" width="57" height="31"/>
     <SubTexture name="house-11" x="963" y="1" width="60" height="69"/>
-    <SubTexture name="house-12" x="430" y="359" width="32" height="32"/>
+    <SubTexture name="house-12" x="951" y="542" width="32" height="32"/>
     <SubTexture name="house-13" x="848" y="500" rotated="true" width="49" height="63"/>
     <SubTexture name="hut-0" x="1" y="286" width="170" height="128"/>
     <SubTexture name="map-pin-current" x="639" y="111" rotated="true" width="57" height="73" frameX="0" frameY="-3" frameWidth="74" frameHeight="60"/>
@@ -23,8 +23,8 @@
     <SubTexture name="map-pin-passed" x="963" y="241" rotated="true" width="57" height="73" frameX="0" frameY="-3" frameWidth="74" frameHeight="60"/>
     <SubTexture name="palace-down" x="417" y="28" width="220" height="184"/>
     <SubTexture name="palace-up" x="1" y="1" width="414" height="180"/>
-    <SubTexture name="pin-shadow" x="899" y="503" width="107" height="85"/>
-    <SubTexture name="quest-lock" x="384" y="359" rotated="true" width="44" height="30"/>
+    <SubTexture name="pin-shadow" x="1" y="416" width="107" height="85"/>
+    <SubTexture name="quest-lock" x="955" y="438" rotated="true" width="68" height="50"/>
     <SubTexture name="rock-0" x="899" y="473" width="53" height="28"/>
     <SubTexture name="rock-1" x="639" y="79" width="58" height="30"/>
     <SubTexture name="rock-2" x="1" y="183" width="197" height="101"/>
@@ -33,13 +33,13 @@
     <SubTexture name="rock-5" x="639" y="28" width="59" height="49"/>
     <SubTexture name="rock-6" x="899" y="269" rotated="true" width="57" height="53"/>
     <SubTexture name="rock-7" x="963" y="169" width="59" height="70"/>
-    <SubTexture name="rock-8" x="955" y="438" width="67" height="50"/>
+    <SubTexture name="rock-8" x="954" y="490" width="67" height="50"/>
     <SubTexture name="skull" x="698" y="223" width="199" height="188"/>
-    <SubTexture name="star-center" x="310" y="410" width="31" height="31"/>
-    <SubTexture name="star-side" x="343" y="410" width="31" height="31"/>
-    <SubTexture name="statue-0" x="896" y="590" width="127" height="93"/>
+    <SubTexture name="star-center" x="357" y="358" width="31" height="31"/>
+    <SubTexture name="star-side" x="110" y="416" width="31" height="31"/>
+    <SubTexture name="statue-0" x="896" y="577" width="127" height="93"/>
     <SubTexture name="statue-1" x="848" y="565" rotated="true" width="46" height="75"/>
-    <SubTexture name="statue-2" x="1" y="503" rotated="true" width="102" height="92"/>
+    <SubTexture name="statue-2" x="496" y="414" rotated="true" width="102" height="92"/>
     <SubTexture name="status-3" x="393" y="214" width="168" height="143"/>
     <SubTexture name="tent" x="956" y="364" width="67" height="72"/>
     <SubTexture name="way-0" x="695" y="413" width="151" height="151"/>
