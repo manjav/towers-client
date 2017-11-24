@@ -124,7 +124,7 @@ override protected function commitData():void
 			var lock:Image = new Image(Assets.getTexture("quest-lock", "quests"));
 			lock.alignPivot();
 			lock.x = item.x;
-			lock.y = item.y + 16;
+			lock.y = item.y;
 			container.addChild(lock);
 		}
 	}
