@@ -19,6 +19,7 @@ import feathers.skins.ImageSkin;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 
 public class DashboardTabItemRenderer extends AbstractTouchableListItemRenderer
@@ -26,8 +27,8 @@ public class DashboardTabItemRenderer extends AbstractTouchableListItemRenderer
 private var itemWidth:Number;
 private var _firstCommit:Boolean = true;
 private var titleDisplay:RTLLabel;
-private var iconDisplay:ImageLoader;
-private var iconLayoutData:AnchorLayoutData;
+private var iconDisplay:Image;
+//private var iconLayoutData:AnchorLayoutData;
 private var badgeNumber:IndicatorButton;
 
 private var padding:int;
@@ -47,12 +48,7 @@ public function DashboardTabItemRenderer(width:Number)
 	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	iconLayoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-	
-	iconDisplay = new ImageLoader();
-	iconDisplay.width = iconDisplay.height = width - padding * 3;
-	iconDisplay.layoutData = iconLayoutData;
-	addChild(iconDisplay); 
+	//iconLayoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	
 	titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 	titleDisplay.visible = false;
@@ -97,8 +93,20 @@ override protected function commitData():void
 	}
 	super.commitData();
 	dashboardData = _data as TabItemData;
+	if( iconDisplay == null )
+	{
+		iconDisplay = new Image(Assets.getTexture("tab-"+dashboardData.index, "gui"));
+		iconDisplay.alignPivot();
+		iconDisplay.x = itemWidth * 0.5;
+		iconDisplay.y = height * 0.5;
+		iconDisplay.scale = appModel.scale * 2;
+		iconDisplay.pixelSnapping = false;
+		//iconDisplay.width = iconDisplay.height = width - padding * 3;
+		//iconDisplay.layoutData = iconLayoutData;
+		addChild(iconDisplay); 
+	}
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
-	iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
+	//iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 	titleDisplay.text = loc("tab-"+dashboardData.index) ;
 	updateBadge();
 }
@@ -130,8 +138,20 @@ override public function set isSelected(value:Boolean):void
 	super.isSelected = value;
 	Starling.juggler.tween(this, 0.08, {width:itemWidth * (value ? 2 : 1), transition:Transitions.EASE_IN_OUT});
 	titleDisplay.visible = value;
-	iconLayoutData.horizontalCenter = value ? NaN : 0;
-	iconLayoutData.left = value ? padding : NaN;
+	
+	// icon animation
+	if( iconDisplay != null )
+	{
+		//iconLayoutData.horizontalCenter = value ? NaN : 0;
+		//iconLayoutData.left = value ? padding * -0.9 : NaN;
+		Starling.juggler.removeTweens(iconDisplay);
+		iconDisplay.x = itemWidth * (value?0.42:0.5);
+		if( value )
+			Starling.juggler.tween(iconDisplay, 0.5, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
+		else
+			iconDisplay.scale = appModel.scale * 1.8;
+	}
+	
 	if(dashboardData != null)
 	{
 		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
