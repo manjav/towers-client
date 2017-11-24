@@ -48,7 +48,7 @@ override protected function initialize():void
 	insideBG.scale9Grid = new Rectangle(2, 2, 1, 1);
 	insideBG.maintainAspectRatio = false;
 	insideBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
-	insideBG.layoutData = new AnchorLayoutData(padding*7, padding, padding*1.2, padding);
+	insideBG.layoutData = new AnchorLayoutData(padding*6, padding, padding*1.2, padding);
 	addChild(insideBG);
 	
 	var titleDisplay:RTLLabel = new RTLLabel(loc("exchange_title_"+item.outcome), 0, "center", null, false, null, 1.3);
@@ -118,9 +118,9 @@ override protected function transitionInCompleted():void
 	OpenChestOverlay.createFactory();
 	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+item.outcome);
 	chestArmature.scale = appModel.scale * 2;
-	chestArmature.animation.gotoAndPlayByTime("fall-closed",0, 1);
-	addChildAt(chestArmature, 2);		
-	chestArmature.x = (transitionIn.destinationBound.width) * 0.5;
+	chestArmature.animation.gotoAndPlayByTime("fall-closed", 0, 1);
+	addChildAt(chestArmature, 3);		
+	chestArmature.x = transitionIn.destinationBound.width * 0.5;
 	chestArmature.y = padding * 0.5
 }
 
