@@ -113,22 +113,22 @@ private function showFooterButtons():void
 	addChild(gradient);
 	
 	var settingButton:IconButton = new IconButton(Assets.getTexture("button-settings", "gui"));
-	settingButton.width = settingButton.height = 120 * appModel.scale;
+	settingButton.width = settingButton.height = 140 * appModel.scale;
 	settingButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);});
-	settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 6*appModel.scale);
+	settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 6*appModel.scale);
 	addChild(settingButton);
 	
 	var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
-	newsButton.width = newsButton.height = 110 * appModel.scale;
+	newsButton.width = newsButton.height = 140 * appModel.scale;
 	newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addPopup(new NewsPopup())});
-	newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 25*appModel.scale, 126*appModel.scale);
+	newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 126*appModel.scale);
 	addChild(newsButton);
 	
 	inboxButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
 	inboxButton.badgeNumber = InboxService.instance.numUnreads;
-	inboxButton.width = inboxButton.height = 120 * appModel.scale;
+	inboxButton.width = inboxButton.height = 140 * appModel.scale;
 	inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
-	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 246*appModel.scale);
+	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 246*appModel.scale);
 	addChild(inboxButton);
 	
 	var restoreButton:Button = new Button();
