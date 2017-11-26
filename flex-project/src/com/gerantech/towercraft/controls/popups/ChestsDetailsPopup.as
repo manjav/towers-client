@@ -67,12 +67,12 @@ override protected function initialize():void
 	
 	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
-	cardsPalette.layoutData = new AnchorLayoutData(padding*13, NaN, NaN, padding*2.4);
+	cardsPalette.layoutData = new AnchorLayoutData(NaN, NaN, padding*10, padding*2.4);
 	addChild(cardsPalette);
 	
 	var softsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome)*1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
-	softsPalette.layoutData = new AnchorLayoutData(padding*13, padding*2, NaN);
+	softsPalette.layoutData = new AnchorLayoutData(NaN, padding*2, padding*10);
 	addChild(softsPalette);
 
 	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [exchanger.timeToHard(item.expiredAt-timeManager.now)]) : loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);

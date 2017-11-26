@@ -81,10 +81,10 @@ private function showMainButtons():void
 	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")));
-	addButton(battlesButton, "button_battles", 540, 1040, 0.6);
+	addButton(battlesButton, "button_battles", 540, 1000, 0.6);
 	
 	questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")));
-	addButton(questsButton, "button_quests", 540, 1340, 0.8);
+	addButton(questsButton, "button_quests", 540, 1300, 0.8);
 }
 
 private function addButton(button:HomeButton, name:String, x:int, y:int, delay:Number, callback:Function=null):void
