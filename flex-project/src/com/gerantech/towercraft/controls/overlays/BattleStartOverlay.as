@@ -115,7 +115,7 @@ private function gotoReady():void
 
 public function setData(battleData:BattleData):void
 {
-	if( questIndex < 0 )
+	if( questIndex < 0 && battleData.opponent != null )
 		opponentHeader.labelDisplay.text = battleData.opponent.getVariable("name").getStringValue();
 	if( cancelButton != null )
 		cancelButton.touchable = false;
