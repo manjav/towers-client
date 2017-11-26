@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:f6330b58fa7a4d803ed5fcbcee2ca7d7:b5b77a57998a03c0524c9b776bb50b23:f35d6734face8652aa91c1defb5ab9b6$ -->
+<!-- $TexturePacker:SmartUpdate:79e7de43b7b202b37b4af62f874cfd19:b5b77a57998a03c0524c9b776bb50b23:f35d6734face8652aa91c1defb5ab9b6$ -->
 <TextureAtlas imagePath="battlefields.png" width="1024" height="2048">
     <SubTexture name="arrow" x="855" y="197" width="16" height="16"/>
     <SubTexture name="attack-line-0000" x="983" y="415" width="32" height="48" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
@@ -254,7 +254,7 @@
     <SubTexture name="rock-3" x="226" y="1593" width="51" height="58"/>
     <SubTexture name="rock-4" x="742" y="1305" width="86" height="93"/>
     <SubTexture name="rock-5" x="570" y="316" width="76" height="85"/>
-    <SubTexture name="rock-6" x="618" y="1388" width="109" height="91"/>
+    <SubTexture name="rock-6-" x="618" y="1388" width="109" height="91"/>
     <SubTexture name="tanker-0" x="339" y="571" width="67" height="59"/>
     <SubTexture name="tree-0" x="507" y="1379" width="109" height="112"/>
     <SubTexture name="tree-1" x="309" y="974" width="89" height="91"/>
