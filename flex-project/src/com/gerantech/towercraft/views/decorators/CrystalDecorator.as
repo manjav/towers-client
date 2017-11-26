@@ -64,11 +64,11 @@ package com.gerantech.towercraft.views.decorators
 		
 			// ray
 			createRayDisplay();
-			rayImage.scale = place.building.get_damage() * 1.5;
+			rayImage.scale = place.building.get_damage() * 0.7;
 			
 			// lighting
 			createLightingDisplay();
-			lightingDisplay.scale = place.building.get_damage() * 2;
+			lightingDisplay.scale = place.building.get_damage() ;
 		}
 		
 		private function get_crystalHeight():Number
