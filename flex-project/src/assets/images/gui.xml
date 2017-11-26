@@ -1,229 +1,228 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:306cf3a33b867668c5a92202e3365c9c:01b79ba9a38cf3f186a8d7f4a3af4de9:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:c4e066502a49e2e791fdccd53294e08f:86c3e84ea5f5842c3f88794860a7519b:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
-    <SubTexture name="arena-0" x="1144" y="1164" width="93" height="99"/>
-    <SubTexture name="arena-1" x="1214" y="1059" width="93" height="99"/>
-    <SubTexture name="arena-2" x="1123" y="933" width="99" height="99"/>
-    <SubTexture name="arena-3" x="1224" y="932" width="80" height="99"/>
-    <SubTexture name="arena-4" x="1306" y="932" width="80" height="98"/>
-    <SubTexture name="arena-5" x="1239" y="1160" width="80" height="98"/>
-    <SubTexture name="arena-6" x="1613" y="1956" width="100" height="85"/>
-    <SubTexture name="arena-7" x="1915" y="439" width="100" height="85"/>
-    <SubTexture name="arena-8" x="1907" y="647" width="100" height="85"/>
+    <SubTexture name="arena-0" x="1538" y="620" width="93" height="99"/>
+    <SubTexture name="arena-1" x="1538" y="721" width="93" height="99"/>
+    <SubTexture name="arena-2" x="992" y="1198" width="99" height="99"/>
+    <SubTexture name="arena-3" x="1093" y="1198" width="80" height="99"/>
+    <SubTexture name="arena-4" x="1091" y="822" width="80" height="98"/>
+    <SubTexture name="arena-5" x="1173" y="822" width="80" height="98"/>
+    <SubTexture name="arena-6" x="1250" y="1959" width="100" height="85"/>
+    <SubTexture name="arena-7" x="954" y="412" width="100" height="85"/>
+    <SubTexture name="arena-8" x="1056" y="412" width="100" height="85"/>
     <SubTexture name="battle-button" x="2" y="1316" width="507" height="419"/>
     <SubTexture name="bg-shadow" x="511" y="1316" width="200" height="320"/>
-    <SubTexture name="building-11" x="1715" y="2" width="210" height="216" frameX="0" frameY="-60" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-12" x="713" y="1314" width="210" height="249" frameX="0" frameY="-31" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-11" x="1694" y="2" width="210" height="216" frameX="0" frameY="-60" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-12" x="713" y="1310" width="210" height="249" frameX="0" frameY="-31" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-13" x="422" y="1737" width="210" height="273" frameX="0" frameY="0" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-14" x="210" y="1737" width="210" height="274" frameX="0" frameY="0" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-21" x="1715" y="873" width="168" height="162" frameX="0" frameY="-112" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-22" x="784" y="336" width="183" height="189" frameX="0" frameY="-91" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-23" x="1161" y="513" width="182" height="183" frameX="0" frameY="-97" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-21" x="1175" y="1125" width="168" height="162" frameX="0" frameY="-112" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-22" x="1026" y="934" width="183" height="189" frameX="0" frameY="-91" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-23" x="1240" y="1538" width="182" height="183" frameX="0" frameY="-97" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-24" x="634" y="1732" width="190" height="268" frameX="0" frameY="-12" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-31" x="807" y="1565" width="184" height="162" frameX="0" frameY="-112" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-32" x="1715" y="335" width="198" height="183" frameX="0" frameY="-92" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-33" x="1187" y="1528" width="206" height="197" frameX="0" frameY="-78" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-31" x="854" y="1561" width="184" height="162" frameX="0" frameY="-112" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-32" x="1040" y="1538" width="198" height="183" frameX="0" frameY="-92" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-33" x="1694" y="220" width="206" height="197" frameX="0" frameY="-78" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-34" x="777" y="677" width="210" height="255" frameX="0" frameY="-19" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-41" x="989" y="709" width="173" height="222" frameX="0" frameY="-58" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="building-41" x="1461" y="1720" width="173" height="222" frameX="0" frameY="-58" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-42" x="841" y="934" width="183" height="242" frameX="0" frameY="-38" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-43" x="581" y="677" width="194" height="266" frameX="0" frameY="-14" frameWidth="210" frameHeight="280"/>
     <SubTexture name="building-44" x="2" y="1737" width="206" height="280" frameX="0" frameY="0" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="building-1002" x="1127" y="1300" width="193" height="226" frameX="0" frameY="-60" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="building-1003" x="925" y="1311" width="200" height="241" frameX="0" frameY="-59" frameWidth="200" frameHeight="300"/>
-    <SubTexture name="building-1004" x="1715" y="672" width="183" height="199" frameX="-11" frameY="-54" frameWidth="210" frameHeight="280"/>
-    <SubTexture name="button-inbox" x="1430" y="1956" width="98" height="86" frameX="-1" frameY="-7" frameWidth="100" frameHeight="100"/>
-    <SubTexture name="button-news" x="1026" y="933" width="95" height="100" frameX="-3" frameY="0" frameWidth="100" frameHeight="100"/>
-    <SubTexture name="button-settings" x="511" y="1638" width="92" height="94" frameX="-4" frameY="-3" frameWidth="100" frameHeight="100"/>
-    <SubTexture name="cards" x="1920" y="334" width="103" height="103" frameX="-4" frameY="-2" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="building-1002" x="1266" y="1723" width="193" height="226" frameX="0" frameY="-60" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="building-1003" x="826" y="1725" width="200" height="241" frameX="0" frameY="-59" frameWidth="200" frameHeight="300"/>
+    <SubTexture name="building-1004" x="784" y="310" width="168" height="217" frameX="-14" frameY="-33" frameWidth="210" frameHeight="280"/>
+    <SubTexture name="button-inbox" x="1589" y="1944" width="103" height="99" frameX="-4" frameY="-7" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="button-news" x="511" y="1638" width="97" height="94" frameX="-6" frameY="-7" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="button-settings" x="1480" y="1944" width="107" height="100" frameX="-3" frameY="-8" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="cards" x="697" y="1205" width="103" height="103" frameX="-4" frameY="-2" frameWidth="112" frameHeight="112"/>
     <SubTexture name="chars/char-0" x="457" y="2" width="325" height="531"/>
     <SubTexture name="chars/char-1" x="2" y="2" width="453" height="679"/>
     <SubTexture name="chars/char-2" x="2" y="683" width="577" height="631"/>
-    <SubTexture name="currency-1" x="1715" y="220" width="203" height="113" frameX="-53" frameY="-143" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="currency-2" x="826" y="1729" width="236" height="232" frameX="-20" frameY="-12" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="currency-3" x="1900" y="763" width="144" height="174" frameX="-60" frameY="-50" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="currency-11" x="1907" y="530" width="132" height="115" frameX="-61" frameY="-99" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="currency-12" x="911" y="1178" width="105" height="131" frameX="-78" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="currency-13" x="993" y="1554" width="192" height="171" frameX="-34" frameY="-70" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="emblems/emblem-000" x="1388" y="932" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-001" x="1798" y="1037" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-002" x="1715" y="1115" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-003" x="1880" y="1059" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-004" x="1797" y="1119" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-005" x="1715" y="1197" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-006" x="1962" y="1059" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-007" x="1879" y="1141" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-008" x="1797" y="1201" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-009" x="1715" y="1279" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-010" x="1961" y="1141" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-011" x="1322" y="1361" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-012" x="1322" y="1443" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-013" x="1460" y="1141" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-014" x="1461" y="1014" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-015" x="1470" y="930" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-016" x="1164" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-017" x="1246" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-018" x="1328" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-019" x="1410" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-020" x="1492" y="2" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-021" x="1492" y="84" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-022" x="1492" y="166" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-023" x="784" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-024" x="866" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-025" x="948" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-026" x="1030" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-027" x="1112" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-028" x="1194" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-029" x="1276" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-030" x="1339" y="330" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-031" x="1358" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-032" x="1492" y="248" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-033" x="1492" y="330" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-034" x="1492" y="412" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-035" x="1492" y="494" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-036" x="1492" y="576" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-037" x="1373" y="658" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-038" x="1455" y="658" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-039" x="1492" y="740" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-040" x="1574" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-041" x="1600" y="874" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-042" x="1345" y="513" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-043" x="1552" y="956" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-044" x="1879" y="1223" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-045" x="1797" y="1283" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-046" x="1715" y="1361" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-047" x="1961" y="1223" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-048" x="1879" y="1305" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-049" x="1797" y="1365" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-050" x="1715" y="1443" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-051" x="1961" y="1305" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-052" x="1879" y="1387" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-053" x="1797" y="1447" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-054" x="1715" y="1525" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-055" x="1961" y="1387" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-056" x="1395" y="1607" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-057" x="1395" y="1525" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-058" x="1477" y="1607" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-059" x="1559" y="1607" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-060" x="1641" y="1607" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-061" x="1404" y="1356" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-062" x="1404" y="1438" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-063" x="1477" y="1520" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-064" x="1462" y="1223" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-065" x="1542" y="1096" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-066" x="1624" y="1038" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-067" x="1624" y="1120" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-068" x="1559" y="1202" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-069" x="1559" y="1284" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-070" x="1486" y="1366" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-071" x="1568" y="1366" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-072" x="1559" y="1448" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-073" x="1879" y="1469" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-074" x="1797" y="1529" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-075" x="1961" y="1469" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-076" x="1879" y="1551" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-077" x="1961" y="1551" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-078" x="1723" y="1611" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-079" x="1805" y="1633" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-080" x="1715" y="1693" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-081" x="1887" y="1633" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-082" x="1677" y="1775" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-083" x="1677" y="1857" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-084" x="1715" y="1939" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-085" x="1759" y="1775" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-086" x="1759" y="1857" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-087" x="1797" y="1939" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-088" x="1879" y="1715" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-089" x="1961" y="1715" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-090" x="1841" y="1797" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-091" x="1923" y="1797" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-092" x="1879" y="1879" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-093" x="1879" y="1961" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-094" x="1961" y="1879" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-095" x="1961" y="1961" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-096" x="784" y="2" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-097" x="784" y="84" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-098" x="784" y="166" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-099" x="866" y="2" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-100" x="866" y="84" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-101" x="866" y="166" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-102" x="948" y="2" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-103" x="948" y="84" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-104" x="948" y="166" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-105" x="1030" y="2" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-106" x="1030" y="84" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-107" x="1030" y="166" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-108" x="1112" y="2" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-109" x="1112" y="84" width="80" height="80"/>
-    <SubTexture name="extra-time" x="711" y="1638" width="94" height="90" frameX="-2" frameY="-3" frameWidth="96" frameHeight="96"/>
-    <SubTexture name="finger-down" x="1151" y="336" width="186" height="175" frameX="-1" frameY="-5" frameWidth="188" frameHeight="188"/>
-    <SubTexture name="improve--2" x="1600" y="630" width="53" height="63" frameX="-8" frameY="-1" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-1" x="1600" y="568" width="57" height="60" frameX="-7" frameY="-7" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-11" x="713" y="1565" width="70" height="71" frameX="0" frameY="-1" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-21" x="1600" y="504" width="66" height="62" frameX="-3" frameY="-7" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-31" x="1321" y="1226" width="68" height="72" frameX="-2" frameY="0" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-41" x="1600" y="220" width="67" height="72" frameX="-2" frameY="0" frameWidth="72" frameHeight="72"/>
-    <SubTexture name="improve-button-disabled" x="1600" y="294" width="66" height="68"/>
-    <SubTexture name="improve-button-selected" x="1600" y="364" width="66" height="68"/>
-    <SubTexture name="improve-button-up" x="1600" y="434" width="66" height="68"/>
-    <SubTexture name="improve-lock" x="1600" y="695" width="48" height="68"/>
-    <SubTexture name="lobby-balloon" x="874" y="1963" width="95" height="82" frameX="-2" frameY="0" frameWidth="100" frameHeight="82"/>
+    <SubTexture name="currency-1" x="1694" y="419" width="203" height="113" frameX="-53" frameY="-143" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="currency-2" x="1028" y="1725" width="236" height="232" frameX="-20" frameY="-12" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="currency-3" x="1902" y="268" width="144" height="174" frameX="-60" frameY="-50" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="currency-11" x="1906" y="2" width="132" height="115" frameX="-61" frameY="-99" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="currency-12" x="1118" y="677" width="105" height="131" frameX="-78" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="currency-13" x="1694" y="534" width="192" height="171" frameX="-34" frameY="-70" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="emblems/emblem-000" x="1142" y="2" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-001" x="1142" y="84" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-002" x="1255" y="84" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-003" x="1142" y="166" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-004" x="1255" y="166" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-005" x="1142" y="248" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-006" x="1255" y="248" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-007" x="1142" y="330" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-008" x="1010" y="2" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-009" x="1010" y="84" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-010" x="784" y="166" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-011" x="866" y="166" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-012" x="948" y="166" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-013" x="1056" y="322" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-014" x="1888" y="600" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-015" x="1888" y="682" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-016" x="914" y="2" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-017" x="914" y="84" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-018" x="1142" y="499" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-019" x="1158" y="412" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-020" x="1142" y="581" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-021" x="1224" y="494" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-022" x="1240" y="393" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-023" x="1224" y="576" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-024" x="1225" y="658" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-025" x="1225" y="740" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-026" x="1306" y="475" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-027" x="1322" y="386" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-028" x="1306" y="557" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-029" x="1423" y="306" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-030" x="1404" y="388" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-031" x="1388" y="470" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-032" x="1388" y="552" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-033" x="1388" y="634" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-034" x="1345" y="716" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-035" x="1427" y="716" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-036" x="1345" y="798" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-037" x="1255" y="822" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-038" x="1427" y="798" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-039" x="1694" y="707" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-040" x="1776" y="707" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-041" x="1858" y="764" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-042" x="1940" y="801" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-043" x="1694" y="789" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-044" x="1776" y="789" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-045" x="1858" y="846" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-046" x="1606" y="822" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-047" x="1509" y="822" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-048" x="1940" y="883" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-049" x="1211" y="965" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-050" x="1293" y="965" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-051" x="1337" y="880" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-052" x="1419" y="880" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-053" x="1694" y="871" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-054" x="1776" y="871" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-055" x="1858" y="928" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-056" x="1606" y="904" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-057" x="1501" y="904" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-058" x="1940" y="965" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-059" x="1375" y="962" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-060" x="1694" y="953" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-061" x="1776" y="953" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-062" x="1858" y="1010" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-063" x="1606" y="986" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-064" x="1940" y="1047" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-065" x="1457" y="986" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-066" x="1375" y="1044" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-067" x="1694" y="1035" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-068" x="1776" y="1035" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-069" x="1858" y="1092" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-070" x="1606" y="1068" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-071" x="1940" y="1129" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-072" x="1345" y="1211" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-073" x="1345" y="1126" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-074" x="1427" y="1211" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-075" x="1427" y="1126" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-076" x="1509" y="1068" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-077" x="1509" y="1211" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-078" x="1694" y="1117" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-079" x="1776" y="1117" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-080" x="1858" y="1174" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-081" x="1606" y="1150" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-082" x="1940" y="1211" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-083" x="1694" y="1199" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-084" x="1776" y="1199" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-085" x="1858" y="1256" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-086" x="1606" y="1232" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-087" x="1940" y="1293" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-088" x="1538" y="1375" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-089" x="1694" y="1281" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-090" x="1776" y="1281" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-091" x="1858" y="1338" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-092" x="1940" y="1375" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-093" x="1694" y="1363" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-094" x="1776" y="1363" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-095" x="1858" y="1420" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-096" x="1940" y="1457" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-097" x="1694" y="1445" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-098" x="1776" y="1445" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-099" x="1858" y="1502" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-100" x="1606" y="1457" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-101" x="1940" y="1539" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-102" x="1606" y="1621" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-103" x="1606" y="1539" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-104" x="1694" y="1527" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-105" x="1776" y="1527" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-106" x="1858" y="1584" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-107" x="1940" y="1621" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-108" x="1694" y="1609" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-109" x="1776" y="1609" width="80" height="80"/>
+    <SubTexture name="extra-time" x="716" y="1638" width="94" height="90" frameX="-2" frameY="-3" frameWidth="96" frameHeight="96"/>
+    <SubTexture name="finger-down" x="954" y="500" width="186" height="175" frameX="-1" frameY="-5" frameWidth="188" frameHeight="188"/>
+    <SubTexture name="improve--2" x="1081" y="257" width="53" height="63" frameX="-8" frameY="-1" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-1" x="944" y="248" width="57" height="60" frameX="-7" frameY="-7" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-11" x="1033" y="1125" width="70" height="71" frameX="0" frameY="-1" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-21" x="784" y="86" width="66" height="62" frameX="-3" frameY="-7" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-31" x="784" y="1561" width="68" height="72" frameX="-2" frameY="0" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-41" x="1014" y="1968" width="67" height="72" frameX="-2" frameY="0" frameWidth="72" frameHeight="72"/>
+    <SubTexture name="improve-button-disabled" x="1538" y="170" width="66" height="68"/>
+    <SubTexture name="improve-button-selected" x="1538" y="240" width="66" height="68"/>
+    <SubTexture name="improve-button-up" x="1538" y="310" width="66" height="68"/>
+    <SubTexture name="improve-lock" x="1092" y="2" width="48" height="68"/>
+    <SubTexture name="lobby-balloon" x="1538" y="86" width="95" height="82" frameX="-2" frameY="0" frameWidth="100" frameHeight="82"/>
     <SubTexture name="main-map-tile" x="581" y="945" width="258" height="258"/>
-    <SubTexture name="new-badge" x="969" y="336" width="180" height="180"/>
-    <SubTexture name="quest-button" x="1064" y="1727" width="611" height="227"/>
-    <SubTexture name="rank-icon" x="1528" y="874" width="70" height="51" frameX="-4" frameY="-14" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="res-1000" x="1927" y="2" width="109" height="112" frameX="-2" frameY="0" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1001" x="1026" y="1059" width="89" height="104" frameX="-16" frameY="-4" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1002" x="1117" y="1059" width="95" height="103" frameX="-9" frameY="-6" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1003" x="605" y="1638" width="104" height="92" frameX="-5" frameY="-8" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1004" x="810" y="1205" width="99" height="107" frameX="-7" frameY="-2" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="ribbon-blue" x="969" y="520" width="190" height="150"/>
-    <SubTexture name="ribbon-red" x="1715" y="520" width="190" height="150"/>
-    <SubTexture name="search-icon" x="1391" y="1223" width="69" height="75" frameX="-3" frameY="-4" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="settings-1" x="1309" y="1059" width="60" height="82" frameX="-16" frameY="-2" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-2" x="1372" y="1141" width="86" height="80" frameX="-3" frameY="-3" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-3" x="1050" y="1963" width="66" height="82" frameX="-13" frameY="-2" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-21" x="1339" y="434" width="77" height="77" frameX="-6" frameY="-6" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-22" x="1321" y="1143" width="49" height="81" frameX="-24" frameY="-4" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-311" x="1715" y="1037" width="81" height="76" frameX="-3" frameY="-7" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-312" x="1530" y="1956" width="81" height="86" frameX="-6" frameY="-1" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-313" x="1346" y="1956" width="82" height="87" frameX="-4" frameY="0" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-314" x="1371" y="1059" width="88" height="80" frameX="-2" frameY="-6" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-315" x="971" y="1963" width="77" height="82" frameX="-7" frameY="-4" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="new-badge" x="1424" y="1538" width="180" height="180"/>
+    <SubTexture name="quest-button" x="925" y="1309" width="611" height="227"/>
+    <SubTexture name="rank-icon" x="1970" y="681" width="70" height="51" frameX="-4" frameY="-14" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="res-1001" x="899" y="1205" width="91" height="102" frameX="-10" frameY="-6" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-1002" x="802" y="1205" width="95" height="103" frameX="-9" frameY="-6" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-1003" x="610" y="1638" width="104" height="92" frameX="-5" frameY="-8" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-1004" x="989" y="822" width="100" height="110" frameX="-4" frameY="-1" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="ribbon-blue" x="1345" y="2" width="190" height="150"/>
+    <SubTexture name="ribbon-red" x="1345" y="154" width="190" height="150"/>
+    <SubTexture name="search-icon" x="713" y="1561" width="69" height="75" frameX="-3" frameY="-4" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="settings-1" x="1632" y="258" width="60" height="82" frameX="-16" frameY="-2" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-2" x="1606" y="2" width="86" height="80" frameX="-3" frameY="-3" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-3" x="1538" y="2" width="66" height="82" frameX="-13" frameY="-2" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-21" x="852" y="1968" width="77" height="77" frameX="-6" frameY="-6" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-22" x="863" y="2" width="49" height="81" frameX="-24" frameY="-4" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-311" x="931" y="1968" width="81" height="76" frameX="-3" frameY="-7" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-312" x="1167" y="1959" width="81" height="86" frameX="-6" frameY="-1" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-313" x="1083" y="1959" width="82" height="87" frameX="-4" frameY="0" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-314" x="1255" y="2" width="88" height="80" frameX="-2" frameY="-6" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-315" x="784" y="2" width="77" height="82" frameX="-7" frameY="-4" frameWidth="92" frameHeight="92"/>
     <SubTexture name="shop-line-header" x="2" y="2019" width="90" height="27" frameX="0" frameY="-1" frameWidth="90" frameHeight="28"/>
-    <SubTexture name="star-off" x="1600" y="153" width="68" height="65" frameX="0" frameY="-1" frameWidth="68" frameHeight="68"/>
-    <SubTexture name="star" x="1600" y="83" width="68" height="68"/>
-    <SubTexture name="sticker-item" x="989" y="672" width="54" height="35"/>
-    <SubTexture name="tab-0" x="1920" y="222" width="103" height="110" frameX="-10" frameY="-7" frameWidth="124" frameHeight="124"/>
-    <SubTexture name="tab-1" x="581" y="1205" width="111" height="108" frameX="-6" frameY="-8" frameWidth="124" frameHeight="124"/>
-    <SubTexture name="tab-2" x="1927" y="116" width="104" height="104" frameX="-10" frameY="-10" frameWidth="124" frameHeight="124"/>
-    <SubTexture name="tab-3" x="1018" y="1178" width="124" height="120" frameX="0" frameY="-2" frameWidth="124" frameHeight="124"/>
-    <SubTexture name="theme/back-button-disabled-skin" x="2009" y="647" width="37" height="56"/>
-    <SubTexture name="theme/back-button-down-skin" x="2009" y="705" width="37" height="56"/>
+    <SubTexture name="star-off" x="1970" y="734" width="68" height="65" frameX="0" frameY="-1" frameWidth="68" frameHeight="68"/>
+    <SubTexture name="star" x="1105" y="1125" width="68" height="68"/>
+    <SubTexture name="sticker-item" x="1632" y="342" width="54" height="35"/>
+    <SubTexture name="tab-0" x="989" y="677" width="127" height="134" frameX="-29" frameY="-20" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="tab-1" x="1899" y="444" width="143" height="154" frameX="-29" frameY="0" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="tab-2" x="803" y="529" width="123" height="131" frameX="-29" frameY="-23" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="tab-3" x="1906" y="119" width="130" height="147" frameX="-29" frameY="-7" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="theme/back-button-disabled-skin" x="1003" y="248" width="37" height="56"/>
+    <SubTexture name="theme/back-button-down-skin" x="1042" y="250" width="37" height="56"/>
     <SubTexture name="theme/back-button-up-skin" x="457" y="535" width="171" height="140"/>
-    <SubTexture name="theme/background-danger-border-skin" x="2033" y="116" width="10" height="10"/>
-    <SubTexture name="theme/background-dark-border-skin" x="2033" y="128" width="10" height="10"/>
-    <SubTexture name="theme/background-disabled-skin" x="891" y="1178" width="18" height="18"/>
-    <SubTexture name="theme/background-focused-skin" x="852" y="2002" width="18" height="18"/>
-    <SubTexture name="theme/background-inset-danger-skin" x="852" y="2022" width="18" height="18"/>
-    <SubTexture name="theme/background-inset-disabled-skin" x="1127" y="1528" width="18" height="18"/>
-    <SubTexture name="theme/background-inset-skin" x="1147" y="1528" width="18" height="18"/>
-    <SubTexture name="theme/background-light-border-skin" x="2033" y="140" width="10" height="10"/>
-    <SubTexture name="theme/background-skin" x="1167" y="1528" width="18" height="18"/>
-    <SubTexture name="theme/badge-notification-bundle" x="1164" y="874" width="56" height="56"/>
-    <SubTexture name="theme/badge-notification-new" x="1222" y="874" width="56" height="56"/>
-    <SubTexture name="theme/badge-notification" x="1280" y="874" width="56" height="56"/>
-    <SubTexture name="theme/balloon-me" x="1164" y="698" width="78" height="60" frameX="-18" frameY="-9" frameWidth="96" frameHeight="76"/>
-    <SubTexture name="theme/balloon-other" x="1244" y="698" width="78" height="60" frameX="0" frameY="-9" frameWidth="96" frameHeight="76"/>
-    <SubTexture name="theme/building-button-disable" x="803" y="527" width="152" height="118"/>
-    <SubTexture name="theme/building-button" x="1885" y="939" width="152" height="118"/>
-    <SubTexture name="theme/button-danger-down-skin" x="1677" y="709" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
-    <SubTexture name="theme/button-danger-up-skin" x="1677" y="485" width="22" height="54"/>
-    <SubTexture name="theme/button-disabled-skin" x="1677" y="541" width="22" height="54"/>
-    <SubTexture name="theme/button-neutral-down-skin" x="1677" y="764" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
-    <SubTexture name="theme/button-neutral-up-skin" x="1677" y="597" width="22" height="54"/>
-    <SubTexture name="theme/button-normal-down-skin" x="1677" y="819" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
-    <SubTexture name="theme/button-normal-up-skin" x="1677" y="653" width="22" height="54"/>
+    <SubTexture name="theme/background-danger-border-skin" x="803" y="662" width="10" height="10"/>
+    <SubTexture name="theme/background-dark-border-skin" x="815" y="662" width="10" height="10"/>
+    <SubTexture name="theme/background-disabled-skin" x="957" y="1178" width="18" height="18"/>
+    <SubTexture name="theme/background-focused-skin" x="977" y="1178" width="18" height="18"/>
+    <SubTexture name="theme/background-inset-danger-skin" x="826" y="1980" width="18" height="18"/>
+    <SubTexture name="theme/background-inset-disabled-skin" x="925" y="1538" width="18" height="18"/>
+    <SubTexture name="theme/background-inset-skin" x="945" y="1538" width="18" height="18"/>
+    <SubTexture name="theme/background-light-border-skin" x="827" y="662" width="10" height="10"/>
+    <SubTexture name="theme/background-skin" x="965" y="1538" width="18" height="18"/>
+    <SubTexture name="theme/badge-notification-bundle" x="1636" y="84" width="56" height="56"/>
+    <SubTexture name="theme/badge-notification-new" x="1636" y="142" width="56" height="56"/>
+    <SubTexture name="theme/badge-notification" x="1636" y="200" width="56" height="56"/>
+    <SubTexture name="theme/balloon-me" x="784" y="248" width="78" height="60" frameX="-18" frameY="-9" frameWidth="96" frameHeight="76"/>
+    <SubTexture name="theme/balloon-other" x="864" y="248" width="78" height="60" frameX="0" frameY="-9" frameWidth="96" frameHeight="76"/>
+    <SubTexture name="theme/building-button-disable" x="1538" y="380" width="152" height="118"/>
+    <SubTexture name="theme/building-button" x="1538" y="500" width="152" height="118"/>
+    <SubTexture name="theme/button-danger-down-skin" x="1225" y="170" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
+    <SubTexture name="theme/button-danger-up-skin" x="928" y="578" width="22" height="54"/>
+    <SubTexture name="theme/button-disabled-skin" x="1225" y="2" width="22" height="54"/>
+    <SubTexture name="theme/button-neutral-down-skin" x="1225" y="225" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
+    <SubTexture name="theme/button-neutral-up-skin" x="1225" y="58" width="22" height="54"/>
+    <SubTexture name="theme/button-normal-down-skin" x="1225" y="280" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
+    <SubTexture name="theme/button-normal-up-skin" x="1225" y="114" width="22" height="54"/>
     <SubTexture name="theme/callout-arrow-bottom-skin" x="94" y="2019" width="40" height="26"/>
     <SubTexture name="theme/callout-arrow-left-skin" x="796" y="2002" width="26" height="40"/>
     <SubTexture name="theme/callout-arrow-right-skin" x="824" y="2002" width="26" height="40"/>
@@ -235,76 +234,76 @@
     <SubTexture name="theme/check-selected-up-icon" x="356" y="2013" width="32" height="32"/>
     <SubTexture name="theme/check-up-icon" x="390" y="2013" width="32" height="32"/>
     <SubTexture name="theme/danger-callout-arrow-bottom-skin" x="178" y="2019" width="40" height="26"/>
-    <SubTexture name="theme/danger-callout-arrow-left-skin" x="2017" y="446" width="26" height="40"/>
-    <SubTexture name="theme/danger-callout-arrow-right-skin" x="2017" y="488" width="26" height="40"/>
-    <SubTexture name="theme/danger-callout-arrow-top-skin" x="803" y="647" width="40" height="26"/>
-    <SubTexture name="theme/first-inset-item-renderer-selected-up-skin" x="1118" y="1956" width="30" height="88"/>
-    <SubTexture name="theme/first-inset-item-renderer-up-skin" x="1150" y="1956" width="30" height="88"/>
-    <SubTexture name="theme/forward-button-disabled-skin" x="1338" y="874" width="37" height="56"/>
-    <SubTexture name="theme/forward-button-down-skin" x="1377" y="874" width="37" height="56"/>
+    <SubTexture name="theme/danger-callout-arrow-left-skin" x="1606" y="170" width="26" height="40"/>
+    <SubTexture name="theme/danger-callout-arrow-right-skin" x="1606" y="212" width="26" height="40"/>
+    <SubTexture name="theme/danger-callout-arrow-top-skin" x="1042" y="222" width="40" height="26"/>
+    <SubTexture name="theme/first-inset-item-renderer-selected-up-skin" x="812" y="1635" width="30" height="88"/>
+    <SubTexture name="theme/first-inset-item-renderer-up-skin" x="1352" y="1951" width="30" height="88"/>
+    <SubTexture name="theme/forward-button-disabled-skin" x="852" y="86" width="37" height="56"/>
+    <SubTexture name="theme/forward-button-down-skin" x="1224" y="335" width="37" height="56"/>
     <SubTexture name="theme/forward-button-up-skin" x="630" y="535" width="171" height="140"/>
     <SubTexture name="theme/grad-ro-right" x="440" y="2012" width="32" height="32"/>
-    <SubTexture name="theme/grouped-list-header-background-skin" x="2033" y="152" width="10" height="10"/>
+    <SubTexture name="theme/grouped-list-header-background-skin" x="839" y="662" width="10" height="10"/>
     <SubTexture name="theme/horizontal-scroll-bar-decrement-button-disabled-icon" x="634" y="2002" width="6" height="8"/>
     <SubTexture name="theme/horizontal-scroll-bar-decrement-button-icon" x="642" y="2002" width="6" height="8"/>
     <SubTexture name="theme/horizontal-scroll-bar-increment-button-disabled-icon" x="777" y="934" width="6" height="8"/>
     <SubTexture name="theme/horizontal-scroll-bar-increment-button-icon" x="785" y="934" width="6" height="8"/>
-    <SubTexture name="theme/horizontal-simple-scroll-bar-thumb-skin" x="845" y="665" width="24" height="10"/>
-    <SubTexture name="theme/indicator-add" x="1600" y="2" width="75" height="79" frameX="-2" frameY="-1" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="theme/indicator-background" x="785" y="1565" width="20" height="25" frameX="0" frameY="-3" frameWidth="20" frameHeight="28"/>
-    <SubTexture name="theme/inset-item-renderer-selected-up-skin" x="1310" y="1956" width="10" height="88"/>
-    <SubTexture name="theme/inset-item-renderer-up-skin" x="1322" y="1956" width="10" height="88"/>
-    <SubTexture name="theme/item-renderer-danger-skin" x="1677" y="62" width="32" height="54"/>
-    <SubTexture name="theme/item-renderer-disabled-skin" x="1677" y="118" width="32" height="54"/>
-    <SubTexture name="theme/item-renderer-drill-down-accessory-icon" x="841" y="1178" width="17" height="25"/>
-    <SubTexture name="theme/item-renderer-drill-down-accessory-selected-icon" x="860" y="1178" width="17" height="25"/>
-    <SubTexture name="theme/item-renderer-selected-skin" x="1677" y="174" width="32" height="54"/>
-    <SubTexture name="theme/item-renderer-up-skin" x="1677" y="230" width="32" height="54"/>
-    <SubTexture name="theme/last-inset-item-renderer-selected-up-skin" x="1182" y="1956" width="30" height="88"/>
-    <SubTexture name="theme/last-inset-item-renderer-up-skin" x="1214" y="1956" width="30" height="88"/>
-    <SubTexture name="theme/list-background-skin" x="2025" y="338" width="16" height="16"/>
+    <SubTexture name="theme/horizontal-simple-scroll-bar-thumb-skin" x="826" y="1968" width="24" height="10"/>
+    <SubTexture name="theme/indicator-add" x="1970" y="600" width="75" height="79" frameX="-2" frameY="-1" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="theme/indicator-background" x="841" y="1178" width="20" height="25" frameX="0" frameY="-3" frameWidth="20" frameHeight="28"/>
+    <SubTexture name="theme/inset-item-renderer-selected-up-skin" x="986" y="310" width="10" height="88"/>
+    <SubTexture name="theme/inset-item-renderer-up-skin" x="998" y="310" width="10" height="88"/>
+    <SubTexture name="theme/item-renderer-danger-skin" x="1010" y="356" width="32" height="54"/>
+    <SubTexture name="theme/item-renderer-disabled-skin" x="1283" y="330" width="32" height="54"/>
+    <SubTexture name="theme/item-renderer-drill-down-accessory-icon" x="863" y="1178" width="17" height="25"/>
+    <SubTexture name="theme/item-renderer-drill-down-accessory-selected-icon" x="882" y="1178" width="17" height="25"/>
+    <SubTexture name="theme/item-renderer-selected-skin" x="1317" y="330" width="32" height="54"/>
+    <SubTexture name="theme/item-renderer-up-skin" x="1351" y="306" width="32" height="54"/>
+    <SubTexture name="theme/last-inset-item-renderer-selected-up-skin" x="1384" y="1951" width="30" height="88"/>
+    <SubTexture name="theme/last-inset-item-renderer-up-skin" x="1416" y="1951" width="30" height="88"/>
+    <SubTexture name="theme/list-background-skin" x="985" y="1538" width="16" height="16"/>
     <SubTexture name="theme/mute-toggle-button-loud-down-icon" x="650" y="2002" width="47" height="41"/>
     <SubTexture name="theme/mute-toggle-button-loud-up-icon" x="699" y="2002" width="47" height="41"/>
-    <SubTexture name="theme/mute-toggle-button-muted-down-icon" x="826" y="1963" width="46" height="37" frameX="0" frameY="-2" frameWidth="47" frameHeight="41"/>
-    <SubTexture name="theme/mute-toggle-button-muted-up-icon" x="1239" y="1260" width="46" height="37" frameX="0" frameY="-2" frameWidth="47" frameHeight="41"/>
-    <SubTexture name="theme/page-indicator-disabled-symbol" x="2025" y="356" width="16" height="16"/>
-    <SubTexture name="theme/page-indicator-selected-disabled-symbol" x="2025" y="374" width="16" height="16"/>
-    <SubTexture name="theme/page-indicator-selected-symbol" x="2025" y="392" width="16" height="16"/>
-    <SubTexture name="theme/page-indicator-symbol" x="2025" y="410" width="16" height="16"/>
-    <SubTexture name="theme/picker-list-button-disabled-icon" x="2025" y="428" width="16" height="16"/>
-    <SubTexture name="theme/picker-list-button-icon" x="845" y="647" width="16" height="16"/>
+    <SubTexture name="theme/mute-toggle-button-muted-down-icon" x="1092" y="123" width="46" height="37" frameX="0" frameY="-2" frameWidth="47" frameHeight="41"/>
+    <SubTexture name="theme/mute-toggle-button-muted-up-icon" x="1092" y="162" width="46" height="37" frameX="0" frameY="-2" frameWidth="47" frameHeight="41"/>
+    <SubTexture name="theme/page-indicator-disabled-symbol" x="1003" y="1538" width="16" height="16"/>
+    <SubTexture name="theme/page-indicator-selected-disabled-symbol" x="1021" y="1538" width="16" height="16"/>
+    <SubTexture name="theme/page-indicator-selected-symbol" x="997" y="1178" width="16" height="16"/>
+    <SubTexture name="theme/page-indicator-symbol" x="1015" y="1178" width="16" height="16"/>
+    <SubTexture name="theme/picker-list-button-disabled-icon" x="1606" y="354" width="16" height="16"/>
+    <SubTexture name="theme/picker-list-button-icon" x="928" y="634" width="16" height="16"/>
     <SubTexture name="theme/picker-list-button-selected-icon" x="793" y="934" width="16" height="6" frameX="0" frameY="-5" frameWidth="16" frameHeight="16"/>
     <SubTexture name="theme/picker-list-item-renderer-selected-icon" x="474" y="2012" width="32" height="32"/>
-    <SubTexture name="theme/popup-background-skin" x="1677" y="286" width="30" height="48"/>
-    <SubTexture name="theme/popup-inside-background-skin" x="2033" y="164" width="10" height="10"/>
+    <SubTexture name="theme/popup-background-skin" x="1010" y="306" width="30" height="48"/>
+    <SubTexture name="theme/popup-inside-background-skin" x="851" y="662" width="10" height="10"/>
     <SubTexture name="theme/radio-selected-disabled-icon" x="508" y="2012" width="32" height="32"/>
     <SubTexture name="theme/radio-selected-down-icon" x="542" y="2012" width="32" height="32"/>
     <SubTexture name="theme/radio-selected-up-icon" x="576" y="2012" width="32" height="32"/>
-    <SubTexture name="theme/search-disabled-icon" x="785" y="1592" width="20" height="20"/>
-    <SubTexture name="theme/search-icon" x="785" y="1614" width="20" height="20"/>
-    <SubTexture name="theme/seek-slider-progress-skin" x="863" y="647" width="16" height="16"/>
-    <SubTexture name="theme/single-inset-item-renderer-selected-up-skin" x="1246" y="1956" width="30" height="88"/>
-    <SubTexture name="theme/single-inset-item-renderer-up-skin" x="1278" y="1956" width="30" height="88"/>
-    <SubTexture name="theme/slider-background" x="1677" y="436" width="24" height="47" frameX="0" frameY="-1" frameWidth="24" frameHeight="48"/>
-    <SubTexture name="theme/slider-track-neutral" x="1677" y="336" width="24" height="48"/>
-    <SubTexture name="theme/slider-track" x="1677" y="386" width="24" height="48"/>
-    <SubTexture name="theme/spinner-list-selection-overlay-skin" x="1334" y="1956" width="10" height="88"/>
+    <SubTexture name="theme/search-disabled-icon" x="913" y="1178" width="20" height="20"/>
+    <SubTexture name="theme/search-icon" x="935" y="1178" width="20" height="20"/>
+    <SubTexture name="theme/seek-slider-progress-skin" x="928" y="652" width="16" height="16"/>
+    <SubTexture name="theme/single-inset-item-renderer-selected-up-skin" x="1448" y="1951" width="30" height="88"/>
+    <SubTexture name="theme/single-inset-item-renderer-up-skin" x="954" y="310" width="30" height="88"/>
+    <SubTexture name="theme/slider-background" x="928" y="529" width="24" height="47" frameX="0" frameY="-1" frameWidth="24" frameHeight="48"/>
+    <SubTexture name="theme/slider-track-neutral" x="1606" y="254" width="24" height="48"/>
+    <SubTexture name="theme/slider-track" x="1606" y="304" width="24" height="48"/>
+    <SubTexture name="theme/spinner-list-selection-overlay-skin" x="1044" y="322" width="10" height="88"/>
     <SubTexture name="theme/tab-disabled-skin" x="610" y="2012" width="36" height="28"/>
     <SubTexture name="theme/tab-selected-border" x="748" y="2002" width="46" height="40"/>
-    <SubTexture name="theme/tab-selected-up-skin" x="1677" y="2" width="36" height="28"/>
-    <SubTexture name="theme/tab-up-skin" x="1677" y="32" width="36" height="28"/>
-    <SubTexture name="theme/toggle-button-selected-disabled-skin" x="2025" y="222" width="18" height="56"/>
-    <SubTexture name="theme/toggle-button-selected-up-skin" x="2025" y="280" width="18" height="56"/>
-    <SubTexture name="theme/upgrade-ready" x="1324" y="698" width="47" height="49"/>
+    <SubTexture name="theme/tab-selected-up-skin" x="1385" y="306" width="36" height="28"/>
+    <SubTexture name="theme/tab-up-skin" x="1385" y="336" width="36" height="28"/>
+    <SubTexture name="theme/toggle-button-selected-disabled-skin" x="891" y="85" width="18" height="56"/>
+    <SubTexture name="theme/toggle-button-selected-up-skin" x="1263" y="330" width="18" height="56"/>
+    <SubTexture name="theme/upgrade-ready" x="1092" y="72" width="47" height="49"/>
     <SubTexture name="theme/vertical-scroll-bar-decrement-button-disabled-icon" x="811" y="934" width="8" height="6"/>
     <SubTexture name="theme/vertical-scroll-bar-decrement-button-icon" x="821" y="934" width="8" height="6"/>
     <SubTexture name="theme/vertical-scroll-bar-increment-button-disabled-icon" x="831" y="934" width="8" height="6"/>
-    <SubTexture name="theme/vertical-scroll-bar-increment-button-icon" x="925" y="1554" width="8" height="6"/>
-    <SubTexture name="theme/vertical-simple-scroll-bar-thumb-skin" x="879" y="1178" width="10" height="24"/>
+    <SubTexture name="theme/vertical-scroll-bar-increment-button-icon" x="844" y="1635" width="8" height="6"/>
+    <SubTexture name="theme/vertical-simple-scroll-bar-thumb-skin" x="901" y="1178" width="10" height="24"/>
     <SubTexture name="timer-needle" x="424" y="2012" width="14" height="34" frameX="0" frameY="0" frameWidth="14" frameHeight="54"/>
-    <SubTexture name="timer" x="694" y="1205" width="114" height="107" frameX="-13" frameY="-5" frameWidth="134" frameHeight="134"/>
-    <SubTexture name="tooltip-bg-bot-left" x="1416" y="874" width="54" height="54"/>
-    <SubTexture name="tooltip-bg-bot-right" x="1322" y="1300" width="54" height="54"/>
-    <SubTexture name="tooltip-bg-top-left" x="1378" y="1300" width="54" height="54"/>
-    <SubTexture name="tooltip-bg-top-right" x="1472" y="874" width="54" height="54"/>
+    <SubTexture name="timer" x="581" y="1205" width="114" height="107" frameX="-13" frameY="-5" frameWidth="134" frameHeight="134"/>
+    <SubTexture name="tooltip-bg-bot-left" x="1636" y="620" width="54" height="54"/>
+    <SubTexture name="tooltip-bg-bot-right" x="1636" y="676" width="54" height="54"/>
+    <SubTexture name="tooltip-bg-top-left" x="1030" y="166" width="54" height="54"/>
+    <SubTexture name="tooltip-bg-top-right" x="1086" y="201" width="54" height="54"/>
 </TextureAtlas>

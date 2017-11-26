@@ -4,7 +4,6 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.buildings.Place;
-import com.gt.towers.constants.BuildingType;
 import com.gt.towers.utils.lists.PlaceList;
 
 import flash.utils.clearTimeout;
