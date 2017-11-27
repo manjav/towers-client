@@ -1,5 +1,8 @@
 package com.gerantech.towercraft.managers.net.sfs
 {
+	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
+	import com.gerantech.towercraft.controls.overlays.LowConnectionOverlay;
+	import com.gerantech.towercraft.models.AppModel;
 	import com.smartfoxserver.v2.SmartFox;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.Room;
@@ -7,6 +10,8 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.ExtensionRequest;
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
+	
+	import flash.utils.setTimeout;
 	
 	[Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 	[Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -27,6 +32,9 @@ package com.gerantech.towercraft.managers.net.sfs
 		public var retryIndex:int = 1;
 
 		private var loginParams:ISFSObject;
+		private var lowConnectionOverlay:LowConnectionOverlay;
+
+		private var commandsPool:Vector.<String>;
 				
 		public function SFSConnection()
 		{
@@ -65,8 +73,10 @@ package com.gerantech.towercraft.managers.net.sfs
 			addEventListener(SFSEvent.LOGOUT, 				sfs_logoutHandler);
 			addEventListener(SFSEvent.LOGIN_ERROR, 			sfs_loginErrorHandler);
 			
-			//addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
+
+			addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 			loadConfig();
+			commandsPool = new Vector.<String>();
 		}
 		
 		public function retry():void
@@ -96,15 +106,7 @@ package com.gerantech.towercraft.managers.net.sfs
 				return;
 			send( new LogoutRequest() );
 		}
-		
-		public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room:Room=null, useUDP:Boolean=false):void
-		{
-			if(!isConnected)
-				return;
-			send(new ExtensionRequest(extCmd, params, room, useUDP));
-		}
-
-		
+	
 		
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// SFS2X event handlers
@@ -147,7 +149,9 @@ package com.gerantech.towercraft.managers.net.sfs
 		// Login ....................................................
 		public function sfs_loginHandler(event:SFSEvent):void
 		{
-		//	trace("Login Succeed:", UserData.instance.userName, UserData.instance.password, "t["+(getTimer()-Tanks.t)+"]");
+			//addEventListener(SFSEvent.PING_PONG, sfs_pingPongHandler);
+			//enableLagMonitor(true)
+			//	trace("Login Succeed:", UserData.instance.userName, UserData.instance.password, "t["+(getTimer()-Tanks.t)+"]");
 		//	dispatchEvent(event.clone());
 		}
 		protected function sfs_logoutHandler(event:SFSEvent):void
@@ -167,14 +171,80 @@ package com.gerantech.towercraft.managers.net.sfs
 			{*/
 			//	dispatchEvent(event.clone());
 			//}
-		}	
+		}
+		
 		// Response ....................................................
-		/*protected function sfs_extensionResponseHandler(event:SFSEvent):void
+		public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room:Room=null, useUDP:Boolean=false):void
 		{
-			if(hasEventListener(event.type))
-				dispatchEvent(event.clone());
-		}	*/
+			if( !isConnected )
+				return;
+			
+			var canceledCommand:String = SFSCommands.getCanceled(extCmd);
+			if( canceledCommand != null )
+				removeFromCommands(canceledCommand);
+			
+			var deadline:int = SFSCommands.getDeadline(extCmd);
+			if( deadline > -1 && commandsPool.indexOf(extCmd) == -1 )
+			{
+				commandsPool.push(extCmd);
+				setTimeout(responseDeadlineCallback, deadline, extCmd);
+			}
+			send(new ExtensionRequest(extCmd, params, room, useUDP));
+		}
+		
+		protected function sfs_extensionResponseHandler(event:SFSEvent):void
+		{
+			removeFromCommands(event.params.cmd);
+		}
+		public function removeFromCommands(command):void
+		{
+			var cmdIndex:Number = commandsPool.indexOf(command);
+			//trace("removeFromCommands", command, cmdIndex);
+			if( cmdIndex == -1 )
+				return;
+			
+			commandsPool.removeAt(cmdIndex);
+			hideLowConnectionAlert(command);
+		}
+		private function responseDeadlineCallback(extCmd:String):void
+		{
+			var cmdIndex:Number = commandsPool.indexOf(extCmd);
+			//trace("deadline", extCmd, cmdIndex);
+			if( cmdIndex > -1 )
+				showLowConnectionAlert(extCmd);
+		}		
+		protected function sfs_pingPongHandler(event:SFSEvent):void
+		{
+			//trace("lag:", event.params.lagValue);
+			if( event.params.lagValue < 550 )
+			{
+				hideLowConnectionAlert();
+				return;
+			}
+			showLowConnectionAlert();
+		}
+		
+		private function showLowConnectionAlert(command:String=null):void
+		{
+			if( lowConnectionOverlay != null )
+				return;
+			
+			lowConnectionOverlay = new LowConnectionOverlay();
+			lowConnectionOverlay.data = command;
+			AppModel.instance.navigator.addOverlay(lowConnectionOverlay);			
+		}
+		
+		private function hideLowConnectionAlert(command:String=null):void
+		{
+			if( lowConnectionOverlay == null )
+				return;
+			
+			if( command != null && lowConnectionOverlay.data != command )
+				return;
 
+			lowConnectionOverlay.close();
+			lowConnectionOverlay = null;
+		}
 		
 		/*public function destroy():void
 		{

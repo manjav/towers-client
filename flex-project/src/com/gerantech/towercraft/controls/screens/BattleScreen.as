@@ -420,6 +420,9 @@ package com.gerantech.towercraft.controls.screens
 				for( var i:int=0; i<towers.size(); i++ )
 					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
 			}
+			
+			sfsConnection.removeFromCommands(SFSCommands.FIGHT);
+			
 		}
 		
 		private function updateTowersFromRoomVars():void
