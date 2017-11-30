@@ -76,9 +76,9 @@ package com.gerantech.towercraft.controls.items
 			cardDisplay.type = _data as int;
 			Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
 			
-			if ( appModel.game.loginData.buildingsLevel.exists( cardDisplay.type ) )
+			if ( player.newBuildings.exists( cardDisplay.type ) )
 			{
-				appModel.game.loginData.buildingsLevel.remove( cardDisplay.type );
+				player.newBuildings.remove( cardDisplay.type );
 				
 				newDisplay = new ImageLoader();
 				newDisplay.source = Assets.getTexture("new-badge", "gui");

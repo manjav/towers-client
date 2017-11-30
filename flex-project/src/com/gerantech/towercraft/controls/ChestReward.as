@@ -73,7 +73,7 @@ package com.gerantech.towercraft.controls
 				newDisplay.width = 200 * appModel.scale;
 				newDisplay.height = 200 * appModel.scale;
 				iconContainer.addChild(newDisplay);
-				appModel.game.loginData.buildingsLevel.set(type, 1);
+				player.newBuildings.set(type, 1);
 				
 				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
 			}

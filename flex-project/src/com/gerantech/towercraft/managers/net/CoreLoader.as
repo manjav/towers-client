@@ -78,7 +78,6 @@ package com.gerantech.towercraft.managers.net
 			initCoreData(swfCore);
 
 			trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
-			AppModel.instance.game.loginData.buildingsLevel = new IntIntMap();
 			dispatchEvent(new Event(Event.COMPLETE));
 		}
 		

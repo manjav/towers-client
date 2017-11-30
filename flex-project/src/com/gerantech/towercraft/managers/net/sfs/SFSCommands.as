@@ -64,7 +64,7 @@ public static function getDeadline(command:String):int
 		case INBOX_BROADCAST:
 			return -1;
 	}
-	return 1;
+	return 1000;
 }
 
 public static function getCanceled(command:String):String
