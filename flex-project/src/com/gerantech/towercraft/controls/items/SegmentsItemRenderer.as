@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
+import com.gerantech.towercraft.controls.segments.CardsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.HomeSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
@@ -61,7 +62,7 @@ import starling.events.Event;
 					segment = new HomeSegment();
 					break;
 				case SegmentType.S2_DECK:
-					segment = new BuildingsSegment();
+					segment = new CardsSegment();
 					break;
 				case SegmentType.S3_SOCIALS:
 					segment = new SocialSegment();

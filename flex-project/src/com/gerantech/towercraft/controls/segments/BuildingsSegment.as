@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
+import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -35,7 +35,7 @@ private var buildingsListCollection:ListCollection;
 private var buildingslist:List;
 private var listLayout:TiledRowsLayout;
 
-private var detailsPopup:BuildingDetailsPopup;
+private var detailsPopup:CardDetailsPopup;
 
 override public function init():void
 {
@@ -132,7 +132,7 @@ private function list_focusInHandler(event:Event):void
 	to.sourceBound = ti.destinationBound.clone();
 	to.destinationBound = ti.sourceBound.clone();
 
-	detailsPopup = new BuildingDetailsPopup();
+	detailsPopup = new CardDetailsPopup();
 	detailsPopup.buildingType = item.data as int;
 	detailsPopup.transitionIn = ti;
 	detailsPopup.transitionOut = to;

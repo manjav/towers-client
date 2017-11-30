@@ -15,6 +15,7 @@ package com.gerantech.towercraft.managers.net
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.exchanges.Exchange;
 	import com.gt.towers.exchanges.ExchangeItem;
+	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.maps.IntArenaMap;
 	import com.gt.towers.utils.maps.IntIntMap;
@@ -156,12 +157,22 @@ package com.gerantech.towercraft.managers.net
 
 			var elements:ISFSArray = sfsObj.getSFSArray("resources");
 			var element:ISFSObject;
-			for(var i:int=0; i<elements.size(); i++)
+			for( var i:int=0; i<elements.size(); i++ )
 			{
 				element = elements.getSFSObject(i);
 				initData.resources.set(element.getInt("type"), element.getInt("count"));
-				if(element.getInt("type") < 1000)
+				if( element.getInt("type") < 1000 )
 					initData.buildingsLevel.set(element.getInt("type"), element.getInt("level"));
+			}
+			
+			elements = sfsObj.getSFSArray("decks");
+			for( i=0; i<elements.size(); i++ )
+			{
+				element = elements.getSFSObject(i);
+				if( initData.decks.get(element.getInt("deck_index")) == null )
+					initData.decks.set(element.getInt("deck_index"), new IntList());
+				
+				initData.decks.get(element.getInt("deck_index")).set(element.getInt("index"), element.getInt("type"));
 			}
 			
 			elements = sfsObj.getSFSArray("quests");

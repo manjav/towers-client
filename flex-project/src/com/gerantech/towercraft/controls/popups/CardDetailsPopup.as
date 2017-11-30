@@ -8,6 +8,8 @@ package com.gerantech.towercraft.controls.popups
 	import com.gt.towers.constants.BuildingFeatureType;
 	import com.gt.towers.constants.ResourceType;
 	
+	import flash.geom.Rectangle;
+	
 	import feathers.controls.List;
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.renderers.IListItemRenderer;
@@ -19,7 +21,7 @@ package com.gerantech.towercraft.controls.popups
 	import starling.core.Starling;
 	import starling.events.Event;
 
-	public class BuildingDetailsPopup extends SimplePopup
+	public class CardDetailsPopup extends SimplePopup
 	{
 		public var buildingType:int;
 		private var building:Building;

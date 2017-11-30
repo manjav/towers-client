@@ -83,6 +83,7 @@ override protected function initialize():void
 	pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	pageList.snapToPages = true;
 	pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
+	pageList.addEventListener("scrollPolicy", pageList_scrollPolicyHandler);
 	pageList.verticalScrollPolicy = ScrollPolicy.OFF;
 	pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 	addChild(pageList);
@@ -118,6 +119,11 @@ override protected function initialize():void
 		appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 	else
 		loadingManager_loadedHandler(null);
+}
+
+private function pageList_scrollPolicyHandler(event:Event):void
+{
+	pageList.horizontalScrollPolicy = event.data ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 }
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
@@ -172,7 +178,7 @@ private function getListData():ListCollection
 					if( b.upgradable() )
 						pd.badgeNumber ++;
 					
-					if( game.loginData.buildingsLevel.exists(b.type) )
+					if( player.newBuildings.exists(b.type) )
 						pd.newBadgeNumber ++;
 				}
 			}
