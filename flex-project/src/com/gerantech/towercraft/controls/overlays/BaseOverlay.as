@@ -41,10 +41,10 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			var overlay:Devider = new Devider();
 			overlay.alpha = 0.4;
-			overlay.width = stage.width * 3;
-			overlay.height = stage.height * 3;
-			overlay.x = -overlay.width / 2;
-			overlay.y = -overlay.height / 2;
+			overlay.width = stage.stageWidth * 3;
+			overlay.height = stage.stageHeight * 3;
+			overlay.x = -stage.stageWidth * 2;
+			overlay.y = -stage.stageHeight * 2;
 			return overlay;
 		}
 		
