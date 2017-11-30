@@ -77,8 +77,8 @@ override public function init():void
 	addChild(deckHeader);
 
 	
-	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [3,12]));
-	foundLabel.layoutData = new AnchorLayoutData(deckHeader._height + padding * 0.5, padding, NaN, padding);
+	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [3,12]), 0xBBBBBB, null, null, false, null, 0.8);
+	foundLabel.layoutData = new AnchorLayoutData(deckHeader._height + padding, padding, NaN, padding);
 	scroller.addChild(foundLabel);
 	
 	layout = new AnchorLayout();
@@ -101,14 +101,19 @@ override public function init():void
 	list.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
 	list.dataProvider = buildingsListCollection;
 	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
+	list.addEventListener(FeathersEventType.CREATION_COMPLETE, list_createCompleteHandler);
 	scroller.addChild(list);
 	
-	var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"));
-	availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + padding + list.height, padding, NaN, padding);
-	scroller.addChild(availabledLabel);
 	
 	initializeCompleted = true;
 	showTutorial();
+}
+
+private function list_createCompleteHandler():void
+{
+	var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBBBBB, null, null, false, null, 0.8);
+	availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + list.height + padding*4, padding, NaN, padding);
+	scroller.addChild(availabledLabel);	
 }
 
 override public function focus():void
@@ -143,7 +148,7 @@ override public function updateData():void
 	while( buildings.length > 0 )
 	{
 		b = buildings.pop();
-		//if( player.decks.get(0).indexOf(b) == -1 )
+		//if( player.decks.get(player.selectedDeck).indexOf(b) == -1 )
 			buildingArray.push(b);
 	}
 	
@@ -184,7 +189,7 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 	return;
 	}*/
 	
-	var deckInex:int = player.decks.get(0).indexOf(buildingType);
+	var deckInex:int = player.decks.get(player.selectedDeck).indexOf(buildingType);
 	// create transition data
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
@@ -262,7 +267,7 @@ private function pushToDeck(cardIndex:int):void
 		return;
 	}
 	deckHeader.cards[cardIndex].type = draggableCard.type;
-	player.decks.get(0).set(cardIndex, draggableCard.type);
+	player.decks.get(player.selectedDeck).set(cardIndex, draggableCard.type);
 	dispatchEventWith("scrollPolicy", true, true);
 	setEditMode(false);
 }
