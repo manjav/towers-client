@@ -46,7 +46,7 @@ override protected function initialize():void
 	
 	cards = new Vector.<BuildingCard>();
 	cardsBounds = new Vector.<Rectangle>();
-	for ( var i:int = 0; i < player.decks.get(0).size(); i++ ) 
+	for ( var i:int = 0; i < player.decks.get(player.selectedDeck).size(); i++ ) 
 		createDeckItem(i);
 }
 
@@ -63,7 +63,7 @@ private function createDeckItem(i:int):void
 	card.height = 360 * appModel.scale;
 	card.x = card.pivotX = card.width * 0.5;
 	card.y = card.pivotY = card.height * 0.5;	
-	card.type = player.decks.get(0).get(i);
+	card.type = player.decks.get(player.selectedDeck).get(i);
 	cards.push(card);
 	button.addChild(card);
 	

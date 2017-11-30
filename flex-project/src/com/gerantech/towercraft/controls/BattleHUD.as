@@ -3,9 +3,11 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.controls.headers.AttendeeHeader;
+	import com.gerantech.towercraft.controls.headers.BattleFooter;
 	import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 	import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.vo.BattleData;
@@ -30,7 +32,6 @@ package com.gerantech.towercraft.controls
 	import starling.core.Starling;
 	import starling.display.Quad;
 	import starling.events.Event;
-	import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 
 	public class BattleHUD extends TowersLayout
 	{
@@ -50,6 +51,7 @@ package com.gerantech.towercraft.controls
 		private var debugMode:Boolean = false;
 
 		private var stickerButton:CustomButton;
+		private var deck:BattleFooter;
 		
 		public function BattleHUD()
 		{
@@ -125,7 +127,7 @@ package com.gerantech.towercraft.controls
 					stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
 					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 					stickerButton.width = 140 * appModel.scale;
-					stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
+					stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 					stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 					addChild(stickerButton);
 				}
@@ -136,6 +138,10 @@ package com.gerantech.towercraft.controls
 				opponentBubble = new StickerBubble(true);
 				opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
 			}
+			
+			deck = new BattleFooter();
+			deck.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+			addChild(deck);
 		}
 		
 		private function createCompleteHandler(event:Event):void
@@ -292,5 +298,4 @@ package com.gerantech.towercraft.controls
 			super.dispose();
 		}
 	}
-
 }

@@ -166,6 +166,7 @@ package com.gerantech.towercraft.managers.net
 			}
 			
 			elements = sfsObj.getSFSArray("decks");
+			if( elements != null )
 			for( i=0; i<elements.size(); i++ )
 			{
 				element = elements.getSFSObject(i);
