@@ -62,9 +62,12 @@ public static function getDeadline(command:String):int
 		case SEND_STICKER:
 		case INBOX_CONFIRM:
 		case INBOX_BROADCAST:
+		case ISSUE_GET:
+		case ISSUE_REPORT:
+		case ISSUE_TRACK:
 			return -1;
 	}
-	return 1000;
+	return 2000;
 }
 
 public static function getCanceled(command:String):String
