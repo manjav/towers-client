@@ -47,7 +47,7 @@ package com.gerantech.towercraft.controls.items
 
 			layout = new AnchorLayout();
 			
-			cardLayoutData = new AnchorLayoutData(0,0,0,0);
+			cardLayoutData = new AnchorLayoutData(0,0,NaN,0);
 			cardDisplay = new BuildingCard();
 			cardDisplay.showLevel = inDeck;
 			cardDisplay.showSlider = inDeck;
@@ -73,7 +73,8 @@ package com.gerantech.towercraft.controls.items
 				_firstCommit = false;
 			}
 
-			cardDisplay.type = _data as int;
+			var t:int = _data as int;
+			cardDisplay.type = t >= 900 ? 999 : t;
 			Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
 			
 			if ( player.newBuildings.exists( cardDisplay.type ) )
@@ -124,10 +125,10 @@ package com.gerantech.towercraft.controls.items
 				return;
 			super.currentState = _state;
 			
-			if ( !this.inDeck )
-				return;
+			/*if ( !this.inDeck )
+				return;*/
 			
-			cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
+			//cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
 			if( _state == STATE_SELECTED )
 			{
 				if(newDisplay)
@@ -135,8 +136,8 @@ package com.gerantech.towercraft.controls.items
 				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 			}
 			
-			if ( player.buildings.exists( _data as int ) )
-				visible = _state != STATE_SELECTED;
+			/*if ( player.buildings.exists( _data as int ) )
+				visible = _state != STATE_SELECTED;*/
 		}
 		
 	}

@@ -13,6 +13,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.buildings.Building;
+import com.gt.towers.buildings.Card;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
@@ -169,7 +170,7 @@ private function getListData():ListCollection
 			}
 			else if( p == 2 )
 			{
-				var bs:Vector.<Building> = player.buildings.values();
+				var bs:Vector.<Card> = player.buildings.values();
 				for each(var b:Building in bs)
 				{
 					if( b == null )

@@ -119,6 +119,13 @@ package com.gerantech.towercraft.controls
 			
 			addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 			
+			if( player.get_questIndex() >= 2 && !player.hardMode )
+			{
+				deck = new BattleFooter();
+				deck.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+				addChild(deck);
+			}
+			
 			if( !battleData.map.isQuest )
 			{
 				if( !SFSConnection.instance.mySelf.isSpectator )
@@ -133,15 +140,11 @@ package com.gerantech.towercraft.controls
 				}
 				
 				myBubble = new StickerBubble();
-				myBubble.layoutData = new AnchorLayoutData( NaN, padding, padding);
+				myBubble.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding);
 				
 				opponentBubble = new StickerBubble(true);
 				opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
 			}
-			
-			deck = new BattleFooter();
-			deck.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-			addChild(deck);
 		}
 		
 		private function createCompleteHandler(event:Event):void

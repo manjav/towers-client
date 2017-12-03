@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -15,12 +16,14 @@ import dragonBones.starling.StarlingArmatureDisplay;
 
 import feathers.controls.LayoutGroup;
 import feathers.controls.List;
+import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
+import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 
 import starling.animation.Transitions;
@@ -134,22 +137,29 @@ private function createElements():void
 	}
 	addChild(factionIcon);
 	
+	var cards:Array = new Array();
+	for (var i:int = 0; i < faction.cards.size(); i++) 
+		cards.push( playerLeague>=faction.index ? faction.cards.get(i) : 900+i );
+	
+	
 	// cards elements
-	var cardsLayout:HorizontalLayout = new HorizontalLayout();
+	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	cardsLayout.useVirtualLayout = false;
-	cardsLayout.gap = padding;
-	cardsLayout.typicalItemWidth = padding*4;
-	cardsLayout.typicalItemHeight = padding*5;
+	cardsLayout.gap = padding * cards.length<5?1:0.3;
+	cardsLayout.typicalItemWidth = padding*(cards.length<5?4:2.6);
+	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth*1.3;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	
-	var cardsDisplay:List = new List();
-	cardsDisplay.layout = cardsLayout;
-	cardsDisplay.height = cardsLayout.typicalItemHeight;
-	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
-	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, padding, NaN, padding);
-	cardsDisplay.dataProvider = new ListCollection(faction.cards._list);
-	addChild(cardsDisplay);
+	var cardsList:List = new List();
+	cardsList.layout = cardsLayout;
+	cardsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+	cardsList.height = cardsLayout.typicalItemHeight*(cards.length<5?1:2);
+	cardsList.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
+	cardsList.layoutData = new AnchorLayoutData(padding * 19, padding, NaN, padding);
+	cardsList.addEventListener(FeathersEventType.FOCUS_IN, cardsList_focusInHandler);
+	cardsList.dataProvider = new ListCollection(cards);
+	addChild(cardsList);
 	
 	var unlocksDisplay:RTLLabel = new RTLLabel(loc("arena_chance_to"), 0xCCCCCC, null, null, true, null, 0.8);
 	unlocksDisplay.layoutData = new AnchorLayoutData(padding * 17, NaN, NaN, NaN, 0);
@@ -169,19 +179,30 @@ private function createElements():void
 	{
 		header.width = 0;
 		factionIcon.scale = appModel.scale * 1.6 * 0.9;
-		rankButton.alpha = cardsDisplay.alpha = unlocksDisplay.alpha = unlocksDisplay.alpha = factionMeature.alpha = factionLabel.alpha = factionNumber.alpha = 0;
+		rankButton.alpha = cardsList.alpha = unlocksDisplay.alpha = unlocksDisplay.alpha = factionMeature.alpha = factionLabel.alpha = factionNumber.alpha = 0;
 		Starling.juggler.tween(factionIcon, 0.3, {scale:appModel.scale*1.4, transition:Transitions.EASE_OUT_BACK});
 		Starling.juggler.tween(header, 0.3, {width:this.width*0.6, transition:Transitions.EASE_OUT_BACK});
 		Starling.juggler.tween(factionNumber, 0.2, {delay:0.3, alpha:1});
 		Starling.juggler.tween(factionLabel, 0.2, {delay:0.4, alpha:1});
 		Starling.juggler.tween(factionMeature, 0.2, {delay:0.4, alpha:1});
 		Starling.juggler.tween(unlocksDisplay, 0.2, {delay:0.5, alpha:1});
-		Starling.juggler.tween(cardsDisplay, 0.2, {delay:0.5, alpha:1});
+		Starling.juggler.tween(cardsList, 0.2, {delay:0.5, alpha:1});
 		Starling.juggler.tween(rankButton, 0.2, {delay:0.6, alpha:1});
 	}
+	
 	if( faction.index == playerLeague )
 		setTimeout(_owner.dispatchEventWith, 500, Event.OPEN);
 	commited = true;
+}
+
+private function cardsList_focusInHandler(event:Event):void
+{
+	var type:int = BuildingItemRenderer(event.data).data as int;
+	if( type >= 900 )
+		return;
+	var detailsPopup:CardDetailsPopup = new CardDetailsPopup();
+	detailsPopup.buildingType = type;
+	appModel.navigator.addPopup(detailsPopup);
 }
 }
 }

@@ -45,7 +45,7 @@ package com.gerantech.towercraft.controls
 		{
 			super.initialize();
 	
-			var padding:int = 16 *appModel.scale;
+			var padding:int = 20 *appModel.scale;
 			width = 800 * appModel.scale;
 			height = 400 * appModel.scale;
 			
@@ -55,28 +55,20 @@ package com.gerantech.towercraft.controls
 			iconContainer.width = width * 0.4;
 			iconContainer.height = height;
 			iconContainer.layout = new AnchorLayout();
-			iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
-			Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
+			
+			if( !ResourceType.isCard(type) )
+			{
+				var bg:Devider = new Devider(0xFFFFFF);
+				bg.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
+				iconContainer.addChild(bg);
+			}
 			
 			var iconDisplay:ImageLoader = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("building-"+type, "gui");
-			iconDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			iconDisplay.source = Assets.getTexture("cards/"+type, "gui");
+			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
 			iconDisplay.horizontalAlign = HorizontalAlign.CENTER;
 			iconDisplay.verticalAlign = VerticalAlign.MIDDLE;
 			iconContainer.addChild(iconDisplay);
-			
-			if( ResourceType.isBuilding(type) && !player.buildings.exists(type) )
-			{
-				var newDisplay:ImageLoader = new ImageLoader();
-				newDisplay.source = Assets.getTexture("new-badge", "gui");
-				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
-				newDisplay.width = 200 * appModel.scale;
-				newDisplay.height = 200 * appModel.scale;
-				iconContainer.addChild(newDisplay);
-				player.newBuildings.set(type, 1);
-				
-				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
-			}
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
 			countInsideDisplay.visible = false;
@@ -85,6 +77,25 @@ package com.gerantech.towercraft.controls
 			countInsideDisplay.text = "x " + count; 
 			iconContainer.addChild(countInsideDisplay);
 			
+			var coverDisplay:ImageLoader = new ImageLoader();
+			coverDisplay.scale = appModel.scale * 2;
+			coverDisplay.scale9Grid = new Rectangle(30,34,2,3);
+			coverDisplay.source = Assets.getTexture("cards/bevel-card", "gui");
+			coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			coverDisplay.height = coverDisplay.width * 1.3
+			iconContainer.addChild(coverDisplay);
+			
+			if( ResourceType.isCard(type) && !player.buildings.exists(type) )
+			{
+				var newDisplay:ImageLoader = new ImageLoader();
+				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+				newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
+				newDisplay.height = newDisplay.width = 200 * appModel.scale;
+				iconContainer.addChild(newDisplay);
+				player.newBuildings.set(type, 1);
+				
+				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
+			}
 			detailsContainer = new LayoutGroup ();
 			detailsContainer.visible = false;
 			detailsContainer.x = appModel.isLTR ? padding : -width*0.6-padding;

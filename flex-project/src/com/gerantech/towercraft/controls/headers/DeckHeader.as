@@ -35,8 +35,8 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	backgroundSkin = new Quad(1,1);
-	backgroundSkin.alpha = 0.7;
+	backgroundSkin = new Quad(1,1, 0);
+	backgroundSkin.alpha = 0.8;
 	height = _height;
 	
 	
@@ -60,7 +60,7 @@ private function createDeckItem(i:int):void
 	
 	var card:BuildingCard = new BuildingCard();
 	card.width = 240 * appModel.scale;
-	card.height = 360 * appModel.scale;
+	card.height = card.width * 1.295;
 	card.x = card.pivotX = card.width * 0.5;
 	card.y = card.pivotY = card.height * 0.5;	
 	card.type = player.decks.get(player.selectedDeck).get(i);

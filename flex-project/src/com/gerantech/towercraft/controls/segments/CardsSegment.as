@@ -12,7 +12,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.buildings.Building;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
@@ -27,7 +27,9 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
+import feathers.layout.VerticalLayout;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -40,9 +42,11 @@ import starling.events.TouchPhase;
 public class CardsSegment extends Segment
 {
 private var padding:int;
-private var buildingsListCollection:ListCollection;
-private var list:List;
 private var listLayout:TiledRowsLayout;
+private var foundCollection:ListCollection;
+private var foundList:List;
+private var availabledCollection:ListCollection;
+private var availabledList:List;
 
 private var selectPopup:CardSelectPopup;
 private var detailsPopup:CardDetailsPopup;
@@ -58,62 +62,69 @@ private var scroller:ScrollContainer;
 override public function init():void
 {
 	super.init();
+	updateData();
+	padding = 36 * appModel.scale;
 	
 	backgroundSkin = new Quad(1,1);
 	backgroundSkin.alpha = 0;
 	
-	padding = 36 * appModel.scale;
-	
-	scroller = new ScrollContainer();
-	scroller.layout = new AnchorLayout();
-	scroller.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	scroller.addEventListener(Event.SCROLL, scroller_scrollHandler);
-	addChild(scroller);
 	
 	deckHeader = new DeckHeader();
 	deckHeader.addEventListener(Event.SELECT, deckHeader_selectHandler);
 	deckHeader.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(deckHeader);
-
 	
-	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [3,12]), 0xBBBBBB, null, null, false, null, 0.8);
-	foundLabel.layoutData = new AnchorLayoutData(deckHeader._height + padding, padding, NaN, padding);
+	var scrollerLayout:VerticalLayout = new VerticalLayout();
+	scrollerLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	scrollerLayout.padding = scrollerLayout.gap = padding;
+	scrollerLayout.paddingTop = deckHeader._height + padding;
+	
+	scroller = new ScrollContainer();
+	scroller.layout = scrollerLayout;
+	scroller.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+	scroller.addEventListener(Event.SCROLL, scroller_scrollHandler);
+	addChildAt(scroller, 0);
+	
+	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [player.decks.get(player.selectedDeck).size()+foundCollection.length, player.decks.get(player.selectedDeck).size()+foundCollection.length+availabledCollection.length]), 0xBBCCDD, null, null, false, null, 0.8);
 	scroller.addChild(foundLabel);
 	
 	layout = new AnchorLayout();
 	listLayout = new TiledRowsLayout();
-	listLayout.padding = listLayout.gap = 16 * appModel.scale;
-	//listLayout.paddingTop = deckHeader._y + deckHeader._height + padding * 3;
+	listLayout.gap = padding * 0.5;
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
 	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
+	listLayout.typicalItemWidth = (width - listLayout.gap*(listLayout.requestedColumnCount-1) - padding*2) / listLayout.requestedColumnCount;
 	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.5;
 	
-	updateData();
-	list = new List();
-	list.verticalScrollPolicy = ScrollPolicy.OFF;
-	list.elasticity = 0.01;
-	//list.decelerationRate = 1;
-	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(deckHeader._height + padding * 3, 0, NaN, 0);
-	list.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
-	list.dataProvider = buildingsListCollection;
-	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
-	list.addEventListener(FeathersEventType.CREATION_COMPLETE, list_createCompleteHandler);
-	scroller.addChild(list);
 	
+	foundList = new List();
+	foundList.verticalScrollPolicy = ScrollPolicy.OFF;
+	foundList.elasticity = 0.01;
+	//unlocksList.decelerationRate = 1;
+	foundList.layout = listLayout;
+	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+	foundList.dataProvider = foundCollection;
+	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
+	scroller.addChild(foundList);
 	
+	var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBCCDD, null, null, false, null, 0.8);
+	availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding*4, padding, NaN, padding);
+	scroller.addChild(availabledLabel);	
+	
+	availabledList = new List();
+	availabledList.verticalScrollPolicy = ScrollPolicy.OFF;
+	availabledList.elasticity = 0.01;
+	//availabledList.decelerationRate = 1;
+	availabledList.layout = listLayout;
+	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+	availabledList.dataProvider = availabledCollection;
+	availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
+	scroller.addChild(availabledList);
+
 	initializeCompleted = true;
 	showTutorial();
-}
-
-private function list_createCompleteHandler():void
-{
-	var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBBBBB, null, null, false, null, 0.8);
-	availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + list.height + padding*4, padding, NaN, padding);
-	scroller.addChild(availabledLabel);	
 }
 
 override public function focus():void
@@ -126,6 +137,7 @@ protected function scroller_scrollHandler(event:Event):void
 	var scrollPos:Number = Math.max(0, scroller.verticalScrollPosition);
 	var changes:Number = startScrollBarIndicator-scrollPos;
 	deckHeader.y = Math.max(-deckHeader._height, Math.min(0, deckHeader.y+changes));
+	deckHeader.visible = deckHeader.y > -deckHeader._height
 	startScrollBarIndicator = scrollPos;
 }
 private function showTutorial():void
@@ -140,23 +152,36 @@ private function showTutorial():void
 }		
 override public function updateData():void
 {
-	if(buildingsListCollection == null)
-		buildingsListCollection = new ListCollection();
-	var buildingArray:Array = new Array();
-	var buildings:Vector.<int> = BuildingType.getAll().keys()//player.buildings.keys();
-	var b:int;
-	while( buildings.length > 0 )
+	if(foundCollection == null)
+		foundCollection = new ListCollection();
+	var founds:Array = new Array();
+	var _founds:Vector.<int> = player.buildings.keys();
+	var c:int = 0;
+	while( _founds.length > 0 )
 	{
-		b = buildings.pop();
-		//if( player.decks.get(player.selectedDeck).indexOf(b) == -1 )
-			buildingArray.push(b);
+		c = _founds.pop();
+		if( player.decks.get(player.selectedDeck).indexOf(c) == -1 )
+			founds.push(c);
+	}
+	foundCollection.data = founds;
+	
+	
+	if(availabledCollection == null)
+		availabledCollection = new ListCollection();
+	var availables:Array = new Array();
+	var _availables:IntList = player.availabledCards();
+	c = 0;
+	while( c < _availables.size() )
+	{
+		if( !player.buildings.exists(_availables.get(c)) )
+			availables.push(_availables.get(c));
+		c ++;
 	}
 	
-	//buildingArray.sort();
-	buildingsListCollection.data = buildingArray;
+	availabledCollection.data = availables;
 }
 
-private function list_focusInHandler(event:Event):void
+private function unlocksList_focusInHandler(event:Event):void
 {
 	var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
 	selectCard(item.data as int, item.getBounds(this));
@@ -194,7 +219,7 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x-padding*0.5, cardBounds.y-padding, cardBounds.width+padding, cardBounds.height+padding*(deckInex>-1?4:7.5)); 
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x-padding*0.5, cardBounds.y-padding, cardBounds.width+padding, cardBounds.height+padding*(deckInex>-1?4.9:7.4)); 
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();
@@ -206,25 +231,23 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 	appModel.navigator.addPopup(selectPopup);
 	selectPopup.addEventListener(Event.OPEN, selectPopup_openHandler);
 	selectPopup.addEventListener(Event.SELECT, selectPopup_selectHandler);
-	function selectPopup_closeHandler():void { list.selectedIndex = -1; }
-	function selectPopup_openHandler():void 
-	{
-		// create transition data
-		var ti:TransitionData = new TransitionData();
-		var to:TransitionData = new TransitionData();
-		ti.destinationBound = to.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*(Math.floor(buildingType/10)==4?0.12:0.17), stage.stageWidth*0.9, stage.stageHeight*(Math.floor(buildingType/10)==4?0.66:0.56));
-		to.destinationBound = ti.sourceBound = new Rectangle(to.sourceBound.x, to.sourceBound.y*1.1, to.sourceBound.width, to.sourceBound.height*0.8);
-		to.destinationAlpha = 0.1;
-		
-		detailsPopup = new CardDetailsPopup();
-		detailsPopup.transitionIn = ti;
-		detailsPopup.transitionOut = to;
-		detailsPopup.buildingType = buildingType;
-		detailsPopup.addEventListener(Event.SELECT, details_updateHandler);
-		appModel.navigator.addPopup(detailsPopup);
-	}	
+	function selectPopup_closeHandler(event:Event):void { foundList.selectedIndex = -1; }
+	function selectPopup_openHandler(event:Event):void { showCardDetails(buildingType); }	
 }
-private function selectPopup_selectHandler(event:Event):void
+
+private function availabledList_focusInHandler(event:Event):void
+{
+	showCardDetails(BuildingItemRenderer(event.data).data as int);
+}
+
+private function showCardDetails(buildingType:int):void
+{
+	detailsPopup = new CardDetailsPopup();
+	detailsPopup.buildingType = buildingType;
+	detailsPopup.addEventListener(Event.SELECT, details_updateHandler);
+	appModel.navigator.addPopup(detailsPopup);	
+}
+private function selectPopup_selectHandler():void
 {
 	setTimeout(setEditMode, 100, true);
 }
@@ -239,7 +262,6 @@ private function touchHandler(event:TouchEvent):void
 	{
 		if( touch.target.parent == draggableCard )
 			touchId = touch.id;
-		//trace(draggableCard.touchGroup, draggableCard.touchable);
 		dispatchEventWith("scrollPolicy", true, false);
 	}
 	else if( touch.phase == TouchPhase.MOVED )

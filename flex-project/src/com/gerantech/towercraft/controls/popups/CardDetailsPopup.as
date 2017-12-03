@@ -3,9 +3,11 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 	import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
+	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gt.towers.buildings.Building;
 	import com.gt.towers.constants.BuildingFeatureType;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ResourceType;
 	
 	import flash.geom.Rectangle;
@@ -28,14 +30,23 @@ package com.gerantech.towercraft.controls.popups
 
 		override protected function initialize():void
 		{
+			transitionIn = new TransitionData();
+			transitionOut = new TransitionData();
+			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*(Math.floor(buildingType/10)==4?0.10:0.17), stage.stageWidth*0.9, stage.stageHeight*(Math.floor(buildingType/10)==4?0.70:0.56));
+			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(transitionOut.sourceBound.x, transitionOut.sourceBound.y*1.1, transitionOut.sourceBound.width, transitionOut.sourceBound.height*0.8);
+			transitionOut.destinationAlpha = 0.1;
+
 			super.initialize();
 			
-			building = player.buildings.get(buildingType);
+			if( player.buildings.exists(buildingType) )
+				building = player.buildings.get(buildingType);
+			else
+				building = BuildingType.instantiate(game, buildingType, null, 0, 1);
 			
 			var buildingIcon:BuildingCard = new BuildingCard();
 			buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 			buildingIcon.width = padding * 9;
-			buildingIcon.height = padding * 13;
+			buildingIcon.height = buildingIcon.width * 1.3;
 			buildingIcon.type = buildingType;
 			buildingIcon.level = building.get_level();
 			addChild(buildingIcon);
@@ -78,7 +89,7 @@ package com.gerantech.towercraft.controls.popups
 			/*upgradeButton.alpha = 0;
 			Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});*/
 			
-			var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
+			var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_label"), 1, "center", null, true, null, 0.7);
 			upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, 0);
 			upgradeLabel.alpha = 0;
 			Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
@@ -109,7 +120,7 @@ package com.gerantech.towercraft.controls.popups
 		}
 		private function upgradeButton_triggeredHandler():void
 		{
-			dispatchEventWith(Event.UPDATE, false, building);
+			dispatchEventWith(Event.SELECT, false, building);
 		}
 		override public function close(dispose:Boolean=true):void
 		{
