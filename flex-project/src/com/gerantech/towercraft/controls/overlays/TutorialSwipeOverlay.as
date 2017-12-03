@@ -36,7 +36,7 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function initialize():void
 		{
 			super.initialize();
-			finger = new Image(Assets.getTexture("finger-down", "gui"));
+			finger = new Image(Assets.getTexture("finger-down", "tutors"));
 			finger.scale = appModel.scale*3;
 			finger.touchable = false;
 		}

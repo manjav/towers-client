@@ -34,7 +34,7 @@ package com.gerantech.towercraft.controls.overlays
 			
 			var charName:int = side==0 ? (player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)==PrefsTypes.TUTE_114_SELECT_BUILDING?2:0) : 1
 			var charachter:ImageLoader = new ImageLoader();
-			charachter.source =  Assets.getTexture("chars/char-" + charName, "gui");
+			charachter.source =  Assets.getTexture("char-" + charName, "tutors");
 			charachter.verticalAlign = VerticalAlign.BOTTOM;
 			charachter.layoutData = new AnchorLayoutData(NaN, side==0?NaN:0, 0, side==0?0:NaN);
 			charachter.height = stage.stageHeight * (side==0?0.45:0.5);
