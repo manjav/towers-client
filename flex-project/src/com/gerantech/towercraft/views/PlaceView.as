@@ -7,6 +7,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.views.decorators.BarracksDecorator;
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
+	import com.gerantech.towercraft.views.decorators.CardDecorator;
 	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
 	import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
 	import com.gt.towers.Game;
@@ -73,21 +74,21 @@ package com.gerantech.towercraft.views
 			if( decorator != null )
 				decorator.removeFromParent(true); 
 			
-			switch( place.building.category )
+			/*switch( place.building.category )
 			{
 				case BuildingType.B40_CRYSTAL:
 					decorator = new CrystalDecorator(this);
 					defensiveWeapon = new DefensiveWeapon(this);
 					break;
-				case BuildingType.B10_BARRACKS:
-					decorator = new BarracksDecorator(this);
-					break;
+				case BuildingType.B10_BARRACKS:*/
+					decorator = new CardDecorator(this);
+/*					break;
 				default:
 					decorator = new BuildingDecorator(this);
 					break;
 			}
 			decorator.x = 0;
-			decorator.y = 0;
+			decorator.y = 0;*/
 			addChild(decorator);
 		}
 		

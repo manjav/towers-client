@@ -2,7 +2,6 @@ package com.gerantech.towercraft.views.decorators
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.constants.BuildingType;
 	
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -21,7 +20,9 @@ package com.gerantech.towercraft.views.decorators
 		{
 			super.updateElements(population, troopType);
 
-			var txt:String = "building-flag-" + place.building.type;
+			if( place.building.category == 0 ) 
+				return;
+			var txt:String = "building-flag-14"// + place.building.type;
 			if( troopType > -1 )
 				txt += troopType == player.troopType ? "-0" : "-1";
 			else

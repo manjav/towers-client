@@ -83,7 +83,7 @@ package com.gerantech.towercraft.views.decorators
 			improvablePanel.y = place.y + 50;
 			fieldView.guiImagesContainer.addChild(improvablePanel);
 			
-			bodyDisplay = new Image(Assets.getTexture("building-1"));
+			bodyDisplay = new Image(Assets.getTexture("building-14"));
 			bodyDisplay.touchable = false;
 			bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 			bodyDisplay.pivotY = bodyDisplay.height * 0.8;
@@ -115,7 +115,7 @@ package com.gerantech.towercraft.views.decorators
 			populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
 			
 			// _-_-_-_-_-_-_-_-_-_-_-_-  body -_-_-_-_-_-_-_-_-_-_-_-_-_
-			var txt:String = "building-" + place.building.type;
+			var txt:String = place.building.category > 0 ? "building-14":"building-1"// + place.building.type;
 			if( bodyTexture != txt )
 			{
 				bodyTexture = txt;
