@@ -26,7 +26,7 @@ package com.gerantech.towercraft.controls
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			touchable = touchGroup = false;
+			touchable = false;
 			
 			var labelDisplay:RTLLabel = new RTLLabel(text, 1, "center", null, true, "center", 1.1, null, "bold");
 			labelDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);

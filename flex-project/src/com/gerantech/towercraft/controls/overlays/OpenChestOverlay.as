@@ -85,7 +85,7 @@ package com.gerantech.towercraft.controls.overlays
 			appModel.sounds.setVolume("main-theme", 0.3);
 			
 			animation = factory.buildArmatureDisplay("book-"+type);
-			animation.touchable = animation.touchGroup = false;
+			animation.touchable = false;
 			animation.x = stage.stageWidth * 0.5;
 			animation.y = stage.stageHeight * 0.85;
 			animation.scale = appModel.scale * 2;

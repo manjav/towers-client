@@ -38,7 +38,7 @@ package com.gerantech.towercraft.controls
 			this.index = index;
 			this.type = type;
 			this.count = count;
-			touchable = touchGroup = false;
+			touchable = false;
 		}
 		
 		override protected function initialize():void

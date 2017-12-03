@@ -27,7 +27,7 @@ package com.gerantech.towercraft.controls.tooltips
 		override protected function initialize():void
 		{
 			super.initialize();
-			touchGroup = touchable = false;
+			touchable = false;
 			
 			var sk:Image = new Image(Assets.getTexture("tooltip-bg-"+(inverse?"top-left":"bot-right"), "gui"));
 			//sk.scale9Grid = new Rectangle(halign=="left"?19:8, valign=="top"?18:7, 1, 1);
