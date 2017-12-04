@@ -16,9 +16,9 @@ package com.gerantech.towercraft.views.decorators
 			super(placeView);
 		}
 		
-		override public function updateElements(population:int, troopType:int):void
+		override public function updateTroops(population:int, troopType:int):void
 		{
-			super.updateElements(population, troopType);
+			super.updateTroops(population, troopType);
 
 			if( place.building.category == 0 ) 
 				return;
@@ -45,8 +45,8 @@ package com.gerantech.towercraft.views.decorators
 			flagDisplay.loop = true;
 			flagDisplay.pivotX = flagDisplay.width * 0.5;
 			flagDisplay.pivotY = flagDisplay.height * 0.8;
-			flagDisplay.x = parent.x;
-			flagDisplay.y = parent.y;	
+			flagDisplay.x = place.x;
+			flagDisplay.y = place.y;	
 			fieldView.buildingsContainer.addChild(flagDisplay);
 			Starling.juggler.add(flagDisplay);
 

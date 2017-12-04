@@ -38,11 +38,11 @@ package com.gerantech.towercraft.managers.net
 			send(SFSCommands.HIT, sfsObj, room);			
 		}
 
-		public function improveBuilding(index:int, upgradeType:int):void
+		public function improveBuilding(index:int, cardIndex:int):void
 		{
 			var sfsObj:SFSObject = new SFSObject();
 			sfsObj.putInt("i", index);
-			sfsObj.putInt("t", upgradeType);
+			sfsObj.putInt("c", cardIndex);
 			send(SFSCommands.BUILDING_IMPROVE, sfsObj, room);
 		}
 		

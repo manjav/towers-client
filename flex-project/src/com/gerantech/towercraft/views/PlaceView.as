@@ -43,7 +43,6 @@ package com.gerantech.towercraft.views
 		private var _selectable:Boolean;
 		private var wishedPopulation:int;
 		
-		
 		public function PlaceView(place:Place)
 		{
 			this.place = place;
@@ -86,10 +85,7 @@ package com.gerantech.towercraft.views
 				default:
 					decorator = new BuildingDecorator(this);
 					break;
-			}
-			decorator.x = 0;
-			decorator.y = 0;*/
-			addChild(decorator);
+			}*/
 		}
 		
 		public function createArrow():void
@@ -125,7 +121,7 @@ package com.gerantech.towercraft.views
 		public function update(population:int, troopType:int) : void
 		{
 			showMidSwipesTutorial(troopType);
-			decorator.updateElements(population, troopType);
+			decorator.updateTroops(population, troopType);
 			if( population < wishedPopulation )
 				decorator.showUnderAttack();
 
@@ -204,7 +200,7 @@ package com.gerantech.towercraft.views
 		
 		public function replaceBuilding(type:int, level:int):void
 		{
-			wishedPopulation = Math.floor(place.building._population/2);
+			/*wishedPopulation = Math.floor(place.building._population/2);
 			var tt:int = place.building.troopType;
 			var p:int = place.building._population;
 			//trace("replaceBuilding", place.index, type, level, place.building._population);
@@ -212,14 +208,20 @@ package com.gerantech.towercraft.views
 			place.building.set_level( level );
 			createDecorator();
 			if( type == BuildingType.B01_CAMP )
-				update(p,tt);
+				update(p,tt);*/
+			place.building.type = type;
+			place.building.set_level(level);
+			decorator.updateBuilding();
 		}
 		
 		override public function dispose():void
 		{
 			Starling.juggler.remove(arrow);
 			clearTimeout(rushTimeoutId);
-			if(defensiveWeapon != null)
+			
+			if( decorator != null )
+				decorator.dispose();
+			if( defensiveWeapon != null )
 				defensiveWeapon.dispose();
 			super.dispose();
 		}

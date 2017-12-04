@@ -23,15 +23,10 @@ package com.gerantech.towercraft.views.decorators
 		private var rayImage:Image;
 		private var raySprite:Sprite;
 		private var lightingDisplay:MovieClip;
-		
-		public function CrystalDecorator(placeView:PlaceView)
+
+		override public function updateTroops(population:int, troopType:int):void
 		{
-			super(placeView);
-		}
-		
-		override public function updateElements(population:int, troopType:int):void
-		{
-			super.updateElements(population, troopType);
+			super.updateTroops(population, troopType);
 			
 			/*var txt:String = "building-cr-" + place.building.type;
 			if(crystalTexture != txt)

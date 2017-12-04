@@ -8,29 +8,40 @@ import starling.display.Image;
 public class CardDecorator extends BarracksDecorator
 {
 private var cardDisplay:Image;
+private var __cardTexture:String;
 public function CardDecorator(placeView:PlaceView)
 {
 	super(placeView);
 }
-override public function updateElements(population:int, troopType:int):void
+override public function updateBuilding():void
 {
-	super.updateElements(population, troopType);
-	createCardDisply();
+	super.updateBuilding();
+	cardDisplyFactory() ;
 }
 
-private function createCardDisply():void
+private function cardDisplyFactory():void
 {
-	if( cardDisplay != null )
+	if( cardDisplay == null )
+	{
+		if( place.building.type < 101 )
+			return;
+		__cardTexture = "cards/"+place.building.type;
+		cardDisplay = new Image(Assets.getTexture(__cardTexture));
+		cardDisplay.touchable = false;
+		cardDisplay.pivotX = cardDisplay.width * 0.5;
+		cardDisplay.pivotY = cardDisplay.height * 0.6;
+		cardDisplay.x = place.x;
+		cardDisplay.y = place.y;	
+		fieldView.guiImagesContainer.addChild(cardDisplay);
 		return;
+	}
 	
-	cardDisplay = new Image(Assets.getTexture("cards/"+place.building.type));
-	cardDisplay.touchable = false;
-	cardDisplay.pivotX = cardDisplay.width * 0.5;
-	cardDisplay.pivotY = cardDisplay.height * 0.6;
-	cardDisplay.x = parent.x;
-	cardDisplay.y = parent.y;	
-	fieldView.guiImagesContainer.addChild(cardDisplay);
+	if( __cardTexture == "cards/"+place.building.type )
+		return;
+	__cardTexture = "cards/"+place.building.type;
+	cardDisplay.texture = Assets.getTexture(__cardTexture);
 }
+
 override public function dispose():void
 {
 	if( cardDisplay )
