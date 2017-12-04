@@ -56,6 +56,11 @@ package com.gerantech.towercraft.models
 		[Embed(source="../../../../assets/images/gui.xml", mimeType="application/octet-stream")]
 		public static const guiAtlasXml:Class;
 		
+		[Embed(source="../../../../assets/images/tutors.atf", mimeType="application/octet-stream")]
+		public static const tutorsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/tutors.xml", mimeType="application/octet-stream")]
+		public static const tutorsAtlasXml:Class;
+		
 		public static const BACKGROUND_GRID:Rectangle = new Rectangle(2,2,6,6);
 		
 		
