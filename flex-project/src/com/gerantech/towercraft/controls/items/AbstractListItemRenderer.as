@@ -25,12 +25,12 @@ public static var FAST_COMMIT_TIMEOUT:uint = 0;
 public static var SLOW_COMMIT_TIMEOUT:uint = 400;
 
 protected var skin:ImageSkin;
+protected var ownerBounds:Rectangle;
 
 private var intevalId:uint;
 private var tempY:Number;
 private var screenRect:Rectangle;
 private var commitPhase:uint;
-private var ownerBounds:Rectangle;
 	
 override protected function initialize():void
 {

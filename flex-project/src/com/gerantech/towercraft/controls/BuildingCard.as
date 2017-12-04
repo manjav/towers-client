@@ -9,12 +9,13 @@ import com.gt.towers.constants.CardTypes;
 import flash.geom.Rectangle;
 
 import feathers.controls.ImageLoader;
+import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 
-import starling.display.Quad;
+import starling.events.Event;
 
 public class BuildingCard extends TowersLayout
 {
@@ -32,12 +33,14 @@ private var levelDisplay:RTLLabel;
 
 public var levelDisplayFactory:Function;
 public var sliderDisplayFactory:Function;
+public var data:Object;
 
 private var padding:int;
 
 private var levelBackground:ImageLoader;
 
 private var rarityDisplay:ImageLoader;
+private var labelsContainer:LayoutGroup;
 
 public function BuildingCard()
 {
@@ -65,10 +68,14 @@ override protected function initialize():void
 	
 	var coverDisplay:ImageLoader = new ImageLoader();
 	coverDisplay.scale = appModel.scale * 2;
-	coverDisplay.scale9Grid = new Rectangle(30,34,2,3);
+	coverDisplay.scale9Grid = new Rectangle(30, 34, 2, 3);
 	coverDisplay.source = Assets.getTexture("cards/bevel-card", "gui");
 	coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(coverDisplay);
+	
+	labelsContainer = new LayoutGroup();
+	labelsContainer.layout = new AnchorLayout();
+	labelsContainer.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	
 	if( levelDisplayFactory == null )
 		levelDisplayFactory = defaultLevelDisplayFactory;
@@ -144,7 +151,7 @@ protected function defaultLevelDisplayFactory():void
 	levelDisplay.alpha = 0.7;
 	levelDisplay.height = 56 * appModel.scale;
 	levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
-	addChild(levelDisplay);			
+	labelsContainer.addChild(levelDisplay);
 }
 
 public function get level():int
@@ -159,6 +166,9 @@ public function set level(value:int):void
 	_level = value;
 	if ( showLevel && levelDisplay )
 		levelDisplay.text = "Level " + _level;
+	
+	if( labelsContainer )
+	addChild(labelsContainer);
 }
 
 public function get showSlider():Boolean
@@ -177,13 +187,21 @@ public function set showSlider(value:Boolean):void
 }
 protected function defaultSliderDisplayFactory():void
 {
-	if( !_showSlider || _locked || sliderDisplay != null )
+	if( !_showSlider || _locked )
 		return;
-	
+	if( sliderDisplay != null )
+	{
+		addChild(labelsContainer);
+		return;
+	}
 	sliderDisplay = new BuildingSlider();
 	sliderDisplay.height = padding * 4;
 	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding*0.3, -padding*3.6, padding*0.3);
-	addChild(sliderDisplay);			
+	sliderDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void{
+		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding*3.8, NaN, 0);
+		labelsContainer.addChild(sliderDisplay.labelDisplay);
+	});
+	addChild(sliderDisplay);
 }
 
 
@@ -239,6 +257,8 @@ public function set type(value:int):void
 	
 	defaultRarityDisplayFactory()
 	level = building.get_level();
+	if( labelsContainer )
+	addChild(labelsContainer);
 }
 }
 }

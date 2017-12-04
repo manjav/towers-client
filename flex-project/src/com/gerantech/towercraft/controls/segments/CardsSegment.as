@@ -104,7 +104,7 @@ override public function init():void
 	foundList.elasticity = 0.01;
 	//unlocksList.decelerationRate = 1;
 	foundList.layout = listLayout;
-	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, scroller); }
 	foundList.dataProvider = foundCollection;
 	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
 	scroller.addChild(foundList);
@@ -118,7 +118,7 @@ override public function init():void
 	availabledList.elasticity = 0.01;
 	//availabledList.decelerationRate = 1;
 	availabledList.layout = listLayout;
-	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, scroller); }
 	availabledList.dataProvider = availabledCollection;
 	availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 	scroller.addChild(availabledList);
