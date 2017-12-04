@@ -54,7 +54,7 @@ public function BuildingDecorator(placeView:PlaceView)
 	if( troopTypeFactory == null )
 		troopTypeFactory = defaultTroopTypeFactory;
 	
-	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.get_capacity());
+	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.capacity);
 	populationBar.width = 140
 	populationBar.height = 38
 	populationBar.x = place.x - populationBar.width * 0.5 + 24;
@@ -98,7 +98,7 @@ public function updateBuilding():void
 
 public function updateTroops(population:int, troopType:int):void
 {
-	populationIndicator.text = population + "/" + place.building.get_capacity();
+	populationIndicator.text = population + "/" + place.building.capacity;
 	populationBar.troopType = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
 	populationBar.value = population;
 	populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);

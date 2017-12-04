@@ -37,7 +37,7 @@ override protected function initialize():void
 	card.type = building.type;
 	addChild(card);
 	
-	populationBar = new HealthBar(0, 0, building.get_capacity());
+	populationBar = new HealthBar(0, 0, building.capacity);
 	populationBar.atlas = "gui";
 	populationBar.layoutData = new AnchorLayoutData(NaN, padding, 0, padding * 4);
 	populationBar.height = 38 * appModel.scale;

@@ -175,7 +175,7 @@ package com.gerantech.towercraft.views
 				t.x = x;
 				t.y = y ;
 				BattleFieldView(parent).troopsContainer.addChild(t);
-				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i + 300, t);
+				rushTimeoutId = setTimeout(rush, place.building.troopRushGap * i + 300, t);
 			}
 			
 			if ( place.building.troopType == player.troopType )

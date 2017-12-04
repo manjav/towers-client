@@ -54,16 +54,16 @@ package com.gerantech.towercraft.views.decorators
 			*/
 			// radius :
 			createRadiusDisplay();
-			radiusDisplay.width = place.building.get_damageRadius() * 2;
+			radiusDisplay.width = place.building.damageRange * 2;
 			radiusDisplay.scaleY = radiusDisplay.scaleX * 0.8;
 		
 			// ray
 			createRayDisplay();
-			rayImage.scale = place.building.get_damage() * 0.7;
+			rayImage.scale = place.building.damage * 0.7;
 			
 			// lighting
 			createLightingDisplay();
-			lightingDisplay.scale = place.building.get_damage() ;
+			lightingDisplay.scale = place.building.damage ;
 		}
 		
 		private function get_crystalHeight():Number

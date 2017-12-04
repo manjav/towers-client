@@ -39,7 +39,7 @@ public function TroopView(building:Building, path:PlaceList)
 	this.type = building.troopType;
 	this.battleSide = type == AppModel.instance.game.player.troopType?0:1;
 	this.building = building;
-	this.health = building.get_troopPower();
+	this.health = building.troopHealth;
 	
 	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "crusader-move-";//building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
@@ -69,9 +69,9 @@ public function rush(source:Place):void
 	movieClip.muted = false;
 	Starling.juggler.add(movieClip);
 
-	var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() * 0.6 - Math.random()* building.get_exitGap() * 0.3) / 1000;
+	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap * 0.6 - Math.random()* building.troopRushGap * 0.3) / 1000;
 	var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
-	Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
+	Starling.juggler.tween(this, (building.troopSpeed/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
 private function onTroopArrived(next:PlaceView):void
 {
@@ -79,7 +79,7 @@ private function onTroopArrived(next:PlaceView):void
 	movieClip.muted = true;
 	Starling.juggler.remove(movieClip);
 	if( next.place.building.troopType == type )
-		rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);
+		rushTimeoutId = setTimeout(next.rush, building.troopRushGap, this);
 }
 
 private function switchAnimation(source:Place, destination:Place):void
@@ -116,7 +116,7 @@ private function switchAnimation(source:Place, destination:Place):void
 	if(direction == dir)
 		return;
 
-	movieClip.fps = 16 * 3000 / building.get_troopSpeed();
+	movieClip.fps = 16 * 3000 / building.troopSpeed;
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
 	for(var i:int=0; i < movieClip.numFrames; i++)
@@ -125,7 +125,7 @@ private function switchAnimation(source:Place, destination:Place):void
 
 public function hit(placeView:PlaceView):void
 {
-	var damage:Number = placeView.place.building.get_damage()
+	var damage:Number = placeView.place.building.damage;
 	health -= damage;
 	dispatchEventWith(Event.TRIGGERED, false, damage);
 	
@@ -165,7 +165,7 @@ public function set health(value:Number):void
 	
 	_health = value;
 	//trace(_health)
-	if( _health < building.get_troopPower() )
+	if( _health < building.troopPower )
 		updateHealthDisplay(_health);
 
 		
@@ -177,7 +177,7 @@ private function updateHealthDisplay(health:Number):void
 	{
 		if( healthDisplay == null )
 		{
-			healthDisplay = new HealthBar(battleSide, health, building.get_troopPower());
+			healthDisplay = new HealthBar(battleSide, health, building.troopPower);
 			addChild(healthDisplay);
 			healthDisplay.y = -80;
 			healthDisplay.scale = scale;
