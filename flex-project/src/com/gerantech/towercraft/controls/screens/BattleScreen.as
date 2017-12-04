@@ -422,7 +422,6 @@ package com.gerantech.towercraft.controls.screens
 			}
 			
 			sfsConnection.removeFromCommands(SFSCommands.FIGHT);
-			
 		}
 		
 		private function updateTowersFromRoomVars():void
@@ -434,8 +433,9 @@ package com.gerantech.towercraft.controls.screens
 			{
 				var t:Array = towers.getText(i).split(",");//trace(t)
 				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
-			}			
+			}
 		}
+		
 		private function resetAll(data:SFSObject):void
 		{
 			var bSize:int = data.getSFSArray("buildings").size();

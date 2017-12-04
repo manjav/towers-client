@@ -105,6 +105,5 @@ public function getCardIndex(touch:Touch):int
 		cards[i].scale = i==ret ? 1.1 : 1;
 	return ret;
 }
-
 }
 }

@@ -11,7 +11,9 @@ import feathers.layout.AnchorLayoutData;
 
 public class HealthBar extends LayoutGroup
 {
-private static const SCALE_RECT:Rectangle = new Rectangle(4, 8, 4, 6);
+	
+public var atlas:String  = "battlefields";
+private var scaleRect:Rectangle;
 
 private var _value:Number = 0;
 private var _troopType:int = -2;
@@ -24,7 +26,7 @@ public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 
 {
 	super();
 	touchable = false;
-	this.pivotX = this.width/2;
+	this.pivotX = this.width * 0.5;
 	this.width = 48;
 	this.troopType = troopType;
 	this.value = initValue;
@@ -35,18 +37,19 @@ override protected function initialize():void
 {
 	super.initialize();
 	
+	scaleRect = new Rectangle(atlas=="battlefields"?4:2, atlas=="battlefields"?8:4, atlas=="battlefields"?4:2, atlas=="battlefields"?6:3);
 	layout = new AnchorLayout();
 	
 	backroundDisplay = new ImageLoader();
-	backroundDisplay.alpha = 0.5;
-	backroundDisplay.scale9Grid = SCALE_RECT;
-	backroundDisplay.source = Assets.getTexture("healthbar-bg-"+_troopType);
+	backroundDisplay.alpha = atlas=="battlefields"?0.5:1;
+	backroundDisplay.scale9Grid = scaleRect;
+	backroundDisplay.source = Assets.getTexture("healthbar-bg-"+(atlas=="battlefields"?_troopType:-1), atlas);
 	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(backroundDisplay);
 	
 	fillDisplay = new ImageLoader();
-	fillDisplay.scale9Grid = SCALE_RECT;
-	fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType);
+	fillDisplay.scale9Grid = scaleRect;
+	fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType, atlas);
 	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChild(fillDisplay);
 }
@@ -58,10 +61,14 @@ public function get value():Number
 }
 public function set value(v:Number):void
 {
-	if( _value == v || v > maximum )
+	if( _value == v )
 		return;
-	//trace(v,maxValue)
-	_value = v//Math.pow(v, 6);
+	if( v > maximum )
+		v = maximum;
+	if( v < 0 )
+		v = 0;
+	//trace(v, maximum)
+	_value = v;
 	if( fillDisplay )
 		fillDisplay.width =  width*(v/maximum);
 }
