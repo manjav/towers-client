@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			super.initialize();
 			finger = new Image(Assets.getTexture("finger-down", "tutors"));
-			finger.scale = appModel.scale*3;
+			finger.scale = appModel.scale;
 			finger.touchable = false;
 		}
 		protected override function transitionInCompleted():void
@@ -64,12 +64,12 @@ package com.gerantech.towercraft.controls.overlays
 			finger.x = startX;
 			finger.y = startY;
 			finger.alpha = startAlpha;
-			finger.scale = startScale;
+			finger.scale = startScale*appModel.scale;
 			
 			var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
 			tween.moveTo(endX, endY);
 			tween.delay = delayTime;
-			tween.scaleTo(endScale);
+			tween.scaleTo(endScale*appModel.scale);
 			tween.fadeTo(endAlpha);
 			tween.onComplete = tweenCompleteCallback;
 			tween.onCompleteArgs = [name];
