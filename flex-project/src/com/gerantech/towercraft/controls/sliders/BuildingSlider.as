@@ -20,7 +20,7 @@ package com.gerantech.towercraft.controls.sliders
 		
 		private var upgradeDisplay:ImageLoader;
 		private var timeoutId:uint;
-		private var labelDisplay:ShadowLabel;
+		public var labelDisplay:ShadowLabel;
 		public function BuildingSlider()
 		{
 			super();
@@ -54,7 +54,7 @@ package com.gerantech.towercraft.controls.sliders
 		{
 			super.value = Math.max(0, Math.min( newValue, maximum ) );
 			labelDisplay.text = newValue + " / " + maximum;
-			addChild(labelDisplay);
+			//addChild(labelDisplay);
 			isEnabled = newValue >= maximum;
 			
 			if( showUpgradeIcon && newValue >= maximum )
