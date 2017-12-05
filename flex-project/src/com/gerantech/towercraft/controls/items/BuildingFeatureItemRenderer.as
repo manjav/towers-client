@@ -21,11 +21,9 @@ override protected function commitData():void
 	feature = _data as int;
 	titleDisplay.text = loc("building_feature_" + feature);
 	
-	var baseValue:Number = building.getFeatureBaseValue(feature);
-	building.set_level( building.get_level() + 1 );
-	var newValue:Number = building.getFeatureValue(feature);
-	building.set_level( building.get_level() - 1 );
-	var oldValue:Number = building.getFeatureValue(feature);
+	var baseValue:Number = game.featureCaculator.getBaseline(feature);
+	var newValue:Number = game.featureCaculator.get(feature, building.type, building.get_level() + 1);
+	var oldValue:Number = game.featureCaculator.get(feature, building.type, building.get_level());
 
 	var diff:Number = newValue - oldValue;
 	if( baseValue > 500 )

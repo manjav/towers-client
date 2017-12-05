@@ -33,15 +33,12 @@ package
 		
 		public function Towers()
 		{
-			/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
+			/*var str:String = "";
+			for(var level:int=1; level<=20; level++)
 			{
-				var str:String = improveLevel + " : ";
-				for(var get_level:int=1; get_level<=10; get_level++)
-				{
-					str += get_level + "[" + ((  180 + Math.round( (Math.log(improveLevel) + Math.log(get_level)) * 32)  )).toFixed(2) + "   " ;
-				}
-				trace(str);
+				str += level + "=>" + ((  1.0 + Math.log(level) * 0.10  )).toFixed(2) + " " ;
 			}
+			trace(str);
 			NativeApplication.nativeApplication.exit();
 			return;*/
 
@@ -84,7 +81,7 @@ package
 			this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
-			//this.starling.showStatsAt("right", "bottom", 0.8);
+			this.starling.showStatsAt("left", "bottom", 0.8);
 			this.starling.skipUnchangedFrames = false;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);

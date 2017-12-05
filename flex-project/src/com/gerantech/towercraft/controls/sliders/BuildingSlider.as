@@ -80,7 +80,7 @@ package com.gerantech.towercraft.controls.sliders
 		
 		private function punchArrow():void
 		{
-			timeoutId = setTimeout(animateUpgradeDisplay, 2000+Math.random()*1000);
+			timeoutId = setTimeout(animateUpgradeDisplay, 3000+Math.random()*1500);
 		}
 		private function animateUpgradeDisplay():void
 		{
