@@ -64,7 +64,7 @@ package com.gerantech.towercraft.controls.buttons
 
 		public function renable():void
 		{
-			setEnable ( building.improvable(type) );
+			setEnable ( false )//building.improvable(type) );
 		}
 		private function setEnable(value:Boolean):void
 		{

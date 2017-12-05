@@ -139,9 +139,9 @@ package com.gerantech.towercraft.controls.popups
 		public function getBuildingData():ListCollection
 		{
 			var ret:ListCollection = new ListCollection();
-			var buildings:Vector.<int> = BuildingType.getAll().keys();
+			var buildings:Vector.<int> = new Vector.<int>();// BuildingType.getAll().keys();
 			var buildingArray:Array = new Array();
-			while(buildings.length > 0)
+			while( buildings.length > 0 )
 			{
 				var b:int = buildings.pop();
 				buildingArray.push({type:b, level:getLevel(b)});

@@ -39,7 +39,7 @@ package com.gerantech.towercraft.controls.floatings
 			addChild(circle);
 				
 			buttons = new Vector.<ImproveButton>();
-			var options:IntList = placeView.place.building.get_options();
+			var options:IntList = new IntList();//placeView.place.building.get_options();
 			var numButtons:int = options.size();
 			for (var i:int=0; i < numButtons; i++) 
 			{
