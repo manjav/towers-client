@@ -16,6 +16,8 @@ public class BattleDeckCard extends TowersLayout
 private var building:Building;
 private var deckIndex:int;
 private var populationBar:HealthBar;
+
+private var card:BuildingCard;
 public function BattleDeckCard(building : Building, deckIndex:int)
 {
 	super();
@@ -30,7 +32,7 @@ override protected function initialize():void
 	var padding:int = 16 * appModel.scale;
 	layout = new AnchorLayout();
 	
-	var card:BuildingCard = new BuildingCard();
+	card = new BuildingCard();
 	card.layoutData = new AnchorLayoutData(0,0,NaN,0);
 	card.showLevel = card.showSlider = false;
 	card.data = deckIndex;
@@ -59,9 +61,18 @@ override protected function initialize():void
 	addChild(populationIcon);
 }
 
+/*public function get ready():Boolean
+{
+	if( building == null )
+		return false;
+	return building._population >= building.capacity; 
+}*/
+
 public function updateData():void
 {
 	Starling.juggler.tween(populationBar, 0.5, {value:building._population, transition:Transitions.EASE_OUT_ELASTIC});
+	card.touchable = building._population >= building.capacity;
+	card.alpha = touchable ? 1 : 0.5;
 	//populationBar.value = building._population;
 }
 

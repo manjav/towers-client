@@ -100,8 +100,12 @@ private function touchHandler(event:TouchEvent):void
 	if( touch.phase == TouchPhase.BEGAN)
 	{
 		var selectedCard:BuildingCard = touch.target.parent as BuildingCard; 
-		if( selectedCard == null )
+		if( selectedCard == null || !selectedCard.touchable )
+		{
+			touchId = -1;			
 			return;
+		}
+		//trace(selectedCard.parent, selectedCard.parent.touchable)
 		touchId = touch.id;
 		draggableCard.x = touch.globalX-x;
 		draggableCard.y = touch.globalY-y;
@@ -141,6 +145,7 @@ private function touchHandler(event:TouchEvent):void
 		Starling.juggler.tween(draggableCard, 0.2, {x:deckHeader.cardsBounds[cardIndex].x+deckHeader.cardsBounds[cardIndex].width*0.5, y:deckHeader.cardsBounds[cardIndex].y+deckHeader.cardsBounds[cardIndex].height*0.5, onComplete:pushToDeck, onCompleteArgs:[cardIndex] });
 		else
 		pushToDeck(cardIndex);*/
+			touchId = -1;			
 		}
 	}
 }
