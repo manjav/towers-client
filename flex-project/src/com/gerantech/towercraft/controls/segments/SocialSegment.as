@@ -135,7 +135,7 @@ private function refreshListData(): void
 	
 	var ret:Array = new Array();
 	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.lobbyManager.lobby != null)._list)
-		ret.push(TabItemData(p));
+		ret.push(new TabItemData(p));
 	listCollection.data = ret;
 }
 override public function dispose():void
