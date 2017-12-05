@@ -46,10 +46,9 @@ override protected function transitionInCompleted():void
 
 	var buildingIcon:BuildingCard = new BuildingCard();
 	buildingIcon.showSlider = false;
-	buildingIcon.type = buildingType;
-	buildingIcon.level = building.get_level();
 	buildingIcon.layoutData = new AnchorLayoutData(padding*0.3, padding*0.3, NaN, padding*0.3);
 	addChild(buildingIcon);
+	buildingIcon.type = buildingType;
 	
 	var upgradable:Boolean = building.upgradable();
 	var detailsButton:CustomButton = new CustomButton();

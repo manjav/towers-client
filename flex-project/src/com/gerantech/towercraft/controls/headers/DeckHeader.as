@@ -63,9 +63,9 @@ private function createDeckItem(i:int):void
 	card.height = card.width * 1.295;
 	card.x = card.pivotX = card.width * 0.5;
 	card.y = card.pivotY = card.height * 0.5;	
+	button.addChild(card);
 	card.type = player.decks.get(player.selectedDeck).get(i);
 	cards.push(card);
-	button.addChild(card);
 	
 	cardsBounds.push(card.getBounds(stage));
 }

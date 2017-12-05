@@ -46,10 +46,8 @@ override protected function initialize():void
 	var buildingIcon:BuildingCard = new BuildingCard();
 	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	buildingIcon.width = padding * 9;
-	buildingIcon.height = buildingIcon.width * 1.3;
-	buildingIcon.type = buildingType;
-	buildingIcon.level = building.get_level();
 	addChild(buildingIcon);
+	buildingIcon.type = buildingType;
 }
 
 override protected function transitionInCompleted():void

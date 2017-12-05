@@ -27,9 +27,11 @@ private var _level:int = 0;
 private var _locked:Boolean = false;
 private var _showSlider:Boolean = true;
 private var _showLevel:Boolean = true;
+private var _rarity:int = 0;
 
 private var skin:ImageSkin;
 private var levelDisplay:RTLLabel;
+
 
 public var levelDisplayFactory:Function;
 public var sliderDisplayFactory:Function;
@@ -45,6 +47,7 @@ private var labelsContainer:LayoutGroup;
 public function BuildingCard()
 {
 	super();
+	labelsContainer = new LayoutGroup();
 }
 
 override protected function initialize():void
@@ -73,7 +76,6 @@ override protected function initialize():void
 	coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(coverDisplay);
 	
-	labelsContainer = new LayoutGroup();
 	labelsContainer.layout = new AnchorLayout();
 	labelsContainer.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	
@@ -97,24 +99,65 @@ private function createCompleteHandler():void
 	height = width * 1.295;
 }
 
-protected function defaultRarityDisplayFactory():void
+
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TYPE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+public function get type():int
 {
-	if( rarityDisplay != null )
+	return _type;
+}
+public function set type(value:int):void
+{
+	/*if(_type == value)
+	return;*/
+	
+	_type = value;
+	if(_type < 0)
 		return;
 	
-	var rarity:int = CardTypes.get_rarity(_type);
-	if( rarity == 0 ) 
+	var building:Building = player.buildings.get(_type);
+	if ( iconDisplay )
+		iconDisplay.source = Assets.getTexture("cards/" + _type, "gui");
+	
+	locked = building == null;
+	if( building == null )
 		return;
 	
-	rarityDisplay = new ImageLoader();
-	rarityDisplay.scale = appModel.scale * 2;
-	rarityDisplay.scale9Grid = new Rectangle(30,34,2,3);
-	rarityDisplay.source = Assets.getTexture("cards/rarity-" + rarity, "gui");
-	rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChildAt(rarityDisplay, 0);
+	var upgradeCards:int = building.get_upgradeCards();
+	var numBuildings:int = player.resources.get(type);
+	
+	if( showSlider && sliderDisplay )
+	{
+		sliderDisplay.maximum = upgradeCards;
+		sliderDisplay.value = numBuildings;
+	}
+	level = building.get_level();
+	rarity = building.rarity;
+	
+	if( labelsContainer )
+		addChild(labelsContainer);
 }
 
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  LOCKED  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+public function set locked(value:Boolean):void
+{
+	if ( _locked == value )
+		return;
+	
+	_locked = value;
+	if ( sliderDisplay )
+		sliderDisplay.visible = !_locked && showSlider;
+	
+	if ( skin )
+		skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
+	if ( iconDisplay )
+		iconDisplay.alpha = _locked ? 0.6 : 1;
+	if( levelDisplay )
+		levelDisplay.visible = !_locked && showLevel;
+	if( levelBackground )
+		levelBackground.visible = !_locked && showLevel;
+}
 
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  LEVEL  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 public function get showLevel():Boolean
 {
 	return _showLevel;
@@ -134,20 +177,16 @@ public function set showLevel(value:Boolean):void
 }
 protected function defaultLevelDisplayFactory():void
 {
-	if( !_showLevel || _locked || levelDisplay != null )
+	if( !_showLevel || _locked )
 		return;
 	
-	var rarity:int = CardTypes.get_rarity(_type);
-	
-	levelBackground = new ImageLoader();
-	levelBackground.maintainAspectRatio = false
-	levelBackground.source = Assets.getTexture("cards/rarity-skin-" + rarity, "gui");
-	levelBackground.alpha = 0.7;
-	levelBackground.height = padding * 4;
-	levelBackground.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
-	addChildAt(levelBackground, 2);			
-	
-	levelDisplay = new RTLLabel("Level "+ _level, rarity==0?1:0, "center", null, false, null, 0.8);
+	if( levelDisplay != null )
+	{
+		levelDisplay.text = "Level "+ _level;
+		return;
+	}
+
+	levelDisplay = new RTLLabel("Level "+ _level, _rarity==0?1:0, "center", null, false, null, 0.8);
 	levelDisplay.alpha = 0.7;
 	levelDisplay.height = 56 * appModel.scale;
 	levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
@@ -164,13 +203,13 @@ public function set level(value:int):void
 		return;
 	
 	_level = value;
-	if ( showLevel && levelDisplay )
-		levelDisplay.text = "Level " + _level;
+	defaultLevelDisplayFactory();
 	
 	if( labelsContainer )
-	addChild(labelsContainer);
+		addChild(labelsContainer);
 }
 
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  SLIDER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 public function get showSlider():Boolean
 {
 	return _showSlider;
@@ -204,61 +243,52 @@ protected function defaultSliderDisplayFactory():void
 	addChild(sliderDisplay);
 }
 
-
-public function set locked(value:Boolean):void
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+public function get rarity():int
 {
-	if ( _locked == value )
-		return;
-	
-	_locked = value;
-	if ( sliderDisplay )
-		sliderDisplay.visible = !_locked && showSlider;
-
-	if ( skin )
-		skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
-	if ( iconDisplay )
-		iconDisplay.alpha = _locked ? 0.6 : 1;
-	if( levelDisplay )
-		levelDisplay.visible = !_locked && showLevel;
-	if( levelBackground )
-		levelBackground.visible = !_locked && showLevel;
+	return _rarity;
 }
-
-
-public function get type():int
+public function set rarity(value:int):void
 {
-	return _type;
+	_rarity = value;
+	defaultRarityDisplayFactory();
 }
-public function set type(value:int):void
+protected function defaultRarityDisplayFactory():void
 {
-	/*if(_type == value)
-		return;*/
-	
-	_type = value;
-	if(_type < 0)
-		return;
-	
-	var building:Building = player.buildings.get(_type);
-	if ( iconDisplay )
-		iconDisplay.source = Assets.getTexture("cards/" + _type, "gui");
-	
-	locked = building == null;
-	if( building == null )
-		return;
-	
-	var upgradeCards:int = building.get_upgradeCards();
-	var numBuildings:int = player.resources.get(type);
-	
-	if( showSlider && sliderDisplay )
+	if( !_locked && showLevel )
 	{
-		sliderDisplay.maximum = upgradeCards;
-		sliderDisplay.value = numBuildings;
+		if( levelBackground == null )
+		{
+			levelBackground = new ImageLoader();
+			levelBackground.maintainAspectRatio = false
+			levelBackground.source = Assets.getTexture("cards/rarity-skin-" + _rarity, "gui");
+			levelBackground.alpha = 0.7;
+			levelBackground.height = padding * 4;
+			levelBackground.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
+			addChildAt(levelBackground, Math.min(1, numChildren));
+		}
+		else
+		{
+			levelBackground.source = Assets.getTexture("cards/rarity-skin-" + _rarity, "gui");
+		}
 	}
 	
-	defaultRarityDisplayFactory()
-	level = building.get_level();
-	if( labelsContainer )
-	addChild(labelsContainer);
+	if( rarityDisplay != null )
+	{
+		rarityDisplay.visible = _rarity > 0;
+		if( _rarity > 0 )
+			rarityDisplay.source = Assets.getTexture("cards/rarity-" + _rarity, "gui");
+		return;
+	}
+	if( rarity == 0 ) 
+		return;
+	
+	rarityDisplay = new ImageLoader();
+	rarityDisplay.scale = appModel.scale * 2;
+	rarityDisplay.scale9Grid = new Rectangle(30,34,2,3);
+	rarityDisplay.source = Assets.getTexture("cards/rarity-" + _rarity, "gui");
+	rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	addChildAt(rarityDisplay, 0);
 }
 }
 }
