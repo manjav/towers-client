@@ -8,6 +8,7 @@ import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.buildings.Place;
+import com.gt.towers.constants.BuildingFeatureType;
 import com.gt.towers.constants.BuildingType;
 
 import flash.utils.clearTimeout;
@@ -91,6 +92,7 @@ public function BuildingDecorator(placeView:PlaceView)
 
 public function updateBuilding():void
 {
+	place.building.capacity = game.featureCaculator.get(BuildingFeatureType.F01_CAPACITY, place.building.type, place.building.get_level());
 	bodyFactory();
 	//	trace(place.index, place.building.type, troopType, place.building.troopType)
 }
@@ -140,10 +142,10 @@ private function placeView_updateHandler(event:Event):void
 		return;
 	}
 	
-	var improvable:Boolean = false;
-	if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
+	var improvable:Boolean = false ;
+	/*if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
 	{
-		/*var options:IntList = place.building.get_options();
+		var options:IntList = place.building.get_options();
 		for (var i:int=0; i < options.size(); i++) 
 		{
 			//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
@@ -152,9 +154,9 @@ private function placeView_updateHandler(event:Event):void
 				improvable = true;
 				break;
 			}
-		}*/
-	}
-	improvablePanel.enabled = improvable;
+		}
+	}*/
+	improvablePanel.enabled = place.building.transformable(place.building) && !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator;
 }
 
 protected function defaultBodyFactory():void
