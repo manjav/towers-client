@@ -13,6 +13,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.utils.lists.IntList;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
@@ -289,7 +290,14 @@ private function pushToDeck(cardIndex:int):void
 		return;
 	}
 	deckHeader.cards[cardIndex].type = draggableCard.type;
-	player.decks.get(player.selectedDeck).set(cardIndex, draggableCard.type);
+	player.get_current_deck().set(cardIndex, draggableCard.type);
+	
+	var params:SFSObject = new SFSObject();
+	params.putShort("index", cardIndex);
+	params.putShort("type", draggableCard.type);
+	params.putShort("deckIndex", player.selectedDeck);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
+	
 	dispatchEventWith("scrollPolicy", true, true);
 	setEditMode(false);
 }

@@ -20,6 +20,7 @@ public static const SELECT_NAME:String = "selectName";
 public static const VERIFY_PURCHASE:String = "verify";
 public static const RESTORE:String = "restore";
 public static const PREFS:String = "prefs";
+public static const CHANGE_DECK:String = "changeDeck";
 
 public static const ISSUE_REPORT:String = "issueReport";
 public static const ISSUE_GET:String = "issueGet";
