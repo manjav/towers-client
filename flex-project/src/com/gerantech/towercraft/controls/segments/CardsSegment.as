@@ -13,7 +13,6 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.utils.lists.IntList;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
@@ -43,7 +42,6 @@ import starling.events.TouchPhase;
 public class CardsSegment extends Segment
 {
 private var padding:int;
-private var listLayout:TiledRowsLayout;
 private var foundCollection:ListCollection;
 private var foundList:List;
 private var availabledCollection:ListCollection;
@@ -91,25 +89,26 @@ override public function init():void
 	scroller.addChild(foundLabel);
 	
 	layout = new AnchorLayout();
-	listLayout = new TiledRowsLayout();
-	listLayout.gap = padding * 0.5;
-	listLayout.useSquareTiles = false;
-	listLayout.useVirtualLayout = false;
-	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width - listLayout.gap*(listLayout.requestedColumnCount-1) - padding*2) / listLayout.requestedColumnCount;
-	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.5;
-	
+	var foundLayout:TiledRowsLayout = new TiledRowsLayout();
+	var availabledLayout:TiledRowsLayout = new TiledRowsLayout();
+	availabledLayout.gap = foundLayout.gap = padding * 0.5;
+	availabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
+	availabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
+	availabledLayout.requestedColumnCount = foundLayout.requestedColumnCount = 4;
+	availabledLayout.typicalItemWidth = foundLayout.typicalItemWidth = (width - foundLayout.gap*(foundLayout.requestedColumnCount-1) - padding*2) / foundLayout.requestedColumnCount;
+	foundLayout.typicalItemHeight = foundLayout.typicalItemWidth * 1.5;
+	availabledLayout.typicalItemHeight = foundLayout.typicalItemWidth * 1.3;
 	
 	foundList = new List();
 	foundList.verticalScrollPolicy = ScrollPolicy.OFF;
 	foundList.elasticity = 0.01;
 	//unlocksList.decelerationRate = 1;
-	foundList.layout = listLayout;
+	foundList.layout = foundLayout;
 	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, scroller); }
 	foundList.dataProvider = foundCollection;
 	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
 	scroller.addChild(foundList);
-	
+		
 	var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBCCDD, null, null, false, null, 0.8);
 	availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding*4, padding, NaN, padding);
 	scroller.addChild(availabledLabel);	
@@ -118,7 +117,7 @@ override public function init():void
 	availabledList.verticalScrollPolicy = ScrollPolicy.OFF;
 	availabledList.elasticity = 0.01;
 	//availabledList.decelerationRate = 1;
-	availabledList.layout = listLayout;
+	availabledList.layout = availabledLayout;
 	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, scroller); }
 	availabledList.dataProvider = availabledCollection;
 	availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
@@ -178,7 +177,7 @@ override public function updateData():void
 			availables.push(_availables.get(c));
 		c ++;
 	}
-	
+	availables.reverse();
 	availabledCollection.data = availables;
 }
 
