@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
-import com.gt.towers.constants.CardTypes;
 
 import flash.geom.Rectangle;
 
@@ -14,8 +13,6 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
-
-import starling.events.Event;
 
 public class BuildingCard extends TowersLayout
 {
@@ -81,11 +78,9 @@ override protected function initialize():void
 	
 	if( levelDisplayFactory == null )
 		levelDisplayFactory = defaultLevelDisplayFactory;
-	levelDisplayFactory();
 
 	if( sliderDisplayFactory == null )
 		sliderDisplayFactory = defaultSliderDisplayFactory;
-	sliderDisplayFactory();
 
 	var t:int = type;
 	type = -1;
@@ -125,13 +120,14 @@ public function set type(value:int):void
 	var upgradeCards:int = building.get_upgradeCards();
 	var numBuildings:int = player.resources.get(type);
 	
+	sliderDisplayFactory();
 	if( showSlider && sliderDisplay )
 	{
 		sliderDisplay.maximum = upgradeCards;
 		sliderDisplay.value = numBuildings;
 	}
-	level = building.get_level();
 	rarity = building.rarity;
+	level = building.get_level();
 	
 	if( labelsContainer )
 		addChild(labelsContainer);
@@ -150,7 +146,7 @@ public function set locked(value:Boolean):void
 	if ( skin )
 		skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
 	if ( iconDisplay )
-		iconDisplay.alpha = _locked ? 0.6 : 1;
+		iconDisplay.alpha = _locked ? 0.7 : 1;
 	if( levelDisplay )
 		levelDisplay.visible = !_locked && showLevel;
 	if( levelBackground )
@@ -177,7 +173,7 @@ public function set showLevel(value:Boolean):void
 }
 protected function defaultLevelDisplayFactory():void
 {
-	if( !_showLevel || _locked )
+	if( !_showLevel || _locked || _type < 0 )
 		return;
 	
 	if( levelDisplay != null )
@@ -185,9 +181,9 @@ protected function defaultLevelDisplayFactory():void
 		levelDisplay.text = "Level "+ _level;
 		return;
 	}
-
+	
 	levelDisplay = new RTLLabel("Level "+ _level, _rarity==0?1:0, "center", null, false, null, 0.8);
-	levelDisplay.alpha = 0.7;
+	levelDisplay.alpha = 0.8;
 	levelDisplay.height = 56 * appModel.scale;
 	levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 	labelsContainer.addChild(levelDisplay);
@@ -235,7 +231,7 @@ protected function defaultSliderDisplayFactory():void
 	}
 	sliderDisplay = new BuildingSlider();
 	sliderDisplay.height = padding * 4;
-	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding*0.3, -padding*3.6, padding*0.3);
+	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding*0.3, -padding*3.8, padding*0.3);
 	sliderDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void{
 		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding*3.8, NaN, 0);
 		labelsContainer.addChild(sliderDisplay.labelDisplay);
