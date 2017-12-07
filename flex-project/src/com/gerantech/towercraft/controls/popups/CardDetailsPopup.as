@@ -45,7 +45,7 @@ override protected function initialize():void
 	
 	var buildingIcon:BuildingCard = new BuildingCard();
 	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-	buildingIcon.width = padding * 9;
+	buildingIcon.width = padding * 10;
 	addChild(buildingIcon);
 	buildingIcon.type = buildingType;
 }
@@ -59,7 +59,7 @@ override protected function transitionInCompleted():void
 	textLayout.gap = padding;
 		
 	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
-	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*11, NaN, appModel.isLTR?padding*11:padding);
+	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*12, NaN, appModel.isLTR?padding*12:padding);
 	addChild(titleDisplay);
 	
 	var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
@@ -67,7 +67,7 @@ override protected function transitionInCompleted():void
 	addChild(messageDisplay);
 	
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding*15, padding*2, NaN, padding*2);
+	featureList.layoutData = new AnchorLayoutData(padding*16, padding*2, NaN, padding*2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
 	featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
