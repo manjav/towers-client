@@ -93,7 +93,7 @@ package com.gerantech.towercraft.controls.overlays
 				featureList.width = stage.stageWidth/2;
 				featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width*0.7);
 				featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-				featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
+				featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building, -1); }
 				featureList.dataProvider = new ListCollection(BuildingFeatureType.getChangables(game, building.type, building.get_level())._list);
 				addChild(featureList);
 				

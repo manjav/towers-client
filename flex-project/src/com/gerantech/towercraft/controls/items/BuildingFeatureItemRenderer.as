@@ -6,10 +6,12 @@ public class BuildingFeatureItemRenderer extends FeatureItemRenderer
 {
 private var building:Building;
 private var feature:int;
+private var levelOffset:int;
 
-public function BuildingFeatureItemRenderer(building:Building)
+public function BuildingFeatureItemRenderer(building:Building, levelOffset:int = 0)
 {
 	this.building = building;
+	this.levelOffset = levelOffset;
 }
 
 override protected function commitData():void
@@ -22,8 +24,8 @@ override protected function commitData():void
 	titleDisplay.text = loc("building_feature_" + feature);
 	
 	var baseValue:Number = game.featureCaculator.getBaseline(feature);
-	var newValue:Number = game.featureCaculator.get(feature, building.type, building.get_level() + 1);
-	var oldValue:Number = game.featureCaculator.get(feature, building.type, building.get_level());
+	var newValue:Number = game.featureCaculator.get(feature, building.type, building.get_level() + levelOffset + 1);
+	var oldValue:Number = game.featureCaculator.get(feature, building.type, building.get_level() + levelOffset);
 
 	var diff:Number = newValue - oldValue;
 	if( baseValue > 500 )
