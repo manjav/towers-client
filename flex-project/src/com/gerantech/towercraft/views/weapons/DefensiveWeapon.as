@@ -8,9 +8,8 @@ import flash.utils.clearTimeout;
 import flash.utils.setInterval;
 
 import starling.events.Event;
-import starling.events.EventDispatcher;
 
-public class DefensiveWeapon extends EventDispatcher
+public class DefensiveWeapon
 {
 private var placeView:PlaceView;
 private var hitTimeoutId:uint;
@@ -36,7 +35,7 @@ private function hitTestTroopsInterval():void
 		{
 			AppModel.instance.sounds.addAndPlaySound("shot-tower");
 			troop.hit(placeView);
-			dispatchEventWith(Event.TRIGGERED, false, troop);
+			placeView.dispatchEventWith(Event.TRIGGERED, false, troop);
 			//dispatchEventWith(Event.TRIGGERED, false, troop);
 			return;
 		}	

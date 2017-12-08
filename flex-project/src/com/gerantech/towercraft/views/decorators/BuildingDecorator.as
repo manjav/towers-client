@@ -30,7 +30,7 @@ public var troopTypeFactory:Function;
 protected var placeView:PlaceView;
 protected var place:Place;
 
-private var bodyDisplay:Image;
+protected var bodyDisplay:Image;
 private var troopTypeDisplay:Image;
 
 protected var __bodyTexture:String;
