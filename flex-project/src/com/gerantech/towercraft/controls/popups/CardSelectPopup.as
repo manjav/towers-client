@@ -64,8 +64,8 @@ override protected function transitionInCompleted():void
 		return;
 	
 	var usingButton:CustomButton = new CustomButton();
-	//usingButton.style = "danger";
-	usingButton.label = "استفاده";
+	usingButton.style = "neutral";
+	usingButton.label = loc("usage_label");
 	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*0.5, NaN, 0);
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	addChild(usingButton);		

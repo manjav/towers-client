@@ -109,10 +109,10 @@ private function touchHandler(event:TouchEvent):void
 		touchId = touch.id;
 		draggableCard.x = touch.globalX-x;
 		draggableCard.y = touch.globalY-y;
-		draggableCard.type = selectedCard.type;
-		draggableCard.data = selectedCard.data;
 		Starling.juggler.tween(draggableCard, 0.1, {scale:1.3});
 		addChild(draggableCard);
+		draggableCard.type = selectedCard.type;
+		draggableCard.data = selectedCard.data;
 	}
 	else 
 	{

@@ -245,12 +245,18 @@ private function showCardDetails(buildingType:int):void
 {
 	detailsPopup = new CardDetailsPopup();
 	detailsPopup.buildingType = buildingType;
-	detailsPopup.addEventListener(Event.SELECT, details_updateHandler);
+	detailsPopup.addEventListener(Event.SELECT, selectPopup_selectHandler);
+	detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);	
 }
-private function selectPopup_selectHandler():void
+private function selectPopup_selectHandler(event:Event):void
 {
-	setTimeout(setEditMode, 100, true);
+	var type:int = -1;
+	if( event.currentTarget is CardDetailsPopup )
+		type = detailsPopup.buildingType;
+	else
+		type = selectPopup.buildingType;
+	setTimeout(setEditMode, 10, true, type);
 }
 
 private function touchHandler(event:TouchEvent):void
@@ -286,7 +292,7 @@ private function pushToDeck(cardIndex:int):void
 {
 	if( cardIndex == -1 )
 	{
-		setEditMode(false);
+		setEditMode(false, -1);
 		return;
 	}
 	deckHeader.cards[cardIndex].type = draggableCard.type;
@@ -299,10 +305,10 @@ private function pushToDeck(cardIndex:int):void
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
 	
 	dispatchEventWith("scrollPolicy", true, true);
-	setEditMode(false);
+	setEditMode(false, -1);
 }
 
-private function setEditMode(value:Boolean):void
+private function setEditMode(value:Boolean, type:int):void
 {
 	if( _editMode == value )
 		return;
@@ -324,10 +330,10 @@ private function setEditMode(value:Boolean):void
 		draggableCard.pivotY = draggableCard.height * 0.5;
 		draggableCard.x = stage.stageWidth * 0.5;
 		draggableCard.y = stage.stageHeight * 0.7;
-		draggableCard.type = selectPopup.buildingType;
 		draggableCard.alpha = 0;
 		Starling.juggler.tween(draggableCard, 0.5, {alpha:1, y:stage.stageHeight * 0.6, transition:Transitions.EASE_OUT});
 		addChild(draggableCard);
+		draggableCard.type = type;
 		
 		addEventListener(TouchEvent.TOUCH, touchHandler);
 		return;

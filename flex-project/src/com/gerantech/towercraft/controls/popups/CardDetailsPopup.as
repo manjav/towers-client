@@ -1,14 +1,15 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.BuildingCard;
+import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingFeatureType;
-import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.ResourceType;
 
 import flash.geom.Rectangle;
 
@@ -74,10 +75,10 @@ override protected function transitionInCompleted():void
 	addChild(featureList);
 	
 	var upgradeButton:ExchangeButton = new ExchangeButton();
-	upgradeButton.disableSelectDispatching = true;
+	upgradeButton.disableSelectDispatching = player.buildings.exists(buildingType);
 	upgradeButton.count = building.get_upgradeCost();
 	upgradeButton.type = ResourceType.CURRENCY_SOFT;
-	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
+	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, -padding*5);
 	upgradeButton.height = 110*appModel.scale;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
@@ -85,11 +86,21 @@ override protected function transitionInCompleted():void
 	addChild(upgradeButton);
 
 	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_label"), 1, "center", null, true, null, 0.7);
-	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, 0);
+	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, -padding*5);
 	upgradeLabel.alpha = 0;
 	Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
 	addChild(upgradeLabel);
+	
+	var usingButton:CustomButton = new CustomButton();
+	usingButton.style = "neutral";
+	usingButton.label = loc("usage_label");
+	usingButton.isEnabled = player.buildings.exists(buildingType);
+	usingButton.height = 110*appModel.scale;
+	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
+	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding*5);
+	addChild(usingButton);		
 }
+
 
 override protected function transitionOutStarted():void
 {
@@ -100,9 +111,15 @@ private function upgradeButton_selectHandler(event:Event):void
 {
 	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("building_title_"+buildingType)]));
 }
-private function upgradeButton_triggeredHandler():void
+
+private function usingButton_triggeredHandler():void
 {
 	dispatchEventWith(Event.SELECT, false, building);
+	close();
+}
+private function upgradeButton_triggeredHandler():void
+{
+	dispatchEventWith(Event.UPDATE, false, building);
 	close();
 }
 }

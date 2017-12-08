@@ -117,6 +117,7 @@ public function set type(value:int):void
 	if( building == null )
 		return;
 	
+	
 	sliderDisplayFactory();
 	
 	rarity = building.rarity;

@@ -33,8 +33,8 @@ override protected function initialize():void
 	card.layoutData = new AnchorLayoutData(0,0,NaN,0);
 	card.showLevel = card.showSlider = false;
 	card.data = deckIndex;
-	card.type = building.type;
 	addChild(card);
+	card.type = building.type;
 	
 	/*populationBar = new HealthBar(0, 0, building.capacity);
 	populationBar.atlas = "gui";
