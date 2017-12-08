@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
-	import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 	import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
 	import com.gerantech.towercraft.controls.items.ProfileFeatureItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -11,7 +10,6 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gt.towers.constants.BuildingType;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -21,14 +19,11 @@ package com.gerantech.towercraft.controls.popups
 	import flash.geom.Rectangle;
 	
 	import feathers.controls.ImageLoader;
-	import feathers.controls.Label;
 	import feathers.controls.List;
 	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.ScrollPolicy;
 	import feathers.controls.renderers.IListItemRenderer;
 	import feathers.data.ListCollection;
-	import feathers.events.FeathersEventType;
-	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.TiledRowsLayout;
 	

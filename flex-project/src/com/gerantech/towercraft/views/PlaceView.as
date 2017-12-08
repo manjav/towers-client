@@ -5,16 +5,13 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
-	import com.gerantech.towercraft.views.decorators.BarracksDecorator;
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
 	import com.gerantech.towercraft.views.decorators.CardDecorator;
-	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
 	import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
 	import com.gt.towers.Game;
 	import com.gt.towers.Player;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.buildings.Place;
-	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;

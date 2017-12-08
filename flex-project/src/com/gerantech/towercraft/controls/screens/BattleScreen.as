@@ -25,7 +25,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.battle.BattleField;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
-	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.CardTypes;
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
@@ -385,9 +385,9 @@ package com.gerantech.towercraft.controls.screens
 			var tutorial:TutorialData = event.data as TutorialData;
 			if( tutorial.name == "quest_2_end" )
 			{
-				if( player.buildings.exists(BuildingType.B11_BARRACKS) )
+				if( player.buildings.exists(CardTypes.C101) )
 				{
-					if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
+					if( player.buildings.get(CardTypes.C101).get_level() > 1 )
 						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END);
 					else
 						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK); 
@@ -523,7 +523,7 @@ package com.gerantech.towercraft.controls.screens
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
 					
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-					if( bf.map.isQuest && !player.hardMode && improvable != null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
+					if( bf.map.isQuest && !player.hardMode && improvable != null && bf.places.get(improvable.index).building.type == CardTypes.C001 && state == STATE_CREATED )
 					{
 						appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);

@@ -5,7 +5,7 @@ import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 
 import feathers.controls.ImageLoader;
@@ -92,7 +92,7 @@ override protected function commitData():void
 	}
 	
 	super.commitData();
-	if( _data == BuildingType.B11_BARRACKS )
+	if( _data == CardTypes.C101 )
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 }
 

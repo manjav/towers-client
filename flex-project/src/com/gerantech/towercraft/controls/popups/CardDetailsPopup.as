@@ -7,9 +7,8 @@ import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingFeatureType;
-import com.gt.towers.constants.BuildingType;
-import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.constants.CardTypes;
 
 import flash.geom.Rectangle;
 
@@ -33,7 +32,7 @@ override protected function initialize():void
 {
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*(CardTypes.get_category(buildingType)==500?0.10:0.16), stage.stageWidth*0.9, stage.stageHeight*(CardTypes.get_category(buildingType)==500?0.70:0.58));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*( CardTypes.get_category(buildingType)==500?0.10:0.16), stage.stageWidth*0.9, stage.stageHeight*(CardTypes.get_category(buildingType)==500?0.70:0.58));
 	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(transitionOut.sourceBound.x, transitionOut.sourceBound.y*1.1, transitionOut.sourceBound.width, transitionOut.sourceBound.height*0.8);
 	transitionOut.destinationAlpha = 0.1;
 

@@ -9,7 +9,7 @@ import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.BuildingFeatureType;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -117,7 +117,7 @@ public function updateTroops(population:int, troopType:int):void
 		troopTypeDisplay.texture = Assets.getTexture(__troopTypeTexture);
 		
 		// play change troop sounds
-		if( place.building.category == BuildingType.B00_CAMP )
+		if( place.building.category == CardTypes.C000 )
 		{
 			// punch scale on occupation
 			bodyDisplay.scale = 1.3;
