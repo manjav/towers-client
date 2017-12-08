@@ -17,6 +17,7 @@ import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.LayoutGroup;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
+import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
@@ -145,18 +146,19 @@ private function createElements():void
 	// cards elements
 	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	cardsLayout.useVirtualLayout = false;
-	cardsLayout.gap = padding * cards.length<5?1:0.3;
-	cardsLayout.typicalItemWidth = padding*(cards.length<5?4:2.6);
+	//cardsLayout.gap = padding * cards.length<6?1:0.3;
+	cardsLayout.typicalItemWidth = padding*(cards.length<6?4:3.2);
 	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth*1.3;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	
 	var cardsList:List = new List();
 	cardsList.layout = cardsLayout;
+	cardsList.verticalScrollPolicy = cardsList.horizontalScrollPolicy = ScrollPolicy.OFF;
 	cardsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	cardsList.height = cardsLayout.typicalItemHeight*(cards.length<5?1:2);
+	cardsList.height = cardsLayout.typicalItemHeight*(cards.length<6?1:2);
 	cardsList.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
-	cardsList.layoutData = new AnchorLayoutData(padding * 19, padding, NaN, padding);
+	cardsList.layoutData = new AnchorLayoutData(padding * 19, 0, NaN, 0);
 	cardsList.addEventListener(FeathersEventType.FOCUS_IN, cardsList_focusInHandler);
 	cardsList.dataProvider = new ListCollection(cards);
 	addChild(cardsList);
