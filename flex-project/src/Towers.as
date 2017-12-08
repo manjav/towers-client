@@ -34,11 +34,11 @@ package
 		public function Towers()
 		{
 			/*var str:String = "";
-			var type:int = 401;
+			var type:int = 501;
 			for(var level:int=1;  level<=20; level++)
 			{
-				str += level + "=>" + ((  2500 - Math.log(level) * 500  )).toFixed(2) + " " ;
-				type ++;
+				str += level + "=>" + ((   1.05 + Math.log(level) * ( 0.25 )   )).toFixed(2) + " " ;
+				//type ++;
 			}
 			trace(str);
 			NativeApplication.nativeApplication.exit();
