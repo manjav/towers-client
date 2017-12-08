@@ -117,15 +117,8 @@ public function set type(value:int):void
 	if( building == null )
 		return;
 	
-	var upgradeCards:int = building.get_upgradeCards();
-	var numBuildings:int = player.resources.get(type);
-	
 	sliderDisplayFactory();
-	if( showSlider && sliderDisplay )
-	{
-		sliderDisplay.maximum = upgradeCards;
-		sliderDisplay.value = numBuildings;
-	}
+	
 	rarity = building.rarity;
 	level = building.get_level();
 	
@@ -199,7 +192,8 @@ public function set level(value:int):void
 		return;
 	
 	_level = value;
-	defaultLevelDisplayFactory();
+	levelDisplayFactory();
+	sliderDisplayFactory();
 	
 	if( labelsContainer )
 		addChild(labelsContainer);
@@ -224,17 +218,27 @@ protected function defaultSliderDisplayFactory():void
 {
 	if( !_showSlider || _locked )
 		return;
+	
+	var building:Building = player.buildings.get(_type);
+	if( building == null )
+		return;
+	var upgradeCards:int = building.get_upgradeCards();
+	var numBuildings:int = player.resources.get(type);
 	if( sliderDisplay != null )
 	{
+		sliderDisplay.maximum = upgradeCards;
+		sliderDisplay.value = numBuildings;
 		addChild(labelsContainer);
 		return;
 	}
 	sliderDisplay = new BuildingSlider();
 	sliderDisplay.height = padding * 4;
-	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding*0.3, -padding*3.8, padding*0.3);
+	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding*0.3, -padding*4.2, padding*0.3);
 	sliderDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void{
-		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding*3.8, NaN, 0);
+		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding*4.4, NaN, 0);
 		labelsContainer.addChild(sliderDisplay.labelDisplay);
+		sliderDisplay.maximum = upgradeCards;
+		sliderDisplay.value = numBuildings;
 	});
 	addChild(sliderDisplay);
 }
