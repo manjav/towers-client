@@ -34,9 +34,11 @@ package
 		public function Towers()
 		{
 			/*var str:String = "";
-			for(var level:int=1; level<=20; level++)
+			var type:int = 401;
+			for(var level:int=1;  level<=20; level++)
 			{
-				str += level + "=>" + ((  1.0 + Math.log(level) * 0.10  )).toFixed(2) + " " ;
+				str += level + "=>" + ((  2500 - Math.log(level) * 500  )).toFixed(2) + " " ;
+				type ++;
 			}
 			trace(str);
 			NativeApplication.nativeApplication.exit();
@@ -82,7 +84,7 @@ package
 			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
 			this.starling.showStatsAt("left", "bottom", 0.8);
-			this.starling.skipUnchangedFrames = false;
+			this.starling.skipUnchangedFrames = true;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 			

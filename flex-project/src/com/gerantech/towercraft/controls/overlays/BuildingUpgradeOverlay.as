@@ -62,13 +62,13 @@ package com.gerantech.towercraft.controls.overlays
 			
 			var card:BuildingCard = new BuildingCard();
 			card.showSlider = false;
-			card.type = building.type;
 			card.pivotY = card.height/2
 			card.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
 			card.width = 240 * appModel.scale;
 			card.height = card.width*1.4;
 			card.y = (stage.stageHeight-card.height)/2;
 			addChild(card);
+			card.type = building.type;
 			card.level = building.get_level()-1;
 			card.scale = 1.6;
 			
