@@ -105,5 +105,11 @@ public function getCardIndex(touch:Touch):int
 		cards[i].scale = i==ret ? 1.1 : 1;
 	return ret;
 }
+
+public function update():void
+{
+	for ( var i:int = 0; i < cards.length; i++ ) 
+		cards[i].level = player.buildings.get(cards[i].type).get_level();	
+}
 }
 }

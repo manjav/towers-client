@@ -18,6 +18,7 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 
+import feathers.controls.Header;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollContainer;
@@ -390,6 +391,7 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	upgradeOverlay.building = building;
 	appModel.navigator.addOverlay(upgradeOverlay);
 	
+	deckHeader.update();
 	updateData();
 }
 }
