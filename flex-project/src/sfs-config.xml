@@ -12,6 +12,6 @@
 
 	<debug>false</debug>
 	<httpPort>8080</httpPort>
-	<useBlueBox>false</useBlueBox>
+	<useBlueBox>true</useBlueBox>
 	<blueBoxPollingRate>500</blueBoxPollingRate>
 </SmartFoxConfig>
