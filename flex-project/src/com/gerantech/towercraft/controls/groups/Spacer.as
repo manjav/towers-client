@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.controls
+package com.gerantech.towercraft.controls.groups
 {
 	import feathers.controls.LayoutGroup;
 	import feathers.layout.HorizontalLayoutData;

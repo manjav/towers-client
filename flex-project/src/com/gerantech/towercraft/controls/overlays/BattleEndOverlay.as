@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.Devider;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
