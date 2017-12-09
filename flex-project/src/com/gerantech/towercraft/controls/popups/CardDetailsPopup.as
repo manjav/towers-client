@@ -53,7 +53,6 @@ override protected function initialize():void
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	
 		
 	var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_"+building.type), 1, null, null, false, null, 1, null, "bold");
 	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*12, NaN, appModel.isLTR?padding*12:padding);
@@ -66,7 +65,7 @@ override protected function transitionInCompleted():void
 	rarityPalette.layoutData = new AnchorLayoutData(padding*3.7, appModel.isLTR?NaN:padding*12, NaN, appModel.isLTR?padding*12:NaN);
 	addChild(rarityPalette);
 	
-	var categoryPalette:ColorGroup = new ColorGroup(loc("card_category_"+building.category), building.category);
+	var categoryPalette:ColorGroup = new ColorGroup(loc("card_category_"+building.category));
 	categoryPalette.width = padding * 8.4;
 	categoryPalette.layoutData = new AnchorLayoutData(padding*3.7, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	addChild(categoryPalette);
@@ -108,7 +107,6 @@ override protected function transitionInCompleted():void
 	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding*5);
 	addChild(usingButton);		
 }
-
 
 override protected function transitionOutStarted():void
 {
