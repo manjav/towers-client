@@ -42,8 +42,8 @@ package com.gerantech.towercraft.models.vo
 			}
 			
 			//update decks
-			for (var i:int = 0; i < data.getSFSArray("decks").size(); i++) 
-				battleField.deckBuildings.get(i).building.type = data.getSFSArray("decks").getInt(i);
+			/*for (var i:int = 0; i < data.getSFSArray("decks").size(); i++) 
+				battleField.deckBuildings.get(i).building.type = data.getSFSArray("decks").getInt(i);*/
 
 			/*trace(this.troopType, "tt", data.getText("mapName"))	
 			for (var i:int = 0; i < room.userList.length; i++) 
