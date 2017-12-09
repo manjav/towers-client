@@ -1,10 +1,9 @@
 package com.gerantech.towercraft.controls
 {
+	import com.gerantech.towercraft.controls.groups.Devider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.ExchangeItem;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
@@ -19,8 +18,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.VerticalLayout;
 	import feathers.layout.VerticalLayoutData;
 	import feathers.text.BitmapFontTextFormat;
-	
-	import starling.display.Image;
 	
 	public class ChestReward extends TowersLayout
 	{

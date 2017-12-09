@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.Devider;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;

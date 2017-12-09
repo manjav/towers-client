@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.Spacer;
+import com.gerantech.towercraft.controls.groups.Spacer;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
