@@ -11,6 +11,7 @@ import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.battle.fieldes.FieldData;
 
 import flash.geom.Rectangle;
@@ -89,8 +90,8 @@ override protected function initialize():void
 		return;
 	
 	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
-	backButton.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
-	Image(backButton.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
+	backButton.backgroundSkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
+	Image(backButton.backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 	backButton.width = backButton.height = 160 * appModel.scale;
 	backButton.layoutData = new AnchorLayoutData(NaN, NaN,  10*appModel.scale, NaN, 0);
 	backButton.addEventListener(Event.TRIGGERED, backButtonHandler);

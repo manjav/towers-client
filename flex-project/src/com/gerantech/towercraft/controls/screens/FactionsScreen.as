@@ -11,6 +11,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.arenas.Arena;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -129,8 +130,8 @@ override protected function initialize():void
 	addChild(list);
 
 	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
-	backButton.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
-	Image(backButton.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
+	backButton.backgroundSkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
+	Image(backButton.backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 	backButton.width = backButton.height = 160 * appModel.scale;
 	backButton.layoutData = new AnchorLayoutData(NaN, NaN,  10*appModel.scale, NaN, 0);
 	backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
