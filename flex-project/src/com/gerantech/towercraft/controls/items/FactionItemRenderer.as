@@ -96,6 +96,7 @@ private function createElements():void
 	{
 		var divider:Devider = new Devider(0, 2*appModel.scale);
 		divider.layoutData = new AnchorLayoutData(0, padding, NaN, padding);
+		divider.alpha = 0.4;
 		addChild(divider);
 	}
 	// header elements
@@ -146,8 +147,8 @@ private function createElements():void
 	// cards elements
 	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	cardsLayout.useVirtualLayout = false;
-	//cardsLayout.gap = padding * cards.length<6?1:0.3;
-	cardsLayout.typicalItemWidth = padding*(cards.length<6?4:3.2);
+	cardsLayout.gap = 0;
+	cardsLayout.typicalItemWidth = padding*(cards.length<5?4:3.6);
 	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth*1.3;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -156,8 +157,8 @@ private function createElements():void
 	cardsList.layout = cardsLayout;
 	cardsList.verticalScrollPolicy = cardsList.horizontalScrollPolicy = ScrollPolicy.OFF;
 	cardsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	cardsList.height = cardsLayout.typicalItemHeight*(cards.length<6?1:2);
-	cardsList.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
+	cardsList.height = cardsLayout.typicalItemHeight*(cards.length<5?1:2);
+	cardsList.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false, false ); };
 	cardsList.layoutData = new AnchorLayoutData(padding * 19, 0, NaN, 0);
 	cardsList.addEventListener(FeathersEventType.FOCUS_IN, cardsList_focusInHandler);
 	cardsList.dataProvider = new ListCollection(cards);
@@ -172,7 +173,7 @@ private function createElements():void
 	rankButton.label = loc("ranking_label", [""]);
 	rankButton.width = 320 * appModel.scale;
 	rankButton.height = 110 * appModel.scale;
-	rankButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.4, NaN, 0);
+	rankButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * (cards.length<5?3:0), NaN, 0);
 	rankButton.addEventListener(Event.TRIGGERED, rankButton_triggeredHandler);
 	function rankButton_triggeredHandler():void { _owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, faction); }
 	addChild(rankButton);
