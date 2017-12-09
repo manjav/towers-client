@@ -19,8 +19,6 @@ import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalAlign;
-import feathers.layout.VerticalLayout;
 
 import starling.core.Starling;
 import starling.events.Event;
@@ -34,7 +32,7 @@ override protected function initialize():void
 {
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*( CardTypes.get_category(buildingType)==500?0.10:0.16), stage.stageWidth*0.9, stage.stageHeight*(CardTypes.get_category(buildingType)==500?0.70:0.58));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.02, stage.stageHeight*( CardTypes.get_category(buildingType)==500?0.10:0.16), stage.stageWidth*0.96, stage.stageHeight*(CardTypes.get_category(buildingType)==500?0.70:0.58));
 	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(transitionOut.sourceBound.x, transitionOut.sourceBound.y*1.1, transitionOut.sourceBound.width, transitionOut.sourceBound.height*0.8);
 	transitionOut.destinationAlpha = 0.1;
 
@@ -56,16 +54,25 @@ override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
 	
-	var textLayout:VerticalLayout = new VerticalLayout();
-	textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	textLayout.gap = padding;
 		
-	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
+	var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_"+building.type), 1, null, null, false, null, 1, null, "bold");
 	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*12, NaN, appModel.isLTR?padding*12:padding);
 	addChild(titleDisplay);
 	
-	var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
-	messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?padding:padding*11, NaN, appModel.isLTR?padding*11:padding);
+	
+	var rarityColors:Array = [0xFFFFFF, 0x00eeff, 0xffcc00];
+	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_"+building.rarity), rarityColors[building.rarity]);
+	rarityPalette.width = padding * 8.4;
+	rarityPalette.layoutData = new AnchorLayoutData(padding*3.7, appModel.isLTR?NaN:padding*12, NaN, appModel.isLTR?padding*12:NaN);
+	addChild(rarityPalette);
+	
+	var categoryPalette:ColorGroup = new ColorGroup(loc("card_category_"+building.category), building.category);
+	categoryPalette.width = padding * 8.4;
+	categoryPalette.layoutData = new AnchorLayoutData(padding*3.7, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	addChild(categoryPalette);
+	
+	var messageDisplay:RTLLabel = new RTLLabel(loc("card_message_"+building.type), 1, "justify", null, true, null, 0.7);
+	messageDisplay.layoutData = new AnchorLayoutData(padding*7, appModel.isLTR?padding:padding*12, NaN, appModel.isLTR?padding*12:padding);
 	addChild(messageDisplay);
 	
 	var featureList:List = new List();
@@ -110,7 +117,7 @@ override protected function transitionOutStarted():void
 }
 private function upgradeButton_selectHandler(event:Event):void
 {
-	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("building_title_"+buildingType)]));
+	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("card_title_"+buildingType)]));
 }
 
 private function usingButton_triggeredHandler():void

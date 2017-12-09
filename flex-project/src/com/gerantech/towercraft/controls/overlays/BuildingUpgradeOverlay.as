@@ -76,7 +76,7 @@ package com.gerantech.towercraft.controls.overlays
 			setTimeout(levelUp, 500);
 			setTimeout(showFeatures, 1800);
 			function levelUp():void {
-				var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, "center", null, false, null, 1.5);
+				var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_"+building.type), 1, "center", null, false, null, 1.5);
 				titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
 				titleDisplay.y = (stage.stageHeight-card.height)/3;
 				addChild(titleDisplay);

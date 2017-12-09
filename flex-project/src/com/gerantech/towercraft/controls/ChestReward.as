@@ -105,7 +105,7 @@ package com.gerantech.towercraft.controls
 			addChild(appModel.isLTR ? iconContainer : detailsContainer);
 			addChild(appModel.isLTR ? detailsContainer : iconContainer);
 			
-			var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+type), 1, null, null, false, null, 1.1, null, "bold");
+			var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_"+type), 1, null, null, false, null, 1.1, null, "bold");
 			detailsContainer.addChild(titleDisplay);
 			
 			var countDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();

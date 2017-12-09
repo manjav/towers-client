@@ -136,8 +136,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			exchange.requirements = exchanger.getSpecialRequierments(exchange);
 
 			//trace(exchange.type, exchange.outcomes.keys().length)
-			//labelDisplay.text = loc("building_title_" + exchange.outcomes.keys()[0]);
-			nameShadowDisplay.text = nameDisplay.text = loc("building_title_" + building.type);
+			nameShadowDisplay.text = nameDisplay.text = loc("card_title_" + building.type);
 			iconDisplay.type = building.type;
 			iconAnimation.type = building.type;
 			
