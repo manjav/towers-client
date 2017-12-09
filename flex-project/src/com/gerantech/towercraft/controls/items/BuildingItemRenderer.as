@@ -27,17 +27,19 @@ private var _width:Number;
 private var _height:Number;
 
 private var cardDisplay:BuildingCard;
-private var inDeck:Boolean;
+private var showLevel:Boolean;
+private var showSlider:Boolean;
 private var scroller:ScrollContainer;
 private var cardLayoutData:AnchorLayoutData;
 
 private var newDisplay:ImageLoader;
 private var tutorialArrow:TutorialArrow;
 
-public function BuildingItemRenderer(inDeck:Boolean=true, scroller:ScrollContainer=null)
+public function BuildingItemRenderer(showLevel:Boolean=true, showSlider:Boolean=true, scroller:ScrollContainer=null)
 {
 	super();
-	this.inDeck = inDeck;
+	this.showLevel = showLevel;
+	this.showSlider = showSlider;
 	this.scroller = scroller;
 }
 
@@ -45,21 +47,24 @@ override protected function initialize():void
 {
 	super.initialize();
 	alpha = 0;
-	backgroundSkin = new Quad(1,1);
-	backgroundSkin.visible = false;
+	//backgroundSkin = new Quad(1,1);
+	//backgroundSkin.visible = false;
 
 	layout = new AnchorLayout();
 	
 	cardLayoutData = new AnchorLayoutData(0,0,NaN,0);
 	cardDisplay = new BuildingCard();
-	cardDisplay.showLevel = inDeck;
-	cardDisplay.showSlider = inDeck;
+	cardDisplay.showLevel = showLevel;
+	cardDisplay.showSlider = showSlider;
 	cardDisplay.layoutData = cardLayoutData;
 	addChild(cardDisplay);
 }
 
 override protected function commitData():void
 {
+	if( _data == null )
+		return;
+	
 	if(_firstCommit)
 	{
 		if(_owner.layout is HorizontalLayout)
@@ -76,24 +81,34 @@ override protected function commitData():void
 		_owner.addEventListener(FeathersEventType.CREATION_COMPLETE, _owner_createHandler);
 	}
 
-	var t:int = _data as int;
-	cardDisplay.type = t >= 900 ? 999 : t;
-	Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
-	
-	if ( player.newBuildings.exists( cardDisplay.type ) )
+	if( _data is int )
 	{
-		player.newBuildings.remove( cardDisplay.type );
+		var t:int = _data as int;
+		cardDisplay.type = t >= 900 ? 999 : t;
+		Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
 		
-		newDisplay = new ImageLoader();
-		newDisplay.source = Assets.getTexture("new-badge", "gui");
-		newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
-		newDisplay.height = newDisplay.width = width * 0.6;
-		addChild(newDisplay);
+		if ( player.newBuildings.exists( cardDisplay.type ) )
+		{
+			player.newBuildings.remove( cardDisplay.type );
+			
+			newDisplay = new ImageLoader();
+			newDisplay.source = Assets.getTexture("new-badge", "gui");
+			newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
+			newDisplay.height = newDisplay.width = width * 0.6;
+			addChild(newDisplay);
+		}
+		
+		if( _data == CardTypes.C101 )
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+	}
+	else
+	{
+		alpha = 1;
+		cardDisplay.type = _data.type;
+		cardDisplay.level = _data.level;
 	}
 	
 	super.commitData();
-	if( _data == CardTypes.C101 )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 }
 
 private function _owner_createHandler():void

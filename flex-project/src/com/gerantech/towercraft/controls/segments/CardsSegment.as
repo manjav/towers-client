@@ -119,7 +119,7 @@ override public function init():void
 	availabledList.elasticity = 0.01;
 	//availabledList.decelerationRate = 1;
 	availabledList.layout = availabledLayout;
-	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, scroller); }
+	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, true, scroller); }
 	availabledList.dataProvider = availabledCollection;
 	availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 	scroller.addChild(availabledList);
