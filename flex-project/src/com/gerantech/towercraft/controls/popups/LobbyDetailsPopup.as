@@ -48,6 +48,8 @@ public function LobbyDetailsPopup(roomData:Object)
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
+	if( roomData.name == null )
+		params.putBool("data", true);
 	if( roomData.all == null )
 		params.putBool("all", true);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
@@ -80,8 +82,22 @@ protected function sfsConnection_roomDataHandler(event:SFSEvent):void
 	
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
 	roomServerData = event.params.params as SFSObject;
+	
+	if( roomServerData.containsKey("name") )
+		roomData.name = roomServerData.getText("name");
+	if( roomServerData.containsKey("max") )
+		roomData.name = roomServerData.getInt("max");
+	if( roomServerData.containsKey("num") )
+		roomData.name = roomServerData.getInt("num");
+	if( roomServerData.containsKey("sum") )
+		roomData.name = roomServerData.getInt("sum");
+	if( roomServerData.containsKey("pic") )
+		roomData.name = roomServerData.getInt("pic");
+	if( roomServerData.containsKey("act") )
+		roomData.name = roomServerData.getInt("act");
 	if( roomServerData.containsKey("all") )
 		roomData.all = roomServerData.getSFSArray("all");
+	
 	roomData.bio = roomServerData.getText("bio");
 	roomData.min = roomServerData.getInt("min")
 	roomData.pri = roomServerData.getInt("pri");
