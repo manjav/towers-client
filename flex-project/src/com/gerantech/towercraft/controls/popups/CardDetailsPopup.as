@@ -86,7 +86,7 @@ override protected function transitionInCompleted():void
 	upgradeButton.count = building.get_upgradeCost();
 	upgradeButton.type = ResourceType.CURRENCY_SOFT;
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, -padding*5);
-	upgradeButton.height = 110*appModel.scale;
+	upgradeButton.height = 110 * appModel.scale;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.isEnabled = player.has(building.get_upgradeRequirements());
@@ -101,8 +101,8 @@ override protected function transitionInCompleted():void
 	var usingButton:CustomButton = new CustomButton();
 	usingButton.style = "neutral";
 	usingButton.label = loc("usage_label");
-	usingButton.isEnabled = player.buildings.exists(buildingType);
-	usingButton.height = 110*appModel.scale;
+	usingButton.isEnabled = player.buildings.exists(buildingType) && player.get_current_deck().indexOf(buildingType) == -1;
+	usingButton.height = 110 * appModel.scale;
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding*5);
 	addChild(usingButton);		
