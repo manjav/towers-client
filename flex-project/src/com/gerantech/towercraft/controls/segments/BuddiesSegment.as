@@ -136,8 +136,8 @@ protected function list_focusInHandler(event:Event):void
 	var buddy:Buddy = selectedItem.data as Buddy;
 	if( buddy == null )
 	{
-		var url:String = "http://towers.grantech.ir/invite?un="+player.nickName+"&ic="+appModel.loadingManager.serverData.getText("invitationCode").toLowerCase();
-		NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + url);trace(url)
+		NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + loc("buddy_initation_url", [player.nickName, appModel.loadingManager.serverData.getText("invitationCode").toLowerCase()]));
+		trace(loc("buddy_initation_url", [player.nickName, appModel.loadingManager.serverData.getText("invitationCode").toLowerCase()]))
 		return;
 	}
 	
