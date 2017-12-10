@@ -117,7 +117,7 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case SFSCommands.BUILDING_IMPROVE:
-					appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
+					appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("m"));
 					appModel.sounds.addAndPlaySound("battle-improve");
 					break;
 				
@@ -442,7 +442,7 @@ package com.gerantech.towercraft.controls.screens
 			for( var i:int=0; i < bSize; i++ )
 			{
 				var b:ISFSObject = data.getSFSArray("buildings").getSFSObject(i);
-				appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"));
+				appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"), b.getInt("m"));
 				appModel.battleFieldView.places[b.getInt("i")].update(b.getInt("p"), b.getInt("tt"));
 			}
 		}

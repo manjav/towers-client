@@ -196,7 +196,7 @@ public function rush(t:TroopView):void
 		t.rush(place);
 }
 
-public function replaceBuilding(type:int, level:int):void
+public function replaceBuilding(type:int, level:int, improveLevel:int):void
 {
 	/*wishedPopulation = Math.floor(place.building._population/2);
 	var tt:int = place.building.troopType;
@@ -207,11 +207,13 @@ public function replaceBuilding(type:int, level:int):void
 	createDecorator();
 	if( type == BuildingType.B01_CAMP )
 		update(p,tt);*/
+	
 	var _oldcate:int = place.building.category;
 	var _newcate:int = CardTypes.get_category(type);
 	
-	place.building.type = type;
 	place.building.set_level(level);
+	place.building.improveLevel = improveLevel;
+	place.building.type = type;
 	place.building.setFeatures();
 	decorator.updateBuilding();
 	if( ( _newcate == CardTypes.C500 || _oldcate == CardTypes.C500 ) && _newcate != _oldcate )

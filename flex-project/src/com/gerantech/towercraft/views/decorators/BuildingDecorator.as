@@ -92,7 +92,7 @@ public function BuildingDecorator(placeView:PlaceView)
 
 public function updateBuilding():void
 {
-	place.building.capacity = game.featureCaculator.get(BuildingFeatureType.F01_CAPACITY, place.building.type, place.building.get_level());
+	//place.building.capacity = game.featureCaculator.get(BuildingFeatureType.F01_CAPACITY, place.building.type, place.building.improveLevel);
 	bodyFactory();
 	//	trace(place.index, place.building.type, troopType, place.building.troopType)
 }
