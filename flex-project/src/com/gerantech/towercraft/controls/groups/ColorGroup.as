@@ -28,7 +28,7 @@ package com.gerantech.towercraft.controls.groups
 			super.initialize();
 			layout = new AnchorLayout(); 
 			var padding:int = 32 * appModel.scale;
-			height = padding * 3;
+			height = padding * 2.8;
 			
 			var skin:ImageLoader = new ImageLoader();
 			skin.source = Assets.getTexture("theme/popup-inside-background-skin", "gui")
@@ -38,7 +38,7 @@ package com.gerantech.towercraft.controls.groups
 			skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			addChild(skin);
 			
-			var labelDisplay:RTLLabel = new RTLLabel(label, textColor);//imageDisplay.width, imageDisplay.width/2, "");
+			var labelDisplay:RTLLabel = new RTLLabel(label, textColor, null, null, false, null, 0.8);//imageDisplay.width, imageDisplay.width/2, "");
 			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding*0.2);
 			labelDisplay.text = label;
 			addChild(labelDisplay);
