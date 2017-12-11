@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
@@ -177,18 +178,35 @@ private function showDetails():void
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
 	
+	if( !itsMyRoom )
+		return;
+	
+	var shareButton:CustomButton = new CustomButton();
+	shareButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 92 * appModel.scale);
+	shareButton.label = loc("lobby_invite");
+	shareButton.width = 160 * appModel.scale;
+	shareButton.height = 96 * appModel.scale;
+	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
+	addChild(shareButton);
+	
 	var u:Object = findUser(player.id);
 	if( u == null || u.permission <= 1 )
 		return;
 	
 	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 92 * appModel.scale);
+	editButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 264 * appModel.scale);
 	editButton.label = loc("lobby_edit");
 	editButton.width = 160 * appModel.scale;
 	editButton.height = 96 * appModel.scale;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
 	
+}
+
+private function shareButton_triggeredHandler():void
+{
+	NativeAbilities.instance.shareText(loc("lobby_invite"), loc("lobby_invite_message")+ "\n" + loc("lobby_invite_url", [roomData.id, roomData.name, player.nickName]));
+	trace(loc("lobby_invite_url", [roomData.id, roomData.name, player.nickName]))
 }
 
 private function tabs_triggeredHandler(event:Event):void
