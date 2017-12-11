@@ -303,7 +303,7 @@ private function handleSchemeQuery(arguments:Array):void
 							addPopup( new InvitationPopup(event.params.params ) );
 						}
 					}
-					else if( pars["type"] == "lobbydetails" )
+					else if( pars["type"] == "lobbydetails" && !AppModel.instance.game.player.inTutorial() )
 					{
 						addPopup( new LobbyDetailsPopup({id:int(pars["id"])}) );
 					}
