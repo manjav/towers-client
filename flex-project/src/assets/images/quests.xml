@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:f091e0076d80e1bb4213042e0c0a1a61:ec5db4ba9ebbe00691bf18a046bbb811:024da9a414dc4d99d323ce35b0141ca1$ -->
+<!-- $TexturePacker:SmartUpdate:75cc24eeadb21e4e95d514b4bc62c668:2c691362965f5482b4b8353ffdbb4a29:024da9a414dc4d99d323ce35b0141ca1$ -->
 <TextureAtlas imagePath="quests.png" width="1024" height="1024">
     <SubTexture name="cols" x="563" y="302" width="130" height="110"/>
+    <SubTexture name="gold-key" x="110" y="416" rotated="true" width="40" height="38"/>
     <SubTexture name="house-0" x="637" y="261" width="43" height="39"/>
     <SubTexture name="house-1" x="563" y="214" width="72" height="86"/>
     <SubTexture name="house-2" x="899" y="503" rotated="true" width="50" height="72"/>
@@ -36,7 +37,7 @@
     <SubTexture name="rock-8" x="954" y="490" width="67" height="50"/>
     <SubTexture name="skull" x="698" y="223" width="199" height="188"/>
     <SubTexture name="star-center" x="357" y="358" width="31" height="31"/>
-    <SubTexture name="star-side" x="110" y="416" width="31" height="31"/>
+    <SubTexture name="star-side" x="110" y="456" width="31" height="31"/>
     <SubTexture name="statue-0" x="896" y="577" width="127" height="93"/>
     <SubTexture name="statue-1" x="848" y="565" rotated="true" width="46" height="75"/>
     <SubTexture name="statue-2" x="496" y="414" rotated="true" width="102" height="92"/>
