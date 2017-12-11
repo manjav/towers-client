@@ -112,7 +112,7 @@ override protected function commitData():void
 				}
 			}*/
 			
-			for (var i:int = score; i >= 0; i--) 
+			for (var i:int = score-1; i >= 0; i--) 
 			{
 				var keyImage:Image = new Image(Assets.getTexture("gold-key", "quests"));
 				keyImage.alignPivot("center", "top");
