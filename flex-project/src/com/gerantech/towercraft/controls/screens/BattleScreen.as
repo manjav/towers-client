@@ -244,28 +244,40 @@ package com.gerantech.towercraft.controls.screens
 		{
 			disposeBattleAssets();
 			
-			var youWin:Boolean = data.getBool("youWin");
-			var score:int = data.getInt("score");
-			var rewards:ISFSArray = data.getSFSArray("rewards");
+			var rewards:ISFSArray = data.getSFSArray("outcomes");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
-			
+			var playerIndex:int = -1
+			for(var i:int = 0; i < rewards.size(); i++)
+			{
+				if( rewards.getSFSObject(i).getInt("id") == player.id )
+				{
+					playerIndex = i;
+					break;
+				}
+			}
+				
+				
 			// reduce player resources
-			if( !sfsConnection.mySelf.isSpectator )
+			if( playerIndex > -1 )
 			{
 				var outcomes:IntIntMap = new IntIntMap();
-				for(var i:int=0; i<rewards.size(); i++)
+				var item:ISFSObject = rewards.getSFSObject(playerIndex);
+				var keys:Array = item.getKeys();
+				for( i = 0; i < keys.length; i++)
 				{
-					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY && !quest.isQuest )
-						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
+					var key:int = int(keys[i])
+					if( key > 0 )
+						outcomes.set(key, item.getInt(keys[i]));
+					if( key == ResourceType.KEY && !quest.isQuest )
+						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += item.getInt(keys[i]);
 				}
 			}
 			
 			// arena changes manipulation
 			var prevArena:int = 0;
 			var nextArena:int = 0;
-			if( !sfsConnection.mySelf.isSpectator )
+			if( playerIndex > -1 )
 			{
 				prevArena = player.get_arena(0);
 				player.addResources(outcomes);
@@ -275,11 +287,11 @@ package com.gerantech.towercraft.controls.screens
 			var endOverlay:EndOverlay;
 			if( quest.isQuest )
 			{
-				endOverlay = new EndQuestOverlay(score, rewards, tutorialMode);
+				endOverlay = new EndQuestOverlay(playerIndex, rewards, tutorialMode);
 			}
-			else
+			else if( playerIndex > -1 )
 			{
-				endOverlay = new EndBattleOverlay(score, rewards, tutorialMode);
+				endOverlay = new EndBattleOverlay(playerIndex, rewards, tutorialMode);
 				if( prevArena != nextArena )
 					endOverlay.data = [prevArena, nextArena]
 			}
