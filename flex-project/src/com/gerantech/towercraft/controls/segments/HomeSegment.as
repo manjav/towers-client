@@ -100,6 +100,15 @@ private function addButton(button:HomeButton, name:String, x:int, y:int, delay:N
 
 private function showFooterButtons():void
 {
+	var adminButton:Button = new Button();
+	adminButton.alpha = 0;
+	adminButton.isLongPressEnabled = true;
+	adminButton.longPressDuration = 3;
+	adminButton.width = adminButton.height = 120 * appModel.scale;
+	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
+	addChild(adminButton);
+	
 	if( player.inTutorial() )
 		return;
 	
@@ -130,15 +139,6 @@ private function showFooterButtons():void
 	inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 246*appModel.scale);
 	addChild(inboxButton);
-	
-	var restoreButton:Button = new Button();
-	restoreButton.alpha = 0;
-	restoreButton.isLongPressEnabled = true;
-	restoreButton.longPressDuration = 3;
-	restoreButton.width = restoreButton.height = 120 * appModel.scale;
-	restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-	restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
-	addChild(restoreButton);
 	
 	InboxService.instance.request();
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
