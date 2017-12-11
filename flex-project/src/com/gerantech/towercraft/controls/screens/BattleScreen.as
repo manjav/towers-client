@@ -3,9 +3,11 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.buttons.ImproveButton;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
-	import com.gerantech.towercraft.controls.overlays.BattleEndOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
@@ -17,6 +19,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.models.vo.Quest;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -247,10 +250,6 @@ package com.gerantech.towercraft.controls.screens
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
 			
-			// set quest score
-			if( quest.isQuest && player.quests.get( quest.index ) < score )
-				player.quests.set(quest.index, score);
-			
 			// reduce player resources
 			if( !sfsConnection.mySelf.isSpectator )
 			{
@@ -273,12 +272,20 @@ package com.gerantech.towercraft.controls.screens
 				nextArena = player.get_arena(0);
 			}
 			
-			var battleOutcomeOverlay:BattleEndOverlay = new BattleEndOverlay(score, rewards, tutorialMode);
-			if( prevArena != nextArena && !quest.isQuest )
-				battleOutcomeOverlay.data = [prevArena, nextArena]
-			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			setTimeout(appModel.navigator.addOverlay, player.get_arena(0)==0?1000:0, battleOutcomeOverlay);//delay for noobs
+			var endOverlay:EndOverlay;
+			if( quest.isQuest )
+			{
+				endOverlay = new EndQuestOverlay(score, rewards, tutorialMode);
+			}
+			else
+			{
+				endOverlay = new EndBattleOverlay(score, rewards, tutorialMode);
+				if( prevArena != nextArena )
+					endOverlay.data = [prevArena, nextArena]
+			}
+			endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
+			endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
+			setTimeout(appModel.navigator.addOverlay, player.get_arena(0)==0?1000:0, endOverlay);//delay for noobs
 		}
 		
 		private function disposeBattleAssets():void
@@ -289,10 +296,10 @@ package com.gerantech.towercraft.controls.screens
 			removeChild(hud, true);
 		}
 		
-		private function battleOutcomeOverlay_retryHandler(event:Event):void
+		private function endOverlay_retryHandler(event:Event):void
 		{
-			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+			event.currentTarget.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
+			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
 			if( event.data ) 
 				showExtraTimeAd();
 			else
@@ -335,14 +342,18 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
 		}
 		
-		private function battleOutcomeOverlay_closeHandler(event:Event):void
+		private function endOverlay_closeHandler(event:Event):void
 		{
-			var endOverlay:BattleEndOverlay = event.currentTarget as BattleEndOverlay;
-			endOverlay.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			endOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-
-			// create tutorial steps
+			var endOverlay:EndOverlay = event.currentTarget as EndOverlay;
+			endOverlay.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
+			endOverlay.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
+			
 			var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			// set quest score
+			if( field.isQuest && player.quests.get( field.index ) < endOverlay.score )
+				player.quests.set(field.index, endOverlay.score);
+			
+			// create tutorial steps
 			var winStr:String = endOverlay.score > 0 ? "_win_" : "_defeat_";
 			//quest end
 			if( field.isQuest && player.inTutorial() )
