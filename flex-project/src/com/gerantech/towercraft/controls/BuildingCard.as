@@ -150,7 +150,7 @@ package com.gerantech.towercraft.controls
 			var building:Building = player.buildings.get(_type);
 			
 			if ( iconDisplay )
-				iconDisplay.source = Assets.getTexture("building-"+_type, "gui");
+				iconDisplay.source = Assets.getTexture("cards/"+_type, "gui");
 			
 			locked = building == null;
 			if( building == null )

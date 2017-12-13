@@ -59,7 +59,7 @@ package com.gerantech.towercraft.controls
 			Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
 			
 			var iconDisplay:ImageLoader = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("building-"+type, "gui");
+			iconDisplay.source = Assets.getTexture("cards/"+type, "gui");
 			iconDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			iconDisplay.horizontalAlign = HorizontalAlign.CENTER;
 			iconDisplay.verticalAlign = VerticalAlign.MIDDLE;

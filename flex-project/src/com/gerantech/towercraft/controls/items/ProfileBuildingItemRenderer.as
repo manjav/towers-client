@@ -92,7 +92,7 @@ package com.gerantech.towercraft.controls.items
 				iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
 				addChild(iconDisplay);			
 			}
-			iconDisplay.source = Assets.getTexture("building-"+type, "gui");
+			iconDisplay.source = Assets.getTexture("cards/"+type, "gui");
 			iconDisplay.alpha = level > 0 ? 1 : 0.7;
 		}
 	}
