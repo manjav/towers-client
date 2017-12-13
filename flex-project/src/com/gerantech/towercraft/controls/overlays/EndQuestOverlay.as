@@ -32,10 +32,17 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var message:String = appModel.battleFieldView.battleData.isLeft ? "quest_canceled" : (score>0?"quest_win_label":"quest_lose_label");
+	var score:int = rewards.getSFSObject(0).getInt("score");
+	var message:String;
+	if( playerIndex == -1 )
+		message = "quest_end_label";
+	else
+		message = appModel.battleFieldView.battleData.isLeft ? "quest_canceled" : (score>0?"quest_win_label":"quest_lose_label");
+	
 	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true);
 	opponentHeader.layoutData = new AnchorLayoutData(550*appModel.scale, 0, NaN, 0);
 	addChild(opponentHeader);
+	
 	opponentHeader.addScoreImages(score, player.quests.get(battleData.map.index)-1);
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
@@ -45,7 +52,7 @@ override protected function initialize():void
 	hlayout.gap = 48 * appModel.scale;
 	
 	var rewardsCollection:ListCollection = getRewardsCollection(playerIndex);
-	if( rewardsCollection.length > 0 )
+	if( playerIndex > -1 && rewardsCollection.length > 0 )
 	{
 		var rewardsList:List = new List();
 		rewardsList.backgroundSkin = new Quad(1, 1, 0);
@@ -63,7 +70,7 @@ override protected function initialize():void
 	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewardsCollection.length>0?480:220)*appModel.scale);
 	addChild(buttons);
 	
-	var hasRetry:Boolean = appModel.battleFieldView.battleData.map.isQuest && player.get_questIndex() > 3 && !appModel.battleFieldView.battleData.isLeft;
+	var hasRetry:Boolean = playerIndex > -1 && appModel.battleFieldView.battleData.map.isQuest && player.get_questIndex() > 3 && !appModel.battleFieldView.battleData.isLeft;
 	
 	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300 * appModel.scale;

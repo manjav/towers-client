@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -14,17 +13,15 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 
-import starling.animation.Transitions;
-import starling.core.Starling;
 import starling.display.DisplayObject;
-import starling.display.Image;
 import starling.events.Event;
 
 public class EndOverlay extends BaseOverlay
 {
-public var score:int;
 public var tutorialMode:Boolean;
-protected var playerIndex:int;
+public var score:int;
+public var playerIndex:int;
+
 protected var rewards:ISFSArray;
 protected var initialingCompleted:Boolean;
 protected var padding:int;
@@ -57,8 +54,8 @@ override protected function initialize():void
 
 override protected function defaultOverlayFactory():DisplayObject
 {
-	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft||playerIndex==-1?0x000000:(score>0?0x000099:0x990000));
-	overlay.alpha = 0.4;
+	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft||playerIndex==-1?0x000000:(score>0?0x002211:0x330000));
+	overlay.alpha = 0.6;
 	overlay.width = stage.width;
 	overlay.height = stage.height;
 	return overlay;

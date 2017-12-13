@@ -51,13 +51,12 @@ private function creationCompleteHandler():void
 	
 	labelDisplay = new ShadowLabel(label, itsMe?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, 1.4);
 	labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 1.5); 
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, padding * -0.9); 
 	labelDisplay.shadowDistance *= -1;
 	addChild(labelDisplay);
 	
 	labelDisplay.alpha = 0;
 	Starling.juggler.tween(labelDisplay, 0.3, {delay:0.5, alpha:1});
-	
 }
 
 public function addScoreImages(score:int, max:int=-1):void
@@ -67,7 +66,7 @@ public function addScoreImages(score:int, max:int=-1):void
 		var keyImage:Image = new Image(Assets.getTexture("gold-key" + (i <= max ? "-off" : ""), "gui"));
 		keyImage.alignPivot();
 		keyImage.x = (Math.ceil(i/4) * ( i==1 ? 1 : -1 )) * padding * 5 + 540 * appModel.scale;
-		keyImage.y = padding * ( i==0 ? -3 : -2 );
+		keyImage.y = padding * ( i==0 ? -2.2	 : -1.8 );
 		keyImage.scale = 0;
 		Starling.juggler.tween(keyImage, 0.6, {delay:i*0.3 + 0.5, scale:appModel.scale*( i==0 ? 2.2 : 2 ), transition:Transitions.EASE_OUT_BACK});
 		addChild(keyImage);
@@ -77,7 +76,7 @@ public function addScoreImages(score:int, max:int=-1):void
 public function showWinnerLabel(isWinner:Boolean):void
 {
 	var winnerLabel:ShadowLabel = new ShadowLabel(loc(isWinner?"winner_label":"loser_label"));
-	winnerLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding); 
+	winnerLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding * 1.3); 
 	addChild(winnerLabel);	
 }
 }

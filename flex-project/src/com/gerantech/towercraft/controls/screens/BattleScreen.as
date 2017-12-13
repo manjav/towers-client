@@ -289,10 +289,10 @@ package com.gerantech.towercraft.controls.screens
 			{
 				endOverlay = new EndQuestOverlay(playerIndex, rewards, tutorialMode);
 			}
-			else if( playerIndex > -1 )
+			else
 			{
 				endOverlay = new EndBattleOverlay(playerIndex, rewards, tutorialMode);
-				if( prevArena != nextArena )
+				if( playerIndex > -1 && prevArena != nextArena )
 					endOverlay.data = [prevArena, nextArena]
 			}
 			endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
@@ -359,6 +359,12 @@ package com.gerantech.towercraft.controls.screens
 			var endOverlay:EndOverlay = event.currentTarget as EndOverlay;
 			endOverlay.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
 			endOverlay.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
+			
+			if( endOverlay.playerIndex == -1 )
+			{
+				dispatchEventWith(Event.COMPLETE);
+				return;
+			}
 			
 			var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			// set quest score
