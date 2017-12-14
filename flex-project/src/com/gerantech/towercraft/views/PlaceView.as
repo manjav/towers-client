@@ -52,7 +52,7 @@ package com.gerantech.towercraft.views
 			bg.alignPivot();
 			bg.width = raduis * 2;
 			bg.scaleY = bg.scaleX * 0.8;
-			bg.alpha = 0.2;
+			bg.alpha = 0//.2;
 			addChild(bg);
 			
 			x = place.x;
