@@ -33,7 +33,7 @@ package com.gerantech.towercraft.controls.segments
 		private var tabs:Vector.<LobbyTabButton>;
 		
 		private var searchPattern:String;
-		private var searchMode:int;
+		private var searchMode:int = 2;
 		
 		override protected function initialize():void
 		{
@@ -74,7 +74,6 @@ package com.gerantech.towercraft.controls.segments
 			tabs[0] = new LobbyTabButton(loc("lobby_point"));
 			tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 			tabs[0].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 );
-			tabs[0].isEnabled = false;
 			addChild(tabs[0]);
 			
 			tabs[1] = new LobbyTabButton(loc("lobby_population"));
@@ -85,6 +84,7 @@ package com.gerantech.towercraft.controls.segments
 			tabs[2] = new LobbyTabButton(loc("lobby_activeness"));
 			tabs[2].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 			tabs[2].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*17:NaN, NaN, appModel.isLTR?NaN:padding*17 );
+			tabs[2].isEnabled = false;
 			addChild(tabs[2]);
 			
 			_listCollection = new ListCollection();

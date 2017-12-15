@@ -17,9 +17,9 @@ public static const PROFILE:String = "profile";
 public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 public static const EXCHANGE:String = "exchange";
 public static const SELECT_NAME:String = "selectName";
-		public static const OAUTH:String = "oauth";
+public static const OAUTH:String = "oauth";
 public static const VERIFY_PURCHASE:String = "verify";
-		public static const REGISTER_PUSH:String = "registerPush";
+public static const REGISTER_PUSH:String = "registerPush";
 public static const RESTORE:String = "restore";
 public static const PREFS:String = "prefs";
 
@@ -68,6 +68,7 @@ public static function getDeadline(command:String):int
 		case ISSUE_GET:
 		case ISSUE_REPORT:
 		case ISSUE_TRACK:
+		case LOBBY_LEAVE:
 			return -1;
 	}
 	return 2000;
