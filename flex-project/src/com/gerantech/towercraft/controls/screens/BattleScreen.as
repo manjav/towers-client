@@ -204,7 +204,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					var places:PlaceDataList = quest.getSwipeTutorPlaces();
 					if( places.size() > 0 )
-						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 2000));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3500));
 				
 					var place:PlaceData = quest.getImprovableTutorPlace()
 					if( place != null )

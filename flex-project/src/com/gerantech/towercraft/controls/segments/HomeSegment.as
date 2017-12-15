@@ -181,12 +181,12 @@ private function showTutorial():void
 	if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
-		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+		//confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 		appModel.navigator.addPopup(confirm);
-		function confirm_eventsHandler():void {
+		/*function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 			battlesButton.showArrow();
-		}
+		}*/
 		return;
 	}
 	
@@ -204,7 +204,7 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT) ) )
+	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
 		if( tutorStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tutorStep != PrefsTypes.TUTE_113_SELECT_DECK )
 			questsButton.showArrow();

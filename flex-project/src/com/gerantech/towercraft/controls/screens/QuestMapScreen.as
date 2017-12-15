@@ -23,6 +23,8 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
 
 import starling.animation.Transitions;
 import starling.display.Quad;
@@ -61,8 +63,13 @@ override protected function initialize():void
 	backgroundSkin = new Quad(1,1, 0xFFDF78);
 	QuestMapItemRenderer.questIndex = player.get_questIndex();
 
+	var listLayout:VerticalLayout = new VerticalLayout();
+	listLayout.paddingBottom = 150*appModel.scale;
+	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	
 	list = new List();
-	list.layoutData = new AnchorLayoutData(0,0,150*appModel.scale,0);
+	list.layout = listLayout;
+	list.layoutData = new AnchorLayoutData(0,0,0,0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
 	list.decelerationRate = 0.99

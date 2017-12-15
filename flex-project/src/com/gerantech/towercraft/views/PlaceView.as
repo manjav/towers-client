@@ -149,12 +149,22 @@ package com.gerantech.towercraft.views
 				return;
 
 			tutorials.removeAll();
+			
 			var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + place.index);
 			var places:PlaceDataList = new PlaceDataList();
-			places.push(getPlace(place.index));
-			places.push(getPlace(place.index + 1));
+			if( appModel.battleFieldView.battleData.map.index == 1 )
+			{
+				for (var i:int = 0; i < place.index+2; i++) 
+					places.push(getPlace(i));
+			}
+			else
+			{
+				places.push(getPlace(place.index));
+				places.push(getPlace(place.index + 1));
+			}
+			
 			if( places.size() > 0 )
-				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 500));
+				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1700 * places.size()));
 			tutorials.show(tutorialData);
 		}
 		
