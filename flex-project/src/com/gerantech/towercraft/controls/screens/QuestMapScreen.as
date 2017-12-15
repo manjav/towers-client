@@ -1,14 +1,13 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
+import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.QuestMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
@@ -26,7 +25,6 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 
 import starling.animation.Transitions;
-import starling.display.Image;
 import starling.display.Quad;
 import starling.events.Event;
 
@@ -64,7 +62,7 @@ override protected function initialize():void
 	QuestMapItemRenderer.questIndex = player.get_questIndex();
 
 	list = new List();
-	list.layoutData = new AnchorLayoutData(0,0,0,0);
+	list.layoutData = new AnchorLayoutData(0,0,150*appModel.scale,0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
 	list.decelerationRate = 0.99
@@ -88,13 +86,10 @@ override protected function initialize():void
 	if( player.inTutorial() )
 		return;
 	
-	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
-	backButton.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
-	Image(backButton.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
-	backButton.width = backButton.height = 160 * appModel.scale;
-	backButton.layoutData = new AnchorLayoutData(NaN, NaN,  10*appModel.scale, NaN, 0);
-	backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
-	addChild(backButton);
+	var closeFooter:CloseFooter = new CloseFooter();
+	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
+	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
+	addChild(closeFooter);
 }
 
 override protected function transitionInCompleteHandler(event:Event):void
