@@ -350,9 +350,9 @@ package com.gerantech.towercraft.controls.screens
 			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator )
 			{
 				if( appModel.game.player.inFriendlyBattle )
-					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
+					GameAnalytics.addProgressionEvent((endOverlay.score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
 				else
-					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), score);
+					GameAnalytics.addProgressionEvent((endOverlay.score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", quest.isQuest?"Quests":"Battles", quest.index.toString(), endOverlay.score);
 				var keys:Vector.<int> = outcomes.keys();
 				for each (var k:int in keys)
 					GameAnalytics.addResourceEvent(outcomes.get(k)>0?GAResourceFlowType.SOURCE:GAResourceFlowType.SINK, k.toString(), outcomes.get(k), "outcome", quest.isQuest?"quests":"battles");
