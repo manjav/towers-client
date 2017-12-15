@@ -45,7 +45,7 @@ public function TroopView(building:Building, path:PlaceList)
 	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "char-move-";//building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
 	movieClip.pivotX = movieClip.width * 0.5;
-	movieClip.pivotY = movieClip.height * 0.9;
+	movieClip.pivotY = movieClip.height * 0.85;
 	movieClip.scale = troopScale;
 	addChild(movieClip);
 	
