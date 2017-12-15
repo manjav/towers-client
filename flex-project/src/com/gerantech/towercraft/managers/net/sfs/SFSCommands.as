@@ -56,6 +56,7 @@ public static function getDeadline(command:String):int
 	{
 		case START_BATTLE:
 			return 10000;
+		case FIGHT:
 		case LEFT_BATTLE:
 		case REJOIN_BATTLE:
 		case LEAVE:
@@ -69,6 +70,7 @@ public static function getDeadline(command:String):int
 		case ISSUE_REPORT:
 		case ISSUE_TRACK:
 		case LOBBY_LEAVE:
+		case REGISTER_PUSH:
 			return -1;
 	}
 	return 2000;
