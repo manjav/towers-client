@@ -475,7 +475,7 @@ package com.gerantech.towercraft.controls.screens
 					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
 			}
 			
-			sfsConnection.removeFromCommands(SFSCommands.FIGHT);
+			//sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 			
 		}
 		
