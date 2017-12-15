@@ -3,11 +3,11 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.buttons.ImproveButton;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
-	import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 	import com.gerantech.towercraft.controls.overlays.EndOverlay;
 	import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
+	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
@@ -247,6 +247,32 @@ package com.gerantech.towercraft.controls.screens
 			var rewards:ISFSArray = data.getSFSArray("outcomes");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
+			
+			// ----   backward compatibility
+			if( data.containsKey("rewards") )
+			{
+				var _rw:ISFSArray = data.getSFSArray("rewards")
+				playerIndex = 0;
+				rewards = new SFSArray();
+				var me:SFSObject = new SFSObject();
+				me.putInt("id", player.id);
+				me.putText("name", player.nickName);
+				me.putInt("score", data.getInt("score"));
+				for (var k:int=0; k<_rw.size(); k++) 
+					me.putInt(_rw.getSFSObject(k).getInt("t")+"", _rw.getSFSObject(k).getInt("c"));
+				rewards.addSFSObject(me);
+				
+				if( !quest.isQuest )
+				{
+					var he:SFSObject = new SFSObject();
+					he.putInt("id", player.id);
+					he.putText("name", "enemy");
+					he.putInt("score", 3 - data.getInt("score"));
+					rewards.addSFSObject(he);
+				}
+			}
+			// ----   end of backward compatibility (remove in next version)
+			
 			var playerIndex:int = -1
 			for(var i:int = 0; i < rewards.size(); i++)
 			{
@@ -256,7 +282,6 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				}
 			}
-				
 				
 			// reduce player resources
 			if( playerIndex > -1 )
