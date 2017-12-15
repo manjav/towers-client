@@ -32,7 +32,7 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var healthDisplay:HealthBar;
 private var battleSide:int = 0;
-private var troopScale:Number = 0.8;
+private var troopScale:Number = 0.75;
 
 public function TroopView(building:Building, path:PlaceList)
 {
@@ -44,9 +44,9 @@ public function TroopView(building:Building, path:PlaceList)
 	
 	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "char-move-";//building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
-	movieClip.scale = troopScale;
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.9;
+	movieClip.scale = troopScale;
 	addChild(movieClip);
 	
 	touchable = false;
