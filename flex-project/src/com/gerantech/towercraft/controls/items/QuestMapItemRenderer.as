@@ -82,7 +82,7 @@ override protected function commitData():void
 			
 			pinButton.addChild(pin);
 
-			if ( score > 0 )
+			/*if ( score > 0 )
 			{
 				var star_0:Image = new Image(Assets.getTexture("star-center", "quests"));
 				star_0.alignPivot("center", "top");
@@ -110,7 +110,19 @@ override protected function commitData():void
 						pinButton.addChild(star_2);
 					}
 				}
+			}*/
+			
+			for (var i:int = score-1; i >= 0; i--) 
+			{
+				var keyImage:Image = new Image(Assets.getTexture("gold-key", "quests"));
+				keyImage.alignPivot("center", "top");
+				keyImage.scale = 0.9
+				keyImage.x = Math.ceil(i*0.3) * ( i==1 ? 1 : -1 ) * 28;
+				keyImage.y =  i==0?10:5;
+				keyImage.touchable = false;
+				pinButton.addChild(keyImage);
 			}
+			
 			
 			if( item.index == questIndex )
 				intervalId = setInterval(punchButton, 2000,  pinButton, 2);

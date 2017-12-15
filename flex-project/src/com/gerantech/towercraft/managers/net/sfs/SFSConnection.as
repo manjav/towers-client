@@ -10,6 +10,7 @@ package com.gerantech.towercraft.managers.net.sfs
 	import com.smartfoxserver.v2.requests.ExtensionRequest;
 	import com.smartfoxserver.v2.requests.LoginRequest;
 	import com.smartfoxserver.v2.requests.LogoutRequest;
+	import com.smartfoxserver.v2.util.SFSErrorCodes;
 	
 	import flash.utils.setTimeout;
 	
@@ -77,6 +78,8 @@ package com.gerantech.towercraft.managers.net.sfs
 			addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 			loadConfig();
 			commandsPool = new Vector.<String>();
+			SFSErrorCodes.setErrorMessage(101, "{0}")
+			SFSErrorCodes.setErrorMessage(110, "{0}")
 		}
 		
 		public function retry():void

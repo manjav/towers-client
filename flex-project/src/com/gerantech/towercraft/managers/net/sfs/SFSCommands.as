@@ -62,6 +62,7 @@ public static function getDeadline(command:String):int
 		case BUILDING_IMPROVE:
 		case HIT:
 		case SEND_STICKER:
+		case INBOX_OPEN:
 		case INBOX_CONFIRM:
 		case INBOX_BROADCAST:
 		case ISSUE_GET:

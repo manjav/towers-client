@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
@@ -14,9 +15,13 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.utils.setTimeout;
 
@@ -63,6 +68,24 @@ override public function init():void
 	showFooterButtons();
 	showTutorial();
 	initializeCompleted = true;
+	//dfsdf();
+}
+
+private function dfsdf():void
+{
+var rwards:SFSArray = new SFSArray();
+for (var i:int = 0; i < 2; i++) 
+{
+	var sfs:SFSObject = new SFSObject();
+	sfs.putInt("score", i==0?2:0);
+	sfs.putInt("id", i==0?10383:214);
+	sfs.putText("name", i==0?"10383":"214");
+	rwards.addSFSObject(sfs);
+}
+appModel.battleFieldView = new BattleFieldView();
+appModel.battleFieldView.battleData = new BattleData(new SFSObject());
+appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
+
 }
 override public function focus():void
 {
@@ -100,6 +123,15 @@ private function addButton(button:HomeButton, name:String, x:int, y:int, delay:N
 
 private function showFooterButtons():void
 {
+	var adminButton:Button = new Button();
+	adminButton.alpha = 0;
+	adminButton.isLongPressEnabled = true;
+	adminButton.longPressDuration = 3;
+	adminButton.width = adminButton.height = 120 * appModel.scale;
+	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
+	addChild(adminButton);
+	
 	if( player.inTutorial() )
 		return;
 	
@@ -131,15 +163,6 @@ private function showFooterButtons():void
 	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 246*appModel.scale);
 	addChild(inboxButton);
 	
-	var restoreButton:Button = new Button();
-	restoreButton.alpha = 0;
-	restoreButton.isLongPressEnabled = true;
-	restoreButton.longPressDuration = 3;
-	restoreButton.width = restoreButton.height = 120 * appModel.scale;
-	restoreButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-	restoreButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
-	addChild(restoreButton);
-	
 	InboxService.instance.request();
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
 }
@@ -158,12 +181,12 @@ private function showTutorial():void
 	if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
-		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+		//confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 		appModel.navigator.addPopup(confirm);
-		function confirm_eventsHandler():void {
+		/*function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 			battlesButton.showArrow();
-		}
+		}*/
 		return;
 	}
 	
@@ -181,7 +204,7 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT) ) )
+	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
 		if( tutorStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tutorStep != PrefsTypes.TUTE_113_SELECT_DECK )
 			questsButton.showArrow();

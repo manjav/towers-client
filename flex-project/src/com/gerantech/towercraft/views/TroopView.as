@@ -32,6 +32,7 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var healthDisplay:HealthBar;
 private var battleSide:int = 0;
+private var troopScale:Number = 0.75;
 
 public function TroopView(building:Building, path:PlaceList)
 {
@@ -41,10 +42,11 @@ public function TroopView(building:Building, path:PlaceList)
 	this.building = building;
 	this.health = building.get_troopPower();
 	
-	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "crusader-move-";//building.get_troopName();
+	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "char-move-";//building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
 	movieClip.pivotX = movieClip.width * 0.5;
-	movieClip.pivotY = movieClip.height * 0.6;
+	movieClip.pivotY = movieClip.height * 0.85;
+	movieClip.scale = troopScale;
 	addChild(movieClip);
 	
 	touchable = false;
@@ -69,7 +71,7 @@ public function rush(source:Place):void
 	movieClip.muted = false;
 	Starling.juggler.add(movieClip);
 
-	var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() * 0.6 - Math.random()* building.get_exitGap() * 0.3) / 1000;
+	var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() - Math.random()* building.get_exitGap() * 0.5) / 1000;
 	var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
 	Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
@@ -111,12 +113,12 @@ private function switchAnimation(source:Place, destination:Place):void
 		flipped = true;
 	}
 
-	movieClip.scaleX = (flipped ? -1 : 1 );
+	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
 	if(direction == dir)
 		return;
 
-	movieClip.fps = 16 * 3000 / building.get_troopSpeed();
+	movieClip.fps = 20 * 3000 / building.get_troopSpeed();
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
 	for(var i:int=0; i < movieClip.numFrames; i++)

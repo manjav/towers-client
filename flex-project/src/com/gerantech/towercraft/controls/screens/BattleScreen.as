@@ -3,8 +3,10 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.BattleHUD;
 	import com.gerantech.towercraft.controls.buttons.ImproveButton;
 	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
-	import com.gerantech.towercraft.controls.overlays.BattleEndOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
 	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -17,6 +19,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.BattleData;
+	import com.gerantech.towercraft.models.vo.Quest;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.models.vo.VideoAd;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -204,7 +207,7 @@ package com.gerantech.towercraft.controls.screens
 				{
 					var places:PlaceDataList = quest.getSwipeTutorPlaces();
 					if( places.size() > 0 )
-						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 2000));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3500));
 				
 					var place:PlaceData = quest.getImprovableTutorPlace()
 					if( place != null )
@@ -263,47 +266,88 @@ package com.gerantech.towercraft.controls.screens
 		{
 			disposeBattleAssets();
 			
-			var youWin:Boolean = data.getBool("youWin");
-			var score:int = data.getInt("score");
-			var rewards:ISFSArray = data.getSFSArray("rewards");
+			var rewards:ISFSArray = data.getSFSArray("outcomes");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
 			
-			// set quest score
-			if( quest.isQuest && player.quests.get( quest.index ) < score )
-				player.quests.set(quest.index, score);
+			// ----   backward compatibility
+			if( data.containsKey("rewards") )
+			{
+				var _rw:ISFSArray = data.getSFSArray("rewards")
+				playerIndex = 0;
+				rewards = new SFSArray();
+				var me:SFSObject = new SFSObject();
+				me.putInt("id", player.id);
+				me.putText("name", player.nickName);
+				me.putInt("score", data.getInt("score"));
+				for (var k:int=0; k<_rw.size(); k++) 
+					me.putInt(_rw.getSFSObject(k).getInt("t")+"", _rw.getSFSObject(k).getInt("c"));
+				rewards.addSFSObject(me);
+				
+				if( !quest.isQuest )
+				{
+					var he:SFSObject = new SFSObject();
+					he.putInt("id", player.id);
+					he.putText("name", "enemy");
+					he.putInt("score", 3 - data.getInt("score"));
+					rewards.addSFSObject(he);
+				}
+			}
+			// ----   end of backward compatibility (remove in next version)
 			
+			var playerIndex:int = -1
+			for(var i:int = 0; i < rewards.size(); i++)
+			{
+				if( rewards.getSFSObject(i).getInt("id") == player.id )
+				{
+					playerIndex = i;
+					break;
+				}
+			}
+				
 			// reduce player resources
-			if( !sfsConnection.mySelf.isSpectator )
+			if( playerIndex > -1 )
 			{
 				var outcomes:IntIntMap = new IntIntMap();
-				for(var i:int=0; i<rewards.size(); i++)
+				var item:ISFSObject = rewards.getSFSObject(playerIndex);
+				var keys:Array = item.getKeys();
+				for( i = 0; i < keys.length; i++)
 				{
-					outcomes.set(rewards.getSFSObject(i).getInt("t"), rewards.getSFSObject(i).getInt("c"));
-					if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY && !quest.isQuest )
-						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += rewards.getSFSObject(i).getInt("c");
+					var key:int = int(keys[i])
+					if( key > 0 )
+						outcomes.set(key, item.getInt(keys[i]));
+					if( key == ResourceType.KEY && !quest.isQuest )
+						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += item.getInt(keys[i]);
 				}
 			}
 			
 			// arena changes manipulation
 			var prevArena:int = 0;
 			var nextArena:int = 0;
-			if( !sfsConnection.mySelf.isSpectator )
+			if( playerIndex > -1 )
 			{
 				prevArena = player.get_arena(0);
 				player.addResources(outcomes);
 				nextArena = player.get_arena(0);
 			}
 			
-			var battleOutcomeOverlay:BattleEndOverlay = new BattleEndOverlay(score, rewards, tutorialMode);
-			if( prevArena != nextArena && !quest.isQuest )
-				battleOutcomeOverlay.data = [prevArena, nextArena]
-			battleOutcomeOverlay.addEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			battleOutcomeOverlay.addEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-			setTimeout(appModel.navigator.addOverlay, player.get_arena(0)==0?1000:0, battleOutcomeOverlay);//delay for noobs
+			var endOverlay:EndOverlay;
+			if( quest.isQuest )
+			{
+				endOverlay = new EndQuestOverlay(playerIndex, rewards, tutorialMode);
+			}
+			else
+			{
+				endOverlay = new EndBattleOverlay(playerIndex, rewards, tutorialMode);
+				if( playerIndex > -1 && prevArena != nextArena )
+					endOverlay.data = [prevArena, nextArena]
+			}
+			endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
+			endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
+			setTimeout(appModel.navigator.addOverlay, player.get_arena(0)==0?1000:0, endOverlay);//delay for noobs
 			
 			// Game Analytic
-			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator)
+			if( GameAnalytics.isInitialized && !sfsConnection.mySelf.isSpectator )
 			{
 				if( appModel.game.player.inFriendlyBattle )
 					GameAnalytics.addProgressionEvent((score>0)?GAProgressionStatus.COMPLETE:GAProgressionStatus.FAIL, quest.isQuest?"Quests":"Battles", "FriendlyBattle", quest.index.toString());
@@ -312,7 +356,6 @@ package com.gerantech.towercraft.controls.screens
 				var keys:Vector.<int> = outcomes.keys();
 				for each (var k:int in keys)
 					GameAnalytics.addResourceEvent(outcomes.get(k)>0?GAResourceFlowType.SOURCE:GAResourceFlowType.SINK, k.toString(), outcomes.get(k), "outcome", quest.isQuest?"quests":"battles");
-				
 			}
 		}
 		
@@ -324,10 +367,10 @@ package com.gerantech.towercraft.controls.screens
 			removeChild(hud, true);
 		}
 		
-		private function battleOutcomeOverlay_retryHandler(event:Event):void
+		private function endOverlay_retryHandler(event:Event):void
 		{
-			event.currentTarget.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
+			event.currentTarget.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
+			event.currentTarget.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
 			if( event.data ) 
 				showExtraTimeAd();
 			else
@@ -370,14 +413,24 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
 		}
 		
-		private function battleOutcomeOverlay_closeHandler(event:Event):void
+		private function endOverlay_closeHandler(event:Event):void
 		{
-			var endOverlay:BattleEndOverlay = event.currentTarget as BattleEndOverlay;
-			endOverlay.removeEventListener(Event.CLOSE, battleOutcomeOverlay_closeHandler);
-			endOverlay.removeEventListener(FeathersEventType.CLEAR, battleOutcomeOverlay_retryHandler);
-
-			// create tutorial steps
+			var endOverlay:EndOverlay = event.currentTarget as EndOverlay;
+			endOverlay.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
+			endOverlay.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
+			
+			if( endOverlay.playerIndex == -1 )
+			{
+				dispatchEventWith(Event.COMPLETE);
+				return;
+			}
+			
 			var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			// set quest score
+			if( field.isQuest && player.quests.get( field.index ) < endOverlay.score )
+				player.quests.set(field.index, endOverlay.score);
+			
+			// create tutorial steps
 			var winStr:String = endOverlay.score > 0 ? "_win_" : "_defeat_";
 			//quest end
 			if( field.isQuest && player.inTutorial() )

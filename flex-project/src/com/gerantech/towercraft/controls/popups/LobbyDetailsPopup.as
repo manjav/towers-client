@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
@@ -48,6 +49,8 @@ public function LobbyDetailsPopup(roomData:Object)
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
+	if( roomData.name == null )
+		params.putBool("data", true);
 	if( roomData.all == null )
 		params.putBool("all", true);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
@@ -80,8 +83,22 @@ protected function sfsConnection_roomDataHandler(event:SFSEvent):void
 	
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
 	roomServerData = event.params.params as SFSObject;
+	
+	if( roomServerData.containsKey("name") )
+		roomData.name = roomServerData.getText("name");
+	if( roomServerData.containsKey("max") )
+		roomData.name = roomServerData.getInt("max");
+	if( roomServerData.containsKey("num") )
+		roomData.name = roomServerData.getInt("num");
+	if( roomServerData.containsKey("sum") )
+		roomData.name = roomServerData.getInt("sum");
+	if( roomServerData.containsKey("pic") )
+		roomData.name = roomServerData.getInt("pic");
+	if( roomServerData.containsKey("act") )
+		roomData.name = roomServerData.getInt("act");
 	if( roomServerData.containsKey("all") )
 		roomData.all = roomServerData.getSFSArray("all");
+	
 	roomData.bio = roomServerData.getText("bio");
 	roomData.min = roomServerData.getInt("min")
 	roomData.pri = roomServerData.getInt("pri");
@@ -161,18 +178,35 @@ private function showDetails():void
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
 	
+	if( !itsMyRoom )
+		return;
+	
+	var shareButton:CustomButton = new CustomButton();
+	shareButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 92 * appModel.scale);
+	shareButton.label = loc("lobby_invite");
+	shareButton.width = 160 * appModel.scale;
+	shareButton.height = 96 * appModel.scale;
+	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
+	addChild(shareButton);
+	
 	var u:Object = findUser(player.id);
 	if( u == null || u.permission <= 1 )
 		return;
 	
 	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 92 * appModel.scale);
+	editButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 264 * appModel.scale);
 	editButton.label = loc("lobby_edit");
 	editButton.width = 160 * appModel.scale;
 	editButton.height = 96 * appModel.scale;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
 	
+}
+
+private function shareButton_triggeredHandler():void
+{
+	NativeAbilities.instance.shareText(loc("lobby_invite"), loc("lobby_invite_message")+ "\n" + loc("lobby_invite_url", [roomData.id, roomData.name, player.nickName]));
+	trace(loc("lobby_invite_url", [roomData.id, roomData.name, player.nickName]))
 }
 
 private function tabs_triggeredHandler(event:Event):void
