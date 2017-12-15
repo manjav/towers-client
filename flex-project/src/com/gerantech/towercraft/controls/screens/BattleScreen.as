@@ -288,14 +288,14 @@ package com.gerantech.towercraft.controls.screens
 			{
 				var outcomes:IntIntMap = new IntIntMap();
 				var item:ISFSObject = rewards.getSFSObject(playerIndex);
-				var keys:Array = item.getKeys();
-				for( i = 0; i < keys.length; i++)
+				var _keys:Array = item.getKeys();
+				for( i = 0; i < _keys.length; i++)
 				{
-					var key:int = int(keys[i])
+					var key:int = int(_keys[i])
 					if( key > 0 )
-						outcomes.set(key, item.getInt(keys[i]));
+						outcomes.set(key, item.getInt(_keys[i]));
 					if( key == ResourceType.KEY && !quest.isQuest )
-						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += item.getInt(keys[i]);
+						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += item.getInt(_keys[i]);
 				}
 			}
 			
