@@ -258,8 +258,8 @@ package com.gerantech.towercraft.controls.screens
 				me.putInt("id", player.id);
 				me.putText("name", player.nickName);
 				me.putInt("score", data.getInt("score"));
-				for (var k:int=0; k<_rw.size(); k++) 
-					me.putInt(_rw.getSFSObject(k).getInt("t")+"", _rw.getSFSObject(k).getInt("c"));
+				for (var r:int=0; r<_rw.size(); r++) 
+					me.putInt(_rw.getSFSObject(r).getInt("t")+"", _rw.getSFSObject(r).getInt("c"));
 				rewards.addSFSObject(me);
 				
 				if( !quest.isQuest )
