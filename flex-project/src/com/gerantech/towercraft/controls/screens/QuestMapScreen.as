@@ -62,6 +62,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	backgroundSkin = new Quad(1,1, 0xFFDF78);
 	QuestMapItemRenderer.questIndex = player.get_questIndex();
+	trace(player.get_questIndex())
 
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.paddingBottom = 150*appModel.scale;
@@ -84,7 +85,8 @@ override protected function initialize():void
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
 	else if( QuestMapItemRenderer.questIndex > 0 )
 	{
-		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
+//		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
+		var pageIndex:uint = game.fieldProvider.shires.keys().length - Math.floor(player.get_questIndex()/10) - 1;
 		//trace(pageIndex, QuestMapItemRenderer.questIndex, game.fieldProvider.getCurrentShire(QuestMapItemRenderer.questIndex).index, list.dataProvider.length)
 		if( pageIndex > 0 )
 			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);

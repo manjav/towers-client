@@ -51,24 +51,25 @@ override protected function commitData():void
 		
 	for each(var item:PlaceData in shire.places._list)
 	{
-		var score:int = player.quests.get(item.index);
-		//trace(item.index , player.quests.get(item.index) )
+		var itemIndex:int = item.index + shire.index * 10;
+		var score:int = player.quests.get(itemIndex);
+		//trace(index , player.quests.get(index) )
 		
 
 		var color:String = "locked";
-		if ( item.index < questIndex )
+		if ( itemIndex < questIndex )
 			color = "passed";
-		else if( item.index == questIndex )
+		else if( itemIndex == questIndex )
 			color = "current";
 
 		var pin:Image = new Image(Assets.getTexture("map-pin-" + color, "quests"));
 		pin.alignPivot();
 		pin.touchable = false;
 		
-		if( item.index <= questIndex )
+		if( itemIndex <= questIndex )
 		{
 			var pinButton:SimpleButton = new SimpleButton();
-			pinButton.name = item.index+"";
+			pinButton.name = itemIndex+"";
 			pinButton.x = item.x;
 			pinButton.y = item.y;
 			pinButton.addEventListener(Event.TRIGGERED, pinButton_triggeredHandler);
