@@ -247,6 +247,7 @@ package com.gerantech.towercraft.controls.screens
 			var rewards:ISFSArray = data.getSFSArray("outcomes");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
+
 			
 			var playerIndex:int = -1
 			for(var i:int = 0; i < rewards.size(); i++)
