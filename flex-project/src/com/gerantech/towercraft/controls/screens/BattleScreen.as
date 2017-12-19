@@ -269,32 +269,7 @@ package com.gerantech.towercraft.controls.screens
 			var rewards:ISFSArray = data.getSFSArray("outcomes");
 			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
 			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
-			
-			// ----   backward compatibility
-			if( data.containsKey("rewards") )
-			{
-				var _rw:ISFSArray = data.getSFSArray("rewards")
-				playerIndex = 0;
-				rewards = new SFSArray();
-				var me:SFSObject = new SFSObject();
-				me.putInt("id", player.id);
-				me.putText("name", player.nickName);
-				me.putInt("score", data.getInt("score"));
-				for (var r:int=0; r<_rw.size(); r++) 
-					me.putInt(_rw.getSFSObject(r).getInt("t")+"", _rw.getSFSObject(r).getInt("c"));
-				rewards.addSFSObject(me);
-				
-				if( !quest.isQuest )
-				{
-					var he:SFSObject = new SFSObject();
-					he.putInt("id", player.id);
-					he.putText("name", "enemy");
-					he.putInt("score", 3 - data.getInt("score"));
-					rewards.addSFSObject(he);
-				}
-			}
-			// ----   end of backward compatibility (remove in next version)
-			
+
 			var playerIndex:int = -1
 			for(var i:int = 0; i < rewards.size(); i++)
 			{

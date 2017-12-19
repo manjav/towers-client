@@ -72,7 +72,9 @@ public function set value(newValue:Number):void
 		newValue = 0;
 	if( maximum == 0 )
 		return;
+	try {
 	progressBar.value = _value = Math.max(0, Math.min( newValue, maximum ) );
+	} catch(e:Error){trace(e.message);}
 }
 
 public function get minimum():Number
