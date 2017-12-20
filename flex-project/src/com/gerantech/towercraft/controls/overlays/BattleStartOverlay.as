@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -18,6 +19,7 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.DisplayObject;
 import starling.events.Event;
 
 public class BattleStartOverlay extends BaseOverlay
@@ -60,8 +62,7 @@ override protected function initialize():void
 	
 	// opponent elements
 	opponentHeader = new BattleHeader(questIndex>=0?(loc("quest_label") + " " +(questIndex+1)):"???", false);
-	opponentHeader.width = padding * 16;
-	opponentHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 12);
+	opponentHeader.layoutData = new AnchorLayoutData(300 * appModel.scale, 0, NaN, 0);
 	container.addChild(opponentHeader);
 	
 	setTimeout(gotoReady, 1200);
@@ -72,7 +73,7 @@ override protected function initialize():void
 	// player elements
 	var playerHeader:BattleHeader = new BattleHeader(player.nickName, true);
 	playerHeader.width = padding * 16;
-	playerHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 3);
+	playerHeader.layoutData = new AnchorLayoutData(800 * appModel.scale, 0, NaN, 0);
 	container.addChild(playerHeader);
 
 	if( cancelable )
@@ -149,6 +150,13 @@ public function disappear():void
 	if( waitDisplay != null )
 		Starling.juggler.tween(waitDisplay, 0.4, {alpha:0, y:waitDisplay.y-height*0.1, transition:Transitions.EASE_IN_BACK});
 	setTimeout(close, 800, true)
+}
+override protected function defaultOverlayFactory():DisplayObject
+{
+	var overlay:Devider = new Devider(0);
+	overlay.width = stage.stageWidth;
+	overlay.height = stage.stageHeight;
+	return overlay;
 }
 }
 }

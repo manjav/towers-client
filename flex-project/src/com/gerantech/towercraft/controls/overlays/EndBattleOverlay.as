@@ -4,14 +4,12 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.models.vo.BattleData;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 
-import feathers.controls.AutoSizeMode;
-import feathers.controls.LayoutGroup;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
-import feathers.layout.AnchorLayout;
+import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
@@ -23,74 +21,78 @@ import starling.events.Event;
 
 public class EndBattleOverlay extends EndOverlay
 {
-public function EndBattleOverlay(score:int, rewards:ISFSArray, tutorialMode:Boolean=false)
+public function EndBattleOverlay(playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 {
-	super(score, rewards, tutorialMode);
+	super(playerIndex, rewards, tutorialMode);
 }
 override protected function initialize():void
 {
-	closeOnStage = false;
-	autoSizeMode = AutoSizeMode.STAGE;
 	super.initialize();
-	layout = new AnchorLayout();
-	padding = 48 * appModel.scale;
 	
-	var battleData:BattleData = appModel.battleFieldView.battleData;
+	var reward_1:ISFSObject = rewards.getSFSObject(playerIndex==-1?1:1-playerIndex);
+	var reward_2:ISFSObject = rewards.getSFSObject(playerIndex==-1?0:playerIndex);
+	var isDraw:Boolean = reward_1.getInt("score") == reward_2.getInt("score") ;
+	var pi:int = playerIndex == -1 ? 0 : playerIndex;
 	
-	// opponent elements
-	var opponentHeader:BattleHeader = new BattleHeader(battleData.opponent.getVariable("name").getStringValue(), false);
-	opponentHeader.width = padding * 16;
-	opponentHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 12);
-	addChild(opponentHeader);
-
-	var opponentLabel:ShadowLabel = new ShadowLabel(loc(score>0?"loser_label":"winner_label"), 1, 0, null, null, false, null, 1.4);
-	opponentLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 3); 
-	opponentHeader.addChild(opponentLabel);
-
-	// player elements
-	var playerHeader:BattleHeader = new BattleHeader(battleData.me.getVariable("name").getStringValue(), true);
-	playerHeader.width = padding * 16;
-	playerHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 3);
-	addChild(playerHeader);
-
-	var playerLabel:ShadowLabel = new ShadowLabel(loc(score<=0?"loser_label":"winner_label"), 1, 0, null, null, false, null, 1.4);
-	playerLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 3); 
-	playerHeader.addChild(playerLabel);
+	if( isDraw || player.inFriendlyBattle )
+	{
+		var drawLabel:ShadowLabel = new ShadowLabel(loc(player.inFriendlyBattle?"buddy_battle":"draw_label"), 1, 0, null, null, false, null, 1.4);
+		drawLabel.layoutData = new AnchorLayoutData(padding * 3.5, NaN, NaN, NaN, 0);
+		addChild(drawLabel);
+	}
+	
+	// header 1
+	if( !reward_1.containsKey("name") )
+		reward_1.putText("name", battleData.opponent.getVariable("name").getStringValue());
+	var header_1:BattleHeader = new BattleHeader(reward_1.getText("name"), reward_1.getInt("id")==player.id);
+	header_1.layoutData = new AnchorLayoutData(padding * 11, 0, NaN, 0);
+	addChild(header_1);
+	header_1.addScoreImages(reward_1.getInt("score"));
+	if( !isDraw )
+		header_1.showWinnerLabel(reward_1.getInt("score")>reward_2.getInt("score"));
+	
+	
+	// header 2
+	var header_2:BattleHeader = new BattleHeader(reward_2.getText("name"), reward_2.getInt("id")==player.id);
+	header_2.layoutData = new AnchorLayoutData(padding * 20, 0, NaN, 0);
+	addChild(header_2);
+	header_2.addScoreImages(reward_2.getInt("score"));
+	if( !isDraw )
+		header_2.showWinnerLabel(reward_2.getInt("score")>reward_1.getInt("score"));
 
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;
 	hlayout.verticalAlign = VerticalAlign.MIDDLE;
-	hlayout.paddingBottom = 42 * appModel.scale;
-	hlayout.gap = 48 * appModel.scale;
+	hlayout.gap = padding;
 	
-	if( rewards.size() > 0 )
+	if( playerIndex > -1 && !isDraw )
 	{
-		var rewardsList:List = new List();
-		rewardsList.backgroundSkin = new Quad(1, 1, 0);
-		rewardsList.backgroundSkin.alpha = 0.6;
-		rewardsList.height = 400*appModel.scale;
-		rewardsList.layout = hlayout;
-		rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
-		rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
-		rewardsList.dataProvider = getRewardsCollection();
-		addChild(rewardsList);
+		var _rewards:ListCollection = getRewardsCollection(playerIndex);
+		if( _rewards.length > 0 )
+		{
+			var rewardsList:List = new List();
+			rewardsList.backgroundSkin = new Quad(1, 1, 0);
+			rewardsList.backgroundSkin.alpha = 0.8;
+			rewardsList.height = 280 * appModel.scale;
+			rewardsList.layout = hlayout;
+			rewardsList.layoutData = new AnchorLayoutData(padding * 25, 0, NaN, 0);
+			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
+			rewardsList.dataProvider = _rewards;
+			addChild(rewardsList);
+		}
 	}
 	
-	var buttons:LayoutGroup = new LayoutGroup();
-	buttons.layout = hlayout;
-	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
-	addChild(buttons);
-	
-		var closeBatton:CustomButton = new CustomButton();
+	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300 * appModel.scale;
 	closeBatton.height = 120 * appModel.scale;
+	closeBatton.layoutData = new AnchorLayoutData((rewardsList!=null?32:27)*padding, NaN, NaN, NaN, 0);
 	closeBatton.style = "danger";
 	closeBatton.name = "close";
 	closeBatton.label = loc("close_button");
 	closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	Starling.juggler.tween(closeBatton, 0.5, {delay:0.9, alpha:1});
 	closeBatton.alpha = 0;
-	buttons.addChild(closeBatton);
+	addChild(closeBatton);
 }
 }
 }

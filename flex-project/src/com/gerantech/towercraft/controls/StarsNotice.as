@@ -24,27 +24,30 @@ package com.gerantech.towercraft.controls
 			height = 180 * appModel.scale;
 
 			stars = new Vector.<StarCheck>();
-			for ( var i:int=1; i<=3; i++ )
+			for ( var i:int=0; i<3; i++ )
 			{
 				var star:StarCheck = new StarCheck();
-				star.width = star.height = height * 0.6;
-				star.pivotX = star.width/2;
-				star.pivotY = star.height/2;
-				star.x = i * (stage.stageWidth-height*3)/4 + height*1.5 ;//- star.width/2;
+				star.width = star.height = height * 0.7;
+				star.pivotX = star.width * 0.5;
+				star.pivotY = star.height * 0.5;
+//				star.x = (Math.ceil(i/4) * ( i==1 ? 1 : -1 )) * padding * 5 + 540 * appModel.scale;
+				star.x = Math.ceil(i/4) * ( i==1 ? 1 : -1 ) * (stage.stageWidth-height*3)/4 + height * 3 ;//- star.width/2;
 				star.y = height * 0.5;
 				addChild(star)
 				stars.push(star);
 			}
-			stars.reverse();
+			//stars.reverse();
 		}
 
 		public function pass(score:int):void
 		{
+			trace(score);
+			//score = 2 - score;
 			for ( var i:int=0; i<stars.length; i++ )
 				stars[i].isEnabled = score >= i;
 
-			stars[score==1?0:1].scale = 1.5;
-			Starling.juggler.tween(stars[score==1?0:1], 0.3, {delay:i/10, scale:1, transition:Transitions.EASE_OUT_BACK});
+			stars[score+1].scale = 1.5;
+			Starling.juggler.tween(stars[score+1], 0.3, {delay:i*0.1, scale:1, transition:Transitions.EASE_OUT_BACK});
 		}
 	}
 }

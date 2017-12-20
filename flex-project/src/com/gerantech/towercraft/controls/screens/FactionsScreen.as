@@ -1,19 +1,14 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.buttons.IconButton;
-import com.gerantech.towercraft.controls.buttons.SimpleButton;
+import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.arenas.Arena;
-import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.filesystem.File;
@@ -24,7 +19,6 @@ import dragonBones.starling.StarlingFactory;
 
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
-import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
@@ -114,12 +108,12 @@ override protected function initialize():void
 
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.paddingBottom = 320 * appModel.scale;
+	listLayout.paddingBottom = 220 * appModel.scale;
 	listLayout.useVirtualLayout = false;
 	
 	list = new List();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0,0,0,0);
+	list.layoutData = new AnchorLayoutData(0,0,150*appModel.scale,0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	//list.decelerationRate = 0.99
 	list.itemRendererFactory = function():IListItemRenderer { return new FactionItemRenderer (); }
@@ -129,13 +123,10 @@ override protected function initialize():void
 	list.dataProvider = leaguesCollection;
 	addChild(list);
 
-	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
-	backButton.backgroundSkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
-	Image(backButton.backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
-	backButton.width = backButton.height = 160 * appModel.scale;
-	backButton.layoutData = new AnchorLayoutData(NaN, NaN,  10*appModel.scale, NaN, 0);
-	backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
-	addChild(backButton);
+	var closeFooter:CloseFooter = new CloseFooter();
+	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
+	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
+	addChild(closeFooter);
 }
 
 private function list_createCompleteHandler():void

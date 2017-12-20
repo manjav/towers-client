@@ -1,17 +1,15 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
+import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.QuestMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.battle.fieldes.FieldData;
 
 import flash.geom.Rectangle;
@@ -25,9 +23,10 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
 
 import starling.animation.Transitions;
-import starling.display.Image;
 import starling.display.Quad;
 import starling.events.Event;
 
@@ -63,8 +62,14 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	backgroundSkin = new Quad(1,1, 0xFFDF78);
 	QuestMapItemRenderer.questIndex = player.get_questIndex();
+	trace(player.get_questIndex())
 
+	var listLayout:VerticalLayout = new VerticalLayout();
+	listLayout.paddingBottom = 150*appModel.scale;
+	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	
 	list = new List();
+	list.layout = listLayout;
 	list.layoutData = new AnchorLayoutData(0,0,0,0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
@@ -80,7 +85,8 @@ override protected function initialize():void
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
 	else if( QuestMapItemRenderer.questIndex > 0 )
 	{
-		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
+//		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
+		var pageIndex:uint = game.fieldProvider.shires.keys().length - Math.floor(player.get_questIndex()/10) - 1;
 		//trace(pageIndex, QuestMapItemRenderer.questIndex, game.fieldProvider.getCurrentShire(QuestMapItemRenderer.questIndex).index, list.dataProvider.length)
 		if( pageIndex > 0 )
 			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
@@ -89,13 +95,10 @@ override protected function initialize():void
 	if( player.inTutorial() )
 		return;
 	
-	var backButton:IconButton = new IconButton(Assets.getTexture("tab-1", "gui"));
-	backButton.backgroundSkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
-	Image(backButton.backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
-	backButton.width = backButton.height = 160 * appModel.scale;
-	backButton.layoutData = new AnchorLayoutData(NaN, NaN,  10*appModel.scale, NaN, 0);
-	backButton.addEventListener(Event.TRIGGERED, backButtonHandler);
-	addChild(backButton);
+	var closeFooter:CloseFooter = new CloseFooter();
+	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
+	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
+	addChild(closeFooter);
 }
 
 override protected function transitionInCompleteHandler(event:Event):void

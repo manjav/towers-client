@@ -32,6 +32,7 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var healthDisplay:HealthBar;
 private var battleSide:int = 0;
+private var troopScale:Number = 0.75;
 
 public function TroopView(building:Building, path:PlaceList)
 {
@@ -40,11 +41,12 @@ public function TroopView(building:Building, path:PlaceList)
 	this.battleSide = type == AppModel.instance.game.player.troopType?0:1;
 	this.building = building;
 	this.health = building.troopHealth;
-	
-	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "crusader-move-";//building.get_troopName();
+
+	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "char-move-";//building.get_troopName();
 	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
 	movieClip.pivotX = movieClip.width * 0.5;
-	movieClip.pivotY = movieClip.height * 0.6;
+	movieClip.pivotY = movieClip.height * 0.9;
+	movieClip.scale = troopScale;
 	addChild(movieClip);
 	
 	touchable = false;
@@ -111,12 +113,12 @@ private function switchAnimation(source:Place, destination:Place):void
 		flipped = true;
 	}
 
-	movieClip.scaleX = (flipped ? -1 : 1 );
+	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
 	if(direction == dir)
 		return;
 
-	movieClip.fps = 16 * 3000 / building.troopSpeed;
+	movieClip.fps = 20 * 3000 / building.troopSpeed;
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
 	for(var i:int=0; i < movieClip.numFrames; i++)

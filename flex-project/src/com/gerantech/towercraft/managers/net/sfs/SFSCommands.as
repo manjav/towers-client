@@ -18,6 +18,8 @@ public static const BUILDING_UPGRADE:String = "buildingUpgrade";
 public static const EXCHANGE:String = "exchange";
 public static const SELECT_NAME:String = "selectName";
 public static const VERIFY_PURCHASE:String = "verify";
+public static const OAUTH:String = "oauth";
+public static const REGISTER_PUSH:String = "registerPush";
 public static const RESTORE:String = "restore";
 public static const PREFS:String = "prefs";
 public static const CHANGE_DECK:String = "changeDeck";
@@ -55,17 +57,21 @@ public static function getDeadline(command:String):int
 	{
 		case START_BATTLE:
 			return 10000;
+		case FIGHT:
 		case LEFT_BATTLE:
 		case REJOIN_BATTLE:
 		case LEAVE:
 		case BUILDING_IMPROVE:
 		case HIT:
 		case SEND_STICKER:
+		case INBOX_OPEN:
 		case INBOX_CONFIRM:
 		case INBOX_BROADCAST:
 		case ISSUE_GET:
 		case ISSUE_REPORT:
 		case ISSUE_TRACK:
+		case LOBBY_LEAVE:
+		case REGISTER_PUSH:
 			return -1;
 	}
 	return 2000;

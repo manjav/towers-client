@@ -5,7 +5,6 @@ import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 
 import flash.utils.setTimeout;
 
@@ -19,20 +18,24 @@ import starling.events.Event;
 
 public class EndOverlay extends BaseOverlay
 {
-public var score:int;
 public var tutorialMode:Boolean;
+public var score:int;
+public var playerIndex:int;
+
 protected var rewards:ISFSArray;
 protected var initialingCompleted:Boolean;
 protected var padding:int;
 protected var battleData:BattleData;
 protected var showAdOffer:Boolean;
 
-public function EndOverlay(score:int, rewards:ISFSArray, tutorialMode:Boolean=false)
+public function EndOverlay(playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 {
 	super();
-	this.score = score;
 	this.rewards = rewards;
 	this.tutorialMode = tutorialMode;
+	this.playerIndex = playerIndex;
+	if( playerIndex > -1 )
+		score = rewards.getSFSObject(playerIndex).getInt("score");
 }
 
 override protected function initialize():void
@@ -51,28 +54,37 @@ override protected function initialize():void
 
 override protected function defaultOverlayFactory():DisplayObject
 {
-	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft?0x000000:(score>0?0x000099:0x990000));
-	overlay.alpha = 0.4;
+	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft||playerIndex==-1?0x000000:(score>0?0x002211:0x330000));
+	overlay.alpha = 0.6;
 	overlay.width = stage.width;
-	overlay.height = stage.height * 3;
+	overlay.height = stage.height;
 	return overlay;
 }
 protected function get keyExists():Boolean
 {
-	for( var i:int = 0; i < rewards.size(); i++ ) 
-		if( rewards.getSFSObject(i).getInt("t") == ResourceType.KEY )
+	if( playerIndex == -1 )
+		return false;
+	
+	var keys:Array = rewards.getSFSObject(playerIndex).getKeys();
+	for( var i:int = 0; i < keys.length; i++)
+		if( int(keys[i]) == ResourceType.KEY )
 			return true;
 	return false;
 }
 
-protected function getRewardsCollection():ListCollection
+protected function getRewardsCollection(playerIndex:int):ListCollection
 {
-	var rw:Array = SFSArray(rewards).toArray();
 	var ret:ListCollection = new ListCollection();
-	for ( var i:int=0; i<rw.length; i++ )
-		if( rw[i].t == ResourceType.POINT || rw[i].t == ResourceType.KEY || rw[i].t == ResourceType.CURRENCY_SOFT )
-			ret.addItem( rw[i] );
-	
+	if( playerIndex == -1 )
+		return ret;
+
+	var keys:Array = rewards.getSFSObject(playerIndex).getKeys();
+	for( var i:int = 0; i < keys.length; i++)
+	{
+		var key:int = int(keys[i])
+		if( key == ResourceType.POINT || key == ResourceType.KEY || key == ResourceType.CURRENCY_SOFT )
+			ret.push({t:key, c:rewards.getSFSObject(playerIndex).getInt(keys[i])});
+	}
 	return ret;
 }
 

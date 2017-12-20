@@ -13,8 +13,6 @@ import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
-import flash.geom.Point;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.layout.AnchorLayoutData;
 

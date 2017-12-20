@@ -4,6 +4,12 @@ package com.gerantech.towercraft.controls.overlays
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
+	import feathers.controls.LayoutGroup;
+	import feathers.controls.text.BitmapFontTextRenderer;
+	import feathers.layout.AnchorLayout;
+	import feathers.layout.AnchorLayoutData;
+	import feathers.text.BitmapFontTextFormat;
+	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -11,11 +17,12 @@ package com.gerantech.towercraft.controls.overlays
 	
 	public class TutorialSwipeOverlay extends TutorialOverlay
 	{
-		private var finger:Image;
+		private var finger:LayoutGroup;
 		private var places:PlaceDataList;
 		private var tweenStep:int ;
 		private var doubleSwipe:Boolean;
 		private var doubleCount:int = 0;
+		private var swipeNumText:BitmapFontTextRenderer;
 		
 		public function TutorialSwipeOverlay(task:TutorialTask)
 		{
@@ -36,44 +43,69 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function initialize():void
 		{
 			super.initialize();
-			finger = new Image(Assets.getTexture("finger-down", "tutors"));
-			finger.scale = appModel.scale;
+			finger = new LayoutGroup();
+			finger.backgroundSkin = new Image(Assets.getTexture("finger-down", "gui"));
 			finger.touchable = false;
 		}
+		
 		protected override function transitionInCompleted():void
 		{
 			super.transitionInCompleted();
 			doubleSwipe = this.places.get(0).tutorIndex >= 10;
 			addChild(finger);
+			
+			swipeNumText = new BitmapFontTextRenderer();
+			swipeNumText.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xAAFFDD, "center")
+			swipeNumText.pixelSnapping = false;
+			swipeNumText.y = -50;
+			swipeNumText.touchable = false;
+			swipeNumText.text = "  ";
+			swipeNumText.visible = false;
+			finger.addChild(swipeNumText);
+			swipeNumText.pivotX = swipeNumText.width * 0.5;
+			swipeNumText.pivotY = swipeNumText.height * 0.5;
+			
 			tweenCompleteCallback("stepLast")
 		}
 		
-		private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, fromScale:Number=1, toScale:Number=1, time:Number=1, doubleA:Boolean=true):void
+		private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, fromScale:Number=1, toScale:Number=1, time:Number=1.5, doubleA:Boolean=true, swipeIndex:int=-1):void
 		{
 				animate( "stepMid",
 					places.get(from).x * appModel.scale, 
 					(places.get(from).y - 100) * appModel.scale, 
 					places.get(to).x * appModel.scale, 
 					(places.get(to).y - 100) * appModel.scale,
-					fromAlpha, toAlpha, fromScale, toScale, time
+					fromAlpha, toAlpha, fromScale, toScale, time, 0, swipeIndex
 				);
 		}
 		
-		private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, startScale:Number=1, endScale:Number=1, time:Number=1, delayTime:Number=0):void
+		private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, startScale:Number=1, endScale:Number=1, time:Number=1.5, delayTime:Number=0, swipeIndex:int=-1):void
 		{
 			finger.x = startX;
 			finger.y = startY;
 			finger.alpha = startAlpha;
-			finger.scale = startScale*appModel.scale;
+			finger.scale = startScale;
 			
 			var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
 			tween.moveTo(endX, endY);
 			tween.delay = delayTime;
-			tween.scaleTo(endScale*appModel.scale);
+			tween.scaleTo(endScale);
 			tween.fadeTo(endAlpha);
 			tween.onComplete = tweenCompleteCallback;
 			tween.onCompleteArgs = [name];
 			Starling.juggler.add( tween );
+			
+			if( swipeIndex > -1 )
+			{
+				swipeNumText.text = String(swipeIndex+1);
+				swipeNumText.scale = 1.3;
+				Starling.juggler.tween(swipeNumText, 0.3, {scale:1, transition:Transitions.EASE_OUT});
+			}
+			else
+			{
+				swipeNumText.text = "";
+			}
+			swipeNumText.visible = swipeIndex > -1;
 		}		
 		
 		private function tweenCompleteCallback(swipeName:String):void
@@ -87,7 +119,7 @@ package com.gerantech.towercraft.controls.overlays
 					if( swipeName == "stepMid" )
 						tweenStep ++;
 					
-					if(tweenStep == places.size()-1)
+					if( tweenStep == places.size()-1 )
 					{
 						if ( doubleSwipe && doubleCount == 0 )
 						{
@@ -111,7 +143,7 @@ package com.gerantech.towercraft.controls.overlays
 					}
 					else
 					{
-						swipe(tweenStep, tweenStep+1);
+						swipe(tweenStep, tweenStep+1, 1, 1, 1, 1, 2, true, places.size()>2?tweenStep:-1);
 					}
 					break;
 				case "stepLast":
