@@ -12,6 +12,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.buildings.Building;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -47,6 +48,8 @@ private var foundCollection:ListCollection;
 private var foundList:List;
 private var availabledCollection:ListCollection;
 private var availabledList:List;
+private var unavailableCollection:ListCollection;
+private var unavailableList:List;
 
 private var selectPopup:CardSelectPopup;
 private var detailsPopup:CardDetailsPopup;
@@ -93,6 +96,7 @@ override public function init():void
 	var foundLayout:TiledRowsLayout = new TiledRowsLayout();
 	var availabledLayout:TiledRowsLayout = new TiledRowsLayout();
 	availabledLayout.gap = foundLayout.gap = padding * 0.5;
+	availabledLayout.paddingBottom = foundLayout.paddingBottom = padding*2;
 	availabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
 	availabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
 	availabledLayout.requestedColumnCount = foundLayout.requestedColumnCount = 4;
@@ -105,11 +109,11 @@ override public function init():void
 	foundList.elasticity = 0.01;
 	//unlocksList.decelerationRate = 1;
 	foundList.layout = foundLayout;
-	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, scroller); }
+	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, true, scroller); }
 	foundList.dataProvider = foundCollection;
 	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
 	scroller.addChild(foundList);
-		
+	
 	var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBCCDD, null, null, false, null, 0.8);
 	availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding*4, padding, NaN, padding);
 	scroller.addChild(availabledLabel);	
@@ -119,11 +123,27 @@ override public function init():void
 	availabledList.elasticity = 0.01;
 	//availabledList.decelerationRate = 1;
 	availabledList.layout = availabledLayout;
-	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, true, scroller); }
+	availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, scroller); }
 	availabledList.dataProvider = availabledCollection;
 	availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 	scroller.addChild(availabledList);
-
+	
+	
+	var unavailableLabel:RTLLabel = new RTLLabel(loc("unavailable_cards"), 0xBBCCDD, null, null, false, null, 0.8);
+	unavailableLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding*4, padding, NaN, padding);
+	scroller.addChild(unavailableLabel);	
+	
+	unavailableList = new List();
+	unavailableList.verticalScrollPolicy = ScrollPolicy.OFF;
+	unavailableList.alpha = 0.8;
+	unavailableList.elasticity = 0.01;
+	//availabledList.decelerationRate = 1;
+	unavailableList.layout = availabledLayout;
+	unavailableList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, scroller); }
+	unavailableList.dataProvider = unavailableCollection;
+	//unavailabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
+	scroller.addChild(unavailableList);
+	
 	initializeCompleted = true;
 	showTutorial();
 }
@@ -166,7 +186,7 @@ override public function updateData():void
 	}
 	foundCollection.data = founds;
 	
-	
+	// availabled cards
 	if(availabledCollection == null)
 		availabledCollection = new ListCollection();
 	var availables:Array = new Array();
@@ -180,6 +200,21 @@ override public function updateData():void
 	}
 	availables.reverse();
 	availabledCollection.data = availables;
+	
+	// unavailabled cards
+	if(unavailableCollection == null)
+		unavailableCollection = new ListCollection();
+	var unavailables:Array = new Array();
+	var _unavailables:IntList = CardTypes.getAll();
+	c = 0;
+	while( c < _unavailables.size() )
+	{
+		if( _availables.indexOf(_unavailables.get(c)) == -1 )
+			unavailables.push(_unavailables.get(c));
+		c ++;
+	}
+	unavailables.reverse();
+	unavailableCollection.data = unavailables;
 }
 
 private function unlocksList_focusInHandler(event:Event):void
