@@ -51,7 +51,7 @@ public function PlaceView(place:Place)
 	bg.alignPivot();
 	bg.width = raduis * 2;
 	bg.scaleY = bg.scaleX * 0.8;
-	bg.alpha = 0.2;
+	bg.alpha = 0//.2;
 	addChild(bg);
 	
 	x = place.x;
@@ -144,12 +144,22 @@ private function showMidSwipesTutorial(troopType:int):void
 		return;
 
 	tutorials.removeAll();
+	
 	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + place.index);
 	var places:PlaceDataList = new PlaceDataList();
-	places.push(getPlace(place.index));
-	places.push(getPlace(place.index + 1));
+	if( appModel.battleFieldView.battleData.map.index == 1 )
+	{
+		for (var i:int = 0; i < place.index+2; i++) 
+			places.push(getPlace(i));
+	}
+	else
+	{
+		places.push(getPlace(place.index));
+		places.push(getPlace(place.index + 1));
+	}
+	
 	if( places.size() > 0 )
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 500));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1700 * places.size()));
 	tutorials.show(tutorialData);
 }
 

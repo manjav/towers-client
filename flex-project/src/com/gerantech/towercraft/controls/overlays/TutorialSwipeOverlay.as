@@ -6,8 +6,6 @@ package com.gerantech.towercraft.controls.overlays
 	
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.text.BitmapFontTextRenderer;
-	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.animation.Transitions;
@@ -44,7 +42,9 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			super.initialize();
 			finger = new LayoutGroup();
-			finger.backgroundSkin = new Image(Assets.getTexture("finger-down", "gui"));
+			finger.backgroundSkin = new Image(Assets.getTexture("finger-down", "tutors"));
+			finger.width = finger.backgroundSkin.width * appModel.scale;
+			finger.height = finger.backgroundSkin.height * appModel.scale;
 			finger.touchable = false;
 		}
 		
