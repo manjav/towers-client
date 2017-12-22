@@ -77,34 +77,30 @@ package com.gerantech.towercraft.controls.items.exchange
 			headerDisplay.label = loc("exchange_title_" + line.category);
 			headerDisplay.data = line.category;
 
-			var CELL_SIZE:int = 480 * appModel.scale;
+			var CELL_SIZE:int = 400 * appModel.scale;
+			listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 			//descriptionDisplay.visible = false;
 			switch( line.category )
 			{
-				case ExchangeType.S_20_SPECIALS:
-					descriptionDisplay.visible = true;
-					descriptionDisplay.text = loc("exchange_description_" + line.category);
-					CELL_SIZE = 460 * appModel.scale;
-					listLayout.typicalItemWidth = width-listLayout.padding * 2 ;
-					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeSpecialItemRenderer();}
-					list.addEventListener(FeathersEventType.END_INTERACTION, list_endSpecialExchangeHandler);
-					break;
-
+				case ExchangeType.CHEST_CATE_100_FREE:
+					CELL_SIZE = 320 * appModel.scale;
+					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestFreeItemRenderer();}
+					break;		
 				case ExchangeType.CHEST_CATE_110_BATTLES:
-					CELL_SIZE = 480 * appModel.scale;
-					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+				//	CELL_SIZE = 420 * appModel.scale;
+					//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestBattleItemRenderer();}
 					break;		
 				
 				case ExchangeType.CHEST_CATE_120_OFFERS:
-					CELL_SIZE = 480 * appModel.scale;
-					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+				//	CELL_SIZE = 420 * appModel.scale;
+					//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeChestOfferItemRenderer();}
 					break;		
 				
 				default:
-					CELL_SIZE = 480 * appModel.scale;
-					listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+				//	CELL_SIZE = 420 * appModel.scale;
+					//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 					list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeCurrencyItemRenderer();}
 					break;
 			}
@@ -125,8 +121,6 @@ package com.gerantech.towercraft.controls.items.exchange
 		
 		private function list_changeHandler(event:Event):void
 		{
-			if( list.selectedItem == null || line.category == ExchangeType.S_20_SPECIALS )
-				return;
 			var ei:ExchangeItem = game.exchanger.items.get(list.selectedItem as int);
 			if(!ei.enabled)
 				return;

@@ -34,7 +34,7 @@
 			if( buttonDisplay == null )
 			{
 				buttonDisplay = new ExchangeButton();
-				buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
+				buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
 				buttonDisplay.height = 96 * appModel.scale;
 				buttonDisplay.count = ExchangeType.getHardRequierement(exchange.outcome);		
 				buttonDisplay.type = ResourceType.CURRENCY_HARD;		

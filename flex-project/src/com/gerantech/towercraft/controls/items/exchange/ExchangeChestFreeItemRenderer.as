@@ -23,12 +23,11 @@
 	
 	import starling.events.Event;
 	
-	public class ExchangeChestBattleItemRenderer extends ExchangeBaseItemRenderer
+	public class ExchangeChestFreeItemRenderer extends ExchangeBaseItemRenderer
 	{
 		private var labelDisplay:RTLLabel;
 		private var timeDisplay:BitmapFontTextRenderer;
 
-		private var buttonDisplay:ExchangeButton;
 		private var chestArmature:StarlingArmatureDisplay;
 		private var armatorTimeoutId:int = -1;
 		private var _state:int = -2;
@@ -42,23 +41,16 @@
 			if( firstCommit )
 				firstCommit = false;
 			
-			if( buttonDisplay == null )
-			{
-				buttonDisplay = new ExchangeButton();
-				buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
-				buttonDisplay.height = 96 * appModel.scale;
-			}
 			if( chestArmature == null )
 			{
 				chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
 				chestArmature.scale = appModel.scale;
 				chestArmature.x = width * 0.5;
-				chestArmature.y = height * 0.4;
+				chestArmature.y = height * 0.5;
 				chestArmature.animation.gotoAndStopByProgress("fall-closed", 1);
 			}
 			updateElements();
 			addChild(chestArmature);
-			addChild(buttonDisplay);
 			
 			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 		}
@@ -92,20 +84,14 @@
 				timeDisplay.visible = _state == ExchangeItem.CHEST_STATE_BUSY;
 			if( _state == ExchangeItem.CHEST_STATE_WAIT )
 			{
-				buttonDisplay.count = ExchangeType.getKeyRequierement(exchange.outcome);
-				buttonDisplay.type = ResourceType.KEY;
 			}
 			else if( _state == ExchangeItem.CHEST_STATE_BUSY )
 			{
-				buttonDisplay.style = "neutral";
 				updateCounter();
 				timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-				buttonDisplay.type = ResourceType.CURRENCY_HARD;
 			}
 			else if( _state == ExchangeItem.CHEST_STATE_READY )
 			{
-				buttonDisplay.count = -1;
-				buttonDisplay.type = -1;
 			}
 			//updateArmature();
 		}
@@ -122,7 +108,6 @@
 			}
 			var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
 			timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
-			buttonDisplay.count = exchanger.timeToHard(t);			
 			addChild(timeDisplay);	
 		}
 		
@@ -164,7 +149,6 @@
 			if( tutorialArrow != null )
 				tutorialArrow.removeFromParent(true);
 		}
-
 		
 		override public function dispose():void
 		{
