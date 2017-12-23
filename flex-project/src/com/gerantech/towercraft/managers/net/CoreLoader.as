@@ -66,7 +66,8 @@ package com.gerantech.towercraft.managers.net
 			var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
 			var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 			
-			AppModel.instance.game = new Game(initData);
+			AppModel.instance.game = new Game();
+			AppModel.instance.game.init(initData)
 			AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
 			
 			var swfInitData:* = new initClass();
@@ -74,7 +75,8 @@ package com.gerantech.towercraft.managers.net
 			swfInitData.id = serverData.getInt("id");
 			swfInitData.appVersion = AppModel.instance.descriptor.versionCode;
 			swfInitData.market = AppModel.instance.descriptor.market;
-			var swfCore:* = new gameClass(swfInitData);
+			var swfCore:* = new gameClass();
+			swfCore.init(swfInitData)
 			initCoreData(swfCore);
 
 			trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
