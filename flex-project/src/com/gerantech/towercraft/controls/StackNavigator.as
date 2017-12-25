@@ -214,7 +214,7 @@ private function itemAchievedHandler(event:Event):void
 public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
 {
 	var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-	indicator.value -= count;
+	indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;
 	addAnimation(x, y, 140, Assets.getTexture("res-"+resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay, indicator.punch);
 }
 public function addAnimation(x:Number, y:Number, size:int, texture:Texture, count:int, zone:Rectangle, delay:Number=0, completeCallback:Function=null, prefix:String="") : void

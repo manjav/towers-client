@@ -72,6 +72,7 @@ public static function getDeadline(command:String):int
 		case ISSUE_TRACK:
 		case LOBBY_LEAVE:
 		case REGISTER_PUSH:
+		case VERIFY_PURCHASE:
 			return -1;
 	}
 	return 2000;

@@ -25,7 +25,7 @@ package com.gerantech.towercraft.controls.items.exchange
 			super.initialize();
 			
 			layout = new AnchorLayout();
-			padding = 24 * appModel.scale;
+			padding = 12 * appModel.scale;
 				
 			var sk:Image = new Image(appModel.theme.popupBackgroundSkinTexture);
 			sk.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
