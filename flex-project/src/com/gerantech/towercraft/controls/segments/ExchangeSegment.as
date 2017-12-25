@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+	import com.gerantech.extensions.iab.IabResult;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
@@ -162,6 +163,13 @@ package com.gerantech.towercraft.controls.segments
 				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 				BillingManager.instance.purchase("com.grantech.towers.item_"+item.type);
 				function billinManager_endInteractionHandler ( event:Event ) : void {
+					var result:IabResult = event.data as IabResult;
+					if( result.succeed )
+					{
+						var outs:Vector.<int> = item.outcomes.keys();
+						for ( var i:int=0; i<outs.length; i++ )
+							appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
+					}
 					item.enabled = true;
 				}
 				return;

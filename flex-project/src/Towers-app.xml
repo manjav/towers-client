@@ -318,7 +318,7 @@
 						</intent-filter>
 					</activity>    			
 				    <activity android:name="ir.tapsell.sdk.TapsellAdActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
-					<activity android:name="com.pozirk.payment.BillingActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
+					<activity android:name="com.gerantech.extensions.IabActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
 	    	        <receiver android:name="com.gerantech.extensions.recievers.LocalNotificationReceiver"/>
 <!-- 			        <receiver android:name="com.gerantech.extensions.recievers.InvokeAppReceiver"/> -->
 				</application>
@@ -338,8 +338,8 @@
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
 	<extensions>
-	    <extensionID>com.pozirk.AndroidInAppPurchase</extensionID>
 	    <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>ir.tapsell.sdk.air</extensionID>
+    <extensionID>com.gerantech.extensions.iab.IabExtension</extensionID>
     </extensions>
 </application>
