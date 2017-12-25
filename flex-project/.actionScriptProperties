@@ -35,9 +35,9 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/native-android.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/tapsell-3.0.1-a3.0.27-i3.0.4.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/iab-extension.ane"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -68,9 +68,9 @@
       <airSettings airCertificatePath="C:/_projects/towers-projects/towers-assets/towers=p1~5.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths>
-          <anePathEntry path="ane/iab.ane"/>
           <anePathEntry path="ane/native-android.ane"/>
           <anePathEntry path="ane/tapsell-3.0.1-a3.0.27-i3.0.4.ane"/>
+          <anePathEntry path="ane/iab-extension.ane"/>
         </anePaths>
         <newLaunchParams/>
         <modifiedLaunchParams/>
