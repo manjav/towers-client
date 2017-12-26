@@ -317,6 +317,12 @@ package com.gerantech.towercraft.controls.segments
 						}
 						player.addResources(item.outcomes);
 						break;
+					
+					case ExchangeType.S_10_SOFT:
+						var outs:Vector.<int> = item.outcomes.keys();
+						for ( i=0; i<outs.length; i++ )
+							appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
+						break;
 				}
 				item.enabled = true;
 			}
