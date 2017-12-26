@@ -205,8 +205,8 @@ private function showDetails():void
 
 private function shareButton_triggeredHandler():void
 {
-	NativeAbilities.instance.shareText(loc("lobby_invite"), loc("lobby_invite_message")+ "\n" + loc("lobby_invite_url", [roomData.id, player.invitationCode]));
-	trace(loc("lobby_invite_url", [roomData.id, player.invitationCode]))
+	NativeAbilities.instance.shareText(loc("lobby_invite"), loc("lobby_invite_message")+ "\n" + loc("lobby_invite_url", [roomData.id, roomData.name, player.nickName]));
+	trace(loc("lobby_invite_url", [roomData.id, roomData.name, player.nickName]))
 }
 
 private function tabs_triggeredHandler(event:Event):void
