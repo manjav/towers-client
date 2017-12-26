@@ -59,7 +59,7 @@ override protected function commitData():void
 
 private function tutorialManager_finishHandler(event:Event):void
 {
-	if( index != (appModel.isLTR?0:2) || event.data.name != "shop_start" || stage == null )
+	if( exchange.type != ExchangeType.CHEST_CATE_101_FREE || event.data.name != "shop_start" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showFocus();
@@ -148,7 +148,7 @@ private function showFocus () : void
 }
 override public function set isSelected(value:Boolean):void
 {
-	if(value == super.isSelected)
+	if( value == super.isSelected )
 		return;
 	super.isSelected = value;
 	if( tutorialArrow != null )
