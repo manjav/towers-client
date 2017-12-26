@@ -175,9 +175,33 @@ package com.gerantech.towercraft.controls.segments
 				return;
 			}
 			
+			if( item.category == ExchangeType.S_10_SOFT )
+			{
+				if( !player.has(item.requirements) )
+				{
+					appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+					return;
+				}
+				var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
+				confirm1.acceptStyle = "danger";
+				confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
+				confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
+				appModel.navigator.addPopup(confirm1);
+				function confirm1_selectHandler ( event:Event ):void {
+					confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+					confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
+					exchange(item, params);
+				}
+				function confirm1_closeHandler ( event:Event ):void {
+					confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+					confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
+					item.enabled = true;
+				}
+				return;
+			}
+	
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
-			
 			if( item.isChest() )
 			{
 				item.enabled = true;
@@ -197,39 +221,6 @@ package com.gerantech.towercraft.controls.segments
 					exchange(item, params);
 				}
 				return;
-			}
-			else if( !player.has(item.requirements) )
-			{
-				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), item.requirements);
-				confirm.data = item;
-				confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
-				confirm.addEventListener(Event.SELECT, confirms_selectHandler);
-				confirm.addEventListener(Event.CLOSE, confirms_closeHandler);
-				appModel.navigator.addPopup(confirm);
-				return;
-			}
-			else
-			{
-				if( item.category == ExchangeType.S_10_SOFT )
-				{
-					var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
-					confirm1.acceptStyle = "danger";
-					confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
-					confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
-					appModel.navigator.addPopup(confirm1);
-					function confirm1_selectHandler ( event:Event ):void {
-						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-						confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-						exchange(item, params);
-					}
-					function confirm1_closeHandler ( event:Event ):void {
-						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-						confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-						item.enabled = true;
-					}
-					return;
-				}
-				exchange(item, params);
 			}
 		}
 		
