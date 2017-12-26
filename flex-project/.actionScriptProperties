@@ -35,20 +35,7 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.androidsupport.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.gameanalytics.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.gameServices.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.ads.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.analytics.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.base.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.basement.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.games.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.gcm.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.iid.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.location.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.googleplayservices.tasks.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/com.marpies.ane.onesignal.ane"/>
-      <libraryPathEntry kind="5" linkType="2" path="ane/iab.ane"/>
+      <libraryPathEntry kind="5" linkType="2" path="ane/iab-extension.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/native-android.ane"/>
       <libraryPathEntry kind="5" linkType="2" path="ane/tapsell-3.0.1-a3.0.27-i3.0.4.ane"/>
     </libraryPath>
@@ -65,7 +52,6 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget buildTargetName="device" iosSettingsVersion="2" isCurrent="true" platformId="com.adobe.flexide.multiplatform.ios.platform" provisioningFile="" releasePackageType="">
-      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
@@ -74,6 +60,7 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="true" hideAneLibSymbols="0" includePlatformLibs="false" platformID="com.adobe.flexide.multiplatform.ios.platform" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget airDownloadURL="https://market.android.com/details?id=com.adobe.air" androidSettingsVersion="2" buildTargetName="device" isCurrent="true" platformId="com.adobe.flexide.multiplatform.android.platform">
@@ -81,20 +68,7 @@
       <airSettings airCertificatePath="C:/_projects/towers-projects/towers-assets/towers=p1~5.p12" airTimestamp="true" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths>
-          <anePathEntry path="ane/com.marpies.ane.androidsupport.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.gameanalytics.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.gameServices.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.ads.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.analytics.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.base.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.basement.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.games.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.gcm.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.iid.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.location.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.googleplayservices.tasks.ane"/>
-          <anePathEntry path="ane/com.marpies.ane.onesignal.ane"/>
-          <anePathEntry path="ane/iab.ane"/>
+          <anePathEntry path="ane/iab-extension.ane"/>
           <anePathEntry path="ane/native-android.ane"/>
           <anePathEntry path="ane/tapsell-3.0.1-a3.0.27-i3.0.4.ane"/>
         </anePaths>
@@ -106,7 +80,6 @@
       <actionScriptSettings version="1"/>
     </buildTarget>
     <buildTarget buildTargetName="default" isCurrent="true" platformId="default">
-      <multiPlatformSettings enabled="false" hideAneLibSymbols="0" includePlatformLibs="false" platformID="default" reducedSizePackaging="false" version="1"/>
       <airSettings airCertificatePath="" airTimestamp="true" anePathSet="false" version="1">
         <airExcludes/>
         <anePaths/>
@@ -115,6 +88,7 @@
         <newPackagingParams/>
         <modifiedPackagingParams/>
       </airSettings>
+      <multiPlatformSettings enabled="false" hideAneLibSymbols="0" includePlatformLibs="false" platformID="default" reducedSizePackaging="false" version="1"/>
       <actionScriptSettings version="1"/>
     </buildTarget>
   </buildTargets>

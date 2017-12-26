@@ -56,8 +56,9 @@ package com.gerantech.towercraft.controls.buttons
 			backgroundSkin = skin;
 			
 			var padding:int = 12 * appModel.scale;
+			y = 18 * appModel.scale;
 			
-			if(hasProgressbar)
+			if( hasProgressbar )
 			{
 				progressbar = new ProgressBar();
 				progressbar.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
@@ -89,7 +90,7 @@ package com.gerantech.towercraft.controls.buttons
 		
 		public function setData(minimum:Number, value:Number, maximum:Number):void
 		{
-			if(hasProgressbar)
+			if( hasProgressbar )
 			{
 				progressbar.minimum = minimum;
 				progressbar.maximum = maximum;
@@ -159,9 +160,8 @@ package com.gerantech.towercraft.controls.buttons
 		public function punch():void
 		{
 			value = player.resources.get(resourceType);
-			var diff:int = 48 * appModel.scale;
-			y -= diff;
-			Starling.juggler.tween(this, 0.4, {y:y+diff, transition:Transitions.EASE_OUT_ELASTIC});
+			y = -20 * appModel.scale;
+			Starling.juggler.tween(this, 0.3, {y:18*appModel.scale, transition:Transitions.EASE_OUT_BACK});
 
 		}
 	}

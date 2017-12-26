@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+	import com.gerantech.extensions.iab.IabResult;
 	import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
@@ -157,7 +158,7 @@ package com.gerantech.towercraft.controls.segments
 		private function list_changeHandler(event:Event):void
 		{
 			var item:ExchangeItem = event.data as ExchangeItem;
-			if( player.inTutorial() && item.outcome != ExchangeType.CHESTS_51_CHROME )
+			if( player.inTutorial() && item.type != ExchangeType.CHEST_CATE_101_FREE )
 				return;// disalble all items in tutorial
 
 			if( item.category == ExchangeType.S_0_HARD )
@@ -165,6 +166,13 @@ package com.gerantech.towercraft.controls.segments
 				BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 				BillingManager.instance.purchase("com.grantech.towers.item_"+item.type);
 				function billinManager_endInteractionHandler ( event:Event ) : void {
+					var result:IabResult = event.data as IabResult;
+					if( result.succeed )
+					{
+						var outs:Vector.<int> = item.outcomes.keys();
+						for ( var i:int=0; i<outs.length; i++ )
+							appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
+					}
 					item.enabled = true;
 					var pd:InAppPurchaseDetails = event.data as InAppPurchaseDetails;
 					var k:int = item.outcomes.keys()[0];
@@ -173,9 +181,33 @@ package com.gerantech.towercraft.controls.segments
 				return;
 			}
 			
+			if( item.category == ExchangeType.S_10_SOFT )
+			{
+				if( !player.has(item.requirements) )
+				{
+					appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+					return;
+				}
+				var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
+				confirm1.acceptStyle = "danger";
+				confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
+				confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
+				appModel.navigator.addPopup(confirm1);
+				function confirm1_selectHandler ( event:Event ):void {
+					confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+					confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
+					exchange(item, params);
+				}
+				function confirm1_closeHandler ( event:Event ):void {
+					confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+					confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
+					item.enabled = true;
+				}
+				return;
+			}
+	
 			var params:SFSObject = new SFSObject();
 			params.putInt("type", item.type );
-			
 			if( item.isChest() )
 			{
 				item.enabled = true;
@@ -195,39 +227,6 @@ package com.gerantech.towercraft.controls.segments
 					exchange(item, params);
 				}
 				return;
-			}
-			else if( !player.has(item.requirements) )
-			{
-				var confirm:RequirementConfirmPopup = new RequirementConfirmPopup(loc("popup_resourcetogem_message"), item.requirements);
-				confirm.data = item;
-				confirm.addEventListener(FeathersEventType.ERROR, confirms_errorHandler);
-				confirm.addEventListener(Event.SELECT, confirms_selectHandler);
-				confirm.addEventListener(Event.CLOSE, confirms_closeHandler);
-				appModel.navigator.addPopup(confirm);
-				return;
-			}
-			else
-			{
-				if( item.category == ExchangeType.S_10_SOFT )
-				{
-					var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
-					confirm1.acceptStyle = "danger";
-					confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
-					confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
-					appModel.navigator.addPopup(confirm1);
-					function confirm1_selectHandler ( event:Event ):void {
-						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-						confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-						exchange(item, params);
-					}
-					function confirm1_closeHandler ( event:Event ):void {
-						confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-						confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-						item.enabled = true;
-					}
-					return;
-				}
-				exchange(item, params);
 			}
 		}
 		
@@ -308,12 +307,18 @@ package com.gerantech.towercraft.controls.segments
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						function openChestOverlay_closeHandler(event:Event):void {
 							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-							if( !player.inTutorial() && item.category != ExchangeType.CHEST_CATE_130_ADS && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS) )
+							if( item.category != ExchangeType.CHEST_CATE_130_ADS )
 								showAd();
 							openChestOverlay = null;
 							gotoDeckTutorial();
 						}
 						player.addResources(item.outcomes);
+						break;
+					
+					case ExchangeType.S_10_SOFT:
+						var outs:Vector.<int> = item.outcomes.keys();
+						for ( i=0; i<outs.length; i++ )
+							appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
 						break;
 				}
 				item.enabled = true;
@@ -333,6 +338,9 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showAd():void
 		{
+			if( player.inTutorial() || !VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS).available )
+				return;
+			
 			var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup();
 			adConfirmPopup.addEventListener(Event.SELECT, adConfirmPopup_selectHandler);
 			appModel.navigator.addPopup(adConfirmPopup);

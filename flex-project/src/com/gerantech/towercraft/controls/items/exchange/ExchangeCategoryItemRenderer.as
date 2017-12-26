@@ -95,7 +95,7 @@ override protected function commitData():void
 			break;		
 		
 		default:
-		//	CELL_SIZE = 420 * appModel.scale;
+			CELL_SIZE = 480 * appModel.scale;
 			//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeCurrencyItemRenderer();}
 			break;

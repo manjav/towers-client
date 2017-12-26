@@ -11,6 +11,9 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
+
 import dragonBones.starling.StarlingArmatureDisplay;
 
 import feathers.controls.text.BitmapFontTextRenderer;
@@ -27,6 +30,7 @@ private var timeDisplay:BitmapFontTextRenderer;
 private var buttonDisplay:ExchangeButton;
 private var chestArmature:StarlingArmatureDisplay;
 private var tutorialArrow:TutorialArrow;
+private var timeoutId:uint;
 
 override protected function commitData():void
 {
@@ -59,7 +63,7 @@ override protected function commitData():void
 
 private function tutorialManager_finishHandler(event:Event):void
 {
-	if( index != (appModel.isLTR?0:2) || event.data.name != "shop_start" || stage == null )
+	if( exchange.type != ExchangeType.CHEST_CATE_101_FREE || event.data.name != "shop_start" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showFocus();
@@ -131,8 +135,9 @@ private function updateArmature():void
 	if( chestArmature == null)
 		return;
 
+	clearTimeout(timeoutId);
 	if( _state == ExchangeItem.CHEST_STATE_READY )
-		chestArmature.animation.gotoAndPlayByTime("wait", 0, 10);
+		timeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random()*2000, "wait", 0, 10);
 	else
 		chestArmature.animation.gotoAndStopByProgress("fall-closed", 1);
 }
@@ -148,7 +153,7 @@ private function showFocus () : void
 }
 override public function set isSelected(value:Boolean):void
 {
-	if(value == super.isSelected)
+	if( value == super.isSelected )
 		return;
 	super.isSelected = value;
 	if( tutorialArrow != null )
@@ -158,6 +163,7 @@ override public function set isSelected(value:Boolean):void
 override public function dispose():void
 {
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+	clearTimeout(timeoutId);
 	super.dispose();
 }
 }
