@@ -310,7 +310,7 @@ package com.gerantech.towercraft.controls.segments
 						openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 						function openChestOverlay_closeHandler(event:Event):void {
 							openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-							if( !player.inTutorial() && item.category != ExchangeType.CHEST_CATE_130_ADS && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS) )
+							if( item.category != ExchangeType.CHEST_CATE_130_ADS )
 								showAd();
 							openChestOverlay = null;
 							gotoDeckTutorial();
@@ -341,6 +341,9 @@ package com.gerantech.towercraft.controls.segments
 		
 		private function showAd():void
 		{
+			if( player.inTutorial() || !VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS).available )
+				return;
+			
 			var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup();
 			adConfirmPopup.addEventListener(Event.SELECT, adConfirmPopup_selectHandler);
 			appModel.navigator.addPopup(adConfirmPopup);
