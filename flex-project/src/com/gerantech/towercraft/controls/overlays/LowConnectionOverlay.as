@@ -42,7 +42,8 @@ override protected function initialize():void
 
 private function addReloadPopup():void
 {
-	visible = false;
+	appModel.navigator.removeAllPopups();
+	appModel.navigator.removeAllOverlays();
 	SFSConnection.instance.disconnect();
 	//appModel.loadingManager.dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST))	
 }
