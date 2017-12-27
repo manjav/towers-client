@@ -167,7 +167,6 @@ private function list_changeHandler(event:Event):void
 			if( result.succeed )
 			{
 				// exchange item
-				var item:ExchangeItem = exchanger.items.get(int(result.purchase.sku.substr(result.purchase.sku.length-1))); // reterive exchange item key
 				exchanger.exchange(item, timeManager.now);
 				
 				// show achieve animation
@@ -185,6 +184,7 @@ private function list_changeHandler(event:Event):void
 		if( !player.has(item.requirements) )
 		{
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+			item.enabled = true;
 			return;
 		}
 		var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
