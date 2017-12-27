@@ -338,8 +338,8 @@
         <requestedDisplayResolution>high</requestedDisplayResolution>
     </iPhone>
 	<extensions>
-	    <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>ir.tapsell.sdk.air</extensionID>
-    <extensionID>com.gerantech.extensions.iab.IabExtension</extensionID>
+    <extensionID>com.gerantech.extensions.iabilling</extensionID>
+    <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     </extensions>
 </application>
