@@ -1,14 +1,11 @@
 package com.gerantech.towercraft.controls.screens
 {
 	import com.gerantech.towercraft.controls.BattleHUD;
-	import com.gerantech.towercraft.controls.buttons.ImproveButton;
-	import com.gerantech.towercraft.controls.floatings.ImproveFloating;
-	import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
+	import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 	import com.gerantech.towercraft.controls.overlays.EndOverlay;
 	import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
-	import com.gerantech.towercraft.controls.overlays.TransitionData;
+	import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 	import com.gerantech.towercraft.events.GameEvent;
@@ -24,7 +21,6 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gerantech.towercraft.views.BattleFieldView;
 	import com.gerantech.towercraft.views.PlaceView;
-	import com.gt.towers.battle.BattleField;
 	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.constants.CardTypes;
@@ -48,7 +44,6 @@ package com.gerantech.towercraft.controls.screens
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	
-	import starling.animation.Transitions;
 	import starling.display.Quad;
 	import starling.events.Event;
 	import starling.events.Touch;
@@ -408,16 +403,17 @@ package com.gerantech.towercraft.controls.screens
 			var tutorial:TutorialData = event.data as TutorialData;
 			if( tutorial.name == "quest_2_end" )
 			{
-				if( player.buildings.exists(CardTypes.C101) )
+				if( player.buildings.get(CardTypes.C101).get_level() == 1 )
 				{
-					if( player.buildings.get(CardTypes.C101).get_level() > 1 )
-						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END);
+					if( player.resources.get(CardTypes.C101) > 1 )
+						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
 					else
-						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK); 
+						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
 				}
 				else
 				{
-					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
+					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END);
+
 				}
 				
 				appModel.navigator.popToRootScreen();
@@ -529,7 +525,7 @@ package com.gerantech.towercraft.controls.screens
 					}
 				
 					// remove destination from sources if exists
-					var self:int = sourcePlaces.indexOf(destination);
+					/*var self:int = sourcePlaces.indexOf(destination);
 					if(self > -1)
 					{
 						if(sourcePlaces.length == 1)
@@ -544,7 +540,6 @@ package com.gerantech.towercraft.controls.screens
 					
 					// force improve in tutorial mode
 					var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
-					
 					var improvable:PlaceData = bf.map.getImprovableTutorPlace();
 					if( bf.map.isQuest && !player.hardMode && improvable != null && bf.places.get(improvable.index).building.type == CardTypes.C001 && state == STATE_CREATED )
 					{
@@ -552,7 +547,7 @@ package com.gerantech.towercraft.controls.screens
 						setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
 						clearSources(sourcePlaces);
 						return;
-					}
+					}*/
 
 					// check sources has a path to destination
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
@@ -586,7 +581,7 @@ package com.gerantech.towercraft.controls.screens
 			sourceTower.arrowContainer.visible = false;
 		}
 		
-		private function showImproveFloating(placeView:PlaceView):void
+		/*private function showImproveFloating(placeView:PlaceView):void
 		{
 			if( player.get_questIndex() < 2 || player.hardMode  )
 				return;
@@ -633,7 +628,7 @@ package com.gerantech.towercraft.controls.screens
 				}
 				appModel.battleFieldView.responseSender.improveBuilding(btn.building.index, btn.type);
 			}
-		}
+		}*/
 
 		
 		override protected function backButtonFunction():void

@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.headers
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.TowersLayout;
+import com.gerantech.towercraft.controls.buttons.CardButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 
@@ -52,22 +53,14 @@ override protected function initialize():void
 
 private function createDeckItem(i:int):void
 {
-	var button:SimpleLayoutButton = new SimpleLayoutButton();
+	var button:CardButton = new CardButton(player.decks.get(player.selectedDeck).get(i));
 	button.x = padding + 260 * i * appModel.scale;
 	button.y = padding * 7 ;
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button)
 	
-	var card:BuildingCard = new BuildingCard();
-	card.width = 240 * appModel.scale;
-	card.height = card.width * 1.295;
-	card.x = card.pivotX = card.width * 0.5;
-	card.y = card.pivotY = card.height * 0.5;	
-	button.addChild(card);
-	card.type = player.decks.get(player.selectedDeck).get(i);
-	cards.push(card);
-	
-	cardsBounds.push(card.getBounds(stage));
+	cards.push(button.card);
+	cardsBounds.push(button.card.getBounds(stage));
 }
 
 private function buttons_triggeredHandler(event:Event):void

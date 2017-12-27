@@ -68,10 +68,10 @@ override public function init():void
 	showFooterButtons();
 	showTutorial();
 	initializeCompleted = true;
-	//dfsdf();
+	//testOutcome();
 }
 
-private function dfsdf():void
+private function testOutcome():void
 {
 var rwards:SFSArray = new SFSArray();
 for (var i:int = 0; i < 2; i++) 
@@ -85,7 +85,6 @@ for (var i:int = 0; i < 2; i++)
 appModel.battleFieldView = new BattleFieldView();
 appModel.battleFieldView.battleData = new BattleData(new SFSObject());
 appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
-
 }
 override public function focus():void
 {

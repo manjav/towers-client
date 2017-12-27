@@ -6,10 +6,12 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.ColorGroup;
 import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingFeatureType;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 
 import flash.geom.Rectangle;
@@ -27,6 +29,7 @@ public class CardDetailsPopup extends SimplePopup
 {
 public var buildingType:int;
 private var building:Building;
+private var tutorialArrow:TutorialArrow;
 
 override protected function initialize():void
 {
@@ -105,7 +108,22 @@ override protected function transitionInCompleted():void
 	usingButton.height = 110 * appModel.scale;
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding*5);
-	addChild(usingButton);		
+	addChild(usingButton);
+	
+	showFocus();
+}
+
+private function showFocus () : void
+{
+	if( buildingType != CardTypes.C101 || player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
+		return;
+	
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+	
+	tutorialArrow = new TutorialArrow(true);
+	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, -padding*2.4, NaN, -padding*5);
+	addChild(tutorialArrow);
 }
 
 override protected function transitionOutStarted():void

@@ -11,15 +11,18 @@ import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 
-import feathers.controls.Header;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollContainer;
@@ -163,13 +166,13 @@ protected function scroller_scrollHandler(event:Event):void
 }
 private function showTutorial():void
 {
-	//if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK )
+	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK )
 		return;
 	
-	/*player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
+	player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
-	tutorials.show(tutorialData);*/
+	tutorials.show(tutorialData);
 }		
 override public function updateData():void
 {
@@ -434,6 +437,14 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	
 	deckHeader.update();
 	updateData();
+	
+	// dispatch tutorial event
+	if( player.inTutorial() && building.type == CardTypes.C101 && building.get_level() == 2 )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
+		tutorials.dispatchEventWith("upgrade");
+		return;
+	}
 }
 }
 }

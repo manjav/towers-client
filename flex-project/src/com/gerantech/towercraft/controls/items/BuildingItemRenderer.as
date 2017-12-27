@@ -2,11 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gt.towers.constants.CardTypes;
-import com.gt.towers.constants.PrefsTypes;
 
 import feathers.controls.ImageLoader;
 import feathers.controls.ScrollContainer;
@@ -17,7 +13,6 @@ import feathers.layout.HorizontalLayout;
 import feathers.layout.TiledRowsLayout;
 
 import starling.core.Starling;
-import starling.display.Quad;
 import starling.events.Event;
 
 public class BuildingItemRenderer extends AbstractTouchableListItemRenderer
@@ -46,11 +41,8 @@ public function BuildingItemRenderer(showLevel:Boolean=true, showSlider:Boolean=
 override protected function initialize():void
 {
 	super.initialize();
-	alpha = 0;
-	//backgroundSkin = new Quad(1,1);
-	//backgroundSkin.visible = false;
-
 	layout = new AnchorLayout();
+	alpha = 0;
 	
 	cardLayoutData = new AnchorLayoutData(0,0,NaN,0);
 	cardDisplay = new BuildingCard();
@@ -97,9 +89,6 @@ override protected function commitData():void
 			newDisplay.height = newDisplay.width = width * 0.6;
 			addChild(newDisplay);
 		}
-		
-		if( _data == CardTypes.C101 )
-			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	}
 	else
 	{
@@ -124,51 +113,20 @@ private function scroller_scrollHandler(event:Event):void
 {
 	visible = onScreen(getBounds(stage));//trace(index, visible)
 }		
-private function tutorialManager_finishHandler(event:Event):void
-{
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
-		return;
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-	var tuteData:TutorialData = event.data as TutorialData;
-	if( tuteData.name == "deck_start" )
-		showFocus();
-}
-private function showFocus () : void
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	
-	tutorialArrow = new TutorialArrow(true);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.3);
-	addChild(tutorialArrow);
-}
-
-override public function set isSelected(value:Boolean):void
-{
-	super.isSelected = value
-	if( value && tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-}
 
 override public function set currentState(_state:String):void
 {
 	if(super.currentState == _state)
 		return;
 	super.currentState = _state;
-	
-	/*if ( !this.inDeck )
-		return;*/
-	
-	//cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
+
 	if( _state == STATE_SELECTED )
 	{
-		if(newDisplay)
+		if( newDisplay )
 			newDisplay.removeFromParent(true);
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
-	
-	/*if ( player.buildings.exists( _data as int ) )
-		visible = _state != STATE_SELECTED;*/
+
 }
 
 override public function dispose():void

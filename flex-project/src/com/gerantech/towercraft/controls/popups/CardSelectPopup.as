@@ -2,7 +2,12 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.events.GameEvent;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gt.towers.buildings.Building;
+import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.PrefsTypes;
 
 import flash.geom.Rectangle;
 
@@ -10,15 +15,16 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.core.Starling;
 import starling.events.Event;
+import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
-import starling.events.Touch;
 
 public class CardSelectPopup extends SimplePopup
 {
 public var buildingType:int;
 private var building:Building;
 private var _bounds:Rectangle;
+private var tutorialArrow:TutorialArrow;
 
 override protected function initialize():void
 {
@@ -60,6 +66,8 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
 	addChild(detailsButton);
 	
+	showFocus();
+	
 	if( data > -1 )
 		return;
 	
@@ -71,6 +79,19 @@ override protected function transitionInCompleted():void
 	addChild(usingButton);		
 	usingButton.alpha = 0;
 	Starling.juggler.tween(usingButton, 0.1, {delay:0.05, alpha:1});
+	
+}
+private function showFocus () : void
+{
+	if( buildingType != CardTypes.C101 || player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
+		return;
+	
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+	
+	tutorialArrow = new TutorialArrow(true);
+	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.6);
+	addChild(tutorialArrow);
 }
 
 protected function usingButton_triggeredHandler(event:Event):void
