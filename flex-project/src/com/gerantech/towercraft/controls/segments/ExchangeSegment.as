@@ -166,6 +166,11 @@ package com.gerantech.towercraft.controls.segments
 					var result:IabResult = event.data as IabResult;
 					if( result.succeed )
 					{
+						// exchange item
+						var item:ExchangeItem = exchanger.items.get(int(result.purchase.sku.substr(result.purchase.sku.length-1))); // reterive exchange item key
+						exchanger.exchange(item, timeManager.now);
+						
+						// show achieve animation
 						var outs:Vector.<int> = item.outcomes.keys();
 						for ( var i:int=0; i<outs.length; i++ )
 							appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 

@@ -11,8 +11,6 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.constants.ExchangeType;
-import com.gt.towers.exchanges.ExchangeItem;
-import com.gt.towers.exchanges.Exchanger;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -96,7 +94,8 @@ protected function iab_setupFinishedHandler(event:IabEvent):void
 	trace("iab_setupFinishedHandler", event.result.message);
 	Iab.instance.removeEventListener(IabEvent.SETUP_FINISHED, iab_setupFinishedHandler);
 	dispatchEventWith(FeathersEventType.INITIALIZE);
-	queryInventory();
+	if( event.result.succeed )
+		queryInventory();
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- QUERY INVENTORY -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -191,11 +190,6 @@ protected function iab_consumeFinishedHandler(event:IabEvent):void
 		dispatchEventWith(FeathersEventType.END_INTERACTION, false, event.result);
 		return;
 	}
-	
-	var exchanger:Exchanger = AppModel.instance.game.exchanger;
-	var sku:String = event.result.purchase.sku;
-	var item:ExchangeItem = exchanger.items.get(int(sku.substr(sku.length-1))); // reterive exchange item key
-	exchanger.exchange(item, TimeManager.instance.now);
 	
 	/*var priceList:Array = skuDetails._price.split(" ");
 	var price:String = priceList[0];
