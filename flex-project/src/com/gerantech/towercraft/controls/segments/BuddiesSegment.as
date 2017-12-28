@@ -136,8 +136,8 @@ protected function list_focusInHandler(event:Event):void
 	var buddy:Buddy = selectedItem.data as Buddy;
 	if( buddy == null )
 	{
-		NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + loc("buddy_initation_url", [player.invitationCode]));
-		trace(loc("buddy_initation_url", [player.invitationCode]))
+		NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + loc("buddy_invite_url", [player.invitationCode]));
+		trace(loc("buddy_invite_url", [player.invitationCode]))
 		return;
 	}
 	
