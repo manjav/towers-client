@@ -72,8 +72,9 @@ package com.gerantech.towercraft.managers.net
 			
 			AppModel.instance.game = new Game();
 			AppModel.instance.game.eventDispatcher.addEventListener(CoreEvent.CHANGE, dsasd);
-			AppModel.instance.game.init(initData);
+			AppModel.instance.game.init(initData)
 			AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
+			AppModel.instance.game.player.invitationCode = serverData.getText("invitationCode")
 			
 			var swfInitData:* = new initClass();
 			swfInitData.nickName = serverData.getText("name");
