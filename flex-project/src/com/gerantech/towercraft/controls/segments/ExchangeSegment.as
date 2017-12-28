@@ -22,8 +22,6 @@ import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.utils.GameError;
 import com.gt.towers.utils.maps.IntIntMap;
-import com.marpies.ane.gameanalytics.GameAnalytics;
-import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -47,7 +45,6 @@ public class ExchangeSegment extends Segment
 public static var focusedCategory:int = 0
 private var itemslistData:ListCollection;
 private var itemslist:List;
-
 private var openChestOverlay:OpenChestOverlay;
 
 public function ExchangeSegment()
@@ -169,14 +166,13 @@ private function list_changeHandler(event:Event):void
 			if( result.succeed )
 			{
 				// exchange item
-				var item:ExchangeItem = exchanger.items.get(int(result.purchase.sku.substr(result.purchase.sku.length-1))); // reterive exchange item key
 				exchanger.exchange(item, timeManager.now);
 				
 				// show achieve animation
 				var outs:Vector.<int> = item.outcomes.keys();
 				for ( var i:int=0; i<outs.length; i++ )
-					appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
-
+					appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i]));
+									
 				// send analytics events
 				GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
 
@@ -194,6 +190,7 @@ private function list_changeHandler(event:Event):void
 		if( !player.has(item.requirements) )
 		{
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+			item.enabled = true;
 			return;
 		}
 		var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
@@ -292,44 +289,40 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 	var data:SFSObject = event.params.params;
 	var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
-	if( data.getBool("succeed") )
+	item.enabled = true;
+	if( !data.getBool("succeed") )
+		return;
+	
+	if( item.isChest() )
 	{
-		switch( item.category )
+		itemslist.dataProvider.updateItemAt( (item.category - 100) / 10 );
+		if( !data.containsKey("rewards") )
+			return;
+		item.outcomes = new IntIntMap();
+		//trace(data.getSFSArray("rewards").getDump());
+		var reward:ISFSObject;
+		for( var i:int=0; i<data.getSFSArray("rewards").size(); i++ )
 		{
-			case ExchangeType.CHEST_CATE_100_FREE:
-			case ExchangeType.CHEST_CATE_110_BATTLES:
-			case ExchangeType.CHEST_CATE_120_OFFERS:
-				itemslist.dataProvider.updateItemAt( (item.category - 100) / 10 );
-				if( !data.containsKey("rewards") )
-					return;
-				item.outcomes = new IntIntMap();
-				//trace(data.getSFSArray("rewards").getDump());
-				var reward:ISFSObject;
-				for( var i:int=0; i<data.getSFSArray("rewards").size(); i++ )
-				{
-					reward = data.getSFSArray("rewards").getSFSObject(i);
-					if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
-						item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
-				}
-				openChestOverlay.setItem( item );
-				openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-				function openChestOverlay_closeHandler(event:Event):void {
-					openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-					if( item.category != ExchangeType.CHEST_CATE_130_ADS )
-						showAd();
-					openChestOverlay = null;
-					gotoDeckTutorial();
-				}
-				player.addResources(item.outcomes);
-				break;
-			
-			case ExchangeType.S_10_SOFT:
-				var outs:Vector.<int> = item.outcomes.keys();
-				for ( i=0; i<outs.length; i++ )
-					appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
-				break;
+			reward = data.getSFSArray("rewards").getSFSObject(i);
+			if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
+				item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
-		item.enabled = true;
+		openChestOverlay.setItem( item );
+		openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+		function openChestOverlay_closeHandler(event:Event):void {
+			openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+			if( item.category != ExchangeType.CHEST_CATE_130_ADS )
+				showAd();
+			openChestOverlay = null;
+			gotoDeckTutorial();
+		}
+		player.addResources(item.outcomes);
+	}
+	if( item.category == ExchangeType.S_10_SOFT )
+	{
+		var outs:Vector.<int> = item.outcomes.keys();
+		for ( i=0; i<outs.length; i++ )
+			appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
 	}
 }
 
@@ -363,14 +356,12 @@ private function videoIdsManager_completeHandler(event:Event):void
 	VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	var ad:VideoAd = event.data as VideoAd;
-	
-	if( !ad.completed || !ad.rewarded )
+	if( !ad.rewarded )
 		return;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", ExchangeType.CHEST_CATE_131_ADS );
 	exchange(exchanger.items.get(ExchangeType.CHEST_CATE_131_ADS), params);
 }
-
 }
 }
