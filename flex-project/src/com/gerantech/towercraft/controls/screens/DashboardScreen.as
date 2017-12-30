@@ -44,7 +44,7 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-public static var tabIndex:int = 1;
+public static var tabIndex:int = 2;
 	
 private var pageList:List;
 private var tabsList:List;
@@ -87,7 +87,7 @@ override protected function initialize():void
 	pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 	addChild(pageList);
 	
-	tabSize = stage.stageWidth / 5;
+	tabSize = stage.stageWidth / 6;
 	
 	var tabLayout:HorizontalLayout = new HorizontalLayout();
 	tabLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -160,13 +160,13 @@ private function getListData():ListCollection
 		var pd:TabItemData = new TabItemData(p);
 		if( !player.inTutorial() )
 		{
-			if( p == 0 )
+			if( p == SegmentType.S0_SHOP )
 			{
 				for each(var e:ExchangeItem in exchanger.items.values())
 				if( e.category == ExchangeType.CHEST_CATE_110_BATTLES && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 					pd.badgeNumber ++;
 			}
-			else if( p == 2 )
+			else if( p == SegmentType.S1_DECK )
 			{
 				var bs:Vector.<Building> = player.buildings.values();
 				for each(var b:Building in bs)
@@ -181,7 +181,7 @@ private function getListData():ListCollection
 						pd.newBadgeNumber ++;
 				}
 			}
-			else if( p == 3 )
+			else if( p == SegmentType.S3_SOCIALS )
 			{
 				pd.badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
 			}
@@ -250,7 +250,7 @@ override protected function backButtonFunction():void
 
 override public function dispose():void
 {
-	tabIndex = 1;
+	tabIndex = 2;
 	appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
 	super.dispose();
 }

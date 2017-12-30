@@ -11,8 +11,6 @@ import com.gt.towers.constants.PrefsTypes;
 
 import flash.utils.setTimeout;
 
-import feathers.controls.ImageLoader;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -28,7 +26,6 @@ private var itemWidth:Number;
 private var _firstCommit:Boolean = true;
 private var titleDisplay:RTLLabel;
 private var iconDisplay:Image;
-//private var iconLayoutData:AnchorLayoutData;
 private var badgeNumber:IndicatorButton;
 
 private var padding:int;
@@ -48,11 +45,9 @@ public function DashboardTabItemRenderer(width:Number)
 	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	//iconLayoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-	
-	titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
+	titleDisplay = new RTLLabel("", 1);
 	titleDisplay.visible = false;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3)/2, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3), 0);
 	addChild(titleDisplay);
 	
 	badgeNumber = new IndicatorButton("0", 0.8);
@@ -101,12 +96,9 @@ override protected function commitData():void
 		iconDisplay.y = height * 0.5;
 		iconDisplay.scale = appModel.scale * 2;
 		iconDisplay.pixelSnapping = false;
-		//iconDisplay.width = iconDisplay.height = width - padding * 3;
-		//iconDisplay.layoutData = iconLayoutData;
 		addChild(iconDisplay); 
 	}
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
-	//iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 	titleDisplay.text = loc("tab-"+dashboardData.index) ;
 	updateBadge();
 }
@@ -122,7 +114,6 @@ private function updateBadge():void
 	else
 	{
 		badgeNumber.label = dashboardData.badgeNumber.toString();
-		//badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
 		addChild(badgeNumber);
 	}
 }
@@ -142,17 +133,15 @@ override public function set isSelected(value:Boolean):void
 	// icon animation
 	if( iconDisplay != null )
 	{
-		//iconLayoutData.horizontalCenter = value ? NaN : 0;
-		//iconLayoutData.left = value ? padding * -0.9 : NaN;
 		Starling.juggler.removeTweens(iconDisplay);
-		iconDisplay.x = itemWidth * (value?0.42:0.5);
+		iconDisplay.x = itemWidth * 0.5//(value?0.42:0.5);
 		if( value )
 			Starling.juggler.tween(iconDisplay, 0.5, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
 		else
 			iconDisplay.scale = appModel.scale * 1.8;
 	}
 	
-	if(dashboardData != null)
+	if( dashboardData != null )
 	{
 		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
 		updateBadge();
