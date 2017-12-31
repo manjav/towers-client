@@ -134,7 +134,7 @@ package com.gerantech.towercraft.controls
 					stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
 					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 					stickerButton.width = 140 * appModel.scale;
-					stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
+					stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*5, padding);
 					stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 					addChild(stickerButton);
 				}
