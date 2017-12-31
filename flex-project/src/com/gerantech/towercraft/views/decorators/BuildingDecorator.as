@@ -234,9 +234,11 @@ public function dispose():void
 	populationIndicator.removeFromParent(true);
 //	populationIcon.removeFromParent(true);
 //	populationBar.removeFromParent(true);
+	if( underAttack )
 	underAttack.removeFromParent(true);
 	//improvablePanel.removeFromParent(true);
 	bodyDisplay.removeFromParent(true);
+	if( troopTypeDisplay )
 	troopTypeDisplay.removeFromParent(true);
 }
 }
