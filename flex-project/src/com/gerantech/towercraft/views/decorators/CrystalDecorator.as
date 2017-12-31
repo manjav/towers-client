@@ -67,9 +67,9 @@ override protected function defaultBodyFactory():void
 	__bodyTexture = "building-41";
 	bodyDisplay.texture = Assets.getTexture(__bodyTexture);
 }
-override public function updateTroops(population:int, troopType:int):void
+override public function updateTroops(population:int, troopType:int, health:int):void
 {
-	super.updateTroops(population, troopType);
+	super.updateTroops(population, troopType, health);
 	
 	/*var txt:String = "building-cr-" + place.building.type;
 	if(crystalTexture != txt)

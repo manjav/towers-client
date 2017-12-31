@@ -38,10 +38,11 @@ protected var __troopTypeTexture:String;
 
 private var populationIndicator:BitmapFontTextRenderer;
 private var populationBar:HealthBar;
+private var healthBar:HealthBar;
 private var populationIcon:Image;
 private var underAttack:MovieClip;
 private var underAttackId:uint;
-public var improvablePanel:ImprovablePanel;
+//public var improvablePanel:ImprovablePanel;
 
 public function BuildingDecorator(placeView:PlaceView)
 {
@@ -54,10 +55,17 @@ public function BuildingDecorator(placeView:PlaceView)
 	
 	if( troopTypeFactory == null )
 		troopTypeFactory = defaultTroopTypeFactory;
+
+	healthBar = new HealthBar(place.building.troopType, place.building.get_health(), place.building.get_health());
+	healthBar.width = 80;
+	healthBar.height = 12;
+	healthBar.x = place.x - healthBar.width * 0.5;
+	healthBar.y = place.y - 100;
+	fieldView.guiImagesContainer.addChild(healthBar);
 	
 	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.capacity);
-	populationBar.width = 140
-	populationBar.height = 38
+	populationBar.width = 140;
+	populationBar.height = 38;
 	populationBar.x = place.x - populationBar.width * 0.5 + 24;
 	populationBar.y = place.y + 40;
 	fieldView.guiImagesContainer.addChild(populationBar);
@@ -76,10 +84,10 @@ public function BuildingDecorator(placeView:PlaceView)
 	populationIcon.y = place.y + 35;
 	fieldView.guiImagesContainer.addChild(populationIcon);
 
-	improvablePanel = new ImprovablePanel();
+	/*improvablePanel = new ImprovablePanel();
 	improvablePanel.x = place.x - improvablePanel.width/2;
 	improvablePanel.y = place.y + 50;
-	fieldView.guiImagesContainer.addChild(improvablePanel);
+	fieldView.guiImagesContainer.addChild(improvablePanel);*/
 	
 	underAttack = new MovieClip(Assets.getTextures("building-sword-"), 22);
 	underAttack.touchable = false;
@@ -94,16 +102,28 @@ public function updateBuilding():void
 {
 	//place.building.capacity = game.featureCaculator.get(BuildingFeatureType.F01_CAPACITY, place.building.type, place.building.improveLevel);
 	bodyFactory();
-	//	trace(place.index, place.building.type, troopType, place.building.troopType)
+	//	trace(place.index, place.building.type, troopType, place.building.troopType);
+	healthBar.troopType = player.colorIndex(place.building.troopType);;
+	healthBar.y = place.y - ( place.building.capacity == 0 ? 100 : 150 );
+	healthBar.value = place.building._health;
 }
 
-
-public function updateTroops(population:int, troopType:int):void
+public function updateTroops(population:int, troopType:int, health:int):void
 {
-	populationIndicator.text = population + "/" + place.building.capacity;
-	populationBar.troopType = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
-	populationBar.value = population;
-	populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
+	var hasTroop:Boolean = population > 0 ;
+	populationIndicator.visible = hasTroop;
+	populationBar.visible = hasTroop;
+	populationIcon.visible = hasTroop;
+	if( hasTroop )
+	{
+		populationIndicator.text = population + "/" + place.building.capacity;
+		populationBar.troopType = player.colorIndex(troopType);
+		populationBar.value = population;
+		populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
+	}
+	
+	healthBar.troopType = player.colorIndex(troopType);
+	healthBar.value = health;
 	
 	// _-_-_-_-_-_-_-_-_-_-_-_-  troop type -_-_-_-_-_-_-_-_-_-_-_-_-_
 	var txt:String = __bodyTexture;// + place.building.type;
@@ -136,13 +156,13 @@ public function updateTroops(population:int, troopType:int):void
 
 private function placeView_updateHandler(event:Event):void
 {
-	if( place.building.troopType != player.troopType )
+	/*if( place.building.troopType != player.troopType )
 	{
 		improvablePanel.enabled = false;
 		return;
 	}
 	
-	var improvable:Boolean = false ;
+	var improvable:Boolean = false ;*/
 	/*if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
 	{
 		var options:IntList = place.building.get_options();
@@ -156,14 +176,14 @@ private function placeView_updateHandler(event:Event):void
 			}
 		}
 	}*/
-	improvablePanel.enabled = place.building.transformable(place.building) && !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator;
+	//improvablePanel.enabled = place.building.transformable(place.building) && !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator;
 }
 
 protected function defaultBodyFactory():void
 {
 	if( bodyDisplay == null )
 	{
-		__bodyTexture = place.building.type < 101 ? "building-1" : "building-14";
+		__bodyTexture = place.building.category > 0 ? "building-14" : "building-13";
 		bodyDisplay = new Image(Assets.getTexture(__bodyTexture));
 		bodyDisplay.touchable = false;
 		bodyDisplay.pivotX = bodyDisplay.width * 0.5;
@@ -174,9 +194,9 @@ protected function defaultBodyFactory():void
 		return;
 	}
 	
-	if( __bodyTexture == (place.building.type < 101 ? "building-1" : "building-14") )
+	if( __bodyTexture == (place.building.category > 0 ? "building-14" : "building-13") )
 		return;
-	__bodyTexture = place.building.type < 101 ? "building-1" : "building-14";
+	__bodyTexture = place.building.category > 0 ? "building-14" : "building-13";
 	bodyDisplay.texture = Assets.getTexture(__bodyTexture);
 }
 
@@ -215,7 +235,7 @@ public function dispose():void
 	populationIcon.removeFromParent(true);
 	populationBar.removeFromParent(true);
 	underAttack.removeFromParent(true);
-	improvablePanel.removeFromParent(true);
+	//improvablePanel.removeFromParent(true);
 	bodyDisplay.removeFromParent(true);
 	troopTypeDisplay.removeFromParent(true);
 }

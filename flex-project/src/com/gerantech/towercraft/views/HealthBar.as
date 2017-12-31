@@ -50,6 +50,7 @@ override protected function initialize():void
 	fillDisplay = new ImageLoader();
 	fillDisplay.scale9Grid = scaleRect;
 	fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType, atlas);
+	fillDisplay.width =  width*(value/maximum);
 	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChild(fillDisplay);
 }
@@ -67,7 +68,6 @@ public function set value(v:Number):void
 		v = maximum;
 	if( v < 0 )
 		v = 0;
-	//trace(v, maximum)
 	_value = v;
 	if( fillDisplay )
 		fillDisplay.width =  width*(v/maximum);

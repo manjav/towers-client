@@ -40,7 +40,6 @@ private var defensiveWeapon:DefensiveWeapon;
 private var arrow:MovieClip;
 private var rushTimeoutId:uint;
 private var _selectable:Boolean;
-private var wishedPopulation:int;
 
 public function PlaceView(place:Place)
 {
@@ -59,8 +58,9 @@ public function PlaceView(place:Place)
 
 	createDecorator();
 	createArrow();
-	place.building.createEngine(place.building.troopType);
-	place.building._population = wishedPopulation = place.building.get_population();
+	place.building.reset(place.building.troopType);
+	place.building._health = place.building.get_health();
+	place.building._population = place.building.get_population();
 }
 
 private function createDecorator():void
@@ -116,16 +116,17 @@ public function set selectable(value:Boolean):void
 	_selectable = value;
 }
 
-public function update(population:int, troopType:int) : void
+public function update(population:int, troopType:int, health:int) : void
 {
 	showMidSwipesTutorial(troopType);
-	decorator.updateTroops(population, troopType);
-	if( population < wishedPopulation )
+	decorator.updateTroops(population, troopType, health);
+	if( place.building._health != health )
 		decorator.showUnderAttack();
 
-	if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
-		wishedPopulation = population;
+	//if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
+	//	wishedPopulation = population;
 	place.building._population = population;
+	place.building._health = health;
 	place.building.troopType = troopType;
 	
 	if(hasEventListener(Event.UPDATE))
@@ -171,12 +172,11 @@ private function getPlace(index:int):PlaceData
 
 public function fight(destination:Place) : void
 {
-	wishedPopulation = Math.floor(place.building._population * 0.5);
 	var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getAllTowers(-1));
 	if(path == null || destination.building == place.building)
 		return;
 	
-	var len:int = Math.floor(place.building.get_population() / 2);
+	var len:int = place.building.get_population() ;
 	for(var i:uint=0; i<len; i++)
 	{
 		var t:TroopView = new TroopView(place.building, path);
@@ -222,7 +222,8 @@ public function replaceBuilding(type:int, level:int, improveLevel:int):void
 	var _newcate:int = CardTypes.get_category(type);
 	
 	place.building.set_level(level);
-	place.building.improveLevel = improveLevel;
+	place.building._health = place.health;
+	//place.building.improveLevel = improveLevel;
 	place.building.type = type;
 	place.building.setFeatures();
 	decorator.updateBuilding();

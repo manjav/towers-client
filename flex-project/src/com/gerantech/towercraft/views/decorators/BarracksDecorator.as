@@ -16,9 +16,9 @@ package com.gerantech.towercraft.views.decorators
 			super(placeView);
 		}
 		
-		override public function updateTroops(population:int, troopType:int):void
+		override public function updateTroops(population:int, troopType:int, health:int):void
 		{
-			super.updateTroops(population, troopType);
+			super.updateTroops(population, troopType, health);
 
 			if( place.building.category == 0 ) 
 				return;

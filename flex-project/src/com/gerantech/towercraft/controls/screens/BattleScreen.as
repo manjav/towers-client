@@ -430,7 +430,7 @@ package com.gerantech.towercraft.controls.screens
 				*/
 			if( event.params.changedVars.indexOf("towers") > -1 )
 				updateTowersFromRoomVars();
-			
+						
 			if( event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
 			{
 				var towers:SFSArray = event.params.room.getVariable("s").getValue() as SFSArray;
@@ -442,7 +442,7 @@ package com.gerantech.towercraft.controls.screens
 			
 			sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 		}
-		
+
 		private function updateTowersFromRoomVars():void
 		{
 			if( !appModel.battleFieldView.battleData.room.containsVariable("towers") )
@@ -450,8 +450,8 @@ package com.gerantech.towercraft.controls.screens
 			var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
 			for(var i:int=0; i<towers.size(); i++)
 			{
-				var t:Array = towers.getText(i).split(",");//trace(t)
-				appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
+				var t:Array = towers.getText(i).split(",");
+				appModel.battleFieldView.places[t[0]].update(t[1], t[2], t[3]);
 			}
 		}
 		
@@ -462,7 +462,7 @@ package com.gerantech.towercraft.controls.screens
 			{
 				var b:ISFSObject = data.getSFSArray("buildings").getSFSObject(i);
 				appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"), b.getInt("m"));
-				appModel.battleFieldView.places[b.getInt("i")].update(b.getInt("p"), b.getInt("tt"));
+				appModel.battleFieldView.places[b.getInt("i")].update(b.getInt("p"), b.getInt("tt"), appModel.battleFieldView.places[b.getInt("i")].place.building._health);
 			}
 		}
 		

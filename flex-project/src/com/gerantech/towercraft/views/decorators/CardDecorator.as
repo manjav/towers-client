@@ -35,8 +35,8 @@ private function cardDisplyFactory():void
 		fieldView.guiImagesContainer.addChild(cardDisplay);
 		return;
 	}
-	
-	if( __cardTexture == "cards/"+place.building.type )
+	cardDisplay.visible = place.building.type > 101;
+	if( place.building.type < 101 || __cardTexture == "cards/"+place.building.type )
 		return;
 	__cardTexture = "cards/"+place.building.type;
 	cardDisplay.texture = Assets.getTexture(__cardTexture);
