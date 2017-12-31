@@ -37,9 +37,9 @@ protected var __bodyTexture:String;
 protected var __troopTypeTexture:String;
 
 private var populationIndicator:BitmapFontTextRenderer;
-private var populationBar:HealthBar;
+//private var populationBar:HealthBar;
 private var healthBar:HealthBar;
-private var populationIcon:Image;
+//private var populationIcon:Image;
 private var underAttack:MovieClip;
 private var underAttackId:uint;
 //public var improvablePanel:ImprovablePanel;
@@ -63,26 +63,26 @@ public function BuildingDecorator(placeView:PlaceView)
 	healthBar.y = place.y - 100;
 	fieldView.guiImagesContainer.addChild(healthBar);
 	
-	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.capacity);
+	/*populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.capacity);
 	populationBar.width = 140;
 	populationBar.height = 38;
 	populationBar.x = place.x - populationBar.width * 0.5 + 24;
 	populationBar.y = place.y + 40;
-	fieldView.guiImagesContainer.addChild(populationBar);
+	fieldView.guiImagesContainer.addChild(populationBar);*/
 
 	populationIndicator = new BitmapFontTextRenderer();
-	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
-	populationIndicator.width = populationBar.width;
+	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 42, 0xFFFFFF, "right")
+	populationIndicator.width = 80;
 	populationIndicator.touchable = false;
-	populationIndicator.x = place.x - populationIndicator.width * 0.5 + 24 ;
-	populationIndicator.y = place.y + 24;
+	populationIndicator.x = place.x - 40;
+	populationIndicator.y = place.y - 26;
 	fieldView.guiTextsContainer.addChild(populationIndicator);
-	
+	/*
 	populationIcon = new Image(Assets.getTexture("population-" + place.building.troopType));
 	populationIcon.touchable = false;
 	populationIcon.x = place.x - populationBar.width/2 - 18;
 	populationIcon.y = place.y + 35;
-	fieldView.guiImagesContainer.addChild(populationIcon);
+	fieldView.guiImagesContainer.addChild(populationIcon);*/
 
 	/*improvablePanel = new ImprovablePanel();
 	improvablePanel.x = place.x - improvablePanel.width/2;
@@ -112,14 +112,14 @@ public function updateTroops(population:int, troopType:int, health:int):void
 {
 	var hasTroop:Boolean = population > 0 ;
 	populationIndicator.visible = hasTroop;
-	populationBar.visible = hasTroop;
-	populationIcon.visible = hasTroop;
+	//populationBar.visible = hasTroop;
+	//populationIcon.visible = hasTroop;
 	if( hasTroop )
 	{
-		populationIndicator.text = population + "/" + place.building.capacity;
-		populationBar.troopType = player.colorIndex(troopType);
-		populationBar.value = population;
-		populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
+		populationIndicator.text = "x " + population// + "/" + place.building.capacity;
+		//populationBar.troopType = player.colorIndex(troopType);
+		//populationBar.value = population;
+		//populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
 	}
 	
 	healthBar.troopType = player.colorIndex(troopType);
@@ -232,8 +232,8 @@ protected function get fieldView():		BattleFieldView {	return AppModel.instance.
 public function dispose():void
 {
 	populationIndicator.removeFromParent(true);
-	populationIcon.removeFromParent(true);
-	populationBar.removeFromParent(true);
+//	populationIcon.removeFromParent(true);
+//	populationBar.removeFromParent(true);
 	underAttack.removeFromParent(true);
 	//improvablePanel.removeFromParent(true);
 	bodyDisplay.removeFromParent(true);
