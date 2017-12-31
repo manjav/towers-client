@@ -119,12 +119,12 @@ package com.gerantech.towercraft.controls
 			
 			addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 			
-			if( player.get_questIndex() >= 2 && !player.hardMode )
-			{
+			//if( player.get_questIndex() >= 2 && !player.hardMode )
+			//{
 				deck = new BattleFooter();
 				deck.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 				addChild(deck);
-			}
+			//}
 			
 			if( !battleData.map.isQuest )
 			{
