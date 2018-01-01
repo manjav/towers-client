@@ -33,7 +33,7 @@ package com.gerantech.towercraft.views
 		{
 			super.initialize();
 			layout = new AnchorLayout();
-			y = (stage.stageHeight-1920*appModel.scale)/2;
+			y = (stage.stageHeight - 2100 * appModel.scale) * 0.5;
 			scale = appModel.scale;
 			
 			// add dummy object to tile arroud display

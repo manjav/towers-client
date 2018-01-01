@@ -142,8 +142,8 @@ public function updateTroops(population:int, troopType:int, health:int):void
 			// punch scale on occupation
 			bodyDisplay.scale = 1.3;
 			troopTypeDisplay.scale = 1.3;
-			Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
-			Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
+			Starling.juggler.tween(bodyDisplay, 0.25, {scale:getScale()});
+			Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:getScale()});
 			
 			var tsound:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
 			if( appModel.sounds.soundIsAdded(tsound) )
@@ -153,6 +153,7 @@ public function updateTroops(population:int, troopType:int, health:int):void
 		}
 	}
 }
+
 
 private function placeView_updateHandler(event:Event):void
 {
@@ -183,23 +184,39 @@ protected function defaultBodyFactory():void
 {
 	if( bodyDisplay == null )
 	{
-		__bodyTexture = place.building.category > 0 ? "building-14" : "building-13";
+		__bodyTexture = getBodyTexture();
 		bodyDisplay = new Image(Assets.getTexture(__bodyTexture));
 		bodyDisplay.touchable = false;
 		bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 		bodyDisplay.pivotY = bodyDisplay.height * 0.8;
 		bodyDisplay.x = place.x;
-		bodyDisplay.y = place.y;	
+		bodyDisplay.y = place.y;
 		fieldView.buildingsContainer.addChild(bodyDisplay);
 		return;
 	}
 	
-	if( __bodyTexture == (place.building.category > 0 ? "building-14" : "building-13") )
+	if( __bodyTexture ==  getBodyTexture() )
 		return;
-	__bodyTexture = place.building.category > 0 ? "building-14" : "building-13";
+	__bodyTexture = getBodyTexture();
 	bodyDisplay.texture = Assets.getTexture(__bodyTexture);
 }
 
+protected function getBodyTexture():String
+{
+	switch( place.mode )
+	{
+		case 2: return place.building.category == CardTypes.C500 ? "building-44" : "building-14";
+		case 1: return place.building.category == CardTypes.C500 ? "building-43" : "building-13";
+		case 0: return place.building.category == CardTypes.C500 ? "building-41" : "building-31";
+	}
+	return "building-31";
+}
+protected function getScale():Number
+{
+	if( place.mode == 0 ) 
+		return 1;
+	return (place.mode == 2 ? 1.3 : 1.2);
+}
 protected function defaultTroopTypeFactory():void
 {
 	if( troopTypeDisplay != null )

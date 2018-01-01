@@ -20,9 +20,9 @@ package com.gerantech.towercraft.views.decorators
 		{
 			super.updateTroops(population, troopType, health);
 
-			if( place.building.category == 0 ) 
+			if( place.mode == 0 ) 
 				return;
-			var txt:String = "building-flag-14"// + place.building.type;
+			var txt:String = "building-flag-" + (place.mode==1?"13":"14");//place.building.type;
 			if( troopType > -1 )
 				txt += troopType == player.troopType ? "-0" : "-1";
 			else
@@ -47,6 +47,7 @@ package com.gerantech.towercraft.views.decorators
 			flagDisplay.pivotY = flagDisplay.height * 0.8;
 			flagDisplay.x = place.x;
 			flagDisplay.y = place.y;	
+			flagDisplay.scale = getScale();	
 			fieldView.buildingsContainer.addChild(flagDisplay);
 			Starling.juggler.add(flagDisplay);
 
