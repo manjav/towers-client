@@ -38,7 +38,7 @@ override protected function initialize():void
 	addChild(card);
 	card.type = type;
 	
-	if( type == CardTypes.C101 )
+	if( type == CardTypes.INITIAL )
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 }
 

@@ -439,7 +439,7 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	updateData();
 	
 	// dispatch tutorial event
-	if( player.inTutorial() && building.type == CardTypes.C101 && building.get_level() == 2 )
+	if( player.inTutorial() && building.type == CardTypes.INITIAL && building.get_level() == 2 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
 		tutorials.dispatchEventWith("upgrade");

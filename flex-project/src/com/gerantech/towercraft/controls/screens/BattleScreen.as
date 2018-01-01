@@ -403,9 +403,9 @@ package com.gerantech.towercraft.controls.screens
 			var tutorial:TutorialData = event.data as TutorialData;
 			if( tutorial.name == "quest_2_end" )
 			{
-				if( player.buildings.get(CardTypes.C101).get_level() == 1 )
+				if( player.buildings.get(CardTypes.INITIAL).get_level() == 1 )
 				{
-					if( player.resources.get(CardTypes.C101) > 1 )
+					if( player.resources.get(CardTypes.INITIAL) > 1 )
 						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
 					else
 						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
