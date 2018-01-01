@@ -120,7 +120,7 @@ public function update(population:int, troopType:int, health:int) : void
 {
 	showMidSwipesTutorial(troopType);
 	decorator.updateTroops(population, troopType, health);
-	if( place.building._health != health )
+	if( place.building._health > health )
 		decorator.showUnderAttack();
 
 	//if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
