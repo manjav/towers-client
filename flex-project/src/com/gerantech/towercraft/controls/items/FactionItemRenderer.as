@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -23,7 +23,6 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalLayout;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 
@@ -141,7 +140,7 @@ private function createElements():void
 	
 	var cards:Array = new Array();
 	for (var i:int = 0; i < faction.cards.size(); i++) 
-		cards.push( playerLeague>=faction.index ? faction.cards.get(i) : 900+i );
+		cards.push( faction.cards.get(i) );
 	
 	
 	// cards elements
@@ -201,7 +200,7 @@ private function createElements():void
 private function cardsList_focusInHandler(event:Event):void
 {
 	var type:int = BuildingItemRenderer(event.data).data as int;
-	if( type >= 900 )
+	if( playerLeague < faction.index )
 		return;
 	var detailsPopup:CardDetailsPopup = new CardDetailsPopup();
 	detailsPopup.buildingType = type;
