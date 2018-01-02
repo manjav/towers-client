@@ -96,7 +96,7 @@ override protected function initialize():void
 	
 	var populationIcon:ImageLoader = new ImageLoader();
 	populationIcon.touchable = false;
-	populationIcon.scale = appModel.scale * 2;
+	populationIcon.scale = appModel.scale * 4;
 	populationIcon.source = Assets.getTexture("population-0", "gui");
 	populationIcon.layoutData = new AnchorLayoutData(NaN, NaN, -padding, padding);
 	addChild(populationIcon);
@@ -125,7 +125,6 @@ private function createDeckItem(i:int):void
 	cards.push(card);
 	cardsContainer.addChild(card);
 }
-
 
 private function touchHandler(event:TouchEvent):void
 {
@@ -169,7 +168,6 @@ private function touchHandler(event:TouchEvent):void
 		else if( touch.phase == TouchPhase.ENDED )
 		{
 			place = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			trace(draggableCard.data, draggableCard.type)
 			var card:Building = appModel.battleFieldView.battleData.battleField.deckBuildings.get(draggableCard.data as int).building;
 			if( place != null && place.place.building.transformable(card) )
 				appModel.battleFieldView.responseSender.improveBuilding(place.place.index, draggableCard.data as int);

@@ -134,13 +134,13 @@ package com.gerantech.towercraft.controls
 					stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
 					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 					stickerButton.width = 140 * appModel.scale;
-					stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*5, padding);
+					stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*10, padding);
 					stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 					addChild(stickerButton);
 				}
 				
 				myBubble = new StickerBubble();
-				myBubble.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding);
+				myBubble.layoutData = new AnchorLayoutData( NaN, NaN, padding*13, padding);
 				
 				opponentBubble = new StickerBubble(true);
 				opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
