@@ -32,7 +32,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var score:int = rewards.getSFSObject(0).getInt("score");
+	var score:int = rewards.getSFSObject(0).getInt("key");
 	var message:String;
 	if( playerIndex == -1 )
 		message = "quest_end_label";

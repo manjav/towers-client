@@ -83,7 +83,7 @@ package
 			this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 			//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 			this.starling.supportHighResolutions = true;
-			this.starling.showStatsAt("left", "bottom", 0.8);
+			//this.starling.showStatsAt("left", "bottom", 0.8);
 			this.starling.skipUnchangedFrames = true;
 			this.starling.start();
 			this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
