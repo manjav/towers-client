@@ -131,7 +131,7 @@ package com.gerantech.towercraft.controls
 				if( !SFSConnection.instance.mySelf.isSpectator )
 				{
 					stickerButton = new CustomButton();
-					stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+					stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
 					stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
 					stickerButton.width = 140 * appModel.scale;
 					stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*5, padding);

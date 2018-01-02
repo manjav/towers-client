@@ -45,7 +45,7 @@ private var populationBar:HealthBar;
 public function BattleFooter()
 {
 	super();
-	_height = 260 * appModel.scale;
+	_height = 300 * appModel.scale;
 	_scaleDistance = 500 * appModel.scale;
 }
 
@@ -82,8 +82,8 @@ override protected function initialize():void
 	
 	populationBar = new HealthBar(0, appModel.battleFieldView.battleData.battleField.populationBar.get(player.troopType), BattleField.POPULATION_MAX);
 	populationBar.atlas = "gui";
-	populationBar.layoutData = new AnchorLayoutData(NaN, padding, padding, padding * 4);
-	populationBar.height = 38 * appModel.scale;
+	populationBar.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, padding*8);
+	populationBar.height = 44 * appModel.scale;
 	addChild(populationBar);
 	
 	/*populationIndicator = new BitmapFontTextRenderer();
