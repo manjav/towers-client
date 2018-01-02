@@ -30,12 +30,12 @@ protected var showAdOffer:Boolean;
 
 public function EndOverlay(playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean=false)
 {
-	super();
+	super();trace(rewards.getDump())
 	this.rewards = rewards;
 	this.tutorialMode = tutorialMode;
 	this.playerIndex = playerIndex;
 	if( playerIndex > -1 )
-		score = rewards.getSFSObject(playerIndex).getInt("score");
+		score = rewards.getSFSObject(playerIndex).getInt("key");
 }
 
 override protected function initialize():void

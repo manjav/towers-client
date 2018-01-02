@@ -31,7 +31,7 @@ override protected function initialize():void
 	
 	var reward_1:ISFSObject = rewards.getSFSObject(playerIndex==-1?1:1-playerIndex);
 	var reward_2:ISFSObject = rewards.getSFSObject(playerIndex==-1?0:playerIndex);
-	var isDraw:Boolean = reward_1.getInt("score") == reward_2.getInt("score") ;
+	var isDraw:Boolean = reward_1.getInt("key") == reward_2.getInt("key") ;
 	var pi:int = playerIndex == -1 ? 0 : playerIndex;
 	
 	if( isDraw || player.inFriendlyBattle )
@@ -47,18 +47,18 @@ override protected function initialize():void
 	var header_1:BattleHeader = new BattleHeader(reward_1.getText("name"), reward_1.getInt("id")==player.id);
 	header_1.layoutData = new AnchorLayoutData(padding * 11, 0, NaN, 0);
 	addChild(header_1);
-	header_1.addScoreImages(reward_1.getInt("score"));
+	header_1.addScoreImages(reward_1.getInt("key"));
 	if( !isDraw )
-		header_1.showWinnerLabel(reward_1.getInt("score")>reward_2.getInt("score"));
+		header_1.showWinnerLabel(reward_1.getInt("key")>reward_2.getInt("key"));
 	
 	
 	// header 2
 	var header_2:BattleHeader = new BattleHeader(reward_2.getText("name"), reward_2.getInt("id")==player.id);
 	header_2.layoutData = new AnchorLayoutData(padding * 20, 0, NaN, 0);
 	addChild(header_2);
-	header_2.addScoreImages(reward_2.getInt("score"));
+	header_2.addScoreImages(reward_2.getInt("key"));
 	if( !isDraw )
-		header_2.showWinnerLabel(reward_2.getInt("score")>reward_1.getInt("score"));
+		header_2.showWinnerLabel(reward_2.getInt("key")>reward_1.getInt("key"));
 
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;

@@ -77,9 +77,9 @@ var rwards:SFSArray = new SFSArray();
 for (var i:int = 0; i < 2; i++) 
 {
 	var sfs:SFSObject = new SFSObject();
-	sfs.putInt("score", i==0?2:0);
-	sfs.putInt("id", i==0?10383:214);
-	sfs.putText("name", i==0?"10383":"214");
+	sfs.putInt("key", i==0?2:0);
+	sfs.putInt("id", i==0?10001:214);
+	sfs.putText("name", i==0?"10001":"214");
 	rwards.addSFSObject(sfs);
 }
 appModel.battleFieldView = new BattleFieldView();
