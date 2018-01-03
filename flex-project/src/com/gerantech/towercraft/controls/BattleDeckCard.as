@@ -47,7 +47,7 @@ override protected function initialize():void
 public function updateData():void
 {
 	//Starling.juggler.tween(populationBar, 0.5, {value:building._population, transition:Transitions.EASE_OUT_ELASTIC});
-	card.touchable = appModel.battleFieldView.battleData.battleField.populationBar.get(player.troopType) >= building.capacity;
+	card.touchable = appModel.battleFieldView.battleData.battleField.elixirBar.get(player.troopType) >= building.elixirSize;
 	card.alpha = card.touchable ? 1 : 0.5;
 	//populationBar.value = building._population;
 }
@@ -57,7 +57,5 @@ override public function dispose():void
 	Starling.juggler.removeTweens(populationBar);
 	super.dispose();
 }
-
-
 }
 }

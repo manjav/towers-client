@@ -40,7 +40,7 @@ private var cardsContainer:LayoutGroup;
 private var draggableCard:BuildingCard;
 private var touchId:int;
 
-private var populationBar:HealthBar;
+private var elixirBar:HealthBar;
 
 public function BattleFooter()
 {
@@ -80,15 +80,15 @@ override protected function initialize():void
 	draggableCard.pivotY = draggableCard.height * 0.5;
 	draggableCard.includeInLayout = false;
 	
-	populationBar = new HealthBar(0, appModel.battleFieldView.battleData.battleField.populationBar.get(player.troopType), BattleField.POPULATION_MAX);
-	populationBar.atlas = "gui";
-	populationBar.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, padding*8);
-	populationBar.height = 44 * appModel.scale;
-	addChild(populationBar);
+	elixirBar = new HealthBar(0, appModel.battleFieldView.battleData.battleField.elixirBar.get(player.troopType), BattleField.POPULATION_MAX);
+	elixirBar.atlas = "gui";
+	elixirBar.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, padding*8);
+	elixirBar.height = 44 * appModel.scale;
+	addChild(elixirBar);
 	
 	/*populationIndicator = new BitmapFontTextRenderer();
 	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
-	populationIndicator.width = populationBar.width;
+	populationIndicator.width = elixirBar.width;
 	populationIndicator.touchable = false;
 	populationIndicator.x = place.x - populationIndicator.width * 0.5 + 24 ;
 	populationIndicator.y = place.y + 24;
@@ -110,12 +110,11 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	if( !appModel.battleFieldView.battleData.room.containsVariable("bars") )
 		return;
 	var bars:SFSObject = appModel.battleFieldView.battleData.room.getVariable("bars").getValue() as SFSObject;
-	appModel.battleFieldView.battleData.battleField.populationBar.set(0, bars.getInt("0"));
-	appModel.battleFieldView.battleData.battleField.populationBar.set(1, bars.getInt("1"));
-	populationBar.value = appModel.battleFieldView.battleData.battleField.populationBar.get(player.troopType);
+	appModel.battleFieldView.battleData.battleField.elixirBar.set(0, bars.getInt("0"));
+	appModel.battleFieldView.battleData.battleField.elixirBar.set(1, bars.getInt("1"));
+	elixirBar.value = appModel.battleFieldView.battleData.battleField.elixirBar.get(player.troopType);
 	for( var i:int=0; i<cards.length; i++)
 		cards[i].updateData();
-	
 }
 
 private function createDeckItem(i:int):void
