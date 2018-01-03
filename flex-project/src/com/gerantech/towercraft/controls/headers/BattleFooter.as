@@ -73,6 +73,7 @@ override protected function initialize():void
 	
 	draggableCard = new BuildingCard();
 	draggableCard.showLevel = false;
+	draggableCard.showElixir = false;
 	draggableCard.showSlider = false;
 	draggableCard.width = 180 * appModel.scale;
 	draggableCard.height = 210 * appModel.scale;
