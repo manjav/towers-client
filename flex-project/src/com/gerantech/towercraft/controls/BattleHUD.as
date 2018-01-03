@@ -50,7 +50,6 @@ private var scoreIndex:int = 0;
 private var timeLog:RTLLabel;
 private var debugMode:Boolean = false;
 
-private var stickerButton:CustomButton;
 private var deck:BattleFooter;
 
 public function BattleHUD()
@@ -130,16 +129,7 @@ override protected function initialize():void
 	
 	if( !battleData.map.isQuest )
 	{
-		if( !SFSConnection.instance.mySelf.isSpectator )
-		{
-			stickerButton = new CustomButton();
-			stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
-			stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
-			stickerButton.width = 140 * appModel.scale;
-			stickerButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*10, padding);
-			stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
-			addChild(stickerButton);
-		}
+		deck.addEventListener(FeathersEventType.BEGIN_INTERACTION, stickerButton_triggeredHandler);
 		
 		myBubble = new StickerBubble();
 		myBubble.layoutData = new AnchorLayoutData( NaN, NaN, padding*13, padding);
@@ -224,7 +214,7 @@ private function closeButton_triggeredHandler(event:Event):void
 
 private function stickerButton_triggeredHandler(event:Event):void
 {
-	stickerButton.visible = false;
+	deck.stickerButton.visible = false;
 	if( stickerList == null )
 	{
 		var stickersLayout:TiledRowsLayout = new TiledRowsLayout();
@@ -268,7 +258,7 @@ private function hideStickerList():void
 private function stickerCloserOveraly_triggeredHandler(event:Event):void
 {
 	hideStickerList();
-	stickerButton.visible = true;
+	deck.stickerButton.visible = true;
 }
 
 private function stickerList_changeHandler(event:Event):void
@@ -297,7 +287,7 @@ private function hideBubble(bubble:StickerBubble):void
 {
 	bubble.removeFromParent();
 	if( !SFSConnection.instance.mySelf.isSpectator )
-		stickerButton.visible = true;
+		deck.stickerButton.visible = true;
 }
 
 override public function dispose():void

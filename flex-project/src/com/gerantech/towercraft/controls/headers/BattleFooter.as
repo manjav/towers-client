@@ -3,26 +3,30 @@ package com.gerantech.towercraft.controls.headers
 import com.gerantech.towercraft.controls.BattleDeckCard;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.TowersLayout;
+import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.buildings.Building;
-import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
+import feathers.controls.text.BitmapFontTextRenderer;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
+import feathers.text.BitmapFontTextFormat;
 
 import starling.core.Starling;
+import starling.display.Image;
 import starling.display.Quad;
 import starling.events.Event;
 import starling.events.Touch;
@@ -40,12 +44,15 @@ private var cardsContainer:LayoutGroup;
 private var draggableCard:BuildingCard;
 private var touchId:int;
 
-private var elixirBar:HealthBar;
+private var elixirBar:ElixirBar;
+private var elixirCountDisplay:BitmapFontTextRenderer;
+public var stickerButton:CustomButton;
 
 public function BattleFooter()
 {
 	super();
 	_height = 300 * appModel.scale;
+	padding = 12 * appModel.scale;
 	_scaleDistance = 500 * appModel.scale;
 }
 
@@ -81,29 +88,28 @@ override protected function initialize():void
 	draggableCard.pivotY = draggableCard.height * 0.5;
 	draggableCard.includeInLayout = false;
 	
-	elixirBar = new HealthBar(0, appModel.battleFieldView.battleData.battleField.elixirBar.get(player.troopType), BattleField.POPULATION_MAX);
-	elixirBar.atlas = "gui";
-	elixirBar.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, padding*8);
-	elixirBar.height = 44 * appModel.scale;
+	if( !SFSConnection.instance.mySelf.isSpectator )
+	{
+		stickerButton = new CustomButton();
+		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
+		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+		stickerButton.width = 140 * appModel.scale;
+		stickerButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
+		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
+		addChild(stickerButton);
+	}
+	
+	elixirBar = new ElixirBar();
+	elixirBar.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 	addChild(elixirBar);
-	
-	/*populationIndicator = new BitmapFontTextRenderer();
-	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
-	populationIndicator.width = elixirBar.width;
-	populationIndicator.touchable = false;
-	populationIndicator.x = place.x - populationIndicator.width * 0.5 + 24 ;
-	populationIndicator.y = place.y + 24;
-	fieldView.guiTextsContainer.addChild(populationIndicator);*/
-	
-	var populationIcon:ImageLoader = new ImageLoader();
-	populationIcon.touchable = false;
-	populationIcon.scale = appModel.scale * 4;
-	populationIcon.source = Assets.getTexture("population-0", "gui");
-	populationIcon.layoutData = new AnchorLayoutData(NaN, NaN, -padding, padding);
-	addChild(populationIcon);
-	
+		
 	addEventListener(TouchEvent.TOUCH, touchHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
+}
+
+private function stickerButton_triggeredHandler():void
+{
+	dispatchEventWith(FeathersEventType.BEGIN_INTERACTION);
 }
 
 protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
