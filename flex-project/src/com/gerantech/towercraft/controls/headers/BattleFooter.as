@@ -170,7 +170,10 @@ private function touchHandler(event:TouchEvent):void
 			place = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 			var card:Building = appModel.battleFieldView.battleData.battleField.deckBuildings.get(draggableCard.data as int).building;
 			if( place != null && place.place.building.transformable(card) )
+			{
 				appModel.battleFieldView.responseSender.improveBuilding(place.place.index, draggableCard.data as int);
+				place.showDeployWaiting(card);
+			}
 			
 			Starling.juggler.tween(draggableCard, 0.1, {scale:0, onComplete:draggableCard.removeFromParent});
 		/*var cardIndex:int = deckHeader.getCardIndex(touch);

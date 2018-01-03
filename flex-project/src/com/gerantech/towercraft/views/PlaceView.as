@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views
 {
+import com.gerantech.towercraft.controls.items.TimerIcon;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
@@ -12,6 +13,7 @@ import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
 import com.gt.towers.battle.fieldes.PlaceData;
+import com.gt.towers.buildings.Building;
 import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.utils.PathFinder;
@@ -34,6 +36,7 @@ public class PlaceView extends Sprite
 public var place:Place;
 public var raduis:Number;
 public var arrowContainer:Sprite;
+private var timerIcon:TimerIcon;
 private var decorator:BuildingDecorator;
 private var defensiveWeapon:DefensiveWeapon;
 
@@ -204,6 +207,23 @@ public function rush(t:TroopView):void
 {
 	if( place.building.get_population() > 0 )
 		t.rush(place);
+}
+
+public function showDeployWaiting(card:Building):void
+{
+	if( timerIcon == null )
+	{
+		timerIcon = new TimerIcon();
+		timerIcon.stop();
+		timerIcon.x = x;
+		timerIcon.y = y - 80;
+	}
+	appModel.battleFieldView.guiImagesContainer.addChild(timerIcon);
+	setTimeout(timerIcon.punch, 100);
+	var delay:Number = card.deployTime + 0.1;
+	timerIcon.rotateTo(0, 360, delay);
+	setTimeout(timerIcon.punch, delay*1000);
+	setTimeout(timerIcon.removeFromParent, card.deployTime*1000+50);
 }
 
 public function replaceBuilding(type:int, level:int, improveLevel:int):void
