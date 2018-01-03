@@ -14,10 +14,15 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 
+import starling.events.Event;
+
 public class BuildingCard extends TowersLayout
 {
-private var iconDisplay:ImageLoader;
-private var sliderDisplay:BuildingSlider;
+	
+public var levelDisplayFactory:Function;
+public var elixirDisplayFactory:Function;
+public var sliderDisplayFactory:Function;
+public var data:Object;
 
 private var _type:int = -1;
 private var _level:int = 0;
@@ -28,20 +33,13 @@ private var _showSlider:Boolean = true;
 private var _showLevel:Boolean = true;
 private var _rarity:int = 0;
 
-private var skin:ImageSkin;
-private var levelDisplay:RTLLabel;
-private var elixirDisplay:RTLLabel;
-
-
-public var levelDisplayFactory:Function;
-public var elixirDisplayFactory:Function;
-public var sliderDisplayFactory:Function;
-public var data:Object;
-
 private var padding:int;
 
+private var skin:ImageSkin;
+private var levelDisplay:RTLLabel;
+private var iconDisplay:ImageLoader;
+private var sliderDisplay:BuildingSlider;
 private var levelBackground:ImageLoader;
-
 private var rarityDisplay:ImageLoader;
 private var labelsContainer:LayoutGroup;
 
@@ -54,13 +52,6 @@ public function BuildingCard()
 override protected function initialize():void
 {
 	super.initialize();
-	
-	/*skin = new ImageSkin(Assets.getTexture("theme/building-button", "gui"));
-	skin.pixelSnapping = false;
-	skin.setTextureForState("normal", Assets.getTexture("theme/building-button", "gui"));
-	skin.setTextureForState("locked", Assets.getTexture("theme/building-button-disable", "gui"));
-	skin.scale9Grid = new Rectangle(10, 10, 56, 37);
-	backgroundSkin = skin;*/
 	
 	layout= new AnchorLayout();
 	padding = 16 * appModel.scale;
@@ -78,7 +69,7 @@ override protected function initialize():void
 	addChild(coverDisplay);
 	
 	labelsContainer.layout = new AnchorLayout();
-	labelsContainer.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	labelsContainer.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	
 	if( levelDisplayFactory == null )
 		levelDisplayFactory = defaultLevelDisplayFactory;
@@ -93,6 +84,13 @@ override protected function initialize():void
 	type = -1;
 	type = t;
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
+	addEventListener(Event.ADDED, addedHandler);
+}
+
+private function addedHandler():void
+{
+	if( labelsContainer )
+		addChild(labelsContainer);	
 }
 
 private function createCompleteHandler():void
@@ -129,9 +127,6 @@ public function set type(value:int):void
 	rarity = building.rarity;
 	level = building.get_level();
 	elixir = building.elixirSize;
-	
-	if( labelsContainer )
-		addChild(labelsContainer);
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  LOCKED  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -202,9 +197,6 @@ public function set level(value:int):void
 	_level = value;
 	levelDisplayFactory();
 	sliderDisplayFactory();
-	
-	if( labelsContainer )
-		addChild(labelsContainer);
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ELIXIR SIZE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -220,26 +212,17 @@ public function set showElixir(value:Boolean):void
 	_showElixir = value;
 	if( elixirDisplayFactory != null )
 		elixirDisplayFactory();
-	if ( elixirDisplay )
-		elixirDisplay.visible = !_locked && _showElixir;
-	//if ( levelBackground )
-	//	levelBackground.visible = !_locked && _showLevel;
 }
 protected function defaultElixirDisplayFactory():void
 {
 	if( !_showElixir || _locked || _type < 0 )
 		return;
 	
-	if( elixirDisplay != null )
-	{
-		elixirDisplay.text = elixir.toString();
-		return;
-	}
-	
-	elixirDisplay = new RTLLabel(elixir.toString(), 1, "center", null, false, null, 0.8);
-	elixirDisplay.height = 56 * appModel.scale;
-	elixirDisplay.layoutData = new AnchorLayoutData(-6*appModel.scale, NaN, NaN, -6*appModel.scale);
-	labelsContainer.addChild(elixirDisplay);
+	var elixirBackground:ImageLoader = new ImageLoader();
+	elixirBackground.source = Assets.getTexture("cards/elixir-"+_elixir, "gui");
+	elixirBackground.scale = appModel.scale * 2.4;
+	elixirBackground.layoutData = new AnchorLayoutData(-padding*0.3, NaN, NaN, -padding*0.3);
+	addChild(elixirBackground);
 }
 
 public function get elixir():int
@@ -253,9 +236,6 @@ public function set elixir(value:int):void
 	
 	_elixir = value;
 	elixirDisplayFactory();
-	
-	if( elixirDisplay )
-		addChild(elixirDisplay);
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  SLIDER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -287,7 +267,6 @@ protected function defaultSliderDisplayFactory():void
 	{
 		sliderDisplay.maximum = upgradeCards;
 		sliderDisplay.value = numBuildings;
-		addChild(labelsContainer);
 		return;
 	}
 	sliderDisplay = new BuildingSlider();
