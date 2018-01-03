@@ -21,6 +21,8 @@ private var sliderDisplay:BuildingSlider;
 
 private var _type:int = -1;
 private var _level:int = 0;
+private var _elixir:int = 0;
+private var _showElixir:Boolean = true;
 private var _locked:Boolean = false;
 private var _showSlider:Boolean = true;
 private var _showLevel:Boolean = true;
@@ -28,9 +30,11 @@ private var _rarity:int = 0;
 
 private var skin:ImageSkin;
 private var levelDisplay:RTLLabel;
+private var elixirDisplay:RTLLabel;
 
 
 public var levelDisplayFactory:Function;
+public var elixirDisplayFactory:Function;
 public var sliderDisplayFactory:Function;
 public var data:Object;
 
@@ -78,7 +82,10 @@ override protected function initialize():void
 	
 	if( levelDisplayFactory == null )
 		levelDisplayFactory = defaultLevelDisplayFactory;
-
+	
+	if( elixirDisplayFactory == null )
+		elixirDisplayFactory = defaultElixirDisplayFactory;
+	
 	if( sliderDisplayFactory == null )
 		sliderDisplayFactory = defaultSliderDisplayFactory;
 
@@ -121,6 +128,7 @@ public function set type(value:int):void
 	
 	rarity = building.rarity;
 	level = building.get_level();
+	elixir = building.elixirSize;
 	
 	if( labelsContainer )
 		addChild(labelsContainer);
@@ -197,6 +205,57 @@ public function set level(value:int):void
 	
 	if( labelsContainer )
 		addChild(labelsContainer);
+}
+
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ELIXIR SIZE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+public function get showElixir():Boolean
+{
+	return _showElixir;
+}
+public function set showElixir(value:Boolean):void
+{
+	if ( _showElixir == value )
+		return;
+	
+	_showElixir = value;
+	if( elixirDisplayFactory != null )
+		elixirDisplayFactory();
+	if ( elixirDisplay )
+		elixirDisplay.visible = !_locked && _showElixir;
+	//if ( levelBackground )
+	//	levelBackground.visible = !_locked && _showLevel;
+}
+protected function defaultElixirDisplayFactory():void
+{
+	if( !_showElixir || _locked || _type < 0 )
+		return;
+	
+	if( elixirDisplay != null )
+	{
+		elixirDisplay.text = elixir.toString();
+		return;
+	}
+	
+	elixirDisplay = new RTLLabel(elixir.toString(), 1, "center", null, false, null, 0.8);
+	elixirDisplay.height = 56 * appModel.scale;
+	elixirDisplay.layoutData = new AnchorLayoutData(-6*appModel.scale, NaN, NaN, -6*appModel.scale);
+	labelsContainer.addChild(elixirDisplay);
+}
+
+public function get elixir():int
+{
+	return _elixir;
+}
+public function set elixir(value:int):void
+{
+	if ( _elixir == value )
+		return;
+	
+	_elixir = value;
+	elixirDisplayFactory();
+	
+	if( elixirDisplay )
+		addChild(elixirDisplay);
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  SLIDER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
