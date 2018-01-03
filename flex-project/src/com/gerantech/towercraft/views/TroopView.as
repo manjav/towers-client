@@ -166,9 +166,8 @@ public function set health(value:Number):void
 		return;
 	
 	_health = value;
-	//trace(_health)
-	if( _health < building.troopPower )
-		updateHealthDisplay(_health);
+	//if( _health < building.troopPower )
+	//	updateHealthDisplay(_health);
 
 		
 }
