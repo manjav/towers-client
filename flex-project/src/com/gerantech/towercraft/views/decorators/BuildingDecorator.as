@@ -214,7 +214,7 @@ protected function getBodyTexture():String
 protected function getScale():Number
 {
 	if( place.mode == 0 ) 
-		return 1;
+		return 0.8;
 	return (place.mode == 2 ? 1.3 : 1.2);
 }
 protected function defaultTroopTypeFactory():void
