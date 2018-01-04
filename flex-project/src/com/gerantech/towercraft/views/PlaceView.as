@@ -22,6 +22,7 @@ import com.gt.towers.utils.lists.PlaceList;
 
 import flash.geom.Rectangle;
 import flash.utils.clearTimeout;
+import flash.utils.setInterval;
 import flash.utils.setTimeout;
 
 import starling.core.Starling;
@@ -43,6 +44,7 @@ private var defensiveWeapon:DefensiveWeapon;
 private var arrow:MovieClip;
 private var rushTimeoutId:uint;
 private var _selectable:Boolean;
+private var elixirCollector:ElixirCollector;
 
 public function PlaceView(place:Place)
 {
@@ -130,9 +132,18 @@ public function update(population:int, troopType:int, health:int) : void
 	//	wishedPopulation = population;
 	place.building._population = population;
 	place.building._health = health;
-	place.building.troopType = troopType;
+	if( place.building.troopType != troopType )
+	{
+		place.building.troopType = troopType;
+		
+		if( player.troopType == troopType )
+			elixirCollector = new ElixirCollector(place);
+		else if( elixirCollector != null )
+			elixirCollector.dispose();
+	}
 	
-	if(hasEventListener(Event.UPDATE))
+	
+	if( hasEventListener(Event.UPDATE) )
 		dispatchEventWith(Event.UPDATE, false);
 }
 

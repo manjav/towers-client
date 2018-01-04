@@ -178,6 +178,7 @@ private function touchHandler(event:TouchEvent):void
 			if( place != null && place.place.building.transformable(card) )
 			{
 				appModel.battleFieldView.responseSender.improveBuilding(place.place.index, draggableCard.data as int);
+				elixirBar.value -= card.elixirSize;
 				place.showDeployWaiting(card);
 			}
 			
