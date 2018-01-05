@@ -14,6 +14,7 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.StickerType;
 
+import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 
 import feathers.controls.ImageLoader;
@@ -32,6 +33,7 @@ import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.events.Event;
+import starling.utils.Color;
 
 public class BattleHUD extends TowersLayout
 {
@@ -64,11 +66,12 @@ override protected function initialize():void
 	this.battleData = appModel.battleFieldView.battleData;
 
 	var gradient:ImageLoader = new ImageLoader();
-	gradient.maintainAspectRatio = false;
+	gradient.scale9Grid = new Rectangle(1,1,7,7);
+	gradient.color = Color.BLACK
 	gradient.alpha = 0.5;
 	gradient.width = 440 * appModel.scale;
 	gradient.height = 140 * appModel.scale;
-	gradient.source = Assets.getTexture("theme/grad-ro-right", "gui");
+	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	addChild(gradient);
 	
 	var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3 || SFSConnection.instance.mySelf.isSpectator;
