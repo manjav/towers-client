@@ -14,13 +14,15 @@ import starling.display.Image;
 public class ElixirCollector extends BaseManager
 {
 private var elixirId:uint;
+private var randomDelay:Number;
 private var place:Place;
-
 private var elixir:Image;
+
 public function ElixirCollector(place:Place)
 {
 	this.place = place;
-	elixirId = setInterval(showCollectElixir, 4000);
+	randomDelay = Math.random() * 3;
+	elixirId = setInterval(showCollectElixir, 10000);
 }
 
 private function showCollectElixir():void
@@ -33,9 +35,8 @@ private function showCollectElixir():void
 	elixir.x = place.x;
 	elixir.y = place.y - 100;
 	appModel.battleFieldView.guiImagesContainer.addChild(elixir);
-	Starling.juggler.tween(elixir, 1.5, {scale : 2, transition:Transitions.EASE_IN_OUT_ELASTIC});
-	Starling.juggler.tween(elixir, 2.5, {y : place.y - 200, alpha:0, onComplete:elixir.removeFromParent, onCompleteArgs:[true]});
-
+	Starling.juggler.tween(elixir, 1.5, {delay:randomDelay, scale : 2, transition:Transitions.EASE_IN_OUT_ELASTIC});
+	Starling.juggler.tween(elixir, 2.5, {delay:randomDelay, y : place.y - 200, alpha:0, onComplete:elixir.removeFromParent, onCompleteArgs:[true]});
 }
 
 public function dispose():void
