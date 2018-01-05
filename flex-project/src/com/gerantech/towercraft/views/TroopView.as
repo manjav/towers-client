@@ -60,7 +60,7 @@ public function TroopView(building:Building, path:PlaceList)
 public function rush(source:Place):void
 {
 	var next:PlaceView = path.shift();
-	if(next == null)
+	if( next == null )
 	{
 		removeFromParent(true);
 		return;
@@ -81,7 +81,7 @@ private function onTroopArrived(next:PlaceView):void
 	movieClip.muted = true;
 	Starling.juggler.remove(movieClip);
 	if( next.place.building.troopType == type )
-		rushTimeoutId = setTimeout(next.rush, building.troopRushGap, this);
+		rushTimeoutId = setTimeout(rush, building.troopRushGap, next.place);
 }
 
 private function switchAnimation(source:Place, destination:Place):void

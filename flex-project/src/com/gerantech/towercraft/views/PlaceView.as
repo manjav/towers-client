@@ -137,11 +137,15 @@ public function update(population:int, troopType:int, health:int) : void
 		place.building.troopType = troopType;
 		
 		if( player.troopType == troopType )
+		{
 			elixirCollector = new ElixirCollector(place);
+		}
 		else if( elixirCollector != null )
+		{
 			elixirCollector.dispose();
+			elixirCollector = null;
+		}
 	}
-	
 	
 	if( hasEventListener(Event.UPDATE) )
 		dispatchEventWith(Event.UPDATE, false);
@@ -196,8 +200,8 @@ public function fight(destination:Place) : void
 		var t:TroopView = new TroopView(place.building, path);
 		t.x = x;
 		t.y = y ;
-		BattleFieldView(parent).troopsContainer.addChild(t);
-		rushTimeoutId = setTimeout(rush, place.building.troopRushGap * i + 300, t);
+		appModel.battleFieldView.troopsContainer.addChild(t);
+		rushTimeoutId = setTimeout(t.rush, place.building.troopRushGap * i + 300, place);
 	}
 	
 	if ( place.building.troopType == player.troopType )
@@ -213,11 +217,6 @@ public function fight(destination:Place) : void
 		if( !appModel.sounds.soundIsPlaying("battle-go-army-"+soundIndex) )
 			appModel.sounds.addAndPlaySound("battle-go-army-"+soundIndex);
 	}
-}
-public function rush(t:TroopView):void
-{
-	if( place.building.get_population() > 0 )
-		t.rush(place);
 }
 
 public function showDeployWaiting(card:Building):void
@@ -271,6 +270,8 @@ override public function dispose():void
 		decorator.dispose();
 	if( defensiveWeapon != null )
 		defensiveWeapon.dispose();
+	if( elixirCollector != null )
+		elixirCollector.dispose();
 	super.dispose();
 }
 
