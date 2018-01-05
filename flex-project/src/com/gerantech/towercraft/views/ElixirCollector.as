@@ -22,12 +22,11 @@ public function ElixirCollector(place:Place)
 {
 	this.place = place;
 	randomDelay = Math.random() * 3;
-	elixirId = setInterval(showCollectElixir, 10000);
+	elixirId = setInterval(showCollectElixir, 14000);
 }
 
 private function showCollectElixir():void
 {
-	trace("ElixirCollector")
 	elixir = new Image(Assets.getTexture("cards/elixir-" + (place.mode+1), "gui"));
 	elixir.pivotX = elixir.width * 0.5;
 	elixir.pivotY = elixir.height * 0.5;
@@ -35,8 +34,9 @@ private function showCollectElixir():void
 	elixir.x = place.x;
 	elixir.y = place.y - 100;
 	appModel.battleFieldView.guiImagesContainer.addChild(elixir);
-	Starling.juggler.tween(elixir, 1.5, {delay:randomDelay, scale : 2, transition:Transitions.EASE_IN_OUT_ELASTIC});
-	Starling.juggler.tween(elixir, 2.5, {delay:randomDelay, y : place.y - 200, alpha:0, onComplete:elixir.removeFromParent, onCompleteArgs:[true]});
+	Starling.juggler.tween(elixir, 1.5, {delay:randomDelay, transition:Transitions.EASE_OUT_ELASTIC,	scale : 2 + place.mode * 0.4});
+	Starling.juggler.tween(elixir, 3.5, {delay:randomDelay, transition:Transitions.EASE_IN_OUT,			y : place.y - 200, alpha:0, 
+		onComplete:elixir.removeFromParent, onCompleteArgs:[true]});
 }
 
 public function dispose():void
