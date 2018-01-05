@@ -81,7 +81,7 @@ private function onTroopArrived(next:PlaceView):void
 	movieClip.muted = true;
 	Starling.juggler.remove(movieClip);
 	if( next.place.building.troopType == type )
-		rushTimeoutId = setTimeout(next.rush, building.get_exitGap(), this);
+		rushTimeoutId = setTimeout(rush, building.get_exitGap(), next.place);
 }
 
 private function switchAnimation(source:Place, destination:Place):void
