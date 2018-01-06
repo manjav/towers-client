@@ -36,15 +36,13 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	//height = 160  * appModel.scale * headerSale;
 	addEventListener(FeathersEventType.CREATION_COMPLETE, creationCompleteHandler);
 }
 
 private function creationCompleteHandler():void
 {
 	var ribbon:Image = new Image(Assets.getTexture("ribbon-"+(itsMe?"blue":"red"), "gui"));
-	//ribbon.pivotX = ribbon.width * 0.5;
-	ribbon.scale = appModel.scale * 2;
+	ribbon.scale = appModel.scale * 2 * headerSale;
 	addChild(ribbon);
 	ribbon.pixelSnapping = false;
 	ribbon.scale9Grid = new Rectangle(46, 30, 3, 3);
