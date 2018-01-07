@@ -31,6 +31,7 @@ override protected function initialize():void
 	
 	card = new BuildingCard();
 	card.layoutData = new AnchorLayoutData(0,0,NaN,0);
+	card.showCount = true;
 	card.showLevel = card.showSlider = false;
 	card.data = deckIndex;
 	addChild(card);

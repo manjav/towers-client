@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
 
@@ -9,10 +10,12 @@ import flash.geom.Rectangle;
 
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
+import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
+import feathers.text.BitmapFontTextFormat;
 
 import starling.events.Event;
 
@@ -22,21 +25,26 @@ public class BuildingCard extends TowersLayout
 public var levelDisplayFactory:Function;
 public var elixirDisplayFactory:Function;
 public var sliderDisplayFactory:Function;
+public var countDisplayFactory:Function;
 public var data:Object;
 
 private var _type:int = -1;
 private var _level:int = 0;
 private var _elixir:int = 0;
+private var _rarity:int = 0;
+private var _count:int = 0;
+
 private var _showElixir:Boolean = true;
 private var _locked:Boolean = false;
 private var _showSlider:Boolean = true;
 private var _showLevel:Boolean = true;
-private var _rarity:int = 0;
+private var _showCount:Boolean = false;
 
 private var padding:int;
 
 private var skin:ImageSkin;
 private var levelDisplay:RTLLabel;
+private var countDisplay:BitmapFontTextRenderer;
 private var iconDisplay:ImageLoader;
 private var sliderDisplay:BuildingSlider;
 private var levelBackground:ImageLoader;
@@ -79,6 +87,9 @@ override protected function initialize():void
 	
 	if( sliderDisplayFactory == null )
 		sliderDisplayFactory = defaultSliderDisplayFactory;
+	
+	if( countDisplayFactory == null )
+		countDisplayFactory = defaultCountDisplayFactory;
 
 	var t:int = type;
 	type = -1;
@@ -126,6 +137,7 @@ public function set type(value:int):void
 	
 	rarity = building.rarity;
 	level = building.get_level();
+	count = building.capacity;
 	elixir = building.elixirSize;
 }
 
@@ -236,6 +248,50 @@ public function set elixir(value:int):void
 	
 	_elixir = value;
 	elixirDisplayFactory();
+}
+
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ELIXIR SIZE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+public function get showCount():Boolean
+{
+	return _showCount;
+}
+public function set showCount(value:Boolean):void
+{
+	if ( _showCount == value )
+		return;
+	
+	_showCount = value;
+	if( countDisplayFactory != null )
+		countDisplayFactory();
+}
+protected function defaultCountDisplayFactory():void
+{
+	if( !_showCount || _locked || _type < 0 )
+		return;
+	
+	if( countDisplay == null )
+	{
+		countDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+		countDisplay.touchable = false;
+		countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64*appModel.scale, 0xFFFFFF, "right");
+		countDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*1.5);
+		labelsContainer.addChild(countDisplay);
+	}
+
+	countDisplay.text = "x "+ _count;
+}
+
+public function get count():int
+{
+	return _count;
+}
+public function set count(value:int):void
+{
+	if ( _count == value )
+		return;
+	
+	_count = value;
+	countDisplayFactory();
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  SLIDER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

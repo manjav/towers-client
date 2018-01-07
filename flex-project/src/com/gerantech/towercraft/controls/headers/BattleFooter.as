@@ -82,6 +82,7 @@ override protected function initialize():void
 	draggableCard.showLevel = false;
 	draggableCard.showElixir = false;
 	draggableCard.showSlider = false;
+	draggableCard.showCount = true;
 	draggableCard.width = 180 * appModel.scale;
 	draggableCard.height = 210 * appModel.scale;
 	draggableCard.pivotX = draggableCard.width * 0.5;
