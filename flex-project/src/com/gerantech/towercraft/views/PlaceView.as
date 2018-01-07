@@ -187,8 +187,8 @@ package com.gerantech.towercraft.views
 				var t:TroopView = new TroopView(place.building, path);
 				t.x = x;
 				t.y = y ;
-				BattleFieldView(parent).troopsContainer.addChild(t);
-				rushTimeoutId = setTimeout(rush, place.building.get_exitGap() * i + 300, t);
+				appModel.battleFieldView.troopsContainer.addChild(t);
+				rushTimeoutId = setTimeout(t.rush, place.building.get_exitGap() * i + 300, place);
 			}
 			
 			if ( place.building.troopType == player.troopType )
@@ -205,12 +205,7 @@ package com.gerantech.towercraft.views
 					appModel.sounds.addAndPlaySound("battle-go-army-"+soundIndex);
 			}
 		}
-		public function rush(t:TroopView):void
-		{
-			if( place.building.get_population() > 0 )
-				t.rush(place);
-		}
-		
+
 		public function replaceBuilding(type:int, level:int):void
 		{
 			wishedPopulation = Math.floor(place.building._population/2);
