@@ -16,6 +16,7 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
+import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 
 import flash.desktop.NativeApplication;
@@ -135,8 +136,8 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
 		return;
 	}
-	
 	segmentsCollection = getListData();
+
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	tabsList.dataProvider = segmentsCollection;
@@ -150,12 +151,19 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
 	
 	SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
+	player.resources.addEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
 }
-
+protected function playerResources_changeHandler(event:CoreEvent):void
+{
+	if( !ResourceType.isCard(event.key) )
+		return;
+	trace("newBuildings->change:", ResourceType.getName(event.key), event.from, event.to, player.buildings.exists(event.key));
+	segmentsCollection = getListData();
+}
 private function getListData():ListCollection
 {
 	var ret:ListCollection = new ListCollection();
-	for each(var p:int in SegmentType.getDashboardsSegments()._list)
+	for each( var p:int in SegmentType.getDashboardsSegments()._list )
 	{
 		var pd:TabItemData = new TabItemData(p);
 		if( !player.inTutorial() )
@@ -163,7 +171,7 @@ private function getListData():ListCollection
 			if( p == SegmentType.S0_SHOP )
 			{
 				for each(var e:ExchangeItem in exchanger.items.values())
-				if( e.category == ExchangeType.CHEST_CATE_110_BATTLES && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
+				if( (e.category == ExchangeType.CHEST_CATE_100_FREE || e.category == ExchangeType.CHEST_CATE_110_BATTLES) && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 					pd.badgeNumber ++;
 			}
 			else if( p == SegmentType.S1_DECK )
@@ -174,10 +182,11 @@ private function getListData():ListCollection
 					if( b == null )
 						continue;
 					
+					trace(b.type, b.upgradable() , player.buildings.get(b.type).get_level());
 					if( b.upgradable() )
 						pd.badgeNumber ++;
 					
-					if( player.newBuildings.exists(b.type) )
+					if( player.buildings.get(b.type).get_level() == -1 )
 						pd.newBadgeNumber ++;
 				}
 			}

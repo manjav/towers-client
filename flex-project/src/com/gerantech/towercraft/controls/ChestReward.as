@@ -82,16 +82,15 @@ package com.gerantech.towercraft.controls
 			coverDisplay.height = coverDisplay.width * 1.3
 			iconContainer.addChild(coverDisplay);
 			
-			if( ResourceType.isCard(type) && !player.buildings.exists(type) )
+			if( ResourceType.isCard(type) && player.buildings.get(type).get_level() == -1 )
 			{
 				var newDisplay:ImageLoader = new ImageLoader();
 				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
 				newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
 				newDisplay.height = newDisplay.width = 200 * appModel.scale;
 				iconContainer.addChild(newDisplay);
-				player.newBuildings.set(type, 1);
 				
-				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
+				setTimeout(appModel.sounds.addAndPlaySound, 100, "chest-open-new")
 			}
 			detailsContainer = new LayoutGroup ();
 			detailsContainer.visible = false;

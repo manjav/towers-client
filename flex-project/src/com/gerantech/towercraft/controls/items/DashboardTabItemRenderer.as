@@ -105,7 +105,6 @@ override protected function commitData():void
 
 private function updateBadge():void
 {
-	
 	if( dashboardData.badgeNumber <= 0 )
 	{
 		if(badgeNumber.parent == this)
@@ -113,7 +112,8 @@ private function updateBadge():void
 	}
 	else
 	{
-		badgeNumber.label = dashboardData.badgeNumber.toString();
+		badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
+		badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
 		addChild(badgeNumber);
 	}
 }

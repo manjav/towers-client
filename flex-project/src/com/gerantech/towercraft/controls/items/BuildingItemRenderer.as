@@ -2,7 +2,10 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import feathers.controls.ImageLoader;
 import feathers.controls.ScrollContainer;
@@ -82,14 +85,12 @@ override protected function commitData():void
 		cardDisplay.type = t >= 900 ? 999 : t;
 		Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
 		
-		if ( player.newBuildings.exists( cardDisplay.type ) )
+		if( player.buildings.exists(t) && player.buildings.get(t).get_level() == -1 )
 		{
-			player.newBuildings.remove( cardDisplay.type );
-			
 			newDisplay = new ImageLoader();
-			newDisplay.source = Assets.getTexture("new-badge", "gui");
-			newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
-			newDisplay.height = newDisplay.width = width * 0.6;
+			newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+			newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
+			newDisplay.height = newDisplay.width = width * 0.7;
 			addChild(newDisplay);
 		}
 	}
@@ -126,7 +127,15 @@ override public function set currentState(_state:String):void
 	if( _state == STATE_SELECTED )
 	{
 		if( newDisplay )
+		{
 			newDisplay.removeFromParent(true);
+			player.buildings.get( cardDisplay.type ).upgrade();
+			
+			var sfs:SFSObject = new SFSObject();
+			sfs.putInt("type", cardDisplay.type);
+			sfs.putInt("confirmedHards", 0);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
+		}
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
 
