@@ -129,6 +129,7 @@ override public function set currentState(_state:String):void
 		if( newDisplay )
 		{
 			newDisplay.removeFromParent(true);
+			newDisplay = null;
 			player.buildings.get( cardDisplay.type ).upgrade();
 			
 			var sfs:SFSObject = new SFSObject();
@@ -138,7 +139,6 @@ override public function set currentState(_state:String):void
 		}
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
-
 }
 
 override public function dispose():void
