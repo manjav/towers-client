@@ -151,8 +151,6 @@ protected function navigator_bookOpenedHandler(event:Event):void
 {
 	segmentsCollection = getListData();
 	tabsList.dataProvider = segmentsCollection;
-	pageList.dataProvider = segmentsCollection;
-//	segmentsCollection.updateItemAt(2);
 }
 private function getListData():ListCollection
 {
