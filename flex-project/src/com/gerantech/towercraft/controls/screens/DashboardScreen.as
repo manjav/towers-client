@@ -20,6 +20,7 @@ import com.gt.towers.exchanges.ExchangeItem;
 
 import flash.desktop.NativeApplication;
 import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 
 import mx.resources.ResourceManager;
 
@@ -134,7 +135,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	tabsList.dataProvider = segmentsCollection;
-	gotoPage(tabIndex, 0.1);
+	setTimeout(gotoPage, 200, tabIndex, 0.1);
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
@@ -214,6 +215,7 @@ private function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:B
 	if( animDuration > 0 )
 		appModel.sounds.addAndPlaySound("tab");
 	Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
+	appModel.navigator.dispatchEventWith("dashboardTabChanged", false, animDuration);
 }
 
 private function lobbyManager_updateHandler(event:Event):void
