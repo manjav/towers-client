@@ -89,17 +89,22 @@ override protected function initialize():void
 
 private function updateTextures():void
 {
-	defaultTextue = appModel.theme.buttonUpSkinTexture;
 	if( style == "danger" )
 		defaultTextue = appModel.theme.buttonDangerUpSkinTexture;
 	else if( style == "neutral" )
 		defaultTextue = appModel.theme.buttonNeutralUpSkinTexture;
+	else
+		defaultTextue = appModel.theme.buttonUpSkinTexture;
 	
-	downTextue = appModel.theme.buttonDownSkinTexture;
 	if( style == "danger" )
 		downTextue = appModel.theme.buttonDangerDownSkinTexture;
 	else if( style == "neutral" )
-		downTextue = appModel.theme.buttonNeutralDownSkinTexture;			
+		downTextue = appModel.theme.buttonNeutralDownSkinTexture;
+	else
+		downTextue = appModel.theme.buttonDownSkinTexture;
+	
+	if( skin )
+		skin.defaultTexture = defaultTextue;
 }		
 
 public function get label():String
