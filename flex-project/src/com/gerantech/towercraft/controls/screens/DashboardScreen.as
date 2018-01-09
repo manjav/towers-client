@@ -4,7 +4,6 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
-import com.gerantech.towercraft.controls.popups.KeysPopup;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.SoundManager;
@@ -130,8 +129,8 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
 		return;
 	}
-	
 	segmentsCollection = getListData();
+
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	tabsList.dataProvider = segmentsCollection;
@@ -143,14 +142,21 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	
 	appModel.navigator.handleInvokes();
 	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
+	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
 	
 	SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
 }
-
+protected function navigator_bookOpenedHandler(event:Event):void
+{
+	segmentsCollection = getListData();
+	tabsList.dataProvider = segmentsCollection;
+	pageList.dataProvider = segmentsCollection;
+//	segmentsCollection.updateItemAt(2);
+}
 private function getListData():ListCollection
 {
 	var ret:ListCollection = new ListCollection();
-	for each(var p:int in SegmentType.getDashboardsSegments()._list)
+	for each( var p:int in SegmentType.getDashboardsSegments()._list )
 	{
 		var pd:TabItemData = new TabItemData(p);
 		if( !player.inTutorial() )
@@ -158,7 +164,7 @@ private function getListData():ListCollection
 			if( p == 0 )
 			{
 				for each(var e:ExchangeItem in exchanger.items.values())
-				if( e.category == ExchangeType.CHEST_CATE_110_BATTLES && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
+				if( (e.category == ExchangeType.CHEST_CATE_100_FREE || e.category == ExchangeType.CHEST_CATE_110_BATTLES) && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 					pd.badgeNumber ++;
 			}
 			else if( p == 2 )
@@ -169,10 +175,11 @@ private function getListData():ListCollection
 					if( b == null )
 						continue;
 					
+					//trace(b.type, b.upgradable() , player.buildings.get(b.type).get_level());
 					if( b.upgradable() )
 						pd.badgeNumber ++;
 					
-					if( game.loginData.buildingsLevel.exists(b.type) )
+					if( player.buildings.get(b.type).get_level() == -1 )
 						pd.newBadgeNumber ++;
 				}
 			}

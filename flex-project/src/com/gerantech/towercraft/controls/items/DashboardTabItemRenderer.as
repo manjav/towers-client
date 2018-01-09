@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
@@ -108,12 +109,12 @@ override protected function commitData():void
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
 	//iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 	titleDisplay.text = loc("tab-"+dashboardData.index) ;
+	changeSelectionAppear(index == DashboardScreen.tabIndex ); 
 	updateBadge();
 }
 
 private function updateBadge():void
 {
-	
 	if( dashboardData.badgeNumber <= 0 )
 	{
 		if(badgeNumber.parent == this)
@@ -121,8 +122,8 @@ private function updateBadge():void
 	}
 	else
 	{
-		badgeNumber.label = dashboardData.badgeNumber.toString();
-		//badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
+		badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
+		badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
 		addChild(badgeNumber);
 	}
 }
@@ -136,7 +137,21 @@ override public function set isSelected(value:Boolean):void
 		return;
 	
 	super.isSelected = value;
-	Starling.juggler.tween(this, 0.08, {width:itemWidth * (value ? 2 : 1), transition:Transitions.EASE_IN_OUT});
+	changeSelectionAppear(value);
+	
+	if(dashboardData != null)
+	{
+		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
+		updateBadge();
+	}
+	
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+}
+
+private function changeSelectionAppear(value:Boolean, time:Number = -1):void
+{
+	Starling.juggler.tween(this, time==-1?0.08:time, {width:itemWidth * (value ? 2 : 1), transition:Transitions.EASE_IN_OUT});
 	titleDisplay.visible = value;
 	
 	// icon animation
@@ -147,19 +162,11 @@ override public function set isSelected(value:Boolean):void
 		Starling.juggler.removeTweens(iconDisplay);
 		iconDisplay.x = itemWidth * (value?0.42:0.5);
 		if( value )
-			Starling.juggler.tween(iconDisplay, 0.5, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(iconDisplay, time==-1?0.5:time, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
 		else
 			iconDisplay.scale = appModel.scale * 1.8;
 	}
-	
-	if(dashboardData != null)
-	{
-		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
-		updateBadge();
-	}
-	
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
+		
 }
 
 override protected function setSelection(value:Boolean):void
