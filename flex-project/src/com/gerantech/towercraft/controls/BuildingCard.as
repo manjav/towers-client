@@ -58,7 +58,7 @@ package com.gerantech.towercraft.controls
 			
 			slider = new BuildingSlider();
 			slider.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-			slider.visible = !_locked && _showSlider;
+			slider.visible = !_locked && _showSlider && _level > 0;
 			slider.height = progressHeight;
 			addChild(slider);
 			
@@ -113,7 +113,7 @@ package com.gerantech.towercraft.controls
 				return;
 			_showSlider = value;
 			if ( slider )
-				slider.visible = !_locked && _showSlider;
+				slider.visible = !_locked && _showSlider && _level > 0;
 		}
 		
 		public function set locked(value:Boolean):void
@@ -123,7 +123,7 @@ package com.gerantech.towercraft.controls
 			
 			_locked = value;
 			if ( slider )
-				slider.visible = !_locked && showSlider;
+				slider.visible = !_locked && showSlider && _level > 0;
 
 			if ( skin )
 				skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
