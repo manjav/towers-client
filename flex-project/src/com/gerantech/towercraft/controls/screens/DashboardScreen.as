@@ -21,6 +21,7 @@ import com.gt.towers.exchanges.ExchangeItem;
 
 import flash.desktop.NativeApplication;
 import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 
 import mx.resources.ResourceManager;
 
@@ -141,7 +142,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	tabsList.dataProvider = segmentsCollection;
-	gotoPage(tabIndex, 0.1);
+	setTimeout(gotoPage, 200, tabIndex, 0.1);
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
@@ -149,16 +150,14 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	
 	appModel.navigator.handleInvokes();
 	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
+	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
 	
 	SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
-	player.resources.addEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
 }
-protected function playerResources_changeHandler(event:CoreEvent):void
+protected function navigator_bookOpenedHandler(event:Event):void
 {
-	if( !ResourceType.isCard(event.key) )
-		return;
-	trace("newBuildings->change:", ResourceType.getName(event.key), event.from, event.to, player.buildings.exists(event.key));
 	segmentsCollection = getListData();
+	tabsList.dataProvider = segmentsCollection;
 }
 private function getListData():ListCollection
 {
@@ -182,7 +181,7 @@ private function getListData():ListCollection
 					if( b == null )
 						continue;
 					
-					trace(b.type, b.upgradable() , player.buildings.get(b.type).get_level());
+					//trace(b.type, b.upgradable() , player.buildings.get(b.type).get_level());
 					if( b.upgradable() )
 						pd.badgeNumber ++;
 					
@@ -221,6 +220,7 @@ private function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:B
 	if( animDuration > 0 )
 		appModel.sounds.addAndPlaySound("tab");
 	Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
+	appModel.navigator.dispatchEventWith("dashboardTabChanged", false, animDuration);
 }
 
 private function lobbyManager_updateHandler(event:Event):void

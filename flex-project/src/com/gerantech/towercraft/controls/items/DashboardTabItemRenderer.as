@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
@@ -85,6 +86,7 @@ override protected function commitData():void
 					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 			}
 		}
+		appModel.navigator.addEventListener("dashboardTabChanged", navigator_dashboardTabChanged);
 	}
 	super.commitData();
 	dashboardData = _data as TabItemData;
@@ -102,32 +104,51 @@ override protected function commitData():void
 	titleDisplay.text = loc("tab-"+dashboardData.index) ;
 	updateBadge();
 }
+private function navigator_dashboardTabChanged(event:Event):void
+{
+	updateSelection(index == DashboardScreen.tabIndex, event.data as Number ); 
+}
+
+
+override protected function setSelection(value:Boolean):void
+{
+	super.setSelection(value);
+	if( value && _owner != null )
+		_owner.dispatchEventWith(Event.SELECT, false, data);
+	
+	if( !player.dashboadTabEnabled(index) && value)
+		return;
+	
+	if( dashboardData != null )
+	{
+		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
+		updateBadge();
+	}
+	
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+}
 
 private function updateBadge():void
 {
 	if( dashboardData.badgeNumber <= 0 )
 	{
-		if(badgeNumber.parent == this)
-			removeChild(badgeNumber);
+		badgeNumber.removeFromParent();
+		return;
 	}
-	else
-	{
-		badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
-		badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
-		addChild(badgeNumber);
-	}
+	
+	trace(dashboardData.index, "badgeNumber", dashboardData.badgeNumber, "newBadgeNumber", dashboardData.newBadgeNumber);
+	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
+	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
+	addChild(badgeNumber);
 }
 
-override public function set isSelected(value:Boolean):void
+private function updateSelection(value:Boolean, time:Number = -1):void
 {
-	if( value == super.isSelected )
+	if( titleDisplay.visible == value )
 		return;
 	
-	if( !player.dashboadTabEnabled(index) && value)
-		return;
-	
-	super.isSelected = value;
-	Starling.juggler.tween(this, 0.08, {width:itemWidth * (value ? 2 : 1), transition:Transitions.EASE_IN_OUT});
+	width = itemWidth * (value ? 2 : 1);
 	titleDisplay.visible = value;
 	
 	// icon animation
@@ -140,24 +161,7 @@ override public function set isSelected(value:Boolean):void
 		else
 			iconDisplay.scale = appModel.scale * 1.8;
 	}
-	
-	if( dashboardData != null )
-	{
-		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
-		updateBadge();
-	}
-	
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
 }
-
-override protected function setSelection(value:Boolean):void
-{
-	super.setSelection(value);
-	if( value && _owner != null )
-		_owner.dispatchEventWith(Event.SELECT, false, data);
-}
-
 
 private function tutorialManager_upgradeHandler(event:Event):void
 {

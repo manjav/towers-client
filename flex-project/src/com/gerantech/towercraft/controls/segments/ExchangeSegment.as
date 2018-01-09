@@ -309,7 +309,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 			openChestOverlay = null;
 			gotoDeckTutorial();
 		}
-		
+		appModel.navigator.dispatchEventWith("bookOpened");
 	}
 	if( item.category == ExchangeType.S_10_SOFT )
 	{

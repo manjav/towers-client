@@ -155,6 +155,11 @@ override public function init():void
 	
 	initializeCompleted = true;
 	showTutorial();
+	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
+}
+protected function navigator_bookOpenedHandler(event:Event):void
+{
+	updateData();
 }
 
 override public function focus():void
