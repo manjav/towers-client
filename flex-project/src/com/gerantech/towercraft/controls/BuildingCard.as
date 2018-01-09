@@ -181,7 +181,7 @@ public function set showLevel(value:Boolean):void
 }
 protected function defaultLevelDisplayFactory():void
 {
-	if( !_showLevel || _locked || _type < 0 )
+	if( !_showLevel || _locked || _type < 0 || _level <= 0 )
 		return;
 	
 	if( levelDisplay != null )
@@ -227,7 +227,7 @@ public function set showElixir(value:Boolean):void
 }
 protected function defaultElixirDisplayFactory():void
 {
-	if( !_showElixir || _locked || _type < 0 )
+	if( !_showElixir || _locked || _type < 0 || _level <= 0 )
 		return;
 	
 	var elixirBackground:ImageLoader = new ImageLoader();
@@ -266,7 +266,7 @@ public function set showCount(value:Boolean):void
 }
 protected function defaultCountDisplayFactory():void
 {
-	if( !_showCount || _locked || _type < 0 )
+	if( !_showCount || _locked || _type < 0 || _level <= 0 )
 		return;
 	
 	if( countDisplay == null )
@@ -311,7 +311,7 @@ public function set showSlider(value:Boolean):void
 }
 protected function defaultSliderDisplayFactory():void
 {
-	if( !_showSlider || _locked )
+	if( !_showSlider || _locked || _level <= 0 )
 		return;
 	
 	var building:Building = player.buildings.get(_type);
