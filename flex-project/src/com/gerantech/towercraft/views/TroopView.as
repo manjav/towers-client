@@ -56,7 +56,6 @@ public function TroopView(building:Building, path:PlaceList)
 		this.path.push(AppModel.instance.battleFieldView.places[path.get(p).index]);
 }
 
-
 public function rush(source:Place):void
 {
 	var next:PlaceView = path.shift();
@@ -71,7 +70,7 @@ public function rush(source:Place):void
 	movieClip.muted = false;
 	Starling.juggler.add(movieClip);
 
-	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap * 0.6 - Math.random()* building.troopRushGap * 0.3) / 1000;
+	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap * 0.2 - Math.random()* building.troopRushGap * 0.1) / 1000;
 	var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
 	Starling.juggler.tween(this, (building.troopSpeed/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
