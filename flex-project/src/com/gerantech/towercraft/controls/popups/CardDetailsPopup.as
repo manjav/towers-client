@@ -62,7 +62,7 @@ override protected function transitionInCompleted():void
 	addChild(titleDisplay);
 	
 	
-	var rarityColors:Array = [0xFFFFFF, 0x00eeff, 0xffcc00];
+	var rarityColors:Array = [0xFFFFFF, 0xffcc00, 0x00eeff];
 	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_"+building.rarity), rarityColors[building.rarity]);
 	rarityPalette.width = (transitionIn.destinationBound.width - padding * 13) * 0.48;
 	rarityPalette.layoutData = new AnchorLayoutData(padding*3.7, appModel.isLTR?NaN:padding*12, NaN, appModel.isLTR?padding*12:NaN);

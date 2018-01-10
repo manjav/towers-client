@@ -102,7 +102,7 @@ private function initCoreData(game:*):void
 	for ( var i:int=0; i<arenaKeys.length; i++ )
 	{
 		var arenaSource:* = game.arenas.get(arenaKeys[i]);
-		AppModel.instance.game.arenas.set( arenaKeys[i], new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.minWinStreak, arenaSource.cardsStr ) );
+		AppModel.instance.game.arenas.set( arenaKeys[i], new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.minWinStreak, arenaSource.cards ) );
 	}
 	
 	// put exchanger items
