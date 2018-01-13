@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.managers.net
 {
-
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.TimeManager;
@@ -15,7 +14,6 @@ import com.gerantech.towercraft.utils.Utils;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -34,18 +32,17 @@ import flash.utils.getTimer;
 public class LoadingManager extends EventDispatcher
 {
 public var state:int = -1;
-
 public static const STATE_DISCONNECTED:int = -1;
 public static const STATE_CONNECT:int = 0;
 public static const STATE_LOGIN:int = 1;
 public static const STATE_CORE_LOADING:int = 2;
 public static const STATE_LOADED:int = 3;
 public var loadStartAt:int;
+public var serverData:SFSObject;
 
 private var sfsConnection:SFSConnection;
 
-public var serverData:SFSObject;
-
+public function LoadingManager(){}
 public function load():void
 {
 	loadStartAt = getTimer();

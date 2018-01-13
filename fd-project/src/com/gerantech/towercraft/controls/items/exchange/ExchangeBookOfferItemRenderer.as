@@ -14,6 +14,7 @@ public class ExchangeBookOfferItemRenderer extends ExchangeBaseItemRenderer
 private var buttonDisplay:ExchangeButton;
 private var chestArmature:StarlingArmatureDisplay;
 
+public function ExchangeBookOfferItemRenderer(){}
 override protected function commitData():void
 {
 	if( index < 0 || _data == null )

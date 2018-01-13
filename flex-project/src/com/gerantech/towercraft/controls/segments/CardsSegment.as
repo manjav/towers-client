@@ -112,7 +112,7 @@ override public function init():void
 	foundList.elasticity = 0.01;
 	//unlocksList.decelerationRate = 1;
 	foundList.layout = foundLayout;
-	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, true, scroller); }
+	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, true, true, scroller); }
 	foundList.dataProvider = foundCollection;
 	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
 	scroller.addChild(foundList);
@@ -128,7 +128,7 @@ override public function init():void
 		availabledList.elasticity = 0.01;
 		//availabledList.decelerationRate = 1;
 		availabledList.layout = availabledLayout;
-		availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, scroller); }
+		availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, false, scroller); }
 		availabledList.dataProvider = availabledCollection;
 		availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 		scroller.addChild(availabledList);
@@ -147,7 +147,7 @@ override public function init():void
 		unavailableList.elasticity = 0.01;
 		//availabledList.decelerationRate = 1;
 		unavailableList.layout = availabledLayout;
-		unavailableList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, scroller); }
+		unavailableList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, false, scroller); }
 		unavailableList.dataProvider = unavailableCollection;
 		//unavailabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 		scroller.addChild(unavailableList);

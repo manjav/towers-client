@@ -31,7 +31,8 @@ private var intevalId:uint;
 private var tempY:Number;
 private var screenRect:Rectangle;
 private var commitPhase:uint;
-	
+
+public function AbstractListItemRenderer(){}
 override protected function initialize():void
 {
 	addEventListener( Event.REMOVED_FROM_STAGE, removedFromStageHandler );

@@ -23,6 +23,7 @@ private var usersDisplay:RTLLabel;
 
 private var room:SFSObject;
 
+public function BattleItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();

@@ -5,7 +5,6 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 
@@ -15,9 +14,8 @@ public class LobbyChatItemBattleSegment extends LobbyChatItemSegment
 private var labelDisplay:ShadowLabel;
 private var messageDisplay:RTLLabel;
 private var actionButton:CustomButton;
-
 private var messageLayout:AnchorLayoutData;
-
+public function LobbyChatItemBattleSegment(){}
 override public function init():void
 {
 	super.init();

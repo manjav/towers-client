@@ -26,6 +26,7 @@ private var building:Building;
 private var _bounds:Rectangle;
 private var tutorialArrow:TutorialArrow;
 
+public function CardSelectPopup(){}
 override protected function initialize():void
 {
 	super.initialize();

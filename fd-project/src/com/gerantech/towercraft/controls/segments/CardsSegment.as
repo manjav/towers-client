@@ -19,10 +19,6 @@ import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollContainer;
@@ -35,7 +31,8 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalLayout;
-
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Quad;
@@ -65,6 +62,7 @@ private var touchId:int = -1;
 private var _editMode:Boolean;
 private var scroller:ScrollContainer;
 
+public function CardsSegment(){}
 override public function init():void
 {
 	super.init();

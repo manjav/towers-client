@@ -13,15 +13,12 @@ import com.gt.towers.constants.BuildingFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
-
+import flash.geom.Rectangle;
 import starling.core.Starling;
 import starling.events.Event;
 
@@ -31,6 +28,7 @@ public var buildingType:int;
 private var building:Building;
 private var tutorialArrow:TutorialArrow;
 
+public function CardDetailsPopup(){}
 override protected function initialize():void
 {
 	transitionIn = new TransitionData();

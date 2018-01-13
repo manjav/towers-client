@@ -16,6 +16,7 @@ public var data:ISFSObject;
 
 protected var itsMe:Boolean;
 
+public function LobbyChatItemSegment(){}
 override public function init():void
 {
 	super.init();

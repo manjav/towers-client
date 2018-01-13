@@ -12,6 +12,7 @@ public class UserPrefs
 {
 private var player:Player;
 
+public function UserPrefs(){}
 public function requestData():void
 {
 	player = AppModel.instance.game.player;

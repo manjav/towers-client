@@ -10,6 +10,7 @@ public class StarCheck extends LayoutGroup
 {
 private var skin:ImageSkin;
 
+public function StarCheck(){}
 override protected function initialize():void
 {
 	super.initialize();

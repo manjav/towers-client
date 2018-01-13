@@ -35,6 +35,7 @@ private var emblemButton:EmblemButton;
 
 private var privacySwitcher:Switcher;
 
+public function LobbyCreateSegment(){}
 override protected function initialize():void
 {
 	super.initialize();

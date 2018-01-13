@@ -9,15 +9,12 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
 
 public class PlayersScreen extends ListScreen
@@ -25,6 +22,7 @@ public class PlayersScreen extends ListScreen
 private var players:ListCollection = new ListCollection();
 private var textInput:CustomTextInput;
 
+public function PlayersScreen(){}
 override protected function initialize():void
 {
 	title = "Players";

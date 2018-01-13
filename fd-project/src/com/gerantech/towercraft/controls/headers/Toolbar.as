@@ -21,6 +21,7 @@ public class Toolbar extends TowersLayout
 {
 public var indicators:Dictionary = new Dictionary();
 
+public function Toolbar(){}
 override protected function initialize():void
 {
 	super.initialize();

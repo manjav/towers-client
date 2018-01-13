@@ -26,7 +26,7 @@ private var pointDisplay:RTLLabel;
 
 private var mySkin:ImageSkin;
 
-
+public function LobbyItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();

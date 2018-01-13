@@ -11,20 +11,18 @@ import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.entities.variables.SFSRoomVariable;
 import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
-
 import starling.events.Event;
 
 public class SpectateScreen extends ListScreen
 {
 public var cmd:String;
 private var sfsConnection:SFSConnection;
-
 private var rooms:ListCollection = new ListCollection();
 
+public function SpectateScreen(){}
 override protected function initialize():void
 {
 	var sfsObj:SFSObject = new SFSObject();

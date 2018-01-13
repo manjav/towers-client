@@ -22,6 +22,7 @@ protected var touchTarget:DisplayObjectContainer;
 private var touchID:int = -1;
 private static const HELPER_POINT:Point = new Point();
 
+public function AbstractTouchableListItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();

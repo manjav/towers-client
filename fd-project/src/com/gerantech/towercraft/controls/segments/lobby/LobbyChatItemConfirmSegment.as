@@ -4,19 +4,17 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
 
 public class LobbyChatItemConfirmSegment extends LobbyChatItemSegment
 {
-	
 private var messageDisplay:RTLLabel;
 private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
 
+public function LobbyChatItemConfirmSegment(){}
 override public function init():void
 {
 	super.init();

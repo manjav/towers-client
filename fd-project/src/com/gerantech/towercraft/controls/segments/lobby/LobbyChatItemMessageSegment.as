@@ -30,7 +30,7 @@ private var roleLayout:AnchorLayoutData;
 private var messageLayout:AnchorLayoutData;
 private var dateLayout:AnchorLayoutData;
 
-
+public function LobbyChatItemMessageSegment(){}
 override public function init():void
 {
 	super.init();

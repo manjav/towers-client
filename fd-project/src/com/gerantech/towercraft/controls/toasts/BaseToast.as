@@ -13,6 +13,7 @@ import starling.display.DisplayObject;
 public class BaseToast extends AbstractPopup
 {
 protected var toastHeight:int = 220;
+public function BaseToast(){}
 override protected function initialize():void
 {
 	if(transitionIn == null)

@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.ResourceType;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 
@@ -15,7 +14,7 @@ private var titleDisplay:ShadowLabel;
 private var countDisplay:ShadowLabel;
 private var buttonDisplay:ExchangeButton;
 
-
+public function ExchangeCurrencyItemRenderer(){}
 override protected function commitData():void
 {
 	super.commitData();
@@ -43,6 +42,5 @@ override protected function commitData():void
 	buttonDisplay.type = exchange.requirements.keys()[0];
 	addChild(buttonDisplay);
 }
-
 }
 }

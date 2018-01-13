@@ -2,10 +2,8 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
 import starling.core.Starling;
 
 public class FeatureItemRenderer extends AbstractTouchableListItemRenderer
@@ -14,6 +12,7 @@ protected var titleDisplay:RTLLabel  ;
 protected var valueDisplay:*;
 protected var _firstCommit:Boolean = true;
 
+public function FeatureItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();

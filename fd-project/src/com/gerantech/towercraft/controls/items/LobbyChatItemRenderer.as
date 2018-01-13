@@ -7,10 +7,8 @@ import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemMessageSegm
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
 
 public class LobbyChatItemRenderer extends AbstractTouchableListItemRenderer
@@ -28,6 +26,7 @@ private var confirmSegment:LobbyChatItemConfirmSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
 
+public function LobbyChatItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
