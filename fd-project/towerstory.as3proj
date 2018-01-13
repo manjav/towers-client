@@ -12,17 +12,17 @@
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />
     <movie background="#FFFFFF" />
-    <movie preferredSDK="Flex 4.6.0, AIR 26.0;4.6.0, 26.0;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
     <class path="src" />
+    <class path="libs" />
   </classpaths>
   <!-- Build options -->
   <build>
     <option accessible="False" />
     <option advancedTelemetry="False" />
-    <option allowSourcePathOverlap="True" />
+    <option allowSourcePathOverlap="False" />
     <option benchmark="False" />
     <option es="False" />
     <option inline="False" />
