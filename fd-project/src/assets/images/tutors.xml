@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:16d275e6b6943a46dc66e2bcdd90ccd7:c5517341b8162543849d624f2714c4d4:a9d1702ee93e557a5b37f0139a0a7014$ -->
+<TextureAtlas imagePath="tutors.png" width="1024" height="1024">
+    <SubTexture name="char-0" x="1" y="682" rotated="true" width="531" height="325"/>
+    <SubTexture name="char-1" x="1" y="1" width="453" height="679"/>
+    <SubTexture name="char-2" x="456" y="1" width="530" height="631"/>
+    <SubTexture name="finger-down" x="534" y="634" rotated="true" width="175" height="186" frameX="-1" frameY="-5" frameWidth="188" frameHeight="188"/>
+</TextureAtlas>
