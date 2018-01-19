@@ -32,18 +32,19 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var healthDisplay:HealthBar;
 private var battleSide:int = 0;
-private var troopScale:Number = 0.75;
+private var troopScale:Number = 1.2;
 
 public function TroopView(building:Building, path:PlaceList)
 {
 	this.id = building.place.getIncreasedId();
 	this.type = building.troopType;
-	this.battleSide = type == AppModel.instance.game.player.troopType?0:1;
+	this.battleSide = AppModel.instance.game.player.colorIndex(type);
 	this.building = building;
 	this.health = building.troopHealth;
 
-	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "char-move-";//building.get_troopName();
-	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
+	var bt:int = (building.type == 201 || building.type == 301 || building.type == 401 || building.type == 501) ? building.type : 201;
+	textureType = bt + (type == AppModel.instance.game.player.troopType?"/0/":"/1/");
+	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 32)//, 20/building.troopSpeed);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.9;
 	movieClip.scale = troopScale;
@@ -70,9 +71,9 @@ public function rush(source:Place):void
 	movieClip.muted = false;
 	Starling.juggler.add(movieClip);
 
-	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap * 0.2 - Math.random()* building.troopRushGap * 0.1) / 1000;
-	var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
-	Starling.juggler.tween(this, (building.troopSpeed/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
+	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap * 0.2 - Math.random() * building.troopRushGap * 0.1) / 1000;
+	var distance:Number = Math.sqrt(Math.pow(source.x - next.place.x, 2) + Math.pow(source.y - next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
+	Starling.juggler.tween(this, (building.troopSpeed / 1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
 private function onTroopArrived(next:PlaceView):void
 {
@@ -85,30 +86,30 @@ private function onTroopArrived(next:PlaceView):void
 
 private function switchAnimation(source:Place, destination:Place):void
 {
-	var rad:Number = Math.atan2(destination.x-source.x, destination.y-source.y);
+	var rad:Number = Math.atan2(destination.x - source.x, destination.y - source.y);
 	var flipped:Boolean = false;
-	var dir:String = "down";
+	var dir:String = "do";
 
-	if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125)
-		dir = "down";
-	else if(rad <= Math.PI * -0.125 && rad > Math.PI * -0.375)
-		dir = "leftdown";
-	else if(rad <= Math.PI * -0.375 && rad > Math.PI * -0.625)
+	if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125 )
+		dir = "do";
+	else if( rad <= Math.PI * -0.125 && rad > Math.PI * -0.375 )
+		dir = "leftd";
+	else if( rad <= Math.PI * -0.375 && rad > Math.PI * -0.625 )
 		dir = "left";
-	else if(rad <= Math.PI * -0.625 && rad > Math.PI * -0.875)
-		dir = "leftup";
-	else if(rad >= Math.PI * 0.125 && rad < Math.PI * 0.375)
-		dir = "rightdown";
-	else if(rad >= Math.PI * 0.375 && rad < Math.PI * 0.625)
-		dir = "right";
-	else if(rad >= Math.PI * 0.625 && rad < Math.PI * 0.875)
-		dir = "rightup";
+	else if( rad <= Math.PI * -0.625 && rad > Math.PI * -0.875 )
+		dir = "leftu";
+	else if( rad >= Math.PI * 0.125 && rad < Math.PI * 0.375 )
+		dir = "rd";
+	else if( rad >= Math.PI * 0.375 && rad < Math.PI * 0.625 )
+		dir = "ri";
+	else if( rad >= Math.PI * 0.625 && rad < Math.PI * 0.875 )
+		dir = "ru";
 	else
 		dir = "up";
 	
-	if(dir == "leftdown" || dir == "left" || dir == "leftup")
+	if( dir == "leftd" || dir == "left" || dir == "leftu" )
 	{
-		dir = dir.replace("left", "right");
+		dir = dir.replace("left", "r");
 		flipped = true;
 	}
 
@@ -117,11 +118,9 @@ private function switchAnimation(source:Place, destination:Place):void
 	if(direction == dir)
 		return;
 
-	movieClip.fps = 20 * 3000 / building.troopSpeed;
-	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
-	for(var i:int=0; i < movieClip.numFrames; i++)
-		movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction+( i>9 ? "-0"+(i) : "-00"+(i)), "troops"));
+	for( var i:int=0; i < movieClip.numFrames; i++ )
+		movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction + ( i > 9 ? "-00" + (i) : "-000" + (i)), "troops"));
 }
 
 public function hit(placeView:PlaceView):void
@@ -136,8 +135,8 @@ public function hit(placeView:PlaceView):void
 	AppModel.instance.sounds.addAndPlaySound("kill");
 	
 	var blood:Image = new Image(Assets.getTexture("blood"));
-	blood.pivotX = blood.width/2;
-	blood.pivotY = blood.height/2;
+	blood.pivotX = blood.width / 2;
+	blood.pivotY = blood.height / 2;
 	blood.x = x;
 	blood.y = y;
 	parent.addChildAt(blood, 1);
