@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.models.vo
 {
+	import com.gerantech.towercraft.managers.BaseManager;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gt.towers.battle.BattleField;
@@ -9,7 +10,7 @@ package com.gerantech.towercraft.models.vo
 	import com.smartfoxserver.v2.entities.User;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 
-	public class BattleData
+	public class BattleData extends BaseManager
 	{
 		public var room:Room;
 		public var map:FieldData;
@@ -26,8 +27,8 @@ package com.gerantech.towercraft.models.vo
 			this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
 			this.startAt = data.getInt("startAt")-1;
 			this.singleMode = data.getBool("singleMode");
-			this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
-			AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
+			this.troopType = player.troopType = data.getInt("troopType");
+			player.inFriendlyBattle = data.getBool("isFriendly");
 			battleField = new BattleField(AppModel.instance.game, null, data.getText("mapName"), troopType, data.getBool("hasExtraTime"));
 			map = battleField.map;
 			var playerIndex:int = getPlayerIndex();
@@ -42,8 +43,11 @@ package com.gerantech.towercraft.models.vo
 			}
 			
 			//update decks
-			for (var i:int = 0; i < data.getSFSArray("decks").size(); i++) 
+			for (var i:int = 0; i < data.getSFSArray("decks").size(); i++)
+			{
 				battleField.deckBuildings.get(i).building.type = data.getSFSArray("decks").getInt(i);
+				battleField.deckBuildings.get(i).building.elixirSize = game.featureCaculator.elixirSize.get( data.getSFSArray("decks").getInt(i) );
+			}
 
 			/*trace(this.troopType, "tt", data.getText("mapName"))	
 			for (var i:int = 0; i < room.userList.length; i++) 
