@@ -80,7 +80,7 @@ private function onTroopArrived(next:PlaceView):void
 	visible = false;
 	movieClip.muted = true;
 	Starling.juggler.remove(movieClip);
-	if( next.place.building.troopType == type )
+	if( next.place.building._health >= next.place.health && next.place.building.troopType == type )
 		rushTimeoutId = setTimeout(rush, building.troopRushGap, next.place);
 }
 
