@@ -112,13 +112,16 @@ private function switchAnimation(source:Place, destination:Place):void
 	
 	if( dir == "leftd" || dir == "left" || dir == "leftu" )
 	{
-		dir = dir.replace("left", "r");
+		if( dir == "left" )
+			dir = dir.replace("left", "ri");
+		else
+			dir = dir.replace("left", "r");
 		flipped = true;
 	}
 
 	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
-	if(direction == dir)
+	if( direction == dir )
 		return;
 
 	direction = dir;
@@ -132,7 +135,7 @@ public function hit(placeView:PlaceView):void
 	health -= damage;
 	dispatchEventWith(Event.TRIGGERED, false, damage);
 	
-	if(health > 0)
+	if( health > 0 )
 		return;
 
 	AppModel.instance.sounds.addAndPlaySound("kill");
@@ -162,7 +165,7 @@ public function get health():Number
 }
 public function set health(value:Number):void
 {
-	if ( _health == value )
+	if( _health == value )
 		return;
 	
 	_health = value;
