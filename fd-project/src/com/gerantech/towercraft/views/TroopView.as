@@ -5,10 +5,8 @@ import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.buildings.Place;
 import com.gt.towers.utils.lists.PlaceList;
-
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -71,7 +69,7 @@ public function rush(source:Place):void
 	movieClip.muted = false;
 	Starling.juggler.add(movieClip);
 
-	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap * 0.2 - Math.random() * building.troopRushGap * 0.1) / 1000;
+	var randomGap:Number = path.length == 1 ? 0 : Math.max(0, Math.random() * building.troopRushGap * 0.2 - Math.random() * building.troopRushGap * 0.1) / 1000;
 	var distance:Number = Math.sqrt(Math.pow(source.x - next.place.x, 2) + Math.pow(source.y - next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
 	Starling.juggler.tween(this, (building.troopSpeed / 1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
@@ -80,8 +78,13 @@ private function onTroopArrived(next:PlaceView):void
 	visible = false;
 	movieClip.muted = true;
 	Starling.juggler.remove(movieClip);
-	if( next.place.building._health >= next.place.health && next.place.building.troopType == type )
+	if ( next.place.building.troopType == type )
+	{
 		rushTimeoutId = setTimeout(rush, building.troopRushGap, next.place);
+		return;
+	}
+	//trace(next.place.index,  "building.troopType:", next.place.building.troopType, "type:", type, "path.length:", path.length)
+	removeFromParent(true);
 }
 
 private function switchAnimation(source:Place, destination:Place):void
@@ -145,9 +148,8 @@ public function hit(placeView:PlaceView):void
 	blood.scale = 0;
 
 	removeFromParent(true);
-
-
 }
+
 private function onTroopKilled(placeView:PlaceView):void
 {
 	removeFromParent(true);
@@ -166,8 +168,6 @@ public function set health(value:Number):void
 	_health = value;
 	//if( _health < building.troopPower )
 	//	updateHealthDisplay(_health);
-
-		
 }
 
 private function updateHealthDisplay(health:Number):void
@@ -191,7 +191,6 @@ private function updateHealthDisplay(health:Number):void
 		if( healthDisplay )
 			healthDisplay.removeFromParent(true);	
 	}
-	
 }
 
 public function get muted():Boolean
