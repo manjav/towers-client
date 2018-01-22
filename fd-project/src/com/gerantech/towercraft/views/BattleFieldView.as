@@ -34,21 +34,16 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	y = (stage.stageHeight - 2100 * appModel.scale) * 0.5;
+	y = (stage.stageHeight - 2200 * appModel.scale) * 0.5;
 	scale = appModel.scale;
-	
-	// add dummy object to tile arroud display
-	var sp:Sprite = new Sprite();
-	sp.visible = false;
-	sp.x = 1080;
-	sp.y = 1920;
-	addChild(sp);
-	
+
 	// tile grass ground
 	var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
+	tiledBG.y = -320;
+	tiledBG.width = 1080;
+	tiledBG.height = 2600;
 	tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
-	//backgroundSkin = new Quad(1,1,0xb7bb3c);
-	backgroundSkin = tiledBG;
+	addChild(tiledBG);
 
 	troopsContainer = new Sprite();
 	buildingsContainer = new Sprite();

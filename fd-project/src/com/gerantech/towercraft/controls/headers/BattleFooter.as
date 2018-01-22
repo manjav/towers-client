@@ -51,7 +51,7 @@ public var stickerButton:CustomButton;
 public function BattleFooter()
 {
 	super();
-	_height = 300 * appModel.scale;
+	_height = 320 * appModel.scale;
 	padding = 12 * appModel.scale;
 	_scaleDistance = 500 * appModel.scale;
 }
@@ -128,7 +128,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 private function createDeckItem(i:int):void
 {
 	var card:BattleDeckCard = new BattleDeckCard(appModel.battleFieldView.battleData.battleField.deckBuildings.get( (player.troopType==0?0:4) + i).building, (player.troopType==0?0:4) + i );
-	card.width = 150 * appModel.scale;
+	card.width = 160 * appModel.scale;
 	cards.push(card);
 	cardsContainer.addChild(card);
 }
