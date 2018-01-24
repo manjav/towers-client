@@ -104,7 +104,7 @@ public function updateBuilding():void
 	bodyFactory();
 	//	trace(place.index, place.building.type, troopType, place.building.troopType);
 	healthBar.troopType = player.colorIndex(place.building.troopType);;
-	healthBar.y = place.y - ( place.building.capacity == 0 ? 100 : 150 );
+	healthBar.y = place.y - ( place.building.troopsCount == 0 ? 100 : 150 );
 	healthBar.value = place.building._health;
 }
 

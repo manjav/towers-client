@@ -16,6 +16,7 @@ import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.TroopType;
 import com.gt.towers.utils.PathFinder;
 import com.gt.towers.utils.lists.PlaceDataList;
 import com.gt.towers.utils.lists.PlaceList;
@@ -190,8 +191,8 @@ private function getPlace(index:int):PlaceData
 
 public function fight(destination:Place) : void
 {
-	var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getAllTowers(-1));
-	if(path == null || destination.building == place.building)
+	var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
+	if( path == null || destination.building == place.building )
 		return;
 	
 	var len:int = place.building.get_population() ;

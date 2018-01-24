@@ -137,7 +137,7 @@ public function set type(value:int):void
 	
 	rarity = building.rarity;
 	level = building.get_level();
-	count = building.capacity;
+	count = building.troopsCount;
 	elixir = building.elixirSize;
 }
 
