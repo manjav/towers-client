@@ -93,10 +93,11 @@ public function createPlaces(battleData:BattleData):void
 	places = new Vector.<PlaceView>(len, true);
 	for ( var i:uint=0; i<len; i++ )
 	{
-		places[i] = new PlaceView(battleData.battleField.places.get(i));
-		places[i].selectable = true;
-		places[i].name = i.toString();
-		addChild(places[i]);
+		var p:PlaceView = new PlaceView(battleData.battleField.places.get(i));
+		p.selectable = true;
+		p.name = p.place.index.toString();
+		addChild(p);
+		places[p.place.index] = p
 	}
 
 	dropTargets = new DropTargets(stage);

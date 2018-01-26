@@ -426,17 +426,22 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	*/
 	if( event.params.changedVars.indexOf("towers") > -1 )
 		updateTowersFromRoomVars();
-			
-	if( event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
-	{
-		var towers:SFSArray = event.params.room.getVariable("s").getValue() as SFSArray;
-		var destination:int = event.params.room.getVariable("d").getValue();
-
-		for( var i:int=0; i<towers.size(); i++ )
-			appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
-	}
+	
+	if( event.params.changedVars.indexOf("fights") > -1  )
+		fightFromRoomVars();
 
 	sfsConnection.removeFromCommands(SFSCommands.FIGHT);
+}
+
+private function fightFromRoomVars():void
+{
+	var fights:SFSArray = appModel.battleFieldView.battleData.room.getVariable("fights").getValue() as SFSArray;
+	for( var i:int=0; i<fights.size(); i++ )
+	{
+		var f:Array = fights.getText(i).split(",");
+		appModel.battleFieldView.places[f
+		[0]].fight(appModel.battleFieldView.places[f[1]].place, f[2]);
+	}
 }
 
 private function updateTowersFromRoomVars():void

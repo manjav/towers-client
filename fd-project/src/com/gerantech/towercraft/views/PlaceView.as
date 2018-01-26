@@ -189,14 +189,13 @@ private function getPlace(index:int):PlaceData
 	return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
 }
 
-public function fight(destination:Place) : void
+public function fight(destination:Place, numTroops:int) : void
 {
 	var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
 	if( path == null || destination.building == place.building )
 		return;
 	
-	var len:int = place.building.get_population() ;
-	for(var i:uint=0; i<len; i++)
+	for(var i:uint=0; i<numTroops; i++)
 	{
 		var t:TroopView = new TroopView(place.building, path);
 		t.x = x;
@@ -208,11 +207,11 @@ public function fight(destination:Place) : void
 	if ( place.building.troopType == player.troopType )
 	{
 		var soundIndex:int = 0;
-		if( len > 5 && len < 10 )
+		if( numTroops > 5 && numTroops < 10 )
 			soundIndex = 1;
-		else if ( len >= 10 && len < 20 )
+		else if ( numTroops >= 10 && numTroops < 20 )
 			soundIndex = 2;
-		else if ( len >= 20 )
+		else if ( numTroops >= 20 )
 			soundIndex = 3;
 		
 		if( !appModel.sounds.soundIsPlaying("battle-go-army-"+soundIndex) )
@@ -232,9 +231,9 @@ public function showDeployWaiting(card:Building):void
 	appModel.battleFieldView.guiImagesContainer.addChild(timerIcon);
 	setTimeout(timerIcon.punch, 100);
 	var delay:Number = card.deployTime + 0.1;
-	timerIcon.rotateTo(0, 360, delay);
-	setTimeout(timerIcon.punch, delay*1000);
-	setTimeout(timerIcon.removeFromParent, card.deployTime*1000+50);
+	timerIcon.rotateTo(0, 360, delay / 1000);
+	setTimeout(timerIcon.punch, delay);
+	setTimeout(timerIcon.removeFromParent, card.deployTime+50);
 }
 
 public function replaceBuilding(type:int, level:int, improveLevel:int):void
