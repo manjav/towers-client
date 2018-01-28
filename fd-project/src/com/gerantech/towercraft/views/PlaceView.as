@@ -38,6 +38,7 @@ public class PlaceView extends Sprite
 public var place:Place;
 public var raduis:Number;
 public var arrowContainer:Sprite;
+public var population:int;
 private var timerIcon:TimerIcon;
 private var decorator:BuildingDecorator;
 private var defensiveWeapon:DefensiveWeapon;
@@ -66,7 +67,7 @@ public function PlaceView(place:Place)
 	createArrow();
 	place.building.reset(place.building.troopType);
 	place.building._health = place.building.get_health();
-	place.building._population = place.building.get_population();
+	population = 0;
 }
 
 private function createDecorator():void
@@ -131,13 +132,13 @@ public function update(population:int, troopType:int, health:int) : void
 
 	//if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
 	//	wishedPopulation = population;
-	place.building._population = population;
+	this.population = population;
 	place.building._health = health;
 	if( place.building.troopType != troopType )
 	{
 		place.building.troopType = troopType;
 		
-		if( player.troopType == troopType )
+		if( player.troopType == troopType && place.mode == 1 )
 		{
 			elixirCollector = new ElixirCollector(place);
 		}
@@ -189,15 +190,22 @@ private function getPlace(index:int):PlaceData
 	return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
 }
 
-public function fight(destination:Place, numTroops:int) : void
+public function fight(destination:Place, troops:Array) : void
 {
 	var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
 	if( path == null || destination.building == place.building )
 		return;
 	
-	for(var i:uint=0; i<numTroops; i++)
+	for(var i:uint=0; i<troops.length; i++)
 	{
-		var t:TroopView = new TroopView(place.building, path);
+		var relatedPlace:Place = appModel.battleFieldView.battleData.battleField.getPlaceInDeck(int(troops[i]), place.building.troopType);
+		if ( relatedPlace == null )
+		{
+			trace("relatedPlace not found for " + i, troops[i]);
+			continue;
+		}
+		//trace(i, int(troops[i]))
+		var t:TroopView = new TroopView(relatedPlace.building, path);
 		t.x = x;
 		t.y = y ;
 		appModel.battleFieldView.troopsContainer.addChild(t);
@@ -274,7 +282,6 @@ override public function dispose():void
 		elixirCollector.dispose();
 	super.dispose();
 }
-
 protected function get tutorials():		TutorialManager	{	return TutorialManager.instance;	}
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get game():			Game			{	return appModel.game;				}

@@ -46,7 +46,7 @@ package com.gerantech.towercraft.models.vo
 			for (var i:int = 0; i < data.getSFSArray("decks").size(); i++)
 			{
 				battleField.deckBuildings.get(i).building.type = data.getSFSArray("decks").getInt(i);
-				battleField.deckBuildings.get(i).building.elixirSize = game.featureCaculator.elixirSize.get( data.getSFSArray("decks").getInt(i) );
+				battleField.deckBuildings.get(i).building.setFeatures();
 			}
 
 			/*trace(this.troopType, "tt", data.getText("mapName"))	

@@ -438,9 +438,8 @@ private function fightFromRoomVars():void
 	var fights:SFSArray = appModel.battleFieldView.battleData.room.getVariable("fights").getValue() as SFSArray;
 	for( var i:int=0; i<fights.size(); i++ )
 	{
-		var f:Array = fights.getText(i).split(",");
-		appModel.battleFieldView.places[f
-		[0]].fight(appModel.battleFieldView.places[f[1]].place, f[2]);
+		var f:Array = fights.getText(i).split(",");trace(f)
+		appModel.battleFieldView.places[f[0]].fight(appModel.battleFieldView.places[f[1]].place, String(f[2]).split(":"));
 	}
 }
 
@@ -484,7 +483,7 @@ private function touchHandler(event:TouchEvent):void
 
 		pv = touch.target.parent as PlaceView;
 
-		if( pv.place.building.troopType != player.troopType || !pv.place.hasTroop() )
+		if( pv.place.building.troopType != player.troopType || !pv.population > 0 )
 			return;
 
 		allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE);
@@ -501,7 +500,7 @@ private function touchHandler(event:TouchEvent):void
 			if( pv != null && (PathFinder.find(sourcePlaces[0].place, pv.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == pv.place.building.troopType))
 			{
 				// check next tower liked by selected places
-				if( sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType && pv.place.hasTroop() )
+				if( sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType && pv.population > 0 )
 					sourcePlaces.push(pv);
 				endPoint.setTo(pv.x, pv.y);
 			}
