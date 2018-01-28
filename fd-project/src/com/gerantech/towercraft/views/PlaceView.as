@@ -196,7 +196,8 @@ public function fight(destination:Place, troops:Array) : void
 	if( path == null || destination.building == place.building )
 		return;
 	
-	for(var i:uint=0; i<troops.length; i++)
+	var numTroops:int = troops.length;
+	for(var i:uint=0; i<numTroops; i++)
 	{
 		var relatedPlace:Place = appModel.battleFieldView.battleData.battleField.getPlaceInDeck(int(troops[i]), place.building.troopType);
 		if ( relatedPlace == null )
