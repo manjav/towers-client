@@ -40,7 +40,7 @@ public function Towers()
 	return;*/
 
 	t = getTimer();
-	if(this.stage)
+	if( this.stage )
 	{
 		this.stage.scaleMode = StageScaleMode.NO_SCALE;
 		this.stage.align = StageAlign.TOP_LEFT;
@@ -78,7 +78,7 @@ private function starStarling():void
 	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 	//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
 	this.starling.supportHighResolutions = true;
-	this.starling.showStatsAt("left", "bottom", 1.2);
+	this.starling.showStatsAt("right", "bottom", 1.2);
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
