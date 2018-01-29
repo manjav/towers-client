@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.animations.AchievedItem;
-import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.indicators.Indicator;
 import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;

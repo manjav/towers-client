@@ -430,6 +430,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	if( event.params.changedVars.indexOf("fights") > -1  )
 		fightFromRoomVars();
 
+	hud.updateRoomVars(event.params.changedVars);
 	sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 }
 

@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.headers
 {
 import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.indicators.Indicator;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;

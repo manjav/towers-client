@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.headers.AttendeeHeader;
 import com.gerantech.towercraft.controls.headers.BattleFooter;
+import com.gerantech.towercraft.controls.indicators.BattleKeyIndicator;
 import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -44,8 +45,8 @@ private var stickerList:List;
 private var padding:int;
 
 private var stickerCloserOveraly:SimpleLayoutButton;
-private var myBubble:StickerBubble;
-private var opponentBubble:StickerBubble;
+private var bubbleAllise:StickerBubble;
+private var bubbleAxis:StickerBubble;
 
 private var starsNotice:StarsNotice;
 private var scoreIndex:int = 0;
@@ -53,6 +54,8 @@ private var timeLog:RTLLabel;
 private var debugMode:Boolean = false;
 
 private var deck:BattleFooter;
+private var keyIndicatorAllies:BattleKeyIndicator;
+private var keyIndicatorAxis:BattleKeyIndicator;
 
 public function BattleHUD()
 {
@@ -138,11 +141,19 @@ override protected function initialize():void
 	{
 		deck.addEventListener(FeathersEventType.BEGIN_INTERACTION, stickerButton_triggeredHandler);
 		
-		myBubble = new StickerBubble();
-		myBubble.layoutData = new AnchorLayoutData( NaN, NaN, padding*13, padding);
+		bubbleAllise = new StickerBubble();
+		bubbleAllise.layoutData = new AnchorLayoutData( NaN, NaN, padding * 13, padding);
 		
-		opponentBubble = new StickerBubble(true);
-		opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
+		bubbleAxis = new StickerBubble(true);
+		bubbleAxis.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
+		
+		keyIndicatorAllies = new BattleKeyIndicator(true);
+		keyIndicatorAllies.layoutData = new AnchorLayoutData( NaN, -padding * 0.5, NaN, NaN, NaN, padding * 10 - deck.height * 0.5);
+		addChild(keyIndicatorAllies);
+		
+		keyIndicatorAxis = new BattleKeyIndicator(false);
+		keyIndicatorAxis.layoutData = new AnchorLayoutData( NaN, -padding * 0.5, NaN, NaN, NaN, -padding * 10 - deck.height * 0.5);
+		addChild(keyIndicatorAxis);
 	}
 }
 
@@ -223,6 +234,22 @@ private function showTimeNotice(score:int):void
 	appModel.sounds.addAndPlaySound("whoosh");
 }
 
+
+public function updateRoomVars(changedVars:Object):void
+{
+	if( battleData == null || !battleData.room.containsVariable("towers") || battleData.map.isQuest )
+		return;
+	var towers:Array = [0,0]
+	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
+	{
+		var p:Place = battleData.battleField.places.get(i);
+		if ( p.mode == 1 && p.building.troopType > -1 )
+			towers[ p.building.troopType ] ++;
+	}
+	keyIndicatorAllies.value = towers[player.troopType];
+	keyIndicatorAxis.value = towers[player.troopType == 0 ? 1 : 0];
+}
+
 private function closeButton_triggeredHandler(event:Event):void
 {
 	dispatchEventWith(Event.CLOSE);
@@ -244,8 +271,8 @@ private function stickerButton_triggeredHandler(event:Event):void
 		
 		stickerList = new List();
 		stickerList.layout = stickersLayout;
-		stickerList.layoutData = new AnchorLayoutData(NaN,0,NaN,0);
-		stickerList.height = padding*20;
+		stickerList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
+		stickerList.height = padding * 20;
 		stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 		stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
 		stickerList.dataProvider = new ListCollection(StickerType.getAll(game)._list);
@@ -288,7 +315,7 @@ private function stickerList_changeHandler(event:Event):void
 
 public function showBubble(type:int, itsMe:Boolean=true):void
 {
-	var bubble:StickerBubble = itsMe ? myBubble : opponentBubble;
+	var bubble:StickerBubble = itsMe ? bubbleAllise : bubbleAxis;
 
 	Starling.juggler.removeTweens(bubble);
 	bubble.type = type;
