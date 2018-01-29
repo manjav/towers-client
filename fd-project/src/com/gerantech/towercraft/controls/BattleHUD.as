@@ -6,7 +6,9 @@ import com.gerantech.towercraft.controls.headers.AttendeeHeader;
 import com.gerantech.towercraft.controls.headers.BattleFooter;
 import com.gerantech.towercraft.controls.indicators.BattleKeyIndicator;
 import com.gerantech.towercraft.controls.items.StickerItemRenderer;
-import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
+import com.gerantech.towercraft.controls.sliders.battle.BattleCountdown;
+import com.gerantech.towercraft.controls.sliders.battle.BattleTimerSlider;
+import com.gerantech.towercraft.controls.sliders.battle.BattleTimePanel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
@@ -43,7 +45,7 @@ import starling.utils.Color;
 public class BattleHUD extends TowersLayout
 {
 private var battleData:BattleData;
-private var timerSlider:BattleTimerSlider;
+private var timerSlider:BattleTimePanel;
 private var stickerList:List;
 
 private var padding:int;
@@ -119,13 +121,15 @@ override protected function initialize():void
 	if( battleData.map.isQuest )
 	{
 		timerSlider = new BattleTimerSlider();
-		timerSlider.layoutData = new AnchorLayoutData(padding*4, padding*6);
-		addChild(timerSlider);
+		timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
 	}
 	else
 	{
-		
+		timerSlider = new BattleCountdown();
+		timerSlider.layoutData = new AnchorLayoutData(padding, padding);
 	}
+	addChild(timerSlider);
+	
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	
 	//if( player.get_questIndex() >= 2 && !player.hardMode )
@@ -191,9 +195,20 @@ private function timeManager_changeHandler(event:Event):void
 			timerSlider.enableStars(0);
 		}
 	}
-	var time:int = timeManager.now - battleData.startAt - timerSlider.minimum;
+	
+	if ( !battleData.map.isQuest )
+	{
+		var time:int = battleData.startAt + battleData.map.times.get(2) - timeManager.now;
+		if( time < 0 )
+			time = battleData.startAt + battleData.map.times.get(3) - timeManager.now;
+		timerSlider.value = time + 1;
+		return;
+	}
+	
+	time = timeManager.now - battleData.startAt - timerSlider.minimum;
 	if( debugMode )
 		timeLog.text = time.toString();
+		
 	//trace(time, timerSlider.minimum, timerSlider.maximum)
 	if( time % 2 == 0 )
 		Starling.juggler.tween(timerSlider, 1, {value:timerSlider.maximum - time, transition:Transitions.EASE_OUT_ELASTIC});;
