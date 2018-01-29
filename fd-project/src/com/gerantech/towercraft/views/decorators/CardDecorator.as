@@ -16,7 +16,7 @@ public function CardDecorator(placeView:PlaceView)
 override public function updateBuilding():void
 {
 	super.updateBuilding();
-	cardDisplyFactory() ;
+	//cardDisplyFactory() ;
 }
 
 private function cardDisplyFactory():void

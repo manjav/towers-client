@@ -109,17 +109,21 @@ override protected function initialize():void
 		timeLog.layoutData = new AnchorLayoutData(padding*10, padding*6);
 		addChild(timeLog);
 	}
-
-	timerSlider = new BattleTimerSlider();
-	timerSlider.layoutData = new AnchorLayoutData(padding*4, padding*6);
-	addChild(timerSlider);
 	
 	if( battleData.map.isQuest )
 	{
+		timerSlider = new BattleTimerSlider();
+		timerSlider.layoutData = new AnchorLayoutData(padding*4, padding*6);
+		addChild(timerSlider);
+
 		starsNotice = new StarsNotice();
 		starsNotice.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 		starsNotice.alpha = 0;
 		starsNotice.y = 480 * appModel.scale;
+	}
+	else
+	{
+		
 	}
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	
@@ -146,19 +150,31 @@ private function createCompleteHandler(event:Event):void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-	setTimePosition();
 	
-	if( battleData.battleField.extraTime > 0 )
-		appModel.navigator.addAnimation(stage.stageWidth*0.5, stage.stageHeight*0.5, 240, Assets.getTexture("extra-time", "gui"), battleData.battleField.extraTime, timerSlider.iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
-	function punchTimer():void {
-		var diff:int = 48 * appModel.scale;
-		timerSlider.y -= diff;
-		Starling.juggler.tween(timerSlider, 0.4, {y:y+diff, transition:Transitions.EASE_OUT_ELASTIC});
+	if ( battleData.map.isQuest )
+	{
+		setTimePosition();
+		
+		if( battleData.battleField.extraTime > 0 )
+			appModel.navigator.addAnimation(stage.stageWidth*0.5, stage.stageHeight*0.5, 240, Assets.getTexture("extra-time", "gui"), battleData.battleField.extraTime, timerSlider.iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
+		function punchTimer():void {
+			var diff:int = 48 * appModel.scale;
+			timerSlider.y -= diff;
+			Starling.juggler.tween(timerSlider, 0.4, {y:y+diff, transition:Transitions.EASE_OUT_ELASTIC});
+		}
+	}
+	else
+	{
+		
 	}
 }
 
 private function timeManager_changeHandler(event:Event):void
 {
+	if ( !battleData.map.isQuest )
+	{
+		return;
+	}
 	//trace(timeManager.now-battleData.startAt , battleData.map.times._list)
 	if( scoreIndex < battleData.map.times.size() && timeManager.now-battleData.startAt > battleData.battleField.getTime(scoreIndex) )
 	{
@@ -199,9 +215,6 @@ private function showTimeNotice(score:int):void
 		appModel.sounds.addAndPlaySound("battle-clock-ticking");
 	else if( score == 0 )
 		appModel.sounds.playSoundUnique("battle-clock-ticking", 0.4, 300, 0.3);
-
-	if( !battleData.map.isQuest )
-		return;
 	
 	addChild(starsNotice);
 	setTimeout(starsNotice.pass, 1, score);
