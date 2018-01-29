@@ -13,7 +13,7 @@ import starling.core.Starling;
 import starling.display.Image;
 /**
 * ...
-* @author MAnsour Djawadi
+* @author Mansour Djawadi
 */
 public class BattleKeyIndicator extends TowersLayout
 {
@@ -44,7 +44,7 @@ override protected function initialize():void
 	var size:int = 32 * appModel.scale;
 	width = size * 3;
 	height = size * 3.4;
-	var color:uint = alise ? 0xFF : 0xFF0000;
+	var color:uint = alise ? 0x007aff : 0xf20c1a;
 
 	var bgImage:ImageLoader = new ImageLoader();
 	bgImage.source = Assets.getTexture("theme/indicator-background", "gui");
