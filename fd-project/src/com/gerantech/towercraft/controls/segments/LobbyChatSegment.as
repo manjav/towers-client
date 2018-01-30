@@ -39,6 +39,7 @@ private var chatList:List;
 private var inputText:CustomTextInput;
 private var sendButton:CustomButton;
 private var battleButton:CustomButton;
+private var donateButton:CustomButton;
 private var header:LobbyHeader;
 private var headerSize:int;
 private var startScrollBarIndicator:Number = 0;
@@ -113,11 +114,19 @@ private function showElements():void
 	battleButton = new CustomButton();
 	battleButton.style = "danger";
 	battleButton.width = battleButton.height = footerSize;
-	battleButton.icon = Assets.getTexture("tab-1", "gui");
+	battleButton.icon = Assets.getTexture("tab-2", "gui");
 	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
 	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
+	
+	donateButton = new CustomButton();
+	donateButton.width = donateButton.height = footerSize;
+	donateButton.icon = Assets.getTexture("tab-1", "gui");
+	donateButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
+	donateButton.layoutData = new AnchorLayoutData(NaN, padding, 60, NaN);
+	donateButton.addEventListener(Event.TRIGGERED, donateButton_triggeredHandler);
+	addChild(donateButton);
 	
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 	manager.addEventListener(Event.TRIGGERED, manager_triggerHandler);	
@@ -200,6 +209,16 @@ protected function battleButton_triggeredHandler(event:Event):void
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 	//params.putInt("bid", readyBattleIndex>-1?messageCollection.getItemAt(readyBattleIndex).getInt("bid"):readyBattleIndex);
 	params.putShort("st", 0);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+}
+protected function donateButton_triggeredHandler(event:Event):void
+{
+	//setTimeout(function():void{ buttonsEnabled = false}, 1);
+	//var readyBattleIndex:int = getMyRequestBattleIndex();
+	var params:SFSObject = new SFSObject();
+	params.putShort("m", MessageTypes.M20_DONATE);
+	params.putShort("st", 0);
+	params.putShort("ct", 401);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 }
 
