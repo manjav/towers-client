@@ -20,6 +20,7 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.StickerType;
+import starling.display.Image;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
@@ -232,9 +233,22 @@ private function showTimeNotice(score:int):void
 	if( battleData.map.isQuest )
 		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
 	else if ( score == -1 )
+	{
+		var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+		shadow.touchable = false;
+		shadow.width = stage.stageWidth;
+		shadow.height = stage.stageHeight;
+		shadow.alpha = 0.5;
+		shadow.color = 0xAA0000;;
+		addChildAt(shadow, 0);
+		setTimeout(animateShadow, 1000, shadow, 0);
 		appModel.navigator.addPopup(new BattleExtraTimeToast());
+	}
 }
-
+public function animateShadow(shadow:Image, alphaSeed:Number):void
+{
+	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[shadow, alphaSeed==0?0.6:0]});
+}
 
 public function updateRoomVars(changedVars:Object):void
 {
