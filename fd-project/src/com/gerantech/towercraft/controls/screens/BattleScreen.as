@@ -120,11 +120,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		resetAll(data);
 		break;
 
-	case SFSCommands.LEFT_BATTLE:
+	/*case SFSCommands.LEFT_BATTLE:
 	case SFSCommands.REJOIN_BATTLE:
 		//trace(event.params.cmd, data.getText("user"))
 		appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
-		break;
+		break;*/
 
 	case SFSCommands.END_BATTLE:
 		endBattle(data);

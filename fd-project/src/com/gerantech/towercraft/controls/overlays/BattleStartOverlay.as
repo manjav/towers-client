@@ -9,6 +9,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 
 import flash.utils.setTimeout;
 
@@ -27,6 +28,7 @@ public class BattleStartOverlay extends BaseOverlay
 public var ready:Boolean;
 public var questIndex:int = 0;
 public var cancelable:Boolean = true;
+public var spectatingData:ISFSObject;
 
 private var padding:int;
 private var opponentLabel:ShadowLabel;
@@ -38,12 +40,15 @@ private var container:LayoutGroup;
 
 private var opponentHeader:BattleHeader;
 
-public function BattleStartOverlay(questIndex:int, cancelable:Boolean)
+private var playerHeader:BattleHeader;
+
+public function BattleStartOverlay(questIndex:int, cancelable:Boolean, spectatingData:ISFSObject = null)
 {
 	super();
 	padding = 48 * appModel.scale;
 	this.questIndex = questIndex;
 	this.cancelable = cancelable;
+	this.spectatingData = spectatingData;
 }
 
 override protected function initialize():void
@@ -61,7 +66,8 @@ override protected function initialize():void
 	addChild(container);
 	
 	// opponent elements
-	opponentHeader = new BattleHeader(questIndex>=0?(loc("quest_label") + " " +(questIndex+1)):"???", false);
+	var axisName:String = spectatingData == null ? "???" : spectatingData.getSFSArray("players").getSFSObject(1).getText("n");
+	opponentHeader = new BattleHeader(questIndex>=0?(loc("quest_label") + " " +(questIndex+1)):axisName, false);
 	opponentHeader.layoutData = new AnchorLayoutData(300 * appModel.scale, 0, NaN, 0);
 	container.addChild(opponentHeader);
 	
@@ -71,7 +77,7 @@ override protected function initialize():void
 		return;
 	
 	// player elements
-	var playerHeader:BattleHeader = new BattleHeader(player.nickName, true);
+	playerHeader = new BattleHeader(spectatingData==null ? player.nickName : spectatingData.getSFSArray("players").getSFSObject(0).getText("n"), true);
 	playerHeader.width = padding * 16;
 	playerHeader.layoutData = new AnchorLayoutData(800 * appModel.scale, 0, NaN, 0);
 	container.addChild(playerHeader);
@@ -118,6 +124,9 @@ public function setData(battleData:BattleData):void
 {
 	if( questIndex < 0 && battleData.opponent != null )
 		opponentHeader.labelDisplay.text = battleData.opponent.getVariable("name").getStringValue();
+	if( spectatingData == null )
+		playerHeader.labelDisplay.text = battleData.me.getVariable("name").getStringValue();
+		
 	if( cancelButton != null )
 		cancelButton.touchable = false;
 	//opponentHeader.scaleX = 0.5;
