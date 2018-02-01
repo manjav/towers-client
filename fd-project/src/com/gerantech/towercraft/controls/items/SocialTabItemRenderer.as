@@ -43,7 +43,7 @@ package com.gerantech.towercraft.controls.items
 			skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 			backgroundSkin = skin;
 			
-			titleDisplay = new ShadowLabel(loc("tab-"+dashboardData.index), 1, 0, "center");
+            titleDisplay = new ShadowLabel(loc("tab-"+dashboardData.index), 1, 0, "center", null, false, null, 0.9);
 			titleDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 			addChild(titleDisplay);
 			

@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.HomeSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
+import com.gerantech.towercraft.controls.segments.LobbyPublicChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
 import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
@@ -70,7 +71,7 @@ override protected function commitData():void
 			break;
 		
 		case SegmentType.S10_LOBBY_MAIN:
-				segment = new LobbyChatSegment();
+			segment = new LobbyChatSegment();
 			break;
 		case SegmentType.S11_LOBBY_SEARCH:
 			segment = new LobbySearchSegment();
@@ -80,6 +81,9 @@ override protected function commitData():void
 			break;
 		case SegmentType.S13_FRIENDS:
 			segment = new BuddiesSegment();
+			break;
+		case SegmentType.S14_LOBBY_PUBLIC:
+			segment = new LobbyPublicChatSegment();
 			break;
 		
 		default:
