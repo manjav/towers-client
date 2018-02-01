@@ -38,6 +38,7 @@ public static const LOBBY_JOIN:String = "lobbyJoin";
 public static const LOBBY_LEAVE:String = "lobbyLeave";
 public static const LOBBY_MODERATION:String = "lobbyModeration";
 public static const LOBBY_EDIT:String = "lobbyEdit";
+public static const LOBBY_PUBLIC:String = "lobbyPublic";
 public static const LOBBY_PUBLIC_MESSAGE:String = "m";
 
 public static const BUDDY_ADD:String = "buddyAdd";
