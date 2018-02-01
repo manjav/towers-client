@@ -121,10 +121,10 @@ private function showElements():void
 	addChild(battleButton);
 	
 	donateButton = new CustomButton();
-	donateButton.width = donateButton.height = footerSize;
+	donateButton.width = donateButton.height * 2;
 	donateButton.icon = Assets.getTexture("tab-1", "gui");
 	donateButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	donateButton.layoutData = new AnchorLayoutData(NaN, padding, 60, NaN);
+	donateButton.layoutData = new AnchorLayoutData(NaN, NaN, 50, padding + 10);
 	donateButton.addEventListener(Event.TRIGGERED, donateButton_triggeredHandler);
 	addChild(donateButton);
 	
