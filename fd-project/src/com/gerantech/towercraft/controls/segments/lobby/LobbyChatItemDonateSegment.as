@@ -39,24 +39,19 @@ override public function init():void
 override public function commitData(_data:ISFSObject):void
 {
 	super.commitData(_data);
-	actionButton.visible = data.getShort("st") < 2;
+	actionButton.visible = true;
 	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding*0.5);
 	
 	trace("DONATION state=", data.getShort("st"));
 	if( data.getShort("st") == 0 )
 	{
-		/*actionButton.style = itsMe ? "neutral" : "danger";
-		actionButton.label = loc( itsMe ? "popup_cancel_label" : "lobby_battle_accept" );
-		messageDisplay.text = loc( itsMe ? "lobby_battle_me" : "lobby_battle_request", [data.getText("s")]);*/
+		messageDisplay.text = "My Donatation Request";
 	}
 	else if( data.getShort("st") == 1 )
 	{
-		/*actionButton.label = loc( "lobby_battle_spectate" );
-		messageDisplay.text = loc( "lobby_battle_in", [data.getText("s"), data.getText("o")]);*/
-	}	
-	else if( data.getShort("st") == 2 )
-	{
-		//messageDisplay.text = loc( "lobby_battle_ended", [data.getText("s"), data.getText("o")]);
+		actionButton.style = itsMe ? "neutral" : "danger";
+		actionButton.label = "Donate";
+		messageDisplay.text = "Card request from" + data.getText("s")+" , "+data.getText("o");
 	}
 }
 

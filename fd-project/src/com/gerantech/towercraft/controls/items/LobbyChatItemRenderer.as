@@ -75,31 +75,24 @@ override protected function commitData():void
 	switch(type)
 	{
 		case TYPE_MESSAGE:
-		trace("Message Type: ", "TYPE_MESSAGE");
 			segment = messageSegment;
 			break;
 		case TYPE_COMMENT:
-		trace("Message Type: ", "TYPE_COMMENT");
 			segment = commentSegment;
 			break;
 		case TYPE_DONATE:
-		trace("Message Type: ", "TYPE_DONATE");
 			segment = donateSegment;
 			break;
 		case TYPE_CONFIRM:
-		trace("Message Type: ", "TYPE_CONFIRM");
 			segment = confirmSegment;
 			break;
 		case TYPE_BATTLE:
-		trace("Message Type: ", "TYPE_BATTLE");
 			segment =  battleSegment;
 			break;
-		default:
-			trace("no message type!");
 	}
 	
-	trace(index, type);
-	trace(segment.data.getDump());
+	//trace(index, type);
+	//trace(segment.data.getDump());
 	segment.commitData(_data as SFSObject);
 	addChild(segment);
 }
