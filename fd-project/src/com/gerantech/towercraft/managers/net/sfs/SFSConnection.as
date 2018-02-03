@@ -25,6 +25,7 @@ public var userName:String;
 public var password:String;
 public var zoneName:String;
 public var lobbyManager:LobbyManager;
+public var publicLobbyManager:LobbyManager;
 public var retryTimeout:int = 500;
 public var retryMax:int = 3;
 public var retryIndex:int = 1;
@@ -263,10 +264,10 @@ private function hideLowConnectionAlert(command:String=null):void
 	sfs.removeEventListener(SFSEvent.LOGIN_ERROR,			sfs_loginErrorHandler);
 	sfs.removeEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 }*/
-public function getLobby():Room
+public function getLobby(isPublic:Boolean=false):Room
 {
 	for each (var r:Room in SFSConnection.instance.roomList)
-		if( r.groupId == "lobbies" )
+		if( r.groupId == (isPublic?"publics":"lobbies") )
 			return r;
 	return null;
 }

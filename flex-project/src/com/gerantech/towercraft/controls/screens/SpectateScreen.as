@@ -8,6 +8,7 @@ import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.entities.variables.SFSRoomVariable;
 import com.smartfoxserver.v2.requests.LeaveRoomRequest;
@@ -37,7 +38,7 @@ override protected function initialize():void
 	sfsConnection.sendExtensionRequest("spectateBattles", sfsObj);
 	
 
-	title = "All "+ cmd.substr(0,1).toUpperCase() + cmd.substr(1);
+	title = loc("button_spectate");
 	super.initialize();
 	listLayout.gap = 0;	
 	list.itemRendererFactory = function():IListItemRenderer { return new BattleItemRenderer(); }
@@ -56,8 +57,8 @@ override protected function list_changeHandler(event:Event):void
 
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = new FieldData(100000 + SFSObject(list.selectedItem).getInt("id"), "quest_100000") ;
-	item.properties.spectatedUser = "Admin";
-	item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
+	item.properties.spectatedUser = player.nickName;
+	item.properties.waitingOverlay = new BattleStartOverlay(-1, false, list.selectedItem as SFSObject);
 	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);
 }
@@ -72,10 +73,30 @@ protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void
 private function updateRooms(_rooms:ISFSArray):void
 {
 	trace("roooooooooooooom");
-	var rs:Array = new Array();
+	var battles:Array = new Array();
 	for (var i:int = 0; i < _rooms.size(); i++) 
-		rs.push(_rooms.getSFSObject(i));
-	rooms.data = rs;
+		battles.push(_rooms.getSFSObject(i));
+	
+	/*for (var i:int = 0; i < 12; i++) 
+	{
+		var battle:SFSObject = new SFSObject();
+		battle.putInt("id", i);
+		battle.putText("name", "name_"+i);
+		battle.putInt("startAt", 23423424324);
+		var players:SFSArray = new SFSArray();
+		for (var j:int = 0; j < 2; j++) 
+		{
+			var p:SFSObject = new SFSObject();
+			p.putText("n", "player-" + i + "-" + j);
+			p.putText("ln", "lobby " + i);
+			p.putInt("lp", i);
+			players.addSFSObject(p);
+		}
+		battle.putSFSArray("players", players);
+		battles.push(battle);
+	}*/
+
+	rooms.data = battles;
 }
 
 protected function sfs_connectionLostHandler(event:SFSEvent):void

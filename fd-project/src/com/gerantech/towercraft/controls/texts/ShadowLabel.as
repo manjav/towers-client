@@ -20,12 +20,13 @@ package com.gerantech.towercraft.controls.texts
 		{		
 			super();
 			
-			shadowDistance = 4 * AppModel.instance.scale;
 			mainLabel	= new RTLLabel(text, color,			align, direction, wordWrap, lastAlign, fontSize, fontFamily, fontWeight, fontPosture);
 			mainLabel.pixelSnapping = false;
 
 			shadowLabel = new RTLLabel(text, shadowColor,	align, direction, wordWrap, lastAlign, fontSize, fontFamily, fontWeight, fontPosture);
 			shadowLabel.pixelSnapping = false;
+
+			shadowDistance = mainLabel.fontSize * 0.08;
 		}
 
 		override protected function initialize():void

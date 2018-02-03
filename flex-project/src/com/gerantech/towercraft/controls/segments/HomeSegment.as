@@ -137,10 +137,10 @@ private function showFooterButtons():void
 		return;
 	
 	var gradient:ImageLoader = new ImageLoader();
-	gradient.scale9Grid = new Rectangle(1,1,7,7);
 	gradient.color = Color.BLACK
-	gradient.alpha = 0.6;
-	gradient.width = 500 * appModel.scale;
+	gradient.maintainAspectRatio = false;
+	gradient.alpha = 0.5;
+	gradient.width = 600 * appModel.scale;
 	gradient.height = 120 * appModel.scale;
 	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
@@ -164,6 +164,12 @@ private function showFooterButtons():void
 	inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 246*appModel.scale);
 	addChild(inboxButton);
+	
+	var tvButton:IconButton = new IconButton(Assets.getTexture("button-spectate", "gui"));
+	tvButton.width = tvButton.height = 140 * appModel.scale;
+	tvButton.addEventListener(Event.TRIGGERED, function():void{var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Main.SPECTATE_SCREEN );}) ;
+	tvButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 366*appModel.scale);
+	addChild(tvButton);
 	
 	InboxService.instance.request();
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);

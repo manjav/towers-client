@@ -69,6 +69,7 @@ override protected function initialize():void
 	backgroundSkin = tiledBG;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+	shadow.color = 0;
 	shadow.width = stage.stageWidth;
 	shadow.height = stage.stageHeight-footerSize;
 	addChildAt(shadow, 0);

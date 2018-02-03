@@ -1,8 +1,9 @@
-package com.gerantech.towercraft.controls.sliders
+package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.items.TimerIcon;
+import com.gerantech.towercraft.controls.sliders.Slider;
 
 import flash.utils.clearTimeout;
 
@@ -12,13 +13,12 @@ import feathers.layout.HorizontalAlign;
 
 import starling.core.Starling;
 
-public class BattleTimerSlider extends TowersLayout
+public class BattleTimerSlider extends BattleTimePanel
 {
 private var timeoutId:uint;
 private var progressBar:Slider;
 public var iconDisplay:TimerIcon;
 private var stars:Vector.<StarCheck>;
-private var _value:Number = 0;
 
 public function BattleTimerSlider()
 {
@@ -60,11 +60,11 @@ override protected function initialize():void
 	stars.reverse();
 }
 
-public function get value():Number
+override public function get value():Number
 {
 	return _value;
 }
-public function set value(newValue:Number):void
+override public function set value(newValue:Number):void
 {
 	if( _value == newValue )
 		return;
@@ -77,32 +77,32 @@ public function set value(newValue:Number):void
 	} catch(e:Error){trace(e.message);}
 }
 
-public function get minimum():Number
+override public function get minimum():Number
 {
 	return progressBar.minimum;
 }
-public function set minimum(value:Number):void
+override public function set minimum(value:Number):void
 {
 	progressBar.minimum = value;
 }
 
-public function get maximum():Number
+override public function get maximum():Number
 {
 	return progressBar.maximum;
 }
-public function set maximum(value:Number):void
+override public function set maximum(value:Number):void
 {
 	progressBar.maximum = value;
 }
 
 
-public function enableStars(score:int):void
+override public function enableStars(score:int):void
 {
 	for ( var i:int=0; i<stars.length; i++ )
 	{
 		stars[i].isEnabled = score >= i;
 		stars[i].alpha = 0;
-		Starling.juggler.tween(stars[i], 0.3, {delay:i/10, alpha:1});
+		Starling.juggler.tween(stars[i], 0.3, {delay:i * 0.1, alpha:1});
 	}
 	if( score == 0 )
 		iconDisplay.punch();

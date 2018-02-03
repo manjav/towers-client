@@ -120,11 +120,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		resetAll(data);
 		break;
 
-	case SFSCommands.LEFT_BATTLE:
+	/*case SFSCommands.LEFT_BATTLE:
 	case SFSCommands.REJOIN_BATTLE:
 		//trace(event.params.cmd, data.getText("user"))
 		appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
-		break;
+		break;*/
 
 	case SFSCommands.END_BATTLE:
 		endBattle(data);
@@ -430,6 +430,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	if( event.params.changedVars.indexOf("fights") > -1  )
 		fightFromRoomVars();
 
+	hud.updateRoomVars(event.params.changedVars);
 	sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 }
 
@@ -438,7 +439,7 @@ private function fightFromRoomVars():void
 	var fights:SFSArray = appModel.battleFieldView.battleData.room.getVariable("fights").getValue() as SFSArray;
 	for( var i:int=0; i<fights.size(); i++ )
 	{
-		var f:Array = fights.getText(i).split(",");trace(f)
+		var f:Array = fights.getText(i).split(",");
 		appModel.battleFieldView.places[f[0]].fight(appModel.battleFieldView.places[f[1]].place, String(f[2]).split(":"));
 	}
 }
