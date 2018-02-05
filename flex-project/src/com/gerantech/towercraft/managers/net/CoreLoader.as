@@ -87,8 +87,8 @@ private function loaderInfo_completeHandler(event:Event):void
 
 	trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
 	dispatchEvent(new Event(Event.COMPLETE));
-}
 
+}
 protected function dsasd(event:CoreEvent):void
 {
 	trace(event.key, event.from, event.to)
@@ -143,7 +143,7 @@ private function initCoreData(game:*):void
 
 private function convertField(fieldSource:*):FieldData
 {
-	var ret:FieldData = new FieldData(fieldSource.index, fieldSource.name, fieldSource.introNum._list.join(','), fieldSource.startNum._list.join(','), fieldSource.endNum._list.join(','), fieldSource.times._list.join(','));
+	var ret:FieldData = new FieldData(fieldSource.index, fieldSource.name, fieldSource.times._list.join(','), fieldSource.introNum._list.join(','), fieldSource.startNum._list.join(','), fieldSource.endNum._list.join(','));
 	ret.places = new PlaceDataList();
 	for ( var p:int=0; p<fieldSource.places.size(); p++ )
 	{
