@@ -62,7 +62,7 @@ package com.gerantech.towercraft.controls
 			slider.height = progressHeight;
 			addChild(slider);
 			
-			levelDisplay = new RTLLabel("Level "+ _level, 0, "center", null, false, null, 0.8);
+			levelDisplay = new RTLLabel( _level > 0 ? "Level "+ _level : "", 0, "center", null, false, null, 0.8);
 			levelDisplay.alpha = 0.9;
 			levelDisplay.visible = !_locked && _showLevel;
 			levelDisplay.height = progressHeight;
@@ -99,7 +99,7 @@ package com.gerantech.towercraft.controls
 				return;
 			
 			_level = value;
-			if ( showLevel && levelDisplay )
+			if ( showLevel && levelDisplay && _level > 0 )
 				levelDisplay.text = "Level " + _level;
 		}
 		
@@ -113,7 +113,7 @@ package com.gerantech.towercraft.controls
 				return;
 			_showSlider = value;
 			if ( slider )
-				slider.visible = !_locked && _showSlider;
+				slider.visible = !_locked && _showSlider && _level > 0;
 		}
 		
 		public function set locked(value:Boolean):void
@@ -123,7 +123,7 @@ package com.gerantech.towercraft.controls
 			
 			_locked = value;
 			if ( slider )
-				slider.visible = !_locked && showSlider;
+				slider.visible = !_locked && showSlider && _level > 0;
 
 			if ( skin )
 				skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
@@ -144,12 +144,12 @@ package com.gerantech.towercraft.controls
 				return;*/
 			
 			_type = value;
-			if(_type < 0)
+			if( _type < 0 )
 				return;
 			
 			var building:Building = player.buildings.get(_type);
 			
-			if ( iconDisplay )
+			if( iconDisplay )
 				iconDisplay.source = Assets.getTexture("cards/"+_type, "gui");
 			
 			locked = building == null;
@@ -158,7 +158,6 @@ package com.gerantech.towercraft.controls
 			
 			var upgradeCards:int = building.get_upgradeCards();
 			var numBuildings:int = player.resources.get(type);
-			
 			if( showSlider && slider )
 			{
 				slider.maximum = upgradeCards;

@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
@@ -11,8 +12,6 @@ import com.gt.towers.constants.PrefsTypes;
 
 import flash.utils.setTimeout;
 
-import feathers.controls.ImageLoader;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -28,7 +27,6 @@ private var itemWidth:Number;
 private var _firstCommit:Boolean = true;
 private var titleDisplay:RTLLabel;
 private var iconDisplay:Image;
-//private var iconLayoutData:AnchorLayoutData;
 private var badgeNumber:IndicatorButton;
 
 private var padding:int;
@@ -47,8 +45,6 @@ public function DashboardTabItemRenderer(width:Number)
 	skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
 	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
-	
-	//iconLayoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	
 	titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
 	titleDisplay.visible = false;
@@ -90,6 +86,7 @@ override protected function commitData():void
 					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 			}
 		}
+		appModel.navigator.addEventListener("dashboardTabChanged", navigator_dashboardTabChanged);
 	}
 	super.commitData();
 	dashboardData = _data as TabItemData;
@@ -111,48 +108,21 @@ override protected function commitData():void
 	updateBadge();
 }
 
-private function updateBadge():void
+private function navigator_dashboardTabChanged(event:Event):void
 {
-	
-	if( dashboardData.badgeNumber <= 0 )
-	{
-		if(badgeNumber.parent == this)
-			removeChild(badgeNumber);
-	}
-	else
-	{
-		badgeNumber.label = dashboardData.badgeNumber.toString();
-		//badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
-		addChild(badgeNumber);
-	}
+	updateSelection(index == DashboardScreen.tabIndex, event.data as Number ); 
 }
 
-override public function set isSelected(value:Boolean):void
+override protected function setSelection(value:Boolean):void
 {
-	if( value == super.isSelected )
+	super.setSelection(value);
+	if( value && _owner != null )
+		_owner.dispatchEventWith(Event.SELECT, false, data);
+	
+	if( !player.dashboadTabEnabled(index) && value )
 		return;
 	
-	if( !player.dashboadTabEnabled(index) && value)
-		return;
-	
-	super.isSelected = value;
-	Starling.juggler.tween(this, 0.08, {width:itemWidth * (value ? 2 : 1), transition:Transitions.EASE_IN_OUT});
-	titleDisplay.visible = value;
-	
-	// icon animation
-	if( iconDisplay != null )
-	{
-		//iconLayoutData.horizontalCenter = value ? NaN : 0;
-		//iconLayoutData.left = value ? padding * -0.9 : NaN;
-		Starling.juggler.removeTweens(iconDisplay);
-		iconDisplay.x = itemWidth * (value?0.42:0.5);
-		if( value )
-			Starling.juggler.tween(iconDisplay, 0.5, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
-		else
-			iconDisplay.scale = appModel.scale * 1.8;
-	}
-	
-	if(dashboardData != null)
+	if( dashboardData != null && value )
 	{
 		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
 		updateBadge();
@@ -162,13 +132,38 @@ override public function set isSelected(value:Boolean):void
 		tutorialArrow.removeFromParent(true);
 }
 
-override protected function setSelection(value:Boolean):void
+private function updateBadge():void
 {
-	super.setSelection(value);
-	if( value && _owner != null )
-		_owner.dispatchEventWith(Event.SELECT, false, data);
+	if( dashboardData.badgeNumber <= 0 )
+	{
+		badgeNumber.removeFromParent();
+		return;
+	}
+
+	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
+	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
+	addChild(badgeNumber);
 }
 
+private function updateSelection(value:Boolean, time:Number = -1):void
+{
+	if( titleDisplay.visible == value )
+		return;
+	
+	width = itemWidth * (value ? 2 : 1);
+	titleDisplay.visible = value;
+	
+	// icon animation
+	if( iconDisplay != null )
+	{
+		Starling.juggler.removeTweens(iconDisplay);
+		iconDisplay.x = itemWidth * (value?0.42:0.5);
+		if( value )
+			Starling.juggler.tween(iconDisplay, time==-1?0.5:time, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
+		else
+			iconDisplay.scale = appModel.scale * 1.8;
+	}
+}
 
 private function tutorialManager_upgradeHandler(event:Event):void
 {

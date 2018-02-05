@@ -17,6 +17,7 @@ import starling.events.EventDispatcher;
 
 public class LobbyManager extends EventDispatcher
 {
+private var isPublic:Boolean;
 public var isReady:Boolean;
 public var lobby:Room;
 public var messages:ListCollection;
@@ -27,13 +28,22 @@ public var activeness:int;
 
 private var player:Player;
 
-public function LobbyManager()
+public function LobbyManager(isPublic:Boolean = false)
 {
+	this.isPublic = isPublic;
 	initialize();
+}
+public function joinToPublic() : void
+{
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinPublicHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC);	
 }
 
 public function initialize():void
 {
+	if( isPublic )
+		return;
+	
 	var _lobby:Room = SFSConnection.instance.getLobby();
 	if( _lobby == null )
 	{
@@ -64,7 +74,7 @@ public function requestData(broadcast:Boolean = false, skipMessages:Boolean = fa
 
 protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 {
-	if( event.params.cmd != SFSCommands.LOBBY_INFO )
+	if( event.params.cmd != SFSCommands.LOBBY_INFO || lobby != event.params.room )
 		return;
 
 	var data:ISFSObject = event.params.params as SFSObject;
@@ -88,6 +98,37 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 	dispatchEventWith(Event.READY);
 }
 
+protected function sfs_joinPublicHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.LOBBY_PUBLIC )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinPublicHandler);
+	
+	var _lobby:Room = SFSConnection.instance.getLobby(true);
+	if( _lobby == null )
+	{
+		dispose();
+		return;
+	}
+	if( lobby != null && lobby.id == _lobby.id )
+		return;
+	
+	dispose();
+	lobby = _lobby;
+	
+	player = AppModel.instance.game.player;
+	if( lobby.containsVariable("msg") )
+	{
+		var _msgs:ISFSArray = lobby.getVariable("msg").getSFSArrayValue()
+		messages = new ListCollection();
+		for( var i:int=0; i<_msgs.size(); i++ )
+			messages.addItem(_msgs.getSFSObject(i));
+	}
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_publicMessageHandler);
+	isReady = true;
+	dispatchEventWith(Event.READY);
+}
+
 private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 {
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
@@ -100,7 +141,7 @@ private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 
 protected function sfs_publicMessageHandler(event:SFSEvent):void
 {
-	if( event.params.cmd != SFSCommands.LOBBY_PUBLIC_MESSAGE )
+	if( event.params.cmd != SFSCommands.LOBBY_PUBLIC_MESSAGE || lobby != event.params.room )
 		return;
 	var msg:ISFSObject = event.params.params as SFSObject;
 	if( msg.getShort("m") == MessageTypes.M0_TEXT )

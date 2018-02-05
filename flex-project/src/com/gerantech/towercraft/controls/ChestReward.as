@@ -65,17 +65,17 @@ package com.gerantech.towercraft.controls
 			iconDisplay.verticalAlign = VerticalAlign.MIDDLE;
 			iconContainer.addChild(iconDisplay);
 			
-			if( ResourceType.isBuilding(type) && !player.buildings.exists(type) )
+			if( ResourceType.isBuilding(type) && player.buildings.get(type).get_level() == -1 )
 			{
 				var newDisplay:ImageLoader = new ImageLoader();
-				newDisplay.source = Assets.getTexture("new-badge", "gui");
+				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
 				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
 				newDisplay.width = 200 * appModel.scale;
 				newDisplay.height = 200 * appModel.scale;
 				iconContainer.addChild(newDisplay);
 				appModel.game.loginData.buildingsLevel.set(type, 1);
 				
-				setTimeout(appModel.sounds.addAndPlaySound, 900, "chest-open-new")
+				setTimeout(appModel.sounds.addAndPlaySound, 100, "chest-open-new")
 			}
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
@@ -84,7 +84,7 @@ package com.gerantech.towercraft.controls
 			countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*2, padding, appModel.isLTR?padding*2:NaN);
 			countInsideDisplay.text = "x " + count; 
 			iconContainer.addChild(countInsideDisplay);
-			
+
 			detailsContainer = new LayoutGroup ();
 			detailsContainer.visible = false;
 			detailsContainer.x = appModel.isLTR ? padding : -width*0.6-padding;

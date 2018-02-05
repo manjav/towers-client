@@ -309,6 +309,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 			if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
 				item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
+		player.addResources(item.outcomes);
 		openChestOverlay.setItem( item );
 		openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 		function openChestOverlay_closeHandler(event:Event):void {
@@ -318,7 +319,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 			openChestOverlay = null;
 			gotoDeckTutorial();
 		}
-		player.addResources(item.outcomes);
+		appModel.navigator.dispatchEventWith("bookOpened");
 	}
 	if( item.category == ExchangeType.S_10_SOFT )
 	{

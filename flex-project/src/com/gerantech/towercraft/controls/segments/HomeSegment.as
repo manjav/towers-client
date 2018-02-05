@@ -23,6 +23,7 @@ import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
+import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -45,6 +46,7 @@ private var inboxButton:NotifierButton;
 private var questsButton:HomeButton;
 private var battlesButton:HomeButton;
 private var leaguesButton:HomeButton;
+private var battleTimeoutId:uint;
 
 public function HomeSegment()
 {
@@ -54,13 +56,14 @@ public function HomeSegment()
 override public function init():void
 {
 	super.init();
-	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
+	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
 		return;
 	
 	layout = new AnchorLayout();		
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
-		setTimeout(gotoLiveBattle, 100, -1, false);
+		clearTimeout(battleTimeoutId);
+		battleTimeoutId = setTimeout(gotoLiveBattle, 100, -1, false);
 		return;
 	}
 	
@@ -138,7 +141,7 @@ private function showFooterButtons():void
 	var gradient:ImageLoader = new ImageLoader();
 	gradient.maintainAspectRatio = false;
 	gradient.alpha = 0.5;
-	gradient.width = 500 * appModel.scale;
+	gradient.width = 600 * appModel.scale;
 	gradient.height = 120 * appModel.scale;
 	gradient.source = Assets.getTexture("theme/grad-ro-right", "gui");
 	gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
@@ -162,6 +165,12 @@ private function showFooterButtons():void
 	inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
 	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 246*appModel.scale);
 	addChild(inboxButton);
+	
+	var tvButton:IconButton = new IconButton(Assets.getTexture("button-spectate", "gui"));
+	tvButton.width = tvButton.height = 140 * appModel.scale;
+	tvButton.addEventListener(Event.TRIGGERED, function():void{var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Main.SPECTATE_SCREEN );}) ;
+	tvButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 366*appModel.scale);
+	addChild(tvButton);
 	
 	InboxService.instance.request();
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
@@ -228,15 +237,6 @@ private function mainButtons_triggeredHandler(event:Event ):void
 		case battlesButton:
 			gotoLiveBattle(-1);
 			break;
-		case "dragon-cross":
-			/*if( !player.villageEnabled() )
-			{
-				appModel.navigator.addLog(loc("map-dragon-cross-availabledat", [loc("arena_title_1")]));
-				punchButton(leaguesButton);
-				return;
-			}*/
-			//appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
-			break;
 		case leaguesButton:
 			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
 			break;
@@ -247,7 +247,7 @@ private function gotoLiveBattle(questIndex:int = -1, cancelable:Boolean=true):vo
 {
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = null ;
-	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable ) ;;
+	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable);
 	//item.properties.waitingOverlay.data = waitingData;
 	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);		

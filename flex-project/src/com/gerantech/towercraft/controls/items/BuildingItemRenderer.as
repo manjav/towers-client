@@ -3,10 +3,13 @@ package com.gerantech.towercraft.controls.items
 	import com.gerantech.towercraft.controls.BuildingCard;
 	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 	import com.gerantech.towercraft.events.GameEvent;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.PrefsTypes;
+	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.events.FeathersEventType;
@@ -76,12 +79,10 @@ package com.gerantech.towercraft.controls.items
 			cardDisplay.type = _data as int;
 			Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
 			
-			if ( appModel.game.loginData.buildingsLevel.exists( cardDisplay.type ) )
+			if( player.buildings.exists(cardDisplay.type) && player.buildings.get(cardDisplay.type).get_level() == -1 )
 			{
-				appModel.game.loginData.buildingsLevel.remove( cardDisplay.type );
-				
 				newDisplay = new ImageLoader();
-				newDisplay.source = Assets.getTexture("new-badge", "gui");
+				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
 				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
 				newDisplay.height = newDisplay.width = width * 0.6;
 				addChild(newDisplay);
@@ -130,8 +131,17 @@ package com.gerantech.towercraft.controls.items
 			cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
 			if( _state == STATE_SELECTED )
 			{
-				if(newDisplay)
+				if( newDisplay )
+				{
 					newDisplay.removeFromParent(true);
+					player.buildings.get( cardDisplay.type ).upgrade();
+					
+					var sfs:SFSObject = new SFSObject();
+					sfs.putInt("type", cardDisplay.type);
+					sfs.putInt("confirmedHards", 0);
+					SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
+
+				}
 				owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 			}
 			
