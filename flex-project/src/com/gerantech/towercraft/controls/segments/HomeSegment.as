@@ -246,7 +246,6 @@ private function mainButtons_triggeredHandler(event:Event ):void
 
 private function gotoLiveBattle(questIndex:int = -1, cancelable:Boolean=true):void
 {
-	trace("gotoLiveBattle", questIndex)
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = null ;
 	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable);
