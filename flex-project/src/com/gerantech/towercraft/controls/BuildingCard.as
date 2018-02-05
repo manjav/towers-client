@@ -58,7 +58,7 @@ package com.gerantech.towercraft.controls
 			
 			slider = new BuildingSlider();
 			slider.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-			slider.visible = !_locked && _showSlider && _level > 0;
+			slider.visible = !_locked && _showSlider;
 			slider.height = progressHeight;
 			addChild(slider);
 			
@@ -144,12 +144,12 @@ package com.gerantech.towercraft.controls
 				return;*/
 			
 			_type = value;
-			if(_type < 0)
+			if( _type < 0 )
 				return;
 			
 			var building:Building = player.buildings.get(_type);
 			
-			if ( iconDisplay )
+			if( iconDisplay )
 				iconDisplay.source = Assets.getTexture("cards/"+_type, "gui");
 			
 			locked = building == null;
@@ -158,7 +158,6 @@ package com.gerantech.towercraft.controls
 			
 			var upgradeCards:int = building.get_upgradeCards();
 			var numBuildings:int = player.resources.get(type);
-			
 			if( showSlider && slider )
 			{
 				slider.maximum = upgradeCards;
