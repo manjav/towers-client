@@ -22,6 +22,7 @@ import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import flash.utils.clearTimeout;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
@@ -47,6 +48,7 @@ private var inboxButton:NotifierButton;
 private var questsButton:HomeButton;
 private var battlesButton:HomeButton;
 private var leaguesButton:HomeButton;
+private var battleTimeoutId:uint;
 
 public function HomeSegment()
 {
@@ -56,13 +58,14 @@ public function HomeSegment()
 override public function init():void
 {
 	super.init();
-	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
+    if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
 		return;
 	
 	layout = new AnchorLayout();		
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
-		setTimeout(gotoLiveBattle, 100, -1, false);
+        clearTimeout(battleTimeoutId);
+        battleTimeoutId = setTimeout(gotoLiveBattle, 100, -1, false);
 		return;
 	}
 	
@@ -237,15 +240,6 @@ private function mainButtons_triggeredHandler(event:Event ):void
 		case battlesButton:
 			gotoLiveBattle(-1);
 			break;
-		case "dragon-cross":
-			/*if( !player.villageEnabled() )
-			{
-				appModel.navigator.addLog(loc("map-dragon-cross-availabledat", [loc("arena_title_1")]));
-				punchButton(leaguesButton);
-				return;
-			}*/
-			//appModel.navigator.pushScreen( Main.SOCIAL_SCREEN );		
-			break;
 		case leaguesButton:
 			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
 			break;
@@ -256,7 +250,7 @@ private function gotoLiveBattle(questIndex:int = -1, cancelable:Boolean=true):vo
 {
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
 	item.properties.requestField = null ;
-	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable ) ;;
+    item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable);
 	//item.properties.waitingOverlay.data = waitingData;
 	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
 	appModel.navigator.addOverlay(item.properties.waitingOverlay);		
