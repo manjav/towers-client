@@ -10,7 +10,11 @@ import com.smartfoxserver.v2.requests.ExtensionRequest;
 import com.smartfoxserver.v2.requests.LoginRequest;
 import com.smartfoxserver.v2.requests.LogoutRequest;
 import com.smartfoxserver.v2.util.SFSErrorCodes;
+
+import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
+
+import haxe.ds.StringMap;
 
 [Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
 [Event(name="failure",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -26,13 +30,15 @@ public var password:String;
 public var zoneName:String;
 public var lobbyManager:LobbyManager;
 public var publicLobbyManager:LobbyManager;
+
 public var retryTimeout:int = 500;
 public var retryMax:int = 3;
 public var retryIndex:int = 1;
 
 private var loginParams:ISFSObject;
-private var commandsPool:Vector.<String>;
 private var lowConnectionOverlay:LowConnectionOverlay;
+
+private var commandsPool:StringMap;
 		
 public function SFSConnection()
 {
@@ -74,7 +80,7 @@ public function SFSConnection()
 
 	addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 	loadConfig();
-	commandsPool = new Vector.<String>();
+	commandsPool = new StringMap();
 	SFSErrorCodes.setErrorMessage(101, "{0}")
 	SFSErrorCodes.setErrorMessage(110, "{0}")
 }
@@ -183,35 +189,35 @@ public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room
 	if( canceledCommand != null )
 		removeFromCommands(canceledCommand);
 	
+	removeFromCommands(extCmd);
 	var deadline:int = SFSCommands.getDeadline(extCmd);
-	if( deadline > -1 && commandsPool.indexOf(extCmd) == -1 )
-	{
-		commandsPool.push(extCmd);
-		setTimeout(responseDeadlineCallback, deadline, extCmd);
-	}
+	if( deadline > -1 )
+		commandsPool.setReserved(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
 	send(new ExtensionRequest(extCmd, params, room, useUDP));
 }
 
 protected function sfs_extensionResponseHandler(event:SFSEvent):void
 {
+	if( event.params.cmd == SFSCommands.CANCEL_BATTLE )
+		removeFromCommands(SFSCommands.START_BATTLE);
 	removeFromCommands(event.params.cmd);
 }
 public function removeFromCommands(command:String):void
 {
-	var cmdIndex:Number = commandsPool.indexOf(command);
-	//trace("removeFromCommands", command, cmdIndex);
-	if( cmdIndex == -1 )
+	if( !commandsPool.existsReserved(command) )
 		return;
-	
-	commandsPool.removeAt(cmdIndex);
+	clearTimeout(commandsPool.getReserved(command) as uint);
+	commandsPool.remove(command);
 	hideLowConnectionAlert(command);
 }
+
 private function responseDeadlineCallback(extCmd:String):void
 {
-	var cmdIndex:Number = commandsPool.indexOf(extCmd);
-	//trace("deadline", extCmd, cmdIndex);
-	if( cmdIndex > -1 )
-		showLowConnectionAlert(extCmd);
+	if( !commandsPool.existsReserved(extCmd) )
+		return;
+	removeFromCommands(extCmd);
+	showLowConnectionAlert(extCmd);
+	trace("deadline", extCmd);
 }		
 protected function sfs_pingPongHandler(event:SFSEvent):void
 {
