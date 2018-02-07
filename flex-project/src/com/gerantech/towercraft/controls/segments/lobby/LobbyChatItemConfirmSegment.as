@@ -61,10 +61,10 @@ private function createMessageDisplay():void
 {
 	if( messageDisplay != null )
 	{
-		messageDisplay.text = loc("lobby_join_request", [data.getText("on")]);
+		messageDisplay.text = loc("lobby_join_request", [data.getUtfString("on")]);
 		return;
 	}
-	messageDisplay = new RTLLabel(loc("lobby_join_request", [data.getText("on")]), 1, "center", null, false, null, 0.8);
+	messageDisplay = new RTLLabel(loc("lobby_join_request", [data.getUtfString("on")]), 1, "center", null, false, null, 0.8);
 	messageDisplay.layoutData = new AnchorLayoutData( padding*0.5, padding, NaN, padding);;
 	addChild(messageDisplay);
 }

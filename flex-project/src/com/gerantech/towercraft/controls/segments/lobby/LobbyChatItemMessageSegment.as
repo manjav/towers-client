@@ -83,7 +83,7 @@ override public function commitData(_data:ISFSObject):void
 	meSkin.visible = itsMe;
 	otherSkin.visible = !itsMe;
 	
-	senderDisplay.text = data.getText("s");
+	senderDisplay.text = data.getUtfString("s");
 	senderLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	
 	var user:ISFSObject = findUser(data.getInt("i"));

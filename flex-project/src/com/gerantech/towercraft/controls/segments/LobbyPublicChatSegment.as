@@ -202,7 +202,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 	switch( event.data )
 	{
 		case "lobby_profile":
-			appModel.navigator.addPopup( new ProfilePopup(msgPack.getText("s"), int(msgPack.getInt("i"))) );
+			appModel.navigator.addPopup( new ProfilePopup(msgPack.getUtfString("s"), int(msgPack.getInt("i"))) );
 			break;
 		case "lobby_report":
 			var sfsReport:ISFSObject = new SFSObject();
