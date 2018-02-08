@@ -43,6 +43,8 @@
     </external-library-path>
     <library-path append="true">
       <path-element>C:\_projects\towers-projects\towers-client\fd-project\libs</path-element>
+      <path-element>C:\_projects\towers-projects\towers-client\fd-project\libs\MonsterDebugger.swc</path-element>
+      <path-element>C:\_projects\towers-projects\towers-client\fd-project\libs\MonsterDebuggerMobile.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
