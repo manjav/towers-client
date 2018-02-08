@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
+import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
@@ -89,7 +90,18 @@ override protected function chatList_createCompleteHandler(event:Event):void
 
 protected function chatList_triggeredHandler(event:Event):void
 {
-	var params:SFSObject = event.data as SFSObject;
+	var selectedItem:LobbyChatItemRenderer = event.data[0] as LobbyChatItemRenderer;
+	var params:SFSObject = event.data[1] as SFSObject;
+	// show info
+	if( params.getShort("pr") == MessageTypes.M10_COMMENT_JOINT )
+	{
+		var sfs:SFSObject = new SFSObject();
+		sfs.putInt("i", params.getInt("o"));
+		sfs.putUtfString("s", params.getUtfString("on"));
+		showSimpleListPopup(sfs, selectedItem, "lobby_profile");
+		return;
+	}
+	// accept or reject
 	if( MessageTypes.isConfirm(params.getShort("m")) )
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 }
