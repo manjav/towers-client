@@ -13,6 +13,9 @@ import feathers.motion.Reveal;
 
 import starling.events.Event;
 
+//import com.demonsters.debugger.MonsterDebugger;
+//import flash.display.Sprite;
+
 public class Main extends Drawers
 {
 public static const DASHBOARD_SCREEN:String = "dashboardScreen";
@@ -30,6 +33,8 @@ public function Main(content:IFeathersControl=null)
 {
 	AppModel.instance.theme = new MetalWorksMobileTheme();
 	super(content);
+	
+    //MonsterDebugger.initialize(this);
 }
 
 override protected function initialize():void

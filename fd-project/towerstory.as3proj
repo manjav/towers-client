@@ -54,6 +54,8 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="libs" />
+    <element path="libs\MonsterDebugger.swc" />
+    <element path="libs\MonsterDebuggerMobile.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
