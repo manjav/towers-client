@@ -42,8 +42,8 @@ override protected function initialize():void
 	}
 	
 	// header 1
-	if( !reward_1.containsKey("name") )
-		reward_1.putText("name", battleData.opponent.getVariable("name").getStringValue());
+	//if( !reward_1.containsKey("name") )
+	//	reward_1.putText("name", battleData.opponent.getVariable("name").getStringValue());
 	var header_1:BattleHeader = new BattleHeader(reward_1.getText("name"), reward_1.getInt("id")==player.id);
 	header_1.layoutData = new AnchorLayoutData(padding * 11, 0, NaN, 0);
 	addChild(header_1);

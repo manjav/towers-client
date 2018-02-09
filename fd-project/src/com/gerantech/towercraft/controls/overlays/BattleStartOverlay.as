@@ -128,11 +128,11 @@ public function setData(battleData:BattleData):void
         return;
     }
 
-	if( questIndex < 0 && battleData.opponent != null )
-		opponentHeader.labelDisplay.text = battleData.opponent.getVariable("name").getStringValue();
-	if( spectatingData == null )
-		playerHeader.labelDisplay.text = battleData.me.getVariable("name").getStringValue();
-		
+    if( questIndex < 0 )
+        opponentHeader.labelDisplay.text = battleData.axis.getText("name");
+    if( spectatingData == null )
+        playerHeader.labelDisplay.text = battleData.allis.getText("name");
+	
 	if( cancelButton != null )
 		cancelButton.touchable = false;
 	//opponentHeader.scaleX = 0.5;
