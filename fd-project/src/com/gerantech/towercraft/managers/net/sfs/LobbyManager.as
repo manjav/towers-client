@@ -173,16 +173,16 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 				battleMsg.putShort("st", msg.getShort("st"));
 				battleMsg.putInt("u", msg.getInt("u"));
 				if( msg.containsKey("o") )
-					battleMsg.putText("o", msg.getText("o"));
+					battleMsg.putUtfString("o", msg.getUtfString("o"));
 				messages.updateItemAt(lastBattleIndex);
-				if( msg.getShort("st") == 1 && (msg.getText("s") == player.nickName || msg.getText("o") == player.nickName) )
+				if( msg.getShort("st") == 1 && (msg.getUtfString("s") == player.nickName || msg.getUtfString("o") == player.nickName) )
 					dispatchEventWith(Event.TRIGGERED);// go to friendly battle
 			}
 		}
 		else
 		{
 			messages.addItem(msg);
-			dispatchEventWith(Event.OPEN, false, msg.getText("s"));
+			dispatchEventWith(Event.OPEN, false, msg.getUtfString("s"));
 		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )

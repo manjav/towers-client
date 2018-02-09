@@ -46,16 +46,16 @@ override public function commitData(_data:ISFSObject):void
 	{
 		actionButton.style = itsMe ? "neutral" : "danger";
 		actionButton.label = loc( itsMe ? "popup_cancel_label" : "lobby_battle_accept" );
-		messageDisplay.text = loc( itsMe ? "lobby_battle_me" : "lobby_battle_request", [data.getText("s")]);
+		messageDisplay.text = loc( itsMe ? "lobby_battle_me" : "lobby_battle_request", [data.getUtfString("s")]);
 	}
 	else if( data.getShort("st") == 1 )
 	{
 		actionButton.label = loc( "lobby_battle_spectate" );
-		messageDisplay.text = loc( "lobby_battle_in", [data.getText("s"), data.getText("o")]);
+		messageDisplay.text = loc( "lobby_battle_in", [data.getUtfString("s"), data.getUtfString("o")]);
 	}	
 	else if( data.getShort("st") == 2 )
 	{
-		messageDisplay.text = loc( "lobby_battle_ended", [data.getText("s"), data.getText("o")]);
+		messageDisplay.text = loc( "lobby_battle_ended", [data.getUtfString("s"), data.getUtfString("o")]);
 	}
 }
 
