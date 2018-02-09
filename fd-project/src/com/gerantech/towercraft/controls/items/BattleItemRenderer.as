@@ -88,7 +88,7 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
-	if( _data == null || _owner == null )
+	if( _data ==null || _owner==null )
 		return;
 	
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
@@ -100,10 +100,13 @@ override protected function commitData():void
 	allisLobbyNameDisplay.text = allis.containsKey("ln") ? allis.getText("ln") : "???";
 	allisLobbyIconDisplay.source = allis.containsKey("lp") ? Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(allis.getInt("lp")+""), "gui") : null;
 	
+	if( room.getSFSArray("players").size() > 1 )
+	{
 	var axis:ISFSObject = room.getSFSArray("players").getSFSObject(1);
 	axisNameDisplay.text = axis.getText("n");
 	axisLobbyNameDisplay.text = axis.containsKey("ln") ? axis.getText("ln") : "???";
 	axisLobbyIconDisplay.source = axis.containsKey("lp") ? Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(axis.getInt("lp")+""), "gui") : null;
+	}
 	
 	timeDisplay.text =  StrUtils.toTimeFormat(timeManager.now - room.getInt("startAt")) ;
 }

@@ -7,9 +7,13 @@ import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemMessageSegm
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+
 import starling.events.Event;
+import starling.events.Touch;
 
 public class LobbyChatItemRenderer extends AbstractTouchableListItemRenderer
 {
@@ -27,6 +31,11 @@ private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
 
 public function LobbyChatItemRenderer(){}
+
+public function getTouch():Touch
+{
+	return touch;
+}
 override protected function initialize():void
 {
 	super.initialize();
@@ -45,7 +54,16 @@ override protected function initialize():void
 
 	battleSegment = new LobbyChatItemBattleSegment();
 	battleSegment.layoutData = fitLayoutData;
+	
+	addEventListener(Event.TRIGGERED, item_triggeredHandler);
+
 }
+
+private function item_triggeredHandler(event:Event):void
+{
+	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+}
+
 override protected function commitData():void
 {
 	super.commitData();
