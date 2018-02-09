@@ -30,7 +30,6 @@ private var confirmSegment:LobbyChatItemConfirmSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
 
-public function LobbyChatItemRenderer(){}
 
 public function getTouch():Touch
 {
@@ -105,8 +104,9 @@ override protected function commitData():void
 }
 private function confirmSegment_triggeredHandler(event:Event):void
 {
-	segment.data.putShort( "pr", event.data ? MessageTypes.M16_COMMENT_JOIN_ACCEPT : MessageTypes.M17_COMMENT_JOIN_REJECT );
-	_owner.dispatchEventWith(Event.ROOT_CREATED, false, segment.data);
+	
+	segment.data.putShort( "pr", event.data.data as int);
+	_owner.dispatchEventWith(Event.ROOT_CREATED, false, [this, segment.data]);
 }
 }
 }

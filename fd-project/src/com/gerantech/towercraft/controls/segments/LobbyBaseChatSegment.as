@@ -158,16 +158,15 @@ protected function chatList_focusInHandler(event:Event):void
 		return;
 	
 	var msgPack:ISFSObject = selectedItem.data as ISFSObject;
-	
 	// prevent hints for my messages
-	if( msgPack.getInt("i") == player.id )
-		return;
-	
-	// only for messages
-	if( msgPack.getShort("m") != MessageTypes.M0_TEXT )
-		return;
-	
-	var buttonsPopup:SimpleListPopup = new SimpleListPopup("lobby_profile", "lobby_report");
+	if( msgPack.getInt("i") != player.id && msgPack.getShort("m") == MessageTypes.M0_TEXT )
+		showSimpleListPopup(msgPack, selectedItem, "lobby_profile", "lobby_report")
+}
+
+protected function showSimpleListPopup(msgPack:ISFSObject, selectedItem:LobbyChatItemRenderer, ... buttons):void
+{
+	var buttonsPopup:SimpleListPopup = new SimpleListPopup(buttons);
+	buttonsPopup.buttons = buttons;
 	buttonsPopup.data = msgPack;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
