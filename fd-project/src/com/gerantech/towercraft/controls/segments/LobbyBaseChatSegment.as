@@ -34,7 +34,7 @@ import feathers.layout.VerticalLayout;
 import starling.animation.Transitions;
 import starling.events.Event;
 
-public class LobbyPublicChatSegment extends Segment
+public class LobbyBaseChatSegment extends Segment
 {
 protected var padding:int;
 protected var footerSize:int;
@@ -46,7 +46,7 @@ protected var sendButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
 
 
-public function LobbyPublicChatSegment(){}
+public function LobbyBaseChatSegment(){}
 
 public function get manager():LobbyManager
 {

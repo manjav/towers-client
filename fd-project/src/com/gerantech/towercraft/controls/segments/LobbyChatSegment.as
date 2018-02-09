@@ -23,7 +23,7 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.events.Event;
 
-public class LobbyChatSegment extends LobbyPublicChatSegment
+public class LobbyChatSegment extends LobbyBaseChatSegment
 {
 private var headerSize:int;
 private var startScrollBarIndicator:Number = 0;
