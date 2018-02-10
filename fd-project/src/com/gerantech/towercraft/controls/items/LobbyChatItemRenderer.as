@@ -30,7 +30,7 @@ private var confirmSegment:LobbyChatItemConfirmSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
 private var segment:LobbyChatItemSegment;
 
-
+public function LobbyChatItemRenderer(){}
 public function getTouch():Touch
 {
 	return touch;
