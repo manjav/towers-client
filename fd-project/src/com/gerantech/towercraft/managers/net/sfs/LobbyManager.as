@@ -128,7 +128,7 @@ protected function sfs_joinPublicHandler(event:SFSEvent):void
 	isReady = true;
 	dispatchEventWith(Event.READY);
 }
-
+	
 private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 {
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
@@ -185,6 +185,26 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			dispatchEventWith(Event.OPEN, false, msg.getText("s"));
 		}
 	}
+	else if ( msg.getShort("m") == MessageTypes.M20_DONATE )
+	{
+		if ( msg.getShort("st") == 0 )
+		{
+			for (var i:int =  messages.length-1; i > -1; i--) 
+				if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("i") == player.id )
+					messages.removeItemAt(i);
+			trace("LobbyManager donate");
+			var now:Date = new Date();
+			var epoch:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
+			
+			//if( epoch < msg.getInt("dt") )
+				messages.addItem(msg);
+			trace("now:", epoch, "| dueDate", msg.getInt("dt"));
+		}
+		else if ( msg.getShort("st") == 1 )
+		{
+			trace("bounce!!!");
+		}
+	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )
 	{
 		messages.addItem(msg);
@@ -226,6 +246,13 @@ private function containBattle(battleId:int):int
 {
 	for (var i:int = 0; i < messages.length; i++) 
 		if( messages.getItemAt(i).getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && messages.getItemAt(i).getInt("bid") == battleId )
+			return i;
+	return -1;
+}
+private function containDonate(battleId:int):int
+{
+	for (var i:int = 0; i < messages.length; i++) 
+		if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("i") ==  player.id)
 			return i;
 	return -1;
 }
