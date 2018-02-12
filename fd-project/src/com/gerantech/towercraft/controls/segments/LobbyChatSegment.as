@@ -33,6 +33,8 @@ import feathers.layout.VerticalLayout;
 
 import starling.events.Event;
 
+import com.demonsters.debugger.MonsterDebugger;
+
 public class LobbyChatSegment extends Segment
 {
 private var chatList:List;
@@ -124,7 +126,7 @@ private function showElements():void
 	donateButton.width = donateButton.height * 2;
 	donateButton.icon = Assets.getTexture("tab-1", "gui");
 	donateButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	donateButton.layoutData = new AnchorLayoutData(NaN, NaN, 50, padding + 10);
+	donateButton.layoutData = new AnchorLayoutData(NaN, NaN, 30, padding + 10);
 	donateButton.addEventListener(Event.TRIGGERED, donateButton_triggeredHandler);
 	addChild(donateButton);
 	
@@ -166,6 +168,7 @@ private function chatList_changeHandler(event:Event):void
 	if( chatList.selectedItem == null )
 		return;
 	var msgPack:ISFSObject = chatList.selectedItem as SFSObject;
+	var params:SFSObject = new SFSObject();
 	if( msgPack.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE  )
 	{
 		var myBattleId:int = manager.getMyRequestBattleId();
@@ -174,12 +177,33 @@ private function chatList_changeHandler(event:Event):void
 
 		if( msgPack.getShort("st") > 1 )
 			return;
-		
-		var params:SFSObject = new SFSObject();
+
 		params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 		params.putInt("bid", msgPack.getInt("bid"));
 		params.putShort("st", msgPack.getShort("st"));
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+	}
+	else if( msgPack.getShort("m") == MessageTypes.M20_DONATE && msgPack.getInt("i") != player.id )
+	{
+		MonsterDebugger.initialize(this);
+		var donationLimit:int = player.get_donationLimit(game, msgPack.getShort("ct"));
+		if ( msgPack.getInt("n") < donationLimit )
+		{
+			trace("donate card");
+			params.putShort("m", MessageTypes.M20_DONATE);
+			params.putShort("st", 1); 						// state = 1 means it's donation not request
+			params.putInt("r", msgPack.getInt("i")); 		// r means requester
+			params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
+			msgPack.putInt("n",msgPack.getInt("n") + 1 );
+			params.putShort("ct", msgPack.getShort("ct"));
+			trace(params.getDump(), "\nlimit:", donationLimit);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+		}
+		else
+		{
+			trace(msgPack.getDump());
+			trace("CAN NOT DONATE MORE! CARD DONATION LIMIT HAS REACHED!");
+		}
 	}
 }
 
@@ -217,9 +241,12 @@ protected function donateButton_triggeredHandler(event:Event):void
 	//var readyBattleIndex:int = getMyRequestBattleIndex();
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M20_DONATE);
-	params.putShort("st", 0);
+	params.putShort("st", 0); // state = 0 means its a request for card not doanation
 	params.putShort("ct", 401);
+	params.putInt("n", 0);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+	trace("Request donate btn");
+	trace(params.getDump());
 }
 
 private function gotoBattle():void
