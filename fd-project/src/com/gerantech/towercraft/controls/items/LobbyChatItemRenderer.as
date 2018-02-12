@@ -54,11 +54,9 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
-	trace("_data:", _data);
 	if( _data == null )
 		return;
 	
-	trace("segment: ", segment);
 	if( segment )
 	{
 		segment.removeFromParent();
@@ -71,7 +69,6 @@ override protected function commitData():void
 	else if( MessageTypes.isConfirm(type) )
 		type = TYPE_CONFIRM;
 	
-	trace("Message Type: ", type);
 	switch(type)
 	{
 		case TYPE_MESSAGE:

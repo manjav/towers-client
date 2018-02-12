@@ -10,7 +10,7 @@ import feathers.layout.AnchorLayoutData;
 
 public class LobbyChatItemDonateSegment extends LobbyChatItemSegment
 {
-	
+
 private var labelDisplay:ShadowLabel;
 private var messageDisplay:RTLLabel;
 private var actionButton:CustomButton;
@@ -28,10 +28,10 @@ override public function init():void
 	addChild(background);
 	
 	actionButton = new CustomButton();
-	actionButton.layoutData = new AnchorLayoutData( NaN, padding + 50, NaN, padding + 50, NaN, 0);
+	actionButton.layoutData = new AnchorLayoutData( NaN, padding, NaN, NaN, NaN, 0);
 	addChild(actionButton);
 	
-	messageDisplay = new RTLLabel("", 2, "center", null, false, null, 1);
+	messageDisplay = new RTLLabel("", 2, "left", null, false, null, 1);
 	messageLayout = new AnchorLayoutData( NaN, actionButton.width + padding, NaN, padding, NaN, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
@@ -40,18 +40,19 @@ override public function commitData(_data:ISFSObject):void
 {
 	super.commitData(_data);
 	actionButton.visible = true;
-	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding*0.5);
+	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding * 0.5);
 	
-	trace("DONATION state=", data.getShort("st"));
-	if( data.getShort("st") == 0 )
+	if ( data.getInt("i") == player.id )
 	{
-		messageDisplay.text = "My Donatation Request";
+		actionButton.visible = false;
+		messageDisplay.align = "right";
+		messageDisplay.text = "My Req" + " | ct-->" + data.getShort("ct");
 	}
-	else if( data.getShort("st") == 1 )
+	else
 	{
-		actionButton.style = itsMe ? "neutral" : "danger";
+		actionButton.style = "neutral";
 		actionButton.label = "Donate";
-		messageDisplay.text = "Card request from" + data.getText("s")+" , "+data.getText("o");
+		messageDisplay.text = "Req from " + data.getText("s") + " | ct-->" + data.getShort("ct");
 	}
 }
 
