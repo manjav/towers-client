@@ -14,6 +14,7 @@ package com.gerantech.towercraft.views
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.buildings.Place;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.TroopType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -174,14 +175,14 @@ package com.gerantech.towercraft.views
 			return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
 		}
 		
-		public function fight(destination:Place) : void
+		public function fight(destination:Place, troopsDivision:Number) : void
 		{
 			wishedPopulation = Math.floor(place.building._population * 0.5);
-			var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getAllTowers(-1));
+			var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
 			if(path == null || destination.building == place.building)
 				return;
 			
-			var len:int = Math.floor(place.building.get_population() / 2);
+			var len:int = Math.floor(place.building.get_population() * troopsDivision);
 			for(var i:uint=0; i<len; i++)
 			{
 				var t:TroopView = new TroopView(place.building, path);
@@ -191,14 +192,14 @@ package com.gerantech.towercraft.views
 				rushTimeoutId = setTimeout(t.rush, place.building.get_exitGap() * i + 300, place);
 			}
 			
-			if ( place.building.troopType == player.troopType )
+			if( place.building.troopType == player.troopType )
 			{
 				var soundIndex:int = 0;
 				if( len > 5 && len < 10 )
 					soundIndex = 1;
-				else if ( len >= 10 && len < 20 )
+				else if( len >= 10 && len < 20 )
 					soundIndex = 2;
-				else if ( len >= 20 )
+				else if( len >= 20 )
 					soundIndex = 3;
 				
 				if( !appModel.sounds.soundIsPlaying("battle-go-army-"+soundIndex) )
@@ -208,7 +209,7 @@ package com.gerantech.towercraft.views
 
 		public function replaceBuilding(type:int, level:int):void
 		{
-			wishedPopulation = Math.floor(place.building._population/2);
+			wishedPopulation = Math.floor(place.building._population * 0.5);
 			var tt:int = place.building.troopType;
 			var p:int = place.building._population;
 			//trace("replaceBuilding", place.index, type, level, place.building._population);
