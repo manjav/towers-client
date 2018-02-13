@@ -31,6 +31,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.constants.TroopType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -495,7 +496,7 @@ package com.gerantech.towercraft.controls.screens
 				if(pv.place.building.troopType != player.troopType)
 					return;
 				
-				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
+				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE);
 				sourcePlaces.push(pv);
 			}
 			else 
