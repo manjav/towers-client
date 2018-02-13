@@ -676,7 +676,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			player.inFriendlyBattle = false;
 			removeConnectionListeners();
-			appModel.sounds.stopAllSounds();
+			appModel.sounds.stopAllSounds(SoundManager.CATE_THEME);
 			setTimeout(appModel.sounds.playSoundUnique, 2000, "main-theme", 1, 100);
 			removeChild(appModel.battleFieldView, true);
 			super.dispose();

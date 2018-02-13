@@ -165,8 +165,9 @@ package com.gerantech.towercraft.managers
 		}
 		// -------------------------------------------------------------------------------------------------------------------------
 		/** Stop all sounds that are currently playing */
-		public function stopAllSounds():void {
+		public function stopAllSounds(category:int=-1):void {
 			for (var currID:String in currPlayingSounds) 
+				if( category == -1 || category == currPlayingSounds[currID].c == category )
 				stopSound(currID);
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
