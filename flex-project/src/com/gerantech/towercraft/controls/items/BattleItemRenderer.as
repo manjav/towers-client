@@ -83,7 +83,6 @@ override protected function initialize():void
 	timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 	addChild(timeDisplay);
 	
-	
 	//addEventListener(Event.TRIGGERED, item_triggeredHandler);
 }
 
@@ -102,10 +101,13 @@ override protected function commitData():void
 	allisLobbyNameDisplay.text = allis.containsKey("ln") ? allis.getText("ln") : "???";
 	allisLobbyIconDisplay.source = allis.containsKey("lp") ? Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(allis.getInt("lp")+""), "gui") : null;
 	
+	if( room.getSFSArray("players").size() > 1 )
+	{
 	var axis:ISFSObject = room.getSFSArray("players").getSFSObject(1);
 	axisNameDisplay.text = axis.getText("n");
 	axisLobbyNameDisplay.text = axis.containsKey("ln") ? axis.getText("ln") : "???";
 	axisLobbyIconDisplay.source = axis.containsKey("lp") ? Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(axis.getInt("lp")+""), "gui") : null;
+	}
 	
 	timeDisplay.text =  StrUtils.toTimeFormat(timeManager.now - room.getInt("startAt")) ;
 }

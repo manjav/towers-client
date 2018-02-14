@@ -13,7 +13,7 @@ package com.gerantech.towercraft.controls.tooltips
 	public class StickerBubble extends TowersLayout
 	{
 		private var _label:String = "";
-		private var _type:int;
+		private var _type:int = -1;
 		
 		private var labelDisplay:RTLLabel;
 		private var inverse:Boolean;
@@ -64,7 +64,7 @@ package com.gerantech.towercraft.controls.tooltips
 		}
 		public function set type(value:int):void
 		{
-			if(_type == value)
+			if(_type == value && _type < 0 )
 				return;
 			_type = value;
 			label = loc( "sticker_" + _type );

@@ -313,6 +313,12 @@ private function handleSchemeQuery(arguments:Array):void
 				case "screen":
 					pushScreen(pars["type"]);
 					break;
+				
+				case "tabs":
+					DashboardScreen.tabIndex = int(pars["dashTab"]);
+					SocialSegment.tabIndex = int(pars["socialTab"]);
+					popScreen();
+					break;
 			}
 		}
 	}

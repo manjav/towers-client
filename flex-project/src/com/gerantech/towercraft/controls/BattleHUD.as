@@ -84,16 +84,16 @@ package com.gerantech.towercraft.controls
 				addChild(closeButton);			
 			}
 			
-			var _name:String = battleData.map.isQuest ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.opponent.getVariable("name").getStringValue();
-			var _point:int = battleData.map.isQuest ? 0 : battleData.opponent.getVariable("point").getIntValue();
+			var _name:String = battleData.map.isQuest ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.axis.getUtfString("name");
+			var _point:int = battleData.axis.getInt("point");
 			var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 			opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
 			addChild(opponentHeader);
 			
 			if( SFSConnection.instance.mySelf.isSpectator )
 			{
-				_name = battleData.me.getVariable("name").getStringValue();
-				_point = battleData.me.getVariable("point").getIntValue();
+				_name = battleData.allis.getUtfString("name");
+				_point = battleData.allis.getInt("point");
 				var meHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 				meHeader.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0 );
 				addChild(meHeader);

@@ -6,7 +6,7 @@ import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.HomeSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
-import com.gerantech.towercraft.controls.segments.LobbyPublicChatSegment;
+import com.gerantech.towercraft.controls.segments.LobbyBaseChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
 import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
@@ -79,7 +79,7 @@ import starling.events.Event;
 					segment = new BuddiesSegment();
 					break;
 				case SegmentType.S14_LOBBY_PUBLIC:
-					segment = new LobbyPublicChatSegment();
+					segment = new LobbyBaseChatSegment();
 					break;
 				
 				default:

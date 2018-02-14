@@ -31,6 +31,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gt.towers.constants.ExchangeType;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.constants.TroopType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	import com.gt.towers.utils.lists.PlaceList;
@@ -39,6 +40,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.marpies.ane.gameanalytics.data.GAProgressionStatus;
 	import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
 	import com.smartfoxserver.v2.core.SFSEvent;
+	import com.smartfoxserver.v2.entities.SFSRoom;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -473,13 +475,15 @@ package com.gerantech.towercraft.controls.screens
 			if( event.params.changedVars.indexOf("towers") > -1 )
 				updateTowersFromRoomVars();
 			
-			if( event.params.changedVars.indexOf("s") > -1 && event.params.changedVars.indexOf("d") > -1 )
+			if( event.params.changedVars.indexOf("s") > -1 )
 			{
-				var towers:SFSArray = event.params.room.getVariable("s").getValue() as SFSArray;
-				var destination:int = event.params.room.getVariable("d").getValue();
+				var room:SFSRoom = SFSRoom(event.params.room);
+				var towers:ISFSArray = room.getVariable("s").getSFSArrayValue();
+				var destination:int = room.getVariable("d").getIntValue();
+				var troopsDivision:Number = room.getVariable("n").getDoubleValue();
 				
 				for( var i:int=0; i<towers.size(); i++ )
-					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place);
+					appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place, troopsDivision);
 			}
 			
 			//sfsConnection.removeFromCommands(SFSCommands.FIGHT);
@@ -528,7 +532,7 @@ package com.gerantech.towercraft.controls.screens
 				if(pv.place.building.troopType != player.troopType)
 					return;
 				
-				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getAllTowers(-1);
+				allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE);
 				sourcePlaces.push(pv);
 			}
 			else 
@@ -708,7 +712,7 @@ package com.gerantech.towercraft.controls.screens
 		{
 			player.inFriendlyBattle = false;
 			removeConnectionListeners();
-			appModel.sounds.stopAllSounds();
+			appModel.sounds.stopAllSounds(SoundManager.CATE_THEME);
 			setTimeout(appModel.sounds.playSoundUnique, 2000, "main-theme", 1, 100);
 			removeChild(appModel.battleFieldView, true);
 			super.dispose();
