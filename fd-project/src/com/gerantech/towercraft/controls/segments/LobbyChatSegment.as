@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
@@ -137,12 +138,23 @@ protected function donateButton_triggeredHandler(event:Event):void
 	//var readyBattleIndex:int = getMyRequestBattleIndex();
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M20_DONATE);
-	params.putShort("st", 0); // state = 0 means its a request for card not doanation
+	params.putShort("st", 0); 	// state = 0 means its a request for card not doanation
 	params.putShort("ct", 401);
 	params.putInt("n", 0);
+	var now:Date = new Date();
+	var epoch:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
+	epoch /= 1000;				// convert millisec to second
+	params.putLong("dt", 30 + epoch);
+	trace("now(epoch):", epoch, "| dueDate", params.getInt("dt"));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	trace("Request donate btn");
 	trace(params.getDump());
+}
+protected function chatList_checkDonateTimer(event:Event):void
+{
+	trace("scroll event listener");
+	var lb:LobbyManager = new LobbyManager();
+	lb.checkDonateTimer();
 }
 
 private function gotoBattle():void

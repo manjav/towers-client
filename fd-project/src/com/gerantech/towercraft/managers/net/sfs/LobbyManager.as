@@ -52,7 +52,7 @@ public function initialize():void
 	}
 	if( lobby != null && lobby.id == _lobby.id )
 		return;
-	
+
 	dispose();
 	lobby = _lobby;
 	requestData();
@@ -144,6 +144,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	if( event.params.cmd != SFSCommands.LOBBY_PUBLIC_MESSAGE || lobby != event.params.room )
 		return;
 	var msg:ISFSObject = event.params.params as SFSObject;
+
 	if( msg.getShort("m") == MessageTypes.M0_TEXT )
 	{
 		var last:SFSObject = messages.length > 0 ? SFSObject(messages.getItemAt(messages.length-1)) : null;
@@ -187,18 +188,21 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	}
 	else if ( msg.getShort("m") == MessageTypes.M20_DONATE )
 	{
+		trace("LobbyManager donate");
 		if ( msg.getShort("st") == 0 )
 		{
-			for (var i:int =  messages.length-1; i > -1; i--) 
-				if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("i") == player.id )
+			for (var i:int =  messages.length-1; i > -1; i--) // remove previous donate message
+				if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == player.id )
 					messages.removeItemAt(i);
-			trace("LobbyManager donate");
+			
 			var now:Date = new Date();
 			var epoch:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
-			
-			//if( epoch < msg.getInt("dt") )
+			epoch /= 1000;
+			trace("now(epoch):", epoch, "| dueDate", msg.getLong("dt"));
+			if( epoch < msg.getLong("dt") )
 				messages.addItem(msg);
-			trace("now:", epoch, "| dueDate", msg.getInt("dt"));
+			else
+				messages.removeItem(msg);
 		}
 		else if ( msg.getShort("st") == 1 )
 		{
@@ -293,6 +297,15 @@ private function dispose():void
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getLobbyInfoHandler);
 	if( messages )
 		messages.removeAll();
+}
+public function checkDonateTimer():void
+{
+	var msg:ISFSObject = event.params.params as SFSObject;
+	trace("..::checkMessageTimer::..");
+	for (var i:int = msg.size() - 1; i > 0 ; i--)
+		if( msg.getItemAtct(i) == MessageTypes.M20_DONATE )
+			if( msg.getSFSObject(i).getLong("dt") <= Instant.now().getEpochSecond() )
+				msg.removeElementAt(i);
 }
 }
 }
