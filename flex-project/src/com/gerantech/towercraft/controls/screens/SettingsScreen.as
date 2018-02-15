@@ -4,6 +4,8 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.popups.BugReportPopup;
 	import com.gerantech.towercraft.controls.popups.LinkDevicePopup;
 	import com.gerantech.towercraft.managers.BillingManager;
+	import com.gerantech.towercraft.managers.socials.SocialEvent;
+	import com.gerantech.towercraft.managers.socials.SocialManager;
 	import com.gerantech.towercraft.models.vo.SettingsData;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gt.towers.constants.PrefsTypes;
@@ -35,9 +37,23 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function list_focusInHandler(event:Event):void
 		{
-			var settingData:SettingsData = event.data as SettingsData;trace(event)
+			var settingData:SettingsData = event.data as SettingsData;
+
 			if( settingData.type == SettingsData.TYPE_TOGGLE )
 			{
+				if( settingData.key == PrefsTypes.AUTH_41_GOOGLE )
+				{
+					if( player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
+					{
+						SocialManager.instance.signout();
+						list.dataProvider.updateItemAt(settingData.index);
+						return;
+					}
+					SocialManager.instance.addEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
+					SocialManager.instance.signin();
+					return;
+				}
+				
 				UserData.instance.prefs.setBool(settingData.key, settingData.value);//setSetting(settingData.key, settingData.value as int );
 				list.dataProvider.updateItemAt(settingData.index);
 				if( settingData.key == PrefsTypes.SETTINGS_1_MUSIC )
@@ -70,6 +86,12 @@ package com.gerantech.towercraft.controls.screens
 						break;
 				}
 			}
+		}
+		
+		protected function socialManager_eventsHandler(event:SocialEvent):void
+		{
+			SocialManager.instance.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
+			list.dataProvider.updateItemAt(3);
 		}
 		
 		private function navigateTo(key:int):void

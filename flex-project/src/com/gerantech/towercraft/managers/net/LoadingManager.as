@@ -2,20 +2,19 @@ package com.gerantech.towercraft.managers.net
 {
 
 import com.gerantech.extensions.NativeAbilities;
-import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.TimeManager;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.UserPrefs;
 import com.gerantech.towercraft.managers.VideoAdsManager;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.managers.socials.SocialEvent;
 import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
+import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.onesignal.OneSignal;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -26,8 +25,6 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.system.Capabilities;
 import flash.utils.getTimer;
-
-import mx.resources.ResourceManager;
 
 [Event(name="loaded",				type="com.gerantech.towercraft.events.LoadingEvent")]
 [Event(name="loginError",			type="com.gerantech.towercraft.events.LoadingEvent")]
@@ -55,7 +52,6 @@ public var loadStartAt:int;
 public var serverData:SFSObject;
 
 private var sfsConnection:SFSConnection;
-private var socials:SocialManager;
 
 public function load():void
 {
@@ -66,17 +62,12 @@ public function load():void
 	sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 	state = STATE_CONNECT;
 	
-	if( socials == null )
-	{
-		socials = new SocialManager();
-		socials.init( SocialManager.TYPE_GOOGLEPLAY );
-	}
 	if( AppModel.instance.navigator != null )
 	{
 		AppModel.instance.navigator.popToRootScreen();
 		AppModel.instance.navigator.removeAllPopups();
 	}
-	if(UserData.instance.prefs == null )
+	if( UserData.instance.prefs == null )
 		UserData.instance.prefs = new UserPrefs();
 }
 
@@ -206,97 +197,6 @@ protected function coreLoader_completeHandler(event:Event):void
 	//	authenticateSocial();
 }
 
-/************************   AUTHENTICATE SOCIAL OR GAME SERVICES   ***************************/
-public function authenticateSocial():void
-{
-	if ( !socials.initialized )
-	{
-		finalize();
-		/*socials.user = new SocialUser();
-		socials.user.id = "g01079473321487998344";
-		socials.user.name = "ManJav";
-		socials.user.imageURL = "content://com.google.android.gms.games.background/images/751cd60e/7927";
-		sendSocialData();*/
-		return;
-	}
-	
-	if( !socials.authenticated )
-	{
-		state = STATE_SOCIAL_SIGNIN;			
-		socials.addEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
-		socials.addEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
-		socials.signin();
-		return;
-	}
-	sendSocialData();
-}
-protected function socialManager_failureHandler(event:SocialEvent):void
-{
-	socials.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
-	socials.removeEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
-
-	//setTimeout(AppModel.instance.navigator.addLog, 3000, "Authentication Failed.");
-	NativeAbilities.instance.showToast("Your ISP not allowed to connect google play service.", 1);
-	finalize();
-}	
-protected function socialManager_authenticateHandler(event:SocialEvent):void
-{
-	socials.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_authenticateHandler);
-	socials.removeEventListener(SocialEvent.FAILURE, socialManager_failureHandler);
-	sendSocialData();
-}
-private function sendSocialData():void
-{
-	state = STATE_SEND_SOCIAL_DATA;			
-	var sfs:SFSObject = SFSObject.newInstance();
-	sfs.putInt("accountType", socials.type);
-	sfs.putText("accountId", socials.user.id);
-	sfs.putText("accountName", socials.user.name);
-	sfs.putText("accountImageURL", socials.user.imageURL);
-	
-	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-	sfsConnection.sendExtensionRequest(SFSCommands.OAUTH, sfs);
-}
-protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
-{
-	if( event.params.cmd != SFSCommands.OAUTH )
-		return;
-	sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-	UserData.instance.authenticated = true;
-
-	finalize();
-	
-	var sfs:SFSObject = event.params.params;
-	if( sfs.getInt("playerId") == AppModel.instance.game.player.id )
-	{
-		UserData.instance.save();	
-		return;
-	}
-	
-	var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_reload_authenticated_label", [sfs.getText("playerName")]));
-	confirm.data = sfs;
-	confirm.addEventListener("select", confirm_eventsHandler);
-	confirm.addEventListener("cancel", confirm_eventsHandler);
-	AppModel.instance.navigator.addChild(confirm);
-}		
-private function confirm_eventsHandler(event:*):void
-{
-	var confirm:ConfirmPopup = event.currentTarget as ConfirmPopup;
-	confirm.removeEventListener("select", confirm_eventsHandler);
-	confirm.removeEventListener("cancel", confirm_eventsHandler);
-	if(event.type == "select")
-	{
-		var sfs:SFSObject = confirm.data as SFSObject;
-		UserData.instance.id = sfs.getInt("playerId");
-		UserData.instance.password = sfs.getText("playerPassword");
-		NativeAbilities.instance.showToast(sfs.getInt("playerId") + " core:" + AppModel.instance.game.player.id, 2);
-		//AppModel.instance.navigator.addChild(new GameLog(sfs.getInt("playerId") + " " + AppModel.instance.game.player.id + " " + sfs.getText("playerPassword")))
-		UserData.instance.save();
-		dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
-		return;
-	}
-	UserData.instance.save();
-}
 
 /***********************************   FINALIZE   ***************************************/
 private function finalize():void
