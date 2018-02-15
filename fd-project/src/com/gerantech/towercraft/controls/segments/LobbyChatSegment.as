@@ -150,12 +150,6 @@ protected function donateButton_triggeredHandler(event:Event):void
 	trace("Request donate btn");
 	trace(params.getDump());
 }
-protected function chatList_checkDonateTimer(event:Event):void
-{
-	trace("scroll event listener");
-	var lb:LobbyManager = new LobbyManager();
-	lb.checkDonateTimer();
-}
 
 private function gotoBattle():void
 {
