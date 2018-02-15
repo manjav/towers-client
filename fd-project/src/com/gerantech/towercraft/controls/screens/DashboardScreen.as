@@ -142,6 +142,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
+    pageList.addEventListener(Event.READY, pageList_readyHandler);
 	tabsList.dataProvider = segmentsCollection;
 	setTimeout(gotoPage, 200, tabIndex, 0.1);
 	visible = true;
@@ -154,6 +155,11 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
 	
 	SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
+}
+private function pageList_readyHandler(event:Event):void
+{
+    tabsList.isEnabled = event.data;
+    pageList.horizontalScrollPolicy = event.data ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 }
 protected function navigator_bookOpenedHandler(event:Event):void
 {

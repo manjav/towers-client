@@ -3,14 +3,18 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBattleSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemCommentSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemConfirmSegment;
-import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemDonateSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemMessageSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
+import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemDonateSegment;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+
 import starling.events.Event;
+import starling.events.Touch;
 
 public class LobbyChatItemRenderer extends AbstractTouchableListItemRenderer
 {
@@ -24,11 +28,15 @@ private var type:int;
 private var messageSegment:LobbyChatItemMessageSegment;
 private var commentSegment:LobbyChatItemCommentSegment;
 private var confirmSegment:LobbyChatItemConfirmSegment;
-private var donateSegment:LobbyChatItemDonateSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
+private var donateSegment:LobbyChatItemDonateSegment;
 private var segment:LobbyChatItemSegment;
 
-public function LobbyChatItemRenderer(){}
+
+public function getTouch():Touch
+{
+	return touch;
+}
 override protected function initialize():void
 {
 	super.initialize();
@@ -50,7 +58,16 @@ override protected function initialize():void
 	
 	donateSegment = new LobbyChatItemDonateSegment();
 	donateSegment.layoutData = fitLayoutData;
+	
+	addEventListener(Event.TRIGGERED, item_triggeredHandler);
+
 }
+
+private function item_triggeredHandler(event:Event):void
+{
+	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+}
+
 override protected function commitData():void
 {
 	super.commitData();
@@ -62,7 +79,7 @@ override protected function commitData():void
 		segment.removeFromParent();
 		segment = null;		
 	}
-	
+
 	type = SFSObject(_data).getShort("m");
 	if( MessageTypes.isComment(type) )
 		type = TYPE_COMMENT;
@@ -88,15 +105,14 @@ override protected function commitData():void
 			break;
 	}
 	
-	//trace(index, type);
-	//trace(segment.data.getDump());
-	segment.commitData(_data as SFSObject);
+	segment.commitData(_data as SFSObject);//trace(index, type, segment.data.getDump())
 	addChild(segment);
 }
 private function confirmSegment_triggeredHandler(event:Event):void
 {
-	segment.data.putShort( "pr", event.data ? MessageTypes.M16_COMMENT_JOIN_ACCEPT : MessageTypes.M17_COMMENT_JOIN_REJECT );
-	_owner.dispatchEventWith(Event.ROOT_CREATED, false, segment.data);
+	
+	segment.data.putShort( "pr", event.data.data as int);
+	_owner.dispatchEventWith(Event.ROOT_CREATED, false, [this, segment.data]);
 }
 }
 }
