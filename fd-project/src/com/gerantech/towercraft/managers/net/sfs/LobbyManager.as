@@ -298,14 +298,5 @@ private function dispose():void
 	if( messages )
 		messages.removeAll();
 }
-public function checkDonateTimer():void
-{
-	var msg:ISFSObject = event.params.params as SFSObject;
-	trace("..::checkMessageTimer::..");
-	for (var i:int = msg.size() - 1; i > 0 ; i--)
-		if( msg.getItemAtct(i) == MessageTypes.M20_DONATE )
-			if( msg.getSFSObject(i).getLong("dt") <= Instant.now().getEpochSecond() )
-				msg.removeElementAt(i);
-}
 }
 }
