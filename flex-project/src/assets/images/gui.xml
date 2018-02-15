@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:27f4f7fd3d9717d614eb80b96eb12bdf:41f9bb6cd0fef5f7519d6aba239b44cb:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:bad53ebd347be4711d616482ab9a27ad:049bff016d4f34f317adcea9c1e59e5d:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
     <SubTexture name="arena-0" x="1469" y="537" width="93" height="99"/>
     <SubTexture name="arena-1" x="1368" y="599" width="93" height="99"/>
@@ -55,109 +55,109 @@
     <SubTexture name="emblems/emblem-004" x="1196" y="801" width="80" height="80"/>
     <SubTexture name="emblems/emblem-005" x="1278" y="734" width="80" height="80"/>
     <SubTexture name="emblems/emblem-006" x="1278" y="816" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-007" x="1762" y="411" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-008" x="1844" y="411" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-009" x="1926" y="437" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-010" x="1706" y="493" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-011" x="1569" y="558" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-012" x="1463" y="638" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-013" x="1368" y="700" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-014" x="1788" y="493" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-015" x="1870" y="519" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-016" x="1952" y="519" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-017" x="1651" y="575" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-018" x="1569" y="640" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-019" x="1450" y="720" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-020" x="1368" y="782" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-021" x="1733" y="575" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-022" x="1293" y="898" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-023" x="1293" y="980" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-024" x="1368" y="1124" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-025" x="1368" y="1206" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-026" x="1815" y="601" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-027" x="1897" y="601" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-028" x="1651" y="657" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-029" x="1569" y="722" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-030" x="1733" y="657" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-031" x="1450" y="802" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-032" x="1815" y="683" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-033" x="1897" y="683" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-034" x="1651" y="739" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-035" x="1569" y="804" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-036" x="1733" y="739" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-037" x="1450" y="884" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-038" x="1375" y="966" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-039" x="1815" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-040" x="1897" y="765" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-041" x="1651" y="821" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-042" x="1569" y="886" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-043" x="1733" y="821" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-044" x="1457" y="966" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-045" x="1815" y="847" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-046" x="1897" y="847" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-047" x="1651" y="903" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-048" x="1569" y="968" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-049" x="1733" y="903" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-050" x="1450" y="1048" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-051" x="1450" y="1130" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-052" x="1450" y="1212" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-053" x="1815" y="929" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-054" x="1897" y="929" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-055" x="1651" y="985" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-056" x="1569" y="1050" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-057" x="1733" y="985" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-058" x="1815" y="1011" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-059" x="1897" y="1011" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-060" x="1651" y="1067" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-061" x="1569" y="1132" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-062" x="1733" y="1067" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-063" x="1815" y="1093" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-064" x="1897" y="1093" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-065" x="1651" y="1149" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-066" x="1569" y="1214" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-067" x="1733" y="1149" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-068" x="1815" y="1175" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-069" x="1897" y="1175" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-070" x="1651" y="1231" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-071" x="1569" y="1296" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-072" x="1733" y="1231" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-073" x="1815" y="1257" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-074" x="1897" y="1257" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-075" x="1651" y="1313" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-076" x="1569" y="1378" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-077" x="1733" y="1313" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-078" x="1815" y="1339" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-079" x="1897" y="1339" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-080" x="1651" y="1395" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-081" x="1569" y="1460" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-082" x="1733" y="1395" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-083" x="1458" y="1476" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-084" x="1458" y="1558" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-085" x="1458" y="1640" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-086" x="1540" y="1542" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-087" x="1540" y="1624" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-088" x="1815" y="1421" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-089" x="1897" y="1421" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-090" x="1651" y="1477" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-091" x="1733" y="1477" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-092" x="1815" y="1503" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-093" x="1897" y="1503" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-094" x="1622" y="1559" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-095" x="1704" y="1559" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-096" x="1559" y="1706" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-097" x="1559" y="1788" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-098" x="1569" y="1870" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-099" x="1569" y="1952" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-100" x="1641" y="1641" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-101" x="1641" y="1723" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-102" x="1651" y="1805" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-103" x="1651" y="1887" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-104" x="1723" y="1641" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-105" x="1723" y="1723" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-106" x="1733" y="1805" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-107" x="1733" y="1887" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-108" x="1805" y="1585" width="80" height="80"/>
-    <SubTexture name="emblems/emblem-109" x="1805" y="1667" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-007" x="1856" y="411" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-008" x="1938" y="437" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-009" x="1706" y="490" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-010" x="1569" y="558" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-011" x="1463" y="638" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-012" x="1368" y="700" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-013" x="1788" y="493" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-014" x="1651" y="572" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-015" x="1569" y="640" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-016" x="1450" y="720" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-017" x="1368" y="782" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-018" x="1870" y="519" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-019" x="1952" y="519" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-020" x="1733" y="575" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-021" x="1651" y="654" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-022" x="1569" y="722" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-023" x="1450" y="802" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-024" x="1368" y="864" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-025" x="1293" y="946" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-026" x="1293" y="1028" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-027" x="1368" y="1110" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-028" x="1368" y="1192" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-029" x="1375" y="946" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-030" x="1375" y="1028" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-031" x="1450" y="1110" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-032" x="1450" y="1192" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-033" x="1457" y="946" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-034" x="1457" y="1028" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-035" x="1532" y="804" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-036" x="1815" y="601" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-037" x="1733" y="657" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-038" x="1651" y="736" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-039" x="1897" y="601" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-040" x="1815" y="683" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-041" x="1733" y="739" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-042" x="1614" y="818" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-043" x="1897" y="683" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-044" x="1815" y="765" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-045" x="1696" y="821" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-046" x="1569" y="900" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-047" x="1897" y="765" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-048" x="1458" y="1476" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-049" x="1458" y="1558" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-050" x="1458" y="1640" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-051" x="1510" y="1274" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-052" x="1510" y="1356" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-053" x="1532" y="1110" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-054" x="1532" y="1192" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-055" x="1539" y="982" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-056" x="1778" y="847" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-057" x="1651" y="903" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-058" x="1860" y="847" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-059" x="1942" y="847" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-060" x="1540" y="1438" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-061" x="1592" y="1274" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-062" x="1592" y="1356" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-063" x="1540" y="1520" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-064" x="1540" y="1602" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-065" x="1614" y="1064" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-066" x="1614" y="1146" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-067" x="1559" y="1684" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-068" x="1559" y="1766" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-069" x="1559" y="1848" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-070" x="1569" y="1930" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-071" x="1622" y="1438" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-072" x="1622" y="1520" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-073" x="1622" y="1602" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-074" x="1674" y="1228" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-075" x="1674" y="1310" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-076" x="1696" y="1064" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-077" x="1696" y="1146" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-078" x="1733" y="929" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-079" x="1815" y="929" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-080" x="1897" y="929" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-081" x="1641" y="1684" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-082" x="1641" y="1766" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-083" x="1641" y="1848" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-084" x="1651" y="1930" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-085" x="1778" y="1011" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-086" x="1860" y="1011" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-087" x="1942" y="1011" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-088" x="1778" y="1093" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-089" x="1860" y="1093" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-090" x="1942" y="1093" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-091" x="1778" y="1175" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-092" x="1860" y="1175" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-093" x="1942" y="1175" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-094" x="1704" y="1392" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-095" x="1756" y="1257" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-096" x="1704" y="1474" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-097" x="1704" y="1556" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-098" x="1838" y="1257" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-099" x="1920" y="1257" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-100" x="1786" y="1339" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-101" x="1868" y="1339" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-102" x="1950" y="1339" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-103" x="1786" y="1421" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-104" x="1868" y="1421" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-105" x="1950" y="1421" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-106" x="1786" y="1503" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-107" x="1868" y="1503" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-108" x="1950" y="1503" width="80" height="80"/>
+    <SubTexture name="emblems/emblem-109" x="1786" y="1585" width="80" height="80"/>
     <SubTexture name="extra-time" x="534" y="1220" width="94" height="90" frameX="-2" frameY="-3" frameWidth="96" frameHeight="96"/>
     <SubTexture name="finger-down" x="1080" y="1542" width="186" height="175" frameX="-1" frameY="-5" frameWidth="188" frameHeight="188"/>
     <SubTexture name="gold-key-off" x="1112" y="506" width="144" height="153" frameX="0" frameY="0" frameWidth="144" frameHeight="154"/>
@@ -194,8 +194,9 @@
     <SubTexture name="settings-1" x="927" y="1954" width="60" height="82" frameX="-16" frameY="-2" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-2" x="1130" y="1954" width="86" height="80" frameX="-3" frameY="-3" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-3" x="859" y="1954" width="66" height="82" frameX="-13" frameY="-2" frameWidth="92" frameHeight="92"/>
-    <SubTexture name="settings-21" x="1651" y="1969" width="77" height="77" frameX="-6" frameY="-6" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-21" x="1621" y="985" width="77" height="77" frameX="-6" frameY="-6" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-22" x="989" y="1954" width="49" height="81" frameX="-24" frameY="-4" frameWidth="92" frameHeight="92"/>
+    <SubTexture name="settings-41" x="1762" y="411" width="92" height="77" frameX="0" frameY="-11" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-311" x="1014" y="2" width="81" height="76" frameX="-3" frameY="-7" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-312" x="713" y="1550" width="81" height="86" frameX="-6" frameY="-1" frameWidth="92" frameHeight="92"/>
     <SubTexture name="settings-313" x="858" y="1219" width="82" height="87" frameX="-4" frameY="0" frameWidth="92" frameHeight="92"/>
@@ -223,7 +224,7 @@
     <SubTexture name="theme/badge-notification-new" x="1510" y="299" width="56" height="56"/>
     <SubTexture name="theme/badge-notification" x="1723" y="213" width="56" height="56"/>
     <SubTexture name="theme/balloon-me" x="818" y="1637" width="78" height="60" frameX="-18" frameY="-9" frameWidth="96" frameHeight="76"/>
-    <SubTexture name="theme/balloon-other" x="1293" y="1062" width="78" height="60" frameX="0" frameY="-9" frameWidth="96" frameHeight="76"/>
+    <SubTexture name="theme/balloon-other" x="1450" y="884" width="78" height="60" frameX="0" frameY="-9" frameWidth="96" frameHeight="76"/>
     <SubTexture name="theme/building-button-disable" x="1569" y="213" width="152" height="118"/>
     <SubTexture name="theme/building-button" x="1569" y="333" width="152" height="118"/>
     <SubTexture name="theme/button-danger-down-skin" x="1473" y="407" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
