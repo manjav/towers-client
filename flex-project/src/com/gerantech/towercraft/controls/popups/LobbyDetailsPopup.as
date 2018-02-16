@@ -362,10 +362,10 @@ protected function sfs_joinHandler(event:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
 	var response:int = event.params.params.getInt("response")
-	if( response == 0 ) 
+	if( response == MessageTypes.JOIN_LOBBY_SUCCEED ) 
 		updateLobbyLayout(true);
-	else if( response == 1 ) 
-		appModel.navigator.addLog(loc("lobby_join_request_sent"));
+	else
+		appModel.navigator.addLog(loc("lobby_join_request_" + response));
 }
 
 private function updateLobbyLayout(isJoin:Boolean):void
