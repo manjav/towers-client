@@ -153,7 +153,7 @@ package com.gerantech.towercraft.views
 			
 			var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + place.index);
 			var places:PlaceDataList = new PlaceDataList();
-			if( appModel.battleFieldView.battleData.map.index == 1 )
+			if( appModel.battleFieldView.battleData.map.index <= 2 )
 			{
 				for (var i:int = 0; i < place.index+2; i++) 
 					places.push(getPlace(i));
