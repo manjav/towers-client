@@ -71,7 +71,7 @@ public function load():void
 		appModel.navigator.removeAllPopups();
 		appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
 	}
-	if(	UserData.instance.prefs == null )
+	if( UserData.instance.prefs == null )
 		UserData.instance.prefs = new UserPrefs();
 }
 
@@ -157,8 +157,8 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
-	//GameAnalytics.config.setUserId("test_id");
 	
+	//GameAnalytics.config.setUserId("test_id");
 	if( TimeManager.instance != null )
 		TimeManager.instance.dispose();
 	new TimeManager(serverData.getLong("serverTime"));
@@ -194,11 +194,7 @@ protected function coreLoader_errorHandler(event:ErrorEvent):void
 protected function coreLoader_completeHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
-	//trace(AppModel.instance.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
-	//if( UserData.instance.authenticated )
-		finalize();
-	//else
-	//	authenticateSocial();
+	finalize();
 }
 
 
@@ -249,6 +245,6 @@ private function registerPushManager():void
 	NativeAbilities.instance.showToast(notification.message, 2);
 	}*/			
 }
-
+protected function get appModel():		AppModel		{	return AppModel.instance;			}
 }
 }
