@@ -2,6 +2,8 @@ package com.gerantech.towercraft.managers.net
 {
 
 import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
@@ -54,12 +56,14 @@ public function load():void
 	sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 	sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 	state = STATE_CONNECT;
+	DashboardScreen.tabIndex = 1;
 	if( appModel.navigator != null )
 	{
-		appModel.navigator.popToRootScreen();
+		appModel.navigator.popAll();
 		appModel.navigator.removeAllPopups();
+		appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
 	}
-	if(UserData.instance.prefs == null )
+	if(	UserData.instance.prefs == null )
 		UserData.instance.prefs = new UserPrefs();
 }
 
