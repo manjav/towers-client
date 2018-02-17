@@ -69,6 +69,5 @@ package com.gerantech.towercraft.controls.tooltips
 			_type = value;
 			label = loc( "sticker_" + _type );
 		}
-		
 	}
 }
