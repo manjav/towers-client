@@ -39,7 +39,6 @@ protected function findUser(uid:int):ISFSObject
     if( all == null )
         return null;
     var allSize:int = all.size();
-	var allSize:int = all.size();
 	for( var i:int=0; i<allSize; i++ )
 	{
 		if( all.getSFSObject(i).getInt("id") == uid )
