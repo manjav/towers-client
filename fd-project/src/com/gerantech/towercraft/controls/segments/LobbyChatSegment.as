@@ -141,14 +141,7 @@ protected function donateButton_triggeredHandler(event:Event):void
 	params.putShort("st", 0); 	// state = 0 means its a request for card not doanation
 	params.putShort("ct", 401);
 	params.putInt("n", 0);
-	var now:Date = new Date();
-	var epoch:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
-	epoch /= 1000;				// convert millisec to second
-	params.putLong("dt", 30 + epoch);
-	trace("now(epoch):", epoch, "| dueDate", params.getInt("dt"));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-	trace("Request donate btn");
-	trace(params.getDump());
 }
 
 private function gotoBattle():void

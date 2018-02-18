@@ -191,18 +191,20 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		trace("LobbyManager donate");
 		if ( msg.getShort("st") == 0 )
 		{
-			for (var i:int =  messages.length-1; i > -1; i--) // remove previous donate message
-				if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == player.id )
-					messages.removeItemAt(i);
-			
 			var now:Date = new Date();
-			var epoch:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
-			epoch /= 1000;
-			trace("now(epoch):", epoch, "| dueDate", msg.getLong("dt"));
-			if( epoch < msg.getLong("dt") )
-				messages.addItem(msg);
-			else
-				messages.removeItem(msg);
+			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
+			epochNow /= 1000;
+			for (var i:int =  messages.length-1; i > -1; i--) // remove previous donate message
+				if ( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == player.id && messages.getItemAt(i) != null )
+					if ( messages.getItemAt(i).getInt("dt") <= epochNow )
+					{
+						trace("You have another donation request pending!"); 
+						return;
+					}
+					else
+						messages.removeItemAt(i);
+			messages.addItem(msg); 
+			trace("Your donation request was succesfull");
 		}
 		else if ( msg.getShort("st") == 1 )
 		{
