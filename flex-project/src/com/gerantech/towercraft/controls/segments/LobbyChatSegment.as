@@ -5,7 +5,6 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -14,12 +13,9 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
 
 import feathers.controls.StackScreenNavigatorItem;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 
 import starling.events.Event;
@@ -55,22 +51,13 @@ override protected function showElements():void
 	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
-	
-	inputText = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0xAAAAAA, false, appModel.align );
-	inputText.textEditorProperties.autoCorrect = true;
-	inputText.height = footerSize;
-	inputText.layoutData = new AnchorLayoutData(NaN, footerSize*2 + padding*3, 0, padding);
-	inputText.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
-	addChild(inputText);
-
-	sendButton.layoutData = new AnchorLayoutData(NaN, footerSize+padding*2, 0, NaN);
 
 	battleButton = new CustomButton();
 	battleButton.style = "danger";
 	battleButton.width = battleButton.height = footerSize;
 	battleButton.icon = Assets.getTexture("tab-1", "gui");
 	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+	battleButton.layoutData = new AnchorLayoutData(NaN, NaN, 0, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
 	
@@ -136,6 +123,12 @@ private function gotoBattle():void
 protected function manager_triggerHandler(event:Event):void
 {
 	gotoBattle();
+}
+
+override public function enabledChatting(value:Boolean):void
+{
+	super.enabledChatting(value);
+	battleButton.visible = !value;
 }
 
 override public function set buttonsEnabled(value:Boolean):void
