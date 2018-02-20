@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 	import com.gerantech.towercraft.controls.FastList;
 	import com.gerantech.towercraft.controls.buttons.CustomButton;
+	import com.gerantech.towercraft.controls.buttons.EmblemButton;
 	import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
 	import com.gerantech.towercraft.controls.items.ProfileFeatureItemRenderer;
 	import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -10,6 +11,7 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.BuildingType;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -33,20 +35,22 @@ package com.gerantech.towercraft.controls.popups
 
 	public class ProfilePopup extends SimplePopup 
 	{
-		private var playerName:String;
-		
+		private var user:Object;
 		private var playerData:ISFSObject;
 		private var featuresData:ISFSArray;
 		private var buildingsData:ISFSArray;
 		
-		public function ProfilePopup(playerName:String, playerId:int, adminMode:Boolean=false)
+		public function ProfilePopup(user:Object, adminMode:Boolean=false)
 		{
-			this.playerName = playerName;
+			this.user = user;
 			
 			var params:SFSObject = new SFSObject();
-			params.putInt("id", playerId);
+			params.putInt("id", user.id);
 			if( adminMode )
 				params.putBool("am", true);
+			if( user.ln == null )
+				params.putInt("lp", 0);
+			
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responceHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.PROFILE, params);
 		}
@@ -73,6 +77,16 @@ package com.gerantech.towercraft.controls.popups
 			featuresData = playerData.getSFSArray("features");
 			buildingsData = playerData.getSFSArray("buildings");
 			
+			if( playerData.containsKey("ln") )
+				user.ln = playerData.getText("ln");
+			else if( user.ln == null )
+				user.ln = loc("lobby_no");
+			
+			if( playerData.containsKey("lp") )
+				user.lp = playerData.getInt("lp");
+			else if( user.lp == null )
+				user.lp = 110;
+		
 			if( transitionState >= TransitionData.STATE_IN_FINISHED )
 				showProfile();
 		}
@@ -80,20 +94,24 @@ package com.gerantech.towercraft.controls.popups
 		private function showProfile():void
 		{
 			
-			var iconDisplay:ImageLoader = new ImageLoader();
-			iconDisplay.width = padding * 4;
-			iconDisplay.height = padding * 6;
-			iconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(0)), "gui");
-			iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-			addChild(iconDisplay);
+			var lobbyIconDisplay:EmblemButton = new EmblemButton(user.lp);
+			lobbyIconDisplay.touchable = false;
+			lobbyIconDisplay.width = padding * 5.3;
+			lobbyIconDisplay.height = padding * 5.6;
+			lobbyIconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+			addChild(lobbyIconDisplay);
 			
-			var nameDisplay:ShadowLabel = new ShadowLabel(playerName, 1, 0, null, null, true, "center", 1);
-			nameDisplay.layoutData = new AnchorLayoutData(padding*1.4, appModel.isLTR?NaN:padding*6, NaN, appModel.isLTR?padding*6:NaN);
+			var nameDisplay:ShadowLabel = new ShadowLabel(user.name, 1, 0, null, null, true, "center", 1);
+			nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
 			addChild(nameDisplay);
 			
 			var tagDisplay:RTLLabel = new RTLLabel("#"+playerData.getText("tag"), 0xAABBBB, null, "ltr", true, null, 0.8);
-			tagDisplay.layoutData = new AnchorLayoutData(padding*3, appModel.isLTR?NaN:padding*6, NaN, appModel.isLTR?padding*6:NaN);
+			tagDisplay.layoutData = new AnchorLayoutData(padding*2.6, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
 			addChild(tagDisplay);
+			
+			var lobbyNameDisplay:RTLLabel = new RTLLabel(user.ln, 0xAABBBB, null, "ltr", true, null, 0.8);
+			lobbyNameDisplay.layoutData = new AnchorLayoutData(padding*5, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
+			addChild(lobbyNameDisplay);
 			
 			var closeButton:CustomButton = new CustomButton();
 			closeButton.label = "";
