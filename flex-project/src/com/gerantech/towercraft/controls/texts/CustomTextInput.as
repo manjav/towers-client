@@ -13,7 +13,7 @@ package com.gerantech.towercraft.controls.texts
 	{
 
 		private var editor:StageTextTextEditor;
-		public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=16777215, multiline:Boolean=false, textAlign:String="center")
+		public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=0, multiline:Boolean=false, textAlign:String="center")
 		{
 			super();
 			
