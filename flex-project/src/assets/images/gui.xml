@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:3a282b7fe055b44edbdbf4a57dbe160b:5dd98538f4b0b389e4cf9d10b67cc598:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:990b6683969a4331ed96bb04cc70725a:c6b1b3cbfa40eeff6577c9a47a8c0f52:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
     <SubTexture name="arena-0" x="1196" y="824" width="93" height="99"/>
     <SubTexture name="arena-1" x="1291" y="824" width="93" height="99"/>
