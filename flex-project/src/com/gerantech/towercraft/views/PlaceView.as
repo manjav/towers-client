@@ -213,7 +213,7 @@ package com.gerantech.towercraft.views
 		
 		private function rushTimeoutCallback():void
 		{
-			if( troopsCount > 0 )
+			if( troopsCount > 0 && path != null )
 			{
 				var t:TroopView = new TroopView(place.building, path);
 				t.x = x;
@@ -221,7 +221,7 @@ package com.gerantech.towercraft.views
 				t.rush(place);
 				appModel.battleFieldView.troopsContainer.addChild(t);
 				troopsCount --;
-			}	
+			}
 		}
 		
 		public function replaceBuilding(type:int, level:int):void
