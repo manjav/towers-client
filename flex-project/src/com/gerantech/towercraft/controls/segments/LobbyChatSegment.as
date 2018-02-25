@@ -23,9 +23,8 @@ import starling.events.Event;
 public class LobbyChatSegment extends LobbyBaseChatSegment
 {
 private var headerSize:int;
-private var startScrollBarIndicator:Number = 0;
-private var battleButton:CustomButton;
 private var header:LobbyHeader;
+private var battleButton:CustomButton;
 
 public function LobbyChatSegment(){}
 
@@ -69,12 +68,6 @@ override protected function showElements():void
 	UserData.instance.save();
 }
 
-override protected function chatList_createCompleteHandler(event:Event):void
-{
-	super.chatList_createCompleteHandler(event);
-	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
-}
-
 protected function chatList_triggeredHandler(event:Event):void
 {
 	var selectedItem:LobbyChatItemRenderer = event.data[0] as LobbyChatItemRenderer;
@@ -93,12 +86,10 @@ protected function chatList_triggeredHandler(event:Event):void
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 }
 
-protected function chatList_scrollHandler(event:Event):void
+override protected function scrollChatList(changes:Number) : void
 {
-	var scrollPos:Number = Math.max(0,chatList.verticalScrollPosition);
-	var changes:Number = startScrollBarIndicator-scrollPos;
+	super.scrollChatList(changes);
 	header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
-	startScrollBarIndicator = scrollPos;
 }
 
 protected function battleButton_triggeredHandler(event:Event):void

@@ -25,7 +25,6 @@ import flash.utils.setTimeout;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
-import feathers.core.FocusManager;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -48,6 +47,8 @@ protected var chatSendButton:CustomButton;
 protected var chatEnableButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
 protected var _chatEnabled:Boolean = false;
+protected var autoScroll:Boolean = true;
+private var startScrollBarIndicator:Number = 0;
 
 
 public function LobbyBaseChatSegment(){}
@@ -139,6 +140,7 @@ protected function chatList_createCompleteHandler(event:Event):void
 {
 	chatList.removeEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
 	chatList.scrollToDisplayIndex(manager.messages.length-1);	
+	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 }
 
 protected function chatList_changeHandler(event:Event):void
@@ -161,6 +163,19 @@ protected function chatList_changeHandler(event:Event):void
 		params.putShort("st", msgPack.getShort("st"));
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	}
+}
+
+protected function chatList_scrollHandler(event:Event):void
+{
+	var scrollPos:Number = Math.max(0,chatList.verticalScrollPosition);
+	scrollChatList(startScrollBarIndicator-scrollPos);
+	startScrollBarIndicator = scrollPos;
+}
+
+protected function scrollChatList(changes:Number):void
+{
+	if( changes > 10 )
+		autoScroll = false;
 }
 
 protected function chatList_focusInHandler(event:Event):void
@@ -245,12 +260,15 @@ protected function manager_updateHandler(event:Event):void
 	UserData.instance.lastLobbeyMessageTime = timeManager.now;
 	buttonsEnabled = manager.getMyRequestBattleIndex() == -1;
 	chatList.validate();
-	chatList.scrollToDisplayIndex(manager.messages.length-1);	
+	if( autoScroll )
+		chatList.scrollToDisplayIndex(manager.messages.length-1);	
 }
 
 protected function chatButton_triggeredHandler(event:Event):void
 {
-	enabledChatting(true);;
+	enabledChatting(true);
+	chatList.scrollToDisplayIndex(manager.messages.length-1);
+	autoScroll = true;
 }
 
 protected function sendButton_triggeredHandler(event:Event):void
