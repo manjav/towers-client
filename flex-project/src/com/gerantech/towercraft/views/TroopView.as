@@ -32,7 +32,7 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var healthDisplay:HealthBar;
 private var battleSide:int = 0;
-private var troopScale:Number = 0.75;
+private var troopScale:Number = 1.2;
 
 public function TroopView(building:Building, path:PlaceList)
 {
@@ -42,10 +42,10 @@ public function TroopView(building:Building, path:PlaceList)
 	this.building = building;
 	this.health = building.get_troopPower();
 	
-	textureType = (type == AppModel.instance.game.player.troopType?"0/":"1/") + "char-move-";//building.get_troopName();
-	movieClip = new MovieClip(Assets.getTextures(textureType+"down", "troops"), 40);
+	textureType = building.get_troopName() + battleSide + "/";
+	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 40);
 	movieClip.pivotX = movieClip.width * 0.5;
-	movieClip.pivotY = movieClip.height * 0.85;
+	movieClip.pivotY = movieClip.height * 0.75;
 	movieClip.scale = troopScale;
 	addChild(movieClip);
 	
@@ -86,43 +86,48 @@ private function onTroopArrived(next:PlaceView):void
 
 private function switchAnimation(source:Place, destination:Place):void
 {
-	var rad:Number = Math.atan2(destination.x-source.x, destination.y-source.y);
+	var rad:Number = Math.atan2(destination.x - source.x, destination.y - source.y);
 	var flipped:Boolean = false;
-	var dir:String = "down";
-
-	if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125)
-		dir = "down";
-	else if(rad <= Math.PI * -0.125 && rad > Math.PI * -0.375)
-		dir = "leftdown";
-	else if(rad <= Math.PI * -0.375 && rad > Math.PI * -0.625)
-		dir = "left";
-	else if(rad <= Math.PI * -0.625 && rad > Math.PI * -0.875)
-		dir = "leftup";
-	else if(rad >= Math.PI * 0.125 && rad < Math.PI * 0.375)
-		dir = "rightdown";
-	else if(rad >= Math.PI * 0.375 && rad < Math.PI * 0.625)
-		dir = "right";
-	else if(rad >= Math.PI * 0.625 && rad < Math.PI * 0.875)
-		dir = "rightup";
+	var dir:String;
+	
+	if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125 )
+		dir = "do";
+	else if( rad <= Math.PI * -0.125 && rad > Math.PI * -0.375 )
+		dir = "ld";
+	else if( rad <= Math.PI * -0.375 && rad > Math.PI * -0.625 )
+		dir = "le";
+	else if( rad <= Math.PI * -0.625 && rad > Math.PI * -0.875 )
+		dir = "lu";
+	else if( rad >= Math.PI * 0.125 && rad < Math.PI * 0.375 )
+		dir = "rd";
+	else if( rad >= Math.PI * 0.375 && rad < Math.PI * 0.625 )
+		dir = "ri";
+	else if( rad >= Math.PI * 0.625 && rad < Math.PI * 0.875 )
+		dir = "ru";
 	else
 		dir = "up";
 	
-	if(dir == "leftdown" || dir == "left" || dir == "leftup")
+	if( dir == "ld" || dir == "le" || dir == "lu" )
 	{
-		dir = dir.replace("left", "right");
+		if( dir == "le" )
+			dir = dir.replace("le", "ri");
+		else if( dir == "lu" )
+			dir = dir.replace("lu", "ru");
+		else
+			dir = dir.replace("ld", "rd");
 		flipped = true;
 	}
-
+	
 	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
 	if(direction == dir)
 		return;
 
-	movieClip.fps = 20 * 3000 / building.get_troopSpeed();
+	//movieClip.fps = 20 * 3000 / building.get_troopSpeed();
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
-	for(var i:int=0; i < movieClip.numFrames; i++)
-		movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction+( i>9 ? "-0"+(i) : "-00"+(i)), "troops"));
+	for( var i:int=0; i < movieClip.numFrames; i++ )
+		movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction + ( i > 9 ? "-00" + (i) : "-000" + (i)), "troops"));
 }
 
 public function hit(placeView:PlaceView):void
