@@ -151,24 +151,41 @@ protected function chatList_changeHandler(event:Event):void
 	}
 	else if( msgPack.getShort("m") == MessageTypes.M20_DONATE && msgPack.getInt("i") != player.id )
 	{
-		var donationLimit:int = player.get_donationLimit(game, msgPack.getShort("ct"));
-		trace("change handler | donationLimit:", donationLimit, "| donated so far:", msgPack.getInt("n") );
-		if ( msgPack.getInt("n") < donationLimit )
+		if ( msgPack.getShort("st") > 1)
+			return;
+		else if ( msgPack.getShort("st") < 2 )
 		{
-			trace("donate card");
-			params.putShort("m", MessageTypes.M20_DONATE);
-			params.putShort("st", 1); 						// state = 1 means it's donation not request
-			params.putInt("r", msgPack.getInt("i")); 		// r means requester
-			params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
-			msgPack.putInt("n",msgPack.getInt("n") + 1 );
-			params.putShort("ct", msgPack.getShort("ct"));
-			trace(params.getDump(), "\nlimit:", donationLimit);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-		}
-		else
-		{
-			trace(msgPack.getDump());
-			trace("CAN NOT DONATE MORE! CARD DONATION LIMIT HAS REACHED!");
+			var now:Date = new Date();
+			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds) / 1000;
+			if ( msgPack.getInt("dt") < epochNow )
+			{
+				var donationLimit:int = player.get_donationLimit(game, msgPack.getShort("ct"));
+				if ( msgPack.getInt("n") < donationLimit )
+				{
+					trace("donate card");
+					params.putShort("m", MessageTypes.M20_DONATE);
+					params.putShort("st", 1); 						// state = 1 means it's donation not request
+					params.putInt("r", msgPack.getInt("i")); 		// r means requester
+					params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
+					msgPack.putInt("n",msgPack.getInt("n") + 1 );
+					params.putShort("ct", msgPack.getShort("ct"));
+					params.putInt("dt", msgPack.getInt("dt"));
+					trace("change handler | donationLimit:", donationLimit, "| donated so far:", msgPack.getInt("n") );
+					SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+				}
+				else
+				{
+					msgPack.putShort("st", 2);
+					SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, msgPack, manager.lobby );
+					trace("CAN NOT DONATE MORE! CARD DONATION LIMIT HAS REACHED!");
+				}
+			}
+			else
+			{
+				msgPack.putShort("st", 3);
+				SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, msgPack, manager.lobby );
+				trace("CAN NOT DONATE! TIMER HAS FINISHED...");
+			}
 		}
 	}
 }

@@ -40,19 +40,32 @@ override public function commitData(_data:ISFSObject):void
 {
 	super.commitData(_data);
 	actionButton.visible = true;
-	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding * 0.5);
-	
+	messageLayout.right = actionButton.width + padding;
 	if ( data.getInt("i") == player.id )
 	{
 		actionButton.visible = false;
 		messageDisplay.align = "right";
-		messageDisplay.text = "My Req" + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = data.getShort("st") > 1 ? "TIME FINISHED! My Req" + " | ct-->" + data.getShort("ct") : "My Req" + " | ct-->" + data.getShort("ct");
 	}
 	else
 	{
-		actionButton.style = "neutral";
-		actionButton.label = "Donate";
-		messageDisplay.text = "Req from " + data.getText("s") + " | ct-->" + data.getShort("ct");
+		if ( data.getShort("st") == 2 )
+		{
+			actionButton.visible = false;
+			messageDisplay.align = "left";
+			messageDisplay.text = "CARD LIMIT REACHED!";
+		}
+		else if ( data.getShort("st") == 3 )
+		{
+			actionButton.visible = false;
+			messageDisplay.align = "left";
+			messageDisplay.text = "TIME FINISHED!" + "Req from " + data.getText("s");
+		}
+		else{
+			actionButton.style = "neutral";
+			actionButton.label = "Donate";
+			messageDisplay.text = "Req from " + data.getText("s") + " | ct-->" + data.getShort("ct");
+		}
 	}
 }
 

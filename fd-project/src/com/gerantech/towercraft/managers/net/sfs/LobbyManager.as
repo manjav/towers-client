@@ -133,9 +133,11 @@ private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 {
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
 		return false;
+	if( msg.getShort("m") == MessageTypes.M20_DONATE && msg.getShort("st") > 2)
+		return false;
 	if( MessageTypes.isConfirm(msg.getShort("m")) )
 		if( u.getInt("permission") < 2 || msg.containsKey("pr") )
-			return false
+			return false;
 	return true;
 }
 
@@ -192,23 +194,26 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		if ( msg.getShort("st") == 0 )
 		{
 			var now:Date = new Date();
-			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds);
-			epochNow /= 1000;
+			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds) / 1000;
 			for (var i:int =  messages.length-1; i > -1; i--) // remove previous donate message
-				if ( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == player.id && messages.getItemAt(i) != null )
-					if ( messages.getItemAt(i).getInt("dt") <= epochNow )
+				if ( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == msg.getInt("i") && messages.getItemAt(i) != null )
+					if ( messages.getItemAt(i).getInt("dt") >= epochNow )
 					{
 						trace("You have another donation request pending!"); 
 						return;
 					}
-					else
-						messages.removeItemAt(i);
-			messages.addItem(msg); 
 			trace("Your donation request was succesfull");
+			messages.addItem(msg);
 		}
-		else if ( msg.getShort("st") == 1 )
+		else if ( msg.getShort("st") == 2 )
 		{
-			trace("bounce!!!");
+			messages.addItem(msg); 
+			trace("card limit has reached!");
+		}
+		else if ( msg.getShort("st") == 3 )
+		{
+			trace("time is over!");
+			messages.removeItem(msg);
 		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )
@@ -266,6 +271,13 @@ public function getMyRequestBattleIndex():int
 {
 	for (var i:int = 0; i < messages.length; i++) 
 		if( messages.getItemAt(i).getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && messages.getItemAt(i).getInt("i") == player.id && messages.getItemAt(i).getShort("st") == 0 )
+			return i;
+	return -1;
+}
+public function getMyRequestDonateIndex():int
+{
+	for (var i:int = 0; i < messages.length; i++) 
+		if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == player.id )
 			return i;
 	return -1;
 }
