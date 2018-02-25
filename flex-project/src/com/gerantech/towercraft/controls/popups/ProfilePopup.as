@@ -10,8 +10,6 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.BuildingType;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -21,7 +19,6 @@ package com.gerantech.towercraft.controls.popups
 	
 	import flash.geom.Rectangle;
 	
-	import feathers.controls.ImageLoader;
 	import feathers.controls.List;
 	import feathers.controls.ScrollBarDisplayMode;
 	import feathers.controls.ScrollPolicy;
@@ -139,7 +136,7 @@ package com.gerantech.towercraft.controls.popups
 			listLayout.useSquareTiles = false;
 			listLayout.requestedColumnCount = 4;
 			listLayout.typicalItemWidth = (width -listLayout.padding*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.5;
+			listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
 			
 			var buildingslist:FastList = new FastList();
 			buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
