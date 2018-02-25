@@ -67,11 +67,11 @@ package com.gerantech.towercraft.controls
 			slider.height = progressHeight;
 			addChild(slider);
 			
-			levelDisplay = new ShadowLabel( _level > 0 ? "lvl "+ _level : "", 1, 0);
+			levelDisplay = new ShadowLabel( _level > 0 ? "lvl "+ _level : "", 1, 0, "right");
 			//levelDisplay.alpha = 0.9;
 			levelDisplay.visible = !_locked && _showLevel;
 			levelDisplay.height = progressHeight;
-			levelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.8, padding * 4);
+			levelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.8, padding * 4, padding);
 			addChild(levelDisplay);
 
 			var t:int = type;
