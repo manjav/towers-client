@@ -43,7 +43,7 @@ public function TroopView(building:Building, path:PlaceList)
 	this.health = building.get_troopPower();
 	
 	textureType = building.get_troopName() + battleSide + "/";
-	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 40);
+	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 20);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
 	movieClip.scale = troopScale;

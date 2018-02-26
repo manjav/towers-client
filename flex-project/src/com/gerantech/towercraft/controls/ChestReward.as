@@ -67,9 +67,9 @@ package com.gerantech.towercraft.controls
 			if( ResourceType.isBuilding(type) )
 			{
 				var improveDisplay:ImageLoader = new ImageLoader();
-				improveDisplay.source = Assets.getTexture("cards/improve-rank-"+BuildingType.get_improve(type), "gui");
+				improveDisplay.source = Assets.getTexture("cards/" + type, "gui");
 				improveDisplay.width = padding * 5;
-				improveDisplay.layoutData = new AnchorLayoutData(padding * 2, padding * 2);
+				improveDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.8, padding);
 				iconContainer.addChild(improveDisplay);
 				
 				if( player.buildings.get(type).get_level() == -1 )

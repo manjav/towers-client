@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.controls.sliders.BuildingSlider;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
@@ -13,8 +12,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
-	
-	import starling.utils.ScaleMode;
 	
 	public class BuildingCard extends TowersLayout
 	{
@@ -57,8 +54,9 @@ package com.gerantech.towercraft.controls
 			addChild(iconDisplay);
 			
 			improveDisplay = new ImageLoader();
-			improveDisplay.width = padding * 5;
-			improveDisplay.layoutData = new AnchorLayoutData(padding * 2, padding * 2);
+			improveDisplay.pixelSnapping = false;
+			improveDisplay.maintainAspectRatio = false;
+			improveDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.8, padding);
 			addChild(improveDisplay);
 			
 			slider = new BuildingSlider();
@@ -130,10 +128,12 @@ package com.gerantech.towercraft.controls
 			if ( slider )
 				slider.visible = !_locked && showSlider && _level > 0;
 
-			if ( skin )
+			if( skin )
 				skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
-			if ( iconDisplay )
+			if( iconDisplay )
 				iconDisplay.alpha = _locked ? 0.7 : 1;
+			if( improveDisplay )
+				improveDisplay.alpha = _locked ? 0.5 : 1;
 			if( levelDisplay )
 				levelDisplay.visible = !_locked && showLevel;
 		}
@@ -158,7 +158,7 @@ package com.gerantech.towercraft.controls
 				iconDisplay.source = Assets.getTexture("cards/"+BuildingType.get_category(_type), "gui");
 			
 			if( improveDisplay )
-				improveDisplay.source = Assets.getTexture("cards/improve-rank-"+BuildingType.get_improve(_type), "gui");
+				improveDisplay.source = Assets.getTexture("cards/"+_type, "gui");
 			
 			locked = building == null;
 			if( building == null )
