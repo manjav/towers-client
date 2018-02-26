@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:a05e755151d9111c5f56cb6c7657bf1c:aaebd37218f0c3a0d0453d4dbce00451:f35d6734face8652aa91c1defb5ab9b6$ -->
+<!-- $TexturePacker:SmartUpdate:ef65b8cac8c3e860d333dba524ab1737:78ae8a8b1c60cb5c6f1b94a6e5e9de5b:f35d6734face8652aa91c1defb5ab9b6$ -->
 <TextureAtlas imagePath="battlefields.png" width="1024" height="2048">
     <SubTexture name="attack-line-0000" x="980" y="846" width="32" height="48" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
     <SubTexture name="attack-line-0001" x="802" y="627" width="32" height="62" frameX="-16" frameY="-2" frameWidth="64" frameHeight="64"/>
@@ -59,12 +59,16 @@
     <SubTexture name="building-34" x="836" y="723" width="142" height="164" frameX="-53" frameY="-83" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-41-0" x="187" y="273" width="183" height="187" frameX="-32" frameY="-69" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-41-1" x="372" y="426" width="183" height="186" frameX="-32" frameY="-70" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-41" x="871" y="197" width="4" height="4"/>
     <SubTexture name="building-42-0" x="2" y="83" width="183" height="188" frameX="-32" frameY="-68" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-42-1" x="187" y="83" width="183" height="188" frameX="-32" frameY="-68" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-42" x="871" y="197" width="4" height="4"/>
     <SubTexture name="building-43-0" x="410" y="236" width="183" height="188" frameX="-32" frameY="-68" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-43-1" x="651" y="372" width="183" height="188" frameX="-32" frameY="-68" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-43" x="871" y="197" width="4" height="4"/>
     <SubTexture name="building-44-0" x="836" y="415" width="183" height="188" frameX="-32" frameY="-68" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-44-1" x="2" y="273" width="183" height="188" frameX="-32" frameY="-68" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-44" x="871" y="197" width="4" height="4"/>
     <SubTexture name="building-flag-11-0-0000" x="267" y="1668" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-flag-11-0-0001" x="455" y="1640" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
     <SubTexture name="building-flag-11-0-0002" x="206" y="1678" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
