@@ -2,8 +2,10 @@ package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
+	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
+	import com.gt.towers.constants.BuildingType;
 	
 	import flash.geom.Rectangle;
 	
@@ -12,13 +14,14 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayoutData;
 	import feathers.skins.ImageSkin;
 	
-	import starling.display.BlendMode;
 	import starling.utils.ScaleMode;
 	
 	public class BuildingCard extends TowersLayout
 	{
+		private var improveDisplay:ImageLoader;
 		private var iconDisplay:ImageLoader;
 		private var slider:BuildingSlider;
+		private var levelDisplay:ShadowLabel;
 
 		private var _type:int = -1;
 		private var _level:int = 0;
@@ -27,7 +30,6 @@ package com.gerantech.towercraft.controls
 		private var _showLevel:Boolean = true;
 		
 		private var skin:ImageSkin;
-		private var levelDisplay:RTLLabel;
 		
 		public function BuildingCard()
 		{
@@ -50,11 +52,14 @@ package com.gerantech.towercraft.controls
 			
 			iconDisplay = new ImageLoader();
 			iconDisplay.pixelSnapping = false;
-			iconDisplay.horizontalAlign = "left";
-			iconDisplay.padding = 8 * appModel.scale;
-			iconDisplay.scaleMode = ScaleMode.NO_BORDER;
-			iconDisplay.layoutData = new AnchorLayoutData(0, 0, progressHeight/2, 0);
+			iconDisplay.maintainAspectRatio = false;
+			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.8, padding);
 			addChild(iconDisplay);
+			
+			improveDisplay = new ImageLoader();
+			improveDisplay.width = padding * 5;
+			improveDisplay.layoutData = new AnchorLayoutData(padding * 2, padding * 2);
+			addChild(improveDisplay);
 			
 			slider = new BuildingSlider();
 			slider.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
@@ -62,11 +67,11 @@ package com.gerantech.towercraft.controls
 			slider.height = progressHeight;
 			addChild(slider);
 			
-			levelDisplay = new RTLLabel( _level > 0 ? "Level "+ _level : "", 0, "center", null, false, null, 0.8);
-			levelDisplay.alpha = 0.9;
+			levelDisplay = new ShadowLabel( _level > 0 ? "lvl "+ _level : "", 1, 0, "right");
+			//levelDisplay.alpha = 0.9;
 			levelDisplay.visible = !_locked && _showLevel;
 			levelDisplay.height = progressHeight;
-			levelDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
+			levelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.8, padding * 4, padding);
 			addChild(levelDisplay);
 
 			var t:int = type;
@@ -100,7 +105,7 @@ package com.gerantech.towercraft.controls
 			
 			_level = value;
 			if ( showLevel && levelDisplay && _level > 0 )
-				levelDisplay.text = "Level " + _level;
+				levelDisplay.text = "lvl " + _level;
 		}
 		
 		public function get showSlider():Boolean
@@ -150,7 +155,10 @@ package com.gerantech.towercraft.controls
 			var building:Building = player.buildings.get(_type);
 			
 			if( iconDisplay )
-				iconDisplay.source = Assets.getTexture("cards/"+_type, "gui");
+				iconDisplay.source = Assets.getTexture("cards/"+BuildingType.get_category(_type), "gui");
+			
+			if( improveDisplay )
+				improveDisplay.source = Assets.getTexture("cards/improve-rank-"+BuildingType.get_improve(_type), "gui");
 			
 			locked = building == null;
 			if( building == null )

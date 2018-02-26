@@ -20,7 +20,9 @@ package com.gerantech.towercraft.views
 	import com.gt.towers.utils.lists.PlaceList;
 	
 	import flash.geom.Rectangle;
+	import flash.utils.clearInterval;
 	import flash.utils.clearTimeout;
+	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 	
 	import starling.core.Starling;
@@ -38,10 +40,14 @@ package com.gerantech.towercraft.views
 		public var decorator:BuildingDecorator;
 		public var defensiveWeapon:DefensiveWeapon;
 		
+		private var troopsCount:int = 0;
+		private var rushIntervalId:int = -1;
+		private var rushGap:int = 0;
 		private var arrow:MovieClip;
-		private var rushTimeoutId:uint;
 		private var _selectable:Boolean;
 		private var wishedPopulation:int;
+
+		private var path:PlaceList;
 		
 		
 		public function PlaceView(place:Place)
@@ -175,41 +181,53 @@ package com.gerantech.towercraft.views
 			return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
 		}
 		
-		public function fight(destination:Place, troopsDivision:Number) : void
+		public function fight(destination:Place, troopsCount:Number) : void
 		{
 			wishedPopulation = Math.floor(place.building._population * 0.5);
-			var path:PlaceList = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
-			if(path == null || destination.building == place.building)
+			path = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
+			if( path == null || destination.building == place.building )
 				return;
 			
-			var len:int = Math.floor(place.building.get_population() * troopsDivision);
-			for(var i:uint=0; i<len; i++)
+			if( rushGap != place.building.get_exitGap() )
 			{
-				var t:TroopView = new TroopView(place.building, path);
-				t.x = x;
-				t.y = y ;
-				appModel.battleFieldView.troopsContainer.addChild(t);
-				rushTimeoutId = setTimeout(t.rush, place.building.get_exitGap() * i + 300, place);
+				rushGap = place.building.get_exitGap();
+				clearInterval(rushIntervalId);
+				rushIntervalId = setInterval(rushTimeoutCallback, rushGap);
 			}
-			
+			this.troopsCount = place.building.get_population() * troopsCount;
+						
 			if( place.building.troopType == player.troopType )
 			{
 				var soundIndex:int = 0;
-				if( len > 5 && len < 10 )
+				if( troopsCount > 5 && troopsCount < 10 )
 					soundIndex = 1;
-				else if( len >= 10 && len < 20 )
+				else if( troopsCount >= 10 && troopsCount < 20 )
 					soundIndex = 2;
-				else if( len >= 20 )
+				else if( troopsCount >= 20 )
 					soundIndex = 3;
 				
 				if( !appModel.sounds.soundIsPlaying("battle-go-army-"+soundIndex) )
 					appModel.sounds.addAndPlaySound("battle-go-army-"+soundIndex);
 			}
 		}
-
+		
+		private function rushTimeoutCallback():void
+		{
+			if( troopsCount > 0 && path != null )
+			{
+				var t:TroopView = new TroopView(place.building, path);
+				t.x = x;
+				t.y = y ;
+				t.rush(place);
+				appModel.battleFieldView.troopsContainer.addChild(t);
+				troopsCount --;
+			}
+		}
+		
 		public function replaceBuilding(type:int, level:int):void
 		{
 			wishedPopulation = Math.floor(place.building._population * 0.5);
+			rushGap = 0;
 			var tt:int = place.building.troopType;
 			var p:int = place.building._population;
 			//trace("replaceBuilding", place.index, type, level, place.building._population);
@@ -223,7 +241,7 @@ package com.gerantech.towercraft.views
 		override public function dispose():void
 		{
 			Starling.juggler.remove(arrow);
-			clearTimeout(rushTimeoutId);
+			clearInterval(rushIntervalId);
 			if(defensiveWeapon != null)
 				defensiveWeapon.dispose();
 			super.dispose();

@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gt.towers.constants.BuildingType;
 	
 	import flash.geom.Rectangle;
 	
@@ -24,6 +25,7 @@ package com.gerantech.towercraft.controls.items
 		private var iconDisplay:ImageLoader;
 		private var levelDisplay:RTLLabel;
 		private var mySkin:ImageSkin;
+		private var improveDisplay:ImageLoader;
 
 		
 		public function ProfileBuildingItemRenderer(showLevel:Boolean = true)
@@ -75,7 +77,7 @@ package com.gerantech.towercraft.controls.items
 				levelDisplay = new RTLLabel("Level "+ level, 0, "center", null, false, null, 0.7);
 				levelDisplay.alpha = 0.8;
 				levelDisplay.height = height * 0.25;
-				levelDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
+				levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 				addChild(levelDisplay);
 			}
 			else
@@ -89,11 +91,23 @@ package com.gerantech.towercraft.controls.items
 			if( iconDisplay == null )
 			{
 				iconDisplay = new ImageLoader();
-				iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
+				iconDisplay.pixelSnapping = false;
+				iconDisplay.maintainAspectRatio = false;
+				iconDisplay.layoutData = new AnchorLayoutData(padding*1.3, padding*1.3, padding*2, padding*1.3);
 				addChild(iconDisplay);			
 			}
-			iconDisplay.source = Assets.getTexture("cards/"+type, "gui");
-			iconDisplay.alpha = level > 0 ? 1 : 0.7;
+			iconDisplay.source = Assets.getTexture("cards/"+BuildingType.get_category(type), "gui");
+			iconDisplay.alpha = level > 0 ? 1 : 0.6;
+			
+			
+			if( improveDisplay == null )
+			{
+				improveDisplay = new ImageLoader();
+				improveDisplay.width = padding * 5;
+				improveDisplay.layoutData = new AnchorLayoutData(padding * 2, padding * 2);
+				addChild(improveDisplay);
+			}
+			improveDisplay.source = Assets.getTexture("cards/improve-rank-"+BuildingType.get_improve(type), "gui");
 		}
 	}
 }

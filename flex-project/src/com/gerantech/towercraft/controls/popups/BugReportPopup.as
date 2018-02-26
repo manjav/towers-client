@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.popups
 			emailInput.prompt = loc( "popup_bugreport_email_prompt" );
 			container.addChild(emailInput);*/
 			
-			descriptionInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0xFFFFFF, true);
+			descriptionInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0, true);
 			descriptionInput.prompt = loc( "popup_bugreport_description_prompt" );
 			descriptionInput.height = 420 * appModel.scale;
 			container.addChild(descriptionInput);

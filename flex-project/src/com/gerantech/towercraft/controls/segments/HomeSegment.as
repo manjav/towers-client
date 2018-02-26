@@ -23,6 +23,8 @@ import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 
@@ -153,9 +155,9 @@ private function showFooterButtons():void
 	settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 6*appModel.scale);
 	addChild(settingButton);
 	
-	var newsButton:IconButton = new IconButton(Assets.getTexture("button-news", "gui"));
+	var newsButton:IconButton = new IconButton(Assets.getTexture("button-telegram", "gui"));
 	newsButton.width = newsButton.height = 140 * appModel.scale;
-	newsButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.addPopup(new NewsPopup())});
+	newsButton.addEventListener(Event.TRIGGERED, function():void{navigateToURL(new URLRequest(loc("setting_value_311")))});
 	newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 126*appModel.scale);
 	addChild(newsButton);
 	

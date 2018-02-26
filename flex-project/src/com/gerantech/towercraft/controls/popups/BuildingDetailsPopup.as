@@ -70,7 +70,8 @@ package com.gerantech.towercraft.controls.popups
 			upgradeButton.height = 110*appModel.scale;
 			upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 			upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
-			upgradeButton.isEnabled = player.has(building.get_upgradeRequirements());
+			upgradeButton.isEnabled = player.resources.get(buildingType) >= building.get_upgradeCards();
+			upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= building.get_upgradeCost() ? 0xFFFFFF : 0xCC0000;
 			addChild(upgradeButton);
 			
 			/*upgradeButton.alpha = 0;

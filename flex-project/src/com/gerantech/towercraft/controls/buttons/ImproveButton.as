@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.buttons
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
+	import com.gt.towers.constants.BuildingType;
 	
 	import feathers.controls.ImageLoader;
 	
@@ -32,7 +33,7 @@ package com.gerantech.towercraft.controls.buttons
 			var padding:int = 8 * AppModel.instance.scale;
 			var size:int = 128 * AppModel.instance.scale;
 			
-			backgroundDisplay = new Image(Assets.getTexture("improve-button-"+(locked?"disabled":"up"), "gui"));
+			backgroundDisplay = new Image(Assets.getTexture("improve-button-" + (locked?"disabled":"up"), "gui"));
 			backgroundDisplay.x = backgroundDisplay.y = -size/2;
 			backgroundDisplay.width = backgroundDisplay.height = size;
 			addChild(backgroundDisplay);
@@ -41,19 +42,23 @@ package com.gerantech.towercraft.controls.buttons
 			disableFilter.adjustSaturation(-0.7);
 			//disableFilter.resolution = 0.8;
 			
+			var t:int = type;
+			if( t == BuildingType.IMPROVE )
+				t = BuildingType.get_improve(building.type) + 1;
+			
 			iconDisplay = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("improve-"+type, "gui");
+			iconDisplay.source = Assets.getTexture("improve-" + t, "gui");
 			iconDisplay.width = iconDisplay.height = size-padding*2;
 			iconDisplay.x = iconDisplay.y = -size/2+padding;
 			iconDisplay.filter = locked ? disableFilter : null;
 			iconDisplay.touchable = false;
 			addChild(iconDisplay);
 			
-			if(locked)
+			if( locked )
 			{
 				var lockDisplay:ImageLoader = new ImageLoader();
-				lockDisplay.width = lockDisplay.height = size*0.6;
-				lockDisplay.x = lockDisplay.y = -size*0.7;
+				lockDisplay.width = lockDisplay.height = size * 0.6;
+				lockDisplay.x = lockDisplay.y = -size * 0.7;
 				lockDisplay.source = Assets.getTexture("improve-lock", "gui");
 				lockDisplay.touchable = false;
 				addChild(lockDisplay);

@@ -2,9 +2,8 @@ package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.ExchangeItem;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	
 	import flash.geom.Rectangle;
 	import flash.utils.setTimeout;
@@ -15,7 +14,6 @@ package com.gerantech.towercraft.controls
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.HorizontalAlign;
-	import feathers.layout.VerticalAlign;
 	import feathers.layout.VerticalLayout;
 	import feathers.layout.VerticalLayoutData;
 	import feathers.text.BitmapFontTextFormat;
@@ -47,7 +45,7 @@ package com.gerantech.towercraft.controls
 	
 			var padding:int = 16 *appModel.scale;
 			width = 800 * appModel.scale;
-			height = 400 * appModel.scale;
+			height = 440 * appModel.scale;
 			
 			var iconContainer:LayoutGroup = new LayoutGroup ();
 			iconContainer.x = appModel.isLTR ? -width*0.4-padding : padding;
@@ -58,24 +56,34 @@ package com.gerantech.towercraft.controls
 			iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
 			Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
 			
+			var ic:int = ResourceType.isBuilding(type) ? BuildingType.get_category(type) : type;
 			var iconDisplay:ImageLoader = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("cards/"+type, "gui");
-			iconDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			iconDisplay.horizontalAlign = HorizontalAlign.CENTER;
-			iconDisplay.verticalAlign = VerticalAlign.MIDDLE;
+			iconDisplay.pixelSnapping = false;
+			iconDisplay.maintainAspectRatio = false;
+			iconDisplay.source = Assets.getTexture("cards/"+ic, "gui");
+			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.8, padding);
 			iconContainer.addChild(iconDisplay);
 			
-			if( ResourceType.isBuilding(type) && player.buildings.get(type).get_level() == -1 )
+			if( ResourceType.isBuilding(type) )
 			{
-				var newDisplay:ImageLoader = new ImageLoader();
-				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-				newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
-				newDisplay.width = 200 * appModel.scale;
-				newDisplay.height = 200 * appModel.scale;
-				iconContainer.addChild(newDisplay);
-				appModel.game.loginData.buildingsLevel.set(type, 1);
+				var improveDisplay:ImageLoader = new ImageLoader();
+				improveDisplay.source = Assets.getTexture("cards/improve-rank-"+BuildingType.get_improve(type), "gui");
+				improveDisplay.width = padding * 5;
+				improveDisplay.layoutData = new AnchorLayoutData(padding * 2, padding * 2);
+				iconContainer.addChild(improveDisplay);
 				
-				setTimeout(appModel.sounds.addAndPlaySound, 100, "chest-open-new")
+				if( player.buildings.get(type).get_level() == -1 )
+				{
+					var newDisplay:ImageLoader = new ImageLoader();
+					newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+					newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
+					newDisplay.width = 200 * appModel.scale;
+					newDisplay.height = 200 * appModel.scale;
+					iconContainer.addChild(newDisplay);
+					appModel.game.loginData.buildingsLevel.set(type, 1);
+					
+					setTimeout(appModel.sounds.addAndPlaySound, 100, "chest-open-new")
+				}
 			}
 			
 			countInsideDisplay = new BitmapFontTextRenderer();
