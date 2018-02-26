@@ -24,6 +24,7 @@ import flash.utils.setTimeout;
 
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
+import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -139,8 +140,8 @@ protected function showElements():void
 protected function chatList_createCompleteHandler(event:Event):void
 {
 	chatList.removeEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
-	chatList.scrollToDisplayIndex(manager.messages.length-1);	
 	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
+	scrollToEnd();	
 }
 
 protected function chatList_changeHandler(event:Event):void
@@ -178,8 +179,16 @@ protected function scrollChatList(changes:Number):void
 		autoScroll = false;
 }
 
+protected function scrollToEnd():void
+{
+	chatList.scrollToDisplayIndex(manager.messages.length-1);
+	autoScroll = true;
+}
+
 protected function chatList_focusInHandler(event:Event):void
 {
+	if( !_buttonsEnabled )
+		return;
 	var selectedItem:LobbyChatItemRenderer = event.data as LobbyChatItemRenderer;
 	if( selectedItem == null )
 		return;
@@ -261,13 +270,13 @@ protected function manager_updateHandler(event:Event):void
 	buttonsEnabled = manager.getMyRequestBattleIndex() == -1;
 	chatList.validate();
 	if( autoScroll )
-		chatList.scrollToDisplayIndex(manager.messages.length-1);	
+		scrollToEnd();
 }
 
 protected function chatButton_triggeredHandler(event:Event):void
 {
 	enabledChatting(true);
-	chatList.scrollToDisplayIndex(manager.messages.length-1);
+	scrollToEnd();
 	autoScroll = true;
 }
 
@@ -316,6 +325,9 @@ public function set buttonsEnabled(value:Boolean):void
 	_buttonsEnabled = value;
 	chatTextInput.isEnabled = _buttonsEnabled;
 	chatSendButton.isEnabled = _buttonsEnabled;
+	chatEnableButton.isEnabled = _buttonsEnabled;
+	appModel.navigator.toolbar.touchable = false;
+	chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }
 

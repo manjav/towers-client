@@ -67,6 +67,8 @@ public function load():void
 	DashboardScreen.tabIndex = 1;
 	if( appModel.navigator != null )
 	{
+		if( appModel.navigator.toolbar != null )
+			appModel.navigator.toolbar.touchable = true;
 		appModel.navigator.popAll();
 		appModel.navigator.removeAllPopups();
 		appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
