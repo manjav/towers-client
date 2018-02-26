@@ -116,7 +116,7 @@ public function updateElements(population:int, troopType:int):void
 	
 	// _-_-_-_-_-_-_-_-_-_-_-_-  body -_-_-_-_-_-_-_-_-_-_-_-_-_
 	var txt:String = "building-" + place.building.type;
-	if( bodyTexture != txt && place.building.category != BuildingType.B40_CRYSTAL )
+	if( bodyTexture != txt )
 	{
 		bodyTexture = txt;
 		bodyDisplay.texture = Assets.getTexture(bodyTexture)	
