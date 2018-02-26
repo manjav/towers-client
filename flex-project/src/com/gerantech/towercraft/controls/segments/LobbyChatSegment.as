@@ -99,6 +99,7 @@ protected function battleButton_triggeredHandler(event:Event):void
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 	params.putShort("st", 0);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+	scrollToEnd();
 }
 
 private function gotoBattle():void
