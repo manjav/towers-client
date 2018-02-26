@@ -104,10 +104,11 @@ package com.gerantech.towercraft.controls.items
 			{
 				improveDisplay = new ImageLoader();
 				improveDisplay.width = padding * 5;
-				improveDisplay.layoutData = new AnchorLayoutData(padding * 2, padding * 2);
+				improveDisplay.layoutData = new AnchorLayoutData(padding*1.3, padding*1.3, padding*2, padding*1.3);
 				addChild(improveDisplay);
 			}
-			improveDisplay.source = Assets.getTexture("cards/improve-rank-"+BuildingType.get_improve(type), "gui");
+			improveDisplay.source = Assets.getTexture("cards/"+type, "gui");
+			improveDisplay.alpha = level > 0 ? 1 : 0.4;
 		}
 	}
 }
