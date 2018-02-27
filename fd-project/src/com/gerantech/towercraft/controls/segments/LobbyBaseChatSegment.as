@@ -16,6 +16,7 @@ import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import flash.utils.setTimeout;
 
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
@@ -41,9 +42,11 @@ protected var footerSize:int;
 
 protected var chatList:List;
 protected var chatLayout:VerticalLayout;
-protected var inputText:CustomTextInput;
-protected var sendButton:CustomButton;
+protected var chatTextInput:CustomTextInput;
+protected var chatSendButton:CustomButton;
+protected var chatEnableButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
+protected var _chatEnabled:Boolean = false;
 
 
 public function LobbyBaseChatSegment(){}
@@ -89,13 +92,14 @@ protected function showElements():void
 	
 	chatLayout = new VerticalLayout();
 	chatLayout.paddingTop = padding * 2;
+    chatLayout.paddingBottom = footerSize;
 	chatLayout.hasVariableItemDimensions = true;
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	chatLayout.verticalAlign = VerticalAlign.BOTTOM;
 	
 	chatList = new List();
 	chatList.layout = chatLayout;
-	chatList.layoutData = new AnchorLayoutData(0, 0, footerSize+padding, 0);
+    chatList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
 	chatList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);
@@ -105,20 +109,27 @@ protected function showElements():void
 	chatList.validate();
 	addChild(chatList);
 
-	inputText = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0xAAAAAA, false, appModel.align );
-	inputText.textEditorProperties.autoCorrect = true;
-	inputText.height = footerSize;
-	inputText.layoutData = new AnchorLayoutData(NaN, footerSize + padding*2, 0, padding);
-	inputText.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
-	addChild(inputText);
+	chatTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0, false, appModel.align );
+	chatTextInput.textEditorProperties.autoCorrect = true;
+	chatTextInput.height = footerSize;
+	chatTextInput.layoutData = new AnchorLayoutData(NaN, footerSize + padding*2, 0, padding);
+    chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
+    chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
-	sendButton = new CustomButton();
-	sendButton.width = sendButton.height = footerSize;
-	sendButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-	sendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	sendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
-	sendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
-	addChild(sendButton);
+    chatEnableButton = new CustomButton();
+    chatEnableButton.width = chatEnableButton.height = footerSize;
+    chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+    chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
+    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+    chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
+    addChild(chatEnableButton);
+    
+    chatSendButton = new CustomButton();
+    chatSendButton.width = chatSendButton.height = footerSize;
+    chatSendButton.icon = Assets.getTexture("settings-311", "gui");
+    chatSendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
+    chatSendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+    chatSendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
 	
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
@@ -229,16 +240,49 @@ protected function manager_updateHandler(event:Event):void
 	chatList.scrollToDisplayIndex(manager.messages.length-1);	
 }
 
+protected function chatButton_triggeredHandler(event:Event):void
+{
+    enabledChatting(true);;
+}
+
 protected function sendButton_triggeredHandler(event:Event):void
 {
-	if( inputText.text == "" )
+	if( chatTextInput.text == "" )
 		return;
 	
 	var params:SFSObject = new SFSObject();
-	params.putUtfString("t", StrUtils.getSimpleString(inputText.text));
+	params.putUtfString("t", StrUtils.getSimpleString(chatTextInput.text));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-	inputText.text = "";
+	chatTextInput.text = "";
 }
+
+private function chatTextInput_focusOutHandler(event:Event):void
+{
+    setTimeout(enabledChatting, 100, false);
+}
+
+public function enabledChatting(value:Boolean):void
+{
+    if( _chatEnabled == value )
+        return;
+    
+    _chatEnabled = value;
+    
+    if( _chatEnabled )
+    {
+        chatEnableButton.removeFromParent();
+        addChild(chatTextInput);
+        addChild(chatSendButton);
+        chatTextInput.setFocus();
+    }
+    else
+    {
+        chatTextInput.removeFromParent();
+        chatSendButton.removeFromParent();
+        addChild(chatEnableButton);
+    }
+}
+
 
 public function set buttonsEnabled(value:Boolean):void
 {
@@ -246,8 +290,8 @@ public function set buttonsEnabled(value:Boolean):void
 		return;
 	
 	_buttonsEnabled = value;
-	inputText.isEnabled = _buttonsEnabled;
-	sendButton.isEnabled = _buttonsEnabled;
+	chatTextInput.isEnabled = _buttonsEnabled;
+	chatSendButton.isEnabled = _buttonsEnabled;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }
 
