@@ -208,7 +208,7 @@ public function fight(destination:Place, troops:Array) : void
 		//trace(i, int(troops[i]))
 		var t:TroopView = new TroopView(relatedPlace.building, path);
 		t.x = x;
-		t.y = y ;
+		t.y = y;
 		appModel.battleFieldView.troopsContainer.addChild(t);
 		rushTimeoutId = setTimeout(t.rush, place.building.troopRushGap * i + 300, place);
 	}

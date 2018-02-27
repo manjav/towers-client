@@ -272,9 +272,12 @@ private function buttonsPopup_selectHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
+    var pdata:Object = buttonsPopup.data;
+    pdata.ln = roomData.name;
+    pdata.lp = roomData.pic;
 	if( event.data == "lobby_profile" )
 	{
-		var profilePopup:ProfilePopup = new ProfilePopup(buttonsPopup.data.name, buttonsPopup.data.id);
+        var profilePopup:ProfilePopup = new ProfilePopup( pdata );
 		//profilePopup.addEventListener(Event.SELECT, profilePopup_eventsHandler);
 		//profilePopup.addEventListener(Event.CANCEL, profilePopup_eventsHandler);
 		//profilePopup.declineStyle = "danger";

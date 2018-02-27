@@ -212,8 +212,15 @@ private function buttonsPopup_selectHandler(event:Event):void
 	switch( event.data )
 	{
 		case "lobby_profile":
-			appModel.navigator.addPopup( new ProfilePopup(msgPack.getUtfString("s"), int(msgPack.getInt("i"))) );
+            var user:Object = {name:msgPack.getUtfString("s"), id:int(msgPack.getInt("i"))};
+            if( !manager.isPublic )
+            {
+                user.ln = manager.lobby.name;
+                user.lp = manager.emblem;
+            }
+            appModel.navigator.addPopup( new ProfilePopup(user) );
 			break;
+			
 		case "lobby_report":
 			var sfsReport:ISFSObject = new SFSObject();
 			sfsReport.putUtfString("t", msgPack.getUtfString("t"));
