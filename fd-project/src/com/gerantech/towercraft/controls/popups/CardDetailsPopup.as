@@ -90,7 +90,8 @@ override protected function transitionInCompleted():void
 	upgradeButton.height = 110 * appModel.scale;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
-	upgradeButton.isEnabled = player.has(building.get_upgradeRequirements());
+	upgradeButton.isEnabled = player.resources.get(buildingType) >= building.get_upgradeCards();
+	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= building.get_upgradeCost() ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 
 	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_label"), 1, "center", null, true, null, 0.7);
