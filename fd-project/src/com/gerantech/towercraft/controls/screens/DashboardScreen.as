@@ -266,7 +266,6 @@ override protected function backButtonFunction():void
 
 override public function dispose():void
 {
-	tabIndex = 2;
     if( appModel != null && appModel.navigator.toolbar != null )
 		appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
 	super.dispose();
