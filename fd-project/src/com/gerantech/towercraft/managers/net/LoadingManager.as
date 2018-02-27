@@ -54,7 +54,7 @@ public function load():void
 	sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 	state = STATE_CONNECT;
 	
-    DashboardScreen.tabIndex = 1;
+    DashboardScreen.tabIndex = 2;
 	if( appModel.navigator != null )
 	{
         if( appModel.navigator.toolbar != null )
