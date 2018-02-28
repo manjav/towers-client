@@ -4,6 +4,7 @@ package com.gerantech.towercraft.models.vo
 	{
 		public static const LINK_DEVICE:int = 10;
 		public static const LEGALS:int = 11;
+		public static const RENAME:int = 12;
 		
 		public static const TYPE_TOGGLE:int = 0;
 		public static const TYPE_BUTTON:int = 1;
