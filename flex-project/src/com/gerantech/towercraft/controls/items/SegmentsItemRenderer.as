@@ -4,14 +4,16 @@ import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.HomeSegment;
+import com.gerantech.towercraft.controls.segments.LobbyBaseChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
-import com.gerantech.towercraft.controls.segments.LobbyBaseChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbySearchSegment;
 import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
+
+import flash.utils.setTimeout;
 
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -48,7 +50,7 @@ import starling.events.Event;
 			if( _data == null )
 				return;
 			
-			if(segment != null)
+			if( segment != null )
 				return;
 			
 			var tab:TabItemData = _data as TabItemData;
@@ -86,12 +88,15 @@ import starling.events.Event;
 					break;
 			}
 			
-			if(segment != null)
+			if( segment != null )
 			{
 				segment.layoutData = new AnchorLayoutData(0,0,0,0);
 				segment.width = _owner.width
 				segment.height = _owner.height;
 				addChild(segment);
+				
+				if( index == 0 )
+					setTimeout(owner_scrollCompleteHandler, 1000, null);
 			}
 		}
 		
