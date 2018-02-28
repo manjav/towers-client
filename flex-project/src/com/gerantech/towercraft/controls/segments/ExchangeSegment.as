@@ -187,6 +187,9 @@ private function list_changeHandler(event:Event):void
 		return;
 	}
 	
+	var params:SFSObject = new SFSObject();
+	params.putInt("type", item.type );
+	
 	if( item.category == ExchangeType.S_10_SOFT )
 	{
 		if( !player.has(item.requirements) )
@@ -213,8 +216,6 @@ private function list_changeHandler(event:Event):void
 		return;
 	}
 
-	var params:SFSObject = new SFSObject();
-	params.putInt("type", item.type );
 	if( item.isChest() )
 	{
 		item.enabled = true;

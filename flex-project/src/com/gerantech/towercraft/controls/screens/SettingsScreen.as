@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.controls.items.SettingsItemRenderer;
 	import com.gerantech.towercraft.controls.popups.BugReportPopup;
 	import com.gerantech.towercraft.controls.popups.LinkDevicePopup;
+	import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 	import com.gerantech.towercraft.managers.BillingManager;
 	import com.gerantech.towercraft.managers.socials.SocialEvent;
 	import com.gerantech.towercraft.managers.socials.SocialManager;
@@ -70,6 +71,8 @@ package com.gerantech.towercraft.controls.screens
 					navigateTo(settingData.key);
 				else if( settingData.key == SettingsData.LINK_DEVICE )
 					appModel.navigator.addPopup(new LinkDevicePopup());
+				else if( settingData.key == SettingsData.RENAME )
+					appModel.navigator.addPopup(new SelectNamePopup());
 			}
 			else
 			{
@@ -107,6 +110,8 @@ package com.gerantech.towercraft.controls.screens
 			source.push( new SettingsData(PrefsTypes.SETTINGS_3_NOTIFICATION, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION)));//UserData.instance.getSetting(SettingsData.NOTIFICATION)));
 			
 			source.push( new SettingsData(PrefsTypes.AUTH_41_GOOGLE,		 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE)));//UserData.instance.getSetting(SettingsData.NOTIFICATION)));
+			
+			source.push( new SettingsData(SettingsData.RENAME, 					SettingsData.TYPE_BUTTON,			null));
 			source.push( new SettingsData(SettingsData.LINK_DEVICE, 			SettingsData.TYPE_BUTTON,			null));
 			source.push( new SettingsData(SettingsData.LEGALS,	 				SettingsData.TYPE_BUTTON,			null));
 			source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_LABEL_BUTTONS,	null));
