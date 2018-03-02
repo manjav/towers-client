@@ -134,25 +134,31 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 	serverData = event.params.data;
 	
-	if( serverData.containsKey("umt") )
+	if( serverData.containsKey("umt") )// under maintenance
 	{
 		dispatchEvent(new LoadingEvent(LoadingEvent.UNDER_MAINTENANCE, serverData));
 		return;
 	}			
-	if( serverData.containsKey("exists") )
+	if( serverData.containsKey("exists") )// duplicate user
 	{
 		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 		return;
 	}
+	if( serverData.containsKey("ban") )// banned user
+	{
+		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_BANNED, serverData));
+		return;
+	}
 
-	// in registring case
-	if(serverData.containsKey("password"))
+	// in registering case
+	if( serverData.containsKey("password") )
 	{
 		UserData.instance.id = serverData.getLong("id");
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
 	
+	// start time manager;
 	if( TimeManager.instance != null )
 		TimeManager.instance.dispose();
 	new TimeManager(serverData.getLong("serverTime"));
