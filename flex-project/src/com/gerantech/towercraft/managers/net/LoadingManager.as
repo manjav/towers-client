@@ -202,6 +202,8 @@ protected function coreLoader_completeHandler(event:Event):void
 	UserData.instance.prefs.requestData();
 	
 	// catch video ads
+	if( appModel.game.player.get_arena(0) == 0 )
+		return;
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	if( appModel.game.player.get_questIndex() < appModel.game.fieldProvider.quests.keys().length )
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
