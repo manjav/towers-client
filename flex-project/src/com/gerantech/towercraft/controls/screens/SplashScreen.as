@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+	import com.gerantech.towercraft.controls.popups.BanPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.MessagePopup;
 	import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
@@ -8,6 +9,7 @@ package com.gerantech.towercraft.controls.screens
 	import com.gerantech.towercraft.managers.net.LoadingManager;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gerantech.towercraft.utils.StrUtils;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	
 	import flash.desktop.NativeApplication;
@@ -47,6 +49,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_BANNED, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.UNDER_MAINTENANCE, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
@@ -76,6 +79,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_ERROR, 			loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
+			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_BANNED, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.UNDER_MAINTENANCE, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,			loadingManager_eventsHandler);
@@ -83,7 +87,6 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 
 			trace(event.type)
-			
 			var confirmData:SFSObject = new SFSObject();
 			confirmData.putText("type", event.type);			
 			
@@ -110,10 +113,18 @@ package com.gerantech.towercraft.controls.screens
 					break;
 				
 				case LoadingEvent.UNDER_MAINTENANCE:
-					if(parent)
+					if( parent )
 						parent.removeChild(this);
 					AppModel.instance.navigator.addPopup(new UnderMaintenancePopup(event.data.getInt("umt")));
 					break;
+				
+				case LoadingEvent.LOGIN_USER_BANNED:
+					if( parent )
+						parent.removeChild(this);
+					var popup:BanPopup = new BanPopup();
+					popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n\n" + StrUtils.toTimeFormat( event.data.getSFSObject("ban").getLong("until") );
+					AppModel.instance.navigator.addPopup(popup);
+					return;
 		
 				default:
 					var message:String = loc("popup_"+event.type+"_message");
