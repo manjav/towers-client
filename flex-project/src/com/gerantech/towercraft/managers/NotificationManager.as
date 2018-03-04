@@ -48,6 +48,8 @@ public function reset():void
 	clear();
 	if( !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION) )
 		return;
+	var date:Date = new Date();
+	var secondsInDay:int = 24 * 3600000;
 	
 	// remember after a day, 3 days and a week ...
 	notify("notify_remember_day",	date.time+secondsInDay * 1);
@@ -59,8 +61,7 @@ public function reset():void
 		return;
 
 	// notify exchanger items ...
-	var date:Date = new Date();
-	var secondsInDay:int = 24 * 3600000;
+
 	var time:int = date.time / 1000;
 	var exchanger:Exchanger = AppModel.instance.game.exchanger;
 	var numForgots:int = 0;
