@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:ce383e291d35f03d5f06dcd5ef52c22a:31215edb98d67755b2bcefc97ac25b40:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:5d49084098a31a9c00b5135fc73951ae:e25fd21b9a859a730867e7ab456bbef0:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
     <SubTexture name="arena-0" x="1475" y="358" width="93" height="99"/>
     <SubTexture name="arena-1" x="1489" y="587" width="93" height="99"/>
@@ -230,8 +230,8 @@
     <SubTexture name="theme/badge-notification-bundle" x="435" y="1989" width="56" height="56"/>
     <SubTexture name="theme/badge-notification-new" x="493" y="1989" width="56" height="56"/>
     <SubTexture name="theme/badge-notification" x="551" y="1989" width="56" height="56"/>
-    <SubTexture name="theme/balloon-me" x="283" y="1989" width="74" height="57" frameX="-20" frameY="-10" frameWidth="96" frameHeight="76"/>
-    <SubTexture name="theme/balloon-other" x="359" y="1989" width="74" height="57" frameX="-3" frameY="-10" frameWidth="96" frameHeight="76"/>
+    <SubTexture name="theme/balloon-me" x="283" y="1989" width="74" height="57" frameX="-11" frameY="-11" frameWidth="96" frameHeight="76"/>
+    <SubTexture name="theme/balloon-other" x="359" y="1989" width="74" height="57" frameX="-2" frameY="-11" frameWidth="96" frameHeight="76"/>
     <SubTexture name="theme/building-button-disable" x="1112" y="527" width="152" height="118"/>
     <SubTexture name="theme/building-button" x="1266" y="231" width="152" height="118"/>
     <SubTexture name="theme/button-danger-down-skin" x="1768" y="425" width="22" height="53" frameX="0" frameY="-1" frameWidth="22" frameHeight="54"/>
