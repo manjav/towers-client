@@ -171,7 +171,7 @@ package com.gerantech.towercraft.views
 			}
 			
 			if( places.size() > 0 )
-				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1700 * places.size()));
+				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 500 * places.size()));
 			tutorials.show(tutorialData);
 		}
 		
