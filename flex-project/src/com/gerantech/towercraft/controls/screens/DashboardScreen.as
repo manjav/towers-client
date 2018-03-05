@@ -259,8 +259,12 @@ override protected function backButtonFunction():void
 
 override public function dispose():void
 {
-	if( appModel != null && appModel.navigator.toolbar != null )
-		appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
+	if( appModel != null )
+	{
+		appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+		if( appModel.navigator.toolbar != null )
+			appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
+	}
 	super.dispose();
 }
 }
