@@ -79,7 +79,7 @@ public function init():void
 			break;
 		
 			case "ario":
-			base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
+			base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1FSvYe0mDDFAnk8SHSMLFxaaQF9MvObuQ8U9tWf4uE0OT8erPKhgUR7cqOF74TXAYlrSwbyTC/nHgqURLRX7C0iFFT1/j9BpMKxNULb/CqulNaJg6AEfQbwTcwIfVzS04dUPhjhR9MdRICfiZkMzWesWfyE4Dfre+p5vt0qC0MQIDAQAB";
 			bindURL = "com.arioclub.android.sdk.iab.InAppBillingService.BIND";
 			packageURL = "com.arioclub.android";
 			break;
