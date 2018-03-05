@@ -41,7 +41,7 @@
 	<description>
 		{"target":"android", "market":"cafebazaar"}
 	</description>
-    <!--cafebazaar-myket-cando-google -->
+    <!--cafebazaar-myket-cando-ario-google -->
 
 	<!-- Copyright information. Optional -->
 	<!-- <copyright></copyright> -->
@@ -281,6 +281,7 @@
 <!-- 				<uses-permission android:name="com.android.vending.BILLING" /> -->
      			<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
 <!--     			<uses-permission android:name="ir.mservices.market.BILLING" /> -->
+<!-- 				<uses-permission android:name="com.arioclub.android.sdk.IAB"/> -->
 		
 			    <!--See the Adobe AIR documentation for more information about setting Google Android permissions-->
 			    <!--Removing the permission android.permission.INTERNET will have the side effect of preventing you from debugging your application on your device-->
