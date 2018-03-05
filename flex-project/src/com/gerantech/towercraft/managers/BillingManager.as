@@ -167,10 +167,15 @@ private function verify(purchase:Purchase):void
 		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
 		var result:SFSObject = event.params.params;
 		trace(result.getDump());
-		if( result.getBool("success") && result.getInt("consumptionState") == 1 )
-			consume(purchase.sku);
+		if( result.getBool("success") )
+		{
+			if( ( AppModel.instance.descriptor.market == "cafebazaar" && result.getInt("consumptionState") == 1 ) || ( AppModel.instance.descriptor.market == "myket" && result.getInt("consumptionState") == 0 ) )
+				consume(purchase.sku);
+		}
 		else
+		{
 			explain("popup_purchase_invalid");
+		}
 	}	
 }
 
