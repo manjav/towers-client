@@ -44,7 +44,7 @@ protected var footerSize:int;
 protected var chatList:List;
 protected var chatLayout:VerticalLayout;
 protected var chatTextInput:CustomTextInput;
-protected var chatSendButton:CustomButton;
+//protected var chatSendButton:CustomButton;
 protected var chatEnableButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
 protected var _chatEnabled:Boolean = false;
@@ -115,7 +115,7 @@ protected function showElements():void
 	chatTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0, false, appModel.align );
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
-	chatTextInput.layoutData = new AnchorLayoutData(NaN, footerSize + padding*2, 0, padding);
+	chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, 0, padding);
 	chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
 	chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
@@ -127,12 +127,12 @@ protected function showElements():void
 	chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
 	addChild(chatEnableButton);
 	
-	chatSendButton = new CustomButton();
+	/*chatSendButton = new CustomButton();
 	chatSendButton.width = chatSendButton.height = footerSize;
 	chatSendButton.icon = Assets.getTexture("settings-311", "gui");
 	chatSendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
 	chatSendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
-	chatSendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
+	chatSendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);*/
 	
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
@@ -306,13 +306,13 @@ public function enabledChatting(value:Boolean):void
 	{
 		chatEnableButton.removeFromParent();
 		addChild(chatTextInput);
-		addChild(chatSendButton);
+		//addChild(chatSendButton);
 		chatTextInput.setFocus();
 	}
 	else
 	{
 		chatTextInput.removeFromParent();
-		chatSendButton.removeFromParent();
+		//chatSendButton.removeFromParent();
 		addChild(chatEnableButton);
 	}
 }
@@ -324,7 +324,7 @@ public function set buttonsEnabled(value:Boolean):void
 	
 	_buttonsEnabled = value;
 	chatTextInput.isEnabled = _buttonsEnabled;
-	chatSendButton.isEnabled = _buttonsEnabled;
+	//chatSendButton.isEnabled = _buttonsEnabled;
 	chatEnableButton.isEnabled = _buttonsEnabled;
 	appModel.navigator.toolbar.touchable = false;
 	chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
