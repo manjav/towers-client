@@ -11,6 +11,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
@@ -123,9 +124,9 @@ override protected function initialize():void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+
 	// tutorial mode
-	var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
-	if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
+	if( player.getTutorStep() < PrefsTypes.T_171_SELECT_NAME_FOCUS && !player.inShopTutorial() && !player.inDeckTutorial() )
 	{
 		appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
 		return;
@@ -140,7 +141,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-	function themeLoaded():void { if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.T_120_FIRST_RUN ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 	
 	appModel.navigator.handleInvokes();
 	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
@@ -259,8 +260,12 @@ override protected function backButtonFunction():void
 
 override public function dispose():void
 {
-	if( appModel != null && appModel.navigator.toolbar != null )
-		appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
+	if( appModel != null )
+	{
+		appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+		if( appModel.navigator.toolbar != null )
+			appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
+	}
 	super.dispose();
 }
 }

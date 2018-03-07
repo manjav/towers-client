@@ -73,7 +73,7 @@ public function rush(source:Place):void
 
 	var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() - Math.random()* building.get_exitGap() * 0.5) / 1000;
 	var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
-	Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
+	Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap + 0.1, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
 private function onTroopArrived(next:PlaceView):void
 {

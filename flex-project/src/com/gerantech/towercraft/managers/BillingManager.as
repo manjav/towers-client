@@ -58,7 +58,7 @@ public function init():void
 			items.push("com.grantech.towers.item_" + k);
 	
 	var base64Key:String, bindURL:String, packageURL:String;
-	switch(AppModel.instance.descriptor.market)
+	switch( AppModel.instance.descriptor.market )
 	{
 		case "google":
 			base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuML2Gtw7jaO2bO1/JqtnvIIMH04IdQ/nX89tPz/Q9ltm3JyILgvSJJL36cmRqfvsHD4pXPuIu14cb/+iRVuSodASgtGpPCmv21l6wXT++VEED5TdWJCNZoyOnwt3iGWdpoUQNqpqj0hn46O7mmJdRY8dEtfuQ21P/pTSWzojkBBLCIxRM00va2ueE1AvMB5iJVw/0gCax7FZ0fSfVL0fhMps2uUu1e4Hro2AopwzGVzjug2rYpHviXQEOpX4/QJqyhDrs37vITA1yPjPguCHbB4YqOrgqM9ik2UDb1ouJ0NCj8jADzF8St6VajW9U64KZflE/7sppgSKGxcyAfsKnwIDAQAB";
@@ -78,12 +78,17 @@ public function init():void
 			packageURL = "com.ada.market";
 			break;
 		
+			case "ario":
+			base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1FSvYe0mDDFAnk8SHSMLFxaaQF9MvObuQ8U9tWf4uE0OT8erPKhgUR7cqOF74TXAYlrSwbyTC/nHgqURLRX7C0iFFT1/j9BpMKxNULb/CqulNaJg6AEfQbwTcwIfVzS04dUPhjhR9MdRICfiZkMzWesWfyE4Dfre+p5vt0qC0MQIDAQAB";
+			bindURL = "com.arioclub.android.sdk.iab.InAppBillingService.BIND";
+			packageURL = "com.arioclub.android";
+			break;
+		
 		default://cafebazaar
 			base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
 			bindURL = "ir.cafebazaar.pardakht.InAppBillingService.BIND";
 			packageURL = "com.farsitel.bazaar";
 			break;
-		
 	}			
 
 	Iab.instance.addEventListener(IabEvent.SETUP_FINISHED, iab_setupFinishedHandler);
@@ -167,10 +172,15 @@ private function verify(purchase:Purchase):void
 		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
 		var result:SFSObject = event.params.params;
 		trace(result.getDump());
-		if( result.getBool("success") && result.getInt("consumptionState") == 1 )
-			consume(purchase.sku);
+		if( result.getBool("success") )
+		{
+			if( ( AppModel.instance.descriptor.market == "cafebazaar" && result.getInt("consumptionState") == 1 ) || ( AppModel.instance.descriptor.market == "myket" && result.getInt("consumptionState") == 0 ) )
+				consume(purchase.sku);
+		}
 		else
+		{
 			explain("popup_purchase_invalid");
+		}
 	}	
 }
 

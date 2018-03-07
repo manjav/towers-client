@@ -138,12 +138,12 @@ package com.gerantech.towercraft.controls.overlays
 								(places.get(tweenStep).y-100) * appModel.scale, 
 								(places.get(tweenStep).x) * appModel.scale, 
 								(places.get(tweenStep).y-200) * appModel.scale,
-								1, 0, 1, 1.2, 0.8);
+								1, 0, 1, 1.2, 0.7);
 						}
 					}
 					else
 					{
-						swipe(tweenStep, tweenStep+1, 1, 1, 1, 1, 2, true, places.size()>2?tweenStep:-1);
+						swipe(tweenStep, tweenStep+1, 1, 1, 1, 1, 1, true, places.size()>2?tweenStep:-1);
 					}
 					break;
 				case "stepLast":
@@ -154,7 +154,7 @@ package com.gerantech.towercraft.controls.overlays
 						(places.get(0).y) * appModel.scale, 
 						(places.get(0).x) * appModel.scale, 
 						(places.get(0).y-100) * appModel.scale,
-						0, 1, 1.2, 1, 0.8, 0);	
+						0, 1, 1.2, 1, 0.7, 0);	
 					break;
 				case "doubleOut":
 					tweenStep = 0;

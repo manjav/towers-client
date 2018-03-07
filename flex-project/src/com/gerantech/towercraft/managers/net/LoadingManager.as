@@ -164,7 +164,7 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
-	
+
 	// start time manager;
 	if( TimeManager.instance != null )
 		TimeManager.instance.dispose();
@@ -208,13 +208,15 @@ protected function coreLoader_completeHandler(event:Event):void
 /***********************************   FINALIZE   ***************************************/
 private function finalize():void
 {
+	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
+	UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
+
 	state = STATE_LOADED;
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
 	registerPushManager();
-	UserData.instance.prefs.requestData();
-	
+
 	// catch video ads
 	if( appModel.game.player.get_arena(0) == 0 )
 		return;

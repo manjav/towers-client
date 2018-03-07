@@ -6,7 +6,6 @@ import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
-import com.gerantech.towercraft.controls.popups.NewsPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
@@ -186,30 +185,35 @@ private function inboxService_updateHandler():void
 // show tutorial steps
 private function showTutorial():void
 {
-	var tutorStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
 	if( player.get_questIndex() >= 3 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
-		//confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
+		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 		appModel.navigator.addPopup(confirm);
-		/*function confirm_eventsHandler():void {
+		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-			battlesButton.showArrow();
-		}*/
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_172_NAME_SELECTED); 
+			//battlesButton.showArrow();
+		}
 		return;
 	}
 	
 	// show rank table tutorial
-	if( tutorStep > PrefsTypes.TUTE_116_END && tutorStep < PrefsTypes.TUTE_118_VIEW_RANK && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+	if( tutorStep == PrefsTypes.T_172_NAME_SELECTED && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
 	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_181_RANK_FOCUS); 
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 1000, 1000, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
-		function tutorials_completeHandler(e:Event):void {
-			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
+		function tutorials_completeHandler(event:Event):void {
+			
+			if( event.data.name != "rank_tutorial" )
+				return;
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_182_RANK_SHOWN);
 			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 		}
 		return;
@@ -217,7 +221,7 @@ private function showTutorial():void
 	
 	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
-		if( tutorStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tutorStep != PrefsTypes.TUTE_113_SELECT_DECK )
+		if( !player.inShopTutorial() && !player.inDeckTutorial() )
 			questsButton.showArrow();
 	}
 }
