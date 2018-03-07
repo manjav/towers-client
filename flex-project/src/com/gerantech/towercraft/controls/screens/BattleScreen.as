@@ -530,16 +530,23 @@ package com.gerantech.towercraft.controls.screens
 					if( pv != null && (PathFinder.find(sourcePlaces[0].place, pv.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == pv.place.building.troopType))
 					{
 						// check next tower liked by selected places
-						if(sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType)
+						if( sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType )
 							sourcePlaces.push(pv);
 						endPoint.setTo(pv.x, pv.y);
+						
+						// show drop zone
+						if( sourcePlaces[0] != pv )
+							pv.hilight(true);
 					}
 					else
 					{
 						endPoint.setTo((touch.globalX-appModel.battleFieldView.x)/appModel.scale, (touch.globalY-appModel.battleFieldView.y)/appModel.scale);
+						
+						for each( pv in appModel.battleFieldView.places )
+							pv.hilight(false);
 					}
 					
-					for each(pv in sourcePlaces)
+					for each( pv in sourcePlaces )
 					{
 						pv.arrowContainer.visible = true;
 						pv.arrowTo(endPoint.x-pv.x, endPoint.y-pv.y);
@@ -611,14 +618,19 @@ package com.gerantech.towercraft.controls.screens
 		
 		private function clearSources(sourceTowers:Vector.<PlaceView>):void
 		{
-			for each(var tp:PlaceView in sourceTowers)
+			for each( var tp:PlaceView in sourceTowers )
 				clearSource(tp);
+				
+			for each( tp in appModel.battleFieldView.places )
+				tp.hilight(false);
+		
 			sourceTowers = null;
 			allPlacesInTouch = null;
 		}
 		private function clearSource(sourceTower:PlaceView):void
 		{
 			sourceTower.arrowContainer.visible = false;
+			sourceTower.hilight(false);
 		}
 		
 		private function showImproveFloating(placeView:PlaceView):void
