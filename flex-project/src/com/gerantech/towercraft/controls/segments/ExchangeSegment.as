@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ChestsDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.VideoAdsManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -106,12 +107,29 @@ override public function focus():void
 
 private function showTutorial():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
+	if( player.getTutorStep() != PrefsTypes.T_141_SHOP_FOCUS )
 		return;
 	
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_142_SHOP_FIRST_VIEW );
 	var tutorialData:TutorialData = new TutorialData("shop_start");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_0", null, 1000, 1000, 0));
 	tutorials.show(tutorialData);
+}
+
+private function tutorials_finishHandler(event:Event):void
+{
+	if( event.data.name == "shop_start" )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_143_SHOP_BOOK_FOCUS );
+	}
+	else if( event.data.name == "shop_end" )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_151_DECK_FOCUS);
+		tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
+		var tutorialData:TutorialData = new TutorialData("shop_end");
+		tutorials.show(tutorialData);
+	}
 }
 
 override public function updateData():void
@@ -210,14 +228,16 @@ private function list_changeHandler(event:Event):void
 	if( item.isChest() )
 	{
 		item.enabled = true;
-		if( ( item.category == ExchangeType.CHEST_CATE_100_FREE || item.category == ExchangeType.CHEST_CATE_110_BATTLES) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
+		if( ( item.category == ExchangeType.CHEST_CATE_100_FREE || item.category == ExchangeType.CHEST_CATE_110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
 		{
 			exchange(item, params);
+			
+			if( player.getTutorStep() == PrefsTypes.T_143_SHOP_BOOK_FOCUS )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_144_SHOP_BOOK_OPENED );
+			
 			return;
 		}
-		if( item.category == ExchangeType.CHEST_CATE_100_FREE )
-			return;
-		
+	
 		var details:ChestsDetailsPopup = new ChestsDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
 		appModel.navigator.addPopup(details);
@@ -323,13 +343,12 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 
 private function gotoDeckTutorial():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+	if( !player.inShopTutorial() )
 		return;
 
 	var tutorialData:TutorialData = new TutorialData("shop_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 1000, 1000, 4));
 	tutorials.show(tutorialData);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
 }
 
 private function showAd():void
@@ -357,6 +376,11 @@ private function videoIdsManager_completeHandler(event:Event):void
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", ExchangeType.CHEST_CATE_131_ADS );
 	exchange(exchanger.items.get(ExchangeType.CHEST_CATE_131_ADS), params);
+}
+public override function dispose() : void
+{
+	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
+	super.dispose();
 }
 }
 }

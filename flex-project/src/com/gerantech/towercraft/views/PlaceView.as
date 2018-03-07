@@ -5,6 +5,7 @@ package com.gerantech.towercraft.views
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.views.decorators.BarracksDecorator;
 	import com.gerantech.towercraft.views.decorators.BuildingDecorator;
 	import com.gerantech.towercraft.views.decorators.CrystalDecorator;
@@ -14,6 +15,7 @@ package com.gerantech.towercraft.views
 	import com.gt.towers.battle.fieldes.PlaceData;
 	import com.gt.towers.buildings.Place;
 	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.TroopType;
 	import com.gt.towers.utils.PathFinder;
 	import com.gt.towers.utils.lists.PlaceDataList;
@@ -127,14 +129,14 @@ package com.gerantech.towercraft.views
 			touchable = value;
 			_selectable = value;
 		}
-
+		
 		public function update(population:int, troopType:int) : void
 		{
 			showMidSwipesTutorial(troopType);
 			decorator.updateElements(population, troopType);
 			if( population < wishedPopulation )
 				decorator.showUnderAttack();
-
+		
 			if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
 				wishedPopulation = population;
 			place.building._population = population;
@@ -152,9 +154,15 @@ package com.gerantech.towercraft.views
 				return;
 			if( place.index > appModel.battleFieldView.battleData.map.places.size()-2 )
 				return;
+			if( appModel.battleFieldView.battleData.map.index == 2 && player.isHardMode() )
+				return;
 			if( !appModel.battleFieldView.responseSender.actived )
 				return;
-
+		
+			// set first capture tutor step
+			if( player.getTutorStep() == PrefsTypes.T_123_QUEST_0_FIRST_SWIPE )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_124_QUEST_0_FIRST_CAPTURE);
+		
 			tutorials.removeAll();
 			
 			var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + place.index);
@@ -171,7 +179,7 @@ package com.gerantech.towercraft.views
 			}
 			
 			if( places.size() > 0 )
-				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 500 * places.size()));
+				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 800 * places.size()));
 			tutorials.show(tutorialData);
 		}
 		

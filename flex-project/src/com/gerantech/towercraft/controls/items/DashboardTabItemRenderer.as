@@ -69,8 +69,8 @@ override protected function commitData():void
 		// show focus in tutorial 
 		if ( player.inTutorial() )
 		{
-			var tutorStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
-			if( index == 0 && tutorStep == PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+			var tutorStep:int = player.getTutorStep();
+			if( index == 0 && player.inShopTutorial() )
 			{
 				setTimeout(showFocus, 600);		
 			}
@@ -80,7 +80,7 @@ override protected function commitData():void
 			}
 			else if( index == 2 )
 			{
-				if( tutorStep == PrefsTypes.TUTE_113_SELECT_DECK )
+				if( player.inDeckTutorial() )
 					setTimeout(showFocus, 600);
 				else 
 					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
@@ -174,7 +174,7 @@ private function tutorialManager_upgradeHandler(event:Event):void
 }
 private function tutorialManager_finishHandler(event:Event):void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK || event.data.name != "shop_end" || stage == null )
+	if( !player.inDeckTutorial() || event.data.name != "shop_end" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showFocus();

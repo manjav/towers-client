@@ -14,6 +14,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
+import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -157,7 +158,7 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
-	
+
 	// start time manager;
 	if( TimeManager.instance != null )
 		TimeManager.instance.dispose();
@@ -195,11 +196,12 @@ protected function coreLoader_completeHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
+	
+	UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
+
 	state = STATE_LOADED;
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
-	
-	UserData.instance.prefs.requestData();
 	
 	// catch video ads
 	if( appModel.game.player.get_arena(0) == 0 )

@@ -57,9 +57,9 @@ override protected function initialize():void
 		var rewardsList:List = new List();
 		rewardsList.backgroundSkin = new Quad(1, 1, 0);
 		rewardsList.backgroundSkin.alpha = 0.6;
-		rewardsList.height = 400*appModel.scale;
+		rewardsList.height = 400 * appModel.scale;
 		rewardsList.layout = hlayout;
-		rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160*appModel.scale);
+		rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160 * appModel.scale);
 		rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
 		rewardsList.dataProvider = rewardsCollection;
 		addChild(rewardsList);
@@ -67,7 +67,7 @@ override protected function initialize():void
 	
 	var buttons:LayoutGroup = new LayoutGroup();
 	buttons.layout = hlayout;
-	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewardsCollection.length>0?480:220)*appModel.scale);
+	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewardsCollection.length>0 ? 480 : 220) * appModel.scale);
 	addChild(buttons);
 	
 	var hasRetry:Boolean = playerIndex > -1 && appModel.battleFieldView.battleData.map.isQuest && player.get_questIndex() > 3 && !appModel.battleFieldView.battleData.isLeft;

@@ -95,7 +95,7 @@ package com.gerantech.towercraft.controls.items
 		
 		private function tutorialManager_finishHandler(event:Event):void
 		{
-			if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
+			if( player.getTutorStep() != PrefsTypes.T_152_DECK_FIRST_VIEW )
 				return;
 			tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 			var tuteData:TutorialData = event.data as TutorialData;

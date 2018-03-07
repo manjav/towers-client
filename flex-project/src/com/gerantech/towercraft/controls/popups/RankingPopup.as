@@ -7,6 +7,8 @@ package com.gerantech.towercraft.controls.popups
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+	import com.gerantech.towercraft.models.vo.UserData;
+	import com.gt.towers.constants.PrefsTypes;
 	import com.smartfoxserver.v2.core.SFSEvent;
 	import com.smartfoxserver.v2.entities.data.SFSArray;
 	
@@ -103,7 +105,9 @@ package com.gerantech.towercraft.controls.popups
 			
 			list.alpha = 0;
 			Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
-
+			
+			if( player.getTutorStep() == PrefsTypes.T_181_RANK_FOCUS )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_182_RANK_SHOWN); 
 		}
 		
 		private function findMe():int

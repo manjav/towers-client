@@ -56,7 +56,7 @@ package com.gerantech.towercraft.controls.screens
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
-
+	
 	public class BattleScreen extends BaseCustomScreen
 	{
 		public var isFriendly:Boolean;
@@ -73,7 +73,7 @@ package com.gerantech.towercraft.controls.screens
 		private var sfsConnection:SFSConnection;
 		private var timeoutId:uint;
 		private var transitionInCompleted:Boolean = true;
-
+		
 		private var state:int = 0;
 		private static const STATE_CREATED:int = 0;
 		private static const STATE_STARTED:int = 1;
@@ -89,14 +89,14 @@ package com.gerantech.towercraft.controls.screens
 			sfsObj.putInt("i", requestField!=null&&requestField.isQuest ? requestField.index : 0);
 			if( spectatedUser != null && spectatedUser != "" )
 				sfsObj.putText("su", spectatedUser);
-
+		
 			sfsConnection = SFSConnection.instance;
 			sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 			sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 			if( !isFriendly )
 				sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
 		}
-
+		
 		protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 		{
 			removeConnectionListeners();
@@ -142,7 +142,7 @@ package com.gerantech.towercraft.controls.screens
 					hud.showBubble(data.getInt("t"), false);
 					break;
 			}
-//				trace(event.params.cmd, data.getDump());
+			//trace(event.params.cmd, data.getDump());
 		}
 		
 		private function showUMPopup(data:SFSObject):void
@@ -176,7 +176,7 @@ package com.gerantech.towercraft.controls.screens
 				}
 				return;
 			}
-
+		
 			waitingOverlay.setData(appModel.battleFieldView.battleData);
 			//waitingOverlay.disappear();
 			updateTowersFromRoomVars();
@@ -187,7 +187,7 @@ package com.gerantech.towercraft.controls.screens
 			{
 				// create tutorial steps
 				var tutorialData:TutorialData = new TutorialData(quest.name+"_start");
-
+		
 				//quest start
 				var tuteMessage:String = "";
 				for (var i:int=0 ; i < quest.startNum.size() ; i++) 
@@ -199,12 +199,12 @@ package com.gerantech.towercraft.controls.screens
 					trace("tuteMessage:", tuteMessage);
 					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
 				}
-
+		
 				if( !player.hardMode )
 				{
 					var places:PlaceDataList = quest.getSwipeTutorPlaces();
 					if( places.size() > 0 )
-						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 3500));
+						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1500));
 				
 					var place:PlaceData = quest.getImprovableTutorPlace()
 					if( place != null )
@@ -214,8 +214,15 @@ package com.gerantech.towercraft.controls.screens
 						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
 					}
 				}
-
+		
 				tutorials.show(tutorialData);
+				
+				if( quest.index == 0 )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_122_QUEST_0_START);
+				else if( quest.index == 1 )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_131_QUEST_1_START);
+				else if( quest.index == 2 )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.hardMode ? PrefsTypes.T_133_QUEST_2_FIRST_START : PrefsTypes.T_162_QUEST_2_SECOND_START);
 			}
 			
 			hud = new BattleHUD();
@@ -227,9 +234,9 @@ package com.gerantech.towercraft.controls.screens
 			
 			if( timeManager.now - appModel.battleFieldView.battleData.startAt > 5 )
 				appModel.battleFieldView.responseSender.resetAllVars();
-
+		
 			appModel.loadingManager.serverData.putBool("inBattle", false);
-
+		
 			if( !sfsConnection.mySelf.isSpectator )
 				addEventListener(TouchEvent.TOUCH, touchHandler);
 			
@@ -245,9 +252,9 @@ package com.gerantech.towercraft.controls.screens
 			disposeBattleAssets();
 			
 			var rewards:ISFSArray = data.getSFSArray("outcomes");
-			var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-			var tutorialMode:Boolean = quest.isQuest && (quest.startNum.size() > 0) && player.quests.get(quest.index)==0;
-
+			var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+			var tutorialMode:Boolean = field.isQuest && (field.startNum.size() > 0) && player.quests.get(field.index)==0;
+		
 			
 			var playerIndex:int = -1
 			for(var i:int = 0; i < rewards.size(); i++)
@@ -270,7 +277,7 @@ package com.gerantech.towercraft.controls.screens
 					var key:int = int(_keys[i])
 					if( key > 0 )
 						outcomes.set(key, item.getInt(_keys[i]));
-					if( key == ResourceType.KEY && !quest.isQuest )
+					if( key == ResourceType.KEY && !field.isQuest )
 						exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += item.getInt(_keys[i]);
 				}
 			}
@@ -286,9 +293,20 @@ package com.gerantech.towercraft.controls.screens
 			}
 			
 			var endOverlay:EndOverlay;
-			if( quest.isQuest )
+			if( field.isQuest )
 			{
 				endOverlay = new EndQuestOverlay(playerIndex, rewards, tutorialMode);
+				
+				if( tutorialMode )
+				{
+					// reserved prefs data
+					if( field.index == 0 && rewards.getSFSObject(0).getInt("score") > 0 )
+						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_125_QUEST_0_WIN);
+					else if( field.index == 1 && rewards.getSFSObject(0).getInt("score") > 0 )
+						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_132_QUEST_1_WIN);
+					else if( field.index == 2 )
+						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, !player.hardMode && rewards.getSFSObject(0).getInt("score") > 0 ? PrefsTypes.T_165_QUEST_2_WIN : PrefsTypes.T_135_QUEST_2_LOSE);
+				}
 			}
 			else
 			{
@@ -418,19 +436,18 @@ package com.gerantech.towercraft.controls.screens
 				if( player.buildings.exists(BuildingType.B11_BARRACKS) )
 				{
 					if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
-						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END);
+						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_171_SELECT_NAME_FOCUS);
 					else
-						UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK); 
+						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_151_DECK_FOCUS); 
 				}
 				else
 				{
-					UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_141_SHOP_FOCUS);
 				}
 				
 				appModel.navigator.popToRootScreen();
 				return;
 			}
-
 			dispatchEventWith(Event.COMPLETE);
 		}
 		
@@ -539,7 +556,7 @@ package com.gerantech.towercraft.controls.screens
 				
 					// remove destination from sources if exists
 					var self:int = sourcePlaces.indexOf(destination);
-					if(self > -1)
+					if( self > -1 )
 					{
 						if(sourcePlaces.length == 1)
 						{
@@ -562,7 +579,7 @@ package com.gerantech.towercraft.controls.screens
 						clearSources(sourcePlaces);
 						return;
 					}
-
+		
 					// check sources has a path to destination
 					for (var i:int = sourcePlaces.length-1; i>=0; i--)
 					{
@@ -574,9 +591,18 @@ package com.gerantech.towercraft.controls.screens
 					}
 					
 					// send fight data to room
-					if(sourcePlaces.length > 0)
+					if( sourcePlaces.length > 0 )
+					{
+						if( bf.map.isQuest )
+						{
+							if( bf.map.index == 0 )
+								UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_123_QUEST_0_FIRST_SWIPE);
+							else if( bf.map.index == 2 )
+								UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.hardMode ? PrefsTypes.T_134_QUEST_2_FIRST_SWIPE : PrefsTypes.T_164_QUEST_2_SECOND_SWIPE );
+						}
 						appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
-
+					}
+		
 					// clear swiping mode
 					clearSources(sourcePlaces);
 				}
@@ -641,9 +667,10 @@ package com.gerantech.towercraft.controls.screens
 					return;
 				}
 				appModel.battleFieldView.responseSender.improveBuilding(btn.building.index, btn.type);
+				if( player.getTutorStep() == PrefsTypes.T_162_QUEST_2_SECOND_START )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_163_QUEST_2_FIRST_IMPROVE);
 			}
 		}
-
 		
 		override protected function backButtonFunction():void
 		{
@@ -665,7 +692,7 @@ package com.gerantech.towercraft.controls.screens
 			function confirm_eventsHandler(event:Event):void {
 				confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 				confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
-
+		
 				appModel.battleFieldView.responseSender.leave(event.type == Event.SELECT);
 				appModel.battleFieldView.battleData.isLeft = true;
 				appModel.battleFieldView.responseSender.actived = false;
@@ -693,5 +720,4 @@ package com.gerantech.towercraft.controls.screens
 			sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 		}
 	}
-
 }

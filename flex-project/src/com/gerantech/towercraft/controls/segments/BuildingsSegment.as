@@ -75,10 +75,10 @@ override public function focus():void
 }	
 private function showTutorial():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK )
+	if( !player.inDeckTutorial() )
 		return;
 	
-	player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_DECK_FIRST_VIEW );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
 	tutorials.show(tutorialData);
@@ -112,10 +112,10 @@ private function list_focusInHandler(event:Event):void
 		return;
 	}
 	
-	if( player.inTutorial() )
+	if( player.inDeckTutorial() )
 	{
 		seudUpgradeRequest(player.buildings.get(buildingType), 0);
-		UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_160_MAIN_SECOND_VIEW );
 		tutorials.dispatchEventWith("upgrade");
 		return;
 	}

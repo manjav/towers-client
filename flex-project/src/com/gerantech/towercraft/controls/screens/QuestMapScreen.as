@@ -10,7 +10,9 @@ import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.constants.PrefsTypes;
 
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
@@ -65,7 +67,7 @@ override protected function initialize():void
 	trace(player.get_questIndex())
 
 	var listLayout:VerticalLayout = new VerticalLayout();
-	listLayout.paddingBottom = 150*appModel.scale;
+	listLayout.paddingBottom = 150 * appModel.scale;
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	
 	list = new List();
@@ -115,6 +117,9 @@ override protected function transitionInCompleteHandler(event:Event):void
 	if( lastQuest.index > 0 )
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
 	
+	if( player.inTutorial() )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.isHardMode() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
+
 	//quest intro
 	var tutorialData:TutorialData = new TutorialData("quest_" + lastQuest.index + "_intro");
 	for (var i:int ; i < lastQuest.introNum.size() ; i++) 
