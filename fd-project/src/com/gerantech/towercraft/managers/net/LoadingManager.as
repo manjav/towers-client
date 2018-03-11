@@ -137,21 +137,25 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		dispatchEvent(new LoadingEvent(LoadingEvent.UNDER_MAINTENANCE, serverData));
 		return;
 	}			
-	if( serverData.containsKey("exists") )
+    if( serverData.containsKey("exists") )// duplicate user
 	{
 		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 		return;
 	}
+    if( serverData.containsKey("ban") )// banned user
+    {
+        dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_BANNED, serverData));
+        return;
+    }
 
-	// in registring case
-	if(serverData.containsKey("password"))
+    if( serverData.containsKey("password") )// in registering case
 	{
 		UserData.instance.id = serverData.getLong("id");
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
 	
-	if( TimeManager.instance != null )
+	if( TimeManager.instance != null )// start time manager;
 		TimeManager.instance.dispose();
 	new TimeManager(serverData.getLong("serverTime"));
 	
