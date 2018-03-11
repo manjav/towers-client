@@ -472,21 +472,21 @@ private function touchHandler(event:TouchEvent):void
 {
 	var pv:PlaceView;
 	var touch:Touch = event.getTouch(this);
-	if(touch == null)
+	if( touch == null )
 	return;
 
-	if(touch.phase == TouchPhase.BEGAN)
+	if( touch.phase == TouchPhase.BEGAN )
 	{
 		sourcePlaces = new Vector.<PlaceView>();
 		//trace("BEGAN", touch.target, touch.target.parent);
 		if( !(touch.target.parent is PlaceView) )
 			return;
-
+		
 		pv = touch.target.parent as PlaceView;
-
+		
 		if( pv.place.building.troopType != player.troopType || !pv.population > 0 )
 			return;
-
+		
 		allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE);
 		sourcePlaces.push(pv);
 	}
@@ -494,7 +494,7 @@ private function touchHandler(event:TouchEvent):void
 	{
 		if( sourcePlaces == null || sourcePlaces.length == 0 )
 			return;
-
+		
 		if( touch.phase == TouchPhase.MOVED )
 		{
 			pv = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
@@ -504,19 +504,25 @@ private function touchHandler(event:TouchEvent):void
 				if( sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType && pv.population > 0 )
 					sourcePlaces.push(pv);
 				endPoint.setTo(pv.x, pv.y);
+                
+				// show drop zone
+				if( sourcePlaces[0] != pv )
+					pv.hilight(true);
 			}
 			else
 			{
 				endPoint.setTo((touch.globalX-appModel.battleFieldView.x)/appModel.scale, (touch.globalY-appModel.battleFieldView.y)/appModel.scale);
+				for each( pv in appModel.battleFieldView.places )
+					pv.hilight(false);
 			}
 			
-			for each(pv in sourcePlaces)
+			for each( pv in sourcePlaces )
 			{
 				pv.arrowContainer.visible = true;
 				pv.arrowTo(endPoint.x-pv.x, endPoint.y-pv.y);
 			}
 		}
-		else if(touch.phase == TouchPhase.ENDED)
+		else if( touch.phase == TouchPhase.ENDED )
 		{
 			var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 			if( destination == null )
@@ -524,9 +530,9 @@ private function touchHandler(event:TouchEvent):void
 				clearSources(sourcePlaces);
 				return;
 			}
-
+			
 			// check sources has a path to destination
-			for (var i:int = sourcePlaces.length-1; i>=0; i--)
+			for ( var i:int = sourcePlaces.length-1; i>=0; i-- )
 			{
 				if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, allPlacesInTouch) == null)
 				{
@@ -538,7 +544,7 @@ private function touchHandler(event:TouchEvent):void
 			// send fight data to room
 			if( sourcePlaces.length > 0 )
 				appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
-
+			
 			// clear swiping mode
 			clearSources(sourcePlaces);
 		}
@@ -547,14 +553,19 @@ private function touchHandler(event:TouchEvent):void
 
 private function clearSources(sourceTowers:Vector.<PlaceView>):void
 {
-	for each(var tp:PlaceView in sourceTowers)
+	for each( var tp:PlaceView in sourceTowers )
 		clearSource(tp);
+		
+	for each( tp in appModel.battleFieldView.places )
+		tp.hilight(false);
+    
 	sourceTowers = null;
 	allPlacesInTouch = null;
 }
 private function clearSource(sourceTower:PlaceView):void
 {
 	sourceTower.arrowContainer.visible = false;
+	sourceTower.hilight(false);
 }
 
 override protected function backButtonFunction():void
@@ -574,7 +585,8 @@ override protected function backButtonFunction():void
 	confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 	confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 	appModel.navigator.addPopup(confirm);
-	function confirm_eventsHandler(event:Event):void {
+	function confirm_eventsHandler(event:Event):void
+	{
 		confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 		confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
 

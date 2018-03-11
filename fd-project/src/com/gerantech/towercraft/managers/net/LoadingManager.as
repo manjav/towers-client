@@ -191,11 +191,12 @@ protected function coreLoader_completeHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
+	
+    UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
+	
 	state = STATE_LOADED;
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
-	
-	UserData.instance.prefs.requestData();
 	
 	// prevent ADs for new users
 	if( appModel.game.player.get_arena(0) == 0 )

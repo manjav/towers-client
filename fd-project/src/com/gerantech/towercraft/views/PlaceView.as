@@ -20,6 +20,7 @@ import com.gt.towers.constants.TroopType;
 import com.gt.towers.utils.PathFinder;
 import com.gt.towers.utils.lists.PlaceDataList;
 import com.gt.towers.utils.lists.PlaceList;
+import starling.animation.Transitions;
 
 import flash.geom.Rectangle;
 import flash.utils.clearTimeout;
@@ -42,6 +43,8 @@ public var population:int;
 private var timerIcon:TimerIcon;
 private var decorator:BuildingDecorator;
 private var defensiveWeapon:DefensiveWeapon;
+private var dropZone:Image;
+private var zoneAppear:Boolean;
 
 private var arrow:MovieClip;
 private var rushTimeoutId:uint;
@@ -51,15 +54,24 @@ private var elixirCollector:ElixirCollector;
 public function PlaceView(place:Place)
 {
 	this.place = place;
-	this.raduis = 160;
+	this.raduis = 200;
 	
 	var bg:Image = new Image(Assets.getTexture("damage-range"));
 	bg.alignPivot();
 	bg.width = raduis * 2;
-	bg.scaleY = bg.scaleX * 0.8;
-	bg.alpha = 0//.2;
+	bg.y = -raduis * 0.1;
+	bg.scaleY = bg.scaleX;
+	bg.alpha = 0;
 	addChild(bg);
 	
+	dropZone = new Image(Assets.getTexture("damage-range"));
+	dropZone.touchable = false;
+	dropZone.alignPivot();
+	dropZone.scaleY = dropZone.scaleX = 0;
+	dropZone.alpha = 0;
+	dropZone.visible = false;
+	addChild(dropZone);
+
 	x = place.x;
 	y = place.y;
 
@@ -111,6 +123,23 @@ public function arrowTo(disX:Number, disY:Number):void
 {
 	arrow.height = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
 	arrowContainer.rotation = MathUtil.normalizeAngle(-Math.atan2(-disX, -disY));//trace(tp.arrow.scaleX, tp.arrow.scaleY, tp.arrow.height)
+}
+
+public function hilight(appear:Boolean):void
+{
+	if( zoneAppear == appear )
+		return;
+	zoneAppear = appear;
+	
+	if( zoneAppear )
+	{
+		dropZone.visible = true;
+		Starling.juggler.tween(dropZone, 0.6, {alpha:0.9, scaleX:2.0, scaleY:1.6, transition:Transitions.EASE_OUT_BACK});
+	}
+	else
+	{
+		Starling.juggler.tween(dropZone, 0.6, {alpha:0.0, scaleX:0.0, scaleY:0.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{dropZone.visible = false;}});
+	}
 }
 
 public function get selectable():Boolean
@@ -180,7 +209,7 @@ private function showMidSwipesTutorial(troopType:int):void
 	}
 	
 	if( places.size() > 0 )
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1700 * places.size()));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 500 * places.size()));
 	tutorials.show(tutorialData);
 }
 
