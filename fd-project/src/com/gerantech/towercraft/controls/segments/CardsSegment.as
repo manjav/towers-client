@@ -416,7 +416,9 @@ private function details_updateHandler(event:Event):void
 }
 private function upgradeConfirm_errorHandler(event:Event):void
 {
-	appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+    appModel.navigator.toolbar.dispatchEventWith(Event.SELECT, true, {resourceType:1002});
+    appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+    detailsPopup.close();
 }
 private function upgradeConfirm_selectHandler(event:Event):void
 {
