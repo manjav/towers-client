@@ -127,7 +127,7 @@ public function arrowTo(disX:Number, disY:Number):void
 
 public function hilight(appear:Boolean):void
 {
-	if( zoneAppear == appear )
+	if( zoneAppear == appear || !player.inTutorial() )
 		return;
 	zoneAppear = appear;
 	

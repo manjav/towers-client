@@ -16,15 +16,9 @@ import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import feathers.controls.ScrollPolicy;
-import flash.utils.setTimeout;
-
-import flash.geom.Rectangle;
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
+import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -32,7 +26,10 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.geom.Rectangle;
+import flash.text.ReturnKeyLabel;
+import flash.text.SoftKeyboardType;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.events.Event;
 
@@ -43,7 +40,6 @@ protected var footerSize:int;
 protected var chatList:List;
 protected var chatLayout:VerticalLayout;
 protected var chatTextInput:CustomTextInput;
-protected var chatSendButton:CustomButton;
 protected var chatEnableButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
 protected var _chatEnabled:Boolean = false;
@@ -114,7 +110,7 @@ protected function showElements():void
 	chatTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0, false, appModel.align );
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
-	chatTextInput.layoutData = new AnchorLayoutData(NaN, footerSize + padding*2, 0, padding);
+    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, 0, padding);
     chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
     chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
@@ -125,14 +121,7 @@ protected function showElements():void
     chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
     addChild(chatEnableButton);
-    
-    chatSendButton = new CustomButton();
-    chatSendButton.width = chatSendButton.height = footerSize;
-    chatSendButton.icon = Assets.getTexture("settings-311", "gui");
-    chatSendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-    chatSendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
-    chatSendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);
-	
+
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
 
@@ -244,7 +233,7 @@ private function buttonsPopup_selectHandler(event:Event):void
             }
             appModel.navigator.addPopup( new ProfilePopup(user) );
 			break;
-			
+		
 		case "lobby_report":
 			var sfsReport:ISFSObject = new SFSObject();
 			sfsReport.putUtfString("t", msgPack.getUtfString("t"));
@@ -306,17 +295,14 @@ public function enabledChatting(value:Boolean):void
     {
         chatEnableButton.removeFromParent();
         addChild(chatTextInput);
-        addChild(chatSendButton);
         chatTextInput.setFocus();
     }
     else
     {
         chatTextInput.removeFromParent();
-        chatSendButton.removeFromParent();
         addChild(chatEnableButton);
     }
 }
-
 
 public function set buttonsEnabled(value:Boolean):void
 {
@@ -325,7 +311,6 @@ public function set buttonsEnabled(value:Boolean):void
 	
 	_buttonsEnabled = value;
 	chatTextInput.isEnabled = _buttonsEnabled;
-	chatSendButton.isEnabled = _buttonsEnabled;
     chatEnableButton.isEnabled = _buttonsEnabled;
     appModel.navigator.toolbar.touchable = false;
     chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
