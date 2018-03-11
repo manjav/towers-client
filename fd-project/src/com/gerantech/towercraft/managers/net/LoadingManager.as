@@ -197,6 +197,10 @@ protected function coreLoader_completeHandler(event:Event):void
 	
 	UserData.instance.prefs.requestData();
 	
+	// prevent ADs for new users
+	if( appModel.game.player.get_arena(0) == 0 )
+        return;
+
 	// catch video ads
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	if( appModel.game.player.get_questIndex() < appModel.game.fieldProvider.quests.keys().length )
