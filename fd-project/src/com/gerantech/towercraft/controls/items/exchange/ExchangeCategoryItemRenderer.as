@@ -73,7 +73,7 @@ override protected function commitData():void
 	headerDisplay.label = loc("exchange_title_" + line.category);
 	headerDisplay.data = line.category;
 
-	var CELL_SIZE:int = 400 * appModel.scale;
+    var CELL_SIZE:int = 360 * appModel.scale;
 	listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 	//descriptionDisplay.visible = false;
 	switch( line.category )
@@ -81,22 +81,18 @@ override protected function commitData():void
 		case ExchangeType.CHEST_CATE_100_FREE:
 			CELL_SIZE = 320 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
-			break;		
+			break;
+		
 		case ExchangeType.CHEST_CATE_110_BATTLES:
-		//	CELL_SIZE = 420 * appModel.scale;
-			//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
 			break;		
 		
 		case ExchangeType.CHEST_CATE_120_OFFERS:
-		//	CELL_SIZE = 420 * appModel.scale;
-			//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookOfferItemRenderer();}
 			break;		
 		
 		default:
-			CELL_SIZE = 480 * appModel.scale;
-			//listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+            CELL_SIZE = (line.category==ExchangeType.S_0_HARD ||line.category==ExchangeType.S_10_SOFT ? 520:360) * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeCurrencyItemRenderer();}
 			break;
 	}
