@@ -403,13 +403,13 @@ private function tutorials_tasksFinishHandler(event:Event):void
 		if( player.buildings.get(CardTypes.INITIAL).get_level() == 1 )
 		{
 			if( player.resources.get(CardTypes.INITIAL) > 1 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_113_SELECT_DECK);
 			else
-				UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_111_SELECT_EXCHANGE);
 		}
 		else
 		{
-			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_116_END);
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_116_END);
 		}
 
 		appModel.navigator.popToRootScreen();

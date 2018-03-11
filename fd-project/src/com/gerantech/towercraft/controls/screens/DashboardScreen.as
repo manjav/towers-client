@@ -132,7 +132,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 	// tutorial mode
-	var tuteStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+	var tuteStep:int = player.getTutorStep();
 	if( player.get_questIndex() < 3 && tuteStep != PrefsTypes.TUTE_111_SELECT_EXCHANGE && tuteStep != PrefsTypes.TUTE_113_SELECT_DECK )
 	{
 		appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
@@ -148,7 +148,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-	function themeLoaded():void { if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.TUTE_101_START ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 	
 	appModel.navigator.handleInvokes();
 	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);

@@ -32,7 +32,7 @@ package com.gerantech.towercraft.controls.overlays
 			appModel.sounds.addAndPlaySound("whoosh");
 			overlay.touchable = task.type == TutorialTask.TYPE_CONFIRM;
 			
-			var charName:int = side==0 ? (player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101)==PrefsTypes.TUTE_114_SELECT_BUILDING?2:0) : 1
+			var charName:int = side==0 ? (player.getTutorStep()==PrefsTypes.TUTE_114_SELECT_BUILDING?2:0) : 1
 			var charachter:ImageLoader = new ImageLoader();
 			charachter.source =  Assets.getTexture("char-" + charName, "tutors");
 			charachter.verticalAlign = VerticalAlign.BOTTOM;

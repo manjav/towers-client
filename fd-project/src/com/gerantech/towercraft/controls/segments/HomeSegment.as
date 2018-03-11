@@ -187,7 +187,7 @@ private function inboxService_updateHandler():void
 // show tutorial steps
 private function showTutorial():void
 {
-	var tutorStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
 	if( player.get_questIndex() >= 3 && player.nickName == "guest" )
@@ -210,7 +210,7 @@ private function showTutorial():void
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
 		function tutorials_completeHandler(e:Event):void {
-			UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_118_VIEW_RANK);
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_118_VIEW_RANK);
 			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 		}
 		return;

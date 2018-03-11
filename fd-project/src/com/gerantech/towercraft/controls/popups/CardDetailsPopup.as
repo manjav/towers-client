@@ -114,7 +114,7 @@ override protected function transitionInCompleted():void
 
 private function showTutorArrow () : void
 {
-	if( buildingType != CardTypes.INITIAL || player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
+	if( buildingType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.TUTE_114_SELECT_BUILDING )
 		return;
 	
 	if( tutorialArrow != null )

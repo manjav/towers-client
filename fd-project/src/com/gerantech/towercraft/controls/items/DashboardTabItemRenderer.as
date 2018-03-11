@@ -69,7 +69,7 @@ override protected function commitData():void
 		// show focus in tutorial 
 		if ( player.inTutorial() )
 		{
-			var tutorStep:int = player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101);
+			var tutorStep:int = player.getTutorStep();
 			if( index == 0 && tutorStep == PrefsTypes.TUTE_111_SELECT_EXCHANGE )
 			{
 				setTimeout(showTutorArrow, 600);		
@@ -172,7 +172,7 @@ private function tutorialManager_upgradeHandler(event:Event):void
 }
 private function tutorialManager_finishHandler(event:Event):void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK || event.data.name != "shop_end" || stage == null )
+	if( player.getTutorStep() != PrefsTypes.TUTE_113_SELECT_DECK || event.data.name != "shop_end" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showTutorArrow();
