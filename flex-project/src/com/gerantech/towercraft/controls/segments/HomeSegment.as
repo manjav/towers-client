@@ -44,7 +44,7 @@ import starling.events.Event;
 public class HomeSegment extends Segment
 {
 private var inboxButton:NotifierButton;
-//private var questsButton:HomeButton;
+private var questsButton:HomeButton;
 private var battlesButton:HomeButton;
 private var leaguesButton:HomeButton;
 private var battleTimeoutId:uint;
@@ -110,8 +110,11 @@ private function showMainButtons():void
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")));
 	addButton(battlesButton, "button_battles", 540, 1000, 0.6);
 	
-	/*questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")));
-	addButton(questsButton, "button_quests", 540, 1300, 0.8);*/
+	if( player.hasQuests )
+	{
+		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")));
+		addButton(questsButton, "button_quests", 540, 1300, 0.8);
+	}
 }
 
 private function addButton(button:HomeButton, name:String, x:int, y:int, delay:Number, callback:Function=null):void
@@ -219,27 +222,27 @@ private function showTutorial():void
 		return;
 	}
 	
-	/*if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
+	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
-		if( !player.inShopTutorial() && !player.inDeckTutorial() )
+		if( !player.inShopTutorial() && !player.inDeckTutorial() && player.hasQuests )
 			questsButton.showArrow();
-	}*/
+	}
 }
 
 
 private function mainButtons_triggeredHandler(event:Event ):void
 {
-	/*if(	player.inTutorial() && event.currentTarget != questsButton )
+	if(	player.inTutorial() && event.currentTarget != questsButton )
 	{
 		appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
 		return;
-	}*/
+	}
 
 	switch(event.currentTarget)
 	{
-		/*case questsButton:
+		case questsButton:
 			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
-			break;*/
+			break;
 		case battlesButton:
 			gotoLiveBattle(-1);
 			break;
