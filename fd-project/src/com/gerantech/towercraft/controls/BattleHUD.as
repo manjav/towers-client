@@ -344,7 +344,7 @@ public function showBubble(type:int, itsMe:Boolean=true):void
 private function hideBubble(bubble:StickerBubble):void
 {
 	bubble.removeFromParent();
-	if( !SFSConnection.instance.mySelf.isSpectator )
+	if( SFSConnection.instance.mySelf != null && !SFSConnection.instance.mySelf.isSpectator )
 		deck.stickerButton.visible = true;
 }
 

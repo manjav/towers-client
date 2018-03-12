@@ -33,7 +33,7 @@ package com.gerantech.towercraft.controls.buttons
 			backgroundSkin = skin;
 					
 			iconDisplay = new ImageLoader();
-			iconDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_value+""), "gui");
+            iconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(_value+""), "gui");
 			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.3, padding);
 			addChild(iconDisplay);
 		}

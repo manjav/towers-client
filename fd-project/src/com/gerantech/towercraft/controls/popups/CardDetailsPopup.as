@@ -90,7 +90,8 @@ override protected function transitionInCompleted():void
 	upgradeButton.height = 110 * appModel.scale;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
-	upgradeButton.isEnabled = player.has(building.get_upgradeRequirements());
+	upgradeButton.isEnabled = player.resources.get(buildingType) >= building.get_upgradeCards();
+	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= building.get_upgradeCost() ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 
 	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_label"), 1, "center", null, true, null, 0.7);
@@ -113,7 +114,7 @@ override protected function transitionInCompleted():void
 
 private function showTutorArrow () : void
 {
-	if( buildingType != CardTypes.INITIAL || player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_114_SELECT_BUILDING )
+	if( buildingType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.TUTE_114_SELECT_BUILDING )
 		return;
 	
 	if( tutorialArrow != null )

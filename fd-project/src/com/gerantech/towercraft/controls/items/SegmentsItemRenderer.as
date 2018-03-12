@@ -16,6 +16,7 @@ import com.gt.towers.constants.SegmentType;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 
@@ -33,7 +34,7 @@ override protected function initialize():void
 
 override protected function commitData():void
 {
-	if(_firstCommit)
+	if( _firstCommit )
 	{
 		width = _owner.width
 		height = _owner.height;
@@ -48,7 +49,7 @@ override protected function commitData():void
 	if( _data == null )
 		return;
 	
-	if(segment != null)
+	if( segment != null )
 		return;
 	
 	var tab:TabItemData = _data as TabItemData;
@@ -90,13 +91,16 @@ override protected function commitData():void
 			break;
 	}
 	
-	if(segment != null)
+	if( segment != null )
 	{
 		segment.layoutData = new AnchorLayoutData(0,0,0,0);
 		segment.width = _owner.width
 		segment.height = _owner.height;
 		addChild(segment);
 	}
+	
+	if( index == 0 )
+		setTimeout(owner_scrollCompleteHandler, 1000, null);
 }
 
 private function owner_scrollStartHandler(event:Event):void

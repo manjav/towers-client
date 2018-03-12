@@ -36,7 +36,9 @@ public function commitData(_data:ISFSObject):void
 protected function findUser(uid:int):ISFSObject
 {
 	var all:ISFSArray = SFSConnection.instance.lobbyManager.members;//lobby.getSFSArray("all");
-	var allSize:int = all.size();
+    if( all == null )
+        return null;
+    var allSize:int = all.size();
 	for( var i:int=0; i<allSize; i++ )
 	{
 		if( all.getSFSObject(i).getInt("id") == uid )

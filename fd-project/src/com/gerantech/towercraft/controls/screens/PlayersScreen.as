@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.items.PlayersItemRenderer;
 import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -27,7 +26,6 @@ override protected function initialize():void
 {
 	title = "Players";
 	super.initialize();
-	
 	
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.SEARCH);
 	textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
@@ -67,10 +65,9 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	players.data = SFSArray(SFSObject(event.params.params).getSFSArray("players")).toArray();
 }
 
-
 protected function list_focusHandler(event:Event):void
 {
-	appModel.navigator.addPopup(new ProfilePopup(event.data.data.name, event.data.data.id, true));
+    appModel.navigator.addPopup(new ProfilePopup(event.data.data, true));
 }
 }
 }

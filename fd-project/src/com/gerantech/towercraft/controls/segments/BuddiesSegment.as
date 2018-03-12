@@ -180,7 +180,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 	switch( event.data )
 	{
 		case "buddy_profile":
-			appModel.navigator.addPopup( new ProfilePopup(buddy.nickName, int(buddy.name)) );
+            appModel.navigator.addPopup( new ProfilePopup({name:buddy.nickName, id:int(buddy.name)}) );
 			break;
 		case "buddy_battle":
 			appModel.navigator.invokeBuddyBattle(buddy);

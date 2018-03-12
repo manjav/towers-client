@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.managers.net
 {
 import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
@@ -51,12 +53,17 @@ public function load():void
 	sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 	sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 	state = STATE_CONNECT;
+	
+    DashboardScreen.tabIndex = 2;
 	if( appModel.navigator != null )
 	{
-		appModel.navigator.popToRootScreen();
+        if( appModel.navigator.toolbar != null )
+            appModel.navigator.toolbar.touchable = true;
+		appModel.navigator.popAll();
 		appModel.navigator.removeAllPopups();
+        appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
 	}
-	if(UserData.instance.prefs == null )
+	if( UserData.instance.prefs == null )
 		UserData.instance.prefs = new UserPrefs();
 }
 
@@ -130,21 +137,25 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		dispatchEvent(new LoadingEvent(LoadingEvent.UNDER_MAINTENANCE, serverData));
 		return;
 	}			
-	if( serverData.containsKey("exists") )
+    if( serverData.containsKey("exists") )// duplicate user
 	{
 		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 		return;
 	}
+    if( serverData.containsKey("ban") )// banned user
+    {
+        dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_BANNED, serverData));
+        return;
+    }
 
-	// in registring case
-	if(serverData.containsKey("password"))
+    if( serverData.containsKey("password") )// in registering case
 	{
 		UserData.instance.id = serverData.getLong("id");
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
 	
-	if( TimeManager.instance != null )
+	if( TimeManager.instance != null )// start time manager;
 		TimeManager.instance.dispose();
 	new TimeManager(serverData.getLong("serverTime"));
 	
@@ -180,12 +191,17 @@ protected function coreLoader_completeHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
+	
+    UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
+	
 	state = STATE_LOADED;
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
-	UserData.instance.prefs.requestData();
-	
+	// prevent ADs for new users
+	if( appModel.game.player.get_arena(0) == 0 )
+        return;
+
 	// catch video ads
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	if( appModel.game.player.get_questIndex() < appModel.game.fieldProvider.quests.keys().length )

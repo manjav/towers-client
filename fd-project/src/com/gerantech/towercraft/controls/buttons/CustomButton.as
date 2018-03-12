@@ -30,6 +30,7 @@ private var shadowLayoutData:AnchorLayoutData;
 private var _style:String = "normal"
 private var _label:String = "";
 private var _icon:Texture;
+private var _fontColor:uint = 1;
 private var _fontsize:Number = 0;
 private var padding:Number;
 
@@ -73,7 +74,7 @@ override protected function initialize():void
 	shadowDisplay.layoutData = shadowLayoutData;
 	addChild(shadowDisplay);
 
-	labelDisplay = new RTLLabel(_label, 0XFFFFFF, "center", null, false, null, _fontsize);
+    labelDisplay = new RTLLabel(_label, _fontColor, "center", null, false, null, _fontsize);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.touchable = false;
 	labelDisplay.layoutData = labelLayoutData;
@@ -157,6 +158,17 @@ public function set style(value:String):void
 		return;
 	_style = value;
 	updateTextures();
+}
+
+public function get fontColor():uint
+{
+    return _fontColor;
+}
+public function set fontColor(value:uint):void
+{
+    if( _fontColor == value )
+        return;
+    _fontColor = value;
 }
 
 public function get fontsize():Number

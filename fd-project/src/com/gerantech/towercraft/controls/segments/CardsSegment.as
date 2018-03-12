@@ -175,10 +175,10 @@ protected function scroller_scrollHandler(event:Event):void
 }
 private function showTutorial():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_113_SELECT_DECK )
+	if( player.getTutorStep() != PrefsTypes.TUTE_113_SELECT_DECK )
 		return;
 	
-	player.prefs.set(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
+	player.prefs.set(PrefsTypes.TUTOR, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
 	tutorials.show(tutorialData);
@@ -257,7 +257,7 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 	if( player.inTutorial() )
 	{
 	seudUpgradeRequest(player.buildings.get(buildingType), 0);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
 	tutorials.dispatchEventWith("upgrade");
 	return;
 	}*/
@@ -416,7 +416,9 @@ private function details_updateHandler(event:Event):void
 }
 private function upgradeConfirm_errorHandler(event:Event):void
 {
-	appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+    appModel.navigator.toolbar.dispatchEventWith(Event.SELECT, true, {resourceType:1002});
+    appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+    detailsPopup.close();
 }
 private function upgradeConfirm_selectHandler(event:Event):void
 {
@@ -450,7 +452,7 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	// dispatch tutorial event
 	if( player.inTutorial() && building.type == CardTypes.INITIAL && building.get_level() == 2 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
 		tutorials.dispatchEventWith("upgrade");
 		return;
 	}

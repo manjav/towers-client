@@ -17,7 +17,7 @@ import starling.events.EventDispatcher;
 
 public class LobbyManager extends EventDispatcher
 {
-private var isPublic:Boolean;
+public var isPublic:Boolean;
 public var isReady:Boolean;
 public var lobby:Room;
 public var messages:ListCollection;

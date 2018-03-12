@@ -58,21 +58,12 @@ override protected function showElements():void
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
-	inputText = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0xAAAAAA, false, appModel.align );
-	inputText.textEditorProperties.autoCorrect = true;
-	inputText.height = footerSize;
-	inputText.layoutData = new AnchorLayoutData(NaN, footerSize*2 + padding*3, 0, padding);
-	inputText.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
-	addChild(inputText);
-
-	sendButton.layoutData = new AnchorLayoutData(NaN, footerSize+padding*2, 0, NaN);
-
 	battleButton = new CustomButton();
 	battleButton.style = "danger";
 	battleButton.width = battleButton.height = footerSize;
 	battleButton.icon = Assets.getTexture("tab-1", "gui");
 	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	battleButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+    battleButton.layoutData = new AnchorLayoutData(NaN, NaN, 0, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
 	
@@ -90,12 +81,6 @@ override protected function showElements():void
 
 	UserData.instance.lastLobbeyMessageTime = timeManager.now;
 	UserData.instance.save();
-}
-
-override protected function chatList_createCompleteHandler(event:Event):void
-{
-	super.chatList_createCompleteHandler(event);
-	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 }
 
 protected function chatList_triggeredHandler(event:Event):void
@@ -116,12 +101,10 @@ protected function chatList_triggeredHandler(event:Event):void
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 }
 
-protected function chatList_scrollHandler(event:Event):void
+override protected function scrollChatList(changes:Number) : void
 {
-	var scrollPos:Number = Math.max(0,chatList.verticalScrollPosition);
-	var changes:Number = startScrollBarIndicator-scrollPos;
-	header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
-	startScrollBarIndicator = scrollPos;
+    super.scrollChatList(changes);
+    header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
 }
 
 protected function battleButton_triggeredHandler(event:Event):void
@@ -131,6 +114,7 @@ protected function battleButton_triggeredHandler(event:Event):void
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 	params.putShort("st", 0);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+    scrollToEnd();
 }
 protected function donateButton_triggeredHandler(event:Event):void
 {
@@ -157,6 +141,12 @@ private function gotoBattle():void
 protected function manager_triggerHandler(event:Event):void
 {
 	gotoBattle();
+}
+
+override public function enabledChatting(value:Boolean):void
+{
+    super.enabledChatting(value);
+    battleButton.visible = !value;
 }
 
 override public function set buttonsEnabled(value:Boolean):void

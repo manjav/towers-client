@@ -105,7 +105,7 @@ override public function focus():void
 
 private function showTutorial():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+	if( player.getTutorStep() != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
 		return;
 	
 	var tutorialData:TutorialData = new TutorialData("shop_start");
@@ -177,6 +177,9 @@ private function list_changeHandler(event:Event):void
 		return;
 	}
 	
+	var params:SFSObject = new SFSObject();
+	params.putInt("type", item.type );
+
 	if( item.category == ExchangeType.S_10_SOFT )
 	{
 		if( !player.has(item.requirements) )
@@ -203,8 +206,6 @@ private function list_changeHandler(event:Event):void
 		return;
 	}
 
-	var params:SFSObject = new SFSObject();
-	params.putInt("type", item.type );
 	if( item.isChest() )
 	{
 		item.enabled = true;
@@ -321,13 +322,13 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 
 private function gotoDeckTutorial():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.TUTE_STEP_101) != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
+	if( player.getTutorStep() != PrefsTypes.TUTE_111_SELECT_EXCHANGE )
 		return;
 
 	var tutorialData:TutorialData = new TutorialData("shop_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 1000, 1000, 4));
 	tutorials.show(tutorialData);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTE_STEP_101, PrefsTypes.TUTE_113_SELECT_DECK);
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_113_SELECT_DECK);
 }
 
 private function showAd():void
