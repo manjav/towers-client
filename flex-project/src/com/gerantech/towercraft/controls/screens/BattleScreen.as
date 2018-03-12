@@ -535,8 +535,8 @@ private function touchHandler(event:TouchEvent):void
 				endPoint.setTo(pv.x, pv.y);
 				
 				// show drop zone
-				if( sourcePlaces[0] != pv )
-					pv.hilight(true);
+				for each( var tp:PlaceView in appModel.battleFieldView.places )
+					tp.hilight(tp == pv && sourcePlaces[0] != pv);
 			}
 			else
 			{

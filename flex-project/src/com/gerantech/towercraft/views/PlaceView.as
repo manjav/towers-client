@@ -53,12 +53,13 @@ private var wishedPopulation:int;
 private var path:PlaceList;
 private var dropZone:Image;
 private var zoneAppear:Boolean;
-
+private var arenaIndex:int;
 
 public function PlaceView(place:Place)
 {
 	this.place = place;
 	this.raduis = 200;
+	arenaIndex = player.get_arena(0)
 	
 	var bg:Image = new Image(Assets.getTexture("damage-range"));
 	bg.alignPivot();
@@ -133,7 +134,7 @@ public function arrowTo(disX:Number, disY:Number):void
 }
 public function hilight(appear:Boolean):void
 {
-	if( zoneAppear == appear || !player.inTutorial() )
+	if( zoneAppear == appear || arenaIndex > 0 )
 		return;
 	zoneAppear = appear;
 	
