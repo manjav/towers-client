@@ -122,7 +122,7 @@ protected function donateButton_triggeredHandler(event:Event):void
 	//var readyBattleIndex:int = getMyRequestBattleIndex();
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M20_DONATE);
-	params.putShort("st", 0); 	// state = 0 means its a request for card
+	params.putInt("r", player.id);
 	params.putShort("ct", 401);
 	params.putInt("n", 0);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );

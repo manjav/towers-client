@@ -45,27 +45,13 @@ override public function commitData(_data:ISFSObject):void
 	{
 		actionButton.visible = false;
 		messageDisplay.align = "right";
-		messageDisplay.text = data.getShort("st") > 1 ? "TIME FINISHED! My Req" + " | ct-->" + data.getShort("ct") : "My Req" + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = "My Req" + " | ct-->" + data.getShort("ct");
 	}
 	else
 	{
-		if ( data.getShort("st") == 2 )
-		{
-			actionButton.visible = false;
-			messageDisplay.align = "left";
-			messageDisplay.text = "CARD LIMIT REACHED!";
-		}
-		else if ( data.getShort("st") == 3 )
-		{
-			actionButton.visible = false;
-			messageDisplay.align = "left";
-			messageDisplay.text = "TIME FINISHED!" + "Req from " + data.getText("s");
-		}
-		else{
-			actionButton.style = "neutral";
-			actionButton.label = "Donate";
-			messageDisplay.text = "Req from " + data.getText("s") + " | ct-->" + data.getShort("ct");
-		}
+		actionButton.style = "neutral";
+		actionButton.label = "Donate";
+		messageDisplay.text = "Req from " + data.getText("i") + " | ct-->" + data.getShort("ct");
 	}
 }
 

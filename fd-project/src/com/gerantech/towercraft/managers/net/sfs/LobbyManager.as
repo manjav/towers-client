@@ -190,31 +190,16 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	}
 	else if ( msg.getShort("m") == MessageTypes.M20_DONATE )
 	{
-		trace("LobbyManager donate");
-		if ( msg.getShort("st") == 0 )
+		var hasDonation:Boolean = false;
+		var i:int = messages.length-1;
+		while (i > 0)
 		{
-			var now:Date = new Date();
-			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds) / 1000;
-			for (var i:int =  messages.length-1; i > -1; i--) // remove previous donate message
-				if ( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getInt("i") == msg.getInt("i") && messages.getItemAt(i) != null )
-					if ( messages.getItemAt(i).getInt("dt") >= epochNow )
-					{
-						trace("You have another donation request pending!"); 
-						return;
-					}
-			trace("Your donation request was succesfull");
+			if ( messages.getItemAt(i).getInt("i") == player.id )
+				hasDonation = true;
+			i--;
+		}
+		if ( !hasDonation )
 			messages.addItem(msg);
-		}
-		else if ( msg.getShort("st") == 2 )
-		{
-			messages.addItem(msg); 
-			trace("card limit has reached!");
-		}
-		else if ( msg.getShort("st") == 3 )
-		{
-			trace("time is over!");
-			messages.removeItem(msg);
-		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )
 	{

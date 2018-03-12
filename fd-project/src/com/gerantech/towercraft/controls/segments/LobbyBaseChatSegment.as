@@ -152,11 +152,28 @@ protected function chatList_changeHandler(event:Event):void
 		params.putShort("st", msgPack.getShort("st"));
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	}
-	else if( msgPack.getShort("m") == MessageTypes.M20_DONATE && msgPack.getInt("i") != player.id )
+	else if( msgPack.getShort("m") == MessageTypes.M20_DONATE )
 	{
-		if ( msgPack.getShort("st") > 1)
-			return;
-		else if ( msgPack.getShort("st") < 2 )
+		// prevent player from donating himself
+		if ( msgPack.getInt("r") == player.id )
+		{
+			trace("cannot donate yourself!");
+			return;			
+		}
+		var d:Date = new Date();
+		var now:Number = Date.UTC(d.fullYear, d.month, d.date, d.hours, d.minutes, d.seconds, d.milliseconds) / 1000;
+		// check if time has expired
+		//
+		// check if donationLimit has reached
+		//if ( msgPack.getInt("n") >= player.get_donationLimit(game, msgPack.getShort("ct") )
+		//	return;
+		params.putShort("m", MessageTypes.M20_DONATE);
+		params.putInt("r", msgPack.getInt("r"));
+		params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
+		//msgPack.putInt("n", msgPack.getInt("n") + 1 );
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+		
+		/*else if ( msgPack.getShort("st") < 2 )
 		{
 			var now:Date = new Date();
 			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds) / 1000;
@@ -189,7 +206,7 @@ protected function chatList_changeHandler(event:Event):void
 				SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, msgPack, manager.lobby );
 				trace("CAN NOT DONATE! TIMER HAS FINISHED...");
 			}
-		}
+		}*/
 	}
 }
 
