@@ -635,7 +635,7 @@ private function clearSource(sourceTower:PlaceView):void
 
 private function showImproveFloating(placeView:PlaceView):void
 {
-	if( player.get_questIndex() < 2 || player.hardMode  )
+	if( player.inTutorial() || player.hardMode  )
 		return;
 	// create transition in data
 	var ti:TransitionData = new TransitionData();
