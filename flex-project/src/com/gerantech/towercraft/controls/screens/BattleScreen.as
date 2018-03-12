@@ -672,7 +672,7 @@ private function showImproveFloating(placeView:PlaceView):void
 				appModel.navigator.addLog(loc("improve_locked_meaagse"));
 			return;
 		}
-		if( !btn.touchGroup )
+		if( !btn.touchable )
 		{
 			if( player.get_arena(0) == 0 )
 				appModel.navigator.addLog(loc("improve_disabled_meaagse"));
