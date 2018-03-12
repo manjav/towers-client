@@ -552,7 +552,7 @@ private function touchHandler(event:TouchEvent):void
 				pv.arrowTo(endPoint.x-pv.x, endPoint.y-pv.y);
 			}
 		}
-		else if(touch.phase == TouchPhase.ENDED)
+		else if( touch.phase == TouchPhase.ENDED )
 		{
 			var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 			if( destination == null )
@@ -565,7 +565,7 @@ private function touchHandler(event:TouchEvent):void
 			var self:int = sourcePlaces.indexOf(destination);
 			if( self > -1 )
 			{
-				if(sourcePlaces.length == 1)
+				if( sourcePlaces.length == 1 )
 				{
 					sourcePlaces[0].dispatchEventWith(Event.SELECT);
 					showImproveFloating(sourcePlaces[0]);
@@ -635,7 +635,7 @@ private function clearSource(sourceTower:PlaceView):void
 
 private function showImproveFloating(placeView:PlaceView):void
 {
-	if( player.inTutorial() || player.hardMode  )
+	if( player.inTutorial() && player.hardMode && player.get_questIndex() < 3 )
 		return;
 	// create transition in data
 	var ti:TransitionData = new TransitionData();

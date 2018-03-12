@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.buttons
 {
-	import com.gerantech.towercraft.controls.TowersLayout;
 	import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 	import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 	import com.gerantech.towercraft.models.Assets;
@@ -129,7 +128,7 @@ package com.gerantech.towercraft.controls.buttons
 
 		public function showArrow():void
 		{
-			if( tutorialArrow != null )
+			if( tutorialArrow != null || !player.inTutorial() )
 				return;
 			
 			tutorialArrow = new TutorialArrow(true);

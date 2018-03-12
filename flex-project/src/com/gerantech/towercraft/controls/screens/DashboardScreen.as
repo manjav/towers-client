@@ -11,7 +11,6 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
@@ -65,7 +64,7 @@ override protected function initialize():void
 	visible = false;	
 	
 	var tiledBG:Image = new Image(Assets.getTexture("main-map-tile", "gui"));
-	tiledBG.tileGrid = new Rectangle(appModel.scale, appModel.scale, 256*appModel.scale, 256*appModel.scale);
+	tiledBG.tileGrid = new Rectangle(appModel.scale, appModel.scale, 256 * appModel.scale, 256 * appModel.scale);
 	backgroundSkin = tiledBG;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));

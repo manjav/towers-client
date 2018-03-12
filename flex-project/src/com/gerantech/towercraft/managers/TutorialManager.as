@@ -24,7 +24,7 @@ package com.gerantech.towercraft.managers
 		private function processTasks():void
 		{
 			var task:TutorialTask = tutorialData.shiftTask();
-			if(task == null)
+			if( task == null || player.skipTutorial )
 			{
 				dispatchEventWith(GameEvent.TUTORIAL_TASKS_FINISH, false, tutorialData);
 				return;
