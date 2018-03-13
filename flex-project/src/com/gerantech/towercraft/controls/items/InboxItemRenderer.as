@@ -65,11 +65,13 @@ override protected function initialize():void
 	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?6:8), NaN, padding*(appModel.isLTR?8:6) , NaN, offsetY);
 	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.64);
 	messageDisplay.wordWrap = false;
+	messageDisplay.touchable = false;
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 	
 	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0 );
 	dateDisplay = new RTLLabel("", READ_TEXT_COLOR, null, null, false, null, 0.6);
+	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
 	dateDisplay.layoutData = dateLayout;
 	addChild(dateDisplay);
@@ -141,7 +143,7 @@ override public function set isSelected(value:Boolean):void
 	senderDisplay.width = padding*(value?12:6.4);
 	senderLayout.verticalCenter = value ? NaN : offsetY;
 	
-	messageDisplay.height = NaN;
+	messageDisplay.height = value ? NaN : 40 * appModel.scale;
 	messageLayout.top = value ? padding*2.4 : NaN;
 	messageLayout.verticalCenter = value ? NaN : offsetY;
 	messageLayout.right = padding*(value?1:(appModel.isLTR?6:8));
