@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension xmlns="http://ns.adobe.com/air/extension/3.1">
+    <id>ir.tapsell.sdk.air</id>
+    <versionNumber>3.0.1</versionNumber>
+    <platforms>
+        <platform name="Android-ARM">
+            <applicationDeployment>
+                <nativeLibrary>tapsell-adobeair-3.0.27.jar</nativeLibrary>
+				<initializer>ir.tapsell.sdk.TapsellAdobeAir</initializer>
+            </applicationDeployment>
+        </platform>
+        <platform name="Android-x86">
+			<applicationDeployment>
+                <nativeLibrary>tapsell-adobeair-3.0.27.jar</nativeLibrary>
+				<initializer>ir.tapsell.sdk.TapsellAdobeAir</initializer>
+            </applicationDeployment>
+	    </platform>
+        <platform name="iPhone-ARM">
+            <applicationDeployment>
+				<nativeLibrary>TapsellAdobeAirLib.a</nativeLibrary>
+                <initializer>TapsellAdobeAirInitializer</initializer>
+            </applicationDeployment>
+        </platform>
+        <platform name="default">
+            <applicationDeployment/>
+        </platform>
+    </platforms>
+</extension>
