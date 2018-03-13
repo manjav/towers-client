@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
