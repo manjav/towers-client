@@ -51,7 +51,7 @@ override public function commitData(_data:ISFSObject):void
 	{
 		actionButton.style = "neutral";
 		actionButton.label = "Donate";
-		messageDisplay.text = "Req from " + data.getText("i") + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = "Req from " + data.getInt("r") + " | ct-->" + data.getShort("ct");
 	}
 }
 
