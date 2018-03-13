@@ -50,7 +50,6 @@ package com.gerantech.towercraft.controls.buttons
 			_value = val;
 			if( iconDisplay )
 				iconDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_value+""), "gui");
-;
 		}
 	}
 }

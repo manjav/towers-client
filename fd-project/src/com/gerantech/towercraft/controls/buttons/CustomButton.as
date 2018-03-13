@@ -30,12 +30,12 @@ private var shadowLayoutData:AnchorLayoutData;
 private var _style:String = "normal"
 private var _label:String = "";
 private var _icon:Texture;
+private var _fontColor:uint = 1;
 private var _fontsize:Number = 0;
 private var padding:Number;
 
 private var defaultTextue:Texture;
 private var downTextue:Texture;
-private var _fontColor:uint = 1;
 
 public function CustomButton()
 {

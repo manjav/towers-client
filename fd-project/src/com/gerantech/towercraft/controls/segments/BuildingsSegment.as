@@ -48,7 +48,7 @@ override public function init():void
 	listLayout.paddingTop = 120 * appModel.scale;
 	listLayout.useSquareTiles = false;
 	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
+	listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+2)) / listLayout.requestedColumnCount;
 	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.5;
 	
 	updateData();

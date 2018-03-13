@@ -107,41 +107,41 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	var data:SFSObject = event.params.params as SFSObject;
 	switch(event.params.cmd)
 	{
-		case SFSCommands.START_BATTLE:
-			if( data.containsKey("umt") )
-			{
-				showUMPopup(data);
-				return;
-			}	
-			
-			var battleData:BattleData = new BattleData(data);
-			appModel.battleFieldView = new BattleFieldView();
-			addChild(appModel.battleFieldView);
-			appModel.battleFieldView.createPlaces(battleData);
-			startBattle();
-			break;
+	case SFSCommands.START_BATTLE:
+		if( data.containsKey("umt") )
+		{
+			showUMPopup(data);
+			return;
+		}	
 		
-		case SFSCommands.BUILDING_IMPROVE:
-			appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
-			appModel.sounds.addAndPlaySound("battle-improve");
-			break;
-		
-		case SFSCommands.RESET_ALL:
-			resetAll(data);
-			break;
-		
-		/*case SFSCommands.LEFT_BATTLE:
-		case SFSCommands.REJOIN_BATTLE:
-			appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
-			break;*/
-		
-		case SFSCommands.END_BATTLE:
-			endBattle(data);
-			break;
-		
-		case SFSCommands.SEND_STICKER:
-			hud.showBubble(data.getInt("t"), false);
-			break;
+		var battleData:BattleData = new BattleData(data);
+		appModel.battleFieldView = new BattleFieldView();
+		addChild(appModel.battleFieldView);
+		appModel.battleFieldView.createPlaces(battleData);
+		startBattle();
+		break;
+	
+	case SFSCommands.BUILDING_IMPROVE:
+		appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
+		appModel.sounds.addAndPlaySound("battle-improve");
+		break;
+	
+	case SFSCommands.RESET_ALL:
+		resetAll(data);
+		break;
+	
+	/*case SFSCommands.LEFT_BATTLE:
+	case SFSCommands.REJOIN_BATTLE:
+		appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
+		break;*/
+	
+	case SFSCommands.END_BATTLE:
+		endBattle(data);
+		break;
+	
+	case SFSCommands.SEND_STICKER:
+		hud.showBubble(data.getInt("t"), false);
+		break;
 	}
 	//trace(event.params.cmd, data.getDump());
 }
