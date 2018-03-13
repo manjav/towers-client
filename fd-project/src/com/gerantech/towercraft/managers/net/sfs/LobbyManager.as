@@ -1,8 +1,10 @@
 package com.gerantech.towercraft.managers.net.sfs
 {
+import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.Player;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
@@ -133,8 +135,9 @@ private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 {
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
 		return false;
-	if( msg.getShort("m") == MessageTypes.M20_DONATE && msg.getShort("st") > 2)
-		return false;
+	if ( msg.getShort("m") == MessageTypes.M20_DONATE )
+		if ( msg.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now  || msg.getInt("n") >= 10)
+			return false;
 	if( MessageTypes.isConfirm(msg.getShort("m")) )
 		if( u.getInt("permission") < 2 || msg.containsKey("pr") )
 			return false;
@@ -190,16 +193,26 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	}
 	else if ( msg.getShort("m") == MessageTypes.M20_DONATE )
 	{
-		var hasDonation:Boolean = false;
-		var i:int = messages.length-1;
-		while (i > 0)
+		var donationIndex:int = containDonate(msg.getInt("r"));
+		if( donationIndex > -1 )
 		{
-			if ( messages.getItemAt(i).getInt("i") == player.id )
-				hasDonation = true;
-			i--;
+			if(  messages.getItemAt(donationIndex).getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now )
+			{
+				trace("removing item at:", donationIndex);
+				trace("epiredAt:", msg.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST), "now:", TimeManager.instance.now);
+				messages.removeItemAt(donationIndex);
+				// delay
+				messages.addItem(msg);
+			}
+			else
+			{
+				messages.updateItemAt(donationIndex);
+			}
 		}
-		if ( !hasDonation )
+		else
+		{
 			messages.addItem(msg);
+		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )
 	{
@@ -245,10 +258,10 @@ private function containBattle(battleId:int):int
 			return i;
 	return -1;
 }
-private function containDonate(battleId:int):int
+private function containDonate(requesterId:int):int
 {
 	for (var i:int = 0; i < messages.length; i++) 
-		if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("i") ==  player.id)
+		if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("r") == requesterId )
 			return i;
 	return -1;
 }

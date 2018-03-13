@@ -13,6 +13,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
+import com.gt.towers.constants.ExchangeType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -154,6 +155,8 @@ protected function chatList_changeHandler(event:Event):void
 	}
 	else if( msgPack.getShort("m") == MessageTypes.M20_DONATE )
 	{
+		params.putInt("u", msgPack.getInt("u"));
+		
 		// prevent player from donating himself
 		if ( msgPack.getInt("r") == player.id )
 		{
@@ -163,50 +166,20 @@ protected function chatList_changeHandler(event:Event):void
 		var d:Date = new Date();
 		var now:Number = Date.UTC(d.fullYear, d.month, d.date, d.hours, d.minutes, d.seconds, d.milliseconds) / 1000;
 		// check if time has expired
-		//
+		if ( msgPack.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < timeManager.now )
+		{
+			trace("cannot donate reason: time expired");
+			return;
+		}
 		// check if donationLimit has reached
-		//if ( msgPack.getInt("n") >= player.get_donationLimit(game, msgPack.getShort("ct") )
-		//	return;
+		if ( msgPack.getInt("n") >= 10 )
+			return;
+			
 		params.putShort("m", MessageTypes.M20_DONATE);
 		params.putInt("r", msgPack.getInt("r"));
 		params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
-		//msgPack.putInt("n", msgPack.getInt("n") + 1 );
+		msgPack.putInt("n", msgPack.getInt("n") + 1 );
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-		
-		/*else if ( msgPack.getShort("st") < 2 )
-		{
-			var now:Date = new Date();
-			var epochNow:Number = Date.UTC(now.fullYear, now.month, now.date, now.hours, now.minutes, now.seconds, now.milliseconds) / 1000;
-			if ( msgPack.getInt("dt") < epochNow )
-			{
-				var donationLimit:int = player.get_donationLimit(game, msgPack.getShort("ct"));
-				if ( msgPack.getInt("n") < donationLimit )
-				{
-					trace("donate card");
-					params.putShort("m", MessageTypes.M20_DONATE);
-					params.putShort("st", 1); 						// state = 1 means it's donation not request
-					params.putInt("r", msgPack.getInt("i")); 		// r means requester
-					params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
-					msgPack.putInt("n",msgPack.getInt("n") + 1 );
-					params.putShort("ct", msgPack.getShort("ct"));
-					params.putInt("dt", msgPack.getInt("dt"));
-					trace("change handler | donationLimit:", donationLimit, "| donated so far:", msgPack.getInt("n") );
-					SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-				}
-				else
-				{
-					msgPack.putShort("st", 2);
-					SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, msgPack, manager.lobby );
-					trace("CAN NOT DONATE MORE! CARD DONATION LIMIT HAS REACHED!");
-				}
-			}
-			else
-			{
-				msgPack.putShort("st", 3);
-				SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, msgPack, manager.lobby );
-				trace("CAN NOT DONATE! TIMER HAS FINISHED...");
-			}
-		}*/
 	}
 }
 
