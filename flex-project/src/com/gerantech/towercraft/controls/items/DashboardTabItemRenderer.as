@@ -46,9 +46,9 @@ public function DashboardTabItemRenderer(width:Number)
 	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
+	titleDisplay = new RTLLabel("", 1);
 	titleDisplay.visible = false;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3)/2, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3), 0);
 	addChild(titleDisplay);
 	
 	badgeNumber = new IndicatorButton("0", 0.8);
@@ -98,20 +98,17 @@ override protected function commitData():void
 		iconDisplay.y = height * 0.5;
 		iconDisplay.scale = appModel.scale * 2;
 		iconDisplay.pixelSnapping = false;
-		//iconDisplay.width = iconDisplay.height = width - padding * 3;
-		//iconDisplay.layoutData = iconLayoutData;
 		addChild(iconDisplay); 
 	}
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
-	//iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
 	titleDisplay.text = loc("tab-"+dashboardData.index) ;
 	updateBadge();
 }
-
 private function navigator_dashboardTabChanged(event:Event):void
 {
 	updateSelection(index == DashboardScreen.tabIndex, event.data as Number ); 
 }
+
 
 override protected function setSelection(value:Boolean):void
 {
@@ -119,10 +116,10 @@ override protected function setSelection(value:Boolean):void
 	if( value && _owner != null )
 		_owner.dispatchEventWith(Event.SELECT, false, data);
 	
-	if( !player.dashboadTabEnabled(index) && value )
+	if( !player.dashboadTabEnabled(index) && value)
 		return;
 	
-	if( dashboardData != null && value )
+	if( dashboardData != null )
 	{
 		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
 		updateBadge();
@@ -139,7 +136,8 @@ private function updateBadge():void
 		badgeNumber.removeFromParent();
 		return;
 	}
-
+	
+	trace(dashboardData.index, "badgeNumber", dashboardData.badgeNumber, "newBadgeNumber", dashboardData.newBadgeNumber);
 	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
 	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
 	addChild(badgeNumber);
@@ -157,9 +155,9 @@ private function updateSelection(value:Boolean, time:Number = -1):void
 	if( iconDisplay != null )
 	{
 		Starling.juggler.removeTweens(iconDisplay);
-		iconDisplay.x = itemWidth * (value?0.42:0.5);
+		iconDisplay.x = itemWidth * 0.5//(value?0.42:0.5);
 		if( value )
-			Starling.juggler.tween(iconDisplay, time==-1?0.5:time, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(iconDisplay, 0.5, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
 		else
 			iconDisplay.scale = appModel.scale * 1.8;
 	}

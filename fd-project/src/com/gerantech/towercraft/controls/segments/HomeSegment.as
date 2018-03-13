@@ -21,6 +21,8 @@ import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import flash.geom.Rectangle;
+import starling.utils.Color;
 
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
@@ -143,11 +145,12 @@ private function showFooterButtons():void
 		return;
 	
 	var gradient:ImageLoader = new ImageLoader();
-	gradient.maintainAspectRatio = false;
-	gradient.alpha = 0.5;
-	gradient.width = 600 * appModel.scale;
-	gradient.height = 120 * appModel.scale;
-	gradient.source = Assets.getTexture("theme/grad-ro-right", "gui");
+	gradient.scale9Grid = new Rectangle(1,1,7,7);
+    gradient.color = Color.BLACK;
+    gradient.alpha = 0.6;
+    gradient.width = 600 * appModel.scale;
+    gradient.height = 120 * appModel.scale;
+    gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
 	addChild(gradient);
 	

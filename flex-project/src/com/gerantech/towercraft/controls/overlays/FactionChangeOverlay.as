@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.Devider;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
@@ -89,8 +89,8 @@ override protected function initialize():void
 	
 	var cardsLayout:HorizontalLayout = new HorizontalLayout();
 	cardsLayout.gap = padding;
-	cardsLayout.typicalItemWidth = padding*6;
-	cardsLayout.typicalItemHeight = padding*7;
+	cardsLayout.typicalItemWidth = padding * 6;
+	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth * 1.3;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	

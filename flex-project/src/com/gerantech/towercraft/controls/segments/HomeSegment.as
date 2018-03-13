@@ -40,6 +40,7 @@ import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
+import starling.utils.Color;
 
 public class HomeSegment extends Segment
 {
@@ -72,24 +73,23 @@ override public function init():void
 	showFooterButtons();
 	showTutorial();
 	initializeCompleted = true;
-	//dfsdf();
+	//testOutcome();
 }
 
-private function dfsdf():void
+private function testOutcome():void
 {
 var rwards:SFSArray = new SFSArray();
 for (var i:int = 0; i < 2; i++) 
 {
 	var sfs:SFSObject = new SFSObject();
-	sfs.putInt("score", i==0?2:0);
-	sfs.putInt("id", i==0?10383:214);
-	sfs.putText("name", i==0?"10383":"214");
+	sfs.putInt("key", i==0?2:0);
+	sfs.putInt("id", i==0?10001:214);
+	sfs.putText("name", i==0?"10001":"214");
 	rwards.addSFSObject(sfs);
 }
 appModel.battleFieldView = new BattleFieldView();
 appModel.battleFieldView.battleData = new BattleData(new SFSObject());
 appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
-
 }
 override public function focus():void
 {
@@ -143,11 +143,12 @@ private function showFooterButtons():void
 		return;
 	
 	var gradient:ImageLoader = new ImageLoader();
+	gradient.color = Color.BLACK
 	gradient.maintainAspectRatio = false;
 	gradient.alpha = 0.5;
 	gradient.width = 600 * appModel.scale;
 	gradient.height = 120 * appModel.scale;
-	gradient.source = Assets.getTexture("theme/grad-ro-right", "gui");
+	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
 	addChild(gradient);
 	

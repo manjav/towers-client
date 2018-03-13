@@ -3,13 +3,12 @@ package com.gerantech.towercraft.controls.segments.lobby
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-
 import feathers.layout.AnchorLayoutData;
 
 public class LobbyChatItemCommentSegment extends LobbyChatItemSegment
 {
-
 private var labelDisplay:ShadowLabel;
+
 public function LobbyChatItemCommentSegment(){}
 override public function init():void
 {

@@ -10,16 +10,12 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
-
-import flash.utils.clearTimeout;
-import flash.utils.setTimeout;
-
 import dragonBones.starling.StarlingArmatureDisplay;
-
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
-
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 public class ExchangeBookItemRenderer extends ExchangeBaseItemRenderer

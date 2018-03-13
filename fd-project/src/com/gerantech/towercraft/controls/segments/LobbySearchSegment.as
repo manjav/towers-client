@@ -12,17 +12,14 @@ import com.gerantech.towercraft.models.Assets;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
-import flash.utils.setTimeout;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.text.ReturnKeyLabel;
+import flash.text.SoftKeyboardType;
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 public class LobbySearchSegment extends Segment
@@ -31,7 +28,6 @@ private var list:FastList;
 private var textInput:CustomTextInput;
 private var _listCollection:ListCollection;
 private var tabs:Vector.<LobbyTabButton>;
-
 private var searchPattern:String;
 private var searchMode:int = 2;
 

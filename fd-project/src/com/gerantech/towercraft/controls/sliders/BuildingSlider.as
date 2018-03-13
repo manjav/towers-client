@@ -80,7 +80,8 @@ override public function set value(newValue:Number):void
 
 private function punchArrow():void
 {
-	timeoutId = setTimeout(animateUpgradeDisplay, 2000+Math.random()*1000);
+	stopPunching();
+	timeoutId = setTimeout(animateUpgradeDisplay, 3000+Math.random()*1500);
 }
 private function animateUpgradeDisplay():void
 {
@@ -101,6 +102,5 @@ override public function dispose():void
 	stopPunching();
 	super.dispose();
 }
-
 }
 }

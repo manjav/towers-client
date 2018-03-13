@@ -57,7 +57,7 @@ public static function getDeadline(command:String):int
 	switch( command )
 	{
 		case START_BATTLE:
-			return 14000;
+            return 14000;
 		case FIGHT:
 		case LEFT_BATTLE:
 		case REJOIN_BATTLE:

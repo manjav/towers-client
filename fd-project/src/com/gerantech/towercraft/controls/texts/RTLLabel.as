@@ -38,7 +38,7 @@ package com.gerantech.towercraft.controls.texts
 			this.lastAlign = lastAlign==null ? AppModel.instance.align : lastAlign;
 			this.direction = direction==null ? AppModel.instance.direction : direction;
 			this.fontFamily = fontFamily==null ? "SourceSansPro" : fontFamily;
-			this.fontWeight = fontWeight==null ? "normal" : fontWeight;
+			this.fontWeight = "normal"//fontWeight==null ? "normal" : fontWeight;
 			this.fontPosture = fontPosture==null ? "normal" : fontPosture;
 			this.color = color==1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
 			bidiLevel = this.direction=="ltr" ? 0 : 1;

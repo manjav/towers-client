@@ -4,27 +4,36 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
-import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
 
+import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 
+import starling.display.Image;
 import starling.events.Event;
 
 public class Toolbar extends TowersLayout
 {
 public var indicators:Dictionary = new Dictionary();
+
 public function Toolbar(){}
 override protected function initialize():void
 {
 	super.initialize();
+
+	var gradient:Image = new Image(Assets.getTexture("theme/gradeint-top", "gui"));
+	gradient.scale9Grid = new Rectangle(1,1,7,7);
+	gradient.color = 0x1122;
+	backgroundSkin = gradient;
+	backgroundSkin.touchable = false;
 	
-	height = 120 * AppModel.instance.scale;
-	var padding:Number = 36 * AppModel.instance.scale;
+	var padding:Number = 36 * appModel.scale;
+	height = padding * 4;
 	layout = new AnchorLayout();
 	
 	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
@@ -48,7 +57,7 @@ override protected function initialize():void
 	indicators[ResourceType.KEY].addEventListener(Event.SELECT, indicators_selectHandler);
 	indicators[ResourceType.KEY].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding*2.4+indicators[ResourceType.POINT].width);
 	addChild(indicators[ResourceType.KEY]);
-	
+
 	if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
 		loadingManager_loadedHandler(null);
 	else

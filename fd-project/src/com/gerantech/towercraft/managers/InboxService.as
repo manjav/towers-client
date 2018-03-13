@@ -5,9 +5,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import feathers.data.ListCollection;
-
 import starling.events.Event;
 
 public class InboxService extends BaseManager

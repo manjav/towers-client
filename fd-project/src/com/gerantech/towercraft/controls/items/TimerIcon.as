@@ -11,6 +11,7 @@ import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Sprite;
+import starling.utils.deg2rad;
 
 public class TimerIcon extends Sprite
 {
@@ -47,6 +48,23 @@ public function rotate():void
 {
 	Starling.juggler.tween(needle, 0.5, {rotation:needle.rotation+Math.PI*0.5, transition:Transitions.EASE_OUT_ELASTIC});
 }
+
+public function rotateTo(from:Number, to:Number, duration:Number = 1):void
+{
+	var fr:int = 10;
+	var index:int=0;
+	var diff:Number = to - from;
+	needle.rotation = from;
+	Starling.juggler.repeatCall(rotateAround, duration*fr/Math.abs(diff), Math.abs(diff)/fr);
+	function rotateAround():void
+	{
+		//trace("rotateAround", index, deg2rad(index), fr)
+		index = diff > 0 ? 1 : -1;
+		needle.rotation += deg2rad(fr);
+	}
+}
+
+
 
 public function punch():void
 {

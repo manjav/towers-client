@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.managers.net
 {
-
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
@@ -14,11 +13,9 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
-import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -37,7 +34,6 @@ import flash.utils.getTimer;
 public class LoadingManager extends EventDispatcher
 {
 public var state:int = -1;
-
 public static const STATE_DISCONNECTED:int = -1;
 public static const STATE_CONNECT:int = 0;
 public static const STATE_LOGIN:int = 1;
@@ -57,16 +53,17 @@ public function load():void
 	sfsConnection.addEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
 	sfsConnection.addEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 	state = STATE_CONNECT;
-	DashboardScreen.tabIndex = 1;
+	
+    DashboardScreen.tabIndex = 1;
 	if( appModel.navigator != null )
 	{
-		if( appModel.navigator.toolbar != null )
-			appModel.navigator.toolbar.touchable = true;
+        if( appModel.navigator.toolbar != null )
+            appModel.navigator.toolbar.touchable = true;
 		appModel.navigator.popAll();
 		appModel.navigator.removeAllPopups();
-		appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
+        appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
 	}
-	if(	UserData.instance.prefs == null )
+	if( UserData.instance.prefs == null )
 		UserData.instance.prefs = new UserPrefs();
 }
 
@@ -135,32 +132,30 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST, sfsConnection_connectionLostHandler);
 	serverData = event.params.data;
 	
-	if( serverData.containsKey("umt") )// under maintenance
+	if( serverData.containsKey("umt") ) // under maintenance mode
 	{
 		dispatchEvent(new LoadingEvent(LoadingEvent.UNDER_MAINTENANCE, serverData));
 		return;
 	}			
-	if( serverData.containsKey("exists") )// duplicate user
+    if( serverData.containsKey("exists") )// duplicate user
 	{
 		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 		return;
 	}
-	if( serverData.containsKey("ban") )// banned user
-	{
-		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_BANNED, serverData));
-		return;
-	}
+    if( serverData.containsKey("ban") )// banned user
+    {
+        dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_BANNED, serverData));
+        return;
+    }
 
-	// in registering case
-	if( serverData.containsKey("password") )
+    if( serverData.containsKey("password") )// in registering case
 	{
 		UserData.instance.id = serverData.getLong("id");
 		UserData.instance.password = serverData.getText("password");
 		UserData.instance.save();
 	}
-
-	// start time manager;
-	if( TimeManager.instance != null )
+	
+	if( TimeManager.instance != null )// start time manager;
 		TimeManager.instance.dispose();
 	new TimeManager(serverData.getLong("serverTime"));
 	
@@ -197,15 +192,17 @@ protected function coreLoader_completeHandler(event:Event):void
 	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 	
-	UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
-
+    UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
+	
 	state = STATE_LOADED;
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
-	// catch video ads
+	// prevent ADs for new users
 	if( appModel.game.player.get_arena(0) == 0 )
-		return;
+        return;
+
+	// catch video ads
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	if( appModel.game.player.get_questIndex() < appModel.game.fieldProvider.quests.keys().length )
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);

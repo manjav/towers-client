@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.toasts
 {
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
+import flash.utils.setTimeout;
 
 import flash.geom.Rectangle;
 
@@ -12,18 +13,19 @@ import starling.display.DisplayObject;
 
 public class BaseToast extends AbstractPopup
 {
+public var closeAfter:int = -1;
 protected var toastHeight:int = 220;
 public function BaseToast(){}
 override protected function initialize():void
 {
-	if(transitionIn == null)
+	if( transitionIn == null )
 	{
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
-		transitionIn.sourceBound = new Rectangle(0, -toastHeight*appModel.scale, stage.stageWidth, toastHeight*appModel.scale);
-		transitionIn.destinationBound = new Rectangle(0, 0, stage.stageWidth, toastHeight*appModel.scale);
+		transitionIn.sourceBound = new Rectangle(0, -toastHeight * appModel.scale, stage.stageWidth, toastHeight * appModel.scale);
+		transitionIn.destinationBound = new Rectangle(0, 0, stage.stageWidth, toastHeight * appModel.scale);
 	}
-	if(transitionOut == null)
+	if( transitionOut == null )
 	{
 		transitionOut = new TransitionData();
 		transitionOut.sourceAlpha = 1;
@@ -35,6 +37,9 @@ override protected function initialize():void
 	
 	// execute popup transition
 	rejustLayoutByTransitionData();
+	
+	if( closeAfter > -1 )
+		setTimeout(close, closeAfter, true);
 }
 
 override protected function defaultOverlayFactory():DisplayObject

@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.ResourceType;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 
@@ -23,7 +22,7 @@ override protected function commitData():void
 	iconDisplay = new ImageLoader();
 	iconDisplay.source = Assets.getTexture("currency-" + exchange.type, "gui");
 	iconDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, NaN, 0);
-	iconDisplay.width = 380 * appModel.scale;
+    iconDisplay.width = 380 * appModel.scale;
 	addChild(iconDisplay);
 	
 	titleDisplay = new ShadowLabel(loc("exchange_title_"+exchange.type), 1, 0, null, null, false, null, 0.9);
@@ -43,6 +42,5 @@ override protected function commitData():void
 	buttonDisplay.type = exchange.requirements.keys()[0];
 	addChild(buttonDisplay);
 }
-
 }
 }

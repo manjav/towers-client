@@ -21,7 +21,6 @@ import feathers.layout.AnchorLayoutData;
 
 import starling.events.Event;
 
-
 public class SegmentsItemRenderer extends AbstractListItemRenderer
 {
 private var _firstCommit:Boolean = true;
@@ -36,7 +35,7 @@ override protected function initialize():void
 
 override protected function commitData():void
 {
-	if(_firstCommit)
+	if( _firstCommit )
 	{
 		width = _owner.width
 		height = _owner.height;

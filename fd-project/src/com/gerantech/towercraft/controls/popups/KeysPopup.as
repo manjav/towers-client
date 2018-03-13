@@ -5,12 +5,9 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.ExchangeType;
-
 import flash.geom.Rectangle;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
-
 import starling.core.Starling;
 
 public class KeysPopup extends SimplePopup

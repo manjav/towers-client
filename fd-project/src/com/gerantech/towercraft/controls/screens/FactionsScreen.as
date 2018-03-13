@@ -99,6 +99,7 @@ override protected function initialize():void
 	backgroundSkin = tiledBG;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+	shadow.color = 0;
 	shadow.width = stage.stageWidth;
 	shadow.height = stage.stageHeight//-footerSize;
 	addChildAt(shadow, 0);
@@ -132,7 +133,7 @@ override protected function initialize():void
 private function list_createCompleteHandler():void
 {
 //	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
-	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1), 0);
+	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length - FactionItemRenderer.playerLeague-1), 0);
 }
 
 private function list_focusInHandler(event:Event):void
@@ -146,7 +147,7 @@ public static function showRanking(arenaIndex:int):void
 	extraInfo.putInt("arena", arenaIndex );
 	SFSConnection.instance.sendExtensionRequest( SFSCommands.RANK, extraInfo );
 	
-	var padding:int = 36*AppModel.instance.scale;
+	var padding:int = 36 * AppModel.instance.scale;
 	var transitionIn:TransitionData = new TransitionData();
 	transitionIn.sourceAlpha = 0;
 	var transitionOut:TransitionData = new TransitionData();

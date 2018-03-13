@@ -49,7 +49,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_ERROR, 		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_BANNED, 	loadingManager_eventsHandler);
+            AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOGIN_USER_BANNED,   loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.UNDER_MAINTENANCE, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_UPDATE,		loadingManager_eventsHandler);
@@ -79,7 +79,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NETWORK_ERROR,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_ERROR, 			loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_EXISTS, 	loadingManager_eventsHandler);
-			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_BANNED, 	loadingManager_eventsHandler);
+            AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOGIN_USER_BANNED,    loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.UNDER_MAINTENANCE, 	loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.NOTICE_UPDATE,		loadingManager_eventsHandler);
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_UPDATE,			loadingManager_eventsHandler);
@@ -87,6 +87,7 @@ package com.gerantech.towercraft.controls.screens
 			AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 
 			trace(event.type)
+			
 			var confirmData:SFSObject = new SFSObject();
 			confirmData.putText("type", event.type);			
 			
@@ -104,7 +105,7 @@ package com.gerantech.towercraft.controls.screens
 					reloadpopup.closeOnOverlay = false;
 					reloadpopup.addEventListener("select", confirm_eventsHandler);
 					AppModel.instance.navigator.addPopup(reloadpopup);
-					if(parent)
+					if( parent )
 						parent.removeChild(this);
 					break;
 				
@@ -117,15 +118,15 @@ package com.gerantech.towercraft.controls.screens
 						parent.removeChild(this);
 					AppModel.instance.navigator.addPopup(new UnderMaintenancePopup(event.data.getInt("umt")));
 					break;
+                
+                case LoadingEvent.LOGIN_USER_BANNED:
+                    if( parent )
+                        parent.removeChild(this);
+                    var popup:BanPopup = new BanPopup();
+                    popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n\n" + StrUtils.toTimeFormat( event.data.getSFSObject("ban").getLong("until") );
+                    AppModel.instance.navigator.addPopup(popup);
+                    return;
 				
-				case LoadingEvent.LOGIN_USER_BANNED:
-					if( parent )
-						parent.removeChild(this);
-					var popup:BanPopup = new BanPopup();
-					popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n\n" + StrUtils.toTimeFormat( event.data.getSFSObject("ban").getLong("until") );
-					AppModel.instance.navigator.addPopup(popup);
-					return;
-		
 				default:
 					var message:String = loc("popup_"+event.type+"_message");
 					if( event.type == LoadingEvent.LOGIN_ERROR )
@@ -154,7 +155,7 @@ package com.gerantech.towercraft.controls.screens
 					confirm.addEventListener("select", confirm_eventsHandler);
 					confirm.addEventListener("cancel", confirm_eventsHandler);
 					AppModel.instance.navigator.addPopup(confirm);
-					if(parent)
+					if( parent )
 						parent.removeChild(this);
 					/*break;
 					// complain !!!!! ..............
@@ -171,15 +172,13 @@ package com.gerantech.towercraft.controls.screens
 			confirm.removeEventListener("cancel", confirm_eventsHandler);
 			
 			var confirmData:SFSObject = confirm.data as SFSObject;
-			if(event.type == "select")
+			if( event.type == "select" )
 			{
 				switch(confirmData.getText("type"))
 				{
 					case LoadingEvent.NOTICE_UPDATE:
 					case LoadingEvent.FORCE_UPDATE:
 						navigateToURL(new URLRequest(BillingManager.instance.getDownloadURL()));
-						break;
-					
 					case LoadingEvent.CORE_LOADING_ERROR:
 						AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 						AppModel.instance.loadingManager.addEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
@@ -192,7 +191,7 @@ package com.gerantech.towercraft.controls.screens
 						UserData.instance.save();
 						reload();
 						break;
-
+					
 					default:
 						reload();
 				}
@@ -227,7 +226,7 @@ package com.gerantech.towercraft.controls.screens
 		protected function logo_cancelHandler(event:*):void
 		{
 			logo.removeEventListener("cancel", logo_cancelHandler);
-			if(parent)
+			if( parent )
 				parent.removeChild(this);
 		}
 		

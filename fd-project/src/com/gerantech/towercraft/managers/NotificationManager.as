@@ -8,10 +8,8 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
-
 import flash.events.Event;
 import flash.filesystem.File;
-
 import mx.resources.ResourceManager;
 
 public class NotificationManager
@@ -32,7 +30,7 @@ public function init():void
 	}
 
 	iconFile = File.applicationStorageDirectory.resolvePath("images/icon/ic_notifications.png");
-	var iconLoader:LoadAndSaver = new LoadAndSaver(iconFile.nativePath, File.applicationDirectory.resolvePath("assets/images/icon/ic_notifications.png").url);
+	var iconLoader:LoadAndSaver = new LoadAndSaver(iconFile.nativePath, File.applicationDirectory.resolvePath("assets/images/ic_notifications.png").url);
 	iconLoader.addEventListener(Event.COMPLETE, icon_completeHandler);
 	function icon_completeHandler(event:Event):void
 	{
@@ -49,6 +47,7 @@ public function reset():void
 	clear();
 	if( !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION) )
 		return;
+	
 	var date:Date = new Date();
 	var secondsInDay:int = 24 * 3600000;
 	
@@ -62,7 +61,6 @@ public function reset():void
 		return;
 
 	// notify exchanger items ...
-
 	var time:int = date.time / 1000;
 	var exchanger:Exchanger = AppModel.instance.game.exchanger;
 	var numForgots:int = 0;
@@ -99,7 +97,6 @@ public function clear():void
 {
 	NativeAbilities.instance.cancelLocalNotifications();
 }
-
 
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {

@@ -135,31 +135,7 @@ private function refreshListData(): void
 	
 	var ret:Array = new Array();
 	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.lobbyManager.lobby != null)._list)
-	{
-		var pd:TabItemData = new TabItemData(p);
-		/*if( !player.inTutorial() )
-		{
-		if( p == 2 )
-		{
-		var bs:Vector.<Building> = player.buildings.values();
-		for each(var b:Building in bs)
-		{
-		if(b.upgradable())
-		pd.badgeNumber ++;
-		
-		if( game.loginData.buildingsLevel.exists(b.type) )
-		pd.newBadgeNumber ++;
-		}
-		}
-		else if( p == 0 )
-		{
-		for each(var e:ExchangeItem in exchanger.items.values())
-		if( e.type> ExchangeType.S_20_SPECIALS && e.expiredAt < timeManager.now )
-		pd.badgeNumber ++;
-		}
-		}*/
-		ret.push(pd);
-	}
+		ret.push(new TabItemData(p));
 	listCollection.data = ret;
 }
 override public function dispose():void

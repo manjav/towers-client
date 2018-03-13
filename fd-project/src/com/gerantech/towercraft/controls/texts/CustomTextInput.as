@@ -1,12 +1,10 @@
 package com.gerantech.towercraft.controls.texts
 {
 import com.gerantech.towercraft.models.AppModel;
-
 import feathers.controls.TextInput;
 import feathers.controls.text.StageTextTextEditor;
 import feathers.core.ITextEditor;
 import feathers.core.ITextRenderer;
-
 import starling.events.Event;
 
 public class CustomTextInput extends TextInput
@@ -40,13 +38,11 @@ public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, 
 	}
 
 	height = 128 * AppModel.instance.scale;
-	//backgroundFocusedSkin = null
 }
 
 private function editor_changeHandler(event:Event):void
 {
 	editor.text = editor.text.split("ی").join("ي");
 }
-
 }
 }

@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.Spacer;
+import com.gerantech.towercraft.controls.groups.Spacer;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
@@ -22,7 +22,7 @@ private var nameDisplay:RTLLabel;
 private var checkDisplay:RTLLabel;
 private var buttonDisplay:CustomButton;
 
-	public function SettingsItemRenderer(){}
+public function SettingsItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();

@@ -234,8 +234,8 @@ package com.gerantech.towercraft.utils
 		public static function dictionaryToString(dictionary:Dictionary):String {
 			var str:String = "";
 			var tot:int;
-			for(var key:int in dictionary) {
-				str += "[" + String(key) + "]:";
+			for(var key:String in dictionary) {
+				str += "[" + key + "]:";
 				str += String(dictionary[key]) + ", ";
 				tot += dictionary[key];
 			}

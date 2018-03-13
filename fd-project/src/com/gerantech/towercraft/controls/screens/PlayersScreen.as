@@ -1,21 +1,19 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.items.PlayersItemRenderer;
+import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
 
 public class PlayersScreen extends ListScreen
@@ -67,10 +65,9 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	players.data = SFSArray(SFSObject(event.params.params).getSFSArray("players")).toArray();
 }
 
-
 protected function list_focusHandler(event:Event):void
 {
-	appModel.navigator.addPopup(new ProfilePopup(event.data.data, true));
+    appModel.navigator.addPopup(new ProfilePopup(event.data.data, true));
 }
 }
 }

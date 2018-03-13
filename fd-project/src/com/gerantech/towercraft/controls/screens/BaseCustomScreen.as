@@ -27,12 +27,12 @@ public class BaseCustomScreen extends Screen
 		backButtonHandler = backButtonFunction;
 		addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 	}
-
+	
 	protected function transitionInCompleteHandler(event:Event):void
 	{
 		removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, transitionInCompleteHandler);
 	}
-
+	
 	protected function backButtonFunction():void
 	{
 		appModel.navigator.popScreen();
@@ -48,5 +48,7 @@ public class BaseCustomScreen extends Screen
 	protected function get game():			Game			{	return appModel.game;				}
 	protected function get player():		Player			{	return game.player;					}
 	protected function get exchanger():		Exchanger		{	return game.exchanger;				}
+
+
 }
 }

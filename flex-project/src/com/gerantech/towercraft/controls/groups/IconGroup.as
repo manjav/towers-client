@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.controls
+package com.gerantech.towercraft.controls.groups
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.constants.ResourceType;
@@ -12,14 +12,15 @@ package com.gerantech.towercraft.controls
 	import feathers.text.BitmapFontTextFormat;
 	
 	import starling.textures.Texture;
+	import com.gerantech.towercraft.controls.TowersLayout;
 
-	public class ResourcPalette extends TowersLayout
+	public class IconGroup extends TowersLayout
 	{
 		private var icon:Texture;
 		private var label:String;
 		private var textColor:uint;
 		
-		public function ResourcPalette(icon:Texture, label:String, textColor:uint = 0xFFFFFF)
+		public function IconGroup(icon:Texture, label:String, textColor:uint = 0xFFFFFF)
 		{
 			super();
 			this.icon = icon;

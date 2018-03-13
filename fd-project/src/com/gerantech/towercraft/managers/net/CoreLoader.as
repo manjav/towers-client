@@ -1,6 +1,6 @@
 /**
-* Created by gilaas on 4/27/2017.
-*/
+ * Created by gilaas on 4/27/2017.
+ */
 package com.gerantech.towercraft.managers.net
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -13,8 +13,10 @@ import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.ImageData;
 import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.Exchange;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.lists.PlaceDataList;
 import com.gt.towers.utils.maps.IntArenaMap;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -41,10 +43,12 @@ public function CoreLoader(sfsObj:SFSObject)
 {
 	this.serverData = sfsObj;
 	this.version = serverData.getText("coreVersion");
-	initServerData(serverData);
 	var coreFileName:String = "core-"+version+ ".swf";
 	var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
 	var url:String = "http://"+SFSConnection.instance.currentIp+":8080/swfcores/"+coreFileName;
+	
+	initServerData(serverData);
+
 	var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true, serverData.getInt("coreSize"));
 	ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 	ls.addEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
@@ -67,9 +71,10 @@ private function loaderInfo_completeHandler(event:Event):void
 	var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 	
 	AppModel.instance.game = new Game();
+	//AppModel.instance.game.eventDispatcher.addEventListener(CoreEvent.CHANGE, dsasd);
 	AppModel.instance.game.init(initData)
-	AppModel.instance.game.player.invitationCode = serverData.getText("invitationCode")
 	AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
+	AppModel.instance.game.player.invitationCode = serverData.getText("invitationCode")
 	
 	var swfInitData:* = new initClass();
 	swfInitData.nickName = serverData.getText("name");
@@ -77,12 +82,16 @@ private function loaderInfo_completeHandler(event:Event):void
 	swfInitData.appVersion = AppModel.instance.descriptor.versionCode;
 	swfInitData.market = AppModel.instance.descriptor.market;
 	var swfCore:* = new gameClass();
-	swfCore.init(swfInitData)
+	swfCore.init(swfInitData);
 	initCoreData(swfCore);
 
 	trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
-	AppModel.instance.game.loginData.buildingsLevel = new IntIntMap();
 	dispatchEvent(new Event(Event.COMPLETE));
+}
+
+protected function dsasd(event:CoreEvent):void
+{
+	trace(event.key, event.from, event.to)
 }
 
 private function initCoreData(game:*):void
@@ -160,11 +169,11 @@ private function initServerData(sfsObj:SFSObject):void
 
 	var elements:ISFSArray = sfsObj.getSFSArray("resources");
 	var element:ISFSObject;
-	for(var i:int=0; i<elements.size(); i++)
+	for( var i:int=0; i<elements.size(); i++ )
 	{
 		element = elements.getSFSObject(i);
 		initData.resources.set(element.getInt("type"), element.getInt("count"));
-		if(element.getInt("type") < 1000)
+		if( element.getInt("type") < 1000 )
 			initData.buildingsLevel.set(element.getInt("type"), element.getInt("level"));
 	}
 	

@@ -3,15 +3,12 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.models.Assets;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
-
+import flash.geom.Rectangle;
 import starling.events.Event;
 
 public class BattleOutcomeRewardItemRenderer extends AbstractTouchableListItemRenderer
@@ -56,7 +53,5 @@ override protected function feathersControl_removedFromStageHandler(event:Event)
 	}
 	super.feathersControl_removedFromStageHandler(event);
 }
-
-
 }
 }

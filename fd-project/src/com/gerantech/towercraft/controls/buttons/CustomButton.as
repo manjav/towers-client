@@ -73,7 +73,7 @@ override protected function initialize():void
 	shadowDisplay.touchable = false;
 	shadowDisplay.layoutData = shadowLayoutData;
 	addChild(shadowDisplay);
-
+	
 	labelDisplay = new RTLLabel(_label, _fontColor, "center", null, false, null, _fontsize);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.touchable = false;
@@ -101,6 +101,9 @@ private function updateTextures():void
 		downTextue = appModel.theme.buttonDangerDownSkinTexture;
 	else if( style == "neutral" )
 		downTextue = appModel.theme.buttonNeutralDownSkinTexture;			
+	
+	if( skin )
+		skin.defaultTexture = defaultTextue;
 }		
 
 public function get label():String
@@ -165,6 +168,7 @@ public function set fontColor(value:uint):void
 		return;
 	_fontColor = value;
 }
+
 public function get fontsize():Number
 {
 	return _fontsize;
@@ -180,8 +184,5 @@ public function set fontsize(value:Number):void
 		shadowDisplay.fontSize = _fontsize;
 	}
 }
-
-
-
 }
 }

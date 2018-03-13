@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.controls.CloasableObject;
-	import com.gerantech.towercraft.controls.Devider;
+	import com.gerantech.towercraft.controls.groups.Devider;
 	
 	import flash.ui.Keyboard;
 	

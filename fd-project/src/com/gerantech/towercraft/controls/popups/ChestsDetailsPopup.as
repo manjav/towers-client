@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.towercraft.controls.ResourcPalette;
+import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -65,12 +65,12 @@ override protected function initialize():void
 	downBG.height = padding * 4.4;
 	addChild(downBG);
 	
-	var cardsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
+	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
 	cardsPalette.layoutData = new AnchorLayoutData(NaN, NaN, padding*10, padding*2.4);
 	addChild(cardsPalette);
 	
-	var softsPalette:ResourcPalette = new ResourcPalette(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome)*1.1), 0xFFFF99);
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome)*1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
 	softsPalette.layoutData = new AnchorLayoutData(NaN, padding*2, padding*10);
 	addChild(softsPalette);

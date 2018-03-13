@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -11,7 +11,6 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 
-import flash.text.ReturnKeyLabel;
 import flash.utils.setTimeout;
 
 import feathers.controls.AutoSizeMode;
@@ -123,16 +122,17 @@ private function gotoReady():void
 
 public function setData(battleData:BattleData):void
 {
-	if( battleData.map.isQuest )
-	{
-		setTimeout(disappear, 1000);		
-		return;
-	}
-	if( questIndex < 0 )
-		opponentHeader.labelDisplay.text = battleData.axis.getText("name");
-	if( spectatingData == null )
-		playerHeader.labelDisplay.text = battleData.allis.getText("name");
-		
+    if( battleData.map.isQuest )
+    {
+        setTimeout(disappear, 1000);        
+        return;
+    }
+
+    if( questIndex < 0 )
+        opponentHeader.labelDisplay.text = battleData.axis.getText("name");
+    if( spectatingData == null )
+        playerHeader.labelDisplay.text = battleData.allis.getText("name");
+	
 	if( cancelButton != null )
 		cancelButton.touchable = false;
 	//opponentHeader.scaleX = 0.5;

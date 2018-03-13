@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -13,9 +14,12 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
+import flash.text.ReturnKeyLabel;
+import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
 
 import feathers.controls.StackScreenNavigatorItem;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 
 import starling.events.Event;
@@ -23,8 +27,9 @@ import starling.events.Event;
 public class LobbyChatSegment extends LobbyBaseChatSegment
 {
 private var headerSize:int;
-private var header:LobbyHeader;
+private var startScrollBarIndicator:Number = 0;
 private var battleButton:CustomButton;
+private var header:LobbyHeader;
 
 public function LobbyChatSegment(){}
 
@@ -50,13 +55,13 @@ override protected function showElements():void
 	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
-
+	
 	battleButton = new CustomButton();
 	battleButton.style = "danger";
 	battleButton.width = battleButton.height = footerSize;
 	battleButton.icon = Assets.getTexture("tab-1", "gui");
 	battleButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	battleButton.layoutData = new AnchorLayoutData(NaN, NaN, 0, padding);
+    battleButton.layoutData = new AnchorLayoutData(NaN, NaN, 0, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
 	
@@ -88,8 +93,8 @@ protected function chatList_triggeredHandler(event:Event):void
 
 override protected function scrollChatList(changes:Number) : void
 {
-	super.scrollChatList(changes);
-	header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
+    super.scrollChatList(changes);
+    header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
 }
 
 protected function battleButton_triggeredHandler(event:Event):void
@@ -99,7 +104,7 @@ protected function battleButton_triggeredHandler(event:Event):void
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 	params.putShort("st", 0);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-	scrollToEnd();
+    scrollToEnd();
 }
 
 private function gotoBattle():void
@@ -119,8 +124,8 @@ protected function manager_triggerHandler(event:Event):void
 
 override public function enabledChatting(value:Boolean):void
 {
-	super.enabledChatting(value);
-	battleButton.visible = !value;
+    super.enabledChatting(value);
+    battleButton.visible = !value;
 }
 
 override public function set buttonsEnabled(value:Boolean):void

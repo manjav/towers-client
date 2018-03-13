@@ -272,12 +272,12 @@ private function buttonsPopup_selectHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
-	var pdata:Object = buttonsPopup.data;
-	pdata.ln = roomData.name;
-	pdata.lp = roomData.pic;
+    var pdata:Object = buttonsPopup.data;
+    pdata.ln = roomData.name;
+    pdata.lp = roomData.pic;
 	if( event.data == "lobby_profile" )
 	{
-		var profilePopup:ProfilePopup = new ProfilePopup( pdata );
+        var profilePopup:ProfilePopup = new ProfilePopup( pdata );
 		//profilePopup.addEventListener(Event.SELECT, profilePopup_eventsHandler);
 		//profilePopup.addEventListener(Event.CANCEL, profilePopup_eventsHandler);
 		//profilePopup.declineStyle = "danger";
@@ -365,10 +365,10 @@ protected function sfs_joinHandler(event:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
 	var response:int = event.params.params.getInt("response")
-	if( response == MessageTypes.JOIN_LOBBY_SUCCEED ) 
+    if( response == MessageTypes.JOIN_LOBBY_SUCCEED ) 
 		updateLobbyLayout(true);
-	else
-		appModel.navigator.addLog(loc("lobby_join_request_" + response));
+    else
+        appModel.navigator.addLog(loc("lobby_join_request_" + response));
 }
 
 private function updateLobbyLayout(isJoin:Boolean):void

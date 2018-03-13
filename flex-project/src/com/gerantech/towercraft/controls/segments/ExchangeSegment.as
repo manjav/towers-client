@@ -44,15 +44,14 @@ import starling.events.Event;
 public class ExchangeSegment extends Segment
 {
 public static var focusedCategory:int = 0
+private var openChestOverlay:OpenChestOverlay;
 private var itemslistData:ListCollection;
 private var itemslist:List;
-private var openChestOverlay:OpenChestOverlay;
 
 public function ExchangeSegment()
 {
 	super();
 }
-
 private function assets_loadCallback(ratio:Number):void
 {
 	if( ratio >= 1 && initializeStarted && !initializeCompleted )

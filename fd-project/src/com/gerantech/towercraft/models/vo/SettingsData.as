@@ -4,7 +4,7 @@ package com.gerantech.towercraft.models.vo
 	{
 		public static const LINK_DEVICE:int = 10;
 		public static const LEGALS:int = 11;
-		public static const RENAME:int = 12;
+        public static const RENAME:int = 12;
 		
 		public static const TYPE_TOGGLE:int = 0;
 		public static const TYPE_BUTTON:int = 1;
@@ -13,13 +13,13 @@ package com.gerantech.towercraft.models.vo
 		
 		public static const BUG_REPORT:int = 21;
 		public static const QUESTIONS:int = 22;
-
+		
 		public static const SOCIAL_TELEGRAM:int = 311;
 		public static const SOCIAL_INSTAGRAM:int = 312;
 		public static const SOCIAL_FACEBOOOK:int = 313;
 		public static const SOCIAL_YOUTUBE:int = 314;
 		public static const RATING:int = 315;
-
+		
 		public var index:int;
 		public var key:int;
 		public var type:int;

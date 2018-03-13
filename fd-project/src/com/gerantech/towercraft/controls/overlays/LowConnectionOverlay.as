@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.Devider;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;

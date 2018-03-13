@@ -34,27 +34,22 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	y = (stage.stageHeight-1920*appModel.scale)/2;
+	y = (stage.stageHeight - 1920 * appModel.scale) * 0.5;
 	scale = appModel.scale;
-	
-	// add dummy object to tile arroud display
-	var sp:Sprite = new Sprite();
-	sp.visible = false;
-	sp.x = 1080;
-	sp.y = 1920;
-	addChild(sp);
-	
+
 	// tile grass ground
 	var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
+	tiledBG.y = -320;
+	tiledBG.width = 1080;
+	tiledBG.height = 2600;
 	tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
-	//backgroundSkin = new Quad(1,1,0xb7bb3c);
-	backgroundSkin = tiledBG;
-	
+	addChild(tiledBG);
+
 	troopsContainer = new Sprite();
 	buildingsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
-	
+
 	troopsList = new Vector.<TroopView>();
 	troopsContainer.addEventListener(Event.ADDED, battleField_addedHandler);
 	troopsContainer.addEventListener(Event.REMOVED, battleField_removedHandler);
@@ -98,12 +93,13 @@ public function createPlaces(battleData:BattleData):void
 	places = new Vector.<PlaceView>(len, true);
 	for ( var i:uint=0; i<len; i++ )
 	{
-		places[i] = new PlaceView(battleData.battleField.places.get(i));
-		places[i].selectable = true;
-		places[i].name = i.toString();
-		addChild(places[i]);
+		var p:PlaceView = new PlaceView(battleData.battleField.places.get(i));
+		p.selectable = true;
+		p.name = p.place.index.toString();
+		addChild(p);
+		places[p.place.index] = p
 	}
-	
+
 	dropTargets = new DropTargets(stage);
 	for each( var t:PlaceView in places )
 		if( t.selectable )

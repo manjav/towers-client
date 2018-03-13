@@ -88,7 +88,7 @@ override protected function commitData():void
 	emblemDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_data.pic+""), "gui");
 	nameDisplay.text = _data.name ;
 	nameShadowDisplay.text = _data.name ;
-	activenessDisplay.text = _data.act.toString();
+    activenessDisplay.text = _data.act.toString();
 	pointDisplay.text = "" + _data.sum;
 	populationDisplay.text = _data.num + "/" + _data.max;
 }

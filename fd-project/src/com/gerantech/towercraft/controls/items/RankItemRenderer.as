@@ -4,10 +4,8 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-
 import flash.geom.Rectangle;
 import flash.text.engine.ElementFormat;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -15,10 +13,8 @@ import feathers.skins.ImageSkin;
 public class RankItemRenderer extends AbstractTouchableListItemRenderer
 {
 private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
-
 private var nameDisplay:RTLLabel;
 private var nameShadowDisplay:RTLLabel;
-
 private var pointDisplay:RTLLabel;
 private var mySkin:ImageSkin;
 
@@ -30,8 +26,8 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	var padding:int = 36 * appModel.scale;
 	
-	mySkin = new ImageSkin(Assets.getTexture("theme/building-button-disable", "gui"));
-	mySkin.scale9Grid = new Rectangle(10, 10, 56, 37);
+	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
+	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
@@ -76,7 +72,7 @@ override protected function commitData():void
 		nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
 		nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
 	}
-	mySkin.defaultTexture = Assets.getTexture(_data.i==player.id ? "theme/building-button" : "theme/building-button-disable", "gui");
+	mySkin.defaultTexture = _data.i==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 }
 } 
 }

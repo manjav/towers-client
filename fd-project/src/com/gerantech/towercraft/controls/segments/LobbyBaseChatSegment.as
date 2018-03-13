@@ -16,12 +16,6 @@ import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.geom.Rectangle;
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
-import flash.utils.setTimeout;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -32,7 +26,10 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.geom.Rectangle;
+import flash.text.ReturnKeyLabel;
+import flash.text.SoftKeyboardType;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.events.Event;
 
@@ -40,17 +37,15 @@ public class LobbyBaseChatSegment extends Segment
 {
 protected var padding:int;
 protected var footerSize:int;
-
 protected var chatList:List;
 protected var chatLayout:VerticalLayout;
 protected var chatTextInput:CustomTextInput;
-//protected var chatSendButton:CustomButton;
 protected var chatEnableButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
 protected var _chatEnabled:Boolean = false;
 protected var autoScroll:Boolean = true;
-private var startScrollBarIndicator:Number = 0;
 
+private var startScrollBarIndicator:Number = 0;
 
 public function LobbyBaseChatSegment(){}
 
@@ -95,14 +90,14 @@ protected function showElements():void
 	
 	chatLayout = new VerticalLayout();
 	chatLayout.paddingTop = padding * 2;
-	chatLayout.paddingBottom = footerSize;
+    chatLayout.paddingBottom = footerSize;
 	chatLayout.hasVariableItemDimensions = true;
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	chatLayout.verticalAlign = VerticalAlign.BOTTOM;
 	
 	chatList = new List();
 	chatList.layout = chatLayout;
-	chatList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+    chatList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
 	chatList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);
@@ -115,33 +110,26 @@ protected function showElements():void
 	chatTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0, false, appModel.align );
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
-	chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, 0, padding);
-	chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
-	chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
+    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, 0, padding);
+    chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
+    chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
-	chatEnableButton = new CustomButton();
-	chatEnableButton.width = chatEnableButton.height = footerSize;
-	chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-	chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
-	chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
-	addChild(chatEnableButton);
-	
-	/*chatSendButton = new CustomButton();
-	chatSendButton.width = chatSendButton.height = footerSize;
-	chatSendButton.icon = Assets.getTexture("settings-311", "gui");
-	chatSendButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-	chatSendButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
-	chatSendButton.addEventListener(Event.TRIGGERED, sendButton_triggeredHandler);*/
-	
+    chatEnableButton = new CustomButton();
+    chatEnableButton.width = chatEnableButton.height = footerSize;
+    chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+    chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
+    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+    chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
+    addChild(chatEnableButton);
+
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
 
 protected function chatList_createCompleteHandler(event:Event):void
 {
 	chatList.removeEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
-	setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
-	scrollToEnd();	
+	chatList.scrollToDisplayIndex(manager.messages.length-1);	
+    setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 }
 
 protected function chatList_changeHandler(event:Event):void
@@ -168,27 +156,27 @@ protected function chatList_changeHandler(event:Event):void
 
 protected function chatList_scrollHandler(event:Event):void
 {
-	var scrollPos:Number = Math.max(0,chatList.verticalScrollPosition);
-	scrollChatList(startScrollBarIndicator-scrollPos);
-	startScrollBarIndicator = scrollPos;
+    var scrollPos:Number = Math.max(0,chatList.verticalScrollPosition);
+    scrollChatList(startScrollBarIndicator-scrollPos);
+    startScrollBarIndicator = scrollPos;
 }
 
 protected function scrollChatList(changes:Number):void
 {
-	if( changes > 10 )
-		autoScroll = false;
+    if( changes > 10 )
+        autoScroll = false;
 }
 
 protected function scrollToEnd():void
 {
-	chatList.scrollToDisplayIndex(manager.messages.length-1);
-	autoScroll = true;
+    chatList.scrollToDisplayIndex(manager.messages.length-1);
+    autoScroll = true;
 }
 
 protected function chatList_focusInHandler(event:Event):void
 {
-	if( !_buttonsEnabled )
-		return;
+    if( !_buttonsEnabled )
+        return;
 	var selectedItem:LobbyChatItemRenderer = event.data as LobbyChatItemRenderer;
 	if( selectedItem == null )
 		return;
@@ -237,13 +225,13 @@ private function buttonsPopup_selectHandler(event:Event):void
 	switch( event.data )
 	{
 		case "lobby_profile":
-			var user:Object = {name:msgPack.getUtfString("s"), id:int(msgPack.getInt("i"))};
-			if( !manager.isPublic )
-			{
-				user.ln = manager.lobby.name;
-				user.lp = manager.emblem;
-			}
-			appModel.navigator.addPopup( new ProfilePopup(user) );
+            var user:Object = {name:msgPack.getUtfString("s"), id:int(msgPack.getInt("i"))};
+            if( !manager.isPublic )
+            {
+                user.ln = manager.lobby.name;
+                user.lp = manager.emblem;
+            }
+            appModel.navigator.addPopup( new ProfilePopup(user) );
 			break;
 		
 		case "lobby_report":
@@ -269,21 +257,22 @@ protected function manager_updateHandler(event:Event):void
 	UserData.instance.lastLobbeyMessageTime = timeManager.now;
 	buttonsEnabled = manager.getMyRequestBattleIndex() == -1;
 	chatList.validate();
-	if( autoScroll )
-		scrollToEnd();
+    if( autoScroll )
+        scrollToEnd();
 }
 
 protected function chatButton_triggeredHandler(event:Event):void
 {
-	enabledChatting(true);
+    enabledChatting(true);
 	scrollToEnd();
-	autoScroll = true;
+    autoScroll = true;
 }
 
 protected function sendButton_triggeredHandler(event:Event):void
 {
 	if( chatTextInput.text == "" )
 		return;
+	
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("t", StrUtils.getSimpleString(chatTextInput.text));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
@@ -292,29 +281,27 @@ protected function sendButton_triggeredHandler(event:Event):void
 
 private function chatTextInput_focusOutHandler(event:Event):void
 {
-	setTimeout(enabledChatting, 100, false);
+    setTimeout(enabledChatting, 100, false);
 }
 
 public function enabledChatting(value:Boolean):void
 {
-	if( _chatEnabled == value )
-		return;
-	
-	_chatEnabled = value;
-	
-	if( _chatEnabled )
-	{
-		chatEnableButton.removeFromParent();
-		addChild(chatTextInput);
-		//addChild(chatSendButton);
-		chatTextInput.setFocus();
-	}
-	else
-	{
-		chatTextInput.removeFromParent();
-		//chatSendButton.removeFromParent();
-		addChild(chatEnableButton);
-	}
+    if( _chatEnabled == value )
+        return;
+    
+    _chatEnabled = value;
+    
+    if( _chatEnabled )
+    {
+        chatEnableButton.removeFromParent();
+        addChild(chatTextInput);
+        chatTextInput.setFocus();
+    }
+    else
+    {
+        chatTextInput.removeFromParent();
+        addChild(chatEnableButton);
+    }
 }
 
 public function set buttonsEnabled(value:Boolean):void
@@ -324,10 +311,9 @@ public function set buttonsEnabled(value:Boolean):void
 	
 	_buttonsEnabled = value;
 	chatTextInput.isEnabled = _buttonsEnabled;
-	//chatSendButton.isEnabled = _buttonsEnabled;
-	chatEnableButton.isEnabled = _buttonsEnabled;
-	appModel.navigator.toolbar.touchable = false;
-	chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
+    chatEnableButton.isEnabled = _buttonsEnabled;
+    appModel.navigator.toolbar.touchable = false;
+    chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }
 

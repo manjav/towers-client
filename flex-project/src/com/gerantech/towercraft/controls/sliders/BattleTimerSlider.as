@@ -38,7 +38,7 @@ override protected function initialize():void
 	progressBar.isEnabled = false;
 	progressBar.horizontalAlign = HorizontalAlign.RIGHT;
 	progressBar.layoutData = new AnchorLayoutData (0,0,0,0);
-	addChild(progressBar)
+	addChild(progressBar);
 
 	iconDisplay = new TimerIcon();
 	iconDisplay.width = iconDisplay.height = height * 2.0;

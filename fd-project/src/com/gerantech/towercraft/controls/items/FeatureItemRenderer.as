@@ -2,10 +2,8 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
 import starling.core.Starling;
 
 public class FeatureItemRenderer extends AbstractTouchableListItemRenderer

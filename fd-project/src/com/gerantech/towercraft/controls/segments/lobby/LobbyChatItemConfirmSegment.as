@@ -17,8 +17,8 @@ public class LobbyChatItemConfirmSegment extends LobbyChatItemSegment
 private var messageDisplay:RTLLabel;
 private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
-public function LobbyChatItemConfirmSegment(){}
 
+public function LobbyChatItemConfirmSegment(){}
 override public function init():void
 {
 	super.init();

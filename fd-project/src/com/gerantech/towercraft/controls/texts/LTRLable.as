@@ -28,10 +28,9 @@ package com.gerantech.towercraft.controls.texts
 			this.fontFamily = fontFamily==null ? "SourceSans" : fontFamily;
 			this.color = color==1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
 			this.wordWrap = wordWrap;
-			textFormat = new TextFormat(this.fontFamily, this.fontSize, this.color, bold, italic, null, null, null, align, null, null, null);//, -fontSize/1.2
+			textFormat = new TextFormat(this.fontFamily, this.fontSize, this.color, false, italic, null, null, null, align, null, null, null);//, -fontSize/1.2
 		}
-		
-		
+	
 		public function get isTruncated():Boolean
 		{
 			if(textField==null)

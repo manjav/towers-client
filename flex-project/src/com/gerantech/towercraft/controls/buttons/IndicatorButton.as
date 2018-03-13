@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.buttons
 {
-import com.gerantech.towercraft.controls.Devider;
+import com.gerantech.towercraft.controls.groups.Devider;
 
 import feathers.layout.AnchorLayoutData;
 

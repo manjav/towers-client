@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
-	import com.gerantech.towercraft.controls.Devider;
+	import com.gerantech.towercraft.controls.groups.Devider;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	
 	import flash.geom.Rectangle;

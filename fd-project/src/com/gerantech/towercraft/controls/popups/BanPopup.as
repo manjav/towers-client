@@ -1,5 +1,10 @@
-package com.gerantech.towercraft.controls.popups
+package com.gerantech.towercraft.controls.popups 
 {
+/**
+ * ...
+ * @author Mansour Djawadi
+ */
+
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 
 import flash.desktop.NativeApplication;
