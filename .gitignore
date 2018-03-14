@@ -3,7 +3,7 @@ bin/
 bin-debug/
 bin-release/
 [Oo]bj/ # FlashDevelop obj
-[Bb]in/ # FlashDevelop bin
+#[Bb]in/ # FlashDevelop bin
 
 # Other files and folders
 .settings/
