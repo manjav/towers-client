@@ -239,7 +239,7 @@ private function list_changeHandler(event:Event):void
 			return;
 		}
 		
-		if ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY && item.category == ExchangeType.CHEST_CATE_100_FREE )
+		if( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY && item.category == ExchangeType.CHEST_CATE_100_FREE )
 		{
 			appModel.navigator.addLog(loc("exchange_free_waiting", [StrUtils.toTimeFormat(item.expiredAt - timeManager.now)]));
 			return;
@@ -272,7 +272,7 @@ private function exchange(item:ExchangeItem, params:SFSObject):void
 	} 
 	catch(error:GameError) 
 	{
-		if ( error.id == 0 )
+		if( error.id == 0 )
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
 		return;
 	}
