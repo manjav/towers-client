@@ -58,8 +58,8 @@ private var arenaIndex:int;
 public function PlaceView(place:Place)
 {
 	this.place = place;
-	this.raduis = 200;
-	arenaIndex = player.get_arena(0)
+	this.arenaIndex = player.get_arena(0)
+    this.raduis = Math.max(160, 200 - arenaIndex * 6);
 	
 	var bg:Image = new Image(Assets.getTexture("damage-range"));
 	bg.alignPivot();
@@ -232,7 +232,7 @@ public function fight(destination:Place, troopsCount:Number) : void
 		rushIntervalId = setInterval(rushTimeoutCallback, rushGap);
 	}
 	this.troopsCount = place.building.get_population() * troopsCount;
-				
+	
 	if( place.building.troopType == player.troopType )
 	{
 		var soundIndex:int = 0;
