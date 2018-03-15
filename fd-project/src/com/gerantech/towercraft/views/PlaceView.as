@@ -145,7 +145,7 @@ public function hilight(appear:Boolean):void
 	}
 	else
 	{
-		Starling.juggler.tween(dropZone, 0.6, {alpha:0.0, scaleX:0.0, scaleY:0.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{dropZone.visible = false;}});
+		Starling.juggler.tween(dropZone, 0.6, {alpha:0.0, scaleX:1.0, scaleY:1.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{dropZone.visible = false;}});
 	}
 }
 
