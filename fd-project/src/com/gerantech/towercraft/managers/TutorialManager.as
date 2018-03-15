@@ -70,8 +70,9 @@ public static function get instance():TutorialManager
 
 public function removeAll():void
 {
-	while( tutorialData.numTasks > 0 )
-		tutorialData.shiftTask();
+	if ( tutorialData != null )
+		while( tutorialData.numTasks > 0 )
+			tutorialData.shiftTask();
 	
 	for(var i:uint=0; i<appModel.navigator.overlays.length; i++)
 	{
