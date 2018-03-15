@@ -4,6 +4,7 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.models.AppModel;
+import feathers.utils.ScreenDensityScaleFactorManager;
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
 import flash.display.StageAlign;
@@ -82,6 +83,7 @@ private function starStarling():void
 	this.starling.skipUnchangedFrames = false;
 	this.starling.start();
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
+    new ScreenDensityScaleFactorManager(this.starling);
 	
 	AppModel.instance.scale = this.starling.stage.stageWidth/1080;
 	BillingManager.instance.init();			
