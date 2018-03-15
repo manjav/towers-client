@@ -4,7 +4,6 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.models.AppModel;
-
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
 import flash.display.StageAlign;
@@ -14,21 +13,16 @@ import flash.display3D.Context3DRenderMode;
 import flash.events.Event;
 import flash.events.InvokeEvent;
 import flash.utils.getTimer;
-
-import feathers.utils.ScreenDensityScaleFactorManager;
-
 import starling.core.Starling;
 
 [ResourceBundle("loc")]
-
 [SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
 public class Towers extends Sprite
 {
-private var starling:Starling;
-private var scaler:ScreenDensityScaleFactorManager;
 public static var t:int;
-private var loadingState:int = 0;
 
+private var starling:Starling;
+private var loadingState:int = 0;
 private var splash:SplashScreen;
 
 public function Towers()
@@ -88,8 +82,6 @@ private function starStarling():void
 	this.starling.skipUnchangedFrames = false;
 	this.starling.start();
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
-	
-	this.scaler = new ScreenDensityScaleFactorManager(this.starling);
 	
 	AppModel.instance.scale = this.starling.stage.stageWidth/1080;
 	BillingManager.instance.init();			
