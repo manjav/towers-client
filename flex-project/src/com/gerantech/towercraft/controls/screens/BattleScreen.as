@@ -568,8 +568,8 @@ package com.gerantech.towercraft.controls.screens
 						endPoint.setTo(pv.x, pv.y);
 						
 						// show drop zone
-						if( sourcePlaces[0] != pv )
-							pv.hilight(true);
+						for each( var tp:PlaceView in appModel.battleFieldView.places )
+							tp.hilight(tp == pv && sourcePlaces[0] != pv);
 					}
 					else
 					{
