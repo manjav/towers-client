@@ -17,6 +17,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.ShopLine;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
@@ -238,6 +239,13 @@ private function list_changeHandler(event:Event):void
 			return;
 		}
 	
+		
+		if ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY && item.category == ExchangeType.CHEST_CATE_100_FREE )
+		{
+			appModel.navigator.addLog(loc("exchange_free_waiting", [StrUtils.toTimeFormat(item.expiredAt - timeManager.now)]));
+			return;
+		}
+		
 		var details:ChestsDetailsPopup = new ChestsDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
 		appModel.navigator.addPopup(details);
