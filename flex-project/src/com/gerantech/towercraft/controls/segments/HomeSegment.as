@@ -196,7 +196,7 @@ private function showTutorial():void
 		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_172_NAME_SELECTED); 
-			//battlesButton.showArrow();
+			battlesButton.showArrow();
 		}
 		return;
 	}
@@ -219,11 +219,11 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
+	/*if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
 		if( !player.inShopTutorial() && !player.inDeckTutorial() )
 			questsButton.showArrow();
-	}
+	}*/
 }
 
 
