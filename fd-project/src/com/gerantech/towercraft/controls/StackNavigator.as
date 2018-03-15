@@ -120,6 +120,16 @@ private function addedToStageHandler(event:Event):void
 	parent.addChild(logsContainer);
 }		
 
+public function runBattle(index:int = -1, cancelable:Boolean=true):void
+{
+	var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
+	item.properties.requestField = null ;
+	item.properties.waitingOverlay = new BattleStartOverlay(index, cancelable);
+	//item.properties.waitingOverlay.data = waitingData;
+	pushScreen( Main.BATTLE_SCREEN ) ;
+	addOverlay(item.properties.waitingOverlay);		
+}
+
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  POPUPS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 private var popups:Vector.<AbstractPopup>;
 private var popupsContainer:LayoutGroup;

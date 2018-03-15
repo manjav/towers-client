@@ -127,9 +127,21 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	// tutorial mode
 	if( player.getTutorStep() < PrefsTypes.T_171_SELECT_NAME_FOCUS && !player.inShopTutorial() && !player.inDeckTutorial() )
 	{
-		appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
+		if( player.tutorialMode == 0 )
+			appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
+		else if( player.tutorialMode == 1 && player.get_battleswins() == 0 )
+			appModel.navigator.runBattle(-1, false);
 		return;
 	}
+	
+	// return to last open game
+	if( appModel.loadingManager.serverData.getBool("inBattle") )
+	{
+		appModel.navigator.runBattle(-1, false);
+		return;
+	}
+	
+	
 	segmentsCollection = getListData();
 
 	pageList.dataProvider = segmentsCollection;

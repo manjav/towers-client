@@ -63,13 +63,6 @@ override public function init():void
 		return;
 	
 	layout = new AnchorLayout();		
-	if( appModel.loadingManager.serverData.getBool("inBattle") )
-	{
-		clearTimeout(battleTimeoutId);
-		battleTimeoutId = setTimeout(gotoLiveBattle, 100, -1, false);
-		return;
-	}
-	
 	showMainButtons();
 	showFooterButtons();
 	showTutorial();
@@ -247,22 +240,12 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 			break;
 		case battlesButton:
-			gotoLiveBattle(-1);
+			appModel.navigator.runBattle(-1);
 			break;
 		case leaguesButton:
 			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
 			break;
 	}
-}
-
-private function gotoLiveBattle(questIndex:int = -1, cancelable:Boolean=true):void
-{
-	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
-	item.properties.requestField = null ;
-	item.properties.waitingOverlay = new BattleStartOverlay(questIndex, cancelable);
-	//item.properties.waitingOverlay.data = waitingData;
-	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-	appModel.navigator.addOverlay(item.properties.waitingOverlay);		
 }
 }
 }

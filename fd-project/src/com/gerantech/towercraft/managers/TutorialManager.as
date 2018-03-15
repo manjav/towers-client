@@ -25,7 +25,7 @@ public function show(data:TutorialData):void
 private function processTasks():void
 {
 	var task:TutorialTask = tutorialData.shiftTask();
-	if( task == null || player.skipTutorial )
+	if( task == null || player.tutorialMode == -1 )
 	{
 		dispatchEventWith(GameEvent.TUTORIAL_TASKS_FINISH, false, tutorialData);
 		return;
