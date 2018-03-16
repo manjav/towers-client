@@ -37,24 +37,25 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	scaleRect = new Rectangle(atlas=="battlefields"?4:2, atlas=="battlefields"?8:4, atlas=="battlefields"?4:2, atlas=="battlefields"?6:3);
+	scaleRect = new Rectangle(atlas == "battlefields"?4:2, atlas == "battlefields"?8:4, atlas == "battlefields"?4:2, atlas == "battlefields"?6:3);
 	layout = new AnchorLayout();
 	
 	backroundDisplay = new ImageLoader();
-	backroundDisplay.alpha = atlas=="battlefields"?0.5:1;
+	backroundDisplay.pixelSnapping = false;
+	backroundDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
 	backroundDisplay.scale9Grid = scaleRect;
 	backroundDisplay.source = Assets.getTexture("healthbar-bg-"+(atlas=="battlefields"?_troopType:-1), atlas);
 	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(backroundDisplay);
 	
 	fillDisplay = new ImageLoader();
+	fillDisplay.pixelSnapping = false;
 	fillDisplay.scale9Grid = scaleRect;
 	fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType, atlas);
-	fillDisplay.width =  width*(value/maximum);
+	fillDisplay.width =  width * (value / maximum);
 	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChild(fillDisplay);
 }
-
 
 public function get value():Number
 {
@@ -70,7 +71,7 @@ public function set value(v:Number):void
 		v = 0;
 	_value = v;
 	if( fillDisplay )
-		fillDisplay.width =  width*(v/maximum);
+		fillDisplay.width =  width * (v / maximum);
 }
 
 public function get troopType():int
@@ -84,9 +85,9 @@ public function set troopType(value:int):void
 	_troopType = value;
 	
 	if( backroundDisplay )
-		backroundDisplay.source = Assets.getTexture("healthbar-bg-"+_troopType);
+		backroundDisplay.source = Assets.getTexture("healthbar-bg-" + _troopType);
 	if( fillDisplay )
-		fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType);
+		fillDisplay.source = Assets.getTexture("healthbar-fill-" + _troopType);
 
 }
 }

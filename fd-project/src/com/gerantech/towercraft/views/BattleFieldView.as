@@ -6,6 +6,7 @@ import com.gerantech.towercraft.managers.net.ResponseSender;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
+import starling.display.Quad;
 
 import flash.geom.Rectangle;
 
@@ -34,15 +35,20 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	y = (stage.stageHeight - 1920 * appModel.scale) * 0.5;
-	scale = appModel.scale;
+	pivotX = 540;
+	pivotY = 960;
+	x = pivotX * appModel.scale;
+	y = pivotY * appModel.scale + (stage.stageHeight - 1920 * appModel.scale) * 0.5;
+	scale = appModel.scale * 0.8;
 
 	// tile grass ground
-	var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
-	tiledBG.y = -320;
-	tiledBG.width = 1080;
-	tiledBG.height = 2600;
-	tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
+	//var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
+    var tiledBG:Quad = new Quad(1,1,0xb7bb3c);
+	tiledBG.x = -1080 * 0.25;
+	tiledBG.y = -1920 * 0.25;
+	tiledBG.width = 1080 * 2;
+	tiledBG.height = 1920 * 2;// 2600;
+	//tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
 	addChild(tiledBG);
 
 	troopsContainer = new Sprite();

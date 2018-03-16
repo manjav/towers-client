@@ -28,10 +28,14 @@ package com.gerantech.towercraft.controls.overlays
 			width = stage.stageWidth;
 			height = stage.stageHeight;
 			super.initialize();
+			
+			if( overlay != null )
+				overlay.alpha = 0.2;
+				
 			if( transitionIn == null )
 				transitionIn = new TransitionData(0.1, task.startAfter / 1000);
 			
-			if( transitionOut== null )
+			if( transitionOut == null )
 			{
 				transitionOut = new TransitionData(0.1);
 				transitionOut.sourceAlpha = 1;

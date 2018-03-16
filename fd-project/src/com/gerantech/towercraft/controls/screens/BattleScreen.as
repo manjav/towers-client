@@ -42,6 +42,7 @@ import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import starling.core.Starling;
 
 import flash.geom.Point;
 import flash.utils.setTimeout;
@@ -173,12 +174,18 @@ private function startBattle():void
 		function waitingOverlay_readyHandler():void
 		{
 			waitingOverlay.removeEventListener(Event.READY, waitingOverlay_readyHandler);
+			waitingOverlay.addEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 			startBattle();
 		}
 		return;
 	}
 
 	waitingOverlay.setData(appModel.battleFieldView.battleData);
+	function waitingOverlay_closeHandler(e:Event):void 
+	{
+		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
+		Starling.juggler.tween(appModel.battleFieldView, 2, {scale:appModel.scale, transition:Transitions.EASE_IN_OUT});
+	}
 	//waitingOverlay.disappear();
 	updateTowersFromRoomVars();
 	
