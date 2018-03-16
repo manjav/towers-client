@@ -123,7 +123,14 @@ override protected function initialize():void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-
+	// return to last open game
+	if( appModel.loadingManager.serverData.getBool("inBattle") )
+	{
+		appModel.navigator.runBattle(-1, false);
+		return;
+	}
+	
+player.tutorialMode = 1;
 	// tutorial mode
 	if( player.getTutorStep() < PrefsTypes.T_171_SELECT_NAME_FOCUS && !player.inShopTutorial() && !player.inDeckTutorial() )
 	{
@@ -131,13 +138,6 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 			appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
 		else if( player.tutorialMode == 1 && player.get_battleswins() == 0 )
 			appModel.navigator.runBattle(-1, false);
-		return;
-	}
-	
-	// return to last open game
-	if( appModel.loadingManager.serverData.getBool("inBattle") )
-	{
-		appModel.navigator.runBattle(-1, false);
 		return;
 	}
 	
