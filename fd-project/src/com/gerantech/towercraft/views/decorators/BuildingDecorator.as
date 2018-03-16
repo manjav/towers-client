@@ -65,6 +65,7 @@ protected function addedToStageHandler():void
 	fieldView.guiImagesContainer.addChild(populationBar);
 
 	populationIndicator = new BitmapFontTextRenderer();
+	populationIndicator.pixelSnapping = false;
 	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
 	populationIndicator.width = populationBar.width;
 	populationIndicator.touchable = false;
