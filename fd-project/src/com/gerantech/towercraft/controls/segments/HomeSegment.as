@@ -240,7 +240,7 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 			break;
 		case battlesButton:
-			appModel.navigator.runBattle(-1);
+			appModel.navigator.runBattle(true);
 			break;
 		case leaguesButton:
 			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		

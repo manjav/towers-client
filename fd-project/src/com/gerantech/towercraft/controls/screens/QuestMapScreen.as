@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.QuestMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
@@ -175,12 +176,7 @@ private function list_selectHandler(event:Event):void
 	function floating_selectHandler(event:Event):void
 	{
 		detailsPopup.removeEventListener(Event.SELECT, floating_selectHandler);
-		var quest:FieldData = game.fieldProvider.quests.get("quest_" + index);
-		var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
-		item.properties.requestField = quest;
-		item.properties.waitingOverlay = new BattleStartOverlay(index, true) ;
-		appModel.navigator.addOverlay(item.properties.waitingOverlay);
-		setTimeout(appModel.navigator.pushScreen, 1000, Main.BATTLE_SCREEN ) ;
+		appModel.navigator.runBattle(false, game.fieldProvider.quests.get("quest_" + index));
 	}
 }
 

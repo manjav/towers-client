@@ -126,7 +126,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	// return to last open game
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
-		appModel.navigator.runBattle(-1, false);
+		appModel.navigator.runBattle();
 		return;
 	}
 	
@@ -137,7 +137,7 @@ player.tutorialMode = 1;
 		if( player.tutorialMode == 0 )
 			appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
 		else if( player.tutorialMode == 1 && player.get_battleswins() == 0 )
-			appModel.navigator.runBattle(-1, false);
+			appModel.navigator.runBattle();
 		return;
 	}
 	

@@ -1,12 +1,13 @@
 package com.gerantech.towercraft.controls
 {
+import avmplus.getQualifiedClassName;
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.animations.AchievedItem;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.headers.Toolbar;
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
-import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
@@ -29,6 +30,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.utils.maps.IntStrMap;
@@ -36,24 +38,23 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
+import feathers.controls.LayoutGroup;
+import feathers.controls.StackScreenNavigator;
+import feathers.controls.StackScreenNavigatorItem;
 import flash.geom.Rectangle;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.Dictionary;
-
 import mx.resources.ResourceManager;
-
-import avmplus.getQualifiedClassName;
-
-import feathers.controls.LayoutGroup;
-import feathers.controls.StackScreenNavigator;
-import feathers.controls.StackScreenNavigatorItem;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
 import starling.textures.Texture;
+
+
+
+
+
 
 public class StackNavigator extends StackScreenNavigator
 {
@@ -120,14 +121,14 @@ private function addedToStageHandler(event:Event):void
 	parent.addChild(logsContainer);
 }		
 
-public function runBattle(index:int = -1, cancelable:Boolean=true):void
+public function runBattle(cancelable:Boolean=false, requestField:FieldData = null, spectatedUser:String = null, isFriendly:Boolean = false) : void
 {
 	var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
-	item.properties.requestField = null ;
-	item.properties.waitingOverlay = new BattleStartOverlay(index, cancelable);
-	//item.properties.waitingOverlay.data = waitingData;
+	item.properties.requestField = requestField;
+	item.properties.spectatedUser = spectatedUser;
+	item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable);
 	pushScreen( Main.BATTLE_SCREEN ) ;
-	addOverlay(item.properties.waitingOverlay);		
+	addOverlay(item.properties.waitingOverlay);
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  POPUPS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -381,7 +382,7 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		case 1:
 			var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
 			item.properties.isFriendly = true;
-			item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
+			item.properties.waitingOverlay = new BattleWaitingOverlay(false);
 			addOverlay( item.properties.waitingOverlay );	
 			pushScreen( Main.BATTLE_SCREEN ) ;
 			break;

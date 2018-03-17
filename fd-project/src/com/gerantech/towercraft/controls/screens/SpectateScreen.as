@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.BattleItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -55,13 +56,7 @@ protected function sfs_responseUpdateHandler(event:SFSEvent):void
 override protected function list_changeHandler(event:Event):void
 {
 	super.list_changeHandler(event);
-
-	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
-	item.properties.requestField = new FieldData(100000 + SFSObject(list.selectedItem).getInt("id"), "quest_100000") ;
-	item.properties.spectatedUser = player.nickName;
-	item.properties.waitingOverlay = new BattleStartOverlay(-1, false, list.selectedItem as SFSObject);
-	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-	appModel.navigator.addOverlay(item.properties.waitingOverlay);
+	appModel.navigator.runBattle(false, new FieldData(100000 + SFSObject(list.selectedItem).getInt("id"), "quest_100000"), player.nickName);
 }
 
 protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void
