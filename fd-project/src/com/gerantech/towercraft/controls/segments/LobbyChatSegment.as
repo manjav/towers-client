@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -107,19 +108,10 @@ protected function battleButton_triggeredHandler(event:Event):void
     scrollToEnd();
 }
 
-private function gotoBattle():void
-{
-	buttonsEnabled = true;
-	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.BATTLE_SCREEN );
-	item.properties.isFriendly = true;
-	item.properties.waitingOverlay = new BattleStartOverlay(-1, false);
-	appModel.navigator.addOverlay(item.properties.waitingOverlay);	
-	appModel.navigator.pushScreen( Main.BATTLE_SCREEN ) ;
-}
-
 protected function manager_triggerHandler(event:Event):void
 {
-	gotoBattle();
+	buttonsEnabled = true;
+	appModel.navigator.runBattle(false, null, null, true);
 }
 
 override public function enabledChatting(value:Boolean):void
