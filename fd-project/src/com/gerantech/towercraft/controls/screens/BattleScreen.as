@@ -548,7 +548,7 @@ private function touchHandler(event:TouchEvent):void
 			}
 			else
 			{
-				endPoint.setTo((touch.globalX-appModel.battleFieldView.x)/appModel.scale, (touch.globalY-appModel.battleFieldView.y)/appModel.scale);
+				endPoint.setTo((touch.globalX)/appModel.scale, (touch.globalY)/appModel.scale);
 				
 				for each( pv in appModel.battleFieldView.places )
 					pv.hilight(false);
@@ -649,14 +649,12 @@ private function showImproveFloating(placeView:PlaceView):void
 	var ti:TransitionData = new TransitionData();
 	ti.transition = Transitions.EASE_OUT_BACK;
 	ti.sourceAlpha = 0;
-	ti.sourcePosition = new Point(placeView.x*appModel.scale, placeView.y*appModel.scale+appModel.battleFieldView.y);
-	ti.destinationPosition = ti.sourcePosition;
+	ti.destinationPosition = ti.sourcePosition = new Point(placeView.x*appModel.scale, placeView.y*appModel.scale);
 	
 	// create transition out data
 	var to:TransitionData = new TransitionData();
 	to.sourceAlpha = 1;
-	to.sourcePosition = ti.sourcePosition;
-	to.destinationPosition = ti.destinationPosition;
+	to.destinationPosition = to.sourcePosition = ti.sourcePosition;
 	
 	var floating:ImproveFloating = new ImproveFloating();
 	floating.placeView = placeView;
