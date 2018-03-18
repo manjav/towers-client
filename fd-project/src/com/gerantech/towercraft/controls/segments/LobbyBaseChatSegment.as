@@ -155,8 +155,6 @@ protected function chatList_changeHandler(event:Event):void
 	}
 	else if( msgPack.getShort("m") == MessageTypes.M20_DONATE )
 	{
-		params.putInt("u", msgPack.getInt("u"));
-		
 		// prevent player from donating himself
 		if ( msgPack.getInt("r") == player.id )
 		{
@@ -167,15 +165,14 @@ protected function chatList_changeHandler(event:Event):void
 		var now:Number = Date.UTC(d.fullYear, d.month, d.date, d.hours, d.minutes, d.seconds, d.milliseconds) / 1000;
 		// check if time has expired
 		if ( msgPack.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < timeManager.now )
-		{
-			trace("cannot donate reason: time expired");
 			return;
-		}
 		// check if donationLimit has reached
-		if ( msgPack.getInt("n") >= 10 )
+		if ( msgPack.getInt("n") >= msgPack.getInt("cl") )
 			return;
 			
 		params.putShort("m", MessageTypes.M20_DONATE);
+		params.putShort("ct", msgPack.getShort("ct"));
+		params.putInt("cl", msgPack.getInt("cl"));
 		params.putInt("r", msgPack.getInt("r"));
 		params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
 		msgPack.putInt("n", msgPack.getInt("n") + 1 );

@@ -118,13 +118,12 @@ protected function battleButton_triggeredHandler(event:Event):void
 }
 protected function donateButton_triggeredHandler(event:Event):void
 {
-	//setTimeout(function():void{ buttonsEnabled = false}, 1);
-	//var readyBattleIndex:int = getMyRequestBattleIndex();
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M20_DONATE);
 	params.putInt("r", player.id);
 	params.putShort("ct", 401);
 	params.putInt("n", 0);
+	params.putInt("cl", player.get_donationLimit( game, params.getInt("ct") ));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 }
 

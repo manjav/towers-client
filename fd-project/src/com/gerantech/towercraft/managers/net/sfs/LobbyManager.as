@@ -136,7 +136,7 @@ private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
 		return false;
 	if ( msg.getShort("m") == MessageTypes.M20_DONATE )
-		if ( msg.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now  || msg.getInt("n") >= 10)
+		if ( msg.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now  || msg.getInt("n") >= msg.getInt("cl") )
 			return false;
 	if( MessageTypes.isConfirm(msg.getShort("m")) )
 		if( u.getInt("permission") < 2 || msg.containsKey("pr") )
@@ -198,21 +198,15 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		{
 			if(  messages.getItemAt(donationIndex).getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now )
 			{
-				trace("removing item at:", donationIndex);
-				trace("epiredAt:", msg.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST), "now:", TimeManager.instance.now);
 				messages.removeItemAt(donationIndex);
 				// delay
 				messages.addItem(msg);
 			}
 			else
-			{
 				messages.updateItemAt(donationIndex);
-			}
 		}
 		else
-		{
 			messages.addItem(msg);
-		}
 	}
 	else if( MessageTypes.isComment(msg.getShort("m")) )
 	{
