@@ -4,6 +4,8 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.managers.TimeManager;
+import com.gt.towers.constants.ExchangeType;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
@@ -39,19 +41,23 @@ override public function init():void
 override public function commitData(_data:ISFSObject):void
 {
 	super.commitData(_data);
+	var expiredAt:int = data.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST);
+	var remainingSec:int = 0;
+	if ( expiredAt > TimeManager.instance.now )
+		remainingSec = expiredAt - TimeManager.instance.now;
 	actionButton.visible = true;
 	messageLayout.right = actionButton.width + padding;
 	if ( data.getInt("i") == player.id )
 	{
 		actionButton.visible = false;
 		messageDisplay.align = "right";
-		messageDisplay.text = "My Req" + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = "Time:"+ remainingSec + " | ct-->" + data.getShort("ct");
 	}
 	else
 	{
 		actionButton.style = "neutral";
 		actionButton.label = "Donate";
-		messageDisplay.text = "Req from " + data.getInt("r") + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = "Time:"+ remainingSec + " r:" + data.getInt("r") + " | ct-->" + data.getShort("ct");
 	}
 }
 
