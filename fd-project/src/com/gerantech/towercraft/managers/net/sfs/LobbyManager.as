@@ -193,21 +193,36 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 	}
 	else if ( msg.getShort("m") == MessageTypes.M20_DONATE )
 	{
+		
 		var donationIndex:int = containDonate(msg.getInt("r"));
-		if( donationIndex > -1 )
+		var donateMsg:ISFSObject = null;
+		if ( donationIndex != -1 )
+			donateMsg = messages.getItemAt(donationIndex) as SFSObject;
+			
+		if ( msg.getInt("r") == msg.getInt("i") ) // msg is a donation request
 		{
-			if(  messages.getItemAt(donationIndex).getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now )
+			if( donationIndex != -1 ) // there is a pending message request from this player
 			{
-				messages.removeItemAt(donationIndex);
-				// delay
-				messages.addItem(msg);
+				if(  donateMsg.getInt("u") + ExchangeType.getCooldown(ExchangeType.DONATION_141_REQUEST) < TimeManager.instance.now )
+				{
+					messages.removeItemAt(donationIndex);
+					// delay
+					messages.addItem(msg);
+				}
+				else
+					trace("Can't add new message! another request is pending...");
+					//messages.updateItemAt(donationIndex);
 			}
 			else
-				messages.updateItemAt(donationIndex);
+				messages.addItem(msg);
 		}
 		else
-			messages.addItem(msg);
-	}
+		{
+			if ( donateMsg != null )
+				donateMsg.putInt("n", msg.getInt("n"));
+		}
+		
+	}	
 	else if( MessageTypes.isComment(msg.getShort("m")) )
 	{
 		messages.addItem(msg);
@@ -252,17 +267,18 @@ private function containBattle(battleId:int):int
 			return i;
 	return -1;
 }
-private function containDonate(requesterId:int):int
-{
-	for (var i:int = 0; i < messages.length; i++) 
-		if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("r") == requesterId )
-			return i;
-	return -1;
-}
 public function getMyRequestBattleIndex():int
 {
 	for (var i:int = 0; i < messages.length; i++) 
 		if( messages.getItemAt(i).getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && messages.getItemAt(i).getInt("i") == player.id && messages.getItemAt(i).getShort("st") == 0 )
+			return i;
+	return -1;
+}
+
+private function containDonate(requesterId:int):int
+{
+	for (var i:int = 0; i < messages.length; i++) 
+		if( messages.getItemAt(i).getShort("m") == MessageTypes.M20_DONATE && messages.getItemAt(i).getShort("r") == requesterId )
 			return i;
 	return -1;
 }

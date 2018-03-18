@@ -175,7 +175,7 @@ protected function chatList_changeHandler(event:Event):void
 		params.putInt("cl", msgPack.getInt("cl"));
 		params.putInt("r", msgPack.getInt("r"));
 		params.putInt("n", msgPack.getInt("n") + 1 );	// add 1 to donation limit counter
-		msgPack.putInt("n", msgPack.getInt("n") + 1 );
+		//msgPack.putInt("n", msgPack.getInt("n") + 1 );
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	}
 }
