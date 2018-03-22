@@ -258,6 +258,7 @@ private function startBattle():void
 private function endBattle(data:SFSObject):void
 {
 	disposeBattleAssets();
+	hud.stopTimers();
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;

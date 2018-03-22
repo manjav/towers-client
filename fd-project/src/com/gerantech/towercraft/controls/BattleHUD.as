@@ -290,8 +290,16 @@ private function hideBubble(bubble:StickerBubble):void
 }
 
 override public function dispose():void
+public function stopTimers() : void
 {
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+	Starling.juggler.removeTweens(timerSlider);
+	Starling.juggler.removeTweens(starsNotice);
+}
+
+override public function dispose():void
+{
+	stopTimers();
 	super.dispose();
 }
 }
