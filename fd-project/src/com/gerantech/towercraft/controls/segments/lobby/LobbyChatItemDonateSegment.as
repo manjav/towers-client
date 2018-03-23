@@ -51,13 +51,14 @@ override public function commitData(_data:ISFSObject):void
 	{
 		actionButton.visible = false;
 		messageDisplay.align = "right";
-		messageDisplay.text = "Time:"+ remainingSec + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = "Time:" + remainingSec + " r:" + data.getInt("r") + " ct:" + data.getShort("ct") + " n/cl:" + data.getInt("n")+"/"+data.getInt("cl");
 	}
 	else
 	{
+		actionButton.visible = ( data.getInt("n") < data.getInt("cl") ) ? true : false;
 		actionButton.style = "neutral";
 		actionButton.label = "Donate";
-		messageDisplay.text = "Time:"+ remainingSec + " r:" + data.getInt("r") + " | ct-->" + data.getShort("ct");
+		messageDisplay.text = "Time:" + remainingSec + " r:" + data.getInt("r") + " ct:" + data.getShort("ct") + " n/cl:" + data.getInt("n")+"/"+data.getInt("cl");
 	}
 }
 
