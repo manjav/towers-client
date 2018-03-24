@@ -4,7 +4,8 @@
   <versionNumber>0.2.600</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>TowerCraft</filename>
-    <name>KOOT</name>
+  <name>KOOT</name>
+  <description>{"target":"android", "market":"cafebazaar"}</description><!-- cafebazaar-myket-cando-ario-google -->
   <initialWindow>
     <title>towerstory</title>
     <content>towerstory.swf</content>
@@ -54,19 +55,23 @@
 	<uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
 	<uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
 <!-- End: ShortcutBadger -->
+
+<!-- In APP Billing permissions -->
 	<!--<uses-permission android:name="com.android.vending.BILLING" />-->
 	<uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" />
 	<!--<uses-permission android:name="ir.mservices.market.BILLING" />-->
 	<!--<uses-permission android:name="com.arioclub.android.sdk.IAB"/>-->
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.VIBRATE" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<application android:enabled="true">
+	
+	<application android:enabled="true" >
+		
 <!-- Google Play -->
 		<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 818896630544" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
@@ -101,22 +106,24 @@
 <!-- OneSignal END -->
 		
 		<activity android:excludeFromRecents="false">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-				<category android:name="tv.ouya.intent.category.GAME" />
-			</intent-filter>
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:scheme="towers" />
-			</intent-filter>
-		</activity>
+		  <intent-filter>
+			<action android:name="android.intent.action.MAIN"/>
+			<category android:name="android.intent.category.LAUNCHER"/>
+			<category android:name="tv.ouya.intent.category.GAME" />
+		  </intent-filter>
+		  <intent-filter>
+			<action android:name="android.intent.action.VIEW"/>
+			<category android:name="android.intent.category.BROWSABLE"/>
+			<category android:name="android.intent.category.DEFAULT"/>
+			<data android:scheme="towers"/>
+		  </intent-filter>
+		</activity>    			
 		<activity android:name="ir.tapsell.sdk.TapsellAdActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
 		<activity android:name="com.gerantech.extensions.IabActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
-		<receiver android:name="com.gerantech.extensions.recievers.LocalNotificationReceiver" />
+		<receiver android:name="com.gerantech.extensions.recievers.LocalNotificationReceiver"/>
+	<!--<receiver android:name="com.gerantech.extensions.recievers.InvokeAppReceiver"/> -->
 	</application>
+	
 </manifest>]]></manifestAdditions>
   </android>
   <iPhone>
@@ -132,9 +139,7 @@
 </array>]]></InfoAdditions>
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
-  <description>{"target":"android", "market":"cafebazaar"}</description><!-- cafebazaar-myket-cando-ario-google -->
   <extensions>
-    <extensionID>com.gerantech.extensions.iabilling</extensionID>
 	<extensionID>com.marpies.ane.androidsupport</extensionID>
 	<extensionID>com.marpies.ane.gameanalytics</extensionID>
 	<extensionID>com.marpies.ane.gameServices</extensionID>
@@ -148,6 +153,7 @@
 	<extensionID>com.marpies.ane.googleplayservices.location</extensionID>
 	<extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
 	<extensionID>com.marpies.ane.onesignal</extensionID>
+	<extensionID>com.gerantech.extensions.iabilling</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>ir.tapsell.sdk.air</extensionID>
   </extensions>
