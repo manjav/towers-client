@@ -32,9 +32,8 @@ package com.gerantech.towercraft.controls.overlays
 			appModel.sounds.addAndPlaySound("whoosh");
 			overlay.touchable = task.type == TutorialTask.TYPE_CONFIRM;
 			
-			var charName:int = side==0 ? (player.inDeckTutorial()?2:0) : 1
 			var charachter:ImageLoader = new ImageLoader();
-			charachter.source =  Assets.getTexture("chars/char-" + charName, "gui");
+			charachter.source =  Assets.getTexture("chars/char-" + side, "gui");
 			charachter.verticalAlign = VerticalAlign.BOTTOM;
 			charachter.layoutData = new AnchorLayoutData(NaN, side==0?NaN:0, 0, side==0?0:NaN);
 			charachter.height = stage.stageHeight * (side==0?0.45:0.5);
@@ -42,7 +41,7 @@ package com.gerantech.towercraft.controls.overlays
 			addChild(charachter);
 			
 			var tootlip:BaseTooltip;
-			var position:Rectangle = new Rectangle(width * (side==0?0.35:0.65), height * (side==0?0.6:0.51), 1, 1)
+			var position:Rectangle = new Rectangle(width * (side==0?0.35:0.65), height * (side==0?0.55:0.55), 1, 1)
 			if( task.type == TutorialTask.TYPE_CONFIRM )
 				tootlip = new ConfirmTooltip(loc(task.message), position, 1, 0.6);
 			else

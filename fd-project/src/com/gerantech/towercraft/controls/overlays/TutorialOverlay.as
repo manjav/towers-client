@@ -30,7 +30,7 @@ package com.gerantech.towercraft.controls.overlays
 			super.initialize();
 			
 			if( overlay != null )
-				overlay.alpha = 0.2;
+				overlay.alpha = 0.1;
 				
 			if( transitionIn == null )
 				transitionIn = new TransitionData(0.1, task.startAfter / 1000);
@@ -79,7 +79,8 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function addedToStageHandler(event:Event):void
 		{
 			super.addedToStageHandler(event);
-			overlay.touchable = false;
+			if( overlay != null )
+				overlay.touchable = false;
 			closeOnStage = false;
 			setTimeout(function():void{closeOnStage = true}, task.skipableAfter);
 		}

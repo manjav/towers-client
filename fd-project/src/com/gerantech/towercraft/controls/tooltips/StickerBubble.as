@@ -29,9 +29,9 @@ package com.gerantech.towercraft.controls.tooltips
 			super.initialize();
 			touchable = false;
 			
-			var sk:Image = new Image(Assets.getTexture("tooltip-bg-"+(inverse?"top-left":"bot-left"), "gui"));
+			var sk:Image = new Image(Assets.getTexture("tooltip-bg-"+(inverse?"top-left":"bot-right"), "gui"));
 			//sk.scale9Grid = new Rectangle(halign=="left"?19:8, valign=="top"?18:7, 1, 1);
-			sk.scale9Grid = new Rectangle(19, inverse?18:7, 1, 1);
+			sk.scale9Grid = new Rectangle(inverse?19:7, inverse?19:7, 1, 1);
 			backgroundSkin = sk;
 			
 			var hlayout:HorizontalLayout = new HorizontalLayout();

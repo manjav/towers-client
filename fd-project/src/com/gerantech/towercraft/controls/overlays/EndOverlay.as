@@ -18,7 +18,7 @@ import starling.events.Event;
 
 public class EndOverlay extends BaseOverlay
 {
-public var tutorialMode:Boolean;
+public var inTutorial:Boolean;
 public var score:int;
 public var playerIndex:int;
 
@@ -28,11 +28,11 @@ protected var padding:int;
 protected var battleData:BattleData;
 protected var showAdOffer:Boolean;
 
-public function EndOverlay(playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean=false)
+public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolean=false)
 {
 	super();
 	this.rewards = rewards;
-	this.tutorialMode = tutorialMode;
+	this.inTutorial = inTutorial;
 	this.playerIndex = playerIndex;
 	if( playerIndex > -1 )
 		score = rewards.getSFSObject(playerIndex).getInt("score");
@@ -43,6 +43,7 @@ override protected function initialize():void
 	closeOnStage = false;
 	autoSizeMode = AutoSizeMode.STAGE;
 	super.initialize();
+	overlay.touchable = false;
 	layout = new AnchorLayout();
 	padding = 48 * appModel.scale;
 	

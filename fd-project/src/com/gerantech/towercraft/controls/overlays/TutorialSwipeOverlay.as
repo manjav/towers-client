@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
+	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
 	import feathers.controls.LayoutGroup;
@@ -27,11 +28,14 @@ package com.gerantech.towercraft.controls.overlays
 			var array:Array = [];
 			while(task.places.size() > 0)
 				array.push(task.places._list.pop());
-			array.sortOn("tutorIndex", Array.NUMERIC|Array.DESCENDING);
+			array.sortOn("tutorIndex", Array.NUMERIC | Array.DESCENDING);
 			
 			this.places = new PlaceDataList();
 			while(array.length > 0) 
 				this.places.push(array.pop());
+			
+			// aim to last swiped point
+			PlaceView(appModel.battleFieldView.places[places.get(places.size() - 1).index]).addAim(true);
 			
 			//for each(var p:PlaceData in this.places._list)
 				//trace(p.tutorIndex);

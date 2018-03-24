@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.models.AppModel;
+import com.gt.towers.Player;
 
 import feathers.controls.ButtonState;
 import feathers.events.FeathersEventType;
@@ -21,7 +22,7 @@ public function HomeButton(icon:DisplayObject, iconScale:Number=1)
 
 public function showArrow():void
 {
-	if( tutorialArrow != null || !AppModel.instance.game.player.inTutorial() )
+	if( tutorialArrow != null )
 		return;
 	tutorialArrow = new TutorialArrow(false);
 	tutorialArrow.addEventListener(FeathersEventType.CREATION_COMPLETE , tutorialArrow_createHandler);

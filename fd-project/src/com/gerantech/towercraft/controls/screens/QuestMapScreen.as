@@ -119,7 +119,7 @@ override protected function transitionInCompleteHandler(event:Event):void
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
 	
 	if( player.inTutorial() )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.isHardMode() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
 
 	//quest intro
 	var tutorialData:TutorialData = new TutorialData("quest_" + lastQuest.index + "_intro");
@@ -127,13 +127,13 @@ override protected function transitionInCompleteHandler(event:Event):void
 	{
 		var tuteMessage:String = "tutor_quest_" + lastQuest.index + "_intro_"
 		if( lastQuest.index == 2 )
-			tuteMessage += (player.isHardMode()?"first_":"second_");
+			tuteMessage += (player.emptyDeck()?"first_":"second_");
 		tuteMessage += lastQuest.introNum.get(i);
 		trace("tuteMessage:", tuteMessage);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, lastQuest.introNum.get(i)));	
 	}
 	
-	tutorials.addEventListener(GameEvent.SHOW_TUTORIAL, tutorials_showHandler);
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
 	tutorials.show(tutorialData);
 	if( tutorialData.numTasks > 0 )
 		appModel.sounds.addAndPlaySound("outcome-defeat");

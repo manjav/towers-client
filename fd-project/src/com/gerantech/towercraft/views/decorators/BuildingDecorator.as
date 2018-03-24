@@ -75,6 +75,8 @@ protected function addedToStageHandler():void
 	
 	populationIcon = new Image(Assets.getTexture("population-" + place.building.troopType));
 	populationIcon.touchable = false;
+	populationIcon.width = 49;
+	populationIcon.height = 56;
 	populationIcon.x = place.x - populationBar.width/2 - 18;
 	populationIcon.y = place.y + 35;
 	fieldView.guiImagesContainer.addChild(populationIcon);
@@ -110,10 +112,11 @@ protected function addedToStageHandler():void
 
 public function updateElements(population:int, troopType:int):void
 {
+	var colorIndex:int = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
 	populationIndicator.text = population + "/" + place.building.get_capacity();
-	populationBar.troopType = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
+	populationBar.troopType = colorIndex;
 	populationBar.value = population;
-	populationIcon.texture = Assets.getTexture("population-"+place.building.troopType);
+	populationIcon.texture = Assets.getTexture("population-"+colorIndex);
 	
 	// _-_-_-_-_-_-_-_-_-_-_-_-  body -_-_-_-_-_-_-_-_-_-_-_-_-_
 	var txt:String = "building-" + place.building.type;

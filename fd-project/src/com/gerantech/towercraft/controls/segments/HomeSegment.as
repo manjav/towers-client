@@ -54,12 +54,11 @@ private var battleTimeoutId:uint;
 public function HomeSegment()
 {
 	super();
-	FactionsScreen.createFactionsFactory(init);
 }
 override public function init():void
 {
 	super.init();
-	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED || FactionsScreen.animFactory == null )
+	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED  )
 		return;
 	
 	layout = new AnchorLayout();		
@@ -187,15 +186,15 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	if( player.get_questIndex() >= 3 && player.nickName == "guest" )
+	if( !player.inTutorial() && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
 		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_172_NAME_SELECTED); 
-			//battlesButton.showArrow();
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.tutorialMode == 0 ? PrefsTypes.T_172_NAME_SELECTED : PrefsTypes.T_139_NAME_SELECTED); 
+			battlesButton.showArrow();
 		}
 		return;
 	}
@@ -240,7 +239,7 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
 			break;
 		case battlesButton:
-			appModel.navigator.runBattle(true);
+			appModel.navigator.runBattle(player.get_arena(0) > 0);
 			break;
 		case leaguesButton:
 			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		

@@ -43,7 +43,7 @@ override protected function initialize():void
 
 	// tile grass ground
 	//var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
-    var tiledBG:Quad = new Quad(1,1,0xb7bb3c);
+    var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
 	tiledBG.x = -1080 * 0.25;
 	tiledBG.y = -1920 * 0.25;
 	tiledBG.width = 1080 * 2;

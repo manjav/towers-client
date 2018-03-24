@@ -17,6 +17,7 @@ import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import com.gt.towers.exchanges.ExchangeItem;
+import starling.utils.Color;
 
 import flash.desktop.NativeApplication;
 import flash.geom.Rectangle;
@@ -53,10 +54,16 @@ private var tabBorder:ImageLoader;
 private var tabSize:int;
 private var segmentsCollection:ListCollection;
 
-public function DashboardScreen(){}
+public function DashboardScreen()
+{
+	if( FactionsScreen.animFactory == null )
+		FactionsScreen.createFactionsFactory(initialize);
+}
 
 override protected function initialize():void
 {
+	if( FactionsScreen.animFactory == null )
+		return;
 	super.initialize();
 	var footerSize:int = 180 * appModel.scale;
 	autoSizeMode = AutoSizeMode.STAGE; 
@@ -67,9 +74,10 @@ override protected function initialize():void
 	tiledBG.tileGrid = new Rectangle(appModel.scale, appModel.scale, 256 * appModel.scale, 256 * appModel.scale);
 	backgroundSkin = tiledBG;
 	
-	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
-	shadow.width = stage.stageWidth;
-	shadow.height = stage.stageHeight-footerSize;
+	var shadow:ImageLoader = new ImageLoader();
+	shadow.source = Assets.getTexture("bg-shadow", "gui");
+	shadow.layoutData = new AnchorLayoutData(0, 0, footerSize*0.8, 0);
+	shadow.color = Color.BLACK;
 	addChildAt(shadow, 0);
 
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
@@ -111,7 +119,7 @@ override protected function initialize():void
 	tabBorder.width = tabSize * 2;
 	tabBorder.height = footerSize;
 	tabBorder.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
-	tabBorder.scale9Grid = new Rectangle(11,10,2,2);
+	tabBorder.scale9Grid = new Rectangle(11, 10, 2, 2);
 	addChild(tabBorder);
 	
 	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
@@ -130,17 +138,15 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		return;
 	}
 	
-player.tutorialMode = 1;
 	// tutorial mode
-	if( player.getTutorStep() < PrefsTypes.T_171_SELECT_NAME_FOCUS && !player.inShopTutorial() && !player.inDeckTutorial() )
+	if( player.inTutorial() && !player.inShopTutorial() && !player.inDeckTutorial() )
 	{
 		if( player.tutorialMode == 0 )
 			appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
-		else if( player.tutorialMode == 1 && player.get_battleswins() == 0 )
+		else if( player.tutorialMode == 1 )
 			appModel.navigator.runBattle();
 		return;
 	}
-	
 	
 	segmentsCollection = getListData();
 

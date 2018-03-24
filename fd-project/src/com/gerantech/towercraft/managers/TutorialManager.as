@@ -3,6 +3,7 @@ package com.gerantech.towercraft.managers
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
+import com.gerantech.towercraft.controls.overlays.TutorialTaskOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -20,6 +21,7 @@ public function show(data:TutorialData):void
 {
 	tutorialData = data;
 	processTasks();
+	dispatchEventWith(GameEvent.TUTORIAL_TASKS_STARTED, false, data);
 }
 
 private function processTasks():void
@@ -30,7 +32,7 @@ private function processTasks():void
 		dispatchEventWith(GameEvent.TUTORIAL_TASKS_FINISH, false, tutorialData);
 		return;
 	}
-	dispatchEventWith(GameEvent.SHOW_TUTORIAL, false, task);
+	dispatchEventWith(GameEvent.TUTORIAL_TASK_SHOWN, false, task);
 
 	switch(task.type)
 	{
@@ -51,6 +53,12 @@ private function processTasks():void
 			touchoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
 			appModel.navigator.addOverlay(touchoverlay);					
 			break;
+		
+		case TutorialTask.TYPE_TASK:
+			var taskOverlay:TutorialTaskOverlay = new TutorialTaskOverlay(task);
+			appModel.navigator.addOverlay(taskOverlay);
+			processTasks();
+			break;
 	}
 
 }		
@@ -68,7 +76,7 @@ public static function get instance():TutorialManager
 	return _instance;
 }
 
-public function removeAll():void
+public function removeAll(includeTaskOverlay:Boolean=true):void
 {
 	if ( tutorialData != null )
 		while( tutorialData.numTasks > 0 )
@@ -78,7 +86,9 @@ public function removeAll():void
 	{
 		if( appModel.navigator.overlays[i] is TutorialOverlay )
 		{
-			trace(appModel.navigator.overlays[i])
+			if ( !includeTaskOverlay && appModel.navigator.overlays[i] is TutorialTaskOverlay )
+				continue;
+			
 			appModel.navigator.overlays[i].removeEventListeners(Event.CLOSE);
 			appModel.navigator.overlays[i].removeFromParent(true);
 			appModel.navigator.overlays.removeAt(i);

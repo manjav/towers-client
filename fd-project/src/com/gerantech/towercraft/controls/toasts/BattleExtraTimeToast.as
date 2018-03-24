@@ -13,7 +13,7 @@ package com.gerantech.towercraft.controls.toasts
 	import starling.display.Quad;
 /**
 * ...
-* @author MAnsour Djawadi
+* @author Mansour Djawadi
 */
 public class BattleExtraTimeToast extends BaseToast
 {

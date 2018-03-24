@@ -1,30 +1,22 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.BattleItemRenderer;
-import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.entities.variables.SFSRoomVariable;
 import com.smartfoxserver.v2.requests.LeaveRoomRequest;
-
-import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
-
 import starling.events.Event;
 
 public class SpectateScreen extends ListScreen
 {
 public var cmd:String;
 private var sfsConnection:SFSConnection;
-
 private var rooms:ListCollection = new ListCollection();
 
 public function SpectateScreen(){}

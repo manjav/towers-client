@@ -4,18 +4,15 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.headers.AttendeeHeader;
 import com.gerantech.towercraft.controls.items.StickerItemRenderer;
+import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.StickerType;
-import flash.geom.Rectangle;
-import starling.utils.Color;
-
-import flash.utils.setTimeout;
-
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -27,42 +24,39 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
-
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.events.Event;
-import com.gerantech.towercraft.controls.tooltips.StickerBubble;
+import starling.utils.Color;
 
 public class BattleHUD extends TowersLayout
 {
+private var padding:int;
+private var scoreIndex:int = 0;
+private var debugMode:Boolean = false;
+
 private var battleData:BattleData;
 private var timerSlider:BattleTimerSlider;
 private var stickerList:List;
-
-private var padding:int;
-
 private var stickerCloserOveraly:SimpleLayoutButton;
 private var myBubble:StickerBubble;
 private var opponentBubble:StickerBubble;
-
 private var starsNotice:StarsNotice;
-private var scoreIndex:int = 0;
 private var timeLog:RTLLabel;
-private var debugMode:Boolean = false;
-
 private var stickerButton:CustomButton;
 
-public function BattleHUD()
-{
-	super();
-}
-
+public function BattleHUD() { super(); }
 override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
 	this.battleData = appModel.battleFieldView.battleData;
+	
+	if( player.inTutorial() )
+		return;
 
 	var gradient:ImageLoader = new ImageLoader();
 	gradient.scale9Grid = new Rectangle(1,1,7,7);
@@ -110,7 +104,7 @@ override protected function initialize():void
 	}
 
 	timerSlider = new BattleTimerSlider();
-	timerSlider.layoutData = new AnchorLayoutData(padding*4, padding*6);
+	timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
 	addChild(timerSlider);
 	
 	starsNotice = new StarsNotice();
@@ -284,12 +278,26 @@ public function showBubble(type:int, itsMe:Boolean=true):void
 
 private function hideBubble(bubble:StickerBubble):void
 {
+	
 	bubble.removeFromParent();
-	if( SFSConnection.instance.mySelf != null && !SFSConnection.instance.mySelf.isSpectator )
+	if( SFSConnection.instance.lastJoinedRoom != null && !SFSConnection.instance.mySelf.isSpectator )
 		stickerButton.visible = true;
 }
 
-override public function dispose():void
+public function end(overlay:EndOverlay) : void 
+{
+	// remove all element except sticker elements
+	var numCh:int = numChildren - 1;
+	while ( numCh >= 0 )
+	{
+		if ( getChildAt(numCh) != myBubble && getChildAt(numCh) != opponentBubble && getChildAt(numCh) != stickerButton )
+			getChildAt(numCh).removeFromParent(true);
+		numCh --;
+	}
+
+	addChildAt(overlay, 0);
+}
+
 public function stopTimers() : void
 {
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);

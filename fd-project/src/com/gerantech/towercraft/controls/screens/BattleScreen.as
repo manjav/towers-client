@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.BattleHUD;
 import com.gerantech.towercraft.controls.buttons.ImproveButton;
 import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
+import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
@@ -21,7 +22,6 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.battle.BattleField;
@@ -42,17 +42,13 @@ import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import starling.core.Starling;
-
-import flash.geom.Point;
-import flash.utils.setTimeout;
-
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.geom.Point;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
-import starling.display.Quad;
+import starling.core.Starling;
 import starling.events.Event;
 import starling.events.Touch;
 import starling.events.TouchEvent;
@@ -63,7 +59,7 @@ public class BattleScreen extends BaseCustomScreen
 public var isFriendly:Boolean;
 public var requestField:FieldData;
 public var spectatedUser:String;
-public var waitingOverlay:BattleStartOverlay;
+public var waitingOverlay:BattleWaitingOverlay;
 
 private var hud:BattleHUD;
 
@@ -84,7 +80,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
+	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
 	var sfsObj:SFSObject = new SFSObject();
 	sfsObj.putBool("q", requestField!=null&&requestField.isQuest);
@@ -123,7 +119,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BUILDING_IMPROVE:
-		appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"));
+		appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("tt"), data.getInt("p"));
 		appModel.sounds.addAndPlaySound("battle-improve");
 		break;
 	
@@ -167,80 +163,38 @@ private function startBattle():void
 {
 	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
 		return;
-	
+		
+	var battleData:BattleData = appModel.battleFieldView.battleData;
 	if( !waitingOverlay.ready )
 	{
 		waitingOverlay.addEventListener(Event.READY, waitingOverlay_readyHandler);
 		function waitingOverlay_readyHandler():void
 		{
 			waitingOverlay.removeEventListener(Event.READY, waitingOverlay_readyHandler);
-			waitingOverlay.addEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 			startBattle();
 		}
 		return;
 	}
-
-	waitingOverlay.setData(appModel.battleFieldView.battleData);
+	waitingOverlay.disappear();
+	waitingOverlay.addEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 	function waitingOverlay_closeHandler(e:Event):void 
 	{
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
-		Starling.juggler.tween(appModel.battleFieldView, 2, {scale:appModel.scale, transition:Transitions.EASE_IN_OUT});
-	}
-	//waitingOverlay.disappear();
-	updateTowersFromRoomVars();
-	
-	var quest:FieldData = appModel.battleFieldView.battleData.battleField.map;
-	//trace("battle screen -> start", quest.index, quest.isQuest, player.quests.get(quest.index));
-	if( quest.isQuest )
-	{
-		// create tutorial steps
-		var tutorialData:TutorialData = new TutorialData(quest.name+"_start");
-
-		//quest start
-		var tuteMessage:String = "";
-		for (var i:int=0 ; i < quest.startNum.size() ; i++) 
-		{
-			tuteMessage = "tutor_quest_" + quest.index + "_start_";
-			if( quest.index == 2 )
-				tuteMessage += (player.isHardMode()?"first_":"second_");
-			tuteMessage += quest.startNum.get(i);
-			trace("tuteMessage:", tuteMessage);
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, quest.startNum.get(i)));
-		}
-
-		if( !player.hardMode )
-		{
-			var places:PlaceDataList = quest.getSwipeTutorPlaces();
-			if( places.size() > 0 )
-				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1500));
-		
-			var place:PlaceData = quest.getImprovableTutorPlace()
-			if( place != null )
-			{
-				places = new PlaceDataList();
-				places.push(place);
-				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
-			}
-		}
-
-		tutorials.show(tutorialData);
-		
-		if( quest.index == 0 )
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_122_QUEST_0_START);
-		else if( quest.index == 1 )
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_131_QUEST_1_START);
-		else if( quest.index == 2 )
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.hardMode ? PrefsTypes.T_133_QUEST_2_FIRST_START : PrefsTypes.T_162_QUEST_2_SECOND_START);
+		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
+		hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isQuest ? battleData.battleField.map.index : -1, battleData ), 0);
 	}
 	
+	// show battle HUD
 	hud = new BattleHUD();
 	hud.addEventListener(Event.CLOSE, backButtonHandler);
-	hud.layoutData = new AnchorLayoutData(0,0,0,0);
+	hud.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(hud);
+	
+	updateTowersFromRoomVars();
 	
 	sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 	
-	if( timeManager.now - appModel.battleFieldView.battleData.startAt > 5 )
+	if( timeManager.now - battleData.startAt > 5 )
 		appModel.battleFieldView.responseSender.resetAllVars();
 
 	appModel.loadingManager.serverData.putBool("inBattle", false);
@@ -254,6 +208,72 @@ private function startBattle():void
 	function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 }
 
+private function showTutorials() : void 
+{
+	if ( !player.inTutorial() )
+		return;
+	
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+	if( player.tutorialMode == 0 && !field.isQuest )
+		return;
+
+	// create tutorial steps
+	var tutorialData:TutorialData = new TutorialData(field.name+"_start");
+	
+	//quest start
+	var tuteMessage:String = "";
+	for (var i:int=0 ; i < field.startNum.size() ; i++) 
+	{
+		tuteMessage = "tutor_" + field.name + "_start_";
+		if( field.index == 2 && field.isQuest )
+			tuteMessage += (player.emptyDeck()?"first_":"second_");
+		tuteMessage += field.startNum.get(i);
+		trace("tuteMessage:", tuteMessage);
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1200, field.startNum.get(i)));
+	}
+	
+	if ( player.tutorialMode == 1 && player.get_battleswins() == 0 )
+	{
+		var tasks:PlaceDataList = new PlaceDataList();
+		tasks.push(new PlaceData(0, 0, 0, field.index, 0, ""));
+		tasks.push(new PlaceData(1, 0, 0, field.index, 0, ""));
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TASK, tuteMessage, tasks, 500, 0, null));
+	}
+	
+	if( !player.hardMode )
+	{
+		var places:PlaceDataList = field.getSwipeTutorPlaces();
+		if( places.size() > 0 )
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1500));
+		
+		var place:PlaceData = field.getImprovableTutorPlace()
+		if( place != null )
+		{
+			places = new PlaceDataList();
+			places.push(place);
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
+		}
+	}
+	tutorials.show(tutorialData);
+	
+	if( field.index == 0 )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_122_QUEST_0_START);
+	else if( field.index == 1 )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_131_QUEST_1_START);
+	else
+	{
+		if( player.tutorialMode == 0 )
+		{
+			if( field.index == 2 )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_133_QUEST_2_FIRST_START : PrefsTypes.T_162_QUEST_2_SECOND_START);
+		}
+		else
+		{
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_133_QUEST_2_FIRST_START);
+		}
+	}
+}
+
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function endBattle(data:SFSObject):void
 {
@@ -262,9 +282,7 @@ private function endBattle(data:SFSObject):void
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
-	var tutorialMode:Boolean = field.isQuest && (field.startNum.size() > 0) && player.quests.get(field.index)==0;
-
-	
+	var inTutorial:Boolean = player.inTutorial();
 	var playerIndex:int = -1
 	for(var i:int = 0; i < rewards.size(); i++)
 	{
@@ -301,39 +319,42 @@ private function endBattle(data:SFSObject):void
 		nextArena = player.get_arena(0);
 	}
 	
-	var endOverlay:EndOverlay;
-	if( field.isQuest )
+	if( inTutorial )
 	{
-		endOverlay = new EndQuestOverlay(playerIndex, rewards, tutorialMode);
-		
-		if( tutorialMode )
+		// reserved prefs data
+		if( field.index == 0 && rewards.getSFSObject(0).getInt("score") > 0 )
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_125_QUEST_0_WIN);
+		else if( field.index == 1 && rewards.getSFSObject(0).getInt("score") > 0 )
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_132_QUEST_1_WIN);
+		else if ( field.index == 2 )
 		{
-			// reserved prefs data
-			if( field.index == 0 && rewards.getSFSObject(0).getInt("score") > 0 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_125_QUEST_0_WIN);
-			else if( field.index == 1 && rewards.getSFSObject(0).getInt("score") > 0 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_132_QUEST_1_WIN);
-			else if( field.index == 2 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, !player.hardMode && rewards.getSFSObject(0).getInt("score") > 0 ? PrefsTypes.T_165_QUEST_2_WIN : PrefsTypes.T_135_QUEST_2_LOSE);
+			if( player.tutorialMode == 0 )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, !player.emptyDeck() && rewards.getSFSObject(0).getInt("score") > 0 ? PrefsTypes.T_165_QUEST_2_WIN : PrefsTypes.T_135_QUEST_2_LOSE);
+			else
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_136_QUEST_2_WIN);
 		}
+	}
+	
+	var endOverlay:EndOverlay;
+	if ( field.isQuest )
+	{
+		endOverlay = new EndQuestOverlay(playerIndex, rewards, inTutorial);
 	}
 	else
 	{
-		endOverlay = new EndBattleOverlay(playerIndex, rewards, tutorialMode);
+		endOverlay = new EndBattleOverlay(playerIndex, rewards, inTutorial);
 		if( playerIndex > -1 && prevArena != nextArena )
-			endOverlay.data = [prevArena, nextArena]
+			endOverlay.data = [prevArena, nextArena];
 	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
 	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	setTimeout(appModel.navigator.addOverlay, player.get_arena(0)==0?1000:0, endOverlay);//delay for noobs
+	setTimeout(hud.end, player.get_arena(0) == 0?1000:0, endOverlay);//delay for noobs
 }
 
 private function disposeBattleAssets():void
 {
 	appModel.sounds.stopSound("battle-theme");
 	appModel.sounds.stopSound("battle-clock-ticking");			
-	appModel.battleFieldView.responseSender.actived = false;
-	removeChild(hud, true);
 }
 
 private function endOverlay_retryHandler(event:Event):void
@@ -364,9 +385,11 @@ private function showExtraTimeAd():void
 
 private function retryQuest(index:int, hasExtraTime:Boolean):void
 {
-	waitingOverlay = new BattleStartOverlay(index, false) ;
+	waitingOverlay = new BattleWaitingOverlay(false);
 	appModel.navigator.addOverlay(waitingOverlay);
 	
+	hud.removeFromParent(true);
+	appModel.battleFieldView.responseSender.actived = false;
 	disposeBattleAssets();
 	removeChild(appModel.battleFieldView, true);
 	
@@ -396,22 +419,39 @@ private function endOverlay_closeHandler(event:Event):void
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 	// set quest score
-	if( field.isQuest && player.quests.get( field.index ) < endOverlay.score )
-		player.quests.set(field.index, endOverlay.score);
+	if( field.isQuest )
+	{
+		if( player.quests.get( field.index ) < endOverlay.score )
+			player.quests.set(field.index, endOverlay.score);
+	}
+	else
+	{
+		appModel.battleFieldView.responseSender.leave();
+	}
+	appModel.battleFieldView.responseSender.actived = false;
 	
 	// create tutorial steps
 	var winStr:String = endOverlay.score > 0 ? "_win_" : "_defeat_";
 	//quest end
-	if( field.isQuest && player.inTutorial() )
+	var task:TutorialTask
+	if( endOverlay.inTutorial )
 	{
 		var tutorialData:TutorialData = new TutorialData(field.name + "_end");
-		var task:TutorialTask
 		for ( var i:int=0; i < field.endNum.size() ; i++ )
 		{
-			task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_" + field.index + "_end" + winStr + field.endNum.get(i));
+			task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_" + field.name + "_end" + winStr + field.endNum.get(i));
 			task.data = field.endNum.get(i);
 			tutorialData.addTask(task);
 		}
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
+		tutorials.show(tutorialData);
+		return;
+	}
+	else if ( player.tutorialMode == 1 && endOverlay.score < 0 && player.emptyDeck() )
+	{
+		tutorialData = new TutorialData("tutor_upgrade");
+		tutorialData.data = endOverlay.score;
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_upgrade"));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		tutorials.show(tutorialData);
 		return;
@@ -429,8 +469,8 @@ private function endOverlay_closeHandler(event:Event):void
 		}
 		return;
 	}
-		
-	if( !endOverlay.tutorialMode && endOverlay.score == 3 )//!sfsConnection.mySelf.isSpectator && 
+
+	if( !player.inTutorial() && endOverlay.score == 3 && player.get_arena(0) > 0 )//!sfsConnection.mySelf.isSpectator && 
 		appModel.navigator.showOffer();
 	dispatchEventWith(Event.COMPLETE);
 }
@@ -440,20 +480,27 @@ private function tutorials_tasksFinishHandler(event:Event):void
 {
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	var tutorial:TutorialData = event.data as TutorialData;
-	if( tutorial.name == "quest_2_end" )
+	if( tutorial.name == "quest_2_end" || tutorial.name == "battle_2_end" || tutorial.name == "tutor_upgrade" )
 	{
-		if( player.buildings.exists(BuildingType.B11_BARRACKS) )
+		var defeatAfterTutorial:Boolean = !player.inTutorial() && player.tutorialMode == 1 && tutorial.data <= 0;
+		if ( player.tutorialMode == 0 || defeatAfterTutorial )
 		{
-			if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_171_SELECT_NAME_FOCUS);
+			if( player.buildings.exists(BuildingType.B11_BARRACKS) )
+			{
+				if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, defeatAfterTutorial ? PrefsTypes.T_181_RANK_FOCUS : PrefsTypes.T_171_SELECT_NAME_FOCUS);
+				else
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_151_DECK_FOCUS); 
+			}
 			else
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_151_DECK_FOCUS); 
+			{
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_141_SHOP_FOCUS);
+			}
 		}
 		else
 		{
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_141_SHOP_FOCUS);
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_138_SELECT_NAME_FOCUS);
 		}
-		
 		appModel.navigator.popToRootScreen();
 		return;
 	}
@@ -478,9 +525,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		for( var i:int=0; i<towers.size(); i++ )
 			appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place, troopsDivision);
 	}
-	
 	//sfsConnection.removeFromCommands(SFSCommands.FIGHT);
-	
 }
 
 private function updateTowersFromRoomVars():void
@@ -509,10 +554,10 @@ private function touchHandler(event:TouchEvent):void
 {
 	var pv:PlaceView;
 	var touch:Touch = event.getTouch(this);
-	if(touch == null)
+	if( touch == null )
 		return;
 	
-	if(touch.phase == TouchPhase.BEGAN)
+	if( touch.phase == TouchPhase.BEGAN )
 	{
 		sourcePlaces = new Vector.<PlaceView>();
 		//trace("BEGAN", touch.target, touch.target.parent);
@@ -521,7 +566,7 @@ private function touchHandler(event:TouchEvent):void
 		
 		pv = touch.target.parent as PlaceView;
 		
-		if(pv.place.building.troopType != player.troopType)
+		if( pv.place.building.troopType != player.troopType )
 			return;
 		
 		allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE);
@@ -568,7 +613,7 @@ private function touchHandler(event:TouchEvent):void
 				clearSources(sourcePlaces);
 				return;
 			}
-		
+			
 			// remove destination from sources if exists
 			var self:int = sourcePlaces.indexOf(destination);
 			if( self > -1 )
@@ -594,7 +639,7 @@ private function touchHandler(event:TouchEvent):void
 				clearSources(sourcePlaces);
 				return;
 			}
-
+			
 			// check sources has a path to destination
 			for (var i:int = sourcePlaces.length-1; i>=0; i--)
 			{
@@ -617,7 +662,7 @@ private function touchHandler(event:TouchEvent):void
 				}
 				appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
 			}
-
+			
 			// clear swiping mode
 			clearSources(sourcePlaces);
 		}
@@ -643,7 +688,7 @@ private function clearSource(sourceTower:PlaceView):void
 
 private function showImproveFloating(placeView:PlaceView):void
 {
-	if( player.inTutorial() && player.hardMode && player.get_questIndex() < 3 )
+	if( player.inTutorial() && player.emptyDeck() )
 		return;
 	// create transition in data
 	var ti:TransitionData = new TransitionData();
@@ -710,7 +755,7 @@ override protected function backButtonFunction():void
 	function confirm_eventsHandler(event:Event):void {
 		confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 		confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
-
+		
 		appModel.battleFieldView.responseSender.leave(event.type == Event.SELECT);
 		appModel.battleFieldView.battleData.isLeft = true;
 		appModel.battleFieldView.responseSender.actived = false;

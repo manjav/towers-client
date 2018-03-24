@@ -67,7 +67,7 @@ override protected function commitData():void
 		_firstCommit = false;
 		
 		// show focus in tutorial 
-		if ( player.inTutorial() )
+		if ( player.inTutorial() || player.tutorialMode == 1 )
 		{
 			var tutorStep:int = player.getTutorStep();
 			if( index == 0 && player.inShopTutorial() )
