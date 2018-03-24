@@ -24,6 +24,8 @@ import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.utils.GameError;
 import com.gt.towers.utils.maps.IntIntMap;
+import com.marpies.ane.gameanalytics.GameAnalytics;
+import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -190,7 +192,14 @@ private function list_changeHandler(event:Event):void
 				// show achieve animation
 				var outs:Vector.<int> = item.outcomes.keys();
 				for ( var i:int=0; i<outs.length; i++ )
-					appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i])); 
+					appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i]));
+				
+                // send analytics events
+                GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
+				
+                var currency:String = appModel.descriptor.market == "google" ? "USD" : "IRR";
+                var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
+                GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase!=null?result.purchase.json:null, result.purchase!=null?result.purchase.signature:null);  
 			}
 			item.enabled = true;
 		}

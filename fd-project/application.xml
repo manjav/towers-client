@@ -136,6 +136,7 @@
   <extensions>
     <extensionID>com.gerantech.extensions.iabilling</extensionID>
 	<extensionID>com.marpies.ane.androidsupport</extensionID>
+	<extensionID>com.marpies.ane.gameanalytics</extensionID>
 	<extensionID>com.marpies.ane.gameServices</extensionID>
 	<extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
 	<extensionID>com.marpies.ane.googleplayservices.analytics</extensionID>
