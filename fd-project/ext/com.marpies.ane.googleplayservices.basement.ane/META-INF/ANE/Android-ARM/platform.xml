@@ -1,0 +1,14 @@
+<platform xmlns="http://ns.adobe.com/air/extension/20.0">
+
+    <packagedDependencies>
+        <packagedDependency>play-services-basement.jar</packagedDependency>
+    </packagedDependencies> 
+
+    <packagedResources>
+        <packagedResource> 
+            <packageName>com.google.android.gms</packageName> 
+            <folderName>marpies-play-services-basement-res</folderName> 
+        </packagedResource>
+    </packagedResources>
+
+</platform>

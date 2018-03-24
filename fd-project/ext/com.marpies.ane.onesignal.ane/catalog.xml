@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<swc xmlns="http://www.adobe.com/flash/swccatalog/9">
+    <versions>
+        <swc version="1.2"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354188"/>
+    </versions>
+    <features>
+        <feature-script-deps/>
+    </features>
+    <libraries>
+        <library path="library.swf">
+            <script name="com/marpies/ane/onesignal/OneSignal" mod="1482249467000">
+                <def id="com.marpies.ane.onesignal:OneSignal"/>
+                <dep id="ArgumentError" type="e"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="s"/>
+                <dep id="Function" type="s"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="s"/>
+                <dep id="com.marpies.ane.onesignal:OneSignalNotification" type="e"/>
+                <dep id="com.marpies.ane.onesignal:OneSignalSettings" type="e"/>
+                <dep id="flash.events:StatusEvent" type="s"/>
+                <dep id="flash.external:ExtensionContext" type="s"/>
+                <dep id="flash.system:Capabilities" type="e"/>
+                <dep id="flash.utils:Dictionary" type="s"/>
+                <dep id="int" type="s"/>
+                <dep id="trace" type="e"/>
+            </script>
+            <script name="com/marpies/ane/onesignal/OneSignalNotification" mod="1471439626000">
+                <def id="com.marpies.ane.onesignal:OneSignalNotification"/>
+                <dep id="Array" type="s"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="e"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="s"/>
+                <dep id="com.marpies.ane.onesignal:OneSignalNotificationButton" type="s"/>
+                <dep id="int" type="e"/>
+            </script>
+            <script name="com/marpies/ane/onesignal/OneSignalNotificationButton" mod="1471439616000">
+                <def id="com.marpies.ane.onesignal:OneSignalNotificationButton"/>
+                <dep id="Array" type="s"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="e"/>
+                <dep id="int" type="e"/>
+            </script>
+            <script name="com/marpies/ane/onesignal/OneSignalSettings" mod="1471377458000">
+                <def id="com.marpies.ane.onesignal:OneSignalSettings"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Object" type="i"/>
+            </script>
+            <digests>
+                <digest type="SHA-256" signed="false" value="c5e8ae5e2147ca08f00a74dc894b65cd4ce1b0813cc2f6ebc0e508b42aa89117"/>
+            </digests>
+        </library>
+    </libraries>
+</swc>

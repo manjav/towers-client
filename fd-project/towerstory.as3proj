@@ -57,6 +57,19 @@
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
+    <element path="ane\com.marpies.ane.onesignal.ane" />
+    <element path="ane\com.marpies.ane.gameanalytics.ane" />
+    <element path="ane\com.marpies.ane.gameServices.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.ads.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.analytics.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.base.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.basement.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.games.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.gcm.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.iid.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.location.ane" />
+    <element path="ane\com.marpies.ane.googleplayservices.tasks.ane" />
+    <element path="ane\com.marpies.ane.androidsupport.ane" />
     <element path="ane\iabilling.ane" />
     <element path="ane\native-android.ane" />
     <element path="ane\tapsell-3.0.1-a3.0.27-i3.0.4.ane" />
