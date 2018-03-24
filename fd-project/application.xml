@@ -35,11 +35,18 @@
 	<!--<uses-permission android:name="ir.mservices.market.BILLING" />-->
 	<!--<uses-permission android:name="com.arioclub.android.sdk.IAB"/>-->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<application android:enabled="true">
+<!-- Google Play -->
+		<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 818896630544" />
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+		
 		<activity android:excludeFromRecents="false">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -75,6 +82,17 @@
   <description>{"target":"android", "market":"cafebazaar"}</description><!-- cafebazaar-myket-cando-ario-google -->
   <extensions>
     <extensionID>com.gerantech.extensions.iabilling</extensionID>
+	<extensionID>com.marpies.ane.androidsupport</extensionID>
+	<extensionID>com.marpies.ane.gameServices</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.analytics</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.base</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.basement</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.games</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.gcm</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.iid</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.location</extensionID>
+	<extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>ir.tapsell.sdk.air</extensionID>
   </extensions>

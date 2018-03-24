@@ -2,6 +2,8 @@ package com.gerantech.towercraft.managers
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.managers.socials.SocialEvent;
+import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Player;
 import com.gt.towers.constants.PrefsTypes;
@@ -42,7 +44,9 @@ private function setPrefs(prefs:ISFSArray):void
         player.prefs.set(int(prefs.getSFSObject(i).getText("k")), prefs.getSFSObject(i).getText("v"));
 
     // tutorial first step
-    setInt(PrefsTypes.TUTOR, PrefsTypes.T_120_FIRST_RUN);    
+    setInt(PrefsTypes.TUTOR, PrefsTypes.T_120_FIRST_RUN);   
+	
+	authenticateSocial();
 }
 
 public function setBool(key:int, value:Boolean):void
@@ -69,6 +73,33 @@ public function setString(key:int, value:String):void
 	params.putInt("k", key);
 	params.putText("v", value);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.PREFS, params);
-}		
+}
+
+
+/************************   AUTHENTICATE SOCIAL OR GAME SERVICES   ***************************/
+public function authenticateSocial():void
+{
+    //NativeAbilities.instance.showToast(SocialManager.instance.initialized + " == " + SocialManager.instance.authenticated + " == " + player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE), 2);
+    if( SocialManager.instance.authenticated )
+    {
+        /*socials.user = new SocialUser();
+        socials.user.id = "g01079473321487998344";
+        socials.user.name = "ManJav";
+        socials.user.imageURL = "content://com.google.android.gms.games.background/images/751cd60e/7927";
+        sendSocialData();*/
+        return;
+    }
+    
+    //state = STATE_SOCIAL_SIGNIN;            
+    SocialManager.instance.addEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
+    SocialManager.instance.addEventListener(SocialEvent.FAILURE, socialManager_eventsHandler);
+    SocialManager.instance.init( PrefsTypes.AUTH_41_GOOGLE , true );
+}
+protected function socialManager_eventsHandler(event:SocialEvent):void
+{
+    SocialManager.instance.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
+    SocialManager.instance.removeEventListener(SocialEvent.FAILURE, socialManager_eventsHandler);
+    //sendSocialData();
+}
 }
 }
