@@ -500,8 +500,7 @@ private function resetAll(data:SFSObject):void
 	for( var i:int=0; i < bSize; i++ )
 	{
 		var b:ISFSObject = data.getSFSArray("buildings").getSFSObject(i);
-		appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"));
-		appModel.battleFieldView.places[b.getInt("i")].update(b.getInt("p"), b.getInt("tt"));
+		appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"), b.getInt("tt"), b.getInt("p"));
 	}
 }
 

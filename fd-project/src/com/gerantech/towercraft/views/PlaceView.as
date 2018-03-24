@@ -261,18 +261,15 @@ private function rushTimeoutCallback():void
 	}
 }
 
-public function replaceBuilding(type:int, level:int):void
+public function replaceBuilding(type:int, level:int, troopType:int, population:int):void
 {
 	wishedPopulation = Math.floor(place.building._population * 0.5);
 	rushGap = 0;
-	var tt:int = place.building.troopType;
-	var p:int = place.building._population;
 	//trace("replaceBuilding", place.index, type, level, place.building._population);
 	place.building = BuildingType.instantiate(game ,type, place, place.index);
 	place.building.set_level( level );
 	createDecorator();
-	if( type == BuildingType.B01_CAMP )
-		update(p,tt);
+	update(population, troopType);
 }
 
 override public function dispose():void
