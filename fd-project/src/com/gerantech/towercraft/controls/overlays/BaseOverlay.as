@@ -14,6 +14,7 @@ package com.gerantech.towercraft.controls.overlays
 	
 	public class BaseOverlay extends CloasableObject
 	{
+		public var hasOverlay:Boolean = true;
 		public var overlayFactory:Function;
 		public var closeOnOverlay:Boolean = false;
 		
@@ -28,14 +29,16 @@ package com.gerantech.towercraft.controls.overlays
 		override protected function initialize():void
 		{
 			super.initialize();
-			if( overlayFactory == null )
-				overlayFactory = defaultOverlayFactory;
-			
-			if( overlay == null )
-				overlay = overlayFactory();
-			addChildAt(overlay, 0);
+			if( hasOverlay )
+			{
+				if(  overlayFactory == null )
+					overlayFactory = defaultOverlayFactory;
+				
+				if( overlay == null )
+					overlay = overlayFactory();
+				addChildAt(overlay, 0);
+			}
 		}
-
 		
 		protected function defaultOverlayFactory():DisplayObject
 		{
