@@ -76,7 +76,8 @@ override protected function initialize():void
 	
 	var shadow:ImageLoader = new ImageLoader();
 	shadow.source = Assets.getTexture("bg-shadow", "gui");
-	shadow.layoutData = new AnchorLayoutData(0, 0, footerSize*0.8, 0);
+	shadow.maintainAspectRatio = false
+	shadow.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
 	shadow.color = Color.BLACK;
 	addChildAt(shadow, 0);
 
