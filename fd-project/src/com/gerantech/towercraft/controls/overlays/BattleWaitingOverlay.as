@@ -45,9 +45,9 @@ override protected function initialize():void
 	league.pivotX = league.pivotY = 0
 	league.x = 540 * appModel.scale;
 	league.y = 510 * appModel.scale;
-	league.scale = 0.35;
+	league.scale = 0.2;
 	league.alpha = 0;
-	Starling.juggler.tween(league, 0.5, {delay:0.2, scale:0.8, alpha:1, transition:Transitions.EASE_OUT_BACK, onComplete:goUp});
+	Starling.juggler.tween(league, 0.5, {delay:0.2, scale:0.6, alpha:1, transition:Transitions.EASE_OUT_BACK, onComplete:goUp});
 	addChild(league);
 	function goUp():void { Starling.juggler.tween(league, 2, {y:460*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown():void { Starling.juggler.tween(league, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
