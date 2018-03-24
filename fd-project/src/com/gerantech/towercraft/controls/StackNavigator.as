@@ -72,10 +72,11 @@ private function navigator_changeHandler(event:Event):void
 	{
 		if( activeScreenID != Main.DASHBOARD_SCREEN && activeScreenID != Main.QUESTS_SCREEN )
 		{
-			toolbar.removeFromParent();
+			toolbar.visible = false;
 			return;
 		}
 		addChild(toolbar);
+		toolbar.visible = true;
 		toolbar.alpha = 0;
 		toolbar.updateIndicators();
 		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
@@ -100,8 +101,8 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		toolbar = new Toolbar();
 		toolbar.width = stage.stageWidth;
 		toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
-		addChild(toolbar);
 	}
+	addChild(toolbar);
 }
 
 private function addedToStageHandler(event:Event):void
@@ -115,7 +116,7 @@ private function addedToStageHandler(event:Event):void
 	parent.addChild(overlaysContainer);
 	
 	logs = new Vector.<GameLog>();
-	GameLog.MOVING_DISTANCE = -120 * AppModel.instance.scale
+	GameLog.MOVING_DISTANCE = -120 * AppModel.instance.scale;
 	GameLog.GAP = 80 * AppModel.instance.scale;
 	logsContainer = new LayoutGroup();
 	parent.addChild(logsContainer);
@@ -220,7 +221,7 @@ public var toolbar:Toolbar;
 private function itemAchievedHandler(event:Event):void
 {
 	if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.QUESTS_SCREEN )
-		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index*0.2)	
+		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index * 0.2)	;
 }
 public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
 {
