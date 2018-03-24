@@ -4,6 +4,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.buildings.Place;
+import com.gt.towers.utils.PathFinder;
 import com.gt.towers.utils.lists.PlaceList;
 
 import flash.utils.clearTimeout;
@@ -72,7 +73,7 @@ public function rush(source:Place):void
 	Starling.juggler.add(movieClip);
 
 	var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() - Math.random()* building.get_exitGap() * 0.5) / 1000;
-	var distance:Number = Math.sqrt(Math.pow(source.x-next.place.x, 2) + Math.pow(source.y-next.place.y, 2)) / 300; //trace(source.x, next.place.x, source.y, next.place.y, distance)
+	var distance:Number = PathFinder.getDistance(source, next.place) * 1.1;
 	Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap + 0.1, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
 private function onTroopArrived(next:PlaceView):void

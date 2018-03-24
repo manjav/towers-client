@@ -227,7 +227,7 @@ public function fight(destination:Place, troopsCount:Number) : void
 	
 	if( rushGap != place.building.get_exitGap() )
 	{
-		rushGap = place.building.get_exitGap();
+		rushGap = place.building.get_exitGap() * 1.2;
 		clearInterval(rushIntervalId);
 		rushIntervalId = setInterval(rushTimeoutCallback, rushGap);
 	}
