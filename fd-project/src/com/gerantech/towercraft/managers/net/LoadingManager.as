@@ -8,11 +8,13 @@ import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
 import com.gerantech.towercraft.managers.VideoAdsManager;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
+import com.marpies.ane.onesignal.OneSignal;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -198,6 +200,8 @@ protected function coreLoader_completeHandler(event:Event):void
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
+	registerPushManager();
+	
 	// prevent ADs for new users
 	if( appModel.game.player.get_arena(0) == 0 )
         return;
@@ -206,6 +210,36 @@ protected function coreLoader_completeHandler(event:Event):void
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	if( appModel.game.player.get_questIndex() < appModel.game.fieldProvider.quests.keys().length )
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
+}
+private function registerPushManager():void
+{
+    OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );
+    OneSignal.idsAvailable( onOneSignalIdsAvailable );
+    function onOneSignalIdsAvailable( oneSignalUserId:String, oneSignalPushToken:String ):void {
+        var pushParams:ISFSObject = new SFSObject();
+        if( UserData.instance.oneSignalUserId != oneSignalUserId )
+        {
+            pushParams.putText("oneSignalUserId", oneSignalUserId);
+            UserData.instance.oneSignalUserId = oneSignalUserId;
+        }
+        if( UserData.instance.oneSignalPushToken != oneSignalPushToken )
+        {
+            pushParams.putText("oneSignalPushToken", oneSignalPushToken);
+            UserData.instance.oneSignalPushToken = oneSignalPushToken;// 'pushToken' may be null if there's a server or connection error
+        }
+        if( pushParams.containsKey("oneSignalUserId") )
+        {
+            UserData.instance.save();
+            sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
+        }
+    }
+    if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
+        //NativeAbilities.instance.showToast("OneSignal.init", 2);
+    }
+    /*OneSignal.addNotificationReceivedCallback( onNotificationReceived );
+    function onNotificationReceived( notification:OneSignalNotification ):void {
+    NativeAbilities.instance.showToast(notification.message, 2);
+    }*/            
 }
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 }

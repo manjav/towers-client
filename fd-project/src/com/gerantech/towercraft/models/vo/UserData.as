@@ -11,6 +11,9 @@ public var id:int = -1;
 public var password:String = "";
 
 public var lastLobbeyMessageTime:int;
+public var oneSignalUserId:String;
+public var oneSignalPushToken:String;
+
 public var prefs:UserPrefs;
 
 private static var _instance:UserData;
