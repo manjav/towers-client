@@ -97,17 +97,17 @@ private function showMainButtons():void
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.8);
 	league.pivotX = league.pivotY = 0
-	addButton(leaguesButton, "button_leagues", 540, 510, 0.4, goUp);
-	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:460*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	addButton(leaguesButton, "button_leagues", 540, 740, 0.4, goUp);
+	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:700*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:740*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")));
-	addButton(battlesButton, "button_battles", 540, 1000, 0.6);
+	addButton(battlesButton, "button_battles", 540, 1200, 0.6);
 	
 	if( player.hasQuests )
 	{
 		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")));
-		addButton(questsButton, "button_quests", 540, 1300, 0.8);
+		addButton(questsButton, "button_quests", 540, 1470, 0.8);
 	}
 }
 

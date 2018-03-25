@@ -52,7 +52,6 @@ override protected function initialize():void
 	function goUp():void { Starling.juggler.tween(league, 2, {y:460*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown():void { Starling.juggler.tween(league, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 	
-	
 	if( cancelable )
 	{
 		cancelButton = new CustomButton();
