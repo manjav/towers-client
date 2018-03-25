@@ -68,7 +68,7 @@ public function PlaceView(place:Place)
 	bg.alignPivot();
 	bg.width = raduis * 2;
 	bg.y = -raduis * 0.1;
-	bg.scaleY = bg.scaleX;
+	bg.scaleY = bg.scaleX * 0.85;
 	bg.alpha = 0;
 	addChild(bg);
 	
