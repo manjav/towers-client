@@ -363,21 +363,12 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 			var acceptLabel:String = imSubject ? null : loc("lobby_battle_accept");
 			var message:String = loc(imSubject ? "lobby_battle_me" : "buddy_battle_request", imSubject?[]:[params.getUtfString("sn")]);
 			battleconfirmToast = new ConfirmToast(message, acceptLabel, loc("popup_cancel_label"));
+			battleconfirmToast.data = params;
 			battleconfirmToast.acceptStyle = "danger";
 			battleconfirmToast.declineStyle = "neutral";
-			battleconfirmToast.addEventListener(Event.SELECT, toast_selectHandler);
-			battleconfirmToast.addEventListener(Event.CANCEL, toast_cancelHandler);
+			battleconfirmToast.addEventListener(Event.SELECT, toast_eventsHandler);
+			battleconfirmToast.addEventListener(Event.CANCEL, toast_eventsHandler);
 			addToast(battleconfirmToast);
-			function toast_selectHandler(event:Event):void {
-				battleconfirmToast.removeEventListener(Event.SELECT, toast_selectHandler);
-				battleconfirmToast.removeEventListener(Event.CANCEL, toast_cancelHandler);
-				sendBattleRequest(params, 1);
-			}
-			function toast_cancelHandler(event:Event):void {
-				battleconfirmToast.removeEventListener(Event.SELECT, toast_selectHandler);
-				battleconfirmToast.removeEventListener(Event.CANCEL, toast_cancelHandler);
-				sendBattleRequest(params, 3);
-			}
 			break;
 		
 		case 1:
@@ -391,7 +382,7 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		case 4:
 			addLog(loc("buddy_battle_absent"));
 			break;
-
+		
 		default:
 			addLog(loc(params.getInt("c") == AppModel.instance.game.player.id?"buddy_battle_canceled_me":"buddy_battle_canceled_he"));
 			break;
@@ -402,6 +393,12 @@ protected function sfs_buddyBattleHandler(event:SFSEvent):void
 		battleconfirmToast.close();
 		battleconfirmToast = null;
 	}
+}
+private function toast_eventsHandler(event:Event):void 
+{
+	battleconfirmToast.removeEventListener(Event.SELECT, toast_eventsHandler);
+	battleconfirmToast.removeEventListener(Event.CANCEL, toast_eventsHandler);
+	sendBattleRequest(battleconfirmToast.data as SFSObject, event.type == Event.SELECT ? 1 : 3);
 }
 private function lobbyManager_friendlyBattleHandler(event:Event):void
 {
