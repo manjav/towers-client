@@ -14,7 +14,7 @@ public function BuildingFeatureItemRenderer(building:Building)
 
 override protected function commitData():void
 {
-	if( _owner==null || _data==null )
+	if( _owner == null || _data == null )
 		return;
 	
 	super.commitData();
@@ -28,18 +28,7 @@ override protected function commitData():void
 	var oldValue:Number = building.getFeatureValue(feature);
 
 	var diff:Number = newValue - oldValue;
-	if( baseValue > 500 )
-	{
-		oldValue = baseValue/oldValue;
-		newValue = baseValue/newValue;
-		diff = newValue - oldValue;
-	}
-
-	if( oldValue > 500 )
-		valueDisplay.text = "<span>" + (oldValue/1000).toFixed(2) + (diff == 0?"":(' <font color="#00ff00"> + ' + Math.abs(diff).toFixed(2)+'</font>')) + "</span>";
-	else
-		valueDisplay.text = "<span>" + oldValue.toFixed(2) + (diff == 0?"":(' <font color="#00ff00"> + ' + Math.abs(diff).toFixed(2)+'</font>')) + "</span>";
-	
+	valueDisplay.text = "<span>" + oldValue.toFixed(2) + (diff == 0?"":(' <font color="#00ff00"> + ' + Math.abs(diff).toFixed(2)+'</font>')) + "</span>";
 	valueDisplay.isHTML = true;
 }
 }

@@ -17,6 +17,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.socials.Lobby;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Buddy;
@@ -99,10 +100,10 @@ override public function init():void
 
 private function showTutorials():void
 {
-	if( player.prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP) > 50 )
+	if( SFSConnection.instance.buddyManager.buddyList.length >= 3 )
 		return;
 	var tutorialData:TutorialData = new TutorialData("buddy_tutorial");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_buddy_0", null, 1000, 1000, 0));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, loc("tutor_buddy_0", [Lobby.buddyInviterReward, Lobby.buddyInviteeReward]), null, 1000, 1000, 0));
 	tutorials.show(tutorialData);
 }
 

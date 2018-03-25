@@ -75,6 +75,7 @@ public static function getDeadline(command:String):int
 		case LOBBY_EDIT:
 		case REGISTER_PUSH:
 		case VERIFY_PURCHASE:
+		case BUDDY_BATTLE:
 			return -1;
 	}
 	return 2000;

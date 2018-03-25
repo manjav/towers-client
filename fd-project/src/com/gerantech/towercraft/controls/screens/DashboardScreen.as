@@ -230,7 +230,7 @@ private function tabsList_selectHandler(event:Event):void
 	if( player.dashboadTabEnabled(tabsList.selectedIndex) )
 		gotoPage(tabsList.selectedIndex);
 }
-private function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Boolean = true):void
+public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Boolean = true):void
 {
 	//trace("gotoPage", tabIndex, pageIndex, ExchangeSegment.focusedCategory, pageList.selectedIndex, tabsList.selectedIndex)
 	tabsList.selectedIndex = tabIndex = pageIndex;
