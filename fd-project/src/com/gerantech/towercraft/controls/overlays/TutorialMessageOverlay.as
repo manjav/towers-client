@@ -40,12 +40,16 @@ package com.gerantech.towercraft.controls.overlays
 			charachter.touchable = false;
 			addChild(charachter);
 			
+			var msg:String = loc(task.message);
+			if( msg == null )
+				msg = task.message;
+			
 			var tootlip:BaseTooltip;
 			var position:Rectangle = new Rectangle(width * (side==0?0.35:0.65), height * (side==0?0.55:0.55), 1, 1)
 			if( task.type == TutorialTask.TYPE_CONFIRM )
-				tootlip = new ConfirmTooltip(loc(task.message), position, 1, 0.6);
+				tootlip = new ConfirmTooltip(msg, position, 1, 0.6);
 			else
-				tootlip = new BaseTooltip(loc(task.message), position, 1, 0.6);
+				tootlip = new BaseTooltip(msg, position, 1, 0.6);
 			tootlip.addEventListener(Event.SELECT, tootlip_eventsHandler); 
 			tootlip.addEventListener(Event.CANCEL, tootlip_eventsHandler); 
 			addChild( tootlip );
