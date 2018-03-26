@@ -75,10 +75,10 @@ private function navigator_changeHandler(event:Event):void
 			toolbar.visible = false;
 			return;
 		}
-		addChild(toolbar);
+		//addChild(toolbar);
 		toolbar.visible = true;
 		toolbar.alpha = 0;
-		toolbar.updateIndicators();
+		//toolbar.updateIndicators();
 		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
 	}
 }
