@@ -19,6 +19,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -68,18 +69,23 @@ override public function init():void
 
 private function dfsdf():void
 {
-var rwards:SFSArray = new SFSArray();
-for (var i:int = 0; i < 2; i++) 
-{
-	var sfs:SFSObject = new SFSObject();
-	sfs.putInt("score", i==0?2:0);
-	sfs.putInt("id", i==0?10383:214);
-	sfs.putText("name", i==0?"10383":"214");
-	rwards.addSFSObject(sfs);
-}
-appModel.battleFieldView = new BattleFieldView();
-appModel.battleFieldView.battleData = new BattleData(new SFSObject());
-appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
+	var rwards:SFSArray = new SFSArray();
+	for (var i:int = 0; i < 2; i++) 
+	{
+		var sfs:SFSObject = new SFSObject();
+		sfs.putInt("score", i==0?2:0);
+		sfs.putInt("id", i==0?10383:214);
+		sfs.putText("name", i == 0?"10383":"214");
+		sfs.putInt("1001", 12);
+		sfs.putInt("1004", 2);
+		rwards.addSFSObject(sfs);
+	}
+	appModel.battleFieldView = new BattleFieldView();
+	var sfs2:ISFSObject = new SFSObject();
+	sfs2.putText("mapName", "battle_3");
+	sfs2.putBool("hasExtraTime", false);
+	appModel.battleFieldView.battleData = new BattleData(sfs2);
+	appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
 }
 override public function focus():void
 {
