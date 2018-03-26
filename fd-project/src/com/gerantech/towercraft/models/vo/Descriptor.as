@@ -13,7 +13,10 @@ package com.gerantech.towercraft.models.vo
 		
 		public var description:String;
 		public var market:String;
+		public var marketIndex:int;
 		public var target:String;
+		
+		private var markets:Array = ["google", "appstore", "cafebazaar", "myket", "cando", "vitrin", "ario", "iranapps"]
 		
 		public function Descriptor(xml:XML)
 		{
@@ -28,6 +31,7 @@ package com.gerantech.towercraft.models.vo
 			var descriptJson:Object = JSON.parse(description);
 			for(var n:String in descriptJson)
 				this[n] = descriptJson[n];
+			marketIndex = markets.indexOf(market);
 		}
 		
 		private function getNodesByName(xml:XML, nodeName:String) : String 
