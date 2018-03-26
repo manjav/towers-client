@@ -125,6 +125,7 @@ private function addedToStageHandler(event:Event):void
 public function runBattle(cancelable:Boolean=false, requestField:FieldData = null, spectatedUser:String = null, isFriendly:Boolean = false) : void
 {
 	var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
+    item.properties.isFriendly = isFriendly;
 	item.properties.requestField = requestField;
 	item.properties.spectatedUser = spectatedUser;
 	item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable);
