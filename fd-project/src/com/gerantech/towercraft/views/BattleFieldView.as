@@ -105,16 +105,19 @@ public function createPlaces(battleData:BattleData):void
 		addChild(p);
 		places[p.place.index] = p
 	}
-
-	dropTargets = new DropTargets(stage);
-	for each( var t:PlaceView in places )
-		if( t.selectable )
-			dropTargets.add(t);
-		
+	
 	addChild(troopsContainer);
 	addChild(buildingsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
+}
+
+public function createDrops() : void
+{
+	dropTargets = new DropTargets(stage);
+	for each( var t:PlaceView in places )
+		if( t.selectable )
+			dropTargets.add(t);
 }
 }
 }

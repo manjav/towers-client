@@ -198,9 +198,6 @@ private function startBattle():void
 		appModel.battleFieldView.responseSender.resetAllVars();
 
 	appModel.loadingManager.serverData.putBool("inBattle", false);
-
-	if( !sfsConnection.mySelf.isSpectator )
-		addEventListener(TouchEvent.TOUCH, touchHandler);
 	
 	// play battle theme -_-_-_
 	appModel.sounds.stopSound("main-theme");
@@ -210,7 +207,13 @@ private function startBattle():void
 
 private function showTutorials() : void 
 {
-	if ( !player.inTutorial() )
+	if( !sfsConnection.mySelf.isSpectator )
+	{
+		addEventListener(TouchEvent.TOUCH, touchHandler);
+		appModel.battleFieldView.createDrops();
+	}
+	
+	if( !player.inTutorial() )
 		return;
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
