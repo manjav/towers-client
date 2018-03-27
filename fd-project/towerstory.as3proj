@@ -93,6 +93,7 @@
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
     <hidden path="obj" />
+    <hidden path="application-template.xml" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />

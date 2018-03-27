@@ -3,10 +3,6 @@
 :: Set working dir
 cd %~dp0 & cd ..
 
-set PAUSE_ERRORS=1
-call bat\SetupSDK.bat
-call bat\SetupApp.bat
-
 :menu
 echo.
 echo Package for target
@@ -15,7 +11,7 @@ echo Android:
 echo.
 echo  [1] normal       (apk)
 echo  [2] debug        (apk-debug)
-echo  [3] captive      (apk-captive-runtime)
+::echo  [3] captive      (apk-captive-runtime)
 echo.
 echo iOS:
 echo.
@@ -50,8 +46,34 @@ if "%C%"=="7" set OPTIONS=-connect %DEBUG_IP%
 if "%C%"=="8" set TARGET=-ad-hoc
 if "%C%"=="9" set TARGET=-app-store
 
-call bat\Packager.bat
 
+:menu
+echo.
+echo Select for Market
+echo.
+echo  [1] cafebazaar
+echo  [2] myket
+echo  [3] ario
+echo  [4] cando
+echo  [5] google
+
+:choice
+set /P M=[Choice]: 
+echo.
+
+set MARKET=cafebazaar
+if "%M%"=="1" set MARKET=cafebazaar
+if "%M%"=="2" set MARKET=myket
+if "%M%"=="3" set MARKET=ario
+if "%M%"=="4" set MARKET=cando
+if "%M%"=="5" set MARKET=google
+
+
+set PAUSE_ERRORS=1
+call bat\SetupDescriptor.bat
+call bat\SetupSDK.bat
+call bat\SetupApp.bat
+call bat\Packager.bat
 if "%PLATFORM%"=="android" goto android-package
 
 :ios-package
