@@ -58,7 +58,7 @@
  
 <!-- In APP Billing permissions -->
 	<!--<uses-permission android:name="com.android.vending.BILLING" /> <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> <uses-permission android:name="ir.mservices.market.BILLING" /> <uses-permission android:name="com.arioclub.android.sdk.IAB" />-->
-	<uses-permission-market/>
+	<uses-permission android:name="com.domain.market.BILLING" />
 	
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
