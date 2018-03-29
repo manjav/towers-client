@@ -57,7 +57,7 @@ override protected function initialize():void
 	warnMode.offLabelProperties.text = "Ban";
 	container.addChild( warnMode );
 
-	errorDisplay = new RTLLabel("", 0xFF0000, null, null, true, null, 0.8);
+	errorDisplay = new RTLLabel("", 0xFF0000, "center", null, true, null, 0.8);
 	container.addChild(errorDisplay);
 	
 	acceptButton.style = "danger";
