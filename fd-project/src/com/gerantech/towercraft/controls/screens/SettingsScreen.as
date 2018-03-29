@@ -4,12 +4,14 @@ import com.gerantech.towercraft.controls.items.SettingsItemRenderer;
 import com.gerantech.towercraft.controls.popups.BugReportPopup;
 import com.gerantech.towercraft.controls.popups.LinkDevicePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.socials.SocialEvent;
 import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.PrefsTypes;
+import feathers.layout.AnchorLayoutData;
 
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
@@ -34,6 +36,11 @@ override protected function initialize():void
 	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
 	list.dataProvider = getSettingsData();
 	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
+	
+	var versionLabel:RTLLabel = new RTLLabel(appModel.descriptor.versionNumber + " for " + appModel.descriptor.market, 1, "left", "ltr", false, null, 0.8);
+	versionLabel.touchable = false;
+	versionLabel.layoutData = new AnchorLayoutData(NaN, headerSize*0.06,  headerSize, headerSize*0.06);
+	addChild(versionLabel);
 }
 
 private function list_focusInHandler(event:Event):void
