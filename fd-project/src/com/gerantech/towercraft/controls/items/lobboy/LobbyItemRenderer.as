@@ -1,5 +1,6 @@
-package com.gerantech.towercraft.controls.items
+package com.gerantech.towercraft.controls.items.lobboy
 {
+import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;

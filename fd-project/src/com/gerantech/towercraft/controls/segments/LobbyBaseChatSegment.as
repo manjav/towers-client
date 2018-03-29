@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.items.LobbyChatItemRenderer;
+import com.gerantech.towercraft.controls.items.lobboy.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;

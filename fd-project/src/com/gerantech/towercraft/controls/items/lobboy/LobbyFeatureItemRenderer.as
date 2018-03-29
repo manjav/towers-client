@@ -1,5 +1,6 @@
-package com.gerantech.towercraft.controls.items
+package com.gerantech.towercraft.controls.items.lobboy
 {
+	import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
 	import com.gerantech.towercraft.controls.texts.LTRLable;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	
@@ -25,6 +26,5 @@ override protected function addValueLabel():void
 	valueDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?0:NaN, NaN, appModel.isLTR?NaN:0, NaN, 0);
 	addChild(valueDisplay);
 }
-
 }
 }

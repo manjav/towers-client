@@ -1,5 +1,6 @@
-package com.gerantech.towercraft.controls.items
+package com.gerantech.towercraft.controls.items.lobboy
 {
+import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBattleSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemCommentSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemConfirmSegment;
