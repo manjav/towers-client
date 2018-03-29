@@ -7,11 +7,13 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchange;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import starling.core.Starling;
 
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
@@ -36,8 +38,8 @@ override protected function initialize():void
 {
 	super.initialize();
 	closeOnOverlay = player.nickName != "guest";
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.35, stage.stageWidth*0.8, stage.stageHeight*0.25);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.30, stage.stageWidth*0.8, stage.stageHeight*0.3);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.35, stage.stageWidth*0.9, stage.stageHeight*0.30);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.30, stage.stageWidth*0.9, stage.stageHeight*0.35);
 
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 	textInput.maxChars = game.loginData.nameMaxLen ;
@@ -46,7 +48,8 @@ override protected function initialize():void
 	textInput.addEventListener(FeathersEventType.ENTER, acceptButton_triggeredHandler);
 	container.addChild(textInput);
 	
-	errorDisplay = new RTLLabel("", 0xFF0000);
+	errorDisplay = new RTLLabel("", 0xFF0000, "center");
+	errorDisplay.alpha = 0;
 	container.addChild(errorDisplay);
 	
 	acceptButton.isEnabled = false;
@@ -67,27 +70,27 @@ protected override function acceptButton_triggeredHandler(event:Event):void
 	var nameLen:int = selectedName.length;
 	if ( nameLen < game.loginData.nameMinLen || nameLen > game.loginData.nameMaxLen )
 	{
-		errorDisplay.text = loc("popup_select_name_1", [game.loginData.nameMinLen, game.loginData.nameMaxLen] );
+		showError(loc("popup_select_name_1", [game.loginData.nameMinLen, game.loginData.nameMaxLen]));
 		return;
 	}
 	
-	if ( selectedName.substr(nameLen-2) == " " || selectedName.substr(0,1) == " " || selectedName.search("  ") > -1 || selectedName == "root" || selectedName == "super-user" || selectedName.search("bot") > -1 || selectedName.search("بات") > -1 )
+	if( isBad(selectedName) )
 	{
-		errorDisplay.text = loc("popup_select_name_3");
+		showError(loc("popup_select_name_3"));
 		return;
 	}
 	var sfs:SFSObject = SFSObject.newInstance();
 	sfs.putUtfString( "name", selectedName );
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.SELECT_NAME, sfs );
 }
 
-protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
+protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.SELECT_NAME )
 		return;
 	
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsCOnnection_extensionResponseHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 	var result:SFSObject = event.params.params as SFSObject;trace(result.getDump())
 	var response:int = result.getInt("response");
 	
@@ -102,7 +105,7 @@ protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
 			close();
 			return;
 		}
-		errorDisplay.text = loc("popup_select_name_" + response, [game.loginData.nameMinLen, game.loginData.nameMaxLen] );
+		showError(loc("popup_select_name_" + response, [game.loginData.nameMinLen, game.loginData.nameMaxLen] ));
 		return;
 	}
 	
@@ -112,6 +115,36 @@ protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
 	player.nickName = textInput.text;
 	dispatchEventWith( Event.COMPLETE );
 	close();
+}
+
+private function showError(message:String) : void 
+{
+	errorDisplay.text = message;
+	errorDisplay.alpha = 1;
+	Starling.juggler.tween(errorDisplay, 1, {delay:2, alpha:0});
+}
+
+private function isBad(name:String) : Boolean
+{
+	name = StrUtils.getSimpleString(name.toLowerCase());
+	if( name.substr(name.length - 2) == " " || name.substr(0, 1) == " " )
+		return true;
+	
+	var badNames:Array = ["  ", "admin", "super-", "root", "koot", "kooot", "koooo", "manager", "bot", "sex", "ادمین", "کوت", "سازنده", "مدیر", "کیر", "کون", "جنده", "بات"];
+
+	for each( var b:String in badNames )
+	{
+		trace(name, b, name.search(b));
+		if( name.search(b) > -1 )
+			return true;
+	}
+	return false;
+}
+
+override public function dispose() : void
+{
+	Starling.juggler.removeTweens(errorDisplay);
+	super.dispose();
 }
 }
 }
