@@ -139,9 +139,9 @@ private function showFooterButtons():void
 	var adminButton:Button = new Button();
 	adminButton.alpha = 0;
 	adminButton.isLongPressEnabled = true;
-	adminButton.longPressDuration = 3;
+	adminButton.longPressDuration = 1;
 	adminButton.width = adminButton.height = 120 * appModel.scale;
-	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{if( player.admin )appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
 	addChild(adminButton);
 	

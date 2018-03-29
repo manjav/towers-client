@@ -33,13 +33,15 @@ import starling.events.Event;
 public class ProfilePopup extends SimplePopup 
 {
 private var user:Object;
+private var adminMode:Boolean;
 private var playerData:ISFSObject;
 private var featuresData:ISFSArray;
 private var buildingsData:ISFSArray;
 
-public function ProfilePopup(user:Object, adminMode:Boolean=false)
+public function ProfilePopup(user:Object)
 {
 	this.user = user;
+	this.adminMode = player.admin;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", user.id);
@@ -102,7 +104,7 @@ private function showProfile():void
 	nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
 	addChild(nameDisplay);
 	
-	var tagDisplay:RTLLabel = new RTLLabel("#"+playerData.getText("tag"), 0xAABBBB, null, "ltr", true, null, 0.8);
+	var tagDisplay:RTLLabel = new RTLLabel("#"+playerData.getText("tag") + (adminMode?(" => "+user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.8);
 	tagDisplay.layoutData = new AnchorLayoutData(padding*2.6, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
 	addChild(tagDisplay);
 	
@@ -111,15 +113,29 @@ private function showProfile():void
 	addChild(lobbyNameDisplay);
 	
 	var closeButton:CustomButton = new CustomButton();
-	closeButton.label = "";
-	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
+	closeButton.label = loc("close_button");
 	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
 	addChild(closeButton);
+
 	closeButton.y = height - closeButton.height - padding*1.6;
 	closeButton.alpha = 0;
 	closeButton.height = 110 * appModel.scale;
-	closeButton.label = loc("close_button");
 	Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
+	
+	if( adminMode )
+	{
+		var banButton:CustomButton = new CustomButton();
+		banButton.style = "danger";
+		banButton.label = loc("popup_ban_button");
+		banButton.width = banButton.height * 1.2;
+		banButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+		banButton.addEventListener(Event.TRIGGERED, banButton_triggeredHandler);
+		addChild(banButton);
+		function banButton_triggeredHandler(event:Event):void{
+			appModel.navigator.addPopup(new AdminBanPopup(user.id));
+		}
+	}
 
 	// features
 	var featureList:List = new List();

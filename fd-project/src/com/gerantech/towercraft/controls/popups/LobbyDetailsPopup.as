@@ -365,7 +365,7 @@ protected function sfs_joinHandler(event:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinHandler);
 	var response:int = event.params.params.getInt("response")
-    if( response == MessageTypes.JOIN_LOBBY_SUCCEED ) 
+    if( response == MessageTypes.RESPONSE_SUCCEED ) 
 		updateLobbyLayout(true);
     else
         appModel.navigator.addLog(loc("lobby_join_request_" + response));

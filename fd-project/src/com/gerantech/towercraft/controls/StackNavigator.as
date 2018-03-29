@@ -327,7 +327,6 @@ private function handleSchemeQuery(arguments:Array):void
 					SocialSegment.tabIndex = int(pars["socialTab"]);
 					popScreen();
 					break;
-
 			}
 		}
 	}

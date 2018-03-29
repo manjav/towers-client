@@ -67,7 +67,7 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 
 protected function list_focusHandler(event:Event):void
 {
-    appModel.navigator.addPopup(new ProfilePopup(event.data.data, true));
+    appModel.navigator.addPopup(new ProfilePopup(event.data.data));
 }
 }
 }

@@ -40,7 +40,6 @@ package com.gerantech.towercraft.models.vo
 			
 			for each(var node:XML in  list)
 			{
-				
 				var name:String = node.localName().toString();
 				if (name == nodeName)
 					return node.valueOf();

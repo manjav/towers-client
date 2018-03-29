@@ -108,6 +108,7 @@ protected function showElements():void
 	addChild(chatList);
 
 	chatTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0, false, appModel.align );
+	chatTextInput.maxChars = 180;
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
     chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, 0, padding);

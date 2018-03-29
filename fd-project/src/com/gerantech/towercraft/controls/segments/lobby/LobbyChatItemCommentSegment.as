@@ -30,6 +30,7 @@ override public function commitData(_data:ISFSObject):void
 		case MessageTypes.M15_COMMENT_EDIT:			comment = loc("lobby_comment_edit",		[data.getUtfString("s")]);	break;
 		case MessageTypes.M16_COMMENT_JOIN_ACCEPT:	comment = loc("lobby_comment_jaccept",	[data.getUtfString("o"), data.getUtfString("s")]);	break;
 		case MessageTypes.M17_COMMENT_JOIN_REJECT:	comment = loc("lobby_comment_jreject",	[data.getUtfString("o"), data.getUtfString("s")]);	break;
+		case MessageTypes.M18_COMMENT_BAN:			comment = loc("lobby_comment_ban",		[data.getUtfString("o"), data.getUtfString("s")]);	break;
 		case MessageTypes.M12_COMMENT_KICK:			comment = loc("lobby_comment_kick",		[data.getUtfString("o"), data.getUtfString("s")]);	break;
 		case MessageTypes.M13_COMMENT_PROMOTE:		comment = loc("lobby_comment_promote",	[data.getUtfString("o"), data.getUtfString("s"), loc("lobby_role_"+data.getShort("p"))]);	break;
 		case MessageTypes.M14_COMMENT_DEMOTE:		comment = loc("lobby_comment_demote",	[data.getUtfString("o"), data.getUtfString("s"), loc("lobby_role_"+data.getShort("p"))]);	break;
