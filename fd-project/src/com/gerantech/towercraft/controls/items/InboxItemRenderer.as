@@ -16,6 +16,7 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
+
 public class InboxItemRenderer extends AbstractTouchableListItemRenderer
 {
 private static const READ_TEXT_COLOR:uint = 0xEEFFFF;
@@ -36,10 +37,13 @@ private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
 private var message:SFSObject;
 private var readOnSelect:Boolean;
+private var infoButton:com.gerantech.towercraft.controls.buttons.CustomButton;
+private var adminMode:Boolean;
 
-public function InboxItemRenderer(readOnSelect:Boolean=true)
+public function InboxItemRenderer(readOnSelect:Boolean = true, adminMode:Boolean = false)
 {
 	this.readOnSelect = readOnSelect;
+	this.adminMode = adminMode;
 }
 
 override protected function initialize():void
@@ -48,7 +52,7 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	height = 140 * appModel.scale;
-	padding = 36 * appModel.scale;
+	padding = 32 * appModel.scale;
 	offsetY = -8*AppModel.instance.scale
 	date = new Date();
 	
@@ -78,18 +82,27 @@ override protected function initialize():void
 	
 	acceptButton = new CustomButton();
 	acceptButton.alpha = 0;
-	acceptButton.height = 100 * appModel.scale;
+	acceptButton.height = padding * 3;
 	acceptButton.label = loc("popup_accept_label");
 	acceptButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding);
 	acceptButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
 	
 	declineButton = new CustomButton();
 	declineButton.alpha = 0;
-	declineButton.height = 100 * appModel.scale;
+	declineButton.height = padding * 3;
 	declineButton.style = "danger";
 	declineButton.label = loc("popup_cancel_label");
 	declineButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding*9);
 	declineButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	
+	if( adminMode )
+	{
+		infoButton = new CustomButton();
+		infoButton.height = infoButton.width = padding * 2;
+		infoButton.label = "i";
+		infoButton.layoutData = new AnchorLayoutData( padding * 0.5, padding * 0.5 );
+		infoButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	}
 }
 
 override protected function commitData():void
@@ -142,6 +155,11 @@ override public function set isSelected(value:Boolean):void
 	senderLayout.top = value ? padding*0.8 : NaN;
 	senderDisplay.width = padding*(value?12:6.4);
 	senderLayout.verticalCenter = value ? NaN : offsetY;
+	if( adminMode )
+	{
+		senderLayout.left = appModel.isLTR ? (value ?3:1) * padding : NaN;
+		senderLayout.right = appModel.isLTR ? NaN : (value ?3:1) * padding;
+	}
 	
 	messageDisplay.height = value ? NaN : 40 * appModel.scale;
 	messageLayout.top = value ? padding*2.4 : NaN;
@@ -162,6 +180,8 @@ override public function set isSelected(value:Boolean):void
 	{
 		acceptButton.removeFromParent();
 		declineButton.removeFromParent();
+		if( adminMode )
+			infoButton.removeFromParent();
 	}
 	
 	var hasButton:Boolean = MessageTypes.isConfirm(message.getShort("type")) || message.getShort("type") == MessageTypes.M50_URL;
@@ -174,10 +194,12 @@ override public function set isSelected(value:Boolean):void
 		
 		if( hasButton )
 		{
-			appear(acceptButton)
+			appear(acceptButton);
 			if( MessageTypes.isConfirm(message.getShort("type")) )
 				appear(declineButton)
 		}
+		if( adminMode )
+			appear(infoButton);	
 	}
 }
 
@@ -192,8 +214,10 @@ private function buttons_eventHandler(event:Event):void
 {
 	if( event.currentTarget == acceptButton )
 		_owner.dispatchEventWith(Event.SELECT, false, message);
-	else
+	else if( event.currentTarget == declineButton )
 		_owner.dispatchEventWith(Event.CANCEL, false, message);
+	else if( event.currentTarget == infoButton )
+		_owner.dispatchEventWith(Event.READY, false, message);
 }
 
 override public function dispose():void

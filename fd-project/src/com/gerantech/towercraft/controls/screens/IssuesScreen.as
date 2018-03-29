@@ -3,9 +3,11 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.InboxItemRenderer;
 import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
+import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -34,14 +36,15 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("issues"));
 	for (var i:int = 0; i < issueList.size(); i++)
 	{
+		var sfs:ISFSObject = issueList.getSFSObject(i);
 		var msg:SFSObject = new SFSObject();
-		msg.putInt("id", issueList.getSFSObject(i).getInt("id"));
-		msg.putShort("read", issueList.getSFSObject(i).getInt("status"));
+		msg.putInt("id", sfs.getInt("id"));
+		msg.putShort("read", sfs.getInt("status"));
 		msg.putShort("type", 41);
-		msg.putUtfString("text", issueList.getSFSObject(i).getUtfString("description"));
-		msg.putUtfString("sender", issueList.getSFSObject(i).getInt("player_id").toString());
-		msg.putInt("senderId", issueList.getSFSObject(i).getInt("player_id"));
-		msg.putInt("utc", issueList.getSFSObject(i).getInt("UNIX_TIMESTAMP(report_at)"));
+		msg.putUtfString("text", sfs.getUtfString("description"));
+		msg.putUtfString("sender", sfs.containsKey("sender") ? sfs.getUtfString("sender") : sfs.getInt("player_id").toString());
+		msg.putInt("senderId", sfs.getInt("player_id"));
+		msg.putInt("utc", sfs.getInt("UNIX_TIMESTAMP(report_at)"));
 		issues.addItem(msg);
 	}
 }
@@ -58,9 +61,10 @@ override protected function initialize():void
 	
 	listLayout.gap = 0;	
 	listLayout.hasVariableItemDimensions = true;
-	list.itemRendererFactory = function():IListItemRenderer { return new InboxItemRenderer(false); }
+	list.itemRendererFactory = function():IListItemRenderer { return new InboxItemRenderer(false, player.admin); }
 	list.addEventListener(Event.SELECT, list_eventsHandler);
 	list.addEventListener(Event.CANCEL, list_eventsHandler);
+	list.addEventListener(Event.READY, list_eventsHandler);
 	list.backgroundSkin = bgButton;
 	list.backgroundSkin.touchable = true;
 	list.dataProvider = issues;
@@ -92,6 +96,10 @@ private function list_eventsHandler(event:Event):void
 		msg.putShort("read", 2);
 		changeStatus(msg.getInt("id"), 2);
 		list.selectedIndex = -1;
+	}
+	else if ( event.type == Event.READY )
+	{
+		appModel.navigator.addPopup(new ProfilePopup({name:msg.getUtfString("sender"), id:msg.getInt("senderId")}));
 	}
 }
 
