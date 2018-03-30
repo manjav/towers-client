@@ -280,6 +280,7 @@ private function showTutorials() : void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function endBattle(data:SFSObject):void
 {
+	removeEventListener(TouchEvent.TOUCH, touchHandler);
 	disposeBattleAssets();
 	hud.stopTimers();
 	

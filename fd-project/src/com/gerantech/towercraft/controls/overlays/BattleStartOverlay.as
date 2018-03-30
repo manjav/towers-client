@@ -46,7 +46,7 @@ override protected function initialize():void
 {
 	closeOnStage = false;
 	autoSizeMode = AutoSizeMode.STAGE;
-	hasOverlay = false;
+	hasOverlay = true;
 	super.initialize();
 	
 	container = new LayoutGroup();
@@ -82,6 +82,7 @@ override protected function initialize():void
 public function disappear():void
 {
 	Starling.juggler.tween(container, 0.6, {alpha:0, y:-padding*4, transition:Transitions.EASE_IN_BACK});
+	Starling.juggler.tween(overlay, 0.5, {alpha:0});
 	setTimeout(close, 800, true)
 }
 }
