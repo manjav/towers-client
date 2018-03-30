@@ -42,9 +42,9 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 		msg.putShort("read", sfs.getInt("status"));
 		msg.putShort("type", 41);
 		msg.putUtfString("text", sfs.getUtfString("description"));
-		msg.putUtfString("sender", sfs.containsKey("sender") ? sfs.getUtfString("sender") : sfs.getInt("player_id").toString());
+		msg.putUtfString("sender", sfs.getUtfString("sender"));
 		msg.putInt("senderId", sfs.getInt("player_id"));
-		msg.putInt("utc", sfs.getInt("UNIX_TIMESTAMP(report_at)"));
+		msg.putInt("utc", sfs.containsKey("date"));
 		issues.addItem(msg);
 	}
 }
