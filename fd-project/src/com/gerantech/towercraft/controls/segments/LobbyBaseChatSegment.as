@@ -157,15 +157,18 @@ protected function chatList_changeHandler(event:Event):void
 
 protected function chatList_scrollHandler(event:Event):void
 {
-    var scrollPos:Number = Math.max(0,chatList.verticalScrollPosition);
+    var scrollPos:Number = Math.max(0, chatList.verticalScrollPosition);
     scrollChatList(startScrollBarIndicator-scrollPos);
     startScrollBarIndicator = scrollPos;
 }
 
 protected function scrollChatList(changes:Number):void
 {
+	//trace(changes, chatList.verticalScrollPosition, chatList.maxVerticalScrollPosition)
     if( changes > 10 )
         autoScroll = false;
+	else if ( chatList.verticalScrollPosition == chatList.maxVerticalScrollPosition )
+        autoScroll = true;
 }
 
 protected function scrollToEnd():void
