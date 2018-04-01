@@ -22,7 +22,7 @@ package com.gerantech.towercraft.managers.net
 			var sfsObj:SFSObject = new SFSObject();
 			var sources:SFSArray = new SFSArray();
 			for each(var tp:PlaceView in sourceTowers)
-			sources.addInt(tp.place.index);
+				sources.addInt(tp.place.index);
 			sfsObj.putSFSArray("s", sources);
 			sfsObj.putInt("d", destination.place.index);
 			send(SFSCommands.FIGHT, sfsObj, room);

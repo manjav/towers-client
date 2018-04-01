@@ -34,10 +34,8 @@ public function Towers()
 	/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 	{
 		var str:String = improveLevel + " : ";
-		for(var get_level:int=1; get_level<=10; get_level++)
-		{
-			str += get_level + "[" + ((  180 + Math.round( (Math.log(improveLevel) + Math.log(get_level)) * 32)  )).toFixed(2) + "   " ;
-		}
+		for(var level:int=1; level<=10; level++)
+			str += level + "[" + ((  0.04 + Math.log(level) * 0.03 + Math.log(improveLevel) * 0.02  )).toFixed(3) + "]   " ;
 		trace(str);
 	}
 	NativeApplication.nativeApplication.exit();
