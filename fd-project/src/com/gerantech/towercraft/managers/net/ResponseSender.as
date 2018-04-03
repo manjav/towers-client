@@ -36,7 +36,7 @@ package com.gerantech.towercraft.managers.net
 			sfsObj.putDouble("d", damage);
 			send(SFSCommands.HIT, sfsObj, room);			
 		}
-
+		
 		public function improveBuilding(index:int, upgradeType:int):void
 		{
 			var sfsObj:SFSObject = new SFSObject();

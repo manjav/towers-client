@@ -98,17 +98,18 @@ private function gotoReady():void
 private function cancelButton_triggeredHandler(event:Event):void
 {
 	cancelButton.touchable = false;
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_canelResponseHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_cancelResponseHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.CANCEL_BATTLE);
 }
 
-protected function sfs_canelResponseHandler(event:SFSEvent):void
+protected function sfs_cancelResponseHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.CANCEL_BATTLE )
 		return;
 	
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_canelResponseHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_cancelResponseHandler);
 	appModel.navigator.popToRootScreen();
+	cancelButton.touchable = false;
 	setTimeout(disappear, 400);
 }
 
@@ -118,7 +119,10 @@ public function disappear():void
 	Starling.juggler.tween(overlay, 0.8, {delay:1, alpha:0});
 	Starling.juggler.tween(league, 0.3, {alpha:0, transition:Transitions.EASE_IN_BACK});
 	if( cancelButton != null )
+	{
+		cancelButton.touchable = false;
 		Starling.juggler.tween(cancelButton, 0.5, {delay:0.1, scale:0, transition:Transitions.EASE_IN_BACK});
+	}
 	if( waitDisplay != null )
 		Starling.juggler.tween(waitDisplay, 0.4, {alpha:0, y:waitDisplay.y-height*0.1, transition:Transitions.EASE_IN_BACK});
 	setTimeout(close, 800, true)

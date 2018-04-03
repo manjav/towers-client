@@ -62,6 +62,7 @@ public static function getDeadline(command:String):int
 		case FIGHT:
 		case LEFT_BATTLE:
 		case REJOIN_BATTLE:
+		case CANCEL_BATTLE:
 		case LEAVE:
 		case BUILDING_IMPROVE:
 		case HIT:
