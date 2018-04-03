@@ -151,14 +151,6 @@ public function hit(placeView:PlaceView):void
 	Starling.juggler.tween(blood, 2, {delay:1, alpha:0, onComplete:blood.removeFromParent, onCompleteArgs:[true]});
 	Starling.juggler.tween(blood, 0.05, {scale:scale, transition:Transitions.EASE_OUT});
 	blood.scale = 0;
-
-	removeFromParent(true);
-
-
-}
-private function onTroopKilled(placeView:PlaceView):void
-{
-	removeFromParent(true);
 }
 
 

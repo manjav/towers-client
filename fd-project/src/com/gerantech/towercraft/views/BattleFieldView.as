@@ -66,7 +66,6 @@ private function battleField_addedHandler(event:Event):void
 	var troopView:TroopView = event.target as TroopView;
 	if( troopView == null )
 		return;
-	troopView.addEventListener(Event.TRIGGERED, troopView_triggeredHandler);
 	troopsList.push(troopView);
 }
 private function battleField_removedHandler(event:Event):void
@@ -74,17 +73,8 @@ private function battleField_removedHandler(event:Event):void
 	var troopView:TroopView = event.target as TroopView;
 	if( troopView == null )
 		return;
-	troopView.removeEventListener(Event.TRIGGERED, troopView_triggeredHandler);
 	troopsList.removeAt(troopsList.indexOf(troopView));
 }		
-private function troopView_triggeredHandler(event:Event):void
-{
-	var troopView:TroopView = event.target as TroopView;
-	//trace("hitTroop", battleData.singleMode, troopView.type, player.troopType, troopView.id);
-	if( battleData.singleMode || troopView.type == player.troopType )
-		responseSender.hitTroop(troopView.id, event.data as Number);
-}		
-
 
 public function createPlaces(battleData:BattleData):void
 {
