@@ -9,6 +9,7 @@ import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -82,7 +83,10 @@ private function list_eventsHandler(event:Event):void
 	var message:SFSObject = event.data as SFSObject;
 	if( event.type == Event.OPEN )
 	{
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.INBOX_OPEN, message);
+    	if( message.getInt("receiverId") > 1000 )
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.INBOX_OPEN, message);
+		else
+			UserData.instance.addOpenedBroadcasts(message.getInt("utc"));
 		return;
 	}
 	if( event.type == Event.SELECT )

@@ -2,6 +2,7 @@ package com.gerantech.towercraft.managers
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -37,6 +38,10 @@ protected function sfs_responseHandler(event:SFSEvent):void
 		
 		if( !exists )
 		{
+			// check if broadcasts readen 
+			if( msgs.getSFSObject(i).getInt("receiverId") <= 1000 && UserData.instance.broadcasts != null )
+				msgs.getSFSObject(i).putShort("read", UserData.instance.broadcasts.indexOf(msgs.getSFSObject(i).getInt("utc")) >-1 ? 1 : 0);
+			
 			if( msgs.size() == 1 )
 				messages.addItemAt(msgs.getSFSObject(i), 0);
 			else
