@@ -62,7 +62,7 @@ override protected function initialize():void
 	
 	senderLayout = new AnchorLayoutData( NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN , NaN, offsetY);
 	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.72);
-	senderDisplay.width = padding * 6.4;
+	senderDisplay.width = padding * 12;
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 
@@ -113,7 +113,6 @@ override protected function commitData():void
 
 	message = _data as SFSObject;
 	date.time = message.getInt("utc") * 1000;
-	senderDisplay.text = message.getUtfString("sender");
 	var txt:String = message.getUtfString("text");
 	messageDisplay.text = txt.substr(0,2)=="__"?loc(txt.substr(2), [message.getUtfString("sender")]):txt;
 	dateDisplay.text = StrUtils.getDateString(date);
@@ -134,6 +133,7 @@ private function updateSkin():void
 			default:	mySkin.texture = appModel.theme.itemRendererSelectedSkinTexture; break;
 		}
 	}
+	senderDisplay.text = message.getUtfString("sender") + (isSelected && adminMode ? ("  " + message.getInt("senderId")) : "");
 	senderDisplay.alpha = message.getShort("read")==0 || isSelected ? 1 : 0.8;
 	messageDisplay.alpha = message.getShort("read")==0 || isSelected ? 0.92 : 0.8;
 }
@@ -153,7 +153,7 @@ override public function set isSelected(value:Boolean):void
 	}
 	
 	senderLayout.top = value ? padding*0.8 : NaN;
-	senderDisplay.width = padding*(value?12:6.4);
+	//senderDisplay.width = padding*(value?12:6.4);
 	senderLayout.verticalCenter = value ? NaN : offsetY;
 	if( adminMode )
 	{
