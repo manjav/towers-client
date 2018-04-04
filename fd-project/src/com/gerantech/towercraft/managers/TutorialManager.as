@@ -8,6 +8,13 @@ import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.views.PlaceView;
+import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.battle.fieldes.PlaceData;
+import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.utils.lists.PlaceDataList;
+import flash.utils.setTimeout;
 
 import starling.events.Event;
 
@@ -15,6 +22,7 @@ public class TutorialManager extends BaseManager
 {
 private static var _instance:TutorialManager;
 private var tutorialData:TutorialData;
+private var catchedPlaces:PlaceDataList;
 
 public function TutorialManager(){}
 public function show(data:TutorialData):void
@@ -43,9 +51,12 @@ private function processTasks():void
 			break;
 		
 		case TutorialTask.TYPE_SWIPE:
+			catchedPlaces = new PlaceDataList();
+			for each(var pd:PlaceData in task.places._list)
+				catchedPlaces.push(pd);
 			var swipeoverlay:TutorialSwipeOverlay = new TutorialSwipeOverlay(task);
 			swipeoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
-			appModel.navigator.addOverlay(swipeoverlay);					
+			appModel.navigator.addOverlay(swipeoverlay);
 			break;
 		
 		case TutorialTask.TYPE_TOUCH:
@@ -60,7 +71,6 @@ private function processTasks():void
 			processTasks();
 			break;
 	}
-
 }		
 
 private function overlay_closeHandler(event:Event):void
@@ -68,17 +78,76 @@ private function overlay_closeHandler(event:Event):void
 	processTasks();
 }
 
-
-public static function get instance():TutorialManager
+public function showMidSwipe(placeView:PlaceView):void
 {
-	if(_instance == null)
-		_instance = new TutorialManager();
-	return _instance;
+	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + placeView.place.index);
+	var places:PlaceDataList = new PlaceDataList();
+	if( appModel.battleFieldView.battleData.map.index <= 2 )
+	{
+		for (var i:int = 0; i < placeView.place.index+2; i++) 
+			places.push(placeView.getData(i));
+	}
+	else
+	{
+		places.push(placeView.getData(placeView.place.index));
+		places.push(placeView.getData(placeView.place.index + 1));
+	}
+	
+	if( places.size() > 0 )
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 800 * places.size()));
+	show(tutorialData);
+}
+
+public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:PlaceView ) : Boolean 
+{
+	var ret:Boolean = needToForceAggregation(sourcePlaces, target);
+	if ( ret )
+	{
+		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, catchedPlaces, 0, 800 * catchedPlaces.size()));
+		show(tutorialData);
+	}
+	return ret;
+}
+private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:PlaceView) : Boolean 
+{
+	if( !player.inTutorial() )
+		return false;
+	if( catchedPlaces == null || catchedPlaces.size() < 2 )
+		return false;
+	
+	var numPlaces:int = catchedPlaces.size() - 1;
+	if( target.place.index != catchedPlaces.get(numPlaces).index || sourcePlaces.length != numPlaces )
+		return true;
+	
+	numPlaces --;
+	while ( numPlaces >= 0 )
+	{
+		//trace("pv:" + sourcePlaces[numPlaces].place.index, "pd:" + catchedPlaces.get(numPlaces).index);
+		if( sourcePlaces[numPlaces].place.index != catchedPlaces.get(numPlaces).index )
+			return true;
+		numPlaces --;
+	}
+	return false;
+}
+
+public function forceImprove() : Boolean 
+{
+	if( player.getTutorStep() != PrefsTypes.T_162_QUEST_2_SECOND_START || player.getTutorStep() != PrefsTypes.T_153_DECK_CARD_SELECTED )
+		return false;
+		
+	var improvable:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
+	if( improvable == null || appModel.battleFieldView.battleData.battleField.places.get(improvable.index).building.type != BuildingType.B01_CAMP )
+		return false;
+		
+	appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
+	setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
+	return true;
 }
 
 public function removeAll(includeTaskOverlay:Boolean=true):void
 {
-	if ( tutorialData != null )
+	if( tutorialData != null )
 		while( tutorialData.numTasks > 0 )
 			tutorialData.shiftTask();
 	
@@ -86,7 +155,7 @@ public function removeAll(includeTaskOverlay:Boolean=true):void
 	{
 		if( appModel.navigator.overlays[i] is TutorialOverlay )
 		{
-			if ( !includeTaskOverlay && appModel.navigator.overlays[i] is TutorialTaskOverlay )
+			if( !includeTaskOverlay && appModel.navigator.overlays[i] is TutorialTaskOverlay )
 				continue;
 			
 			appModel.navigator.overlays[i].removeEventListeners(Event.CLOSE);
@@ -94,6 +163,13 @@ public function removeAll(includeTaskOverlay:Boolean=true):void
 			appModel.navigator.overlays.removeAt(i);
 		}
 	}
+}
+
+public static function get instance():TutorialManager
+{
+	if( _instance == null )
+		_instance = new TutorialManager();
+	return _instance;
 }
 }
 }

@@ -340,7 +340,7 @@ private function endBattle(data:SFSObject):void
 	}
 	
 	var endOverlay:EndOverlay;
-	if ( field.isQuest )
+	if( field.isQuest )
 	{
 		endOverlay = new EndQuestOverlay(playerIndex, rewards, inTutorial);
 	}
@@ -584,7 +584,7 @@ private function touchHandler(event:TouchEvent):void
 		if( touch.phase == TouchPhase.MOVED )
 		{
 			pv = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			if( pv != null && (PathFinder.find(sourcePlaces[0].place, pv.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == pv.place.building.troopType))
+			if( pv != null && (PathFinder.find(sourcePlaces[0].place, pv.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == pv.place.building.troopType) )
 			{
 				// check next tower liked by selected places
 				if( sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType )
@@ -633,13 +633,8 @@ private function touchHandler(event:TouchEvent):void
 			}
 			
 			// force improve in tutorial mode
-			var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
-			
-			var improvable:PlaceData = bf.map.getImprovableTutorPlace();
-			if( bf.map.isQuest && !player.hardMode && improvable != null && bf.places.get(improvable.index).building.type == BuildingType.B01_CAMP && state == STATE_CREATED )
+			if( state == STATE_CREATED && tutorials.forceImprove() )
 			{
-				appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
-				setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
 				clearSources(sourcePlaces);
 				return;
 			}
@@ -654,25 +649,39 @@ private function touchHandler(event:TouchEvent):void
 				}
 			}
 			
-			// send fight data to room
-			if( sourcePlaces.length > 0 )
+			// no fihgters
+			if ( sourcePlaces.length == 0 )
 			{
-				if( bf.map.isQuest )
-				{
-					if( bf.map.index == 0 )
-						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_123_QUEST_0_FIRST_SWIPE);
-					else if( bf.map.index == 2 )
-						UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.hardMode ? PrefsTypes.T_134_QUEST_2_FIRST_SWIPE : PrefsTypes.T_164_QUEST_2_SECOND_SWIPE );
-				}
-				appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
+				clearSources(sourcePlaces);
+				return;
 			}
 			
-			// clear swiping mode
+			// force aggregation swipe in tutorial mode
+			if( tutorials.forceAggregateSwipe(sourcePlaces, destination) )
+			{
+				clearSources(sourcePlaces);
+				return;
+			}
+			
+			// send fight data to room
+			var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
+			if( bf.map.isQuest )
+			{
+				if( bf.map.index == 0 )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_123_QUEST_0_FIRST_SWIPE);
+				else if( bf.map.index == 2 )
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.hardMode ? PrefsTypes.T_134_QUEST_2_FIRST_SWIPE : PrefsTypes.T_164_QUEST_2_SECOND_SWIPE );
+			}
+			appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
 			clearSources(sourcePlaces);
 		}
 	}
 }
 
+/**
+ * Clear swiping mode
+ * @param	sourceTowers
+ */
 private function clearSources(sourceTowers:Vector.<PlaceView>):void
 {
 	for each( var tp:PlaceView in sourceTowers )

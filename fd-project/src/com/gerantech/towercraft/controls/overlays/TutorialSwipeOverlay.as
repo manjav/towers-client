@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.overlays
 			array.sortOn("tutorIndex", Array.NUMERIC | Array.DESCENDING);
 			
 			this.places = new PlaceDataList();
-			while(array.length > 0) 
+			while( array.length > 0 ) 
 				this.places.push(array.pop());
 			
 			// aim to last swiped point

@@ -225,7 +225,7 @@ public function update(population:int, troopType:int) : void
 		dispatchEventWith(Event.UPDATE, false);
 }
 
-private function showMidSwipesTutorial(troopType:int):void
+private function showMidSwipesTutorial(troopType : int) : void
 {
 	if( !player.inTutorial() )
 		return;
@@ -233,39 +233,16 @@ private function showMidSwipesTutorial(troopType:int):void
 		return;
 	if( appModel.battleFieldView.battleData.map.isQuest && appModel.battleFieldView.battleData.map.index == 2 && player.emptyDeck() )
 		return;
-	if( !appModel.battleFieldView.responseSender.actived )
-		return;
-	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + place.index);
-	if ( place.index > appModel.battleFieldView.battleData.map.places.size() - 2 )
-	{
-		tutorials.show(tutorialData);
-		return;
-	}
-
-	// set first capture tutor step
-	if( player.getTutorStep() == PrefsTypes.T_123_QUEST_0_FIRST_SWIPE )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_124_QUEST_0_FIRST_CAPTURE);
-
 	tutorials.removeAll(false);
+	if( place.index > appModel.battleFieldView.battleData.map.places.size() - 2 )
+		return;
 	
-	var places:PlaceDataList = new PlaceDataList();
-	if( appModel.battleFieldView.battleData.map.index <= 2 )
-	{
-		for (var i:int = 0; i < place.index+2; i++) 
-			places.push(getPlace(i));
-	}
-	else
-	{
-		places.push(getPlace(place.index));
-		places.push(getPlace(place.index + 1));
-	}
-	
-	if( places.size() > 0 )
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 800 * places.size()));
-	tutorials.show(tutorialData);
+	tutorials.showMidSwipe(this);
+	if( player.getTutorStep() == PrefsTypes.T_123_QUEST_0_FIRST_SWIPE )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_124_QUEST_0_FIRST_CAPTURE); // set first capture tutor step
 }
 
-private function getPlace(index:int):PlaceData
+public function getData(index:int):PlaceData
 {
 	var p:PlaceData = appModel.battleFieldView.battleData.map.places.get(index);
 	return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
