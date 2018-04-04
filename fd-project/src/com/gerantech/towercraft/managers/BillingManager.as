@@ -13,20 +13,15 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.constants.ExchangeType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
+import feathers.events.FeathersEventType;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
-
 import mx.resources.ResourceManager;
-
-import feathers.events.FeathersEventType;
-
 import starling.events.EventDispatcher;
 
-public class BillingManager extends EventDispatcher
+public class BillingManager extends BaseManager
 {
 private var items:Array;
-
 private static var _instance:BillingManager;
 public static function get instance():BillingManager
 {
@@ -35,30 +30,29 @@ public static function get instance():BillingManager
 	return (_instance);
 }
 
-
 public function BillingManager(){}
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
-	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 	init();
 }		
 public function init():void
 {
-	if( AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 	{
-		AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+		appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 		return;
 	}
 	
 	// provide all sku items
 	items = new Array("com.grantech.towers.item_0");
-	var keys:Vector.<int> = AppModel.instance.game.exchanger.items.keys();
+	var keys:Vector.<int> = exchanger.items.keys();
 	for each(var k:int in keys)
 		if( ExchangeType.getCategory(k) == ExchangeType.S_0_HARD )
 			items.push("com.grantech.towers.item_" + k);
 	
 	var base64Key:String, bindURL:String, packageURL:String;
-	switch( AppModel.instance.descriptor.market )
+	switch( appModel.descriptor.market )
 	{
 		case "google":
 			base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuML2Gtw7jaO2bO1/JqtnvIIMH04IdQ/nX89tPz/Q9ltm3JyILgvSJJL36cmRqfvsHD4pXPuIu14cb/+iRVuSodASgtGpPCmv21l6wXT++VEED5TdWJCNZoyOnwt3iGWdpoUQNqpqj0hn46O7mmJdRY8dEtfuQ21P/pTSWzojkBBLCIxRM00va2ueE1AvMB5iJVw/0gCax7FZ0fSfVL0fhMps2uUu1e4Hro2AopwzGVzjug2rYpHviXQEOpX4/QJqyhDrs37vITA1yPjPguCHbB4YqOrgqM9ik2UDb1ouJ0NCj8jADzF8St6VajW9U64KZflE/7sppgSKGxcyAfsKnwIDAQAB";
@@ -96,7 +90,7 @@ public function init():void
 }
 protected function iab_setupFinishedHandler(event:IabEvent):void
 {
-	trace("iab_setupFinishedHandler", event.result.message);
+	log("setup: "+event.result.response);
 	Iab.instance.removeEventListener(IabEvent.SETUP_FINISHED, iab_setupFinishedHandler);
 	dispatchEventWith(FeathersEventType.INITIALIZE);
 	if( event.result.succeed )
@@ -115,6 +109,7 @@ public function queryInventory():void
 
 protected function iab_queryInventoryFinishedHandler(event:IabEvent):void
 {
+	log("queryInventory: "+event.result.response);
 	if( !event.result.succeed )
 	{
 		dispatchEventWith(FeathersEventType.END_INTERACTION, false, event.result);
@@ -141,11 +136,11 @@ public function purchase(sku:String):void
 
 protected function iab_purchaseFinishedHandler(event:IabEvent):void
 {
-	trace("iab_purchaseFinishedHandler", event.result.message);
+	log("purchase: " + event.result.response);
 	Iab.instance.removeEventListener(IabEvent.PURCHASE_FINISHED, iab_purchaseFinishedHandler);
 	if( !event.result.succeed )
 	{
-		explain(event.result.response == Iab.IABHELPER_NOT_SUPPORTED ? "popup_purchase_not_initialized":"popup_purchase_error");
+		explain(event.result.response);
 		dispatchEventWith(FeathersEventType.END_INTERACTION, false, event.result);
 		return;
 	}
@@ -159,7 +154,7 @@ protected function iab_purchaseFinishedHandler(event:IabEvent):void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE VERIFICATION AND CONSUMPTION -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 private function verify(purchase:Purchase):void
 {
-	AppModel.instance.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
+	appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
 	var param:SFSObject = new SFSObject();
 	param.putText("productID", purchase.sku);
 	param.putText("purchaseToken", purchase.token);
@@ -174,12 +169,13 @@ private function verify(purchase:Purchase):void
 		trace(result.getDump());
 		if( result.getBool("success") )
 		{
-			if( ( AppModel.instance.descriptor.market == "cafebazaar" && result.getInt("consumptionState") == 1 ) || ( AppModel.instance.descriptor.market == "myket" && result.getInt("consumptionState") == 0 ) )
+			if( ( appModel.descriptor.market == "cafebazaar" && result.getInt("consumptionState") == 1 ) || ( appModel.descriptor.market == "myket" && result.getInt("consumptionState") == 0 ) )
 				consume(purchase.sku);
 		}
 		else
 		{
-			explain("popup_purchase_invalid");
+			log("purchase verify=>invalid: " + purchase.sku);
+			explain(Iab.IABHELPER_VERIFICATION_FAILED);
 		}
 	}	
 }
@@ -187,16 +183,16 @@ private function verify(purchase:Purchase):void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- CONSUMING PURCHASED ITEM -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function consume(sku:String):void
 {
-	trace("consume", sku); 
 	Iab.instance.addEventListener(IabEvent.CONSUME_FINISHED, iab_consumeFinishedHandler);
 	Iab.instance.consume(sku);
 }
 protected function iab_consumeFinishedHandler(event:IabEvent):void
 {			
-	trace("iab_consumeFinishedHandler", event.result.message);
+	log("queryInventory: " + event.result.response);
 	Iab.instance.removeEventListener(IabEvent.CONSUME_FINISHED, iab_consumeFinishedHandler);
 	if( !event.result.succeed )
 	{
+		explain(Iab.IABHELPER_INVALID_CONSUMPTION);
 		dispatchEventWith(FeathersEventType.END_INTERACTION, false, event.result);
 		return;
 	}
@@ -220,31 +216,41 @@ protected function iab_consumeFinishedHandler(event:IabEvent):void
 	dispatchEventWith(FeathersEventType.END_INTERACTION, false, event.result);
 }
 
-private function explain(message:String):void
+private function explain( response:int ) : void
 {
-	var popup:MessagePopup = new MessagePopup(ResourceManager.getInstance().getString("loc", message));
-	AppModel.instance.navigator.addPopup(popup);
+	var res : int = Iab.IABHELPER_UNKNOWN_ERROR;
+	switch( response )
+	{
+		case Iab.IABHELPER_NOT_SUPPORTED :
+		case Iab.IABHELPER_USER_CANCELLED :
+		case Iab.IABHELPER_NOT_INITIALIZED :
+		case Iab.IABHELPER_VERIFICATION_FAILED :
+		case Iab.IABHELPER_INVALID_CONSUMPTION :
+			res = response;
+			break;
+	}
+	appModel.navigator.addPopup(new MessagePopup(loc("popup_purchase_" + res, [appModel.descriptor.market])));
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- RATING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function rate():void
 {
-	switch(AppModel.instance.descriptor.market)
+	switch(appModel.descriptor.market )
 	{
 		case "google":
-			navigateToURL(new URLRequest("https://play.google.com/store/apps/details?id=air." + AppModel.instance.descriptor.id));
+			navigateToURL(new URLRequest("https://play.google.com/store/apps/details?id=air." + appModel.descriptor.id));
 			break;
 		
 		case "cafebazaar":
-			NativeAbilities.instance.runIntent("android.intent.action.EDIT", "bazaar://details?id=air." + AppModel.instance.descriptor.id);
+			NativeAbilities.instance.runIntent("android.intent.action.EDIT", "bazaar://details?id=air." + appModel.descriptor.id);
 			break;
 		
 		case "myket":
-			navigateToURL(new URLRequest("http://myket.ir/App/air." + AppModel.instance.descriptor.id));
+			navigateToURL(new URLRequest("http://myket.ir/App/air." + appModel.descriptor.id));
 			break;
 		
 		case "cando":
-			navigateToURL(new URLRequest("cando://leave-review?id=air." + AppModel.instance.descriptor.id));
+			navigateToURL(new URLRequest("cando://leave-review?id=air." + appModel.descriptor.id));
 			break;
 	}			
 }
@@ -252,12 +258,12 @@ public function rate():void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- GET DOWNLOAD URL -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function getDownloadURL():String
 {
-	switch(AppModel.instance.descriptor.market)
+	switch(appModel.descriptor.market )
 	{
-		case "google":		return 'https://play.google.com/store/apps/details?id=air.' + AppModel.instance.descriptor.id;			
-		case "cafebazaar":	return 'https://cafebazaar.ir/app/air.' + AppModel.instance.descriptor.id;			
-		case "myket":		return 'http://myket.ir/App/air.' + AppModel.instance.descriptor.id;
-		case "cando":		return 'cando://details?id=air.'+AppModel.instance.descriptor.id;			
+		case "google":		return 'https://play.google.com/store/apps/details?id=air.' + appModel.descriptor.id;			
+		case "cafebazaar":	return 'https://cafebazaar.ir/app/air.' + appModel.descriptor.id;			
+		case "myket":		return 'http://myket.ir/App/air.' + appModel.descriptor.id;
+		case "cando":		return 'cando://details?id=air.' + appModel.descriptor.id;			
 	}
 	return "http://towers.grantech.ir/get/towerstory.apk";
 }
@@ -266,6 +272,10 @@ public function getDownloadURL():String
 public function share():void
 {
 	NativeAbilities.instance.shareText(ResourceManager.getInstance().getString("loc", "app_title"), ResourceManager.getInstance().getString("loc", "app_brief") + "\n" + getDownloadURL());
+}
+private function log(message:String):void 
+{
+	//NativeAbilities.instance.showToast("iab_" + message, 2);
 }
 }
 }
