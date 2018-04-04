@@ -175,7 +175,7 @@ override public function updateData():void
 private function list_changeHandler(event:Event):void
 {
 	var item:ExchangeItem = event.data as ExchangeItem;
-	if( player.inTutorial() && item.type != ExchangeType.CHEST_CATE_101_FREE )
+	if( (player.inDeckTutorial() || player.inShopTutorial()) && item.type != ExchangeType.CHEST_CATE_101_FREE )
 		return;// disalble all items in tutorial
 
 	if( item.category == ExchangeType.S_0_HARD )
