@@ -37,7 +37,7 @@ package com.gerantech.towercraft.controls.popups
 			transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.20, stage.stageWidth*0.8, stage.stageHeight*0.6);
 			transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.10, stage.stageHeight*0.15, stage.stageWidth*0.8, stage.stageHeight*0.7);
 			
-			messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
+			messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0, true);
 			messageInput.prompt = "Insert Message";
 			messageInput.height = 200 * appModel.scale;
 			container.addChild(messageInput);
