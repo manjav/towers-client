@@ -74,6 +74,7 @@ private var transitionInCompleted:Boolean = true;
 private var state:int = 0;
 private static const STATE_CREATED:int = 0;
 private static const STATE_STARTED:int = 1;
+private var touchEnable:Boolean;
 
 public function BattleScreen(){}
 override protected function initialize():void
@@ -93,6 +94,7 @@ override protected function initialize():void
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	if( !isFriendly )
 		sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+	addEventListener(TouchEvent.TOUCH, touchHandler);
 }
 
 protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
@@ -207,21 +209,23 @@ private function startBattle():void
 
 private function showTutorials() : void 
 {
-	if( !sfsConnection.mySelf.isSpectator )
-	{
-		addEventListener(TouchEvent.TOUCH, touchHandler);
-		appModel.battleFieldView.createDrops();
-	}
-	
-	if( !player.inTutorial() )
+	if( sfsConnection.mySelf.isSpectator )
 		return;
+
+	appModel.battleFieldView.createDrops();
+	if ( !player.inTutorial() )
+	{
+		touchEnable = true;
+		return;
+	}
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 	if( player.tutorialMode == 0 && !field.isQuest )
 		return;
 
 	// create tutorial steps
-	var tutorialData:TutorialData = new TutorialData(field.name+"_start");
+	var tutorialData:TutorialData = new TutorialData(field.name + "_start");
+	tutorialData.data = "start";
 	
 	//quest start
 	var tuteMessage:String = "";
@@ -258,6 +262,7 @@ private function showTutorials() : void
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
 		}
 	}
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	tutorials.show(tutorialData);
 	
 	if( field.index == 0 )
@@ -281,7 +286,7 @@ private function showTutorials() : void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function endBattle(data:SFSObject):void
 {
-	removeEventListener(TouchEvent.TOUCH, touchHandler);
+	touchEnable = false;
 	disposeBattleAssets();
 	hud.stopTimers();
 	
@@ -485,6 +490,12 @@ private function tutorials_tasksFinishHandler(event:Event):void
 {
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	var tutorial:TutorialData = event.data as TutorialData;
+	if( tutorial.data == "start" )
+	{
+		touchEnable = true;
+		return;
+	}
+	
 	if( tutorial.name == "quest_2_end" || tutorial.name == "battle_2_end" || tutorial.name == "tutor_upgrade" )
 	{
 		var defeatAfterTutorial:Boolean = !player.inTutorial() && player.tutorialMode == 1 && tutorial.data <= 0;
@@ -557,6 +568,8 @@ private function resetAll(data:SFSObject):void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function touchHandler(event:TouchEvent):void
 {
+	if( !touchEnable )
+		return;
 	var pv:PlaceView;
 	var touch:Touch = event.getTouch(this);
 	if( touch == null )
