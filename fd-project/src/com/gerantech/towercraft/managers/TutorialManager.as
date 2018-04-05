@@ -103,6 +103,7 @@ public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:Pla
 	var ret:Boolean = needToForceAggregation(sourcePlaces, target);
 	if( ret )
 	{
+		removeAll();
 		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, catchedPlaces, 0, 800 * catchedPlaces.size()));
 		show(tutorialData);
@@ -163,6 +164,10 @@ public function removeAll(includeTaskOverlay:Boolean=true):void
 			appModel.navigator.overlays.removeAt(i);
 		}
 	}
+	
+	// remove all active aims
+	for each( var pv:PlaceView in appModel.battleFieldView.places )
+		pv.removeAim();
 }
 
 public static function get instance():TutorialManager

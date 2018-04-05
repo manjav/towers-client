@@ -168,7 +168,7 @@ public function addAim(fightMode:Boolean = false) : void
 	addChildAt(aim, 0);
 	Starling.juggler.tween(aim, 1.6, {delay:1, alpha:1, scale:0.8, transition:Transitions.EASE_OUT, repeatCount:50});
 }
-internal function removeAim() : void
+public function removeAim() : void
 {
 	if( aim != null )
 	{
@@ -221,7 +221,7 @@ public function update(population:int, troopType:int) : void
 	place.building._population = population;
 	place.building.troopType = troopType;
 	
-	if(hasEventListener(Event.UPDATE))
+	if( hasEventListener(Event.UPDATE) )
 		dispatchEventWith(Event.UPDATE, false);
 }
 
