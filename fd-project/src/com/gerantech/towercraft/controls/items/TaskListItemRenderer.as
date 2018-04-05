@@ -2,9 +2,12 @@ package com.gerantech.towercraft.controls.items
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.events.GameEvent;
+	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialData;
 	import com.gt.towers.battle.fieldes.PlaceData;
+	import com.smartfoxserver.v2.core.SFSEvent;
 	import feathers.controls.ImageLoader;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
@@ -36,44 +39,49 @@ override protected function initialize():void
 	checkBoxDisplay.pixelSnapping = false;
 	addChild(checkBoxDisplay);
 	
-	messageDisplay = new RTLLabel("", 0, null, null, false, null, 0.9);
-	messageDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? NaN : padding * 4, NaN, appModel.isLTR ? padding * 3.5 : NaN, NaN, 0);
+	messageDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
+	messageDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? NaN : padding * 3.5, NaN, appModel.isLTR ? padding * 3 : NaN, NaN, 0);
 	addChild(messageDisplay);
 	
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
-
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
 }
 
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data == null || _owner == null )
+	if( _data == null || _owner == null )
 		return;
 	place = _data as PlaceData;
 	messageDisplay.text = loc("tutor_battle_" + place.type + "_task_" + place.index);
 	checkBoxDisplay.source = Assets.getTexture("checkbox-off", "gui");
 }
 
+private function sfs_responseHandler(event:SFSEvent):void 
+{
+	if( event.params.cmd != SFSCommands.END_BATTLE )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
+	if( index == 1 )
+	{
+		punch();
+		setTimeout(owner.dispatchEventWith, 1000, GameEvent.TUTORIAL_TASKS_FINISH);
+	}
+}
 private function tutorials_tasksStartHandler(event:Event) : void 
 {
 	var tutorialData:TutorialData = event.data as TutorialData;
-	if( tutorialData.name == "occupy_1_1" && index == 0 )
+	if( index == 0 && tutorialData.name == "occupy_1_1" )
 	{
 		punch();
-	}
-	else if( tutorialData.name == "occupy_1_2" && index == 1 )
-	{
-		punch();
-		setTimeout(owner.dispatchEventWith, 1000, event.type);
-	}
-	function punch() : void 
-	{
-		checkBoxDisplay.source = Assets.getTexture("checkbox-on", "gui");
-		checkBoxDisplay.scale = 2;
-		Starling.juggler.tween(checkBoxDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT});
 	}
 }
-
+private function punch() : void 
+{
+	checkBoxDisplay.source = Assets.getTexture("checkbox-on", "gui");
+	checkBoxDisplay.scale = 2;
+	Starling.juggler.tween(checkBoxDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT});
+}
 public override function dispose() : void
 {
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);

@@ -28,8 +28,8 @@ public function TutorialManager(){}
 public function show(data:TutorialData):void
 {
 	tutorialData = data;
-	processTasks();
 	dispatchEventWith(GameEvent.TUTORIAL_TASKS_STARTED, false, data);
+	processTasks();
 }
 
 private function processTasks():void
@@ -101,7 +101,7 @@ public function showMidSwipe(placeView:PlaceView):void
 public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:PlaceView ) : Boolean 
 {
 	var ret:Boolean = needToForceAggregation(sourcePlaces, target);
-	if ( ret )
+	if( ret )
 	{
 		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, catchedPlaces, 0, 800 * catchedPlaces.size()));

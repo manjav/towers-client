@@ -25,7 +25,7 @@ package com.gerantech.towercraft.controls.overlays
 			super(task);
 			side = int(task.data) % 2;
 		}
-
+		
 		override protected function transitionInCompleted():void
 		{
 			super.transitionInCompleted();

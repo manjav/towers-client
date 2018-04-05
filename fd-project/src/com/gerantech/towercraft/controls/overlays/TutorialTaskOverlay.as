@@ -55,8 +55,8 @@ override protected function transitionInCompleted():void
 	taskList = new List();
 	taskList.itemRendererFactory = function ():IListItemRenderer { return new TaskListItemRenderer(); };
 	taskList.dataProvider = new ListCollection(task.places._list);
-	taskList.layoutData = new AnchorLayoutData(padding, padding, padding * 2, padding);
-	taskList.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, taskList_taskStartHAndler);
+	taskList.layoutData = new AnchorLayoutData(padding, padding * 0.1, padding, padding);
+	taskList.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, taskList_taskFinishHandler);
 	balloon.addChild( taskList );
 	
 	var charachter:ImageLoader = new ImageLoader();
@@ -71,7 +71,7 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(balloon, 0.5, {delay:0.2, y:padding * 1.0, alpha:1, transition:Transitions.EASE_OUT});
 }
 
-private function taskList_taskStartHAndler(event:Event):void 
+private function taskList_taskFinishHandler(event:Event):void 
 {
 	close();
 }

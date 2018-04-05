@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.overlays
 			super.initialize();
 			if( hasOverlay )
 			{
-				if(  overlayFactory == null )
+				if( overlayFactory == null )
 					overlayFactory = defaultOverlayFactory;
 				
 				if( overlay == null )

@@ -235,7 +235,8 @@ private function showTutorials() : void
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1200, field.startNum.get(i)));
 	}
 	
-	if ( player.tutorialMode == 1 && player.get_battleswins() == 0 )
+	// add todo-list for player
+	if( player.tutorialMode == 1 && player.get_battleswins() == 0 )
 	{
 		var tasks:PlaceDataList = new PlaceDataList();
 		tasks.push(new PlaceData(0, 0, 0, field.index, 0, ""));
