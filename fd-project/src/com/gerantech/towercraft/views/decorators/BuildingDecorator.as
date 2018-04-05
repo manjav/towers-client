@@ -57,7 +57,7 @@ protected function addedToStageHandler():void
 {
 	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	
-	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.get_capacity());
+	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.capacity);
 	populationBar.width = 140
 	populationBar.height = 38
 	populationBar.x = parent.x - populationBar.width * 0.5 + 24;
@@ -113,7 +113,7 @@ protected function addedToStageHandler():void
 public function updateElements(population:int, troopType:int):void
 {
 	var colorIndex:int = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
-	populationIndicator.text = population + "/" + place.building.get_capacity();
+	populationIndicator.text = population + "/" + place.building.capacity;
 	populationBar.troopType = colorIndex;
 	populationBar.value = population;
 	populationIcon.texture = Assets.getTexture("population-"+colorIndex);
@@ -165,11 +165,11 @@ private function placeView_updateHandler(event:Event):void
 	var improvable:Boolean = false;
 	if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
 	{
-		var options:IntList = place.building.get_options();
+		var options:IntList = BuildingType.getImproveList(place.building.type);
 		for (var i:int=0; i < options.size(); i++) 
 		{
 			//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
-			if( place.building.improvable(options.get(i)) && options.get(i)!=1 )
+			if( place.building.improvable(options.get(i)) && options.get(i) != BuildingType.B01_CAMP )
 			{
 				improvable = true;
 				break;

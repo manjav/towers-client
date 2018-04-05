@@ -7,6 +7,7 @@ package com.gerantech.towercraft.controls.floatings
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.views.PlaceView;
 	import com.gt.towers.battle.fieldes.PlaceData;
+	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
 	
@@ -40,7 +41,7 @@ package com.gerantech.towercraft.controls.floatings
 			addChild(circle);
 				
 			buttons = new Vector.<ImproveButton>();
-			var options:IntList = placeView.place.building.get_options();
+			var options:IntList = BuildingType.getImproveList(placeView.place.building.type);
 			var numButtons:int = options.size();
 			for (var i:int=0; i < numButtons; i++) 
 			{
@@ -49,15 +50,15 @@ package com.gerantech.towercraft.controls.floatings
 				buttons[i] = new ImproveButton(placeView.place.building, impoveType);
 				buttons[i].renable();
 				
-				var angle:Number = Math.PI * 2/numButtons*i;
+				var angle:Number = Math.PI * 2 / numButtons * i;
 				var _x:Number = Math.sin(angle) * raduis;
 				var _y:Number = Math.cos(angle) * raduis;
 				buttons[i].x = _x * 0.7;
 				buttons[i].y = _y * 0.7;
 				buttons[i].alpha = 0;
 				//trace(i, angle, Math.sin(angle), Math.cos(angle))
-				Starling.juggler.tween(buttons[i], 0.2, {delay:i*0.03+0.03, alpha:1, x:_x, y:_y, transition:Transitions.EASE_OUT_BACK});
-
+				Starling.juggler.tween(buttons[i], 0.2, {delay:i * 0.03 + 0.03, alpha:1, x:_x, y:_y, transition:Transitions.EASE_OUT_BACK});
+				
 				buttons[i].addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 				addChild(buttons[i]);
 			}

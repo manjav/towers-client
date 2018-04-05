@@ -41,7 +41,7 @@ public function TroopView(building:Building, path:PlaceList)
 	this.type = building.troopType;
 	this.battleSide = type == AppModel.instance.game.player.troopType?0:1;
 	this.building = building;
-	this.health = building.get_troopPower();
+	this.health = building.troopPower;
 	
 	textureType = building.get_troopName() + battleSide + "/";
 	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 20);
@@ -72,9 +72,9 @@ public function rush(source:Place):void
 	movieClip.muted = false;
 	Starling.juggler.add(movieClip);
 
-	var randomGap:Number = Math.max(0, Math.random() * building.get_exitGap() - Math.random()* building.get_exitGap() * 0.5) / 1000;
+	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap - Math.random()* building.troopRushGap * 0.5) / 1000;
 	var distance:Number = PathFinder.getDistance(source, next.place) * 1.1;
-	Starling.juggler.tween(this, (building.get_troopSpeed()/1000) * distance - randomGap + 0.1, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
+	Starling.juggler.tween(this, (building.troopSpeed/1000) * distance - randomGap + 0.1, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
 private function onTroopArrived(next:PlaceView):void
 {
@@ -82,7 +82,7 @@ private function onTroopArrived(next:PlaceView):void
 	movieClip.muted = true;
 	Starling.juggler.remove(movieClip);
 	if( next.place.building.troopType == type )
-		rushTimeoutId = setTimeout(rush, building.get_exitGap(), next.place);
+		rushTimeoutId = setTimeout(rush, building.troopRushGap, next.place);
 }
 
 private function switchAnimation(source:Place, destination:Place):void
@@ -131,13 +131,12 @@ private function switchAnimation(source:Place, destination:Place):void
 		movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction + ( i > 9 ? "-00" + (i) : "-000" + (i)), "troops"));
 }
 
-public function hit(placeView:PlaceView):void
+public function hit(damage:Number):void
 {
-	var damage:Number = placeView.place.building.get_damage()
 	health -= damage;
 	dispatchEventWith(Event.TRIGGERED, false, damage);
 	
-	if(health > 0)
+	if( health > 0 )
 		return;
 
 	AppModel.instance.sounds.addAndPlaySound("kill");
@@ -165,7 +164,7 @@ public function set health(value:Number):void
 	
 	_health = value;
 	//trace(_health)
-	if( _health < building.get_troopPower() )
+	if( _health < building.troopPower )
 		updateHealthDisplay(_health);
 
 		
@@ -177,7 +176,7 @@ private function updateHealthDisplay(health:Number):void
 	{
 		if( healthDisplay == null )
 		{
-			healthDisplay = new HealthBar(battleSide, health, building.get_troopPower());
+			healthDisplay = new HealthBar(battleSide, health, building.troopPower);
 			addChild(healthDisplay);
 			healthDisplay.y = -80;
 			healthDisplay.scale = scale;
@@ -192,7 +191,6 @@ private function updateHealthDisplay(health:Number):void
 		if( healthDisplay )
 			healthDisplay.removeFromParent(true);	
 	}
-	
 }
 
 public function get muted():Boolean

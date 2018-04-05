@@ -21,11 +21,9 @@ override protected function commitData():void
 	feature = _data as int;
 	titleDisplay.text = loc("building_feature_" + feature);
 	
-	var baseValue:Number = building.getFeatureBaseValue(feature);
-	building.set_level( building.get_level() + 1 );
-	var newValue:Number = building.getFeatureValue(feature);
-	building.set_level( building.get_level() - 1 );
-	var oldValue:Number = building.getFeatureValue(feature);
+	var baseValue:Number = game.calculator.getBaseline(feature) * game.calculator.getUIFactor(feature);
+	var newValue:Number = game.calculator.get(feature, building.type, building.get_level() + 1, building.improveLevel) * game.calculator.getUIFactor(feature);
+	var oldValue:Number = game.calculator.get(feature, building.type, building.get_level() + 0, building.improveLevel) * game.calculator.getUIFactor(feature);
 
 	var diff:Number = newValue - oldValue;
 	valueDisplay.text = "<span>" + oldValue.toFixed(2) + (diff == 0?"":(' <font color="#00ff00"> + ' + Math.abs(diff).toFixed(2)+'</font>')) + "</span>";

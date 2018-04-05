@@ -756,7 +756,7 @@ private function showImproveFloating(placeView:PlaceView):void
 				appModel.navigator.addLog(loc("improve_disabled_meaagse"));
 			return;
 		}
-		appModel.battleFieldView.responseSender.improveBuilding(btn.building.index, btn.type);
+		appModel.battleFieldView.responseSender.improveBuilding(btn.building.place.index, btn.type);
 		if( player.getTutorStep() == PrefsTypes.T_162_QUEST_2_SECOND_START )
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_163_QUEST_2_FIRST_IMPROVE);
 	}

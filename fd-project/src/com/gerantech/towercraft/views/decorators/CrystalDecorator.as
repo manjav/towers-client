@@ -3,7 +3,7 @@ package com.gerantech.towercraft.views.decorators
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gerantech.towercraft.views.TroopView;
-import com.gt.towers.buildings.Crystal;
+import com.gt.towers.constants.BuildingFeatureType;
 import com.gt.towers.constants.BuildingType;
 
 import flash.utils.setTimeout;
@@ -17,6 +17,9 @@ import starling.utils.MathUtil;
 
 public class CrystalDecorator extends BuildingDecorator
 {
+private var damage:Number;
+private var damageRadiusMin:Number;
+private var damageRadiusMax:Number;
 private var crystalTexture:String;
 private var crystalDisplay:MovieClip;
 private var radiusDisplay:Image;
@@ -32,42 +35,23 @@ public function CrystalDecorator(placeView:PlaceView)
 override public function updateElements(population:int, troopType:int):void
 {
 	super.updateElements(population, troopType);
+
+	damage			= game.calculator.get(BuildingFeatureType.F21_DAMAGE,			placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
+	damageRadiusMin = game.calculator.get(BuildingFeatureType.F23_RANGE_RADIUS_MIN,	placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
+	damageRadiusMax = game.calculator.get(BuildingFeatureType.F24_RANGE_RADIUS_MAX, placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
 	
-	/*var txt:String = "building-cr-" + place.building.type;
-	if(crystalTexture != txt)
-	{
-		crystalTexture = txt;
-		
-		// crystal :
-		if(crystalDisplay != null)
-		{
-			Starling.juggler.remove(crystalDisplay);
-			crystalDisplay.removeFromParent(true);
-		}
-		crystalDisplay = new MovieClip(Assets.getTextures(crystalTexture));
-		crystalDisplay.play();
-		crystalDisplay.touchable = false;
-		crystalDisplay.pivotX = crystalDisplay.width * 0.5;
-		crystalDisplay.pivotY = crystalDisplay.height;
-		crystalDisplay.x = parent.x;
-		
-		crystalDisplay.y = parent.y - get_crystalHeight() ;
-		Starling.juggler.add(crystalDisplay);
-		fieldView.buildingsContainer.addChild(crystalDisplay);
-	}
-	*/
 	// radius :
 	createRadiusDisplay();
-	radiusDisplay.width = place.building.get_damageRadius() * 2;
+	radiusDisplay.width = damageRadiusMax * 2;
 	radiusDisplay.scaleY = radiusDisplay.scaleX * 0.8;
 
 	// ray
 	createRayDisplay();
-	rayImage.scale = place.building.get_damage() * 0.7;
+	rayImage.scale = damage * 0.7;
 	
 	// lighting
 	createLightingDisplay();
-	lightingDisplay.scale = place.building.get_damage() ;
+	lightingDisplay.scale = damage ;
 }
 
 private function get_crystalHeight():Number
@@ -118,6 +102,7 @@ private function createLightingDisplay():void
 		return;
 	
 	lightingDisplay = new MovieClip(Assets.getTextures("crystal-lighting"));
+	lightingDisplay.visible = false; 
 	lightingDisplay.touchable = false;
 	lightingDisplay.pivotX = lightingDisplay.width * 0.5;
 	lightingDisplay.pivotY = lightingDisplay.height * 0.5;

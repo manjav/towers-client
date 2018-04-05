@@ -83,11 +83,11 @@ public function PlaceView(place:Place)
 	x = place.x;
 	y = place.y;
 
+	place.building._population = wishedPopulation = place.building.get_population();
+	place.building.troopSpeed = 32000 / place.building.troopSpeed;
 	createDecorator();
 	createArrow();
 	createAim();
-	place.building.createEngine(place.building.troopType);
-	place.building._population = wishedPopulation = place.building.get_population();
 }
 
 private function createDecorator():void
@@ -255,9 +255,9 @@ public function fight(destination:Place, troopsCount:Number) : void
 	if( path == null || destination.building == place.building )
 		return;
 	
-	if( rushGap != place.building.get_exitGap() )
+	if( rushGap != place.building.troopRushGap )
 	{
-		rushGap = place.building.get_exitGap() * 1.2;
+		rushGap = place.building.troopRushGap * 1.2;
 		clearInterval(rushIntervalId);
 		rushIntervalId = setInterval(rushTimeoutCallback, rushGap);
 	}
@@ -296,8 +296,10 @@ public function replaceBuilding(type:int, level:int, troopType:int, population:i
 	wishedPopulation = Math.floor(place.building._population * 0.5);
 	rushGap = 0;
 	//trace("replaceBuilding", place.index, type, level, place.building._population);
-	place.building = BuildingType.instantiate(game ,type, place, place.index);
+	place.building.type = type;
 	place.building.set_level( level );
+	place.building.setFeatures();
+	place.building.troopSpeed = 32000 / place.building.troopSpeed;
 	createDecorator();
 	update(population, troopType);
 }

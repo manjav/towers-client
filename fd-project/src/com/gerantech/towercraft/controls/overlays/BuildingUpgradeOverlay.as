@@ -94,7 +94,7 @@ package com.gerantech.towercraft.controls.overlays
 				featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width*0.7);
 				featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 				featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
-				featureList.dataProvider = new ListCollection(BuildingFeatureType.getChangables(building.type)._list);
+				featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(building.type)._list);
 				addChild(featureList);
 				
 				var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
