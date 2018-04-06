@@ -4,6 +4,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.buildings.Place;
+import com.gt.towers.constants.BuildingType;
 import com.gt.towers.utils.PathFinder;
 import com.gt.towers.utils.lists.PlaceList;
 
@@ -43,7 +44,7 @@ public function TroopView(building:Building, path:PlaceList)
 	this.building = building;
 	this.health = building.troopPower;
 	
-	textureType = building.get_troopName() + battleSide + "/";
+	textureType = BuildingType.getTroopName(building.type) + battleSide + "/";
 	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 20);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
