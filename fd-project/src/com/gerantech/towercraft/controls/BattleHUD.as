@@ -211,7 +211,7 @@ private function stickerButton_triggeredHandler(event:Event):void
 	if( stickerList == null )
 	{
 		var stickersLayout:TiledRowsLayout = new TiledRowsLayout();
-		stickersLayout.padding = stickersLayout.gap = padding;
+		stickersLayout.padding = stickersLayout.gap = padding * 0.2;
 		stickersLayout.tileHorizontalAlign = HorizontalAlign.JUSTIFY;
 		stickersLayout.tileVerticalAlign = VerticalAlign.JUSTIFY;
 		stickersLayout.useSquareTiles = false;
