@@ -90,6 +90,7 @@ private function createRayDisplay():void
 	fieldView.buildingsContainer.addChild(raySprite);
 	
 	rayImage = new Image(Assets.getTexture("crystal-ray"));
+	rayImage.touchable = false;
 	rayImage.alignPivot("center", "bottom");
 	raySprite.addChild(rayImage);
 	
