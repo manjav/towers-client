@@ -126,7 +126,17 @@ package com.gerantech.towercraft.controls.screens
                     popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n\n" + StrUtils.toTimeFormat( event.data.getSFSObject("ban").getLong("until") );
                     AppModel.instance.navigator.addPopup(popup);
                     return;
-				
+				    
+                case LoadingEvent.FORCE_UPDATE:
+					var updatepopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_update_label"));
+					updatepopup.data = confirmData;
+					updatepopup.closeOnOverlay = false;
+					updatepopup.addEventListener("select", confirm_eventsHandler);
+					AppModel.instance.navigator.addPopup(updatepopup);
+					if( parent )
+						parent.removeChild(this);
+					return;
+					
 				default:
 					var message:String = loc("popup_"+event.type+"_message");
 					if( event.type == LoadingEvent.LOGIN_ERROR )
@@ -140,7 +150,7 @@ package com.gerantech.towercraft.controls.screens
 					}
 					
 					var acceptLabel:String = "popup_reload_label";
-					if( event.type == LoadingEvent.NOTICE_UPDATE || event.type == LoadingEvent.FORCE_UPDATE )
+					if( event.type == LoadingEvent.NOTICE_UPDATE )
 						acceptLabel = "popup_update_label";
 					else if( event.type == LoadingEvent.LOGIN_USER_EXISTS )
 						acceptLabel = "popup_accept_label";
@@ -176,8 +186,12 @@ package com.gerantech.towercraft.controls.screens
 			{
 				switch(confirmData.getText("type"))
 				{
-					case LoadingEvent.NOTICE_UPDATE:
 					case LoadingEvent.FORCE_UPDATE:
+						navigateToURL(new URLRequest(BillingManager.instance.getDownloadURL()));
+						NativeApplication.nativeApplication.exit();
+						return;
+					
+					case LoadingEvent.NOTICE_UPDATE:
 						navigateToURL(new URLRequest(BillingManager.instance.getDownloadURL()));
 					case LoadingEvent.CORE_LOADING_ERROR:
 						AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
