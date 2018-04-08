@@ -371,7 +371,7 @@ private function endOverlay_retryHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
 	event.currentTarget.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	if( event.data ) 
+	if( event.data && player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) ) 
 		showExtraTimeAd();
 	else
 		retryQuest(appModel.battleFieldView.battleData.map.index, false);

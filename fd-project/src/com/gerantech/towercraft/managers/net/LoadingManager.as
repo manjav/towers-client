@@ -14,6 +14,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
+import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.onesignal.OneSignal;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -203,7 +204,7 @@ protected function coreLoader_completeHandler(event:Event):void
 	registerPushManager();
 	
 	// prevent ADs for new users
-	if( appModel.game.player.get_arena(0) == 0 )
+	if( appModel.game.player.get_arena(0) == 0 || appModel.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) )
         return;
 
 	// catch video ads

@@ -369,7 +369,7 @@ private function gotoDeckTutorial():void
 
 private function showAd():void
 {
-	if( player.inTutorial() || !VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS).available )
+	if( player.inTutorial() || player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) || !VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS).available )
 		return;
 	
 	var adConfirmPopup:AdConfirmPopup = new AdConfirmPopup();
