@@ -1,24 +1,24 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
 import com.gerantech.towercraft.controls.items.ProfileFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.screens.IssuesScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.BuildingType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -26,7 +26,7 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.TiledRowsLayout;
-
+import flash.geom.Rectangle;
 import starling.core.Starling;
 import starling.events.Event;
 
@@ -126,14 +126,39 @@ private function showProfile():void
 	if( adminMode )
 	{
 		var banButton:CustomButton = new CustomButton();
+		banButton.icon = Assets.getTexture("improve-lock", "gui");
 		banButton.style = "danger";
-		banButton.label = loc("popup_ban_button");
-		banButton.width = banButton.height * 1.2;
+		AnchorLayoutData(banButton.iconLayout).right = padding * 0.4;
+		banButton.width = banButton.height = padding * 3;
 		banButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
-		banButton.addEventListener(Event.TRIGGERED, banButton_triggeredHandler);
+		banButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(banButton);
-		function banButton_triggeredHandler(event:Event):void{
-			appModel.navigator.addPopup(new AdminBanPopup(user.id));
+		
+		var issuesButton:CustomButton = new CustomButton();
+		AnchorLayoutData(issuesButton.iconLayout).right = padding * 0.4;
+		issuesButton.icon = Assets.getTexture("button-inbox", "gui");
+		issuesButton.width = issuesButton.height = padding * 3
+		issuesButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding*5:NaN, NaN, appModel.isLTR?NaN:padding*5);
+		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
+		addChild(issuesButton);
+		
+		function adminButtons_triggeredHandler(event:Event):void
+		{
+			if( event.currentTarget == banButton )
+			{
+				appModel.navigator.addPopup(new AdminBanPopup(user.id));
+				return;
+			}
+			if( appModel.navigator.activeScreen is IssuesScreen )
+			{
+				IssuesScreen(appModel.navigator.activeScreen).reporter = user.id;
+				IssuesScreen(appModel.navigator.activeScreen).requestIssues();
+				close();
+				return;
+			}
+			appModel.navigator.getScreen( Main.ISSUES_SCREEN ).properties.reporter = user.id;
+			appModel.navigator.pushScreen( Main.ISSUES_SCREEN ) ;
+			close();
 		}
 	}
 

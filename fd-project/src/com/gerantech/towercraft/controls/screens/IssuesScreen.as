@@ -20,38 +20,16 @@ import starling.events.Event;
 
 public class IssuesScreen extends ListScreen
 {
+public var reporter:int = -1;
 private var issues:ListCollection;
-public function IssuesScreen()
-{
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_GET);
-	issues = new ListCollection();
-}
-
-protected function sfs_issuesResponseHandler(event:SFSEvent):void
-{
-	if( event.params.cmd != SFSCommands.ISSUE_GET )
-		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
-	var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("issues"));
-	for (var i:int = 0; i < issueList.size(); i++)
-	{
-		var sfs:ISFSObject = issueList.getSFSObject(i);
-		var msg:SFSObject = new SFSObject();
-		msg.putInt("id", sfs.getInt("id"));
-		msg.putShort("read", sfs.getInt("status"));
-		msg.putShort("type", 41);
-		msg.putUtfString("text", sfs.getUtfString("description"));
-		msg.putUtfString("sender", sfs.getUtfString("sender"));
-		msg.putInt("senderId", sfs.getInt("player_id"));
-		msg.putInt("utc", sfs.getInt("date"));
-		issues.addItem(msg);
-	}
-}
+public function IssuesScreen(){}
 override protected function initialize():void
 {
 	title = "Issue Tracking";
 	super.initialize();
+	
+	issues = new ListCollection();
+	requestIssues();
 	
 	var bgButton:SimpleLayoutButton = new SimpleLayoutButton();
 	bgButton.alpha = 0;
@@ -70,6 +48,39 @@ override protected function initialize():void
 	list.dataProvider = issues;
 }
 
+public function requestIssues() : void 
+{
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
+	var params:SFSObject;
+	if( reporter != -1 )
+	{
+		params = new SFSObject();
+		params.putInt("id", reporter);
+	}
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_GET, params);
+}
+
+protected function sfs_issuesResponseHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.ISSUE_GET )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
+	issues.removeAll();
+	var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("issues"));
+	for (var i:int = 0; i < issueList.size(); i++)
+	{
+		var sfs:ISFSObject = issueList.getSFSObject(i);
+		var msg:SFSObject = new SFSObject();
+		msg.putInt("id", sfs.getInt("id"));
+		msg.putShort("read", sfs.getInt("status"));
+		msg.putShort("type", 41);
+		msg.putUtfString("text", sfs.getUtfString("description"));
+		msg.putUtfString("sender", sfs.getUtfString("sender"));
+		msg.putInt("senderId", sfs.getInt("player_id"));
+		msg.putInt("utc", sfs.getInt("date"));
+		issues.addItem(msg);
+	}
+}
 private function bg_triggeredHandler(event:Event):void
 {
 	list.selectedIndex = -1;
