@@ -46,6 +46,7 @@ protected var _chatEnabled:Boolean = false;
 protected var autoScroll:Boolean = true;
 
 private var startScrollBarIndicator:Number = 0;
+private var preText:String = "";
 
 public function LobbyBaseChatSegment(){}
 
@@ -188,7 +189,7 @@ protected function chatList_focusInHandler(event:Event):void
 	var msgPack:ISFSObject = selectedItem.data as ISFSObject;
 	// prevent hints for my messages
 	if( msgPack.getInt("i") != player.id && msgPack.getShort("m") == MessageTypes.M0_TEXT )
-		showSimpleListPopup(msgPack, selectedItem, "lobby_profile", "lobby_report")
+		showSimpleListPopup(msgPack, selectedItem, "lobby_profile", "lobby_report", "lobby_reply")
 }
 
 protected function showSimpleListPopup(msgPack:ISFSObject, selectedItem:LobbyChatItemRenderer, ... buttons):void
@@ -246,6 +247,11 @@ private function buttonsPopup_selectHandler(event:Event):void
 			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_reportResponseHandler);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_REPORT, sfsReport, manager.lobby);
 			break;
+		
+		case "lobby_reply":
+			chatButton_triggeredHandler(null);
+			preText = "@" + msgPack.getUtfString("s") + ": " + msgPack.getUtfString("t").substr(0, 20) + "... :\n";
+			break;
 	}
 	function sfs_reportResponseHandler(event:SFSEvent):void
 	{
@@ -267,6 +273,7 @@ protected function manager_updateHandler(event:Event):void
 
 protected function chatButton_triggeredHandler(event:Event):void
 {
+	preText = "";
     enabledChatting(true);
 	scrollToEnd();
     autoScroll = true;
@@ -278,9 +285,9 @@ protected function sendButton_triggeredHandler(event:Event):void
 		return;
 	
 	var params:SFSObject = new SFSObject();
-	params.putUtfString("t", StrUtils.getSimpleString(chatTextInput.text));
+	params.putUtfString("t", preText + StrUtils.getSimpleString(chatTextInput.text));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-	chatTextInput.text = "";
+	chatTextInput.text = preText = "";
 }
 
 private function chatTextInput_focusOutHandler(event:Event):void
