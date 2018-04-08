@@ -92,7 +92,6 @@ protected function sfsConnection_responceHandler(event:SFSEvent):void
 
 private function showProfile():void
 {
-	
 	var lobbyIconDisplay:EmblemButton = new EmblemButton(user.lp);
 	lobbyIconDisplay.touchable = false;
 	lobbyIconDisplay.width = padding * 5.3;

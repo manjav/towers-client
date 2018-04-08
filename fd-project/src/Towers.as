@@ -7,6 +7,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ResourceType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
+import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
 import feathers.utils.ScreenDensityScaleFactorManager;
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
@@ -14,8 +15,10 @@ import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.display3D.Context3DProfile;
 import flash.display3D.Context3DRenderMode;
+import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.InvokeEvent;
+import flash.events.UncaughtErrorEvent;
 import flash.utils.getTimer;
 import starling.core.Starling;
 
@@ -70,9 +73,12 @@ public function Towers()
 	splash = new SplashScreen();
 	splash.addEventListener(Event.CLEAR, loaderInfo_completeHandler);
 	addChild(splash);
-	this.loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+	loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+	loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, loaderInfo_uncaughtErrorHandler);
+
 	NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
 }
+
 
 protected function nativeApplication_invokeHandler(event:InvokeEvent):void
 {
@@ -128,6 +134,30 @@ private function stage_activateHandler(event:Event):void
 	this.starling.start();
 	AppModel.instance.sounds.muteAll(false);
 	//AppModel.instance.notifier.clear();
+}
+
+private function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):void 
+{
+	var text:String;
+	var severity:int;
+
+	if( event.error is Error )
+	{
+		text =  event.error.getStackTrace();
+		severity = GAErrorSeverity.CRITICAL;
+	}
+	else if( event.error is ErrorEvent )
+	{
+		text = event.error.text;
+		severity = GAErrorSeverity.ERROR;
+	}
+	else
+	{
+		text = event.error.toString();
+		severity = GAErrorSeverity.WARNING;
+	}
+	GameAnalytics.addErrorEvent(severity, text);
+	//navigateToURL(new URLRequest("http://127.0.0.1:8080/towerslet/towers?" + severity + "--" + text));
 }
 }
 }
