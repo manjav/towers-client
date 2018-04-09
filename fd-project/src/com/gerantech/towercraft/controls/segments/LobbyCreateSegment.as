@@ -53,7 +53,7 @@ override protected function initialize():void
 	bioInput = addInput("bio", controlH*2.8, controlH*3);
 	
 	// lobby emblem
-	var emblemLabel:RTLLabel = new RTLLabel( loc("lobby_pic"), 0, null, null, false, null, 0.8 );
+	var emblemLabel:RTLLabel = new RTLLabel( loc("lobby_pic"), 1, null, null, false, null, 0.8 );
 	emblemLabel.layoutData = new AnchorLayoutData( controlH*6.6, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(emblemLabel);
 	
@@ -72,7 +72,7 @@ override protected function initialize():void
 	errorDisplay.layoutData = new AnchorLayoutData( NaN, padding, controlH*2.7, padding );
 	addChild(errorDisplay);
 	
-	var createMessage:RTLLabel = new RTLLabel(loc("lobby_create_button"), 0, null, null, false, null, 0.8);
+	var createMessage:RTLLabel = new RTLLabel(loc("lobby_create_button"), 1, null, null, false, null, 0.8);
 	createMessage.layoutData = new AnchorLayoutData(NaN, NaN, controlH*2, NaN, 0);
 	addChild(createMessage);
 
@@ -139,7 +139,7 @@ private function addInput(controlName:String, positionY:int, controlHeight:int):
 }
 private function addSwitcher(controlName:String, positionY:int, controlHeight:int, min:int, value:int, max:int, stepInterval:int, prefix:String=null):Switcher
 {
-	var labelDisplay:RTLLabel = new RTLLabel( loc("lobby_"+controlName), 0, null, null, false, null, 0.8 );
+	var labelDisplay:RTLLabel = new RTLLabel( loc("lobby_"+controlName), 1, null, null, false, null, 0.8 );
 	//labelDisplay.width = controlWidth;
 	labelDisplay.layoutData = new AnchorLayoutData( positionY+controlHeight/4, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(labelDisplay);

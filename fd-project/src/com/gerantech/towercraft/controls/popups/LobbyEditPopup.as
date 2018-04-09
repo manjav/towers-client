@@ -24,11 +24,9 @@ public class LobbyEditPopup extends SimplePopup
 
 private var roomData:Object;
 private var errorDisplay:RTLLabel;
-
 private var emblemButton:EmblemButton;
-
 private var minPointSwitcher:Switcher;
-
+private var maxMembersSwitcher:Switcher;
 private var bioInput:CustomTextInput;
 private var privacySwitcher:LabeledSwitcher;
 public function LobbyEditPopup(roomData:Object)
@@ -39,8 +37,8 @@ public function LobbyEditPopup(roomData:Object)
 protected override function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.1, stage.stageWidth*0.8, stage.stageHeight*0.8);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.2, stage.stageWidth*0.8, stage.stageHeight*0.6);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.10, stage.stageWidth*0.8, stage.stageHeight*0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.15, stage.stageWidth*0.8, stage.stageHeight*0.7);
 	rejustLayoutByTransitionData();
 	
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("lobby_edit_label"), 1, 0);
@@ -67,26 +65,37 @@ protected override function initialize():void
 	emblemButton.addEventListener(Event.TRIGGERED, emblemButton_triggeredHandler);
 	addChild(emblemButton);
 	
+	// max mambers allowed
+	var maxMemsLabel:RTLLabel = new RTLLabel( loc("lobby_max"), 0, null, null, false, null, 0.8 );
+	maxMemsLabel.layoutData = new AnchorLayoutData( padding*17.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	addChild(maxMemsLabel);	
+	
+	maxMembersSwitcher = new Switcher(10, roomData.max, 50, 20);
+	maxMembersSwitcher.width = padding * 12;
+	maxMembersSwitcher.height = padding * 3;
+	maxMembersSwitcher.layoutData = new AnchorLayoutData( padding*17, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	addChild(maxMembersSwitcher);
+	
 	// min points allowed
 	var minPointLabel:RTLLabel = new RTLLabel( loc("lobby_min"), 0, null, null, false, null, 0.8 );
-	minPointLabel.layoutData = new AnchorLayoutData( padding*17.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	minPointLabel.layoutData = new AnchorLayoutData( padding*21.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(minPointLabel);
 	
 	minPointSwitcher = new Switcher(0, roomData.min, 3000, 200);
 	minPointSwitcher.width = padding * 12;
 	minPointSwitcher.height = padding * 3;
-	minPointSwitcher.layoutData = new AnchorLayoutData( padding*17, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	minPointSwitcher.layoutData = new AnchorLayoutData( padding*21, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	addChild(minPointSwitcher);
 	
 	// privacy mode
 	var privacyLabel:RTLLabel = new RTLLabel( loc("lobby_pri"), 0, null, null, false, null, 0.8 );
-	privacyLabel.layoutData = new AnchorLayoutData( padding*21.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	privacyLabel.layoutData = new AnchorLayoutData( padding*25.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(privacyLabel);
 	
 	privacySwitcher = new LabeledSwitcher(roomData.pri, 1, "lobby_pri");
 	privacySwitcher.width = padding * 12;
 	privacySwitcher.height = padding * 3;
-	privacySwitcher.layoutData = new AnchorLayoutData( padding*21, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	privacySwitcher.layoutData = new AnchorLayoutData( padding*25, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	addChild(privacySwitcher);
 	
 	errorDisplay = new RTLLabel( "", 0xFF0000, "center", null, false, null, 0.9 );
@@ -120,10 +129,11 @@ private function updateButton_triggeredHandler(event:Event):void
 		return;
 	}
 	var params:SFSObject = new SFSObject();
-	params.putUtfString("bio", bioInput.text);
+	params.putInt("max", maxMembersSwitcher.value);
 	params.putInt("min", minPointSwitcher.value);
 	params.putInt("pri", privacySwitcher.value);
 	params.putInt("pic", emblemButton.value);
+	params.putUtfString("bio", bioInput.text);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_EDIT, params, SFSConnection.instance.lobbyManager.lobby);
 	SFSConnection.instance.lobbyManager.requestData(true, true);
 	close();
