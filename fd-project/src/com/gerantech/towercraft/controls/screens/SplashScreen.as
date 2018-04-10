@@ -62,8 +62,13 @@ package com.gerantech.towercraft.controls.screens
 		protected function addedToStageHadnler(event:*):void
 		{
 			stage.addEventListener("resize", stage_resizeHandler);
+			addEventListener("removedFromStage", removedFromStageHadnler);
 			removeEventListener("addedToStage", addedToStageHadnler);
 			_parent = parent;
+		}
+		protected function removedFromStageHadnler(event:*):void
+		{
+			stage.removeEventListener("resize", stage_resizeHandler);
 		}
 		protected function stage_resizeHandler(event:*):void
 		{
