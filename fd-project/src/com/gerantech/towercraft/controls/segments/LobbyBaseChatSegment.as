@@ -31,6 +31,7 @@ import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
+import starling.core.Starling;
 import starling.events.Event;
 
 public class LobbyBaseChatSegment extends Segment
@@ -264,6 +265,8 @@ private function buttonsPopup_selectHandler(event:Event):void
 
 protected function manager_updateHandler(event:Event):void
 {
+	if( Starling.current.nativeStage.frameRate < 1 )
+		return;
 	UserData.instance.lastLobbeyMessageTime = timeManager.now;
 	buttonsEnabled = manager.getMyRequestBattleIndex() == -1;
 	chatList.validate();
