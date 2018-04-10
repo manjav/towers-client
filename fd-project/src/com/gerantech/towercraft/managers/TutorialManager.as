@@ -103,7 +103,7 @@ public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:Pla
 	var ret:Boolean = needToForceAggregation(sourcePlaces, target);
 	if( ret )
 	{
-		removeAll();
+		removeAll(false);
 		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, catchedPlaces, 0, 800 * catchedPlaces.size()));
 		show(tutorialData);
@@ -112,7 +112,7 @@ public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:Pla
 }
 private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:PlaceView) : Boolean 
 {
-	if( !player.inTutorial() )
+	if( !player.inTutorial() || player.tutorialMode == 0 )
 		return false;
 	if( catchedPlaces == null || catchedPlaces.size() < 2 )
 		return false;
@@ -134,7 +134,12 @@ private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:
 
 public function forceImprove() : Boolean 
 {
-	if( player.getTutorStep() != PrefsTypes.T_162_QUEST_2_SECOND_START || player.getTutorStep() != PrefsTypes.T_153_DECK_CARD_SELECTED )
+	trace("forceImprove", player.getTutorStep());
+	if( !player.inTutorial() )
+		return false;
+	if( player.tutorialMode == 0 && ( player.emptyDeck() || !appModel.battleFieldView.battleData.map.isQuest || appModel.battleFieldView.battleData.map.index != 2 ) )
+		return false;
+	if( player.tutorialMode == 1 )
 		return false;
 		
 	var improvable:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
