@@ -50,7 +50,7 @@ private var rushIntervalId:int = -1;
 private var rushGap:int = 0;
 private var arrow:MovieClip;
 private var _selectable:Boolean;
-private var wishedPopulation:int;
+//private var wishedPopulation:int;
 
 private var path:PlaceList;
 private var dropZone:Image;
@@ -83,7 +83,7 @@ public function PlaceView(place:Place)
 	x = place.x;
 	y = place.y;
 
-	place.building._population = wishedPopulation = place.building.get_population();
+	place.building._population = place.building.get_population();
 	place.building.troopSpeed = 32000 / place.building.troopSpeed;
 	createDecorator();
 	createArrow();
@@ -213,11 +213,6 @@ public function update(population:int, troopType:int) : void
 	
 	showMidSwipesTutorial(troopType);
 	decorator.updateElements(population, troopType);
-	if( population < wishedPopulation )
-		decorator.showUnderAttack();
-
-	if( population == place.building._population + 1 || population == place.building._population + 2 || wishedPopulation == 0)
-		wishedPopulation = population;
 	place.building._population = population;
 	place.building.troopType = troopType;
 	
@@ -250,7 +245,6 @@ public function getData(index:int):PlaceData
 
 public function fight(destination:Place, troopsCount:Number) : void
 {
-	wishedPopulation = Math.floor(place.building._population * 0.5);
 	path = PathFinder.find(place, destination, appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE));
 	if( path == null || destination.building == place.building )
 		return;
@@ -293,7 +287,6 @@ private function rushTimeoutCallback():void
 
 public function replaceBuilding(type:int, level:int, troopType:int, population:int):void
 {
-	wishedPopulation = Math.floor(place.building._population * 0.5);
 	rushGap = 0;
 	//trace("replaceBuilding", place.index, type, level, place.building._population);
 	place.building.type = type;

@@ -84,6 +84,8 @@ private function onTroopArrived(next:PlaceView):void
 	Starling.juggler.remove(movieClip);
 	if( next.place.building.troopType == type )
 		rushTimeoutId = setTimeout(rush, building.troopRushGap, next.place);
+	else
+		next.decorator.showUnderAttack();
 }
 
 private function switchAnimation(source:Place, destination:Place):void
@@ -141,7 +143,6 @@ public function hit(damage:Number):void
 		return;
 
 	AppModel.instance.sounds.addAndPlaySound("kill");
-	
 	var blood:Image = new Image(Assets.getTexture("blood"));
 	blood.pivotX = blood.width/2;
 	blood.pivotY = blood.height/2;

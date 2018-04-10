@@ -140,10 +140,7 @@ public function updateElements(population:int, troopType:int):void
 		if( place.building.category == BuildingType.B00_CAMP )
 		{
 			// punch scale on occupation
-			bodyDisplay.scale = 1.3;
-			troopTypeDisplay.scale = 1.3;
-			Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
-			Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
+			punch(1.3);
 			
 			var tsound:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
 			if( appModel.sounds.soundIsAdded(tsound) )
@@ -152,6 +149,14 @@ public function updateElements(population:int, troopType:int):void
 				appModel.sounds.addSound(tsound);
 		}
 	}
+}
+
+private function punch(scale:Number) : void 
+{
+	bodyDisplay.scale = scale;
+	troopTypeDisplay.scale = scale;
+	Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
+	Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
 }
 
 private function placeView_updateHandler(event:Event):void
@@ -183,8 +188,9 @@ public function showUnderAttack():void
 {
 	appModel.sounds.addAndPlaySound("battle-swords");
 	underAttack.visible = true;
+	punch(0.9);
 	clearTimeout(underAttackId);
-	underAttackId = setTimeout(underAttack_completeHandler, 1000);
+	underAttackId = setTimeout(underAttack_completeHandler, 400);
 	Starling.juggler.add(underAttack);
 	function underAttack_completeHandler():void
 	{
