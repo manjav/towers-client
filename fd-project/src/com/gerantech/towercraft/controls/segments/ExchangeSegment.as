@@ -116,7 +116,7 @@ private function showTutorial():void
 	
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_142_SHOP_FIRST_VIEW );
 	var tutorialData:TutorialData = new TutorialData("shop_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_0", null, 1000, 1000, 0));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_0", null, 500, 1500, 0));
 	tutorials.show(tutorialData);
 }
 
@@ -363,7 +363,7 @@ private function gotoDeckTutorial():void
 		return;
 
 	var tutorialData:TutorialData = new TutorialData("shop_end");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 1000, 1000, 4));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 500, 1500, 4));
 	tutorials.show(tutorialData);
 }
 

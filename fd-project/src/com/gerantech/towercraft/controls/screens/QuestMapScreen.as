@@ -130,7 +130,7 @@ override protected function transitionInCompleteHandler(event:Event):void
 			tuteMessage += (player.emptyDeck()?"first_":"second_");
 		tuteMessage += lastQuest.introNum.get(i);
 		trace("tuteMessage:", tuteMessage);
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 1000, 1000, lastQuest.introNum.get(i)));	
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, lastQuest.introNum.get(i)));	
 	}
 	
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);

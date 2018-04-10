@@ -81,7 +81,7 @@ private function showTutorial():void
 	
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_DECK_FIRST_VIEW );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
 	tutorials.show(tutorialData);
 }		
 override public function updateData():void

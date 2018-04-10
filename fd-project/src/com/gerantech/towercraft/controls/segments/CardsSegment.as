@@ -132,7 +132,6 @@ override public function init():void
 		scroller.addChild(availabledList);
 	}
 	
-	
 	if( unavailableCollection.length > 0 )
 	{
 		var unavailableLabel:RTLLabel = new RTLLabel(loc("unavailable_cards"), 0xBBCCDD, null, null, false, null, 0.8);
@@ -180,7 +179,7 @@ private function showTutorial():void
 	
 	player.prefs.set(PrefsTypes.TUTOR, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 1000, 1000, 0));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
 	tutorials.show(tutorialData);
 }		
 override public function updateData():void

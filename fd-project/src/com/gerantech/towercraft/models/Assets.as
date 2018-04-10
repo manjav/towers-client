@@ -14,7 +14,6 @@ package com.gerantech.towercraft.models
 	
 	public class Assets
 	{
-
 		[Embed(source="../../../../assets/fonts/fontclash-font.png")]
 		public static const fontTexture:Class;
 		[Embed(source="../../../../assets/fonts/fontclash-font.fnt", mimeType="application/octet-stream")]

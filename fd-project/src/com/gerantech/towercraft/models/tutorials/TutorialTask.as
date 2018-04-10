@@ -20,13 +20,13 @@ package com.gerantech.towercraft.models.tutorials
 		public var parent:TutorialData;
 
 		
-		public function TutorialTask(type:int, message:String, places:PlaceDataList=null, startAfter:int = 1000, enableAfter:int = 1000, data:Object=null)
+		public function TutorialTask(type:int, message:String, places:PlaceDataList=null, startAfter:int = 500, skipableAfter:int = 1500, data:Object=null)
 		{
 			this.type = type;
 			this.message = message;
 			this.places = places;
 			this.startAfter = startAfter;
-			this.skipableAfter = enableAfter;
+			this.skipableAfter = skipableAfter;
 			this.data = data;
 		}
 	}

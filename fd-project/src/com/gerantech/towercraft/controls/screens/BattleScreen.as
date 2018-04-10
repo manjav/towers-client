@@ -236,7 +236,7 @@ private function showTutorials() : void
 			tuteMessage += (player.emptyDeck()?"first_":"second_");
 		tuteMessage += field.startNum.get(i);
 		trace("tuteMessage:", tuteMessage);
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1200, field.startNum.get(i)));
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, field.startNum.get(i)));
 	}
 	
 	// add todo-list for player
@@ -611,7 +611,7 @@ private function touchHandler(event:TouchEvent):void
 			}
 			else
 			{
-				endPoint.setTo((touch.globalX)/appModel.scale, (touch.globalY)/appModel.scale);
+				endPoint.setTo((touch.globalX) / appModel.scale, (touch.globalY) / appModel.scale);
 				
 				for each( pv in appModel.battleFieldView.places )
 					pv.hilight(false);
@@ -620,7 +620,7 @@ private function touchHandler(event:TouchEvent):void
 			for each( pv in sourcePlaces )
 			{
 				pv.arrowContainer.visible = true;
-				pv.arrowTo(endPoint.x-pv.x, endPoint.y-pv.y);
+				pv.arrowTo(endPoint.x - pv.x, endPoint.y - pv.y);
 			}
 		}
 		else if( touch.phase == TouchPhase.ENDED )
