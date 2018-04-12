@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.items.SettingsItemRenderer;
-import com.gerantech.towercraft.controls.popups.BugReportPopup;
+import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 import com.gerantech.towercraft.controls.popups.LinkDevicePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -85,7 +85,7 @@ private function list_focusInHandler(event:Event):void
 		switch(settingData.value)
 		{
 			case SettingsData.BUG_REPORT :
-				appModel.navigator.addPopup(new BugReportPopup());
+				appModel.navigator.addPopup(new IssueReportPopup());
 				break;
 			case SettingsData.RATING :
 				BillingManager.instance.rate();
