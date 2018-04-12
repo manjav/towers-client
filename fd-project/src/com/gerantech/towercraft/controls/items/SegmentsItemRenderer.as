@@ -90,7 +90,7 @@ override protected function commitData():void
 	
 	if( segment != null )
 	{
-		segment.layoutData = new AnchorLayoutData(0,0,0,0);
+		segment.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		segment.width = _owner.width
 		segment.height = _owner.height;
 		addChild(segment);

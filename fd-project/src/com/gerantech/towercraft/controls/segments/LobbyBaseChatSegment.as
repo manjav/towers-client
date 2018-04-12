@@ -58,15 +58,21 @@ public function get manager():LobbyManager
 	return SFSConnection.instance.publicLobbyManager;
 }
 
-override protected function initialize():void
+override public function init():void
 {
-	super.initialize();
+	super.init();
 	layout = new AnchorLayout();
 	loadData();
 }
 
 protected function loadData():void
 {
+	if( player.get_arena(0) == 0 )
+	{
+		appModel.navigator.addLog(loc("availableat_messeage", [loc("tab-14"), loc("arena_text") + " " + loc("num_2")]));
+		return;
+	}
+	
 	if( manager == null )
 		return;
 	

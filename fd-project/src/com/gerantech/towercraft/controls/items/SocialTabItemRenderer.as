@@ -27,7 +27,7 @@ public function SocialTabItemRenderer(width:Number)
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data == null || _owner == null )
+	if( _data == null || _owner == null )
 		return;
 	
 	layout = new AnchorLayout();
@@ -70,7 +70,7 @@ private function updateBadge():void
 
 override public function set isSelected(value:Boolean):void
 {
-	if(value == super.isSelected)
+	if( value == super.isSelected )
 		return;
 	super.isSelected = value;
 	if(dashboardData != null)
