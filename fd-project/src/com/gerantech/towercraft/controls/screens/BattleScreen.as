@@ -746,12 +746,12 @@ private function showImproveFloating(placeView:PlaceView):void
 		var btn:ImproveButton = event.data as ImproveButton;
 		if( btn.locked )
 		{
-			if( player.get_arena(0) == 0 )
+			if( player.get_arena(0) <= 1 )
 				appModel.navigator.addLog(loc("improve_locked_meaagse"));
 			return;
 		} else if( !btn.enabled )
 		{
-			if( player.get_arena(0) == 0 )
+			if( player.get_arena(0) <= 1 )
 				appModel.navigator.addLog(loc("improve_disabled_meaagse"));
 			return;
 		}
