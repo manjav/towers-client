@@ -162,7 +162,9 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		TimeManager.instance.dispose();
 	new TimeManager(serverData.getLong("serverTime"));
 	
-	//trace(appModel.descriptor.versionCode , serverData.getInt("noticeVersion"), serverData.getInt("forceVersion"))
+	var noticeVersion:int = serverData.getInt("noticeVersion");
+	var forceVersion:int = serverData.getInt("forceVersion");
+	//trace(appModel.descriptor.versionCode, "noticeVersion:" + noticeVersion, "forceVersion:" + forceVersion)
 	if( appModel.descriptor.versionCode < serverData.getInt("forceVersion") )
 		dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
 	else if( appModel.descriptor.versionCode < serverData.getInt("noticeVersion") )

@@ -1,8 +1,11 @@
 package com.gerantech.towercraft.views.decorators
 {
+import com.gerantech.towercraft.events.GameEvent;
+import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
@@ -11,6 +14,7 @@ import com.gt.towers.Player;
 import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.utils.lists.IntList;
+import starling.animation.Transitions;
 
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -108,6 +112,9 @@ protected function addedToStageHandler():void
 	underAttack.x = place.x - underAttack.width * 0.5;
 	underAttack.y = place.y - underAttack.height * 2;
 	fieldView.buildingsContainer.addChild(underAttack);
+	
+	if( appModel.battleFieldView.battleData.map.name == "battle_1" )
+		TutorialManager.instance.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
 }
 
 public function updateElements(population:int, troopType:int):void
@@ -197,6 +204,21 @@ public function showUnderAttack():void
 		underAttack.visible = false;
 		Starling.juggler.remove(underAttack);
 	}
+}
+
+private function tutorials_showHandler(event:Event) : void 
+{
+	var task:TutorialTask = event.data as TutorialTask;trace(event, task.type)
+	if( task == null || task.type != TutorialTask.TYPE_MESSAGE || task.message != "tutor_battle_1_start_4" )
+		return;
+	Starling.juggler.tween(populationBar,		0.6, {scale:1.5, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(populationIcon,		0.6, {scale:1.5, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(populationIndicator, 0.6, {scale:1.5, transition:Transitions.EASE_OUT_BACK});
+	
+	Starling.juggler.tween(populationBar,		0.6, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(populationIcon,		0.6, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(populationIndicator, 0.6, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK});
+	
 }
 
 override public function dispose():void

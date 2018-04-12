@@ -131,13 +131,9 @@ private function isBad(name:String) : Boolean
 		return true;
 	
 	var badNames:Array = ["  ", "admin", "super-", "root", "koot", "kooot", "koooo", "manager", "bot", "sex", "ادمین", "کوت", "سازنده", "مدیر", "کیر", "کون", "جنده", "بات"];
-
 	for each( var b:String in badNames )
-	{
-		trace(name, b, name.search(b));
 		if( name.search(b) > -1 )
 			return true;
-	}
 	return false;
 }
 
