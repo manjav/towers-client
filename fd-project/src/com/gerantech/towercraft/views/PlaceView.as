@@ -84,7 +84,7 @@ public function PlaceView(place:Place)
 	y = place.y;
 
 	place.building._population = place.building.get_population();
-	place.building.troopSpeed = 32000 / place.building.troopSpeed;
+	place.building.troopSpeed = 31000 / place.building.troopSpeed;
 	createDecorator();
 	createArrow();
 	createAim();
@@ -278,9 +278,12 @@ private function rushTimeoutCallback():void
 	{
 		var t:TroopView = new TroopView(place.building, path);
 		t.x = x;
-		t.y = y ;
+		t.y = y;
 		t.rush(place);
-		appModel.battleFieldView.troopsContainer.addChild(t);
+		if( path.get(0).y > y )
+			appModel.battleFieldView.troopsContainer.addChildAt(t, 0);
+		else
+			appModel.battleFieldView.troopsContainer.addChild(t);
 		troopsCount --;
 	}
 }
