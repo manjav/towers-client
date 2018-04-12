@@ -21,6 +21,7 @@ package com.gerantech.towercraft.controls.buttons
 
 		private var backgroundDisplay:Image;
 		public var locked:Boolean;
+		public var enabled:Boolean;
 		
 		public function ImproveButton(building:Building, type:int)
 		{
@@ -28,7 +29,7 @@ package com.gerantech.towercraft.controls.buttons
 			this.building = building;
 			this.type = type;
 			locked = !building.unlocked(type);
-			touchable = !locked;
+			//touchable = !locked;
 
 			var padding:int = 8 * AppModel.instance.scale;
 			var size:int = 128 * AppModel.instance.scale;
@@ -74,9 +75,9 @@ package com.gerantech.towercraft.controls.buttons
 		private function setEnable(value:Boolean):void
 		{
 			//trace(type, "enabled:", value, touchable, locked)
-			if( touchable == value || locked )
+			if( enabled == value )
 				return;
-			touchable = value;
+			enabled = value;
 			iconDisplay.filter = value ? null : disableFilter;
 			backgroundDisplay.texture = Assets.getTexture("improve-button-"+(value?"up":"disabled"), "gui");
 		}
