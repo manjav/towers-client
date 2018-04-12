@@ -62,7 +62,7 @@ public function TroopView(building:Building, path:PlaceList)
 public function rush(source:Place):void
 {
 	var next:PlaceView = path.shift();
-	if(next == null)
+	if( next == null )
 	{
 		removeFromParent(true);
 		return;

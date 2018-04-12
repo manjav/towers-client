@@ -47,8 +47,6 @@ package com.gerantech.towercraft.controls.overlays
 			super.initialize();
 			finger = new LayoutGroup();
 			finger.backgroundSkin = new Image(Assets.getTexture("finger-down", "gui"));
-			//finger.width = finger.backgroundSkin.width * appModel.scale;
-			//finger.height = finger.backgroundSkin.height * appModel.scale;
 			finger.touchable = false;
 		}
 		
@@ -56,7 +54,7 @@ package com.gerantech.towercraft.controls.overlays
 		{
 			super.transitionInCompleted();
 			doubleSwipe = this.places.get(0).tutorIndex >= 10;
-			addChild(finger);
+			appModel.battleFieldView.addChild(finger);
 			
 			swipeNumText = new BitmapFontTextRenderer();
 			swipeNumText.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xAAFFDD, "center")
@@ -74,13 +72,71 @@ package com.gerantech.towercraft.controls.overlays
 		
 		private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, fromScale:Number=1, toScale:Number=1, time:Number=1.5, doubleA:Boolean=true, swipeIndex:int=-1):void
 		{
-				animate( "stepMid",
-					places.get(from).x * appModel.scale, 
-					(places.get(from).y - 100) * appModel.scale, 
-					places.get(to).x * appModel.scale, 
-					(places.get(to).y - 100) * appModel.scale,
-					fromAlpha, toAlpha, fromScale, toScale, time, 0, swipeIndex
-				);
+			animate( "stepMid",
+				places.get(from).x, 
+				(places.get(from).y), 
+				places.get(to).x, 
+				(places.get(to).y),
+				fromAlpha, toAlpha, fromScale, toScale, time, 0, swipeIndex
+			);
+		}
+		
+
+		private function tweenCompleteCallback(swipeName:String):void
+		{
+			if( !isOpen )
+				return;
+			switch(swipeName)
+			{
+				case "stepFirst":
+				case "stepMid":
+					if( swipeName == "stepMid" )
+						tweenStep ++;
+					
+					if( tweenStep == places.size()-1 )
+					{
+						if ( doubleSwipe && doubleCount == 0 )
+						{
+							doubleCount ++;
+							animate( "doubleOut",
+								(places.get(tweenStep).x) , 
+								(places.get(tweenStep).y), 
+								(places.get(tweenStep).x), 
+								(places.get(tweenStep).y),
+								1, 0, 1, 1, 0.2);
+						}
+						else
+						{
+							animate( "stepLast",
+								(places.get(tweenStep).x), 
+								(places.get(tweenStep).y), 
+								(places.get(tweenStep).x), 
+								(places.get(tweenStep).y-200),
+                                1, 0, 1, 1.5, 0.7);
+						}
+					}
+					else
+					{
+                        swipe(tweenStep, tweenStep+1, 1, 1, 1, 1, 1, true, places.size()>2?tweenStep:-1);
+					}
+					break;
+				case "stepLast":
+					tweenStep = 0;
+					doubleCount = 0;
+					animate( "stepFirst",
+						(places.get(0).x), 
+						(places.get(0).y-200), 
+						(places.get(0).x), 
+						(places.get(0).y),
+						0, 1, 1.5, 1, 0.7, 0);	
+					break;
+				case "doubleOut":
+					tweenStep = 0;
+					finger.alpha = 1;
+					tweenCompleteCallback("stepFirst");
+					break;
+			}
+			//trace("tweenStep:", tweenStep, places.get(tweenStep).tutorIndex);
 		}
 		
 		private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, startScale:Number=1, endScale:Number=1, time:Number=1.5, delayTime:Number=0, swipeIndex:int=-1):void
@@ -88,12 +144,12 @@ package com.gerantech.towercraft.controls.overlays
 			finger.x = startX;
 			finger.y = startY;
 			finger.alpha = startAlpha;
-			finger.scale = startScale;
+			finger.scale = startScale * appModel.scale * 4;
 			
 			var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
 			tween.moveTo(endX, endY);
 			tween.delay = delayTime;
-			tween.scaleTo(endScale);
+			tween.scaleTo(endScale * appModel.scale * 4);
 			tween.fadeTo(endAlpha);
 			tween.onComplete = tweenCompleteCallback;
 			tween.onCompleteArgs = [name];
@@ -110,64 +166,12 @@ package com.gerantech.towercraft.controls.overlays
 				swipeNumText.text = "";
 			}
 			swipeNumText.visible = swipeIndex > -1;
-		}		
-		
-		private function tweenCompleteCallback(swipeName:String):void
+		}
+		override public function close(dispose:Boolean = true):void 
 		{
-			if(!isOpen)
-				return;
-			switch(swipeName)
-			{
-				case "stepFirst":
-				case "stepMid":
-					if( swipeName == "stepMid" )
-						tweenStep ++;
-					
-					if( tweenStep == places.size()-1 )
-					{
-						if ( doubleSwipe && doubleCount == 0 )
-						{
-							doubleCount ++;
-							animate( "doubleOut",
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-100) * appModel.scale, 
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-100) * appModel.scale,
-								1, 0, 1, 1, 0.2);
-						}
-						else
-						{
-							animate( "stepLast",
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-100) * appModel.scale, 
-								(places.get(tweenStep).x) * appModel.scale, 
-								(places.get(tweenStep).y-200) * appModel.scale,
-                                1, 0, 1, 1.2, 0.7);
-						}
-					}
-					else
-					{
-                        swipe(tweenStep, tweenStep+1, 1, 1, 1, 1, 1, true, places.size()>2?tweenStep:-1);
-					}
-					break;
-				case "stepLast":
-					tweenStep = 0;
-					doubleCount = 0;
-					animate( "stepFirst",
-						(places.get(0).x) * appModel.scale, 
-						(places.get(0).y) * appModel.scale, 
-						(places.get(0).x) * appModel.scale, 
-						(places.get(0).y-100) * appModel.scale,
-						0, 1, 1.2, 1, 0.7, 0);	
-					break;
-				case "doubleOut":
-					tweenStep = 0;
-					finger.alpha = 1;
-					tweenCompleteCallback("stepFirst");
-					break;
-
-			}
-			//trace("tweenStep:", tweenStep, places.get(tweenStep).tutorIndex);
+			Starling.juggler.removeTweens(finger);
+			finger.removeFromParent(dispose);
+			super.close(dispose);
 		}
 	}
 }

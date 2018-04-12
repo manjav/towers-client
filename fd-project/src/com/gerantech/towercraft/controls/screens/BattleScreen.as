@@ -182,7 +182,8 @@ private function startBattle():void
 	function waitingOverlay_closeHandler(e:Event):void 
 	{
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
-		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
+		var fscale:Number = player.get_arena(0) == 0 ? 1.2 : 1;
+		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale * fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
 		hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isQuest ? battleData.battleField.map.index : -1, battleData ), 0);
 	}
 	
@@ -717,11 +718,12 @@ private function showImproveFloating(placeView:PlaceView):void
 {
 	if( player.inTutorial() && player.emptyDeck() )
 		return;
+	
 	// create transition in data
 	var ti:TransitionData = new TransitionData();
 	ti.transition = Transitions.EASE_OUT_BACK;
 	ti.sourceAlpha = 0;
-	ti.destinationPosition = ti.sourcePosition = new Point(placeView.x*appModel.scale, placeView.y*appModel.scale);
+	ti.destinationPosition = ti.sourcePosition = new Point(placeView.x, placeView.y);
 	
 	// create transition out data
 	var to:TransitionData = new TransitionData();
@@ -734,7 +736,7 @@ private function showImproveFloating(placeView:PlaceView):void
 	floating.transitionOut = to;
 	floating.addEventListener(Event.CLOSE, floating_closeHandler);
 	floating.addEventListener(Event.SELECT, floating_selectHandler);
-	addChild(floating);
+	appModel.battleFieldView.addChild(floating);
 	function floating_closeHandler():void
 	{
 		floating.removeEventListener(Event.CLOSE, floating_closeHandler);

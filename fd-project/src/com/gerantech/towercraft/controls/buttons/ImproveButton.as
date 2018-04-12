@@ -14,11 +14,11 @@ package com.gerantech.towercraft.controls.buttons
 	{
 		public var building:Building;
 		public var type:int;
-
+		
 		private var disableFilter:ColorMatrixFilter;
-
+		
 		private var iconDisplay:ImageLoader;
-
+		
 		private var backgroundDisplay:Image;
 		public var locked:Boolean;
 		public var enabled:Boolean;
@@ -30,12 +30,12 @@ package com.gerantech.towercraft.controls.buttons
 			this.type = type;
 			locked = !building.unlocked(type);
 			//touchable = !locked;
-
-			var padding:int = 8 * AppModel.instance.scale;
-			var size:int = 128 * AppModel.instance.scale;
+			
+			var padding:int = 8;
+			var size:int = 128;
 			
 			backgroundDisplay = new Image(Assets.getTexture("improve-button-" + (locked?"disabled":"up"), "gui"));
-			backgroundDisplay.x = backgroundDisplay.y = -size/2;
+			backgroundDisplay.x = backgroundDisplay.y = -size * 0.5;
 			backgroundDisplay.width = backgroundDisplay.height = size;
 			addChild(backgroundDisplay);
 			
@@ -49,8 +49,8 @@ package com.gerantech.towercraft.controls.buttons
 			
 			iconDisplay = new ImageLoader();
 			iconDisplay.source = Assets.getTexture("improve-" + t, "gui");
-			iconDisplay.width = iconDisplay.height = size-padding*2;
-			iconDisplay.x = iconDisplay.y = -size/2+padding;
+			iconDisplay.width = iconDisplay.height = size-padding * 2;
+			iconDisplay.x = iconDisplay.y = -size * 0.5 + padding;
 			iconDisplay.filter = locked ? disableFilter : null;
 			iconDisplay.touchable = false;
 			addChild(iconDisplay);
@@ -67,7 +67,7 @@ package com.gerantech.towercraft.controls.buttons
 			
 			renable();
 		}
-
+		
 		public function renable():void
 		{
 			setEnable ( building.improvable(type) );
@@ -81,6 +81,5 @@ package com.gerantech.towercraft.controls.buttons
 			iconDisplay.filter = value ? null : disableFilter;
 			backgroundDisplay.texture = Assets.getTexture("improve-button-"+(value?"up":"disabled"), "gui");
 		}
-
 	}
 }

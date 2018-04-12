@@ -10,6 +10,7 @@ package com.gerantech.towercraft.controls.floatings
 	import com.gt.towers.constants.BuildingType;
 	import com.gt.towers.utils.lists.IntList;
 	import com.gt.towers.utils.lists.PlaceDataList;
+	import flash.geom.Rectangle;
 	
 	import feathers.controls.Button;
 	
@@ -32,12 +33,12 @@ package com.gerantech.towercraft.controls.floatings
 			
 			transitionOut.destinationAlpha = 0;
 			overlay.visible = false;
-			var raduis:int = 160 * appModel.scale;
+			var raduis:int = 160;
 
 			var circle:Image = new Image(Assets.getTexture("damage-range"));
 			circle.alignPivot();
 			circle.width = circle.height = raduis;
-			Starling.juggler.tween(circle, 0.2, {width:raduis*2, height:raduis*2, transition:Transitions.EASE_OUT});
+			Starling.juggler.tween(circle, 0.2, {width:raduis * 2, height:raduis * 2, transition:Transitions.EASE_OUT});
 			addChild(circle);
 				
 			buttons = new Vector.<ImproveButton>();
@@ -69,7 +70,7 @@ package com.gerantech.towercraft.controls.floatings
 		{
 			super.transitionInCompleted();
 			var pdata:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
-			if(pdata == null || pdata.index != placeView.place.index )
+			if( pdata == null || pdata.index != placeView.place.index )
 				return;
 			
 			for (var i:int=0; i < buttons.length; i++) 
@@ -77,11 +78,10 @@ package com.gerantech.towercraft.controls.floatings
 				if( buttons[i].type == -pdata.tutorIndex && player.buildings.exists(buttons[i].type) )
 				{
 					var tutorialData:TutorialData = new TutorialData(SFSCommands.BUILDING_IMPROVE);
-					{
-						var places:PlaceDataList = new PlaceDataList();
-						places.push(new PlaceData( 0, (x+buttons[i].x)/appModel.scale, (y+buttons[i].y)/appModel.scale, 0, 0, ""));
-						tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 200));
-					}
+					var places:PlaceDataList = new PlaceDataList();
+					var point:Rectangle = buttons[i].getBounds(appModel.battleFieldView);
+					places.push(new PlaceData( 0, point.x + point.width * 0.5, point.y + point.height, 0, 0, ""));
+					tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 200));
 					tutorials.show(tutorialData);
 				}
 			}
