@@ -74,9 +74,9 @@ package com.gerantech.towercraft.controls.buttons
 		}
 		private function setEnable(value:Boolean):void
 		{
-			//trace(type, "enabled:", value, touchable, locked)
-			if( enabled == value )
-				return;
+			//trace(type, "enabled:", enabled, "value", value, "locked", locked)
+			//if( enabled == value )
+				//return;
 			enabled = value;
 			iconDisplay.filter = value ? null : disableFilter;
 			backgroundDisplay.texture = Assets.getTexture("improve-button-"+(value?"up":"disabled"), "gui");
