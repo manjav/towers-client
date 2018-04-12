@@ -60,6 +60,9 @@ public function get manager():LobbyManager
 
 override public function init():void
 {
+	if( initializeStarted )
+		return;
+	
 	super.init();
 	layout = new AnchorLayout();
 	loadData();
@@ -73,7 +76,7 @@ protected function loadData():void
 		return;
 	}
 	
-	if( manager == null )
+	if( manager == null || initializeCompleted )
 		return;
 	
 	if( manager.isReady )
