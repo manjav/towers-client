@@ -67,7 +67,7 @@ private function get_crystalHeight():Number
 
 private function createRadiusDisplay():void
 {
-	if(radiusDisplay != null)
+	if( radiusDisplay != null )
 		return;
 	
 	radiusDisplay = new Image(Assets.getTexture("damage-range"));
@@ -84,7 +84,8 @@ private function createRayDisplay():void
 		return;
 	
 	raySprite = new Sprite();
-	raySprite.visible = raySprite.touchable = false;
+	raySprite.visible = false;
+	raySprite.touchable = false;
 	raySprite.x = parent.x;
 	raySprite.y = parent.y - get_crystalHeight();
 	fieldView.buildingsContainer.addChild(raySprite);

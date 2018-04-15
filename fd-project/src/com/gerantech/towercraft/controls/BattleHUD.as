@@ -177,15 +177,15 @@ private function timeManager_changeHandler(event:Event):void
 private function setTimePosition():void
 {
 	timerSlider.enableStars(2-scoreIndex);
-	timerSlider.minimum = scoreIndex>0?battleData.battleField.getTime(scoreIndex-1):0;
+	timerSlider.minimum = scoreIndex > 0 ? battleData.battleField.getTime(scoreIndex - 1) : 0;
 	timerSlider.value = timerSlider.maximum = battleData.battleField.getTime(scoreIndex);
-	showTimeNotice(2-scoreIndex);
+	showTimeNotice(2 - scoreIndex);
 	trace("["+battleData.map.times._list+"]", "min:", timerSlider.minimum, "max:", timerSlider.maximum, "score:", 2-scoreIndex)
 }		
 
 private function showTimeNotice(score:int):void
 {
-	if ( score > 1 )
+	if( score > 1 )
 		return;
 	
 	if( score == 1 )
@@ -195,8 +195,8 @@ private function showTimeNotice(score:int):void
 
 	addChild(starsNotice);
 	setTimeout(starsNotice.pass, 1, score);
-	Starling.juggler.tween(starsNotice, 0.3, {alpha:1, y:400*appModel.scale, transition:Transitions.EASE_OUT});
-	Starling.juggler.tween(starsNotice, 0.3, {delay:3, alpha:0, y:480*appModel.scale, transition:Transitions.EASE_IN, onComplete:starsNotice.removeFromParent});
+	Starling.juggler.tween(starsNotice, 0.3, {alpha:1, y:400 * appModel.scale, transition:Transitions.EASE_OUT});
+	Starling.juggler.tween(starsNotice, 0.3, {delay:3, alpha:0, y:480 * appModel.scale, transition:Transitions.EASE_IN, onComplete:starsNotice.removeFromParent});
 	appModel.sounds.addAndPlaySound("whoosh");
 }
 
@@ -221,21 +221,21 @@ private function stickerButton_triggeredHandler(event:Event):void
 		
 		stickerList = new List();
 		stickerList.layout = stickersLayout;
-		stickerList.layoutData = new AnchorLayoutData(NaN,0,NaN,0);
+		stickerList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 		stickerList.height = padding*20;
 		stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 		stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
 		stickerList.dataProvider = new ListCollection(StickerType.getAll(game)._list);
 		
 		stickerCloserOveraly = new SimpleLayoutButton();
-		stickerCloserOveraly.backgroundSkin = new Quad(1,1,0);
+		stickerCloserOveraly.backgroundSkin = new Quad(1, 1, 0);
 		stickerCloserOveraly.backgroundSkin.alpha = 0.1;
-		stickerCloserOveraly.layoutData = new AnchorLayoutData(0,0,0,0);
+		stickerCloserOveraly.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		stickerCloserOveraly.addEventListener(Event.TRIGGERED, stickerCloserOveraly_triggeredHandler);
 	}
 	addChild(stickerCloserOveraly);
 
-	AnchorLayoutData(stickerList.layoutData).bottom = -padding*20;
+	AnchorLayoutData(stickerList.layoutData).bottom = -padding * 20;
 	Starling.juggler.tween(stickerList.layoutData, 0.2, {bottom:0, transition:Transitions.EASE_OUT});
 	stickerList.addEventListener(Event.CHANGE, stickerList_changeHandler);
 	addChild(stickerList);
@@ -245,7 +245,7 @@ private function hideStickerList():void
 	stickerList.removeEventListener(Event.CHANGE, stickerList_changeHandler);
 	removeChild(stickerCloserOveraly);
 	AnchorLayoutData(stickerList.layoutData).bottom = 0;
-	Starling.juggler.tween(stickerList.layoutData, 0.2, {bottom:-padding*20, transition:Transitions.EASE_IN, onComplete:stickerList.removeFromParent});
+	Starling.juggler.tween(stickerList.layoutData, 0.2, {bottom: -padding * 20, transition:Transitions.EASE_IN, onComplete:stickerList.removeFromParent});
 }
 
 private function stickerCloserOveraly_triggeredHandler(event:Event):void
