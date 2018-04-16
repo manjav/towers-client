@@ -111,7 +111,6 @@ private function createLightingDisplay():void
 	fieldView.buildingsContainer.addChild(lightingDisplay);
 }
 
-
 private function defensiveWeapon_triggeredHandler(event:Event):void
 {
 	var troop:TroopView = event.data as TroopView;
@@ -129,15 +128,12 @@ private function defensiveWeapon_triggeredHandler(event:Event):void
 	Starling.juggler.add(lightingDisplay);
 	
 	setTimeout(function():void { raySprite.visible = false;}, 100);
-	setTimeout(function():void { 
-		
+	setTimeout(function():void { 	
 		Starling.juggler.remove(lightingDisplay);
 		lightingDisplay.stop();
 		lightingDisplay.visible = false; 
 	}, 300);
 }
-
-
 
 override public function dispose():void
 {
