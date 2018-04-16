@@ -9,7 +9,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.decorators.BarracksDecorator;
 import com.gerantech.towercraft.views.decorators.BuildingDecorator;
-import com.gerantech.towercraft.views.decorators.CrystalDecorator;
+import com.gerantech.towercraft.views.decorators.DefenderDecorator;
 import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
@@ -102,7 +102,7 @@ private function createDecorator():void
 	switch( place.building.category )
 	{
 		case BuildingType.B40_CRYSTAL:
-			decorator = new CrystalDecorator(this);
+			decorator = new DefenderDecorator(this);
 			defensiveWeapon = new DefensiveWeapon(this);
 			break;
 		case BuildingType.B10_BARRACKS:

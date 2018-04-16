@@ -15,11 +15,11 @@ import starling.display.Sprite;
 import starling.events.Event;
 import starling.utils.MathUtil;
 
-public class CrystalDecorator extends BuildingDecorator
+public class DefenderDecorator extends BuildingDecorator
 {
-private var damage:Number;
-private var damageRadiusMin:Number;
-private var damageRadiusMax:Number;
+protected var damage:Number;
+protected var damageRadiusMin:Number;
+protected var damageRadiusMax:Number;
 private var crystalTexture:String;
 private var crystalDisplay:MovieClip;
 private var radiusDisplay:Image;
@@ -27,7 +27,7 @@ private var rayImage:Image;
 private var raySprite:Sprite;
 private var lightingDisplay:MovieClip;
 
-public function CrystalDecorator(placeView:PlaceView)
+public function DefenderDecorator(placeView:PlaceView)
 {
 	super(placeView);
 }
@@ -56,11 +56,11 @@ override public function updateElements(population:int, troopType:int):void
 
 private function get_crystalHeight():Number
 {
-	if ( place.building.type == BuildingType.B42_CRYSTAL )
+	if( place.building.type == BuildingType.B42_CRYSTAL )
 		return 90;
-	else if ( place.building.type == BuildingType.B43_CRYSTAL )
+	else if( place.building.type == BuildingType.B43_CRYSTAL )
 		return 96;
-	else if ( place.building.type == BuildingType.B44_CRYSTAL )
+	else if( place.building.type == BuildingType.B44_CRYSTAL )
 		return 102;
 	return 84;
 }
