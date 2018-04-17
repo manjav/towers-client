@@ -117,7 +117,7 @@
 		  </intent-filter>
 		</activity>    			
 		<activity android:name="ir.tapsell.sdk.TapsellAdActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
-		<activity android:name="com.gerantech.extensions.IabActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" />
+		<activity android:name="com.gerantech.extensions.IabActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:background="#30000000" android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden" />
 		<receiver android:name="com.gerantech.extensions.recievers.LocalNotificationReceiver"/>
 	<!--<receiver android:name="com.gerantech.extensions.recievers.InvokeAppReceiver"/> -->
 	</application>
