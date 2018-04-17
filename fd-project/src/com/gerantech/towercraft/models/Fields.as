@@ -9,16 +9,16 @@ import starling.display.Image;
 
 public class Fields
 {
-public function Fields()
-{
-}
-
+public function Fields(){}
 public static function getField( field:FieldData , atlassName:String) : Vector.<Image>
 {
 	var ret:Vector.<Image> = new Vector.<Image>();
 	for each( var item:ImageData in field.images._list )
 	{
-		var img:Image = new Image(Assets.getTexture(item.name, atlassName));
+		
+		var atlas:String = ( atlassName == "battlefields" && ( item.name == "building-plot" || item.name == "road-h" || item.name == "road-v" ) ) ? "troops" : atlassName;
+		var img:Image = new Image(Assets.getTexture(item.name, atlas));
+		img.name = atlas;
 		img.transformationMatrix = new Matrix(item.a, item.b, item.c, item.d, item.tx, item.ty);
 		ret.push(img);
 	}

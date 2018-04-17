@@ -142,7 +142,7 @@ public function hit(damage:Number):void
 		return;
 	
 	AppModel.instance.sounds.addAndPlaySound("kill");
-	var blood:Image = new Image(Assets.getTexture("blood"));
+	var blood:Image = new Image(Assets.getTexture("blood", "troops"));
 	blood.pivotX = blood.width * 0.5
 	blood.pivotY = blood.height * 0.5
 	blood.x = x;

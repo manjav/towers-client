@@ -23,9 +23,10 @@ public var battleData:BattleData;
 public var places:Vector.<PlaceView>;
 public var troopsList:Vector.<TroopView>;
 public var responseSender:ResponseSender;
-
 public var dropTargets:DropTargets;
+public var roadsContainer:Sprite;
 public var troopsContainer:Sprite;
+public var elementsContainer:Sprite;
 public var buildingsContainer:Sprite;
 public var guiImagesContainer:Sprite;
 public var guiTextsContainer:Sprite;
@@ -51,7 +52,9 @@ override protected function initialize():void
 	//tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
 	addChild(tiledBG);
 
+	roadsContainer = new Sprite();
 	troopsContainer = new Sprite();
+	elementsContainer = new Sprite();
 	buildingsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
@@ -81,9 +84,15 @@ public function createPlaces(battleData:BattleData):void
 	this.battleData = battleData;
 	responseSender = new ResponseSender(battleData.room);
 	
+	addChild(roadsContainer);
+	addChild(troopsContainer);
+	addChild(elementsContainer);
 	var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
 	for each( var img:Image in images )
-		addChild(img);
+		if( img.name == "battlefields" )
+			elementsContainer.addChild(img);
+		else
+			roadsContainer.addChild(img);
 	
 	var len:uint = battleData.battleField.places.size();
 	places = new Vector.<PlaceView>(len, true);
@@ -92,11 +101,11 @@ public function createPlaces(battleData:BattleData):void
 		var p:PlaceView = new PlaceView(battleData.battleField.places.get(i));
 		p.selectable = true;
 		p.name = p.place.index.toString();
+		
 		addChild(p);
 		places[p.place.index] = p
 	}
 	
-	addChild(troopsContainer);
 	addChild(buildingsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);

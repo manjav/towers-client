@@ -13,7 +13,7 @@ public class LightRay extends Sprite
 public var image:MovieClip;
 public function LightRay()
 {
-	image = new MovieClip(Assets.getTextures("lightray-"));
+	image = new MovieClip(Assets.getTextures("lightray-"), 24);
 	image.touchable = false;
 	image.alignPivot("center", "bottom");
 	image.touchable = false;
