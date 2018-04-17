@@ -23,6 +23,7 @@ public class TroopView extends Sprite
 public var id:int;
 public var type:int;
 private var _health:Number;
+private var _muted:Boolean = true;
 
 private var path:Vector.<PlaceView>;
 private var building:Building;
@@ -45,7 +46,7 @@ public function TroopView(building:Building, path:PlaceList)
 	this.health = building.troopPower;
 	
 	textureType = BuildingType.getTroopName(building.type) + battleSide + "/";
-	movieClip = new MovieClip(Assets.getTextures(textureType+"do", "troops"), 20);
+	movieClip = new MovieClip(Assets.getTextures(textureType + "do", "troops"), 20);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
 	movieClip.scale = troopScale;
@@ -69,19 +70,16 @@ public function rush(source:Place):void
 	}
 	
 	switchAnimation(source, next.place);
-	visible = true;
-	movieClip.muted = false;
-	Starling.juggler.add(movieClip);
-
+	muted = false;
 	var randomGap:Number = Math.max(0, Math.random() * building.troopRushGap - Math.random()* building.troopRushGap * 0.5) / 1000;
 	var distance:Number = PathFinder.getDistance(source, next.place) * 1.1;
 	Starling.juggler.tween(this, (building.troopSpeed/1000) * distance - randomGap + 0.1, {x:next.x, y:next.y, delay:randomGap, onComplete:onTroopArrived, onCompleteArgs:[next]});
 }
 private function onTroopArrived(next:PlaceView):void
 {
-	visible = false;
-	movieClip.muted = true;
-	Starling.juggler.remove(movieClip);
+	if( muted )
+		return;
+	muted = true;
 	if( next.place.building.troopType == type )
 		rushTimeoutId = setTimeout(rush, building.troopRushGap, next.place);
 	else
@@ -124,7 +122,7 @@ private function switchAnimation(source:Place, destination:Place):void
 	
 	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
-	if(direction == dir)
+	if( direction == dir )
 		return;
 
 	//movieClip.fps = 20 * 3000 / building.get_troopSpeed();
@@ -137,21 +135,30 @@ private function switchAnimation(source:Place, destination:Place):void
 public function hit(damage:Number):void
 {
 	health -= damage;
+	//trace(id, health, damage)
 	dispatchEventWith(Event.TRIGGERED, false, damage);
 	
 	if( health > 0 )
 		return;
-
+	
 	AppModel.instance.sounds.addAndPlaySound("kill");
 	var blood:Image = new Image(Assets.getTexture("blood"));
-	blood.pivotX = blood.width/2;
-	blood.pivotY = blood.height/2;
+	blood.pivotX = blood.width * 0.5
+	blood.pivotY = blood.height * 0.5
 	blood.x = x;
 	blood.y = y;
 	parent.addChildAt(blood, 1);
-	Starling.juggler.tween(blood, 2, {delay:1, alpha:0, onComplete:blood.removeFromParent, onCompleteArgs:[true]});
+	Starling.juggler.tween(blood, 2, {delay:1, alpha:0, onComplete:remove, onCompleteArgs:[blood]});
 	Starling.juggler.tween(blood, 0.05, {scale:scale, transition:Transitions.EASE_OUT});
 	blood.scale = 0;
+
+	muted = true;
+}
+
+private function remove(blood:Image):void 
+{
+	blood.removeFromParent(true);
+	removeFromParent(true);
 }
 
 
@@ -165,7 +172,6 @@ public function set health(value:Number):void
 		return;
 	
 	_health = value;
-	//trace(_health)
 	if( _health < building.troopPower )
 		updateHealthDisplay(_health);
 
@@ -197,7 +203,29 @@ private function updateHealthDisplay(health:Number):void
 
 public function get muted():Boolean
 {
-	return movieClip.muted;
+	return _muted;
+}
+public function set muted(value:Boolean):void 
+{
+	if( _muted == value )
+		return;
+	_muted = value;
+	
+	visible = !_muted;
+	
+	if( movieClip == null )
+		return;
+		
+	movieClip.muted = _muted;
+	if ( _muted )
+	{
+		Starling.juggler.removeTweens(this);
+		Starling.juggler.remove(movieClip);
+	}
+	else
+	{
+		Starling.juggler.add(movieClip);
+	}
 }
 
 override public function dispose():void

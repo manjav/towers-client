@@ -35,28 +35,31 @@ public function DefensiveWeapon(placeView:PlaceView)
 
 private function hitTestTroopsInterval():void
 {
-	if(disposed)
+	if( disposed )
 		return;
 	//trace(placeView.place.index, "hitTest Troops Interval.")
 	var tlen:int = AppModel.instance.battleFieldView.troopsList.length;
 	var troop:TroopView;
-	for(var i:int=0; i<tlen; i++)
+	var coilIndex:int = placeView.place.building.improveLevel - 1;
+	for( var i:int=0; i<tlen; i++ )
 	{
 		troop = AppModel.instance.battleFieldView.troopsList[i];
 		if( checkTriggerd(troop) )
 		{
 			AppModel.instance.sounds.addAndPlaySound("shot-tower");
 			troop.hit(damage);
-			dispatchEventWith(Event.TRIGGERED, false, troop);
+			dispatchEventWith(Event.TRIGGERED, false, [coilIndex, troop]);
 			//dispatchEventWith(Event.TRIGGERED, false, troop);
-			return;
+			if( coilIndex == 0 )
+				return;
+			coilIndex --;
 		}	
 	}
 }		
 
 private function checkTriggerd(troop:TroopView):Boolean
 {
-	if( troop.type == placeView.place.building.troopType )
+	if( troop.type == placeView.place.building.troopType || troop.muted )
 		return false;
 	
 	var distance:Number = Math.sqrt(Math.pow(placeView.x-troop.x, 2) + Math.pow((placeView.y-troop.y)*1.25, 2));
