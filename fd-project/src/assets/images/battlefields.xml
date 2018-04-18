@@ -1,262 +1,262 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:9b9a5d0d2a58821197d2314c6bf07c19:8cb2d25090aaf440448bae78f00d56de:f35d6734face8652aa91c1defb5ab9b6$ -->
+<!-- $TexturePacker:SmartUpdate:f044125ff07ddc221b1427e3ac8b39ee:535a4096653c8642c517deab4def74e5:f35d6734face8652aa91c1defb5ab9b6$ -->
 <TextureAtlas imagePath="battlefields.png" width="1024" height="2048">
     <SubTexture name="aim" x="2" y="2" width="324" height="202"/>
-    <SubTexture name="attack-line-0000" x="844" y="1416" width="32" height="48" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0001" x="767" y="869" width="32" height="62" frameX="-16" frameY="-2" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0002" x="284" y="365" width="36" height="61" frameX="-14" frameY="-3" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0003" x="777" y="686" width="34" height="61" frameX="-15" frameY="-3" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0004" x="966" y="663" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0005" x="984" y="1142" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0006" x="275" y="494" width="36" height="59" frameX="-14" frameY="-5" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0007" x="777" y="749" width="34" height="59" frameX="-15" frameY="-5" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0008" x="266" y="1222" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0009" x="844" y="1356" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0010" x="275" y="555" width="36" height="58" frameX="-14" frameY="-6" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0011" x="767" y="810" width="34" height="57" frameX="-15" frameY="-7" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0012" x="266" y="1282" width="32" height="48" frameX="-16" frameY="-16" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0013" x="932" y="660" width="32" height="63" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0014" x="284" y="299" width="36" height="64" frameX="-14" frameY="0" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="building-1-0" x="638" y="887" width="112" height="91" frameX="-72" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-1-1" x="521" y="903" width="112" height="91" frameX="-72" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-1" x="813" y="785" width="116" height="114" frameX="-68" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-11-0" x="626" y="1046" width="102" height="124" frameX="-77" frameY="-116" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-11-1" x="520" y="1091" width="102" height="124" frameX="-77" frameY="-116" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-11" x="530" y="576" width="122" height="126" frameX="-64" frameY="-115" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-12-0" x="801" y="901" width="106" height="123" frameX="-75" frameY="-105" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-12-1" x="909" y="912" width="106" height="123" frameX="-75" frameY="-105" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-12" x="661" y="500" width="126" height="140" frameX="-62" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-13-0" x="2" y="815" width="118" height="100" frameX="-69" frameY="-117" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-13-1" x="2" y="917" width="118" height="100" frameX="-69" frameY="-117" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-13" x="2" y="502" width="130" height="166" frameX="-60" frameY="-81" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-14-0" x="654" y="642" width="121" height="120" frameX="-67" frameY="-113" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-14-1" x="313" y="604" width="121" height="120" frameX="-67" frameY="-113" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-14" x="144" y="206" width="138" height="175" frameX="-53" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-21-0" x="2" y="1019" width="108" height="120" frameX="-74" frameY="-115" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-21-1" x="112" y="1094" width="108" height="120" frameX="-74" frameY="-115" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-21" x="650" y="764" width="115" height="121" frameX="-67" frameY="-114" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-22-0" x="309" y="726" width="120" height="139" frameX="-68" frameY="-100" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-22-1" x="130" y="788" width="120" height="139" frameX="-68" frameY="-100" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-22" x="530" y="434" width="129" height="140" frameX="-60" frameY="-99" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-23-0" x="530" y="280" width="144" height="152" frameX="-56" frameY="-88" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-23-1" x="676" y="346" width="144" height="152" frameX="-56" frameY="-88" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-23" x="863" y="2" width="152" height="154" frameX="-48" frameY="-88" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-24-0" x="863" y="158" width="151" height="171" frameX="-52" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-24-1" x="692" y="173" width="151" height="171" frameX="-52" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-24" x="530" y="107" width="160" height="171" frameX="-43" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-31-0" x="521" y="996" width="103" height="93" frameX="-77" frameY="-117" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-31-1" x="302" y="1088" width="103" height="93" frameX="-77" frameY="-117" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-31" x="814" y="660" width="116" height="123" frameX="-67" frameY="-116" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-32-0" x="521" y="796" width="115" height="105" frameX="-71" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-32-1" x="308" y="867" width="115" height="105" frameX="-71" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-32" x="142" y="424" width="131" height="140" frameX="-59" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-33-0" x="527" y="704" width="121" height="90" frameX="-68" frameY="-96" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-33-1" x="130" y="696" width="121" height="90" frameX="-68" frameY="-96" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-33" x="322" y="322" width="137" height="150" frameX="-56" frameY="-96" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-34-0" x="322" y="474" width="129" height="128" frameX="-64" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-34-1" x="134" y="566" width="129" height="128" frameX="-64" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-34" x="822" y="494" width="142" height="164" frameX="-53" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-41-0" x="479" y="204" width="49" height="67" frameX="-107" frameY="-110" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-41-1" x="479" y="273" width="49" height="67" frameX="-107" frameY="-110" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-41" x="2" y="670" width="126" height="143" frameX="-57" frameY="-100" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-42-0" x="886" y="1197" width="81" height="92" frameX="-87" frameY="-92" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-42-1" x="797" y="1262" width="81" height="92" frameX="-87" frameY="-92" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-42" x="2" y="345" width="138" height="155" frameX="-51" frameY="-92" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-43-0" x="431" y="743" width="88" height="97" frameX="-84" frameY="-92" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-43-1" x="932" y="725" width="88" height="97" frameX="-84" frameY="-92" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-43" x="845" y="331" width="150" height="161" frameX="-45" frameY="-91" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-44-0" x="905" y="1037" width="95" height="103" frameX="-80" frameY="-88" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-44-1" x="799" y="1089" width="95" height="103" frameX="-80" frameY="-88" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-44" x="699" y="2" width="162" height="169" frameX="-39" frameY="-87" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0000" x="298" y="1439" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0001" x="247" y="1414" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0002" x="232" y="1442" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0003" x="415" y="1412" width="49" height="25" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0004" x="170" y="1443" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0005" x="170" y="1468" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0006" x="109" y="1469" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0007" x="119" y="1443" width="49" height="24" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0008" x="466" y="1428" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-0-0009" x="415" y="1439" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0000" x="349" y="1440" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0001" x="181" y="1415" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0002" x="283" y="1466" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0003" x="517" y="1454" width="49" height="25" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0004" x="53" y="1470" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0005" x="2" y="1482" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0006" x="221" y="1469" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0007" x="58" y="1444" width="49" height="24" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0008" x="466" y="1455" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-1-0009" x="400" y="1466" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0000" x="334" y="1467" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0001" x="364" y="1412" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0002" x="568" y="1479" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0003" x="517" y="1481" width="49" height="25" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0004" x="160" y="1493" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0005" x="104" y="1494" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0006" x="53" y="1495" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0007" x="2" y="1456" width="49" height="24" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0008" x="451" y="1482" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-11-n-0009" x="385" y="1493" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0000" x="966" y="601" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0001" x="966" y="632" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0002" x="253" y="720" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0003" x="743" y="999" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0004" x="743" y="1029" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0005" x="596" y="1451" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0006" x="876" y="1510" width="54" height="25" frameX="-126" frameY="-105" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0007" x="708" y="1457" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0008" x="377" y="1383" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-0-0009" x="433" y="1383" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0000" x="253" y="751" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0001" x="253" y="782" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0002" x="252" y="813" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0003" x="605" y="1392" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0004" x="125" y="1413" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0005" x="652" y="1478" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0006" x="932" y="1510" width="54" height="25" frameX="-126" frameY="-105" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0007" x="708" y="1485" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0008" x="540" y="1396" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-1-0009" x="596" y="1422" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0000" x="540" y="1425" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0001" x="652" y="1449" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0002" x="764" y="1487" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0003" x="308" y="1412" width="54" height="25" frameX="-126" frameY="-105" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0004" x="820" y="1502" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0005" x="63" y="1414" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0006" x="2" y="1426" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0007" x="252" y="844" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0008" x="252" y="875" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-12-n-0009" x="252" y="906" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0000" x="133" y="1284" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0001" x="194" y="1290" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0002" x="64" y="1382" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0003" x="2" y="1394" width="59" height="30" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0004" x="895" y="1480" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0005" x="956" y="1480" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0006" x="316" y="1383" width="59" height="27" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0007" x="361" y="1353" width="59" height="28" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0008" x="366" y="1321" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-0-0009" x="300" y="1323" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0000" x="133" y="1317" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0001" x="64" y="1349" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0002" x="427" y="1321" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0003" x="488" y="1321" width="59" height="30" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0004" x="255" y="1355" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0005" x="186" y="1356" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0006" x="247" y="1385" width="59" height="27" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0007" x="125" y="1383" width="59" height="28" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0008" x="549" y="1334" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-1-0009" x="712" y="1393" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0000" x="773" y="1423" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0001" x="712" y="1425" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0002" x="422" y="1353" width="59" height="28" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0003" x="186" y="1386" width="59" height="27" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0004" x="483" y="1353" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0005" x="544" y="1366" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0006" x="773" y="1455" width="59" height="30" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0007" x="834" y="1470" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0008" x="194" y="1323" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-13-n-0009" x="125" y="1350" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0000" x="2" y="1216" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0001" x="68" y="1216" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0002" x="465" y="1217" width="64" height="33" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0003" x="597" y="1267" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0004" x="595" y="1301" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0005" x="2" y="1252" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0006" x="68" y="1252" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0007" x="712" y="1360" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0008" x="712" y="1326" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-0-0009" x="531" y="1217" width="64" height="33" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0000" x="134" y="1216" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0001" x="399" y="1217" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0002" x="465" y="1252" width="64" height="33" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0003" x="778" y="1356" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0004" x="778" y="1390" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0005" x="134" y="1252" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0006" x="200" y="1258" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0007" x="878" y="1437" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0008" x="878" y="1403" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-1-0009" x="397" y="1253" width="64" height="33" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0000" x="531" y="1252" width="64" height="33" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0001" x="463" y="1287" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0002" x="944" y="1447" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0003" x="300" y="1291" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0004" x="2" y="1284" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0005" x="366" y="1288" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0006" x="529" y="1287" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0007" x="300" y="1256" width="64" height="33" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0008" x="300" y="1220" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-flag-14-n-0009" x="200" y="1222" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
-    <SubTexture name="building-sword-0000" x="799" y="1026" width="104" height="61" frameX="-26" frameY="-8" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0001" x="880" y="1291" width="74" height="62" frameX="-44" frameY="-9" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0002" x="284" y="206" width="42" height="52" frameX="-57" frameY="-21" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0003" x="880" y="1355" width="74" height="46" frameX="-40" frameY="-29" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0004" x="453" y="591" width="75" height="57" frameX="-40" frameY="-20" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0005" x="453" y="525" width="75" height="64" frameX="-41" frameY="-15" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0006" x="425" y="904" width="87" height="70" frameX="-28" frameY="-10" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0007" x="418" y="1047" width="100" height="73" frameX="-15" frameY="-9" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0008" x="2" y="1141" width="108" height="73" frameX="-5" frameY="-10" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0009" x="122" y="929" width="111" height="70" frameX="0" frameY="-13" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0010" x="635" y="980" width="106" height="64" frameX="-4" frameY="-17" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0011" x="431" y="842" width="88" height="60" frameX="-22" frameY="-19" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0012" x="730" y="1102" width="67" height="37" frameX="-45" frameY="-33" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0013" x="956" y="1308" width="66" height="19" frameX="-46" frameY="-49" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0014" x="235" y="1000" width="69" height="28" frameX="-44" frameY="-39" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0015" x="730" y="1059" width="67" height="41" frameX="-45" frameY="-26" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0016" x="233" y="1030" width="67" height="53" frameX="-45" frameY="-15" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0017" x="235" y="937" width="70" height="61" frameX="-42" frameY="-8" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0018" x="712" y="1176" width="85" height="67" frameX="-33" frameY="-2" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="building-sword-0019" x="418" y="976" width="101" height="69" frameX="-27" frameY="0" frameWidth="150" frameHeight="83"/>
-    <SubTexture name="bush-0" x="896" y="1142" width="86" height="53"/>
-    <SubTexture name="bush-1" x="366" y="1220" width="29" height="34"/>
-    <SubTexture name="bush-2" x="265" y="681" width="35" height="37"/>
-    <SubTexture name="bush-3" x="489" y="1383" width="49" height="43"/>
-    <SubTexture name="bush-4" x="966" y="494" width="56" height="64"/>
-    <SubTexture name="bush-5" x="777" y="646" width="35" height="38"/>
-    <SubTexture name="bush-6" x="969" y="1264" width="51" height="42"/>
-    <SubTexture name="bush-7" x="789" y="616" width="31" height="28"/>
-    <SubTexture name="chair-0" x="284" y="260" width="40" height="37"/>
-    <SubTexture name="chair-1" x="233" y="1085" width="67" height="48"/>
-    <SubTexture name="crystal-lighting-0" x="956" y="1389" width="65" height="56"/>
-    <SubTexture name="crystal-lighting-1" x="956" y="1389" width="65" height="56"/>
-    <SubTexture name="crystal-lighting-2" x="461" y="465" width="67" height="58"/>
-    <SubTexture name="crystal-lighting-3" x="461" y="342" width="67" height="60"/>
+    <SubTexture name="attack-line-0000" x="334" y="1233" width="32" height="48" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0001" x="226" y="912" width="32" height="62" frameX="-16" frameY="-2" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0002" x="775" y="704" width="36" height="61" frameX="-14" frameY="-3" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0003" x="695" y="992" width="34" height="61" frameX="-15" frameY="-3" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0004" x="334" y="1171" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0005" x="984" y="1081" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0006" x="213" y="976" width="36" height="59" frameX="-14" frameY="-5" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0007" x="694" y="1055" width="34" height="59" frameX="-15" frameY="-5" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0008" x="984" y="1143" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0009" x="531" y="1175" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0010" x="213" y="1037" width="36" height="58" frameX="-14" frameY="-6" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0011" x="211" y="1137" width="34" height="57" frameX="-15" frameY="-7" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0012" x="155" y="1285" width="32" height="48" frameX="-16" frameY="-16" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0013" x="226" y="847" width="32" height="63" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0014" x="775" y="638" width="36" height="64" frameX="-14" frameY="0" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="building-1-0" x="809" y="939" width="112" height="91" frameX="-72" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-1-1" x="2" y="775" width="112" height="91" frameX="-72" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-1" x="642" y="730" width="116" height="114" frameX="-68" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-11-0" x="107" y="1064" width="102" height="124" frameX="-77" frameY="-116" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-11-1" x="2" y="1092" width="102" height="124" frameX="-77" frameY="-116" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-11" x="528" y="535" width="122" height="126" frameX="-64" frameY="-115" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-12-0" x="370" y="962" width="106" height="123" frameX="-75" frameY="-105" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-12-1" x="260" y="974" width="106" height="123" frameX="-75" frameY="-105" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-12" x="133" y="541" width="126" height="140" frameX="-62" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-13-0" x="408" y="402" width="118" height="100" frameX="-69" frameY="-117" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-13-1" x="408" y="504" width="118" height="100" frameX="-69" frameY="-117" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-13" x="276" y="365" width="130" height="166" frameX="-60" frameY="-81" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-14-0" x="397" y="606" width="121" height="120" frameX="-67" frameY="-113" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-14-1" x="261" y="663" width="121" height="120" frameX="-67" frameY="-113" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-14" x="816" y="514" width="138" height="175" frameX="-53" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-21-0" x="482" y="911" width="108" height="120" frameX="-74" frameY="-115" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-21-1" x="116" y="847" width="108" height="120" frameX="-74" frameY="-115" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-21" x="811" y="816" width="115" height="121" frameX="-67" frameY="-114" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-22-0" x="520" y="663" width="120" height="139" frameX="-68" frameY="-100" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-22-1" x="384" y="728" width="120" height="139" frameX="-68" frameY="-100" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-22" x="135" y="399" width="129" height="140" frameX="-60" frameY="-99" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-23-0" x="680" y="345" width="144" height="152" frameX="-56" frameY="-88" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-23-1" x="528" y="381" width="144" height="152" frameX="-56" frameY="-88" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-23" x="530" y="107" width="152" height="154" frameX="-48" frameY="-88" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-24-0" x="684" y="172" width="151" height="171" frameX="-52" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-24-1" x="853" y="175" width="151" height="171" frameX="-52" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-24" x="862" y="2" width="160" height="171" frameX="-43" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-31-0" x="108" y="969" width="103" height="93" frameX="-77" frameY="-117" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-31-1" x="2" y="997" width="103" height="93" frameX="-77" frameY="-117" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-31" x="813" y="691" width="116" height="123" frameX="-67" frameY="-116" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-32-0" x="506" y="804" width="115" height="105" frameX="-71" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-32-1" x="623" y="846" width="115" height="105" frameX="-71" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-32" x="2" y="361" width="131" height="140" frameX="-59" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-33-0" x="130" y="683" width="121" height="90" frameX="-68" frameY="-96" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-33-1" x="652" y="638" width="121" height="90" frameX="-68" frameY="-96" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-33" x="142" y="206" width="137" height="150" frameX="-56" frameY="-96" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-34-0" x="2" y="503" width="129" height="128" frameX="-64" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-34-1" x="266" y="533" width="129" height="128" frameX="-64" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-34" x="826" y="348" width="142" height="164" frameX="-53" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-41-0" x="970" y="452" width="49" height="67" frameX="-107" frameY="-110" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-41-1" x="760" y="767" width="49" height="67" frameX="-107" frameY="-110" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-41" x="2" y="633" width="126" height="140" frameX="-57" frameY="-100" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-42-0" x="809" y="1120" width="81" height="92" frameX="-87" frameY="-92" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-42-1" x="575" y="1161" width="81" height="92" frameX="-87" frameY="-92" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-42" x="2" y="206" width="138" height="153" frameX="-51" frameY="-92" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-43-0" x="931" y="788" width="88" height="97" frameX="-84" frameY="-92" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-43-1" x="928" y="887" width="88" height="97" frameX="-84" frameY="-92" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-43" x="328" y="204" width="150" height="159" frameX="-45" frameY="-91" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-44-0" x="478" y="1070" width="95" height="103" frameX="-80" frameY="-88" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-44-1" x="368" y="1087" width="95" height="103" frameX="-80" frameY="-88" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-44" x="699" y="2" width="161" height="168" frameX="-40" frameY="-87" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0000" x="2" y="1505" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0001" x="876" y="1390" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0002" x="236" y="1465" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0003" x="287" y="1466" width="49" height="25" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0004" x="216" y="1545" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0005" x="155" y="1546" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0006" x="104" y="1561" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0007" x="2" y="1559" width="49" height="24" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0008" x="338" y="1482" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-0-0009" x="389" y="1498" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0000" x="175" y="1492" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0001" x="124" y="1479" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0002" x="114" y="1507" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0003" x="53" y="1508" width="49" height="25" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0004" x="53" y="1562" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0005" x="2" y="1585" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0006" x="740" y="1434" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0007" x="216" y="1519" width="49" height="24" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0008" x="2" y="1532" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-1-0009" x="226" y="1492" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0000" x="277" y="1493" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0001" x="63" y="1480" width="49" height="26" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0002" x="328" y="1509" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0003" x="165" y="1519" width="49" height="25" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0004" x="791" y="1434" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0005" x="842" y="1447" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0006" x="740" y="1459" width="49" height="23" frameX="-126" frameY="-121" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0007" x="267" y="1520" width="49" height="24" frameX="-126" frameY="-120" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0008" x="104" y="1534" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-11-n-0009" x="53" y="1535" width="49" height="25" frameX="-126" frameY="-119" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0000" x="968" y="1203" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0001" x="311" y="1283" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0002" x="311" y="1314" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0003" x="550" y="1417" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0004" x="488" y="1430" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0005" x="922" y="1435" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0006" x="412" y="1471" width="54" height="25" frameX="-126" frameY="-105" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0007" x="188" y="1437" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0008" x="539" y="1477" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-0-0009" x="927" y="1348" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0000" x="189" y="1312" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0001" x="311" y="1345" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0002" x="188" y="1343" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0003" x="427" y="1441" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0004" x="544" y="1447" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0005" x="124" y="1451" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0006" x="468" y="1490" width="54" height="25" frameX="-126" frameY="-105" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0007" x="244" y="1437" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0008" x="927" y="1377" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-1-0009" x="810" y="1405" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0000" x="927" y="1406" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0001" x="866" y="1418" width="54" height="27" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0002" x="300" y="1438" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0003" x="180" y="1465" width="54" height="25" frameX="-126" frameY="-105" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0004" x="356" y="1454" width="54" height="26" frameX="-126" frameY="-104" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0005" x="483" y="1460" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0006" x="600" y="1448" width="54" height="28" frameX="-126" frameY="-103" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0007" x="188" y="1374" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0008" x="310" y="1376" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-12-n-0009" x="310" y="1407" width="54" height="29" frameX="-126" frameY="-102" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0000" x="2" y="1406" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0001" x="2" y="1439" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0002" x="499" y="1337" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0003" x="433" y="1348" width="59" height="30" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0004" x="366" y="1395" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0005" x="754" y="1344" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0006" x="489" y="1401" width="59" height="27" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0007" x="815" y="1345" width="59" height="28" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0008" x="367" y="1363" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-0-0009" x="188" y="1405" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0000" x="63" y="1447" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0001" x="2" y="1472" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0002" x="249" y="1405" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0003" x="693" y="1312" width="59" height="30" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0004" x="754" y="1374" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0005" x="815" y="1375" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0006" x="427" y="1412" width="59" height="27" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0007" x="688" y="1376" width="59" height="28" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0008" x="754" y="1312" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-1-0009" x="693" y="1344" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0000" x="627" y="1345" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0001" x="560" y="1355" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0002" x="749" y="1404" width="59" height="28" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0003" x="366" y="1425" width="59" height="27" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0004" x="621" y="1377" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0005" x="555" y="1387" width="59" height="28" frameX="-126" frameY="-84" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0006" x="494" y="1369" width="59" height="30" frameX="-126" frameY="-83" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0007" x="428" y="1380" width="59" height="30" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0008" x="632" y="1312" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-13-n-0009" x="566" y="1322" width="59" height="31" frameX="-126" frameY="-82" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0000" x="408" y="365" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0001" x="665" y="1116" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0002" x="368" y="1192" width="64" height="33" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0003" x="245" y="1239" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0004" x="367" y="1297" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0005" x="89" y="1318" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0006" x="245" y="1341" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0007" x="566" y="1289" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0008" x="245" y="1273" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-0-0009" x="434" y="1211" width="64" height="33" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0000" x="665" y="1152" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0001" x="865" y="1309" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0002" x="368" y="1227" width="64" height="33" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0003" x="245" y="1307" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0004" x="500" y="1304" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0005" x="244" y="1373" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0006" x="2" y="1342" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0007" x="433" y="1315" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0008" x="566" y="1255" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-1-0009" x="500" y="1235" width="64" height="33" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0000" x="434" y="1246" width="64" height="33" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0001" x="500" y="1270" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0002" x="367" y="1330" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0003" x="68" y="1350" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0004" x="2" y="1374" width="64" height="30" frameX="-126" frameY="-77" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0005" x="89" y="1285" width="64" height="31" frameX="-126" frameY="-76" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0006" x="434" y="1281" width="64" height="32" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0007" x="368" y="1262" width="64" height="33" frameX="-126" frameY="-75" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0008" x="931" y="1312" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-flag-14-n-0009" x="465" y="1175" width="64" height="34" frameX="-126" frameY="-74" frameWidth="256" frameHeight="256"/>
+    <SubTexture name="building-sword-0000" x="2" y="934" width="104" height="61" frameX="-26" frameY="-8" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0001" x="730" y="1198" width="74" height="62" frameX="-44" frameY="-9" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0002" x="281" y="272" width="42" height="52" frameX="-57" frameY="-21" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0003" x="892" y="1162" width="74" height="46" frameX="-40" frameY="-29" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0004" x="731" y="1139" width="75" height="57" frameX="-40" frameY="-20" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0005" x="732" y="986" width="75" height="64" frameX="-41" frameY="-15" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0006" x="248" y="1099" width="87" height="70" frameX="-28" frameY="-10" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0007" x="592" y="1024" width="100" height="73" frameX="-15" frameY="-9" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0008" x="260" y="899" width="108" height="73" frameX="-5" frameY="-10" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0009" x="116" y="775" width="111" height="70" frameX="0" frameY="-13" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0010" x="2" y="868" width="106" height="64" frameX="-4" frameY="-17" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0011" x="575" y="1099" width="88" height="60" frameX="-22" frameY="-19" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0012" x="865" y="1270" width="67" height="37" frameX="-45" frameY="-33" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0013" x="956" y="556" width="66" height="19" frameX="-46" frameY="-49" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0014" x="740" y="894" width="69" height="28" frameX="-44" frameY="-39" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0015" x="796" y="1269" width="67" height="41" frameX="-45" frameY="-26" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0016" x="806" y="1214" width="67" height="53" frameX="-45" frameY="-15" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0017" x="658" y="1188" width="70" height="61" frameX="-42" frameY="-8" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0018" x="2" y="1273" width="85" height="67" frameX="-33" frameY="-2" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="building-sword-0019" x="592" y="953" width="101" height="69" frameX="-27" frameY="0" frameWidth="150" frameHeight="83"/>
+    <SubTexture name="bush-0" x="2" y="1218" width="86" height="53"/>
+    <SubTexture name="bush-1" x="229" y="775" width="29" height="34"/>
+    <SubTexture name="bush-2" x="695" y="953" width="35" height="37"/>
+    <SubTexture name="bush-3" x="876" y="1345" width="49" height="43"/>
+    <SubTexture name="bush-4" x="682" y="1406" width="56" height="64"/>
+    <SubTexture name="bush-5" x="211" y="1097" width="35" height="38"/>
+    <SubTexture name="bush-6" x="970" y="408" width="51" height="42"/>
+    <SubTexture name="bush-7" x="815" y="1312" width="31" height="28"/>
+    <SubTexture name="chair-0" x="281" y="326" width="40" height="37"/>
+    <SubTexture name="chair-1" x="727" y="1262" width="67" height="48"/>
+    <SubTexture name="crystal-lighting-0" x="956" y="637" width="65" height="56"/>
+    <SubTexture name="crystal-lighting-1" x="956" y="637" width="65" height="56"/>
+    <SubTexture name="crystal-lighting-2" x="892" y="1210" width="67" height="58"/>
+    <SubTexture name="crystal-lighting-3" x="740" y="924" width="67" height="60"/>
     <SubTexture name="damage-range" x="328" y="2" width="200" height="200"/>
-    <SubTexture name="fence-0" x="142" y="383" width="132" height="39"/>
-    <SubTexture name="fence-1" x="730" y="1141" width="66" height="33"/>
-    <SubTexture name="fence-2" x="789" y="500" width="31" height="114"/>
-    <SubTexture name="fence-3" x="328" y="204" width="149" height="116"/>
-    <SubTexture name="healthbar-bg--1" x="845" y="173" width="14" height="24"/>
-    <SubTexture name="healthbar-bg-0" x="845" y="199" width="14" height="24"/>
-    <SubTexture name="healthbar-bg-1" x="845" y="225" width="14" height="24"/>
-    <SubTexture name="healthbar-fill--1" x="845" y="251" width="14" height="24"/>
-    <SubTexture name="healthbar-fill-0" x="845" y="277" width="14" height="24"/>
-    <SubTexture name="healthbar-fill-1" x="845" y="303" width="14" height="24"/>
-    <SubTexture name="hole-0" x="2" y="206" width="140" height="137"/>
-    <SubTexture name="hole-1" x="300" y="1183" width="97" height="35"/>
-    <SubTexture name="hole-2" x="712" y="1245" width="83" height="79"/>
+    <SubTexture name="fence-0" x="142" y="358" width="132" height="39"/>
+    <SubTexture name="fence-1" x="956" y="521" width="66" height="33"/>
+    <SubTexture name="fence-2" x="155" y="1335" width="31" height="114"/>
+    <SubTexture name="fence-3" x="529" y="263" width="149" height="116"/>
+    <SubTexture name="healthbar-bg--1" x="837" y="172" width="14" height="24"/>
+    <SubTexture name="healthbar-bg-0" x="837" y="198" width="14" height="24"/>
+    <SubTexture name="healthbar-bg-1" x="837" y="224" width="14" height="24"/>
+    <SubTexture name="healthbar-fill--1" x="837" y="250" width="14" height="24"/>
+    <SubTexture name="healthbar-fill-0" x="837" y="276" width="14" height="24"/>
+    <SubTexture name="healthbar-fill-1" x="837" y="302" width="14" height="24"/>
+    <SubTexture name="hole-0" x="674" y="499" width="140" height="137"/>
+    <SubTexture name="hole-1" x="478" y="1033" width="97" height="35"/>
+    <SubTexture name="hole-2" x="899" y="1081" width="83" height="79"/>
     <SubTexture name="hut-0" x="530" y="2" width="167" height="103"/>
-    <SubTexture name="improvable" x="2" y="1316" width="60" height="76"/>
-    <SubTexture name="lightray-0" x="275" y="428" width="45" height="64" frameX="-1" frameY="0" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="lightray-1" x="265" y="615" width="46" height="64" frameX="0" frameY="0" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="lightray-2" x="752" y="933" width="47" height="64" frameX="-16" frameY="0" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="lightray-3" x="663" y="1267" width="47" height="64" frameX="-6" frameY="0" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="population--1" x="661" y="1333" width="49" height="56"/>
-    <SubTexture name="population-0" x="610" y="1334" width="49" height="56"/>
-    <SubTexture name="population-1" x="661" y="1391" width="49" height="56"/>
-    <SubTexture name="rock-0" x="799" y="1194" width="85" height="66"/>
-    <SubTexture name="rock-1" x="956" y="1329" width="65" height="58"/>
-    <SubTexture name="rock-2" x="966" y="560" width="56" height="39"/>
-    <SubTexture name="rock-3" x="969" y="1204" width="51" height="58"/>
-    <SubTexture name="rock-4" x="624" y="1172" width="86" height="93"/>
-    <SubTexture name="rock-5" x="222" y="1135" width="76" height="85"/>
-    <SubTexture name="rock-6-" x="122" y="1001" width="109" height="91"/>
-    <SubTexture name="tanker-0" x="461" y="404" width="67" height="59"/>
-    <SubTexture name="tree-0" x="307" y="974" width="109" height="112"/>
-    <SubTexture name="tree-1" x="436" y="650" width="89" height="91"/>
-    <SubTexture name="tree-2" x="68" y="1284" width="63" height="63"/>
-    <SubTexture name="tree-3" x="407" y="1122" width="97" height="93"/>
-    <SubTexture name="tree-4" x="931" y="824" width="88" height="86"/>
+    <SubTexture name="improvable" x="961" y="1234" width="60" height="76"/>
+    <SubTexture name="lightray-0" x="281" y="206" width="45" height="64" frameX="-1" frameY="0" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="lightray-1" x="480" y="336" width="46" height="64" frameX="0" frameY="0" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="lightray-2" x="480" y="204" width="47" height="64" frameX="-16" frameY="0" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="lightray-3" x="480" y="270" width="47" height="64" frameX="-6" frameY="0" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="population--1" x="760" y="836" width="49" height="56"/>
+    <SubTexture name="population-0" x="194" y="1196" width="49" height="56"/>
+    <SubTexture name="population-1" x="194" y="1254" width="49" height="56"/>
+    <SubTexture name="rock-0" x="247" y="1171" width="85" height="66"/>
+    <SubTexture name="rock-1" x="956" y="577" width="65" height="58"/>
+    <SubTexture name="rock-2" x="616" y="1407" width="56" height="39"/>
+    <SubTexture name="rock-3" x="970" y="348" width="51" height="58"/>
+    <SubTexture name="rock-4" x="106" y="1190" width="86" height="93"/>
+    <SubTexture name="rock-5" x="731" y="1052" width="76" height="85"/>
+    <SubTexture name="rock-6-" x="371" y="869" width="109" height="91"/>
+    <SubTexture name="tanker-0" x="658" y="1251" width="67" height="59"/>
+    <SubTexture name="tree-0" x="260" y="785" width="109" height="112"/>
+    <SubTexture name="tree-1" x="931" y="695" width="89" height="91"/>
+    <SubTexture name="tree-2" x="68" y="1382" width="63" height="63"/>
+    <SubTexture name="tree-3" x="923" y="986" width="97" height="93"/>
+    <SubTexture name="tree-4" x="809" y="1032" width="88" height="86"/>
 </TextureAtlas>
