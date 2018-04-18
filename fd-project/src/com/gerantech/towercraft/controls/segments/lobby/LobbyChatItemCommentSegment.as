@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -9,7 +10,7 @@ public class LobbyChatItemCommentSegment extends LobbyChatItemSegment
 {
 private var labelDisplay:ShadowLabel;
 
-public function LobbyChatItemCommentSegment(){}
+public function LobbyChatItemCommentSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
@@ -18,9 +19,9 @@ override public function init():void
 	labelDisplay.layoutData = new AnchorLayoutData( NaN, padding, NaN, padding, NaN, 0);
 	addChild(labelDisplay);
 }
-override public function commitData(_data:ISFSObject):void
+override public function commitData(_data:ISFSObject, index:int):void
 {
-	super.commitData(_data);
+	super.commitData(_data, index);
 	
 	var comment:String = "";
 	switch(data.getShort("m"))

@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -13,10 +14,10 @@ public class LobbyChatItemSegment extends Segment
 public var padding:int;
 public var otherPadding:int;
 public var data:ISFSObject;
-
+public var owner:FastList;
 protected var itsMe:Boolean;
 
-public function LobbyChatItemSegment(){}
+public function LobbyChatItemSegment(owner:FastList) { this.owner = owner; }
 override public function init():void
 {
 	super.init();
@@ -24,8 +25,8 @@ override public function init():void
 	padding = 48 * appModel.scale;
 	otherPadding = 120 * appModel.scale;
 }
-
-public function commitData(_data:ISFSObject):void
+	
+public function commitData(_data:ISFSObject, index:int) : void
 {
 	this.data = _data as SFSObject;
 	itsMe = data.getInt("i") == player.id;

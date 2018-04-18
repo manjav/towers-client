@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -10,20 +11,19 @@ import feathers.layout.AnchorLayoutData;
 
 public class LobbyChatItemBattleSegment extends LobbyChatItemSegment
 {
-	
 private var labelDisplay:ShadowLabel;
 private var messageDisplay:RTLLabel;
 private var actionButton:CustomButton;
 private var messageLayout:AnchorLayoutData;
-public function LobbyChatItemBattleSegment(){}
+public function LobbyChatItemBattleSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
 
-	height = 220*appModel.scale;
+	height = 220 * appModel.scale;
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
-	background.layoutData = new AnchorLayoutData( 0, padding*0.5, 0, padding*0.5);
+	background.layoutData = new AnchorLayoutData( 0, padding * 0.5, 0, padding * 0.5);
 	background.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
 	addChild(background);
 	
@@ -36,11 +36,11 @@ override public function init():void
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 }
-override public function commitData(_data:ISFSObject):void
+override public function commitData(_data:ISFSObject, index:int):void
 {
-	super.commitData(_data);
+	super.commitData(_data, index);
 	actionButton.visible = data.getShort("st") < 2;
-	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding*0.5);
+	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding * 0.5);
 	
 	if( data.getShort("st") == 0 )
 	{
@@ -58,6 +58,5 @@ override public function commitData(_data:ISFSObject):void
 		messageDisplay.text = loc( "lobby_battle_ended", [data.getUtfString("s"), data.getUtfString("o")]);
 	}
 }
-
 }
 }

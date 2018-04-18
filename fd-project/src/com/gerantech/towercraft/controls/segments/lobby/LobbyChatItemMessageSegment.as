@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
@@ -30,7 +31,7 @@ private var roleLayout:AnchorLayoutData;
 private var messageLayout:AnchorLayoutData;
 private var dateLayout:AnchorLayoutData;
 
-public function LobbyChatItemMessageSegment(){}
+public function LobbyChatItemMessageSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
@@ -43,14 +44,14 @@ override public function init():void
 	meSkin.scale9Grid = new Rectangle(22, 17, 4, 4);
 	meSkin.visible = false;
 	meSkin.source = Assets.getTexture("theme/balloon-me", "gui");
-	meSkin.layoutData = new AnchorLayoutData( padding*0.1, padding*0.1, padding*0.1, otherPadding-padding*0.9 );
+	meSkin.layoutData = new AnchorLayoutData( padding * 0.1, padding * 0.1, padding * 0.1, otherPadding - padding * 0.9 );
 	addChild(meSkin);
 	
 	otherSkin = new ImageLoader();
 	otherSkin.scale9Grid = new Rectangle(22, 17, 4, 4);
 	otherSkin.visible = false;
 	otherSkin.source = Assets.getTexture("theme/balloon-other", "gui");
-	otherSkin.layoutData = new AnchorLayoutData( padding*0.1, otherPadding-padding*0.9, padding*0.1, padding*0.1 );
+	otherSkin.layoutData = new AnchorLayoutData( padding * 0.1, otherPadding - padding * 0.9, padding * 0.1, padding * 0.1 );
 	addChild(otherSkin);
 	
 	senderDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
@@ -71,14 +72,20 @@ override public function init():void
 	addChild(messageDisplay);
 	
 	dateDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.6);
-	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding*0.4:NaN, padding*0.6, appModel.isLTR?NaN:padding*0.4 );
+	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding * 0.4:NaN, padding * 0.6, appModel.isLTR?NaN:padding * 0.4 );
 	dateDisplay.layoutData = dateLayout;			
 	addChild(dateDisplay);
 }
 
-override public function commitData(_data:ISFSObject):void
+override public function commitData(_data:ISFSObject, index:int):void
 {
-	super.commitData(_data);
+	if ( owner.loadingState == 0 && owner.dataProvider.length - index > 10 )
+	{
+		height = 200 * appModel.scale;
+		return;
+	}
+	
+	super.commitData(_data, index);
 	
 	meSkin.visible = itsMe;
 	otherSkin.visible = !itsMe;
@@ -87,7 +94,7 @@ override public function commitData(_data:ISFSObject):void
 	senderLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	
 	var user:ISFSObject = findUser(data.getInt("i"));
-	roleDisplay.text = user==null?"":(loc("lobby_role_" + user.getShort("permission")));
+	roleDisplay.text = user == null?"":(loc("lobby_role_" + user.getShort("permission")));
 	roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
 	messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
@@ -95,7 +102,7 @@ override public function commitData(_data:ISFSObject):void
 	messageDisplay.text = data.getUtfString("t");
 	messageDisplay.validate();
 	
-	date.time = data.getInt("u")*1000;
+	date.time = data.getInt("u") * 1000;
 	dateDisplay.text = StrUtils.dateToTime(date);
 	dateLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	

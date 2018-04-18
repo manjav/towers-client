@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments.lobby
 {
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -18,11 +19,11 @@ private var messageDisplay:RTLLabel;
 private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
 
-public function LobbyChatItemConfirmSegment(){}
+public function LobbyChatItemConfirmSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
-	height = 220*appModel.scale;
+	height = 220 * appModel.scale;
 	
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
@@ -63,9 +64,9 @@ private function buttons_triggeredHandler(event:Event):void
 	dispatchEventWith( Event.TRIGGERED, false, event.currentTarget );
 }
 
-override public function commitData(_data:ISFSObject):void
+override public function commitData(_data:ISFSObject, index:int):void
 {
-	super.commitData(_data);
+	super.commitData(_data, index);
 	createMessageDisplay();
 }
 

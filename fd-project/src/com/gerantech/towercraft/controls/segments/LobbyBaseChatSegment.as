@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.lobboy.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -38,7 +39,7 @@ public class LobbyBaseChatSegment extends Segment
 {
 protected var padding:int;
 protected var footerSize:int;
-protected var chatList:List;
+protected var chatList:FastList;
 protected var chatLayout:VerticalLayout;
 protected var chatTextInput:CustomTextInput;
 protected var chatEnableButton:CustomButton;
@@ -106,7 +107,7 @@ protected function showElements():void
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	chatLayout.verticalAlign = VerticalAlign.BOTTOM;
 	
-	chatList = new List();
+	chatList = new FastList();
 	chatList.layout = chatLayout;
     chatList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
@@ -116,6 +117,7 @@ protected function showElements():void
 	chatList.addEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
 	chatList.dataProvider = manager.messages;
 	chatList.validate();
+	chatList.loadingState = 1;
 	addChild(chatList);
 
 	chatTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DONE, 0, false, appModel.align );
