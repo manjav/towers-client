@@ -266,7 +266,9 @@ private function stickerList_changeHandler(event:Event):void
 public function showBubble(type:int, itsMe:Boolean=true):void
 {
 	var bubble:StickerBubble = itsMe ? myBubble : opponentBubble;
-
+	if( bubble == null )
+		return;
+	
 	Starling.juggler.removeTweens(bubble);
 	bubble.type = type;
 	bubble.scale = 0.5;
@@ -278,7 +280,6 @@ public function showBubble(type:int, itsMe:Boolean=true):void
 
 private function hideBubble(bubble:StickerBubble):void
 {
-	
 	bubble.removeFromParent();
 	if( SFSConnection.instance.lastJoinedRoom != null && !SFSConnection.instance.mySelf.isSpectator )
 		stickerButton.visible = true;
@@ -290,7 +291,7 @@ public function end(overlay:EndOverlay) : void
 	var numCh:int = numChildren - 1;
 	while ( numCh >= 0 )
 	{
-		if ( getChildAt(numCh) != myBubble && getChildAt(numCh) != opponentBubble && getChildAt(numCh) != stickerButton )
+		if( getChildAt(numCh) != myBubble && getChildAt(numCh) != opponentBubble && getChildAt(numCh) != stickerButton )
 			getChildAt(numCh).removeFromParent(true);
 		numCh --;
 	}

@@ -69,7 +69,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 
 private function updateRoomVariables():void
 {
-	if( usersDisplay )
+	if( usersDisplay != null && manager.lobby != null )
 		usersDisplay.text = loc("lobby_onlines", [manager.lobby.userCount, manager.members.size()]);
 }
 

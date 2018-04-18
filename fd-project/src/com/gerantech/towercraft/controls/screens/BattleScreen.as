@@ -751,7 +751,8 @@ private function showImproveFloating(placeView:PlaceView):void
 			if( player.get_arena(0) <= 1 )
 				appModel.navigator.addLog(loc("improve_locked_meaagse"));
 			return;
-		} else if( !btn.enabled )
+		}
+		else if( !btn.enabled )
 		{
 			if( player.get_arena(0) <= 1 )
 				appModel.navigator.addLog(loc("improve_disabled_meaagse"));
@@ -765,7 +766,7 @@ private function showImproveFloating(placeView:PlaceView):void
 
 override protected function backButtonFunction():void
 {
-	if( sfsConnection.mySelf.isSpectator )
+	if( sfsConnection.lastJoinedRoom != null && sfsConnection.mySelf.isSpectator )
 	{
 		appModel.battleFieldView.responseSender.leave();
 		dispatchEventWith(Event.COMPLETE);
