@@ -30,52 +30,53 @@ override public function updateElements(population:int, troopType:int):void
 	damageRadiusMin = game.calculator.get(BuildingFeatureType.F23_RANGE_RADIUS_MIN,	placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
 	
 	// radius :
-	createRadiusDisplay();
-	radiusMaxDisplay.width = damageRadiusMax * 2;
-	radiusMaxDisplay.scaleY = radiusMaxDisplay.scaleX;
-	radiusMinDisplay.width = damageRadiusMin * 6.4;
-	radiusMinDisplay.scaleY = radiusMinDisplay.scaleX;
-	radiusScale = radiusMinDisplay.scale;
+	createRadiusDisplay(troopType);
 }
 
-
-private function createRadiusDisplay():void
+private function createRadiusDisplay(troopType:int):void
 {
 	if( radiusMaxDisplay == null )
 	{
 		radiusMaxDisplay = new Image(Assets.getTexture("redius-max", "troops"));
-		radiusMaxDisplay.color = TroopType.getColor(place.building.troopType);
+		radiusMaxDisplay.name = "max"
 		radiusMaxDisplay.touchable = false;
 		radiusMaxDisplay.alignPivot()
 		radiusMaxDisplay.x = place.x;
 		radiusMaxDisplay.y = place.y;
 		radiusMaxDisplay.alpha = 0.5;
+		radiusMaxDisplay.width = damageRadiusMax * 2;
+		radiusMaxDisplay.scaleY = radiusMaxDisplay.scaleX;
 		fieldView.roadsContainer.addChild(radiusMaxDisplay);
 		fade(radiusMaxDisplay, 0.4, 2, false);
 	}
 	if( radiusMinDisplay == null )
 	{
 		radiusMinDisplay = new Image(Assets.getTexture("redius-min", "troops"));
-		radiusMinDisplay.color = TroopType.getColor(place.building.troopType);
+		radiusMinDisplay.name = "min"
 		radiusMinDisplay.touchable = false;
 		radiusMinDisplay.alignPivot()
 		radiusMinDisplay.x = place.x;
 		radiusMinDisplay.y = place.y;
 		radiusMinDisplay.alpha = 0.5;
+		radiusMinDisplay.width = damageRadiusMin * 8;
+		radiusScale = radiusMinDisplay.scaleY = radiusMinDisplay.scaleX;
 		fieldView.roadsContainer.addChild(radiusMinDisplay);
-		fade(radiusMinDisplay, 0.4, 1, true);
-	}	
+		fade(radiusMinDisplay, 0.4, 3, true);
+	}
 
+	radiusMaxDisplay.color = TroopType.getColor(troopType);
+	radiusMinDisplay.color = TroopType.getColor(troopType);
 }
 
 private function fade(display:DisplayObject, _alpha:Number, _delay:Number, _scalable:Boolean) : void
 {
 	var tw:Tween = new Tween(display, 2, Transitions.EASE_IN_OUT);
+	tw.delay = _delay;
 	tw.fadeTo(_alpha);
 	if( _scalable )
-		tw.scaleTo(display.scale == radiusScale ? radiusScale * 1.2 : radiusScale);
+		tw.scaleTo(display.scale == radiusScale ? radiusScale * 2 : radiusScale);
 	tw.onComplete = fade;
-	tw.onCompleteArgs = [display, _alpha == 1?0.4:1, 0, _scalable];
+	tw.onCompleteArgs = [display, _alpha == 1?0.4:1, 1, _scalable];
 	Starling.juggler.add(tw);
 }
 
