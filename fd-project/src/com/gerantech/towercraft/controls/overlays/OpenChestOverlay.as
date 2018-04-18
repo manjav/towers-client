@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
-	import com.gerantech.towercraft.controls.ChestReward;
+	import com.gerantech.towercraft.controls.BooktReward;
 	import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gt.towers.exchanges.ExchangeItem;
@@ -30,7 +30,7 @@ package com.gerantech.towercraft.controls.overlays
 
 		private var type:int;
 		private var rewardKeys:Vector.<int>;
-		private var rewardItems:Vector.<ChestReward>;
+		private var rewardItems:Vector.<BooktReward>;
 		private var animation:StarlingArmatureDisplay ;
 		private var collectedItemIndex:int = 0;
 		private var buttonOverlay:SimpleLayoutButton;
@@ -103,7 +103,7 @@ package com.gerantech.towercraft.controls.overlays
 			addChild(buttonOverlay);
 			
 			this.item = item;
-			rewardItems = new Vector.<ChestReward>();
+			rewardItems = new Vector.<BooktReward>();
 			rewardKeys = item.outcomes.keys();
 			if( readyToWait )
 				animation.animation.gotoAndPlayByTime("wait", 0, -1);
@@ -158,7 +158,7 @@ package com.gerantech.towercraft.controls.overlays
 		
 		private function showReward():void
 		{
-			var chestReward:ChestReward = new ChestReward(collectedItemIndex, rewardKeys[collectedItemIndex], item.outcomes.get(rewardKeys[collectedItemIndex]));
+			var chestReward:BooktReward = new BooktReward(collectedItemIndex, rewardKeys[collectedItemIndex], item.outcomes.get(rewardKeys[collectedItemIndex]));
 			chestReward.y = stage.height * 0.8;
 			rewardItems[collectedItemIndex] = chestReward;
 			addChild(chestReward);
@@ -173,7 +173,7 @@ package com.gerantech.towercraft.controls.overlays
 			}
 		}
 		
-		private function grabReward(chestReward:ChestReward):void
+		private function grabReward(chestReward:BooktReward):void
 		{
 			if( chestReward == null || chestReward.state!=1)
 				return;
