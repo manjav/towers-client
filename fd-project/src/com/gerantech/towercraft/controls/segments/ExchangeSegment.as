@@ -240,6 +240,7 @@ private function list_changeHandler(event:Event):void
 		item.enabled = true;
 		if( ( item.category == ExchangeType.CHEST_CATE_100_FREE || item.category == ExchangeType.CHEST_CATE_110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
 		{
+			item.outcomes = new IntIntMap();
 			exchange(item, params);
 			
 			if( player.getTutorStep() == PrefsTypes.T_143_SHOP_BOOK_FOCUS )
@@ -282,7 +283,7 @@ private function exchange(item:ExchangeItem, params:SFSObject):void
 	catch(error:GameError) 
 	{
 		if( error.id == 0 )
-			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_"+error.object)]));
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + error.object)]));
 		return;
 	}
 	sendData(params)			

@@ -17,14 +17,6 @@ import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import com.gt.towers.exchanges.ExchangeItem;
-import starling.utils.Color;
-
-import flash.desktop.NativeApplication;
-import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-
-import mx.resources.ResourceManager;
-
 import feathers.controls.AutoSizeMode;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
@@ -38,11 +30,15 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
-
+import flash.desktop.NativeApplication;
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
+import mx.resources.ResourceManager;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
+import starling.utils.Color;
 
 public class DashboardScreen extends BaseCustomScreen
 {
