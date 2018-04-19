@@ -79,7 +79,7 @@ override public function init():void
 
 override public function commitData(_data:ISFSObject, index:int):void
 {
-	if ( owner.loadingState == 0 && owner.dataProvider.length - index > 10 )
+	if( owner.loadingState == 0 && owner.dataProvider.length - index > 10 )
 	{
 		height = 200 * appModel.scale;
 		return;
