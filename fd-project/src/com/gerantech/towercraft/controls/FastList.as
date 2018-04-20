@@ -6,10 +6,12 @@ import feathers.controls.ScrollBarDisplayMode;
 public class FastList extends List
 {
 public var loadingState:int = 0;
-public function FastList()
+public function FastList( isFast:Boolean = true )
 {
 	super();
-	_fixedThrowDuration = 1;
+	if( isFast )
+		_fixedThrowDuration = 1;
+	
 	scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 }
 }

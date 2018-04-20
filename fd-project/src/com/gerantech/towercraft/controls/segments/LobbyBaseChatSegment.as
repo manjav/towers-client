@@ -107,7 +107,7 @@ protected function showElements():void
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	chatLayout.verticalAlign = VerticalAlign.BOTTOM;
 	
-	chatList = new FastList();
+	chatList = new FastList(false);
 	chatList.layout = chatLayout;
     chatList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
