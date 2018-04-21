@@ -2,14 +2,14 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
-import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
+import com.gerantech.towercraft.controls.groups.HomeBooksLine;
+import com.gerantech.towercraft.controls.groups.HomeFooter;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -24,20 +24,13 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.Button;
-import feathers.controls.ImageLoader;
-import feathers.controls.StackScreenNavigatorItem;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.geom.Rectangle;
-import flash.net.URLRequest;
-import flash.net.navigateToURL;
-import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
-import starling.utils.Color;
 
 public class HomeSegment extends Segment
 {
@@ -60,12 +53,31 @@ override public function init():void
 	layout = new AnchorLayout();		
 	showOffers();
 	showMainButtons();
-	showFooterButtons();
 	showTutorial();
 	initializeCompleted = true;
+	
+	// hidden admin button
+	var adminButton:Button = new Button();
+	adminButton.alpha = 0;
+	adminButton.isLongPressEnabled = true;
+	adminButton.longPressDuration = 1;
+	adminButton.width = adminButton.height = 120 * appModel.scale;
+	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{if( player.admin )appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 320 * appModel.scale);
+	addChild(adminButton);
+
+	if( player.inTutorial() )
+		return;
+	
+	var bookLine:HomeBooksLine = new HomeBooksLine();
+	bookLine.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	addChild(bookLine);
+	
+	var footer:HomeFooter = new HomeFooter();
+	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine.height, 0);
+	addChild(footer);
 	//dfsdf();
 }
-
 
 private function dfsdf():void
 {
@@ -107,19 +119,19 @@ private function showMainButtons():void
 {
 	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
-	leaguesButton = new HomeButton(league, 0.8);
+	leaguesButton = new HomeButton(league, 0.6);
 	league.pivotX = league.pivotY = 0
-	addButton(leaguesButton, "button_leagues", 540, 650, 0.4, goUp);
-	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:610 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:650 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	addButton(leaguesButton, "button_leagues", 540, 600, 0.4, goUp);
+	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:620 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:600 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
-	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")));
-	addButton(battlesButton, "button_battles", 540, 1140, 0.6);
+	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
+	addButton(battlesButton, "button_battles", 540, 970, 0.6);
 	
-	if( player.hasQuests )
+	if( player.hasQuests && !player.inTutorial() )
 	{
-		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")));
-		addButton(questsButton, "button_quests", 540, 1400, 0.8);
+		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")), 0.9);
+		addButton(questsButton, "button_quests", 540, 1200, 0.8);
 	}
 }
 
@@ -133,64 +145,6 @@ private function addButton(button:HomeButton, name:String, x:int, y:int, delay:N
 	Starling.juggler.tween(button, 0.5, {delay:delay, scale:1, alpha:1, transition:Transitions.EASE_OUT_BACK, onComplete:callback});
 	addChild(button);
 }	
-
-private function showFooterButtons():void
-{
-	var adminButton:Button = new Button();
-	adminButton.alpha = 0;
-	adminButton.isLongPressEnabled = true;
-	adminButton.longPressDuration = 1;
-	adminButton.width = adminButton.height = 120 * appModel.scale;
-	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{if( player.admin )appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 0);
-	addChild(adminButton);
-	
-	if( player.inTutorial() )
-		return;
-	
-	var gradient:ImageLoader = new ImageLoader();
-	gradient.scale9Grid = new Rectangle(1,1,7,7);
-    gradient.color = Color.BLACK;
-    gradient.alpha = 0.6;
-    gradient.width = 600 * appModel.scale;
-    gradient.height = 120 * appModel.scale;
-    gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
-	gradient.layoutData = new AnchorLayoutData(NaN, NaN, 20*appModel.scale, 0);
-	addChild(gradient);
-	
-	var settingButton:IconButton = new IconButton(Assets.getTexture("button-settings", "gui"));
-	settingButton.width = settingButton.height = 140 * appModel.scale;
-	settingButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);});
-	settingButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 6*appModel.scale);
-	addChild(settingButton);
-	
-	var newsButton:IconButton = new IconButton(Assets.getTexture("button-telegram", "gui"));
-	newsButton.width = newsButton.height = 140 * appModel.scale;
-	newsButton.addEventListener(Event.TRIGGERED, function():void{navigateToURL(new URLRequest(loc("setting_value_311")))});
-	newsButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 126*appModel.scale);
-	addChild(newsButton);
-	
-	inboxButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
-	inboxButton.badgeNumber = InboxService.instance.numUnreads;
-	inboxButton.width = inboxButton.height = 140 * appModel.scale;
-	inboxButton.addEventListener(Event.TRIGGERED, function():void{appModel.navigator.pushScreen(Main.INBOX_SCREEN)});
-	inboxButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 246*appModel.scale);
-	addChild(inboxButton);
-	
-	var tvButton:IconButton = new IconButton(Assets.getTexture("button-spectate", "gui"));
-	tvButton.width = tvButton.height = 140 * appModel.scale;
-	tvButton.addEventListener(Event.TRIGGERED, function():void{var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Main.SPECTATE_SCREEN );}) ;
-	tvButton.layoutData = new AnchorLayoutData(NaN, NaN, 10*appModel.scale, 366*appModel.scale);
-	addChild(tvButton);
-	
-	InboxService.instance.request();
-	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
-}
-
-private function inboxService_updateHandler():void
-{
-	inboxButton.badgeNumber = InboxService.instance.numUnreads;
-}
 
 // show tutorial steps
 private function showTutorial():void

@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.items.exchange
 	import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import com.gt.towers.exchanges.ExchangeItem;
+	import feathers.skins.ImageSkin;
 	
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.TiledColumnsLayout;
@@ -27,9 +28,12 @@ package com.gerantech.towercraft.controls.items.exchange
 			layout = new AnchorLayout();
 			padding = 12 * appModel.scale;
 				
-			var sk:Image = new Image(appModel.theme.popupBackgroundSkinTexture);
-			sk.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
-			backgroundSkin = sk;
+			skin = new ImageSkin(appModel.theme.itemRendererDisabledSkinTexture);
+			skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererDisabledSkinTexture);
+			skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererSelectedSkinTexture);
+			skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererSelectedSkinTexture);
+			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+			backgroundSkin = skin;
 		}
 		override protected function commitData():void
 		{

@@ -104,16 +104,9 @@ override protected function commitData():void
 	Starling.juggler.tween(this, 0.3, {delay:index*0.3, alpha:1});
 }
 
-
-private function list_endSpecialExchangeHandler(event:Event):void
-{
-	if( event.data is ExchangeItem )
-		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, event.data);
-}	
-
 private function list_changeHandler(event:Event):void
 {
-	var ei:ExchangeItem = game.exchanger.items.get(list.selectedItem as int);
+	var ei:ExchangeItem = exchanger.items.get(list.selectedItem as int);
 	if(!ei.enabled)
 		return;
 	ei.enabled = false;

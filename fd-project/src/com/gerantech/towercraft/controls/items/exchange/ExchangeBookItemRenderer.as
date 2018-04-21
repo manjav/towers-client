@@ -16,6 +16,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
+import starling.display.BlendMode;
 import starling.events.Event;
 
 public class ExchangeBookItemRenderer extends ExchangeBaseItemRenderer
@@ -33,6 +34,7 @@ override protected function commitData():void
 {
 	if( index < 0 || _data == null )
 		return;
+	skin.blendMode = BlendMode.ADD;
 	super.commitData();
 	if( firstCommit )
 		firstCommit = false;
@@ -40,16 +42,16 @@ override protected function commitData():void
 	if( buttonDisplay == null && exchange.category == ExchangeType.CHEST_CATE_110_BATTLES )
 	{
 		buttonDisplay = new ExchangeButton();
-		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
-		buttonDisplay.height = 96 * appModel.scale;
+		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
+		buttonDisplay.height = 80 * appModel.scale;
 	}
 	
 	if( chestArmature == null )
 	{
 		chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
-		chestArmature.scale = appModel.scale;
+		chestArmature.scale = appModel.scale * 0.85;
 		chestArmature.x = width * 0.5;
-		chestArmature.y = height * (exchange.category == ExchangeType.CHEST_CATE_110_BATTLES ? 0.4 : 0.56);
+		chestArmature.y = height * 0.45;
 	}
 	updateElements();
 	addChild(chestArmature);
@@ -87,6 +89,7 @@ private function updateElements():void
 			buttonDisplay.count = ExchangeType.getKeyRequierement(exchange.outcome);
 			buttonDisplay.type = ResourceType.KEY;
 		}
+		skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererDisabledSkinTexture);
 	}
 	else if( _state == ExchangeItem.CHEST_STATE_BUSY )
 	{
@@ -97,6 +100,7 @@ private function updateElements():void
 			buttonDisplay.type = ResourceType.CURRENCY_HARD;
 			buttonDisplay.style = "neutral";
 		}
+		skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererDisabledSkinTexture);
 	}
 	else if( _state == ExchangeItem.CHEST_STATE_READY )
 	{
@@ -105,7 +109,11 @@ private function updateElements():void
 			buttonDisplay.count = -1;
 			buttonDisplay.type = -1;
 		}
+		skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererSelectedSkinTexture);
 	}
+	
+	skin.alpha = _state == ExchangeItem.CHEST_STATE_BUSY ? 0.5 : 1;
+	skin.defaultTexture = skin.getTextureForState(STATE_NORMAL);
 	updateArmature();
 }
 
@@ -117,10 +125,12 @@ private function updateCounter():void
 	{
 		timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 		timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 50 * appModel.scale, 0xFFFFFF, "center")
-		timeDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
+		timeDisplay.layoutData = new AnchorLayoutData(
+		exchange.category == ExchangeType.CHEST_CATE_110_BATTLES ? padding * 0.1 : NaN,
+		NaN, exchange.category == ExchangeType.CHEST_CATE_110_BATTLES ? NaN : padding * 2, NaN, 0);
 	}
 	var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
-	timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
+	timeDisplay.text = "< " + StrUtils.toTimeFormat(t);
 	addChild(timeDisplay);
 	
 	if( buttonDisplay != null )
@@ -134,7 +144,7 @@ private function updateArmature():void
 
 	clearTimeout(timeoutId);
 	if( _state == ExchangeItem.CHEST_STATE_READY )
-		timeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random()*2000, "wait", 0, 10);
+		timeoutId = setTimeout(chestArmature.animation.gotoAndPlayByTime, Math.random() * 2000, "wait", 0, 100);
 	else
 		chestArmature.animation.gotoAndStopByProgress("fall-closed", 1);
 }
@@ -145,7 +155,7 @@ private function showTutorArrow () : void
 		tutorialArrow.removeFromParent(true);
 	
 	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding*5);
+	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding * 5);
 	addChild(tutorialArrow);
 }
 override public function set isSelected(value:Boolean):void
