@@ -58,7 +58,7 @@ private function createRadiusDisplay(troopType:int):void
 		radiusMinDisplay.x = place.x;
 		radiusMinDisplay.y = place.y;
 		radiusMinDisplay.alpha = 0.5;
-		radiusMinDisplay.width = damageRadiusMin * 8;
+		radiusMinDisplay.width = damageRadiusMin * 5;
 		radiusScale = radiusMinDisplay.scaleY = radiusMinDisplay.scaleX;
 		fieldView.roadsContainer.addChild(radiusMinDisplay);
 		fade(radiusMinDisplay, 0.4, 3, true);
@@ -70,13 +70,13 @@ private function createRadiusDisplay(troopType:int):void
 
 private function fade(display:DisplayObject, _alpha:Number, _delay:Number, _scalable:Boolean) : void
 {
-	var tw:Tween = new Tween(display, 2, Transitions.EASE_IN_OUT);
+	var tw:Tween = new Tween(display, 3, Transitions.EASE_IN_OUT);
 	tw.delay = _delay;
 	tw.fadeTo(_alpha);
 	if( _scalable )
 		tw.scaleTo(display.scale == radiusScale ? radiusScale * 2 : radiusScale);
 	tw.onComplete = fade;
-	tw.onCompleteArgs = [display, _alpha == 1?0.4:1, 1, _scalable];
+	tw.onCompleteArgs = [display, _alpha == 1?0.4:1, 2, _scalable];
 	Starling.juggler.add(tw);
 }
 
