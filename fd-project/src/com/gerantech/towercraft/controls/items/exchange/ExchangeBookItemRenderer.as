@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
-import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
@@ -48,7 +48,7 @@ override protected function commitData():void
 	
 	if( chestArmature == null )
 	{
-		chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
+		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
 		chestArmature.scale = appModel.scale * 0.85;
 		chestArmature.x = width * 0.5;
 		chestArmature.y = height * 0.45;

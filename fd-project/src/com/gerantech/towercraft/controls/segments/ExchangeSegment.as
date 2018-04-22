@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
-import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
@@ -51,7 +51,7 @@ override public function init():void
 	if( appModel.assets.isLoading )
 		return;
 	
-	OpenChestOverlay.createFactory();
+	OpenBookOverlay.createFactory();
 
 	layout = new AnchorLayout();
 

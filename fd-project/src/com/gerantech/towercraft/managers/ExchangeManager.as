@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.managers 
 {
 	import com.gerantech.extensions.iab.IabResult;
-	import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+	import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 	import com.gerantech.towercraft.controls.popups.ChestsDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -32,7 +32,7 @@ package com.gerantech.towercraft.managers
 public class ExchangeManager extends BaseManager 
 {
 private static var _instance:ExchangeManager;
-private var openChestOverlay:OpenChestOverlay;
+private var openChestOverlay:OpenBookOverlay;
 public static function get instance() : ExchangeManager
 {
 	if( _instance == null )
@@ -141,7 +141,7 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 		{
 			if( item.isChest() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.CHEST_CATE_100_FREE ) )
 			{
-				openChestOverlay = new OpenChestOverlay(chestType);
+				openChestOverlay = new OpenBookOverlay(chestType);
 				appModel.navigator.addOverlay(openChestOverlay);
 			}
 		}

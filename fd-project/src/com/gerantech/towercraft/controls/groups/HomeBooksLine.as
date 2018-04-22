@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.groups
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.items.exchange.ExchangeBookItemRenderer;
 import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
-import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.models.vo.ShopLine;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -49,7 +49,7 @@ override protected function initialize():void
 	}
 	if( appModel.assets.isLoading )
 		return;
-	OpenChestOverlay.createFactory();
+	OpenBookOverlay.createFactory();
 	
 	super.initialize();
 	

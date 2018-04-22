@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
-import com.gerantech.towercraft.controls.overlays.OpenChestOverlay;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -115,8 +115,8 @@ override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
 	
-	OpenChestOverlay.createFactory();
-	chestArmature = OpenChestOverlay.factory.buildArmatureDisplay("book-"+item.outcome);
+	OpenBookOverlay.createFactory();
+	chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-"+item.outcome);
 	chestArmature.scale = appModel.scale * 2;
 	chestArmature.animation.gotoAndPlayByTime("fall-closed", 0, 1);
 	addChildAt(chestArmature, 3);		

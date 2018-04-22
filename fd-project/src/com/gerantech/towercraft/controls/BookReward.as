@@ -17,8 +17,11 @@ import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.display.Image;
 
-public class BooktReward extends TowersLayout
+public class BookReward extends TowersLayout
 {
+	
+public var _width:int = 0
+public var _height:int = 0
 public var index:int;
 public var state:int = -1;
 
@@ -26,8 +29,9 @@ private var type:int;
 private var count:int;
 private var detailsContainer:LayoutGroup;
 private var countInsideDisplay:BitmapFontTextRenderer;
+private var iconContainer:LayoutGroup;
 
-public function BooktReward(index:int, type:int, count:int)
+public function BookReward(index:int, type:int, count:int)
 {
 	super();
 	this.index = index;
@@ -39,12 +43,12 @@ public function BooktReward(index:int, type:int, count:int)
 override protected function initialize():void
 {
 	super.initialize();
-
+	layout = new AnchorLayout();
 	var padding:int = 16 * appModel.scale;
-	width = 800 * appModel.scale;
-	height = 420 * appModel.scale;
+	width = _width = 800 * appModel.scale;
+	height = _height = 420 * appModel.scale;
 	
-	var iconContainer:LayoutGroup = new LayoutGroup ();
+	iconContainer = new LayoutGroup ();
 	iconContainer.x = appModel.isLTR ? -width * 0.4 - padding : padding;
 	iconContainer.y = -height * 0.5;
 	iconContainer.width = width * 0.4;
@@ -85,14 +89,11 @@ override protected function initialize():void
 	}
 	
 	countInsideDisplay = new BitmapFontTextRenderer();
-	countInsideDisplay.visible = false;
 	countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 0xFFFFFF, appModel.align);
 	countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding * 2, padding, appModel.isLTR?padding * 2:NaN);
 	countInsideDisplay.text = "x " + count; 
-	iconContainer.addChild(countInsideDisplay);
 	
 	detailsContainer = new LayoutGroup ();
-	detailsContainer.visible = false;
 	detailsContainer.x = appModel.isLTR ? padding : -width*0.6-padding;
 	detailsContainer.y = -height * 0.5;
 	detailsContainer.width = width * 0.6;
@@ -100,8 +101,7 @@ override protected function initialize():void
 	detailsContainer.layout = new VerticalLayout();
 	VerticalLayout(detailsContainer.layout).horizontalAlign = HorizontalAlign.JUSTIFY;
 	
-	addChild(appModel.isLTR ? iconContainer : detailsContainer);
-	addChild(appModel.isLTR ? detailsContainer : iconContainer);
+	addChild(iconContainer);
 	
 	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + type), 1, null, null, false, null, 1.1, null, "bold");
 	detailsContainer.addChild(titleDisplay);
@@ -117,13 +117,13 @@ override protected function initialize():void
 public function showDetails():void
 {
 	state = 1;
-	detailsContainer.visible = true;
+	addChild(detailsContainer);
 }		
 public function hideDetails():void
 {
 	state = 2;
-	detailsContainer.visible = false;
-	countInsideDisplay.visible = true;
+	detailsContainer.removeFromParent();
+	iconContainer.addChild(countInsideDisplay);
 }		
 }
 }
