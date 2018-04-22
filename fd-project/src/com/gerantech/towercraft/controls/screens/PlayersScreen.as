@@ -28,9 +28,10 @@ override protected function initialize():void
 	super.initialize();
 	
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.SEARCH);
+	textInput.promptProperties
 	textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
 	textInput.maxChars = 16 ;
-	textInput.prompt = "Player Name / ID (id:*****)";
+	textInput.prompt = "نام  |  آیدی(!)  |  تگ(#)";
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
 	textInput.layoutData = new AnchorLayoutData( 0, 0, NaN, 0);
 	textInput.height = listLayout.padding * 0.9;
@@ -50,8 +51,10 @@ private function searchButton_triggeredHandler():void
 		return;
 	}
 	var params:SFSObject = new SFSObject();
-	if( textInput.text.substr(0,3)=="id:" )
-		params.putInt("id", int(textInput.text.substr(3)));
+	if( textInput.text.substr(0, 1) == "#" )
+		params.putText("tag", textInput.text.substr(1));
+	else if( textInput.text.substr(0, 1)=="!" )
+		params.putInt("id", int(textInput.text.substr(1)));
 	else
 		params.putUtfString("name", textInput.text);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
