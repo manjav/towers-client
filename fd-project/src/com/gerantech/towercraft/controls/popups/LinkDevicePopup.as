@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
@@ -93,7 +94,12 @@ protected function sfs_getCodeHandler(event:SFSEvent):void
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getCodeHandler);
 	//trace(event.params.params.getDump())
 	Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, event.params.params.getText("restoreCode"));
-	appModel.navigator.addLog(loc("popup_link_old_log"));
+	
+	var resultPopup:ConfirmPopup = new ConfirmPopup(loc("popup_link_old_select"), loc("popup_link_old_copy_label"), loc("popup_link_old_share_label"));
+	resultPopup.declineStyle = "normal";
+	resultPopup.addEventListener(Event.SELECT, function():void{Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, event.params.params.getText("restoreCode")); appModel.navigator.addLog(loc("popup_link_old_copy")); });
+	resultPopup.addEventListener(Event.CANCEL, function():void{NativeAbilities.instance.shareText( loc("popup_link_old_share_title"), loc("popup_link_old_share_message", [event.params.params.getText("restoreCode")])); });
+	appModel.navigator.addPopup(resultPopup);
 	//close();
 }
 
