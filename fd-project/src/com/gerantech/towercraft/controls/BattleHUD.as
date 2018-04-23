@@ -6,7 +6,11 @@ import com.gerantech.towercraft.controls.headers.AttendeeHeader;
 import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.sliders.BattleTimerSlider;
+import com.gerantech.towercraft.controls.sliders.battle.BattleCountdown;
+import com.gerantech.towercraft.controls.sliders.battle.BattleTimePanel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
+import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
@@ -28,6 +32,7 @@ import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.display.Quad;
 import starling.events.Event;
 import starling.utils.Color;
@@ -39,12 +44,11 @@ private var scoreIndex:int = 0;
 private var debugMode:Boolean = false;
 
 private var battleData:BattleData;
-private var timerSlider:BattleTimerSlider;
+private var timerSlider:BattleTimePanel;
 private var stickerList:List;
 private var stickerCloserOveraly:SimpleLayoutButton;
-private var myBubble:StickerBubble;
-private var opponentBubble:StickerBubble;
-private var starsNotice:StarsNotice;
+private var bubbleAllise:StickerBubble;
+private var bubbleAxis:StickerBubble;
 private var timeLog:RTLLabel;
 private var stickerButton:CustomButton;
 
@@ -59,7 +63,7 @@ override protected function initialize():void
 		return;
 
 	var gradient:ImageLoader = new ImageLoader();
-	gradient.scale9Grid = new Rectangle(1,1,7,7);
+	gradient.scale9Grid = new Rectangle(1, 1, 7, 7);
     gradient.color = Color.BLACK;
 	gradient.alpha = 0.5;
 	gradient.width = 440 * appModel.scale;
@@ -99,18 +103,21 @@ override protected function initialize():void
 	if( debugMode )
 	{
 		timeLog = new RTLLabel("", 0);
-		timeLog.layoutData = new AnchorLayoutData(padding*10, padding*6);
+		timeLog.layoutData = new AnchorLayoutData(padding * 10, padding * 6);
 		addChild(timeLog);
 	}
 
-	timerSlider = new BattleTimerSlider();
-	timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
+	if( battleData.map.isQuest )
+	{
+		timerSlider = new BattleTimerSlider();
+		timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
+	}
+	else
+	{
+		timerSlider = new BattleCountdown();
+		timerSlider.layoutData = new AnchorLayoutData(padding, padding);
+	}
 	addChild(timerSlider);
-	
-	starsNotice = new StarsNotice();
-	starsNotice.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
-	starsNotice.alpha = 0;
-	starsNotice.y = 480 * appModel.scale;
 	
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	
@@ -127,11 +134,11 @@ override protected function initialize():void
 			addChild(stickerButton);
 		}
 		
-		myBubble = new StickerBubble();
-		myBubble.layoutData = new AnchorLayoutData( NaN, padding, padding);
+		bubbleAllise = new StickerBubble();
+		bubbleAllise.layoutData = new AnchorLayoutData( NaN, padding, padding);
 		
-		opponentBubble = new StickerBubble(true);
-		opponentBubble.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
+		bubbleAxis = new StickerBubble(true);
+		bubbleAxis.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
 	}
 }
 
@@ -139,8 +146,10 @@ private function createCompleteHandler(event:Event):void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-	setTimePosition();
+	if( !battleData.map.isQuest )
+		return;
 	
+	setTimePosition();
 	if( battleData.battleField.extraTime > 0 )
 		appModel.navigator.addAnimation(stage.stageWidth*0.5, stage.stageHeight*0.5, 240, Assets.getTexture("extra-time", "gui"), battleData.battleField.extraTime, timerSlider.iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
 	function punchTimer():void {
@@ -166,6 +175,16 @@ private function timeManager_changeHandler(event:Event):void
 			timerSlider.enableStars(0);
 		}
 	}
+	
+	if ( !battleData.map.isQuest )
+	{
+		var time:int = battleData.startAt + battleData.map.times.get(2) - timeManager.now;
+		if( time < 0 )
+			time = battleData.startAt + battleData.map.times.get(3) - timeManager.now;
+		timerSlider.value = time + 1;
+		return;
+	}
+	
 	var time:int = timeManager.now - battleData.startAt - timerSlider.minimum;
 	if( debugMode )
 		timeLog.text = time.toString();
@@ -176,7 +195,7 @@ private function timeManager_changeHandler(event:Event):void
 
 private function setTimePosition():void
 {
-	timerSlider.enableStars(2-scoreIndex);
+	timerSlider.enableStars(2 - scoreIndex);
 	timerSlider.minimum = scoreIndex > 0 ? battleData.battleField.getTime(scoreIndex - 1) : 0;
 	timerSlider.value = timerSlider.maximum = battleData.battleField.getTime(scoreIndex);
 	showTimeNotice(2 - scoreIndex);
@@ -188,16 +207,36 @@ private function showTimeNotice(score:int):void
 	if( score > 1 )
 		return;
 	
-	if( score == 1 )
-		appModel.sounds.addAndPlaySound("battle-clock-ticking");
-	else if( score == 0 )
-		appModel.sounds.playSoundUnique("battle-clock-ticking", 0.4, 300, 0.3);
+	if ( battleData.map.isQuest )
+	{
+		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
+	}
+	else if ( score == -1 )
+	{
+		var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+		shadow.touchable = false;
+		shadow.width = stage.stageWidth;
+		shadow.height = stage.stageHeight;
+		shadow.alpha = 0.5;
+		shadow.color = 0xAA0000;;
+		addChildAt(shadow, 0);
+		setTimeout(animateShadow, 1000, shadow, 0);
+		appModel.navigator.addPopup(new BattleExtraTimeToast());
+	}
+}
+public function animateShadow(shadow:Image, alphaSeed:Number):void
+{
+	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[shadow, alphaSeed==0?0.6:0]});
+}
 
-	addChild(starsNotice);
-	setTimeout(starsNotice.pass, 1, score);
-	Starling.juggler.tween(starsNotice, 0.3, {alpha:1, y:400 * appModel.scale, transition:Transitions.EASE_OUT});
-	Starling.juggler.tween(starsNotice, 0.3, {delay:3, alpha:0, y:480 * appModel.scale, transition:Transitions.EASE_IN, onComplete:starsNotice.removeFromParent});
-	appModel.sounds.addAndPlaySound("whoosh");
+public function updateRoomVars(changedVars:Object):void
+{
+	if( battleData == null || !battleData.room.containsVariable("towers") || battleData.map.isQuest )
+		return;
+	var towers:Array = [0,0,0]
+	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
+		towers[ battleData.battleField.places.get(i).building.troopType + 1 ] ++;
+	
 }
 
 private function closeButton_triggeredHandler(event:Event):void
@@ -265,7 +304,7 @@ private function stickerList_changeHandler(event:Event):void
 
 public function showBubble(type:int, itsMe:Boolean=true):void
 {
-	var bubble:StickerBubble = itsMe ? myBubble : opponentBubble;
+	var bubble:StickerBubble = itsMe ? bubbleAllise : bubbleAxis;
 	if( bubble == null )
 		return;
 	
@@ -291,7 +330,7 @@ public function end(overlay:EndOverlay) : void
 	var numCh:int = numChildren - 1;
 	while ( numCh >= 0 )
 	{
-		if( getChildAt(numCh) != myBubble && getChildAt(numCh) != opponentBubble && getChildAt(numCh) != stickerButton )
+		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != stickerButton )
 			getChildAt(numCh).removeFromParent(true);
 		numCh --;
 	}
@@ -303,7 +342,6 @@ public function stopTimers() : void
 {
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	Starling.juggler.removeTweens(timerSlider);
-	Starling.juggler.removeTweens(starsNotice);
 }
 
 override public function dispose():void
