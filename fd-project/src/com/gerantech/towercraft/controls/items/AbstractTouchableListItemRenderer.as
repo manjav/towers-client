@@ -32,7 +32,7 @@ override protected function initialize():void
 
 protected function touchHandler( event:TouchEvent ):void
 {
-	if( !_isEnabled || _currentState == STATE_DISABLED)
+	if( !_isEnabled || _currentState == STATE_DISABLED )
 	{
 		touchID = -1;
 		return;
@@ -43,7 +43,7 @@ protected function touchHandler( event:TouchEvent ):void
 		touch = event.getTouch( touchTarget, null, touchID );
 		if( !touch )
 			return;
-	
+		
 		if( touch.phase == TouchPhase.ENDED )
 		{
 			touch.getLocation( touchTarget.stage, HELPER_POINT );
@@ -59,13 +59,18 @@ protected function touchHandler( event:TouchEvent ):void
 			// the touch has ended, so now we can start watching for a new one.
 			touchID = -1;
 		}
+		else if( touch.phase == TouchPhase.MOVED )
+		{
+			currentState = STATE_NORMAL;
+			touchID = -1;
+		}
 		return;
 	}
 	else
 	{
 		// we aren't tracking another touch, so let's look for a new one.
 		touch = event.getTouch( touchTarget, TouchPhase.BEGAN );
-		if(touch)
+		if( touch )
 		{
 			currentState = STATE_DOWN;
 		}
@@ -105,10 +110,10 @@ public function get currentState():String
 public function set currentState(value:String):void
 {
 	//trace(index, _currentState, value)
-	if(_currentState == value)
+	if( _currentState == value )
 		return;
 	
-	if(stateNames.indexOf(value) < 0)
+	if( stateNames.indexOf(value) < 0 )
 	{
 		throw new ArgumentError("Invalid state: " + value + ".");
 		return;
@@ -116,9 +121,9 @@ public function set currentState(value:String):void
 	
 	_currentState = value;
 	
-	if(_currentState == STATE_DISABLED && isEnabled)
+	if( _currentState == STATE_DISABLED && isEnabled )
 		isEnabled = false;
-	else if(_currentState != STATE_DISABLED && !isEnabled)
+	else if( _currentState != STATE_DISABLED && !isEnabled )
 		isEnabled = true;
 	
 	if( skin )
