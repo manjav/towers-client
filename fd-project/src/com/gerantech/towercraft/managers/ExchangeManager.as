@@ -102,7 +102,7 @@ public function process(item : ExchangeItem) : void
 		return;
 	}
 
-	if( item.isChest() )
+	if( item.isBook() )
 	{
 		item.enabled = true;
 		if( ( item.category == ExchangeType.C100_FREES || item.category == ExchangeType.C110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
@@ -136,10 +136,10 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
 	try
 	{
-		var chestType:int = item.category == ExchangeType.CHESTS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
+		var chestType:int = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
 		if( exchanger.exchange(item, timeManager.now) )
 		{
-			if( item.isChest() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) )
+			if( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) )
 			{
 				openChestOverlay = new OpenBookOverlay(chestType);
 				appModel.navigator.addOverlay(openChestOverlay);
@@ -172,7 +172,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	if( !data.getBool("succeed") )
 		return;
 	
-	if( item.isChest() )
+	if( item.isBook() )
 	{
 		if( !data.containsKey("rewards") )
 			return;

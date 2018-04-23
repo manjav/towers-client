@@ -80,7 +80,7 @@ override protected function initialize():void
 private function exchangeManager_completeHandler(event:Event):void 
 {
 	var item:ExchangeItem = event.data as ExchangeItem;
-	if( !item.isChest() )
+	if( !item.isBook() )
 		return;
 	
 	for( var i:int = 0; i < list.dataProvider.length; i++ )
