@@ -25,7 +25,7 @@ override protected function commitData():void
     iconDisplay.width = 380 * appModel.scale;
 	addChild(iconDisplay);
 	
-	titleDisplay = new ShadowLabel(loc("exchange_title_"+exchange.type), 1, 0, null, null, false, null, 0.9);
+	titleDisplay = new ShadowLabel(loc("exchange_title_"+exchange.type), 1, 0, null, null, false, null, 0.85);
 	titleDisplay.layoutData = new AnchorLayoutData(padding*2, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	

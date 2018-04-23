@@ -80,6 +80,14 @@ private function loaderInfo_completeHandler(event:Event):void
 	if( SFSConnection.instance.currentIp != "185.216.125.7" )
 		AppModel.instance.game.player.admin = true;
 	
+	var exchange:ISFSObject;
+	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
+	{
+		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
+		if( exchange.getInt("type") < 40 )
+			AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), exchange.getInt("outKey"), exchange.getInt("outValue")));
+	}
+	
 	var swfInitData:* = new initClass();
 	swfInitData.nickName = serverData.getText("name");
 	swfInitData.id = serverData.getInt("id");
@@ -131,7 +139,7 @@ private function initCoreData(game:*):void
 			AppModel.instance.game.exchanger.items.set( exItemsKeys[i], extDest );
 		}
 	}
-	
+
 	// put fields items
 	AppModel.instance.game.fieldProvider.quests = new StringFieldMap();
 	var fieldDest:FieldData;

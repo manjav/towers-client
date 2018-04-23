@@ -33,7 +33,7 @@ override protected function initialize():void
 	textInput.maxChars = 16 ;
 	textInput.prompt = "نام  |  آیدی(!)  |  تگ(#)";
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
-	textInput.layoutData = new AnchorLayoutData( 0, 0, NaN, 0);
+	textInput.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	textInput.height = listLayout.padding * 0.9;
 	addChild(textInput);
 	
@@ -53,7 +53,7 @@ private function searchButton_triggeredHandler():void
 	var params:SFSObject = new SFSObject();
 	if( textInput.text.substr(0, 1) == "#" )
 		params.putText("tag", textInput.text.substr(1));
-	else if( textInput.text.substr(0, 1)=="!" )
+	else if( textInput.text.substr(0, 1) == "!" )
 		params.putInt("id", int(textInput.text.substr(1)));
 	else
 		params.putUtfString("name", textInput.text);

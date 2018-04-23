@@ -20,14 +20,14 @@ override protected function commitData():void
 	if( index < 0 || _data == null )
 		return;
 	super.commitData();
-	if(firstCommit)
+	if( firstCommit )
 		firstCommit = false;
 	if( chestArmature == null )
 	{
 		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
 		chestArmature.scale = appModel.scale;
 		chestArmature.x = width * 0.5;
-		chestArmature.y = height * 0.4;
+		chestArmature.y = height * 0.33;
 		chestArmature.animation.gotoAndStopByProgress("fall-closed", 1);
 		addChild(chestArmature);
 	}

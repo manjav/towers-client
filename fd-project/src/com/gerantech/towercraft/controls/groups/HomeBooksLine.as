@@ -2,10 +2,7 @@ package com.gerantech.towercraft.controls.groups
 {
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.items.exchange.ExchangeBookItemRenderer;
-import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-import com.gerantech.towercraft.models.vo.ShopLine;
-import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -14,7 +11,7 @@ import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
-import feathers.layout.TiledColumnsLayout;
+import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import flash.filesystem.File;
 import starling.events.Event;
@@ -25,7 +22,7 @@ import starling.events.Event;
 */
 public class HomeBooksLine extends TowersLayout 
 {
-private var listLayout:feathers.layout.TiledColumnsLayout;
+private var listLayout:feathers.layout.TiledRowsLayout;
 private var list:feathers.controls.List;
 
 public function HomeBooksLine()
@@ -55,7 +52,7 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	
-	listLayout = new TiledColumnsLayout();
+	listLayout = new TiledRowsLayout();
 	listLayout.requestedColumnCount = 4;
 	listLayout.tileHorizontalAlign = listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.verticalAlign = VerticalAlign.BOTTOM;

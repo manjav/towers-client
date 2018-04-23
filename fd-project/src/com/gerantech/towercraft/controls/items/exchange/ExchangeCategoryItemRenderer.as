@@ -6,10 +6,6 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.vo.ShopLine;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.exchanges.ExchangeItem;
-
-import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
@@ -17,9 +13,11 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.TiledColumnsLayout;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
-
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.core.Starling;
 import starling.events.Event;
 
@@ -27,38 +25,33 @@ public class ExchangeCategoryItemRenderer extends AbstractTouchableListItemRende
 {
 private var line:ShopLine;
 private var list:List;
-
-private var listLayout:TiledColumnsLayout;
+private var listLayout:TiledRowsLayout;
 private var headerDisplay:ExchangeHeader;
 private var descriptionDisplay:RTLLabel;
 private var categoryCollection:ListCollection = new ListCollection();
 
-public function ExchangeCategoryItemRenderer()
-{
-	super();
-}
-
+public function ExchangeCategoryItemRenderer() { super(); }
 override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22,6,1,2), 52*appModel.scale);
+	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22, 6, 1, 2), 52 * appModel.scale);
 	headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	headerDisplay.height = 112 * appModel.scale;
 	addChild(headerDisplay);
 	
-	listLayout = new TiledColumnsLayout();
+	listLayout = new TiledRowsLayout();
 	listLayout.requestedColumnCount = 3;
-	listLayout.tileHorizontalAlign = listLayout.horizontalAlign = appModel.align;
-	listLayout.verticalAlign = VerticalAlign.BOTTOM;
+	listLayout.tileHorizontalAlign = listLayout.horizontalAlign = HorizontalAlign.LEFT;
+	listLayout.tileVerticalAlign = listLayout.verticalAlign = VerticalAlign.TOP;
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
 	listLayout.padding = listLayout.gap = 5 * appModel.scale;
 	
 	list = new List();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(headerDisplay.height,0,0,0);
+	list.layoutData = new AnchorLayoutData(headerDisplay.height, 0, 0, 0);
 	list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	list.dataProvider = categoryCollection;
@@ -67,14 +60,13 @@ override protected function initialize():void
 
 override protected function commitData():void
 {
-	super.commitData();
+	super.commitData();	
 	line = _data as ShopLine;
-	
 	headerDisplay.label = loc("exchange_title_" + line.category);
 	headerDisplay.data = line.category;
 
     var CELL_SIZE:int = 360 * appModel.scale;
-	listLayout.typicalItemWidth = Math.floor((width-listLayout.gap * 4) / 3) ; 
+	listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 4) / 3) ;
 	//descriptionDisplay.visible = false;
 	switch( line.category )
 	{
@@ -97,24 +89,23 @@ override protected function commitData():void
 			break;
 	}
 	
-	height = CELL_SIZE * Math.ceil(line.items.length/listLayout.requestedColumnCount) + headerDisplay.height //+ ( descriptionDisplay.visible ? descriptionDisplay.height : 0 ); 
+	height = CELL_SIZE * Math.ceil(line.items.length / listLayout.requestedColumnCount) + headerDisplay.height;
 	listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap * 1.6;
-	setTimeout(function():void{categoryCollection.data = line.items}, index*300);
+	setTimeout(function():void{categoryCollection.data = line.items}, index * 300);
 	alpha = 0;
-	Starling.juggler.tween(this, 0.3, {delay:index*0.3, alpha:1});
+	Starling.juggler.tween(this, 0.3, {delay:index * 0.3, alpha:1});
 }
 
 private function list_changeHandler(event:Event):void
 {
 	var ei:ExchangeItem = exchanger.items.get(list.selectedItem as int);
-	if(!ei.enabled)
+	if( !ei.enabled )
 		return;
 	ei.enabled = false;
 	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, ei);
-	
 	list.removeEventListener(Event.CHANGE, list_changeHandler);
 	list.selectedIndex = -1;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
-}		
+}
 }
 }

@@ -153,11 +153,7 @@ override public function updateData():void
 	
 	var categoreis:Array = new Array( /*frees, battles,*/ offers, hards, softs );
 	for (i=0; i<categoreis.length; i++)
-	{
 		categoreis[i].items.sort();
-		if( !appModel.isLTR )
-			categoreis[i].items.reverse();
-	}
 	itemslistData.data = categoreis;
 }
 
