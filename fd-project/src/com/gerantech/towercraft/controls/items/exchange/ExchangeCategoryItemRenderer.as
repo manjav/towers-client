@@ -78,21 +78,21 @@ override protected function commitData():void
 	//descriptionDisplay.visible = false;
 	switch( line.category )
 	{
-		case ExchangeType.CHEST_CATE_100_FREE:
+		case ExchangeType.C100_FREES:
 			CELL_SIZE = 320 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
 			break;
 		
-		case ExchangeType.CHEST_CATE_110_BATTLES:
+		case ExchangeType.C110_BATTLES:
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
 			break;		
 		
-		case ExchangeType.CHEST_CATE_120_OFFERS:
+		case ExchangeType.C120_MAGICS:
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookOfferItemRenderer();}
 			break;		
 		
 		default:
-            CELL_SIZE = (line.category==ExchangeType.S_0_HARD ||line.category==ExchangeType.S_10_SOFT ? 520:360) * appModel.scale;
+            CELL_SIZE = (line.category == ExchangeType.C0_HARD || line.category == ExchangeType.C10_SOFT ? 520:360) * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeCurrencyItemRenderer();}
 			break;
 	}

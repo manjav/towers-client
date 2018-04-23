@@ -185,7 +185,7 @@ private function getListData():ListCollection
 			if( p == 0 )
 			{
 				//for each(var e:ExchangeItem in exchanger.items.values())
-				//if( (e.category == ExchangeType.CHEST_CATE_100_FREE || e.category == ExchangeType.CHEST_CATE_110_BATTLES) && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
+				//if( (e.category == ExchangeType.C100_FREES || e.category == ExchangeType.C110_BATTLES) && e.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 				//	pd.badgeNumber ++;
 			}
 			else if( p == 2 )

@@ -51,7 +51,7 @@ override protected function initialize():void
 override protected function transitionInCompleted():void
 {
 	Starling.juggler.tween(slider, 0.2, {alpha:1});
-	slider.value = exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges;
+	slider.value = exchanger.items.get(ExchangeType.C41_KEYS).numExchanges;
 	super.transitionInCompleted();
 }
 }

@@ -78,7 +78,7 @@ override public function init():void
 private function exchangeManager_completeHandler(event:Event):void 
 {
 	var item:ExchangeItem = event.data as ExchangeItem;
-	if( item.category == ExchangeType.S_0_HARD || item.category == ExchangeType.S_10_SOFT )
+	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C10_SOFT )
 	{
 		//show achieve animation
 		var outs:Vector.<int> = item.outcomes.keys();
@@ -131,23 +131,23 @@ override public function updateData():void
 	else return;
 	
 	var itemKeys:Vector.<int> = exchanger.items.keys();
-	//var specials:ShopLine = new ShopLine(ExchangeType.S_20_SPECIALS);
-	var frees:ShopLine = new ShopLine(ExchangeType.CHEST_CATE_100_FREE);
-	var battles:ShopLine = new ShopLine(ExchangeType.CHEST_CATE_110_BATTLES);
-	var offers:ShopLine = new ShopLine(ExchangeType.CHEST_CATE_120_OFFERS);
-	var hards:ShopLine = new ShopLine(ExchangeType.S_0_HARD);
-	var softs:ShopLine = new ShopLine(ExchangeType.S_10_SOFT);
+	//var specials:ShopLine = new ShopLine(ExchangeType.C20_SPECIALS);
+	var frees:ShopLine = new ShopLine(ExchangeType.C100_FREES);
+	var battles:ShopLine = new ShopLine(ExchangeType.C110_BATTLES);
+	var offers:ShopLine = new ShopLine(ExchangeType.C120_MAGICS);
+	var hards:ShopLine = new ShopLine(ExchangeType.C0_HARD);
+	var softs:ShopLine = new ShopLine(ExchangeType.C10_SOFT);
 	for (var i:int=0; i<itemKeys.length; i++)
 	{
-		if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_0_HARD && itemKeys[i] != ExchangeType.S_0_HARD )//test
+		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C0_HARD && itemKeys[i] != ExchangeType.C0_HARD )//test
 			hards.add(itemKeys[i]);
-		else if ( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.S_10_SOFT )
+		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C10_SOFT )
 			softs.add(itemKeys[i]);
-		//else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.CHEST_CATE_110_BATTLES )
+		//else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C110_BATTLES )
 			//battles.add(itemKeys[i]);
-		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.CHEST_CATE_120_OFFERS )
+		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
 			offers.add(itemKeys[i]);
-		//else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.CHEST_CATE_100_FREE )
+		//else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C100_FREES )
 			//frees.add(itemKeys[i]);
 	}
 	

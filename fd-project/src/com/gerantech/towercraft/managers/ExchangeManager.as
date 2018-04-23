@@ -42,13 +42,13 @@ public static function get instance() : ExchangeManager
 public function ExchangeManager() {	super(); }
 public function process(item : ExchangeItem) : void 
 {	
-	if ( (player.inDeckTutorial() || player.inShopTutorial()) && item.type != ExchangeType.CHEST_CATE_101_FREE )
+	if ( (player.inDeckTutorial() || player.inShopTutorial()) && item.type != ExchangeType.C101_FREE )
 	{
 		dispatchEndEvent(false, item);
 		return;// disalble all items in tutorial
 	}
 
-	if( item.category == ExchangeType.S_0_HARD )
+	if( item.category == ExchangeType.C0_HARD )
 	{
 		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 		BillingManager.instance.purchase("com.grantech.towers.item_" + item.type);
@@ -76,7 +76,7 @@ public function process(item : ExchangeItem) : void
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", item.type );
 	
-	if( item.category == ExchangeType.S_10_SOFT )
+	if( item.category == ExchangeType.C10_SOFT )
 	{
 		if( !player.has(item.requirements) )
 		{
@@ -105,7 +105,7 @@ public function process(item : ExchangeItem) : void
 	if( item.isChest() )
 	{
 		item.enabled = true;
-		if( ( item.category == ExchangeType.CHEST_CATE_100_FREE || item.category == ExchangeType.CHEST_CATE_110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
+		if( ( item.category == ExchangeType.C100_FREES || item.category == ExchangeType.C110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
 		{
 			item.outcomes = new IntIntMap();
 			exchange(item, params);
@@ -115,7 +115,7 @@ public function process(item : ExchangeItem) : void
 			
 			return;
 		}
-		else if( item.category == ExchangeType.CHEST_CATE_100_FREE && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY )
+		else if( item.category == ExchangeType.C100_FREES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY )
 		{
 			appModel.navigator.addLog(loc("exchange_free_waiting", [StrUtils.toTimeFormat(item.expiredAt - timeManager.now)]));
 			dispatchEndEvent(false, item);
@@ -139,7 +139,7 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 		var chestType:int = item.category == ExchangeType.CHESTS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
 		if( exchanger.exchange(item, timeManager.now) )
 		{
-			if( item.isChest() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.CHEST_CATE_100_FREE ) )
+			if( item.isChest() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) )
 			{
 				openChestOverlay = new OpenBookOverlay(chestType);
 				appModel.navigator.addOverlay(openChestOverlay);
@@ -190,7 +190,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 		function openChestOverlay_closeHandler(event:Event):void {
 			openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-			if( item.category != ExchangeType.CHEST_CATE_130_ADS )
+			if( item.category != ExchangeType.C130_ADS )
 				showAd();
 			openChestOverlay = null;
 			gotoDeckTutorial();
@@ -233,8 +233,8 @@ private function videoIdsManager_completeHandler(event:Event):void
 		return;
 	
 	var params:SFSObject = new SFSObject();
-	params.putInt("type", ExchangeType.CHEST_CATE_131_ADS );
-	exchange(exchanger.items.get(ExchangeType.CHEST_CATE_131_ADS), params);
+	params.putInt("type", ExchangeType.C131_AD );
+	exchange(exchanger.items.get(ExchangeType.C131_AD), params);
 }
 private function dispatchEndEvent( succeed:Boolean, item:ExchangeItem ) : void 
 {

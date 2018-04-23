@@ -48,7 +48,7 @@ public function init():void
 	items = new Array("com.grantech.towers.item_0");
 	var keys:Vector.<int> = exchanger.items.keys();
 	for each(var k:int in keys)
-		if( ExchangeType.getCategory(k) == ExchangeType.S_0_HARD )
+		if( ExchangeType.getCategory(k) == ExchangeType.C0_HARD )
 			items.push("com.grantech.towers.item_" + k);
 	
 	var base64Key:String, bindURL:String, packageURL:String;

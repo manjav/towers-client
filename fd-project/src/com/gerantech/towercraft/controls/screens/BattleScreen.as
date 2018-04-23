@@ -316,7 +316,7 @@ private function endBattle(data:SFSObject):void
 			if( key > 0 )
 				outcomes.set(key, item.getInt(_keys[i]));
 			if( key == ResourceType.KEY && !field.isQuest )
-				exchanger.items.get(ExchangeType.S_41_KEYS).numExchanges += item.getInt(_keys[i]);
+				exchanger.items.get(ExchangeType.C41_KEYS).numExchanges += item.getInt(_keys[i]);
 		}
 	}
 	

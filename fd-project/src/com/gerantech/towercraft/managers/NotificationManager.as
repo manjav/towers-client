@@ -68,7 +68,7 @@ public function reset():void
 	var i:int=0;
 	while( i < itemsKey.length )
 	{
-		if( ExchangeType.getCategory(itemsKey[i]) == ExchangeType.CHEST_CATE_110_BATTLES )
+		if( ExchangeType.getCategory(itemsKey[i]) == ExchangeType.C110_BATTLES )
 		{
 			if( exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now) == ExchangeItem.CHEST_STATE_BUSY )
 				notify("notify_chest_ready_"+itemsKey[i], (exchanger.items.get(itemsKey[i]).expiredAt + 15 + Math.random()*10)*1000);

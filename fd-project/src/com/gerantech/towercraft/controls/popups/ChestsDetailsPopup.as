@@ -88,7 +88,7 @@ override protected function initialize():void
 	buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
 	
-	if( item.category == ExchangeType.CHEST_CATE_110_BATTLES )
+	if( item.category == ExchangeType.C110_BATTLES )
 	{
 		if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
 		{
@@ -134,7 +134,7 @@ private function updateButton(type:int, count:int):void
 {
 	buttonDisplay.count = count;
 	buttonDisplay.type = type;
-if( item.category == ExchangeType.CHEST_CATE_120_OFFERS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
+if( item.category == ExchangeType.C120_MAGICS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
 		buttonDisplay.isEnabled = player.resources.get(type) >= count;	
 	else 
 		buttonDisplay.isEnabled = exchanger.readyToStartOpening(item.type, timeManager.now)
@@ -158,7 +158,7 @@ private function updateCounter():void
 
 private function batton_selectHandler(event:Event):void
 {
-	if( item.category == ExchangeType.CHEST_CATE_110_BATTLES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
+	if( item.category == ExchangeType.C110_BATTLES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
 		appModel.navigator.addLog(loc("popup_chest_error_exists"));
 	else
 		appModel.navigator.addLog(loc("popup_chest_error_resource"));

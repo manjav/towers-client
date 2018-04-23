@@ -39,7 +39,7 @@ override protected function commitData():void
 	if( firstCommit )
 		firstCommit = false;
 	
-	if( buttonDisplay == null && exchange.category == ExchangeType.CHEST_CATE_110_BATTLES )
+	if( buttonDisplay == null && exchange.category == ExchangeType.C110_BATTLES )
 	{
 		buttonDisplay = new ExchangeButton();
 		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
@@ -62,7 +62,7 @@ override protected function commitData():void
 
 private function tutorialManager_finishHandler(event:Event):void
 {
-	if( exchange.type != ExchangeType.CHEST_CATE_101_FREE || event.data.name != "shop_start" || stage == null )
+	if( exchange.type != ExchangeType.C101_FREE || event.data.name != "shop_start" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showTutorArrow();
@@ -126,8 +126,8 @@ private function updateCounter():void
 		timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 		timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 50 * appModel.scale, 0xFFFFFF, "center")
 		timeDisplay.layoutData = new AnchorLayoutData(
-		exchange.category == ExchangeType.CHEST_CATE_110_BATTLES ? padding * 0.1 : NaN,
-		NaN, exchange.category == ExchangeType.CHEST_CATE_110_BATTLES ? NaN : padding * 2, NaN, 0);
+		exchange.category == ExchangeType.C110_BATTLES ? padding * 0.1 : NaN,
+		NaN, exchange.category == ExchangeType.C110_BATTLES ? NaN : padding * 2, NaN, 0);
 	}
 	var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
 	timeDisplay.text = "< " + StrUtils.toTimeFormat(t);
