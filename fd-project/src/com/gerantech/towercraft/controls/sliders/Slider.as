@@ -50,7 +50,6 @@ package com.gerantech.towercraft.controls.sliders
 				this.currentFill.width = this._originalFillWidth + percentage * (this.actualWidth - this._paddingLeft - this._paddingRight - this._originalFillWidth);
 				this.currentFill.height = this.actualHeight - this._paddingTop - this._paddingBottom;
 				
-				
 				this.currentFill.x =  this._paddingLeft + ( horizontalAlign == HorizontalAlign.RIGHT ? actualWidth-currentFill.width : 0 );
 				this.currentFill.y = this._paddingTop;
 			}

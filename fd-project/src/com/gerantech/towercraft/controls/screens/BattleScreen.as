@@ -530,8 +530,11 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		return;
 		*/
 	if( event.params.changedVars.indexOf("towers") > -1 )
+	{
 		updateTowersFromRoomVars();
-	
+	    hud.updateRoomVars();
+	}
+
 	if( event.params.changedVars.indexOf("s") > -1 )
 	{
 		var room:SFSRoom = SFSRoom(event.params.room);

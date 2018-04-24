@@ -43,7 +43,7 @@ override protected function initialize():void
 	var timeLine:LayoutGroup = new LayoutGroup();
 	timeLine.layout = new HorizontalLayout();
 	HorizontalLayout(timeLine.layout).verticalAlign = VerticalAlign.MIDDLE;
-	timeLine.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -100 * appModel.scale);
+	timeLine.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0 * appModel.scale);
 	addChild(timeLine);
 	
 	var extraIcon:ImageLoader = new ImageLoader();
@@ -56,7 +56,11 @@ override protected function initialize():void
 	timeLine.addChild(!appModel.isLTR ? extraLabel : extraIcon);
 	timeLine.addChild( appModel.isLTR ? extraLabel : extraIcon);
 	
-	// elixir
+	timeLine.scale = 0;
+	Starling.juggler.tween(timeLine, 0.3, {delay:0.0, scale:1, transition:Transitions.EASE_OUT_BACK });
+	Starling.juggler.tween(timeLine, 0.3, {delay:3.0, scale:0, transition:Transitions.EASE_IN_BACK });	
+	
+/*	// elixir
 	var elixirLine:LayoutGroup = new LayoutGroup();
 	elixirLine.layout = new HorizontalLayout();
 	HorizontalLayout(elixirLine.layout).verticalAlign = VerticalAlign.MIDDLE;
@@ -70,16 +74,11 @@ override protected function initialize():void
 	
 	var elixirLabel:ShadowLabel = new ShadowLabel("2x", 0x27E0DC, 0, null, null, false, null, 2.2);
 	elixirLine.addChild( appModel.isLTR ? elixirLabel : elixirIcon);
-	elixirLine.addChild(!appModel.isLTR ? elixirLabel : elixirIcon);
-	
-	// animations
-	timeLine.scale = 0;
-	Starling.juggler.tween(timeLine, 0.3, {delay:0.0, scale:1, transition:Transitions.EASE_OUT_BACK });
-	Starling.juggler.tween(timeLine, 0.3, {delay:3.0, scale:0, transition:Transitions.EASE_IN_BACK });
+	elixirLine.addChild(!appModel.isLTR ? elixirLabel : elixirIcon)
 	
 	elixirLine.scale = 0;
 	Starling.juggler.tween(elixirLine, 0.3, {delay:0.2, scale:1, transition:Transitions.EASE_OUT_BACK });
-	Starling.juggler.tween(elixirLine, 0.3, {delay:3.1, scale:0, transition:Transitions.EASE_IN_BACK });
+	Starling.juggler.tween(elixirLine, 0.3, {delay:3.1, scale:0, transition:Transitions.EASE_IN_BACK });;*/
 	appModel.sounds.addAndPlaySound("whoosh");
 }
 }

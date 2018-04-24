@@ -16,7 +16,7 @@ import starling.display.Image;
 * ...
 * @author Mansour Djawadi
 */
-public class BattleCountdown extends BattleTimePanel
+public class BattleCountdown extends IBattleSlider
 {
 public var timeLabel:RTLLabel;
 
@@ -30,7 +30,7 @@ override protected function initialize():void
 	
 	var bgImage:Image = new Image(Assets.getTexture("theme/check-up-icon", "gui"));
 	bgImage.alpha = 0.6;
-	bgImage.scale9Grid = new Rectangle(4,4,4,4);
+	bgImage.scale9Grid = new Rectangle(4, 4, 4, 4);
 	backgroundSkin = bgImage;
 	
 	var padding:int = 16 * appModel.scale;
@@ -46,13 +46,13 @@ override protected function initialize():void
 }
 override public function set value(val:Number):void 
 {
-	if ( val < 0 )
+	if( val < 0 )
 		return;
 	timeLabel.text = StrUtils.uintToTime(val);
 }
 override public function enableStars(score:int):void 
 {
-	if ( score == -1 )
+	if( score == -1 )
 	{
 		Image(backgroundSkin).texture = Assets.getTexture("theme/check-down-icon", "gui");
 		Image(backgroundSkin).color = 0xFF0000;

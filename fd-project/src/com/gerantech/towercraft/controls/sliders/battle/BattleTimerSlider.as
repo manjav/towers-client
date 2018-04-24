@@ -13,7 +13,7 @@ import feathers.layout.HorizontalAlign;
 
 import starling.core.Starling;
 
-public class BattleTimerSlider extends BattleTimePanel
+public class BattleTimerSlider extends IBattleSlider
 {
 private var timeoutId:uint;
 private var progressBar:Slider;
