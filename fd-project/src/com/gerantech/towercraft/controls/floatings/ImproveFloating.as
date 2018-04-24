@@ -89,6 +89,12 @@ package com.gerantech.towercraft.controls.floatings
 		
 		private function placeView_updateHandler(event:Event):void
 		{
+			if( placeView.place.building.troopType != player.troopType )
+			{
+				close();
+				return;
+			}
+			
 			for (var i:int=0; i < buttons.length; i++) 
 				buttons[i].renable();
 		}
