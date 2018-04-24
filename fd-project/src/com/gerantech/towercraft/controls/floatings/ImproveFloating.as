@@ -89,6 +89,7 @@ package com.gerantech.towercraft.controls.floatings
 		
 		private function placeView_updateHandler(event:Event):void
 		{
+			// remove on occupition
 			if( placeView.place.building.troopType != player.troopType )
 			{
 				close();
