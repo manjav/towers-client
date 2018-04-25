@@ -65,7 +65,8 @@ private function sfs_responseHandler(event:SFSEvent):void
 	if( index == 1 )
 	{
 		punch();
-		setTimeout(owner.dispatchEventWith, 1000, GameEvent.TUTORIAL_TASKS_FINISH);
+		if( owner != null )
+			setTimeout(owner.dispatchEventWith, 1000, GameEvent.TUTORIAL_TASKS_FINISH);
 	}
 }
 private function tutorials_tasksStartHandler(event:Event) : void 

@@ -119,11 +119,11 @@ private function showMainButtons():void
 {
 	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
-	leaguesButton = new HomeButton(league, 0.6);
+	leaguesButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0
-	addButton(leaguesButton, "button_leagues", 540, 600, 0.4, goUp);
-	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:620 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:600 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	addButton(leaguesButton, "button_leagues", 540, 520, 0.4, goUp);
+	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
 	addButton(battlesButton, "button_battles", 540, 970, 0.6);
@@ -183,11 +183,11 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
+	/*if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
 		if( !player.inShopTutorial() && !player.inDeckTutorial() && player.hasQuests )
 			questsButton.showArrow();
-	}
+	}*/
 }
 
 

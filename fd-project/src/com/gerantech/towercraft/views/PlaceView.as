@@ -151,7 +151,7 @@ private function createAim() : void
 private function tutorials_showHandler(event:Event) : void 
 {
 	var task:TutorialTask = event.data as TutorialTask;
-	if( place.building.troopType != -1 && task != null && task.message == "tutor_battle_1_start_2" )
+	if( place.building.troopType != -1 && task != null && task.message == "tutor_battle_1_start_0" )
 	{
 		addAim();
 		return;

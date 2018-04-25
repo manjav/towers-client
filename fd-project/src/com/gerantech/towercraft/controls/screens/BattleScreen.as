@@ -181,6 +181,7 @@ private function startBattle():void
 	waitingOverlay.addEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 	function waitingOverlay_closeHandler(e:Event):void 
 	{
+		tutorials.removeAll(true);
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		var fscale:Number = player.get_arena(0) == 0 ? 1.2 : 1;
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale * fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
@@ -290,6 +291,7 @@ private function endBattle(data:SFSObject):void
 	touchEnable = false;
 	disposeBattleAssets();
 	hud.stopTimers();
+	tutorials.removeAll(true);
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;

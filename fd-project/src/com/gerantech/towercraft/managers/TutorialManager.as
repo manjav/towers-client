@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.managers
 {
+import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
@@ -120,7 +121,7 @@ private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:
 	var numPlaces:int = catchedPlaces.size() - 1;
 	if( target.place.index != catchedPlaces.get(numPlaces).index || sourcePlaces.length != numPlaces )
 		return true;
-	
+	removeAll(false);
 	numPlaces --;
 	while ( numPlaces >= 0 )
 	{
@@ -134,7 +135,6 @@ private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:
 
 public function forceImprove() : Boolean 
 {
-	trace("forceImprove", player.getTutorStep());
 	if( !player.inTutorial() )
 		return false;
 	if( player.tutorialMode == 0 && ( player.emptyDeck() || !appModel.battleFieldView.battleData.map.isQuest || appModel.battleFieldView.battleData.map.index != 2 ) )
@@ -159,13 +159,14 @@ public function removeAll(includeTaskOverlay:Boolean=true):void
 	
 	for(var i:uint=0; i<appModel.navigator.overlays.length; i++)
 	{
-		if( appModel.navigator.overlays[i] is TutorialOverlay )
+		var overlay:BaseOverlay = appModel.navigator.overlays[i];
+		if( overlay is TutorialOverlay )
 		{
-			if( !includeTaskOverlay && appModel.navigator.overlays[i] is TutorialTaskOverlay )
+			if( !includeTaskOverlay && overlay is TutorialTaskOverlay )
 				continue;
 			
-			appModel.navigator.overlays[i].removeEventListeners(Event.CLOSE);
-			appModel.navigator.overlays[i].removeFromParent(true);
+			overlay.removeEventListeners(Event.CLOSE);
+			overlay.close();
 			appModel.navigator.overlays.removeAt(i);
 		}
 	}
