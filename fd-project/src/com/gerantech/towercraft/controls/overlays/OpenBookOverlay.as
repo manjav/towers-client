@@ -182,26 +182,26 @@ private function hideAllRewards():void
 private function grabAllRewards(force:Boolean=false):void
 {
 	for(var i:int=0; i<rewardItems.length; i++)
-		grabReward(rewardItems[i], force, 0.3 + i * 0.1);
+		grabReward(rewardItems[i], force, i * 0.1);
 }
 
 private function showReward(open:Boolean = true) : void
 {
 	var reward:BookReward = new BookReward(collectedItemIndex, rewardKeys[collectedItemIndex], item.outcomes.get(rewardKeys[collectedItemIndex]));
-	reward.y = stage.height * 0.8;
+	reward.scale = 0.02;
+	reward.x = stage.width * 0.62;
+	reward.y = stage.height * 0.82;
 	rewardItems[collectedItemIndex] = reward;
 	addChild(reward);
 	
 	if( !open )
 		return;
 	
-	reward.scale = 0;
-	reward.x = stage.width * 0.5;
 	Starling.juggler.tween(reward, 0.5, {delay:0.3, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});
 	return;
 }
 
-private function grabReward(reward:BookReward, force:Boolean=false, time:Number=0.5):void
+private function grabReward(reward:BookReward, force:Boolean=false, delay:Number=0):void
 {
 	if( reward == null || ( reward.state != 1 && !force ) )
 		return;
@@ -211,7 +211,7 @@ private function grabReward(reward:BookReward, force:Boolean=false, time:Number=
 	var paddingH:int = (appModel.isLTR?reward._width * 0.4:0) * scal + 80 * appModel.scale;
 	var paddingV:int = reward._height * 0.5 * scal + 80 * appModel.scale;
 	var cellH:int = ((stage.stageWidth - reward._width * 0.4 * scal - paddingH * 2) / (numCol - 1));
-	Starling.juggler.tween(reward, time, {scale:scal, x:(reward.index % numCol) * cellH + paddingH, y:Math.floor(reward.index / numCol) * reward._height * scal + paddingV, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(reward, 0.5, {delay:delay, scale:scal, x:(reward.index % numCol) * cellH + paddingH, y:Math.floor(reward.index / numCol) * reward._height * scal + paddingV, transition:Transitions.EASE_OUT_BACK});
 }
 
 override public function dispose():void
