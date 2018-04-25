@@ -61,8 +61,11 @@ protected function touchHandler( event:TouchEvent ):void
 		}
 		else if( touch.phase == TouchPhase.MOVED )
 		{
-			currentState = STATE_NORMAL;
-			touchID = -1;
+			if ( Math.abs(touch.globalX - touch.previousGlobalX) > 2 || Math.abs(touch.globalY - touch.previousGlobalY) > 2 )
+			{
+				currentState = STATE_NORMAL;
+				touchID = -1;
+			}
 		}
 		return;
 	}
