@@ -46,9 +46,11 @@ override protected function commitData():void
 		buttonDisplay.height = 80 * appModel.scale;
 	}
 	
-	if( chestArmature == null )
+	if( chestArmature == null || chestArmature.armature.name != "book-" + exchange.outcome )
 	{
-		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-"+exchange.outcome);
+		if( chestArmature != null )
+			chestArmature.removeFromParent(true);
+		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
 		chestArmature.scale = appModel.scale * 0.85;
 		chestArmature.x = width * 0.5;
 		chestArmature.y = height * 0.45;
@@ -87,6 +89,7 @@ private function updateElements():void
 		if( buttonDisplay != null )
 		{
 			buttonDisplay.count = ExchangeType.getKeyRequierement(exchange.outcome);
+			buttonDisplay.style = "normal";
 			buttonDisplay.type = ResourceType.KEY;
 		}
 		skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererDisabledSkinTexture);

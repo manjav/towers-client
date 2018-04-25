@@ -81,11 +81,15 @@ private function loaderInfo_completeHandler(event:Event):void
 		AppModel.instance.game.player.admin = true;
 	
 	var exchange:ISFSObject;
+	//trace(serverData.getSFSArray("exchanges").getDump())
 	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
 	{
 		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
-		if( exchange.getInt("type") < 40 )
-			AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), exchange.getInt("outKey"), exchange.getInt("outValue")));
+		var out:int = exchange.containsKey("outcome") ? exchange.getInt("outcome") : 0;
+		if( exchange.containsKey("outKey") )
+			out = exchange.getInt("outKey");
+			trace(exchange.getInt("type"))
+		AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), out, exchange.getInt("outValue"), exchange.containsKey("num_exchanges")?exchange.getInt("num_exchanges"):0, exchange.containsKey("expired_at")?exchange.getInt("expired_at"):0));
 	}
 	
 	var swfInitData:* = new initClass();
@@ -196,12 +200,12 @@ private function initServerData(sfsObj:SFSObject):void
 		initData.quests.set(element.getInt("index"), element.getInt("score"));
 	}
 	
-	elements = sfsObj.getSFSArray("exchanges");
+	/*elements = sfsObj.getSFSArray("exchanges");
 	for( i=0; i<elements.size(); i++ )
 	{
 		element = elements.getSFSObject(i);
 		initData.exchanges.set( element.getInt("type"), new Exchange( element.getInt("type"), element.getInt("num_exchanges"), element.getLong("expired_at"), element.getInt("outcome")));
-	}
+	}*/
 }
 }
 }

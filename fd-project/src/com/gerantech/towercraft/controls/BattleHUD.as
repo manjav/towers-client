@@ -141,7 +141,7 @@ override protected function initialize():void
 	bubbleAllise.layoutData = new AnchorLayoutData(NaN, padding, padding);
 	
 	bubbleAxis = new StickerBubble(true);
-	bubbleAxis.layoutData = new AnchorLayoutData( 140 * appModel.scale + padding, NaN, NaN, padding);
+	bubbleAxis.layoutData = new AnchorLayoutData(140 * appModel.scale + padding, NaN, NaN, padding);
 	
 	territorySlider = new TerritorySlider();
 	territorySlider.width = padding;

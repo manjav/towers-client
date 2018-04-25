@@ -169,8 +169,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	var data:SFSObject = event.params.params;
 	var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
 	dispatchEndEvent(data.getBool("succeed"), item);
-	if( !data.getBool("succeed") )
+	if ( !data.getBool("succeed") )
+	{
+		dispatchEndEvent(false, item);
 		return;
+	}
 	
 	if( item.isBook() )
 	{
@@ -185,6 +188,10 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 			if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
 				item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
+		
+		if( item.category == ExchangeType.C110_BATTLES && data.containsKey("nextOutcome") )
+			exchanger.items.get(item.type).outcome = data.getInt("nextOutcome");
+		
 		player.addResources(item.outcomes);
 		openChestOverlay.setItem( item );
 		openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
@@ -197,6 +204,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		}
 		appModel.navigator.dispatchEventWith("bookOpened");
 	}
+	dispatchEndEvent(true, item);
 }
 
 private function gotoDeckTutorial():void
