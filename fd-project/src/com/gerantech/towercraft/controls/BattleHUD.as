@@ -132,7 +132,7 @@ override protected function initialize():void
 		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
 		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
 		stickerButton.width = 140 * appModel.scale;
-		stickerButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
+		stickerButton.layoutData = new AnchorLayoutData(NaN, padding * 2, padding);
 		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 		addChild(stickerButton);
 	}
@@ -189,7 +189,7 @@ private function timeManager_changeHandler(event:Event):void
 		var time:int = battleData.startAt + battleData.map.times.get(2) - timeManager.now;
 		if( time < 0 )
 			time = battleData.startAt + battleData.map.times.get(3) - timeManager.now;
-		timerSlider.value = time + 1;
+		timerSlider.value = time;
 		return;
 	}
 	
@@ -241,10 +241,13 @@ public function updateRoomVars():void
 {
 	if( battleData == null || battleData.map.isQuest || !battleData.room.containsVariable("towers") )
 		return;
+	
 	var towers:Array = [0, 0, 0];
 	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
 		towers[ battleData.battleField.places.get(i).building.troopType + 1 ] ++;
-	territorySlider.update(towers[1], towers[2]);
+	
+	if( territorySlider != null )
+		territorySlider.update(towers[1], towers[2]);
 }
 
 private function closeButton_triggeredHandler(event:Event):void
