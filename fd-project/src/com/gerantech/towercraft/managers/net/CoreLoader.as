@@ -88,7 +88,6 @@ private function loaderInfo_completeHandler(event:Event):void
 		var out:int = exchange.containsKey("outcome") ? exchange.getInt("outcome") : 0;
 		if( exchange.containsKey("outKey") )
 			out = exchange.getInt("outKey");
-			trace(exchange.getInt("type"))
 		AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), out, exchange.getInt("outValue"), exchange.containsKey("num_exchanges")?exchange.getInt("num_exchanges"):0, exchange.containsKey("expired_at")?exchange.getInt("expired_at"):0));
 	}
 	

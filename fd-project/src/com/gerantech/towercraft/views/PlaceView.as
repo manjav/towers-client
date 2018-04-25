@@ -85,7 +85,7 @@ public function PlaceView(place:Place)
 	y = place.y;
 
 	place.building._population = place.building.get_population();
-	place.building.troopSpeed = 31000 / place.building.troopSpeed;
+	place.building.troopSpeed = 30000 / place.building.troopSpeed;
 	createDecorator();
 	createArrow();
 	createAim();
