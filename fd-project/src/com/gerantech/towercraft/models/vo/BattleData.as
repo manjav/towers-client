@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.models.vo
 {
+import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
@@ -23,10 +24,11 @@ public var axis:ISFSObject;
 
 public function BattleData(data:ISFSObject)
 {
-	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
-	this.startAt = data.getInt("startAt")-1;
-	this.singleMode = data.getBool("singleMode");
 	this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
+	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
+	this.singleMode = data.getBool("singleMode");
+	this.startAt = data.getInt("startAt") + 1;
+	TimeManager.instance.setNow(this.startAt);
 	AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 	var axisGame:Game = new Game();
 	axisGame.init(new InitData());

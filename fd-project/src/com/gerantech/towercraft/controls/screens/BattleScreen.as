@@ -41,6 +41,7 @@ import com.smartfoxserver.v2.entities.SFSRoom;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSDataWrapper;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -557,9 +558,17 @@ private function updateTowersFromRoomVars():void
 	var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
 	for(var i:int=0; i<towers.size(); i++)
 	{
-		var t:Array = towers.getText(i).split(",");//trace(t)
-		appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
-	}			
+		var wrapped:SFSDataWrapper = towers.getWrappedElementAt(i);
+		if( wrapped.type == 20 )
+		{
+			var t:Array = wrapped.data.split(",");//trace(t)
+			appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
+		}
+		else if( wrapped.type == 5 )
+		{
+			timeManager.setNow(int(wrapped.data / 1000));
+		}
+	}
 }
 private function resetAll(data:SFSObject):void
 {
