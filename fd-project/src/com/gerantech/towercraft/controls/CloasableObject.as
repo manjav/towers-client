@@ -21,6 +21,7 @@ package com.gerantech.towercraft.controls
 		public var data:Object;
 		public var isOpen:Boolean;
 		
+		public var closeWithKeyboard:Boolean = true;
 		protected var _closeOnStage:Boolean = true;
 		protected var transitionState:int;
 		
@@ -51,7 +52,7 @@ package com.gerantech.towercraft.controls
 			if(hasEventListener(FeathersEventType.TRANSITION_IN_COMPLETE))
 				dispatchEventWith(FeathersEventType.TRANSITION_IN_COMPLETE);
 		}
-
+		
 		protected function addedToStageHandler(event:Event):void
 		{
 			removeEventListener( Event.ADDED_TO_STAGE, addedToStageHandler);
@@ -72,7 +73,7 @@ package com.gerantech.towercraft.controls
 			if( event.keyCode == Keyboard.BACK )
 			{
 				event.preventDefault();
-				if( closeOnStage && _isEnabled )
+				if( closeWithKeyboard && _isEnabled )
 					close();
 			}
 		}

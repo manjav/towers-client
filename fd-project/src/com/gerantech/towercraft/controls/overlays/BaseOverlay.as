@@ -56,7 +56,7 @@ package com.gerantech.towercraft.controls.overlays
 			if( event.keyCode == Keyboard.BACK )
 			{
 				event.preventDefault();
-				if( ( closeOnStage || closeOnOverlay ) && _isEnabled )
+				if( closeWithKeyboard && _isEnabled )
 					close();
 			}
 		}
