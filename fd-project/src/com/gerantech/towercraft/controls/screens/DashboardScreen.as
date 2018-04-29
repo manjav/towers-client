@@ -92,6 +92,17 @@ override protected function initialize():void
 	pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 	addChild(pageList);
 	
+	var size:int =  24 * appModel.scale;
+	var bottomShadow:ImageLoader = new ImageLoader();
+	bottomShadow.alpha = 0.7;
+	bottomShadow.height = size * 2;
+	bottomShadow.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	bottomShadow.scale9Grid = new Rectangle(1, 1, 7, 7);
+	bottomShadow.color = Color.BLACK;
+	bottomShadow.layoutData = new AnchorLayoutData(NaN, -size, footerSize-size, -size);
+	bottomShadow.touchable = false;
+	addChild(bottomShadow);
+	
 	tabSize = stage.stageWidth / 5;
 	
 	var tabLayout:HorizontalLayout = new HorizontalLayout();
