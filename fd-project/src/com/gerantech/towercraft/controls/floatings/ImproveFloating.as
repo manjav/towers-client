@@ -27,6 +27,7 @@ public function ImproveFloating(){}
 override protected function initialize():void
 {
 	super.initialize();
+	var arena:int = player.get_arena(0);
 	
 	transitionOut.destinationAlpha = 0;
 	overlay.visible = false;
@@ -47,6 +48,7 @@ override protected function initialize():void
 		
 		buttons[i] = new ImproveButton(placeView.place.building, impoveType);
 		buttons[i].renable();
+		buttons[i].visible = impoveType != BuildingType.B01_CAMP || arena > 2
 		
 		var angle:Number = Math.PI * 2 / numButtons * i;
 		var _x:Number = Math.sin(angle) * raduis;
