@@ -9,6 +9,7 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.exchanges.Exchanger;
 
 import flash.geom.Rectangle;
 
@@ -75,7 +76,7 @@ override protected function initialize():void
 	softsPalette.layoutData = new AnchorLayoutData(NaN, padding*2, padding*10);
 	addChild(softsPalette);
 
-	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [exchanger.timeToHard(item.expiredAt-timeManager.now)]) : loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
+	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt-timeManager.now)]) : loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
 	messageDisplay = new RTLLabel(message, 0, "center", null, false, null, 0.9);
 	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding*7, padding);
 	addChild(messageDisplay);
@@ -96,7 +97,7 @@ override protected function initialize():void
 			buttonDisplay.width = 240 * appModel.scale;
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-			updateButton(ResourceType.CURRENCY_HARD, exchanger.timeToHard(item.expiredAt-timeManager.now));
+			updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt-timeManager.now));
 			updateCounter();
 		}
 		else if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_WAIT )
@@ -126,7 +127,7 @@ override protected function transitionInCompleted():void
 
 private function timeManager_changeHandler(event:Event):void
 {
-	updateButton(ResourceType.CURRENCY_HARD, exchanger.timeToHard(item.expiredAt-timeManager.now));
+	updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt-timeManager.now));
 	updateCounter();
 }
 
@@ -152,8 +153,8 @@ private function updateCounter():void
 	}
 	var t:uint = uint(item.expiredAt - timeManager.now);
 	timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
-	buttonDisplay.count = exchanger.timeToHard(t);
-	messageDisplay.text = loc("popup_chest_message_skip", [exchanger.timeToHard(t)])
+	buttonDisplay.count = Exchanger.timeToHard(t);
+	messageDisplay.text = loc("popup_chest_message_skip", [Exchanger.timeToHard(t)])
 }
 
 private function batton_selectHandler(event:Event):void

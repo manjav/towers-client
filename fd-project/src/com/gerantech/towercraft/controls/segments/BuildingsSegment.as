@@ -13,6 +13,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.exchanges.Exchanger;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 import flash.geom.Rectangle;
@@ -177,7 +178,7 @@ private function upgradeConfirm_errorHandler(event:Event):void
 private function upgradeConfirm_selectHandler(event:Event):void
 {
 	var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-	seudUpgradeRequest( confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)) );
+	seudUpgradeRequest( confirm.data as Building, Exchanger.toHard(player.deductions(confirm.requirements)) );
 }
 
 private function seudUpgradeRequest(building:Building, confirmedHards:int):void

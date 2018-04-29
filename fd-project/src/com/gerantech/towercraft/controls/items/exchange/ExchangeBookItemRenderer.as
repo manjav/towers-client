@@ -10,6 +10,7 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.exchanges.Exchanger;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
@@ -137,7 +138,7 @@ private function updateCounter():void
 	addChild(timeDisplay);
 	
 	if( buttonDisplay != null )
-		buttonDisplay.count = exchanger.timeToHard(t);			
+		buttonDisplay.count = Exchanger.timeToHard(t);			
 }
 
 private function updateArmature():void
