@@ -70,6 +70,12 @@ override protected function commitData():void
 	//descriptionDisplay.visible = false;
 	switch( line.category )
 	{
+		case ExchangeType.C20_SPECIALS:
+			CELL_SIZE = 580 * appModel.scale;
+			headerDisplay.showCountdown(line.items[0]);
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeSpecialItemRenderer();}
+			break;
+		
 		case ExchangeType.C100_FREES:
 			CELL_SIZE = 320 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}

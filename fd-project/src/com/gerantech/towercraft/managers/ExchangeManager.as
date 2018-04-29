@@ -101,6 +101,18 @@ public function process(item : ExchangeItem) : void
 		}
 		return;
 	}
+	
+	if( item.category == ExchangeType.C20_SPECIALS )
+	{
+		if( !player.has(item.requirements) )
+		{
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
+			dispatchEndEvent(false, item);
+			return;
+		}
+		exchange(item, params);
+		return;
+	}
 
 	if( item.isBook() )
 	{

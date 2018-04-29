@@ -4,8 +4,11 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
+import starling.events.Event;
 
 public class ExchangeCurrencyItemRenderer extends ExchangeBaseItemRenderer
 {
@@ -25,22 +28,30 @@ override protected function commitData():void
     iconDisplay.width = 380 * appModel.scale;
 	addChild(iconDisplay);
 	
-	titleDisplay = new ShadowLabel(loc("exchange_title_"+exchange.type), 1, 0, null, null, false, null, 0.85);
-	titleDisplay.layoutData = new AnchorLayoutData(padding*2, NaN, NaN, NaN, 0);
+	titleDisplay = new ShadowLabel(loc("exchange_title_" + exchange.type), 1, 0, null, null, false, null, 0.85);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 2, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
-	countDisplay = new ShadowLabel("x "+exchange.outcomes.values()[0]);
-	countDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*11, NaN, 0);
+	countDisplay = new ShadowLabel("x " + exchange.outcomes.values()[0]);
+	countDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 11, NaN, 0);
 	addChild(countDisplay);	
 	
 	buttonDisplay = new ExchangeButton();
-	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
-	buttonDisplay.height = 96*appModel.scale;
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
+	buttonDisplay.height = 96 * appModel.scale;
 	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
 		buttonDisplay.currency = "ت";
 	buttonDisplay.count = exchange.requirements.values()[0];
 	buttonDisplay.type = exchange.requirements.keys()[0];
 	addChild(buttonDisplay);
+}
+
+override protected function exchangeManager_completeHandler(event:Event):void 
+{
+	//show achieve animation
+	var item:ExchangeItem = event.data as ExchangeItem;
+	if( item.type == exchange.type )
+		showAchieveAnimation(item);
 }
 }
 }

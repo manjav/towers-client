@@ -20,19 +20,19 @@ public var iconLayout:ILayoutData;
 public var iconPosition:Point;
 public var data:Object;
 
-private var labelDisplay:RTLLabel;
-private var shadowDisplay:RTLLabel;
-private var iconDisplay:ImageLoader;
+protected var padding:Number;
+protected var labelDisplay:RTLLabel;
+protected var shadowDisplay:RTLLabel;
+protected var iconDisplay:ImageLoader;
 
-private var labelLayoutData:AnchorLayoutData;
-private var shadowLayoutData:AnchorLayoutData;
+protected var labelLayoutData:AnchorLayoutData;
+protected var shadowLayoutData:AnchorLayoutData;
 
 private var _style:String = "normal"
 private var _label:String = "";
 private var _icon:Texture;
 private var _fontColor:uint = 1;
 private var _fontsize:Number = 0;
-private var padding:Number;
 
 private var defaultTextue:Texture;
 private var downTextue:Texture;
@@ -40,7 +40,7 @@ private var downTextue:Texture;
 public function CustomButton()
 {
 	if( width == 0 )
-		width = 240 * appModel.scale;
+		width = 250 * appModel.scale;
 	minWidth = 72 * appModel.scale;
 	minHeight = 72 * appModel.scale;
 	height = maxHeight = 128 * appModel.scale;
@@ -48,9 +48,9 @@ public function CustomButton()
 	iconPosition = new Point();
 	padding = 8 * appModel.scale;
 	layout = new AnchorLayout();
-	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.8);
-	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.3);
-	iconLayout = new AnchorLayoutData(NaN, padding+iconPosition.x, NaN, NaN, NaN, iconPosition.y-padding*0.4)
+	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.8);
+	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.3);
+	iconLayout = new AnchorLayoutData(NaN, padding + iconPosition.x, NaN, NaN, NaN, iconPosition.y - padding * 0.4);
 }
 
 override protected function initialize():void

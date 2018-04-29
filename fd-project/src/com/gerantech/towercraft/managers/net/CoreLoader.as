@@ -20,6 +20,7 @@ import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.lists.PlaceDataList;
 import com.gt.towers.utils.maps.IntArenaMap;
 import com.gt.towers.utils.maps.IntIntMap;
+import com.gt.towers.utils.maps.IntShopMap;
 import com.gt.towers.utils.maps.StringFieldMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -80,15 +81,46 @@ private function loaderInfo_completeHandler(event:Event):void
 	if( SFSConnection.instance.currentIp != "185.216.125.7" )
 		AppModel.instance.game.player.admin = true;
 	
-	var exchange:ISFSObject;
 	//trace(serverData.getSFSArray("exchanges").getDump())
+	var exchange:ISFSObject;
+	var item:ExchangeItem;
+	var elements:ISFSArray;
+	var element:ISFSObject;	
+	
+	AppModel.instance.game.exchanger.items = new IntShopMap();
 	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
 	{
-		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
-		var out:int = exchange.containsKey("outcome") ? exchange.getInt("outcome") : 0;
-		if( exchange.containsKey("outKey") )
-			out = exchange.getInt("outKey");
-		AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), out, exchange.getInt("outValue"), exchange.containsKey("num_exchanges")?exchange.getInt("num_exchanges"):0, exchange.containsKey("expired_at")?exchange.getInt("expired_at"):0));
+		if ( int(version) < 2900 )
+		{
+			exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
+			var out:int = exchange.containsKey("outcome") ? exchange.getInt("outcome") : 0;
+			if( exchange.containsKey("outKey") )
+				out = exchange.getInt("outKey");
+			AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), out, exchange.getInt("outValue"), exchange.containsKey("num_exchanges")?exchange.getInt("num_exchanges"):0, exchange.containsKey("expired_at")?exchange.getInt("expired_at"):0));
+		}
+		else
+		{
+			exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
+			elements = exchange.getSFSArray("outcomes");
+			item = new ExchangeItem(exchange.getInt("type"), -1, -1, -1, -1, exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
+			item.outcomes = new IntIntMap();
+			for( var j:int=0; j<elements.size(); j++ )
+			{
+				element = elements.getSFSObject(j);
+				item.outcomes.set(element.getInt("key"), element.getInt("value"));
+			}
+			elements = exchange.getSFSArray("requirements");
+			item.requirements = new IntIntMap();
+			for( j=0; j<elements.size(); j++ )
+			{
+				element = elements.getSFSObject(j);
+				item.requirements.set(element.getInt("key"), element.getInt("value"));
+			}
+			if( item.outcomes.keys().length > 0 )
+				item.outcome = item.outcomes.keys()[0];
+				
+			AppModel.instance.game.exchanger.items.set(item.type, item);
+		}
 	}
 	
 	var swfInitData:* = new initClass();

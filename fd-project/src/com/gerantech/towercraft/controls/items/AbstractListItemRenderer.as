@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.managers.ExchangeManager;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
@@ -105,11 +106,13 @@ protected function loc(resourceName:String, parameters:Array=null, locale:String
 {
 	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 }
-protected function get timeManager():	TimeManager		{	return TimeManager.instance;		}
-protected function get tutorials():		TutorialManager	{	return TutorialManager.instance;	}
-protected function get appModel():		AppModel		{	return AppModel.instance;			}
-protected function get game():			Game			{	return appModel.game;				}
-protected function get player():		Player			{	return game.player;					}
-protected function get exchanger():		Exchanger		{	return game.exchanger;				}
+protected function get timeManager():		TimeManager		{	return TimeManager.instance;		}
+protected function get tutorials():			TutorialManager	{	return TutorialManager.instance;	}
+protected function get appModel():			AppModel		{	return AppModel.instance;			}
+protected function get game():				Game			{	return appModel.game;				}
+protected function get player():			Player			{	return game.player;					}
+protected function get exchanger():			Exchanger		{	return game.exchanger;				}
+protected function get exchangeManager():	ExchangeManager	{	return ExchangeManager.instance;	}
+
 }
 }

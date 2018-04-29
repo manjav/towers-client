@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.events.GameEvent;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.ShopLine;
@@ -10,6 +11,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.ExchangeItem;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
@@ -20,7 +22,9 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
 import flash.filesystem.File;
+import flash.geom.Rectangle;
 import starling.events.Event;
+import starling.utils.Color;
 
 public class ExchangeSegment extends Segment
 {
@@ -71,20 +75,7 @@ override public function init():void
 	itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 	addChild(itemslist);
 	initializeCompleted = true;
-	exchangeManager.addEventListener(Event.COMPLETE, exchangeManager_completeHandler);
 	focus();
-}
-
-private function exchangeManager_completeHandler(event:Event):void 
-{
-	var item:ExchangeItem = event.data as ExchangeItem;
-	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C10_SOFT )
-	{
-		//show achieve animation
-		var outs:Vector.<int> = item.outcomes.keys();
-		for ( var i:int=0; i<outs.length; i++ )
-			appModel.navigator.addResourceAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, outs[i], item.outcomes.get(outs[i]));
-	}
 }
 
 override public function focus():void
@@ -131,27 +122,23 @@ override public function updateData():void
 	else return;
 	
 	var itemKeys:Vector.<int> = exchanger.items.keys();
-	//var specials:ShopLine = new ShopLine(ExchangeType.C20_SPECIALS);
-	var frees:ShopLine = new ShopLine(ExchangeType.C100_FREES);
-	var battles:ShopLine = new ShopLine(ExchangeType.C110_BATTLES);
-	var offers:ShopLine = new ShopLine(ExchangeType.C120_MAGICS);
+	var specials:ShopLine = new ShopLine(ExchangeType.C20_SPECIALS);
+	var magics:ShopLine = new ShopLine(ExchangeType.C120_MAGICS);
 	var hards:ShopLine = new ShopLine(ExchangeType.C0_HARD);
 	var softs:ShopLine = new ShopLine(ExchangeType.C10_SOFT);
 	for (var i:int=0; i<itemKeys.length; i++)
 	{
-		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C0_HARD && itemKeys[i] != ExchangeType.C0_HARD )//test
+		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C20_SPECIALS )
+			specials.add(itemKeys[i]);
+		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
+			magics.add(itemKeys[i]);
+		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C0_HARD && itemKeys[i] != ExchangeType.C0_HARD )//test
 			hards.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C10_SOFT )
 			softs.add(itemKeys[i]);
-		//else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C110_BATTLES )
-			//battles.add(itemKeys[i]);
-		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
-			offers.add(itemKeys[i]);
-		//else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C100_FREES )
-			//frees.add(itemKeys[i]);
 	}
 	
-	var categoreis:Array = new Array( /*frees, battles,*/ offers, hards, softs );
+	var categoreis:Array = new Array( specials, magics, hards, softs );
 	for (i=0; i<categoreis.length; i++)
 		categoreis[i].items.sort();
 	itemslistData.data = categoreis;
@@ -182,7 +169,6 @@ private function confirms_selectHandler(event:Event):void
 
 public override function dispose() : void
 {
-	exchangeManager.removeEventListener(Event.COMPLETE, exchangeManager_completeHandler);
 	///////////////////////tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
 	super.dispose();
 }
