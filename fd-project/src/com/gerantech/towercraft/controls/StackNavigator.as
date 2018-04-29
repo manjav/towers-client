@@ -177,8 +177,8 @@ public function removeAllOverlays():void
 	overlaysContainer.removeChildren();
 	while( overlays.length > 0 )
 	{
-		overlays[overlays.length-1].removeEventListeners(Event.CLOSE);
-		overlays.removeAt(overlays.length-1);
+		overlays[overlays.length - 1].removeEventListeners(Event.CLOSE);
+		overlays.removeAt(overlays.length - 1);
 	}
 }
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -206,10 +206,10 @@ public function addLogGame(log:GameLog) : void
 		return;
 	
 	busyLogger = true;
-	log.y = logs.length * GameLog.GAP + stage.stageHeight/2;
+	log.y = logs.length * GameLog.GAP + stage.stageHeight * 0.5;
 	logsContainer.addChild(log);
 	logs.push(log);
-	Starling.juggler.tween(logsContainer, 0.3, {y : logsContainer.y - GameLog.GAP, transition:Transitions.EASE_OUT, onComplete:function():void{busyLogger=false;}});
+	Starling.juggler.tween(logsContainer, 0.3, {y : logsContainer.y - GameLog.GAP, transition:Transitions.EASE_OUT, onComplete:function():void{busyLogger = false; }});
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ANIMATIONS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -217,13 +217,20 @@ public var toolbar:Toolbar;
 private function itemAchievedHandler(event:Event):void
 {
 	if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.QUESTS_SCREEN )
-		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index * 0.2)	;
+		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index * 0.2);
 }
 public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
 {
-	var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-	indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;
-	addAnimation(x, y, 140, Assets.getTexture("res-"+resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay, indicator.punch);
+	if( ResourceType.isBuilding(resourceType) )
+	{
+		addAnimation(x, y, 140, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.7, stage.stageHeight * 0.95), delay, null);
+	}
+	else
+	{
+		var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
+		indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;
+		addAnimation(x, y, 140, Assets.getTexture("res-" + resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay, indicator.punch);
+	}
 }
 public function addAnimation(x:Number, y:Number, size:int, texture:Texture, count:int, zone:Rectangle, delay:Number=0, completeCallback:Function=null, prefix:String="") : void
 {
@@ -231,9 +238,9 @@ public function addAnimation(x:Number, y:Number, size:int, texture:Texture, coun
 	anim.x = x;
 	anim.y = y;
 	anim.scale = 0;
-	Starling.juggler.tween(anim, 0.7, {delay:0.0+delay, scaleX:1.0, transition:Transitions.EASE_OUT_ELASTIC});
-	Starling.juggler.tween(anim, 0.7, {delay:0.0+delay, scaleY:1.0, transition:Transitions.EASE_OUT_BACK});
-	Starling.juggler.tween(anim, 0.5, {delay:1.5+delay, scale:0.3,  x:zone.x+zone.width/2, y:zone.y, transition:Transitions.EASE_IN, onComplete:function():void{if(completeCallback!=null)completeCallback();anim.removeFromParent(true);}});
+	Starling.juggler.tween(anim, 0.7, {delay:0.0 + delay, scaleX:1.0, transition:Transitions.EASE_OUT_ELASTIC});
+	Starling.juggler.tween(anim, 0.7, {delay:0.0 + delay, scaleY:1.0, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(anim, 0.5, {delay:1.5 + delay, scale:0.3,  x:zone.x + zone.width * 0.5, y:zone.y, transition:Transitions.EASE_IN, onComplete:function():void{if (completeCallback != null) completeCallback(); anim.removeFromParent(true); }});
 	parent.addChild(anim);
 }
 
