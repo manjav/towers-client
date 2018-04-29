@@ -85,7 +85,7 @@ override protected function initialize():void
 	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300 * appModel.scale;
 	closeBatton.height = 120 * appModel.scale;
-	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?31:27) * padding, NaN, NaN, NaN, 0);
+	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?31.4:27) * padding, NaN, NaN, NaN, 0);
 	closeBatton.name = "close";
 	closeBatton.label = loc("close_button");
 	closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);

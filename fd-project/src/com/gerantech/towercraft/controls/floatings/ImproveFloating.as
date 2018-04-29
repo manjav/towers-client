@@ -34,6 +34,7 @@ override protected function initialize():void
 	var raduis:int = 160;
 
 	var circle:Image = new Image(Assets.getTexture("damage-range"));
+	circle.touchable = false;
 	circle.alignPivot();
 	circle.width = circle.height = raduis;
 	Starling.juggler.tween(circle, 0.2, {width:raduis * 2, height:raduis * 2, transition:Transitions.EASE_OUT});
