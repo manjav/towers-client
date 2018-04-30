@@ -58,8 +58,6 @@ override protected function initialize():void
 	
 	// axis elements
 	var name:String = mapIndex >-1?(loc("quest_label") + " " +(mapIndex + 1)): battleData.axis.getText("name");
-	if( player.inTutorial() && player.tutorialMode == 1 )
-		name = loc("trainer_label");
 	axisHeader = new BattleHeader(name, false);
 	axisHeader.layoutData = new AnchorLayoutData(300 * appModel.scale, 0, NaN, 0);
 	container.addChild(axisHeader);
