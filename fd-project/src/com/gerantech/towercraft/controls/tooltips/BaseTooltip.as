@@ -31,14 +31,14 @@ package com.gerantech.towercraft.controls.tooltips
 			this.message = message;
 			this.fontScale = fontScale;
 			this.hSize = hSize;
-			this.position = new Point(position.x + position.width * 0.5,position.y + position.height * 0.5) ;
+			this.position = new Point(position.x + position.width * 0.5, position.y + position.height * 0.5);
 		}
 		
 		override protected function initialize():void
 		{
 			super.initialize();
 			//touchable = false;
-			maxWidth = stage.stageWidth * hSize;
+			width = maxWidth = stage.stageWidth * hSize;
 			padding = 36 * appModel.scale;
 			
 			var halign:String = position.x < stage.stageWidth * 0.5 ? "left" : "right";

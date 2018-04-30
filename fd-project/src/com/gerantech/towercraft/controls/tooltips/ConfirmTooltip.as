@@ -23,26 +23,30 @@ override protected function initialize():void
 	acceptButton.label = loc("popup_accept_label");
 	acceptButton.height = padding * 3;
 	acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
-	acceptButton.layoutData = new AnchorLayoutData( labelDisplay.height + padding*5, padding);
+	acceptButton.layoutData = new AnchorLayoutData( labelDisplay.height + padding * 5, padding);
 	addChild(acceptButton);
 	
-	if ( hasDecline )
+	if( hasDecline )
 	{
 		var declineButton:CustomButton = new CustomButton();
 		declineButton.label = loc("popup_decline_label");
 		declineButton.style = "danger";
 		declineButton.height = padding * 3;
 		declineButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
-		declineButton.layoutData = new AnchorLayoutData( labelDisplay.height + padding*5, NaN, NaN, padding);
+		declineButton.layoutData = new AnchorLayoutData( labelDisplay.height + padding * 5, NaN, NaN, padding);
 		addChild(declineButton);
 	}
 	
-	height = labelDisplay.height + acceptButton.height + padding * 7;
+}
+override protected function transitionInStarted():void
+{
+	height = labelDisplay.height + padding * 4;
+	super.transitionInStarted();
 }
 
 private function acceptButton_triggeredHandler(event:Event):void
 {
-	dispatchEventWith(CustomButton(event.currentTarget).style=="danger" ? Event.CANCEL : Event.SELECT );
+	dispatchEventWith(CustomButton(event.currentTarget).style == "danger" ? Event.CANCEL : Event.SELECT );
 }
 override protected function stage_touchHandler(event:TouchEvent):void
 {
