@@ -182,7 +182,7 @@ private function startBattle():void
 	waitingOverlay.addEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 	function waitingOverlay_closeHandler(e:Event):void 
 	{
-		tutorials.removeAll(true);
+		tutorials.removeAll();
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		var fscale:Number = player.get_arena(0) == 0 ? 1.2 : 1;
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale * fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
@@ -243,15 +243,6 @@ private function showTutorials() : void
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, field.startNum.get(i)));
 	}
 	
-	// add todo-list for player
-	if( player.tutorialMode == 1 && player.get_battleswins() == 0 )
-	{
-		var tasks:PlaceDataList = new PlaceDataList();
-		tasks.push(new PlaceData(0, 0, 0, field.index, 0, ""));
-		tasks.push(new PlaceData(1, 0, 0, field.index, 0, ""));
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TASK, tuteMessage, tasks, 500, 0, null));
-	}
-	
 	if( !player.hardMode )
 	{
 		var places:PlaceDataList = field.getSwipeTutorPlaces();
@@ -293,7 +284,7 @@ private function endBattle(data:SFSObject):void
 	touchEnable = false;
 	disposeBattleAssets();
 	hud.stopTimers();
-	tutorials.removeAll(true);
+	tutorials.removeAll();
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;

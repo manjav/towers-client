@@ -229,7 +229,7 @@ private function showMidSwipesTutorial(troopType : int) : void
 		return;
 	if( appModel.battleFieldView.battleData.map.isQuest && appModel.battleFieldView.battleData.map.index == 2 && player.emptyDeck() )
 		return;
-	tutorials.removeAll(false);
+	tutorials.removeAll();
 	if( place.index > appModel.battleFieldView.battleData.map.places.size() - 2 )
 		return;
 	

@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
-import com.gerantech.towercraft.controls.overlays.TutorialTaskOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -65,12 +64,6 @@ private function processTasks():void
 			touchoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
 			appModel.navigator.addOverlay(touchoverlay);					
 			break;
-		
-		case TutorialTask.TYPE_TASK:
-			var taskOverlay:TutorialTaskOverlay = new TutorialTaskOverlay(task);
-			appModel.navigator.addOverlay(taskOverlay);
-			processTasks();
-			break;
 	}
 }		
 
@@ -104,7 +97,7 @@ public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:Pla
 	var ret:Boolean = needToForceAggregation(sourcePlaces, target);
 	if( ret )
 	{
-		removeAll(false);
+		removeAll();
 		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, catchedPlaces, 0, 800 * catchedPlaces.size()));
 		show(tutorialData);
@@ -121,7 +114,7 @@ private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:
 	var numPlaces:int = catchedPlaces.size() - 1;
 	if( target.place.index != catchedPlaces.get(numPlaces).index || sourcePlaces.length != numPlaces )
 		return true;
-	removeAll(false);
+	removeAll();
 	numPlaces --;
 	while ( numPlaces >= 0 )
 	{
@@ -151,7 +144,7 @@ public function forceImprove() : Boolean
 	return true;
 }
 
-public function removeAll(includeTaskOverlay:Boolean=true):void
+public function removeAll():void
 {
 	if( tutorialData != null )
 		while( tutorialData.numTasks > 0 )
@@ -162,9 +155,6 @@ public function removeAll(includeTaskOverlay:Boolean=true):void
 		var overlay:BaseOverlay = appModel.navigator.overlays[i];
 		if( overlay is TutorialOverlay )
 		{
-			if( !includeTaskOverlay && overlay is TutorialTaskOverlay )
-				continue;
-			
 			overlay.removeEventListeners(Event.CLOSE);
 			overlay.close();
 			appModel.navigator.overlays.removeAt(i);

@@ -208,7 +208,7 @@ public function showUnderAttack():void
 
 private function tutorials_showHandler(event:Event) : void 
 {
-	var task:TutorialTask = event.data as TutorialTask;trace(event, task.type)
+	var task:TutorialTask = event.data as TutorialTask;
 	if( task == null || task.type != TutorialTask.TYPE_MESSAGE || task.message != "tutor_battle_1_start_2" )
 		return;
 	Starling.juggler.tween(populationBar,		0.6, {scale:1.5, transition:Transitions.EASE_OUT_BACK});

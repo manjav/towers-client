@@ -8,7 +8,6 @@ package com.gerantech.towercraft.models.tutorials
 		public static const TYPE_SWIPE:int = 1;
 		public static const TYPE_TOUCH:int = 2;
 		public static const TYPE_CONFIRM:int = 3;
-		public static const TYPE_TASK:int = 4;
 		
 		public var index:int;
 		public var type:int;
