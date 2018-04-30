@@ -186,7 +186,8 @@ private function startBattle():void
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		var fscale:Number = player.get_arena(0) == 0 ? 1.2 : 1;
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale * fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
-		hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isQuest ? battleData.battleField.map.index : -1, battleData ), 0);
+		if( !player.inTutorial() )
+			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isQuest ? battleData.battleField.map.index : -1, battleData ), 0);
 	}
 	
 	// show battle HUD
