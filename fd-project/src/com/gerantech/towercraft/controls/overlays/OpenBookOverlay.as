@@ -28,7 +28,8 @@ public var item:ExchangeItem;
 private var type:int;
 private var rewardKeys:Vector.<int>;
 private var rewardItems:Vector.<BookReward>;
-private var animation:StarlingArmatureDisplay ;
+private var bookArmature:StarlingArmatureDisplay ;
+private var shineArmature:StarlingArmatureDisplay;
 private var collectedItemIndex:int = 0;
 private var buttonOverlay:SimpleLayoutButton;
 private var readyToWait:Boolean;
@@ -81,15 +82,20 @@ override protected function addedToStageHandler(event:Event):void
 	
 	appModel.sounds.setVolume("main-theme", 0.3);
 	
-	animation = factory.buildArmatureDisplay("book-"+type);
-	animation.touchable = false;
-	animation.x = stage.stageWidth * 0.5;
-	animation.y = stage.stageHeight * 0.85;
-	animation.scale = appModel.scale * 2;
-	animation.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
-	animation.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
-	animation.animation.gotoAndPlayByTime("fall", 0, 1);
-	addChild(animation);
+	bookArmature = factory.buildArmatureDisplay("book-"+type);
+	bookArmature.touchable = false;
+	bookArmature.x = stage.stageWidth * 0.5;
+	bookArmature.y = stage.stageHeight * 0.85;
+	bookArmature.scale = appModel.scale * 2;
+	bookArmature.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
+	bookArmature.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
+	bookArmature.animation.gotoAndPlayByTime("fall", 0, 1);
+	addChild(bookArmature);
+	
+	shineArmature = factory.buildArmatureDisplay("shine");
+	shineArmature.touchable = false;
+	shineArmature.scale = appModel.scale * 3;
+	shineArmature.x = 170 * appModel.scale
 }
 
 public function setItem(item:ExchangeItem) : void
@@ -103,7 +109,7 @@ public function setItem(item:ExchangeItem) : void
 	rewardItems = new Vector.<BookReward>();
 	rewardKeys = item.outcomes.keys();
 	if( readyToWait )
-		animation.animation.gotoAndPlayByTime("wait", 0, -1);
+	bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
 }
 
 private function openAnimation_soundEventHandler(event:StarlingEvent):void
@@ -117,7 +123,7 @@ protected function openAnimation_completeHandler(event:StarlingEvent):void
 	{
 		readyToWait = true;
 		if( item != null )
-			animation.animation.gotoAndPlayByTime("wait", 0, -1);
+		bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
 	}
 	else if( event.eventObject.animationState.name == "hide" )
 	{
@@ -146,12 +152,12 @@ protected function buttonOverlay_triggeredHandler():void
 	grabAllRewards();
 	if( collectedItemIndex < item.outcomes.keys().length )
 	{
-		animation.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length - 1?"open":"open", 0, 1);
+	bookArmature.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length - 1?"open":"open", 0, 1);
 		showReward();
 	}
 	else if( collectedItemIndex == rewardKeys.length + 1 )
 	{
-		setTimeout(animation.animation.gotoAndPlayByTime, 500, "hide", 0, 1);
+		setTimeout(bookArmature.animation.gotoAndPlayByTime, 500, "hide", 0, 1);
 		hideAllRewards();
 	}
 	collectedItemIndex ++;
@@ -197,6 +203,8 @@ private function showReward(open:Boolean = true) : void
 	if( !open )
 		return;
 	
+	shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
+	reward.addChildAt(shineArmature, 0);
 	Starling.juggler.tween(reward, 0.5, {delay:0.3, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});
 	return;
 }
@@ -206,6 +214,7 @@ private function grabReward(reward:BookReward, force:Boolean=false, delay:Number
 	if( reward == null || ( reward.state != 1 && !force ) )
 		return;
 	reward.hideDetails();
+	shineArmature.removeFromParent();
 	var scal:Number = 0.8;
 	var numCol:int = rewardKeys.length == 2 || rewardKeys.length == 4 ? 2 : 3;
 	var paddingH:int = (appModel.isLTR?reward._width * 0.4:0) * scal + 80 * appModel.scale;
@@ -218,8 +227,8 @@ override public function dispose():void
 {
 	appModel.sounds.setVolume("main-theme", 1);
 	buttonOverlay.removeEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
-	animation.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
-	animation.removeEventListener(dragonBones.events.EventObject.COMPLETE, openAnimation_completeHandler);
+	bookArmature.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
+	bookArmature.removeEventListener(dragonBones.events.EventObject.COMPLETE, openAnimation_completeHandler);
 	super.dispose();
 }
 }
