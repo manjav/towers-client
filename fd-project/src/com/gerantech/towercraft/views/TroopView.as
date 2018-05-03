@@ -7,10 +7,8 @@ import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.utils.PathFinder;
 import com.gt.towers.utils.lists.PlaceList;
-
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -44,6 +42,12 @@ public function TroopView(building:Building, path:PlaceList)
 	this.battleSide = type == AppModel.instance.game.player.troopType?0:1;
 	this.building = building;
 	this.health = building.troopPower;
+	
+	var shadow:Image = new Image(Assets.getTexture("troops-shadow", "troops"));
+	shadow.pivotX = shadow.width * 0.6;
+	shadow.pivotY = shadow.height * 0.3;
+	shadow.scale = 2;
+	addChild(shadow);
 	
 	textureType = BuildingType.getTroopName(building.type) + battleSide + "/";
 	movieClip = new MovieClip(Assets.getTextures(textureType + "do", "troops"), 20);
