@@ -55,6 +55,8 @@ private function addAim(fightMode:Boolean = false) : void
 		return;
 	aim = new Image(Assets.getTexture("aim"));
 	aim.touchable = false;
+	aim.x = place.x;
+	aim.y = place.y;
 	aim.alignPivot();
 	aim.alpha = 0;
 	aim.scale = 2;
