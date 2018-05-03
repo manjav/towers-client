@@ -20,11 +20,7 @@ private var progressBar:Slider;
 public var iconDisplay:TimerIcon;
 private var stars:Vector.<StarCheck>;
 
-public function BattleTimerSlider()
-{
-	super();
-}
-
+public function BattleTimerSlider() { super(); }
 override protected function initialize():void
 {
 	super.initialize();

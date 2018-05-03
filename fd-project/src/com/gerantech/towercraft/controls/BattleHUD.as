@@ -118,7 +118,7 @@ override protected function initialize():void
 	else
 	{
 		timerSlider = new BattleCountdown();
-		timerSlider.layoutData = new AnchorLayoutData(padding * 5, padding * 2);
+		timerSlider.layoutData = new AnchorLayoutData(padding * 5, padding * 3);
 	}
 	addChild(timerSlider);
 	
@@ -145,7 +145,7 @@ override protected function initialize():void
 	bubbleAxis.layoutData = new AnchorLayoutData(140 * appModel.scale + padding, NaN, NaN, padding);
 	
 	territorySlider = new TerritorySlider();
-	territorySlider.width = padding;
+	territorySlider.width = (player.get_arena(0) == 0 ? 2 : 1) * padding;
 	territorySlider.maximum = battleData.map.places.size();
 	territorySlider.layoutData = new AnchorLayoutData(0, 0, 0);
 	addChild(territorySlider);
