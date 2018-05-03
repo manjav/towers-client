@@ -99,7 +99,6 @@ public function createPlaces(battleData:BattleData):void
 	for ( var i:uint=0; i<len; i++ )
 	{
 		var p:PlaceView = new PlaceView(battleData.battleField.places.get(i));
-		p.selectable = true;
 		p.name = p.place.index.toString();
 		
 		addChild(p);
@@ -115,7 +114,7 @@ public function createDrops() : void
 {
 	dropTargets = new DropTargets(stage);
 	for each( var t:PlaceView in places )
-		if( t.selectable )
+		if( t.touchable )
 			dropTargets.add(t);
 }
 }

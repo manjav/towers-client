@@ -1,16 +1,13 @@
 package com.gerantech.towercraft.views
 {
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.decorators.BarracksDecorator;
 import com.gerantech.towercraft.views.decorators.BuildingDecorator;
-import com.gerantech.towercraft.views.decorators.DefenderDecorator;
 import com.gerantech.towercraft.views.decorators.TeslaDecorator;
+import com.gerantech.towercraft.views.decorators.TutorialDecorator;
 import com.gerantech.towercraft.views.weapons.DefensiveWeapon;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
@@ -20,16 +17,10 @@ import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.TroopType;
 import com.gt.towers.utils.PathFinder;
-import com.gt.towers.utils.lists.PlaceDataList;
 import com.gt.towers.utils.lists.PlaceList;
-import starling.textures.Texture;
-
 import flash.geom.Rectangle;
 import flash.utils.clearInterval;
-import flash.utils.clearTimeout;
 import flash.utils.setInterval;
-import flash.utils.setTimeout;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -45,19 +36,18 @@ public var raduis:Number;
 public var arrowContainer:Sprite;
 public var decorator:BuildingDecorator;
 public var defensiveWeapon:DefensiveWeapon;
+private var tutors:TutorialDecorator;
 
 private var troopsCount:int = 0;
 private var rushIntervalId:int = -1;
 private var rushGap:int = 0;
 private var arrow:MovieClip;
 private var _selectable:Boolean;
-//private var wishedPopulation:int;
 
 private var path:PlaceList;
 private var dropZone:Image;
 private var zoneAppear:Boolean;
 private var arenaIndex:int;
-private var aim:Image;
 
 public function PlaceView(place:Place)
 {
@@ -88,7 +78,7 @@ public function PlaceView(place:Place)
 	place.building.troopSpeed = 30000 / place.building.troopSpeed;
 	createDecorator();
 	createArrow();
-	createAim();
+	createTutors();
 }
 
 private function createDecorator():void
@@ -98,7 +88,8 @@ private function createDecorator():void
 	defensiveWeapon = null;
 	
 	if( decorator != null )
-		decorator.removeFromParent(true); 
+		decorator.dispose(); 
+	decorator = null;
 	
 	switch( place.building.category )
 	{
@@ -113,9 +104,6 @@ private function createDecorator():void
 			decorator = new BuildingDecorator(this);
 			break;
 	}
-	decorator.x = 0;
-	decorator.y = 0;
-	addChild(decorator);
 }
 
 public function createArrow():void
@@ -135,48 +123,15 @@ public function createArrow():void
 public function arrowTo(disX:Number, disY:Number):void
 {
 	arrow.height = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
-	arrowContainer.rotation = MathUtil.normalizeAngle(-Math.atan2(-disX, -disY));//trace(tp.arrow.scaleX, tp.arrow.scaleY, tp.arrow.height)
+	arrowContainer.rotation = MathUtil.normalizeAngle( -Math.atan2( -disX, -disY) );
 }
 
-// aim for tutorial
-private function createAim() : void 
+// tutorial decorator
+private function createTutors() : void 
 {
-	if( !player.inTutorial() )
+	if( player.get_arena(0) > 0 || tutors != null )
 		return;
-	
-	if( appModel.battleFieldView.battleData.map.name == "battle_1" )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
-	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_showHandler);
-}
-private function tutorials_showHandler(event:Event) : void 
-{
-	var task:TutorialTask = event.data as TutorialTask;
-	if( place.building.troopType != -1 && task != null && task.message == "tutor_battle_1_start_0" )
-	{
-		addAim();
-		return;
-	}
-	removeAim();
-}
-public function addAim(fightMode:Boolean = false) : void
-{
-	aim = new Image(Assets.getTexture("aim"));
-	aim.touchable = false;
-	aim.alignPivot();
-	aim.alpha = 0;
-	aim.scale = 2;
-	aim.color = fightMode ? 0xFF0000 : TroopType.getColor(place.building.troopType);
-	addChildAt(aim, 0);
-	Starling.juggler.tween(aim, 1.6, {delay:1, alpha:1, scale:0.8, transition:Transitions.EASE_OUT, repeatCount:50});
-}
-public function removeAim() : void
-{
-	if( aim != null )
-	{
-		Starling.juggler.removeTweens(aim);
-		aim.removeFromParent(true);
-		aim = null;
-	}
+	tutors = new TutorialDecorator(this);
 }
 
 // hilight for tutorial
@@ -189,36 +144,23 @@ public function hilight(appear:Boolean):void
 	if( zoneAppear )
 	{
 		dropZone.visible = true;
-		Starling.juggler.tween(dropZone, 0.6, {alpha:0.9, scaleX:2.0, scaleY:1.6, transition:Transitions.EASE_OUT_BACK});
+		Starling.juggler.tween(dropZone, 0.6, {alpha:0.9, scaleX:1.7, scaleY:1.2, transition:Transitions.EASE_OUT_BACK});
 	}
 	else
 	{
-		Starling.juggler.tween(dropZone, 0.6, {alpha:0.0, scaleX:1.0, scaleY:1.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{dropZone.visible = false;}});
+		Starling.juggler.tween(dropZone, 0.6, {alpha:0.0, scaleX:1.0, scaleY:1.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{dropZone.visible = false; }});
 	}
-}
-
-public function get selectable():Boolean
-{
-	return _selectable;
-}
-public function set selectable(value:Boolean):void
-{
-	touchable = value;
-	_selectable = value;
 }
 
 public function update(population:int, troopType:int) : void
 {
-	//if ( troopType == place.building.troopType && place.building._population == population )
-	//	return;
-	
 	showMidSwipesTutorial(troopType);
-	decorator.updateElements(population, troopType);
+	var occupied:Boolean = place.building.troopType != troopType;
+	
 	place.building._population = population;
 	place.building.troopType = troopType;
-	
 	if( hasEventListener(Event.UPDATE) )
-		dispatchEventWith(Event.UPDATE, false);
+		dispatchEventWith(Event.UPDATE, false, [population, troopType, occupied]);
 }
 
 private function showMidSwipesTutorial(troopType : int) : void
@@ -243,6 +185,7 @@ public function getData(index:int):PlaceData
 	var p:PlaceData = appModel.battleFieldView.battleData.map.places.get(index);
 	return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
 }
+
 
 public function fight(destination:Place, troopsCount:Number) : void
 {
@@ -289,6 +232,7 @@ private function rushTimeoutCallback():void
 	}
 }
 
+
 public function replaceBuilding(type:int, level:int, troopType:int, population:int):void
 {
 	rushGap = 0;
@@ -296,19 +240,19 @@ public function replaceBuilding(type:int, level:int, troopType:int, population:i
 	place.building.type = type;
 	place.building.set_level( level );
 	place.building.setFeatures();
-	place.building.troopSpeed = 32000 / place.building.troopSpeed;
+	place.building.troopSpeed = 30000 / place.building.troopSpeed;
 	createDecorator();
 	update(population, troopType);
 }
 
 override public function dispose():void
 {
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_showHandler);
 	Starling.juggler.remove(arrow);
 	clearInterval(rushIntervalId);
 	if( defensiveWeapon != null )
 		defensiveWeapon.dispose();
+	if( decorator != null )
+		decorator.dispose();
 	super.dispose();
 }
 

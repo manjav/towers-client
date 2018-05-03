@@ -3,69 +3,45 @@ package com.gerantech.towercraft.views.decorators
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
-import com.gt.towers.Game;
-import com.gt.towers.Player;
-import com.gt.towers.buildings.Place;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.utils.lists.IntList;
-import starling.animation.Transitions;
-
-import flash.utils.clearTimeout;
-import flash.utils.setTimeout;
-
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.text.BitmapFontTextFormat;
-
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
-import starling.display.Sprite;
 import starling.events.Event;
 
-public dynamic class BuildingDecorator extends Sprite
+public dynamic class BuildingDecorator extends BaseDecorator
 {
-protected var placeView:PlaceView;
-protected var place:Place;
-
-private var populationIndicator:BitmapFontTextRenderer;
 public var improvablePanel:ImprovablePanel;
 
+private var populationIndicator:BitmapFontTextRenderer;
 private var populationBar:HealthBar;
 private var populationIcon:Image;
 private var underAttack:MovieClip;
 private var underAttackId:uint;
-
 private var bodyDisplay:Image;
 private var bodyTexture:String;
-
 private var troopTypeDisplay:Image;
 private var troopTypeTexture:String;
 
 public function BuildingDecorator(placeView:PlaceView)
 {
-	this.placeView = placeView;
-	this.place = placeView.place;
-	this.placeView.addEventListener(Event.UPDATE, placeView_updateHandler);
-
-	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-	alignPivot();
-}
-
-protected function addedToStageHandler():void
-{
-	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	super(placeView);
 	
 	populationBar = new HealthBar(place.building.troopType, place.building.get_population(), place.building.capacity);
 	populationBar.width = 140
 	populationBar.height = 38
-	populationBar.x = parent.x - populationBar.width * 0.5 + 24;
-	populationBar.y = parent.y + 40;
+	populationBar.x = place.x - populationBar.width * 0.5 + 24;
+	populationBar.y = place.y + 40;
 	fieldView.guiImagesContainer.addChild(populationBar);
 
 	populationIndicator = new BitmapFontTextRenderer();
@@ -81,12 +57,12 @@ protected function addedToStageHandler():void
 	populationIcon.touchable = false;
 	populationIcon.width = 49;
 	populationIcon.height = 56;
-	populationIcon.x = place.x - populationBar.width/2 - 18;
+	populationIcon.x = place.x - populationBar.width * 0.5 - 18;
 	populationIcon.y = place.y + 35;
 	fieldView.guiImagesContainer.addChild(populationIcon);
 
 	improvablePanel = new ImprovablePanel();
-	improvablePanel.x = place.x - improvablePanel.width/2;
+	improvablePanel.x = place.x - improvablePanel.width * 0.5;
 	improvablePanel.y = place.y + 50;
 	fieldView.guiImagesContainer.addChild(improvablePanel);
 	
@@ -117,13 +93,15 @@ protected function addedToStageHandler():void
 		TutorialManager.instance.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
 }
 
-public function updateElements(population:int, troopType:int):void
+override protected function update(population:int, troopType:int, occupied:Boolean) : void
 {
+	super.update(population, troopType, occupied);
+	
 	var colorIndex:int = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
 	populationIndicator.text = population + "/" + place.building.capacity;
 	populationBar.troopType = colorIndex;
 	populationBar.value = population;
-	populationIcon.texture = Assets.getTexture("population-"+colorIndex);
+	populationIcon.texture = Assets.getTexture("population-" + colorIndex);
 	
 	// _-_-_-_-_-_-_-_-_-_-_-_-  body -_-_-_-_-_-_-_-_-_-_-_-_-_
 	var txt:String = "building-" + place.building.type;
@@ -156,18 +134,7 @@ public function updateElements(population:int, troopType:int):void
 				appModel.sounds.addSound(tsound);
 		}
 	}
-}
-
-private function punch(scale:Number) : void 
-{
-	bodyDisplay.scale = scale;
-	troopTypeDisplay.scale = scale;
-	Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
-	Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
-}
-
-private function placeView_updateHandler(event:Event):void
-{
+	
 	if( place.building.troopType != player.troopType )
 	{
 		improvablePanel.enabled = false;
@@ -189,6 +156,14 @@ private function placeView_updateHandler(event:Event):void
 		}
 	}
 	improvablePanel.enabled = improvable;
+}
+
+private function punch(scale:Number) : void 
+{
+	bodyDisplay.scale = scale;
+	troopTypeDisplay.scale = scale;
+	Starling.juggler.tween(bodyDisplay, 0.25, {scale:1});
+	Starling.juggler.tween(troopTypeDisplay, 0.25, {scale:1});
 }
 
 public function showUnderAttack():void
@@ -218,10 +193,9 @@ private function tutorials_showHandler(event:Event) : void
 	Starling.juggler.tween(populationBar,		0.6, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK});
 	Starling.juggler.tween(populationIcon,		0.6, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK});
 	Starling.juggler.tween(populationIndicator, 0.6, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK});
-	
 }
 
-override public function dispose():void
+override public function dispose() : void
 {
 	populationIndicator.removeFromParent(true);
 	populationIcon.removeFromParent(true);
@@ -232,9 +206,5 @@ override public function dispose():void
 	troopTypeDisplay.removeFromParent(true);
 	super.dispose();
 }
-protected function get appModel():		AppModel		{	return AppModel.instance;					}
-protected function get game():			Game			{	return appModel.game;						}
-protected function get player():		Player			{	return game.player;							}
-protected function get fieldView():		BattleFieldView {	return AppModel.instance.battleFieldView;	}
 }
 }

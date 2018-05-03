@@ -15,18 +15,16 @@ import starling.events.Event;
 import starling.utils.MathUtil;
 /**
  * ...
- * @author MAnsour Djawadi
+ * @author Mansour Djawadi
  */
 public class TeslaDecorator extends DefenderDecorator
 {
-	
 private var rays:Vector.<LightRay>;
 private var lightingDisplay:MovieClip;
-
 public function TeslaDecorator(placeView:PlaceView) { super(placeView); }
-override public function updateElements(population:int, troopType:int):void
+override protected function update(population:int, troopType:int, occupied:Boolean) : void
 {
-	super.updateElements(population, troopType);
+	super.update(population, troopType, occupied);
 	
 	// rays
 	createLightRays();

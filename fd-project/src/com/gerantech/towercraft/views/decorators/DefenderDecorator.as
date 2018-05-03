@@ -21,9 +21,9 @@ private var radiusMinDisplay:Image;
 private var radiusScale:Number;
 
 public function DefenderDecorator(placeView:PlaceView) { super(placeView); }
-override public function updateElements(population:int, troopType:int):void
+override protected function update(population:int, troopType:int, occupied:Boolean) : void
 {
-	super.updateElements(population, troopType);
+	super.update(population, troopType, occupied);
 
 	damage			= game.calculator.get(BuildingFeatureType.F21_DAMAGE,			placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
 	damageRadiusMax = game.calculator.get(BuildingFeatureType.F24_RANGE_RADIUS_MAX, placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);

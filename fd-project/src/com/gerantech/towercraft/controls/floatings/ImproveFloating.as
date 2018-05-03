@@ -90,7 +90,7 @@ override protected function transitionInCompleted():void
 private function placeView_updateHandler(event:Event):void
 {
 	// remove on occupition
-	if( placeView.place.building.troopType != player.troopType )
+	if( event.data[2] )
 	{
 		close();
 		return;
