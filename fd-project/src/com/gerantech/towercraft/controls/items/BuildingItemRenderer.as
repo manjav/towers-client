@@ -10,14 +10,12 @@ import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.TiledRowsLayout;
-
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.events.Event;
@@ -45,12 +43,12 @@ override protected function initialize():void
 {
 	super.initialize();
 	alpha = 0;
-	backgroundSkin = new Quad(1,1);
+	backgroundSkin = new Quad(1, 1);
 	backgroundSkin.visible = false;
 
 	layout = new AnchorLayout();
 	
-	cardLayoutData = new AnchorLayoutData(0,0,0,0);
+	cardLayoutData = new AnchorLayoutData(0, 0, 0, 0);
 	cardDisplay = new BuildingCard();
 	cardDisplay.showLevel = inDeck;
 	cardDisplay.showSlider = inDeck;
@@ -61,14 +59,14 @@ override protected function initialize():void
 
 override protected function commitData():void
 {
-	if(_firstCommit)
+	if( _firstCommit )
 	{
-		if(_owner.layout is HorizontalLayout)
+		if( _owner.layout is HorizontalLayout )
 		{
 			width = _width = HorizontalLayout(_owner.layout).typicalItemWidth;
 			height = _height = HorizontalLayout(_owner.layout).typicalItemHeight;
 		}
-		else if(_owner.layout is TiledRowsLayout)
+		else if( _owner.layout is TiledRowsLayout )
 		{
 			width = _width = TiledRowsLayout(_owner.layout).typicalItemWidth;
 			height = _height = TiledRowsLayout(_owner.layout).typicalItemHeight;
@@ -77,13 +75,13 @@ override protected function commitData():void
 	}
 
 	cardDisplay.type = _data as int;
-	Starling.juggler.tween(this, 0.2, {delay:0.05*index, alpha:1});
+	Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	
 	if( player.buildings.exists(cardDisplay.type) && player.buildings.get(cardDisplay.type).get_level() == -1 )
 	{
 		newDisplay = new ImageLoader();
 		newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-		newDisplay.layoutData = new AnchorLayoutData(-10*appModel.scale, NaN, NaN, -10*appModel.scale);
+		newDisplay.layoutData = new AnchorLayoutData( -10 * appModel.scale, NaN, NaN, -10 * appModel.scale);
 		newDisplay.height = newDisplay.width = width * 0.6;
 		addChild(newDisplay);
 	}
@@ -125,10 +123,10 @@ override public function set currentState(_state:String):void
 		return;
 	super.currentState = _state;
 	
-	if ( !this.inDeck )
+	if( !this.inDeck )
 		return;
 	
-	cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12*appModel.scale : 0;
+	cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12 * appModel.scale : 0;
 	if( _state == STATE_SELECTED )
 	{
 		if( newDisplay )
@@ -140,7 +138,6 @@ override public function set currentState(_state:String):void
 			sfs.putInt("type", cardDisplay.type);
 			sfs.putInt("confirmedHards", 0);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
-
 		}
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
@@ -148,6 +145,5 @@ override public function set currentState(_state:String):void
 	if ( player.buildings.exists( _data as int ) )
 		visible = _state != STATE_SELECTED;
 }
-
 }
 }

@@ -89,8 +89,8 @@ override protected function initialize():void
 	
 	var cardsLayout:HorizontalLayout = new HorizontalLayout();
 	cardsLayout.gap = padding;
-	cardsLayout.typicalItemWidth = padding*6;
-	cardsLayout.typicalItemHeight = padding*7;
+	cardsLayout.typicalItemWidth = padding * 6;
+	cardsLayout.typicalItemHeight = padding * 8;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	

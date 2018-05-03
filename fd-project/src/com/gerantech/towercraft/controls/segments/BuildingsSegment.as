@@ -15,9 +15,6 @@ import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.Exchanger;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
@@ -26,7 +23,7 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.TiledRowsLayout;
-
+import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.events.Event;
 
@@ -35,7 +32,6 @@ public class BuildingsSegment extends Segment
 private var buildingsListCollection:ListCollection;
 private var buildingslist:List;
 private var listLayout:TiledRowsLayout;
-
 private var detailsPopup:BuildingDetailsPopup;
 
 public function BuildingsSegment(){}
@@ -45,18 +41,19 @@ override public function init():void
 	
 	layout = new AnchorLayout();
 	listLayout = new TiledRowsLayout();
-	listLayout.padding = listLayout.gap = 16 * appModel.scale;
-	listLayout.paddingTop = 120 * appModel.scale;
+	listLayout.padding = listLayout.horizontalGap = 16 * appModel.scale;
+	listLayout.paddingTop = 110 * appModel.scale;
 	listLayout.useSquareTiles = false;
+	listLayout.verticalGap = listLayout.horizontalGap * 5;
 	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width -listLayout.gap*(listLayout.requestedColumnCount+2)) / listLayout.requestedColumnCount;
-	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.5;
+	listLayout.typicalItemWidth = (width -listLayout.gap * (listLayout.requestedColumnCount + 2)) / listLayout.requestedColumnCount;
+	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.35;
 	
 	updateData();
 	buildingslist = new List();
 	buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	buildingslist.layout = listLayout;
-	buildingslist.layoutData = new AnchorLayoutData(0,0,0,0);
+	buildingslist.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	buildingslist.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
 	buildingslist.dataProvider = buildingsListCollection;
 	buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
@@ -128,10 +125,10 @@ private function list_focusInHandler(event:Event):void
 	ti.sourceAlpha = 1;
 	ti.sourceBound = item.getBounds(this);
 	ti.destinationConstrain = this.getBounds(stage);
-	ti.destinationBound = new Rectangle(stage.stageWidth*0.05, 
-		stage.stageHeight*(Math.floor(buildingType/10)==4?0.17:0.22), 
-		stage.stageWidth*0.9, 
-		stage.stageHeight*(Math.floor(buildingType/10)==4?0.66:0.56));
+	ti.destinationBound = new Rectangle(stage.stageWidth * 0.05,
+		stage.stageHeight * (Math.floor(buildingType / 10) == 4?0.17:0.22),
+		stage.stageWidth * 0.9,
+		stage.stageHeight * (Math.floor(buildingType / 10) == 4?0.66:0.56));
 
 	// create transition out data
 	var to:TransitionData = new TransitionData();

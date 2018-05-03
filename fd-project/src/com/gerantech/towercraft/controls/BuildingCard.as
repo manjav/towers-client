@@ -5,13 +5,11 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingType;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
+import flash.geom.Rectangle;
 
 public class BuildingCard extends TowersLayout
 {
@@ -28,11 +26,7 @@ private var _showLevel:Boolean = true;
 
 private var skin:ImageSkin;
 
-public function BuildingCard()
-{
-	super();
-}
-
+public function BuildingCard(){	super();}
 override protected function initialize():void
 {
 	super.initialize();
@@ -45,22 +39,22 @@ override protected function initialize():void
 	
 	layout= new AnchorLayout();
 	var progressHeight:int = 56 * appModel.scale;
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 12 * appModel.scale;
 	
 	iconDisplay = new ImageLoader();
 	iconDisplay.pixelSnapping = false;
 	iconDisplay.maintainAspectRatio = false;
-	iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.8, padding);
+	iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding * 1.2, padding);
 	addChild(iconDisplay);
 	
 	improveDisplay = new ImageLoader();
 	improveDisplay.pixelSnapping = false;
 	improveDisplay.maintainAspectRatio = false;
-	improveDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.8, padding);
+	improveDisplay.layoutData = iconDisplay.layoutData;
 	addChild(improveDisplay);
 	
 	slider = new BuildingSlider();
-	slider.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	slider.layoutData = new AnchorLayoutData(NaN, 0, -progressHeight, 0);
 	slider.visible = !_locked && _showSlider;
 	slider.height = progressHeight;
 	addChild(slider);
@@ -69,7 +63,7 @@ override protected function initialize():void
 	//levelDisplay.alpha = 0.9;
 	levelDisplay.visible = !_locked && _showLevel;
 	levelDisplay.height = progressHeight;
-	levelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.8, padding * 4, padding);
+	levelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 1.5, padding);
 	addChild(levelDisplay);
 
 	var t:int = type;

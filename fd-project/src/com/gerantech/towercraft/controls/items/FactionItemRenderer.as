@@ -138,8 +138,8 @@ private function createElements():void
 	var cardsLayout:HorizontalLayout = new HorizontalLayout();
 	cardsLayout.useVirtualLayout = false;
 	cardsLayout.gap = padding;
-	cardsLayout.typicalItemWidth = padding*4;
-	cardsLayout.typicalItemHeight = padding*5;
+	cardsLayout.typicalItemWidth = padding * 4;
+	cardsLayout.typicalItemHeight = padding * 5.2;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	

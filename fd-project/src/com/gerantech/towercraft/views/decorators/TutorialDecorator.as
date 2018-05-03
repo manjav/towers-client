@@ -73,7 +73,6 @@ private function removeAim() : void
 override public function dispose():void 
 {
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_eventsHandler);
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_eventsHandler);
 	super.dispose();
 }
 }

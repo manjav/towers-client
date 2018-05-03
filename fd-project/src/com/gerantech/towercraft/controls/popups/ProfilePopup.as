@@ -175,13 +175,13 @@ private function showProfile():void
 	listLayout.gap = padding * 0.5;
 	listLayout.useSquareTiles = false;
 	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width -listLayout.padding*(listLayout.requestedColumnCount+1)) / listLayout.requestedColumnCount;
-	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
+	listLayout.typicalItemWidth = (width -listLayout.padding * (listLayout.requestedColumnCount + 1)) / listLayout.requestedColumnCount;
+	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.35;
 	
 	var buildingslist:FastList = new FastList();
 	buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	buildingslist.layout = listLayout;
-	buildingslist.layoutData = new AnchorLayoutData(padding*7 + featureList.dataProvider.length*padding*1.8, 0, padding*5, 0);
+	buildingslist.layoutData = new AnchorLayoutData(padding * 7 + featureList.dataProvider.length * padding * 1.8, 0, padding * 5, 0);
 	buildingslist.itemRendererFactory = function():IListItemRenderer { return new ProfileBuildingItemRenderer(); }
 	buildingslist.dataProvider = getBuildingData();
 	addChild(buildingslist);
