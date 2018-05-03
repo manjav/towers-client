@@ -76,12 +76,16 @@ override protected function initialize():void
 	addChild(waitDisplay);
 	Starling.juggler.tween(waitDisplay, 0.5, {delay:2, alpha:1, y:stage.stageHeight * 0.6, transition:Transitions.EASE_OUT_BACK});
 	
-	var tipDisplay:RTLLabel = new RTLLabel(loc("tip_"+Math.min(player.get_arena(0), 2)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center", 0.9);
-	tipDisplay.x = padding;
-	tipDisplay.y = stage.stageHeight - padding*5;
-	tipDisplay.width = stage.stageWidth-padding*2;
-	tipDisplay.touchable = false;
-	addChild(tipDisplay);
+	var arena:int = player.get_arena(0)
+	if( arena > 0 )
+	{
+		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_"+Math.min(arena - 1, 2)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center", 0.9);
+		tipDisplay.x = padding;
+		tipDisplay.y = stage.stageHeight - padding*5;
+		tipDisplay.width = stage.stageWidth-padding*2;
+		tipDisplay.touchable = false;
+		addChild(tipDisplay);		
+	}
 	
 	setTimeout(gotoReady, ready?0:1000);
 }
