@@ -48,7 +48,7 @@ private function hitTestTroopsInterval():void
 		{
 			AppModel.instance.sounds.addAndPlaySound("shot-tower");
 			troop.hit(damage);
-			dispatchEventWith(Event.TRIGGERED, false, [coilIndex, troop]);
+			placeView.dispatchEventWith(Event.TRIGGERED, false, [coilIndex, troop]);
 			//dispatchEventWith(Event.TRIGGERED, false, troop);
 			if( coilIndex == 0 )
 				return;

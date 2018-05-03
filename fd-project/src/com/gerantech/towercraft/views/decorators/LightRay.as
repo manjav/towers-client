@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.views.decorators 
 {
 import com.gerantech.towercraft.models.Assets;
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
 import starling.core.Starling;
 import starling.display.MovieClip;
 import starling.display.Sprite;
@@ -10,6 +12,7 @@ import starling.display.Sprite;
  */
 public class LightRay extends Sprite
 {
+private var timeoutId:uint;
 public var image:MovieClip;
 public function LightRay()
 {
@@ -31,14 +34,21 @@ public function show(rotation:Number, height:Number):void
 	this.image.height = height;
 	this.image.play();
 	Starling.juggler.add(this.image);
+	
+	timeoutId = setTimeout(hide, 100);
 }
 
-public function hide():void 
+private function hide():void 
 {
+	clearTimeout(timeoutId);
 	Starling.juggler.remove(this.image);
 	this.image.stop();
 	this.visible = false;
 }
-
+override public function dispose():void
+{
+	hide();
+	super.dispose();
+}
 }
 }

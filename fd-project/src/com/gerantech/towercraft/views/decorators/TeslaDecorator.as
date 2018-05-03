@@ -32,8 +32,6 @@ override protected function update(population:int, troopType:int, occupied:Boole
 	// lighting
 	createLightingDisplay();
 	lightingDisplay.scale = damage;
-	
-	placeView.defensiveWeapon.addEventListener(Event.TRIGGERED, defensiveWeapon_triggeredHandler);
 }
 
 private function createLightingDisplay():void
@@ -49,7 +47,7 @@ private function createLightingDisplay():void
 	fieldView.buildingsContainer.addChild(lightingDisplay);
 }
 
-override protected function defensiveWeapon_triggeredHandler(event:Event):void
+override protected function placeView_triggeredHandler(event:Event):void
 {
 	var coilIndex:int = event.data[0] as int;
 	var troop:TroopView = event.data[1] as TroopView;
@@ -64,7 +62,6 @@ override protected function defensiveWeapon_triggeredHandler(event:Event):void
 	lightingDisplay.visible = true;
 	Starling.juggler.add(lightingDisplay);
 	
-	setTimeout(function():void { if( rays != null ) rays[coilIndex].hide();}, 100);
 	setTimeout(function():void { 	
 		Starling.juggler.remove(lightingDisplay);
 		lightingDisplay.stop();

@@ -20,7 +20,12 @@ private var radiusMaxDisplay:Image;
 private var radiusMinDisplay:Image;
 private var radiusScale:Number;
 
-public function DefenderDecorator(placeView:PlaceView) { super(placeView); }
+public function DefenderDecorator(placeView:PlaceView)
+{
+	super(placeView);
+	placeView.addEventListener(Event.TRIGGERED, placeView_triggeredHandler);
+
+}
 override protected function update(population:int, troopType:int, occupied:Boolean) : void
 {
 	super.update(population, troopType, occupied);
@@ -80,7 +85,7 @@ private function fade(display:DisplayObject, _alpha:Number, _delay:Number, _scal
 	Starling.juggler.add(tw);
 }
 
-protected function defensiveWeapon_triggeredHandler(event:Event):void { }
+protected function placeView_triggeredHandler(event:Event):void { }
 override public function dispose():void
 {
 	if( radiusMaxDisplay != null )
@@ -93,8 +98,8 @@ override public function dispose():void
 		Starling.juggler.removeTweens(radiusMinDisplay);
 		radiusMinDisplay.removeFromParent(true);
 	}
-	if( placeView.defensiveWeapon != null )
-		placeView.defensiveWeapon.removeEventListener(Event.TRIGGERED, defensiveWeapon_triggeredHandler);
+	if( placeView != null )
+		placeView.removeEventListener(Event.TRIGGERED, placeView_triggeredHandler);
 	super.dispose();
 }
 }
