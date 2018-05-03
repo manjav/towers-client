@@ -242,6 +242,7 @@ public function replaceBuilding(type:int, level:int, troopType:int, population:i
 	place.building.setFeatures();
 	place.building.troopSpeed = 30000 / place.building.troopSpeed;
 	createDecorator();
+	createTutors();
 	update(population, troopType);
 }
 

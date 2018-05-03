@@ -19,10 +19,7 @@ private var aim:Image;
 public function TutorialDecorator(placeView:PlaceView) 
 {
 	super(placeView);
-	if( fieldView.battleData.map.name == "battle_1" )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_eventsHandler);
-	
-	//tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_showHandler);
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_eventsHandler);
 }
 override protected function update(population:int, troopType:int, occupied:Boolean) : void
 {
@@ -41,6 +38,7 @@ private function tutorials_eventsHandler(event:Event) : void
 	if( task.type == TutorialTask.TYPE_SWIPE && task.places.get(task.places.size() - 1).index == place.index )
 		addAim(true);
 
+	// buildings color tutorial
 	if( place.building.troopType != -1 )
 	{
 		if( task.message == "tutor_battle_1_start_0" )
