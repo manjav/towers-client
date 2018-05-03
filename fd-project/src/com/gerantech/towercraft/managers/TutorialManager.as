@@ -160,10 +160,6 @@ public function removeAll():void
 			appModel.navigator.overlays.removeAt(i);
 		}
 	}
-	
-	// remove all active aims
-	for each( var pv:PlaceView in appModel.battleFieldView.places )
-		pv.removeAim();
 }
 
 public static function get instance():TutorialManager

@@ -54,7 +54,7 @@ protected override function transitionInCompleted():void
 	swipeNumText = new BitmapFontTextRenderer();
 	swipeNumText.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xAAFFDD, "center")
 	swipeNumText.pixelSnapping = false;
-	swipeNumText.y = -50;
+	swipeNumText.y = -100;
 	swipeNumText.touchable = false;
 	swipeNumText.text = "  ";
 	swipeNumText.visible = false;

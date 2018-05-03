@@ -213,6 +213,7 @@ private function startBattle():void
 
 private function showTutorials() : void 
 {
+		touchEnable = true;
 	if( sfsConnection.mySelf.isSpectator )
 		return;
 
