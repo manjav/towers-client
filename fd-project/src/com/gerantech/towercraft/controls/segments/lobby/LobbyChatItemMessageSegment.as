@@ -7,12 +7,10 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.AutoSizeMode;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
 
 public class LobbyChatItemMessageSegment extends LobbyChatItemSegment
 {

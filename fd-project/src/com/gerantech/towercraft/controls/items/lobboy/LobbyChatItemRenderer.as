@@ -62,7 +62,7 @@ override protected function commitData():void
 	if( segment != null )
 	{
 		segment.removeFromParent();
-		segment = null;		
+		//segment = null;		
 	}
 
 	type = SFSObject(_data).getShort("m");
@@ -95,16 +95,16 @@ private function createSegment(type:int) : LobbyChatItemSegment
 	
 	if( segment != null )
 		return segment;
-	
 	switch( type )
 	{
-		case TYPE_MESSAGE:	segment = new LobbyChatItemMessageSegment(owner as FastList);	break;
-		case TYPE_COMMENT:	segment = new LobbyChatItemCommentSegment(owner as FastList);	break;
-		case TYPE_BATTLE:	segment = new LobbyChatItemBattleSegment( owner as FastList); 	break;
-		case TYPE_CONFIRM:	segment = new LobbyChatItemConfirmSegment(owner as FastList); 
+		case TYPE_MESSAGE:	segment = messageSegment	= new LobbyChatItemMessageSegment(owner as FastList);	break;
+		case TYPE_COMMENT:	segment = commentSegment	= new LobbyChatItemCommentSegment(owner as FastList);	break;
+		case TYPE_BATTLE:	segment = battleSegment		= new LobbyChatItemBattleSegment( owner as FastList); 	break;
+		case TYPE_CONFIRM:	segment = confirmSegment	= new LobbyChatItemConfirmSegment(owner as FastList); 
 			segment.addEventListener(Event.TRIGGERED, confirmSegment_triggeredHandler);
 			break;
 	}
+	
 	segment.layoutData = fitLayoutData;
 	return segment;
 }
