@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SmartFoxConfig>
-	 <!--Mandatory Settings -->
+	<!--Mandatory Settings -->
  	<!--<ip>127.0.0.1</ip>-->
  	<ip>185.216.125.7</ip> 
  	<!--<ip>192.168.10.239</ip> -->
