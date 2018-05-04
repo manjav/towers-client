@@ -60,7 +60,7 @@ override protected function commitData():void
 		intevalId = setInterval(checkScrolling, SLOW_COMMIT_TIMEOUT);
 		commitPhase = 0;
 	}
-}		
+}
 
 protected function onScreen (itemBounds:Rectangle) : Boolean
 {

@@ -25,6 +25,7 @@ public class SegmentsItemRenderer extends AbstractListItemRenderer
 {
 private var _firstCommit:Boolean = true;
 private var segment:Segment;
+private var _enabled:Boolean;
 
 public function SegmentsItemRenderer(){}
 override protected function initialize():void
@@ -93,7 +94,6 @@ override protected function commitData():void
 		segment.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		segment.width = _owner.width
 		segment.height = _owner.height;
-		addChild(segment);
 		
 		if( index == 0 )
 			setTimeout(owner_scrollCompleteHandler, 1000, null);
@@ -111,22 +111,14 @@ private function owner_scrollStartHandler(event:Event):void
 
 private function owner_scrollHandler():void
 {
-	visible = onScreen(getBounds(stage))
+	enabled = onScreen(getBounds(stage))
 }	
 private function owner_scrollCompleteHandler(event:Event):void
 {
 	if( stage == null )
 		return;
 	
-	visible = stage.getBounds(this).x == 0;
-	if( visible )
-	{
-		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
-		if( segment.initializeCompleted )
-			segment.focus();
-		else
-			segment.init();
-	}
+	enabled = stage.getBounds(this).x == 0;
 }
 
 override public function dispose():void
@@ -140,6 +132,29 @@ override public function dispose():void
 	super.dispose();
 }
 
-
+public function get enabled():Boolean 
+{
+	return _enabled;
+}
+public function set enabled(value:Boolean):void 
+{
+	if ( _enabled == value )
+		return;
+	_enabled = value;
+	
+	if( _enabled )
+	{
+		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
+		addChild(segment);
+		if( segment.initializeCompleted )
+			segment.focus();
+		else
+			segment.init();
+	}
+	else
+	{
+		segment.removeFromParent();
+	}
+}
 }
 }
