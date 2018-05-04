@@ -40,17 +40,14 @@ private var battlesButton:HomeButton;
 private var leaguesButton:HomeButton;
 private var battleTimeoutId:uint;
 
-public function HomeSegment()
-{
-	super();
-}
+public function HomeSegment() { super(); }
 override public function init():void
 {
 	super.init();
 	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED  )
 		return;
 	
-	layout = new AnchorLayout();		
+	layout = new AnchorLayout();
 	showOffers();
 	showMainButtons();
 	showTutorial();
@@ -122,8 +119,8 @@ private function showMainButtons():void
 	leaguesButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0
 	addButton(leaguesButton, "button_leagues", 540, 520, 0.4, goUp);
-	function goUp():void { Starling.juggler.tween(leaguesButton, 2, {y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown():void { Starling.juggler.tween(leaguesButton, 2, {y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	function goUp():void { Starling.juggler.tween(leaguesButton, 2,		{delay:0.5, y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown():void { Starling.juggler.tween(leaguesButton, 2,	{delay:0.5, y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
 	addButton(battlesButton, "button_battles", 540, 970, 0.6);
