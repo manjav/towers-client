@@ -21,9 +21,9 @@ override protected function initialize():void
 	
 	var acceptButton:CustomButton = new CustomButton();
 	acceptButton.label = loc("popup_accept_label");
-	acceptButton.height = padding * 3;
+	acceptButton.height = padding * 4;
 	acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
-	acceptButton.layoutData = new AnchorLayoutData( labelDisplay.height + padding * 5, padding);
+	acceptButton.layoutData = new AnchorLayoutData(NaN, hasDecline ? padding : NaN, padding * 2, NaN, hasDecline ? NaN : 0);
 	addChild(acceptButton);
 	
 	if( hasDecline )
@@ -31,16 +31,15 @@ override protected function initialize():void
 		var declineButton:CustomButton = new CustomButton();
 		declineButton.label = loc("popup_decline_label");
 		declineButton.style = "danger";
-		declineButton.height = padding * 3;
+		declineButton.height = padding * 4;
 		declineButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
-		declineButton.layoutData = new AnchorLayoutData( labelDisplay.height + padding * 5, NaN, NaN, padding);
+		declineButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 		addChild(declineButton);
 	}
-	
 }
 override protected function transitionInStarted():void
 {
-	height = labelDisplay.height + padding * 4;
+	height = labelDisplay.height + padding * 8;
 	super.transitionInStarted();
 }
 

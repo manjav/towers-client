@@ -39,7 +39,7 @@ package com.gerantech.towercraft.controls.tooltips
 			super.initialize();
 			//touchable = false;
 			width = maxWidth = stage.stageWidth * hSize;
-			padding = 36 * appModel.scale;
+			padding = 24 * appModel.scale;
 			
 			var halign:String = position.x < stage.stageWidth * 0.5 ? "left" : "right";
 			var valign:String = position.y < stage.stageHeight * 0.5 ? "top" : "bot";

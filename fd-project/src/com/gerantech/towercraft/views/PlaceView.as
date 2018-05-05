@@ -78,7 +78,6 @@ public function PlaceView(place:Place)
 	place.building.troopSpeed = 30000 / place.building.troopSpeed;
 	createDecorator();
 	createArrow();
-	createTutors();
 }
 
 private function createDecorator():void
@@ -104,6 +103,13 @@ private function createDecorator():void
 			decorator = new BuildingDecorator(this);
 			break;
 	}
+	
+	if( tutors != null )
+		tutors.dispose();
+	tutors = null;
+	if( player.get_arena(0) > 0 || tutors != null )
+		return;
+	tutors = new TutorialDecorator(this);
 }
 
 public function createArrow():void
@@ -124,14 +130,6 @@ public function arrowTo(disX:Number, disY:Number):void
 {
 	arrow.height = Math.sqrt(Math.pow(disX, 2) + Math.pow(disY, 2));
 	arrowContainer.rotation = MathUtil.normalizeAngle( -Math.atan2( -disX, -disY) );
-}
-
-// tutorial decorator
-private function createTutors() : void 
-{
-	if( player.get_arena(0) > 0 || tutors != null )
-		return;
-	tutors = new TutorialDecorator(this);
 }
 
 // hilight for tutorial
@@ -242,7 +240,6 @@ public function replaceBuilding(type:int, level:int, troopType:int, population:i
 	place.building.setFeatures();
 	place.building.troopSpeed = 30000 / place.building.troopSpeed;
 	createDecorator();
-	createTutors();
 	update(population, troopType);
 }
 
@@ -250,6 +247,8 @@ override public function dispose():void
 {
 	Starling.juggler.remove(arrow);
 	clearInterval(rushIntervalId);
+	if( tutors != null )
+		tutors.dispose();
 	if( defensiveWeapon != null )
 		defensiveWeapon.dispose();
 	if( decorator != null )

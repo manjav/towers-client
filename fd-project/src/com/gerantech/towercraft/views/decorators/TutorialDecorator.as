@@ -41,9 +41,9 @@ private function tutorials_eventsHandler(event:Event) : void
 	// buildings color tutorial
 	if( place.building.troopType != -1 )
 	{
-		if( task.message == "tutor_battle_1_start_0" )
+		if( task.message == "tutor_battle_1_start_2" )
 			addAim();
-		else if( task.message == "tutor_battle_1_start_2" )
+		else if( task.message == "tutor_battle_1_start_4" )
 			removeAim();
 	}
 }
@@ -73,6 +73,7 @@ private function removeAim() : void
 override public function dispose():void 
 {
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_eventsHandler);
+	removeAim();
 	super.dispose();
 }
 }

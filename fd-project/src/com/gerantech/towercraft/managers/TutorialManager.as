@@ -72,20 +72,25 @@ private function overlay_closeHandler(event:Event):void
 	processTasks();
 }
 
-public function showMidSwipe(placeView:PlaceView):void
+public function showMidSwipe(target:PlaceView):void
 {
-	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + placeView.place.index);
+	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + target.place.index);
+	if( appModel.battleFieldView.battleData.map.index == 2 && target.place.index == 1 )
+	{
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_2_mid_2", null, 500, 1500, 2));
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_2_mid_4", null, 500, 1500, 4));
+	}
 	var places:PlaceDataList = new PlaceDataList();
 	if( appModel.battleFieldView.battleData.map.index <= 2 )
 	{
-		for (var i:int = 0; i < placeView.place.index+2; i++) 
-			places.push(placeView.getData(i));
+		for (var i:int = 0; i < target.place.index + 2; i++)
+			places.push(target.getData(i));
 	}
-	else
+	/*else
 	{
-		places.push(placeView.getData(placeView.place.index));
-		places.push(placeView.getData(placeView.place.index + 1));
-	}
+		places.push(target.getData(target.place.index));
+		places.push(target.getData(target.place.index + 1));
+	}*/
 	
 	if( places.size() > 0 )
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 800 * places.size()));

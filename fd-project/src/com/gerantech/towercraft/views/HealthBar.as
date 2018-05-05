@@ -46,7 +46,7 @@ override protected function initialize():void
 	backroundDisplay.scale9Grid = scaleRect;
 	backroundDisplay.source = Assets.getTexture("healthbar-bg-"+(atlas=="battlefields"?_troopType:-1), atlas);
 	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(backroundDisplay);
+	addChildAt(backroundDisplay, 0);
 	
 	fillDisplay = new ImageLoader();
 	fillDisplay.pixelSnapping = false;
@@ -54,7 +54,7 @@ override protected function initialize():void
 	fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType, atlas);
 	fillDisplay.width =  width * (value / maximum);
 	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
-	addChild(fillDisplay);
+	addChildAt(fillDisplay, 0);
 }
 
 public function get value():Number

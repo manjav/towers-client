@@ -90,7 +90,7 @@ override protected function initialize():void
 	closeBatton.height = 120 * appModel.scale;
 	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?31.4:27) * padding, NaN, NaN, NaN, 0);
 	closeBatton.name = "close";
-	closeBatton.label = loc("close_button");
+	closeBatton.label = loc("popup_accept_label");
 	closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	Starling.juggler.tween(closeBatton, 0.5, {delay:0.9, alpha:1});
 	closeBatton.alpha = 0;
