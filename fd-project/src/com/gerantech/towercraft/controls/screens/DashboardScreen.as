@@ -161,8 +161,9 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	pageList.dataProvider = segmentsCollection;
 	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
 	pageList.addEventListener(Event.READY, pageList_readyHandler);
+	pageList.addEventListener(FeathersEventType.SCROLL_COMPLETE, pageList_scrollCompleteHandler);
 	tabsList.dataProvider = segmentsCollection;
-	setTimeout(gotoPage, 200, tabIndex, 0.1);
+	setTimeout(gotoPage, 10, tabIndex, 0.1);
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
@@ -229,21 +230,31 @@ private function getListData():ListCollection
 	return ret;
 }
 
+private function pageList_scrollCompleteHandler(e:Event):void 
+{
+	if( !pageList.hasEventListener(FeathersEventType.FOCUS_IN) )
+		pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
+}
+
 private function pageList_focusInHandler(event:Event):void
 {
+	tabsList.removeEventListeners(Event.SELECT);
 	var focusIndex:int = event.data as int;
 	if( tabsList.selectedIndex != focusIndex )
 		gotoPage(focusIndex, 0.5, false);
+	tabsList.addEventListener(Event.SELECT, tabsList_selectHandler);
 }
 
 private function tabsList_selectHandler(event:Event):void
 {
-	if( player.dashboadTabEnabled(tabsList.selectedIndex) )
-		gotoPage(tabsList.selectedIndex);
+	if ( !player.dashboadTabEnabled(tabsList.selectedIndex) )
+		return;
+	pageList.removeEventListeners(FeathersEventType.FOCUS_IN);
+	gotoPage(tabsList.selectedIndex);
 }
 public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Boolean = true):void
 {
-	//trace("gotoPage", tabIndex, pageIndex, ExchangeSegment.focusedCategory, pageList.selectedIndex, tabsList.selectedIndex)
+	trace("gotoPage", tabIndex, pageIndex, ExchangeSegment.focusedCategory, pageList.selectedIndex, tabsList.selectedIndex)
 	tabsList.selectedIndex = tabIndex = pageIndex;
 	if( scrollPage )
 		pageList.scrollToDisplayIndex(pageIndex, animDuration);

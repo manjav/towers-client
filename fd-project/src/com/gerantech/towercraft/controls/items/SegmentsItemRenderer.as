@@ -12,13 +12,10 @@ import com.gerantech.towercraft.controls.segments.Segment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
-
-import flash.utils.setTimeout;
-
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 public class SegmentsItemRenderer extends AbstractListItemRenderer
@@ -26,7 +23,6 @@ public class SegmentsItemRenderer extends AbstractListItemRenderer
 private var _firstCommit:Boolean = true;
 private var segment:Segment;
 private var _enabled:Boolean;
-
 public function SegmentsItemRenderer(){}
 override protected function initialize():void
 {
@@ -92,9 +88,6 @@ override protected function commitData():void
 	if( segment != null )
 	{
 		segment.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-		segment.width = _owner.width
-		segment.height = _owner.height;
-		
 		if( index == 0 )
 			setTimeout(owner_scrollCompleteHandler, 1000, null);
 	}
@@ -119,18 +112,16 @@ private function owner_scrollCompleteHandler(event:Event):void
 		return;
 	
 	enabled = stage.getBounds(this).x == 0;
+	if ( !enabled )
+		return;
+	
+	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
+	if( segment.initializeCompleted )
+		segment.focus();
+	else
+		segment.init();
 }
 
-override public function dispose():void
-{
-	if( _owner != null )
-	{
-		_owner.removeEventListener(Event.SCROLL, owner_scrollHandler);
-		_owner.removeEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
-		_owner.removeEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
-	}
-	super.dispose();
-}
 
 public function get enabled():Boolean 
 {
@@ -143,18 +134,20 @@ public function set enabled(value:Boolean):void
 	_enabled = value;
 	
 	if( _enabled )
-	{
-		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, index);
 		addChild(segment);
-		if( segment.initializeCompleted )
-			segment.focus();
-		else
-			segment.init();
-	}
 	else
-	{
 		segment.removeFromParent();
+}
+
+override public function dispose():void
+{
+	if( _owner != null )
+	{
+		_owner.removeEventListener(Event.SCROLL, owner_scrollHandler);
+		_owner.removeEventListener(FeathersEventType.SCROLL_START, owner_scrollStartHandler);
+		_owner.removeEventListener(FeathersEventType.SCROLL_COMPLETE, owner_scrollCompleteHandler);
 	}
+	super.dispose();
 }
 }
 }

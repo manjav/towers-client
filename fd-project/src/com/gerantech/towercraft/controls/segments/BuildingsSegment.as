@@ -47,7 +47,7 @@ override public function init():void
 	listLayout.verticalGap = listLayout.horizontalGap * 5;
 	listLayout.requestedColumnCount = 4;
 	listLayout.typicalItemWidth = (width -listLayout.gap * (listLayout.requestedColumnCount + 2)) / listLayout.requestedColumnCount;
-	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.35;
+	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
 	
 	updateData();
 	buildingslist = new List();

@@ -5,44 +5,34 @@ import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
-
-import flash.utils.setTimeout;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
-
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 public class SocialSegment extends Segment
 {
 public static var tabIndex:int = 0;
-	
 private var pageList:List;
 private var tabsList:List;
 private var scrollTime:Number = 0.01;
 private var listCollection:ListCollection;
 private var tabSize:int;
-public function SocialSegment()
-{
-	super();
-}
+public function SocialSegment() { super(); }
 override public function init():void
 {
 	if( initializeCompleted )
 		return;
 	super.init();
-	
 	layout = new AnchorLayout();
-	
 	if( player.inTutorial() )
 	{
 		appModel.navigator.addLog(loc("button_availabled_after_tutorial", [loc("button_socials")]));
@@ -50,7 +40,6 @@ override public function init():void
 	}
 	
 	var tabsSize:int = 120 * appModel.scale;
-	
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 	pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -63,7 +52,6 @@ override public function init():void
 	pageList.layoutData = new AnchorLayoutData(tabsSize*2, 0, 0, 0);
 	pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	pageList.snapToPages = true;
-	pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
 	pageList.horizontalScrollPolicy = pageList.verticalScrollPolicy = ScrollPolicy.OFF;
 	pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 	pageList.dataProvider = listCollection;
@@ -103,13 +91,6 @@ private function pageList_updateHandler(event:Event):void
 {
 	listCollection.removeAll();
 	setTimeout(refreshListData, 1000);
-}
-
-private function pageList_focusInHandler(event:Event):void
-{
-	var focusIndex:int = event.data as int;
-	if( tabsList.selectedIndex != focusIndex )
-		tabsList.selectedIndex = focusIndex;
 }
 
 private function tabsList_changeHandler(event:Event):void
