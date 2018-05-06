@@ -2,7 +2,9 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.BookReward;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.views.effects.ExploadParticleSystem;
 import com.gt.towers.exchanges.ExchangeItem;
 import dragonBones.events.EventObject;
 import dragonBones.objects.DragonBonesData;
@@ -15,9 +17,11 @@ import feathers.layout.AnchorLayoutData;
 import flash.utils.getTimer;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
+import starling.animation.Tween;
 import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.events.Event;
+import starling.extensions.PDParticleSystem;
 
 public class OpenBookOverlay extends BaseOverlay
 {
@@ -95,7 +99,7 @@ override protected function addedToStageHandler(event:Event):void
 	shineArmature = factory.buildArmatureDisplay("shine");
 	shineArmature.touchable = false;
 	shineArmature.scale = appModel.scale * 3;
-	shineArmature.x = 170 * appModel.scale
+	shineArmature.x = 170 * appModel.scale;
 }
 
 public function setItem(item:ExchangeItem) : void
@@ -152,7 +156,16 @@ protected function buttonOverlay_triggeredHandler():void
 	grabAllRewards();
 	if( collectedItemIndex < item.outcomes.keys().length )
 	{
-	bookArmature.animation.gotoAndPlayByTime(collectedItemIndex < rewardKeys.length - 1?"open":"open", 0, 1);
+		bookArmature.animation.gotoAndPlayByTime("open", 0, 1);
+			
+		// expload
+		var explode:ExploadParticleSystem = new ExploadParticleSystem();
+		explode.scaleY = 0.8;
+		explode.speedVariance = 0;
+		explode.emitAngle = 0.8;
+		explode.emitAngleVariance = 2;
+		setTimeout(bookArmature.addChildAt, 200, explode, 3);
+		
 		showReward();
 	}
 	else if( collectedItemIndex == rewardKeys.length + 1 )
@@ -203,10 +216,17 @@ private function showReward(open:Boolean = true) : void
 	if( !open )
 		return;
 	
+	// shine
 	shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
 	reward.addChildAt(shineArmature, 0);
+	
+	// expload
+	var explode:ExploadParticleSystem = new ExploadParticleSystem(false);
+	explode.x = 170 * appModel.scale;
+	explode.start(0.5);
+	reward.addChildAt(explode, 1);
+	
 	Starling.juggler.tween(reward, 0.5, {delay:0.3, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});
-	return;
 }
 
 private function grabReward(reward:BookReward, force:Boolean=false, delay:Number=0):void
