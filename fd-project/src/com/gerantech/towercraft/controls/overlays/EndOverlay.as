@@ -2,19 +2,20 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.Devider;
+import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
-
-import flash.utils.setTimeout;
-
 import feathers.controls.AutoSizeMode;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
-
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
+import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.events.Event;
+import starling.extensions.PDParticleSystem;
 
 public class EndOverlay extends BaseOverlay
 {
@@ -28,6 +29,8 @@ protected var initialingCompleted:Boolean;
 protected var padding:int;
 protected var battleData:BattleData;
 protected var showAdOffer:Boolean;
+private var particle:PDParticleSystem;
+private var timeoutId:uint;
 
 public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolean=false)
 {
@@ -55,11 +58,27 @@ override protected function initialize():void
 
 	appModel.sounds.addAndPlaySound("outcome-" + (winRatio >= 1?"victory":"defeat"));
 	initialingCompleted = true;
+	
+	timeoutId = setTimeout(showParticle, 800);
 }
+
+private function showParticle():void 
+{
+	if ( !appModel.battleFieldView.battleData.isLeft && playerIndex != -1 )
+	{
+		particle = ParticleManager.getParticle(winRatio >= 1 ? "scrap" : "fire");
+		particle.x = stage.stageWidth * 0.5;
+		particle.y = winRatio >= 1 ? -stage.stageHeight*0.1 : stage.stageHeight * 1.05;
+		particle.start();
+		Starling.juggler.add(particle);
+		addChildAt(particle, 1);
+	}
+}
+
 
 override protected function defaultOverlayFactory():DisplayObject
 {
-	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft || playerIndex == -1 ? 0x000000 : (winRatio > 1 ? 0x002211 : 0x552000));
+	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft || playerIndex == -1 ? 0x000000 : (winRatio > 1 ? 0x002211 : 0x331300));
 	overlay.alpha = 0.7;
 	overlay.width = stage.width;
 	overlay.height = stage.height;
@@ -102,6 +121,17 @@ protected function buttons_triggeredHandler(event:Event):void
 		return;
 	}
 	close();
+}
+
+override public function dispose():void 
+{
+	clearTimeout(timeoutId);
+	if( particle != null )
+	{
+		particle.stop();
+		Starling.juggler.remove(particle);
+	}
+	super.dispose();
 }
 }
 }

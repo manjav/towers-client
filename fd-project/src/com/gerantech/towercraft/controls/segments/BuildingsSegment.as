@@ -41,12 +41,13 @@ override public function init():void
 	
 	layout = new AnchorLayout();
 	listLayout = new TiledRowsLayout();
-	listLayout.padding = listLayout.horizontalGap = 16 * appModel.scale;
-	listLayout.paddingTop = 110 * appModel.scale;
+	listLayout.padding = listLayout.gap = 16 * appModel.scale;
+	listLayout.paddingTop = listLayout.padding * 6;
+	listLayout.paddingBottom = listLayout.padding * 1.2;
+	listLayout.verticalGap = listLayout.padding * 1;
 	listLayout.useSquareTiles = false;
-	listLayout.verticalGap = listLayout.horizontalGap * 5;
 	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width -listLayout.gap * (listLayout.requestedColumnCount + 2)) / listLayout.requestedColumnCount;
+	listLayout.typicalItemWidth = (width - listLayout.gap * (listLayout.requestedColumnCount + 2)) / listLayout.requestedColumnCount;
 	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
 	
 	updateData();
