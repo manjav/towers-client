@@ -135,7 +135,7 @@ package com.gerantech.towercraft.models
 				var bitmapWidth:uint = Math.round(bmp.width*scale*0.5)*2;
 				var bitmapHeight:uint = Math.round(bmp.height*scale*0.5)*2;
 				var mat:Matrix = new Matrix();
-				mat.scale(bitmapWidth/bmp.width, bitmapHeight/bmp.height);
+				mat.scale(bitmapWidth / bmp.width, bitmapHeight / bmp.height);
 				var destBD:BitmapData = new BitmapData(bitmapWidth, bitmapHeight, true, 0);
 				destBD.draw(bmp, mat);
 				

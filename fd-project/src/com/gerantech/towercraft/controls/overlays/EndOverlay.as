@@ -19,10 +19,11 @@ import starling.events.Event;
 public class EndOverlay extends BaseOverlay
 {
 public var inTutorial:Boolean;
-public var score:int;
+public var winRatio:Number = 1;
 public var playerIndex:int;
+public var score:int;
+public var rewards:ISFSArray;
 
-protected var rewards:ISFSArray;
 protected var initialingCompleted:Boolean;
 protected var padding:int;
 protected var battleData:BattleData;
@@ -35,7 +36,10 @@ public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolea
 	this.inTutorial = inTutorial;
 	this.playerIndex = playerIndex;
 	if( playerIndex > -1 )
-		score = rewards.getSFSObject(playerIndex).getInt("score");
+	{
+		this.score = rewards.getSFSObject(playerIndex).getInt("score");
+		winRatio = this.score / rewards.getSFSObject(playerIndex == 0?1:0).getInt("score");
+	}
 }
 
 override protected function initialize():void
@@ -49,14 +53,14 @@ override protected function initialize():void
 	
 	battleData = appModel.battleFieldView.battleData;
 
-	appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+	appModel.sounds.addAndPlaySound("outcome-" + (winRatio >= 1?"victory":"defeat"));
 	initialingCompleted = true;
 }
 
 override protected function defaultOverlayFactory():DisplayObject
 {
-	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft||playerIndex==-1?0x000000:(score>0?0x002211:0x330000));
-	overlay.alpha = 0.6;
+	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft || playerIndex == -1 ? 0x000000 : (winRatio > 1 ? 0x002211 : 0x552000));
+	overlay.alpha = 0.7;
 	overlay.width = stage.width;
 	overlay.height = stage.height;
 	return overlay;

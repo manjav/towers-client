@@ -438,7 +438,7 @@ private function endOverlay_closeHandler(event:Event):void
 	appModel.battleFieldView.responseSender.actived = false;
 	
 	// create tutorial steps
-	var winStr:String = endOverlay.score > 0 ? "_win_" : "_defeat_";
+	var winStr:String = endOverlay.winRatio >= 1 ? "_win_" : "_defeat_";
 	//quest end
 	var task:TutorialTask
 	if( endOverlay.inTutorial )
@@ -454,10 +454,10 @@ private function endOverlay_closeHandler(event:Event):void
 		tutorials.show(tutorialData);
 		return;
 	}
-	else if ( player.tutorialMode == 1 && endOverlay.score < 0 && player.emptyDeck() )
+	else if ( player.tutorialMode == 1 && endOverlay.winRatio < 1 && player.emptyDeck() )
 	{
 		tutorialData = new TutorialData("tutor_upgrade");
-		tutorialData.data = endOverlay.score;
+		tutorialData.data = endOverlay.winRatio;
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_upgrade"));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		tutorials.show(tutorialData);
@@ -495,7 +495,7 @@ private function tutorials_tasksFinishHandler(event:Event):void
 	
 	if( tutorial.name == "quest_2_end" || tutorial.name == "battle_2_end" || tutorial.name == "tutor_upgrade" )
 	{
-		var defeatAfterTutorial:Boolean = !player.inTutorial() && player.tutorialMode == 1 && tutorial.data <= 0;
+		var defeatAfterTutorial:Boolean = !player.inTutorial() && player.tutorialMode == 1 && tutorial.data < 0;
 		if ( player.tutorialMode == 0 || defeatAfterTutorial )
 		{
 			if( player.buildings.exists(BuildingType.B11_BARRACKS) )
