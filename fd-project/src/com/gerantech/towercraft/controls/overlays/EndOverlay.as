@@ -41,7 +41,10 @@ public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolea
 	if( playerIndex > -1 )
 	{
 		this.score = rewards.getSFSObject(playerIndex).getInt("score");
-		winRatio = this.score / rewards.getSFSObject(playerIndex == 0?1:0).getInt("score");
+		if ( rewards.size() < 2 )
+			winRatio = score;
+		else
+			winRatio = this.score / rewards.getSFSObject(playerIndex == 0?1:0).getInt("score");
 	}
 }
 
