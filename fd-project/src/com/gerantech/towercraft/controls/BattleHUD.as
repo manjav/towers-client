@@ -272,7 +272,7 @@ private function stickerButton_triggeredHandler(event:Event):void
 		
 		stickerList = new List();
 		stickerList.layout = stickersLayout;
-		stickerList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
+		stickerList.layoutData = new AnchorLayoutData(NaN, padding, NaN, 0);
 		stickerList.height = padding*20;
 		stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 		stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
@@ -312,7 +312,7 @@ private function stickerList_changeHandler(event:Event):void
 	appModel.battleFieldView.responseSender.sendSticker(sticker);
 	showBubble(sticker);
 	stickerList.selectedIndex = -1;
-	GameAnalytics.addDesignEvent("sticker", sticker);
+	GameAnalytics.addDesignEvent("sticker:st" + sticker);
 }
 
 public function showBubble(type:int, itsMe:Boolean=true):void
