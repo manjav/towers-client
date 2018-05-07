@@ -79,13 +79,6 @@ public function Towers()
 	NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
 }
 
-
-protected function nativeApplication_invokeHandler(event:InvokeEvent):void
-{
-	NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
-	AppModel.instance.invokes = event.arguments;
-}
-
 private function loaderInfo_completeHandler(event:Event):void
 {
 	loadingState ++;
@@ -133,10 +126,16 @@ private function stage_activateHandler(event:Event):void
 	stage.frameRate = 60;
 	this.starling.start();
 	AppModel.instance.sounds.muteAll(false);
-	//AppModel.instance.notifier.clear();
+	AppModel.instance.notifier.clear();
 }
 
-private function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):void 
+protected function nativeApplication_invokeHandler(event:InvokeEvent):void
+{
+	NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
+	AppModel.instance.invokes = event.arguments;
+}
+
+protected function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):void 
 {
 	var text:String;
 	var severity:int;
