@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import feathers.controls.AutoSizeMode;
@@ -29,7 +30,7 @@ protected var initialingCompleted:Boolean;
 protected var padding:int;
 protected var battleData:BattleData;
 protected var showAdOffer:Boolean;
-private var particle:PDParticleSystem;
+private var particle:MortalParticleSystem;
 private var timeoutId:uint;
 
 public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolean=false)
@@ -66,10 +67,10 @@ private function showParticle():void
 {
 	if ( !appModel.battleFieldView.battleData.isLeft && playerIndex != -1 )
 	{
-		particle = ParticleManager.getParticle(winRatio >= 1 ? "scrap" : "fire");
+		particle = new MortalParticleSystem(winRatio >= 1 ? "scrap" : "fire", false);
 		particle.x = stage.stageWidth * 0.5;
 		particle.y = winRatio >= 1 ? -stage.stageHeight*0.1 : stage.stageHeight * 1.05;
-		particle.start();
+		particle.start(4);
 		Starling.juggler.add(particle);
 		addChildAt(particle, 1);
 	}

@@ -2,9 +2,8 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.BookReward;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.views.effects.ExploadParticleSystem;
+import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.exchanges.ExchangeItem;
 import dragonBones.events.EventObject;
 import dragonBones.objects.DragonBonesData;
@@ -17,11 +16,9 @@ import feathers.layout.AnchorLayoutData;
 import flash.utils.getTimer;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
-import starling.animation.Tween;
 import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.events.Event;
-import starling.extensions.PDParticleSystem;
 
 public class OpenBookOverlay extends BaseOverlay
 {
@@ -159,7 +156,7 @@ protected function buttonOverlay_triggeredHandler():void
 		bookArmature.animation.gotoAndPlayByTime("open", 0, 1);
 			
 		// expload
-		var explode:ExploadParticleSystem = new ExploadParticleSystem();
+		var explode:MortalParticleSystem = new MortalParticleSystem("explode");
 		explode.scaleY = 0.8;
 		explode.speedVariance = 0;
 		explode.emitAngle = 0.8;
@@ -221,7 +218,7 @@ private function showReward(open:Boolean = true) : void
 	reward.addChildAt(shineArmature, 0);
 	
 	// expload
-	var explode:ExploadParticleSystem = new ExploadParticleSystem(false);
+	var explode:MortalParticleSystem = new MortalParticleSystem("explode", false);
 	explode.x = 170 * appModel.scale;
 	explode.start(0.5);
 	reward.addChildAt(explode, 1);

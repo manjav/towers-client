@@ -12,12 +12,12 @@ import starling.textures.Texture;
 * ...
 * @author MAnsour Djawadi
 */
-public class ExploadParticleSystem extends PDParticleSystem 
+public class MortalParticleSystem extends PDParticleSystem 
 {
 
-public function ExploadParticleSystem(autoStart:Boolean=true) 
+public function MortalParticleSystem(name:String, autoStart:Boolean=true) 
 {
-	super(ParticleManager.getParticleData("explode"), ParticleManager.getTextureByBitmap("explode"));
+	super(ParticleManager.getParticleData(name), ParticleManager.getTextureByBitmap(name));
 	touchable = false;
 	addEventListener(Event.COMPLETE, completeHandler);
 	if( autoStart )
