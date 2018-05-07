@@ -37,7 +37,7 @@ override protected function transitionInCompleted():void
 	if( msg == null )
 		msg = task.message;
 	
-	var position:Rectangle = new Rectangle(width * (side == 0?0.20:0.65), height * (side == 0?0.5:0.5), 1, 1);
+	var position:Rectangle = new Rectangle(width * (side == 0?0.20:0.8), height * (side == 0?0.5:0.5), 1, 1);
 	var tootlip:ConfirmTooltip = new ConfirmTooltip(msg, position, 1, 0.75, task.type == TutorialTask.TYPE_CONFIRM);
 	tootlip.addEventListener(Event.SELECT, tootlip_eventsHandler); 
 	tootlip.addEventListener(Event.CANCEL, tootlip_eventsHandler); 
