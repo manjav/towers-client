@@ -218,9 +218,8 @@ private function showReward(open:Boolean = true) : void
 	reward.addChildAt(shineArmature, 0);
 	
 	// expload
-	var explode:MortalParticleSystem = new MortalParticleSystem("explode", false);
+	var explode:MortalParticleSystem = new MortalParticleSystem("explode", 0.5);
 	explode.x = 170 * appModel.scale;
-	explode.start(0.5);
 	reward.addChildAt(explode, 1);
 	
 	Starling.juggler.tween(reward, 0.5, {delay:0.3, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});

@@ -30,7 +30,6 @@ protected var initialingCompleted:Boolean;
 protected var padding:int;
 protected var battleData:BattleData;
 protected var showAdOffer:Boolean;
-private var particle:MortalParticleSystem;
 private var timeoutId:uint;
 
 public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolean=false)
@@ -67,11 +66,9 @@ private function showParticle():void
 {
 	if ( !appModel.battleFieldView.battleData.isLeft && playerIndex != -1 )
 	{
-		particle = new MortalParticleSystem(winRatio >= 1 ? "scrap" : "fire", false);
+		var particle:MortalParticleSystem = new MortalParticleSystem(winRatio >= 1 ? "scrap" : "fire", 4);
 		particle.x = stage.stageWidth * 0.5;
 		particle.y = winRatio >= 1 ? -stage.stageHeight*0.1 : stage.stageHeight * 1.05;
-		particle.start(4);
-		Starling.juggler.add(particle);
 		addChildAt(particle, 1);
 	}
 }
@@ -127,11 +124,6 @@ protected function buttons_triggeredHandler(event:Event):void
 override public function dispose():void 
 {
 	clearTimeout(timeoutId);
-	if( particle != null )
-	{
-		particle.stop();
-		Starling.juggler.remove(particle);
-	}
 	super.dispose();
 }
 }
