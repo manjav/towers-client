@@ -46,18 +46,7 @@ override protected function commitData():void
 		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 		buttonDisplay.height = 80 * appModel.scale;
 	}
-	
-	if( chestArmature == null || chestArmature.armature.name != "book-" + exchange.outcome )
-	{
-		if( chestArmature != null )
-			chestArmature.removeFromParent(true);
-		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
-		chestArmature.scale = appModel.scale * 0.85;
-		chestArmature.x = width * 0.5;
-		chestArmature.y = height * 0.45;
-	}
 	updateElements();
-	addChild(chestArmature);
 	if( buttonDisplay != null )
 		addChild(buttonDisplay);
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
@@ -82,6 +71,17 @@ private function updateElements():void
 		return;
 	_state = exchange.getState(timeManager.now);
 
+	if( (chestArmature == null || chestArmature.armature.name != "book-" + exchange.outcome) && !( exchange.category == ExchangeType.C100_FREES && _state == ExchangeItem.CHEST_STATE_BUSY ) )
+	{
+		if( chestArmature != null )
+			chestArmature.removeFromParent(true);
+		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
+		chestArmature.scale = appModel.scale * 0.85;
+		chestArmature.x = width * 0.5;
+		chestArmature.y = height * 0.45;
+		addChild(chestArmature);
+	}
+	
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	if( timeDisplay != null )
 		timeDisplay.visible = _state == ExchangeItem.CHEST_STATE_BUSY;

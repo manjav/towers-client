@@ -28,7 +28,7 @@ private var list:feathers.controls.List;
 public function HomeBooksLine()
 {
 	super();
-    height = 310 * appModel.scale;
+    height = 240 * appModel.scale;
 }
 private function assets_loadCallback(ratio:Number):void
 {
