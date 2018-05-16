@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.indicators
 {
-import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
@@ -8,17 +7,14 @@ import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.ResourceType;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.ImageLoader;
 import feathers.controls.ProgressBar;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
-
+import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 import starling.text.TextField;
 import starling.text.TextFormat;
@@ -29,13 +25,11 @@ public var direction:String;
 public var resourceType:int;
 public var hasProgressbar:Boolean;
 public var hasIncreaseButton:Boolean;
+public var iconDisplay:ImageLoader;
 
 private var progressbar:ProgressBar;
 private var progressLabel:TextField;
-
-public var iconDisplay:ImageLoader;
 private var _value:Number = -0.1;
-
 private var tutorialArrow:TutorialArrow;
 
 public function Indicator(direction:String = "ltr", resourceType:int = 0, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean=true)
@@ -44,8 +38,8 @@ public function Indicator(direction:String = "ltr", resourceType:int = 0, hasPro
 	this.resourceType = resourceType;
 	this.hasProgressbar = hasProgressbar;
 	this.hasIncreaseButton = hasIncreaseButton;
-	height = 64 * appModel.scale;
-	width = 200 * appModel.scale;
+	this.width = 200 * appModel.scale;
+	this.height = 64 * appModel.scale;
 }
 
 override protected function initialize():void
@@ -53,7 +47,7 @@ override protected function initialize():void
 	super.initialize();
 	this.isQuickHitAreaEnabled = false;
 	layout = new AnchorLayout();
-	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background", "gui"));
+	var skin:Image = new Image(Assets.getTexture("theme/indicator-background", "gui"));
 	skin.scale9Grid = new Rectangle(4, 6, 2, 2);
 	backgroundSkin = skin;
 	

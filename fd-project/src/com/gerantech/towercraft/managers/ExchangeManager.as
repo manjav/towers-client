@@ -3,7 +3,7 @@ package com.gerantech.towercraft.managers
 	import com.gerantech.extensions.iab.IabResult;
 	import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
-	import com.gerantech.towercraft.controls.popups.ChestsDetailsPopup;
+	import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -134,7 +134,7 @@ public function process(item : ExchangeItem) : void
 			return;
 		}
 		
-		var details:ChestsDetailsPopup = new ChestsDetailsPopup(item);
+		var details:BookDetailsPopup = new BookDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
 		appModel.navigator.addPopup(details);
 		function details_selectHandler(event:Event):void{

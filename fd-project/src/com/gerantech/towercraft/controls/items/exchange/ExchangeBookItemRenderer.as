@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.items.exchange
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
@@ -14,6 +15,7 @@ import com.gt.towers.exchanges.Exchanger;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
+import feathers.media.TimeLabel;
 import feathers.text.BitmapFontTextFormat;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -24,7 +26,7 @@ public class ExchangeBookItemRenderer extends ExchangeBaseItemRenderer
 {
 private var _state:int = -2;
 private var labelDisplay:RTLLabel;
-private var timeDisplay:BitmapFontTextRenderer;
+private var timeDisplay:CountdownLabel;
 private var buttonDisplay:ExchangeButton;
 private var chestArmature:StarlingArmatureDisplay;
 private var tutorialArrow:TutorialArrow;
@@ -71,7 +73,16 @@ private function updateElements():void
 		return;
 	_state = exchange.getState(timeManager.now);
 
-	if( (chestArmature == null || chestArmature.armature.name != "book-" + exchange.outcome) && !( exchange.category == ExchangeType.C100_FREES && _state == ExchangeItem.CHEST_STATE_BUSY ) )
+	// armature
+	if( exchange.category == ExchangeType.C100_FREES && _state == ExchangeItem.CHEST_STATE_BUSY ) 
+	{
+		if( chestArmature != null )
+		{
+			chestArmature.removeFromParent(true);
+			chestArmature = null;
+		}
+	}
+	else if( chestArmature == null || chestArmature.armature.name != "book-" + exchange.outcome ) 
 	{
 		if( chestArmature != null )
 			chestArmature.removeFromParent(true);
@@ -81,6 +92,7 @@ private function updateElements():void
 		chestArmature.y = height * 0.45;
 		addChild(chestArmature);
 	}
+	updateArmature();
 	
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	if( timeDisplay != null )
@@ -118,7 +130,6 @@ private function updateElements():void
 	
 	skin.alpha = _state == ExchangeItem.CHEST_STATE_BUSY ? 0.5 : 1;
 	skin.defaultTexture = skin.getTextureForState(STATE_NORMAL);
-	updateArmature();
 }
 
 private function updateCounter():void
@@ -127,14 +138,16 @@ private function updateCounter():void
 		return;
 	if( timeDisplay == null )
 	{
-		timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-		timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 50 * appModel.scale, 0xFFFFFF, "center")
-		timeDisplay.layoutData = new AnchorLayoutData(
-		exchange.category == ExchangeType.C110_BATTLES ? padding * 0.1 : NaN,
-		NaN, exchange.category == ExchangeType.C110_BATTLES ? NaN : padding * 2, NaN, 0);
+		//timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+		//timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 50 * appModel.scale, 0xFFFFFF, "center");
+		timeDisplay = new CountdownLabel();
+		if( exchange.category == ExchangeType.C110_BATTLES )
+			timeDisplay.layoutData = new AnchorLayoutData(24 * appModel.scale, padding, NaN, 0);
+		else
+			timeDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, 0, NaN, 0);
 	}
 	var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
-	timeDisplay.text = "< " + StrUtils.toTimeFormat(t);
+	timeDisplay.time = t;
 	addChild(timeDisplay);
 	
 	if( buttonDisplay != null )
@@ -143,7 +156,7 @@ private function updateCounter():void
 
 private function updateArmature():void
 {
-	if( chestArmature == null)
+	if( chestArmature == null )
 		return;
 
 	clearTimeout(timeoutId);

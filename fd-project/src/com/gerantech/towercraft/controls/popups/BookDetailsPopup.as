@@ -1,8 +1,9 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -10,28 +11,23 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
-
-import flash.geom.Rectangle;
-
 import dragonBones.starling.StarlingArmatureDisplay;
-
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
-
+import flash.geom.Rectangle;
 import starling.events.Event;
 
-public class ChestsDetailsPopup extends SimplePopup
+public class BookDetailsPopup extends SimplePopup
 {
 private var item:ExchangeItem;
 private var chestArmature:StarlingArmatureDisplay;
 private var buttonDisplay:ExchangeButton;
-private var timeDisplay:BitmapFontTextRenderer;
-
+private var timeDisplay:CountdownLabel;
 private var messageDisplay:RTLLabel;
 
-public function ChestsDetailsPopup(item:ExchangeItem)
+public function BookDetailsPopup(item:ExchangeItem)
 {
 	this.item = item;
 	super();
@@ -146,13 +142,16 @@ private function updateCounter():void
 		return;
 	if( timeDisplay == null )
 	{
-		timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-		timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
-		timeDisplay.layoutData = new AnchorLayoutData(NaN, 340*appModel.scale, padding*3, padding*2);
+		//timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+		//timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
+		timeDisplay = new CountdownLabel();
+		timeDisplay.width = 320 * appModel.scale;
+		timeDisplay.height = 120 * appModel.scale;
+		timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.9, NaN, -170 * appModel.scale);
 		addChild(timeDisplay);	
 	}
 	var t:uint = uint(item.expiredAt - timeManager.now);
-	timeDisplay.text = "< "+StrUtils.toTimeFormat(t);
+	timeDisplay.time = t;
 	buttonDisplay.count = Exchanger.timeToHard(t);
 	messageDisplay.text = loc("popup_chest_message_skip", [Exchanger.timeToHard(t)])
 }

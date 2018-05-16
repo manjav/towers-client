@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.controls.items.TimerIcon;
+import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.controls.sliders.Slider;
 
 import flash.utils.clearTimeout;
@@ -17,7 +17,7 @@ public class BattleTimerSlider extends IBattleSlider
 {
 private var timeoutId:uint;
 private var progressBar:Slider;
-public var iconDisplay:TimerIcon;
+public var iconDisplay:CountdownIcon;
 private var stars:Vector.<StarCheck>;
 
 public function BattleTimerSlider() { super(); }
@@ -36,7 +36,7 @@ override protected function initialize():void
 	progressBar.layoutData = new AnchorLayoutData (0,0,0,0);
 	addChild(progressBar);
 
-	iconDisplay = new TimerIcon();
+	iconDisplay = new CountdownIcon();
 	iconDisplay.width = iconDisplay.height = height * 2.0;
 	iconDisplay.x = width;
 	iconDisplay.y = height * 0.5;

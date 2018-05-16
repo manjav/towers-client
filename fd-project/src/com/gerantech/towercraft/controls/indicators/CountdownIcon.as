@@ -1,41 +1,38 @@
-package com.gerantech.towercraft.controls.items
+package com.gerantech.towercraft.controls.indicators
 {
+import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.models.Assets;
-
 import flash.utils.clearInterval;
 import flash.utils.clearTimeout;
 import flash.utils.setInterval;
 import flash.utils.setTimeout;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
-import starling.display.Sprite;
 import starling.utils.deg2rad;
 
-public class TimerIcon extends Sprite
+public class CountdownIcon extends TowersLayout
 {
 private var background:Image;
 private var needle:Image;
 private var _scale:Number;
-
 private var intervalId:uint;
 private var timeoutId:uint;
 
-public function TimerIcon()
+public function CountdownIcon()
 {
 	background =  new Image(Assets.getTexture("timer", "gui"));
-	background.pivotX = background.width/2;
-	background.pivotY = background.height/2;
+	background.pivotX = background.width * 0.5;
+	background.pivotY = background.height * 0.5;
 	addChild(background);
 	
 	needle = new Image(Assets.getTexture("timer-needle", "gui"));
-	needle.pivotX = needle.width/2;
-	needle.pivotY = needle.height/2;
+	needle.pivotX = needle.width * 0.5;
+	needle.pivotY = needle.height * 0.5;
 	needle.rotation = 0.47;
 	addChild(needle);
 	
-	play()
+	play();
 }
 
 public function play():void
@@ -46,16 +43,16 @@ public function play():void
 
 public function rotate():void
 {
-	Starling.juggler.tween(needle, 0.5, {rotation:needle.rotation+Math.PI*0.5, transition:Transitions.EASE_OUT_ELASTIC});
+	Starling.juggler.tween(needle, 0.5, {rotation:needle.rotation + Math.PI * 0.5, transition:Transitions.EASE_OUT_ELASTIC});
 }
 
 public function rotateTo(from:Number, to:Number, duration:Number = 1):void
 {
 	var fr:int = 10;
-	var index:int=0;
+	var index:int = 0;
 	var diff:Number = to - from;
 	needle.rotation = from;
-	Starling.juggler.repeatCall(rotateAround, duration*fr/Math.abs(diff), Math.abs(diff)/fr);
+	Starling.juggler.repeatCall(rotateAround, duration * fr / Math.abs(diff), Math.abs(diff) / fr);
 	function rotateAround():void
 	{
 		//trace("rotateAround", index, deg2rad(index), fr)
@@ -64,12 +61,10 @@ public function rotateTo(from:Number, to:Number, duration:Number = 1):void
 	}
 }
 
-
-
 public function punch():void
 {
 	_scale = scale;
-	timeoutId = setTimeout(animatePunchScale, 1000+Math.random()*1000);
+	timeoutId = setTimeout(animatePunchScale, 1000 + Math.random() * 1000);
 }
 private function animatePunchScale():void
 {
