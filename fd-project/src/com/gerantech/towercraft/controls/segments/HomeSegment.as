@@ -149,7 +149,7 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	if( !player.inTutorial() && player.nickName == "guest" )
+	if( player.get_battleswins() > 5 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
 		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
@@ -157,9 +157,12 @@ private function showTutorial():void
 		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.tutorialMode == 0 ? PrefsTypes.T_172_NAME_SELECTED : PrefsTypes.T_139_NAME_SELECTED); 
-			battlesButton.showArrow();
 		}
 		return;
+	}
+	else if( player.get_battleswins() <= 5 )
+	{
+		battlesButton.showArrow();
 	}
 	
 	// show rank table tutorial
