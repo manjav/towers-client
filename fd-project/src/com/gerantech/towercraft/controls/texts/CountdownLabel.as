@@ -30,7 +30,7 @@ private var padding:Number;
 public function CountdownLabel() { super(); height = 92 * appModel.scale;}
 override protected function initialize() : void
 {
-	padding = 12 * appModel.scale;
+	padding = height * 0.15;
 	layout = new AnchorLayout();
 	
 	var skin:ImageLoader = new ImageLoader();
@@ -44,18 +44,16 @@ override protected function initialize() : void
 	clockDisplay.source = Assets.getTexture("timer", "gui");
 	clockDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	clockDisplay.height = clockDisplay.width = height;
-	//clock.pivotX = clock.width * 0.5;
-	//clock.pivotY = clock.height * 0.5;
 	addChild(clockDisplay);
 	
 	needleDisplay = new Image(Assets.getTexture("timer-needle", "gui"));
 	needleDisplay.pivotX = needleDisplay.width * 0.5;
 	needleDisplay.pivotY = needleDisplay.height * 0.5;
 	needleDisplay.height = height * 0.6;
+	needleDisplay.scaleX = needleDisplay.scaleY;
 	needleDisplay.x = height * 0.5;
 	needleDisplay.y = height * 0.5;
-	//needleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, NaN, 0);
-	needleDisplay.rotation = 0.5;
+	needleDisplay.rotation = 0.55;
 	addChild(needleDisplay);
 	
 	labelDisplay = new RTLLabel(StrUtils.toTimeFormat(_time), 1, "center", "ltr", false, null, height / 128 / appModel.scale);

@@ -86,7 +86,7 @@ private function updateElements():void
 	{
 		if( chestArmature != null )
 			chestArmature.removeFromParent(true);
-		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
+		chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome );
 		chestArmature.scale = appModel.scale * 0.85;
 		chestArmature.x = width * 0.5;
 		chestArmature.y = height * 0.45;
