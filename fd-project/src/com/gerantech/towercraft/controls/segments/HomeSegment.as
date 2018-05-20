@@ -149,7 +149,7 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	if( player.get_battleswins() > 5 && player.nickName == "guest" )
+	if( player.get_battleswins() > 4 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
 		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
@@ -160,7 +160,7 @@ private function showTutorial():void
 		}
 		return;
 	}
-	else if( player.get_battleswins() <= 5 )
+	else if( player.get_battleswins() <= 4 )
 	{
 		battlesButton.showArrow();
 	}
