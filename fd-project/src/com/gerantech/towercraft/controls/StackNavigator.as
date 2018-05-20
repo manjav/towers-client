@@ -45,6 +45,7 @@ import flash.geom.Rectangle;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.Dictionary;
+import flash.utils.setTimeout;
 import mx.resources.ResourceManager;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -225,10 +226,10 @@ public function addResourceAnimation(x:Number, y:Number, resourceType:int, count
 	{
 		addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.7, stage.stageHeight * 0.95), delay, null);
 	}
-	else
+	else if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.POINT || resourceType == ResourceType.KEY )
 	{
 		var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-		indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;
+		setTimeout(function():void{indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;}, delay * 1000 - 20);
 		addAnimation(x, y, 130, Assets.getTexture("res-" + resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay, indicator.punch);
 	}
 }
