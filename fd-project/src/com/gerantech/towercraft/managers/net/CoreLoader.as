@@ -90,37 +90,26 @@ private function loaderInfo_completeHandler(event:Event):void
 	AppModel.instance.game.exchanger.items = new IntShopMap();
 	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
 	{
-		if ( int(version) < 2900 )
+		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
+		elements = exchange.getSFSArray("outcomes");
+		item = new ExchangeItem(exchange.getInt("type"), exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
+		item.outcomes = new IntIntMap();
+		for( var j:int=0; j<elements.size(); j++ )
 		{
-			exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
-			var out:int = exchange.containsKey("outcome") ? exchange.getInt("outcome") : 0;
-			if( exchange.containsKey("outKey") )
-				out = exchange.getInt("outKey");
-			AppModel.instance.game.exchanger.items.set( exchange.getInt("type"), new ExchangeItem(exchange.getInt("type"), exchange.getInt("reqKey"), exchange.getInt("reqValue"), out, exchange.getInt("outValue"), exchange.containsKey("num_exchanges")?exchange.getInt("num_exchanges"):0, exchange.containsKey("expired_at")?exchange.getInt("expired_at"):0));
+			element = elements.getSFSObject(j);
+			item.outcomes.set(element.getInt("key"), element.getInt("value"));
 		}
-		else
+		elements = exchange.getSFSArray("requirements");
+		item.requirements = new IntIntMap();
+		for( j=0; j<elements.size(); j++ )
 		{
-			exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
-			elements = exchange.getSFSArray("outcomes");
-			item = new ExchangeItem(exchange.getInt("type"), -1, -1, -1, -1, exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
-			item.outcomes = new IntIntMap();
-			for( var j:int=0; j<elements.size(); j++ )
-			{
-				element = elements.getSFSObject(j);
-				item.outcomes.set(element.getInt("key"), element.getInt("value"));
-			}
-			elements = exchange.getSFSArray("requirements");
-			item.requirements = new IntIntMap();
-			for( j=0; j<elements.size(); j++ )
-			{
-				element = elements.getSFSObject(j);
-				item.requirements.set(element.getInt("key"), element.getInt("value"));
-			}
-			if( item.outcomes.keys().length > 0 )
-				item.outcome = item.outcomes.keys()[0];
-				
-			AppModel.instance.game.exchanger.items.set(item.type, item);
+			element = elements.getSFSObject(j);
+			item.requirements.set(element.getInt("key"), element.getInt("value"));
 		}
+		if( item.outcomes.keys().length > 0 )
+			item.outcome = item.outcomes.keys()[0];
+			
+		AppModel.instance.game.exchanger.items.set(item.type, item);
 	}
 	
 	var swfInitData:* = new initClass();
@@ -152,29 +141,6 @@ private function initCoreData(game:*):void
 		AppModel.instance.game.arenas.set( arenaKeys[i], new Arena( arenaSource.index, arenaSource.min, arenaSource.max, arenaSource.minWinStreak, arenaSource.cardsStr ) );
 	}
 	
-	// put exchanger items
-	var extSource:*;
-	var extDest:ExchangeItem;
-	var exItemsKeys:Vector.<int> = game.exchanger.items.keys();
-	for ( i=0; i<exItemsKeys.length; i++ )
-	{
-		extSource = game.exchanger.items.get(exItemsKeys[i]);
-		if ( ExchangeType.getCategory( extSource.type ) == ExchangeType.C0_HARD || ExchangeType.getCategory( extSource.type ) == ExchangeType.C10_SOFT )
-		{
-			extDest = new ExchangeItem(extSource.type, -1, -1, -1, -1, extSource.numExchanges, extSource.expiredAt);
-			var reqs:IntIntMap = new IntIntMap();
-			extDest.requirements = new IntIntMap();
-			var rKeys:Vector.<int> = extSource.requirements.keys();
-			for(var r:int=0; r<rKeys.length; r++ )
-				extDest.requirements.set( rKeys[r], extSource.requirements.get(rKeys[r]) );
-			rKeys = extSource.outcomes.keys();
-			for(r=0; r<rKeys.length; r++ )
-				extDest.outcomes.set( rKeys[r], extSource.outcomes.get(rKeys[r]) );
-			
-			AppModel.instance.game.exchanger.items.set( exItemsKeys[i], extDest );
-		}
-	}
-
 	// put fields items
 	AppModel.instance.game.fieldProvider.quests = new StringFieldMap();
 	var fieldDest:FieldData;
