@@ -50,7 +50,9 @@ public function init():void
 	for each(var k:int in keys)
 		if( ExchangeType.getCategory(k) == ExchangeType.C0_HARD )
 			items.push("com.grantech.towers.item_" + k);
-	
+		else if( ExchangeType.getCategory(k) == ExchangeType.C30_BUNDLES )
+			items.push("towres.bundle_" + k);
+
 	var base64Key:String, bindURL:String, packageURL:String;
 	switch( appModel.descriptor.market )
 	{

@@ -60,7 +60,9 @@ override protected function initialize():void
 
 override protected function commitData():void
 {
-	super.commitData();	
+	super.commitData();
+	if ( _data == null )
+		return;
 	line = _data as ShopLine;
 	headerDisplay.label = loc("exchange_title_" + line.category);
 	headerDisplay.data = line.category;
@@ -71,21 +73,25 @@ override protected function commitData():void
 	switch( line.category )
 	{
 		case ExchangeType.C20_SPECIALS:
-			CELL_SIZE = 580 * appModel.scale;
+			CELL_SIZE = 492 * appModel.scale;
 			headerDisplay.showCountdown(line.items[0]);
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeSpecialItemRenderer();}
 			break;
 		
-		case ExchangeType.C100_FREES:
-			CELL_SIZE = 320 * appModel.scale;
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
+		case ExchangeType.C30_BUNDLES:
+			CELL_SIZE = 580 * appModel.scale;
+			listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 3) / 2) ;
+			headerDisplay.showCountdown(line.items[0]);
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBundleItemRenderer();}
 			break;
 		
+		case ExchangeType.C100_FREES:
 		case ExchangeType.C110_BATTLES:
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
 			break;		
 		
 		case ExchangeType.C120_MAGICS:
+			CELL_SIZE = 320 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookOfferItemRenderer();}
 			break;		
 		

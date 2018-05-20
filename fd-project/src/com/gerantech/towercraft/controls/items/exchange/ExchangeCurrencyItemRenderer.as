@@ -16,7 +16,6 @@ private var iconDisplay:ImageLoader;
 private var titleDisplay:ShadowLabel;
 private var countDisplay:ShadowLabel;
 private var buttonDisplay:ExchangeButton;
-
 public function ExchangeCurrencyItemRenderer(){}
 override protected function commitData():void
 {
@@ -44,14 +43,6 @@ override protected function commitData():void
 	buttonDisplay.count = exchange.requirements.values()[0];
 	buttonDisplay.type = exchange.requirements.keys()[0];
 	addChild(buttonDisplay);
-}
-
-override protected function exchangeManager_completeHandler(event:Event):void 
-{
-	//show achieve animation
-	var item:ExchangeItem = event.data as ExchangeItem;
-	if( item.type == exchange.type )
-		showAchieveAnimation(item);
 }
 }
 }

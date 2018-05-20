@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.events.EventObject;
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -24,8 +25,8 @@ public class OpenBookOverlay extends BaseOverlay
 {
 public static var factory: StarlingFactory;
 public static var dragonBonesData:DragonBonesData;
-public var item:ExchangeItem;
 
+private var outcomes:IntIntMap;
 private var type:int;
 private var rewardKeys:Vector.<int>;
 private var rewardItems:Vector.<BookReward>;
@@ -99,16 +100,16 @@ override protected function addedToStageHandler(event:Event):void
 	shineArmature.x = 170 * appModel.scale;
 }
 
-public function setItem(item:ExchangeItem) : void
+public function setItem(outcomes:IntIntMap) : void
 {
 	buttonOverlay = new SimpleLayoutButton();
 	buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 	buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(buttonOverlay);
 	
-	this.item = item;
+	this.outcomes = outcomes;
 	rewardItems = new Vector.<BookReward>();
-	rewardKeys = item.outcomes.keys();
+	rewardKeys = outcomes.keys();
 	if( readyToWait )
 	bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
 }
@@ -123,8 +124,8 @@ protected function openAnimation_completeHandler(event:StarlingEvent):void
 	if( event.eventObject.animationState.name == "fall" )
 	{
 		readyToWait = true;
-		if( item != null )
-		bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
+		if( outcomes != null )
+			bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
 	}
 	else if( event.eventObject.animationState.name == "hide" )
 	{
@@ -151,7 +152,7 @@ protected function buttonOverlay_triggeredHandler():void
 	lastTappedTime = t + 0;
 	
 	grabAllRewards();
-	if( collectedItemIndex < item.outcomes.keys().length )
+	if( collectedItemIndex < outcomes.keys().length )
 	{
 		bookArmature.animation.gotoAndPlayByTime("open", 0, 1);
 			
@@ -203,7 +204,7 @@ private function grabAllRewards(force:Boolean=false):void
 
 private function showReward(open:Boolean = true) : void
 {
-	var reward:BookReward = new BookReward(collectedItemIndex, rewardKeys[collectedItemIndex], item.outcomes.get(rewardKeys[collectedItemIndex]));
+	var reward:BookReward = new BookReward(collectedItemIndex, rewardKeys[collectedItemIndex], outcomes.get(rewardKeys[collectedItemIndex]));
 	reward.scale = 0.02;
 	reward.x = stage.width * 0.62;
 	reward.y = stage.height * 0.82;

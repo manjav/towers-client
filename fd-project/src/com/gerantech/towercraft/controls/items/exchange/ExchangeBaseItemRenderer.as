@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.layout.AnchorLayout;
 import feathers.layout.TiledRowsLayout;
@@ -48,6 +47,12 @@ override protected function commitData():void
 
 protected function exchangeManager_completeHandler(event:Event):void 
 {
+	var item:ExchangeItem = event.data as ExchangeItem;
+	if( item.type != exchange.type )
+		return;
+	removeChildren();
+	commitData();
+	showAchieveAnimation(item);
 }
 
 protected function showAchieveAnimation(item:ExchangeItem):void 
@@ -55,8 +60,7 @@ protected function showAchieveAnimation(item:ExchangeItem):void
 	var outs:Vector.<int> = item.outcomes.keys();
 	var rect:Rectangle = getBounds(stage);
 	for ( var i:int = 0; i < outs.length; i++ )
-//		if( outs[i] == ResourceType.CURRENCY_SOFT || outs[i] == ResourceType.CURRENCY_HARD || outs[i] == ResourceType.KEY )
-			appModel.navigator.addResourceAnimation(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, outs[i], item.outcomes.get(outs[i]));
+		appModel.navigator.addResourceAnimation(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, outs[i], item.outcomes.get(outs[i]), i * 0.3 + 0.1);
 }
 
 override public function dispose() : void

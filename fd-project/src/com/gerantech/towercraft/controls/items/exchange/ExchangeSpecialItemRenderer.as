@@ -13,6 +13,7 @@ import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.maps.IntIntMap;
 import feathers.controls.ImageLoader;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
 
@@ -27,14 +28,14 @@ override protected function commitData():void
 	var cardDisplay:BuildingCard = new BuildingCard();
 	cardDisplay.showLevel = false;
 	cardDisplay.showSlider = false;
-	cardDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 6);
-	cardDisplay.width = width * 0.7;
+	cardDisplay.layoutData = new AnchorLayoutData(padding * 2, NaN, NaN, NaN, 0);
+	cardDisplay.width = width * 0.6;
 	cardDisplay.height = cardDisplay.width * 1.35;
 	cardDisplay.type = exchange.outcome;
 	addChild(cardDisplay);
 	
 	var countDisplay:ShadowLabel = new ShadowLabel("x " + exchange.outcomes.values()[0]);
-	countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 2);
+	countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.2, padding * 0.2);
 	cardDisplay.addChild(countDisplay);	
 	
 	if( exchange.numExchanges > 0 )
@@ -60,28 +61,21 @@ override protected function commitData():void
 	buttonDisplay.type = exchange.requirements.keys()[0];
 	addChild(buttonDisplay);
 	
-	var newDisplay:ImageLoader = new ImageLoader();
-	newDisplay.source = Assets.getTexture("cards/empty-badge", "gui");
-	newDisplay.layoutData = new AnchorLayoutData( -16 * appModel.scale, NaN, NaN, -16 * appModel.scale);
-	newDisplay.height = newDisplay.width = width * 0.65;
-	addChild(newDisplay);
-	
-	var discoutDisplay:ShadowLabel = new ShadowLabel( discount + "% OFF", 1, 0, "center", "ltr", false, null, 0.85);
-	discoutDisplay.width = 300 * appModel.scale;
-	discoutDisplay.alignPivot();
-	discoutDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -width * 0.35, -height * 0.35);
-	discoutDisplay.rotation = -0.8;
-	addChild(discoutDisplay);
-}
-
-override protected function exchangeManager_completeHandler(event:Event):void 
-{
-	var item:ExchangeItem = event.data as ExchangeItem;
-	if( item.type != exchange.type )
-		return;
-	removeChildren();
-	commitData();
-	showAchieveAnimation(item);
+	var ribbonDisplay:ImageLoader = new ImageLoader();
+	ribbonDisplay.source = Assets.getTexture("cards/empty-badge", "gui");
+	ribbonDisplay.layoutData = new AnchorLayoutData( -14 * appModel.scale, NaN, NaN, -14 * appModel.scale);
+	ribbonDisplay.height = ribbonDisplay.width = width * 0.5;
+	addChild(ribbonDisplay);
+	ribbonDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void
+	{
+		var discoutDisplay:ShadowLabel = new ShadowLabel( discount + "% OFF", 1, 0, "center", "ltr", false, null, 0.7);
+		discoutDisplay.width = 200 * appModel.scale;
+		discoutDisplay.alignPivot();
+		discoutDisplay.rotation = -0.8;
+		discoutDisplay.x = ribbonDisplay.width * 0.33;
+		discoutDisplay.y = ribbonDisplay.height * 0.33;
+		ribbonDisplay.addChild(discoutDisplay);
+	});
 }
 }
 }

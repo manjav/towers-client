@@ -122,12 +122,15 @@ override public function updateData():void
 	else return;
 	
 	var itemKeys:Vector.<int> = exchanger.items.keys();
+	var bundles:ShopLine = new ShopLine(ExchangeType.C30_BUNDLES);
 	var specials:ShopLine = new ShopLine(ExchangeType.C20_SPECIALS);
 	var magics:ShopLine = new ShopLine(ExchangeType.C120_MAGICS);
 	var hards:ShopLine = new ShopLine(ExchangeType.C0_HARD);
 	var softs:ShopLine = new ShopLine(ExchangeType.C10_SOFT);
 	for (var i:int=0; i<itemKeys.length; i++)
 	{
+		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C30_BUNDLES && exchanger.items.get(itemKeys[i]).expiredAt > timeManager.now )
+			bundles.add(itemKeys[i]);
 		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C20_SPECIALS )
 			specials.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
@@ -139,6 +142,8 @@ override public function updateData():void
 	}
 	
 	var categoreis:Array = new Array( specials, magics, hards, softs );
+	if( bundles.items.length > 0 )
+		categoreis.unshift(bundles);
 	for (i=0; i<categoreis.length; i++)
 		categoreis[i].items.sort();
 	itemslistData.data = categoreis;

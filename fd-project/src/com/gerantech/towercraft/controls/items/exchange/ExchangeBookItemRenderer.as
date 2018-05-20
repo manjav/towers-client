@@ -6,17 +6,12 @@ import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
 import dragonBones.starling.StarlingArmatureDisplay;
-import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
-import feathers.media.TimeLabel;
-import feathers.text.BitmapFontTextFormat;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import starling.display.BlendMode;
@@ -183,7 +178,9 @@ override public function set isSelected(value:Boolean):void
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
 }
-
+override protected function showAchieveAnimation(item:ExchangeItem):void 
+{
+}
 override public function dispose():void
 {
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);

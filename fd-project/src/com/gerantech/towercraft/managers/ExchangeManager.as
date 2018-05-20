@@ -1,30 +1,30 @@
 package com.gerantech.towercraft.managers 
 {
-	import com.gerantech.extensions.iab.IabResult;
-	import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-	import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
-	import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
-	import com.gerantech.towercraft.controls.popups.ConfirmPopup;
-	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.gerantech.towercraft.models.tutorials.TutorialData;
-	import com.gerantech.towercraft.models.tutorials.TutorialTask;
-	import com.gerantech.towercraft.models.vo.UserData;
-	import com.gerantech.towercraft.models.vo.VideoAd;
-	import com.gerantech.towercraft.utils.StrUtils;
-	import com.gt.towers.constants.ExchangeType;
-	import com.gt.towers.constants.PrefsTypes;
-	import com.gt.towers.constants.ResourceType;
-	import com.gt.towers.exchanges.ExchangeItem;
-	import com.gt.towers.utils.GameError;
-	import com.gt.towers.utils.maps.IntIntMap;
-	import com.marpies.ane.gameanalytics.GameAnalytics;
-	import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
-	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
-	import feathers.events.FeathersEventType;
-	import starling.events.Event;
+import com.gerantech.extensions.iab.IabResult;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
+import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
+import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.models.vo.VideoAd;
+import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.utils.GameError;
+import com.gt.towers.utils.maps.IntIntMap;
+import com.marpies.ane.gameanalytics.GameAnalytics;
+import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.events.FeathersEventType;
+import starling.events.Event;
 /**
 * ...
 * @author Mansour Djawadi
@@ -41,40 +41,46 @@ public static function get instance() : ExchangeManager
 }
 public function ExchangeManager() {	super(); }
 public function process(item : ExchangeItem) : void 
-{	
+{
 	if ( (player.inDeckTutorial() || player.inShopTutorial()) && item.type != ExchangeType.C101_FREE )
 	{
 		dispatchEndEvent(false, item);
 		return;// disalble all items in tutorial
 	}
 
-	if( item.category == ExchangeType.C0_HARD )
+	var params:SFSObject = new SFSObject();
+	params.putInt("type", item.type );
+	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES )
 	{
 		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
-		BillingManager.instance.purchase("com.grantech.towers.item_" + item.type);
+		BillingManager.instance.purchase((item.category == ExchangeType.C0_HARD ? "com.grantech.towers.item_" : "towres.bundle_") + item.type);
 		function billinManager_endInteractionHandler ( event:Event ) : void {
+			BillingManager.instance.removeEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 			var result:IabResult = event.data as IabResult;
 			if( result.succeed )
 			{
-				// exchange item
-				exchanger.exchange(item, timeManager.now);
+				exchange(item, params);
 				
-                // send analytics events
-				var outs:Vector.<int> = item.outcomes.keys();
-                GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
-				
-                var currency:String = appModel.descriptor.market == "google" ? "USD" : "IRR";
-                var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
-                GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
+				if( item.category == ExchangeType.C0_HARD )
+				{
+					// send analytics events
+					var outs:Vector.<int> = item.outcomes.keys();
+					GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
+					
+					var currency:String = appModel.descriptor.market == "google" ? "USD" : "IRR";
+					var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
+					GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
+					
+					dispatchEndEvent(true, item);
+				}
+				return;
 			}
-			dispatchEndEvent(result.succeed, item);
+			
+			dispatchEndEvent(false , item);
 			return;
 		}
 		return;
 	}
-	
-	var params:SFSObject = new SFSObject();
-	params.putInt("type", item.type );
 	
 	if( item.category == ExchangeType.C10_SOFT )
 	{
@@ -148,12 +154,17 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
 	try
 	{
-		var chestType:int = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
+		var bookType:int = -1;
+		if( item.category == ExchangeType.C30_BUNDLES )
+			bookType = item.containBook(); // reterive a book from bundle. if not found show golden book
+		else 
+			bookType = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
+		
 		if( exchanger.exchange(item, timeManager.now) )
 		{
-			if( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) )
+			if( ( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) ) || ( item.category == ExchangeType.C30_BUNDLES && ExchangeType.getCategory(bookType) == ExchangeType.BOOKS_50 ) )
 			{
-				openChestOverlay = new OpenBookOverlay(chestType);
+				openChestOverlay = new OpenBookOverlay(bookType);
 				appModel.navigator.addOverlay(openChestOverlay);
 			}
 		}
@@ -164,7 +175,8 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + error.object)]));
 		return;
 	}
-	sendData(params)			
+	if( item.category != ExchangeType.C0_HARD )
+		sendData(params)			
 }
 
 private function sendData(params:SFSObject):void
@@ -187,25 +199,26 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		return;
 	}
 	
-	if( item.isBook() )
+	if( item.isBook() || item.containBook() > -1 )
 	{
+		trace(item.isBook(), item.containBook());
 		if( !data.containsKey("rewards") )
 			return;
-		item.outcomes = new IntIntMap();
+		var outcomes:IntIntMap = new IntIntMap();
 		//trace(data.getSFSArray("rewards").getDump());
 		var reward:ISFSObject;
 		for( var i:int=0; i<data.getSFSArray("rewards").size(); i++ )
 		{
 			reward = data.getSFSArray("rewards").getSFSObject(i);
-			if( reward.getInt("t") != ResourceType.XP && reward.getInt("t") != ResourceType.POINT )
-				item.outcomes.set(reward.getInt("t"), reward.getInt("c"));
+			if( ResourceType.isBuilding(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.KEY )
+				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		
 		if( item.category == ExchangeType.C110_BATTLES && data.containsKey("nextOutcome") )
 			exchanger.items.get(item.type).outcome = data.getInt("nextOutcome");
 		
-		player.addResources(item.outcomes);
-		openChestOverlay.setItem( item );
+		player.addResources(outcomes);
+		openChestOverlay.setItem( outcomes );
 		openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 		function openChestOverlay_closeHandler(event:Event):void {
 			openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
