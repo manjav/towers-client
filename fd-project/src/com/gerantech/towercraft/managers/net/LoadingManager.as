@@ -4,6 +4,7 @@ import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.events.LoadingEvent;
+import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
 import com.gerantech.towercraft.managers.VideoAdsManager;
@@ -198,8 +199,9 @@ protected function coreLoader_completeHandler(event:Event):void
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 	
     UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
-	
+
 	state = STATE_LOADED;
+	BillingManager.instance.init();			
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
