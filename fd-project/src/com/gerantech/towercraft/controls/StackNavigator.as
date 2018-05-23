@@ -229,8 +229,8 @@ public function addResourceAnimation(x:Number, y:Number, resourceType:int, count
 	else if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.POINT || resourceType == ResourceType.KEY )
 	{
 		var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-		setTimeout(function():void{indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;}, delay * 1000 - 20);
-		addAnimation(x, y, 130, Assets.getTexture("res-" + resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay, indicator.punch);
+		setTimeout(function():void{indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;}, delay * 1000);
+		addAnimation(x, y, 130, Assets.getTexture("res-" + resourceType, "gui"), count, indicator.iconDisplay.getBounds(stage), delay + 0.02, indicator.punch);
 	}
 }
 public function addAnimation(x:Number, y:Number, size:int, texture:Texture, count:int, zone:Rectangle, delay:Number=0, completeCallback:Function=null, prefix:String="") : void
