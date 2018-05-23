@@ -30,8 +30,8 @@ public function FortuneOverlay()
 
 override protected function initialize():void
 {
-	appModel.navigator.activeScreen.visible = false;
 	super.initialize();
+	appModel.navigator.activeScreen.visible = false;
 
 	layout = new AnchorLayout();
 	closeOnStage = false;

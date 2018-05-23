@@ -57,6 +57,7 @@ public static function createFactory():void
 override protected function initialize():void
 {
 	super.initialize();
+	appModel.navigator.activeScreen.visible = false;// hide back items for better perfomance
 	autoSizeMode = AutoSizeMode.STAGE;
 	
 	layout = new AnchorLayout();
@@ -242,6 +243,7 @@ private function grabReward(reward:BookReward, force:Boolean=false, delay:Number
 
 override public function dispose():void
 {
+	appModel.navigator.activeScreen.visible = true;
 	appModel.sounds.setVolume("main-theme", 1);
 	buttonOverlay.removeEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 	bookArmature.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);

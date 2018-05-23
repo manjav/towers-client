@@ -38,6 +38,7 @@ override protected function initialize():void
 	//if( stage == null || appModel.assets.isLoading || initializeStarted )
 		//return;
 	super.initialize();
+	appModel.navigator.activeScreen.visible = false;
 	initializeStarted = true;
 
 	layout = new AnchorLayout();
@@ -132,6 +133,7 @@ private function buttonOverlay_triggeredHandler(event:Event):void
 
 override public function dispose():void
 {
+	appModel.navigator.activeScreen.visible = true;
 	shineArmature.removeFromParent();
 	appModel.sounds.setVolume("main-theme", 1);
 	super.dispose();
