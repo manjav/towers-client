@@ -36,7 +36,11 @@ protected function placeView_updateHandler(event:Event) : void
 	update(event.data[0], event.data[1], event.data[2]);
 }
 protected function update(population:int, troopType:int, occupied:Boolean) : void {}
-public function dispose() : void { }
+public function dispose() : void 
+{
+	if( placeView != null )
+		placeView.removeEventListener(Event.UPDATE, placeView_updateHandler);
+}
 
 protected function get appModel():		AppModel		{	return AppModel.instance;					}
 protected function get game():			Game			{	return appModel.game;						}

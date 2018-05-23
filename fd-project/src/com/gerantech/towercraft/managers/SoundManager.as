@@ -55,7 +55,7 @@ package com.gerantech.towercraft.managers
 
 			if( sound == null )
 			{
-				AppModel.instance.assets.enqueue("assets/sounds/"+id+".mp3");
+				AppModel.instance.assets.enqueue("assets/sounds/" + id + ".mp3");
 				AppModel.instance.assets.loadQueue(assets_loadCallback);
 				return;
 			}
@@ -91,7 +91,8 @@ package com.gerantech.towercraft.managers
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Check if a sound is playing */
-		public function soundIsPlaying(id:String):Boolean {
+		public function soundIsPlaying(id:String):Boolean
+		{
 			for (var currID:String in currPlayingSounds) {
 				if ( currID == id )
 					return true;
