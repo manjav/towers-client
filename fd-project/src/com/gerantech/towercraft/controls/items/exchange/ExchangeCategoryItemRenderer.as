@@ -87,12 +87,12 @@ override protected function commitData():void
 		
 		case ExchangeType.C100_FREES:
 		case ExchangeType.C110_BATTLES:
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBattleItemRenderer();}
 			break;		
 		
 		case ExchangeType.C120_MAGICS:
 			CELL_SIZE = 320 * appModel.scale;
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookOfferItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBaseItemRenderer();}
 			break;		
 		
 		default:

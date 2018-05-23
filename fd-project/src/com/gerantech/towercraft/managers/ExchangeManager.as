@@ -193,7 +193,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	var data:SFSObject = event.params.params;
 	var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
 	dispatchEndEvent(data.getBool("succeed"), item);
-	if ( !data.getBool("succeed") )
+	if( !data.getBool("succeed") )
 	{
 		dispatchEndEvent(false, item);
 		return;
@@ -201,7 +201,6 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	
 	if( item.isBook() || item.containBook() > -1 )
 	{
-		trace(item.isBook(), item.containBook());
 		if( !data.containsKey("rewards") )
 			return;
 		var outcomes:IntIntMap = new IntIntMap();

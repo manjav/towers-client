@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.groups 
 {
 import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.controls.items.exchange.ExchangeBookItemRenderer;
+import com.gerantech.towercraft.controls.items.exchange.ExchangeBookBattleItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.List;
@@ -67,22 +67,9 @@ override protected function initialize():void
 	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
-	list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookItemRenderer();}
+	list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBattleItemRenderer();}
 	list.dataProvider = new ListCollection([101, 102, 103, 111]);
 	addChild(list);
-	
-	exchangeManager.addEventListener(Event.COMPLETE, exchangeManager_completeHandler);
-}
-
-private function exchangeManager_completeHandler(event:Event):void 
-{
-	var item:ExchangeItem = event.data as ExchangeItem;
-	if( !item.isBook() )
-		return;
-	
-	for( var i:int = 0; i < list.dataProvider.length; i++ )
-		if( list.dataProvider.getItemAt(i) == item.type )
-			list.dataProvider.updateItemAt(i);
 }
 
 private function list_changeHandler(event:Event):void
@@ -97,6 +84,7 @@ private function list_changeHandler(event:Event):void
 	list.selectedIndex = -1;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 }
+
 override public function dispose():void 
 {
 	exchangeManager.removeEventListener(Event.COMPLETE, exchangeManager_completeHandler);
