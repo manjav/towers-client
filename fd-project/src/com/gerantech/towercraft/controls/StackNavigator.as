@@ -170,7 +170,9 @@ public function addOverlay(overlay:BaseOverlay) : void
 	function overlay_closeHandler(event:Event):void {
 		var o:BaseOverlay = event.currentTarget as BaseOverlay;
 		o.removeEventListener(Event.CLOSE, overlay_closeHandler);
-		overlays.removeAt(overlays.indexOf(o));
+		var oi:int = overlays.indexOf(o);
+		if( oi > -1 )
+			overlays.removeAt(oi);
 	}
 }
 public function removeAllOverlays():void
