@@ -84,11 +84,5 @@ private function list_changeHandler(event:Event):void
 	list.selectedIndex = -1;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 }
-
-override public function dispose():void 
-{
-	exchangeManager.removeEventListener(Event.COMPLETE, exchangeManager_completeHandler);
-	super.dispose();
-}
 }
 }
