@@ -280,16 +280,28 @@ private function showTutorials() : void
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-private function endBattle(data:SFSObject):void
+private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
+	var inTutorial:Boolean = player.inTutorial();
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+
+	// show celebration tutorial steps
+	if( player.get_battleswins() == 0 && !skipCelebration )
+	{
+		var tutorialData:TutorialData = new TutorialData("tutor_battle_1_celebration");
+		tutorialData.data = data;
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_1_celebration"));
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
+		tutorials.show(tutorialData);
+		return;
+	}
+
 	touchEnable = false;
 	disposeBattleAssets();
 	hud.stopTimers();
 	tutorials.removeAll();
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
-	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
-	var inTutorial:Boolean = player.inTutorial();
 	var playerIndex:int = -1
 	for(var i:int = 0; i < rewards.size(); i++)
 	{
@@ -355,7 +367,7 @@ private function endBattle(data:SFSObject):void
 	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
 	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	setTimeout(hud.end, player.get_arena(0) == 0?1000:0, endOverlay);//delay for noobs
+	setTimeout(hud.end, player.get_arena(0) == 0?800:0, endOverlay);// delay for noobs
 }
 
 private function disposeBattleAssets():void
@@ -437,13 +449,13 @@ private function endOverlay_closeHandler(event:Event):void
 	}
 	appModel.battleFieldView.responseSender.actived = false;
 	
-	// create tutorial steps
-	var winStr:String = endOverlay.winRatio >= 1 ? "_win_" : "_defeat_";
-	//quest end
-	var task:TutorialTask
+	// create end tutorial steps
 	if( endOverlay.inTutorial )
 	{
+		var winStr:String = endOverlay.winRatio >= 1 ? "_win_" : "_defeat_";
+		var task:TutorialTask
 		var tutorialData:TutorialData = new TutorialData(field.name + "_end");
+		tutorialData.data = "end";
 		for ( var i:int=0; i < field.endNum.size() ; i++ )
 		{
 			task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_" + field.name + "_end" + winStr + field.endNum.get(i));
@@ -454,7 +466,8 @@ private function endOverlay_closeHandler(event:Event):void
 		tutorials.show(tutorialData);
 		return;
 	}
-	else if ( player.tutorialMode == 1 && endOverlay.winRatio < 1 && player.emptyDeck() )
+	
+	/*if ( player.tutorialMode == 1 && endOverlay.winRatio < 1 && player.emptyDeck() )
 	{
 		tutorialData = new TutorialData("tutor_upgrade");
 		tutorialData.data = endOverlay.winRatio;
@@ -462,7 +475,7 @@ private function endOverlay_closeHandler(event:Event):void
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		tutorials.show(tutorialData);
 		return;
-	}
+	}*/
 	
 	// show faction changes overlay
 	if( endOverlay.data != null )
@@ -490,6 +503,12 @@ private function tutorials_tasksFinishHandler(event:Event):void
 	if( tutorial.data == "start" )
 	{
 		touchEnable = true;
+		return;
+	}
+	
+	if( tutorial.name == "tutor_battle_1_celebration" )
+	{
+		endBattle(tutorial.data as SFSObject, true);
 		return;
 	}
 	
