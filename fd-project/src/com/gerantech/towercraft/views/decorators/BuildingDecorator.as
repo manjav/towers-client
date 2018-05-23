@@ -131,11 +131,7 @@ override protected function update(population:int, troopType:int, occupied:Boole
 			// punch scale on occupation
 			punch(1.3);
 			
-			var tsound:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
-			if( appModel.sounds.soundIsAdded(tsound) )
-				appModel.sounds.playSound(tsound);
-			else
-				appModel.sounds.addSound(tsound);
+			appModel.sounds.addAndPlaySound(troopType == player.troopType ? "battle-capture" : "battle-lost");
 		}
 	}
 	
