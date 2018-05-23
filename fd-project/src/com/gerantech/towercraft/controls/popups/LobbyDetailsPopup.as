@@ -146,9 +146,8 @@ private function showDetails():void
 	memberList = SFSArray(roomData.all).toArray();
 	memberCollection = new ListCollection(SFSArray(roomData.all).toArray());
 	
-	var membersList:FastList = new FastList();
-	//membersList.backgroundSkin = new Quad(1,1);//Assets.getTexture("theme/slider-background", "gui");
-	membersList.layoutData = new AnchorLayoutData(padding*18.5, padding, padding, padding);
+	var membersList:List = new List();
+	membersList.layoutData = new AnchorLayoutData(padding * 18.5, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
 	membersList.dataProvider = memberCollection;
@@ -200,6 +199,7 @@ private function showDetails():void
 	editButton.height = 96 * appModel.scale;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
+	
 	
 }
 
@@ -306,7 +306,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 				memberCollection.removeItemAt(buttonsPopup.data.index);
 			}
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
-			SFSConnection.instance.lobbyManager.requestData(true, true);
+			//SFSConnection.instance.lobbyManager.requestData(true, true);
 		}
 	}
 	/*function profilePopup_eventsHandler ( event:Event ):void {
