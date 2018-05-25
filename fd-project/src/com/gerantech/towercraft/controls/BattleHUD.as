@@ -273,7 +273,7 @@ private function stickerButton_triggeredHandler(event:Event):void
 		stickerList = new List();
 		stickerList.layout = stickersLayout;
 		stickerList.layoutData = new AnchorLayoutData(NaN, padding, NaN, 0);
-		stickerList.height = padding*20;
+		stickerList.height = padding * 20;
 		stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 		stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
 		stickerList.dataProvider = new ListCollection(StickerType.getAll(game)._list);

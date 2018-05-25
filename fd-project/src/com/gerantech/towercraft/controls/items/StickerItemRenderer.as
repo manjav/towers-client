@@ -28,7 +28,7 @@ package com.gerantech.towercraft.controls.items
 			layout = new AnchorLayout();
 			
 			labelDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -5*appModel.scale);
+			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -5 * appModel.scale);
 			addChild(labelDisplay);
 		}
 		

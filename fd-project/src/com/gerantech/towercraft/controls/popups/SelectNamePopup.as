@@ -8,36 +8,37 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
-import com.gt.towers.exchanges.Exchange;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import starling.core.Starling;
-
+import feathers.events.FeathersEventType;
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
-
-import feathers.events.FeathersEventType;
-
+import starling.core.Starling;
 import starling.events.Event;
 
 public class SelectNamePopup extends ConfirmPopup
 {
 private var errorDisplay:RTLLabel;
-
 private var textInput:CustomTextInput;
+private var eItem:ExchangeItem;
 public function SelectNamePopup()
 {
-	super(loc("popup_select_name_title"), player.nickName != "guest" ? "100" : loc("popup_register_label"), null);
+	eItem = exchanger.items.get(ExchangeType.C191_RENAME);
+	
+		super(loc((player.nickName != "guest" && eItem.numExchanges == 0) ? "popup_select_name_title_warned" :  "popup_select_name_title"), 
+	(player.nickName != "guest" && eItem.numExchanges > 0) ? (eItem.numExchanges * ExchangeType.getHardRequierement(ExchangeType.C191_RENAME)).toString() : loc("popup_register_label"),
+	null);
 }
 
 override protected function initialize():void
 {
 	super.initialize();
-	closeOnOverlay = player.nickName != "guest";
+	closeWithKeyboard = closeOnOverlay = player.nickName != "guest";
 	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.35, stage.stageWidth*0.9, stage.stageHeight*0.30);
 	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.30, stage.stageWidth*0.9, stage.stageHeight*0.35);
 
@@ -53,8 +54,8 @@ override protected function initialize():void
 	container.addChild(errorDisplay);
 	
 	acceptButton.isEnabled = false;
-	if( closeOnOverlay )
-	acceptButton.icon = Assets.getTexture("res-"+1003, "gui");
+	if( closeOnOverlay && eItem.numExchanges > 0 )
+		acceptButton.icon = Assets.getTexture("res-1003", "gui");
 	declineButton.removeFromParent();
 	rejustLayoutByTransitionData();
 }
@@ -109,9 +110,8 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		return;
 	}
 	
-	if( closeOnOverlay )
-		exchanger.exchange(new ExchangeItem(-1, ResourceType.CURRENCY_HARD, 100), 0, 0);
-	
+	if( player.nickName != "guest" )
+		exchanger.exchange(eItem, 0);
 	player.nickName = textInput.text;
 	dispatchEventWith( Event.COMPLETE );
 	close();
