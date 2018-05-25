@@ -63,7 +63,7 @@ override public function init():void
 	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 320 * appModel.scale);
 	addChild(adminButton);
 
-	if( player.inTutorial() )
+	if( player.get_battleswins() < 4 )
 		return;
 	
 	var bookLine:HomeBooksLine = new HomeBooksLine();
