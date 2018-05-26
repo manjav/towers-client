@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.socials.Lobby;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -31,7 +32,7 @@ public function BuddyOfferItem(data:Object)
 	iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding * 2, -padding * 2);
 	addChild(iconDisplay);
 	
-	var titleDisplay:RTLLabel = new RTLLabel(loc("offer_invite_buddy_title"));
+	var titleDisplay:RTLLabel = new RTLLabel(loc("offer_invite_buddy_title", [Lobby.buddyInviteeReward, Lobby.buddyInviterReward]));
 	titleDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
 	addChild(titleDisplay);
 	
