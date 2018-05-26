@@ -8,6 +8,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.TroopType;
 import com.gt.towers.utils.lists.IntList;
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
@@ -131,7 +132,9 @@ override protected function update(population:int, troopType:int, occupied:Boole
 			// punch scale on occupation
 			punch(1.3);
 			
-			appModel.sounds.addAndPlaySound(troopType == player.troopType ? "battle-capture" : "battle-lost");
+			var soundName:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
+			if( troopType != TroopType.NONE && !appModel.sounds.soundIsPlaying(soundName) )
+				appModel.sounds.addAndPlaySound(soundName);
 		}
 	}
 	
