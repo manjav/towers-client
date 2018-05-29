@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.views.effects 
 {
 import com.gerantech.towercraft.managers.ParticleManager;
+import com.gerantech.towercraft.models.AppModel;
 import flash.utils.setTimeout;
 import starling.events.Event;
 import starling.animation.Tween;
@@ -10,7 +11,7 @@ import starling.textures.Texture;
 
 /**
 * ...
-* @author MAnsour Djawadi
+* @author Mansour Djawadi
 */
 public class MortalParticleSystem extends PDParticleSystem 
 {
@@ -18,6 +19,7 @@ public class MortalParticleSystem extends PDParticleSystem
 public function MortalParticleSystem(name:String, duration:Number = 0.1, autoStart:Boolean = true) 
 {
 	super(ParticleManager.getParticleData(name), ParticleManager.getTextureByBitmap(name));
+	startSize = startSize * AppModel.instance.scale * 4;
 	touchable = false;
 	addEventListener(Event.COMPLETE, completeHandler);
 	if( autoStart )

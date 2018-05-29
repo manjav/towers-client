@@ -23,7 +23,7 @@ private static const scrapParticle:Class;
 
 [Embed(source="../../../../assets/particles/explode/particle.pex", mimeType="application/octet-stream")]
 private static const explodeConfig:Class;
-[Embed(source="../../../../assets/particles/fire/texture.png")]
+[Embed(source="../../../../assets/particles/explode/texture.png")]
 private static const explodeParticle:Class;
 
 
