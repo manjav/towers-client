@@ -11,7 +11,7 @@ import starling.textures.Texture;
 
 public class NotifierButton extends IconButton
 {
-private var _badgeNumber:int = 0;
+private var _badgeLabel:String = "";
 private var notifyImage:ImageLoader;
 private var shadowDisplay:ShadowLabel;
 
@@ -20,23 +20,23 @@ public function NotifierButton(texture:Texture)
 	super(texture);
 }
 
-public function get badgeNumber():int
+public function get badgeLabel():String
 {
-	return _badgeNumber;
+	return _badgeLabel;
 }
-public function set badgeNumber(value:int):void
+public function set badgeLabel(value:String):void
 {
-	if( _badgeNumber == value )
+	if( _badgeLabel == value )
 		return;
-	_badgeNumber = value;
+	_badgeLabel = value;
 	
 	if( notifyImage == null || shadowDisplay == null )
 		return;
-	notifyImage.visible = _badgeNumber > 0;
-	shadowDisplay.visible = _badgeNumber > 0;
+	notifyImage.visible = _badgeLabel != "";
+	shadowDisplay.visible = _badgeLabel != "";
 	
-	if( _badgeNumber > 0 )
-		shadowDisplay.text = _badgeNumber.toString();
+	if( _badgeLabel != "" )
+		shadowDisplay.text = _badgeLabel;
 }
 
 override protected function initialize():void
@@ -47,17 +47,17 @@ override protected function initialize():void
 	
 	notifyImage = new ImageLoader();
 	notifyImage.touchable = false;
-	notifyImage.visible = false;
+	notifyImage.visible = _badgeLabel != "";
 	notifyImage.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
 	notifyImage.height = notifyImage.width = appModel.scale * 60;
 	notifyImage.layoutData = new AnchorLayoutData(_padding, _padding);
 	notifyImage.source = appModel.theme.buttonDangerUpSkinTexture;
 	addChild(notifyImage);
 	
-	shadowDisplay = new ShadowLabel(_badgeNumber.toString(), 1, 0, "center", null, false, null, 0.8);
+	shadowDisplay = new ShadowLabel(_badgeLabel.toString(), 1, 0, "center", null, false, null, 0.8);
 	shadowDisplay.shadowDistance = _padding;
 	shadowDisplay.touchable = false;
-	shadowDisplay.visible = false;
+	shadowDisplay.visible = _badgeLabel != "";
 	shadowDisplay.height = shadowDisplay.width = appModel.scale * 60;
 	shadowDisplay.layoutData = new AnchorLayoutData(_padding*2, _padding);
 	addChild(shadowDisplay);

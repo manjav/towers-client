@@ -52,8 +52,8 @@ private function addButton(texture:String) : void
 	var button:IconButton;
 	if( texture == "button-inbox" )
 	{
-		button = inboxButton = new NotifierButton(Assets.getTexture(texture, "gui"));
-		inboxButton.badgeNumber = InboxService.instance.numUnreads;
+		button = inboxButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
+		inboxButton.badgeLabel = InboxService.instance.numUnreads.toString();
 	}
 	else
 	{
@@ -77,7 +77,7 @@ private function buttons_triggeredHandler(event:Event):void
 
 private function inboxService_updateHandler():void
 {
-	inboxButton.badgeNumber = InboxService.instance.numUnreads;
+	inboxButton.badgeLabel = InboxService.instance.numUnreads.toString();
 }
 }
 }

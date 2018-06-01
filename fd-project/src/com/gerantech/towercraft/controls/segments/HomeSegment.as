@@ -114,7 +114,7 @@ private function showOffers():void
 }
 private function showMainButtons():void
 {
-	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+Math.min(8, player.get_arena(0)));
+	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0
