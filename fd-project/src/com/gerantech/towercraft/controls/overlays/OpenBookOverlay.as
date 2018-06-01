@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.BookReward;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
-import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.events.EventObject;
 import dragonBones.objects.DragonBonesData;
@@ -156,7 +155,7 @@ protected function buttonOverlay_triggeredHandler():void
 	if( collectedItemIndex < outcomes.keys().length )
 	{
 		bookArmature.animation.gotoAndPlayByTime("open", 0, 1);
-			
+		
 		// expload
 		var explode:MortalParticleSystem = new MortalParticleSystem("explode");
 		explode.scaleY = 0.8;

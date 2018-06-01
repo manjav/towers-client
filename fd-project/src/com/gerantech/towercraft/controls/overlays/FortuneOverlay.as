@@ -62,7 +62,7 @@ override protected function initialize():void
 	shadow.maintainAspectRatio = false;
 	shadow.source = Assets.getTexture("bg-shadow", "gui");
 	shadow.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	shadow.color = 0xAA0000;
+	//shadow.color = 0xAA0000;
 	addChild(shadow);
 	animateShadow(0, 1);
 	
@@ -89,7 +89,7 @@ protected function rotationCompleted() : void
 	shadow.removeFromParent();
 	
 	// explode particles
-	var explode:MortalParticleSystem = new MortalParticleSystem("explode", 2);
+	var explode:MortalParticleSystem = new MortalParticleSystem("explode", 1);
 	explode.x = width * 0.5;
 	explode.y = height * 0.5;
 	addChild(explode);
