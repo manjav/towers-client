@@ -3,10 +3,8 @@ package com.gerantech.towercraft.controls.buttons
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
-
 import starling.textures.Texture;
 
 public class NotifierButton extends IconButton
@@ -15,10 +13,12 @@ private var _badgeLabel:String = "";
 private var notifyImage:ImageLoader;
 private var shadowDisplay:ShadowLabel;
 
-public function NotifierButton(texture:Texture)
+public function get hasBadge(): Boolean
 {
-	super(texture);
+	return _badgeLabel != "" && _badgeLabel != "0";
 }
+
+public function NotifierButton(texture:Texture) { super(texture); }
 
 public function get badgeLabel():String
 {
@@ -32,7 +32,7 @@ public function set badgeLabel(value:String):void
 	
 	if( notifyImage == null || shadowDisplay == null )
 		return;
-	shadowDisplay.visible = notifyImage.visible = _badgeLabel != "" && _badgeLabel != "0";
+	shadowDisplay.visible = notifyImage.visible = hasBadge;
 	if( shadowDisplay.visible )
 		shadowDisplay.text = _badgeLabel;
 }
@@ -45,7 +45,7 @@ override protected function initialize():void
 	
 	notifyImage = new ImageLoader();
 	notifyImage.touchable = false;
-	notifyImage.visible = _badgeLabel != "";
+	notifyImage.visible = hasBadge;
 	notifyImage.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
 	notifyImage.height = notifyImage.width = appModel.scale * 60;
 	notifyImage.layoutData = new AnchorLayoutData(_padding, _padding);
@@ -55,7 +55,7 @@ override protected function initialize():void
 	shadowDisplay = new ShadowLabel(_badgeLabel, 1, 0, "center", null, false, null, 0.8);
 	shadowDisplay.shadowDistance = _padding;
 	shadowDisplay.touchable = false;
-	shadowDisplay.visible = _badgeLabel != "" && _badgeLabel != "0";
+	shadowDisplay.visible = hasBadge;
 	shadowDisplay.height = shadowDisplay.width = appModel.scale * 60;
 	shadowDisplay.layoutData = new AnchorLayoutData(_padding*2, _padding);
 	addChild(shadowDisplay);
