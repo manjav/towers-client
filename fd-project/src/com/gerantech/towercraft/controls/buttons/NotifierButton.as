@@ -32,10 +32,8 @@ public function set badgeLabel(value:String):void
 	
 	if( notifyImage == null || shadowDisplay == null )
 		return;
-	notifyImage.visible = _badgeLabel != "";
-	shadowDisplay.visible = _badgeLabel != "";
-	
-	if( _badgeLabel != "" )
+	shadowDisplay.visible = notifyImage.visible = _badgeLabel != "" && _badgeLabel != "0";
+	if( shadowDisplay.visible )
 		shadowDisplay.text = _badgeLabel;
 }
 
@@ -54,10 +52,10 @@ override protected function initialize():void
 	notifyImage.source = appModel.theme.buttonDangerUpSkinTexture;
 	addChild(notifyImage);
 	
-	shadowDisplay = new ShadowLabel(_badgeLabel.toString(), 1, 0, "center", null, false, null, 0.8);
+	shadowDisplay = new ShadowLabel(_badgeLabel, 1, 0, "center", null, false, null, 0.8);
 	shadowDisplay.shadowDistance = _padding;
 	shadowDisplay.touchable = false;
-	shadowDisplay.visible = _badgeLabel != "";
+	shadowDisplay.visible = _badgeLabel != "" && _badgeLabel != "0";
 	shadowDisplay.height = shadowDisplay.width = appModel.scale * 60;
 	shadowDisplay.layoutData = new AnchorLayoutData(_padding*2, _padding);
 	addChild(shadowDisplay);
