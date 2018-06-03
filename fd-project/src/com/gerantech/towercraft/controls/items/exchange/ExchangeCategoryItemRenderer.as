@@ -103,9 +103,9 @@ override protected function commitData():void
 	
 	height = CELL_SIZE * Math.ceil(line.items.length / listLayout.requestedColumnCount) + headerDisplay.height;
 	listLayout.typicalItemHeight = CELL_SIZE - listLayout.gap * 1.6;
-	setTimeout(function():void{categoryCollection.data = line.items}, index * 300);
-	alpha = 0;
-	Starling.juggler.tween(this, 0.3, {delay:index * 0.3, alpha:1});
+	/*setTimeout(function():void{*/categoryCollection.data = line.items/*}, index * 300);*/
+	//alpha = 0;
+	//Starling.juggler.tween(this, 0.3, {delay:index * 0.3, alpha:1});
 }
 
 private function list_changeHandler(event:Event):void

@@ -31,7 +31,7 @@ public function set type(value:int):void
 	
 	var hasIcon:Boolean = _count > 0 && _type > 0 && _type != ResourceType.CURRENCY_REAL;
 	if( hasIcon )
-		icon = Assets.getTexture("res-" + _type, "gui");;
+		icon = Assets.getTexture("res-" + _type, "gui");
 }
 public function get type():int
 {

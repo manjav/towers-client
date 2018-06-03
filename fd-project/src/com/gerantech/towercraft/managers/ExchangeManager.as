@@ -1,10 +1,13 @@
 package com.gerantech.towercraft.managers 
 {
 import com.gerantech.extensions.iab.IabResult;
+import com.gerantech.towercraft.controls.overlays.EarnOverlay;
+import com.gerantech.towercraft.controls.overlays.FortuneOverlay;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+import com.gerantech.towercraft.controls.popups.FortuneSkipPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -13,6 +16,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -32,7 +36,7 @@ import starling.events.Event;
 public class ExchangeManager extends BaseManager 
 {
 private static var _instance:ExchangeManager;
-private var openChestOverlay:OpenBookOverlay;
+private var earnOverlay:EarnOverlay;
 public static function get instance() : ExchangeManager
 {
 	if( _instance == null )
@@ -135,7 +139,13 @@ public function process(item : ExchangeItem) : void
 		}
 		else if( item.category == ExchangeType.C100_FREES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY )
 		{
-			appModel.navigator.addLog(loc("exchange_free_waiting", [StrUtils.toTimeFormat(item.expiredAt - timeManager.now)]));
+			var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
+			dailyPopup.addEventListener(Event.SELECT, dailyPopup_selectHandler);
+			appModel.navigator.addPopup(dailyPopup);
+			function dailyPopup_selectHandler(event:Event):void{
+				dailyPopup.removeEventListener(Event.SELECT, dailyPopup_selectHandler);
+				exchange(item, params);
+			}
 			dispatchEndEvent(false, item);
 			return;
 		}
@@ -154,18 +164,20 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
 	try
 	{
+		if( item.category == ExchangeType.C100_FREES )
+			exchanger.findRandomOutcome(item);
 		var bookType:int = -1;
 		if( item.category == ExchangeType.C30_BUNDLES )
 			bookType = item.containBook(); // reterive a book from bundle. if not found show golden book
 		else 
 			bookType = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
 		
-		if( exchanger.exchange(item, timeManager.now) )
+		if( exchanger.exchange(item, timeManager.now) == MessageTypes.RESPONSE_SUCCEED )
 		{
 			if( ( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) ) || ( item.category == ExchangeType.C30_BUNDLES && ExchangeType.getCategory(bookType) == ExchangeType.BOOKS_50 ) )
 			{
-				openChestOverlay = new OpenBookOverlay(bookType);
-				appModel.navigator.addOverlay(openChestOverlay);
+				earnOverlay = item.category == ExchangeType.C100_FREES ? new FortuneOverlay(bookType) : new OpenBookOverlay(bookType);
+				appModel.navigator.addOverlay(earnOverlay);
 			}
 		}
 	} 
@@ -192,8 +204,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 	var data:SFSObject = event.params.params;
 	var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
-	dispatchEndEvent(data.getBool("succeed"), item);
-	if( !data.getBool("succeed") )
+	if( data.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
 	{
 		dispatchEndEvent(false, item);
 		return;
@@ -216,14 +227,14 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		if( item.category == ExchangeType.C110_BATTLES && data.containsKey("nextOutcome") )
 			exchanger.items.get(item.type).outcome = data.getInt("nextOutcome");
 		
-		player.addResources(outcomes);
-		openChestOverlay.setItem( outcomes );
-		openChestOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+		player.addResources( outcomes );
+		earnOverlay.outcomes = outcomes;
+		earnOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 		function openChestOverlay_closeHandler(event:Event):void {
-			openChestOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
-			if( item.category != ExchangeType.C130_ADS )
+			earnOverlay.removeEventListener(Event.CLOSE, openChestOverlay_closeHandler);
+			if( item.category != ExchangeType.C43_ADS )
 				showAd();
-			openChestOverlay = null;
+			earnOverlay = null;
 			gotoDeckTutorial();
 		}
 		appModel.navigator.dispatchEventWith("bookOpened");
@@ -265,8 +276,8 @@ private function videoIdsManager_completeHandler(event:Event):void
 		return;
 	
 	var params:SFSObject = new SFSObject();
-	params.putInt("type", ExchangeType.C131_AD );
-	exchange(exchanger.items.get(ExchangeType.C131_AD), params);
+	params.putInt("type", ExchangeType.C43_ADS );
+	exchange(exchanger.items.get(ExchangeType.C43_ADS), params);
 }
 private function dispatchEndEvent( succeed:Boolean, item:ExchangeItem ) : void 
 {

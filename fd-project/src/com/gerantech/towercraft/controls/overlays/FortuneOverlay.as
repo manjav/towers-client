@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.Spinner;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
@@ -14,16 +15,17 @@ import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
 
-public class FortuneOverlay extends BaseOverlay
+public class FortuneOverlay extends EarnOverlay
 {
 public var delta:Number = 0.005;
 public var fortuneHeight:Number;
 private var spinners:Vector.<Spinner>;
 private var shadow:ImageLoader;
+private var openOverlay:com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 
-public function FortuneOverlay()
+public function FortuneOverlay(type:int)
 {
-	super();
+	super(type);
 	fortuneHeight = 300 * appModel.scale;
 	appModel.sounds.setVolume("main-theme", 0.3);
 }
@@ -67,7 +69,7 @@ override protected function initialize():void
 	animateShadow(0, 1);
 	
 	// become to faster rotation
-	var time:Number = 4 + Math.random() * 3;
+	var time:Number = 3.5 + Math.random() * 2;
 	setTimeout(appModel.sounds.addAndPlaySound, time * 1000 - 2000, "book-appear");
 	Starling.juggler.tween(this, time, {delta:0.25, transition:Transitions.EASE_IN, onComplete:rotationCompleted});
 	Starling.juggler.tween(this, 3, {fortuneHeight:720 * appModel.scale, transition:Transitions.EASE_OUT_BACK});
@@ -105,7 +107,7 @@ protected function rotationCompleted() : void
 	Starling.juggler.tween(shineArmature, 0.3, {scale:appModel.scale * 4, transition:Transitions.EASE_OUT_BACK});
 
 	// book animation
-	var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-5"+2);
+	var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + type);
 	bookArmature.touchable = false;
 	bookArmature.x = width * 0.5;
 	bookArmature.y = height * 0.5;
@@ -123,7 +125,13 @@ protected function rotationCompleted() : void
 
 protected function buttonOverlay_triggeredHandler():void
 {
-	close();
+	openOverlay = new OpenBookOverlay(type);
+	appModel.navigator.addOverlay(openOverlay);
+	if( outcomes != null )
+	{
+		openOverlay.outcomes = outcomes;
+		setTimeout(close, 500);
+	}
 }
 
 protected function enterFrameHandler(e:Event):void 
@@ -147,6 +155,17 @@ protected function enterFrameHandler(e:Event):void
 		setChildIndex(_spinners[i].display, i + 2);
 
 }
+
+override public function set outcomes(value:IntIntMap):void 
+{
+	super.outcomes = value;
+	if( openOverlay != null )
+	{
+		openOverlay.outcomes = outcomes;
+		setTimeout(close, 500);
+	}
+}
+
 override public function dispose():void
 {
 	//shineArmature.removeFromParent();

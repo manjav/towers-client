@@ -20,13 +20,11 @@ import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.events.Event;
 
-public class OpenBookOverlay extends BaseOverlay
+public class OpenBookOverlay extends EarnOverlay
 {
 public static var factory: StarlingFactory;
 public static var dragonBonesData:DragonBonesData;
 
-private var outcomes:IntIntMap;
-private var type:int;
 private var rewardKeys:Vector.<int>;
 private var rewardItems:Vector.<BookReward>;
 private var bookArmature:StarlingArmatureDisplay ;
@@ -39,8 +37,7 @@ private var frequentlyTapped:int;
 
 public function OpenBookOverlay(type:int)
 {
-	super();
-	this.type = type;
+	super(type);
 	createFactory();
 }
 
@@ -84,7 +81,7 @@ override protected function addedToStageHandler(event:Event):void
 	
 	appModel.sounds.setVolume("main-theme", 0.3);
 	
-	bookArmature = factory.buildArmatureDisplay("book-"+type);
+	bookArmature = factory.buildArmatureDisplay("book-" + type);
 	bookArmature.touchable = false;
 	bookArmature.x = stage.stageWidth * 0.5;
 	bookArmature.y = stage.stageHeight * 0.85;
@@ -100,14 +97,14 @@ override protected function addedToStageHandler(event:Event):void
 	shineArmature.x = 170 * appModel.scale;
 }
 
-public function setItem(outcomes:IntIntMap) : void
+override public function set outcomes(value:IntIntMap):void 
 {
+	super.outcomes = value;
 	buttonOverlay = new SimpleLayoutButton();
 	buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 	buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(buttonOverlay);
 	
-	this.outcomes = outcomes;
 	rewardItems = new Vector.<BookReward>();
 	rewardKeys = outcomes.keys();
 	if( readyToWait )

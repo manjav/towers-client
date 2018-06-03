@@ -28,10 +28,10 @@ private var textInput:CustomTextInput;
 private var eItem:ExchangeItem;
 public function SelectNamePopup()
 {
-	eItem = exchanger.items.get(ExchangeType.C191_RENAME);
+	eItem = exchanger.items.get(ExchangeType.C42_RENAME);
 	
 		super(loc((player.nickName != "guest" && eItem.numExchanges == 0) ? "popup_select_name_title_warned" :  "popup_select_name_title"), 
-	(player.nickName != "guest" && eItem.numExchanges > 0) ? (eItem.numExchanges * ExchangeType.getHardRequierement(ExchangeType.C191_RENAME)).toString() : loc("popup_register_label"),
+	(player.nickName != "guest" && eItem.numExchanges > 0) ? (eItem.numExchanges * ExchangeType.getHardRequierement(ExchangeType.C42_RENAME)).toString() : loc("popup_register_label"),
 	null);
 }
 
