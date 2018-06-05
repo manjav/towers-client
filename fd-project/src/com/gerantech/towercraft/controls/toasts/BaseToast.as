@@ -42,7 +42,7 @@ override protected function initialize():void
 		setTimeout(close, closeAfter, true);
 }
 
-override protected function defaultOverlayFactory():DisplayObject
+override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
 	var overlay:LayoutGroup = new LayoutGroup();
 	overlay.touchable = false;

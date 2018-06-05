@@ -81,12 +81,12 @@ override protected function addedToStageHandler(event:Event):void
 	setTimeout(function():void{closeOnStage = true}, task.skipableAfter);
 }
 
-override protected function defaultOverlayFactory():DisplayObject
+override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
 	layout = new AnchorLayout();
 	var overlay:Devider = new Devider();
-	overlay.alpha = 0.4;
-	overlay.layoutData = new AnchorLayoutData(0,0,0,0);
+	overlay.alpha = alpha;
+	overlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	return overlay;
 }
 

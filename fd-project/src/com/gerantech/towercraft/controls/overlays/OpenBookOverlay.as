@@ -64,7 +64,7 @@ override protected function initialize():void
 		onComplete:transitionInCompleted
 	});
 }
-override protected function defaultOverlayFactory():DisplayObject
+override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
 	var overlay:DisplayObject = super.defaultOverlayFactory();
 	overlay.alpha = 1;

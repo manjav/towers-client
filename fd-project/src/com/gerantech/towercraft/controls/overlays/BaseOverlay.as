@@ -40,10 +40,10 @@ package com.gerantech.towercraft.controls.overlays
 			}
 		}
 		
-		protected function defaultOverlayFactory():DisplayObject
+		protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 		{
-			var overlay:Devider = new Devider();
-			overlay.alpha = 0.4;
+			var overlay:Devider = new Devider(color);
+			overlay.alpha = alpha;
 			overlay.width = stage.stageWidth * 3;
 			overlay.height = stage.stageHeight * 3;
 			overlay.x = -stage.stageWidth * 2;

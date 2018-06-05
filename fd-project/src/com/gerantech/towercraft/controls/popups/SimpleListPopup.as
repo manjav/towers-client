@@ -59,7 +59,7 @@ package com.gerantech.towercraft.controls.popups
 			close();
 		}
 		
-		override protected function defaultOverlayFactory():DisplayObject
+		override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 		{
 			var overlay:SimpleLayoutButton = new SimpleLayoutButton();
 			overlay.backgroundSkin = new Quad(1, 1, 0);

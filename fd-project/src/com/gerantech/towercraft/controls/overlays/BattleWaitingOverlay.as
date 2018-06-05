@@ -131,9 +131,9 @@ public function disappear():void
 		Starling.juggler.tween(waitDisplay, 0.4, {alpha:0, y:waitDisplay.y-height*0.1, transition:Transitions.EASE_IN_BACK});
 	setTimeout(close, 800, true)
 }
-override protected function defaultOverlayFactory():DisplayObject
+override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:Devider = new Devider(0);
+	var overlay:Devider = new Devider(color);
 	overlay.width = stage.stageWidth;
 	overlay.height = stage.stageHeight;
 	return overlay;

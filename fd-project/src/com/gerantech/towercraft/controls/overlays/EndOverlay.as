@@ -77,7 +77,7 @@ private function showParticle():void
 }
 
 
-override protected function defaultOverlayFactory():DisplayObject
+override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
 	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft || playerIndex == -1 ? 0x000000 : (winRatio > 1 ? 0x002211 : 0x331300));
 	overlay.alpha = 0.7;
