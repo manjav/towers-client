@@ -32,7 +32,7 @@ override protected function commitData():void
 	state = exchange.getState(timeManager.now);
 
 	skin.blendMode = BlendMode.ADD;
-	skin.alpha = state == ExchangeItem.CHEST_STATE_BUSY ? 0.5 : 1;
+	skin.alpha = state == ExchangeItem.CHEST_STATE_READY ? 1 : 0.3;
 	super.commitData();
 	countdownFactory();
 	
@@ -73,16 +73,21 @@ protected function timeManager_changeHandler(event:Event):void
 override protected function bookFactory() : StarlingArmatureDisplay
 {
 	clearTimeout(timeoutId);
-	if( exchange.category == ExchangeType.C110_BATTLES || (exchange.category == ExchangeType.C100_FREES && state == ExchangeItem.CHEST_STATE_READY) ) 
+	if( state != ExchangeItem.CHEST_STATE_EMPTY ) 
 	{
 		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + exchange.outcome );
-		bookArmature.scale = appModel.scale * 0.85;
-		bookArmature.x = width * 0.5;
+		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 0.8;
+		bookArmature.x = width * 0.50;
 		bookArmature.y = height * 0.45;
-		if( state == ExchangeItem.CHEST_STATE_READY )
+		if ( state == ExchangeItem.CHEST_STATE_READY )
+		{
 			timeoutId = setTimeout(bookArmature.animation.gotoAndPlayByTime, Math.random() * 2000, "wait", 0, 100);
+		}
 		else
-			bookArmature.animation.gotoAndStopByProgress("fall-closed", 1);
+		{
+			bookArmature.animation.gotoAndStopByProgress("appear", 1);
+			bookArmature.animation.timeScale = 0;
+		}
 		addChild(bookArmature);
 	}
 	return bookArmature;
@@ -90,7 +95,7 @@ override protected function bookFactory() : StarlingArmatureDisplay
 
 override protected function buttonFactory() : ExchangeButton
 {
-	if( exchange.category != ExchangeType.C110_BATTLES )//===remove=frees===
+	if( state == ExchangeItem.CHEST_STATE_EMPTY ) 
 		return null;
 
 	buttonDisplay = new ExchangeButton();
@@ -111,8 +116,8 @@ override protected function buttonFactory() : ExchangeButton
 		buttonDisplay.count = -1;
 		buttonDisplay.type = -1;
 	}
-	buttonDisplay.height = 80 * appModel.scale;
-	buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
+	buttonDisplay.height = 72 * appModel.scale;
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	addChild(buttonDisplay);
 	return buttonDisplay;
 }
@@ -123,10 +128,7 @@ protected function countdownFactory() : CountdownLabel
 		return null;
 	
 	countdownDisplay = new CountdownLabel();
-	if( exchange.category == ExchangeType.C110_BATTLES )//===remove=frees===
-		countdownDisplay.layoutData = new AnchorLayoutData(24 * appModel.scale, padding, NaN, 0);
-	else
-		countdownDisplay.layoutData = new AnchorLayoutData(NaN, padding, NaN, 0, NaN, 0);
+	countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, padding, NaN, 0);
 	addChild(countdownDisplay);
 	return countdownDisplay;
 }

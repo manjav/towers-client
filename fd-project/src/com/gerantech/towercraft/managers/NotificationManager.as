@@ -20,8 +20,8 @@ private var soundFile:File;
 public function NotificationManager(){}
 public function init():void
 {
-	soundFile = File.applicationStorageDirectory.resolvePath("sounds/chest-open.mp3");
-	var soundLoader:LoadAndSaver = new LoadAndSaver(soundFile.nativePath, File.applicationDirectory.resolvePath("assets/sounds/chest-open.mp3").url);
+	soundFile = File.applicationStorageDirectory.resolvePath("sounds/book-open.mp3");
+	var soundLoader:LoadAndSaver = new LoadAndSaver(soundFile.nativePath, File.applicationDirectory.resolvePath("assets/sounds/book-open.mp3").url);
 	soundLoader.addEventListener(Event.COMPLETE, sound_completeHandler);
 	function sound_completeHandler(event:Event):void
 	{

@@ -74,7 +74,8 @@ private function createIcon(outcomesContainer:LayoutGroup, outKeys:Vector.<int>,
 		var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + outKeys[i]);
 		bookArmature.width = padding * 24;
 		bookArmature.scaleY = bookArmature.scaleX;
-		bookArmature.animation.gotoAndStopByProgress("fall-closed", 1);
+		bookArmature.animation.gotoAndStopByProgress("appear", 1);
+		bookArmature.animation.timeScale = 0;
 		bookArmature.x = padding * i * 8 + bookArmature.width * 0.5;
 		bookArmature.y = padding * i * 8 + padding + bookArmature.height * 0.8;
 		outcomesContainer.addChild(bookArmature);		

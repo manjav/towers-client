@@ -71,7 +71,7 @@ override protected function initialize():void
 	list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBattleItemRenderer();}
-	list.dataProvider = new ListCollection([101, 102, 103, 111]);
+	list.dataProvider = new ListCollection([114, 113, 112, 111]);
 	addChild(list);
 }
 

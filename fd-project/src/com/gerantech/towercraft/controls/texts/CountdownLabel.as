@@ -27,7 +27,7 @@ private var timeoutId:uint;
 private var _time:uint;
 private var padding:Number;
 
-public function CountdownLabel() { super(); height = 92 * appModel.scale;}
+public function CountdownLabel() { super(); height = 84 * appModel.scale;}
 override protected function initialize() : void
 {
 	padding = height * 0.15;
@@ -37,7 +37,7 @@ override protected function initialize() : void
 	skin.source = Assets.getTexture("theme/indicator-background", "gui");
 	skin.scale9Grid = new Rectangle(4, 6, 2, 2);
 	skin.layoutData = new AnchorLayoutData(padding, 0, padding * 1.5, height * 0.5);
-	skin.alpha = 0.7;
+	skin.alpha = 0.9;
 	addChild(skin);
 	
 	clockDisplay = new ImageLoader();

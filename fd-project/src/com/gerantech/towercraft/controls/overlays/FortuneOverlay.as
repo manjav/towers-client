@@ -46,8 +46,9 @@ override protected function initialize():void
 	for (var i:int = 0; i < 6; i++ )
 	{
 		var spinner:Spinner = new Spinner();
-		spinner.display = OpenBookOverlay.factory.buildArmatureDisplay("book-5" + (i + (i>2?4:1)));
-		StarlingArmatureDisplay(spinner.display).animation.gotoAndStopByProgress("fall-closed", 1);
+		spinner.display = OpenBookOverlay.factory.buildArmatureDisplay("book-" + (51 + i));
+		spinner.scaleFactor = OpenBookOverlay.getBookScale(51 + i);
+		StarlingArmatureDisplay(spinner.display).animation.gotoAndStopByProgress("appear", 1);
 		StarlingArmatureDisplay(spinner.display).animation.timeScale = 0;
 		spinner.display.touchable = false;
 		spinner.angle = i * 360 / 6 * Math.PI / 180;
@@ -112,7 +113,7 @@ protected function rotationCompleted() : void
 	bookArmature.x = width * 0.5;
 	bookArmature.y = height * 0.5;
 	bookArmature.scale = 0.1;
-	bookArmature.animation.gotoAndStopByProgress("fall-closed", 1);
+	bookArmature.animation.gotoAndStopByProgress("appear", 1);
 	bookArmature.animation.timeScale = 0;
 	Starling.juggler.tween(bookArmature, 0.3, {scale:appModel.scale * 2.5, transition:Transitions.EASE_OUT_BACK});
 	addChild(bookArmature);
@@ -146,7 +147,7 @@ protected function enterFrameHandler(e:Event):void
 		if( spinner.display.visible )
 		{
 			spinner.display.y = height * 0.5 + fortuneHeight * Math.cos( spinner.angle );
-			spinner.display.scale = spinner.order * appModel.scale * 2;
+			spinner.display.scale = spinner.order * spinner.scaleFactor;
 		}
 		_spinners.push(spinner);
 	}

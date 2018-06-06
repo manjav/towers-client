@@ -8,21 +8,26 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
+import dragonBones.events.EventObject;
 import dragonBones.starling.StarlingArmatureDisplay;
+import dragonBones.starling.StarlingEvent;
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
 import flash.geom.Rectangle;
+import flash.utils.setTimeout;
+import starling.core.Starling;
 import starling.events.Event;
 
 public class BookDetailsPopup extends SimplePopup
 {
 private var item:ExchangeItem;
-private var chestArmature:StarlingArmatureDisplay;
+private var bookArmature:StarlingArmatureDisplay;
 private var buttonDisplay:ExchangeButton;
 private var timeDisplay:CountdownLabel;
 private var messageDisplay:RTLLabel;
@@ -83,7 +88,7 @@ override protected function initialize():void
 	buttonDisplay.height = 110 * appModel.scale;
 	buttonDisplay.addEventListener(Event.SELECT, batton_selectHandler);
 	buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
-	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*2, NaN, 0);
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 	
 	if( item.category == ExchangeType.C110_BATTLES )
 	{
@@ -91,9 +96,9 @@ override protected function initialize():void
 		{
 			buttonDisplay.style = "neutral";
 			buttonDisplay.width = 240 * appModel.scale;
-			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*2, NaN);
+			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 2, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-			updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt-timeManager.now));
+			updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
 			updateCounter();
 		}
 		else if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_WAIT )
@@ -113,12 +118,20 @@ override protected function transitionInCompleted():void
 	super.transitionInCompleted();
 	
 	OpenBookOverlay.createFactory();
-	chestArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-"+item.outcome);
-	chestArmature.scale = appModel.scale * 2;
-	chestArmature.animation.gotoAndPlayByTime("fall-closed", 0, 1);
-	addChildAt(chestArmature, 3);		
-	chestArmature.x = transitionIn.destinationBound.width * 0.5;
-	chestArmature.y = padding * 0.5
+	bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + item.outcome);
+	bookArmature.addEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
+	bookArmature.scale = OpenBookOverlay.getBookScale(item.outcome) * appModel.scale * 2;
+	bookArmature.animation.gotoAndPlayByTime("appear", 0, 1);
+	bookArmature.x = transitionIn.destinationBound.width * 0.5;
+	bookArmature.y = padding * 0.5;
+	addChildAt(bookArmature, 0);
+}
+
+private function bookArmature_soundEventHandler(event:StarlingEvent):void 
+{
+	bookArmature.removeEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
+	addChildAt(bookArmature, 3);
+	appModel.sounds.addAndPlaySound(event.eventObject.name);
 }
 
 private function timeManager_changeHandler(event:Event):void
@@ -131,10 +144,10 @@ private function updateButton(type:int, count:int):void
 {
 	buttonDisplay.count = count;
 	buttonDisplay.type = type;
-if( item.category == ExchangeType.C120_MAGICS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
+	if( item.category == ExchangeType.C120_MAGICS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
 		buttonDisplay.isEnabled = player.resources.get(type) >= count;	
 	else 
-		buttonDisplay.isEnabled = exchanger.readyToStartOpening(item.type, timeManager.now)
+		buttonDisplay.isEnabled = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
 }
 private function updateCounter():void
 {

@@ -50,6 +50,11 @@ public static function createFactory():void
 	factory.parseTextureAtlasData(AppModel.instance.assets.getObject("books_tex"), AppModel.instance.assets.getTexture("books_tex"));
 }			
 
+static public function getBookScale(type:int):Number
+{
+	return 0.9 + ((type % 10) / 5 ) * 0.2;
+}
+
 override protected function initialize():void
 {
 	super.initialize();
@@ -66,8 +71,7 @@ override protected function initialize():void
 }
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:DisplayObject = super.defaultOverlayFactory();
-	overlay.alpha = 1;
+	var overlay:DisplayObject = super.defaultOverlayFactory(0x223333, 1);
 	overlay.touchable = true;
 	return overlay;
 }
@@ -84,12 +88,13 @@ override protected function addedToStageHandler(event:Event):void
 	bookArmature = factory.buildArmatureDisplay("book-" + type);
 	bookArmature.touchable = false;
 	bookArmature.x = stage.stageWidth * 0.5;
-	bookArmature.y = stage.stageHeight * 0.85;
+	bookArmature.y = stage.stageHeight * 0.5;
 	bookArmature.scale = appModel.scale * 2;
 	bookArmature.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
 	bookArmature.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
-	bookArmature.animation.gotoAndPlayByTime("fall", 0, 1);
+	bookArmature.animation.gotoAndPlayByTime("appear", 0, 1);
 	addChild(bookArmature);
+	Starling.juggler.tween(bookArmature, 0.4, {delay:0.2, y:stage.stageHeight * 0.85, transition:Transitions.EASE_IN});
 	
 	shineArmature = factory.buildArmatureDisplay("shine");
 	shineArmature.touchable = false;
@@ -118,7 +123,7 @@ private function openAnimation_soundEventHandler(event:StarlingEvent):void
 
 protected function openAnimation_completeHandler(event:StarlingEvent):void
 {
-	if( event.eventObject.animationState.name == "fall" )
+	if( event.eventObject.animationState.name == "appear" )
 	{
 		readyToWait = true;
 		if( outcomes != null )
@@ -165,7 +170,7 @@ protected function buttonOverlay_triggeredHandler():void
 	}
 	else if( collectedItemIndex == rewardKeys.length + 1 )
 	{
-		setTimeout(bookArmature.animation.gotoAndPlayByTime, 500, "hide", 0, 1);
+		setTimeout(bookArmature.animation.gotoAndPlayByTime, 400, "hide", 0, 1);
 		hideAllRewards();
 	}
 	collectedItemIndex ++;
@@ -220,7 +225,7 @@ private function showReward(open:Boolean = true) : void
 	explode.x = 170 * appModel.scale;
 	reward.addChildAt(explode, 1);
 	
-	Starling.juggler.tween(reward, 0.5, {delay:0.3, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});
+	Starling.juggler.tween(reward, 0.5, {delay:0.5, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});
 }
 
 private function grabReward(reward:BookReward, force:Boolean=false, delay:Number=0):void

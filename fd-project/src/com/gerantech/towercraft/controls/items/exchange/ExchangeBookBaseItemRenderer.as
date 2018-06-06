@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -26,7 +27,7 @@ protected function bookFactory() : StarlingArmatureDisplay
 	if( bookArmature == null )
 	{
 		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
-		bookArmature.scale = appModel.scale;
+		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale;
 		bookArmature.x = width * 0.5;
 		bookArmature.y = height * 0.4;
 	}

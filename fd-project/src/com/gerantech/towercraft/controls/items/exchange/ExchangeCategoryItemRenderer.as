@@ -91,7 +91,7 @@ override protected function commitData():void
 			break;		
 		
 		case ExchangeType.C120_MAGICS:
-			CELL_SIZE = 320 * appModel.scale;
+			CELL_SIZE = 360 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBaseItemRenderer();}
 			break;		
 		

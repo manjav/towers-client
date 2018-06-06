@@ -2,11 +2,13 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
+import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.HomeFooter;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
+import com.gerantech.towercraft.controls.overlays.FortuneOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
@@ -17,8 +19,10 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -39,6 +43,8 @@ private var questsButton:HomeButton;
 private var battlesButton:HomeButton;
 private var leaguesButton:HomeButton;
 private var battleTimeoutId:uint;
+private var dailyButton:NotifierButton;
+private var adsButton:NotifierButton;
 
 public function HomeSegment() { super(); }
 override public function init():void
@@ -48,10 +54,52 @@ override public function init():void
 		return;
 	
 	layout = new AnchorLayout();
-	showOffers();
-	showMainButtons();
+//	showOffers();
 	showTutorial();
 	initializeCompleted = true;
+	
+	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
+	league.animation.gotoAndPlayByTime("selected", 0, 50);
+	leaguesButton = new HomeButton(league, 0.7);
+	league.pivotX = league.pivotY = 0
+	addButton(leaguesButton, "button_leagues", 540, 520, 0.4, goUp);
+	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+
+	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
+	addButton(battlesButton, "button_battles", 540, 970, 0.6);
+	
+	if( player.get_battleswins() < 4 )
+		return;
+	
+	if( player.hasQuests )
+	{
+		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")), 0.9);
+		addButton(questsButton, "button_quests", 540, 1200, 0.8);
+	}
+	
+	var bookLine:HomeBooksLine = new HomeBooksLine();
+	bookLine.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	addChild(bookLine);
+	
+	var footer:HomeFooter = new HomeFooter();
+	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine.height - bookLine.paddingTop + 24 * appModel.scale, 0);
+	addChild(footer);
+
+	dailyButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
+	dailyButton.width = dailyButton.height = 140 * appModel.scale;
+	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
+	if( exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
+		dailyButton.badgeLabel = "!";
+	dailyButton.addEventListener(Event.TRIGGERED, dailyButton_triggeredHandler);
+	addChild(dailyButton);
+	
+	adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
+	adsButton.width = adsButton.height = 140 * appModel.scale;
+	adsButton.layoutData = new AnchorLayoutData(120 * appModel.scale, NaN, NaN, 20 * appModel.scale);
+	if( exchanger.items.get(ExchangeType.C43_ADS).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
+		adsButton.badgeLabel = "!";
+	addChild(adsButton);
 	
 	// hidden admin button
 	var adminButton:Button = new Button();
@@ -60,19 +108,8 @@ override public function init():void
 	adminButton.longPressDuration = 1;
 	adminButton.width = adminButton.height = 120 * appModel.scale;
 	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{if( player.admin )appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-	adminButton.layoutData = new AnchorLayoutData(NaN, 0, 320 * appModel.scale);
+	adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
 	addChild(adminButton);
-
-	if( player.get_battleswins() < 4 )
-		return;
-	
-	var bookLine:HomeBooksLine = new HomeBooksLine();
-	bookLine.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-	addChild(bookLine);
-	
-	var footer:HomeFooter = new HomeFooter();
-	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine.height, 0);
-	addChild(footer);
 	//dfsdf();
 }
 
@@ -112,24 +149,10 @@ private function showOffers():void
 	addChild(offers);
 
 }
-private function showMainButtons():void
-{
-	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
-	league.animation.gotoAndPlayByTime("selected", 0, 50);
-	leaguesButton = new HomeButton(league, 0.7);
-	league.pivotX = league.pivotY = 0
-	addButton(leaguesButton, "button_leagues", 540, 520, 0.4, goUp);
-	function goUp():void { Starling.juggler.tween(leaguesButton, 2,		{delay:0.5, y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown():void { Starling.juggler.tween(leaguesButton, 2,	{delay:0.5, y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
-	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
-	addButton(battlesButton, "button_battles", 540, 970, 0.6);
-	
-	if( player.hasQuests && !player.inTutorial() )
-	{
-		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")), 0.9);
-		addButton(questsButton, "button_quests", 540, 1200, 0.8);
-	}
+private function dailyButton_triggeredHandler(e:Event):void 
+{
+	exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));
 }
 
 private function addButton(button:HomeButton, name:String, x:int, y:int, delay:Number, callback:Function=null):void
