@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 
 public class ExchangeButton extends CustomButton
@@ -20,7 +21,7 @@ public function set count(value:int):void
 	else if( _count == 0 )
 		label = loc("free_label");
 	else
-		label = _count.toString() + " " + currency;
+		label = StrUtils.getCurrencyFormat(_count) + " " + currency;
 }
 
 public function set type(value:int):void

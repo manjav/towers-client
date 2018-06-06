@@ -344,5 +344,17 @@ package com.gerantech.towercraft.utils
 			}
 			return ret;
 		}
+		
+		static public function getCurrencyFormat(count:int):String 
+		{
+			var ret:String = count.toString();
+			if( count < 1000 )
+				return ret;
+			else if ( count < 1000000 )
+			{
+				return ret.substr(0, ret.length - 3) + "," + ret.substr(ret.length - 3);
+			}
+			return ret
+		}
 	}
 }

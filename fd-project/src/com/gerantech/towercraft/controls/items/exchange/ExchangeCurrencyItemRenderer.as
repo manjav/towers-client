@@ -36,7 +36,7 @@ override protected function commitData():void
 	addChild(countDisplay);	
 	
 	buttonDisplay = new ExchangeButton();
-	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 	buttonDisplay.height = 96 * appModel.scale;
 	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
 		buttonDisplay.currency = "ت";

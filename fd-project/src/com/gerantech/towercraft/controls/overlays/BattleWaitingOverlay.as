@@ -61,10 +61,10 @@ override protected function initialize():void
 		cancelButton.width = 240 * appModel.scale;
 		cancelButton.x = stage.stageWidth * 0.5 ;
 		cancelButton.y = stage.stageHeight * 0.75;
-		cancelButton.scale = 0;
+		cancelButton.alpha = 0;
 		cancelButton.addEventListener(Event.TRIGGERED, cancelButton_triggeredHandler);
 		addChild(cancelButton);
-		Starling.juggler.tween(cancelButton, 0.5, {delay:1.5, scale:1, transition:Transitions.EASE_OUT_BACK});	
+		Starling.juggler.tween(cancelButton, 0.5, {delay:1.5, alpha:1});	
 	}
 	
 	waitDisplay = new RTLLabel(loc("tip_over"), 1, "center", null, false, null, 1.2);

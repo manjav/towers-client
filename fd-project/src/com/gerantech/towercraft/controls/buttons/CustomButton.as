@@ -61,7 +61,7 @@ override protected function initialize():void
 	if( _fontsize == 0 )
 	{
 		if( autoSizeLabel )
-			_fontsize = Math.max(0.5, Math.min(1.15, height / 92 / appModel.scale));
+			_fontsize = Math.max(0.5, Math.min(1.15, height / 96 / appModel.scale));
 		else
 			_fontsize = appModel.theme.gameFontSize * appModel.scale;
 	}
