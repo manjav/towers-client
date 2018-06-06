@@ -19,6 +19,7 @@ public class CustomButton extends SimpleLayoutButton
 public var iconLayout:ILayoutData;
 public var iconPosition:Point;
 public var data:Object;
+public var autoSizeLabel:Boolean = true;
 
 protected var padding:Number;
 protected var labelDisplay:RTLLabel;
@@ -58,7 +59,12 @@ override protected function initialize():void
 	super.initialize();
 	
 	if( _fontsize == 0 )
-		_fontsize = appModel.theme.gameFontSize * appModel.scale;
+	{
+		if( autoSizeLabel )
+			_fontsize = Math.max(0.5, Math.min(1.15, height / 92 / appModel.scale));
+		else
+			_fontsize = appModel.theme.gameFontSize * appModel.scale;
+	}
 	
 	updateTextures();
 	skin = new ImageSkin(isEnabled ? defaultTextue : appModel.theme.buttonDisabledSkinTexture);
