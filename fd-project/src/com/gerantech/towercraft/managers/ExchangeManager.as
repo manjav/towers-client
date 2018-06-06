@@ -127,6 +127,10 @@ public function process(item : ExchangeItem) : void
 	if( item.isBook() )
 	{
 		item.enabled = true;
+		if( item.category == ExchangeType.C110_BATTLES && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_EMPTY )
+		{
+			return;
+		}
 		if( ( item.category == ExchangeType.C100_FREES || item.category == ExchangeType.C110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
 		{
 			item.outcomes = new IntIntMap();
