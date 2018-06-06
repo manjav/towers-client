@@ -53,6 +53,7 @@ override protected function initialize():void
 	insideBG.layoutData = new AnchorLayoutData(padding*6, padding, padding*1.2, padding);
 	addChild(insideBG);
 	
+	var arena = player.get_arena(0);
 	var titleDisplay:RTLLabel = new RTLLabel(loc("exchange_title_"+item.outcome), 0, "center", null, false, null, 1.3);
 	titleDisplay.layoutData = new AnchorLayoutData(padding*7.6, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
@@ -67,12 +68,12 @@ override protected function initialize():void
 	downBG.height = padding * 4.4;
 	addChild(downBG);
 	
-	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome)*1.1));
+	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome, arena)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome, arena)*1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
 	cardsPalette.layoutData = new AnchorLayoutData(NaN, NaN, padding*10, padding*2.4);
 	addChild(cardsPalette);
 	
-	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome)*1.1), 0xFFFF99);
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome, arena)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome, arena)*1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
 	softsPalette.layoutData = new AnchorLayoutData(NaN, padding*2, padding*10);
 	addChild(softsPalette);
