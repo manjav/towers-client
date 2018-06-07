@@ -34,12 +34,7 @@ override protected function commitData():void
 {
 	if( index < 0 || _data == null )
 		return;
-	appModel.navigator.removeEventListener("itemAchieved", navigator_itemAchievedHandler);
-	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
-	removeChildren(0, -1, true);
-	bookArmature = null;
-	buttonDisplay = null;
-	countdownDisplay = null;
+	reset();
 	
 	exchange = exchanger.items.get(_data as int);
 	state = exchange.getState(timeManager.now);
@@ -178,7 +173,6 @@ private function navigator_itemAchievedHandler(event:Event):void
 		exchange.outcome = outcome;
 		commitData();
 	}
-	//addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index * 0.2);
 }
 
 /*private function tutorialManager_finishHandler(event:Event):void
@@ -206,14 +200,22 @@ override public function set isSelected(value:Boolean):void
 		tutorialArrow.removeFromParent(true);
 }
 */
-
-override protected function showAchieveAnimation(item:ExchangeItem):void {}
-override public function dispose():void
+private function reset() : void
 {
 	//tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	appModel.navigator.removeEventListener("itemAchieved", navigator_itemAchievedHandler);
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+	removeChildren(0, -1, true);
+	bookArmature = null;
+	buttonDisplay = null;
+	countdownDisplay = null;
 	clearTimeout(timeoutId);
+}
+
+override protected function showAchieveAnimation(item:ExchangeItem):void {}
+override public function dispose():void
+{
+	reset();
 	super.dispose();
 }
 }

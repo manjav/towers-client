@@ -14,7 +14,6 @@ import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-import starling.events.Event;
 
 public class ExchangeBundleItemRenderer extends ExchangeBaseItemRenderer
 {
