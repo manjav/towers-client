@@ -128,9 +128,8 @@ public function process(item : ExchangeItem) : void
 	{
 		item.enabled = true;
 		if( item.category == ExchangeType.C110_BATTLES && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_EMPTY )
-		{
 			return;
-		}
+		
 		if( ( item.category == ExchangeType.C100_FREES || item.category == ExchangeType.C110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
 		{
 			item.outcomes = new IntIntMap();
@@ -216,8 +215,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	
 	if( item.isBook() || item.containBook() > -1 )
 	{
-		if( !data.containsKey("rewards") )
+		if ( !data.containsKey("rewards") )
+		{
+			dispatchEndEvent(true, item);
 			return;
+		}
 		var outcomes:IntIntMap = new IntIntMap();
 		//trace(data.getSFSArray("rewards").getDump());
 		var reward:ISFSObject;
@@ -228,8 +230,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		
-		if( item.category == ExchangeType.C110_BATTLES && data.containsKey("nextOutcome") )
-			exchanger.items.get(item.type).outcome = data.getInt("nextOutcome");
+		exchanger.items.get(item.type).expiredAt = exchanger.items.get(item.type).outcome = 0;
 		
 		player.addResources( outcomes );
 		earnOverlay.outcomes = outcomes;
