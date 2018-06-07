@@ -3,9 +3,12 @@ package com.gerantech.towercraft.controls.buttons
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ButtonState;
+import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
 import starling.textures.Texture;
 /**
 * ...
@@ -23,20 +26,21 @@ public function DiscountButton()
 	height = maxHeight = 140 * appModel.scale;
 	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, padding * 2.5);
 	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, padding * 3.0);
-	originLayoutData =new AnchorLayoutData(NaN, padding*5, NaN, padding*5, NaN, -padding * 3.0);
+	originLayoutData = new AnchorLayoutData(NaN, padding * 5, NaN, padding * 5, NaN, -padding * 4.0);
 }
 
 override protected function initialize():void
 {
-	super.initialize();
-	
-	originDisplay = new RTLLabel(_originCount.toString(), 0xBB0000, "center");
+	originDisplay = new RTLLabel(StrUtils.getCurrencyFormat(_originCount), 0xBB0000, "center");
 	originDisplay.layoutData = originLayoutData;
-	addChildAt(originDisplay, 0);
+	addChild(originDisplay);
 	
-	var line:Devider = new Devider(0xBB0000, 3);
-	line.layoutData = originLayoutData;
-	addChildAt(line, 0);
+	var priceLine:ImageLoader = new ImageLoader();
+	priceLine.source = Assets.getTexture("discount-line", "gui");
+	priceLine.layoutData = new AnchorLayoutData(NaN, padding * 5, NaN, padding * 5, NaN, -padding * 4.0);
+	addChild(priceLine);
+	
+	super.initialize();
 }
 
 override public function set type(value:int):void
@@ -63,6 +67,7 @@ override public function set currentState(value:String):void
 	
 	super.currentState = value;
 	shadowLayoutData.verticalCenter = padding * (value == ButtonState.DOWN?3.0:2.5);
+	setInvalidationFlag(INVALIDATION_FLAG_ALL);
 }
 
 public function get originCount():int 
@@ -75,7 +80,7 @@ public function set originCount(value:int):void
 		return;
 	_originCount = value;
 	if( originDisplay != null )
-		originDisplay.text = _originCount.toString();
+		originDisplay.text = StrUtils.getCurrencyFormat(_originCount);
 }
 }
 }
