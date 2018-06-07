@@ -1,8 +1,20 @@
 package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.Devider;
+import com.gerantech.towercraft.controls.headers.BattleHeader;
+import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.smartfoxserver.v2.core.SFSEvent;
 import dragonBones.starling.StarlingArmatureDisplay;
+import feathers.controls.AutoSizeMode;
+import flash.utils.setTimeout;
+import starling.animation.Transitions;
+import starling.core.Starling;
+import starling.display.DisplayObject;
+import starling.events.Event;
 
 public class BattleWaitingOverlay extends BaseOverlay
 {
@@ -37,8 +49,8 @@ override protected function initialize():void
 	league.alpha = 0;
 	Starling.juggler.tween(league, 0.5, {delay:0.2, scale:0.6, alpha:1, transition:Transitions.EASE_OUT_BACK, onComplete:goUp});
 	addChild(league);
-	function goUp():void { Starling.juggler.tween(league, 2, {y:460 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown});
-	function goDown():void { Starling.juggler.tween(league, 2, {y:510 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp});
+	function goUp():void { Starling.juggler.tween(league, 2, {y:460*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown():void { Starling.juggler.tween(league, 2, {y:510*appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 	
 	if( cancelable )
 	{
@@ -52,14 +64,14 @@ override protected function initialize():void
 		cancelButton.alpha = 0;
 		cancelButton.addEventListener(Event.TRIGGERED, cancelButton_triggeredHandler);
 		addChild(cancelButton);
-		Starling.juggler.tween(cancelButton, 0.5, {delay:1.5, alpha:1});
+		Starling.juggler.tween(cancelButton, 0.5, {delay:1.5, alpha:1});	
 	}
 	
 	waitDisplay = new RTLLabel(loc("tip_over"), 1, "center", null, false, null, 1.2);
 	waitDisplay.x = padding;
 	waitDisplay.y = stage.stageHeight * 0.55;
 	waitDisplay.alpha = 0;
-	waitDisplay.width = stage.stageWidth - padding * 2;
+	waitDisplay.width = stage.stageWidth-padding*2;
 	waitDisplay.touchable = false;
 	addChild(waitDisplay);
 	Starling.juggler.tween(waitDisplay, 0.5, {delay:2, alpha:1, y:stage.stageHeight * 0.6, transition:Transitions.EASE_OUT_BACK});
@@ -67,10 +79,10 @@ override protected function initialize():void
 	var arena:int = player.get_arena(0)
 	if( arena > 0 )
 	{
-		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_" + Math.min(arena - 1, 2) + "_" + Math.floor(Math.random() * 10)), 1, "justify", null, true, "center", 0.9);
+		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_"+Math.min(arena - 1, 2)+"_"+Math.floor(Math.random()*10)), 1, "justify", null, true, "center", 0.9);
 		tipDisplay.x = padding;
-		tipDisplay.y = stage.stageHeight - padding * 5;
-		tipDisplay.width = stage.stageWidth - padding * 2;
+		tipDisplay.y = stage.stageHeight - padding*5;
+		tipDisplay.width = stage.stageWidth-padding*2;
 		tipDisplay.touchable = false;
 		addChild(tipDisplay);		
 	}
@@ -116,8 +128,8 @@ public function disappear():void
 		Starling.juggler.tween(cancelButton, 0.5, {delay:0.1, scale:0, transition:Transitions.EASE_IN_BACK});
 	}
 	if( waitDisplay != null )
-		Starling.juggler.tween(waitDisplay, 0.4, {alpha:0, y:waitDisplay.y - height * 0.1, transition:Transitions.EASE_IN_BACK});
-	setTimeout(close, 800, true);
+		Starling.juggler.tween(waitDisplay, 0.4, {alpha:0, y:waitDisplay.y-height*0.1, transition:Transitions.EASE_IN_BACK});
+	setTimeout(close, 800, true)
 }
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
