@@ -16,12 +16,8 @@ import dragonBones.events.EventObject;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingEvent;
 import feathers.controls.ImageLoader;
-import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
-import feathers.text.BitmapFontTextFormat;
 import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-import starling.core.Starling;
 import starling.events.Event;
 
 public class BookDetailsPopup extends SimplePopup
@@ -41,8 +37,8 @@ public function BookDetailsPopup(item:ExchangeItem)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.30, stage.stageWidth*0.9, stage.stageHeight*0.4);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.25, stage.stageWidth*0.9, stage.stageHeight*0.5);
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.30, stage.stageWidth * 0.9, stage.stageHeight * 0.4);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.25, stage.stageWidth * 0.9, stage.stageHeight * 0.5);
 	rejustLayoutByTransitionData();
 	
 	var insideBG:ImageLoader = new ImageLoader();
@@ -50,12 +46,12 @@ override protected function initialize():void
 	insideBG.scale9Grid = new Rectangle(2, 2, 1, 1);
 	insideBG.maintainAspectRatio = false;
 	insideBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
-	insideBG.layoutData = new AnchorLayoutData(padding*6, padding, padding*1.2, padding);
+	insideBG.layoutData = new AnchorLayoutData(padding * 6, padding, padding * 1.2, padding);
 	addChild(insideBG);
 	
-	var arena = player.get_arena(0);
-	var titleDisplay:RTLLabel = new RTLLabel(loc("exchange_title_"+item.outcome), 0, "center", null, false, null, 1.3);
-	titleDisplay.layoutData = new AnchorLayoutData(padding*7.6, NaN, NaN, NaN, 0);
+	var arena:int = player.get_arena(0);
+	var titleDisplay:RTLLabel = new RTLLabel(loc("exchange_title_" + item.outcome), 0, "center", null, false, null, 1.3);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 7.6, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
 	var downBG:ImageLoader = new ImageLoader();
@@ -64,23 +60,23 @@ override protected function initialize():void
 	downBG.scale9Grid = new Rectangle(2, 2, 1, 1);
 	downBG.maintainAspectRatio = false;
 	downBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
-	downBG.layoutData = new AnchorLayoutData(NaN, padding*1.3, padding*1.5, padding*1.3);
+	downBG.layoutData = new AnchorLayoutData(NaN, padding * 1.3, padding * 1.5, padding * 1.3);
 	downBG.height = padding * 4.4;
 	addChild(downBG);
 	
-	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome, arena)*0.9)+" - "+int(ExchangeType.getNumTotalCards(item.outcome, arena)*1.1));
+	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome, arena) * 0.9) + " - " + int(ExchangeType.getNumTotalCards(item.outcome, arena) * 1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
-	cardsPalette.layoutData = new AnchorLayoutData(NaN, NaN, padding*10, padding*2.4);
+	cardsPalette.layoutData = new AnchorLayoutData(NaN, NaN, padding * 10, padding * 2.4);
 	addChild(cardsPalette);
 	
-	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-"+ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome, arena)*0.9)+" - "+int(ExchangeType.getNumSofts(item.outcome, arena)*1.1), 0xFFFF99);
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome, arena) * 0.9) + " - " + int(ExchangeType.getNumSofts(item.outcome, arena) * 1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
-	softsPalette.layoutData = new AnchorLayoutData(NaN, padding*2, padding*10);
+	softsPalette.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 10);
 	addChild(softsPalette);
-
-	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt-timeManager.now)]) : loc("popup_chest_message_"+item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
+	
+	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt - timeManager.now)]) : loc("popup_chest_message_" + item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
 	messageDisplay = new RTLLabel(message, 0, "center", null, false, null, 0.9);
-	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding*7, padding);
+	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding * 7, padding);
 	addChild(messageDisplay);
 	
 	buttonDisplay = new ExchangeButton();
@@ -128,7 +124,7 @@ override protected function transitionInCompleted():void
 	addChildAt(bookArmature, 0);
 }
 
-private function bookArmature_soundEventHandler(event:StarlingEvent):void 
+private function bookArmature_soundEventHandler(event:StarlingEvent):void
 {
 	bookArmature.removeEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
 	addChildAt(bookArmature, 3);
@@ -137,7 +133,7 @@ private function bookArmature_soundEventHandler(event:StarlingEvent):void
 
 private function timeManager_changeHandler(event:Event):void
 {
-	updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt-timeManager.now));
+	updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
 	updateCounter();
 }
 
@@ -150,6 +146,7 @@ private function updateButton(type:int, count:int):void
 	else 
 		buttonDisplay.isEnabled = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
 }
+
 private function updateCounter():void
 {
 	if( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
@@ -162,7 +159,7 @@ private function updateCounter():void
 		timeDisplay.width = 320 * appModel.scale;
 		timeDisplay.height = 120 * appModel.scale;
 		timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.9, NaN, -170 * appModel.scale);
-		addChild(timeDisplay);	
+		addChild(timeDisplay);
 	}
 	var t:uint = uint(item.expiredAt - timeManager.now);
 	timeDisplay.time = t;
@@ -177,6 +174,7 @@ private function batton_selectHandler(event:Event):void
 	else
 		appModel.navigator.addLog(loc("popup_chest_error_resource"));
 }
+
 private function batton_triggeredHandler(event:Event):void
 {
 	dispatchEventWith(Event.SELECT, false, item);
@@ -189,7 +187,6 @@ override public function dispose():void
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	super.dispose();
 }
-
 
 }
 }
