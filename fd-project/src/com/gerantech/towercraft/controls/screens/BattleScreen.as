@@ -479,16 +479,7 @@ private function endOverlay_closeHandler(event:Event):void
 	
 	// show faction changes overlay
 	if( endOverlay.data != null )
-	{
-		var factionsOverlay:FactionChangeOverlay = new FactionChangeOverlay(endOverlay.data[0], endOverlay.data[1]);
-		factionsOverlay.addEventListener(Event.CLOSE, factionsOverlay_closeHandler);
-		appModel.navigator.addOverlay(factionsOverlay);
-		function factionsOverlay_closeHandler(event:Event):void {
-			factionsOverlay.removeEventListener(Event.CLOSE, factionsOverlay_closeHandler);
-			dispatchEventWith(Event.COMPLETE);
-		}
-		return;
-	}
+		setTimeout(appModel.navigator.addOverlay, 2200, new FactionChangeOverlay(endOverlay.data[0], endOverlay.data[1]));
 
 	if( !player.inTutorial() && endOverlay.score == 3 && player.get_arena(0) > 0 )//!sfsConnection.mySelf.isSpectator && 
 		appModel.navigator.showOffer();
