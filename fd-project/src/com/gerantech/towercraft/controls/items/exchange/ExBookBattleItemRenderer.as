@@ -21,7 +21,7 @@ import starling.core.Starling;
 import starling.display.BlendMode;
 import starling.events.Event;
 
-public class ExchangeBookBattleItemRenderer extends ExchangeBookBaseItemRenderer
+public class ExBookBattleItemRenderer extends ExBookBaseItemRenderer
 {
 private var state:int = -2;
 private var countdownDisplay:CountdownLabel;
@@ -29,7 +29,7 @@ private var labelDisplay:RTLLabel;
 private var timeoutId:uint;
 //private var tutorialArrow:TutorialArrow;
 
-public function ExchangeBookBattleItemRenderer(){}
+public function ExBookBattleItemRenderer(){}
 override protected function commitData():void
 {
 	if( index < 0 || _data == null )

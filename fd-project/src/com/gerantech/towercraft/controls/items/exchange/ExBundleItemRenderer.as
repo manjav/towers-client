@@ -15,9 +15,9 @@ import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 
-public class ExchangeBundleItemRenderer extends ExchangeBaseItemRenderer
+public class ExBundleItemRenderer extends ExBaseItemRenderer
 {
-public function ExchangeBundleItemRenderer(){}
+public function ExBundleItemRenderer(){}
 override protected function commitData():void
 {
 	super.commitData();

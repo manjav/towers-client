@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.groups 
 {
 import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.controls.items.exchange.ExchangeBookBattleItemRenderer;
+import com.gerantech.towercraft.controls.items.exchange.ExBookBattleItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.List;
@@ -70,7 +70,7 @@ override protected function initialize():void
 	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
-	list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBattleItemRenderer();}
+	list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBattleItemRenderer();}
 	list.dataProvider = new ListCollection([114, 113, 112, 111]);
 	addChild(list);
 }

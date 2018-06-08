@@ -8,12 +8,12 @@ import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.layout.AnchorLayoutData;
-public class ExchangeBookBaseItemRenderer extends ExchangeBaseItemRenderer
+public class ExBookBaseItemRenderer extends ExBaseItemRenderer
 {
 protected var buttonDisplay:ExchangeButton;
 protected var bookArmature:StarlingArmatureDisplay;
 
-public function ExchangeBookBaseItemRenderer(){}
+public function ExBookBaseItemRenderer(){}
 override protected function commitData():void
 {
 	if( index < 0 || _data == null )
@@ -41,7 +41,7 @@ protected function buttonFactory() : ExchangeButton
 		buttonDisplay = new ExchangeButton();
 		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 		buttonDisplay.height = 96 * appModel.scale;
-		buttonDisplay.count = ExchangeType.getHardRequierement(exchange.outcome);		
+		buttonDisplay.count = exchange.requirements.get(ResourceType.CURRENCY_HARD);	
 		buttonDisplay.type = ResourceType.CURRENCY_HARD;		
 	}
 	addChild(buttonDisplay);

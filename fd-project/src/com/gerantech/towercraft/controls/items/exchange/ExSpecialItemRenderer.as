@@ -17,10 +17,10 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
 
-public class ExchangeSpecialItemRenderer extends ExchangeBaseItemRenderer
+public class ExSpecialItemRenderer extends ExBaseItemRenderer
 {
 
-public function ExchangeSpecialItemRenderer(){}
+public function ExSpecialItemRenderer(){}
 override protected function commitData():void
 {
 	super.commitData();

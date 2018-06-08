@@ -12,13 +12,13 @@ import feathers.skins.ImageSkin;
 import flash.geom.Rectangle;
 import starling.events.Event;
 
-public class ExchangeBaseItemRenderer extends AbstractTouchableListItemRenderer
+public class ExBaseItemRenderer extends AbstractTouchableListItemRenderer
 {
 protected var firstCommit:Boolean = true;
 protected var exchange:ExchangeItem;
 protected var padding:int;
 
-public function ExchangeBaseItemRenderer(){super();}
+public function ExBaseItemRenderer(){super();}
 override protected function initialize():void
 {
 	super.initialize();

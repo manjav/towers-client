@@ -10,13 +10,13 @@ import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.events.Event;
 
-public class ExchangeCurrencyItemRenderer extends ExchangeBaseItemRenderer
+public class ExCurrencyItemRenderer extends ExBaseItemRenderer
 {
 private var iconDisplay:ImageLoader;
 private var titleDisplay:ShadowLabel;
 private var countDisplay:ShadowLabel;
 private var buttonDisplay:ExchangeButton;
-public function ExchangeCurrencyItemRenderer(){}
+public function ExCurrencyItemRenderer(){}
 override protected function commitData():void
 {
 	super.commitData();

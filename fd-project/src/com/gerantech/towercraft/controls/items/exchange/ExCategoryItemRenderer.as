@@ -21,7 +21,7 @@ import flash.utils.setTimeout;
 import starling.core.Starling;
 import starling.events.Event;
 
-public class ExchangeCategoryItemRenderer extends AbstractTouchableListItemRenderer 
+public class ExCategoryItemRenderer extends AbstractTouchableListItemRenderer 
 {
 private var line:ShopLine;
 private var list:List;
@@ -30,7 +30,7 @@ private var headerDisplay:ExchangeHeader;
 private var descriptionDisplay:RTLLabel;
 private var categoryCollection:ListCollection = new ListCollection();
 
-public function ExchangeCategoryItemRenderer() { super(); }
+public function ExCategoryItemRenderer() { super(); }
 override protected function initialize():void
 {
 	super.initialize();
@@ -75,29 +75,29 @@ override protected function commitData():void
 		case ExchangeType.C20_SPECIALS:
 			CELL_SIZE = 492 * appModel.scale;
 			headerDisplay.showCountdown(line.items[0]);
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeSpecialItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExSpecialItemRenderer();}
 			break;
 		
 		case ExchangeType.C30_BUNDLES:
 			CELL_SIZE = 580 * appModel.scale;
 			listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 3) / 2) ;
 			headerDisplay.showCountdown(line.items[0]);
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBundleItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBundleItemRenderer();}
 			break;
 		
 		case ExchangeType.C100_FREES:
 		case ExchangeType.C110_BATTLES:
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBattleItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBattleItemRenderer();}
 			break;		
 		
 		case ExchangeType.C120_MAGICS:
 			CELL_SIZE = 360 * appModel.scale;
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeBookBaseItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBaseItemRenderer();}
 			break;		
 		
 		default:
             CELL_SIZE = (line.category == ExchangeType.C0_HARD || line.category == ExchangeType.C10_SOFT ? 520:360) * appModel.scale;
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExchangeCurrencyItemRenderer();}
+			list.itemRendererFactory = function ():IListItemRenderer{ return new ExCurrencyItemRenderer();}
 			break;
 	}
 	

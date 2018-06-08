@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.controls.items.exchange.ExchangeCategoryItemRenderer;
+import com.gerantech.towercraft.controls.items.exchange.ExCategoryItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
@@ -70,7 +70,7 @@ override public function init():void
 	itemslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	itemslist.layout = listLayout;
 	itemslist.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	itemslist.itemRendererFactory = function():IListItemRenderer { return new ExchangeCategoryItemRenderer(); }
+	itemslist.itemRendererFactory = function():IListItemRenderer { return new ExCategoryItemRenderer(); }
 	itemslist.dataProvider = itemslistData;
 	itemslist.addEventListener(FeathersEventType.FOCUS_IN, list_changeHandler);
 	addChild(itemslist);
