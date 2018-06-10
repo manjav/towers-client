@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.events.LoadingEvent;
@@ -52,15 +53,28 @@ private var segmentsCollection:ListCollection;
 
 public function DashboardScreen()
 {
-	if( FactionsScreen.animFactory == null )
-		FactionsScreen.createFactionsFactory(initialize);
+	if( !Assets.animationAssetsLoaded )
+		Assets.loadAnimationAssets(initialize);
 }
 
 override protected function initialize():void
 {
-	if( FactionsScreen.animFactory == null )
+	if( !Assets.animationAssetsLoaded )
 		return;
+	OpenBookOverlay.createFactory();
+	FactionsScreen.createFactory();
+	
 	super.initialize();
+	if( stage == null )
+		addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	else
+		addedToStageHandler(null);
+}
+
+protected function addedToStageHandler(event:Event):void
+{
+	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	
 	var footerSize:int = 180 * appModel.scale;
 	autoSizeMode = AutoSizeMode.STAGE; 
 	layout = new AnchorLayout();

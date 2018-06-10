@@ -37,25 +37,9 @@ public function ExchangeSegment()
 	super();
 }
 
-private function assets_loadCallback(ratio:Number):void
-{
-	if( ratio >= 1 && initializeStarted && !initializeCompleted )
-		init();
-}
-
 override public function init():void
 {
 	super.init();
-	//appModel.assets.verbose = true;
-	if( appModel.assets.getTexture("books_tex") == null )
-	{
-		appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/books" ));
-		appModel.assets.loadQueue(assets_loadCallback)
-	}
-	if( appModel.assets.isLoading )
-		return;
-	
-	OpenBookOverlay.createFactory();
 
 	layout = new AnchorLayout();
 

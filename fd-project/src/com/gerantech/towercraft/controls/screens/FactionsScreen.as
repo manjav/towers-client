@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -34,7 +35,7 @@ import starling.events.Event;
 
 public class FactionsScreen extends BaseCustomScreen
 {
-public static var animFactory:StarlingFactory;
+public static var factory:StarlingFactory;
 public static var dragonBonesData:DragonBonesData;
 private static var factoryCreateCallback:Function;
 private static var leaguesCollection:ListCollection;
@@ -57,38 +58,12 @@ public function FactionsScreen()
 	}
 	//createFactionsFactory(initialize);
 }
-public static function createFactionsFactory(callback:Function):void
+public static function createFactory():void
 {
-	if( AppModel.instance.assets.getTexture("factions_tex") == null )
-	{
-		AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/factions" ));
-		AppModel.instance.assets.loadQueue(assets_loadCallback)
-		factoryCreateCallback = callback;
-		return;
-	}
-	callback();
+	factory = new StarlingFactory();
+	dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("factions_ske"));
+	factory.parseTextureAtlasData(AppModel.instance.assets.getObject("factions_tex"), AppModel.instance.assets.getTexture("factions_tex"));
 }
-private static function assets_loadCallback(ratio:Number):void
-{
-	if( ratio >= 1 )
-	{
-		if( animFactory != null )
-		{
-			if( factoryCreateCallback != null )
-				factoryCreateCallback = null;
-			factoryCreateCallback();
-			return;
-		}
-		
-		animFactory = new StarlingFactory();
-		dragonBonesData = animFactory.parseDragonBonesData(AppModel.instance.assets.getObject("factions_ske"));
-		animFactory.parseTextureAtlasData(AppModel.instance.assets.getObject("factions_tex"), AppModel.instance.assets.getTexture("factions_tex"));
-		if( factoryCreateCallback != null )
-			factoryCreateCallback();
-		factoryCreateCallback = null;
-	}
-}
-
 override protected function initialize():void
 {
 	super.initialize();

@@ -32,24 +32,9 @@ public function HomeBooksLine()
     height = 290 * appModel.scale;
 	paddingTop = 40 * appModel.scale;
 }
-private function assets_loadCallback(ratio:Number):void
-{
-	if( ratio >= 1 )
-		initialize();
-}
 
 override protected function initialize():void 
 {
-	//appModel.assets.verbose = true;
-	if( appModel.assets.getTexture("books_tex") == null )
-	{
-		appModel.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/books" ));
-		appModel.assets.loadQueue(assets_loadCallback)
-	}
-	if( appModel.assets.isLoading )
-		return;
-	OpenBookOverlay.createFactory();
-	
 	super.initialize();
 	
 	layout = new AnchorLayout();

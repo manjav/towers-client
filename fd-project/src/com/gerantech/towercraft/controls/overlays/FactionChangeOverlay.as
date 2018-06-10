@@ -45,18 +45,6 @@ public function FactionChangeOverlay(oldArena:int, newArena:int)
 	super();
 	this.oldArena = oldArena;
 	this.newArena = newArena;
-	FactionsScreen.createFactionsFactory(assets_loadCompleted);
-}
-private function assets_loadCompleted():void
-{
-	if( initializingStarted && stage != null )
-		initialize();
-}
-override protected function addedToStageHandler(event:Event):void
-{
-	super.addedToStageHandler(event);
-	if( initializingStarted && stage != null )
-		initialize();
 }
 override protected function initialize():void
 {
@@ -121,7 +109,7 @@ override protected function initialize():void
 	Starling.juggler.tween(closeButton, 0.5, {delay:2, y:stage.stageHeight*0.75, alpha:1.2, transition:Transitions.EASE_OUT});
 	addChild(closeButton);
 	
-	armatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-"+newArena);
+	armatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-"+newArena);
 	armatureDisplay.alpha = 0;
 	armatureDisplay.x = stage.stageWidth * 0.5;
 	armatureDisplay.y = stage.stageHeight * 0.36;

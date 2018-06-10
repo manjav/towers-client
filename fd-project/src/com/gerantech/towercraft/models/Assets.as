@@ -2,6 +2,7 @@ package com.gerantech.towercraft.models
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.filesystem.File;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
@@ -196,6 +197,28 @@ package com.gerantech.towercraft.models
 			this.atlas = null;
 			}
 			*/
+		}
+		
+		static private var animAssetsLoadCallback:Function;
+		static public var animationAssetsLoaded:Boolean;
+		static public function loadAnimationAssets(callback:Function) : void
+		{
+			//  AppModel.instance.assets.verbose = true;
+			if( AppModel.instance.assets.getTexture("factions_tex") == null )
+				AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/factions" ));
+			if( AppModel.instance.assets.getTexture("books_tex") == null )
+				AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/books" ));
+			animAssetsLoadCallback = callback;
+			AppModel.instance.assets.loadQueue(assets_loadCallback);
+		}
+		private static function assets_loadCallback(ratio:Number) : void
+		{
+			if( ratio >= 1 && animAssetsLoadCallback != null )
+			{
+				animationAssetsLoaded = true;
+				animAssetsLoadCallback();
+				animAssetsLoadCallback = null;
+			}
 		}
 	}
 }

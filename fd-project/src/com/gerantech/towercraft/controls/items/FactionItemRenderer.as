@@ -121,7 +121,7 @@ private function createElements():void
 	header.addChild(factionMeature);
 	
 	// icon 
-	var factionIcon:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, faction.index));
+	var factionIcon:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, faction.index));
 	factionIcon.x = width * 0.5;
 	factionIcon.y = padding * 12;
 	factionIcon.scale = appModel.scale * 1.4;

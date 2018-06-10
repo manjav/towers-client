@@ -39,7 +39,7 @@ override protected function initialize():void
 	super.initialize();
 	overlay.alpha = 1;
 	
-	league = FactionsScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
+	league = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	league.pivotX = league.pivotY = 0
 	league.x = 540 * appModel.scale;

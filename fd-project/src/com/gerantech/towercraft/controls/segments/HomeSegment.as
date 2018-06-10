@@ -58,7 +58,7 @@ override public function init():void
 	showTutorial();
 	initializeCompleted = true;
 	
-	var league:StarlingArmatureDisplay = FactionsScreen.animFactory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
+	var league:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0
