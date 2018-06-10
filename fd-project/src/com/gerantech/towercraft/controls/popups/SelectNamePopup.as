@@ -31,7 +31,7 @@ public function SelectNamePopup()
 	eItem = exchanger.items.get(ExchangeType.C42_RENAME);
 	
 		super(loc((player.nickName != "guest" && eItem.numExchanges == 0) ? "popup_select_name_title_warned" :  "popup_select_name_title"), 
-	(player.nickName != "guest" && eItem.numExchanges > 0) ? (eItem.numExchanges * ExchangeType.getHardRequierement(ExchangeType.C42_RENAME)).toString() : loc("popup_register_label"),
+	(player.nickName != "guest" && eItem.numExchanges > 0) ? exchanger.getRequierement(eItem, timeManager.now).get(ResourceType.CURRENCY_HARD).toString() : loc("popup_register_label"),
 	null);
 }
 
@@ -54,6 +54,7 @@ override protected function initialize():void
 	container.addChild(errorDisplay);
 	
 	acceptButton.isEnabled = false;
+	acceptButton.width = 360 * appModel.scale;
 	if( closeOnOverlay && eItem.numExchanges > 0 )
 		acceptButton.icon = Assets.getTexture("res-1003", "gui");
 	declineButton.removeFromParent();
