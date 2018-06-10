@@ -230,8 +230,6 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		
-		exchanger.items.get(item.type).expiredAt = exchanger.items.get(item.type).outcome = 0;
-		
 		player.addResources( outcomes );
 		earnOverlay.outcomes = outcomes;
 		earnOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);

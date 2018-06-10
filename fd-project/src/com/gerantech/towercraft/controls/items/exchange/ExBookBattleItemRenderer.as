@@ -173,6 +173,7 @@ private function navigator_itemAchievedHandler(event:Event):void
 		bookAnimation.removeFromParent(true);
 		exchange.expiredAt = 0;
 		exchange.outcome = outcome;
+		exchange.outcomes.set(outcome, player.get_arena(0));
 		commitData();
 	}
 }

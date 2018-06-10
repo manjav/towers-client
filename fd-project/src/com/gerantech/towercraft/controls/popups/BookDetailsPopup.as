@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
@@ -49,9 +50,13 @@ override protected function initialize():void
 	insideBG.layoutData = new AnchorLayoutData(padding * 6, padding, padding * 1.2, padding);
 	addChild(insideBG);
 	
-	var arena:int = player.get_arena(0);
-	var titleDisplay:RTLLabel = new RTLLabel(loc("exchange_title_" + item.outcome), 0, "center", null, false, null, 1.3);
-	titleDisplay.layoutData = new AnchorLayoutData(padding * 7.6, NaN, NaN, NaN, 0);
+	var arena:int = item.outcomes.get(item.outcome);
+	var leagueDisplay:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_"+(arena+1)), 0x475768, "center", null, false, null, 0.8);
+	leagueDisplay.layoutData = new AnchorLayoutData(padding * 7.5, NaN, NaN, NaN, 0);
+	addChild(leagueDisplay);
+	
+	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 0, 1, "center", null, false, null, 1.3);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 9, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
 	var downBG:ImageLoader = new ImageLoader();
@@ -105,7 +110,7 @@ override protected function initialize():void
 	}
 	else
 	{
-		updateButton(ResourceType.CURRENCY_HARD, ExchangeType.getHardRequierement(item.outcome));
+		updateButton(ResourceType.CURRENCY_HARD, item.requirements.get(ResourceType.CURRENCY_HARD));
 	}
 	addChild(buttonDisplay);
 }
@@ -141,10 +146,7 @@ private function updateButton(type:int, count:int):void
 {
 	buttonDisplay.count = count;
 	buttonDisplay.type = type;
-	if( item.category == ExchangeType.C120_MAGICS || item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
-		buttonDisplay.isEnabled = player.resources.get(type) >= count;	
-	else 
-		buttonDisplay.isEnabled = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
+	buttonDisplay.isEnabled = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;	
 }
 
 private function updateCounter():void
@@ -153,8 +155,6 @@ private function updateCounter():void
 		return;
 	if( timeDisplay == null )
 	{
-		//timeDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-		//timeDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 54*appModel.scale, 0xFFFFFF, "center")
 		timeDisplay = new CountdownLabel();
 		timeDisplay.width = 320 * appModel.scale;
 		timeDisplay.height = 120 * appModel.scale;
@@ -169,7 +169,8 @@ private function updateCounter():void
 
 private function batton_selectHandler(event:Event):void
 {
-	if( item.category == ExchangeType.C110_BATTLES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
+	var res:int = exchanger.isBattleBookReady(item.type, timeManager.now);
+	if( res == MessageTypes.RESPONSE_ALREADY_SENT )
 		appModel.navigator.addLog(loc("popup_chest_error_exists"));
 	else
 		appModel.navigator.addLog(loc("popup_chest_error_resource"));
