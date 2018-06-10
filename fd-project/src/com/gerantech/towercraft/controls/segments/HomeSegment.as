@@ -78,12 +78,14 @@ override public function init():void
 		addButton(questsButton, "button_quests", 540, 1200, 0.8);
 	}
 	
+	var newVersion:Boolean = appModel.loadingManager.serverData.getInt("forceVersion") >= 3100;// =============================remove in next version
 	var bookLine:HomeBooksLine = new HomeBooksLine();
 	bookLine.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	if( newVersion )
 	addChild(bookLine);
 	
 	var footer:HomeFooter = new HomeFooter();
-	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine.height - bookLine.paddingTop + 24 * appModel.scale, 0);
+	footer.layoutData = new AnchorLayoutData(NaN, NaN, newVersion ? bookLine.height - bookLine.paddingTop + 24 * appModel.scale : 0, 0);
 	addChild(footer);
 
 	dailyButton = new NotifierButton(Assets.getTexture("gift", "gui"));
@@ -91,6 +93,7 @@ override public function init():void
 	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
 	dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
 	dailyButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+	if( newVersion )
 	addChild(dailyButton);
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));

@@ -141,7 +141,12 @@ override public function updateData():void
 			softs.add(itemKeys[i]);
 	}
 	
-	var categoreis:Array = new Array( specials, magics, hards, softs );
+	var categoreis:Array;
+	if( appModel.loadingManager.serverData.getInt("forceVersion") >= 3100) // =============================remove in next version
+		categoreis = new Array( specials, magics, hards, softs );
+	else
+		categoreis = new Array(specials, hards, softs);
+	
 	if( bundles.items.length > 0 )
 		categoreis.unshift(bundles);
 	for (i=0; i<categoreis.length; i++)

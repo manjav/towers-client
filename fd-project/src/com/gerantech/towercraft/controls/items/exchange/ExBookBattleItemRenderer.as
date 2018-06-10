@@ -37,6 +37,8 @@ override protected function commitData():void
 	reset();
 	
 	exchange = exchanger.items.get(_data as int);
+	if( exchange == null )
+		return;
 	state = exchange.getState(timeManager.now);
 
 	skin.blendMode = BlendMode.ADD;
