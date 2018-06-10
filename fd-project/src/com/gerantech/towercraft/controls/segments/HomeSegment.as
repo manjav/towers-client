@@ -86,20 +86,20 @@ override public function init():void
 	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine.height - bookLine.paddingTop + 24 * appModel.scale, 0);
 	addChild(footer);
 
-	dailyButton = new NotifierButton(Assets.getTexture("button-inbox", "gui"));
+	dailyButton = new NotifierButton(Assets.getTexture("gift", "gui"));
 	dailyButton.width = dailyButton.height = 140 * appModel.scale;
 	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
-	if( exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
-		dailyButton.badgeLabel = "!";
-	dailyButton.addEventListener(Event.TRIGGERED, dailyButton_triggeredHandler);
+	dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
+	dailyButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	addChild(dailyButton);
 	
-	adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
+	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
 	adsButton.width = adsButton.height = 140 * appModel.scale;
 	adsButton.layoutData = new AnchorLayoutData(120 * appModel.scale, NaN, NaN, 20 * appModel.scale);
 	if( exchanger.items.get(ExchangeType.C43_ADS).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 		adsButton.badgeLabel = "!";
-	addChild(adsButton);
+	adsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+	addChild(adsButton);*/
 	
 	// hidden admin button
 	var adminButton:Button = new Button();
@@ -148,11 +148,6 @@ private function showOffers():void
 	offers.y = 50 * appModel.scale;
 	addChild(offers);
 
-}
-
-private function dailyButton_triggeredHandler(e:Event):void 
-{
-	exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));
 }
 
 private function addButton(button:HomeButton, name:String, x:int, y:int, delay:Number, callback:Function=null):void
@@ -232,6 +227,13 @@ private function mainButtons_triggeredHandler(event:Event ):void
 			break;
 		case leaguesButton:
 			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
+			break;
+		case dailyButton:
+			exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));
+			dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
+			break;
+		case adsButton:
+			exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS));
 			break;
 	}
 }

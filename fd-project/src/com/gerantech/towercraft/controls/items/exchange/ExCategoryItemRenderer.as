@@ -80,7 +80,7 @@ override protected function commitData():void
 		
 		case ExchangeType.C30_BUNDLES:
 			CELL_SIZE = 580 * appModel.scale;
-			listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 3) / 2) ;
+			listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 2)) ;
 			headerDisplay.showCountdown(line.items[0]);
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBundleItemRenderer();}
 			break;

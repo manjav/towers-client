@@ -14,7 +14,6 @@ import com.gt.towers.battle.fieldes.ImageData;
 import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.events.CoreEvent;
-import com.gt.towers.exchanges.Exchange;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.lists.PlaceDataList;

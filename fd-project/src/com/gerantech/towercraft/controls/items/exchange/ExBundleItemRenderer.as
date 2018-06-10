@@ -14,6 +14,8 @@ import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
+import flash.utils.setTimeout;
+import starling.display.DisplayObjectContainer;
 
 public class ExBundleItemRenderer extends ExBaseItemRenderer
 {
@@ -24,13 +26,10 @@ override protected function commitData():void
 	skin.alpha = 0.7;
 	
 	var outKeys:Vector.<int> = exchange.outcomes.keys();
-	var outcomesContainer:LayoutGroup = new LayoutGroup();
-	outcomesContainer.x = width * 0.5 - padding * 5 * outKeys.length - padding * 4;
-	//outcomesContainer.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
-	addChild(outcomesContainer);
-	
+
+	var rowH:int = width / ( outKeys.length );
 	for ( var i:int = 0; i < outKeys.length; i ++ )
-		createIcon(outcomesContainer, outKeys, i);
+		createOutcome(outKeys, i, rowH);
 	
 	var availabledLabel:RTLLabel = new RTLLabel(exchange.numExchanges + "/3", 0, null, "right", false, null, 0.7);
 	availabledLabel.layoutData = new AnchorLayoutData(padding, padding * 2);
@@ -52,7 +51,7 @@ override protected function commitData():void
 	var ribbonDisplay:ImageLoader = new ImageLoader();
 	ribbonDisplay.source = Assets.getTexture("cards/empty-badge", "gui");
 	ribbonDisplay.layoutData = new AnchorLayoutData( -14 * appModel.scale, NaN, NaN, -14 * appModel.scale);
-	ribbonDisplay.height = ribbonDisplay.width = width * 0.35;
+	ribbonDisplay.height = ribbonDisplay.width = padding * 18;
 	addChild(ribbonDisplay);
 	ribbonDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void
 	{
@@ -66,8 +65,9 @@ override protected function commitData():void
 	});
 }
 
-private function createIcon(outcomesContainer:LayoutGroup, outKeys:Vector.<int>, i:int):void 
+private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void 
 {
+	var outcome:DisplayObjectContainer;
 	if( ResourceType.isBook(outKeys[i]) ) 
 	{
 		var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + outKeys[i]);
@@ -75,25 +75,35 @@ private function createIcon(outcomesContainer:LayoutGroup, outKeys:Vector.<int>,
 		bookArmature.scaleY = bookArmature.scaleX;
 		bookArmature.animation.gotoAndStopByProgress("appear", 1);
 		bookArmature.animation.timeScale = 0;
-		bookArmature.x = padding * i * 8 + bookArmature.width * 0.5;
-		bookArmature.y = padding * i * 8 + padding + bookArmature.height * 0.8;
-		outcomesContainer.addChild(bookArmature);		
-		return;
+		outcome = bookArmature;
 	}
+	else
+	{
+		var cardDisplay:BuildingCard = new BuildingCard();
+		cardDisplay.showLevel = false;
+		cardDisplay.showSlider = false;
+		cardDisplay.width = padding * 18;
+		cardDisplay.height = cardDisplay.width * 1.35;		
+		cardDisplay.type = outKeys[i];
+		cardDisplay.pivotX = cardDisplay.width * 0.5;
+		cardDisplay.pivotY = cardDisplay.height * 0.5;	
+		
+		var countDisplay:ShadowLabel = new ShadowLabel(exchange.outcomes.get(outKeys[i]).toString(), 1, 0, "center", null, false, null, 0.9);
+		countDisplay.layoutData = new AnchorLayoutData(padding * 0.5, padding * 2, NaN, padding * 2);
+		setTimeout(cardDisplay.addChild, 10, countDisplay);
+		outcome = cardDisplay;
+	}
+
+	outcome.x = i * rowH + rowH * 0.5;
+	outcome.y = padding * 18;
+	addChild(outcome);
 	
-	var cardDisplay:BuildingCard = new BuildingCard();
-	cardDisplay.showLevel = false;
-	cardDisplay.showSlider = false;
-	cardDisplay.width = padding * 18;
-	cardDisplay.height = cardDisplay.width * 1.35;
-	cardDisplay.type = outKeys[i];
-	cardDisplay.x = padding * i * 10;
-	cardDisplay.y = padding * i * 9 + padding * 2;
-	outcomesContainer.addChild(cardDisplay);
-	
-	var countDisplay:ShadowLabel = new ShadowLabel(exchange.outcomes.get(outKeys[i]).toString(), 1, 0, "center", null, false, null, 0.9);
-	countDisplay.layoutData = new AnchorLayoutData(padding * 0.5, padding * 2, NaN, padding * 2);
-	cardDisplay.addChild(countDisplay);
+	var labelDisplay:ShadowLabel = new ShadowLabel(loc((ResourceType.isBuilding(outKeys[i]) ? "building_title_" : (ResourceType.isBook(outKeys[i])?"exchange_title_":"resource_title_")) + outKeys[i]), 1, 0, "center");
+	labelDisplay.width = rowH;
+	labelDisplay.pivotX = rowH * 0.5;
+	labelDisplay.x = i * rowH + rowH * 0.5;
+	labelDisplay.y = padding * 30;
+	addChild(labelDisplay);
 }
 
 override protected function showAchieveAnimation(item:ExchangeItem):void 
