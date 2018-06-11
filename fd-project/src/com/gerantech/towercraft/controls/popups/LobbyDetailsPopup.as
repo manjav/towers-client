@@ -102,7 +102,7 @@ protected function sfsConnection_roomDataHandler(event:SFSEvent):void
 	roomData.bio = roomServerData.getText("bio");
 	roomData.min = roomServerData.getInt("min")
 	roomData.pri = roomServerData.getInt("pri");
-	if( transitionState >= TransitionData.STATE_IN_FINISHED )
+	if( transitionState >= TransitionData.STATE_IN_COMPLETED )
 		showDetails();
 }
 protected override function transitionInCompleted():void

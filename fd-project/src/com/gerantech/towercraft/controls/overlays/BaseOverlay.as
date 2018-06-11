@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
-	import com.gerantech.towercraft.controls.CloasableObject;
+	import com.gerantech.towercraft.controls.ClosableLayout;
 	import com.gerantech.towercraft.controls.groups.Devider;
 	
 	import flash.ui.Keyboard;
@@ -12,7 +12,7 @@ package com.gerantech.towercraft.controls.overlays
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	
-	public class BaseOverlay extends CloasableObject
+	public class BaseOverlay extends ClosableLayout
 	{
 		public var hasOverlay:Boolean = true;
 		public var overlayFactory:Function;

@@ -86,7 +86,7 @@ protected function sfsConnection_responceHandler(event:SFSEvent):void
 	else if( user.lp == null )
 		user.lp = 110;
 
-	if( transitionState >= TransitionData.STATE_IN_FINISHED )
+	if( transitionState >= TransitionData.STATE_IN_COMPLETED )
 		showProfile();
 }
 

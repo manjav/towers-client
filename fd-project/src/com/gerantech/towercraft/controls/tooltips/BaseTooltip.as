@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.tooltips
 {
-	import com.gerantech.towercraft.controls.CloasableObject;
+	import com.gerantech.towercraft.controls.ClosableLayout;
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
 	import com.gerantech.towercraft.models.Assets;
 	
@@ -14,7 +14,7 @@ package com.gerantech.towercraft.controls.tooltips
 	import starling.core.Starling;
 	import starling.display.Image;
 	
-	public class BaseTooltip extends CloasableObject
+	public class BaseTooltip extends ClosableLayout
 	{
 		protected var labelDisplay:RTLLabel;
 		protected var padding:int;

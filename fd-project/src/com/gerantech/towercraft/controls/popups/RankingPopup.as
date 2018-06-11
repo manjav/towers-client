@@ -77,7 +77,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
 	_listCollection = new ListCollection( SFSArray(event.params.params.getSFSArray("list")).toArray() );
-	if( transitionState >= TransitionData.STATE_IN_FINISHED )
+	if( transitionState >= TransitionData.STATE_IN_COMPLETED )
 		showRanking();
 }
 
