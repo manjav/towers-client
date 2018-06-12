@@ -53,11 +53,11 @@ override public function init():void
 	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED  )
 		return;
 	
+	initializeCompleted = true;
 	layout = new AnchorLayout();
 //	showOffers();
-	showTutorial();
-	initializeCompleted = true;
 	
+
 	var league:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.7);
@@ -68,21 +68,33 @@ override public function init():void
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
 	addButton(battlesButton, "button_battles", 540, 970, 0.6);
+
+	var bookLine:HomeBooksLine = new HomeBooksLine();
+	bookLine.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	
+	if( player.admin )	// hidden admin button
+	{
+		var adminButton:Button = new Button();
+		adminButton.alpha = 0;
+		adminButton.isLongPressEnabled = true;
+		adminButton.longPressDuration = 1;
+		adminButton.width = adminButton.height = 120 * appModel.scale;
+		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
+		addChild(adminButton);
+	}
+	
+	showTutorial();
 	
 	if( player.get_battleswins() < 4 )
 		return;
 	
-	if( player.hasQuests )
-	{
-		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")), 0.9);
-		addButton(questsButton, "button_quests", 540, 1200, 0.8);
-	}
-	
 	var newVersion:Boolean = appModel.loadingManager.serverData.getInt("forceVersion") >= 3100;// =============================remove in next version
-	var bookLine:HomeBooksLine = new HomeBooksLine();
-	bookLine.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-	if( newVersion )
+	if( newVersion )// =============================remove in next version
 	addChild(bookLine);
+	
+	if( player.get_battleswins() < 6 )
+		return;
 	
 	var footer:HomeFooter = new HomeFooter();
 	footer.layoutData = new AnchorLayoutData(NaN, NaN, newVersion ? bookLine.height - bookLine.paddingTop + 24 * appModel.scale : 0, 0);
@@ -93,8 +105,17 @@ override public function init():void
 	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
 	dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
 	dailyButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
-	if( newVersion )
+	if( newVersion )// =============================remove in next version
 	addChild(dailyButton);
+	
+	
+	if( player.get_battleswins() < 7 )
+		return;
+	if( player.hasQuests )
+	{
+		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")), 0.9);
+		addButton(questsButton, "button_quests", 540, 1200, 0.8);
+	}
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
 	adsButton.width = adsButton.height = 140 * appModel.scale;
@@ -103,16 +124,6 @@ override public function init():void
 		adsButton.badgeLabel = "!";
 	adsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	addChild(adsButton);*/
-	
-	// hidden admin button
-	var adminButton:Button = new Button();
-	adminButton.alpha = 0;
-	adminButton.isLongPressEnabled = true;
-	adminButton.longPressDuration = 1;
-	adminButton.width = adminButton.height = 120 * appModel.scale;
-	adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{if( player.admin )appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-	adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
-	addChild(adminButton);
 	//dfsdf();
 }
 
@@ -181,7 +192,7 @@ private function showTutorial():void
 		}
 		return;
 	}
-	else if( player.get_battleswins() <= 4 )
+	else if( player.get_battleswins() < 6 )
 	{
 		battlesButton.showArrow();
 	}
