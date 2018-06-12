@@ -167,6 +167,7 @@ private function startBattle():void
 	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
 		return;
 		
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
 	var battleData:BattleData = appModel.battleFieldView.battleData;
 	if( !waitingOverlay.ready )
 	{
@@ -211,14 +212,20 @@ private function startBattle():void
 	function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 }
 
+private function tutorials_tasksStartHandler(e:Event):void 
+{
+	clearSources(sourcePlaces);
+	sourcePlaces = null;
+}
+
 private function showTutorials() : void 
 {
-		touchEnable = true;
+	touchEnable = true;
 	if( sfsConnection.mySelf.isSpectator )
 		return;
 
 	appModel.battleFieldView.createDrops();
-	if ( !player.inTutorial() )
+	if( !player.inTutorial() )
 	{
 		touchEnable = true;
 		return;
@@ -367,7 +374,21 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
 	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	setTimeout(hud.end, player.get_arena(0) == 0?800:0, endOverlay);// delay for noobs
+	setTimeout(appearEndOverlay, player.get_arena(0) == 0?800:0, endOverlay, field);// delay for noobs
+}
+
+private function appearEndOverlay(endOverlay:EndOverlay, field:FieldData):void 
+{
+	hud.end(endOverlay);
+	
+	// show mid tutorials
+	if( !field.isQuest && endOverlay.winRatio > 1 && player.get_battleswins() == 3 || player.get_battleswins() == 4 )
+	{
+		var tutorialData:TutorialData = new TutorialData(field.name + "_free");
+		tutorialData.data = "free";
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_" + player.get_battleswins() + "_free"));
+		tutorials.show(tutorialData);
+	}
 }
 
 private function disposeBattleAssets():void
@@ -643,6 +664,9 @@ private function touchHandler(event:TouchEvent):void
 		}
 		else if( touch.phase == TouchPhase.ENDED )
 		{
+			if( sourcePlaces == null )
+				return;
+			
 			var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 			if( destination == null )
 			{
@@ -682,7 +706,7 @@ private function touchHandler(event:TouchEvent):void
 			}
 			
 			// no fihgters
-			if ( sourcePlaces.length == 0 )
+			if( sourcePlaces.length == 0 )
 			{
 				clearSources(sourcePlaces);
 				return;
@@ -823,6 +847,8 @@ override public function dispose():void
 
 private function removeConnectionListeners():void
 {
+	if( tutorials != null )
+		tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
 	removeEventListener(TouchEvent.TOUCH, touchHandler);
 	sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
