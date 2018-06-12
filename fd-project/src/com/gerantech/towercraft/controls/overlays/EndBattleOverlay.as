@@ -27,8 +27,8 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var reward_1:ISFSObject = rewards.getSFSObject(playerIndex==-1?1:1-playerIndex);
-	var reward_2:ISFSObject = rewards.getSFSObject(playerIndex==-1?0:playerIndex);
+	var reward_1:ISFSObject = rewards.getSFSObject(playerIndex ==-1?1:1 - playerIndex);
+	var reward_2:ISFSObject = rewards.getSFSObject(playerIndex ==-1?0:playerIndex);
 	var isDraw:Boolean = reward_1.getInt("score") == reward_2.getInt("score") ;
 	var pi:int = playerIndex == -1 ? 0 : playerIndex;
 	
@@ -39,27 +39,25 @@ override protected function initialize():void
 		addChild(drawLabel);
 	}
 	
-	// header 1
-	//if( !reward_1.containsKey("name") )
-	//	reward_1.putText("name", battleData.opponent.getVariable("name").getStringValue());
+	// axis
 	var name:String = reward_1.getText("name");
 	if( player.inTutorial() && player.tutorialMode == 1 )
 		name = loc("trainer_label");
-	var header_1:BattleHeader = new BattleHeader(name, reward_1.getInt("id") == player.id);
-	header_1.layoutData = new AnchorLayoutData(padding * 11, 0, NaN, 0);
-	addChild(header_1);
-	header_1.addScoreImages(reward_1.getInt("score"));
+	var axisHeader:BattleHeader = new BattleHeader(name, reward_1.getInt("id") == player.id);
+	axisHeader.layoutData = new AnchorLayoutData(padding * 11, 0, NaN, 0);
+	addChild(axisHeader);
+	axisHeader.addScoreImages(reward_1.getInt("score"));
 	if( !isDraw )
-		header_1.showWinnerLabel(reward_1.getInt("score")>reward_2.getInt("score"));
+		axisHeader.showWinnerLabel(reward_1.getInt("score") > reward_2.getInt("score"));
 	
-	
-	// header 2
-	var header_2:BattleHeader = new BattleHeader(reward_2.getText("name"), reward_2.getInt("id")==player.id);
-	header_2.layoutData = new AnchorLayoutData(padding * 20, 0, NaN, 0);
-	addChild(header_2);
-	header_2.addScoreImages(reward_2.getInt("score"));
+	// allise
+	name = reward_2.getText("name") == "guest" ? loc("guest_label") : reward_2.getText("name");
+	var alliseHeader:BattleHeader = new BattleHeader(name, reward_2.getInt("id") == player.id);
+	alliseHeader.layoutData = new AnchorLayoutData(padding * 20, 0, NaN, 0);
+	addChild(alliseHeader);
+	alliseHeader.addScoreImages(reward_2.getInt("score"));
 	if( !isDraw )
-		header_2.showWinnerLabel(reward_2.getInt("score")>reward_1.getInt("score"));
+		alliseHeader.showWinnerLabel(reward_2.getInt("score") > reward_1.getInt("score"));
 
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;

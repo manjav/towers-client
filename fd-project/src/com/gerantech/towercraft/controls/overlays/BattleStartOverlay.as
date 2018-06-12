@@ -58,6 +58,8 @@ override protected function initialize():void
 	
 	// axis elements
 	var name:String = mapIndex >-1?(loc("quest_label") + " " +(mapIndex + 1)): battleData.axis.getText("name");
+	if( player.inTutorial() && player.tutorialMode == 1 )
+		name = loc("trainer_label");
 	axisHeader = new BattleHeader(name, false);
 	axisHeader.layoutData = new AnchorLayoutData(300 * appModel.scale, 0, NaN, 0);
 	container.addChild(axisHeader);
@@ -69,7 +71,8 @@ override protected function initialize():void
 	}
 	
 	// allise elements
-	alliseHeader = new BattleHeader( player.inTutorial() && player.tutorialMode == 1 ? loc("guest_label") : battleData.allis.getText("name"), true);
+	name = battleData.allis.getText("name") == "guest" ? loc("guest_label") : battleData.allis.getText("name");
+	alliseHeader = new BattleHeader( name, true);
 	alliseHeader.width = padding * 16;
 	alliseHeader.layoutData = new AnchorLayoutData(800 * appModel.scale, 0, NaN, 0);
 	container.addChild(alliseHeader);
