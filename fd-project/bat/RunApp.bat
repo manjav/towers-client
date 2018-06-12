@@ -18,7 +18,7 @@ set INTERPRETER=-interpreter
 :desktop
 :: http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-6fa6d7e0128cca93d31-8000.html
 
-set SCREEN_SIZE=580x960:580x1000
+set SCREEN_SIZE=600x960:600x1000
 ::set SCREEN_SIZE=iPhoneRetina
 
 :desktop-run
