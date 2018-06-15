@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:fb6e45d408e7053fd6fc6f943af2d3d3:d5638357b1ec74f6ab820f73376b61be:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:9fa2b617fbce1c0bcc8a653e13a0fd9e:f2b53c2e6d4996545f018493eeb75dc2:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
     <SubTexture name="arena-0" x="1345" y="659" width="93" height="99"/>
     <SubTexture name="arena-1" x="1212" y="784" width="93" height="99"/>
@@ -11,14 +11,8 @@
     <SubTexture name="arena-6" x="169" y="1959" width="100" height="85"/>
     <SubTexture name="arena-7" x="881" y="1045" width="100" height="85"/>
     <SubTexture name="arena-8" x="983" y="1045" width="100" height="85"/>
-    <SubTexture name="battle-button" x="2" y="1216" width="507" height="419"/>
     <SubTexture name="battle" x="1934" y="131" width="111" height="107" frameX="0" frameY="-2" frameWidth="112" frameHeight="112"/>
     <SubTexture name="bg-shadow" x="2" y="1637" width="200" height="320"/>
-    <SubTexture name="button-inbox" x="1658" y="571" width="103" height="99" frameX="-4" frameY="-7" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="button-news" x="1335" y="760" width="97" height="94" frameX="-6" frameY="-7" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="button-settings" x="1557" y="441" width="107" height="100" frameX="-3" frameY="-8" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="button-spectate" x="1440" y="468" width="110" height="100" frameX="0" frameY="-7" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="button-telegram" x="1899" y="455" width="109" height="96" frameX="-2" frameY="-13" frameWidth="112" frameHeight="112"/>
     <SubTexture name="cards" x="1440" y="570" width="103" height="103" frameX="-4" frameY="-2" frameWidth="112" frameHeight="112"/>
     <SubTexture name="cards/10" x="329" y="683" width="180" height="250"/>
     <SubTexture name="cards/11" x="1087" y="415" width="66" height="38" frameX="-112" frameY="-3" frameWidth="180" frameHeight="250"/>
@@ -172,7 +166,6 @@
     <SubTexture name="emblems/emblem-109" x="1508" y="1546" width="80" height="80"/>
     <SubTexture name="emblems/emblem-110" x="1508" y="1628" width="80" height="80"/>
     <SubTexture name="extra-time" x="1155" y="413" width="94" height="90" frameX="-2" frameY="-3" frameWidth="96" frameHeight="96"/>
-    <SubTexture name="gift" x="757" y="392" width="100" height="111" frameX="-7" frameY="0" frameWidth="112" frameHeight="112"/>
     <SubTexture name="gold-key-off" x="942" y="505" width="144" height="153" frameX="0" frameY="0" frameWidth="144" frameHeight="154"/>
     <SubTexture name="gold-key" x="881" y="890" width="144" height="153" frameX="0" frameY="0" frameWidth="144" frameHeight="154"/>
     <SubTexture name="hand" x="1667" y="2" width="265" height="177"/>
@@ -182,6 +175,19 @@
     <SubTexture name="healthbar-fill--1" x="741" y="1440" width="14" height="24"/>
     <SubTexture name="healthbar-fill-0" x="757" y="1440" width="14" height="24"/>
     <SubTexture name="healthbar-fill-1" x="773" y="1440" width="14" height="24"/>
+    <SubTexture name="home/battle-button" x="2" y="1216" width="507" height="419"/>
+    <SubTexture name="home/button-inbox" x="1658" y="571" width="103" height="99" frameX="-4" frameY="-7" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="home/button-news" x="1335" y="760" width="97" height="94" frameX="-6" frameY="-7" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="home/button-settings" x="1557" y="441" width="107" height="100" frameX="-3" frameY="-8" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="home/button-spectate" x="1440" y="468" width="110" height="100" frameX="0" frameY="-7" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="home/button-telegram" x="1899" y="455" width="109" height="96" frameX="-2" frameY="-13" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="home/gift" x="757" y="392" width="100" height="111" frameX="-7" frameY="0" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="home/main-map-tile" x="492" y="1637" width="258" height="258"/>
+    <SubTexture name="home/quest-button" x="1054" y="2" width="611" height="227"/>
+    <SubTexture name="home/tab-0" x="866" y="254" width="127" height="134" frameX="-29" frameY="-20" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="home/tab-1" x="797" y="505" width="143" height="154" frameX="-29" frameY="0" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="home/tab-2" x="1186" y="651" width="123" height="131" frameX="-29" frameY="-23" frameWidth="184" frameHeight="184"/>
+    <SubTexture name="home/tab-3" x="730" y="1897" width="130" height="147" frameX="-29" frameY="-7" frameWidth="184" frameHeight="184"/>
     <SubTexture name="improve-1" x="1144" y="1232" width="57" height="60" frameX="-7" frameY="-7" frameWidth="72" frameHeight="72"/>
     <SubTexture name="improve-2" x="693" y="455" width="62" height="49" frameX="-5" frameY="-11" frameWidth="72" frameHeight="72"/>
     <SubTexture name="improve-3" x="693" y="392" width="62" height="61" frameX="-5" frameY="-5" frameWidth="72" frameHeight="72"/>
@@ -197,11 +203,9 @@
     <SubTexture name="keys-1" x="1362" y="359" width="77" height="54" frameX="-63" frameY="0" frameWidth="140" frameHeight="54"/>
     <SubTexture name="keys-2" x="1251" y="359" width="109" height="54" frameX="-31" frameY="0" frameWidth="140" frameHeight="54"/>
     <SubTexture name="keys-3" x="1905" y="240" width="140" height="54"/>
-    <SubTexture name="main-map-tile" x="492" y="1637" width="258" height="258"/>
     <SubTexture name="population--1" x="457" y="85" width="49" height="56"/>
     <SubTexture name="population-0" x="457" y="143" width="49" height="56"/>
     <SubTexture name="population-1" x="457" y="201" width="49" height="56"/>
-    <SubTexture name="quest-button" x="1054" y="2" width="611" height="227"/>
     <SubTexture name="rank-icon" x="1331" y="1108" width="70" height="51" frameX="-4" frameY="-14" frameWidth="80" frameHeight="80"/>
     <SubTexture name="res-1000" x="476" y="1932" width="109" height="112" frameX="-2" frameY="0" frameWidth="112" frameHeight="112"/>
     <SubTexture name="res-1001" x="1570" y="231" width="95" height="103" frameX="-9" frameY="-3" frameWidth="112" frameHeight="112"/>
@@ -225,10 +229,6 @@
     <SubTexture name="settings-315" x="1299" y="415" width="77" height="82" frameX="-7" frameY="-4" frameWidth="92" frameHeight="92"/>
     <SubTexture name="shop-line-header" x="329" y="1187" width="90" height="27" frameX="0" frameY="-1" frameWidth="90" frameHeight="28"/>
     <SubTexture name="sticker-item" x="995" y="370" width="54" height="35"/>
-    <SubTexture name="tab-0" x="866" y="254" width="127" height="134" frameX="-29" frameY="-20" frameWidth="184" frameHeight="184"/>
-    <SubTexture name="tab-1" x="797" y="505" width="143" height="154" frameX="-29" frameY="0" frameWidth="184" frameHeight="184"/>
-    <SubTexture name="tab-2" x="1186" y="651" width="123" height="131" frameX="-29" frameY="-23" frameWidth="184" frameHeight="184"/>
-    <SubTexture name="tab-3" x="730" y="1897" width="130" height="147" frameX="-29" frameY="-7" frameWidth="184" frameHeight="184"/>
     <SubTexture name="theme/back-button-disabled-skin" x="1860" y="415" width="37" height="56"/>
     <SubTexture name="theme/back-button-down-skin" x="1820" y="451" width="37" height="56"/>
     <SubTexture name="theme/back-button-up-skin" x="693" y="108" width="171" height="140"/>

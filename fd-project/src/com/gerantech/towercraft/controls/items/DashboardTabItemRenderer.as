@@ -92,7 +92,7 @@ override protected function commitData():void
 	dashboardData = _data as TabItemData;
 	if( iconDisplay == null )
 	{
-		iconDisplay = new Image(Assets.getTexture("tab-"+dashboardData.index, "gui"));
+		iconDisplay = new Image(Assets.getTexture("home/tab-"+dashboardData.index, "gui"));
 		iconDisplay.alignPivot();
 		iconDisplay.x = itemWidth * 0.5;
 		iconDisplay.y = height * 0.5;

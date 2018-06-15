@@ -318,7 +318,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 			break;
 		}
 	}
-		
+	
 	// reduce player resources
 	if( playerIndex > -1 )
 	{

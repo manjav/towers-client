@@ -66,7 +66,7 @@ override public function init():void
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
-	battlesButton = new HomeButton(new Image(Assets.getTexture("battle-button", "gui")), 0.9);
+	battlesButton = new HomeButton(new Image(Assets.getTexture("home/battle-button", "gui")), 0.9);
 	addButton(battlesButton, "button_battles", 540, 970, 0.6);
 
 	var bookLine:HomeBooksLine = new HomeBooksLine();
@@ -100,7 +100,7 @@ override public function init():void
 	footer.layoutData = new AnchorLayoutData(NaN, NaN, newVersion ? bookLine.height - bookLine.paddingTop + 24 * appModel.scale : 0, 0);
 	addChild(footer);
 
-	dailyButton = new NotifierButton(Assets.getTexture("gift", "gui"));
+	dailyButton = new NotifierButton(Assets.getTexture("home/gift", "gui"));
 	dailyButton.width = dailyButton.height = 140 * appModel.scale;
 	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
 	dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
@@ -113,7 +113,7 @@ override public function init():void
 		return;
 	if( player.hasQuests )
 	{
-		questsButton = new HomeButton(new Image(Assets.getTexture("quest-button", "gui")), 0.9);
+		questsButton = new HomeButton(new Image(Assets.getTexture("home/quest-button", "gui")), 0.9);
 		addButton(questsButton, "button_quests", 540, 1200, 0.8);
 	}
 	
