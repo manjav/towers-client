@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
-import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -11,13 +10,8 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.arenas.Arena;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.filesystem.File;
-import flash.geom.Rectangle;
-
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingFactory;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
@@ -27,7 +21,7 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -69,8 +63,8 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	var tiledBG:Image = new Image(Assets.getTexture("main-map-tile", "gui"));
-	tiledBG.tileGrid = new Rectangle(appModel.scale, appModel.scale, 256 * appModel.scale, 256 * appModel.scale);
+	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
+	tiledBG.tileGrid = new Rectangle(1, 1, 128, 128);
 	backgroundSkin = tiledBG;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));

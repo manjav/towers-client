@@ -39,9 +39,9 @@ override protected function initialize():void
     gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	backgroundSkin = gradient;
 	
-	addButton("home/button-settings");
-	addButton("home/button-inbox");
-	addButton("home/button-spectate");
+	addButton("home/settings");
+	addButton("home/inbox");
+	addButton("home/spectate");
 	
 	InboxService.instance.request();
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
@@ -52,7 +52,7 @@ private function addButton(texture:String) : void
 	var button:IconButton;
 	if( texture == "home/button-inbox" )
 	{
-		button = inboxButton = new NotifierButton(Assets.getTexture("home/button-inbox", "gui"));
+		button = inboxButton = new NotifierButton(Assets.getTexture("home/inbox", "gui"));
 		inboxButton.badgeLabel = InboxService.instance.numUnreads.toString();
 	}
 	else
@@ -69,9 +69,9 @@ private function buttons_triggeredHandler(event:Event):void
 {
 	switch ( IconButton(event.currentTarget).name )
 	{
-		case "home/button-settings" :	appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);	break;
-		case "home/button-inbox" :		appModel.navigator.pushScreen(Main.INBOX_SCREEN);		break;
-		case "home/button-spectate" :	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Main.SPECTATE_SCREEN ); break;
+		case "home/settings" :	appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);	break;
+		case "home/inbox" :		appModel.navigator.pushScreen(Main.INBOX_SCREEN);		break;
+		case "home/spectate" :	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Main.SPECTATE_SCREEN ); break;
 	}
 }
 

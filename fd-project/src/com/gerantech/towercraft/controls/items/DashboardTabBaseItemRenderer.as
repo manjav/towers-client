@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
@@ -21,46 +22,29 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
-public class DashboardTabItemRenderer extends AbstractTouchableListItemRenderer
+public class DashboardTabBaseItemRenderer extends AbstractTouchableListItemRenderer
 {
-private var itemWidth:Number;
-private var _firstCommit:Boolean = true;
-private var titleDisplay:RTLLabel;
-private var iconDisplay:Image;
-private var badgeNumber:IndicatorButton;
+protected var itemWidth:Number;
+protected var _firstCommit:Boolean = true;
+protected var titleDisplay:ShadowLabel;
+protected var iconDisplay:Image;
+protected var badgeNumber:IndicatorButton;
 
-private var padding:int;
-private var dashboardData:TabItemData;
+protected var padding:int;
+protected var dashboardData:TabItemData;
 private var tutorialArrow:TutorialArrow;
 
-public function DashboardTabItemRenderer(width:Number)
+public function DashboardTabBaseItemRenderer(width:Number)
 {
 	super();
 	layout = new AnchorLayout();
 	padding = 36 * appModel.scale;
-	
-	skin = new ImageSkin(appModel.theme.tabUpSkinTexture);
-	skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
-	skin.setTextureForState(STATE_SELECTED, appModel.theme.tabDownSkinTexture);
-	skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
-	backgroundSkin = skin;
-	
-	titleDisplay = new RTLLabel("", 1, null, null, false, null, 1.2, null, "bold");
-	titleDisplay.visible = false;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width-padding*3)/2, 0);
-	addChild(titleDisplay);
-	
-	badgeNumber = new IndicatorButton("0", 0.8);
-	badgeNumber.width = badgeNumber.height = padding * 1.8;
-	badgeNumber.layoutData = new AnchorLayoutData(padding/2, padding/2);
-	
 	itemWidth = width;
 }
 
 override protected function commitData():void
 {
-	if(_firstCommit)
+	if( _firstCommit )
 	{
 		width = itemWidth;
 		height = _owner.height;
@@ -90,22 +74,62 @@ override protected function commitData():void
 	}
 	super.commitData();
 	dashboardData = _data as TabItemData;
-	if( iconDisplay == null )
-	{
-		iconDisplay = new Image(Assets.getTexture("home/tab-"+dashboardData.index, "gui"));
-		iconDisplay.alignPivot();
-		iconDisplay.x = itemWidth * 0.5;
-		iconDisplay.y = height * 0.5;
-		iconDisplay.scale = appModel.scale * 2;
-		iconDisplay.pixelSnapping = false;
-		//iconDisplay.width = iconDisplay.height = width - padding * 3;
-		//iconDisplay.layoutData = iconLayoutData;
-		addChild(iconDisplay); 
-	}
+	
+	titleFactory();
+	iconFactory();
+	badgeFactory();
+}
+
+protected function iconFactory() : Image 
+{
+	if( iconDisplay != null )
+		return null;
+
+	iconDisplay = new Image(Assets.getTexture("home/tab-" + dashboardData.index, "gui"));
+	iconDisplay.alignPivot();
+	iconDisplay.x = width * 0.5;
+	iconDisplay.y = height * 0.5;
+	iconDisplay.scale = appModel.scale * 2;
+	iconDisplay.pixelSnapping = false;
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
-	//iconDisplay.source = Assets.getTexture("tab-"+dashboardData.index, "gui");
-	titleDisplay.text = loc("tab-"+dashboardData.index) ;
-	updateBadge();
+	addChild(iconDisplay); 
+	return iconDisplay;
+}
+
+protected function titleFactory() : ShadowLabel
+{
+	if( titleDisplay != null )
+	{
+		titleDisplay.text = loc("tab-" + dashboardData.index) ;
+		return null;
+	}
+
+	titleDisplay = new ShadowLabel(loc("tab-" + dashboardData.index), 1, 0, null, null, false, null, 1.2, null, "bold");
+	titleDisplay.visible = false;
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width - padding * 3) * 0.5, 0);
+	addChild(titleDisplay);
+	return titleDisplay;
+}
+
+protected function badgeFactory() : IndicatorButton
+{
+	if( dashboardData.badgeNumber <= 0 )
+	{
+		if( badgeNumber != null )
+			badgeNumber.removeFromParent();
+		return null;
+	}
+
+	if( badgeNumber == null )
+	{
+		badgeNumber = new IndicatorButton("0", 0.8);
+		badgeNumber.width = badgeNumber.height = padding * 1.8;
+		badgeNumber.layoutData = new AnchorLayoutData(padding * 0.5, padding * 0.5);
+		addChild(badgeNumber);
+	}
+	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
+	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
+	return null;
 }
 
 private function navigator_dashboardTabChanged(event:Event):void
@@ -125,44 +149,15 @@ override protected function setSelection(value:Boolean):void
 	if( dashboardData != null && value )
 	{
 		dashboardData.newBadgeNumber = dashboardData.badgeNumber = 0;
-		updateBadge();
+		badgeFactory();
 	}
 	
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
 }
 
-private function updateBadge():void
+protected function updateSelection(value:Boolean, time:Number = -1):void
 {
-	if( dashboardData.badgeNumber <= 0 )
-	{
-		badgeNumber.removeFromParent();
-		return;
-	}
-
-	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
-	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
-	addChild(badgeNumber);
-}
-
-private function updateSelection(value:Boolean, time:Number = -1):void
-{
-	if( titleDisplay.visible == value )
-		return;
-	
-	width = itemWidth * (value ? 2 : 1);
-	titleDisplay.visible = value;
-	
-	// icon animation
-	if( iconDisplay != null )
-	{
-		Starling.juggler.removeTweens(iconDisplay);
-		iconDisplay.x = itemWidth * (value?0.42:0.5);
-		if( value )
-			Starling.juggler.tween(iconDisplay, time==-1?0.5:time, {delay:0.2, scale:appModel.scale*2.6, transition:Transitions.EASE_OUT_BACK});
-		else
-			iconDisplay.scale = appModel.scale * 1.8;
-	}
 }
 
 private function tutorialManager_upgradeHandler(event:Event):void
