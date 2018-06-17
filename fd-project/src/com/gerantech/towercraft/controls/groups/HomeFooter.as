@@ -50,7 +50,7 @@ override protected function initialize():void
 private function addButton(texture:String) : void 
 {
 	var button:IconButton;
-	if( texture == "home/button-inbox" )
+	if( texture == "home/inbox" )
 	{
 		button = inboxButton = new NotifierButton(Assets.getTexture("home/inbox", "gui"));
 		inboxButton.badgeLabel = InboxService.instance.numUnreads.toString();
