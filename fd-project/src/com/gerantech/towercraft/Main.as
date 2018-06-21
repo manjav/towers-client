@@ -40,7 +40,7 @@ override protected function initialize():void
 	AppModel.instance.navigator =  new StackNavigator();
 	this.content = AppModel.instance.navigator;
 
-	addScreen(DASHBOARD_SCREEN,	DashboardLagacyScreen);
+	addScreen(DASHBOARD_SCREEN,	DashboardNewScreen);
 	addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);
 	addScreen(QUESTS_SCREEN, 	QuestMapScreen);
 	addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);

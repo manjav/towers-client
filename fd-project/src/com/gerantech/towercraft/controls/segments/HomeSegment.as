@@ -56,7 +56,6 @@ override public function init():void
 	initializeCompleted = true;
 	layout = new AnchorLayout();
 //	showOffers();
-	
 
 	var league:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
@@ -66,7 +65,7 @@ override public function init():void
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
-	battlesButton = new HomeButton(new Image(Assets.getTexture("home/battle-button", "gui")), 0.9);
+	battlesButton = new HomeButton(new Image(Assets.getTexture("home/battle", "gui")), 0.9);
 	addButton(battlesButton, "button_battles", 540, 970, 0.6);
 
 	var bookLine:HomeBooksLine = new HomeBooksLine();
@@ -89,15 +88,13 @@ override public function init():void
 	if( player.get_battleswins() < 4 )
 		return;
 	
-	var newVersion:Boolean = appModel.loadingManager.serverData.getInt("forceVersion") >= 3100;// =============================remove in next version
-	if( newVersion )// =============================remove in next version
 	addChild(bookLine);
 	
 	if( player.get_battleswins() < 6 )
 		return;
 	
 	var footer:HomeFooter = new HomeFooter();
-	footer.layoutData = new AnchorLayoutData(NaN, NaN, newVersion ? bookLine.height - bookLine.paddingTop + 24 * appModel.scale : 0, 0);
+	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine!=null ? bookLine.height - bookLine.paddingTop + 24 * appModel.scale : 0, 0);
 	addChild(footer);
 
 	dailyButton = new NotifierButton(Assets.getTexture("home/gift", "gui"));
@@ -105,7 +102,6 @@ override public function init():void
 	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
 	dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
 	dailyButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
-	if( newVersion )// =============================remove in next version
 	addChild(dailyButton);
 	
 	
@@ -113,7 +109,7 @@ override public function init():void
 		return;
 	if( player.hasQuests )
 	{
-		questsButton = new HomeButton(new Image(Assets.getTexture("home/quest-button", "gui")), 0.9);
+		questsButton = new HomeButton(new Image(Assets.getTexture("home/operation", "gui")), 0.9);
 		addButton(questsButton, "button_quests", 540, 1200, 0.8);
 	}
 	

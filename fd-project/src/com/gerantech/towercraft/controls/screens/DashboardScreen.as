@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
+import com.gerantech.towercraft.controls.items.DashboardTabLagacyItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -242,7 +242,6 @@ public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Bo
 		pageList.scrollToDisplayIndex(pageIndex, animDuration);
 	if( animDuration > 0 )
 		appModel.sounds.addAndPlaySound("tab");
-	//Starling.juggler.tween(tabBorder, animDuration, {x:pageIndex * tabSize, transition:Transitions.EASE_OUT});
 	appModel.navigator.dispatchEventWith("dashboardTabChanged", false, animDuration);
 }
 
