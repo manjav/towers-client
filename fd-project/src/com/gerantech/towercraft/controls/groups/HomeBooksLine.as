@@ -1,8 +1,7 @@
 package com.gerantech.towercraft.controls.groups 
 {
 import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.controls.items.exchange.ExBookBattleItemRenderer;
-import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.items.exchange.ExBookSlotItemRenderer;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -13,7 +12,6 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
-import flash.filesystem.File;
 import starling.events.Event;
 
 /**
@@ -26,13 +24,7 @@ public var paddingTop:Number;
 private var listLayout:feathers.layout.TiledRowsLayout;
 private var list:feathers.controls.List;
 
-public function HomeBooksLine()
-{
-	super();
-    height = 290 * appModel.scale;
-	paddingTop = 40 * appModel.scale;
-}
-
+public function HomeBooksLine(){super();}
 override protected function initialize():void 
 {
 	super.initialize();
@@ -45,9 +37,9 @@ override protected function initialize():void
 	listLayout.verticalAlign = VerticalAlign.BOTTOM;
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
-	listLayout.padding = listLayout.gap = 4 * appModel.scale;
+	//listLayout.padding = listLayout.gap = 3 * appModel.scale;
 	listLayout.paddingTop = paddingTop;
-	listLayout.typicalItemWidth = Math.floor((1080 * appModel.scale-listLayout.gap * 5) / 4) ;
+	listLayout.typicalItemWidth = Math.floor(stage.stageWidth / listLayout.requestedColumnCount);
 	listLayout.typicalItemHeight = height - paddingTop - listLayout.gap;
 
 	list = new List();
@@ -55,8 +47,8 @@ override protected function initialize():void
 	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
-	list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBattleItemRenderer();}
-	list.dataProvider = new ListCollection([114, 113, 112, 111]);
+	list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookSlotItemRenderer();}
+	list.dataProvider = new ListCollection([111, 112, 113, 114]);
 	addChild(list);
 }
 

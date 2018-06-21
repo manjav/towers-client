@@ -8,11 +8,9 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
-import flash.utils.Dictionary;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.utils.Dictionary;
 import starling.display.Image;
 import starling.events.Event;
 
@@ -35,12 +33,6 @@ override protected function initialize():void
 	height = padding * 4;
 	layout = new AnchorLayout();
 	
-	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
-	indicators[ResourceType.POINT].width = 160 * appModel.scale;
-	indicators[ResourceType.POINT].addEventListener(Event.SELECT, indicators_selectHandler);
-	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	addChild(indicators[ResourceType.POINT]);
-	
 	indicators[ResourceType.CURRENCY_HARD] = new Indicator("rtl", ResourceType.CURRENCY_HARD);
 	indicators[ResourceType.CURRENCY_HARD].addEventListener(Event.SELECT, indicators_selectHandler);
 	indicators[ResourceType.CURRENCY_HARD].layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN);
@@ -54,7 +46,7 @@ override protected function initialize():void
 	indicators[ResourceType.KEY] = new Indicator("ltr", ResourceType.KEY, false, false);
 	indicators[ResourceType.KEY].width = 160 * appModel.scale;
 	indicators[ResourceType.KEY].addEventListener(Event.SELECT, indicators_selectHandler);
-	indicators[ResourceType.KEY].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding*2.4+indicators[ResourceType.POINT].width);
+	indicators[ResourceType.KEY].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
 	addChild(indicators[ResourceType.KEY]);
 
 	if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
@@ -77,13 +69,15 @@ protected function playerResources_changeHandler(event:CoreEvent):void
 
 public function updateIndicators():void
 {
-	indicators[ResourceType.KEY].visible = indicators[ResourceType.POINT].visible = !player.inTutorial();
+	if( indicators[ResourceType.KEY] != null )
+		indicators[ResourceType.KEY].visible = !player.inTutorial();
+	if( indicators[ResourceType.POINT] != null )
+		indicators[ResourceType.POINT].visible = !player.inTutorial();
 	
-	indicators[ResourceType.POINT].setData(0, player.get_point(), NaN);
-	indicators[ResourceType.CURRENCY_SOFT].setData(0, player.get_softs(), NaN);
-	indicators[ResourceType.CURRENCY_HARD].setData(0, player.get_hards(), NaN);
-	indicators[ResourceType.KEY].setData(0, player.get_keys(), NaN);
-}		
+	for (var k:Object in indicators) 
+		indicators[k].setData(0, player.getResource(k as int), NaN);
+}
+	
 
 private function indicators_selectHandler(event:Event):void
 {

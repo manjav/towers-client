@@ -186,7 +186,7 @@ private function getListData():ListCollection
 				}
 				
 			}
-			else if( p == 2 )
+			else if( p == 1 )
 			{
 				var bs:Vector.<Building> = player.buildings.values();
 				for each(var b:Building in bs)

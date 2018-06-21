@@ -2,7 +2,9 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
+import com.gerantech.towercraft.controls.segments.EventsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+import com.gerantech.towercraft.controls.segments.HomeNewSegment;
 import com.gerantech.towercraft.controls.segments.HomeSegment;
 import com.gerantech.towercraft.controls.segments.LobbyBaseChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
@@ -56,14 +58,17 @@ override protected function commitData():void
 		case SegmentType.S0_SHOP:
 			segment = new ExchangeSegment();
 			break;
-		case SegmentType.S1_MAP:
-			segment = new HomeSegment();
-			break;
-		case SegmentType.S2_DECK:
+		case SegmentType.S1_DECK:
 			segment = new BuildingsSegment();
+			break;
+		case SegmentType.S2_HOME:
+			segment = new HomeNewSegment();
 			break;
 		case SegmentType.S3_SOCIALS:
 			segment = new SocialSegment();
+			break;
+		case SegmentType.S4_EVENTS:
+			segment = new EventsSegment();
 			break;
 		case SegmentType.S10_LOBBY_MAIN:
 			segment = new LobbyChatSegment();
