@@ -89,7 +89,6 @@ protected function iconFactory() : Image
 	iconDisplay.alignPivot();
 	iconDisplay.x = width * 0.5;
 	iconDisplay.y = height * 0.5;
-	iconDisplay.scale = appModel.scale * 2;
 	iconDisplay.pixelSnapping = false;
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
 	addChild(iconDisplay); 

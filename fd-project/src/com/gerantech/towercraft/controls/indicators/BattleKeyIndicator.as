@@ -49,7 +49,7 @@ override protected function initialize():void
 	var bgImage:ImageLoader = new ImageLoader();
 	bgImage.source = Assets.getTexture("theme/indicator-background", "gui");
 	bgImage.alpha = 0.7;
-	bgImage.scale9Grid = new Rectangle(4, 6, 2, 2);
+	bgImage.scale9Grid = new Rectangle(8, 12, 4, 4);
 	bgImage.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(bgImage);
 

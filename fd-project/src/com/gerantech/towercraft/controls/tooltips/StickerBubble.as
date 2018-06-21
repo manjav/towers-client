@@ -29,9 +29,8 @@ package com.gerantech.towercraft.controls.tooltips
 			super.initialize();
 			touchable = false;
 			
-			var sk:Image = new Image(Assets.getTexture("tooltip-bg-"+(inverse?"top-left":"bot-right"), "gui"));
-			//sk.scale9Grid = new Rectangle(halign=="left"?19:8, valign=="top"?18:7, 1, 1);
-			sk.scale9Grid = new Rectangle(inverse?19:7, inverse?19:7, 1, 1);
+			var sk:Image = new Image(Assets.getTexture("tooltip-bg-" + (inverse?"top-left":"bot-right"), "gui"));
+			sk.scale9Grid = new Rectangle(inverse?38:14, inverse?38:14, 2, 2);
 			backgroundSkin = sk;
 			
 			var hlayout:HorizontalLayout = new HorizontalLayout();
@@ -51,7 +50,7 @@ package com.gerantech.towercraft.controls.tooltips
 		}
 		public function set label(value:String):void
 		{
-			if(_label == value)
+			if( _label == value )
 				return;
 			_label = value;
 			if(labelDisplay)

@@ -50,7 +50,7 @@ override protected function initialize():void
 	this.isQuickHitAreaEnabled = false;
 	layout = new AnchorLayout();
 	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background", "gui"));
-	skin.scale9Grid = new Rectangle(4, 6, 2, 2);
+	skin.scale9Grid = BaseMetalWorksMobileTheme.INDICATORS_SCALE9_GRID;
 	backgroundSkin = skin;
 	
 	var padding:int = 12 * appModel.scale;

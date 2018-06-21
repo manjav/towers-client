@@ -44,7 +44,7 @@ override protected function initialize():void
 	
 	var insideBG:ImageLoader = new ImageLoader();
 	insideBG.alpha = 0.8;
-	insideBG.scale9Grid = new Rectangle(2, 2, 1, 1);
+	insideBG.scale9Grid = new Rectangle(4, 4, 2, 2);
 	insideBG.maintainAspectRatio = false;
 	insideBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
 	insideBG.layoutData = new AnchorLayoutData(padding * 6, padding, padding * 1.2, padding);
@@ -62,7 +62,7 @@ override protected function initialize():void
 	var downBG:ImageLoader = new ImageLoader();
 	downBG.alpha = 0.8;
 	downBG.color = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA
-	downBG.scale9Grid = new Rectangle(2, 2, 1, 1);
+	downBG.scale9Grid = new Rectangle(4, 4, 2, 2);
 	downBG.maintainAspectRatio = false;
 	downBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
 	downBG.layoutData = new AnchorLayoutData(NaN, padding * 1.3, padding * 1.5, padding * 1.3);

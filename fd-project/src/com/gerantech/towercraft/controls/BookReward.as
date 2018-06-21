@@ -56,7 +56,7 @@ override protected function initialize():void
 	iconContainer.layout = new AnchorLayout();
 	
 	iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
-	Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(10, 10, 56, 37);
+	Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(20, 20, 112, 74);
 	
 	var ic:int = ResourceType.isBuilding(type) ? BuildingType.get_category(type) : type;
 	var iconDisplay:ImageLoader = new ImageLoader();

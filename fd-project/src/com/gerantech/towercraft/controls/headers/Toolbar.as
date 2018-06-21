@@ -5,10 +5,9 @@ import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
-
-import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 
 import feathers.layout.AnchorLayout;
@@ -27,7 +26,7 @@ override protected function initialize():void
 	super.initialize();
 
 	var gradient:Image = new Image(Assets.getTexture("theme/gradeint-top", "gui"));
-	gradient.scale9Grid = new Rectangle(1,1,7,7);
+	gradient.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
 	gradient.color = 0x1122;
 	backgroundSkin = gradient;
 	backgroundSkin.touchable = false;

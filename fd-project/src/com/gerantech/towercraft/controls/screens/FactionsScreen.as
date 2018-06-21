@@ -64,7 +64,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
-	tiledBG.tileGrid = new Rectangle(1, 1, 128, 128);
+	tiledBG.tileGrid = new Rectangle(1, 1, 240, 240);
 	backgroundSkin = tiledBG;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));

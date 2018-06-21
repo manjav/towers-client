@@ -18,6 +18,7 @@ import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.InvokeEvent;
 import flash.events.UncaughtErrorEvent;
+import flash.geom.Rectangle;
 import flash.utils.getTimer;
 import starling.core.Starling;
 
@@ -93,16 +94,17 @@ private function loaderInfo_completeHandler(event:Event):void
 private function starStarling():void
 {
 	Starling.multitouchEnabled = true;
-	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, null, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
-	//this.starling.viewPort = new Rectangle(0, 0, stage.stageWidth*x, stage.stageHeight*y);
+	var viewPort:Rectangle = new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
+	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 	this.starling.supportHighResolutions = true;
 	//this.starling.showStatsAt("right", "bottom", 1.2);
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
-    new ScreenDensityScaleFactorManager(this.starling);
-	
-	AppModel.instance.scale = this.starling.stage.stageWidth/1080;
+	this.starling.stage.stageWidth  = Math.max(1080, 1920 * (stage.fullScreenWidth / stage.fullScreenHeight));
+	this.starling.stage.stageHeight = 1920;trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight)
+   // new ScreenDensityScaleFactorManager(this.starling);
+	AppModel.instance.scale = 1//this.starling.stage.stageHeight/1920;
 }
 
 private function starling_rootCreatedHandler(event:Object):void

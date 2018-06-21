@@ -1,28 +1,14 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.BattleData;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import starling.display.Sprite;
-
-import flash.utils.setTimeout;
-
 import feathers.controls.AutoSizeMode;
 import feathers.controls.LayoutGroup;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.DisplayObject;
-import starling.events.Event;
 
 public class BattleStartOverlay extends BaseOverlay
 {
@@ -82,7 +68,7 @@ override protected function initialize():void
 
 public function disappear():void
 {
-	Starling.juggler.tween(container, 0.6, {alpha:0, y:-padding*4, transition:Transitions.EASE_IN_BACK});
+	Starling.juggler.tween(container, 0.6, {alpha:0, y: -padding * 4, transition:Transitions.EASE_IN_BACK});
 	Starling.juggler.tween(overlay, 0.5, {alpha:0});
 	setTimeout(close, 800, true)
 }

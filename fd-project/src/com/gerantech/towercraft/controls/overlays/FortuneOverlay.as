@@ -47,7 +47,7 @@ override protected function initialize():void
 	{
 		var spinner:Spinner = new Spinner();
 		spinner.display = OpenBookOverlay.factory.buildArmatureDisplay("book-" + (51 + i));
-		spinner.scaleFactor = OpenBookOverlay.getBookScale(51 + i);
+		spinner.scaleFactor = OpenBookOverlay.getBookScale(51 + i) * 2;
 		StarlingArmatureDisplay(spinner.display).animation.gotoAndStopByProgress("appear", 1);
 		StarlingArmatureDisplay(spinner.display).animation.timeScale = 0;
 		spinner.display.touchable = false;

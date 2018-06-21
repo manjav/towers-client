@@ -30,14 +30,14 @@ override protected function initialize():void
 	
 	var bgImage:Image = new Image(Assets.getTexture("theme/check-up-icon", "gui"));
 	bgImage.alpha = 0.6;
-	bgImage.scale9Grid = new Rectangle(4, 4, 4, 4);
+	bgImage.scale9Grid = new Rectangle(8, 8, 8, 8);
 	backgroundSkin = bgImage;
 	
 	var padding:int = 16 * appModel.scale;
 	layout = new AnchorLayout();
 	
 	var messageLabel:RTLLabel =  new RTLLabel("زمان باقیمانده", 1, "center", null, false, null, 0.8);
-	messageLabel.layoutData = new AnchorLayoutData(0,padding,NaN,padding, NaN, -22 * appModel.scale);
+	messageLabel.layoutData = new AnchorLayoutData(0, padding, NaN, padding, NaN, -22 * appModel.scale);
 	addChild(messageLabel);
 	
 	timeLabel = new RTLLabel("00:00", 1, "center");

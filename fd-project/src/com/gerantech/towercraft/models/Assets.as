@@ -75,18 +75,7 @@ package com.gerantech.towercraft.models
 		private static function getTextureByBitmap(name:String):Texture
 		{
 			if (allTextures[name] == undefined)
-			{
-				/*if( name == "troopsAtlasTexture" )
-				{
-					var atlasBitmapData:BitmapData = Bitmap(new Assets[name]()).bitmapData;
-					allTextures[name] = Texture.fromBitmapData(atlasBitmapData, false, false, 2);
-					atlasBitmapData.dispose();
-				}
-				else
-				{	*/
-					allTextures[name] = Texture.fromAtfData(new Assets[name](), name=="guiAtlasTexture"?2:1, false);
-				//}
-			}
+				allTextures[name] = Texture.fromAtfData(new Assets[name](), 1, false);
 			return allTextures[name];
 		}
 		

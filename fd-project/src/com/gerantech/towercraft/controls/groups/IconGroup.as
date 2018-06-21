@@ -34,7 +34,7 @@ override protected function initialize():void
 	var skin:ImageLoader = new ImageLoader();
 	skin.source = Assets.getTexture("theme/popup-inside-background-skin", "gui")
 	skin.alpha = 0.8;
-	skin.scale9Grid = new Rectangle(2,2,1,1);
+	skin.scale9Grid = new Rectangle(4, 4, 2, 2);
 	skin.color = 0x9bb7d2;
 	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(skin);

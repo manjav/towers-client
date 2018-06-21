@@ -9,6 +9,7 @@ import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -48,7 +49,7 @@ override protected function initialize() : void
 		return;
 
 	var gradient:Image = new ImageSkin( Assets.getTexture("theme/gradeint-right", "gui") );
-	gradient.scale9Grid = new Rectangle(1, 1, 7, 7);
+	gradient.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
     gradient.alpha = 0.6;
 	backgroundSkin = gradient;

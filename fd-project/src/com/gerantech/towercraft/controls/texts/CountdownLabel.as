@@ -35,7 +35,7 @@ override protected function initialize() : void
 	
 	var skin:ImageLoader = new ImageLoader();
 	skin.source = Assets.getTexture("theme/indicator-background", "gui");
-	skin.scale9Grid = new Rectangle(4, 6, 2, 2);
+	skin.scale9Grid = new Rectangle(8, 12, 4, 4);
 	skin.layoutData = new AnchorLayoutData(padding, 0, padding * 1.5, height * 0.5);
 	skin.alpha = 0.9;
 	addChild(skin);

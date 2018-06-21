@@ -3,14 +3,10 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.Fields;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.utils.lists.PlaceDataList;
-
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -28,9 +24,10 @@ private var intervalId:uint;
 public function QuestMapItemRenderer()
 {
 	super();
-	height = 800 * appModel.scale;
+	width = stageWidth;
+	height = (560 / 756) * width;
 	container = new Sprite();
-	container.scale = appModel.scale * 1.42857;
+	container.scale = width / 756;
 	addChild(container);
 }
 
@@ -55,13 +52,12 @@ override protected function commitData():void
 		var score:int = player.quests.get(itemIndex);
 		//trace(index , player.quests.get(index) )
 		
-
 		var color:String = "locked";
 		if ( itemIndex < questIndex )
 			color = "passed";
 		else if( itemIndex == questIndex )
 			color = "current";
-
+		
 		var pin:Image = new Image(Assets.getTexture("map-pin-" + color, "quests"));
 		pin.alignPivot();
 		pin.touchable = false;
@@ -82,7 +78,7 @@ override protected function commitData():void
 			pinButton.addChild(shadow);	
 			
 			pinButton.addChild(pin);
-
+			
 			/*if ( score > 0 )
 			{
 				var star_0:Image = new Image(Assets.getTexture("star-center", "quests"));

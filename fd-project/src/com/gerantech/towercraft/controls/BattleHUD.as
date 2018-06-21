@@ -16,6 +16,7 @@ import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.StickerType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -66,7 +67,7 @@ override protected function initialize():void
 		return;
 
 	var gradient:ImageLoader = new ImageLoader();
-	gradient.scale9Grid = new Rectangle(1, 1, 7, 7);
+	gradient.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
 	gradient.alpha = 0.5;
 	gradient.width = 440 * appModel.scale;

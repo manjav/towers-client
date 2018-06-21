@@ -44,7 +44,7 @@ package com.gerantech.towercraft.controls.tooltips
 			var halign:String = position.x < stage.stageWidth * 0.5 ? "left" : "right";
 			var valign:String = position.y < stage.stageHeight * 0.5 ? "top" : "bot";
 			var skin:Image = new Image(Assets.getTexture("tooltip-bg-"+valign+"-"+halign, "gui"));
-			skin.scale9Grid = new Rectangle(halign=="left"?19:7, valign=="top"?18:7, 1, 1);
+			skin.scale9Grid = new Rectangle(halign=="left"?38:14, valign=="top"?36:14, 2, 2);
 			backgroundSkin = skin;
 			layout = new AnchorLayout();
 			

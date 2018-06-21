@@ -39,14 +39,14 @@ override public function init():void
 	inPadding = padding * 0.5;
 
 	meSkin = new ImageLoader();
-	meSkin.scale9Grid = new Rectangle(22, 17, 4, 4);
+	meSkin.scale9Grid = new Rectangle(44, 34, 8, 8);
 	meSkin.visible = false;
 	meSkin.source = Assets.getTexture("theme/balloon-me", "gui");
 	meSkin.layoutData = new AnchorLayoutData( padding * 0.1, padding * 0.1, padding * 0.1, otherPadding - padding * 0.9 );
 	addChild(meSkin);
 	
 	otherSkin = new ImageLoader();
-	otherSkin.scale9Grid = new Rectangle(22, 17, 4, 4);
+	otherSkin.scale9Grid = meSkin.scale9Grid
 	otherSkin.visible = false;
 	otherSkin.source = Assets.getTexture("theme/balloon-other", "gui");
 	otherSkin.layoutData = new AnchorLayoutData( padding * 0.1, otherPadding - padding * 0.9, padding * 0.1, padding * 0.1 );

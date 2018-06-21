@@ -15,7 +15,7 @@ public function AchievedItem(texture:Texture, count:int, size:int = 130, prefix:
 	size = size * AppModel.instance.scale;
 
 	var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), size * AppModel.instance.scale * 1.9, 0xFFFFFF, "left");
+	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), size, 0xFFFFFF, "left");
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.text = prefix + count;
 	labelDisplay.y = -size * 0.75;

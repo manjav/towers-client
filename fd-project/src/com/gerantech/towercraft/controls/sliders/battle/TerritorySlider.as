@@ -29,7 +29,7 @@ override protected function initialize():void
 	
 	var bgImage:Image = new Image(Assets.getTexture("healthbar-bg--1", "gui"));
 	bgImage.alpha = 0.6;
-	bgImage.scale9Grid = new Rectangle(2, 4, 2, 3);
+	bgImage.scale9Grid = new Rectangle(4, 8, 4, 6);
 	backgroundSkin = bgImage;
 	
 	layout = new AnchorLayout();

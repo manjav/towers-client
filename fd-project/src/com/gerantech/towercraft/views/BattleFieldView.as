@@ -1,22 +1,16 @@
 package com.gerantech.towercraft.views
 {
-import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.managers.DropTargets;
 import com.gerantech.towercraft.managers.net.ResponseSender;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
-import starling.display.Quad;
-
-import flash.geom.Rectangle;
-
-import feathers.layout.AnchorLayout;
-
+import starling.core.Starling;
 import starling.display.Image;
+import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
 
-public class BattleFieldView extends TowersLayout
+public class BattleFieldView extends Sprite
 {
 public var battleData:BattleData;
 
@@ -31,27 +25,42 @@ public var buildingsContainer:Sprite;
 public var guiImagesContainer:Sprite;
 public var guiTextsContainer:Sprite;
 
-public function BattleFieldView(){}
-override protected function initialize():void
+public function BattleFieldView()
 {
-	super.initialize();
-	layout = new AnchorLayout();
-	pivotX = 540;
-	pivotY = 960;
-	x = pivotX * appModel.scale;
-	y = pivotY * appModel.scale + (stage.stageHeight - 1920 * appModel.scale) * 0.5;
-	scale = appModel.scale * 0.8;
-
+	super();
+	
+	// map alignment
+	var _width:Number = 1080;
+	var _height:Number = 1920;
+	var aspectRatio:Number = _width / _height;
+	if( Starling.current.stage.stageWidth / Starling.current.stage.stageHeight < aspectRatio )
+	{
+		_width = Starling.current.stage.stageWidth;
+		_height = Starling.current.stage.stageWidth * aspectRatio;
+		x = pivotX = _width * 0.5;
+		pivotY = _height * 0.5;
+		y = pivotY + (Starling.current.stage.stageHeight - _height ) * 0.5;
+	}
+	else
+	{
+		_height = Starling.current.stage.stageHeight;
+		_width = Starling.current.stage.stageHeight * aspectRatio;
+		y = pivotY = _height * 0.5;
+		pivotX = _width * 0.5;
+		x = pivotX + (Starling.current.stage.stageWidth - _width ) * 0.5;
+	}
+	scale = 0.8;
+	
 	// tile grass ground
 	//var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
     var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
-	tiledBG.x = -1080 * 0.25;
-	tiledBG.y = -1920 * 0.25;
-	tiledBG.width = 1080 * 2;
-	tiledBG.height = 1920 * 2;// 2600;
-	//tiledBG.tileGrid = new Rectangle(1, 1, 228, 228);
+	tiledBG.x = -_width * 0.5;
+	tiledBG.y = -_height * 0.5;
+	tiledBG.width = _width * 2;
+	tiledBG.height = _height * 2;
+	//tiledBG.tileGrid = new Rectangle(1, 1, 230, 230);
 	addChild(tiledBG);
-
+	
 	roadsContainer = new Sprite();
 	troopsContainer = new Sprite();
 	elementsContainer = new Sprite();
@@ -64,14 +73,14 @@ override protected function initialize():void
 	troopsContainer.addEventListener(Event.REMOVED, battleField_removedHandler);
 }
 
-private function battleField_addedHandler(event:Event):void
+private function battleField_addedHandler(event:Event) : void
 {
 	var troopView:TroopView = event.target as TroopView;
 	if( troopView == null )
 		return;
 	troopsList.push(troopView);
 }
-private function battleField_removedHandler(event:Event):void
+private function battleField_removedHandler(event:Event) : void
 {
 	var troopView:TroopView = event.target as TroopView;
 	if( troopView == null )
@@ -79,7 +88,7 @@ private function battleField_removedHandler(event:Event):void
 	troopsList.removeAt(troopsList.indexOf(troopView));
 }		
 
-public function createPlaces(battleData:BattleData):void
+public function createPlaces(battleData:BattleData) : void
 {
 	this.battleData = battleData;
 	responseSender = new ResponseSender(battleData.room);

@@ -34,7 +34,7 @@ override protected function initialize():void
 	skin = new ImageSkin(Assets.getTexture("theme/building-button", "gui"));
 	skin.setTextureForState("normal", Assets.getTexture("theme/building-button", "gui"));
 	skin.setTextureForState("locked", Assets.getTexture("theme/building-button-disable", "gui"));
-	skin.scale9Grid = new Rectangle(10, 10, 56, 37);
+	skin.scale9Grid = new Rectangle(20, 20, 112, 74);
 	backgroundSkin = skin;
 	
 	layout= new AnchorLayout();

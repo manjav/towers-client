@@ -63,7 +63,6 @@ override protected function commitData():void
 		iconDisplay.y = height * 0.35;
 		iconDisplay.alignPivot();
 		iconDisplay.pixelSnapping = false;
-		iconDisplay.scale = appModel.scale * 2;
 		addChild(iconDisplay);
 		
 		labelDisplay = new BitmapFontTextRenderer();

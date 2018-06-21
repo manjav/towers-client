@@ -23,7 +23,7 @@ package com.gerantech.towercraft.controls.items
 			super.initialize();
 			
 			var sk:Image = new Image(Assets.getTexture("sticker-item", "gui"));
-			sk.scale9Grid = new Rectangle(7, 7, 1, 1);
+			sk.scale9Grid = new Rectangle(14, 14, 2, 2);
 			backgroundSkin = sk;
 			layout = new AnchorLayout();
 			
