@@ -10,6 +10,7 @@ import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
+import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
@@ -63,7 +64,7 @@ override public function init():void
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	leaguesButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0;
-	addButton(leaguesButton, width * 0.5, height * 0.50, 0.4, goUp);
+	addButton(leaguesButton, stageWidth * 0.5, height * 0.50, 0.4, goUp);
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.52, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.50, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 	
@@ -75,21 +76,21 @@ override public function init():void
 	giftButton = new HomeHeaderButton();
 	giftButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	giftButton.height = padding * 12;
-	giftButton.width = width * 0.45;
+	giftButton.width = stageWidth * 0.45;
 	giftButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
 	addChild(giftButton);
 
 	tasksButton = new HomeTasksButton();
 	tasksButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	tasksButton.height = padding * 12;
-	tasksButton.width = width * 0.45;
+	tasksButton.width = stageWidth * 0.45;
 	tasksButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
 	addChild(tasksButton);
 
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
 	battlesButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-	addButton(battlesButton, width * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
+	addButton(battlesButton, stageWidth * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
 
 	var bookLine:HomeBooksLine = new HomeBooksLine();
     bookLine.height = padding * 24;

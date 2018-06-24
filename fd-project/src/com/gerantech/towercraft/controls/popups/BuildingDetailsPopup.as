@@ -66,7 +66,8 @@ override protected function transitionInCompleted():void
 	upgradeButton.count = building.get_upgradeCost();
 	upgradeButton.type = ResourceType.CURRENCY_SOFT;
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
-	upgradeButton.height = 110*appModel.scale;
+	upgradeButton.width = 380 * appModel.scale;
+	upgradeButton.height = 110 * appModel.scale;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.isEnabled = player.resources.get(buildingType) >= building.get_upgradeCards();

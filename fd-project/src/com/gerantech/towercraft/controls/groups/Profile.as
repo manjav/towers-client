@@ -6,6 +6,8 @@ import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
+import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -43,6 +45,10 @@ override protected function initialize() : void
 	var skin:Image = new Image(Assets.getTexture("home/profile-sliced", "gui"));
 	skin.scale9Grid = new Rectangle(140, 50, 54, 280);
 	backgroundSkin = skin;
+	var hitObject:SimpleLayoutButton = new SimpleLayoutButton();
+	hitObject.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	hitObject.addEventListener(Event.TRIGGERED, function(event:Event):void { appModel.navigator.addPopup( new ProfilePopup({name:player.nickName, id:player.id}) ); });
+	addChild(hitObject);
 	
 	var topLine:LayoutGroup = new LayoutGroup();
 	topLine.height = height * 0.32;
@@ -55,6 +61,7 @@ override protected function initialize() : void
 	// player name in dept rect
 	var scale9:Rectangle = new Rectangle(16, 16, 4, 4);
 	var namePlace:LayoutGroup = new LayoutGroup();
+	namePlace.touchable = false;
 	namePlace.layoutData = new HorizontalLayoutData(100);
 	namePlace.layout = new AnchorLayout();
 	namePlace.backgroundSkin = new Image(Assets.getTexture("home/profile-rect", "gui"));
@@ -105,16 +112,18 @@ override protected function initialize() : void
 	addChild(botLine);
 	
 	var clanIconDisplay:ImageLoader = new ImageLoader();
+	clanIconDisplay.touchable = false;
 	clanIconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(SFSConnection.instance.lobbyManager.emblem + ""), "gui");
 	botLine.addChild(clanIconDisplay);
 	
 	var lobbyName:String = SFSConnection.instance.lobbyManager.lobby != null ? SFSConnection.instance.lobbyManager.lobby.name : loc("lobby_no");
 	var clanNameDisplay:RTLLabel = new RTLLabel(lobbyName, 0xDCCAB4, "left", null, false, null, 0.8);
+	clanNameDisplay.touchable = false;
 	clanNameDisplay.layoutData = new HorizontalLayoutData(100);
 	botLine.addChild(clanNameDisplay);
 	
 	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.XP] = new IndicatorXP("ltr", ResourceType.XP, true, false);
+	indicators[ResourceType.XP] = new IndicatorXP("ltr");
 	indicators[ResourceType.XP].name = "xpIndicator";
 	indicators[ResourceType.XP].setData(8000, player.get_xp(), 12000);
 	indicators[ResourceType.XP].width = padding * 6;

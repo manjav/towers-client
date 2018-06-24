@@ -95,7 +95,7 @@ protected function iconFactory(image:String) : ImageLoader
 		return null;
 	iconDisplay = new ImageLoader();
 	iconDisplay.source = Assets.getTexture("home/" + image, "gui");
-	iconDisplay.layoutData = new AnchorLayoutData(padding * 0.1, padding * 0.35, padding * 0.35);
+	iconDisplay.layoutData = new AnchorLayoutData(padding * 0.2, padding * 0.25, padding * 0.25);
 	addChild(iconDisplay);
 	return iconDisplay;
 }
@@ -122,7 +122,7 @@ protected function titleFactory(text:String) : ShadowLabel
 		return null;
 	}
 	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, 1.3);
-	titleDisplay.shadowDistance = appModel.theme.gameFontSize * 0.04;
+	titleDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
 	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -padding * 1.6, -padding * 0.25);
 	addChild(titleDisplay);
 	return titleDisplay;
