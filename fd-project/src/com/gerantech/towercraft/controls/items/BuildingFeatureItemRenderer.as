@@ -25,8 +25,8 @@ override protected function commitData():void
 	var newValue:Number = game.calculator.get(feature, building.type, building.get_level() + 1, building.improveLevel) * game.calculator.getUIFactor(feature);
 	var oldValue:Number = game.calculator.get(feature, building.type, building.get_level() + 0, building.improveLevel) * game.calculator.getUIFactor(feature);
 
-	var diff:Number = newValue - oldValue;
-	valueDisplay.text = "<span>" + oldValue.toFixed(2) + (diff == 0?"":(' <font color="#00ff00"> + ' + Math.abs(diff).toFixed(2)+'</font>')) + "</span>";
+	var diff:Number = Math.round(Math.abs(newValue - oldValue));
+	valueDisplay.text = "<span>" + Math.round(oldValue) + (diff == 0?"":(' <font color="#00ff00"> + ' +  diff + '</font>')) + "</span>";
 	valueDisplay.isHTML = true;
 }
 }
