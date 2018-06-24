@@ -57,8 +57,8 @@ override protected function initialize() : void
 	addChild(backgroundDisplay);
 
 	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.3);
-	labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.03;
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 0.5);
+	labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 0.4);
 	addChild(labelDisplay);	
 }
 public function showArrow():void

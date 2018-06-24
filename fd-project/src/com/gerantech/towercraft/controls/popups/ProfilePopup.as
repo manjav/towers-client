@@ -4,6 +4,8 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
+import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.buttons.IndicatorXP;
 import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
 import com.gerantech.towercraft.controls.items.ProfileFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -14,6 +16,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -27,6 +30,7 @@ import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.TiledRowsLayout;
 import flash.geom.Rectangle;
+import flash.utils.Dictionary;
 import starling.core.Starling;
 import starling.events.Event;
 
@@ -57,8 +61,8 @@ public function ProfilePopup(user:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.10, stage.stageWidth*0.9, stage.stageHeight*0.8);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.10, stage.stageWidth * 0.9, stage.stageHeight * 0.8);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.05, stage.stageWidth * 0.9, stage.stageHeight * 0.9);
 	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void
@@ -100,15 +104,15 @@ private function showProfile():void
 	addChild(lobbyIconDisplay);
 	
 	var nameDisplay:ShadowLabel = new ShadowLabel(user.name, 1, 0, null, null, true, "center", 1);
-	nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
+	nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(nameDisplay);
 	
-	var tagDisplay:RTLLabel = new RTLLabel("#"+playerData.getText("tag") + (adminMode?(" => "+user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.8);
-	tagDisplay.layoutData = new AnchorLayoutData(padding*2.6, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
+	var tagDisplay:RTLLabel = new RTLLabel("#" + playerData.getText("tag") + (adminMode?(" => " + user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.8);
+	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.6, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(tagDisplay);
 	
 	var lobbyNameDisplay:RTLLabel = new RTLLabel(user.ln, 0xAABBBB, null, "ltr", true, null, 0.8);
-	lobbyNameDisplay.layoutData = new AnchorLayoutData(padding*5, appModel.isLTR?NaN:padding*7, NaN, appModel.isLTR?padding*7:NaN);
+	lobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 5, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(lobbyNameDisplay);
 	
 	var closeButton:CustomButton = new CustomButton();
@@ -117,7 +121,7 @@ private function showProfile():void
 	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
 	addChild(closeButton);
 
-	closeButton.y = height - closeButton.height - padding*1.6;
+	closeButton.y = height - closeButton.height - padding * 1.6;
 	closeButton.alpha = 0;
 	closeButton.height = 110 * appModel.scale;
 	Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
@@ -137,7 +141,7 @@ private function showProfile():void
 		AnchorLayoutData(issuesButton.iconLayout).right = padding * 0.4;
 		issuesButton.icon = Assets.getTexture("button-inbox", "gui");
 		issuesButton.width = issuesButton.height = padding * 3
-		issuesButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding*5:NaN, NaN, appModel.isLTR?NaN:padding*5);
+		issuesButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 5:NaN, NaN, appModel.isLTR?NaN:padding * 5);
 		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(issuesButton);
 		
@@ -160,13 +164,40 @@ private function showProfile():void
 			close();
 		}
 	}
+	
+	var featureCollection:ListCollection = new ListCollection();
+	var features:SFSArray = playerData.getSFSArray("features") as SFSArray;
+	var xp:int;
+	var point:int;
+	for ( var i:int = 0; i < features.size(); i ++ )
+	{
+		if( features.getSFSObject(i).getInt("type") == ResourceType.XP )
+			xp = features.getSFSObject(i).getInt("count");
+		else if( features.getSFSObject(i).getInt("type") == ResourceType.POINT )
+			point = features.getSFSObject(i).getInt("count");
+		else
+			featureCollection.addItem(features.getSFSObject(i));
+	}
 
+	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
+	indicators[ResourceType.XP] = new IndicatorXP("ltr");
+	indicators[ResourceType.XP].setData(0, xp, NaN);
+	indicators[ResourceType.XP].width = padding * 7;
+	indicators[ResourceType.XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
+	addChild(indicators[ResourceType.XP]);
+	
+	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
+	indicators[ResourceType.POINT].width = padding * 7;
+	indicators[ResourceType.POINT].setData(0, point, NaN);
+	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(padding * 3.5, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
+	addChild(indicators[ResourceType.POINT]);
+	
 	// features
 	var featureList:List = new List();
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new ProfileFeatureItemRenderer(); }
-	featureList.dataProvider = new ListCollection(SFSArray(playerData.getSFSArray("features")).toArray());
-	featureList.layoutData = new AnchorLayoutData(padding*7, padding*2, NaN, padding*2);
+	featureList.dataProvider = featureCollection;
+	featureList.layoutData = new AnchorLayoutData(padding * 7, padding * 2, NaN, padding * 2);
 	addChild(featureList);
 	
 	// buildings
@@ -181,7 +212,7 @@ private function showProfile():void
 	var buildingslist:FastList = new FastList();
 	buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	buildingslist.layout = listLayout;
-	buildingslist.layoutData = new AnchorLayoutData(padding * 7 + featureList.dataProvider.length * padding * 1.8, 0, padding * 5, 0);
+	buildingslist.layoutData = new AnchorLayoutData(padding * 7 + featureCollection.length * padding * 1.8, 0, padding * 5, 0);
 	buildingslist.itemRendererFactory = function():IListItemRenderer { return new ProfileBuildingItemRenderer(); }
 	buildingslist.dataProvider = getBuildingData();
 	addChild(buildingslist);

@@ -118,7 +118,7 @@ private function addedToStageHandler(event:Event):void
 	parent.addChild(logsContainer);
 }		
 
-public function runBattle(cancelable:Boolean=false, requestField:FieldData = null, spectatedUser:String = null, isFriendly:Boolean = false) : void
+public function runBattle(cancelable:Boolean = false, requestField:FieldData = null, spectatedUser:String = null, isFriendly:Boolean = false) : void
 {
 	var item:StackScreenNavigatorItem = getScreen( Main.BATTLE_SCREEN );
     item.properties.isFriendly = isFriendly;

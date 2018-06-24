@@ -43,9 +43,9 @@ override protected function initialize():void
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	league.x = Starling.current.stage.width * 0.5;
 	league.y = 510 * appModel.scale;
-	league.scale = 0.5;
+	//league.scale = 0.5;
 	league.alpha = 0;
-	Starling.juggler.tween(league, 0.5, {delay: 0.2, scale: 1, alpha: 1, transition: Transitions.EASE_OUT_BACK, onComplete: goUp});
+	Starling.juggler.tween(league, 0.5, {delay: 0.2, scale: 1.5, alpha: 1, transition: Transitions.EASE_OUT_BACK, onComplete: goUp});
 	addChild(league);
 	function goUp():void { Starling.juggler.tween(league, 2, {y: 460 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown():void { Starling.juggler.tween(league, 2, {y: 510 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }

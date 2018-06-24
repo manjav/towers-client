@@ -123,7 +123,7 @@ override protected function initialize() : void
 	botLine.addChild(clanNameDisplay);
 	
 	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.XP] = new IndicatorXP("ltr", ResourceType.XP, true, false);
+	indicators[ResourceType.XP] = new IndicatorXP("ltr");
 	indicators[ResourceType.XP].name = "xpIndicator";
 	indicators[ResourceType.XP].setData(8000, player.get_xp(), 12000);
 	indicators[ResourceType.XP].width = padding * 6;
