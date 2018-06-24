@@ -19,7 +19,7 @@ override protected function initialize():void
 
 	layout = new AnchorLayout();
 
-	titleDisplay = new RTLLabel("", 1, null, null,	false, null, 0.8);
+	titleDisplay = new RTLLabel("", 1, null, null,	false, null, 0.9);
 	titleDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:0, NaN, appModel.isLTR?0:NaN, NaN, 0);
 	addChild(titleDisplay);
 }
@@ -32,7 +32,7 @@ override protected function commitData():void
 	if(_firstCommit)
 	{
 		_firstCommit = false;
-		height = 60 * appModel.scale;
+		height = 64 * appModel.scale;
 	}
 	addValueLabel();
 	
@@ -44,7 +44,7 @@ protected function addValueLabel():void
 {
 	if( valueDisplay != null )
 		return;
-	valueDisplay = new LTRLable("", 1, "left", false, 0.9);
+	valueDisplay = new LTRLable("", 1, "left");
 	valueDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?0:NaN, NaN, appModel.isLTR?NaN:0, NaN, 0);
 	addChild(valueDisplay);
 }
