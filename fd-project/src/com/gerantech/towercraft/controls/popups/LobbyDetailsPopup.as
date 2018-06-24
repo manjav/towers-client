@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.extensions.NativeAbilities;
-import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
@@ -17,17 +16,14 @@ import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.events.Event;
 

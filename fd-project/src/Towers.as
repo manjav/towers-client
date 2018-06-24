@@ -68,7 +68,9 @@ public function Towers()
 		this.stage.scaleMode = StageScaleMode.NO_SCALE;
 		this.stage.align = StageAlign.TOP_LEFT;
 	}
-	
+	AppModel.instance.formalAspectratio = 1080 / 1920;
+	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
+
 	this.mouseEnabled = this.mouseChildren = false;
 	splash = new SplashScreen();
 	splash.addEventListener(Event.CLEAR, loaderInfo_completeHandler);
@@ -102,7 +104,7 @@ private function starStarling():void
 	this.starling.start();
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 	this.starling.stage.stageWidth  = Math.max(1080, 1920 * (stage.fullScreenWidth / stage.fullScreenHeight));
-	this.starling.stage.stageHeight = 1920;trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight)
+	this.starling.stage.stageHeight = 1920; trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight);
    // new ScreenDensityScaleFactorManager(this.starling);
 	AppModel.instance.scale = 1//this.starling.stage.stageHeight/1920;
 }

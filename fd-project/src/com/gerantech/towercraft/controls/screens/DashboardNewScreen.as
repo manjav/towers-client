@@ -23,7 +23,7 @@ override protected function addedToStageHandler(event:Event):void
 	tabIndex = 2;
 	super.addedToStageHandler(event);
 	tabPadding = 56 * appModel.scale;
-	tabSize = ( stage.stageWidth - tabPadding * 2 ) / 5;
+	tabSize = ( stageWidth - tabPadding * 2 ) / 5;
 
 	tabsList.layoutData = new AnchorLayoutData(NaN, tabPadding, 0, tabPadding);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabNewItemRenderer(tabSize); }

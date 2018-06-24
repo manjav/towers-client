@@ -2,6 +2,7 @@ package com.gerantech.towercraft.views
 {
 import com.gerantech.towercraft.managers.DropTargets;
 import com.gerantech.towercraft.managers.net.ResponseSender;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
 import starling.core.Starling;
@@ -13,7 +14,6 @@ import starling.events.Event;
 public class BattleFieldView extends Sprite
 {
 public var battleData:BattleData;
-
 public var places:Vector.<PlaceView>;
 public var troopsList:Vector.<TroopView>;
 public var responseSender:ResponseSender;
@@ -30,13 +30,13 @@ public function BattleFieldView()
 	super();
 	
 	// map alignment
-	var _width:Number = 1080;
-	var _height:Number = 1920;
-	var aspectRatio:Number = _width / _height;
-	if( Starling.current.stage.stageWidth / Starling.current.stage.stageHeight < aspectRatio )
+	var _width:Number;
+	var _height:Number;
+	AppModel.instance.aspectratio = Starling.current.stage.stageWidth / Starling.current.stage.stageHeight;
+	if(  AppModel.instance.aspectratio < AppModel.instance.formalAspectratio )
 	{
 		_width = Starling.current.stage.stageWidth;
-		_height = Starling.current.stage.stageWidth * aspectRatio;
+		_height = Starling.current.stage.stageWidth * AppModel.instance.formalAspectratio;
 		x = pivotX = _width * 0.5;
 		pivotY = _height * 0.5;
 		y = pivotY + (Starling.current.stage.stageHeight - _height ) * 0.5;
@@ -44,7 +44,7 @@ public function BattleFieldView()
 	else
 	{
 		_height = Starling.current.stage.stageHeight;
-		_width = Starling.current.stage.stageHeight * aspectRatio;
+		_width = Starling.current.stage.stageHeight * AppModel.instance.formalAspectratio;
 		y = pivotY = _height * 0.5;
 		pivotX = _width * 0.5;
 		x = pivotX + (Starling.current.stage.stageWidth - _width ) * 0.5;
