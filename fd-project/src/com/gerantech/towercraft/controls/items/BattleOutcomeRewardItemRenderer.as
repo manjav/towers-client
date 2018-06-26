@@ -46,7 +46,7 @@ override protected function commitData():void
 		armatureDisplay.scale = appModel.scale * 0.8;
 		addChild(armatureDisplay);
 		
-		if( player.get_battleswins() == 4 )
+		if( player.get_battleswins() == 3 )
 		{
 			armatureDisplay.animation.gotoAndPlayByTime("wait", 0, 16);
 		}
@@ -70,12 +70,6 @@ override protected function commitData():void
 		labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64 * appModel.scale, 0xFFFFFF, "center");
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60 * appModel.scale);
 		addChild(labelDisplay);
-		
-		if( player.get_battleswins() == 3 && _data.t == ResourceType.KEY )
-		{
-			iconDisplay.scale = appModel.scale * 3;
-			Starling.juggler.tween(iconDisplay, 1, {delay:1, repeatCount:10, scale:appModel.scale * 2, transition:Transitions.EASE_OUT_BACK});
-		}
 	}
 }
 

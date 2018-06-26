@@ -329,13 +329,10 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		for( i = 0; i < _keys.length; i++)
 		{
 			var key:int = int(_keys[i]);
-			if( key == ResourceType.KEY || ResourceType.isBook(key) )
+			if( ResourceType.isBook(key) )
 				bookKey = _keys[i];
 			else if( key > 0 )
 				outcomes.set(key, item.getInt(_keys[i]));
-			
-			if( key == ResourceType.KEY && !field.isQuest )
-				exchanger.items.get(ExchangeType.C41_KEYS).numExchanges += item.getInt(_keys[i]);
 		}
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));

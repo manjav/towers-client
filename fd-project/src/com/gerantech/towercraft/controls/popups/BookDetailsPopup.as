@@ -105,7 +105,7 @@ override protected function initialize():void
 		}
 		else if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_WAIT )
 		{
-			updateButton(ResourceType.KEY, ExchangeType.getKeyRequierement(item.outcome));
+			updateButton(ResourceType.POINT, -1);
 		}
 	}
 	else

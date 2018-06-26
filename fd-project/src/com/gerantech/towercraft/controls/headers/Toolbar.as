@@ -42,12 +42,6 @@ override protected function initialize():void
 	indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.SELECT, indicators_selectHandler);
 	indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding*3+indicators[ResourceType.CURRENCY_HARD].width, NaN, NaN);
 	addChild(indicators[ResourceType.CURRENCY_SOFT]);
-	
-	indicators[ResourceType.KEY] = new Indicator("ltr", ResourceType.KEY, false, false);
-	indicators[ResourceType.KEY].width = 160 * appModel.scale;
-	indicators[ResourceType.KEY].addEventListener(Event.SELECT, indicators_selectHandler);
-	indicators[ResourceType.KEY].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	addChild(indicators[ResourceType.KEY]);
 
 	if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
 		loadingManager_loadedHandler(null);
@@ -69,11 +63,11 @@ protected function playerResources_changeHandler(event:CoreEvent):void
 
 public function updateIndicators():void
 {
-	if( indicators[ResourceType.KEY] != null )
+/*	if( indicators[ResourceType.KEY] != null )
 		indicators[ResourceType.KEY].visible = !player.inTutorial();
 	if( indicators[ResourceType.POINT] != null )
 		indicators[ResourceType.POINT].visible = !player.inTutorial();
-	
+*/	
 	for (var k:Object in indicators) 
 		indicators[k].setData(0, player.getResource(k as int), NaN);
 }

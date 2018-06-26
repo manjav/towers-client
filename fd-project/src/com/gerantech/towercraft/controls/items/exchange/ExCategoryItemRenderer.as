@@ -85,12 +85,12 @@ override protected function commitData():void
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBundleItemRenderer();}
 			break;
 		
-		case ExchangeType.C100_FREES:
+/*		case ExchangeType.C100_FREES:
 		case ExchangeType.C110_BATTLES:
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBattleItemRenderer();}
 			break;		
 		
-		case ExchangeType.C120_MAGICS:
+*/		case ExchangeType.C120_MAGICS:
 			CELL_SIZE = 360 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBaseItemRenderer();}
 			break;		

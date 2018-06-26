@@ -51,7 +51,6 @@ public function Towers()
 		currencies.push(r.toString());
 	currencies.push(ResourceType.XP.toString());
 	currencies.push(ResourceType.POINT.toString());
-	currencies.push(ResourceType.KEY.toString());
 	currencies.push(ResourceType.CURRENCY_HARD.toString());
 	currencies.push(ResourceType.CURRENCY_SOFT.toString());
 	

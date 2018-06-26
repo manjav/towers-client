@@ -85,17 +85,6 @@ override protected function defaultOverlayFactory(color:uint = 0, alpha:Number =
 	overlay.height = stage.height;
 	return overlay;
 }
-protected function get keyExists():Boolean
-{
-	if( playerIndex == -1 )
-		return false;
-	
-	var keys:Array = rewards.getSFSObject(playerIndex).getKeys();
-	for( var i:int = 0; i < keys.length; i++)
-		if( int(keys[i]) == ResourceType.KEY )
-			return true;
-	return false;
-}
 
 protected function getRewardsCollection(playerIndex:int):ListCollection
 {
@@ -107,7 +96,7 @@ protected function getRewardsCollection(playerIndex:int):ListCollection
 	for( var i:int = 0; i < keys.length; i++)
 	{
 		var key:int = int(keys[i])
-		if( ResourceType.isBook(key) || key == ResourceType.POINT || key == ResourceType.KEY || key == ResourceType.CURRENCY_SOFT )
+		if( ResourceType.isBook(key) || key == ResourceType.POINT || key == ResourceType.XP || key == ResourceType.CURRENCY_SOFT )
 			ret.push({t:key, c:rewards.getSFSObject(playerIndex).getInt(keys[i])});
 	}
 	return ret;

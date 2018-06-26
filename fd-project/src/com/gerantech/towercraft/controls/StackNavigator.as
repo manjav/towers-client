@@ -84,8 +84,8 @@ private function toolbar_selectHandler(event:Event):void
 		return;
 	if( event.data.resourceType == ResourceType.POINT )
 		FactionsScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
-	else if( event.data.resourceType == ResourceType.KEY )
-		addPopup( new KeysPopup() );
+	/*else if( event.data.resourceType == ResourceType.KEY )
+		addPopup( new KeysPopup() );*/
 }
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
@@ -228,7 +228,7 @@ public function addResourceAnimation(x:Number, y:Number, resourceType:int, count
 	{
 		addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.7, stage.stageHeight * 0.95), delay, null);
 	}
-	else if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.XP || resourceType == ResourceType.POINT || resourceType == ResourceType.KEY )
+	else if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.XP || resourceType == ResourceType.POINT )
 	{
 		var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
 		setTimeout(function():void{indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;}, delay * 1000);
