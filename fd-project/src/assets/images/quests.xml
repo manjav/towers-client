@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:75cc24eeadb21e4e95d514b4bc62c668:2c691362965f5482b4b8353ffdbb4a29:024da9a414dc4d99d323ce35b0141ca1$ -->
+<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:516b374847617e2f2b01e998bde639b8:dc97718abae12857f87a950c00537d55:024da9a414dc4d99d323ce35b0141ca1$ -->
 <TextureAtlas imagePath="quests.png" width="1024" height="1024">
     <SubTexture name="cols" x="563" y="302" width="130" height="110"/>
-    <SubTexture name="gold-key" x="110" y="416" rotated="true" width="40" height="38"/>
+    <SubTexture name="gold-key-small" x="110" y="416" rotated="true" width="40" height="38" frameX="0" frameY="0" frameWidth="40" frameHeight="40"/>
     <SubTexture name="house-0" x="637" y="261" width="43" height="39"/>
     <SubTexture name="house-1" x="563" y="214" width="72" height="86"/>
     <SubTexture name="house-2" x="899" y="503" rotated="true" width="50" height="72"/>
