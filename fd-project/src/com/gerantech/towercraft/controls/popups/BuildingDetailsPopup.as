@@ -34,7 +34,8 @@ override protected function initialize():void
 	buildingIcon.width = padding * 9;
 	buildingIcon.height = padding * 12;
 	buildingIcon.type = buildingType;
-	buildingIcon.level = building.get_level();
+	if( building != null )
+		buildingIcon.level = building.get_level();
 	addChild(buildingIcon);
 }
 
@@ -46,30 +47,33 @@ override protected function transitionInCompleted():void
 	textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	textLayout.gap = padding;
 		
-	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_"+building.type), 1, null, null, false, null, 1.1, null, "bold");
-	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding*11, NaN, appModel.isLTR?padding*11:padding);
+	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + buildingType), 1, null, null, false, null, 1.1, null, "bold");
+	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding * 11, NaN, appModel.isLTR?padding * 11:padding);
 	addChild(titleDisplay);
 	
-	var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_"+building.type), 1, "justify", null, true, null, 0.7);
-	messageDisplay.layoutData = new AnchorLayoutData(padding*4, appModel.isLTR?padding:padding*11, NaN, appModel.isLTR?padding*11:padding);
+	var messageDisplay:RTLLabel = new RTLLabel(loc("building_message_" + buildingType), 1, "justify", null, true, null, 0.7);
+	messageDisplay.layoutData = new AnchorLayoutData(padding * 4, appModel.isLTR?padding:padding * 11, NaN, appModel.isLTR?padding * 11:padding);
 	addChild(messageDisplay);
 	
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding*15, padding*2, NaN, padding*2);
+	featureList.layoutData = new AnchorLayoutData(padding * 15, padding * 2, NaN, padding * 2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
 	featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
 	addChild(featureList);
 	
+	if( building == null )
+		return;
+	
 	var upgradeButton:ExchangeButton = new ExchangeButton();
 	upgradeButton.disableSelectDispatching = true;
-	upgradeButton.count = building.get_upgradeCost();
-	upgradeButton.type = ResourceType.CURRENCY_SOFT;
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 	upgradeButton.width = 380 * appModel.scale;
 	upgradeButton.height = 110 * appModel.scale;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
+	upgradeButton.count = building.get_upgradeCost();
+	upgradeButton.type = ResourceType.CURRENCY_SOFT;
 	upgradeButton.isEnabled = player.resources.get(buildingType) >= building.get_upgradeCards();
 	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= building.get_upgradeCost() ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
@@ -78,7 +82,7 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});*/
 	
 	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
-	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding+upgradeButton.height, NaN, 0);
+	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding + upgradeButton.height, NaN, 0);
 	upgradeLabel.alpha = 0;
 	Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
 	addChild(upgradeLabel);
@@ -110,7 +114,7 @@ private function upgradeButton_triggeredHandler():void
 {
 	dispatchEventWith(Event.UPDATE, false, building);
 }
-override public function close(dispose:Boolean=true):void
+override public function close(dispose:Boolean = true):void
 {
 	super.close(dispose);
 }

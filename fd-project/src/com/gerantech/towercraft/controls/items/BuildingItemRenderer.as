@@ -11,13 +11,13 @@ import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
+import feathers.controls.ScrollContainer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.TiledRowsLayout;
 import starling.core.Starling;
-import starling.display.Quad;
 import starling.events.Event;
 
 public class BuildingItemRenderer extends AbstractTouchableListItemRenderer
@@ -27,38 +27,43 @@ private var _width:Number;
 private var _height:Number;
 
 private var cardDisplay:BuildingCard;
-private var inDeck:Boolean;
+private var showLevel:Boolean;
+private var showSlider:Boolean;
+private var showElixir:Boolean;
+private var scroller:ScrollContainer;
 private var cardLayoutData:AnchorLayoutData;
-
 private var newDisplay:ImageLoader;
 private var tutorialArrow:TutorialArrow;
 
-public function BuildingItemRenderer(inDeck:Boolean=true)
+public function BuildingItemRenderer(showLevel:Boolean = true, showSlider:Boolean = true, showElixir:Boolean = false, scroller:ScrollContainer = null)
 {
 	super();
-	this.inDeck = inDeck;
+	this.showLevel = showLevel;
+	this.showSlider = showSlider;
+	this.showElixir = showElixir;
+	this.scroller = scroller;
 }
 
 override protected function initialize():void
 {
 	super.initialize();
-	alpha = 0;
-	backgroundSkin = new Quad(1, 1);
-	backgroundSkin.visible = false;
-
 	layout = new AnchorLayout();
+	alpha = 0;
 	
-	cardLayoutData = new AnchorLayoutData(0, 0, 0, 0);
+	cardLayoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	cardDisplay = new BuildingCard();
-	cardDisplay.showLevel = inDeck;
-	cardDisplay.showSlider = inDeck;
+	cardDisplay.showLevel = showLevel;
+	//cardDisplay.showElixir = showElixir;
+	cardDisplay.showSlider = showSlider;
 	cardDisplay.layoutData = cardLayoutData;
 	addChild(cardDisplay);
-
 }
 
 override protected function commitData():void
 {
+	if( _data == null )
+		return;
+	
 	if( _firstCommit )
 	{
 		if( _owner.layout is HorizontalLayout )
@@ -72,24 +77,56 @@ override protected function commitData():void
 			height = _height = TiledRowsLayout(_owner.layout).typicalItemHeight;
 		}
 		_firstCommit = false;
+		_owner.addEventListener(FeathersEventType.CREATION_COMPLETE, _owner_createHandler);
 	}
 
-	cardDisplay.type = _data as int;
-	Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
-	
-	if( player.buildings.exists(cardDisplay.type) && player.buildings.get(cardDisplay.type).get_level() == -1 )
+	if( _data is int )
 	{
-		newDisplay = new ImageLoader();
-		newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-		newDisplay.layoutData = new AnchorLayoutData( -10 * appModel.scale, NaN, NaN, -10 * appModel.scale);
-		newDisplay.height = newDisplay.width = width * 0.6;
-		addChild(newDisplay);
+		var t:int = _data as int;
+		if ( player.buildings.exists(t) )
+		{
+			if( player.buildings.get(t).get_level() == -1 )
+			{
+				newDisplay = new ImageLoader();
+				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+				newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
+				newDisplay.height = newDisplay.width = width * 0.7;
+				addChild(newDisplay);
+			}
+		}
+		else
+		{
+			var unlockedAt:int = game.unlockedBuildingAt( t );
+			if( unlockedAt > player.get_arena(0) )
+				t = 99;
+		}
+		cardDisplay.type = t;
+		Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	}
-	
-	super.commitData();
+	else
+	{
+		alpha = 1;
+		cardDisplay.type = _data.type;
+		cardDisplay.level = _data.level;
+	}
+
 	if( _data == BuildingType.B11_BARRACKS )
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 }
+
+private function _owner_createHandler():void
+{
+	_owner.removeEventListener(FeathersEventType.CREATION_COMPLETE, _owner_createHandler);
+	if( scroller == null )
+		return;
+	ownerBounds = scroller.getBounds(stage);
+	scroller.addEventListener(Event.SCROLL, scroller_scrollHandler);
+}
+
+private function scroller_scrollHandler(event:Event):void
+{
+	visible = onScreen(getBounds(stage));//trace(index, visible)
+}		
 
 private function tutorialManager_finishHandler(event:Event):void
 {
@@ -119,11 +156,11 @@ override public function set isSelected(value:Boolean):void
 
 override public function set currentState(_state:String):void
 {
-	if(super.currentState == _state)
+	if( super.currentState == _state )
 		return;
 	super.currentState = _state;
 	
-	if( !this.inDeck )
+	if( !showSlider )
 		return;
 	
 	cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12 * appModel.scale : 0;
@@ -142,8 +179,15 @@ override public function set currentState(_state:String):void
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
 	
-	if ( player.buildings.exists( _data as int ) )
+	if( player.buildings.exists( _data as int ) )
 		visible = _state != STATE_SELECTED;
+}
+
+override public function dispose():void
+{
+	if( scroller != null )
+		scroller.removeEventListener(Event.SCROLL, scroller_scrollHandler);
+	super.dispose();
 }
 }
 }

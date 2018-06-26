@@ -20,6 +20,7 @@ override protected function commitData():void
 	super.commitData();
 	feature = _data as int;
 	titleDisplay.text = loc("building_feature_" + feature);
+	buildingLevel = building.get_level();
 	
 	var baseValue:Number = game.calculator.getBaseline(feature) * game.calculator.getUIFactor(feature);
 	var newValue:Number = game.calculator.get(feature, building.type, building.get_level() + 1, building.improveLevel) * game.calculator.getUIFactor(feature);

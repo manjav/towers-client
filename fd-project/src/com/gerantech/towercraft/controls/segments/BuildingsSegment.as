@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -48,7 +49,7 @@ override public function init():void
 	listLayout.useSquareTiles = false;
 	listLayout.requestedColumnCount = 4;
 	listLayout.typicalItemWidth = (width - listLayout.gap * (listLayout.requestedColumnCount + 2)) / listLayout.requestedColumnCount;
-	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.4;
+	listLayout.typicalItemHeight = listLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	
 	updateData();
 	buildingslist = new List();
@@ -101,14 +102,11 @@ private function list_focusInHandler(event:Event):void
 	var buildingType:int = item.data as int;
 	if( player.inTutorial() && buildingType != BuildingType.B11_BARRACKS )
 		return;// disalble all items in tutorial
-
-	if( !player.buildings.exists( buildingType ) )
+	
+	var unlockedAt:int = game.unlockedBuildingAt( buildingType );
+	if( !player.buildings.exists( buildingType ) && unlockedAt > player.get_arena(0) )
 	{
-		var unlockedAt:int = game.unlockedBuildingAt( buildingType );
-		if( unlockedAt <= player.get_arena(0) )
-			appModel.navigator.addLog(loc("earn_at_chests"));
-		else
-			appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_"+(unlockedAt+1))]));
+		appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_" + (unlockedAt + 1))]));
 		return;
 	}
 	
