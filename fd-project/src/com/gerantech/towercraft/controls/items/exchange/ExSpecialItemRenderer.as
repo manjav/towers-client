@@ -25,13 +25,10 @@ override protected function commitData():void
 {
 	super.commitData();
 	skin.alpha = 0.7;
-	var cardDisplay:BuildingCard = new BuildingCard();
-	cardDisplay.showLevel = false;
-	cardDisplay.showSlider = false;
-	cardDisplay.layoutData = new AnchorLayoutData(padding * 2, NaN, NaN, NaN, 0);
+	var cardDisplay:BuildingCard = new BuildingCard(false, false, true, false);
+	cardDisplay.setData(exchange.outcome);
 	cardDisplay.width = width * 0.6;
-	cardDisplay.height = cardDisplay.width * 1.35;
-	cardDisplay.type = exchange.outcome;
+	cardDisplay.layoutData = new AnchorLayoutData(padding * 2, NaN, NaN, NaN, 0);
 	addChild(cardDisplay);
 	
 	var countDisplay:ShadowLabel = new ShadowLabel("x " + exchange.outcomes.values()[0]);

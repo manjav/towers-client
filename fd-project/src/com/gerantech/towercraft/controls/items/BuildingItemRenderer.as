@@ -51,10 +51,7 @@ override protected function initialize():void
 	alpha = 0;
 	
 	cardLayoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	cardDisplay = new BuildingCard();
-	cardDisplay.showLevel = showLevel;
-	//cardDisplay.showElixir = showElixir;
-	cardDisplay.showSlider = showSlider;
+	cardDisplay = new BuildingCard(showLevel, showSlider, false, false);
 	cardDisplay.layoutData = cardLayoutData;
 	addChild(cardDisplay);
 }
@@ -100,14 +97,13 @@ override protected function commitData():void
 			if( unlockedAt > player.get_arena(0) )
 				t = 99;
 		}
-		cardDisplay.type = t;
+		cardDisplay.setData( t );
 		Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	}
 	else
 	{
 		alpha = 1;
-		cardDisplay.type = _data.type;
-		cardDisplay.level = _data.level;
+		cardDisplay.setData(_data.type, _data.level);
 	}
 
 	if( _data == BuildingType.B11_BARRACKS )
@@ -169,10 +165,10 @@ override public function set currentState(_state:String):void
 		if( newDisplay )
 		{
 			newDisplay.removeFromParent(true);
-			player.buildings.get( cardDisplay.type ).upgrade();
+			player.buildings.get( cardDisplay.getType() ).upgrade();
 			
 			var sfs:SFSObject = new SFSObject();
-			sfs.putInt("type", cardDisplay.type);
+			sfs.putInt("type", cardDisplay.getType());
 			sfs.putInt("confirmedHards", 0);
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 		}

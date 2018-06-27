@@ -4,6 +4,8 @@ import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.buildings.Building;
+import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.controls.text.BitmapFontTextRenderer;
@@ -13,41 +15,51 @@ import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 import flash.geom.Rectangle;
 import starling.events.Event;
+import starling.filters.ColorMatrixFilter;
 
 public class BuildingCard extends TowersLayout
 {
 public static var VERICAL_SCALE:Number = 1.295;
+//public var data:Object;
+
+public var backgroundDisplayFactory:Function;
+public var iconDisplayFactory:Function;
 public var levelDisplayFactory:Function;
-public var elixirDisplayFactory:Function;
 public var sliderDisplayFactory:Function;
 public var countDisplayFactory:Function;
-public var data:Object;
+public var elixirDisplayFactory:Function;
+public var coverDisplayFactory:Function;
 
-private var _type:int = -1;
-private var _level:int = 0;
-private var _elixir:int = 0;
-private var _rarity:int = 0;
-private var _count:int = 0;
+protected var type:int = -1;
+protected var level:int = 0;
+protected var rarity:int = 0;
+protected var count:int = 0;
+protected var elixirSize:int = 0;
+protected var availablity:int = 0;
 
-private var _showElixir:Boolean = true;
-private var _locked:Boolean = false;
-private var _showSlider:Boolean = true;
-private var _showLevel:Boolean = true;
-private var _showCount:Boolean = false;
+protected var showLevel:Boolean = true;
+protected var showSlider:Boolean = true;
+protected var showCount:Boolean = false;
+protected var showElixir:Boolean = true;
 
-private var padding:int;
-private var skin:ImageSkin;
-private var levelDisplay:RTLLabel;
-private var countDisplay:BitmapFontTextRenderer;
-private var iconDisplay:ImageLoader;
-private var sliderDisplay:BuildingSlider;
-private var levelBackground:ImageLoader;
-private var rarityDisplay:ImageLoader;
-private var labelsContainer:LayoutGroup;
+protected var padding:int;
+protected var backgroundDisaplay:ImageLoader;
+protected var iconDisplay:ImageLoader;
+protected var labelsContainer:LayoutGroup;
+protected var levelDisplay:RTLLabel;
+protected var levelBackground:ImageLoader;
+protected var sliderDisplay:BuildingSlider;
+protected var coverDisplay:ImageLoader;
+protected var rarityDisplay:ImageLoader;
+protected var countDisplay:BitmapFontTextRenderer;
 
-public function BuildingCard()
+public function BuildingCard(showLevel:Boolean, showSlider:Boolean, showCount:Boolean, showElixir:Boolean)
 {
 	super();
+	this.showLevel = showLevel;
+	this.showSlider = showSlider;
+	this.showCount = showCount;
+	this.showElixir = showElixir;
 	labelsContainer = new LayoutGroup();
 }
 
@@ -58,184 +70,199 @@ override protected function initialize():void
 	layout= new AnchorLayout();
 	padding = 16 * appModel.scale;
 	
-	iconDisplay = new ImageLoader();
-	iconDisplay.pixelSnapping = false;
-	iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
-	addChild(iconDisplay);
-	
-	var coverDisplay:ImageLoader = new ImageLoader();
-	coverDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
-	coverDisplay.source = Assets.getTexture("cards/bevel-card", "gui");
-	coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(coverDisplay);
-	
 	labelsContainer.layout = new AnchorLayout();
 	labelsContainer.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	
+	if( backgroundDisplayFactory == null )
+		backgroundDisplayFactory = defaultBackgroundDisplayFactory;
+	if( iconDisplayFactory == null )
+		iconDisplayFactory = defaultIconDisplayFactory;
 	if( levelDisplayFactory == null )
 		levelDisplayFactory = defaultLevelDisplayFactory;
-	
 	if( sliderDisplayFactory == null )
 		sliderDisplayFactory = defaultSliderDisplayFactory;
-	
-/*	if( elixirDisplayFactory == null )
-		elixirDisplayFactory = defaultElixirDisplayFactory;
-	
-	if( countDisplayFactory == null )
-		countDisplayFactory = defaultCountDisplayFactory;*/
+	/*if( countDisplayFactory == null )
+		countDisplayFactory = defaultCountDisplayFactory;
+	if( elixirDisplayFactory == null )
+		elixirDisplayFactory = defaultElixirDisplayFactory;*/
+	if( coverDisplayFactory == null )
+		coverDisplayFactory = defaultCoverDisplayFactory;
 
-	var t:int = type;
-	type = -1;
-	type = t;
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	addEventListener(Event.ADDED, addedHandler);
+	callFactories();
 }
+
 
 private function addedHandler():void
 {
 	if( labelsContainer )
 		addChild(labelsContainer);	
 }
-
 private function createCompleteHandler():void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	height = width * VERICAL_SCALE;
 }
 
-
-//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TYPE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function get type():int
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  DATA  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+public function setData(type:int, level:int = 1):void
 {
-	return _type;
+	if( this.type == type )
+		return;
+	
+	if( type < 0 )
+		return;
+	
+	this.type = type;
+	this.availablity = game.getBuildingAvailablity(type);
+	if( ResourceType.isBuilding(type) )
+		this.level = this.availablity == BuildingType.AVAILABLITY_EXISTS && level == 1 ? player.buildings.get(type).get_level() : level;
+	this.rarity = 0;//building.rarity;;
+	//this.count = building.troopsCount;
+	//this.elixirSize = building.elixirSize;
+	callFactories();
 }
-public function set type(value:int):void
+
+public function getType():int 
 {
-	/*if(_type == value)
-	return;*/
-	
-	_type = value;
-	if( _type < 0 )
-		return;
-	
-	var building:Building = player.buildings.get(_type);
-	if( iconDisplay )
-		iconDisplay.source = Assets.getTexture("cards/" + _type, "gui");
-	
-	locked = building == null;
-	if( building == null )
-		return;
-	
+	return type;
+}
+
+private function callFactories() : void 
+{
+	if( backgroundDisplayFactory != null )
+		backgroundDisplayFactory();
+	if( iconDisplayFactory != null )
+		iconDisplayFactory();
+	if( levelDisplayFactory != null )
+		levelDisplayFactory();
+	if( coverDisplayFactory != null )
+		coverDisplayFactory();
 	if( sliderDisplayFactory != null )
 		sliderDisplayFactory();
-	
-	rarity = 0//building.rarity;
-	level = building.get_level();
-	//count = building.troopsCount;
-	//elixir = building.elixirSize;
+	if( countDisplayFactory != null )
+		countDisplayFactory();
+	if( elixirDisplayFactory != null )
+		elixirDisplayFactory();
 }
 
-//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  LOCKED  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function set locked(value:Boolean):void
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BACKGROUND  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+protected function defaultBackgroundDisplayFactory() : ImageLoader 
 {
-	if( _locked == value )
-		return;
+	if( availablity != BuildingType.AVAILABLITY_NOT && type < 1000 )
+		return null;
 	
-	_locked = value;
-	if( sliderDisplay )
-		sliderDisplay.visible = !_locked && showSlider;
-	
-	if( skin )
-		skin.defaultTexture = skin.getTextureForState(_locked?"locked":"normal");
-	if( iconDisplay )
-		iconDisplay.alpha = _locked ? 0.7 : 1;
-	if( levelDisplay )
-		levelDisplay.visible = !_locked && showLevel;
-	if( levelBackground )
-		levelBackground.visible = !_locked && showLevel;
+	if( backgroundDisaplay == null )
+	{
+		backgroundDisaplay = new ImageLoader();
+		backgroundDisaplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
+		backgroundDisaplay.maintainAspectRatio = false;
+		addChild(backgroundDisaplay);		
+		backgroundDisaplay.source = Assets.getTexture("cards/popup-inside-background-skin", "gui");
+	}
+	return backgroundDisaplay;
 }
+
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ICON  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+protected function defaultIconDisplayFactory() : ImageLoader 
+{
+	if( iconDisplay == null )
+	{
+		iconDisplay = new ImageLoader();
+		iconDisplay.pixelSnapping = false;
+		iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
+		addChild(iconDisplay);
+	}
+
+	if( availablity == BuildingType.AVAILABLITY_NOT )
+	{
+		iconDisplay.source = Assets.getTexture("cards/99", "gui");
+	}
+	else
+	{
+		if( availablity == BuildingType.AVAILABLITY_WAIT )
+		{
+			if( iconDisplay.filter == null )
+			{
+				var f:ColorMatrixFilter = new ColorMatrixFilter();
+				f.adjustSaturation( -1 );
+				iconDisplay.filter = f;
+			}
+		}
+		iconDisplay.source = Assets.getTexture("cards/" + type, "gui");
+	}
+	return iconDisplay;
+}
+
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  LEVEL  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function get showLevel():Boolean
+protected function defaultLevelDisplayFactory() : RTLLabel
 {
-	return _showLevel;
-}
-public function set showLevel(value:Boolean):void
-{
-	if ( _showLevel == value )
-		return;
+	if( !showLevel || !ResourceType.isBuilding(type) || availablity != BuildingType.AVAILABLITY_EXISTS || type < 0 || level <= 0 )
+		return null;
 	
-	_showLevel = value;
-	if( levelDisplayFactory != null )
-		levelDisplayFactory();
-	if( levelDisplay )
-		levelDisplay.visible = !_locked && _showLevel;
-	if( levelBackground )
-		levelBackground.visible = !_locked && _showLevel;
-}
-protected function defaultLevelDisplayFactory():void
-{
-	if( !_showLevel || _locked || _type < 0 || _level <= 0 )
-		return;
-	
-	if( levelDisplay != null )
+	if( levelDisplay == null )
 	{
-		levelDisplay.text = "Level "+ _level;
-		return;
+		levelDisplay = new RTLLabel("Level " + level, rarity == 0?1:0, "center", null, false, null, 0.8);
+		levelDisplay.alpha = 0.8;
+		levelDisplay.height = 52 * appModel.scale;
+		levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
+		labelsContainer.addChild(levelDisplay);
+	}
+	else
+	{
+		levelDisplay.text = "Level "+ level;
 	}
 	
-	levelDisplay = new RTLLabel("Level " + _level, _rarity == 0?1:0, "center", null, false, null, 0.8);
-	levelDisplay.alpha = 0.8;
-	levelDisplay.height = 52 * appModel.scale;
-	levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
-	labelsContainer.addChild(levelDisplay);
+	if( levelBackground == null )
+	{
+		levelBackground = new ImageLoader();
+		levelBackground.maintainAspectRatio = false
+		levelBackground.source = Assets.getTexture("cards/rarity-skin-" + rarity, "gui");
+		levelBackground.alpha = 0.7;
+		levelBackground.height = padding * 3;
+		levelBackground.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
+		addChildAt(levelBackground, Math.min(1, numChildren));
+	}
+	else
+	{
+		levelBackground.source = Assets.getTexture("cards/rarity-skin-" + rarity, "gui");
+	}
+	return levelDisplay;
 }
 
-public function get level():int
+
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COVER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+private function defaultCoverDisplayFactory() : ImageLoader 
 {
-	return _level;
-}
-public function set level(value:int):void
-{
-	if( _level == value )
-		return;
-	_level = value;
-	if( levelDisplayFactory != null )
-		levelDisplayFactory();
-	if( sliderDisplayFactory != null )
-		sliderDisplayFactory();
+	if( coverDisplay == null )
+	{
+		coverDisplay = new ImageLoader();
+		coverDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
+		coverDisplay.source = Assets.getTexture("cards/bevel-card", "gui");
+		coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+		addChild(coverDisplay);
+	}
+	return coverDisplay;
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  SLIDER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function get showSlider():Boolean
+protected function defaultSliderDisplayFactory() : BuildingSlider
 {
-	return _showSlider;
-}
-public function set showSlider(value:Boolean):void
-{
-	if( _showSlider == value )
-		return;
-	_showSlider = value;
-	if( sliderDisplayFactory != null )
-		sliderDisplayFactory();
-	if( sliderDisplay )
-		sliderDisplay.visible = !_locked && _showSlider;
-}
-protected function defaultSliderDisplayFactory():void
-{
-	if( !_showSlider || _locked || _level <= 0 )
-		return;
+	if( !showSlider || availablity || level <= 0 )
+		return null;
 	
-	var building:Building = player.buildings.get(_type);
+	var building:Building = player.buildings.get(type);
 	if( building == null )
-		return;
+		return null;
 	var upgradeCards:int = building.get_upgradeCards();
 	var numBuildings:int = player.resources.get(type);
 	if( sliderDisplay != null )
 	{
 		sliderDisplay.maximum = upgradeCards;
 		sliderDisplay.value = numBuildings;
-		return;
+		return sliderDisplay;
 	}
 	sliderDisplay = new BuildingSlider();
 	sliderDisplay.height = padding * 4;
@@ -247,54 +274,25 @@ protected function defaultSliderDisplayFactory():void
 		sliderDisplay.value = numBuildings;
 	});
 	addChild(sliderDisplay);
+	return sliderDisplay;
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function get rarity():int
+protected function defaultRarityDisplayFactory() : ImageLoader
 {
-	return _rarity;
-}
-public function set rarity(value:int):void
-{
-	_rarity = value;
-	defaultRarityDisplayFactory();
-}
-protected function defaultRarityDisplayFactory():void
-{
-	if( !_locked && showLevel )
-	{
-		if( levelBackground == null )
-		{
-			levelBackground = new ImageLoader();
-			levelBackground.maintainAspectRatio = false
-			levelBackground.source = Assets.getTexture("cards/rarity-skin-" + _rarity, "gui");
-			levelBackground.alpha = 0.7;
-			levelBackground.height = padding * 3;
-			levelBackground.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
-			addChildAt(levelBackground, Math.min(1, numChildren));
-		}
-		else
-		{
-			levelBackground.source = Assets.getTexture("cards/rarity-skin-" + _rarity, "gui");
-		}
-	}
+	if( rarity == 0 || availablity != BuildingType.AVAILABLITY_EXISTS )
+		return null;
 	
-	if( rarityDisplay != null )
+	if( rarityDisplay == null )
 	{
-		rarityDisplay.visible = _rarity > 0;
-		if( _rarity > 0 )
-			rarityDisplay.source = Assets.getTexture("cards/rarity-" + _rarity, "gui");
-		return;
+		rarityDisplay = new ImageLoader();
+		rarityDisplay.scale = appModel.scale;
+		rarityDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
+		rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+		addChildAt(rarityDisplay, 0);
 	}
-	if( rarity == 0 ) 
-		return;
-	
-	rarityDisplay = new ImageLoader();
-	rarityDisplay.scale = appModel.scale * 2;
-	rarityDisplay.scale9Grid = new Rectangle(30,34,2,3);
-	rarityDisplay.source = Assets.getTexture("cards/rarity-" + _rarity, "gui");
-	rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChildAt(rarityDisplay, 0);
+	rarityDisplay.source = Assets.getTexture("cards/rarity-" + rarity, "gui");
+	return levelBackground;
 }
 
 /*

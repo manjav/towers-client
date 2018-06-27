@@ -29,13 +29,11 @@ override protected function initialize():void
 	
 	building = player.buildings.get(buildingType);
 	
-	var buildingIcon:BuildingCard = new BuildingCard();
-	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+	var buildingIcon:BuildingCard = new BuildingCard(true, true, false, false);
+	buildingIcon.setData(buildingType);
 	buildingIcon.width = padding * 9;
-	buildingIcon.height = padding * 12;
-	buildingIcon.type = buildingType;
-	if( building != null )
-		buildingIcon.level = building.get_level();
+	//buildingIcon.height = padding * 12;
+	buildingIcon.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(buildingIcon);
 }
 

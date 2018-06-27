@@ -59,16 +59,14 @@ override protected function initialize():void
 	addChild(armatureDisplay);*/
 	
 	
-	var card:BuildingCard = new BuildingCard();
-	card.showSlider = false;
-	card.type = building.type;
-	card.pivotY = card.height / 2;
+	var card:BuildingCard = new BuildingCard(true, false, false, false);
+	card.setData(building.type, building.get_level() - 1);
+	card.pivotY = card.height * 0.5;
 	card.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
 	card.width = 240 * appModel.scale;
 	card.height = card.width * 1.4;
-	card.y = (stage.stageHeight - card.height) / 2;
+	card.y = (stage.stageHeight - card.height) * 0.5;
 	addChild(card);
-	card.level = building.get_level() - 1;
 	card.scale = 1.6;
 	
 	appModel.sounds.setVolume("main-theme", 0.3);
@@ -81,7 +79,7 @@ override protected function initialize():void
 		addChild(titleDisplay);
 		
 		card.scale = 2.4;
-		card.level = building.get_level(); 
+		card.setData(building.type, building.get_level());
 		Starling.juggler.tween(card, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
 		Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y - 150 * appModel.scale, transition:Transitions.EASE_IN_OUT});
 		

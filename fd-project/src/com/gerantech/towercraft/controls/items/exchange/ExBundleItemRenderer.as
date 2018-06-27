@@ -79,12 +79,9 @@ private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void
 	}
 	else
 	{
-		var cardDisplay:BuildingCard = new BuildingCard();
-		cardDisplay.showLevel = false;
-		cardDisplay.showSlider = false;
+		var cardDisplay:BuildingCard = new BuildingCard(false, false, true, false);
 		cardDisplay.width = padding * 18;
-		cardDisplay.height = cardDisplay.width * 1.35;		
-		cardDisplay.type = outKeys[i];
+		cardDisplay.setData(outKeys[i]);
 		cardDisplay.pivotX = cardDisplay.width * 0.5;
 		cardDisplay.pivotY = cardDisplay.height * 0.5;	
 		
