@@ -58,7 +58,7 @@ override protected function transitionInCompleted():void
 	var featureList:List = new List();
 	featureList.layoutData = new AnchorLayoutData(padding * 15, padding * 2, NaN, padding * 2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-	featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
+	featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(buildingType); }
 	featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
 	addChild(featureList);
 	

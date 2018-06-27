@@ -188,6 +188,5 @@ override public function dispose():void
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	super.dispose();
 }
-
 }
 }

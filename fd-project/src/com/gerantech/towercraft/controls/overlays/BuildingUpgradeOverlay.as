@@ -114,7 +114,7 @@ override protected function initialize():void
 		featureList.width = stage.stageWidth * 0.5;
 		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width * 0.7);
 		featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-		featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
+		featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building.type); }
 		featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(building.type)._list);
 		addChild(featureList);
 		
