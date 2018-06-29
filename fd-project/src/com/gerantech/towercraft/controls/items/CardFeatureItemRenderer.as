@@ -2,12 +2,12 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gt.towers.buildings.Building;
 
-public class BuildingFeatureItemRenderer extends FeatureItemRenderer
+public class CardFeatureItemRenderer extends FeatureItemRenderer
 {
 private var buildingType:int;
 private var feature:int;
 
-public function BuildingFeatureItemRenderer(buildingType:int)
+public function CardFeatureItemRenderer(buildingType:int)
 {
 	this.buildingType = buildingType;
 }

@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.ColorGroup;
-import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
+import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -78,7 +78,7 @@ override protected function transitionInCompleted():void
 	var featureList:List = new List();
 	featureList.layoutData = new AnchorLayoutData(padding*16, padding*2, NaN, padding*2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-	featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building); }
+	featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(building); }
 	featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
 	addChild(featureList);
 	

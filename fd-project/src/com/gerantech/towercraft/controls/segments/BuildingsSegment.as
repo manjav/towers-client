@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.BuildingCard;
-import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
+import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
@@ -56,7 +56,7 @@ override public function init():void
 	buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	buildingslist.layout = listLayout;
 	buildingslist.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	buildingslist.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(); }
+	buildingslist.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(); }
 	buildingslist.dataProvider = buildingsListCollection;
 	buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
 	addChild(buildingslist);
@@ -98,7 +98,7 @@ override public function updateData():void
 
 private function list_focusInHandler(event:Event):void
 {
-	var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
+	var item:CardItemRenderer = event.data as CardItemRenderer;
 	var buildingType:int = item.data as int;
 	if( player.inTutorial() && buildingType != BuildingType.B11_BARRACKS )
 		return;// disalble all items in tutorial
@@ -110,13 +110,14 @@ private function list_focusInHandler(event:Event):void
 		return;
 	}
 	
-	if( player.inDeckTutorial() )
+	/*if( player.inDeckTutorial() )
 	{
 		seudUpgradeRequest(player.buildings.get(buildingType), 0);
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_160_MAIN_SECOND_VIEW );
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 		tutorials.dispatchEventWith("upgrade");
+		appModel.navigator.runBattle();
 		return;
-	}
+	}*/
 	
 	// create transition in data
 	var ti:TransitionData = new TransitionData();

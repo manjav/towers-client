@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.controls.items.BuildingFeatureItemRenderer;
+import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.buildings.Building;
@@ -112,7 +112,7 @@ override protected function initialize():void
 		featureList.width = stage.stageWidth * 0.5;
 		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width * 0.7);
 		featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-		featureList.itemRendererFactory = function ():IListItemRenderer { return new BuildingFeatureItemRenderer(building.type); }
+		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(building.type); }
 		featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(building.type)._list);
 		addChild(featureList);
 		

@@ -139,7 +139,7 @@ private function createElements():void
 	cardsDisplay.touchable = false;
 	cardsDisplay.layout = cardsLayout;
 	cardsDisplay.height = cardsLayout.typicalItemHeight;
-	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };
+	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
 	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, padding, NaN, padding);
 	cardsDisplay.dataProvider = new ListCollection(faction.cards._list);
 	addChild(cardsDisplay);

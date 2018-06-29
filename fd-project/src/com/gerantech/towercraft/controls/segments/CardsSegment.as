@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.headers.DeckHeader;
-import com.gerantech.towercraft.controls.items.BuildingItemRenderer;
+import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
@@ -110,7 +110,7 @@ override public function init():void
 	foundList.elasticity = 0.01;
 	//unlocksList.decelerationRate = 1;
 	foundList.layout = foundLayout;
-	foundList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(true, true, true, scroller); }
+	foundList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(true, true, true, scroller); }
 	foundList.dataProvider = foundCollection;
 	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
 	scroller.addChild(foundList);
@@ -126,7 +126,7 @@ override public function init():void
 		availabledList.elasticity = 0.01;
 		//availabledList.decelerationRate = 1;
 		availabledList.layout = availabledLayout;
-		availabledList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, false, scroller); }
+		availabledList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
 		availabledList.dataProvider = availabledCollection;
 		availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 		scroller.addChild(availabledList);
@@ -144,7 +144,7 @@ override public function init():void
 		unavailableList.elasticity = 0.01;
 		//availabledList.decelerationRate = 1;
 		unavailableList.layout = availabledLayout;
-		unavailableList.itemRendererFactory = function():IListItemRenderer { return new BuildingItemRenderer(false, false, false, scroller); }
+		unavailableList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
 		unavailableList.dataProvider = unavailableCollection;
 		//unavailabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 		scroller.addChild(unavailableList);
@@ -230,7 +230,7 @@ override public function updateData():void
 
 private function unlocksList_focusInHandler(event:Event):void
 {
-	var item:BuildingItemRenderer = event.data as BuildingItemRenderer;
+	var item:CardItemRenderer = event.data as CardItemRenderer;
 	selectCard(item.data as int, item.getBounds(this));
 }
 private function deckHeader_selectHandler(event:Event):void
@@ -284,7 +284,7 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 
 private function availabledList_focusInHandler(event:Event):void
 {
-	showCardDetails(BuildingItemRenderer(event.data).data as int);
+	showCardDetails(CardItemRenderer(event.data).data as int);
 }
 
 private function showCardDetails(buildingType:int):void
