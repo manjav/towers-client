@@ -40,8 +40,8 @@ override protected function initialize():void
 	finger = new Sprite();
 	finger.touchable = false;
 	var f:Image = new Image(Assets.getTexture("hand", "gui"));
-	f.pivotX = f.width  * 0.0 / appModel.scale;
-	f.pivotY = f.height * 0.4 / appModel.scale;
+	f.pivotX = 0;
+	f.pivotY = f.height * 0.8 / appModel.scale;
 	finger.addChild(f)
 }
 
@@ -52,9 +52,9 @@ protected override function transitionInCompleted():void
 	appModel.battleFieldView.addChild(finger);
 	
 	swipeNumText = new BitmapFontTextRenderer();
-	swipeNumText.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xAAFFDD, "center")
+	swipeNumText.textFormat = new BitmapFontTextFormat(Assets.getFont(), appModel.theme.gameFontSize * 1.4, 0xFFFFFF, "center")
 	swipeNumText.pixelSnapping = false;
-	swipeNumText.y = -100;
+	swipeNumText.y = -200;
 	swipeNumText.touchable = false;
 	swipeNumText.text = "  ";
 	swipeNumText.visible = false;
@@ -139,13 +139,13 @@ private function animate(name:String, startX:Number, startY:Number, endX:Number,
 	finger.x = startX;
 	finger.y = startY;
 	finger.alpha = startAlpha;
-	finger.scale = startScale * appModel.scale * 4;
+	finger.scale = startScale * appModel.scale;
 	finger.rotation = startRotation;
 	
 	var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
 	tween.moveTo(endX, endY);
 	tween.delay = delayTime;
-	tween.scaleTo(endScale * appModel.scale * 4);
+	tween.scaleTo(endScale * appModel.scale);
 	tween.rotateTo(endRotation);
 	tween.fadeTo(endAlpha);
 	tween.onComplete = tweenCompleteCallback;
