@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
@@ -28,7 +29,10 @@ import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
+import feathers.layout.VerticalAlign;
+import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 import starling.core.Starling;
@@ -61,8 +65,8 @@ public function ProfilePopup(user:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.10, stage.stageWidth * 0.9, stage.stageHeight * 0.8);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.05, stage.stageWidth * 0.9, stage.stageHeight * 0.9);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.35), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.3));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.10:0.30), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.4));
 	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void
@@ -162,6 +166,7 @@ private function showProfile():void
 			close();
 		}
 	}
+
 	
 	var featureCollection:ListCollection = new ListCollection();
 	var features:SFSArray = playerData.getSFSArray("features") as SFSArray;
@@ -192,28 +197,36 @@ private function showProfile():void
 	
 	// features
 	var featureList:List = new List();
-	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
+	featureList.horizontalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new ProfileFeatureItemRenderer(); }
 	featureList.dataProvider = featureCollection;
-	featureList.layoutData = new AnchorLayoutData(padding * 7, padding * 2, NaN, padding * 2);
+	featureList.layoutData = new AnchorLayoutData(padding * 7, padding * 2, adminMode ? NaN : (padding * 5), padding * 2);
 	addChild(featureList);
 	
-	// buildings
-	var listLayout:TiledRowsLayout = new TiledRowsLayout();
-	listLayout.padding = padding;
-	listLayout.gap = padding * 0.5;
-	listLayout.useSquareTiles = false;
-	listLayout.requestedColumnCount = 4;
-	listLayout.typicalItemWidth = (width -listLayout.padding * (listLayout.requestedColumnCount + 1)) / listLayout.requestedColumnCount;
-	listLayout.typicalItemHeight = listLayout.typicalItemWidth * 1.35;
+	var featureLayout:VerticalLayout = new VerticalLayout();
+	featureLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	featureLayout.verticalAlign = VerticalAlign.MIDDLE;
+	featureList.layout = featureLayout;
 	
-	var buildingslist:FastList = new FastList();
-	buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	buildingslist.layout = listLayout;
-	buildingslist.layoutData = new AnchorLayoutData(padding * 7 + featureCollection.length * padding * 1.8, 0, padding * 5, 0);
-	buildingslist.itemRendererFactory = function():IListItemRenderer { return new ProfileBuildingItemRenderer(); }
-	buildingslist.dataProvider = getBuildingData();
-	addChild(buildingslist);
+	// buildings
+	if( adminMode )
+	{
+		var listLayout:TiledRowsLayout = new TiledRowsLayout();
+		listLayout.padding = padding;
+		listLayout.gap = padding * 0.5;
+		listLayout.useSquareTiles = false;
+		listLayout.requestedColumnCount = 4;
+		listLayout.typicalItemWidth = (width -listLayout.padding * (listLayout.requestedColumnCount + 1)) / listLayout.requestedColumnCount;
+		listLayout.typicalItemHeight = listLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
+		
+		var buildingslist:FastList = new FastList();
+		buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+		buildingslist.layout = listLayout;
+		buildingslist.layoutData = new AnchorLayoutData(padding * 7 + featureCollection.length * padding * 1.8, 0, padding * 5, 0);
+		buildingslist.itemRendererFactory = function():IListItemRenderer { return new ProfileBuildingItemRenderer(); }
+		buildingslist.dataProvider = getBuildingData();
+		addChild(buildingslist);		
+	}
 }
 
 public function getBuildingData():ListCollection
