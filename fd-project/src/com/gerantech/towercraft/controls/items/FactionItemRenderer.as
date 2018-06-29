@@ -136,6 +136,7 @@ private function createElements():void
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	
 	var cardsDisplay:List = new List();
+	cardsDisplay.touchable = false;
 	cardsDisplay.layout = cardsLayout;
 	cardsDisplay.height = cardsLayout.typicalItemHeight;
 	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new BuildingItemRenderer ( false ); };

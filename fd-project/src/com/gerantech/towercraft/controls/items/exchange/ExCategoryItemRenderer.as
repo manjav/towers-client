@@ -17,8 +17,6 @@ import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-import starling.core.Starling;
 import starling.events.Event;
 
 public class ExCategoryItemRenderer extends AbstractTouchableListItemRenderer 
@@ -36,7 +34,7 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(22, 6, 1, 2), 52 * appModel.scale);
+	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(44, 12, 2, 4), 52 * appModel.scale);
 	headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	headerDisplay.height = 112 * appModel.scale;
 	addChild(headerDisplay);
@@ -88,9 +86,9 @@ override protected function commitData():void
 /*		case ExchangeType.C100_FREES:
 		case ExchangeType.C110_BATTLES:
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBattleItemRenderer();}
-			break;		
+			break;*/		
 		
-*/		case ExchangeType.C120_MAGICS:
+		case ExchangeType.C120_MAGICS:
 			CELL_SIZE = 360 * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBaseItemRenderer();}
 			break;		

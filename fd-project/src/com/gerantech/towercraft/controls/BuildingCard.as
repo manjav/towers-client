@@ -2,17 +2,17 @@ package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
-import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
 import flash.geom.Rectangle;
 import starling.events.Event;
 import starling.filters.ColorMatrixFilter;
@@ -20,7 +20,6 @@ import starling.filters.ColorMatrixFilter;
 public class BuildingCard extends TowersLayout
 {
 public static var VERICAL_SCALE:Number = 1.295;
-//public var data:Object;
 
 public var backgroundDisplayFactory:Function;
 public var iconDisplayFactory:Function;
@@ -51,7 +50,7 @@ protected var levelBackground:ImageLoader;
 protected var sliderDisplay:BuildingSlider;
 protected var coverDisplay:ImageLoader;
 protected var rarityDisplay:ImageLoader;
-protected var countDisplay:BitmapFontTextRenderer;
+protected var countDisplay:ShadowLabel;
 
 public function BuildingCard(showLevel:Boolean, showSlider:Boolean, showCount:Boolean, showElixir:Boolean)
 {
@@ -81,9 +80,9 @@ override protected function initialize():void
 		levelDisplayFactory = defaultLevelDisplayFactory;
 	if( sliderDisplayFactory == null )
 		sliderDisplayFactory = defaultSliderDisplayFactory;
-	/*if( countDisplayFactory == null )
+	if( countDisplayFactory == null )
 		countDisplayFactory = defaultCountDisplayFactory;
-	if( elixirDisplayFactory == null )
+	/*if( elixirDisplayFactory == null )
 		elixirDisplayFactory = defaultElixirDisplayFactory;*/
 	if( coverDisplayFactory == null )
 		coverDisplayFactory = defaultCoverDisplayFactory;
@@ -106,7 +105,7 @@ private function createCompleteHandler():void
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  DATA  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function setData(type:int, level:int = 1):void
+public function setData(type:int, level:int = 1, count:int = 1):void
 {
 	if( this.type == type )
 		return;
@@ -119,14 +118,9 @@ public function setData(type:int, level:int = 1):void
 	if( ResourceType.isBuilding(type) )
 		this.level = this.availablity == BuildingType.AVAILABLITY_EXISTS && level == 1 ? player.buildings.get(type).get_level() : level;
 	this.rarity = 0;//building.rarity;;
-	//this.count = building.troopsCount;
+	this.count = count;// != 1 ? building.troopsCount : count;
 	//this.elixirSize = building.elixirSize;
 	callFactories();
-}
-
-public function getType():int 
-{
-	return type;
 }
 
 private function callFactories() : void 
@@ -156,10 +150,11 @@ protected function defaultBackgroundDisplayFactory() : ImageLoader
 	if( backgroundDisaplay == null )
 	{
 		backgroundDisaplay = new ImageLoader();
+		backgroundDisaplay.color = 0xAAAA77;
 		backgroundDisaplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
-		backgroundDisaplay.maintainAspectRatio = false;
-		addChild(backgroundDisaplay);		
-		backgroundDisaplay.source = Assets.getTexture("cards/popup-inside-background-skin", "gui");
+		backgroundDisaplay.scale9Grid = BaseMetalWorksMobileTheme.SMALL_BACKGROUND_SCALE9_GRID;
+		backgroundDisaplay.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
+		addChildAt(backgroundDisaplay, 0);		
 	}
 	return backgroundDisaplay;
 }
@@ -265,10 +260,10 @@ protected function defaultSliderDisplayFactory() : BuildingSlider
 		return sliderDisplay;
 	}
 	sliderDisplay = new BuildingSlider();
-	sliderDisplay.height = padding * 4;
-	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.3, -padding * 4.2, padding * 0.3);
+	sliderDisplay.height = padding * 3;
+	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.3, -padding * 2.8, padding * 0.3);
 	sliderDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void{
-		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, -padding * 3.7, padding * (building.upgradable(0)?5:2));
+		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, -padding * 3, padding * (building.upgradable(0)?4:2));
 		labelsContainer.addChild(sliderDisplay.labelDisplay);
 		sliderDisplay.maximum = upgradeCards;
 		sliderDisplay.value = numBuildings;
@@ -286,13 +281,29 @@ protected function defaultRarityDisplayFactory() : ImageLoader
 	if( rarityDisplay == null )
 	{
 		rarityDisplay = new ImageLoader();
-		rarityDisplay.scale = appModel.scale;
+		rarityDisplay.touchable = false;
 		rarityDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
 		rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		addChildAt(rarityDisplay, 0);
 	}
 	rarityDisplay.source = Assets.getTexture("cards/rarity-" + rarity, "gui");
 	return levelBackground;
+}
+//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COUNT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+protected function defaultCountDisplayFactory() : ShadowLabel
+{
+	if( !showCount || availablity != BuildingType.AVAILABLITY_EXISTS || type < 0 || count < 1 )
+		return null;
+	
+	if( countDisplay == null )
+	{
+		countDisplay = new ShadowLabel("x " + count);
+		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
+		labelsContainer.addChild(countDisplay);
+		return countDisplay;
+	}
+	countDisplay.text = "x "+ count;
+	return countDisplay;
 }
 
 /*
@@ -333,50 +344,6 @@ public function set elixir(value:int):void
 	
 	_elixir = value;
 	elixirDisplayFactory();
-}
-
-//       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COUNT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function get showCount():Boolean
-{
-	return _showCount;
-}
-public function set showCount(value:Boolean):void
-{
-	if ( _showCount == value )
-		return;
-	
-	_showCount = value;
-	if( countDisplayFactory != null )
-		countDisplayFactory();
-}
-protected function defaultCountDisplayFactory():void
-{
-	if( !_showCount || _locked || _type < 0 || _level <= 0 )
-		return;
-	
-	if( countDisplay == null )
-	{
-		countDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-		countDisplay.touchable = false;
-		countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64*appModel.scale, 0xFFFFFF, "right");
-		countDisplay.layoutData = new AnchorLayoutData(NaN, padding*2, padding*1.5);
-		labelsContainer.addChild(countDisplay);
-	}
-
-	countDisplay.text = "x "+ _count;
-}
-
-public function get count():int
-{
-	return _count;
-}
-public function set count(value:int):void
-{
-	if ( _count == value )
-		return;
-	
-	_count = value;
-	countDisplayFactory();
 }*/
 }
 }

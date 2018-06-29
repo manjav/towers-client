@@ -26,14 +26,10 @@ override protected function commitData():void
 	super.commitData();
 	skin.alpha = 0.7;
 	var cardDisplay:BuildingCard = new BuildingCard(false, false, true, false);
-	cardDisplay.setData(exchange.outcome);
-	cardDisplay.width = width * 0.6;
-	cardDisplay.layoutData = new AnchorLayoutData(padding * 2, NaN, NaN, NaN, 0);
+	cardDisplay.setData(exchange.outcome, 1, exchange.outcomes.values()[0]);
+	cardDisplay.width = width * 0.65;
+	cardDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 	addChild(cardDisplay);
-	
-	var countDisplay:ShadowLabel = new ShadowLabel("x " + exchange.outcomes.values()[0]);
-	countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.2, padding * 0.2);
-	cardDisplay.addChild(countDisplay);	
 	
 	if( exchange.numExchanges > 0 )
 	{

@@ -94,7 +94,7 @@ override protected function initialize():void
 	countInsideDisplay.text = "x " + count; 
 	
 	detailsContainer = new LayoutGroup ();
-	detailsContainer.x = appModel.isLTR ? padding : -width*0.6-padding;
+	detailsContainer.x = appModel.isLTR ? padding : -width * 0.6 - padding;
 	detailsContainer.y = -height * 0.5;
 	detailsContainer.width = width * 0.6;
 	detailsContainer.height = height;

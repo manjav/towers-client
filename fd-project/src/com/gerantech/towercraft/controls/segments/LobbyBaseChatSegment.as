@@ -102,7 +102,7 @@ protected function showElements():void
 	
 	chatLayout = new VerticalLayout();
 	chatLayout.paddingTop = padding * 2;
-    chatLayout.paddingBottom = footerSize;
+    chatLayout.paddingBottom = footerSize + padding * 2;
 	chatLayout.hasVariableItemDimensions = true;
 	chatLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	chatLayout.verticalAlign = VerticalAlign.BOTTOM;
@@ -124,7 +124,7 @@ protected function showElements():void
 	chatTextInput.maxChars = 160;
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
-    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, 0, padding);
+    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, padding);
     chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
     chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
@@ -132,7 +132,7 @@ protected function showElements():void
     chatEnableButton.width = chatEnableButton.height = footerSize;
     chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
     chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, 0, NaN);
+    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
     addChild(chatEnableButton);
 

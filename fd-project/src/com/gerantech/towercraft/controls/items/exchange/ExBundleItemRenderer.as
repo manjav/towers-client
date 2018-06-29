@@ -79,27 +79,27 @@ private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void
 	}
 	else
 	{
-		var cardDisplay:BuildingCard = new BuildingCard(false, false, true, false);
+		var cardDisplay:BuildingCard = new BuildingCard(false, false, false, false);
 		cardDisplay.width = padding * 18;
 		cardDisplay.setData(outKeys[i]);
 		cardDisplay.pivotX = cardDisplay.width * 0.5;
-		cardDisplay.pivotY = cardDisplay.height * 0.5;	
+		cardDisplay.pivotY = cardDisplay.pivotX * BuildingCard.VERICAL_SCALE;	
 		
 		var countDisplay:ShadowLabel = new ShadowLabel(exchange.outcomes.get(outKeys[i]).toString(), 1, 0, "center", null, false, null, 0.9);
-		countDisplay.layoutData = new AnchorLayoutData(padding * 0.5, padding * 2, NaN, padding * 2);
+		countDisplay.layoutData = new AnchorLayoutData(padding, padding * 2, NaN, padding * 2);
 		setTimeout(cardDisplay.addChild, 10, countDisplay);
 		outcome = cardDisplay;
 	}
 
 	outcome.x = i * rowH + rowH * 0.5;
-	outcome.y = padding * 18;
+	outcome.y = padding * 16;
 	addChild(outcome);
 	
 	var labelDisplay:ShadowLabel = new ShadowLabel(loc((ResourceType.isBuilding(outKeys[i]) ? "building_title_" : (ResourceType.isBook(outKeys[i])?"exchange_title_":"resource_title_")) + outKeys[i]), 1, 0, "center");
 	labelDisplay.width = rowH;
 	labelDisplay.pivotX = rowH * 0.5;
 	labelDisplay.x = i * rowH + rowH * 0.5;
-	labelDisplay.y = padding * 30;
+	labelDisplay.y = padding * 27;
 	addChild(labelDisplay);
 }
 
