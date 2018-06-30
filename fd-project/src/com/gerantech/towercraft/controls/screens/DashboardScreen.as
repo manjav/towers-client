@@ -129,7 +129,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	}
 	
 	// tutorial mode
-	if( player.inTutorial() && !player.inShopTutorial() && !player.inDeckTutorial() )
+	if( player.inTutorial() )
 	{
 		if( player.tutorialMode == 0 )
 			appModel.navigator.pushScreen(Main.QUESTS_SCREEN);
@@ -149,7 +149,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.T_120_FIRST_RUN ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.T_000_FIRST_RUN ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 	
 	appModel.navigator.handleInvokes();
 	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);

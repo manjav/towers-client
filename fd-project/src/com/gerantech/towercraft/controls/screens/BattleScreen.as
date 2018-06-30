@@ -76,6 +76,7 @@ private var state:int = 0;
 private static const STATE_CREATED:int = 0;
 private static const STATE_STARTED:int = 1;
 private var touchEnable:Boolean;
+private var tutorBattleIndex:int;
 
 public function BattleScreen(){}
 override protected function initialize():void
@@ -166,7 +167,7 @@ private function startBattle():void
 {
 	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
 		return;
-		
+	
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
 	var battleData:BattleData = appModel.battleFieldView.battleData;
 	if( !waitingOverlay.ready )
@@ -221,6 +222,7 @@ private function tutorials_tasksStartHandler(e:Event):void
 private function showTutorials() : void 
 {
 	touchEnable = true;
+	tutorBattleIndex = player.get_battleswins() * 20;
 	if( sfsConnection.mySelf.isSpectator )
 		return;
 
@@ -268,22 +270,7 @@ private function showTutorials() : void
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	tutorials.show(tutorialData);
 	
-	if( field.index == 0 )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_122_QUEST_0_START);
-	else if( field.index == 1 )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_131_QUEST_1_START);
-	else
-	{
-		if( player.tutorialMode == 0 )
-		{
-			if( field.index == 2 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_133_QUEST_2_FIRST_START : PrefsTypes.T_162_QUEST_2_SECOND_START);
-		}
-		else
-		{
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_133_QUEST_2_FIRST_START);
-		}
-	}
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 1);
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -348,21 +335,9 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		nextArena = player.get_arena(0);
 	}
 	
-	if( inTutorial )
-	{
-		// reserved prefs data
-		if( field.index == 0 && rewards.getSFSObject(0).getInt("score") > 0 )
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_125_QUEST_0_WIN);
-		else if( field.index == 1 && rewards.getSFSObject(0).getInt("score") > 0 )
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_132_QUEST_1_WIN);
-		else if ( field.index == 2 )
-		{
-			if( player.tutorialMode == 0 )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, !player.emptyDeck() && rewards.getSFSObject(0).getInt("score") > 0 ? PrefsTypes.T_165_QUEST_2_WIN : PrefsTypes.T_135_QUEST_2_LOSE);
-			else
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_136_QUEST_2_WIN);
-		}
-	}
+	// reserved prefs data
+	if( inTutorial && rewards.getSFSObject(0).getInt("score") > 0 )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 7);
 	
 	var endOverlay:EndOverlay;
 	if( field.isQuest )
@@ -530,24 +505,21 @@ private function tutorials_tasksFinishHandler(event:Event):void
 	if( tutorial.name == "quest_2_end" || tutorial.name == "battle_2_end" || tutorial.name == "tutor_upgrade" )
 	{
 		var defeatAfterTutorial:Boolean = !player.inTutorial() && player.tutorialMode == 1 && tutorial.data < 0;
-		if ( player.tutorialMode == 0 || defeatAfterTutorial )
+		if( player.tutorialMode == 0 || defeatAfterTutorial )
 		{
 			if( player.buildings.exists(BuildingType.B11_BARRACKS) )
 			{
 				if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
-					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, defeatAfterTutorial ? PrefsTypes.T_181_RANK_FOCUS : PrefsTypes.T_171_SELECT_NAME_FOCUS);
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, defeatAfterTutorial ? PrefsTypes.T_161_RANK_FOCUS : PrefsTypes.T_151_SELECT_NAME_FOCUS);
 				else
-					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_151_DECK_FOCUS); 
+					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_035_DECK_FOCUS); 
 			}
 			else
 			{
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_141_SHOP_FOCUS);
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_031_SLOT_FOCUS);
 			}
 		}
-		else
-		{
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_138_SELECT_NAME_FOCUS);
-		}
+
 		appModel.navigator.popToRootScreen();
 		return;
 	}
@@ -723,14 +695,7 @@ private function touchHandler(event:TouchEvent):void
 			}
 			
 			// send fight data to room
-			var bf:BattleField = appModel.battleFieldView.battleData.battleField; 
-			if( bf.map.isQuest )
-			{
-				if( bf.map.index == 0 )
-					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_123_QUEST_0_FIRST_SWIPE);
-				else if( bf.map.index == 2 )
-					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.hardMode ? PrefsTypes.T_134_QUEST_2_FIRST_SWIPE : PrefsTypes.T_164_QUEST_2_SECOND_SWIPE );
-			}
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 4);
 			appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
 			clearSources(sourcePlaces);
 		}
@@ -803,8 +768,8 @@ private function showImproveFloating(placeView:PlaceView):void
 			return;
 		}
 		appModel.battleFieldView.responseSender.improveBuilding(btn.building.place.index, btn.type);
-		if( player.getTutorStep() == PrefsTypes.T_162_QUEST_2_SECOND_START )
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_163_QUEST_2_FIRST_IMPROVE);
+		if( player.getTutorStep() == tutorBattleIndex + 1 )
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 2);
 	}
 }
 

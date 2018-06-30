@@ -24,7 +24,7 @@ override protected function addedToStageHandler(event:Event):void
 	super.addedToStageHandler(event);
 	tabPadding = 56 * appModel.scale;
 	tabSize = ( stageWidth - tabPadding * 2 ) / 5;
-
+	
 	tabsList.layoutData = new AnchorLayoutData(NaN, tabPadding, 0, tabPadding);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabNewItemRenderer(tabSize); }
 	

@@ -198,7 +198,7 @@ private function showTutorial():void
 		appModel.navigator.addPopup(confirm);
 		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.tutorialMode == 0 ? PrefsTypes.T_172_NAME_SELECTED : PrefsTypes.T_139_NAME_SELECTED); 
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_NAME_SELECTED); 
 		}
 		return;
 	}
@@ -208,9 +208,9 @@ private function showTutorial():void
 	}
 	
 	// show rank table tutorial
-	if( tutorStep == PrefsTypes.T_172_NAME_SELECTED && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_181_RANK_FOCUS); 
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_RANK_FOCUS); 
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 500, 1500, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
@@ -219,7 +219,7 @@ private function showTutorial():void
 			
 			if( event.data.name != "rank_tutorial" )
 				return;
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_182_RANK_SHOWN);
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_RANK_SHOWN);
 			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
 		}
 		return;

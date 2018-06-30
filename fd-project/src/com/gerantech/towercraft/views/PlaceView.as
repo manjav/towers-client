@@ -174,8 +174,9 @@ private function showMidSwipesTutorial(troopType : int) : void
 		return;
 	
 	tutorials.showMidSwipe(this);
-	if( player.getTutorStep() == PrefsTypes.T_123_QUEST_0_FIRST_SWIPE )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_124_QUEST_0_FIRST_CAPTURE); // set first capture tutor step
+	var deca:int = player.get_battleswins() * 20;
+	if( player.getTutorStep() == deca + 4 )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, deca + 5); // set first capture tutor step
 }
 
 public function getData(index:int):PlaceData

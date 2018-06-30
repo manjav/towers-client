@@ -46,7 +46,7 @@ public static function get instance() : ExchangeManager
 public function ExchangeManager() {	super(); }
 public function process(item : ExchangeItem) : void 
 {
-	if ( (player.inDeckTutorial() || player.inShopTutorial()) && item.type != ExchangeType.C101_FREE )
+	if( player.inTutorial() )
 	{
 		dispatchEndEvent(false, item);
 		return;// disalble all items in tutorial
@@ -135,8 +135,8 @@ public function process(item : ExchangeItem) : void
 			item.outcomes = new IntIntMap();
 			exchange(item, params);
 			
-			if( player.getTutorStep() == PrefsTypes.T_143_SHOP_BOOK_FOCUS )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_144_SHOP_BOOK_OPENED );
+			if( player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_034_BOOK_OPENED );
 			
 			return;
 		}
@@ -247,7 +247,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 
 private function gotoDeckTutorial():void
 {
-	if( !player.inShopTutorial() )
+	if( player.getTutorStep() != PrefsTypes.T_034_BOOK_OPENED )
 		return;
 
 	var tutorialData:TutorialData = new TutorialData("shop_end");
@@ -258,6 +258,7 @@ private function gotoDeckTutorial():void
 
 private function showAd():void
 {
+	return;
 	if( player.inTutorial() || player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) || !VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_CHESTS).available )
 		return;
 	

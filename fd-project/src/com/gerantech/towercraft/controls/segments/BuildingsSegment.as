@@ -79,7 +79,7 @@ private function showTutorial():void
 	if( !player.inDeckTutorial() )
 		return;
 	
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_DECK_FIRST_VIEW );
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
 	tutorials.show(tutorialData);

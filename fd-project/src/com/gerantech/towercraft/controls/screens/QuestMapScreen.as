@@ -118,8 +118,8 @@ override protected function transitionInCompleteHandler(event:Event):void
 	if( lastQuest.index > 0 )
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
 	
-	if( player.inTutorial() )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
+	//if( player.inTutorial() )
+	//	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
 
 	//quest intro
 	var tutorialData:TutorialData = new TutorialData("quest_" + lastQuest.index + "_intro");

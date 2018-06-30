@@ -107,8 +107,8 @@ private function showRanking():void
 	list.alpha = 0;
 	Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
 	
-	if( player.getTutorStep() == PrefsTypes.T_181_RANK_FOCUS )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_182_RANK_SHOWN); 
+	if( player.getTutorStep() == PrefsTypes.T_161_RANK_FOCUS )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_RANK_SHOWN); 
 }
 
 private function findMe():int

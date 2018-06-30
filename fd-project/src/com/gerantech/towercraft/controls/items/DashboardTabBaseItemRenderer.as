@@ -53,21 +53,16 @@ override protected function commitData():void
 		// show focus in tutorial 
 		if ( player.inTutorial() || player.tutorialMode == 1 )
 		{
-			var tutorStep:int = player.getTutorStep();
-			if( index == 0 && player.inShopTutorial() )
-			{
-				setTimeout(showTutorArrow, 600);		
-			}
-			else if( index == 1 )
-			{
-				tutorials.addEventListener("upgrade", tutorialManager_upgradeHandler);
-			}
-			else if( index == 2 )
+			if( index == 1 )
 			{
 				if( player.inDeckTutorial() )
 					setTimeout(showTutorArrow, 600);
 				else 
 					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+			}
+			else if( index == 2 )
+			{
+				tutorials.addEventListener("upgrade", tutorialManager_upgradeHandler);
 			}
 		}
 		appModel.navigator.addEventListener("dashboardTabChanged", navigator_dashboardTabChanged);
