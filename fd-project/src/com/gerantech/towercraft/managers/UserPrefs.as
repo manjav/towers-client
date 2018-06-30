@@ -7,6 +7,7 @@ import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Player;
 import com.gt.towers.constants.PrefsTypes;
+import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -55,12 +56,15 @@ public function setBool(key:int, value:Boolean):void
 }
 public function setInt(key:int, value:int):void
 {
-    // prevent backward in tutor steps
+    // prevent backward tutor steps
     if( key == PrefsTypes.TUTOR )
         if( AppModel.instance.game.player.getTutorStep() >= value )
             return;
     
 	setString(key, value.toString());
+    if( key == PrefsTypes.TUTOR )
+		GameAnalytics.addDesignEvent("tutorial:step-" + value);
+
 }
 public function setFloat(key:int, value:Number):void
 {
