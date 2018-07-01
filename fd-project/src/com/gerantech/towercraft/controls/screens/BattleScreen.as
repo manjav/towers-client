@@ -20,6 +20,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.views.BattleFieldView;
@@ -324,6 +325,8 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));
 	}
+	
+	appModel.battleFieldView.battleData.outcomes = new Vector.<RewardData>();
 	
 	// arena changes manipulation
 	var prevArena:int = 0;

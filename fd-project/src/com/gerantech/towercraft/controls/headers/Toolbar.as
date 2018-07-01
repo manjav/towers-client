@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
@@ -40,10 +41,10 @@ override protected function initialize():void
 	
 	indicators[ResourceType.CURRENCY_SOFT] = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
 	indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.SELECT, indicators_selectHandler);
-	indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding*3+indicators[ResourceType.CURRENCY_HARD].width, NaN, NaN);
+	indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding * 3 + indicators[ResourceType.CURRENCY_HARD].width, NaN, NaN);
 	addChild(indicators[ResourceType.CURRENCY_SOFT]);
 
-	if(appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
+	if( appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
 		loadingManager_loadedHandler(null);
 	else
 		appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
@@ -51,32 +52,51 @@ override protected function initialize():void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	player.resources.addEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
+	
+	if( stage != null )
+		addedToStageHandler(null);
+	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+	
 	updateIndicators();
 }
 
+protected function addedToStageHandler(e:Event):void 
+{
+	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData.outcomes == null )
+		return;
+	
+	var achieved:Array = new Array();
+	for ( var i:int = 0; i < appModel.battleFieldView.battleData.outcomes.length; i++ )
+	{
+		var rd:RewardData = appModel.battleFieldView.battleData.outcomes[i];
+		if ( indicators.hasOwnProperty(rd.key) && Indicator(indicators[rd.key]).stage != null )
+		{
+			appModel.navigator.addResourceAnimation(rd.x, rd.y, rd.key, rd.value);
+			achieved.push(i); 
+		}
+	}
+	
+	for each( var a:int in achieved )
+		appModel.battleFieldView.battleData.outcomes.removeAt(a);
+}
 
 protected function playerResources_changeHandler(event:CoreEvent):void
 {
 	trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
 	updateIndicators();
 }
-
-public function updateIndicators():void
-{
-/*	if( indicators[ResourceType.KEY] != null )
-		indicators[ResourceType.KEY].visible = !player.inTutorial();
-	if( indicators[ResourceType.POINT] != null )
-		indicators[ResourceType.POINT].visible = !player.inTutorial();
-*/	
-	for (var k:Object in indicators) 
-		indicators[k].setData(0, player.getResource(k as int), NaN);
-}
 	
-
-private function indicators_selectHandler(event:Event):void
+protected function indicators_selectHandler(event:Event):void
 {
 	dispatchEventWith(Event.SELECT, false, event.currentTarget);
 }
+
+public function updateIndicators():void
+{
+	for (var k:Object in indicators)
+		indicators[k].setData(0, player.getResource(k as int), NaN);
+}
+
 
 override public function dispose():void
 {

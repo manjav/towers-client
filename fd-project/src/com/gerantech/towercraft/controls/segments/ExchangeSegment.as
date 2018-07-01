@@ -32,11 +32,7 @@ public static var focusedCategory:int = 0
 private var itemslistData:ListCollection;
 private var itemslist:List;
 
-public function ExchangeSegment()
-{
-	super();
-}
-
+public function ExchangeSegment(){super();}
 override public function init():void
 {
 	super.init();

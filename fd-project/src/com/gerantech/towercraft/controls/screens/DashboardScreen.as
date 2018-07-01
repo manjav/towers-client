@@ -152,7 +152,6 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.T_000_FIRST_RUN ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 	
 	appModel.navigator.handleInvokes();
-	appModel.navigator.toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
 	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
 	
 	SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
@@ -249,22 +248,6 @@ private function lobbyManager_updateHandler(event:Event):void
 {
 	TabItemData(segmentsCollection.getItemAt(3)).badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
 }
-private function toolbar_selectHandler(event:Event):void
-{
-	if( player.inTutorial() || tabIndex == 0 )
-		return;
-	
-	if( event.data.resourceType == ResourceType.CURRENCY_SOFT )
-	{
-		ExchangeSegment.focusedCategory = 3;
-		gotoPage(0);
-	}
-	else if( event.data.resourceType == ResourceType.CURRENCY_HARD )
-	{
-		ExchangeSegment.focusedCategory = 2;
-		gotoPage(0);
-	}
-}
 
 override protected function backButtonFunction():void
 {
@@ -282,11 +265,7 @@ override protected function backButtonFunction():void
 override public function dispose():void
 {
 	if( appModel != null )
-	{
 		appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-		if( appModel.navigator.toolbar != null )
-			appModel.navigator.toolbar.removeEventListener(Event.SELECT, toolbar_selectHandler);
-	}
 	super.dispose();
 }
 }

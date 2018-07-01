@@ -67,6 +67,35 @@ override public function init():void
 	addButton(leaguesButton, stageWidth * 0.5, height * 0.50, 0.4, goUp);
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.52, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.50, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+
+	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
+	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
+	battlesButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
+	addButton(battlesButton, stageWidth * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
+
+	var bookLine:HomeBooksLine = new HomeBooksLine();
+    bookLine.height = padding * 24;
+	bookLine.paddingTop = 40 * appModel.scale;
+	bookLine.layoutData = new AnchorLayoutData(NaN, 0, padding, 0);
+	addChild(bookLine);
+	
+	if( player.admin ) // hidden admin button
+	{
+		var adminButton:Button = new Button();
+		adminButton.alpha = 0;
+		adminButton.isLongPressEnabled = true;
+		adminButton.longPressDuration = 1;
+		adminButton.width = adminButton.height = 120 * appModel.scale;
+		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
+		addChild(adminButton);
+	}
+	
+	showTutorial();
+	
+	if( player.get_battleswins() < 4 )
+		return;
+	
 	
 	var profile:Profile  = new Profile();
 	profile.height = padding * 20;
@@ -86,35 +115,6 @@ override public function init():void
 	tasksButton.width = stageWidth * 0.45;
 	tasksButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
 	addChild(tasksButton);
-
-	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
-	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
-	battlesButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-	addButton(battlesButton, stageWidth * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
-
-	var bookLine:HomeBooksLine = new HomeBooksLine();
-    bookLine.height = padding * 24;
-	bookLine.paddingTop = 40 * appModel.scale;
-	bookLine.layoutData = new AnchorLayoutData(NaN, 0, padding, 0);
-	
-	if( player.admin ) // hidden admin button
-	{
-		var adminButton:Button = new Button();
-		adminButton.alpha = 0;
-		adminButton.isLongPressEnabled = true;
-		adminButton.longPressDuration = 1;
-		adminButton.width = adminButton.height = 120 * appModel.scale;
-		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
-		addChild(adminButton);
-	}
-	
-	showTutorial();
-	
-	if( player.get_battleswins() < 4 )
-		return;
-	
-	addChild(bookLine);
 	
 	if( player.get_battleswins() < 6 )
 		return;

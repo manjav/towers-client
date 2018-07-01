@@ -7,8 +7,10 @@ import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 
 public class BattleData
 {
@@ -21,6 +23,7 @@ public var battleField:BattleField;
 public var isLeft:Boolean;
 public var allis:ISFSObject;
 public var axis:ISFSObject;
+public var outcomes:Vector.<RewardData>;
 
 public function BattleData(data:ISFSObject)
 {

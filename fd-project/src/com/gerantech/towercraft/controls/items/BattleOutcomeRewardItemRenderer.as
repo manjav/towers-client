@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.RewardData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -81,7 +82,7 @@ override protected function feathersControl_removedFromStageHandler(event:Event)
 	if( _data.c != 0 )// && !SFSConnection.instance.mySelf.isSpectator
 	{
 		var rect:Rectangle = getBounds(stage);
-		setTimeout(appModel.navigator.dispatchEventWith, 200, "itemAchieved", true, {index:index, x:rect.x + rect.width * 0.5, y:rect.y + rect.height * 0.5, type:_data.t, count:_data.c});
+		appModel.battleFieldView.battleData.outcomes.push(new RewardData(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, _data.t, _data.c));
 	}
 	super.feathersControl_removedFromStageHandler(event);
 }

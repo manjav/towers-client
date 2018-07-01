@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
@@ -17,6 +18,7 @@ import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingEvent;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
@@ -25,6 +27,7 @@ import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.BlendMode;
+import starling.display.DisplayObjectContainer;
 import starling.display.Image;
 import starling.events.Event;
 
@@ -70,9 +73,17 @@ override protected function commitData():void
 		timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 		timeManager_changeHandler(null);
 	}
-	appModel.navigator.addEventListener("itemAchieved", navigator_itemAchievedHandler);
-	//tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+	
+	// show book falling
+	owner.addEventListener(FeathersEventType.CREATION_COMPLETE, createComplteHandler);
 }
+
+private function createComplteHandler(event:Event):void 
+{
+	event.currentTarget.removeEventListener(FeathersEventType.CREATION_COMPLETE, createComplteHandler);
+	setTimeout(achieve, 0);
+}
+
 
 
 /**
@@ -257,31 +268,47 @@ protected function timeManager_changeHandler(event:Event):void
 }
 
 
-private function navigator_itemAchievedHandler(event:Event):void 
+private function achieve():void 
 {
-	if( event.data.count != exchange.type )
+	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData.outcomes == null )
+		return;
+	
+	var achieved:int =-1;
+	var rd:RewardData;
+	for ( var i:int = 0; i < appModel.battleFieldView.battleData.outcomes.length; i++ )
+	{
+		rd = appModel.battleFieldView.battleData.outcomes[i];
+		if ( rd.value == exchange.type )
+		{
+			achieved = i;
+			break;
+		}
+	}
+
+	if( achieved == -1 )
 		return;
 
-	var outcome:int = event.data.type;
-	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + outcome );
+	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + rd.key );
 	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);
 	bookAnimation.animation.timeScale = 0.5;
-	bookAnimation.x = event.data.x;
-	bookAnimation.y = event.data.y;
+	bookAnimation.x = rd.x;
+	bookAnimation.y = rd.y;
 	bookAnimation.addEventListener(EventObject.COMPLETE, bookAnimation_completeHandler);
 	appModel.navigator.addChild(bookAnimation);
-	var globalPos:Rectangle = this.getBounds(appModel.navigator); 
+	var globalPos:Rectangle = this.getBounds(stage);trace(globalPos)
 	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, x:globalPos.x + width * 0.53, scale:OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 0.68, transition:Transitions.EASE_IN_OUT});
 	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, y:globalPos.y + height * 0.65, transition:Transitions.EASE_IN_BACK});
 	function bookAnimation_completeHandler(event:StarlingEvent):void
 	{
 		bookAnimation.removeFromParent(true);
 		exchange.expiredAt = 0;
-		exchange.outcome = outcome;
-		exchange.outcomes.set(outcome, player.get_arena(0));
+		exchange.outcome = rd.key;
+		exchange.outcomes.set(rd.key, player.get_arena(0));
 		commitData();
 	}
+	
+	appModel.battleFieldView.battleData.outcomes.removeAt(achieved);
 }
 
 /*private function tutorialManager_finishHandler(event:Event):void
@@ -312,7 +339,6 @@ override public function set isSelected(value:Boolean):void
 private function reset() : void
 {
 	//tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-	appModel.navigator.removeEventListener("itemAchieved", navigator_itemAchievedHandler);
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	removeChildren(0, -1);
 	backgroundDisplay = null;
