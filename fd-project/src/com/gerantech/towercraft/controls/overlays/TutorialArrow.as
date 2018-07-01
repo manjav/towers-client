@@ -14,7 +14,7 @@ private var _height:Number;
 
 public function TutorialArrow(isUp:Boolean=true)
 {
-	scale = appModel.scale * 2;
+	scale = appModel.scale;
 	this.isUp = isUp;
 }
 
