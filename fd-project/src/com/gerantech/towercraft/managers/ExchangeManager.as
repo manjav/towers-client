@@ -138,7 +138,7 @@ public function process(item : ExchangeItem) : void
 			exchange(item, params);
 			
 			if( player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_034_BOOK_OPENED );
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_033_BOOK_OPENED );
 			
 			return;
 		}
@@ -252,9 +252,10 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 
 private function gotoDeckTutorial():void
 {
-	if( player.getTutorStep() != PrefsTypes.T_034_BOOK_OPENED )
+	if( player.getTutorStep() != PrefsTypes.T_033_BOOK_OPENED )
 		return;
 
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_035_DECK_FOCUS);
 	var tutorialData:TutorialData = new TutorialData("shop_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 500, 1500, 4));
 	tutorials.show(tutorialData);

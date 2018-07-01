@@ -45,17 +45,9 @@ override protected function commitData():void
 		armatureDisplay.x = width * 0.5;
 		armatureDisplay.y = height * 0.5;
 		armatureDisplay.scale = appModel.scale * 0.8;
+		armatureDisplay.animation.timeScale = 0;
+		armatureDisplay.animation.gotoAndStopByProgress("appear", 1);
 		addChild(armatureDisplay);
-		
-		if( player.get_battleswins() == 3 )
-		{
-			armatureDisplay.animation.gotoAndPlayByTime("wait", 0, 16);
-		}
-		else
-		{
-			armatureDisplay.animation.timeScale = 0;
-			armatureDisplay.animation.gotoAndStopByProgress("appear", 1);
-		}
 	}
 	else
 	{

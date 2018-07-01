@@ -355,21 +355,8 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
 	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	setTimeout(appearEndOverlay, player.get_arena(0) == 0?800:0, endOverlay, field);// delay for noobs
-}
-
-private function appearEndOverlay(endOverlay:EndOverlay, field:FieldData):void 
-{
-	hud.end(endOverlay);
 	
-	// show mid tutorials
-	if( !field.isQuest && endOverlay.winRatio > 1 && player.get_battleswins() == 3 || player.get_battleswins() == 4 )
-	{
-		var tutorialData:TutorialData = new TutorialData(field.name + "_free");
-		tutorialData.data = "free";
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_" + player.get_battleswins() + "_free"));
-		tutorials.show(tutorialData);
-	}
+	setTimeout(hud.end, player.get_arena(0) == 0?800:0, endOverlay);// delay for noobs
 }
 
 private function disposeBattleAssets():void
@@ -504,25 +491,9 @@ private function tutorials_tasksFinishHandler(event:Event):void
 		endBattle(tutorial.data as SFSObject, true);
 		return;
 	}
-	
-	if( tutorial.name == "quest_2_end" || tutorial.name == "battle_2_end" || tutorial.name == "tutor_upgrade" )
+	if( player.get_battleswins() == 2 )
 	{
-		var defeatAfterTutorial:Boolean = !player.inTutorial() && player.tutorialMode == 1 && tutorial.data < 0;
-		if( player.tutorialMode == 0 || defeatAfterTutorial )
-		{
-			if( player.buildings.exists(BuildingType.B11_BARRACKS) )
-			{
-				if( player.buildings.get(BuildingType.B11_BARRACKS).get_level() > 1 )
-					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, defeatAfterTutorial ? PrefsTypes.T_161_RANK_FOCUS : PrefsTypes.T_151_SELECT_NAME_FOCUS);
-				else
-					UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_035_DECK_FOCUS); 
-			}
-			else
-			{
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_031_SLOT_FOCUS);
-			}
-		}
-
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_031_SLOT_FOCUS);
 		appModel.navigator.popToRootScreen();
 		return;
 	}

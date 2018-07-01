@@ -228,7 +228,7 @@ private function pageList_focusInHandler(event:Event):void
 
 private function tabsList_selectHandler(event:Event):void
 {
-	if ( !player.dashboadTabEnabled(tabsList.selectedIndex) )
+	if( !player.dashboadTabEnabled(tabsList.selectedIndex) )
 		return;
 	pageList.removeEventListeners(FeathersEventType.FOCUS_IN);
 	gotoPage(tabsList.selectedIndex);

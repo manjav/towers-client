@@ -208,7 +208,7 @@ private function showTutorial():void
 	}
 	
 	// show rank table tutorial
-	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED && player.resources.get(ResourceType.BATTLES_WINS) > 0 )
+	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED && player.get_battleswins() > 0 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_RANK_FOCUS); 
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
@@ -230,6 +230,8 @@ private function showTutorial():void
 		if( !player.inShopTutorial() && !player.inDeckTutorial() && player.hasQuests )
 			questsButton.showArrow();
 	}*/
+	
+
 }
 
 

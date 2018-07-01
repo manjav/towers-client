@@ -68,33 +68,6 @@ override public function focus():void
 	focusedCategory = 0;
 }
 
-/*private function showTutorial():void
-{
-	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-	if( player.getTutorStep() != PrefsTypes.T_141_SHOP_FOCUS )
-		return;
-	
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_142_SHOP_FIRST_VIEW );
-	var tutorialData:TutorialData = new TutorialData("shop_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_0", null, 500, 1500, 0));
-	tutorials.show(tutorialData);
-}
-
-private function tutorials_finishHandler(event:Event):void
-{
-	if( event.data.name == "shop_start" )
-	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_143_SHOP_BOOK_FOCUS );
-	}
-	else if( event.data.name == "shop_end" )
-	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_151_DECK_FOCUS);
-		tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-		var tutorialData:TutorialData = new TutorialData("shop_end");
-		tutorials.show(tutorialData);
-	}
-}*/
-
 override public function updateData():void
 {
 	if( itemslistData == null )
@@ -156,11 +129,5 @@ private function confirms_selectHandler(event:Event):void
 	params.putInt("hards", RequirementConfirmPopup(event.currentTarget).numHards );
 	sendData(params);
 }*/
-
-public override function dispose() : void
-{
-	///////////////////////tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-	super.dispose();
-}
 }
 }

@@ -2,13 +2,19 @@ package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.RewardData;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
@@ -42,7 +48,7 @@ private var busyGroup:LayoutGroup;
 private var readyLabel:ShadowLabel;
 private var timeoutId:uint;
 private var hardLabel:ShadowLabel;
-//private var tutorialArrow:TutorialArrow;
+private var tutorialArrow:TutorialArrow;
 
 public function ExBookSlotItemRenderer(){}
 override protected function initialize():void
@@ -73,6 +79,11 @@ override protected function commitData():void
 		timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 		timeManager_changeHandler(null);
 	}
+	else if( state == ExchangeItem.CHEST_STATE_READY && player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_033_BOOK_OPENED);
+		showTutorArrow();
+	}
 	
 	// show book falling
 	owner.addEventListener(FeathersEventType.CREATION_COMPLETE, createComplteHandler);
@@ -81,7 +92,7 @@ override protected function commitData():void
 private function createComplteHandler(event:Event):void 
 {
 	event.currentTarget.removeEventListener(FeathersEventType.CREATION_COMPLETE, createComplteHandler);
-	setTimeout(achieve, 0);
+	setTimeout(achieve, 10);
 }
 
 
@@ -114,30 +125,6 @@ override protected function bookFactory() : StarlingArmatureDisplay
 
 override protected function buttonFactory() : ExchangeButton
 {
-	/*if( state == ExchangeItem.CHEST_STATE_EMPTY ) 
-		return null;
-
-	buttonDisplay = new ExchangeButton();
-	if( state == ExchangeItem.CHEST_STATE_WAIT )
-	{
-		buttonDisplay.style = "normal";
-		buttonDisplay.count = ExchangeType.getKeyRequierement(exchange.outcome);
-		buttonDisplay.type = ResourceType.KEY;
-	}
-	else if( state == ExchangeItem.CHEST_STATE_BUSY )
-	{
-		buttonDisplay.style = "neutral";
-		buttonDisplay.count = 10;
-		buttonDisplay.type = ResourceType.CURRENCY_HARD;
-	}
-	else if( state == ExchangeItem.CHEST_STATE_READY )
-	{
-		buttonDisplay.count = -1;
-		buttonDisplay.type = -1;
-	}
-	buttonDisplay.height = 72 * appModel.scale;
-	buttonDisplay.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-	addChild(buttonDisplay);*/
 	return null;
 }
 
@@ -249,7 +236,6 @@ protected function readyGroupFactory() : ShadowLabel
 	return readyLabel;
 }
 
-
 protected function timeManager_changeHandler(event:Event):void
 {
 	if(	exchange.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
@@ -305,15 +291,24 @@ private function achieve():void
 		exchange.expiredAt = 0;
 		exchange.outcome = rd.key;
 		exchange.outcomes.set(rd.key, player.get_arena(0));
+		
+		if( player.get_battleswins() == 2 )
+		{
+			var tutorialData:TutorialData = new TutorialData("open_slot");
+			tutorialData.data = "free";
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_slot_description"));
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+			tutorials.show(tutorialData);
+		}
 		commitData();
 	}
 	
 	appModel.battleFieldView.battleData.outcomes.removeAt(achieved);
 }
 
-/*private function tutorialManager_finishHandler(event:Event):void
+private function tutorialManager_finishHandler(event:Event):void
 {
-	if( exchange.type != ExchangeType.C101_FREE || event.data.name != "shop_start" || stage == null )
+	if( exchange.category != ExchangeType.C110_BATTLES || event.data.name != "open_slot" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showTutorArrow();
@@ -335,7 +330,7 @@ override public function set isSelected(value:Boolean):void
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
 }
-*/
+
 private function reset() : void
 {
 	//tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);

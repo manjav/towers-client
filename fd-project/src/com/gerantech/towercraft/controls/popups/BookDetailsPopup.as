@@ -3,13 +3,16 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.MessageTypes;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
@@ -28,6 +31,7 @@ private var bookArmature:StarlingArmatureDisplay;
 private var buttonDisplay:ExchangeButton;
 private var timeDisplay:CountdownLabel;
 private var messageDisplay:RTLLabel;
+private var tutorialArrow:TutorialArrow;
 
 public function BookDetailsPopup(item:ExchangeItem)
 {
@@ -119,7 +123,21 @@ override protected function initialize():void
 	}
 	addChild(buttonDisplay);
 	
+	if( player.getTutorStep() == PrefsTypes.T_031_SLOT_FOCUS || player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_032_SLOT_OPENED);
+		showTutorArrow();
+	}
+}
 
+private function showTutorArrow () : void
+{
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+	
+	tutorialArrow = new TutorialArrow(false);
+	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+	buttonDisplay.addChild(tutorialArrow);
 }
 
 override protected function transitionInCompleted():void
