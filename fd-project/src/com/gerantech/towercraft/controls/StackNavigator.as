@@ -11,17 +11,16 @@ import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
-import com.gerantech.towercraft.controls.popups.KeysPopup;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
+import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
 import com.gerantech.towercraft.controls.toasts.ConfirmToast;
 import com.gerantech.towercraft.controls.toasts.SimpleToast;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.BillingManager;
-import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
@@ -54,54 +53,20 @@ import starling.textures.Texture;
 
 public class StackNavigator extends StackScreenNavigator
 {
+public var toolbar:Toolbar;
 public function StackNavigator()
 {
-	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-	addEventListener("itemAchieved", itemAchievedHandler);
 	addEventListener(Event.CHANGE, navigator_changeHandler);
+	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-}
-
-private function navigator_changeHandler(event:Event):void
-{
-	if( toolbar && AppModel.instance.loadingManager.state >= LoadingManager.STATE_LOADED )
-	{
-		if( activeScreenID != Main.DASHBOARD_SCREEN && activeScreenID != Main.QUESTS_SCREEN )
-		{
-			toolbar.visible = false;
-			return;
-		}
-		addChild(toolbar);
-		toolbar.visible = true;
-		toolbar.alpha = 0;
-		//toolbar.updateIndicators();
-		Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
-	}
-}
-private function toolbar_selectHandler(event:Event):void
-{
-	if( AppModel.instance.game.player.inTutorial() )
-		return;
-	if( event.data.resourceType == ResourceType.POINT )
-		FactionsScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
-	/*else if( event.data.resourceType == ResourceType.KEY )
-		addPopup( new KeysPopup() );*/
 }
 
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_buddyBattleHandler);
 	SFSConnection.instance.lobbyManager.addEventListener(Event.OPEN, lobbyManager_friendlyBattleHandler);
-	if( toolbar == null )
-	{
-		toolbar = new Toolbar();
-		toolbar.width = stage.stageWidth;
-		toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
-	}
-	addChild(toolbar);
 }
-
-private function addedToStageHandler(event:Event):void
+protected function addedToStageHandler(event:Event):void
 {
 	popups = new Vector.<AbstractPopup>();
 	popupsContainer = new LayoutGroup();
@@ -116,7 +81,51 @@ private function addedToStageHandler(event:Event):void
 	GameLog.GAP = 80 * AppModel.instance.scale;
 	logsContainer = new LayoutGroup();
 	parent.addChild(logsContainer);
-}		
+	
+	toolbar = new Toolbar();
+	toolbar.width = stage.stageWidth;
+	toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
+}
+protected function navigator_changeHandler(event:Event):void
+{
+	if( toolbar != null )
+	{
+		if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.QUESTS_SCREEN )
+		{
+			addChild(toolbar);
+			toolbar.alpha = 0;
+			//toolbar.updateIndicators();
+			Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
+		}
+		else
+		{
+			toolbar.removeFromParent();
+		}
+	}
+}
+protected function toolbar_selectHandler(event:Event):void
+{
+	if( AppModel.instance.game.player.inTutorial() )
+		return;
+	if( event.data.resourceType == ResourceType.POINT )
+		FactionsScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
+	/*else if( event.data.resourceType == ResourceType.KEY )
+		addPopup( new KeysPopup() );*/
+
+	if( activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.tabIndex != 0 )
+		return;
+	
+	if( event.data.resourceType == ResourceType.CURRENCY_SOFT )
+	{
+		ExchangeSegment.focusedCategory = 3;
+		DashboardScreen(activeScreen).gotoPage(0);
+	}
+	else if( event.data.resourceType == ResourceType.CURRENCY_HARD )
+	{
+		ExchangeSegment.focusedCategory = 2;
+		DashboardScreen(activeScreen).gotoPage(0);
+	}
+}
 
 public function runBattle(cancelable:Boolean = false, requestField:FieldData = null, spectatedUser:String = null, isFriendly:Boolean = false) : void
 {
@@ -216,12 +225,6 @@ public function addLogGame(log:GameLog) : void
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ANIMATIONS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-public var toolbar:Toolbar;
-private function itemAchievedHandler(event:Event):void
-{
-	if( activeScreenID == Main.DASHBOARD_SCREEN )
-		addResourceAnimation(event.data.x, event.data.y, event.data.type, event.data.count, event.data.index * 0.2);
-}
 public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number=0) : void
 {
 	if( ResourceType.isBuilding(resourceType) )
