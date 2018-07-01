@@ -41,7 +41,8 @@ override protected function initialize():void
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.30, stage.stageWidth * 0.9, stage.stageHeight * 0.4);
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.25, stage.stageWidth * 0.9, stage.stageHeight * 0.5);
 	rejustLayoutByTransitionData();
-	
+	var state:int = item.getState(timeManager.now);
+
 	var insideBG:ImageLoader = new ImageLoader();
 	insideBG.alpha = 0.8;
 	insideBG.scale9Grid = new Rectangle(4, 4, 2, 2);
@@ -51,7 +52,7 @@ override protected function initialize():void
 	addChild(insideBG);
 	
 	var arena:int = item.outcomes.get(item.outcome);
-	var leagueDisplay:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_"+(arena+1)), 0x475768, "center", null, false, null, 0.8);
+	var leagueDisplay:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_" + (arena + 1)), 0x475768, "center", null, false, null, 0.8);
 	leagueDisplay.layoutData = new AnchorLayoutData(padding * 7.5, NaN, NaN, NaN, 0);
 	addChild(leagueDisplay);
 	
@@ -61,7 +62,7 @@ override protected function initialize():void
 	
 	var downBG:ImageLoader = new ImageLoader();
 	downBG.alpha = 0.8;
-	downBG.color = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA
+	downBG.color = state == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA
 	downBG.scale9Grid = new Rectangle(4, 4, 2, 2);
 	downBG.maintainAspectRatio = false;
 	downBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
@@ -79,11 +80,6 @@ override protected function initialize():void
 	softsPalette.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 10);
 	addChild(softsPalette);
 	
-	var message:String = item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt - timeManager.now)]) : loc("popup_chest_message_" + item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
-	messageDisplay = new RTLLabel(message, 0, "center", null, false, null, 0.9);
-	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding * 7, padding);
-	addChild(messageDisplay);
-	
 	buttonDisplay = new ExchangeButton();
 	buttonDisplay.disableSelectDispatching = true;
 	buttonDisplay.width = 300 * appModel.scale;
@@ -92,9 +88,14 @@ override protected function initialize():void
 	buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 	
+	var message:String = state == ExchangeItem.CHEST_STATE_BUSY ? loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt - timeManager.now)]) : loc("popup_chest_message_" + item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
+	messageDisplay = new RTLLabel(message, 0, "center", null, false, null, 0.9);
+	messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding * 7, padding);
+	addChild(messageDisplay);
+	
 	if( item.category == ExchangeType.C110_BATTLES )
 	{
-		if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_BUSY )
+		if( state == ExchangeItem.CHEST_STATE_BUSY )
 		{
 			buttonDisplay.style = "neutral";
 			buttonDisplay.width = 240 * appModel.scale;
@@ -103,9 +104,13 @@ override protected function initialize():void
 			updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
 			updateCounter();
 		}
-		else if( item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_WAIT )
+		else if( state == ExchangeItem.CHEST_STATE_WAIT )
 		{
-			updateButton(ResourceType.POINT, -1);
+			var free:Boolean = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
+			buttonDisplay.style = free ? "normal" : "neutral";
+			updateButton(free ? ResourceType.POINT : ResourceType.CURRENCY_HARD, free ? -1 : Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
+			if( !free )
+				messageDisplay.text =  loc("popup_chest_message_120");
 		}
 	}
 	else
@@ -113,6 +118,8 @@ override protected function initialize():void
 		updateButton(ResourceType.CURRENCY_HARD, item.requirements.get(ResourceType.CURRENCY_HARD));
 	}
 	addChild(buttonDisplay);
+	
+
 }
 
 override protected function transitionInCompleted():void
@@ -146,7 +153,6 @@ private function updateButton(type:int, count:int):void
 {
 	buttonDisplay.count = count;
 	buttonDisplay.type = type;
-	buttonDisplay.isEnabled = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;	
 }
 
 private function updateCounter():void

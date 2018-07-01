@@ -20,6 +20,7 @@ import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.GameError;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -127,10 +128,11 @@ public function process(item : ExchangeItem) : void
 	if( item.isBook() )
 	{
 		item.enabled = true;
-		if( item.category == ExchangeType.C110_BATTLES && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_EMPTY )
+		var _state:int = item.getState(timeManager.now);
+		if( item.category == ExchangeType.C110_BATTLES && _state == ExchangeItem.CHEST_STATE_EMPTY )
 			return;
 		
-		if( ( item.category == ExchangeType.C100_FREES || item.category == ExchangeType.C110_BATTLES ) && item.getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY  )
+		if( ( item.category == ExchangeType.C100_FREES || item.category == ExchangeType.C110_BATTLES ) && _state == ExchangeItem.CHEST_STATE_READY  )
 		{
 			item.outcomes = new IntIntMap();
 			exchange(item, params);
@@ -140,7 +142,7 @@ public function process(item : ExchangeItem) : void
 			
 			return;
 		}
-		else if( item.category == ExchangeType.C100_FREES && item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_READY )
+		else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
 		{
 			var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
 			dailyPopup.addEventListener(Event.SELECT, dailyPopup_selectHandler);
@@ -158,6 +160,9 @@ public function process(item : ExchangeItem) : void
 		appModel.navigator.addPopup(details);
 		function details_selectHandler(event:Event):void{
 			details.removeEventListener(Event.SELECT, details_selectHandler);
+			_state = item.getState(timeManager.now);
+			if( _state == ExchangeItem.CHEST_STATE_WAIT && exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_ALREADY_SENT )
+				params.putInt("hards", Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
 			exchange(item, params);
 		}
 	}
@@ -175,7 +180,7 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 		else 
 			bookType = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
 		
-		if( exchanger.exchange(item, timeManager.now) == MessageTypes.RESPONSE_SUCCEED )
+		if( exchanger.exchange(item, timeManager.now, params.containsKey("hards") ? params.getInt("hards") : 0) == MessageTypes.RESPONSE_SUCCEED )
 		{
 			if( ( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) ) || ( item.category == ExchangeType.C30_BUNDLES && ExchangeType.getCategory(bookType) == ExchangeType.BOOKS_50 ) )
 			{
