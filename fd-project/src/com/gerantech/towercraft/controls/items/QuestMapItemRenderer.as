@@ -111,11 +111,11 @@ override protected function commitData():void
 			
 			for (var i:int = score-1; i >= 0; i--) 
 			{
-				var keyImage:Image = new Image(Assets.getTexture("gold-key", "quests"));
-				keyImage.alignPivot("center", "top");
-				keyImage.scale = 0.9
-				keyImage.x = Math.ceil(i*0.3) * ( i==1 ? 1 : -1 ) * 28;
-				keyImage.y =  i==0?10:5;
+				var keyImage:Image = new Image(Assets.getTexture("gold-key-small", "quests"));
+				keyImage.alignPivot("center", "bottom");
+				keyImage.scale = 0.8
+				keyImage.x = Math.ceil(i*0.3) * ( i==1 ? 1 : -1 ) * 30;
+				keyImage.y =  i == 0 ? -32 : -24;
 				keyImage.touchable = false;
 				pinButton.addChild(keyImage);
 			}
