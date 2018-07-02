@@ -102,7 +102,7 @@ override protected function initialize():void
 private function list_createCompleteHandler():void
 {
 //	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
-	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length - FactionItemRenderer.playerLeague-1), 0);
+	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length - FactionItemRenderer.playerLeague-1) - FactionItemRenderer._height * 0.2, 0);
 }
 
 private function list_focusInHandler(event:Event):void
