@@ -228,7 +228,7 @@ private function showTutorials() : void
 		return;
 
 	appModel.battleFieldView.createDrops();
-	if( !player.inTutorial() )
+	if( player.get_battleswins() > 2 )
 	{
 		touchEnable = true;
 		return;
@@ -277,15 +277,15 @@ private function showTutorials() : void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
-	var inTutorial:Boolean = player.inTutorial();
+	var inTutorial:Boolean = player.get_battleswins() < 3;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 
 	// show celebration tutorial steps
 	if( player.get_battleswins() == 0 && !skipCelebration )
 	{
-		var tutorialData:TutorialData = new TutorialData("tutor_battle_1_celebration");
+		var tutorialData:TutorialData = new TutorialData("tutor_battle_celebration");
 		tutorialData.data = data;
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_1_celebration"));
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_" + player.get_battleswins() + "_celebration"));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		tutorials.show(tutorialData);
 		return;
@@ -486,7 +486,7 @@ private function tutorials_tasksFinishHandler(event:Event):void
 		return;
 	}
 	
-	if( tutorial.name == "tutor_battle_1_celebration" )
+	if( tutorial.name == "tutor_battle_celebration" )
 	{
 		endBattle(tutorial.data as SFSObject, true);
 		return;
@@ -743,7 +743,15 @@ private function showImproveFloating(placeView:PlaceView):void
 		}
 		appModel.battleFieldView.responseSender.improveBuilding(btn.building.place.index, btn.type);
 		if( player.getTutorStep() == tutorBattleIndex + 1 )
+		{
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 2);
+			if( player.getTutorStep() == PrefsTypes.T_042_IMPROVE )
+			{
+				var tutorialData:TutorialData = new TutorialData("after_improve");
+				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_3_mid_2"));
+				tutorials.show(tutorialData);
+			}
+		}
 	}
 }
 

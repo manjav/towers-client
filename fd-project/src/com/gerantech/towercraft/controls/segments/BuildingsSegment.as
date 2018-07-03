@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -73,14 +74,23 @@ override public function focus():void
 }	
 private function showTutorial():void
 {
-	if( !player.inDeckTutorial() )
+	if( !player.inDeckTutorial() && player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
 		return;
 	
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
-	var tutorialData:TutorialData = new TutorialData("deck_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
+	var tutorialData:TutorialData = new TutorialData( player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED ? "deck_end" : "deck_start");
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED ? "tutor_deck_1" : "tutor_deck_0", null, 500, 1500, 0));
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
 	tutorials.show(tutorialData);
 }		
+
+private function tutorials_finishHandler(event:Event):void 
+{
+	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
+		return;
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
+	appModel.navigator.runBattle();
+}
 override public function updateData():void
 {
 	if( buildingsListCollection == null )
@@ -166,18 +176,22 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	if( !building.upgrade(confirmedHards) )
 		return;
 	
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
-
 	var sfs:SFSObject = new SFSObject();
 	sfs.putInt("type", building.type);
 	sfs.putInt("confirmedHards", confirmedHards);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
+	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
 	upgradeOverlay.building = building;
 	appModel.navigator.addOverlay(upgradeOverlay);
 	
 	updateData();
+}
+private function upgradeOverlay_closeHandler(event:Event):void 
+{
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
+	showTutorial();
 }
 }
 }

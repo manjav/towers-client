@@ -51,12 +51,12 @@ override protected function commitData():void
 		_firstCommit = false;
 		
 		// show focus in tutorial 
-		if ( player.inTutorial() || player.tutorialMode == 1 )
+		if( player.inTutorial() || player.tutorialMode == 1 )
 		{
 			if( index == 1 )
 			{
-				if( player.inDeckTutorial() )
-					setTimeout(showTutorArrow, 600);
+				if( player.inDeckTutorial() || player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED )
+					setTimeout(showTutorArrow, 500);
 				else 
 					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 			}

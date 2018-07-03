@@ -133,13 +133,9 @@ private function needToForceAggregation(sourcePlaces:Vector.<PlaceView>, target:
 
 public function forceImprove() : Boolean 
 {
-	if( !player.inTutorial() )
+	if( player.get_battleswins() != 2 )
 		return false;
-	if( player.tutorialMode == 0 && ( player.emptyDeck() || !appModel.battleFieldView.battleData.map.isQuest || appModel.battleFieldView.battleData.map.index != 2 ) )
-		return false;
-	if( player.tutorialMode == 1 )
-		return false;
-		
+	
 	var improvable:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
 	if( improvable == null || appModel.battleFieldView.battleData.battleField.places.get(improvable.index).building.type != BuildingType.B01_CAMP )
 		return false;
