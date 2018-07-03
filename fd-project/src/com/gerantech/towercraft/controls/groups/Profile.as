@@ -138,6 +138,8 @@ override protected function initialize() : void
 	indicators[ResourceType.POINT].addEventListener(Event.SELECT, buttons_eventsHandler);
 	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
 	botLine.addChild(indicators[ResourceType.POINT]);
+	
+	appModel.navigator.toolbar.checkIndictorAchievements();
 }
 
 private function buttons_eventsHandler(event:Event):void 

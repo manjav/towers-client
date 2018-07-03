@@ -54,13 +54,18 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	player.resources.addEventListener(CoreEvent.CHANGE, playerResources_changeHandler);
 	
 	if( stage != null )
-		addedToStageHandler(null);
+		checkIndictorAchievements();
 	addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	
 	updateIndicators();
 }
 
 protected function addedToStageHandler(e:Event):void 
+{
+	checkIndictorAchievements();
+}
+
+public function checkIndictorAchievements():void 
 {
 	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData.outcomes == null )
 		return;
@@ -69,7 +74,7 @@ protected function addedToStageHandler(e:Event):void
 	for ( var i:int = 0; i < appModel.battleFieldView.battleData.outcomes.length; i++ )
 	{
 		var rd:RewardData = appModel.battleFieldView.battleData.outcomes[i];
-		if ( indicators.hasOwnProperty(rd.key) && Indicator(indicators[rd.key]).stage != null )
+		if( indicators.hasOwnProperty(rd.key) && Indicator(indicators[rd.key]).stage != null )
 		{
 			appModel.navigator.addResourceAnimation(rd.x, rd.y, rd.key, rd.value);
 			achieved.push(i); 
