@@ -66,7 +66,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.35), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.3));
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.10:0.30), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.4));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.30), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.4));
 	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void

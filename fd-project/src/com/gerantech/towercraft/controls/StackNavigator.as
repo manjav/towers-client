@@ -107,10 +107,6 @@ protected function toolbar_selectHandler(event:Event):void
 {
 	if( AppModel.instance.game.player.inTutorial() )
 		return;
-	if( event.data.resourceType == ResourceType.POINT )
-		FactionsScreen.showRanking( AppModel.instance.game.player.get_arena(0) );
-	/*else if( event.data.resourceType == ResourceType.KEY )
-		addPopup( new KeysPopup() );*/
 
 	if( activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.tabIndex != 0 )
 		return;

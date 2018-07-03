@@ -94,6 +94,7 @@ protected function iconFactory(image:String) : ImageLoader
 	if( iconDisplay != null )
 		return null;
 	iconDisplay = new ImageLoader();
+	iconDisplay.touchable = false;
 	iconDisplay.source = Assets.getTexture("home/" + image, "gui");
 	iconDisplay.layoutData = new AnchorLayoutData(padding * 0.2, padding * 0.25, padding * 0.25);
 	addChild(iconDisplay);
@@ -106,6 +107,7 @@ protected function countdownFactory() : CountdownLabel
 		return null;
 	
 	countdownDisplay = new CountdownLabel();
+	countdownDisplay.touchable = false;
 	countdownDisplay.height = 120 * appModel.scale;
 	countdownDisplay.layoutData = new AnchorLayoutData(NaN, padding * 4.2, NaN, padding * 0.5, NaN, 0);
 	addChild(countdownDisplay);
@@ -122,6 +124,7 @@ protected function titleFactory(text:String) : ShadowLabel
 		return null;
 	}
 	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, 1.3);
+	titleDisplay.touchable = false;
 	titleDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
 	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -padding * 1.6, -padding * 0.25);
 	addChild(titleDisplay);

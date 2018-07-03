@@ -78,7 +78,7 @@ public function reset():void
 		return;
 	
 	var later:int = 1000 + Math.random() * 10000;
-	if( numForgots == 0 && exchanger.items.get(ExchangeType.C21_SPECIAL).expiredAt < TimeManager.instance.now )
+	if( numForgots == 0 && exchanger.items.exists(ExchangeType.C21_SPECIAL) && exchanger.items.get(ExchangeType.C21_SPECIAL).expiredAt < TimeManager.instance.now )
 		notify("notify_special_arrived",		date.time + later);
 	else if( numForgots == 1 )
 		notify("notify_chest_forgot_a_chest",	date.time + later);
