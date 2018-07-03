@@ -3,9 +3,13 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingFeatureType;
+import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -14,20 +18,33 @@ import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
+import flash.geom.Rectangle;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
 
 public class BuildingDetailsPopup extends SimplePopup
 {
 public var buildingType:int;
-private var building:Building;
-
 public function BuildingDetailsPopup(){}
 override protected function initialize():void
 {
-	super.initialize();
+	// create transition in data
+	var popupHeight:int = stageHeight * (BuildingType.get_category(buildingType) == BuildingType.B40_CRYSTAL ? 0.74 : 0.52);
+	var popupY:int = (stageHeight - popupHeight) * 0.5;
+	transitionIn = new TransitionData();
+	transitionIn.transition = Transitions.EASE_OUT;
+	transitionIn.sourceBound =		new Rectangle(stageWidth * 0.05,	popupY * 1.1,	stageWidth * 0.9, popupHeight * 0.9);
+	transitionIn.destinationBound = new Rectangle(stageWidth * 0.05,	popupY,			stageWidth * 0.9, popupHeight * 1.0);
+
+	// create transition out data
+	transitionOut = new TransitionData();
+	transitionOut.sourceAlpha = 1;
+	transitionOut.destinationAlpha = 0.5;
+	transitionOut.sourceBound = transitionIn.destinationBound.clone();
+	transitionOut.destinationBound = transitionIn.sourceBound.clone();
 	
-	building = player.buildings.get(buildingType);
+	super.initialize();
 	
 	var buildingIcon:BuildingCard = new BuildingCard(true, true, false, false);
 	buildingIcon.setData(buildingType);
@@ -60,6 +77,7 @@ override protected function transitionInCompleted():void
 	featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(buildingType)._list);
 	addChild(featureList);
 	
+	var building:Building = player.buildings.get(buildingType);
 	if( building == null )
 		return;
 	
@@ -76,6 +94,12 @@ override protected function transitionInCompleted():void
 	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= building.get_upgradeCost() ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 	
+	if( player.inDeckTutorial() )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_037_CARD_OPENED );
+		upgradeButton.showTutorArrow(true);
+	}
+
 	/*upgradeButton.alpha = 0;
 	Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});*/
 	
@@ -84,14 +108,6 @@ override protected function transitionInCompleted():void
 	upgradeLabel.alpha = 0;
 	Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
 	addChild(upgradeLabel);
-	
-	/*var closeButton:CustomButton = new CustomButton();
-	closeButton.style = "danger";
-	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
-	closeButton.width = closeButton.height = 96 * appModel.scale;
-	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	addChild(closeButton);	*/	
 }
 
 override protected function transitionOutStarted():void
@@ -99,22 +115,13 @@ override protected function transitionOutStarted():void
 	removeChildren(2);
 	super.transitionOutStarted();
 }
-
-/*private function closeButton_triggeredHandler():void
-{
-	close();
-}*/
 private function upgradeButton_selectHandler(event:Event):void
 {
 	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("building_title_"+buildingType)]));
 }
 private function upgradeButton_triggeredHandler():void
 {
-	dispatchEventWith(Event.UPDATE, false, building);
-}
-override public function close(dispose:Boolean = true):void
-{
-	super.close(dispose);
+	dispatchEventWith(Event.UPDATE, false, buildingType);
 }
 }
 }

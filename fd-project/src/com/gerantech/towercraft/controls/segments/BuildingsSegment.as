@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
-import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -24,8 +23,6 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.TiledRowsLayout;
-import flash.geom.Rectangle;
-import starling.animation.Transitions;
 import starling.events.Event;
 
 public class BuildingsSegment extends Segment
@@ -86,7 +83,7 @@ private function showTutorial():void
 }		
 override public function updateData():void
 {
-	if(buildingsListCollection == null)
+	if( buildingsListCollection == null )
 		buildingsListCollection = new ListCollection();
 	var buildings:Vector.<int> = BuildingType.getAll().keys();
 	var buildingArray:Array = new Array();
@@ -100,8 +97,8 @@ private function list_focusInHandler(event:Event):void
 {
 	var item:CardItemRenderer = event.data as CardItemRenderer;
 	var buildingType:int = item.data as int;
-	if( player.inTutorial() && buildingType != BuildingType.B11_BARRACKS )
-		return;// disalble all items in tutorial
+	//if( player.get_battleswins() < 3 && buildingType != BuildingType.B11_BARRACKS )
+	////	return;// disalble all items in tutorial
 	
 	var unlockedAt:int = game.unlockedBuildingAt( buildingType );
 	if( !player.buildings.exists( buildingType ) && unlockedAt > player.get_arena(0) )
@@ -118,29 +115,9 @@ private function list_focusInHandler(event:Event):void
 		appModel.navigator.runBattle();
 		return;
 	}*/
-	
-	// create transition in data
-	var ti:TransitionData = new TransitionData();
-	ti.transition = Transitions.EASE_OUT_BACK;
-	ti.sourceAlpha = 1;
-	ti.sourceBound = item.getBounds(this);
-	ti.destinationConstrain = this.getBounds(stage);
-	ti.destinationBound = new Rectangle(stage.stageWidth * 0.05,
-		stage.stageHeight * (Math.floor(buildingType / 10) == 4?0.17:0.22),
-		stage.stageWidth * 0.9,
-		stage.stageHeight * (Math.floor(buildingType / 10) == 4?0.66:0.56));
-
-	// create transition out data
-	var to:TransitionData = new TransitionData();
-	to.sourceAlpha = 1;
-	to.destinationAlpha = 0.8;
-	to.sourceBound = ti.destinationBound.clone();
-	to.destinationBound = ti.sourceBound.clone();
 
 	detailsPopup = new BuildingDetailsPopup();
 	detailsPopup.buildingType = item.data as int;
-	detailsPopup.transitionIn = ti;
-	detailsPopup.transitionOut = to;
 	detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
@@ -152,7 +129,7 @@ private function list_focusInHandler(event:Event):void
 
 private function details_updateHandler(event:Event):void
 {
-	var building:Building = event.data as Building;
+	var building:Building = player.buildings.get(event.data as int);
 	var confirmedHards:int = 0;
 	if( !player.has(building.get_upgradeRequirements()) )
 	{
@@ -189,6 +166,8 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	if( !building.upgrade(confirmedHards) )
 		return;
 	
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
+
 	var sfs:SFSObject = new SFSObject();
 	sfs.putInt("type", building.type);
 	sfs.putInt("confirmedHards", confirmedHards);
