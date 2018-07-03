@@ -5,16 +5,16 @@ import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.HomeHeaderButton;
 import com.gerantech.towercraft.controls.buttons.HomeNewButton;
 import com.gerantech.towercraft.controls.buttons.HomeTasksButton;
-import com.gerantech.towercraft.controls.buttons.NotifierButton;
+import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
-import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
@@ -35,19 +35,12 @@ import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.DisplayObject;
+import starling.display.Image;
 import starling.events.Event;
 
 public class HomeNewSegment extends Segment
 {
-private var inboxButton:NotifierButton;
-private var operationButton:HomeNewButton;
-private var battlesButton:HomeNewButton;
-private var leaguesButton:HomeButton;
 private var battleTimeoutId:uint;
-private var adsButton:NotifierButton;
-private var tasksButton:HomeTasksButton;
-private var giftButton:HomeHeaderButton;
-
 public function HomeNewSegment() { super(); }
 override public function init():void
 {
@@ -62,17 +55,25 @@ override public function init():void
 
 	var league:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
-	leaguesButton = new HomeButton(league, 0.7);
+	var leaguesButton:HomeButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0;
-	addButton(leaguesButton, stageWidth * 0.5, height * 0.50, 0.4, goUp);
+	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, height * 0.50, 0.4, goUp);
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.52, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.50, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
+	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
-	battlesButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-	addButton(battlesButton, stageWidth * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
-
+	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
+	addButton(battlesButton, "battlesButton", stageWidth * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
+	
+	if( player.hasQuests )
+	{
+		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 360 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
+		addButton(operationButton, "operationButton", width * 0.45 - operationButton.width * 0.5, height * 0.73, 0.7);
+	}
+	
+	// bookline
 	var bookLine:HomeBooksLine = new HomeBooksLine();
     bookLine.height = padding * 24;
 	bookLine.paddingTop = 40 * appModel.scale;
@@ -91,41 +92,40 @@ override public function init():void
 		addChild(adminButton);
 	}
 	
-	showTutorial();
-	
-	if( player.get_battleswins() < 4 )
-		return;
-	
-	
 	var profile:Profile  = new Profile();
 	profile.height = padding * 20;
 	profile.layoutData = new AnchorLayoutData(padding * 6, 0, NaN, 0);
 	addChild(profile);
+	
+	showTutorial();
+	
+	if( player.get_battleswins() < 4 )
+		return;
 
-	giftButton = new HomeHeaderButton();
+	var giftButton:HomeHeaderButton = new HomeHeaderButton();
+	giftButton.name = "giftButton";
 	giftButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	giftButton.height = padding * 12;
 	giftButton.width = stageWidth * 0.45;
 	giftButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
 	addChild(giftButton);
 
-	tasksButton = new HomeTasksButton();
+	var tasksButton:HomeTasksButton = new HomeTasksButton();
+	tasksButton.name = "tasksButton";
 	tasksButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	tasksButton.height = padding * 12;
 	tasksButton.width = stageWidth * 0.45;
 	tasksButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
 	addChild(tasksButton);
 	
-	if( player.get_battleswins() < 6 )
-		return;
-
-	if( player.get_battleswins() < 7 )
-		return;
-	if( player.hasQuests )
-	{
-		operationButton = new HomeNewButton("operation", loc("button_operation"), 360 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-		addButton(operationButton, width * 0.45 - operationButton.width * 0.5, height * 0.73, 0.7);
-	}
+	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"));
+	rankButton.name = "rankButton";
+	rankButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
+	rankButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+	Image(rankButton.backgroundSkin).scale9Grid = new Rectangle(16, 16, 4, 4);
+	rankButton.height = rankButton.width = padding * 8;
+	rankButton.layoutData = new AnchorLayoutData(padding * 38, NaN, NaN, padding * 2);
+	addChild(rankButton);
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
 	adsButton.width = adsButton.height = 140 * appModel.scale;
@@ -144,7 +144,7 @@ private function dfsdf():void
 	{
 		var sfs:SFSObject = new SFSObject();
 		sfs.putInt("score", i==0?2:0);
-		sfs.putInt("id", i==0?10383:214);
+		sfs.putInt("id", i == 0?10383:214);
 		sfs.putText("name", i == 0?"10383":"214");
 		sfs.putInt("1001", 12);
 		sfs.putInt("1004", 2);
@@ -171,11 +171,11 @@ private function showOffers():void
 	offers.height = 160 * appModel.scale;
 	offers.y = 50 * appModel.scale;
 	addChild(offers);
-
 }
 
-private function addButton(button:DisplayObject, x:int, y:int, delay:Number, callback:Function=null):void
+private function addButton(button:DisplayObject, name:String, x:int, y:int, delay:Number, callback:Function=null):void
 {
+	button.name = name;
 	button.x = x;
 	button.y = y;
 	button.scale = 0.5;
@@ -215,8 +215,8 @@ private function showTutorial():void
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 500, 1500, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
-		function tutorials_completeHandler(event:Event):void {
-			
+		function tutorials_completeHandler(event:Event):void
+		{
 			if( event.data.name != "rank_tutorial" )
 				return;
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_RANK_SHOWN);
@@ -230,39 +230,31 @@ private function showTutorial():void
 		if( !player.inShopTutorial() && !player.inDeckTutorial() && player.hasQuests )
 			questsButton.showArrow();
 	}*/
-	
-
 }
 
-
-private function mainButtons_triggeredHandler(event:Event ):void
+private function mainButtons_triggeredHandler(event:Event):void
 {
-	if(	player.inTutorial() && event.currentTarget != operationButton )
+	var buttonName:String = DisplayObject(event.currentTarget).name;
+	
+	switch( buttonName )
 	{
-		appModel.navigator.addLog(loc("map-button-locked", [loc("map-"+event.data['name'])]));
+		case "battlesButton":	appModel.navigator.runBattle(player.get_arena(0) > 0);				return;
+		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );				return;
+		case "rankButton": 		FactionsScreen.showRanking( appModel.game.player.get_arena(0) );	return;
+		case "tasksButton":		appModel.navigator.addLog( loc("button_under_construction", [loc("button_quests")]) ); return;
+	}
+	
+	if( player.get_arena(0) <= 0 )
+	{
+		appModel.navigator.addLog(loc("try_to_league_up"));
 		return;
 	}
-
-	switch(event.currentTarget)
+	
+	switch( buttonName )
 	{
-		case operationButton:
-			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
-			break;
-		case battlesButton:
-			appModel.navigator.runBattle(player.get_arena(0) > 0);
-			break;
-		case leaguesButton:
-			appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );		
-			break;
-		case giftButton:
-			exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));
-			break;
-		case tasksButton:
-			appModel.navigator.addLog(loc("button_under_construction", [loc("button_quests")]));
-			break;
-		case adsButton:
-			exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS));
-			break;
+		case "operationButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
+		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
+		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 	}
 }
 }
