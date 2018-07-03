@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.buttons
 {
+import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 
@@ -25,6 +26,7 @@ protected var padding:Number;
 protected var labelDisplay:RTLLabel;
 protected var shadowDisplay:RTLLabel;
 protected var iconDisplay:ImageLoader;
+protected var tutorialArrow:TutorialArrow;
 
 protected var labelLayoutData:AnchorLayoutData;
 protected var shadowLayoutData:AnchorLayoutData;
@@ -189,6 +191,16 @@ public function set fontsize(value:Number):void
 		labelDisplay.fontSize = _fontsize;
 		shadowDisplay.fontSize = _fontsize;
 	}
+}
+
+public function showTutorArrow(isUp:Boolean) : void 
+{
+	if( tutorialArrow != null )
+		tutorialArrow.removeFromParent(true);
+	
+	tutorialArrow = new TutorialArrow(isUp);
+	tutorialArrow.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -tutorialArrow._height : NaN, NaN, 0);
+	addChild(tutorialArrow);
 }
 }
 }

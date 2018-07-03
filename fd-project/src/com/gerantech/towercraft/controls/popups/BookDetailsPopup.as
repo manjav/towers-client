@@ -31,7 +31,6 @@ private var bookArmature:StarlingArmatureDisplay;
 private var buttonDisplay:ExchangeButton;
 private var timeDisplay:CountdownLabel;
 private var messageDisplay:RTLLabel;
-private var tutorialArrow:TutorialArrow;
 
 public function BookDetailsPopup(item:ExchangeItem)
 {
@@ -126,18 +125,8 @@ override protected function initialize():void
 	if( player.getTutorStep() == PrefsTypes.T_031_SLOT_FOCUS || player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_032_SLOT_OPENED);
-		showTutorArrow();
+		buttonDisplay.showTutorArrow(false);
 	}
-}
-
-private function showTutorArrow () : void
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	
-	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-	buttonDisplay.addChild(tutorialArrow);
 }
 
 override protected function transitionInCompleted():void

@@ -10,22 +10,21 @@ public class TutorialArrow extends TowersLayout
 {
 private var isUp:Boolean;
 private var arrow:Image;
-private var _height:Number;
+public var _height:Number;
 
-public function TutorialArrow(isUp:Boolean=true)
+public function TutorialArrow(isUp:Boolean = true)
 {
 	scale = appModel.scale;
 	this.isUp = isUp;
+	arrow = new Image(isUp ? appModel.theme.buttonForwardUpSkinTexture : appModel.theme.buttonBackUpSkinTexture);
+	arrow.pivotY = isUp ? 0 : arrow.height;
+	addChild(arrow);
+	_height = arrow.height;
 }
 
 override protected function initialize():void
 {
 	super.initialize();
-	
-	arrow = new Image(isUp ? appModel.theme.buttonForwardUpSkinTexture : appModel.theme.buttonBackUpSkinTexture);
-	arrow.pivotY = isUp ? 0 : arrow.height;
-	addChild(arrow);
-	_height = arrow.height;
 	animation_0();
 }
 
