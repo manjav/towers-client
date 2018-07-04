@@ -247,8 +247,6 @@ private function showTutorials() : void
 	for (var i:int=0 ; i < field.startNum.size() ; i++) 
 	{
 		tuteMessage = "tutor_" + field.name + "_start_";
-		if( field.index == 2 && field.isQuest )
-			tuteMessage += (player.emptyDeck()?"first_":"second_");
 		tuteMessage += field.startNum.get(i);
 		trace("tuteMessage:", tuteMessage);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, field.startNum.get(i)));

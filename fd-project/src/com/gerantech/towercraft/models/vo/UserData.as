@@ -61,7 +61,7 @@ public function get registered():Boolean
 }
 
 public static function get instance():UserData {
-	if(!_instance)
+	if( !_instance )
 		_instance = new UserData();
 	return _instance;
 }
