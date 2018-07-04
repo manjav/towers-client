@@ -192,15 +192,5 @@ public function set fontsize(value:Number):void
 		shadowDisplay.fontSize = _fontsize;
 	}
 }
-
-public function showTutorArrow(isUp:Boolean) : void 
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	
-	tutorialArrow = new TutorialArrow(isUp);
-	tutorialArrow.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -tutorialArrow._height : NaN, NaN, 0);
-	addChild(tutorialArrow);
-}
 }
 }

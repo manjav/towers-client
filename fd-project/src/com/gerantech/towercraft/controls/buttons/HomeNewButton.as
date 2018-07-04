@@ -24,7 +24,6 @@ private var scale9Grid:Rectangle;
 private var shadowRect:Rectangle;
 private var backgroundDisplay:ImageLoader;
 private var labelDisplay:ShadowLabel;
-private var tutorialArrow:TutorialArrow;
 private var padding:int;
 
 public function HomeNewButton(background:String, label:String, width:Number, height:Number, scale9Grid:Rectangle = null, shadowRect:Rectangle = null) 
@@ -61,34 +60,11 @@ override protected function initialize() : void
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 0.4);
 	addChild(labelDisplay);	
 }
-public function showArrow():void
-{
-	if( tutorialArrow != null )
-		return;
-	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.addEventListener(FeathersEventType.CREATION_COMPLETE , tutorialArrow_createHandler);
-	addChild(tutorialArrow);
-}
-
-private function tutorialArrow_createHandler():void
-{
-	tutorialArrow.removeEventListener(FeathersEventType.CREATION_COMPLETE , tutorialArrow_createHandler);
-	tutorialArrow.x = -tutorialArrow.width * 0.5;
-	tutorialArrow.y = -60 * appModel.scale;
-}
 
 override public function set currentState(value:String):void
 {
 	super.currentState = value;
 	scale = value == ButtonState.DOWN ? 0.9 : 1;
-}
-
-override protected function trigger():void
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	tutorialArrow = null;
-	super.trigger();
 }
 }
 }

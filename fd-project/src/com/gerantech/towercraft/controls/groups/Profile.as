@@ -33,8 +33,8 @@ import starling.events.Event;
 */
 public class Profile extends TowersLayout 
 {
+	private var nameDisplay:RTLLabel;
 public function Profile() {	super(); }
-
 override protected function initialize() : void
 {
 	super.initialize();
@@ -67,7 +67,7 @@ override protected function initialize() : void
 	namePlace.backgroundSkin = new Image(Assets.getTexture("home/profile-rect", "gui"));
 	Image(namePlace.backgroundSkin).scale9Grid = scale9
 	
-	var nameDisplay:RTLLabel = new RTLLabel(player.nickName, 0xDCCAB4, "left", null, false, null, height * 0.22);
+	nameDisplay = new RTLLabel(player.nickName, 0xDCCAB4, "left", null, false, null, height * 0.22);
 	nameDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.5, NaN, padding * 0.5, NaN, 0);
 	namePlace.addChild(nameDisplay);
 	
@@ -151,6 +151,11 @@ private function buttons_eventsHandler(event:Event):void
 	case "pointIndicator":	break;
 	case "xpIndicator":		break;
 	}
+}
+public function updateName() : void 
+{
+	if( nameDisplay != null )
+		nameDisplay.text = player.nickName;
 }
 }
 }

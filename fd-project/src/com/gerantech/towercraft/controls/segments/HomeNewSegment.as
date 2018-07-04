@@ -1,11 +1,13 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.HomeHeaderButton;
 import com.gerantech.towercraft.controls.buttons.HomeNewButton;
 import com.gerantech.towercraft.controls.buttons.HomeTasksButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.groups.Profile;
@@ -93,6 +95,7 @@ override public function init():void
 	}
 	
 	var profile:Profile  = new Profile();
+	profile.name = "profile";
 	profile.height = padding * 20;
 	profile.layoutData = new AnchorLayoutData(padding * 6, 0, NaN, 0);
 	addChild(profile);
@@ -118,7 +121,7 @@ override public function init():void
 	tasksButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
 	addChild(tasksButton);
 	
-	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"));
+	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"), 0.9);
 	rankButton.name = "rankButton";
 	rankButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
 	rankButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -198,17 +201,14 @@ private function showTutorial():void
 		appModel.navigator.addPopup(confirm);
 		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_NAME_SELECTED); 
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_NAME_SELECTED);
+			Profile(getChildByName("profile")).updateName();
+			showTutorial();
 		}
 		return;
 	}
-	else if( player.get_battleswins() < 6 )
-	{
-		//battlesButton.showArrow();
-	}
 	
-	// show rank table tutorial
-	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED && player.get_battleswins() > 0 )
+	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED  )// show rank table tutorial
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_RANK_FOCUS); 
 		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
@@ -220,16 +220,16 @@ private function showTutorial():void
 			if( event.data.name != "rank_tutorial" )
 				return;
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_RANK_SHOWN);
-			appModel.navigator.toolbar.indicators[ResourceType.POINT].showArrow();
+			SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
 		}
 		return;
 	}
 	
-	/*if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
+	if( player.get_arena(0) <= 0 )
 	{
-		if( !player.inShopTutorial() && !player.inDeckTutorial() && player.hasQuests )
-			questsButton.showArrow();
-	}*/
+		SimpleLayoutButton(getChildByName("battlesButton")).showTutorArrow(false);
+		return;
+	}	
 }
 
 private function mainButtons_triggeredHandler(event:Event):void
