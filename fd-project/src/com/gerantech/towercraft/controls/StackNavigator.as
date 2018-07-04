@@ -427,22 +427,22 @@ protected function loc(resourceName:String, parameters:Array=null, locale:String
 
 public function showOffer():void
 {
-	var sessions:int = AppModel.instance.game.sessionsCount;
+	var wins:int = AppModel.instance.game.player.get_battleswins();
 	var prefs:IntStrMap = AppModel.instance.game.player.prefs;
 	var type:int = 0;
-	if( sessions > prefs.getAsInt(PrefsTypes.OFFER_30_RATING) )
+	if( wins > prefs.getAsInt(PrefsTypes.OFFER_30_RATING) )
 		type = PrefsTypes.OFFER_30_RATING;
-	else if( sessions > prefs.getAsInt(PrefsTypes.OFFER_31_TELEGRAM) )
+	else if( wins > prefs.getAsInt(PrefsTypes.OFFER_31_TELEGRAM) )
 		type = PrefsTypes.OFFER_31_TELEGRAM;
-	else if( sessions > prefs.getAsInt(PrefsTypes.OFFER_32_INSTAGRAM) )
+	else if( wins > prefs.getAsInt(PrefsTypes.OFFER_32_INSTAGRAM) )
 		type = PrefsTypes.OFFER_32_INSTAGRAM;
-	else if( sessions > prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP) )
+	else if( wins > prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP) )
 		type = PrefsTypes.OFFER_33_FRIENDSHIP;
 //trace(sessions, type, prefs.keys(), prefs.values());
 	
 	if( type > 0 )
 	{
-		var confirm:TutorialMessageOverlay = new TutorialMessageOverlay(new TutorialTask(TutorialTask.TYPE_CONFIRM, "popup_offer_"+type));
+		var confirm:TutorialMessageOverlay = new TutorialMessageOverlay(new TutorialTask(TutorialTask.TYPE_CONFIRM, "popup_offer_" + type));
 		confirm.addEventListener(Event.SELECT, confirm_handler);
 		confirm.addEventListener(Event.CANCEL, confirm_handler);
 		confirm.data = type;
