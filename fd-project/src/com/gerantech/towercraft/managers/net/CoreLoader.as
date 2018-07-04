@@ -120,7 +120,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	swfCore.init(swfInitData);
 	initCoreData(swfCore);
 
-	trace("server version :	" + version+"\nswf core version :	" + +swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
+	trace("server version :	" + version+"\nswf core version :	" + swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
 	dispatchEvent(new Event(Event.COMPLETE));
 }
 
@@ -141,11 +141,11 @@ private function initCoreData(game:*):void
 	}
 	
 	// put fields items
-	AppModel.instance.game.fieldProvider.quests = new StringFieldMap();
+	AppModel.instance.game.fieldProvider.operations = new StringFieldMap();
 	var fieldDest:FieldData;
-	var fItemsKeys:Vector.<String> = game.fieldProvider.quests.keys();
+	var fItemsKeys:Vector.<String> = game.fieldProvider.operations.keys();
 	for ( i=0; i<fItemsKeys.length; i++ )
-		AppModel.instance.game.fieldProvider.quests.set( fItemsKeys[i] , convertField( game.fieldProvider.quests.get(fItemsKeys[i]) ));
+		AppModel.instance.game.fieldProvider.operations.set( fItemsKeys[i] , convertField( game.fieldProvider.operations.get(fItemsKeys[i]) ));
 	
 	AppModel.instance.game.fieldProvider.battles = new StringFieldMap();
 	fItemsKeys = game.fieldProvider.battles.keys();
@@ -189,19 +189,12 @@ private function initServerData(sfsObj:SFSObject):void
 			initData.buildingsLevel.set(element.getInt("type"), element.getInt("level"));
 	}
 	
-	elements = sfsObj.getSFSArray("quests");
+	elements = sfsObj.getSFSArray(int(version) >= 3200 ? "operations" : "quests");
 	for( i=0; i<elements.size(); i++ )
 	{
 		element = elements.getSFSObject(i);
-		initData.quests.set(element.getInt("index"), element.getInt("score"));
+		initData.operations.set(element.getInt("index"), element.getInt("score"));
 	}
-	
-	/*elements = sfsObj.getSFSArray("exchanges");
-	for( i=0; i<elements.size(); i++ )
-	{
-		element = elements.getSFSObject(i);
-		initData.exchanges.set( element.getInt("type"), new Exchange( element.getInt("type"), element.getInt("num_exchanges"), element.getLong("expired_at"), element.getInt("outcome")));
-	}*/
 }
 }
 }

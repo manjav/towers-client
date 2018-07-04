@@ -17,7 +17,7 @@ public class Main extends Drawers
 {
 public static const DASHBOARD_SCREEN:String = "dashboardScreen";
 public static const BATTLE_SCREEN:String = "battleScreen";
-public static const QUESTS_SCREEN:String = "questsScreen";
+public static const OPERATIONS_SCREEN:String = "operationsScreen";
 public static const FACTIONS_SCREEN:String = "factionsScreen";
 public static const SETTINGS_SCREEN:String = "settingsScreen";
 public static const ADMIN_SCREEN:String = "adminScreen";
@@ -42,7 +42,7 @@ override protected function initialize():void
 
 	addScreen(DASHBOARD_SCREEN,	DashboardNewScreen);
 	addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);
-	addScreen(QUESTS_SCREEN, 	QuestMapScreen);
+	addScreen(OPERATIONS_SCREEN,OperationsScreen);
 	addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);
 	addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 	addScreen(ADMIN_SCREEN, 	AdminScreen);

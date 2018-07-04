@@ -75,7 +75,7 @@ override protected function initialize():void
 	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	addChild(gradient);
 	
-	var hasQuit:Boolean = battleData.map.isQuest && player.get_questIndex() > 3 || SFSConnection.instance.mySelf.isSpectator;
+	var hasQuit:Boolean = battleData.map.isOperation && player.getLastOperation() > 3 || SFSConnection.instance.mySelf.isSpectator;
 	padding = 16 * appModel.scale;
 	var leftPadding:int = (hasQuit ? 150 : 0) * appModel.scale;
 	if( hasQuit )
@@ -89,7 +89,7 @@ override protected function initialize():void
 		addChild(closeButton);			
 	}
 	
-	var _name:String = battleData.map.isQuest ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.axis.getUtfString("name");
+	var _name:String = battleData.map.isOperation ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.axis.getUtfString("name");
 	var _point:int = battleData.axis.getInt("point");
 	var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 	opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
@@ -111,7 +111,7 @@ override protected function initialize():void
 		addChild(timeLog);
 	}
 
-	if( battleData.map.isQuest )
+	if( battleData.map.isOperation )
 	{
 		timerSlider = new BattleTimerSlider();
 		timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
@@ -125,7 +125,7 @@ override protected function initialize():void
 	
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	
-	if( battleData.map.isQuest )
+	if( battleData.map.isOperation )
 		return;
 		
 	if( !SFSConnection.instance.mySelf.isSpectator )
@@ -156,7 +156,7 @@ private function createCompleteHandler(event:Event):void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-	if( !battleData.map.isQuest )
+	if( !battleData.map.isOperation )
 		return;
 	
 	setTimePosition();
@@ -186,7 +186,7 @@ private function timeManager_changeHandler(event:Event):void
 		}
 	}
 	
-	if ( !battleData.map.isQuest )
+	if ( !battleData.map.isOperation )
 	{
 		var time:int = battleData.startAt + battleData.map.times.get(2) - timeManager.now;
 		if( time < 0 )
@@ -217,7 +217,7 @@ private function showTimeNotice(score:int):void
 	if( score > 1 )
 		return;
 	
-	if( battleData.map.isQuest )
+	if( battleData.map.isOperation )
 	{
 		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
 	}
@@ -241,7 +241,7 @@ public function animateShadow(shadow:Image, alphaSeed:Number):void
 
 public function updateRoomVars():void
 {
-	if( battleData == null || battleData.map.isQuest || !battleData.room.containsVariable("towers") )
+	if( battleData == null || battleData.map.isOperation || !battleData.room.containsVariable("towers") )
 		return;
 	
 	var towers:Array = [0, 0, 0];

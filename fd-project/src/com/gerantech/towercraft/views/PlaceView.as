@@ -167,7 +167,7 @@ private function showMidSwipesTutorial(troopType : int) : void
 		return;
 	if( place.building.troopType == player.troopType || troopType != player.troopType )
 		return;
-	if( appModel.battleFieldView.battleData.map.isQuest && appModel.battleFieldView.battleData.map.index == 2 && player.emptyDeck() )
+	if( appModel.battleFieldView.battleData.map.isOperation && appModel.battleFieldView.battleData.map.index == 2 && player.emptyDeck() )
 		return;
 	tutorials.removeAll();
 	if( place.index > appModel.battleFieldView.battleData.map.places.size() - 2 )

@@ -211,7 +211,7 @@ private function showTutorial():void
 		return;
 	}
 	
-	/*if( player.inTutorial() || (player.quests.keys().length < 20 && player.quests.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
+	/*if( player.inTutorial() || (player.operations.keys().length < 20 && player.operations.keys().length < player.resources.get(ResourceType.BATTLES_COUNT)/2 ) )
 	{
 		if( !player.inShopTutorial() && !player.inDeckTutorial() && player.hasQuests )
 			questsButton.showArrow();
@@ -230,7 +230,7 @@ private function mainButtons_triggeredHandler(event:Event ):void
 	switch(event.currentTarget)
 	{
 		case questsButton:
-			appModel.navigator.pushScreen( Main.QUESTS_SCREEN );		
+			appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );		
 			break;
 		case battlesButton:
 			appModel.navigator.runBattle(player.get_arena(0) > 0);

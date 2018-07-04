@@ -87,8 +87,8 @@ override protected function initialize():void
 	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
 	var sfsObj:SFSObject = new SFSObject();
-	sfsObj.putBool("q", requestField!=null&&requestField.isQuest);
-	sfsObj.putInt("i", requestField!=null&&requestField.isQuest ? requestField.index : 0);
+	sfsObj.putBool("q", requestField != null && requestField.isOperation);
+	sfsObj.putInt("i", requestField != null && requestField.isOperation ? requestField.index : 0);
 	if( spectatedUser != null && spectatedUser != "" )
 		sfsObj.putText("su", spectatedUser);
 
@@ -190,7 +190,7 @@ private function startBattle():void
 		var fscale:Number = player.get_arena(0) == 0 ? 1.2 : 1;
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale * fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
 		if( !player.inTutorial() )
-			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isQuest ? battleData.battleField.map.index : -1, battleData ), 0);
+			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isOperation ? battleData.battleField.map.index : -1, battleData ), 0);
 	}
 	
 	// show battle HUD
@@ -235,7 +235,7 @@ private function showTutorials() : void
 	}
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
-	if( player.tutorialMode == 0 && !field.isQuest )
+	if( player.tutorialMode == 0 && !field.isOperation )
 		return;
 
 	// create tutorial steps
@@ -343,7 +343,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 7);
 	
 	var endOverlay:EndOverlay;
-	if( field.isQuest )
+	if( field.isOperation )
 	{
 		endOverlay = new EndQuestOverlay(playerIndex, rewards, inTutorial);
 	}
@@ -427,10 +427,10 @@ private function endOverlay_closeHandler(event:Event):void
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 	// set quest score
-	if( field.isQuest )
+	if( field.isOperation )
 	{
-		if( player.quests.get( field.index ) < endOverlay.score )
-			player.quests.set(field.index, endOverlay.score);
+		if( player.operations.get( field.index ) < endOverlay.score )
+			player.operations.set(field.index, endOverlay.score);
 	}
 	else
 	{
@@ -764,7 +764,7 @@ override protected function backButtonFunction():void
 		return;
 	}
 	
-	if( !appModel.battleFieldView.battleData.map.isQuest || player.inTutorial() )
+	if( !appModel.battleFieldView.battleData.map.isOperation || player.inTutorial() )
 		return;
 		
 	var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
@@ -806,3 +806,4 @@ private function removeConnectionListeners():void
 }
 }
 }
+

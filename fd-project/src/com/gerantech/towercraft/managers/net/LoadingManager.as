@@ -213,7 +213,7 @@ protected function coreLoader_completeHandler(event:Event):void
 
 	// catch video ads
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
-	if( appModel.game.player.get_questIndex() < appModel.game.fieldProvider.quests.keys().length )
+	if( appModel.game.player.getLastOperation() < appModel.game.fieldProvider.operations.keys().length )
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
 }
 private function registerPushManager():void

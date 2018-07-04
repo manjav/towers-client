@@ -1,46 +1,35 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
-import com.gerantech.towercraft.controls.items.QuestMapItemRenderer;
-import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
+import com.gerantech.towercraft.controls.items.OperationMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.constants.PrefsTypes;
-
-import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
-import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.display.Quad;
 import starling.events.Event;
 
-public class QuestMapScreen extends BaseCustomScreen
+public class OperationsScreen extends BaseCustomScreen
 {
 public static var savedVerticalScrollPosition:Number = 0;
-
 private var list:List;
 private static var questsCollection:ListCollection;
-
-public function QuestMapScreen()
+public function OperationsScreen()
 {
 	super();
 	provideQuestsData();
@@ -64,8 +53,8 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	backgroundSkin = new Quad(1,1, 0xFFDF78);
-	QuestMapItemRenderer.questIndex = player.get_questIndex();
-	trace(player.get_questIndex())
+	OperationMapItemRenderer.OPERATION_INDEX = player.getLastOperation();
+	trace(player.getLastOperation())
 
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.paddingBottom = 150 * appModel.scale;
@@ -73,11 +62,11 @@ override protected function initialize():void
 	
 	list = new List();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0,0,0,0);
+	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
 	list.decelerationRate = 0.99
-	list.itemRendererFactory = function():IListItemRenderer { return new QuestMapItemRenderer(); }
+	list.itemRendererFactory = function():IListItemRenderer { return new OperationMapItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.elasticity = 0.03;
 	list.dataProvider = questsCollection;
@@ -86,10 +75,10 @@ override protected function initialize():void
 
 	if( savedVerticalScrollPosition != 0 )
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
-	else if( QuestMapItemRenderer.questIndex > 0 )
+	else if( OperationMapItemRenderer.OPERATION_INDEX > 0 )
 	{
-//		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.get_questIndex()).index - 1;
-		var pageIndex:uint = game.fieldProvider.shires.keys().length - Math.floor(player.get_questIndex()/10) - 1;
+//		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.getLastOperation()).index - 1;
+		var pageIndex:uint = game.fieldProvider.shires.keys().length - Math.floor(player.getLastOperation() / 10) - 1;
 		//trace(pageIndex, QuestMapItemRenderer.questIndex, game.fieldProvider.getCurrentShire(QuestMapItemRenderer.questIndex).index, list.dataProvider.length)
 		if( pageIndex > 0 )
 			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
@@ -107,30 +96,30 @@ override protected function initialize():void
 override protected function transitionInCompleteHandler(event:Event):void
 {
 	super.transitionInCompleteHandler(event);
-	var lastQuest:FieldData = game.fieldProvider.quests.get( "quest_" + QuestMapItemRenderer.questIndex );
+	var lastOperation:FieldData = game.fieldProvider.operations.get( "quest_" + OperationMapItemRenderer.OPERATION_INDEX );
 	//trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
-	if( lastQuest.index == 3 && player.nickName == "guest" )
+	if( lastOperation.index == 3 && player.nickName == "guest" )
 	{
 		backButtonHandler();
 		return;	
 	}
 	
-	if( lastQuest.index > 0 )
+	if( lastOperation.index > 0 )
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);
 	
 	//if( player.inTutorial() )
 	//	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
 
 	//quest intro
-	var tutorialData:TutorialData = new TutorialData("quest_" + lastQuest.index + "_intro");
-	for (var i:int ; i < lastQuest.introNum.size() ; i++) 
+	var tutorialData:TutorialData = new TutorialData("quest_" + lastOperation.index + "_intro");
+	for (var i:int ; i < lastOperation.introNum.size() ; i++) 
 	{
-		var tuteMessage:String = "tutor_quest_" + lastQuest.index + "_intro_"
-		if( lastQuest.index == 2 )
-			tuteMessage += (player.emptyDeck()?"first_":"second_");
-		tuteMessage += lastQuest.introNum.get(i);
+		var tuteMessage:String = "tutor_quest_" + lastOperation.index + "_intro_"
+/*		if( lastQuest.index == 2 )
+			tuteMessage += (player.emptyDeck()?"first_":"second_");*/
+		tuteMessage += lastOperation.introNum.get(i);
 		trace("tuteMessage:", tuteMessage);
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, lastQuest.introNum.get(i)));	
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, lastOperation.introNum.get(i)));	
 	}
 	
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
@@ -164,9 +153,9 @@ private function list_selectHandler(event:Event):void
 	constrain.y += 80 * appModel.scale;
 	to.destinationConstrain = ti.destinationConstrain = constrain;
 	ti.transition = Transitions.EASE_OUT_BACK;
-	to.destinationBound = ti.sourceBound = new Rectangle(bounds.x-popupWidth*0.45, bounds.y+50*appModel.scale, popupWidth*0.9, popupHeight);
+	to.destinationBound = ti.sourceBound = new Rectangle(bounds.x - popupWidth * 0.45, bounds.y + 50 * appModel.scale, popupWidth * 0.9, popupHeight);
 	ti.destinationAlpha = to.sourceAlpha = 1;
-	to.sourceBound = ti.destinationBound = new Rectangle(bounds.x-popupWidth*0.50, bounds.y-50*appModel.scale, popupWidth*1.0, popupHeight);
+	to.sourceBound = ti.destinationBound = new Rectangle(bounds.x - popupWidth * 0.50, bounds.y - 50 * appModel.scale, popupWidth * 1.0, popupHeight);
 	
 	var detailsPopup:QuestDetailsPopup = new QuestDetailsPopup(index);
 	detailsPopup.transitionIn = ti;
@@ -176,7 +165,7 @@ private function list_selectHandler(event:Event):void
 	function floating_selectHandler(event:Event):void
 	{
 		detailsPopup.removeEventListener(Event.SELECT, floating_selectHandler);
-		appModel.navigator.runBattle(false, game.fieldProvider.quests.get("quest_" + index));
+		appModel.navigator.runBattle(false, game.fieldProvider.operations.get("quest_" + index));
 	}
 }
 
@@ -191,4 +180,4 @@ override public function dispose():void
 	super.dispose();
 }
 }
-}
+}

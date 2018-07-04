@@ -252,7 +252,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		case "operationButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
+		case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );					return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 	}

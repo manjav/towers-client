@@ -66,7 +66,7 @@ override protected function initialize():void
 	padding = 48 * appModel.scale;
 	
 	var battleData:BattleData = appModel.battleFieldView.battleData;
-	if( battleData.map.isQuest )
+	if( battleData.map.isOperation )
 	{
 		var message:String = appModel.battleFieldView.battleData.isLeft ? "quest_canceled" : (score>0?"quest_win_label":"quest_lose_label");
 		var messageLabel:ShadowLabel = new ShadowLabel(loc(message), 1, 0, null, null, false, null, 2.2);
@@ -120,7 +120,7 @@ override protected function initialize():void
 	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220)*appModel.scale);
 	addChild(buttons);
 	
-	var hasRetry:Boolean = appModel.battleFieldView.battleData.map.isQuest && player.get_questIndex() > 3 && !appModel.battleFieldView.battleData.isLeft;
+	var hasRetry:Boolean = appModel.battleFieldView.battleData.map.isOperation && player.getLastOperation() > 3 && !appModel.battleFieldView.battleData.isLeft;
 	
 	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300 * appModel.scale;

@@ -13,15 +13,15 @@ import starling.display.Image;
 import starling.display.Sprite;
 import starling.events.Event;
 
-public class QuestMapItemRenderer extends AbstractTouchableListItemRenderer
+public class OperationMapItemRenderer extends AbstractTouchableListItemRenderer
 {
-public static var questIndex:int;
+public static var OPERATION_INDEX:int;
 
 private var shire:FieldData;
 private var container:Sprite;
 private var intervalId:uint;
 
-public function QuestMapItemRenderer()
+public function OperationMapItemRenderer()
 {
 	super();
 	width = stageWidth;
@@ -49,20 +49,20 @@ override protected function commitData():void
 	for each(var item:PlaceData in shire.places._list)
 	{
 		var itemIndex:int = item.index + shire.index * 10;
-		var score:int = player.quests.get(itemIndex);
-		//trace(index , player.quests.get(index) )
+		var score:int = player.operations.get(itemIndex);
+		//trace(index , player.operations.get(index) )
 		
 		var color:String = "locked";
-		if ( itemIndex < questIndex )
+		if ( itemIndex < OPERATION_INDEX )
 			color = "passed";
-		else if( itemIndex == questIndex )
+		else if( itemIndex == OPERATION_INDEX )
 			color = "current";
 		
 		var pin:Image = new Image(Assets.getTexture("map-pin-" + color, "quests"));
 		pin.alignPivot();
 		pin.touchable = false;
 		
-		if( itemIndex <= questIndex )
+		if( itemIndex <= OPERATION_INDEX )
 		{
 			var pinButton:SimpleButton = new SimpleButton();
 			pinButton.name = itemIndex+"";
@@ -121,7 +121,7 @@ override protected function commitData():void
 			}
 			
 			
-			if( item.index == questIndex )
+			if( item.index == OPERATION_INDEX )
 				intervalId = setInterval(punchButton, 2000,  pinButton, 2);
 		} 
 		else

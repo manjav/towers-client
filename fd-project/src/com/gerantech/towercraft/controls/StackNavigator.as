@@ -90,7 +90,7 @@ protected function navigator_changeHandler(event:Event):void
 {
 	if( toolbar != null )
 	{
-		if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.QUESTS_SCREEN )
+		if( activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.OPERATIONS_SCREEN )
 		{
 			addChild(toolbar);
 			toolbar.alpha = 0;
