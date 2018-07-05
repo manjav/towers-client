@@ -14,6 +14,8 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.animation.Transitions;
+import starling.core.Starling;
 import starling.events.Event;
 import starling.filters.ColorMatrixFilter;
 
@@ -270,6 +272,14 @@ protected function defaultSliderDisplayFactory() : BuildingSlider
 	});
 	addChild(sliderDisplay);
 	return sliderDisplay;
+}
+public function punchSlider() : void
+{
+	if( sliderDisplay != null )
+	{
+		sliderDisplay.labelDisplay.scale = 1.5;
+		Starling.juggler.tween(sliderDisplay.labelDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT});
+	}
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

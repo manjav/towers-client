@@ -121,7 +121,8 @@ override protected function transitionOutStarted():void
 }
 private function upgradeButton_selectHandler(event:Event):void
 {
-	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("card_title_"+buildingType)]));
+	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("building_title_" + buildingType)]));
+	cardDisplay.punchSlider()
 }
 private function upgradeButton_triggeredHandler():void
 {
