@@ -59,20 +59,20 @@ override public function init():void
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	var leaguesButton:HomeButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0;
-	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, height * 0.50, 0.4, goUp);
-	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.52, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:height * 0.50, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, stageHeight * 0.45, 0.4, goUp);
+	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.47, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.45, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
 	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-	addButton(battlesButton, "battlesButton", stageWidth * 0.48 + battlesButton.width * 0.5, height * 0.73, 0.6);
+	addButton(battlesButton, "battlesButton", stageWidth * 0.48 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
 	
 	if( player.hasQuests )
 	{
 		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 360 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-		addButton(operationButton, "operationButton", width * 0.45 - operationButton.width * 0.5, height * 0.73, 0.7);
+		addButton(operationButton, "operationButton", width * 0.45 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
 	
 	// bookline
@@ -225,7 +225,7 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.get_arena(0) <= 0 )
+	if( player.get_battleswins() > 2 && player.get_arena(0) <= 0 )
 	{
 		SimpleLayoutButton(getChildByName("battlesButton")).showTutorArrow(false);
 		return;

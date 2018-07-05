@@ -84,6 +84,14 @@ override protected function commitData():void
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_033_BOOK_OPENED);
 		showTutorArrow();
 	}
+	else if( state == ExchangeItem.CHEST_STATE_WAIT && exchange.outcome == ExchangeType.BOOK_51_METAL )
+	{
+		var tutorialData:TutorialData = new TutorialData("open_slot");
+		tutorialData.data = "free";
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_slot_description"));
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+		tutorials.show(tutorialData);
+	}
 	
 	// show book falling
 	owner.addEventListener(FeathersEventType.CREATION_COMPLETE, createComplteHandler);
@@ -274,6 +282,7 @@ private function achieve():void
 	if( achieved == -1 )
 		return;
 
+	emptyLabel.removeFromParent();
 	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + rd.key );
 	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);
@@ -291,15 +300,6 @@ private function achieve():void
 		exchange.expiredAt = 0;
 		exchange.outcome = rd.key;
 		exchange.outcomes.set(rd.key, player.get_arena(0));
-		
-		if( player.get_battleswins() == 2 )
-		{
-			var tutorialData:TutorialData = new TutorialData("open_slot");
-			tutorialData.data = "free";
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_slot_description"));
-			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-			tutorials.show(tutorialData);
-		}
 		commitData();
 	}
 	
