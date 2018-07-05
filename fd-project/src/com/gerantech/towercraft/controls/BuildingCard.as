@@ -107,7 +107,7 @@ private function createCompleteHandler():void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  DATA  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 public function setData(type:int, level:int = 1, count:int = 1):void
 {
-	if( this.type == type )
+	if( this.type == type && this.level == level && this.count == count )
 		return;
 	
 	if( type < 0 )

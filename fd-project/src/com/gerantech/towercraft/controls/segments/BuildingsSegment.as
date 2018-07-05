@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
-import com.gerantech.towercraft.controls.popups.BuildingDetailsPopup;
+import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -31,7 +31,7 @@ public class BuildingsSegment extends Segment
 private var buildingsListCollection:ListCollection;
 private var buildingslist:List;
 private var listLayout:TiledRowsLayout;
-private var detailsPopup:BuildingDetailsPopup;
+private var detailsPopup:CardDetailsPopup;
 
 public function BuildingsSegment(){}
 override public function init():void
@@ -49,7 +49,6 @@ override public function init():void
 	listLayout.typicalItemWidth = (width - listLayout.gap * (listLayout.requestedColumnCount + 2)) / listLayout.requestedColumnCount;
 	listLayout.typicalItemHeight = listLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	
-	updateData();
 	buildingslist = new List();
 	buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	buildingslist.layout = listLayout;
@@ -60,15 +59,10 @@ override public function init():void
 	addChild(buildingslist);
 	initializeCompleted = true;
 	showTutorial();
-	
-	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
-}
-protected function navigator_bookOpenedHandler(event:Event):void
-{
-	updateData();
 }
 override public function focus():void
 {
+	updateData();
 	if( initializeCompleted )
 		showTutorial();
 }	
@@ -94,13 +88,17 @@ private function tutorials_finishHandler(event:Event):void
 override public function updateData():void
 {
 	if( buildingsListCollection == null )
+	{
 		buildingsListCollection = new ListCollection();
-	var buildings:Vector.<int> = BuildingType.getAll().keys();
-	var buildingArray:Array = new Array();
-	while(buildings.length > 0)
-		buildingArray.push(buildings.pop());
-	buildingArray.sort();
-	buildingsListCollection.data = buildingArray;
+		var buildings:Vector.<int> = BuildingType.getAll().keys();
+		var buildingArray:Array = new Array();
+		while(buildings.length > 0)
+			buildingArray.push(buildings.pop());
+		buildingArray.sort();
+		buildingsListCollection.data = buildingArray;
+		return;
+	}
+	buildingsListCollection.updateAll();
 }
 
 private function list_focusInHandler(event:Event):void
@@ -126,7 +124,7 @@ private function list_focusInHandler(event:Event):void
 		return;
 	}*/
 
-	detailsPopup = new BuildingDetailsPopup();
+	detailsPopup = new CardDetailsPopup();
 	detailsPopup.buildingType = item.data as int;
 	detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
 	appModel.navigator.addPopup(detailsPopup);
@@ -167,7 +165,7 @@ private function upgradeConfirm_selectHandler(event:Event):void
 
 private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 {
-	if( detailsPopup != null )
+	if( detailsPopup != null && building.get_level() > -1 )
 	{
 		detailsPopup.close();
 		detailsPopup = null;
@@ -181,12 +179,16 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	sfs.putInt("confirmedHards", confirmedHards);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 	
+	updateData();
+	
+	if( building.get_level() < 2 )
+		return;
+	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
 	upgradeOverlay.building = building;
 	appModel.navigator.addOverlay(upgradeOverlay);
 	
-	updateData();
 }
 private function upgradeOverlay_closeHandler(event:Event):void 
 {

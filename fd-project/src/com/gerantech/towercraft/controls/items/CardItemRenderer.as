@@ -85,11 +85,19 @@ override protected function commitData():void
 		{
 			if( player.buildings.get(buildingType).get_level() == -1 )
 			{
-				newDisplay = new ImageLoader();
-				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-				newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
-				newDisplay.height = newDisplay.width = width * 0.7;
-				addChild(newDisplay);
+				if( newDisplay == null )
+				{
+					newDisplay = new ImageLoader();
+					newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+					newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
+					newDisplay.height = newDisplay.width = width * 0.7;
+					addChild(newDisplay);
+				}
+			}
+			else if( newDisplay != null )
+			{
+				newDisplay.removeFromParent(true);
+				newDisplay = null;
 			}
 		}
 		else
@@ -98,7 +106,9 @@ override protected function commitData():void
 			if( unlockedAt > player.get_arena(0) )
 				buildingType = 99;
 		}
-		cardDisplay.setData( buildingType );
+		var l:int = player.buildings.exists(buildingType) ? player.buildings.get(buildingType).get_level() : 1;
+		var c:int = player.buildings.exists(buildingType) ? player.resources.get(buildingType) : 1;
+		cardDisplay.setData( buildingType, l, c);
 		Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	}
 	else
@@ -164,21 +174,16 @@ override public function set currentState(_state:String):void
 	cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12 * appModel.scale : 0;
 	if( _state == STATE_SELECTED )
 	{
-		if( newDisplay )
+		if( newDisplay != null )
 		{
 			newDisplay.removeFromParent(true);
-			player.buildings.get( buildingType ).upgrade();
-			
-			var sfs:SFSObject = new SFSObject();
-			sfs.putInt("type", buildingType);
-			sfs.putInt("confirmedHards", 0);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
+			newDisplay = null;
 		}
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
 	
-	if( player.buildings.exists( _data as int ) )
-		visible = _state != STATE_SELECTED;
+	//if( player.buildings.exists( _data as int ) )
+	//	visible = _state != STATE_SELECTED;
 }
 
 override public function dispose():void
