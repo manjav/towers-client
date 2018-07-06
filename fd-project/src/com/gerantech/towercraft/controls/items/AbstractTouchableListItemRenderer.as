@@ -61,7 +61,7 @@ protected function touchHandler( event:TouchEvent ):void
 		}
 		else if( touch.phase == TouchPhase.MOVED )
 		{
-			if ( Math.abs(touch.globalX - touch.previousGlobalX) > 2 || Math.abs(touch.globalY - touch.previousGlobalY) > 2 )
+			if ( Math.abs(touch.globalX - touch.previousGlobalX) > 3 || Math.abs(touch.globalY - touch.previousGlobalY) > 3 )
 			{
 				currentState = STATE_NORMAL;
 				touchID = -1;
