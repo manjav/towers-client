@@ -63,6 +63,13 @@ override public function init():void
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.47, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.45, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
+	// bookline
+	var bookLine:HomeBooksLine = new HomeBooksLine();
+    bookLine.height = padding * 34;
+	bookLine.paddingTop = 40 * appModel.scale + 10 * padding;
+	bookLine.layoutData = new AnchorLayoutData(NaN, 0, padding, 0);
+	addChild(bookLine);
+
 	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
@@ -74,14 +81,7 @@ override public function init():void
 		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 360 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
 		addButton(operationButton, "operationButton", width * 0.45 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
-	
-	// bookline
-	var bookLine:HomeBooksLine = new HomeBooksLine();
-    bookLine.height = padding * 24;
-	bookLine.paddingTop = 40 * appModel.scale;
-	bookLine.layoutData = new AnchorLayoutData(NaN, 0, padding, 0);
-	addChild(bookLine);
-	
+		
 	if( player.admin ) // hidden admin button
 	{
 		var adminButton:Button = new Button();

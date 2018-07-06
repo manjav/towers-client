@@ -319,7 +319,7 @@ private function showTutorArrow () : void
 		tutorialArrow.removeFromParent(true);
 	
 	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding * 5);
+	tutorialArrow.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 	addChild(tutorialArrow);
 }
 override public function set isSelected(value:Boolean):void
