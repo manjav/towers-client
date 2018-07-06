@@ -74,7 +74,7 @@ public function init():void
 			packageURL = "com.ada.market";
 			break;
 		
-			case "ario":
+		case "ario":
 			base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1FSvYe0mDDFAnk8SHSMLFxaaQF9MvObuQ8U9tWf4uE0OT8erPKhgUR7cqOF74TXAYlrSwbyTC/nHgqURLRX7C0iFFT1/j9BpMKxNULb/CqulNaJg6AEfQbwTcwIfVzS04dUPhjhR9MdRICfiZkMzWesWfyE4Dfre+p5vt0qC0MQIDAQAB";
 			bindURL = "com.arioclub.android.sdk.iab.InAppBillingService.BIND";
 			packageURL = "com.arioclub.android";
