@@ -30,7 +30,6 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	var imageDisplay:ImageLoader = new ImageLoader();
-	imageDisplay.scale = appModel.scale * 2;
 	imageDisplay.source = Assets.getTexture("connection-alert", "gui");
 	imageDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	addChild(imageDisplay);
