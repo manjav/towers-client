@@ -44,6 +44,7 @@ override protected function initialize():void
 
 	list = new List();
 	list.layout = listLayout;
+	list.clipContent = false;
 	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	list.horizontalScrollPolicy = list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
