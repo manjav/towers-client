@@ -51,7 +51,7 @@ protected function touchHandler( event:TouchEvent ):void
 			if( isInBounds )
 			{
 				dispatchEventWith(Event.TRIGGERED);
-				if(_owner.allowMultipleSelection)
+				if( _owner.allowMultipleSelection )
 					setSelection(!isSelected);
 				else
 					setSelection(true);
@@ -61,7 +61,7 @@ protected function touchHandler( event:TouchEvent ):void
 		}
 		else if( touch.phase == TouchPhase.MOVED )
 		{
-			if ( Math.abs(touch.globalX - touch.previousGlobalX) > 3 || Math.abs(touch.globalY - touch.previousGlobalY) > 3 )
+			if( Math.abs(touch.globalX - touch.previousGlobalX) > 10 || Math.abs(touch.globalY - touch.previousGlobalY) > 10 )
 			{
 				currentState = STATE_NORMAL;
 				touchID = -1;
