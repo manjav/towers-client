@@ -80,7 +80,7 @@ public static function getDeadline(command:String):int
 		case BUDDY_BATTLE:
 			return -1;
 	}
-	return 2000;
+	return 3000;
 }
 
 public static function getCanceled(command:String):String
