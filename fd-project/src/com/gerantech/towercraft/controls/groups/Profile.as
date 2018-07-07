@@ -13,6 +13,7 @@ import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
@@ -33,12 +34,13 @@ import starling.events.Event;
 */
 public class Profile extends TowersLayout 
 {
-	private var nameDisplay:RTLLabel;
+private var nameDisplay:RTLLabel;
 public function Profile() {	super(); }
 override protected function initialize() : void
 {
 	super.initialize();
 	layout = new AnchorLayout();
+	touchable = player.getTutorStep() >= PrefsTypes.T_047_WIN;
 	
 	var padding:int = height * 0.12;
 	
@@ -99,7 +101,6 @@ override protected function initialize() : void
 		topLineElements.reverse();
 	for each ( var e:DisplayObject in topLineElements )
 		topLine.addChild(e);
-	
 	
 	// bottom line
 	var botLine:LayoutGroup = new LayoutGroup();

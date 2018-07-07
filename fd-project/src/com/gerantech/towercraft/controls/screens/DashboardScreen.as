@@ -75,7 +75,7 @@ protected function addedToStageHandler(event:Event):void
 	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	
 	footerSize = 180 * appModel.scale;
-	autoSizeMode = AutoSizeMode.STAGE; 
+	autoSizeMode = AutoSizeMode.STAGE;
 	layout = new AnchorLayout();
 	visible = false;	
 
@@ -141,7 +141,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	segmentsCollection = getListData();
 
 	pageList.dataProvider = segmentsCollection;
-	pageList.horizontalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO
+	pageList.horizontalScrollPolicy = player.dashboadTabEnabled(-1) ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 	pageList.addEventListener(Event.READY, pageList_readyHandler);
 	pageList.addEventListener(FeathersEventType.SCROLL_COMPLETE, pageList_scrollCompleteHandler);
 	tabsList.dataProvider = segmentsCollection;

@@ -20,7 +20,6 @@ import starling.events.Event;
 */
 public class HomeBooksLine extends TowersLayout 
 {
-public var paddingTop:Number;
 private var listLayout:feathers.layout.TiledRowsLayout;
 private var list:feathers.controls.List;
 
@@ -38,9 +37,8 @@ override protected function initialize():void
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
 	//listLayout.padding = listLayout.gap = 3 * appModel.scale;
-	listLayout.paddingTop = paddingTop;
 	listLayout.typicalItemWidth = Math.floor(stage.stageWidth / listLayout.requestedColumnCount);
-	listLayout.typicalItemHeight = height - paddingTop - listLayout.gap;
+	listLayout.typicalItemHeight = height - listLayout.gap;
 
 	list = new List();
 	list.layout = listLayout;

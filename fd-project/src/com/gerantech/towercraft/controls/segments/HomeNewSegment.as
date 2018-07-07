@@ -59,7 +59,8 @@ override public function init():void
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	var leaguesButton:HomeButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0;
-	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, stageHeight * 0.45, 0.4, goUp);
+	league.touchable = player.getTutorStep() > PrefsTypes.T_047_WIN;
+	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, stageHeight * 0.45, 0.4, league.touchable ? goUp : null);
 	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.47, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
 	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.45, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
@@ -77,8 +78,7 @@ override public function init():void
 	
 	// bookline
 	var bookLine:HomeBooksLine = new HomeBooksLine();
-    bookLine.height = padding * 24;
-	bookLine.paddingTop = 40 * appModel.scale;
+    bookLine.height = padding * 20;
 	bookLine.layoutData = new AnchorLayoutData(NaN, 0, padding, 0);
 	addChild(bookLine);
 
@@ -88,9 +88,9 @@ override public function init():void
 		adminButton.alpha = 0;
 		adminButton.isLongPressEnabled = true;
 		adminButton.longPressDuration = 1;
-		adminButton.width = adminButton.height = 120 * appModel.scale;
+		adminButton.width = adminButton.height = 200 * appModel.scale;
 		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
-		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
+		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height);
 		addChild(adminButton);
 	}
 	
@@ -252,7 +252,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );					return;
+		case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );				return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 	}

@@ -50,7 +50,7 @@ public function update() : void
 	
 	backgroundFactory();
 	iconFactory("gift");
-	titleFactory("باز کن");
+	titleFactory(loc("open_label"));
 	countdownFactory();
 	
 	if( state == ExchangeItem.CHEST_STATE_BUSY )
