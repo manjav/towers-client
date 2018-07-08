@@ -68,12 +68,12 @@ override public function focus():void
 }	
 private function showTutorial():void
 {
-	if( !player.inDeckTutorial() && player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
+	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
 		return;
 	
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
 	var tutorialData:TutorialData = new TutorialData( player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED ? "deck_end" : "deck_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED ? "tutor_deck_1" : "tutor_deck_0", null, 500, 1500, 0));
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
 	tutorials.show(tutorialData);
 }		

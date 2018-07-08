@@ -41,6 +41,8 @@ public function BookDetailsPopup(item:ExchangeItem)
 override protected function initialize():void
 {
 	super.initialize();
+	closeOnOverlay = closeWithKeyboard = player.getTutorStep() >= PrefsTypes.T_047_WIN;
+	
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.30, stage.stageWidth * 0.9, stage.stageHeight * 0.4);
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.25, stage.stageWidth * 0.9, stage.stageHeight * 0.5);
 	rejustLayoutByTransitionData();

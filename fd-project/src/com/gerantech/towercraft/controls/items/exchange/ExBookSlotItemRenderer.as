@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
@@ -15,10 +14,8 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
-import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
-import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.events.EventObject;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingEvent;
@@ -32,9 +29,6 @@ import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
-import starling.display.BlendMode;
-import starling.display.DisplayObjectContainer;
-import starling.display.Image;
 import starling.events.Event;
 
 public class ExBookSlotItemRenderer extends ExBookBaseItemRenderer
