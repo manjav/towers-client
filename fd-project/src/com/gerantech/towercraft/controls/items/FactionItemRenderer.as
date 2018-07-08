@@ -83,7 +83,7 @@ private function createElements():void
 	
 	if( index > 0 )
 	{
-		var divider:Devider = new Devider(0, 2 * appModel.scale);
+		var divider:Devider = new Devider(0, 5 * appModel.scale);
 		divider.layoutData = new AnchorLayoutData(0, padding, NaN, padding);
 		addChild(divider);
 	}
