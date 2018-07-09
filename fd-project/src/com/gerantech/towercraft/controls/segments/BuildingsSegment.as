@@ -72,7 +72,7 @@ private function showTutorial():void
 	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
 		return;
 	
-	var tutorialData:TutorialData = new TutorialData( player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED ? "deck_end" : "deck_start");
+	var tutorialData:TutorialData = new TutorialData("deck_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
 	tutorials.show(tutorialData);
@@ -132,6 +132,8 @@ private function list_focusInHandler(event:Event):void
 	function details_closeHandler():void
 	{
 		buildingslist.selectedIndex = -1;
+		if( player.inDeckTutorial() )
+			buildingsListCollection.updateAll();
 	}
 }
 
@@ -188,11 +190,10 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
 	upgradeOverlay.building = building;
 	appModel.navigator.addOverlay(upgradeOverlay);
-	
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 }
 private function upgradeOverlay_closeHandler(event:Event):void 
 {
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 	showTutorial();
 }
 }

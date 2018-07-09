@@ -124,7 +124,7 @@ override protected function initialize():void
 	}
 	addChild(buttonDisplay);
 	
-	if( player.getTutorStep() == PrefsTypes.T_031_SLOT_FOCUS || player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
+	if( player.inSlotTutorial() )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_032_SLOT_OPENED);
 		buttonDisplay.showTutorArrow(false);

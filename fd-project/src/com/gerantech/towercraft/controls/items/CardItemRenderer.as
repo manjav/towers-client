@@ -118,8 +118,7 @@ override protected function commitData():void
 		cardDisplay.setData(_data.type, _data.level);
 	}
 
-	if( _data == BuildingType.B11_BARRACKS )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+	showTutorArrow();
 }
 
 private function _owner_createHandler():void
@@ -136,19 +135,12 @@ private function scroller_scrollHandler(event:Event):void
 	visible = onScreen(getBounds(stage));//trace(index, visible)
 }		
 
-private function tutorialManager_finishHandler(event:Event):void
-{
-	if( player.getTutorStep() != PrefsTypes.T_036_DECK_SHOWN )
-		return;
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-	var tuteData:TutorialData = event.data as TutorialData;
-	if( tuteData.name == "deck_start" )
-		showTutorArrow();
-}
 private function showTutorArrow () : void
 {
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
+	if( !player.inDeckTutorial() || buildingType != BuildingType.B11_BARRACKS || player.buildings.get(buildingType).get_level() > -1 )
+		return;
 	
 	tutorialArrow = new TutorialArrow(true);
 	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.3);
