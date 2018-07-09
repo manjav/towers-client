@@ -73,7 +73,8 @@ override protected function commitData():void
 		case ExchangeType.C20_SPECIALS:
 			CELL_SIZE = 492 * appModel.scale;
 			headerDisplay.showCountdown(line.items[0]);
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExSpecialItemRenderer();}
+			if( list.itemRendererFactory == null )// init first item in feathers two called
+				list.itemRendererFactory = function ():IListItemRenderer{ return new ExSpecialItemRenderer();}
 			break;
 		
 		case ExchangeType.C30_BUNDLES:

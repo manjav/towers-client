@@ -57,6 +57,8 @@ override protected function commitData():void
 		return;
 	reset();
 	
+	if( firstCommit )
+		exchangeManager.addEventListener(FeathersEventType.BEGIN_INTERACTION, exchangeManager_beginInteractionHandler);
 	exchange = exchanger.items.get(_data as int);
 	if( exchange == null )
 		return;
@@ -340,6 +342,11 @@ private function reset() : void
 }
 
 override protected function showAchieveAnimation(item:ExchangeItem):void {}
+override protected function exchangeManager_endInteractionHandler(event:Event):void {}
+protected function exchangeManager_beginInteractionHandler(event:Event):void 
+{
+	resetData(event.data as ExchangeItem);
+}
 override public function dispose():void
 {
 	reset();

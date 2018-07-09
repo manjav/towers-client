@@ -9,6 +9,7 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -58,7 +59,7 @@ public function update() : void
 		timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 		timeManager_changeHandler(null);
 	}
-	exchangeManager.addEventListener(Event.COMPLETE, exchangeManager_completeHandler);
+	exchangeManager.addEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endInteractionHandler);
 }
 
 protected function backgroundFactory() : ImageLoader
@@ -131,7 +132,7 @@ protected function titleFactory(text:String) : ShadowLabel
 	return titleDisplay;
 }
 
-protected function exchangeManager_completeHandler(event:Event) : void 
+protected function exchangeManager_endInteractionHandler(event:Event) : void 
 {
 	var item:ExchangeItem = event.data as ExchangeItem;
 	if( item.type != exchange.type )
@@ -170,7 +171,7 @@ protected function reset() : void
 {
 	//tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	Starling.juggler.removeTweens(backgroundDisplay);
-	exchangeManager.removeEventListener(Event.COMPLETE, exchangeManager_completeHandler);
+	exchangeManager.removeEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endInteractionHandler);
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	removeChildren(0, -1, true);
 	backgroundDisplay = null;

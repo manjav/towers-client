@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.exchanges.ExchangeItem;
 import dragonBones.starling.StarlingArmatureDisplay;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.TiledRowsLayout;
 import feathers.skins.ImageSkin;
@@ -41,7 +42,7 @@ override protected function commitData():void
 	{
 		width = TiledRowsLayout(_owner.layout).typicalItemWidth;
 		height = TiledRowsLayout(_owner.layout).typicalItemHeight;
-		exchangeManager.addEventListener(Event.COMPLETE, exchangeManager_completeHandler);
+		exchangeManager.addEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endInteractionHandler);
 		firstCommit = false;
 	}
 	exchange = exchanger.items.get(_data as int);
@@ -49,9 +50,13 @@ override protected function commitData():void
 	super.commitData();
 }
 
-protected function exchangeManager_completeHandler(event:Event):void 
+protected function exchangeManager_endInteractionHandler(event:Event):void 
 {
-	var item:ExchangeItem = event.data as ExchangeItem;
+	resetData(event.data as ExchangeItem);
+}
+
+protected function resetData(item:ExchangeItem):void 
+{
 	if( item.type != exchange.type )
 		return;
 	removeChildren();
@@ -70,7 +75,7 @@ protected function showAchieveAnimation(item:ExchangeItem):void
 override public function dispose() : void
 {
 	if( exchangeManager != null )
-		exchangeManager.removeEventListener(Event.COMPLETE, exchangeManager_completeHandler);
+		exchangeManager.removeEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endInteractionHandler);
 	super.dispose();
 }
 }

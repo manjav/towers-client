@@ -23,6 +23,9 @@ public class ExSpecialItemRenderer extends ExBaseItemRenderer
 public function ExSpecialItemRenderer(){}
 override protected function commitData():void
 {
+	if( firstCommit )
+		exchangeManager.addEventListener(FeathersEventType.BEGIN_INTERACTION, exchangeManager_beginInteractionHandler);
+	
 	super.commitData();
 	skin.alpha = 0.7;
 	var cardDisplay:BuildingCard = new BuildingCard(false, false, true, false);
@@ -61,7 +64,7 @@ override protected function commitData():void
 	addChild(ribbonDisplay);
 	ribbonDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void
 	{
-		var discoutDisplay:ShadowLabel = new ShadowLabel( discount + "% OFF", 1, 0, "center", "ltr", false, null, 0.7);
+		var discoutDisplay:ShadowLabel = new ShadowLabel( discount + "% OFF", 1, 0, "center", "ltr", false, null, 0.7 );
 		discoutDisplay.width = 200 * appModel.scale;
 		discoutDisplay.alignPivot();
 		discoutDisplay.rotation = -0.8;
@@ -69,6 +72,12 @@ override protected function commitData():void
 		discoutDisplay.y = ribbonDisplay.height * 0.33;
 		ribbonDisplay.addChild(discoutDisplay);
 	});
+}
+
+override protected function exchangeManager_endInteractionHandler(event:Event):void {}
+protected function exchangeManager_beginInteractionHandler(event:Event):void 
+{
+	resetData(event.data as ExchangeItem);
 }
 }
 }

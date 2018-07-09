@@ -70,9 +70,8 @@ override public function focus():void
 
 override public function updateData():void
 {
-	if( itemslistData == null )
-		itemslistData = new ListCollection();
-	else return;
+	if( itemslistData != null )
+		return;
 	
 	var itemKeys:Vector.<int> = exchanger.items.keys();
 	var bundles:ShopLine = new ShopLine(ExchangeType.C30_BUNDLES);
@@ -101,7 +100,8 @@ override public function updateData():void
 		categoreis.unshift(bundles);
 	for (i=0; i<categoreis.length; i++)
 		categoreis[i].items.sort();
-	itemslistData.data = categoreis;
+	
+	itemslistData = new ListCollection(categoreis);
 }
 
 private function list_changeHandler(event:Event) : void

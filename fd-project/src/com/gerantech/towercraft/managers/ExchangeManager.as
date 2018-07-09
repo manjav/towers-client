@@ -34,7 +34,7 @@ import starling.events.Event;
 * ...
 * @author Mansour Djawadi
 */
-public class ExchangeManager extends BaseManager 
+public class ExchangeManager extends BaseManager
 {
 private static var _instance:ExchangeManager;
 private var earnOverlay:EarnOverlay;
@@ -49,7 +49,7 @@ public function process(item : ExchangeItem) : void
 {
 	if( player.inTutorial() )
 	{
-		dispatchEndEvent(false, item);
+		dispatchCustomEvent(FeathersEventType.ERROR, item);
 		return;// disalble all items in tutorial
 	}
 
@@ -76,12 +76,12 @@ public function process(item : ExchangeItem) : void
 					var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
 					GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
 					
-					dispatchEndEvent(true, item);
+					dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
 				}
 				return;
 			}
 			
-			dispatchEndEvent(false , item);
+			dispatchCustomEvent(FeathersEventType.ERROR , item);
 			return;
 		}
 		return;
@@ -92,7 +92,7 @@ public function process(item : ExchangeItem) : void
 		if( !player.has(item.requirements) )
 		{
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
-			dispatchEndEvent(false, item);
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
 			return;
 		}
 		var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
@@ -108,7 +108,7 @@ public function process(item : ExchangeItem) : void
 		function confirm1_closeHandler ( event:Event ):void {
 			confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
 			confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-			dispatchEndEvent(false, item);
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
 		}
 		return;
 	}
@@ -118,7 +118,7 @@ public function process(item : ExchangeItem) : void
 		if( !player.has(item.requirements) )
 		{
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
-			dispatchEndEvent(false, item);
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
 			return;
 		}
 		exchange(item, params);
@@ -151,7 +151,7 @@ public function process(item : ExchangeItem) : void
 				dailyPopup.removeEventListener(Event.SELECT, dailyPopup_selectHandler);
 				exchange(item, params);
 			}
-			dispatchEndEvent(false, item);
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
 			return;
 		}
 		
@@ -195,14 +195,13 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + error.object)]));
 		return;
 	}
+	
 	if( item.category != ExchangeType.C0_HARD )
-		sendData(params)			
-}
-
-private function sendData(params:SFSObject):void
-{
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);			
+	{
+		dispatchCustomEvent(FeathersEventType.BEGIN_INTERACTION, item);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.EXCHANGE, params);
+	}
 }
 
 protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
@@ -214,7 +213,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	var item:ExchangeItem = exchanger.items.get(data.getInt("type"));
 	if( data.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
 	{
-		dispatchEndEvent(false, item);
+		dispatchCustomEvent(FeathersEventType.ERROR, item);
 		return;
 	}
 	
@@ -222,7 +221,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	{
 		if ( !data.containsKey("rewards") )
 		{
-			dispatchEndEvent(true, item);
+			dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
 			return;
 		}
 		var outcomes:IntIntMap = new IntIntMap();
@@ -247,7 +246,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		}
 		appModel.navigator.dispatchEventWith("bookOpened");
 	}
-	dispatchEndEvent(true, item);
+	dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
 }
 
 private function gotoDeckTutorial():void
@@ -289,10 +288,10 @@ private function videoIdsManager_completeHandler(event:Event):void
 	params.putInt("type", ExchangeType.C43_ADS );
 	exchange(exchanger.items.get(ExchangeType.C43_ADS), params);
 }
-private function dispatchEndEvent( succeed:Boolean, item:ExchangeItem ) : void 
+private function dispatchCustomEvent( type:String, item:ExchangeItem ) : void 
 {
 	item.enabled = true;
-	dispatchEventWith(succeed?Event.COMPLETE:Event.FATAL_ERROR, false, item);
+	dispatchEventWith(type, false, item);
 }
 }
 }
