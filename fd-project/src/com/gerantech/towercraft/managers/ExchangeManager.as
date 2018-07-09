@@ -252,7 +252,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 
 private function gotoDeckTutorial():void
 {
-	if( player.getTutorStep() != PrefsTypes.T_033_BOOK_OPENED )
+	if( !player.inSlotTutorial() )
 		return;
 
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_035_DECK_FOCUS);
