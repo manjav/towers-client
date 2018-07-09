@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -83,6 +84,7 @@ private function tutorials_finishHandler(event:Event):void
 	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
 		return;
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
+	DashboardScreen.tabIndex = 2;
 	appModel.navigator.runBattle();
 }
 override public function updateData():void
