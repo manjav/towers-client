@@ -43,7 +43,7 @@ import starling.utils.Color;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-public static var tabIndex:int = 1;
+public static var tabIndex:int = 2;
 protected var pageList:List;
 protected var tabsList:List;
 protected var tabSize:int;

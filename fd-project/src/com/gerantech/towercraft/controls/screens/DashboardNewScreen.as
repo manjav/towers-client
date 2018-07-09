@@ -20,7 +20,6 @@ override protected function initialize():void { super.initialize(); }
 
 override protected function addedToStageHandler(event:Event):void
 {
-	tabIndex = 2;
 	super.addedToStageHandler(event);
 	tabPadding = 56 * appModel.scale;
 	tabSize = ( stageWidth - tabPadding * 2 ) / 5;
