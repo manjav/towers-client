@@ -18,6 +18,7 @@ public class BaseDecorator extends EventDispatcher
 {
 protected var placeView:PlaceView;
 protected var place:Place;
+protected var debugMode:Boolean;
 public function BaseDecorator(placeView:PlaceView) 
 {
 	this.placeView = placeView;

@@ -52,7 +52,7 @@ public function BuildingDecorator(placeView:PlaceView)
 	populationIndicator.touchable = false;
 	populationIndicator.pixelSnapping = false;
 	populationIndicator.alignPivot();
-	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
+	populationIndicator.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center");
 	//populationIndicator.width = populationBar.width;
 	populationIndicator.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -6)
 	populationBar.addChild(populationIndicator);
@@ -93,6 +93,17 @@ public function BuildingDecorator(placeView:PlaceView)
 	underAttack.x = place.x - underAttack.width * 0.5;
 	underAttack.y = place.y - underAttack.height * 2;
 	fieldView.buildingsContainer.addChild(underAttack);
+	
+	if( debugMode )
+	{
+		var indexLabel:BitmapFontTextRenderer = new BitmapFontTextRenderer();
+		indexLabel.alignPivot();
+		indexLabel.textFormat = new BitmapFontTextFormat(Assets.getFont(), 36, 0xFFFFFF, "center")
+		indexLabel.x = place.x - indexLabel.width * 0.5;
+		indexLabel.y = place.y - 150;
+		indexLabel.text = place.index + "";
+		fieldView.guiTextsContainer.addChild(indexLabel);
+	}
 	
 	if( appModel.battleFieldView.battleData.map.name == "battle_1" )
 		TutorialManager.instance.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
