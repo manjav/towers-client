@@ -223,7 +223,7 @@ private function tutorials_tasksStartHandler(e:Event):void
 private function showTutorials() : void 
 {
 	touchEnable = true;
-	tutorBattleIndex = player.get_battleswins() * 20;
+	tutorBattleIndex = Math.min(3, player.get_battleswins()) * 20;
 	if( sfsConnection.mySelf.isSpectator )
 		return;
 

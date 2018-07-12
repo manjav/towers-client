@@ -175,7 +175,7 @@ private function showMidSwipesTutorial(troopType : int) : void
 	
 	tutorials.showMidSwipe(this);
 	var deca:int = player.get_battleswins() * 20;
-	if( player.getTutorStep() == deca + 4 )
+	if( player.getTutorStep() == deca + 4 && deca < 70 )
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, deca + 5); // set first capture tutor step
 }
 
