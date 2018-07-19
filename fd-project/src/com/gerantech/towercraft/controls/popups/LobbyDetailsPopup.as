@@ -17,6 +17,7 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.List;
+import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
@@ -56,19 +57,19 @@ public function LobbyDetailsPopup(roomData:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.1, stage.stageHeight*0.1, stage.stageWidth*0.8, stage.stageHeight*0.8);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.05, stage.stageWidth*0.9, stage.stageHeight*0.9);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.1, stage.stageHeight * 0.1, stage.stageWidth * 0.8, stage.stageHeight * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.05, stage.stageWidth * 0.9, stage.stageHeight * 0.9);
 	rejustLayoutByTransitionData();
 	
 	var iconDisplay:EmblemButton = new EmblemButton(roomData.pic);
 	iconDisplay.touchable = false;
 	iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-	iconDisplay.width = padding * 4;
+	iconDisplay.width = padding * 4.0;
 	iconDisplay.height = padding * 4.2
 	addChild(iconDisplay);
 
 	var titleDisplay:RTLLabel = new RTLLabel(roomData.name);
-	titleDisplay.layoutData = new AnchorLayoutData(padding*0.8, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 0.8, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6:padding);
 	addChild(titleDisplay);
 }
 
@@ -111,7 +112,7 @@ protected override function transitionInCompleted():void
 private function showDetails():void
 {
 	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 1, "justify", null, true, null, 0.6);
-	bioDisplay.layoutData = new AnchorLayoutData(padding*3.4, appModel.isLTR?padding:padding*6, NaN, appModel.isLTR?padding*6:padding);
+	bioDisplay.layoutData = new AnchorLayoutData(padding * 3.4, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6 : padding);
 	addChild(bioDisplay);
 	
 	var features:Array = new Array();
@@ -122,27 +123,28 @@ private function showDetails():void
 	
 	//trace(sfsData.getDump())
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding*6, padding*2, NaN, padding*2);
+	featureList.layoutData = new AnchorLayoutData(padding * 7, padding * 2, NaN, padding * 2);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
 	
 	tabs = new Vector.<LobbyTabButton>();
-	tabs[0] = new LobbyTabButton("امتیاز", true);
+	tabs[0] = new LobbyTabButton(loc("lobby_point"), true);
 	tabs[0].isEnabled = false;
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[0].layoutData = new AnchorLayoutData( padding*16, appModel.isLTR?padding*2.5:NaN, NaN, appModel.isLTR?NaN:padding*2.5 );
+	tabs[0].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 2.5:NaN, NaN, appModel.isLTR?NaN:padding * 2.5);
 	addChild(tabs[0]);
-	tabs[1] = new LobbyTabButton("فعالیت هفتگی", true);
+	tabs[1] = new LobbyTabButton(loc("lobby_activeness"), true);
 	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding*16, appModel.isLTR?padding*7:NaN, NaN, appModel.isLTR?NaN:padding*7 );
+	tabs[1].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 7:NaN, NaN, appModel.isLTR?NaN:padding * 7);
 	addChild(tabs[1]);
 	
 	memberList = SFSArray(roomData.all).toArray();
 	memberCollection = new ListCollection(SFSArray(roomData.all).toArray());
 	
 	var membersList:List = new List();
+	membersList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	membersList.layoutData = new AnchorLayoutData(padding * 18.5, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
@@ -154,12 +156,12 @@ private function showDetails():void
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
-	joinleaveButton.width = (roomServerData.getInt("pri")==0||itsMyRoom?240:370) * appModel.scale;
+	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370) * appModel.scale;
 	joinleaveButton.height = 96 * appModel.scale;
 	joinleaveButton.visible = roomServerData.getInt("pri")<2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom;
-	joinleaveButton.layoutData = new AnchorLayoutData(padding*13.2, NaN, NaN, padding);
-	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri")==0?"lobby_join_label":"lobby_request_label"));
+	joinleaveButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri") == 0?"lobby_join_label":"lobby_request_label"));
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
 	joinleaveButton.addEventListener(Event.SELECT, joinleaveButton_selectHandler);
@@ -168,7 +170,7 @@ private function showDetails():void
 	var closeButton:CustomButton = new CustomButton();
 	closeButton.style = "danger";
 	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding/2);
+	closeButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?padding * 0.5:NaN, NaN,  appModel.isLTR?NaN:padding * 0.5);
 	closeButton.width = closeButton.height = 96 * appModel.scale;
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
@@ -177,9 +179,9 @@ private function showDetails():void
 		return;
 	
 	var shareButton:CustomButton = new CustomButton();
-	shareButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 92 * appModel.scale);
+	shareButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?128:NaN, NaN, appModel.isLTR?NaN:128);
 	shareButton.label = loc("lobby_invite");
-	shareButton.width = 160 * appModel.scale;
+	shareButton.width = 170 * appModel.scale;
 	shareButton.height = 96 * appModel.scale;
 	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
 	addChild(shareButton);
@@ -189,14 +191,12 @@ private function showDetails():void
 		return;
 	
 	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(padding/2, NaN, NaN, padding + 264 * appModel.scale);
+	editButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?300:NaN, NaN, appModel.isLTR?NaN:300);
 	editButton.label = loc("lobby_edit");
 	editButton.width = 160 * appModel.scale;
 	editButton.height = 96 * appModel.scale;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
-	
-	
 }
 
 private function shareButton_triggeredHandler():void
@@ -262,8 +262,8 @@ private function membersList_focusInHandler(event:Event):void
 	buttonsPopup.transitionIn = ti;
 	buttonsPopup.transitionOut = to;
 	appModel.navigator.addPopup(buttonsPopup);
-
 }		
+
 private function buttonsPopup_selectHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);

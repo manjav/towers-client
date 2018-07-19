@@ -8,7 +8,7 @@ import starling.core.Starling;
 
 public class FeatureItemRenderer extends AbstractTouchableListItemRenderer
 {
-protected var titleDisplay:RTLLabel  ;
+protected var keyDisplay:RTLLabel;
 protected var valueDisplay:*;
 protected var _firstCommit:Boolean = true;
 
@@ -16,31 +16,37 @@ public function FeatureItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-
 	layout = new AnchorLayout();
-
-	titleDisplay = new RTLLabel("", 1, null, null,	false, null, 0.9);
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:0, NaN, appModel.isLTR?0:NaN, NaN, 0);
-	addChild(titleDisplay);
 }
 
 override protected function commitData():void
 {
-	if(_owner == null || _data == null)
+	if( _owner == null || _data == null )
 		return;
 	
-	if(_firstCommit)
+	if( _firstCommit )
 	{
 		_firstCommit = false;
 		height = 64 * appModel.scale;
 	}
-	addValueLabel();
+	keyLabelFactory();
+	valueLabelFactory();
 	
 	alpha = 0;
-	Starling.juggler.tween(this, 0.2, {delay:index/30, alpha:1});
+	Starling.juggler.tween(this, 0.2, {delay:index / 30, alpha:1});
 }
 
-protected function addValueLabel():void
+protected function keyLabelFactory():RTLLabel
+{
+	if( keyDisplay != null )
+		return null;
+	keyDisplay = new RTLLabel("", 1, null, null,	false, null, 0.9);
+	keyDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:0, NaN, appModel.isLTR?0:NaN, NaN, 0);
+	addChild(keyDisplay);
+	return keyDisplay;
+}
+
+protected function valueLabelFactory():void
 {
 	if( valueDisplay != null )
 		return;

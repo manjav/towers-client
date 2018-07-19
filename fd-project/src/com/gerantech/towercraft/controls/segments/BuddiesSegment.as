@@ -1,11 +1,8 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.extensions.NativeAbilities;
-import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.BuddyItemRenderer;
-import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
@@ -16,7 +13,6 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.socials.Lobby;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -25,10 +21,6 @@ import com.smartfoxserver.v2.entities.SFSBuddy;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
-
-import flash.geom.Rectangle;
-
-import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
@@ -36,7 +28,7 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.events.Event;
 
@@ -78,11 +70,11 @@ override public function init():void
 	
 	list = new FastList();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0,0,0,0);
+	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(list);
 	
 	buddyCollection = new ListCollection(SFSConnection.instance.buddyManager.buddyList);
-	var me:SFSBuddy = new SFSBuddy(0, player.id+"");
+	var me:SFSBuddy = new SFSBuddy(0, player.id + "");
 	me.setVariable( new SFSBuddyVariable("$__BV_NICKNAME__", player.nickName));
 	me.setVariable( new SFSBuddyVariable("$__BV_STATE__", "Available"));
 	me.setVariable( new SFSBuddyVariable("$point", player.get_point()));
@@ -124,7 +116,7 @@ protected function sfs_buddyChangeHandler(event:SFSBuddyEvent):void
 	
 	var buddy:Buddy = event.params.buddy as Buddy;
 	if( event.type == SFSBuddyEvent.BUDDY_ADD )
-		buddyCollection.addItemAt(buddy, buddyCollection.length-2);
+		buddyCollection.addItemAt(buddy, buddyCollection.length - 2);
 	else if( event.type == SFSBuddyEvent.BUDDY_REMOVE )
 		buddyCollection.removeItemAt(buddyCollection.getItemIndex(buddy))
 }
@@ -138,7 +130,7 @@ protected function list_focusInHandler(event:Event):void
 	var buddy:Buddy = selectedItem.data as Buddy;
 	if( buddy == null )
 	{
-		NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name])+ "\n" + loc("buddy_invite_url", [player.invitationCode]));
+		NativeAbilities.instance.shareText(loc("invite_friend"), loc("invite_friend_message", [appModel.descriptor.name]) + "\n" + loc("buddy_invite_url", [player.invitationCode]));
 		trace(loc("buddy_invite_url", [player.invitationCode]))
 		return;
 	}
@@ -146,12 +138,12 @@ protected function list_focusInHandler(event:Event):void
 	if( buddy.nickName == player.nickName )
 		buttonsPopup = new SimpleListPopup("buddy_profile");
 	else
-		buttonsPopup = new SimpleListPopup("buddy_profile","buddy_remove",buddy.state=="Occupied"?"buddy_spectate$":"buddy_battle");
+		buttonsPopup = new SimpleListPopup("buddy_profile", "buddy_remove", buddy.state == "Occupied"?"buddy_spectate$":"buddy_battle");
 	buttonsPopup.data = buddy;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
 	buttonsPopup.padding = 24 * appModel.scale;
-	buttonsPopup.buttonsWidth = 320 * appModel.scale;
+	buttonsPopup.buttonsWidth = 360 * appModel.scale;
 	buttonsPopup.buttonHeight = 120 * appModel.scale;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
@@ -162,8 +154,8 @@ protected function list_focusInHandler(event:Event):void
 	ti.transition = Transitions.EASE_OUT_BACK;
 	to.sourceAlpha = 1;
 	to.destinationAlpha = 0;
-	to.destinationBound = ti.sourceBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.4, floatingW, floatingH*0.8);
-	to.sourceBound = ti.destinationBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.5, floatingW, floatingH);
+	to.destinationBound = ti.sourceBound = new Rectangle(selectedItem.getTouch().globalX - floatingW * 0.5, floatingY + buttonsPopup.buttonHeight * 0.5 - floatingH * 0.4, floatingW, floatingH * 0.8);
+	to.sourceBound = ti.destinationBound = new Rectangle(selectedItem.getTouch().globalX - floatingW * 0.5, floatingY + buttonsPopup.buttonHeight * 0.5 - floatingH * 0.5, floatingW, floatingH);
 	buttonsPopup.transitionIn = ti;
 	buttonsPopup.transitionOut = to;
 	appModel.navigator.addPopup(buttonsPopup);

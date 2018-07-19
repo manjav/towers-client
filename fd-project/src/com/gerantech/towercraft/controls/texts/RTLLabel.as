@@ -34,17 +34,17 @@ package com.gerantech.towercraft.controls.texts
 			else
 				this.fontSize = fontSize;
 						
-			this.align = align==null ? AppModel.instance.align : align;
-			this.lastAlign = lastAlign==null ? AppModel.instance.align : lastAlign;
-			this.direction = direction==null ? AppModel.instance.direction : direction;
-			this.fontFamily = fontFamily==null ? "SourceSansPro" : fontFamily;
+			this.align = align == null ? AppModel.instance.align : align;
+			this.lastAlign = lastAlign == null ? AppModel.instance.align : lastAlign;
+			this.direction = direction == null ? AppModel.instance.direction : direction;
+			this.fontFamily = fontFamily == null ? "SourceSansPro" : fontFamily;
 			this.fontWeight = "normal"//fontWeight==null ? "normal" : fontWeight;
-			this.fontPosture = fontPosture==null ? "normal" : fontPosture;
-			this.color = color==1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
-			bidiLevel = this.direction=="ltr" ? 0 : 1;
+			this.fontPosture = fontPosture == null ? "normal" : fontPosture;
+			this.color = color == 1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
+			this.bidiLevel = this.direction == "ltr" ? 0 : 1;
 			this.text = text;
 			this.wordWrap = wordWrap;
-			if(this.wordWrap && this.align=="justify")
+			if( this.wordWrap && this.align=="justify" )
 			{
 				this.align = this.lastAlign;
 				textJustifier = new SpaceJustifier(AppModel.instance.isLTR?"en":"fa", this.lastAlign=="justify"?LineJustification.ALL_INCLUDING_LAST : LineJustification.ALL_BUT_MANDATORY_BREAK);
@@ -54,7 +54,6 @@ package com.gerantech.towercraft.controls.texts
 			fontDescription = new FontDescription(this.fontFamily, this.fontWeight, this.fontPosture, FontLookup.EMBEDDED_CFF);
 			elementFormat = new ElementFormat(fontDescription, this.fontSize, this.color);
 		}
-
 		
 		public function get isTruncated():Boolean
 		{

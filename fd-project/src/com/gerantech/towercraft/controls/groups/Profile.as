@@ -68,6 +68,7 @@ override protected function initialize() : void
 	namePlace.layout = new AnchorLayout();
 	namePlace.backgroundSkin = new Image(Assets.getTexture("home/profile-rect", "gui"));
 	Image(namePlace.backgroundSkin).scale9Grid = scale9
+	topLine.addChild(namePlace);
 	
 	nameDisplay = new RTLLabel(player.nickName, 0xDCCAB4, "left", null, false, null, height * 0.22);
 	nameDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.5, NaN, padding * 0.5, NaN, 0);
@@ -80,6 +81,7 @@ override protected function initialize() : void
 	inboxButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
 	Image(inboxButton.backgroundSkin).scale9Grid = scale9
 	inboxButton.height = inboxButton.width = topLine.height;
+	topLine.addChild(inboxButton);
 	
 	InboxService.instance.request();
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
@@ -95,12 +97,7 @@ override protected function initialize() : void
 	settingsButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
 	Image(settingsButton.backgroundSkin).scale9Grid = scale9
 	settingsButton.height = settingsButton.width = topLine.height;
-	
-	var topLineElements:Array = [namePlace, inboxButton, settingsButton];
-	if( appModel.isLTR )
-		topLineElements.reverse();
-	for each ( var e:DisplayObject in topLineElements )
-		topLine.addChild(e);
+	topLine.addChild(settingsButton);
 	
 	// bottom line
 	var botLine:LayoutGroup = new LayoutGroup();

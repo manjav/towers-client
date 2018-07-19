@@ -20,7 +20,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	var acceptButton:CustomButton = new CustomButton();
-	acceptButton.label = loc("popup_accept_label");
+	acceptButton.label = loc("popup_ok_label");
 	acceptButton.height = padding * 4;
 	acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
 	acceptButton.layoutData = new AnchorLayoutData(NaN, hasDecline ? padding : NaN, padding * 2, NaN, hasDecline ? NaN : 0);

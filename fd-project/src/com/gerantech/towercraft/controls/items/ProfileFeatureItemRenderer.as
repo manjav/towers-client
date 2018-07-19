@@ -8,7 +8,7 @@ override protected function commitData():void
 		return;
 	
 	super.commitData();
-	titleDisplay.text = loc("resource_title_" + _data.getInt("type"));
+	keyDisplay.text = loc("resource_title_" + _data.getInt("type"));
 	valueDisplay.text = _data.getInt("count");
 }
 }

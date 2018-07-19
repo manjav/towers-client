@@ -33,7 +33,7 @@ override public function update() : void
 	
 	backgroundFactory();
 	iconFactory("tasks");
-	titleFactory("مأموریت");
+	titleFactory(loc("button_quests"));
 	countdownFactory();
 }
 }

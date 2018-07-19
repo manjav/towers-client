@@ -19,7 +19,7 @@ override protected function commitData():void
 	
 	super.commitData();
 	feature = _data as int;
-	titleDisplay.text = loc("building_feature_" + feature);
+	keyDisplay.text = loc("building_feature_" + feature);
 	
 	var building:Building = player.buildings.get(buildingType);
 	var buildingLevel:int = building == null ? 1 : building.get_level();

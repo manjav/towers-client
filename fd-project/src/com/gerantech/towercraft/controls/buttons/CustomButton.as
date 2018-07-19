@@ -120,7 +120,7 @@ public function get label():String
 }
 public function set label(value:String):void
 {
-	if(_label == value)
+	if( _label == value )
 		return;
 	_label = value;
 	if( labelDisplay )

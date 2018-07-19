@@ -67,13 +67,13 @@ override public function init():void
 	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
-	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 400 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-	addButton(battlesButton, "battlesButton", stageWidth * 0.48 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
+	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430 * appModel.scale, 186 * appModel.scale, gridRect, shadowRect);
+	addButton(battlesButton, "battlesButton", stageWidth * 0.49 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
 	
 	if( player.hasQuests )
 	{
-		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 360 * appModel.scale, 180 * appModel.scale, gridRect, shadowRect);
-		addButton(operationButton, "operationButton", width * 0.45 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
+		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 420 * appModel.scale, 186 * appModel.scale, gridRect, shadowRect);
+		addButton(operationButton, "operationButton", width * 0.46 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
 	
 	// bookline
