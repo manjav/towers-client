@@ -17,6 +17,7 @@ public var title:String = "";
 protected var listLayout:VerticalLayout;
 protected var list:FastList;
 protected var header:ScreenHeader;
+protected var footer:CloseFooter;
 protected var headerSize:int = 0;
 protected var startScrollBarIndicator:Number = 0;
 
@@ -48,18 +49,18 @@ override protected function initialize():void
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
-	var closeFooter:CloseFooter = new CloseFooter();
-	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
-	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
-	addChild(closeFooter);
+	footer = new CloseFooter();
+	footer.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
+	footer.addEventListener(Event.CLOSE, backButtonHandler);
+	addChild(footer);
 }
 
 protected function list_changeHandler(event:Event):void{}
 protected function list_scrollHandler(event:Event):void
 {
-	var scrollPos:Number = Math.max(0,list.verticalScrollPosition);
-	var changes:Number = startScrollBarIndicator-scrollPos;
-	header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
+	var scrollPos:Number = Math.max(0, list.verticalScrollPosition);
+	var changes:Number = startScrollBarIndicator - scrollPos;
+	header.y = Math.max( -headerSize, Math.min(0, header.y + changes));
 	startScrollBarIndicator = scrollPos;
 }
 }

@@ -10,6 +10,7 @@ package com.gerantech.towercraft.models.vo
 		public static const TYPE_BUTTON:int = 1;
 		public static const TYPE_LABEL_BUTTONS:int = 2;
 		public static const TYPE_ICON_BUTTONS:int = 3;
+		public static const TYPE_LOCALES:int = 4;
 		
 		public static const BUG_REPORT:int = 21;
 		public static const QUESTIONS:int = 22;

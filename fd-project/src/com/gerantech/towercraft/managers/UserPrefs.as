@@ -5,12 +5,15 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.managers.socials.SocialEvent;
 import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.Player;
 import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import mx.resources.IResourceManager;
+import mx.resources.ResourceManager;
 
 public class UserPrefs
 {
@@ -48,6 +51,23 @@ private function setPrefs(prefs:ISFSArray):void
     setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);   
 	
 	authenticateSocial();
+	
+	// select language with market index
+	if( !player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
+		player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market));
+	changeLocale(player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE));
+}
+
+public function changeLocale(locale:String) : Boolean
+{
+	if( player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == locale )
+		return false;
+	
+	player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, locale);
+	AppModel.instance.direction = StrUtils.getDir(locale);
+	AppModel.instance.isLTR = AppModel.instance.direction == "ltr";
+	AppModel.instance.align = AppModel.instance.isLTR ? "left" : "right";
+	return true;
 }
 
 public function setBool(key:int, value:Boolean):void

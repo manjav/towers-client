@@ -17,6 +17,7 @@
   <classpaths>
     <class path="src" />
     <class path="libs" />
+    <class path="locale" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -43,7 +44,7 @@
     <option linkReport="" />
     <option loadExterns="" />
     <option staticLinkRSL="True" />
-    <option additional="-locale=en_US -source-path=locale/{locale}" />
+    <option additional="-locale=en_US,fa_IR&#xA;-source-path=locale/{locale}" />
     <option compilerConstants="" />
     <option minorVersion="" />
   </build>

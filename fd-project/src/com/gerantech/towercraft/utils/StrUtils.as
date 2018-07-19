@@ -185,32 +185,69 @@ package com.gerantech.towercraft.utils
 		}
 		public static function  getFullURL (path:String, sura:uint, aya:uint, post:String="mp3"):String
 		{
-			return (path+"/"+getZeroNum(sura.toString())+getZeroNum(aya.toString())+"."+post);
+			return (path + "/" + getZeroNum(sura.toString()) + getZeroNum(aya.toString()) + "." + post);
 		}
 		
-		
-		public static function getLocal(local:String=null):Object
+		public static function getLocaleByMarket(market:String = null) : String
 		{
-			var ret:Object = {value:"en_US", dir:"ltr"};
-			if(local==null)
-				local = Capabilities.languages[0].split("-")[0];
-			
-			switch(local)
+			switch( market )
 			{
-				case "ar":	ret = {value:"ar_SA", dir:"rtl"};	break;
-				case "en":	ret = {value:"en_US", dir:"ltr"};	break;
-				case "es":	ret = {value:"es_ES", dir:"ltr"};	break;
-				case "fa":	ret = {value:"fa_IR", dir:"rtl"};	break;
-				case "fr":	ret = {value:"fr_FR", dir:"ltr"};	break;
-				case "id":	ret = {value:"id_ID", dir:"ltr"};	break;
-				case "ru":	ret = {value:"ru_RU", dir:"ltr"};	break;
-				case "tr":	ret = {value:"tr_TR", dir:"ltr"};	break;
-				case "ur":	ret = {value:"ur_PK", dir:"rtl"};	break;
+				case "google":
+				case "appstore":
+					return getLocal("en");
+			}
+			return getLocal("fa");
+		}
+		
+		public static function getLocalesByMarket(market:String = null) : Array
+		{
+			switch( market )
+			{
+				case "google":
+				case "appstore":
+					return ["en_US"];
+			}
+			return ["fa_IR", "en_US"];
+		}
+		
+		public static function getLocal(local:String = null) : String
+		{
+			var ret:String = "en_US";
+			//if( local == null )
+			//	local = Capabilities.languages[0].split("-")[0];
+			
+			switch( local )
+			{
+				//case "ar":	return "ar_SA";
+				case "en":	return "en_US";
+				//case "es":	return "es_ES";
+				case "fa":	return "fa_IR";
+				//case "fr":	return "fr_FR";
+				//case "id":	return "id_ID";
+				//case "ru":	return "ru_RU";
+				//case "tr":	return "tr_TR";
+				//case "ur":	return "ur_PK";
 			}
 			return ret;
 		}
 		
-		
+		public static function getDir(local:String = null) : String
+		{		
+			if( local == null )
+				local = Capabilities.languages[0].split("-")[0];
+			
+			switch( local )
+			{
+				case "ar":
+				case "ar_SA":
+				case "fa":
+				case "fa_IR":
+				case "ur":
+				case "ur_PK":
+					return "rtl";
+			}
+			return "ltr";
+		}
 		
 		//  UINT TO TIME _________________________________________________________________________
 		public static function dateToTime(date:Date, _mode:String='Second', separator:String=":"):String

@@ -4,23 +4,22 @@ import com.gerantech.towercraft.controls.items.SettingsItemRenderer;
 import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 import com.gerantech.towercraft.controls.popups.LinkDevicePopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.socials.SocialEvent;
 import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
-import feathers.layout.AnchorLayoutData;
-
-import flash.net.URLRequest;
-import flash.net.navigateToURL;
-
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
-
+import feathers.layout.AnchorLayoutData;
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
 import starling.events.Event;
 
 public class SettingsScreen extends ListScreen
@@ -39,7 +38,7 @@ override protected function initialize():void
 	
 	var versionLabel:RTLLabel = new RTLLabel(appModel.descriptor.versionNumber + " for " + appModel.descriptor.market, 1, "left", "ltr", false, null, 0.8);
 	versionLabel.touchable = false;
-	versionLabel.layoutData = new AnchorLayoutData(NaN, headerSize*0.06,  headerSize, headerSize*0.06);
+	versionLabel.layoutData = new AnchorLayoutData(NaN, headerSize * 0.06,  headerSize, headerSize * 0.06);
 	addChild(versionLabel);
 }
 
@@ -79,6 +78,8 @@ private function list_focusInHandler(event:Event):void
 			appModel.navigator.addPopup(new LinkDevicePopup());
 		else if( settingData.key == SettingsData.RENAME )
 			appModel.navigator.addPopup(new SelectNamePopup());
+		else if( settingData.key == SettingsData.TYPE_LOCALES )
+			showLocalePopup();
 	}
 	else
 	{
@@ -97,6 +98,27 @@ private function list_focusInHandler(event:Event):void
 	}
 }
 
+private function showLocalePopup():void 
+{
+	var buttonsPopup:SimpleListPopup = new SimpleListPopup();
+	buttonsPopup.buttons = StrUtils.getLocalesByMarket(appModel.descriptor.market);
+	buttonsPopup.buttonsWidth = 160 * appModel.scale;
+	buttonsPopup.buttonHeight = 120 * appModel.scale;
+	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
+	appModel.navigator.addPopup(buttonsPopup);
+	function buttonsPopup_selectHandler(event:Event) : void
+	{
+		buttonsPopup.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
+		if( UserData.instance.prefs.changeLocale(event.data as String) )
+		{
+			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, event.data as String);
+			header.label = title = loc("settings_page");
+			footer.label = loc("close_button");
+			list.dataProvider.updateAll();
+		}
+	}
+}
+
 protected function socialManager_eventsHandler(event:SocialEvent):void
 {
 	SocialManager.instance.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
@@ -105,7 +127,7 @@ protected function socialManager_eventsHandler(event:SocialEvent):void
 
 private function navigateTo(key:int):void
 {
-	navigateToURL(new URLRequest(loc("setting_value_"+key)));		
+	navigateToURL(new URLRequest(loc("setting_value_" + key)));	
 }
 
 private function getSettingsData():ListCollection
@@ -114,9 +136,10 @@ private function getSettingsData():ListCollection
 	source.push( new SettingsData(PrefsTypes.SETTINGS_1_MUSIC,			SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC)));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_2_SFX,			SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_2_SFX)));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_3_NOTIFICATION, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION)));
+	source.push( new SettingsData(PrefsTypes.SETTINGS_4_LOCALE, 		SettingsData.TYPE_BUTTON,           null));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_5_REMOVE_ADS, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS)));
 	
-	source.push( new SettingsData(SettingsData.RENAME,                  SettingsData.TYPE_BUTTON,            null));
+	source.push( new SettingsData(SettingsData.RENAME,                  SettingsData.TYPE_BUTTON,           null));
 	source.push( new SettingsData(PrefsTypes.AUTH_41_GOOGLE,            SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE)));
 	source.push( new SettingsData(SettingsData.LINK_DEVICE, 			SettingsData.TYPE_BUTTON,			null));
 	source.push( new SettingsData(SettingsData.LEGALS,	 				SettingsData.TYPE_BUTTON,			null));
