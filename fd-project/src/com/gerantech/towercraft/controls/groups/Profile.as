@@ -104,7 +104,7 @@ override protected function initialize() : void
 	botLine.height = height * 0.25;
 	botLine.layout = new HorizontalLayout();
 	botLine.layoutData = new AnchorLayoutData(NaN, padding * 3.2, padding * 2.2, padding * 3.0);
-	HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
+	//HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
 	HorizontalLayout(botLine.layout).gap = padding;
 	HorizontalLayout(botLine.layout).firstGap = padding * 0.5;
 	addChild(botLine);
@@ -146,8 +146,6 @@ private function buttons_eventsHandler(event:Event):void
 	{
 	case "inboxButton":		appModel.navigator.pushScreen(Main.INBOX_SCREEN);		break;
 	case "settingsButton":	appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);	break;
-	case "pointIndicator":	break;
-	case "xpIndicator":		break;
 	}
 }
 public function updateName() : void 

@@ -76,7 +76,7 @@ public function checkIndictorAchievements():void
 		var rd:RewardData = appModel.battleFieldView.battleData.outcomes[i];
 		if( indicators.hasOwnProperty(rd.key) && Indicator(indicators[rd.key]).stage != null )
 		{
-			appModel.navigator.addResourceAnimation(rd.x, rd.y, rd.key, rd.value);
+			appModel.navigator.addResourceAnimation(rd.x, rd.y, rd.key, rd.value, 0.1);
 			achieved.push(i); 
 		}
 	}
