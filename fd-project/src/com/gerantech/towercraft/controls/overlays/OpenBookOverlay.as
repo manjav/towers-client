@@ -236,7 +236,7 @@ private function grabReward(reward:BookReward, force:Boolean=false, delay:Number
 	shineArmature.removeFromParent();
 	var scal:Number = 0.8;
 	var numCol:int = rewardKeys.length == 2 || rewardKeys.length == 4 ? 2 : 3;
-	var paddingH:int = (appModel.isLTR?reward._width * 0.4:0) * scal + 80 * appModel.scale;
+	var paddingH:int = 80 * appModel.scale;
 	var paddingV:int = reward._height * 0.5 * scal + 80 * appModel.scale;
 	var cellH:int = ((stage.stageWidth - reward._width * 0.4 * scal - paddingH * 2) / (numCol - 1));
 	Starling.juggler.tween(reward, 0.5, {delay:delay, scale:scal, x:(reward.index % numCol) * cellH + paddingH, y:Math.floor(reward.index / numCol) * reward._height * scal + paddingV, transition:Transitions.EASE_OUT_BACK});

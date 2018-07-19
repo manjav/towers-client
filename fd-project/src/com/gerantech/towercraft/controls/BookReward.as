@@ -49,7 +49,7 @@ override protected function initialize():void
 	height = _height = 420 * appModel.scale;
 	
 	iconContainer = new LayoutGroup ();
-	iconContainer.x = appModel.isLTR ? -width * 0.4 - padding : padding;
+	iconContainer.x = padding;
 	iconContainer.y = -height * 0.5;
 	iconContainer.width = width * 0.4;
 	iconContainer.height = height;
@@ -84,17 +84,17 @@ override protected function initialize():void
 			iconContainer.addChild(newDisplay);
 			appModel.game.loginData.buildingsLevel.set(type, 1);
 			
-			setTimeout(appModel.sounds.addAndPlaySound, 100, "book-open-new")
+			setTimeout(appModel.sounds.addAndPlaySound, 100, "book-open-new");
 		}
 	}
 	
 	countInsideDisplay = new BitmapFontTextRenderer();
-	countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 0xFFFFFF, appModel.align);
-	countInsideDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding * 2, padding, appModel.isLTR?padding * 2:NaN);
+	countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 0xFFFFFF, "right");
+	countInsideDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding);
 	countInsideDisplay.text = "x " + count; 
 	
 	detailsContainer = new LayoutGroup ();
-	detailsContainer.x = appModel.isLTR ? padding : -width * 0.6 - padding;
+	detailsContainer.x = -width * 0.6 - padding;
 	detailsContainer.y = -height * 0.5;
 	detailsContainer.width = width * 0.6;
 	detailsContainer.height = height;
@@ -103,11 +103,11 @@ override protected function initialize():void
 	
 	addChild(iconContainer);
 	
-	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + type), 1, null, null, false, null, 1.1, null, "bold");
+	var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + type), 1, "right", null, false, "right", 1.1, null, "bold");
 	detailsContainer.addChild(titleDisplay);
 	
 	var countDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-	countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 16777215, appModel.align);
+	countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 16777215, "right");
 	countDisplay.layoutData = new VerticalLayoutData(100);
 	countDisplay.text = "x " + count; 
 	detailsContainer.addChild(countDisplay);

@@ -25,13 +25,13 @@ import starling.events.Event;
 
 public class CardDetailsPopup extends SimplePopup
 {
-	private var cardDisplay:BuildingCard;
+private var cardDisplay:BuildingCard;
 public var buildingType:int;
 public function CardDetailsPopup(){}
 override protected function initialize():void
 {
 	// create transition in data
-	var popupHeight:int = stageHeight * (BuildingType.get_category(buildingType) == BuildingType.B40_CRYSTAL ? 0.74 : 0.52);
+	var popupHeight:int = stageHeight * (BuildingType.get_category(buildingType) == BuildingType.B40_CRYSTAL ? 0.60 : 0.52);
 	var popupY:int = (stageHeight - popupHeight) * 0.5;
 	transitionIn = new TransitionData();
 	transitionIn.transition = Transitions.EASE_OUT;
