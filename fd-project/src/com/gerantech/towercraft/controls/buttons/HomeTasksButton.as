@@ -29,7 +29,7 @@ override public function update() : void
 	exchange = exchanger.items.get(ExchangeType.C101_FREE);
 	if( exchange == null )
 		return;
-	state = 0//exchange.getState(timeManager.now);
+	state = 0;
 	
 	backgroundFactory();
 	iconFactory("tasks");

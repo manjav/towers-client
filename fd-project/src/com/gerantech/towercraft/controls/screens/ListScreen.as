@@ -3,14 +3,11 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.headers.ScreenHeader;
-
-import flash.utils.setTimeout;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 public class ListScreen extends BaseCustomScreen
@@ -23,11 +20,7 @@ protected var header:ScreenHeader;
 protected var headerSize:int = 0;
 protected var startScrollBarIndicator:Number = 0;
 
-public function ListScreen()
-{
-	super();
-}
-
+public function ListScreen(){super();}
 override protected function initialize():void
 {
 	super.initialize();
@@ -45,14 +38,14 @@ override protected function initialize():void
 	
 	list = new FastList();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0,0,headerSize,0);
+	list.layoutData = new AnchorLayoutData(0, 0, headerSize, 0);
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);
 	addChild(list);
 	
 	header = new ScreenHeader(title);
 	header.height = headerSize;
-	header.layoutData = new AnchorLayoutData(NaN,0,NaN,0);
+	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
 	var closeFooter:CloseFooter = new CloseFooter();
@@ -61,10 +54,7 @@ override protected function initialize():void
 	addChild(closeFooter);
 }
 
-protected function list_changeHandler(event:Event):void
-{
-}
-
+protected function list_changeHandler(event:Event):void{}
 protected function list_scrollHandler(event:Event):void
 {
 	var scrollPos:Number = Math.max(0,list.verticalScrollPosition);

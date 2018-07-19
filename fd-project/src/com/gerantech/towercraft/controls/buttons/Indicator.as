@@ -165,7 +165,6 @@ public function punch():void
 	value = player.resources.get(resourceType);
 	y = reservedY - 40 * appModel.scale;
 	Starling.juggler.tween(this, 0.3, {y:reservedY, transition:Transitions.EASE_OUT_BACK});
-
 }
 }
 }

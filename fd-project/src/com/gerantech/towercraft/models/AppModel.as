@@ -58,7 +58,7 @@ public function AppModel()
 
 public static function get instance():AppModel
 {
-	if(_instance == null)
+	if( _instance == null )
 		_instance = new AppModel();
 	return _instance;
 }
