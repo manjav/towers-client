@@ -115,6 +115,8 @@ public function process(item : ExchangeItem) : void
 	
 	if( item.category == ExchangeType.C20_SPECIALS )
 	{
+		if( item.numExchanges > 0 )
+			return;
 		if( !player.has(item.requirements) )
 		{
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
