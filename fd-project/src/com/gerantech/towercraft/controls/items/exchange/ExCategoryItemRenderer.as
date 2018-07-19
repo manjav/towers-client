@@ -28,6 +28,11 @@ private var headerDisplay:ExchangeHeader;
 private var descriptionDisplay:RTLLabel;
 private var categoryCollection:ListCollection = new ListCollection();
 
+public static const HEIGHT_NORMAL:int = 360;
+public static const HEIGHT_C20_SPECIALS:int = 492;
+public static const HEIGHT_C30_BUNDLES:int = 580;
+public static const HEIGHT_C120_MAGICS:int = 360;
+
 public function ExCategoryItemRenderer() { super(); }
 override protected function initialize():void
 {
@@ -71,26 +76,21 @@ override protected function commitData():void
 	switch( line.category )
 	{
 		case ExchangeType.C20_SPECIALS:
-			CELL_SIZE = 492 * appModel.scale;
+			CELL_SIZE = HEIGHT_C20_SPECIALS * appModel.scale;
 			headerDisplay.showCountdown(line.items[0]);
 			if( list.itemRendererFactory == null )// init first item in feathers two called
 				list.itemRendererFactory = function ():IListItemRenderer{ return new ExSpecialItemRenderer();}
 			break;
 		
 		case ExchangeType.C30_BUNDLES:
-			CELL_SIZE = 580 * appModel.scale;
+			CELL_SIZE = HEIGHT_C30_BUNDLES * appModel.scale;
 			listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 2)) ;
 			headerDisplay.showCountdown(line.items[0]);
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBundleItemRenderer();}
 			break;
 		
-/*		case ExchangeType.C100_FREES:
-		case ExchangeType.C110_BATTLES:
-			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBattleItemRenderer();}
-			break;*/		
-		
 		case ExchangeType.C120_MAGICS:
-			CELL_SIZE = 360 * appModel.scale;
+			CELL_SIZE = HEIGHT_C120_MAGICS * appModel.scale;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBaseItemRenderer();}
 			break;		
 		

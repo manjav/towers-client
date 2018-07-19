@@ -31,6 +31,7 @@ public class ExchangeSegment extends Segment
 public static var focusedCategory:int = 0
 private var itemslistData:ListCollection;
 private var itemslist:List;
+private var scrollPaddingTop:int;
 
 public function ExchangeSegment(){super();}
 override public function init():void
@@ -43,6 +44,7 @@ override public function init():void
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.hasVariableItemDimensions = true;
 	listLayout.paddingTop = 120 * appModel.scale;
+	listLayout.paddingBottom = 50 * appModel.scale;
 	listLayout.useVirtualLayout = true;
 	
 	updateData();
@@ -63,8 +65,10 @@ override public function focus():void
 	if( !initializeCompleted )
 		return;
 	///////////////////////showTutorial();
-	var time:Number = Math.abs(focusedCategory * 480 * appModel.scale - itemslist.verticalScrollPosition) * 0.003;
-	itemslist.scrollToDisplayIndex(focusedCategory, time);
+	//var time:Number = Math.abs(focusedCategory * 520 * appModel.scale - itemslist.verticalScrollPosition) * 0.003;
+	if( focusedCategory == 0 )
+		itemslist.scrollToPosition(0, 0, 0.5);
+	itemslist.scrollToPosition(0, focusedCategory * ExCategoryItemRenderer.HEIGHT_NORMAL + scrollPaddingTop, 0.5);
 	focusedCategory = 0;
 }
 
@@ -93,15 +97,24 @@ override public function updateData():void
 			softs.add(itemKeys[i]);
 	}
 	
+	scrollPaddingTop = ExCategoryItemRenderer.HEIGHT_C120_MAGICS;
 	var categoreis:Array = new Array( magics, hards, softs );
 	if( specials.items.length > 0 )
+	{
 		categoreis.unshift(specials);
+		scrollPaddingTop += ExCategoryItemRenderer.HEIGHT_C20_SPECIALS;
+	}
 	if( bundles.items.length > 0 )
+	{
 		categoreis.unshift(bundles);
+		scrollPaddingTop += ExCategoryItemRenderer.HEIGHT_C30_BUNDLES;
+	}
 	for (i=0; i<categoreis.length; i++)
 		categoreis[i].items.sort();
 	
 	itemslistData = new ListCollection(categoreis);
+	
+	scrollPaddingTop = ExCategoryItemRenderer.HEIGHT_C120_MAGICS;
 }
 
 private function list_changeHandler(event:Event) : void

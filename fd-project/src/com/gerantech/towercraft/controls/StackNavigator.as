@@ -107,17 +107,17 @@ protected function toolbar_selectHandler(event:Event):void
 	if( AppModel.instance.game.player.inTutorial() )
 		return;
 
-	if( activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.tabIndex != 0 )
+	if( activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.tabIndex == 0 )
 		return;
 	
 	if( event.data.resourceType == ResourceType.CURRENCY_SOFT )
 	{
-		ExchangeSegment.focusedCategory = 3;
+		ExchangeSegment.focusedCategory = 4;
 		DashboardScreen(activeScreen).gotoPage(0);
 	}
 	else if( event.data.resourceType == ResourceType.CURRENCY_HARD )
 	{
-		ExchangeSegment.focusedCategory = 2;
+		ExchangeSegment.focusedCategory = 3;
 		DashboardScreen(activeScreen).gotoPage(0);
 	}
 }
