@@ -98,8 +98,15 @@ protected function indicators_selectHandler(event:Event):void
 
 public function updateIndicators():void
 {
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
+		return;
+	
 	for (var k:Object in indicators)
+	{
+		if( k == ResourceType.CURRENCY_HARD || k == ResourceType.CURRENCY_SOFT )
+			indicators[k].y = 18 * appModel.scale;
 		indicators[k].setData(0, player.getResource(k as int), NaN);
+	}
 }
 
 

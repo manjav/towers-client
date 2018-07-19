@@ -161,7 +161,7 @@ private function addButton_triggerHandler(event:Event):void
 
 public function punch():void
 {
-	var reservedY:Number = y + 0;
+	var reservedY:Number = 18 * appModel.scale;
 	value = player.resources.get(resourceType);
 	y = reservedY - 40 * appModel.scale;
 	Starling.juggler.tween(this, 0.3, {y:reservedY, transition:Transitions.EASE_OUT_BACK});

@@ -13,7 +13,6 @@ import com.gerantech.towercraft.controls.popups.AbstractPopup;
 import com.gerantech.towercraft.controls.popups.InvitationPopup;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
-import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.SocialSegment;
 import com.gerantech.towercraft.controls.toasts.BaseToast;
@@ -94,7 +93,7 @@ protected function navigator_changeHandler(event:Event):void
 		{
 			addChild(toolbar);
 			toolbar.alpha = 0;
-			//toolbar.updateIndicators();
+			toolbar.updateIndicators();
 			Starling.juggler.tween(toolbar, 0.1, {delay:0.8, alpha:1});
 		}
 		else
