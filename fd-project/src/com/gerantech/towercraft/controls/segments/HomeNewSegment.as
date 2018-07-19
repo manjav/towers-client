@@ -73,7 +73,7 @@ override public function init():void
 	if( player.hasQuests )
 	{
 		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 420 * appModel.scale, 186 * appModel.scale, gridRect, shadowRect);
-		addButton(operationButton, "operationButton", width * 0.46 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
+		addButton(operationButton, "operationButton", stageWidth * 0.46 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
 	
 	// bookline
