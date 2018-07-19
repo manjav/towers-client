@@ -59,7 +59,7 @@ override protected function initialize() : void
 
 	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.3);
 	labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 0.4);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, padding * 0.2, -padding * 0.35);
 	addChild(labelDisplay);	
 }
 

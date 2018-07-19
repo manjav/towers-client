@@ -24,7 +24,7 @@ protected var acceptButton:CustomButton;
 protected var container:LayoutGroup;
 protected var buttonContainer:LayoutGroup;
 
-public function ConfirmPopup(message:String, acceptLabel:String=null, declineLabel:String=null)
+public function ConfirmPopup(message:String, acceptLabel:String = null, declineLabel:String = null)
 {
 	super();
 	this.message = message;
@@ -46,7 +46,6 @@ override protected function initialize():void
 	addChild(container);
 	
 	messageDisplay = new ShadowLabel(message, 1, 0, "center", null, true, "center", 1);
-	//messageDisplay.layoutData = new AnchorLayoutData (NaN, padding, NaN, padding, NaN, -appModel.theme.controlSize);
 	container.addChild(messageDisplay);
 	
 	var buttonLayout:HorizontalLayout = new HorizontalLayout();

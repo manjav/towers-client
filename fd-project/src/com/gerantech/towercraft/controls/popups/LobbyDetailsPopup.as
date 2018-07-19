@@ -57,8 +57,8 @@ public function LobbyDetailsPopup(roomData:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.1, stage.stageHeight * 0.1, stage.stageWidth * 0.8, stage.stageHeight * 0.8);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.05, stage.stageWidth * 0.9, stage.stageHeight * 0.9);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.06, stage.stageWidth * 0.9, stage.stageHeight * 0.88);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.04, stage.stageWidth * 0.9, stage.stageHeight * 0.92);
 	rejustLayoutByTransitionData();
 	
 	var iconDisplay:EmblemButton = new EmblemButton(roomData.pic);
