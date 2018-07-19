@@ -55,12 +55,12 @@ private function setPrefs(prefs:ISFSArray):void
 	// select language with market index
 	if( !player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
 		player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market));
-	changeLocale(player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE));
+	changeLocale(player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE), true);
 }
 
-public function changeLocale(locale:String) : Boolean
+public function changeLocale(locale:String, forced:Boolean=false) : Boolean
 {
-	if( player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == locale )
+	if( !forced && player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == locale )
 		return false;
 	
 	player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, locale);
