@@ -6,6 +6,7 @@ import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.Exchanger;
 import feathers.controls.renderers.LayoutGroupListItemRenderer;
 import feathers.skins.ImageSkin;
@@ -77,10 +78,6 @@ private function checkScrolling():void
 	tempY = itemBounds.y;
 }		
 
-protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
-{
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
-}
 protected function commitBeforeStopScrolling():void{}
 protected function commitAfterStopScrolling():void{}
 protected function removedFromStageHandler( event:Event ) : void { clearInterval(intevalId); }
@@ -93,5 +90,9 @@ protected function get exchanger():			Exchanger		{	return game.exchanger;						}
 protected function get exchangeManager():	ExchangeManager	{	return ExchangeManager.instance;			}
 protected function get stageWidth():		Number			{	return Starling.current.stage.stageWidth;	}
 protected function get stageHeight():		Number			{	return Starling.current.stage.stageHeight;	}
+protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
+{
+	return ResourceManager.getInstance().getString("loc", resourceName, parameters, player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE));
+}
 }
 }
