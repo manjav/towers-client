@@ -51,7 +51,7 @@ override protected function addedToStageHandler(event:Event):void
 	tabSelection = new ImageLoader();
 	tabSelection.touchable = false;
 	tabSelection.source = Assets.getTexture("home/tab", "gui");
-	tabSelection.width = tabSize * 1.4;
+	tabSelection.width = tabSize * 1.54;
 	tabSelection.maintainAspectRatio = false;
 	//tabSelection.height = footerSize;
 	tabSelection.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
@@ -61,7 +61,7 @@ override protected function addedToStageHandler(event:Event):void
 override public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Boolean = true):void
 {
 	super.gotoPage(pageIndex, animDuration, scrollPage);
-	Starling.juggler.tween(tabSelection, animDuration, {x:tabPadding + pageIndex * tabSize - tabSize * 0.22, transition:Transitions.EASE_OUT});
+	Starling.juggler.tween(tabSelection, animDuration, {x:tabPadding + pageIndex * tabSize - tabSize * 0.28, transition:Transitions.EASE_OUT});
 }
 
 override public function dispose():void
