@@ -25,6 +25,7 @@ protected function get stageWidth():		Number			{	return Starling.current.stage.s
 protected function get stageHeight():		Number			{	return Starling.current.stage.stageHeight;	}
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
+	if( player
 	return ResourceManager.getInstance().getString("loc", resourceName, parameters, player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE));
 }
 }

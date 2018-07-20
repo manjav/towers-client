@@ -43,9 +43,10 @@ public function CoreLoader(sfsObj:SFSObject)
 {
 	this.serverData = sfsObj;
 	this.version = serverData.getText("coreVersion");
-	var coreFileName:String = "core-"+version+ ".swf";
-	var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/"+coreFileName).nativePath;
-	var url:String = "http://"+SFSConnection.instance.currentIp+":8080/swfcores/"+coreFileName;
+	/*var coreFileName:String = "core-"+version+ ".swf";
+	var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/" + coreFileName).nativePath;
+	//var url:String = "http://" + SFSConnection.instance.currentIp + ":8080/swfcores/" + coreFileName;
+	var url:String = "http://www.gerantech.com/towers/swfcores/" + coreFileName;
 	
 	initServerData(serverData);
 
@@ -69,7 +70,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	loader.removeEventListener(IOErrorEvent.IO_ERROR, loaderInfo_ioErrorHandler);
 	var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
 	var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
-	
+	*/
 	AppModel.instance.game = new Game();
 	//AppModel.instance.game.eventDispatcher.addEventListener(CoreEvent.CHANGE, dsasd);
 	AppModel.instance.game.init(initData);
@@ -111,7 +112,7 @@ private function loaderInfo_completeHandler(event:Event):void
 		AppModel.instance.game.exchanger.items.set(item.type, item);
 	}
 	
-	var swfInitData:* = new initClass();
+/*	var swfInitData:* = new initClass();
 	swfInitData.nickName = serverData.getText("name");
 	swfInitData.id = serverData.getInt("id");
 	swfInitData.appVersion = AppModel.instance.descriptor.versionCode;
@@ -121,7 +122,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	initCoreData(swfCore);
 
 	trace("server version :	" + version+"\nswf core version :	" + swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
-	dispatchEvent(new Event(Event.COMPLETE));
+*/	dispatchEvent(new Event(Event.COMPLETE));
 }
 
 protected function dsasd(event:CoreEvent):void
