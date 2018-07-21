@@ -75,7 +75,7 @@ protected function sfsConnection_connectionHandler(event:SFSEvent):void
 {
 	sfsConnection.removeEventListener(SFSConnection.FAILURE, sfsConnection_connectionHandler);
 	sfsConnection.removeEventListener(SFSConnection.SUCCEED, sfsConnection_connectionHandler);
-	if(event.type == SFSConnection.SUCCEED)
+	if( event.type == SFSConnection.SUCCEED )
 	{				
 		login();
 	}

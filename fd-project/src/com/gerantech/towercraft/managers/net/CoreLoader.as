@@ -24,6 +24,7 @@ import com.gt.towers.utils.maps.StringFieldMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import flash.utils.setTimeout;
 
 import flash.events.ErrorEvent;
 import flash.events.Event;
@@ -43,6 +44,14 @@ public function CoreLoader(sfsObj:SFSObject)
 {
 	this.serverData = sfsObj;
 	this.version = serverData.getText("coreVersion");
+	
+	// create init data 
+	initData = new InitData();
+	initData.nickName = serverData.getText("name");
+	initData.id = serverData.getInt("id");
+	initData.appVersion = AppModel.instance.descriptor.versionCode;
+	initData.market = AppModel.instance.descriptor.market;
+	
 	/*var coreFileName:String = "core-"+version+ ".swf";
 	var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/" + coreFileName).nativePath;
 	//var url:String = "http://" + SFSConnection.instance.currentIp + ":8080/swfcores/" + coreFileName;
@@ -122,7 +131,8 @@ private function loaderInfo_completeHandler(event:Event):void
 	initCoreData(swfCore);
 
 	trace("server version :	" + version+"\nswf core version :	" + swfCore.loginData.coreVersion+"\nswc core version :	"+AppModel.instance.game.loginData.coreVersion + "\nswf server size :	"+serverData.getInt("coreSize") + "\nplayerId :		" + initData.id);
-*/	dispatchEvent(new Event(Event.COMPLETE));
+*/
+	setTimeout( dispatchEvent, 1, new Event(Event.COMPLETE));
 }
 
 protected function dsasd(event:CoreEvent):void
@@ -130,7 +140,7 @@ protected function dsasd(event:CoreEvent):void
 	trace(event.key, event.from, event.to)
 }
 
-private function initCoreData(game:*):void
+/*private function initCoreData(game:*):void
 {
 	// put arena data
 	AppModel.instance.game.arenas = new IntArenaMap();
@@ -152,7 +162,7 @@ private function initCoreData(game:*):void
 	fItemsKeys = game.fieldProvider.battles.keys();
 	for ( i=0; i<fItemsKeys.length; i++ )
 		AppModel.instance.game.fieldProvider.battles.set( fItemsKeys[i] , convertField( game.fieldProvider.battles.get(fItemsKeys[i]) ));
-}		
+}	
 
 private function convertField(fieldSource:*):FieldData
 {
@@ -169,17 +179,10 @@ private function convertField(fieldSource:*):FieldData
 		ret.images.push( new ImageData( id.name, id.tx, id.ty, id.a, id.b, id.c, id.d, id.px, id.py ) );
 	}
 	return ret;
-}		
+}	*/	
 
 private function initServerData(sfsObj:SFSObject):void
 {
-	// create init data 
-	initData = new InitData();
-	initData.nickName = sfsObj.getText("name");
-	initData.id = sfsObj.getInt("id");
-	initData.appVersion = AppModel.instance.descriptor.versionCode;
-	initData.market = AppModel.instance.descriptor.market;
-
 	var elements:ISFSArray = sfsObj.getSFSArray("resources");
 	var element:ISFSObject;
 	for( var i:int=0; i<elements.size(); i++ )
