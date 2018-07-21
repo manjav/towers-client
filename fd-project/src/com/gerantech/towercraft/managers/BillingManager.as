@@ -171,8 +171,16 @@ private function verify(purchase:Purchase):void
 		trace(result.getDump());
 		if( result.getBool("success") )
 		{
-			if( ( appModel.descriptor.market == "cafebazaar" && result.getInt("consumptionState") == 1 ) || ( appModel.descriptor.market == "myket" && result.getInt("consumptionState") == 0 ) )
-				consume(purchase.sku);
+			if( appModel.descriptor.market == "cafebazaar" || appModel.descriptor.market == "ario" )
+			{
+				if(  result.getInt("consumptionState") == 1 )
+					consume(purchase.sku);
+			}
+			else
+			{
+				if(  result.getInt("consumptionState") == 0 )
+					consume(purchase.sku);
+			}
 		}
 		else
 		{
