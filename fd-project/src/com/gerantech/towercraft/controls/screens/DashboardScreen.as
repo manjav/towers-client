@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.items.DashboardTabLagacyItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -15,11 +14,9 @@ import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
-import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.AutoSizeMode;
-import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -32,14 +29,9 @@ import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
 import flash.desktop.NativeApplication;
-import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import mx.resources.ResourceManager;
-import starling.animation.Transitions;
-import starling.core.Starling;
-import starling.display.Image;
 import starling.events.Event;
-import starling.utils.Color;
 
 public class DashboardScreen extends BaseCustomScreen
 {
