@@ -1,36 +1,25 @@
 /**
- * Created by gilaas on 4/27/2017.
+ * Created by ManJav on 4/27/2017.
  */
 package com.gerantech.towercraft.managers.net
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.utils.LoadAndSaver;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
-import com.gt.towers.arenas.Arena;
-import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.battle.fieldes.ImageData;
-import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
-import com.gt.towers.utils.lists.IntList;
-import com.gt.towers.utils.lists.PlaceDataList;
-import com.gt.towers.utils.maps.IntArenaMap;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.gt.towers.utils.maps.IntShopMap;
-import com.gt.towers.utils.maps.StringFieldMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import flash.utils.setTimeout;
-
-import flash.events.ErrorEvent;
+import flash.Lib;
 import flash.events.Event;
 import flash.events.EventDispatcher;
-import flash.events.IOErrorEvent;
-import flash.filesystem.File;
+import flash.utils.setTimeout;
+import haxe.Log;
+
 
 [Event(name="complete", type="flash.events.Event")]
 [Event(name="error", type="flash.events.ErrorEvent")]
@@ -45,19 +34,13 @@ public function CoreLoader(sfsObj:SFSObject)
 	this.serverData = sfsObj;
 	this.version = serverData.getText("coreVersion");
 	
-	// create init data 
-	initData = new InitData();
-	initData.nickName = serverData.getText("name");
-	initData.id = serverData.getInt("id");
-	initData.appVersion = AppModel.instance.descriptor.versionCode;
-	initData.market = AppModel.instance.descriptor.market;
+	initServerData(serverData);
 	
 	/*var coreFileName:String = "core-"+version+ ".swf";
 	var nativePath:String = File.applicationStorageDirectory.resolvePath("cores/" + coreFileName).nativePath;
 	//var url:String = "http://" + SFSConnection.instance.currentIp + ":8080/swfcores/" + coreFileName;
 	var url:String = "http://www.gerantech.com/towers/swfcores/" + coreFileName;
 	
-	initServerData(serverData);
 
 	var ls:LoadAndSaver = new LoadAndSaver(nativePath, url, null, true, serverData.getInt("coreSize"));
 	ls.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
@@ -80,6 +63,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
 	var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 	*/
+	Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
 	AppModel.instance.game = new Game();
 	//AppModel.instance.game.eventDispatcher.addEventListener(CoreEvent.CHANGE, dsasd);
 	AppModel.instance.game.init(initData);
@@ -90,7 +74,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	if( SFSConnection.instance.currentIp != "185.216.125.7" )
 		AppModel.instance.game.player.admin = true;
 	
-	//trace(serverData.getSFSArray("exchanges").getDump())
+	//trace(serverData.getSFSArray("resources").getDump())
 	var exchange:ISFSObject;
 	var item:ExchangeItem;
 	var elements:ISFSArray;
@@ -183,6 +167,13 @@ private function convertField(fieldSource:*):FieldData
 
 private function initServerData(sfsObj:SFSObject):void
 {
+	// create init data 
+	initData = new InitData();
+	initData.nickName = serverData.getText("name");
+	initData.id = serverData.getInt("id");
+	initData.appVersion = AppModel.instance.descriptor.versionCode;
+	initData.market = AppModel.instance.descriptor.market;
+	
 	var elements:ISFSArray = sfsObj.getSFSArray("resources");
 	var element:ISFSObject;
 	for( var i:int=0; i<elements.size(); i++ )
