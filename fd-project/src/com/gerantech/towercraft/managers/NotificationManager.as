@@ -10,9 +10,8 @@ import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
 import flash.events.Event;
 import flash.filesystem.File;
-import mx.resources.ResourceManager;
 
-public class NotificationManager
+public class NotificationManager extends BaseManager
 {
 private var iconFile:File;
 private var soundFile:File;
@@ -41,11 +40,11 @@ public function init():void
 
 public function reset():void
 {
-	if( AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 		return;
 
 	clear();
-	if( !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION) )
+	if( !appModel.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION) )
 		return;
 	
 	var date:Date = new Date();
@@ -61,7 +60,7 @@ public function reset():void
 	var exchanger:Exchanger = AppModel.instance.game.exchanger;
 	var numForgots:int = 0;
 	var itemsKey:Vector.<int> = exchanger.items.keys();
-	var i:int=0;
+	var i:int = 0;
 	while( i < itemsKey.length )
 	{
 		if( ExchangeType.getCategory(itemsKey[i]) == ExchangeType.C110_BATTLES || ExchangeType.getCategory(itemsKey[i]) == ExchangeType.C100_FREES )
@@ -97,11 +96,6 @@ private function notify(message:String, time:Number):void
 public function clear():void
 {
 	NativeAbilities.instance.cancelLocalNotifications();
-}
-
-protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
-{
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
 }	
 }
 }
