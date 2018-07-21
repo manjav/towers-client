@@ -420,10 +420,9 @@ private function lobbyManager_friendlyBattleHandler(event:Event):void
 	}
 }
 
-
-protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
+protected function loc(resourceName:String, parameters:Array = null):String
 {
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
+	return ResourceManager.getInstance().getString("loc", resourceName, parameters, AppModel.instance.game != null ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : AppModel.instance.locale);
 }
 
 public function showOffer():void

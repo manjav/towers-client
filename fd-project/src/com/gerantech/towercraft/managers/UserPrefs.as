@@ -12,8 +12,6 @@ import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import mx.resources.IResourceManager;
-import mx.resources.ResourceManager;
 
 public class UserPrefs
 {
@@ -54,7 +52,7 @@ private function setPrefs(prefs:ISFSArray):void
 	
 	// select language with market index
 	if( !player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
-		player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market));
+		player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, AppModel.instance.locale);
 	changeLocale(player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE), true);
 }
 

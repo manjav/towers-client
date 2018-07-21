@@ -6,6 +6,7 @@ import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.vo.Descriptor;
 import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.Game;
 import flash.desktop.NativeApplication;
@@ -33,6 +34,7 @@ public var battleFieldView:BattleFieldView;
 public var align:String = "right";
 public var direction:String = "rtl";
 public var isLTR:Boolean = false;
+public var locale:String = "en_US";
 public var assets:AssetManager;
 public var sounds:SoundManager;
 public var notifier:NotificationManager;
@@ -54,6 +56,7 @@ public function AppModel()
 		case "Linux": platform = PLATFORM_ANDROID; break;
 		case "iPhon": platform = PLATFORM_IOS; break;
 	}
+	//locale = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
 }
 
 public static function get instance():AppModel

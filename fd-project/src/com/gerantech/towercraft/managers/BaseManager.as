@@ -16,9 +16,9 @@ protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get game():			Game			{	return appModel.game;				}
 protected function get player():		Player			{	return game.player;					}
 protected function get exchanger():		Exchanger		{	return game.exchanger;				}
-protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
+protected function loc(resourceName:String, parameters:Array = null):String
 {
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE));
+	return ResourceManager.getInstance().getString("loc", resourceName, parameters, appModel.game != null ? player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : appModel.locale);
 }
 }
 }
