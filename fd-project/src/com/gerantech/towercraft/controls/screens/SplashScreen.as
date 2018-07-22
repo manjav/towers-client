@@ -72,9 +72,10 @@ protected function stage_resizeHandler(event:*):void
 	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
 	graphics.clear();
 	graphics.beginFill(0);
-	graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+	graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
 	logo.scaleY = logo.scaleX = stage.fullScreenWidth / logo.width;
-	logo.y = (stage.fullScreenHeight - logo.height * AppModel.instance.aspectratio) * 0.5;
+	//trace(stage.fullScreenWidth, stage.fullScreenHeight, logo.width, logo.height, logo.scaleY, 'sssssssssssssssssss')
+	logo.y = (stage.fullScreenHeight - (logo.height * logo.scaleY)) * 0.5;
 }
 
 protected function loadingManager_eventsHandler(event:LoadingEvent):void
@@ -97,7 +98,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 	switch(event.type)
 	{
 		case LoadingEvent.LOADED:
-			trace("LoadingEvent.LOADED", "t["+(getTimer()-Towers.t)+ ","+(getTimer()-AppModel.instance.loadingManager.loadStartAt)+"]");
+			trace("LoadingEvent.LOADED", "t[" + (getTimer() - Towers.t) + "," + (getTimer() - AppModel.instance.loadingManager.loadStartAt) + "]");
 			logo.addEventListener("cancel", logo_cancelHandler);
 			if( stage != null )
 				stage.dispatchEvent(new Event("continue"));
