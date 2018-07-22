@@ -25,7 +25,7 @@ private var items:Array;
 private static var _instance:BillingManager;
 public static function get instance():BillingManager
 {
-	if(_instance == null)
+	if( _instance == null )
 		_instance = new BillingManager();
 	return (_instance);
 }
@@ -57,7 +57,7 @@ public function init():void
 	switch( appModel.descriptor.market )
 	{
 		case "google":
-			base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuML2Gtw7jaO2bO1/JqtnvIIMH04IdQ/nX89tPz/Q9ltm3JyILgvSJJL36cmRqfvsHD4pXPuIu14cb/+iRVuSodASgtGpPCmv21l6wXT++VEED5TdWJCNZoyOnwt3iGWdpoUQNqpqj0hn46O7mmJdRY8dEtfuQ21P/pTSWzojkBBLCIxRM00va2ueE1AvMB5iJVw/0gCax7FZ0fSfVL0fhMps2uUu1e4Hro2AopwzGVzjug2rYpHviXQEOpX4/QJqyhDrs37vITA1yPjPguCHbB4YqOrgqM9ik2UDb1ouJ0NCj8jADzF8St6VajW9U64KZflE/7sppgSKGxcyAfsKnwIDAQAB";
+			base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuBhhd2cIGxyfSAM1Vnv1qLtlmN25UD1KhXpvy8S8JrOIssw6sSoJXBfu8oWWi2VaQ6OPZJifiWKzV3E8+6mxCXn4u+GiO3v1F3zlhhbEPDuKxHu+cnEA3yCQy3w6HLe8f60+85I7VoGsgkEOu0E5fIJ1f5udp209gbi0DrajuTiC5cH4bZNSpDTpE2YE2T4rvsM4nVvN38PNE+xExsNtemm6QGbu9A5x9nWZrGP5dLNT6CSVuu8zdddHGkGCxOzvHekZ/Zsg3ZO9VvNp2n64puKiiCRul5U821iwl5k060CO1glHWrxwoFCWiZwyjnNKYggGBaaIw3m+amh2xp7eNwIDAQAB";
 			bindURL = "com.android.vending.billing.InAppBillingService.BIND";
 			packageURL = "com.android.vending";
 			break;
