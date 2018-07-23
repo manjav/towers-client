@@ -190,6 +190,13 @@ private function initServerData(sfsObj:SFSObject):void
 		element = elements.getSFSObject(i);
 		initData.operations.set(element.getInt("index"), element.getInt("score"));
 	}
+	
+	elements = sfsObj.getSFSArray("prefs");
+	for( i=0; i<elements.size(); i++ )
+	{
+		element = elements.getSFSObject(i);
+		initData.prefs.set(int(element.getText("k")), element.getText("v"));
+	}
 }
 }
 }

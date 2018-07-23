@@ -198,7 +198,7 @@ protected function coreLoader_completeHandler(event:Event):void
 	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
 	
-    UserData.instance.prefs.requestData(serverData.containsKey("prefs"));
+    UserData.instance.prefs.init();
 
 	state = STATE_LOADED;
 	BillingManager.instance.init();			
