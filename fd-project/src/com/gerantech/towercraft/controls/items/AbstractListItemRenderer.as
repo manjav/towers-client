@@ -4,6 +4,7 @@ import com.gerantech.towercraft.managers.ExchangeManager;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
 import com.gt.towers.exchanges.Exchanger;
