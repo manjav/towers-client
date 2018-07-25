@@ -19,7 +19,6 @@ import flash.events.Event;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.getTimer;
-import mx.resources.ResourceManager;
 
 public class SplashScreen extends Sprite
 {
@@ -250,7 +249,7 @@ protected function logo_cancelHandler(event:*):void
 
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
 {
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, locale);
+	return StrUtils.loc(resourceName, parameters);
 }
 }
 }

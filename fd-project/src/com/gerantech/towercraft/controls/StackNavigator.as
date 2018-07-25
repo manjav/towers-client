@@ -44,7 +44,6 @@ import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.Dictionary;
 import flash.utils.setTimeout;
-import mx.resources.ResourceManager;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
@@ -422,7 +421,7 @@ private function lobbyManager_friendlyBattleHandler(event:Event):void
 
 protected function loc(resourceName:String, parameters:Array = null):String
 {
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, AppModel.instance.game != null ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : AppModel.instance.locale);
+	return StrUtils.loc(resourceName, parameters);
 }
 
 public function showOffer():void

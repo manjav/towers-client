@@ -6,14 +6,12 @@ import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
-import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.Exchanger;
 import feathers.controls.renderers.LayoutGroupListItemRenderer;
 import feathers.skins.ImageSkin;
 import flash.geom.Rectangle;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
-import mx.resources.ResourceManager;
 import starling.core.Starling;
 import starling.events.Event;
 
@@ -92,7 +90,7 @@ protected function get stageWidth():		Number			{	return Starling.current.stage.s
 protected function get stageHeight():		Number			{	return Starling.current.stage.stageHeight;	}
 protected function loc(resourceName:String, parameters:Array = null):String
 {
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, appModel.game != null ? player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : appModel.locale);
+	return StrUtils.loc(resourceName, parameters);
 }
 }
 }

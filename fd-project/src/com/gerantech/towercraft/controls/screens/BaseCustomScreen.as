@@ -6,15 +6,10 @@ import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.Player;
-import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.Exchanger;
-import starling.core.Starling;
-
-import mx.resources.ResourceManager;
-
 import feathers.controls.Screen;
 import feathers.events.FeathersEventType;
-
+import starling.core.Starling;
 import starling.events.Event;
 
 public class BaseCustomScreen extends Screen
@@ -50,7 +45,7 @@ protected function get stageWidth():	Number			{	return Starling.current.stage.st
 protected function get stageHeight():	Number			{	return Starling.current.stage.stageHeight;	}
 protected function loc(resourceName:String, parameters:Array = null):String
 {
-	return ResourceManager.getInstance().getString("loc", resourceName, parameters, appModel.game != null ? player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : appModel.locale);
+	return StrUtils.loc(resourceName, parameters);
 }
 }
 }
