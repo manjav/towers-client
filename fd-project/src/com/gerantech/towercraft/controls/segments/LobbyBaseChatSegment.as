@@ -262,7 +262,8 @@ private function buttonsPopup_selectHandler(event:Event):void
 		
 		case "lobby_reply":
 			chatButton_triggeredHandler(null);
-			preText = "@" + msgPack.getUtfString("s") + ": " + msgPack.getUtfString("t").substr(0, 20) + "... :\n";
+			var msg:String = msgPack.getUtfString("t");
+			preText = "@" + msgPack.getUtfString("s") + ": " + msg.substr(msg.lastIndexOf("\n") + 1, 20) + "... :\n";
 			break;
 	}
 	function sfs_reportResponseHandler(event:SFSEvent):void
