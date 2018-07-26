@@ -194,12 +194,13 @@ public function fight(destination:Place, troopsCount:Number) : void
 	
 	if( rushGap != place.building.troopRushGap )
 	{
-		rushGap = place.building.troopRushGap * 1.2;
+		rushGap = place.building.troopRushGap + 0;
 		clearInterval(rushIntervalId);
-		rushIntervalId = setInterval(rushTimeoutCallback, rushGap);
+		rushIntervalId = setInterval(rushTimeoutCallback, rushGap * 1.2);
 	}
 	this.troopsCount = place.building.get_population() * troopsCount;
 	
+	// play related SFX
 	if( place.building.troopType == player.troopType )
 	{
 		var soundIndex:int = 0;

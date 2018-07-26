@@ -19,7 +19,7 @@ private var _scale:Number;
 private var intervalId:uint;
 private var timeoutId:uint;
 
-public function CountdownIcon()
+public function CountdownIcon(autoplay:Boolean = true)
 {
 	background =  new Image(Assets.getTexture("timer", "gui"));
 	background.pivotX = background.width * 0.5;
@@ -32,7 +32,8 @@ public function CountdownIcon()
 	needle.rotation = 0.47;
 	addChild(needle);
 	
-	play();
+	if( autoplay )
+		play();
 }
 
 public function play():void
