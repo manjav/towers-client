@@ -68,7 +68,8 @@ override public function focus():void
 	//var time:Number = Math.abs(focusedCategory * 520 * appModel.scale - itemslist.verticalScrollPosition) * 0.003;
 	if( focusedCategory == 0 )
 		itemslist.scrollToPosition(0, 0, 0.5);
-	itemslist.scrollToPosition(0, focusedCategory * ExCategoryItemRenderer.HEIGHT_NORMAL + scrollPaddingTop, 0.5);
+	else
+		itemslist.scrollToPosition(0, focusedCategory * ExCategoryItemRenderer.HEIGHT_NORMAL + scrollPaddingTop, 0.5);
 	focusedCategory = 0;
 }
 
