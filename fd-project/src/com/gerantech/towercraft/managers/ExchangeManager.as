@@ -65,7 +65,6 @@ public function process(item : ExchangeItem) : void
 			if( result.succeed )
 			{
 				exchange(item, params);
-				
 				if( item.category == ExchangeType.C0_HARD )
 				{
 					// send analytics events
