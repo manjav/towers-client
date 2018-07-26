@@ -170,7 +170,7 @@ private function getListData():ListCollection
 			if( p == 0 )
 			{
 				for each(var e:ExchangeItem in exchanger.items.values())
-				if( e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 )
+				if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > timeManager.now) )
 				{
 					pd.newBadgeNumber ++;
 					pd.badgeNumber ++;
