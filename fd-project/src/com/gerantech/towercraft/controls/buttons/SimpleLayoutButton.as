@@ -32,6 +32,8 @@ private var _currentState:String = ButtonState.UP;
 private var touchPointID:int;
 private var tutorialArrow:TutorialArrow;
 
+[Event(name="triggered",type="starling.events.Event")]
+
 public function SimpleLayoutButton()
 {
 	super();

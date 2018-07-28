@@ -1,7 +1,8 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.items.EventsListItemRenderer;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.controls.popups.CampaignDetailsPopup;
+import com.gt.towers.socials.Challenge;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
@@ -12,11 +13,11 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
-import flash.events.Event;
+import starling.events.Event;
 public class EventsSegment extends Segment
 {
-	private var padding:Number;
-	private var eventList;
+private var padding:Number;
+private var eventsList:List;
 public function EventsSegment(){super();}
 override public function init():void
 {
@@ -32,24 +33,26 @@ override public function init():void
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.verticalAlign = VerticalAlign.MIDDLE;
 	
-	eventList = new List();
-	eventList.layout = listLayout;
-    eventList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	eventList.itemRendererFactory = function ():IListItemRenderer { return new EventsListItemRenderer()};
-	eventList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	eventList.addEventListener(Event.CHANGE, eventList_changeHandler);
-	eventList.dataProvider = new ListCollection([0]);// manager.messages;
-	addChild(eventList);
+	eventsList = new List();
+	eventsList.layout = listLayout;
+	//eventsList.isQuickHitAreaEnabled = true;
+    eventsList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	eventsList.itemRendererFactory = function ():IListItemRenderer { return new EventsListItemRenderer()};
+	eventsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+	eventsList.addEventListener(FeathersEventType.FOCUS_IN, eventsList_changeHandler);
+	eventsList.dataProvider = new ListCollection([new Challenge()]);// manager.messages;
+	addChild(eventsList);
 
 	
-	var labelDisplay:ShadowLabel = new ShadowLabel(loc("button_under_construction", [loc("tab-4")]));
+	/*var labelDisplay:ShadowLabel = new ShadowLabel(loc("button_under_construction", [loc("tab-4")]));
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-	addChild(labelDisplay);
+	addChild(labelDisplay);*/
 }
 
-private function eventList_changeHandler(event:Event):void 
+protected function eventsList_changeHandler(event:Event) : void 
 {
-	
+	var popup:CampaignDetailsPopup = new CampaignDetailsPopup();
+	addChild(popup);
 }
 }
 }

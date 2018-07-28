@@ -1,26 +1,38 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.Devider;
+import com.gerantech.towercraft.controls.groups.LabelGroup;
+import com.gerantech.towercraft.controls.groups.PrizePalette;
+import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gt.towers.socials.Challenge;
+import feathers.controls.ImageLoader;
+import feathers.controls.List;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import starling.events.Event;
 
 public class EventsListItemRenderer extends AbstractListItemRenderer
 {
-private var _firstCommit:Boolean = true;
-private var titleDisplay:RTLLabel;
 private var padding:Number;
-public function EventsListItemRenderer(){}
-override protected function initialize():void
-{
-	super.initialize();
-	padding = 12 * appModel.scale;
-	layout = new AnchorLayout();
-}
+private var _firstCommit:Boolean = true;
+private var titleDisplay:ShadowLabel;
+private var countdownDisplay:CountdownLabel;
+private var campaign:Challenge;
 
+public function EventsListItemRenderer(){}
 override protected function commitData():void
 {
 	if( _firstCommit )
 	{
+		layout = new AnchorLayout();
+		padding = 20 * appModel.scale;
+		height = padding * 25;
 		_firstCommit = false;
 	}
 	
@@ -29,9 +41,51 @@ override protected function commitData():void
 	if( _data == null )
 		return;
 	
-	titleDisplay = new RTLLabel("چالش بیشترین پیروزی در نبردها", 1, "center");
-	titleDisplay.layoutData = new AnchorLayoutData(padding, padding, padding);
+	campaign = _data as Challenge;
+	var skin:ImageLoader = new ImageLoader();
+	skin.source = Assets.getTexture("theme/popup-background-skin", "gui")
+	skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID
+	backgroundSkin = skin;
+	
+	titleDisplay = new ShadowLabel(loc("campaign_title_0"), 1, 0, "center");
+	titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
+	
+	var prizeW:int = width * 0.5 + padding;
+	var topPrizePanel:PrizePalette = new PrizePalette(loc("campaign_top_prize"), 0xFFFFFF, 56);
+	topPrizePanel.layoutData = new AnchorLayoutData(padding * 7, padding, padding * 8, prizeW);
+	addChild(topPrizePanel);
+	
+	var guaranteedPrizePanel:PrizePalette = new PrizePalette(loc("campaign_guaranteed_prize"), 0xFFFFFF, 52);
+	guaranteedPrizePanel.layoutData = new AnchorLayoutData(padding * 7, prizeW, padding * 8, padding);
+	addChild(guaranteedPrizePanel);
+	
+	countdownDisplay = new CountdownLabel();
+	countdownDisplay.time = campaign.startAt - timeManager.now;
+	countdownDisplay.localString = "campaign_time_remaining";
+	countdownDisplay.height = padding * 5;
+	countdownDisplay.layoutData = new AnchorLayoutData(NaN, padding * 20, padding * 1.5, padding, 0);
+	addChild(countdownDisplay);
+	
+	var buttonDisplay:CustomButton = new CustomButton();
+	buttonDisplay.label = loc("campaign_start");
+	buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
+	buttonDisplay.width = padding * 18;
+	buttonDisplay.height = padding * 6;
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, NaN);
+	addChild(buttonDisplay);
+	
+	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
+}
+
+protected function timeManager_changeHandler(e:Event):void 
+{
+	countdownDisplay.time = campaign.startAt - timeManager.now;
+}
+
+protected function buttonDisplay_triggeredHandler(e:Event):void 
+{
+	_owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 }
 }
 }

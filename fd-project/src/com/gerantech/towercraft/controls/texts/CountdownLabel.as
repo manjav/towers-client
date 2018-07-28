@@ -18,6 +18,7 @@ import starling.display.Image;
 */
 public class CountdownLabel extends TowersLayout 
 {
+public var localString:String = null;
 private var clockDisplay:ImageLoader;
 private var needleDisplay:Image;
 private var labelDisplay:RTLLabel;
@@ -56,8 +57,9 @@ override protected function initialize() : void
 	needleDisplay.rotation = 0.55;
 	addChild(needleDisplay);
 	
-	labelDisplay = new RTLLabel(StrUtils.toTimeFormat(_time), 1, "center", "ltr", false, null, height / 128 / appModel.scale);
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.8, NaN, -6 * appModel.scale);
+	var label:String = localString == null ? StrUtils.toTimeFormat(_time) : loc(localString, [StrUtils.toTimeFormat(_time)]);
+	labelDisplay = new RTLLabel(label, 1, "center", localString == null ? "ltr" : null, false, null, height / 128 / appModel.scale);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.75, NaN, -6 * appModel.scale);
 	addChild(labelDisplay);
 	
 	play();
@@ -85,7 +87,7 @@ public function set time(value:uint):void
 	
 	_time = value;
 	if( labelDisplay != null )
-		labelDisplay.text = StrUtils.toTimeFormat(_time);
+		labelDisplay.text = localString == null ? StrUtils.toTimeFormat(_time) : loc(localString, [StrUtils.toTimeFormat(_time)]);
 }
 }
 }

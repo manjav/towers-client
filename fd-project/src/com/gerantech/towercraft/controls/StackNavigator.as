@@ -223,7 +223,7 @@ public function addResourceAnimation(x:Number, y:Number, resourceType:int, count
 {
 	if( ResourceType.isBuilding(resourceType) )
 	{
-		addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.7, stage.stageHeight * 0.95), delay, null);
+		addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.3, stage.stageHeight * 0.95), delay, null);
 	}
 	else if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.XP || resourceType == ResourceType.POINT )
 	{
