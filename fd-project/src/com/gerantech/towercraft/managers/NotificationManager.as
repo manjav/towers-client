@@ -63,11 +63,13 @@ public function reset():void
 	var i:int = 0;
 	while( i < itemsKey.length )
 	{
-		if( ExchangeType.getCategory(itemsKey[i]) == ExchangeType.C110_BATTLES || ExchangeType.getCategory(itemsKey[i]) == ExchangeType.C100_FREES )
+		var cate:int = ExchangeType.getCategory(itemsKey[i]);
+		if( cate == ExchangeType.C110_BATTLES || cate == ExchangeType.C100_FREES )
 		{
-			if( exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now) == ExchangeItem.CHEST_STATE_BUSY )
-				notify("notify_chest_ready_" + itemsKey[i], (exchanger.items.get(itemsKey[i]).expiredAt + 15 + Math.random() * 10) * 1000);
-			else if( exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now) == ExchangeItem.CHEST_STATE_READY )
+			var state:int = exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now);
+			if( state == ExchangeItem.CHEST_STATE_BUSY )
+				notify("notify_chest_ready_" + cate, (exchanger.items.get(itemsKey[i]).expiredAt + 15 + Math.random() * 10) * 1000);
+			else if( state == ExchangeItem.CHEST_STATE_READY )
 				numForgots ++;
 		}
 		i++;
