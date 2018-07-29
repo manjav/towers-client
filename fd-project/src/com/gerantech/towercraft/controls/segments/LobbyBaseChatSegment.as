@@ -17,7 +17,6 @@ import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
@@ -201,7 +200,7 @@ protected function chatList_focusInHandler(event:Event):void
 	var msgPack:ISFSObject = selectedItem.data as ISFSObject;
 	// prevent hints for my messages
 	if( msgPack.getInt("i") != player.id && msgPack.getShort("m") == MessageTypes.M0_TEXT )
-		showSimpleListPopup(msgPack, selectedItem, "lobby_profile", "lobby_report", "lobby_reply")
+		showSimpleListPopup(msgPack, selectedItem, "lobby_report", "lobby_profile", "lobby_reply")
 }
 
 protected function showSimpleListPopup(msgPack:ISFSObject, selectedItem:LobbyChatItemRenderer, ... buttons):void

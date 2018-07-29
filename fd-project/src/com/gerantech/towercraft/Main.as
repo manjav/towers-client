@@ -25,6 +25,7 @@ public static const SPECTATE_SCREEN:String = "spectateScreen";
 public static const INBOX_SCREEN:String = "inboxScreen";
 public static const ISSUES_SCREEN:String = "issuesScreen";
 public static const PLAYERS_SCREEN:String = "playersScreen";
+public static const CHALLENGE_SCREEN:String = "challengeScreen";
 
 public function Main(content:IFeathersControl=null)
 {
@@ -50,6 +51,7 @@ override protected function initialize():void
 	addScreen(INBOX_SCREEN, 	InboxScreen);
 	addScreen(ISSUES_SCREEN, 	IssuesScreen);
 	addScreen(PLAYERS_SCREEN, 	PlayersScreen);
+	addScreen(CHALLENGE_SCREEN, ChallengeScreen);
 	AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 }		
 private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = true, hasPopTranstion:Boolean = true):void
