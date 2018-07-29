@@ -58,19 +58,24 @@ public function reset():void
 	// notify exchanger items ...
 	var time:int = date.time / 1000;
 	var exchanger:Exchanger = AppModel.instance.game.exchanger;
-	var numForgots:int = 0;
+	var numReadiesForgot:int = 0;
+	var numWaitsForgot:int = 0;
 	var itemsKey:Vector.<int> = exchanger.items.keys();
 	var i:int = 0;
 	while( i < itemsKey.length )
 	{
 		var cate:int = ExchangeType.getCategory(itemsKey[i]);
-		if( cate == ExchangeType.C110_BATTLES || cate == ExchangeType.C100_FREES )
+		var state:int = exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now);
+		if( cate == ExchangeType.C110_BATTLES )
 		{
-			var state:int = exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now);
-			if( state == ExchangeItem.CHEST_STATE_BUSY )
-				notify("notify_chest_ready_" + cate, (exchanger.items.get(itemsKey[i]).expiredAt + 15 + Math.random() * 10) * 1000);
-			else if( state == ExchangeItem.CHEST_STATE_READY )
-				numForgots ++;
+			if( state == ExchangeItem.CHEST_STATE_READY )
+				numReadiesForgot ++;
+			else
+				numWaitsForgot ++;
+		}
+		else if( cate == ExchangeType.C100_FREES )
+		{
+			notify("notify_exchange_wait_" + cate, (exchanger.items.get(itemsKey[i]).expiredAt + 15 + Math.random() * 10) * 1000);
 		}
 		i++;
 	}
@@ -79,12 +84,10 @@ public function reset():void
 		return;
 	
 	var later:int = 1000 + Math.random() * 10000;
-	if( numForgots == 0 && exchanger.items.exists(ExchangeType.C21_SPECIAL) && exchanger.items.get(ExchangeType.C21_SPECIAL).expiredAt < TimeManager.instance.now )
-		notify("notify_special_arrived",		date.time + later);
-	else if( numForgots == 1 )
-		notify("notify_chest_forgot_a_chest",	date.time + later);
-	else if( numForgots > 1 )
-		notify("notify_chest_forgot_chests",	date.time + later);
+	if( numReadiesForgot > 0 )
+		notify("notify_exchange_ready_forgot_" + Math.min(2, numReadiesForgot),	date.time + later);
+	else if( numWaitsForgot > 0 )
+		notify("notify_exchange_wait_forgot",	date.time + later);
 }
 
 private function notify(message:String, time:Number):void
