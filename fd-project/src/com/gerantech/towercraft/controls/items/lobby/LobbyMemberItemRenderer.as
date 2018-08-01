@@ -1,30 +1,23 @@
-package com.gerantech.towercraft.controls.items.lobboy
+package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
-
-import flash.text.engine.ElementFormat;
-
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
-
+import flash.text.engine.ElementFormat;
 import starling.events.Event;
 import starling.events.Touch;
 
 public class LobbyMemberItemRenderer extends AbstractTouchableListItemRenderer
 {
-public function LobbyMemberItemRenderer()
-{
-	super();
-}
+public function LobbyMemberItemRenderer(){ super(); }
 private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
-
 private var nameDisplay:RTLLabel;
 private var nameShadowDisplay:RTLLabel;
 private var pointDisplay:RTLLabel;
@@ -38,8 +31,8 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 120 * appModel.scale;
-	var padding:int = 36 * appModel.scale;
+	height = 120;
+	var padding:int = 36;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID

@@ -1,5 +1,6 @@
-package com.gerantech.towercraft.controls.items 
+package com.gerantech.towercraft.controls.items.challenges 
 {
+	import com.gerantech.towercraft.controls.items.AbstractListItemRenderer;
 	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
@@ -12,10 +13,10 @@ package com.gerantech.towercraft.controls.items
 * ...
 * @author Mansour Djawadi...
 */
-public class EventWinnerItemRenderer extends AbstractListItemRenderer 
+public class ChallengeRewardItemRenderer extends AbstractListItemRenderer
 {
 private var procceed:Boolean;
-public function EventWinnerItemRenderer() {	super(); }
+public function ChallengeRewardItemRenderer() {	super(); }
 
 override protected function commitData() : void
 {

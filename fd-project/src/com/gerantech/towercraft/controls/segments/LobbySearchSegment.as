@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
-import com.gerantech.towercraft.controls.items.lobboy.LobbyItemRenderer;
+import com.gerantech.towercraft.controls.items.lobby.LobbyItemRenderer;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;

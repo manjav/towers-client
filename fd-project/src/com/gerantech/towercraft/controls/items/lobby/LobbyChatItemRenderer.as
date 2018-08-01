@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.controls.items.lobboy
+package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;

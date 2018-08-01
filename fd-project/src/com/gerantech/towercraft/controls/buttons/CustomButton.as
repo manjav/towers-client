@@ -17,6 +17,11 @@ import starling.textures.Texture;
 
 public class CustomButton extends SimpleLayoutButton
 {
+	
+public static const STYLE_NORMAL:String = "normal";
+public static const STYLE_NEUTRAL:String = "neutral";
+public static const STYLE_DANGER:String = "danger";
+
 public var iconLayout:ILayoutData;
 public var iconPosition:Point;
 public var data:Object;
@@ -99,15 +104,15 @@ override protected function initialize():void
 private function updateTextures():void
 {
 	defaultTextue = appModel.theme.buttonUpSkinTexture;
-	if( style == "danger" )
+	if( style == STYLE_DANGER )
 		defaultTextue = appModel.theme.buttonDangerUpSkinTexture;
-	else if( style == "neutral" )
+	else if( style == STYLE_NEUTRAL )
 		defaultTextue = appModel.theme.buttonNeutralUpSkinTexture;
 	
 	downTextue = appModel.theme.buttonDownSkinTexture;
-	if( style == "danger" )
+	if( style == STYLE_DANGER )
 		downTextue = appModel.theme.buttonDangerDownSkinTexture;
-	else if( style == "neutral" )
+	else if( style == STYLE_NEUTRAL )
 		downTextue = appModel.theme.buttonNeutralDownSkinTexture;			
 	
 	if( skin )
@@ -129,8 +134,6 @@ public function set label(value:String):void
 		shadowDisplay.text = _label;
 }
 
-
-
 public function get icon():Texture
 {
 	return _icon;
@@ -138,7 +141,7 @@ public function get icon():Texture
 public function set icon(value:Texture):void
 {
 	_icon = value;
-	if ( iconDisplay )
+	if( iconDisplay )
 		iconDisplay.source = _icon;
 	
 	labelLayoutData.right = (_icon==null?1:10)*padding;
