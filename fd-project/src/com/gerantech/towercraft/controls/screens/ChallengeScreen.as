@@ -1,15 +1,21 @@
 package com.gerantech.towercraft.controls.screens 
 {
+import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemRenderer;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeRewardItemRenderer;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.socials.Challenge;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
+import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
@@ -26,56 +32,60 @@ public var challenge:Challenge;
 private var state:int;
 private var countdownDisplay:CountdownLabel;
 
-public function ChallengeScreen() {	super();  }
+public function ChallengeScreen() {	super(); }
 override protected function initialize():void
 {
 	title = loc("challenge_title_0");
 	super.initialize();
-	
+	changeState();
+}
+
+private function changeState():void 
+{
+	resetAll();
+	state = challenge.getState(timeManager.now);
+	showWait();
+	showStarted();
+	showEnded();
+}
+
+private function showWait():void 
+{
+	if( state != Challenge.STATE_WAIT )
+		return;
+		
 	var messageDisplay:RTLLabel = new RTLLabel(loc("challenge_message_0"), 1, null, null, true, null, 0.8);
 	messageDisplay.layoutData = new AnchorLayoutData(200, 32, NaN, 32);
 	addChild(messageDisplay);
 	
-	removeChildren(2);
-	state = challenge.getState(timeManager.now);
-	
-/*	var skin:Image = new Image(getSkin());
-	skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
-	backgroundSkin = skin;*/
-	
-	showRewards();
-	showAttendees();
-
-	var descriptionDisplay:RTLLabel = new RTLLabel(loc("challenge_description"), 1, null, null, true, null, 0.8);
-	descriptionDisplay.layoutData = new AnchorLayoutData(1100, 32, NaN, 32);
-	addChild(descriptionDisplay);
-	
-	countdownDisplay = new CountdownLabel();
-	countdownDisplay.localString = "challenge_start_at";
-	countdownDisplay.height = 100;
-	countdownDisplay.layoutData = new AnchorLayoutData(1250, 150, NaN, 120);
-	countdownDisplay.time = challenge.startAt - timeManager.now;
-	addChild(countdownDisplay);
-	
-	if( state == Challenge.STATE_WAIT )
-	{
-		var buttonDisplay:ExchangeButton = new ExchangeButton();
-		buttonDisplay.count = challenge.requirements.values()[0];
-		buttonDisplay.type = challenge.requirements.keys()[0];
-		buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
-		buttonDisplay.width = 320;
-		buttonDisplay.layoutData = new AnchorLayoutData(1350, NaN, NaN, NaN, 0);
-		addChild(buttonDisplay);
-	}
-	
-	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
+	rewardFactory();
+	footerFactory();
+	countdownFactory();
+	buttonFactory();
 }
 
-private function showRewards():void 
+private function showStarted():void 
 {
-	if( state != Challenge.STATE_WAIT )
+	if( state != Challenge.STATE_STARTED )
 		return;
-	
+	attendeesFactory();
+	footerFactory();	
+	countdownFactory();
+	buttonFactory();
+}
+
+private function showEnded():void 
+{
+	if( state != Challenge.STATE_END )
+		return;
+	attendeesFactory();
+	footerFactory();
+	buttonFactory();
+}
+
+// factories -----------------------------------
+private function rewardFactory():void 
+{
 	var rewardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	rewardsLayout.useSquareTiles = false;
 	rewardsLayout.requestedColumnCount = 2;
@@ -87,9 +97,9 @@ private function showRewards():void
 	rewardsData.addItem({index:appModel.isLTR?2:1,	book:challenge.rewards.get(appModel.isLTR?2:1)});
 	rewardsData.addItem({index:appModel.isLTR?3:4,	book:challenge.rewards.get(appModel.isLTR?3:4)});
 	rewardsData.addItem({index:appModel.isLTR?4:3,	book:challenge.rewards.get(appModel.isLTR?4:3)});
-	rewardsData.addItem(appModel.isLTR ?			{index:10, book:challenge.rewards.get(10)} : {});
+	rewardsData.addItem(appModel.isLTR ?			{index:5, book:challenge.rewards.get(5)} : {});
 	if( !appModel.isLTR )
-		rewardsData.addItem({index:10, book:challenge.rewards.get(10)});
+		rewardsData.addItem({index:5, book:challenge.rewards.get(5)});
 	
 	var rewardsList:List = new List();
 	rewardsList.touchable = false;
@@ -100,22 +110,70 @@ private function showRewards():void
 	addChild(rewardsList);
 }
 
-private function showAttendees():void 
+private function attendeesFactory() : void 
 {
-	if( state == Challenge.STATE_WAIT )
-		return;
-
-	var attendeesLayout:VerticalLayout = new VerticalLayout();
+	var attendeesLayout:TiledRowsLayout = new TiledRowsLayout();
+	attendeesLayout.useSquareTiles = false;
+	attendeesLayout.requestedColumnCount = 2;
 	attendeesLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	attendeesLayout.gap = 16;
+	attendeesLayout.padding = attendeesLayout.gap = 24;
 
+	challenge.attendees.sortOn("point", Array.NUMERIC|Array.DESCENDING);
 	var attendeesList:List = new List();
 	attendeesList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	attendeesList.layout = attendeesLayout;
-	attendeesList.layoutData = new AnchorLayoutData(headerSize + 80, 20, 320, 20);
-	attendeesList.dataProvider = new ListCollection(challenge.attendees.values());
-	attendeesList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeAttendeeItemRenderer(); }
+	attendeesList.layoutData = new AnchorLayoutData(headerSize + 80, 0, 550, 0);
+	attendeesList.dataProvider = new ListCollection(challenge.attendees);
+	attendeesList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeAttendeeItemRenderer(challenge); }
 	addChild(attendeesList);
+}
+
+private function footerFactory():void 
+{
+	var dscriptionBG:Devider = new Devider( state == Challenge.STATE_WAIT ? 0x333333 : (state == Challenge.STATE_STARTED ? 0x235E8E : 0xB60300) );
+	dscriptionBG.layout = new AnchorLayout();
+	dscriptionBG.height = 400;
+	dscriptionBG.layoutData = new AnchorLayoutData(NaN, 0, 150, 0);
+	addChild(dscriptionBG);
+	
+	var shadow:ImageLoader = new ImageLoader();
+	shadow.color = 0;
+	shadow.alpha = 0.5;
+	shadow.height = 30;
+	shadow.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	shadow.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	shadow.layoutData = new AnchorLayoutData(-shadow.height, 0, NaN, 0);
+	dscriptionBG.addChild(shadow);
+	
+	var descriptionDisplay:RTLLabel = new RTLLabel(loc("challenge_description_" + state), 1, null, null, true, null, 0.8);
+	descriptionDisplay.layoutData = new AnchorLayoutData(10, 32, 0, 32);
+	dscriptionBG.addChild(descriptionDisplay);
+}
+
+private function countdownFactory():void 
+{
+	if( countdownDisplay == null )
+		countdownDisplay = new CountdownLabel();
+	countdownDisplay.time = challenge.startAt - timeManager.now + (state == Challenge.STATE_STARTED ? challenge.duration : 0);
+	countdownDisplay.localString = state == Challenge.STATE_WAIT ? "challenge_start_at" : "challenge_end_at";
+	countdownDisplay.height = 100;
+	countdownDisplay.layoutData = new AnchorLayoutData(NaN, 150, 320, 120);
+	addChild(countdownDisplay);
+
+	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
+}
+
+private function buttonFactory():void 
+{
+	var	buttonDisplay:CustomButton = new CustomButton();
+	buttonDisplay.width = 320;
+	buttonDisplay.label = loc("challenge_button_" + state);
+	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 180, NaN, 0);
+	buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
+	addChild(buttonDisplay);
+	/*buttonDisplay = new ExchangeButton();
+	ExchangeButton(buttonDisplay).count = challenge.requirements.values()[0];
+	ExchangeButton(buttonDisplay).type = challenge.requirements.keys()[0];*/
 }
 
 protected function timeManager_changeHandler(e:Event):void 
@@ -123,7 +181,10 @@ protected function timeManager_changeHandler(e:Event):void
 	var _state:int = challenge.getState(timeManager.now);
 	if( state != _state )
 	{
-		initialize();
+		if( _state == Challenge.STATE_STARTED && challenge.indexOfAttendees(player.id) <= -1 )
+			appModel.navigator.popScreen();
+		else
+			changeState();
 		return;
 	}
 	countdownDisplay.time = challenge.startAt - timeManager.now + (state == Challenge.STATE_STARTED ? challenge.duration : 0);
@@ -131,6 +192,31 @@ protected function timeManager_changeHandler(e:Event):void
 
 protected function buttonDisplay_triggeredHandler(e:Event):void 
 {
+	if( state == Challenge.STATE_WAIT )
+	{
+		
+	}
+	else if( state == Challenge.STATE_STARTED )
+	{
+		DashboardScreen.tabIndex = 2;
+		appModel.navigator.popScreen();
+	}
+	else if( state == Challenge.STATE_END )
+	{
+		
+	}
+}
+
+private function resetAll():void 
+{
+	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
+	removeChildren(2);
+}
+
+override public function dispose():void 
+{
+	resetAll();
+	super.dispose();
 }
 }
 }

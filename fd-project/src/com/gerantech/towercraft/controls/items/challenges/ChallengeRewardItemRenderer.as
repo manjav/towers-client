@@ -39,7 +39,7 @@ override protected function commitData() : void
 	
 	var rewardDisplay:ImageLoader = new ImageLoader();
 	rewardDisplay.source = Assets.getTexture("books/" + _data.book, "gui");
-	rewardDisplay.layoutData = new AnchorLayoutData(-16, appModel.isLTR?10:NaN, -16, appModel.isLTR?NaN:10);
+	rewardDisplay.layoutData = new AnchorLayoutData( -20, appModel.isLTR?0:NaN, -16, appModel.isLTR?NaN: -10);
 	addChild(rewardDisplay);
 	
 	// title .........................
@@ -64,7 +64,7 @@ override protected function commitData() : void
 		}
 	}
 	var nameDisplay:ShadowLabel = new ShadowLabel(title, 1, 0, null, null, false, null, 0.8);
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, -3);
 	addChild(nameDisplay);
 }
 }

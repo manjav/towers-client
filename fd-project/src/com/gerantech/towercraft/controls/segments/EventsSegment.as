@@ -4,7 +4,6 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeListItemRenderer;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
-import com.gt.towers.utils.maps.IntAttendeeMap;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.StackScreenNavigatorItem;
@@ -42,12 +41,11 @@ override public function init():void
 		var ch:Challenge = new Challenge();
 		ch.startAt = timeManager.now + 10;
 		ch.duration = 10;
-		ch.attendees = new IntAttendeeMap();
-		ch.attendees.set(10487, new Attendee(10487, "KOOT", 120));
+		ch.attendees = new Array();
+		ch.attendees.push(new Attendee(10487, "KOOT", 120));
 		for (var i:int = 0; i < 49; i++)
-			ch.attendees.set(12000 + i, new Attendee(12000 + i, "att" + i, 120 - i));
+			ch.attendees.push(new Attendee(12000 + i, "att " + i, Math.random() * 150));
 		player.challenges.push(ch);
-		
 	}
 	
 	eventsList = new List();
@@ -64,7 +62,13 @@ override public function init():void
 protected function eventsList_changeHandler(event:Event) : void 
 {
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.CHALLENGE_SCREEN );
-	item.properties.challenge = ChallengeListItemRenderer(event.data).challenge ;
+	var ch:Challenge = ChallengeListItemRenderer(event.data).challenge;
+	if( ch.getState(timeManager.now) >= Challenge.STATE_STARTED && ch.indexOfAttendees(player.id) <= -1 )
+	{
+		appModel.navigator.addLog(loc("challenge_warning"));
+		return;
+	}
+	item.properties.challenge = ch ;
 	appModel.navigator.pushScreen( Main.CHALLENGE_SCREEN ) ;
 }
 }
