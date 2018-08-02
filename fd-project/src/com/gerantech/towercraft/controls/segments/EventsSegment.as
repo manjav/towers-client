@@ -64,7 +64,7 @@ protected function eventsList_changeHandler(event:Event) : void
 	var ch:Challenge = ChallengeListItemRenderer(event.data).challenge;
 	if( ch.getState(timeManager.now) >= Challenge.STATE_STARTED && ch.indexOfAttendees(player.id) <= -1 )
 	{
-		appModel.navigator.addLog(loc("challenge_warning"));
+		appModel.navigator.addLog(loc("challenge_error_illigeal"));
 		return;
 	}
 	item.properties.challenge = ch ;

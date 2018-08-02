@@ -5,10 +5,12 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemRenderer;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeRewardItemRenderer;
+import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
@@ -194,7 +196,14 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 {
 	if( state == Challenge.STATE_WAIT )
 	{
-		
+		if( challenge.indexOfAttendees(player.id) > -1 )
+		{
+			appModel.navigator.addLog(loc("challenge_error_already"));
+			return;
+		}
+		var registerPopup:RequirementConfirmPopup = new RequirementConfirmPopup("sfsddfsdf sdas", challenge.requirements);
+		registerPopup.addEventListener(Event.SELECT, registerPopup_selectHandler);
+		appModel.navigator.addPopup(registerPopup);
 	}
 	else if( state == Challenge.STATE_STARTED )
 	{
@@ -205,6 +214,12 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	{
 		
 	}
+}
+
+private function registerPopup_selectHandler(event:Event):void 
+{
+	event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
+	challenge.attendees.push(new Attendee(player.id, player.nickName, 120));
 }
 
 private function resetAll():void 
