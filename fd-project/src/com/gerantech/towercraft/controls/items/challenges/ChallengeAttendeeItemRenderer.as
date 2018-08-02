@@ -35,23 +35,23 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	height = 80 * appModel.scale;
-	
+	var ltr:Boolean = true;
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
-	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?150:20, NaN, appModel.isLTR?20:150, NaN, -2);
+	nameDisplay = new ShadowLabel("", 1, 0, "left", "ltr", false, null, 0.8);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, ltr?200:20, NaN, ltr?20:200, NaN, -2);
 	addChild(nameDisplay);
 	
 	pointDisplay = new RTLLabel("", 1, "center", null, false, "center", 0.8);
 	pointDisplay.width = 120;
 	pointDisplay.pixelSnapping = false;
-	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?100:NaN, NaN, appModel.isLTR?NaN:100, NaN, -2);
+	pointDisplay.layoutData = new AnchorLayoutData(NaN, ltr?100:NaN, NaN, ltr?NaN:100, NaN, -3);
 	addChild(pointDisplay);
 	
 	rewardDisplay = new ImageLoader();
-	rewardDisplay.layoutData = new AnchorLayoutData(-20, appModel.isLTR?-20:NaN, -20, appModel.isLTR?NaN:-20);
+	rewardDisplay.layoutData = new AnchorLayoutData(-20, ltr?-20:NaN, -20, ltr?NaN:-20);
 	addChild(rewardDisplay);
 	
 	addEventListener(Event.TRIGGERED, item_triggeredHandler);

@@ -42,7 +42,6 @@ override public function init():void
 		ch.startAt = timeManager.now + 10;
 		ch.duration = 10;
 		ch.attendees = new Array();
-		ch.attendees.push(new Attendee(10487, "KOOT", 120));
 		for (var i:int = 0; i < 49; i++)
 			ch.attendees.push(new Attendee(12000 + i, "att " + i, Math.random() * 150));
 		player.challenges.push(ch);
