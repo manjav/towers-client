@@ -52,6 +52,8 @@ public static const INBOX_OPEN:String = "inboxOpen";
 public static const INBOX_CONFIRM:String = "inboxConfirm";
 public static const INBOX_BROADCAST:String = "inboxBroadcast";
 
+public static const CHALLENGE_JOIN:String = "challengeJoin";
+public static const CHALLENGE_GET:String = "challengeGet";
 
 public static function getDeadline(command:String):int
 {
