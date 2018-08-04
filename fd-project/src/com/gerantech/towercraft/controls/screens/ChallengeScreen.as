@@ -12,9 +12,12 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -224,7 +227,7 @@ private function registerPopup_selectHandler(event:Event):void
 	event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_JOIN);
-	challenge.attendees.push(new Attendee(player.id, player.nickName, 120));
+	challenge.attendees.push(new Attendee(player.id, player.nickName, 120, timeManager.now));
 }
 
 private function sfs_responseHandler(e:SFSEvent):void 
@@ -232,6 +235,12 @@ private function sfs_responseHandler(e:SFSEvent):void
 	if( e.params.cmd != SFSCommands.CHALLENGE_JOIN )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
+	var params:ISFSObject = e.params.params as SFSObject;
+	if( params.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
+	{
+		appModel.navigator.addLog(loc("challenge_error_" + params.getInt("response")));
+		return;
+	}
 	trace(e.params.params.getDump() )
 }
 

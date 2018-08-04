@@ -2,8 +2,15 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeListItemRenderer;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.maps.IntChallengeMap;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.StackScreenNavigatorItem;
@@ -35,27 +42,70 @@ override public function init():void
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.verticalAlign = VerticalAlign.MIDDLE;
 	
-	if( player.challenges == null )
-	{
-		player.challenges = new Array();
-		var ch:Challenge = new Challenge();
-		ch.startAt = timeManager.now + 10;
-		ch.duration = 10;
-		ch.attendees = new Array();
-		for (var i:int = 0; i < 49; i++)
-			ch.attendees.push(new Attendee(12000 + i, "att " + i, Math.random() * 150));
-		player.challenges.push(ch);
-	}
-	
 	eventsList = new List();
 	eventsList.layout = listLayout;
-	//eventsList.isQuickHitAreaEnabled = true;
     eventsList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	eventsList.itemRendererFactory = function ():IListItemRenderer { return new ChallengeListItemRenderer()};
 	eventsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	eventsList.addEventListener(FeathersEventType.FOCUS_IN, eventsList_changeHandler);
-	eventsList.dataProvider = new ListCollection(player.challenges);// manager.messages;
 	addChild(eventsList);
+	
+	if ( player.challenges == null )
+	{
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_GET);
+		player.challenges = new IntChallengeMap();
+	}
+	else
+	{
+		showChallenges();
+	}
+}
+
+private function sfs_responseHandler(e:SFSEvent):void 
+{
+	if( e.params.cmd != SFSCommands.CHALLENGE_GET )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
+	var params:ISFSObject = e.params.params as SFSObject;
+	trace(params.getDump());
+	for ( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
+	{
+		var c:ISFSObject = params.getSFSArray("challenges").getSFSObject(i);
+		var ch:Challenge = new Challenge();
+		ch.id = c.getInt("id");
+		ch.type = c.getInt("type");
+		ch.startAt = c.getInt("start_at");
+		ch.attendees = new Array();
+		for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
+		{
+			var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
+			ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+		}
+		player.challenges.set(ch.type, ch);
+	}
+	showChallenges();
+}
+
+private function showChallenges():void 
+{
+	if ( !player.challenges.exists(0) )
+	{
+		var d:Date = new Date();
+		d.setHours(Challenge.START_HOUR);
+		d.setMinutes(0);
+		d.setSeconds(0);
+		d.setMilliseconds(0);
+		
+		var ch:Challenge = new Challenge();
+		ch.id = -1;
+		ch.type = 0;
+		ch.startAt = int(d.getTime() / 1000);
+		ch.attendees = new Array();
+		player.challenges.set(ch.type, ch);
+	}
+	
+	eventsList.dataProvider = new ListCollection(player.challenges.values());
 }
 
 protected function eventsList_changeHandler(event:Event) : void 
