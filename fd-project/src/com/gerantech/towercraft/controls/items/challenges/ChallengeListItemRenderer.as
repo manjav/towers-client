@@ -78,7 +78,7 @@ override protected function commitData():void
 	}
 	
 	var buttonDisplay:CustomButton = new CustomButton();
-	buttonDisplay.label = loc(state == Challenge.STATE_WAIT ? "challenge_start" : "challenge_show");
+	buttonDisplay.label = loc(state == Challenge.STATE_WAIT && challenge.indexOfAttendees(player.id) == -1 ? "challenge_start" : "challenge_show");
 	buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
 	buttonDisplay.width = 360;
 	buttonDisplay.height = 120;

@@ -54,6 +54,8 @@ public static const INBOX_BROADCAST:String = "inboxBroadcast";
 
 public static const CHALLENGE_JOIN:String = "challengeJoin";
 public static const CHALLENGE_GET:String = "challengeGet";
+public static const CHALLENGE_GET_ALL:String = "challengeGetAll";
+public static const CHALLENGE_COLLECT:String = "challengeCollect";
 
 public static function getDeadline(command:String):int
 {

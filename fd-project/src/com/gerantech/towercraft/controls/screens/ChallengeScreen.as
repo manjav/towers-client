@@ -5,6 +5,8 @@ import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemRenderer;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeRewardItemRenderer;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -13,8 +15,10 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.MessageTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -39,6 +43,7 @@ public class ChallengeScreen extends BaseFomalScreen
 public var challenge:Challenge;
 private var state:int;
 private var countdownDisplay:CountdownLabel;
+private var earnOverlay:OpenBookOverlay;
 
 public function ChallengeScreen() {	super(); }
 override protected function initialize():void
@@ -61,11 +66,46 @@ private function showWait():void
 {
 	if( state != Challenge.STATE_WAIT )
 		return;
-		
+	if ( challenge.id > -1 )
+	{
+		var sfs:SFSObject = new SFSObject();
+		sfs.putInt("id", challenge.id);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseGetHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_GET, sfs);
+	}
+	else{
+		loadss();
+	}
+}
+
+private function sfs_responseGetHandler(e:SFSEvent):void 
+{
+	if( e.params.cmd != SFSCommands.CHALLENGE_COLLECT )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseGetHandler);
+	
+	challenge = new Challenge();
+	var c:ISFSObject = SFSObject(e.params.params).getSFSObject("challenge");
+	challenge.id = c.getInt("id");
+	challenge.type = c.getInt("type");
+	challenge.startAt = c.getInt("start_at");
+	challenge.attendees = new Array();
+	for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
+	{
+		var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
+		challenge.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+	}
+	player.challenges.set(challenge.type, challenge);
+	
+	loadss();
+}
+
+private function loadss():void 
+{
 	var messageDisplay:RTLLabel = new RTLLabel(loc("challenge_message_0"), 1, null, null, true, null, 0.8);
 	messageDisplay.layoutData = new AnchorLayoutData(200, 32, NaN, 32);
 	addChild(messageDisplay);
-	
+
 	rewardFactory();
 	footerFactory();
 	countdownFactory();
@@ -126,7 +166,8 @@ private function attendeesFactory() : void
 	attendeesLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	attendeesLayout.padding = attendeesLayout.gap = 24;
 
-	challenge.attendees.sortOn("point", Array.NUMERIC|Array.DESCENDING);
+	challenge.attendees.sortOn( ["point", "updateAt"],[Array.DESCENDING,Array.DESCENDING]);
+	//challenge.attendees.sortOn("point", Array.NUMERIC|Array.DESCENDING);
 	var attendeesList:List = new List();
 	attendeesList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	attendeesList.layout = attendeesLayout;
@@ -153,7 +194,9 @@ private function footerFactory():void
 	shadow.layoutData = new AnchorLayoutData(-shadow.height, 0, NaN, 0);
 	dscriptionBG.addChild(shadow);
 	
-	var descriptionDisplay:RTLLabel = new RTLLabel(loc("challenge_description_" + state), 1, null, null, true, null, 0.8);
+	var joined:Boolean = challenge.indexOfAttendees(player.id) > -1 && state == Challenge.STATE_WAIT;
+	var message:String = joined ? loc("challenge_description_joined") : loc("challenge_description_" + state);
+	var descriptionDisplay:RTLLabel = new RTLLabel(message, 1, null, null, true, null, 0.8);
 	descriptionDisplay.layoutData = new AnchorLayoutData(10, 32, 0, 32);
 	dscriptionBG.addChild(descriptionDisplay);
 }
@@ -173,15 +216,28 @@ private function countdownFactory():void
 
 private function buttonFactory():void 
 {
-	var	buttonDisplay:CustomButton = new CustomButton();
-	buttonDisplay.width = 320;
-	buttonDisplay.label = loc("challenge_button_" + state);
+	var	buttonDisplay:CustomButton;
+	if( state == Challenge.STATE_WAIT )
+	{
+		if( challenge.indexOfAttendees(player.id) > -1 )
+			return;
+		
+		buttonDisplay = new ExchangeButton();
+		ExchangeButton(buttonDisplay).count = 1;
+		buttonDisplay.label = loc("challenge_button_" + state) + "   " + challenge.requirements.values()[0];
+		ExchangeButton(buttonDisplay).type = challenge.requirements.keys()[0];
+		buttonDisplay.width = 500;
+	}
+	else
+	{
+		buttonDisplay = new CustomButton();
+		buttonDisplay.label = loc("challenge_button_" + state);
+		buttonDisplay.width = 380;
+	}
+	
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 180, NaN, 0);
 	buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
 	addChild(buttonDisplay);
-	/*buttonDisplay = new ExchangeButton();
-	ExchangeButton(buttonDisplay).count = challenge.requirements.values()[0];
-	ExchangeButton(buttonDisplay).type = challenge.requirements.keys()[0];*/
 }
 
 protected function timeManager_changeHandler(e:Event):void 
@@ -207,7 +263,7 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 			appModel.navigator.addLog(loc("challenge_error_already"));
 			return;
 		}
-		var registerPopup:RequirementConfirmPopup = new RequirementConfirmPopup("sfsddfsdf sdas", challenge.requirements);
+		var registerPopup:ConfirmPopup = new ConfirmPopup(loc("challenge_join_confirm"));
 		registerPopup.addEventListener(Event.SELECT, registerPopup_selectHandler);
 		appModel.navigator.addPopup(registerPopup);
 	}
@@ -218,30 +274,66 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 	else if( state == Challenge.STATE_END )
 	{
+		earnOverlay = new OpenBookOverlay(challenge.getRewardByAttendee(player.id));
+		appModel.navigator.addOverlay(earnOverlay);
 		
+		var params:ISFSObject = new SFSObject();
+		params.putInt("id", challenge.id);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseCollectHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_COLLECT, params);
 	}
 }
 
 private function registerPopup_selectHandler(event:Event):void 
 {
 	event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseJoinHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_JOIN);
 	challenge.attendees.push(new Attendee(player.id, player.nickName, 120, timeManager.now));
+	appModel.navigator.popScreen();
 }
 
-private function sfs_responseHandler(e:SFSEvent):void 
+private function sfs_responseJoinHandler(e:SFSEvent):void 
 {
 	if( e.params.cmd != SFSCommands.CHALLENGE_JOIN )
 		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseJoinHandler);
 	var params:ISFSObject = e.params.params as SFSObject;
 	if( params.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
 	{
-		appModel.navigator.addLog(loc("challenge_error_" + params.getInt("response")));
+		appModel.navigator.addLog(loc("challenge_error_join_" + params.getInt("response")));
 		return;
 	}
-	trace(e.params.params.getDump() )
+}
+
+private function sfs_responseCollectHandler(e:SFSEvent):void 
+{
+	if( e.params.cmd != SFSCommands.CHALLENGE_COLLECT )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseCollectHandler);
+	var params:ISFSObject = e.params.params as SFSObject;
+	trace( params.getDump() );
+	if( params.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
+	{
+		appModel.navigator.addLog(loc("challenge_error_collect_" + params.getInt("response")));
+		return;
+	}
+	
+	var outcomes:IntIntMap = new IntIntMap();
+	//trace(data.getSFSArray("rewards").getDump());
+	var reward:ISFSObject;
+	for( var i:int=0; i<params.getSFSArray("rewards").size(); i++ )
+	{
+		reward = params.getSFSArray("rewards").getSFSObject(i);
+		if( ResourceType.isBuilding(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.XP )
+			outcomes.set(reward.getInt("t"), reward.getInt("c"));
+	}
+	
+	player.addResources( outcomes );
+	earnOverlay.outcomes = outcomes;
+	
+	player.challenges = null;
+	appModel.navigator.popScreen();
 }
 
 private function resetAll():void 

@@ -2,9 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-
 import flash.geom.Rectangle;
-
 import starling.animation.Transitions;
 import starling.core.Starling;
 
@@ -24,8 +22,8 @@ override protected function initialize():void
 	{
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
-		transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.45, stage.stageWidth*0.7, stage.stageHeight*0.1);
-		transitionIn.destinationBound = new Rectangle(stage.stageWidth*0.15, stage.stageHeight*0.4, stage.stageWidth*0.7, stage.stageHeight*0.2);
+		transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.45, stage.stageWidth * 0.8, stage.stageHeight * 0.1);
+		transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.4, stage.stageWidth * 0.8, stage.stageHeight * 0.2);
 	}
 	if( transitionOut== null )
 	{

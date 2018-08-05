@@ -95,7 +95,7 @@ public function process(item : ExchangeItem) : void
 			return;
 		}
 		var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
-		confirm1.acceptStyle = "danger";
+		//confirm1.acceptStyle = "danger";
 		confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
 		confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
 		appModel.navigator.addPopup(confirm1);

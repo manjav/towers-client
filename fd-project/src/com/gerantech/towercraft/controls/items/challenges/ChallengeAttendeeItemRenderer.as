@@ -68,15 +68,7 @@ override protected function commitData():void
 	var rankIndex:int = index + 1;
 	nameDisplay.text = rankIndex + ".   " + attendee.name;
 	pointDisplay.text = "" + attendee.point;
-	rewardDisplay.source = Assets.getTexture("books/" + challenge.getReward(rankIndex), "gui");
-
-	/*var fs:int = AppModel.instance.theme.gameFontSize * (_data.id == player.id?1:0.9) * appModel.scale;
-	var fc:int = _data.id == player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
-	if( fs != nameDisplay.fontSize )
-	{
-		nameDisplay.fontSize = fs;
-		nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
-	}*/
+	rewardDisplay.source = Assets.getTexture("books/" + challenge.getRewardByRank(rankIndex), "gui");
 	mySkin.defaultTexture = _data.id == player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 }
 protected function item_triggeredHandler(event:Event):void

@@ -50,10 +50,10 @@ override public function init():void
 	eventsList.addEventListener(FeathersEventType.FOCUS_IN, eventsList_changeHandler);
 	addChild(eventsList);
 	
-	if ( player.challenges == null )
+	if( player.challenges == null )
 	{
 		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_GET);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_GET_ALL);
 		player.challenges = new IntChallengeMap();
 	}
 	else
@@ -64,7 +64,7 @@ override public function init():void
 
 private function sfs_responseHandler(e:SFSEvent):void 
 {
-	if( e.params.cmd != SFSCommands.CHALLENGE_GET )
+	if( e.params.cmd != SFSCommands.CHALLENGE_GET_ALL )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
 	var params:ISFSObject = e.params.params as SFSObject;
