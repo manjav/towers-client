@@ -83,10 +83,13 @@ private function sfs_responseHandler(e:SFSEvent):void
 		for (var r:int = 0; r < c.getSFSArray("requirements").size(); r++)
 			ch.requirements.set(c.getSFSArray("requirements").getSFSObject(r).getInt("key"), c.getSFSArray("requirements").getSFSObject(r).getInt("value"));
 		ch.attendees = new Array();
-		for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
+		if ( c.containsKey("attendees") )
 		{
-			var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
-			ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+			for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
+			{
+				var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
+				ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+			}
 		}
 		player.challenges.set(ch.type, ch);
 	}
@@ -95,25 +98,6 @@ private function sfs_responseHandler(e:SFSEvent):void
 
 private function showChallenges():void 
 {
-	if ( !player.challenges.exists(0) )
-	{
-		var d:Date = new Date();
-		d.setHours(Challenge.START_HOUR);
-		d.setMinutes(0);
-		d.setSeconds(0);
-		d.setMilliseconds(0);
-		
-		var ch:Challenge = new Challenge();
-		ch.id = -1;
-		ch.type = 0;
-		ch.capacity = Challenge.getCapacity(ch.type);
-		ch.duration = Challenge.getDuration(ch.type);
-		ch.requirements = Challenge.getRequiements(ch.type);
-		ch.startAt = int(d.getTime() / 1000);
-		ch.attendees = new Array();
-		player.challenges.set(ch.type, ch);
-	}
-	
 	eventsList.dataProvider = new ListCollection(player.challenges.values());
 }
 

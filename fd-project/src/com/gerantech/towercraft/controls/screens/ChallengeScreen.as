@@ -289,7 +289,9 @@ private function registerPopup_selectHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseJoinHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_JOIN);
+	var params:ISFSObject = new SFSObject();
+	params.putInt("type", 0);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_JOIN, params);
 	challenge.attendees.push(new Attendee(player.id, player.nickName, 120, timeManager.now));
 	appModel.navigator.popScreen();
 }
