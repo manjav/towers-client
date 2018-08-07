@@ -20,7 +20,9 @@ import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
@@ -66,42 +68,7 @@ private function showWait():void
 {
 	if( state != Challenge.STATE_WAIT )
 		return;
-	if ( challenge.id > -1 )
-	{
-		var sfs:SFSObject = new SFSObject();
-		sfs.putInt("id", challenge.id);
-		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseGetHandler);
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_GET, sfs);
-	}
-	else{
-		loadss();
-	}
-}
 
-private function sfs_responseGetHandler(e:SFSEvent):void 
-{
-	if( e.params.cmd != SFSCommands.CHALLENGE_COLLECT )
-		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseGetHandler);
-	
-	challenge = new Challenge();
-	var c:ISFSObject = SFSObject(e.params.params).getSFSObject("challenge");
-	challenge.id = c.getInt("id");
-	challenge.type = c.getInt("type");
-	challenge.startAt = c.getInt("start_at");
-	challenge.attendees = new Array();
-	for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
-	{
-		var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
-		challenge.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
-	}
-	player.challenges.set(challenge.type, challenge);
-	
-	loadss();
-}
-
-private function loadss():void 
-{
 	var messageDisplay:RTLLabel = new RTLLabel(loc("challenge_message_0"), 1, null, null, true, null, 0.8);
 	messageDisplay.layoutData = new AnchorLayoutData(200, 32, NaN, 32);
 	addChild(messageDisplay);
@@ -116,6 +83,40 @@ private function showStarted():void
 {
 	if( state != Challenge.STATE_STARTED )
 		return;
+	
+	if ( challenge.id > -1 )
+	{
+		var sfs:SFSObject = new SFSObject();
+		sfs.putInt("id", challenge.id);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseGetHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_UPDATE, sfs);
+	}
+	else
+	{
+		updateList();
+	}
+}
+
+private function sfs_responseGetHandler(e:SFSEvent):void 
+{
+	if( e.params.cmd != SFSCommands.CHALLENGE_UPDATE )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseGetHandler);
+	
+	var attendees:ISFSArray = SFSObject(e.params.params).getSFSArray("attendees");
+	challenge.attendees = new Array();
+	for (var a:int = 0; a < attendees.size(); a++)
+	{
+		var att:ISFSObject = attendees.getSFSObject(a);
+		challenge.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+	}
+	player.challenges.set(challenge.type, challenge);
+	
+	updateList();
+}
+
+private function updateList():void 
+{
 	attendeesFactory();
 	footerFactory();	
 	countdownFactory();
