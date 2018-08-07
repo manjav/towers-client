@@ -9,6 +9,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -72,13 +73,13 @@ protected override function acceptButton_triggeredHandler(event:Event):void
 	var nameLen:int = selectedName.length;
 	if ( nameLen < game.loginData.nameMinLen || nameLen > game.loginData.nameMaxLen )
 	{
-		showError(loc("popup_select_name_1", [game.loginData.nameMinLen, game.loginData.nameMaxLen]));
+		showError(loc("popup_select_name_-5", [game.loginData.nameMinLen, game.loginData.nameMaxLen]));
 		return;
 	}
 	
 	if( isBad(selectedName) )
 	{
-		showError(loc("popup_select_name_3"));
+		showError(loc("popup_select_name_-1"));
 		return;
 	}
 	var sfs:SFSObject = SFSObject.newInstance();
@@ -96,7 +97,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	var result:SFSObject = event.params.params as SFSObject;trace(result.getDump())
 	var response:int = result.getInt("response");
 	
-	if( response != 0 )
+	if( response != MessageTypes.RESPONSE_SUCCEED )
 	{
 		if( response == 2 )
 		{
