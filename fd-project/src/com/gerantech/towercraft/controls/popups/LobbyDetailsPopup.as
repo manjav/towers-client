@@ -131,13 +131,13 @@ private function showDetails():void
 	
 	tabs = new Vector.<LobbyTabButton>();
 	tabs[0] = new LobbyTabButton(loc("lobby_point"), true);
-	tabs[0].isEnabled = false;
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 	tabs[0].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 2.5:NaN, NaN, appModel.isLTR?NaN:padding * 2.5);
 	addChild(tabs[0]);
 	tabs[1] = new LobbyTabButton(loc("lobby_activeness"), true);
 	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 7:NaN, NaN, appModel.isLTR?NaN:padding * 7);
+	tabs[1].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 7.5:NaN, NaN, appModel.isLTR?NaN:padding * 7.5);
+	tabs[1].isEnabled = false;
 	addChild(tabs[1]);
 	
 	memberList = SFSArray(roomData.all).toArray();
@@ -213,7 +213,7 @@ private function tabs_triggeredHandler(event:Event):void
 	}, 10, event.currentTarget);
 	
 	var searchMode:int = tabs.indexOf(event.currentTarget as LobbyTabButton);
-	memberList.sortOn(searchMode==0?"point":"activity", Array.NUMERIC|Array.DESCENDING);
+	memberList.sortOn(searchMode == 0?"point":"activity", Array.NUMERIC | Array.DESCENDING);
 	memberCollection.data = memberList;
 	memberCollection.updateAll()
 }

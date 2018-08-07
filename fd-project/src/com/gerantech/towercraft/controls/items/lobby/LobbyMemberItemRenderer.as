@@ -56,7 +56,7 @@ override protected function initialize():void
 	activityDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
 	activityDisplay.width = padding * 3
 	activityDisplay.pixelSnapping = false;
-	activityDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*8:NaN, NaN, appModel.isLTR?NaN:padding*8, NaN, 0);
+	activityDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding * 7:NaN, NaN, appModel.isLTR?NaN:padding * 7, NaN, 0);
 	addChild(activityDisplay);
 	
 	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
