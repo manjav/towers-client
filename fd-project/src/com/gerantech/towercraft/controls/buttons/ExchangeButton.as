@@ -23,6 +23,10 @@ public function set count(value:int):void
 	else
 		label = StrUtils.getCurrencyFormat(_count) + " " + currency;
 }
+public function get count():int
+{
+	return _count;
+}
 
 public function set type(value:int):void
 {

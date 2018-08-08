@@ -224,8 +224,9 @@ private function buttonFactory():void
 			return;
 		
 		buttonDisplay = new ExchangeButton();
-		ExchangeButton(buttonDisplay).count = 1;
-		buttonDisplay.label = loc("challenge_button_" + state) + "   " + challenge.requirements.values()[0];
+		ExchangeButton(buttonDisplay).count = challenge.requirements.values()[0];
+		if( ExchangeButton(buttonDisplay).count > 0 )
+			buttonDisplay.label = loc("challenge_button_" + state) + "   " + ExchangeButton(buttonDisplay).count;
 		ExchangeButton(buttonDisplay).type = challenge.requirements.keys()[0];
 		buttonDisplay.width = 500;
 	}
