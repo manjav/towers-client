@@ -78,6 +78,7 @@ override protected function commitData():void
 	}
 	
 	var buttonDisplay:CustomButton = new CustomButton();
+	buttonDisplay.style = state == Challenge.STATE_STARTED ? CustomButton.STYLE_NEUTRAL : CustomButton.STYLE_NORMAL;
 	buttonDisplay.label = loc(state == Challenge.STATE_WAIT && challenge.indexOfAttendees(player.id) == -1 ? "challenge_start" : "challenge_show");
 	buttonDisplay.addEventListener(Event.TRIGGERED, buttonDisplay_triggeredHandler);
 	buttonDisplay.width = 360;
@@ -90,10 +91,10 @@ private function getSkin() : Texture
 {
 	switch( state )
 	{
-		case Challenge.STATE_STARTED : return appModel.theme.itemRendererUpSkinTexture;
-		case Challenge.STATE_END : return appModel.theme.itemRendererDangerSkinTexture;
+		case Challenge.STATE_STARTED : return appModel.theme.itemRendererSelectedSkinTexture;
+		case Challenge.STATE_END : return appModel.theme.itemRendererDisabledSkinTexture;
 	}
-	return appModel.theme.itemRendererDisabledSkinTexture;
+	return appModel.theme.itemRendererUpSkinTexture;
 }
 
 protected function timeManager_changeHandler(e:Event):void 

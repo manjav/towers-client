@@ -214,7 +214,7 @@ private function startBattle():void
 	function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
 }
 
-private function tutorials_tasksStartHandler(e:Event):void 
+private function tutorials_tasksStartHandler(e:Event) : void
 {
 	clearSources(sourcePlaces);
 	sourcePlaces = null;
