@@ -38,7 +38,7 @@ override protected function initialize() : void
 	skin.source = Assets.getTexture("theme/indicator-background", "gui");
 	skin.scale9Grid = new Rectangle(8, 12, 4, 4);
 	skin.layoutData = new AnchorLayoutData(padding, 0, padding * 1.5, height * 0.5);
-	skin.alpha = 0.9;
+	skin.alpha = 0.95;
 	addChild(skin);
 	
 	clockDisplay = new ImageLoader();
@@ -58,7 +58,7 @@ override protected function initialize() : void
 	addChild(needleDisplay);
 	
 	var label:String = localString == null ? StrUtils.toTimeFormat(_time) : loc(localString, [StrUtils.toTimeFormat(_time)]);
-	labelDisplay = new RTLLabel(label, 1, "center", localString == null ? "ltr" : null, false, null, height / 128 / appModel.scale);
+	labelDisplay = new RTLLabel(label, 1, "center", localString == null ? "ltr" : null, false, null, height / 160);
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.75, NaN, -6 * appModel.scale);
 	addChild(labelDisplay);
 	

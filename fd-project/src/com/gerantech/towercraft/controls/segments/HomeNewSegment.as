@@ -14,6 +14,7 @@ import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
+import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;
@@ -25,6 +26,7 @@ import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.socials.Challenge;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -69,6 +71,18 @@ override public function init():void
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
 	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430 * appModel.scale, 186 * appModel.scale, gridRect, shadowRect);
 	addButton(battlesButton, "battlesButton", stageWidth * 0.49 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
+	
+	if( player.challenges != null && player.challenges.exists(0) && player.challenges.get(0).getState(timeManager.now) == Challenge.STATE_STARTED )
+	{
+		var ch:Challenge = player.challenges.get(0);
+		var countdownDisplay:CountdownLabel = new CountdownLabel();
+		countdownDisplay.time = ch.startAt + ch.duration - timeManager.now;
+		countdownDisplay.localString = "challenge_end_at";
+		countdownDisplay.height = 100;
+		countdownDisplay.layoutData = new AnchorLayoutData( -countdownDisplay.height * 0.5, 30, NaN, 30);
+		battlesButton.addChild(countdownDisplay);
+
+	}
 	
 	if( player.hasQuests )
 	{
