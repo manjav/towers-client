@@ -16,6 +16,7 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.SegmentType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.socials.Challenge;
 import feathers.controls.AutoSizeMode;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -196,6 +197,16 @@ private function getListData():ListCollection
 			else if( p == 3 )
 			{
 				pd.badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
+			}
+			else if( p == 4 )
+			{
+				if( player.challenges != null && player.challenges.exists(0) )
+				{
+					if( player.challenges.get(0).getState(timeManager.now) == Challenge.STATE_STARTED )
+						pd.newBadgeNumber ++;
+					else
+						pd.badgeNumber ++;
+				}
 			}
 		}
 		ret.addItem(pd);
