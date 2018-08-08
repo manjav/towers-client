@@ -1,19 +1,21 @@
 package com.gerantech.towercraft.controls.items.challenges 
 {
-	import com.gerantech.towercraft.controls.items.AbstractListItemRenderer;
+	import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 	import com.gerantech.towercraft.controls.texts.ShadowLabel;
 	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 	import feathers.controls.ImageLoader;
+	import feathers.events.FeathersEventType;
 	import feathers.layout.AnchorLayout;
 	import feathers.layout.AnchorLayoutData;
 	import feathers.layout.TiledRowsLayout;
+	import starling.events.Event;
 	import starling.display.Image;
 /**
 * ...
 * @author Mansour Djawadi...
 */
-public class ChallengeRewardItemRenderer extends AbstractListItemRenderer
+public class ChallengeRewardItemRenderer extends AbstractTouchableListItemRenderer
 {
 private var procceed:Boolean;
 public function ChallengeRewardItemRenderer() {	super(); }
@@ -66,6 +68,12 @@ override protected function commitData() : void
 	var nameDisplay:ShadowLabel = new ShadowLabel(title, 1, 0, null, null, false, null, 0.8);
 	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, -3);
 	addChild(nameDisplay);
+	
+	addEventListener(Event.TRIGGERED, item_triggeredHandler);
+}
+protected function item_triggeredHandler(event:Event):void
+{
+	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, _data.book);
 }
 }
 }

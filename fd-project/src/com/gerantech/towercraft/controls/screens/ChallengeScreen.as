@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemRenderer;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeRewardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
@@ -16,6 +17,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -29,6 +31,7 @@ import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
@@ -151,11 +154,11 @@ private function rewardFactory():void
 		rewardsData.addItem({index:5, book:challenge.rewards.get(5)});
 	
 	var rewardsList:List = new List();
-	rewardsList.touchable = false;
 	rewardsList.layout = rewardsLayout;
 	rewardsList.layoutData = new AnchorLayoutData(500, 0, NaN, 0);
 	rewardsList.dataProvider = rewardsData;
 	rewardsList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeRewardItemRenderer(); }
+	rewardsList.addEventListener(FeathersEventType.FOCUS_IN, lists_changeHandler);
 	addChild(rewardsList);
 }
 
@@ -175,6 +178,7 @@ private function attendeesFactory() : void
 	attendeesList.layoutData = new AnchorLayoutData(headerSize + 80, 0, 550, 0);
 	attendeesList.dataProvider = new ListCollection(challenge.attendees);
 	attendeesList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeAttendeeItemRenderer(challenge); }
+	attendeesList.addEventListener(FeathersEventType.FOCUS_IN, lists_changeHandler);
 	addChild(attendeesList);
 }
 
@@ -242,6 +246,13 @@ private function buttonFactory():void
 	addChild(buttonDisplay);
 }
 
+protected function lists_changeHandler(e:Event):void 
+{
+	var item:ExchangeItem = new ExchangeItem(0, 0, 0, null, e.data + ":" + player.get_arena(0));
+	appModel.navigator.addPopup(new BookDetailsPopup(item, false));
+}
+
+
 protected function timeManager_changeHandler(e:Event):void 
 {
 	var _state:int = challenge.getState(timeManager.now);
@@ -265,9 +276,15 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 			appModel.navigator.addLog(loc("challenge_error_already"));
 			return;
 		}
-		var registerPopup:ConfirmPopup = new ConfirmPopup(loc("challenge_join_confirm"));
-		registerPopup.addEventListener(Event.SELECT, registerPopup_selectHandler);
-		appModel.navigator.addPopup(registerPopup);
+		
+		if ( challenge.requirements.values()[0] > 0 )
+		{
+			var registerPopup:ConfirmPopup = new ConfirmPopup(loc("challenge_join_confirm"));
+			registerPopup.addEventListener(Event.SELECT, registerPopup_selectHandler);
+			appModel.navigator.addPopup(registerPopup);
+			return;
+		}
+		registerPopup_selectHandler(null);
 	}
 	else if( state == Challenge.STATE_STARTED )
 	{
@@ -288,7 +305,8 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 
 private function registerPopup_selectHandler(event:Event):void 
 {
-	event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
+	if( event != null )
+		event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseJoinHandler);
 	var params:ISFSObject = new SFSObject();
 	params.putInt("type", 0);
@@ -316,7 +334,6 @@ private function sfs_responseCollectHandler(e:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseCollectHandler);
 	var params:ISFSObject = e.params.params as SFSObject;
-	trace( params.getDump() );
 	if( params.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
 	{
 		appModel.navigator.addLog(loc("challenge_error_collect_" + params.getInt("response")));

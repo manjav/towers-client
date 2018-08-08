@@ -73,7 +73,7 @@ override protected function commitData():void
 }
 protected function item_triggeredHandler(event:Event):void
 {
-	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, challenge.getRewardByRank(index + 1));
 }
 }
 }
