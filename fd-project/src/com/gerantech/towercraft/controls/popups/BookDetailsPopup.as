@@ -31,10 +31,12 @@ private var bookArmature:StarlingArmatureDisplay;
 private var buttonDisplay:ExchangeButton;
 private var timeDisplay:CountdownLabel;
 private var messageDisplay:RTLLabel;
+private var showButton:Boolean;
 
-public function BookDetailsPopup(item:ExchangeItem)
+public function BookDetailsPopup(item:ExchangeItem, showButton:Boolean = true)
 {
 	this.item = item;
+	this.showButton = showButton;
 	super();
 }
 
@@ -43,8 +45,8 @@ override protected function initialize():void
 	super.initialize();
 	closeOnOverlay = closeWithKeyboard = player.getTutorStep() >= PrefsTypes.T_047_WIN;
 	
-	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.30, stage.stageWidth * 0.9, stage.stageHeight * 0.4);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.25, stage.stageWidth * 0.9, stage.stageHeight * 0.5);
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * (showButton ? 0.30 : 0.35), stage.stageWidth * 0.9, stage.stageHeight * (showButton ? 0.4 : 0.25));
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * (showButton ? 0.25 : 0.30), stage.stageWidth * 0.9, stage.stageHeight * (showButton ? 0.5 : 0.35));
 	rejustLayoutByTransitionData();
 	var state:int = item.getState(timeManager.now);
 
@@ -64,6 +66,19 @@ override protected function initialize():void
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 0, 1, "center", null, false, null, 1.3);
 	titleDisplay.layoutData = new AnchorLayoutData(padding * 9, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
+
+	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome, arena) * 0.9) + " - " + int(ExchangeType.getNumTotalCards(item.outcome, arena) * 1.1));
+	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
+	cardsPalette.layoutData = new AnchorLayoutData(padding * 13, NaN, NaN, padding * 2.4);
+	addChild(cardsPalette);
+	
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome, arena) * 0.9) + " - " + int(ExchangeType.getNumSofts(item.outcome, arena) * 1.1), 0xFFFF99);
+	softsPalette.width = transitionIn.destinationBound.width * 0.4;
+	softsPalette.layoutData = new AnchorLayoutData(padding * 13, padding * 2);
+	addChild(softsPalette);
+	
+	if( !showButton )
+		return;
 	
 	var downBG:ImageLoader = new ImageLoader();
 	downBG.alpha = 0.8;
@@ -74,16 +89,6 @@ override protected function initialize():void
 	downBG.layoutData = new AnchorLayoutData(NaN, padding * 1.3, padding * 1.5, padding * 1.3);
 	downBG.height = padding * 4.4;
 	addChild(downBG);
-	
-	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(ExchangeType.getNumTotalCards(item.outcome, arena) * 0.9) + " - " + int(ExchangeType.getNumTotalCards(item.outcome, arena) * 1.1));
-	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
-	cardsPalette.layoutData = new AnchorLayoutData(NaN, NaN, padding * 10, padding * 2.4);
-	addChild(cardsPalette);
-	
-	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.CURRENCY_SOFT, "gui"), int(ExchangeType.getNumSofts(item.outcome, arena) * 0.9) + " - " + int(ExchangeType.getNumSofts(item.outcome, arena) * 1.1), 0xFFFF99);
-	softsPalette.width = transitionIn.destinationBound.width * 0.4;
-	softsPalette.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 10);
-	addChild(softsPalette);
 	
 	buttonDisplay = new ExchangeButton();
 	buttonDisplay.disableSelectDispatching = true;
@@ -199,7 +204,8 @@ private function batton_triggeredHandler(event:Event):void
 
 override public function dispose():void
 {
-	buttonDisplay.removeEventListener(Event.TRIGGERED, batton_triggeredHandler);
+	if( buttonDisplay != null )
+		buttonDisplay.removeEventListener(Event.TRIGGERED, batton_triggeredHandler);
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	super.dispose();
 }
