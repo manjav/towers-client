@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeListItemRenderer;
+import com.gerantech.towercraft.managers.net.CoreLoader;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.socials.Attendee;
@@ -51,11 +52,10 @@ override public function init():void
 	eventsList.addEventListener(FeathersEventType.FOCUS_IN, eventsList_changeHandler);
 	addChild(eventsList);
 	
-	if( player.challenges == null )
+	if( player.challenges == null || player.challenges.keys().length == 0 )
 	{
 		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_GET_ALL);
-		player.challenges = new IntChallengeMap();
 	}
 	else
 	{
@@ -70,29 +70,7 @@ private function sfs_responseHandler(e:SFSEvent):void
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
 	var params:ISFSObject = e.params.params as SFSObject;
 	trace(params.getDump());
-	for ( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
-	{
-		var c:ISFSObject = params.getSFSArray("challenges").getSFSObject(i);
-		var ch:Challenge = new Challenge();
-		ch.id = c.getInt("id");
-		ch.type = c.getInt("type");
-		ch.startAt = c.getInt("start_at");
-		ch.duration = c.getInt("duration");
-		ch.capacity = c.getInt("capacity");
-		ch.requirements = new IntIntMap();
-		for (var r:int = 0; r < c.getSFSArray("requirements").size(); r++)
-			ch.requirements.set(c.getSFSArray("requirements").getSFSObject(r).getInt("key"), c.getSFSArray("requirements").getSFSObject(r).getInt("value"));
-		ch.attendees = new Array();
-		if ( c.containsKey("attendees") )
-		{
-			for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
-			{
-				var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
-				ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
-			}
-		}
-		player.challenges.set(ch.type, ch);
-	}
+	CoreLoader.loadChallenges(params);
 	showChallenges();
 }
 

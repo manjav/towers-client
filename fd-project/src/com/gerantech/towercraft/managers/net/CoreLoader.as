@@ -9,6 +9,9 @@ import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.socials.Attendee;
+import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.maps.IntChallengeMap;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.gt.towers.utils.maps.IntShopMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -75,35 +78,9 @@ private function loaderInfo_completeHandler(event:Event):void
 		AppModel.instance.game.player.admin = true;
 	
 	//trace(serverData.getSFSArray("resources").getDump())
-	var exchange:ISFSObject;
-	var item:ExchangeItem;
-	var elements:ISFSArray;
-	var element:ISFSObject;	
-	
-	AppModel.instance.game.exchanger.items = new IntShopMap();
-	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
-	{
-		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
-		elements = exchange.getSFSArray("outcomes");
-		item = new ExchangeItem(exchange.getInt("type"), exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
-		item.outcomes = new IntIntMap();
-		for( var j:int=0; j<elements.size(); j++ )
-		{
-			element = elements.getSFSObject(j);
-			item.outcomes.set(element.getInt("key"), element.getInt("value"));
-		}
-		elements = exchange.getSFSArray("requirements");
-		item.requirements = new IntIntMap();
-		for( j=0; j<elements.size(); j++ )
-		{
-			element = elements.getSFSObject(j);
-			item.requirements.set(element.getInt("key"), element.getInt("value"));
-		}
-		if( item.outcomes.keys().length > 0 )
-			item.outcome = item.outcomes.keys()[0];
-			
-		AppModel.instance.game.exchanger.items.set(item.type, item);
-	}
+
+	loadExchanges(serverData);
+	loadChallenges(serverData);
 	
 /*	var swfInitData:* = new initClass();
 	swfInitData.nickName = serverData.getText("name");
@@ -119,12 +96,13 @@ private function loaderInfo_completeHandler(event:Event):void
 	setTimeout( dispatchEvent, 1, new Event(Event.COMPLETE));
 }
 
-protected function dsasd(event:CoreEvent):void
+
+/*protected function dsasd(event:CoreEvent):void
 {
 	trace(event.key, event.from, event.to)
 }
 
-/*private function initCoreData(game:*):void
+private function initCoreData(game:*):void
 {
 	// put arena data
 	AppModel.instance.game.arenas = new IntArenaMap();
@@ -196,6 +174,68 @@ private function initServerData(sfsObj:SFSObject):void
 	{
 		element = elements.getSFSObject(i);
 		initData.prefs.set(int(element.getText("k")), element.getText("v"));
+	}
+}
+
+static private function loadExchanges(serverData:SFSObject) : void 
+{
+	var exchange:ISFSObject;
+	var item:ExchangeItem;
+	var elements:ISFSArray;
+	var element:ISFSObject;	
+	AppModel.instance.game.exchanger.items = new IntShopMap();
+	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
+	{
+		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
+		elements = exchange.getSFSArray("outcomes");
+		item = new ExchangeItem(exchange.getInt("type"), exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
+		item.outcomes = new IntIntMap();
+		for( var j:int=0; j<elements.size(); j++ )
+		{
+			element = elements.getSFSObject(j);
+			item.outcomes.set(element.getInt("key"), element.getInt("value"));
+		}
+		elements = exchange.getSFSArray("requirements");
+		item.requirements = new IntIntMap();
+		for( j=0; j<elements.size(); j++ )
+		{
+			element = elements.getSFSObject(j);
+			item.requirements.set(element.getInt("key"), element.getInt("value"));
+		}
+		if( item.outcomes.keys().length > 0 )
+			item.outcome = item.outcomes.keys()[0];
+			
+		AppModel.instance.game.exchanger.items.set(item.type, item);
+	}
+}
+
+static public function loadChallenges(params:ISFSObject) : void 
+{
+	if( !params.containsKey("challenges") )
+		return;
+	AppModel.instance.game.player.challenges = new IntChallengeMap();
+	for ( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
+	{
+		var c:ISFSObject = params.getSFSArray("challenges").getSFSObject(i);
+		var ch:Challenge = new Challenge();
+		ch.id = c.getInt("id");
+		ch.type = c.getInt("type");
+		ch.startAt = c.getInt("start_at");
+		ch.duration = c.getInt("duration");
+		ch.capacity = c.getInt("capacity");
+		ch.requirements = new IntIntMap();
+		for (var r:int = 0; r < c.getSFSArray("requirements").size(); r++)
+			ch.requirements.set(c.getSFSArray("requirements").getSFSObject(r).getInt("key"), c.getSFSArray("requirements").getSFSObject(r).getInt("value"));
+		ch.attendees = new Array();
+		if ( c.containsKey("attendees") )
+		{
+			for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
+			{
+				var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
+				ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+			}
+		}
+		AppModel.instance.game.player.challenges.set(ch.type, ch);
 	}
 }
 }
