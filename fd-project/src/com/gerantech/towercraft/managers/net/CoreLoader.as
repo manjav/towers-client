@@ -212,7 +212,7 @@ static private function loadExchanges(serverData:SFSObject) : void
 static public function loadChallenges(params:ISFSObject) : void 
 {
 	if( !params.containsKey("challenges") )
-		return;
+		return;//trace(params.getSFSArray("challenges").getDump())
 	AppModel.instance.game.player.challenges = new IntChallengeMap();
 	for ( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
 	{
@@ -223,9 +223,15 @@ static public function loadChallenges(params:ISFSObject) : void
 		ch.startAt = c.getInt("start_at");
 		ch.duration = c.getInt("duration");
 		ch.capacity = c.getInt("capacity");
+		
 		ch.requirements = new IntIntMap();
 		for (var r:int = 0; r < c.getSFSArray("requirements").size(); r++)
 			ch.requirements.set(c.getSFSArray("requirements").getSFSObject(r).getInt("key"), c.getSFSArray("requirements").getSFSObject(r).getInt("value"));
+		
+		ch.rewards = new IntIntMap();
+		for (r = 0; r < c.getSFSArray("rewards").size(); r++)
+			ch.rewards.set(c.getSFSArray("rewards").getSFSObject(r).getInt("key"), c.getSFSArray("rewards").getSFSObject(r).getInt("value"));
+		
 		ch.attendees = new Array();
 		if ( c.containsKey("attendees") )
 		{
