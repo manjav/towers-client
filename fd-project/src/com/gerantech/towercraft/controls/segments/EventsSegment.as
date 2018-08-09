@@ -68,9 +68,7 @@ private function sfs_responseHandler(e:SFSEvent):void
 	if( e.params.cmd != SFSCommands.CHALLENGE_GET_ALL )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHandler);
-	var params:ISFSObject = e.params.params as SFSObject;
-	trace(params.getDump());
-	CoreLoader.loadChallenges(params);
+	CoreLoader.loadChallenges(e.params.params as SFSObject);
 	showChallenges();
 }
 

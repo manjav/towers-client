@@ -14,7 +14,6 @@ import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
-import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.PrefsTypes;

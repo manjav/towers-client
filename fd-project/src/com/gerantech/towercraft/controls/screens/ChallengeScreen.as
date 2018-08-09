@@ -113,10 +113,9 @@ private function sfs_responseGetHandler(e:SFSEvent):void
 	for (var a:int = 0; a < attendees.size(); a++)
 	{
 		var att:ISFSObject = attendees.getSFSObject(a);
-		challenge.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+		challenge.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("updateAt")));
 	}
 	player.challenges.set(challenge.type, challenge);
-	
 	updateList();
 }
 

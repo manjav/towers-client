@@ -238,7 +238,7 @@ static public function loadChallenges(params:ISFSObject) : void
 			for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
 			{
 				var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
-				ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("lastUpdate")));
+				ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("updateAt")));
 			}
 		}
 		AppModel.instance.game.player.challenges.set(ch.type, ch);
