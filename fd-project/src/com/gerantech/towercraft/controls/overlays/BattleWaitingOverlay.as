@@ -34,7 +34,7 @@ public function BattleWaitingOverlay(cancelable:Boolean)
 
 override protected function initialize():void
 {
-	closeOnStage = false;
+	closeOnStage = closeWithKeyboard = false;
 	autoSizeMode = AutoSizeMode.STAGE;
 	super.initialize();
 	overlay.alpha = 1;
