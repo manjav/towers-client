@@ -172,8 +172,8 @@ private function attendeesFactory() : void
 	attendeesLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	attendeesLayout.padding = attendeesLayout.gap = 24;
 
-	challenge.attendees.sortOn( ["point", "updateAt"],[Array.DESCENDING,Array.DESCENDING]);
-	//challenge.attendees.sortOn("point", Array.NUMERIC|Array.DESCENDING);
+	challenge.sort();
+//	challenge.attendees.sortOn( ["point", "updateAt"], [Array.NUMERIC | Array.DESCENDING, Array.NUMERIC | Array.DESCENDING]);
 	var attendeesList:List = new List();
 	attendeesList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	attendeesList.layout = attendeesLayout;
