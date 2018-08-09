@@ -3,11 +3,13 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.Devider;
+import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemRenderer;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeRewardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
+import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -158,7 +160,7 @@ private function rewardFactory():void
 	rewardsList.layoutData = new AnchorLayoutData(500, 0, NaN, 0);
 	rewardsList.dataProvider = rewardsData;
 	rewardsList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeRewardItemRenderer(); }
-	rewardsList.addEventListener(FeathersEventType.FOCUS_IN, lists_changeHandler);
+	rewardsList.addEventListener(FeathersEventType.FOCUS_IN, rewardsList_focusInHandler);
 	addChild(rewardsList);
 }
 
@@ -178,7 +180,7 @@ private function attendeesFactory() : void
 	attendeesList.layoutData = new AnchorLayoutData(headerSize + 80, 0, 550, 0);
 	attendeesList.dataProvider = new ListCollection(challenge.attendees);
 	attendeesList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeAttendeeItemRenderer(challenge); }
-	attendeesList.addEventListener(FeathersEventType.FOCUS_IN, lists_changeHandler);
+	attendeesList.addEventListener(FeathersEventType.FOCUS_IN, attendeesList_focusInHandler);
 	addChild(attendeesList);
 }
 
@@ -246,10 +248,17 @@ private function buttonFactory():void
 	addChild(buttonDisplay);
 }
 
-protected function lists_changeHandler(e:Event):void 
+protected function attendeesList_focusInHandler(e:Event) : void 
+{
+	var att:Attendee = e.data as Attendee;
+	appModel.navigator.addPopup(new ProfilePopup({id:att.id, name:att.name}));
+}
+
+protected function rewardsList_focusInHandler(e:Event) : void 
 {
 	var item:ExchangeItem = new ExchangeItem(0, 0, 0, null, e.data + ":" + player.get_arena(0));
 	appModel.navigator.addPopup(new BookDetailsPopup(item, false));
+	//challenge.getRewardByAttendee(player.id)
 }
 
 
