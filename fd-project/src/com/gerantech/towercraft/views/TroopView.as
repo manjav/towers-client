@@ -50,7 +50,7 @@ public function TroopView(building:Building, path:PlaceList)
 	addChild(shadow);
 	
 	textureType = BuildingType.getTroopName(building.type) + battleSide + "/";
-	movieClip = new MovieClip(Assets.getTextures(textureType + "do", "troops"), 20);
+	movieClip = new MovieClip(Assets.getTextures(textureType + "do", "troops"), building.category == BuildingType.B20_RAPID?15:20);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
 	movieClip.scale = troopScale;
