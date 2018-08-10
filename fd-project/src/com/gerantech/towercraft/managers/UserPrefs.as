@@ -5,12 +5,11 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.managers.socials.SocialEvent;
 import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.Player;
 import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.gameanalytics.GameAnalytics;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
 public class UserPrefs
@@ -27,9 +26,13 @@ public function init():void
 	authenticateSocial();
 	
 	// select language with market index
-	if( !player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
-		player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, AppModel.instance.locale);
-	changeLocale(player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE), true);
+	if ( !player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
+	{
+		var loc:String = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
+		if( changeLocale(loc, true) )
+			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, loc);
+		
+	}
 }
 
 public function changeLocale(locale:String, forced:Boolean=false) : Boolean

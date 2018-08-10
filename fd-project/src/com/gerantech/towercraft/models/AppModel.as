@@ -34,7 +34,7 @@ public var battleFieldView:BattleFieldView;
 public var align:String = "right";
 public var direction:String = "rtl";
 public var isLTR:Boolean = false;
-public var locale:String = "en_US";
+public var locale:String = "fa_IR";
 public var assets:AssetManager;
 public var sounds:SoundManager;
 public var notifier:NotificationManager;
