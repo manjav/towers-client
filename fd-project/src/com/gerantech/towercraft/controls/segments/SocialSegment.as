@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.SegmentType;
@@ -33,10 +34,12 @@ override public function init():void
 		return;
 	super.init();
 	layout = new AnchorLayout();
-	if( player.inTutorial() )
+	
+	if( player.get_arena(0) < 1 )
 	{
-		appModel.navigator.addLog(loc("button_availabled_after_tutorial", [loc("button_socials")]));
-		return;
+		var labelDisplay:ShadowLabel = new ShadowLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]));
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+		addChild(labelDisplay);		return;
 	}
 	
 	var tabsSize:int = 120 * appModel.scale;

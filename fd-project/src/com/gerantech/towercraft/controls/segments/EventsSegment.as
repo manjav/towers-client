@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeListItemRenderer;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.CoreLoader;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -37,6 +38,14 @@ override public function init():void
 	initializeCompleted = true;
 	super.init();
 	layout = new AnchorLayout();
+	
+	if( player.get_arena(0) < 2 )
+	{
+		var labelDisplay:ShadowLabel = new ShadowLabel(loc("availableat_messeage", [loc("tab-4"), loc("arena_text") + " " + loc("num_3")]));
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+		addChild(labelDisplay);
+		return;
+	}
 	
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.padding = listLayout.gap = 24;

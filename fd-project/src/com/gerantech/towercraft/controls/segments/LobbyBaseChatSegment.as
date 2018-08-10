@@ -70,12 +70,7 @@ override public function init():void
 
 protected function loadData():void
 {
-	if( player.get_arena(0) == 0 )
-	{
-		appModel.navigator.addLog(loc("availableat_messeage", [loc("tab-14"), loc("arena_text") + " " + loc("num_2")]));
-		return;
-	}
-	
+
 	if( manager == null || initializeCompleted )
 		return;
 	
