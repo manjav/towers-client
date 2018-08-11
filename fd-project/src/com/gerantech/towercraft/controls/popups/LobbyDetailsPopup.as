@@ -141,7 +141,7 @@ private function showDetails():void
 	addChild(tabs[1]);
 	
 	memberList = SFSArray(roomData.all).toArray();
-	memberCollection = new ListCollection(SFSArray(roomData.all).toArray());
+	memberCollection = new ListCollection(memberList);
 	
 	var membersList:List = new List();
 	membersList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
@@ -158,7 +158,7 @@ private function showDetails():void
 	joinleaveButton.disableSelectDispatching = true;
 	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370) * appModel.scale;
 	joinleaveButton.height = 96 * appModel.scale;
-	joinleaveButton.visible = roomServerData.getInt("pri")<2 || itsMyRoom;
+	joinleaveButton.visible = roomServerData.getInt("pri") < 2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri") == 0?"lobby_join_label":"lobby_request_label"));
@@ -292,10 +292,18 @@ private function buttonsPopup_selectHandler(event:Event):void
 			var params:SFSObject = new SFSObject();
 			params.putInt("id", buttonsPopup.data.id);
 			params.putUtfString("name", buttonsPopup.data.name);
-			if( confirm.data == "lobby_promote" )
+			if ( confirm.data == "lobby_promote" )
+			{
 				params.putShort("pr", MessageTypes.M13_COMMENT_PROMOTE);
-			else if( confirm.data == "lobby_demote" )
+				buttonsPopup.data.permission ++;
+				memberCollection.updateItemAt(buttonsPopup.data.index);
+			}
+			else if ( confirm.data == "lobby_demote" )
+			{
 				params.putShort("pr", MessageTypes.M14_COMMENT_DEMOTE);
+				buttonsPopup.data.permission --;
+				memberCollection.updateItemAt(buttonsPopup.data.index);
+			}
 			else
 			{
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
