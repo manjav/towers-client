@@ -51,11 +51,11 @@ override protected function commitData():void
 	addChild(titleDisplay);
 	
 	var prizeW:int = width * 0.5 + 20;
-	var topPrizePanel:PrizePalette = new PrizePalette(loc("challenge_top_prize"), 0xFFFFFF, 56);
+	var topPrizePanel:PrizePalette = new PrizePalette(loc("challenge_top_prize"), 0xFFFFFF, challenge.rewards.get(1));
 	topPrizePanel.layoutData = new AnchorLayoutData(140, 20, 160, prizeW);
 	addChild(topPrizePanel);
 	
-	var guaranteedPrizePanel:PrizePalette = new PrizePalette(loc("challenge_guaranteed_prize"), 0xFFFFFF, 52);
+	var guaranteedPrizePanel:PrizePalette = new PrizePalette(loc("challenge_guaranteed_prize"), 0xFFFFFF, challenge.rewards.get(5));
 	guaranteedPrizePanel.layoutData = new AnchorLayoutData(140, prizeW, 160, 20);
 	addChild(guaranteedPrizePanel);
 	

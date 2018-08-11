@@ -4,13 +4,11 @@ import com.gerantech.towercraft.controls.StackNavigator;
 import com.gerantech.towercraft.controls.screens.*;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
-
 import feathers.controls.Drawers;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.core.IFeathersControl;
 import feathers.motion.Cover;
 import feathers.motion.Reveal;
-
 import starling.events.Event;
 
 public class Main extends Drawers
