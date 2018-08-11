@@ -48,7 +48,7 @@ public function LobbyDetailsPopup(roomData:Object)
 	params.putInt("id", roomData.id);
 	if( roomData.name == null )
 		params.putBool("data", true);
-	if( roomData.all == null )
+	//if( roomData.all == null )
 		params.putBool("all", true);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_roomDataHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_DATA, params);
