@@ -134,7 +134,7 @@ private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
 		return false;
 	if( MessageTypes.isConfirm(msg.getShort("m")) )
-		if( u.getInt("permission") < 2 || msg.containsKey("pr") )
+		if( u.getInt("permission") < 1 || msg.containsKey("pr") )
 			return false
 	return true;
 }
@@ -194,7 +194,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		var confirmIndex:int = getReplyedConfirm(msg);
 		if( confirmIndex > -1 )
 			messages.removeItemAt(confirmIndex);
-		if( !msg.containsKey("pr") && findUser(player.id).getInt("permission") > 1 )
+		if( !msg.containsKey("pr") && findUser(player.id).getInt("permission") > 0 )
 			messages.addItem(msg);
 	}
 	//traceList()
@@ -218,7 +218,7 @@ public function numUnreads():int
 private function getReplyedConfirm(msg:ISFSObject):int
 {
 	for (var i:int = messages.length - 1; i >= 0; i--)
-		if( MessageTypes.isConfirm(messages.getItemAt(i).getShort("m")) && messages.getItemAt(i).getInt("o")==msg.getInt("o") )
+		if( MessageTypes.isConfirm(messages.getItemAt(i).getShort("m")) && messages.getItemAt(i).getInt("o") == msg.getInt("o") )
 			return i;
 	return -1;
 }

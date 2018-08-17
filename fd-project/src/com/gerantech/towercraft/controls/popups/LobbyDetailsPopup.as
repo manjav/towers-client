@@ -233,12 +233,15 @@ private function membersList_focusInHandler(event:Event):void
 		var user:Object = findUser(player.id);
 		if( user != null && user.permission != null && user.permission > selectedData.permission )
 		{
-			if( user.permission > 1 )
-				btns.push( "lobby_kick" );
-			if( user.permission > selectedData.permission + 1 )
-				btns.push( "lobby_promote" );
-			if( selectedData.permission > 1 )
-				btns.push( "lobby_demote" );
+			if( user.permission > selectedData.permission )
+			{
+				if( user.permission > selectedData.permission + 1 )
+					btns.push( "lobby_promote" );
+				if( selectedData.permission > 0 )
+					btns.push( "lobby_demote" );
+				if( user.permission > 1 )
+					btns.push( "lobby_kick" );
+			}
 		}
 	}
 	buttonsPopup = new SimpleListPopup();
