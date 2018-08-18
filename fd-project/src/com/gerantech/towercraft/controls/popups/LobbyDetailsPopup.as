@@ -353,7 +353,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 		return;
 	}
 	
-	if( SFSConnection.instance.lobbyManager.lobby != null )
+    if( SFSConnection.instance.lobbyManager.lobby != null && !player.admin )
 	{
 		appModel.navigator.addLog(loc("lobby_join_error_joined", [SFSConnection.instance.lobbyManager.lobby.name]));
 		return;
