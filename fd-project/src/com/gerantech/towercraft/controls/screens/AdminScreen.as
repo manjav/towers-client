@@ -18,7 +18,7 @@ override protected function initialize():void
 	
 	listLayout.gap = 0;	
 //	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
-	list.dataProvider = new ListCollection(["Players", "Track Issues", "Push Message", "Restore", "Operations", "Battles"])
+	list.dataProvider = new ListCollection(["Players", "Track Issues", "Offends", "Push Message", "Restore", "Operations", "Battles"])
 }
 
 override protected function list_changeHandler(event:Event):void
@@ -31,6 +31,9 @@ override protected function list_changeHandler(event:Event):void
 			break;
 		case "Track Issues":
 			appModel.navigator.pushScreen(Main.ISSUES_SCREEN);
+			break;
+		case "Offends":
+			appModel.navigator.pushScreen(Main.OFFENDS_SCREEN);
 			break;
 		case "Restore":
 			appModel.navigator.addPopup(new RestorePopup());
