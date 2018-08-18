@@ -136,7 +136,7 @@ protected function showElements():void
 protected function chatList_createCompleteHandler(event:Event):void
 {
 	chatList.removeEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
-	chatList.scrollToDisplayIndex(manager.messages.length-1);	
+	chatList.scrollToDisplayIndex(manager.messages.length - 1);
     setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 }
 

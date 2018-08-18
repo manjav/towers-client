@@ -87,7 +87,7 @@ override protected function initialize():void
 	_listCollection = new ListCollection();
 	list = new FastList();
 	list.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }
-	list.layoutData = new AnchorLayoutData(padding*5+buttonH, padding, padding, padding);
+	list.layoutData = new AnchorLayoutData(padding * 5 + buttonH, padding, padding, padding);
 	list.dataProvider = _listCollection;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	addChild(list);

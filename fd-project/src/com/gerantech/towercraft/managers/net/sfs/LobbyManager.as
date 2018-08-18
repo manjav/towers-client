@@ -20,12 +20,15 @@ public class LobbyManager extends EventDispatcher
 public var isPublic:Boolean;
 public var isReady:Boolean;
 public var lobby:Room;
-public var messages:ListCollection;
-public var members:ISFSArray;
+
+public var id:int;
+public var name:String;
+public var bio:String;
 public var point:int;
 public var emblem:int;
 public var activeness:int;
-
+public var members:ISFSArray;
+public var messages:ListCollection;
 private var player:Player;
 
 public function LobbyManager(isPublic:Boolean = false)
