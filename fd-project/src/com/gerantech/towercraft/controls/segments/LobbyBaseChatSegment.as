@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
@@ -246,12 +247,10 @@ private function buttonsPopup_selectHandler(event:Event):void
 			break;
 		
 		case "lobby_report":
-			var sfsReport:ISFSObject = new SFSObject();
-			sfsReport.putUtfString("t", msgPack.getUtfString("t"));
-			sfsReport.putInt("i", msgPack.getInt("i"));
-			sfsReport.putInt("u", msgPack.getInt("u"));
-			SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_reportResponseHandler);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_REPORT, sfsReport, manager.lobby);
+			var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
+			confirm.acceptStyle = "danger";
+			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+			appModel.navigator.addPopup(confirm);
 			break;
 		
 		case "lobby_reply":
@@ -260,12 +259,21 @@ private function buttonsPopup_selectHandler(event:Event):void
 			preText = "@" + msgPack.getUtfString("s") + ": " + msg.substr(msg.lastIndexOf("\n") + 1, 20) + "... :\n";
 			break;
 	}
-	function sfs_reportResponseHandler(event:SFSEvent):void
+	function confirm_selectHandler(evet:Event):void
 	{
-		if( event.params.cmd != SFSCommands.LOBBY_REPORT )
+		var sfsReport:ISFSObject = new SFSObject();
+		sfsReport.putUtfString("t", msgPack.getUtfString("t"));
+		sfsReport.putInt("i", msgPack.getInt("i"));
+		sfsReport.putInt("u", msgPack.getInt("u"));
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_reportResponseHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_REPORT, sfsReport, manager.lobby);
+	}
+	function sfs_reportResponseHandler(e:SFSEvent):void
+	{
+		if( e.params.cmd != SFSCommands.LOBBY_REPORT )
 			return;
 		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_reportResponseHandler);
-		appModel.navigator.addLog(loc("lobby_report_response_" + event.params.params.getInt("response")) );
+		appModel.navigator.addLog(loc("lobby_report_response_" + e.params.params.getInt("response")) );
 	}
 }
 

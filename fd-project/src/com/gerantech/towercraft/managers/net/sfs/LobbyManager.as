@@ -134,6 +134,8 @@ protected function sfs_joinPublicHandler(event:SFSEvent):void
 
 private function isLegal(msg:ISFSObject, u:ISFSObject):Boolean
 {
+	if( u == null )
+		return player.admin;
 	if( msg.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE && msg.getShort("st") > 2 )
 		return false;
 	if( MessageTypes.isConfirm(msg.getShort("m")) )
