@@ -28,18 +28,18 @@ package com.gerantech.towercraft.controls
 			layout = new AnchorLayout();
 			touchable = false;
 			
-			var labelDisplay:RTLLabel = new RTLLabel(text, 1, "center", null, true, "center", 1.1, null, "bold");
+			var labelDisplay:RTLLabel = new RTLLabel(text, 1, "center", null, true, "center", 1.0, null, "bold");
 			labelDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 			labelDisplay.pixelSnapping = false;
 			addChild(labelDisplay);
 			
-			var shadowDisplay:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.1, null, "bold");
+			var shadowDisplay:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.0, null, "bold");
 			shadowDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
-			shadowDisplay.y = labelDisplay.y + 6 * appModel.scale;
+			shadowDisplay.y = labelDisplay.y + 4 * appModel.scale;
 			shadowDisplay.pixelSnapping = false;
 			addChildAt(shadowDisplay, 0);
 			
-			var shadowDisplay2:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.1, null, "bold");
+			var shadowDisplay2:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.0, null, "bold");
 			shadowDisplay2.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 			shadowDisplay2.y = labelDisplay.y - 3 * appModel.scale;
 			shadowDisplay2.pixelSnapping = false;

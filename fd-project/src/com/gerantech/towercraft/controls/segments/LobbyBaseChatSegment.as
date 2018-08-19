@@ -300,11 +300,23 @@ protected function sendButton_triggeredHandler(event:Event):void
 {
 	if( chatTextInput.text == "" )
 		return;
-	
+	if( areUVerbose() )
+	{
+		appModel.navigator.addLog(loc("lobby_message_limit"));
+		return;
+	}
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("t", preText + StrUtils.getSimpleString(chatTextInput.text));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	chatTextInput.text = preText = "";
+}
+
+private function areUVerbose():Boolean 
+{
+	var last:ISFSObject = manager.messages.getItemAt(manager.messages.length - 1) as SFSObject;
+	if ( last.getInt("i") == player.id )
+		return (last.getText("t").split("\n").length > 5 );
+	return false;
 }
 
 private function chatTextInput_focusOutHandler(event:Event):void
