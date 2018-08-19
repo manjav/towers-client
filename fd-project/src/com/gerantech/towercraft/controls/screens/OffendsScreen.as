@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.controls.items.InboxItemRenderer;
 import com.gerantech.towercraft.controls.items.InfractionItemRenderer;
 import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
@@ -11,26 +10,24 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
-
 import starling.display.Quad;
 import starling.events.Event;
 
 public class OffendsScreen extends ListScreen
 {
 public var reporter:int = -1;
-private var issues:ListCollection;
+private var infractions:ListCollection;
 public function OffendsScreen(){}
 override protected function initialize():void
 {
 	title = "Infractions";
 	super.initialize();
 	
-	issues = new ListCollection();
-	requestIssues();
+	infractions = new ListCollection();
+	requestInfractions();
 	
 	var bgButton:SimpleLayoutButton = new SimpleLayoutButton();
 	bgButton.alpha = 0;
@@ -38,18 +35,19 @@ override protected function initialize():void
 	bgButton.addEventListener(Event.TRIGGERED, bg_triggeredHandler);
 	bgButton.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	
-	listLayout.gap = 0;	
+	listLayout.paddingRight = listLayout.paddingLeft = listLayout.gap = 2;	
 	listLayout.hasVariableItemDimensions = true;
-	list.itemRendererFactory = function():IListItemRenderer { return new InfractionItemRenderer(false); }
-/*	list.addEventListener(Event.SELECT, list_eventsHandler);
+	list.itemRendererFactory = function():IListItemRenderer { return new InfractionItemRenderer(); }
+	list.addEventListener(Event.SELECT, list_eventsHandler);
 	list.addEventListener(Event.CANCEL, list_eventsHandler);
-	list.addEventListener(Event.READY, list_eventsHandler);*/
+	list.addEventListener(Event.READY, list_eventsHandler);
+	list.addEventListener(Event.OPEN, list_eventsHandler);
 	list.backgroundSkin = bgButton;
 	list.backgroundSkin.touchable = true;
-	list.dataProvider = issues;
+	list.dataProvider = infractions;
 }
 
-public function requestIssues() : void 
+public function requestInfractions() : void 
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
 	var params:SFSObject;
@@ -66,20 +64,20 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	if( event.params.cmd != SFSCommands.INFRACTIONS_GET )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
-	issues.removeAll();
+	infractions.removeAll();
 	var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("data"));
 	for (var i:int = 0; i < issueList.size(); i++)
 	{
 		var sfs:ISFSObject = issueList.getSFSObject(i);
-		var msg:SFSObject = new SFSObject();
+		/*var msg:SFSObject = new SFSObject();
 		msg.putInt("id", sfs.getInt("reporter"));
 		msg.putShort("read", 0);
 		msg.putShort("type", 41);
 		msg.putUtfString("text", sfs.getUtfString("content"));
 		msg.putUtfString("sender", sfs.getUtfString("name"));
 		msg.putInt("senderId", sfs.getInt("offender"));
-		msg.putInt("utc", sfs.getInt("offend_at"));
-		issues.addItem(msg);
+		msg.putLong("utc", sfs.getLong("offend_at"));*/
+		infractions.addItem(issueList.getSFSObject(i));
 	}
 }
 private function bg_triggeredHandler(event:Event):void
@@ -92,35 +90,19 @@ private function list_eventsHandler(event:Event):void
 	var msg:SFSObject = event.data as SFSObject;
 	if( event.type == Event.SELECT )
 	{
-		var msgPopup:BroadcastMessagePopup = new BroadcastMessagePopup(msg.getInt("senderId").toString(), msg.getInt("id").toString());
-		msgPopup.addEventListener(Event.SELECT, msgPopup_selectHandler);
-		appModel.navigator.addPopup(msgPopup);
-		function msgPopup_selectHandler(e:Event):void
-		{
-			msg.putShort("read", 1);
-			changeStatus(msg.getInt("id"), 1);
-			list.selectedIndex = -1;
-			msgPopup.close();
-		}
 	}
-	else if ( event.type == Event.CANCEL )
+	else if( event.type == Event.CANCEL )
 	{
-		msg.putShort("read", 2);
-		changeStatus(msg.getInt("id"), 2);
 		list.selectedIndex = -1;
 	}
-	else if ( event.type == Event.READY )
+	else if( event.type == Event.READY )
 	{
-		appModel.navigator.addPopup(new ProfilePopup({name:msg.getUtfString("sender"), id:msg.getInt("senderId")}));
+		appModel.navigator.addPopup(new ProfilePopup({name:msg.getText("name"), id:msg.getInt("offender")}));
 	}
-}
-
-private function changeStatus(id:int, status:int):void
-{
-	var params:SFSObject = new SFSObject();
-	params.putInt("id", id);
-	params.putShort("status", status);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_TRACK , params);	
+	else if( event.type == Event.OPEN )
+	{
+		appModel.navigator.addPopup(new ProfilePopup({id:msg.getInt("reporter")}, true));
+	}
 }
 }
 }

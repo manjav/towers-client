@@ -67,7 +67,7 @@ override protected function initialize():void
 	addChild(senderDisplay);
 
 	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?6:8), NaN, padding*(appModel.isLTR?8:6) , NaN, offsetY);
-	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.64);
+	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.6);
 	messageDisplay.wordWrap = false;
 	messageDisplay.touchable = false;
 	messageDisplay.layoutData = messageLayout;

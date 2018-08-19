@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
@@ -27,77 +28,77 @@ private var padding:int;
 private var senderLayout:AnchorLayoutData;
 private var messageLayout:AnchorLayoutData;
 private var dateLayout:AnchorLayoutData;
-
 private var mySkin:Image;
 private var senderDisplay:RTLLabel;
 private var messageDisplay:RTLLabel;
 private var dateDisplay:RTLLabel;
 private var date:Date;
-private var acceptButton:CustomButton;
-private var declineButton:CustomButton;
 private var message:SFSObject;
-private var readOnSelect:Boolean;
-private var infoButton:CustomButton;
+private var banButton:CustomButton;
+private var deleteButton:CustomButton;
+private var offenderButton:CustomButton;
+private var reporterButton:CustomButton;
 
-public function InfractionItemRenderer(readOnSelect:Boolean = true)
-{
-	this.readOnSelect = readOnSelect;
-}
-
+public function InfractionItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 140 * appModel.scale;
-	padding = 32 * appModel.scale;
-	offsetY = -8*AppModel.instance.scale
+	height = 280;
+	padding = 16;
 	date = new Date();
 	
 	mySkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
 	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
-	senderLayout = new AnchorLayoutData( NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN , NaN, offsetY);
 	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.72);
 	senderDisplay.width = padding * 12;
-	senderDisplay.layoutData = senderLayout;
+	senderDisplay.layoutData = new AnchorLayoutData( padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(senderDisplay);
 
-	messageLayout = new AnchorLayoutData( NaN, padding*(appModel.isLTR?6:8), NaN, padding*(appModel.isLTR?8:6) , NaN, offsetY);
-	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.64);
+	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.6);
 	messageDisplay.wordWrap = false;
 	messageDisplay.touchable = false;
-	messageDisplay.layoutData = messageLayout;
+	messageDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
 	addChild(messageDisplay);
 	
-	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0 );
 	dateDisplay = new RTLLabel("", READ_TEXT_COLOR, null, null, false, null, 0.6);
 	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
-	dateDisplay.layoutData = dateLayout;
+	dateDisplay.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 	addChild(dateDisplay);
 	
-	acceptButton = new CustomButton();
-	acceptButton.alpha = 0;
-	acceptButton.height = padding * 3;
-	acceptButton.label = loc("popup_accept_label");
-	acceptButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding);
-	acceptButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	offenderButton = new CustomButton();
+	offenderButton.height = 70;
+	offenderButton.width = 420;
+	offenderButton.layoutData = new AnchorLayoutData( NaN, padding, padding );
+	offenderButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	addChild(offenderButton);
 	
-	declineButton = new CustomButton();
-	declineButton.alpha = 0;
-	declineButton.height = padding * 3;
-	declineButton.style = "danger";
-	declineButton.label = loc("popup_cancel_label");
-	declineButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding*9);
-	declineButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
-
-	infoButton = new CustomButton();
-	infoButton.height = infoButton.width = padding * 2;
-	infoButton.label = "i";
-	infoButton.layoutData = new AnchorLayoutData( padding * 0.5, padding * 0.5 );
-	infoButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	reporterButton = new CustomButton();
+	reporterButton.style = CustomButton.STYLE_NEUTRAL;
+	reporterButton.height = 70;
+	reporterButton.width = 280;
+	reporterButton.layoutData = new AnchorLayoutData( NaN, padding + 432, padding );
+	reporterButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	addChild(reporterButton);
+	
+	banButton = new CustomButton();
+	banButton.width = banButton.height = 100;
+	banButton.style = CustomButton.STYLE_DANGER;
+	banButton.icon = Assets.getTexture("settings-5", "gui");
+	banButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding );
+	banButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	addChild(banButton);
+	
+	deleteButton = new CustomButton();
+	deleteButton.width = deleteButton.height = 100;
+	deleteButton.icon = Assets.getTexture("improve-1", "gui");
+	deleteButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, 96 + padding * 2 );
+	deleteButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
+	addChild(deleteButton);
 }
 
 override protected function commitData():void
@@ -107,115 +108,23 @@ override protected function commitData():void
 		return;
 
 	message = _data as SFSObject;
-	date.time = message.getInt("utc") * 1000;
-	var txt:String = message.getUtfString("text");
-	messageDisplay.text = txt.substr(0,2)=="__"?loc(txt.substr(2), [message.getUtfString("sender")]):txt;
-	dateDisplay.text = StrUtils.getDateString(date);
-	acceptButton.label = loc(message.getShort("type") == MessageTypes.M50_URL ? "go_label" : "popup_accept_label");
-	updateSkin();
-}
-
-private function updateSkin():void
-{
-	if( isSelected )
-		mySkin.texture = appModel.theme.itemRendererUpSkinTexture;
-	else
-	{
-		switch(message.getShort("read"))
-		{
-			case 1:		mySkin.texture = appModel.theme.itemRendererDisabledSkinTexture; break;
-			case 2:		mySkin.texture = appModel.theme.itemRendererDangerSkinTexture; break;
-			default:	mySkin.texture = appModel.theme.itemRendererSelectedSkinTexture; break;
-		}
-	}
-	senderDisplay.text = message.getUtfString("sender") + (isSelected ? ("  " + message.getInt("senderId")) : "");
-	senderDisplay.alpha = message.getShort("read")==0 || isSelected ? 1 : 0.8;
-	messageDisplay.alpha = message.getShort("read")==0 || isSelected ? 0.92 : 0.8;
-}
-
-override public function set isSelected(value:Boolean):void
-{
-	var needSchange:Boolean = super.isSelected != value
-	super.isSelected = value;
-	if( !needSchange )
-		return;
-	updateSkin();
-	
-	if( readOnSelect && value && message.getShort("read") == 0 )
-	{
-		message.putShort("read", 1)
-		_owner.dispatchEventWith(Event.OPEN, false, message);
-	}
-	
-	senderLayout.top = value ? padding*0.8 : NaN;
-	//senderDisplay.width = padding*(value?12:6.4);
-	senderLayout.verticalCenter = value ? NaN : offsetY;
-	senderLayout.left = appModel.isLTR ? (value ?3:1) * padding : NaN;
-	senderLayout.right = appModel.isLTR ? NaN : (value ?3:1) * padding;
-	
-	messageDisplay.height = value ? NaN : 40 * appModel.scale;
-	messageLayout.top = value ? padding*2.4 : NaN;
-	messageLayout.verticalCenter = value ? NaN : offsetY;
-	messageLayout.right = padding*(value?1:(appModel.isLTR?6:8));
-	messageLayout.left = padding*(value?1:(appModel.isLTR?8:6));
-	
-	messageDisplay.wordWrap = value;
-	messageDisplay.validate();
-	
-	dateLayout.top = value ? padding*0.6 : NaN;
-	dateLayout.right = value ? (appModel.isLTR?padding*0.7:NaN) : (appModel.isLTR?padding:NaN);
-	dateLayout.left = value ? (appModel.isLTR?NaN:padding*0.7) : (appModel.isLTR?NaN:padding);
-	dateLayout.verticalCenter = value ? NaN : offsetY;
-	dateDisplay.text = StrUtils.getDateString(date, value);
-
-	if( !value )
-	{
-		acceptButton.removeFromParent();
-		declineButton.removeFromParent();
-		infoButton.removeFromParent();
-	}
-	
-	var hasButton:Boolean = MessageTypes.isConfirm(message.getShort("type")) || message.getShort("type") == MessageTypes.M50_URL;
-	var _h:Number = value?(messageDisplay.height+padding*(4/messageDisplay.numLines)+padding+(hasButton?declineButton.height:0) ):(140*appModel.scale);
-	Starling.juggler.tween(this, TWEEN_TIME, {height:_h, transition:Transitions.EASE_IN_OUT, onComplete:tweenCompleted, onCompleteArgs:[value]});
-	function tweenCompleted(_selected:Boolean):void
-	{
-		if( !value )
-			return;
-		
-		if( hasButton )
-		{
-			appear(acceptButton);
-			if( MessageTypes.isConfirm(message.getShort("type")) )
-				appear(declineButton)
-		}
-		appear(infoButton);	
-	}
-}
-
-private function appear(button:CustomButton):void
-{
-	button.alpha = 0;
-	addChild(button);
-	Starling.juggler.tween(button, TWEEN_TIME, {alpha:1});
+	date.time = message.getLong("offend_at");
+	dateDisplay.text = StrUtils.getDateString(date, true);
+	messageDisplay.text = message.getUtfString("content");
+	offenderButton.label = message.getText("name") + "   " + message.getInt("offender").toString();
+	reporterButton.label = message.getInt("reporter").toString();
 }
 
 private function buttons_eventHandler(event:Event):void
 {
-	if( event.currentTarget == acceptButton )
+	if( event.currentTarget == banButton )
 		_owner.dispatchEventWith(Event.SELECT, false, message);
-	else if( event.currentTarget == declineButton )
+	else if( event.currentTarget == deleteButton )
 		_owner.dispatchEventWith(Event.CANCEL, false, message);
-	else if( event.currentTarget == infoButton )
+	else if( event.currentTarget == offenderButton )
 		_owner.dispatchEventWith(Event.READY, false, message);
-}
-
-override public function dispose():void
-{
-	Starling.juggler.removeTweens(this);
-	Starling.juggler.removeTweens(acceptButton);
-	Starling.juggler.removeTweens(declineButton);
-	super.dispose();
+	else if( event.currentTarget == reporterButton )
+		_owner.dispatchEventWith(Event.OPEN, false, message);
 }
 }
 }
