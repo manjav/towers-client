@@ -46,7 +46,7 @@ private var playerData:ISFSObject;
 private var featuresData:ISFSArray;
 private var buildingsData:ISFSArray;
 
-public function ProfilePopup(user:Object)
+public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 {
 	this.user = user;
 	this.adminMode = player.admin;
@@ -55,6 +55,8 @@ public function ProfilePopup(user:Object)
 	params.putInt("id", user.id);
 	if( adminMode )
 		params.putBool("am", true);
+	if( getFullPlayerData )
+		params.putBool("pd", true);
 	if( user.ln == null )
 		params.putInt("lp", 0);
 	
@@ -107,7 +109,7 @@ private function showProfile():void
 	lobbyIconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(lobbyIconDisplay);
 	
-	var nameDisplay:ShadowLabel = new ShadowLabel(user.name, 1, 0, null, null, true, "center", 1);
+	var nameDisplay:ShadowLabel = new ShadowLabel(playerData.containsKey("pd")?playerData.getSFSObject("pd").getText("name"):user.name, 1, 0, null, null, true, "center", 1);
 	nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(nameDisplay);
 	
@@ -133,7 +135,7 @@ private function showProfile():void
 	if( adminMode )
 	{
 		var banButton:CustomButton = new CustomButton();
-		banButton.icon = Assets.getTexture("improve-lock", "gui");
+		banButton.icon = Assets.getTexture("settings-5", "gui");
 		banButton.style = "danger";
 		banButton.width = banButton.height = padding * 3;
 		banButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding);
