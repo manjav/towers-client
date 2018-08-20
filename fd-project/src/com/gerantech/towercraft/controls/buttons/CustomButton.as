@@ -21,6 +21,7 @@ public class CustomButton extends SimpleLayoutButton
 public static const STYLE_NORMAL:String = "normal";
 public static const STYLE_NEUTRAL:String = "neutral";
 public static const STYLE_DANGER:String = "danger";
+static public const STYLE_DISABLED:String = "disabled";
 
 public var iconLayout:ILayoutData;
 public var iconPosition:Point;
@@ -58,12 +59,16 @@ public function CustomButton()
 	layout = new AnchorLayout();
 	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.8);
 	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.3);
-	iconLayout = new AnchorLayoutData(NaN, padding + iconPosition.x, NaN, NaN, NaN, iconPosition.y - padding * 0.4);
+	iconLayout = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, -padding * 0.4);
 }
 
 override protected function initialize():void
 {
 	super.initialize();
+	
+	if( iconPosition.x != 0 || iconPosition.y != 0 )
+		iconLayout = new AnchorLayoutData(NaN, padding + iconPosition.x, NaN, NaN, NaN, iconPosition.y - padding * 0.4);
+
 	
 	if( _fontsize == 0 )
 	{
@@ -108,12 +113,16 @@ private function updateTextures():void
 		defaultTextue = appModel.theme.buttonDangerUpSkinTexture;
 	else if( style == STYLE_NEUTRAL )
 		defaultTextue = appModel.theme.buttonNeutralUpSkinTexture;
+	else if( style == STYLE_DISABLED )
+		defaultTextue = appModel.theme.buttonDisabledSkinTexture		
 	
 	downTextue = appModel.theme.buttonDownSkinTexture;
 	if( style == STYLE_DANGER )
 		downTextue = appModel.theme.buttonDangerDownSkinTexture;
 	else if( style == STYLE_NEUTRAL )
 		downTextue = appModel.theme.buttonNeutralDownSkinTexture;			
+	else if( style == STYLE_DISABLED )
+		downTextue = appModel.theme.buttonDisabledSkinTexture		
 	
 	if( skin )
 		skin.defaultTexture = defaultTextue;
