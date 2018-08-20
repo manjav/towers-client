@@ -1,18 +1,21 @@
 package com.gerantech.towercraft.controls.popups 
 {
-	import com.gerantech.towercraft.controls.texts.CustomTextInput;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-	import com.smartfoxserver.v2.core.SFSEvent;
-	import com.smartfoxserver.v2.entities.data.ISFSObject;
-	import com.smartfoxserver.v2.entities.data.SFSObject;
-	import feathers.controls.Radio;
-	import feathers.controls.ToggleSwitch;
-	import flash.geom.Rectangle;
-	import flash.text.ReturnKeyLabel;
-	import flash.text.SoftKeyboardType;
-	import starling.events.Event;
+import com.gerantech.towercraft.controls.switchers.Switcher;
+import com.gerantech.towercraft.controls.texts.CustomTextInput;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.LayoutGroup;
+import feathers.controls.ToggleSwitch;
+import feathers.layout.HorizontalLayout;
+import feathers.layout.HorizontalLayoutData;
+import flash.geom.Rectangle;
+import flash.text.ReturnKeyLabel;
+import flash.text.SoftKeyboardType;
+import starling.events.Event;
 /**
 * ...
 * @author MAnsour Djawadi
@@ -24,7 +27,7 @@ private var userId:int;
 private var idInput:CustomTextInput;
 private var messageInput:CustomTextInput;
 private var errorDisplay:RTLLabel;
-private var warnMode:ToggleSwitch;
+private var banModeSwtcher:Switcher;
 private var lenInput:com.gerantech.towercraft.controls.texts.CustomTextInput;
 
 public function AdminBanPopup(userId:int)
@@ -36,26 +39,33 @@ public function AdminBanPopup(userId:int)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.2, stage.stageWidth * 0.8, stage.stageHeight * 0.6);
-	transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.2, stage.stageWidth * 0.8, stage.stageHeight * 0.6);
+	transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(80, 520, stage.stageWidth - 160, stage.stageHeight - 960);
+	transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(80, 500, stage.stageWidth - 160, stage.stageHeight -  1000);
 	
 	idInput = new CustomTextInput(SoftKeyboardType.NUMBER, ReturnKeyLabel.DEFAULT);
+	idInput.height = padding * 3;
 	idInput.text = userId.toString();
 	container.addChild(idInput);
+	
+	var c:LayoutGroup = new LayoutGroup();
+	c.layout = new HorizontalLayout();
+	HorizontalLayout(c.layout).gap = padding;
+	container.addChild(c);
+
+	lenInput = new CustomTextInput(SoftKeyboardType.NUMBER, ReturnKeyLabel.DEFAULT);
+	lenInput.width = padding * 5;
+	lenInput.text = "72";
+	c.addChild(lenInput);
+	
+	banModeSwtcher = new Switcher(1, 2, 3, 1);
+	banModeSwtcher.labelStringFactory = function (value:int):String { return loc("popup_ban_mode_" + value); }
+	banModeSwtcher.layoutData = new HorizontalLayoutData(100);
+	c.addChild( banModeSwtcher );
 	
 	messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
 	messageInput.height = padding * 6;
 	messageInput.text = "تعلیق به علت تخطی از قوانین بازی";
 	container.addChild(messageInput);
-	
-	lenInput = new CustomTextInput(SoftKeyboardType.NUMBER, ReturnKeyLabel.DEFAULT);
-	lenInput.text = "72";
-	container.addChild(lenInput);
-	
-	warnMode = new ToggleSwitch();
-	warnMode.onLabelProperties.text = "Warn";
-	warnMode.offLabelProperties.text = "Ban";
-	container.addChild( warnMode );
 
 	errorDisplay = new RTLLabel("", 0xFF0000, "center", null, true, null, 0.8);
 	container.addChild(errorDisplay);
@@ -69,7 +79,7 @@ protected override function acceptButton_triggeredHandler(event:Event):void
 	var sfs:ISFSObject = new SFSObject();
 	sfs.putInt("id", int(idInput.text));
 	sfs.putInt("len", int(lenInput.text));
-	sfs.putInt("mode", warnMode.isSelected ? 1 : 2);
+	sfs.putInt("mode", banModeSwtcher.value);
 	sfs.putUtfString("msg", messageInput.text);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHander);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.BAN, sfs);

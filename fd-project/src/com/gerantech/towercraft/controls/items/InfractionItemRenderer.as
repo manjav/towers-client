@@ -2,21 +2,14 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
-import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
-import starling.animation.Transitions;
-import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
-
 
 public class InfractionItemRenderer extends AbstractTouchableListItemRenderer
 {
@@ -39,13 +32,12 @@ private var deleteButton:CustomButton;
 private var offenderButton:CustomButton;
 private var reporterButton:CustomButton;
 
-public function InfractionItemRenderer(){}
+public function InfractionItemRenderer(height:Number = 280){ this.height = height; }
 override protected function initialize():void
 {
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 280;
 	padding = 16;
 	date = new Date();
 	
@@ -78,7 +70,7 @@ override protected function initialize():void
 	addChild(offenderButton);
 	
 	reporterButton = new CustomButton();
-	reporterButton.style = CustomButton.STYLE_NEUTRAL;
+	reporterButton.style = CustomButton.STYLE_DISABLED;
 	reporterButton.height = 70;
 	reporterButton.width = 280;
 	reporterButton.layoutData = new AnchorLayoutData( NaN, padding + 432, padding );
@@ -86,6 +78,7 @@ override protected function initialize():void
 	addChild(reporterButton);
 	
 	banButton = new CustomButton();
+	banButton.iconPosition.x = 7;
 	banButton.width = banButton.height = 100;
 	banButton.style = CustomButton.STYLE_DANGER;
 	banButton.icon = Assets.getTexture("settings-5", "gui");
@@ -94,6 +87,7 @@ override protected function initialize():void
 	addChild(banButton);
 	
 	deleteButton = new CustomButton();
+	deleteButton.iconPosition.x = 7;
 	deleteButton.width = deleteButton.height = 100;
 	deleteButton.icon = Assets.getTexture("improve-1", "gui");
 	deleteButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, 96 + padding * 2 );

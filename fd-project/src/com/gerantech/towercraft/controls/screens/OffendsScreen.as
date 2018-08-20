@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.InfractionItemRenderer;
+import com.gerantech.towercraft.controls.popups.AdminBanPopup;
 import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -29,12 +30,6 @@ override protected function initialize():void
 	infractions = new ListCollection();
 	requestInfractions();
 	
-	var bgButton:SimpleLayoutButton = new SimpleLayoutButton();
-	bgButton.alpha = 0;
-	bgButton.backgroundSkin = new Quad(1, 1, 0xFF);
-	bgButton.addEventListener(Event.TRIGGERED, bg_triggeredHandler);
-	bgButton.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	
 	listLayout.paddingRight = listLayout.paddingLeft = listLayout.gap = 2;	
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new InfractionItemRenderer(); }
@@ -42,8 +37,6 @@ override protected function initialize():void
 	list.addEventListener(Event.CANCEL, list_eventsHandler);
 	list.addEventListener(Event.READY, list_eventsHandler);
 	list.addEventListener(Event.OPEN, list_eventsHandler);
-	list.backgroundSkin = bgButton;
-	list.backgroundSkin.touchable = true;
 	list.dataProvider = infractions;
 }
 
@@ -64,21 +57,19 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	if( event.params.cmd != SFSCommands.INFRACTIONS_GET )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
-	infractions.removeAll();
 	var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("data"));
+	var infractionArray:Array = new Array();
 	for (var i:int = 0; i < issueList.size(); i++)
+		infractionArray.push(issueList.getSFSObject(i));
+	infractionArray.sort(function(a:ISFSObject, b:ISFSObject) : int 
 	{
-		var sfs:ISFSObject = issueList.getSFSObject(i);
-		/*var msg:SFSObject = new SFSObject();
-		msg.putInt("id", sfs.getInt("reporter"));
-		msg.putShort("read", 0);
-		msg.putShort("type", 41);
-		msg.putUtfString("text", sfs.getUtfString("content"));
-		msg.putUtfString("sender", sfs.getUtfString("name"));
-		msg.putInt("senderId", sfs.getInt("offender"));
-		msg.putLong("utc", sfs.getLong("offend_at"));*/
-		infractions.addItem(issueList.getSFSObject(i));
-	}
+		if( a.getInt("offender") > b.getInt("offender") ) return -1;
+		if( a.getInt("offender") < b.getInt("offender") ) return 1;
+		if( a.getLong("offend_at") > b.getLong("offend_at") ) return -1;
+		if( a.getLong("offend_at") < b.getLong("offend_at") ) return 1;
+		return 0;
+	});
+	infractions.data = infractionArray;
 }
 private function bg_triggeredHandler(event:Event):void
 {
@@ -89,20 +80,22 @@ private function list_eventsHandler(event:Event):void
 {
 	var msg:SFSObject = event.data as SFSObject;
 	if( event.type == Event.SELECT )
-	{
-	}
+		appModel.navigator.addPopup(new AdminBanPopup(msg.getInt("offender")));
 	else if( event.type == Event.CANCEL )
-	{
-		list.selectedIndex = -1;
-	}
+		deleteItem(msg);
 	else if( event.type == Event.READY )
-	{
 		appModel.navigator.addPopup(new ProfilePopup({name:msg.getText("name"), id:msg.getInt("offender")}));
-	}
 	else if( event.type == Event.OPEN )
-	{
 		appModel.navigator.addPopup(new ProfilePopup({id:msg.getInt("reporter")}, true));
-	}
+}
+
+private function deleteItem(msg:SFSObject):void 
+{
+	var params:SFSObject = new SFSObject();
+	params.putInt("id", msg.getInt("id"));
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.INFRACTIONS_DELETE, params);
+	
+	infractions.removeItem(msg);
 }
 }
 }
