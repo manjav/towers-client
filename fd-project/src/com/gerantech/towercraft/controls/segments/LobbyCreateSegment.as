@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.popups.EmblemsPopup;
-import com.gerantech.towercraft.controls.switchers.LabeledSwitcher;
 import com.gerantech.towercraft.controls.switchers.Switcher;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -144,7 +143,10 @@ private function addSwitcher(controlName:String, positionY:int, controlHeight:in
 	labelDisplay.layoutData = new AnchorLayoutData( positionY+controlHeight/4, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(labelDisplay);
 	
-	var switcher:Switcher = prefix == null ? (new Switcher(min, value, max, stepInterval)) : (new LabeledSwitcher(0, 1, prefix));
+	var switcher:Switcher = new Switcher(min, value, max, stepInterval);
+	if ( prefix != null )
+		switcher.labelStringFactory = function (value:int):String { return loc(prefix + "_" + value); }
+
 	switcher.width = controlWidth;
 	switcher.layoutData = new AnchorLayoutData( positionY, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	//switcher.layoutData = new AnchorLayoutData( positionY, appModel.isLTR?padding:controlWidth+padding*2, NaN, appModel.isLTR?controlWidth+padding*2:padding );

@@ -19,6 +19,7 @@ public class Switcher extends TowersLayout
 public var min:int;
 public var max:int;
 public var stepInterval:int;
+public var labelStringFactory:Function;
 private var _value:int;
 
 private var labelDisplay:RTLLabel;
@@ -31,10 +32,12 @@ public function Switcher(min:int = 0, value:int = 5, max:int = 10, stepInterval:
 	this.stepInterval = stepInterval;
 }
 
-
 override protected function initialize():void
 {
 	super.initialize();
+	
+	if( labelStringFactory == null )
+		labelStringFactory = defaulLabelStringFactory;
 	
 	layout = new AnchorLayout();
 	var controlSize:int = 96 * appModel.scale;
@@ -59,13 +62,13 @@ override protected function initialize():void
 	rightButton.addEventListener(Event.TRIGGERED, rightButton_triggerdHandler);
 	addChild(rightButton);
 	
-	labelDisplay = new RTLLabel(getLabel(value), 0, "center", null, false, null, 0.8);
+	labelDisplay = new RTLLabel(labelStringFactory(value), 0, "center", null, false, null, 0.8);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	addChild(labelDisplay);
 }
 
-protected function getLabel(value:int):String
+protected function defaulLabelStringFactory(value:int):String
 {
 	return value.toString();
 }
@@ -94,7 +97,7 @@ public function set value(val:int):void
 	if( labelDisplay )
 	{
 		Starling.juggler.removeTweens(labelDisplay);
-		labelDisplay.text = getLabel(value);
+		labelDisplay.text = labelStringFactory(value);
 		labelDisplay.scale = 0;
 		Starling.juggler.tween(labelDisplay, 0.2, {scale:1, transition:Transitions.EASE_OUT_BACK});
 	}

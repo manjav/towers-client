@@ -2,7 +2,6 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
-import com.gerantech.towercraft.controls.switchers.LabeledSwitcher;
 import com.gerantech.towercraft.controls.switchers.Switcher;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -10,30 +9,22 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
+import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
-
-import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
 
 public class LobbyEditPopup extends SimplePopup
 {
-
 private var roomData:Object;
 private var errorDisplay:RTLLabel;
 private var emblemButton:EmblemButton;
 private var minPointSwitcher:Switcher;
 private var maxMembersSwitcher:Switcher;
 private var bioInput:CustomTextInput;
-private var privacySwitcher:LabeledSwitcher;
-public function LobbyEditPopup(roomData:Object)
-{
-	this.roomData = roomData;
-}
-	
+private var privacySwitcher:Switcher;
+public function LobbyEditPopup(roomData:Object) { this.roomData = roomData; }
 protected override function initialize():void
 {
 	super.initialize();
@@ -92,7 +83,8 @@ protected override function initialize():void
 	privacyLabel.layoutData = new AnchorLayoutData( padding*25.7, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(privacyLabel);
 	
-	privacySwitcher = new LabeledSwitcher(roomData.pri, 1, "lobby_pri");
+	privacySwitcher = new Switcher(0, roomData.pri, 1, 1);
+	privacySwitcher.labelStringFactory = function (value:int):String { return loc("lobby_pri_" + value); }
 	privacySwitcher.width = padding * 12;
 	privacySwitcher.height = padding * 3;
 	privacySwitcher.layoutData = new AnchorLayoutData( padding*25, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
