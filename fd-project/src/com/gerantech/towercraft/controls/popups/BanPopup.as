@@ -5,7 +5,9 @@ package com.gerantech.towercraft.controls.popups
  * @author Mansour Djawadi
  */
 
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.AppModel;
 
 import flash.desktop.NativeApplication;
 import flash.geom.Rectangle;
@@ -40,7 +42,7 @@ public class BanPopup extends ConfirmPopup
 	
 	override protected function acceptButton_triggeredHandler(event:Event):void
 	{
-		navigateToURL(new URLRequest("mailto:towers@gerantech.com?subject=ban"));
+		navigateToURL(new URLRequest("mailto:towers@gerantech.com?subject=ban(id:" + player.id + "-udid:" + NativeAbilities.instance.deviceInfo.id + ")"));
 		super.acceptButton_triggeredHandler(event);
 	}
 	
