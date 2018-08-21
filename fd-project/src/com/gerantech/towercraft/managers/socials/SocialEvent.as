@@ -8,6 +8,7 @@ package com.gerantech.towercraft.managers.socials
 		public static const INIT:String = "init";
 		public static const AUTHENTICATE:String = "authenticate";
 		public static const FAILURE:String = "failure";
+		public static const SINGIN:String = "signin";
 		
 		public var errorMessage:String;
 		

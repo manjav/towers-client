@@ -83,7 +83,7 @@ private function list_focusInHandler(event:Event):void
 	}
 	else
 	{
-		switch(settingData.value)
+		switch( settingData.value )
 		{
 			case SettingsData.BUG_REPORT :
 				appModel.navigator.addPopup(new IssueReportPopup());

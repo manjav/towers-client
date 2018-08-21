@@ -17,6 +17,8 @@ import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
+import com.gerantech.towercraft.managers.socials.SocialEvent;
+import com.gerantech.towercraft.managers.socials.SocialManager;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
@@ -45,6 +47,7 @@ import starling.events.Event;
 public class HomeNewSegment extends Segment
 {
 private var battleTimeoutId:uint;
+private var googleButton:IconButton;
 public function HomeNewSegment() { super(); }
 override public function init():void
 {
@@ -81,7 +84,6 @@ override public function init():void
 		countdownDisplay.height = 100;
 		countdownDisplay.layoutData = new AnchorLayoutData( -countdownDisplay.height * 0.5, 30, NaN, 30);
 		battlesButton.addChild(countdownDisplay);
-
 	}
 	
 	if( player.hasQuests )
@@ -143,6 +145,18 @@ override public function init():void
 	rankButton.height = rankButton.width = padding * 8;
 	rankButton.layoutData = new AnchorLayoutData(padding * 38, NaN, NaN, padding * 2);
 	addChild(rankButton);
+	
+	if( player.get_arena(0) > 0 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
+	{
+		googleButton = new IconButton(Assets.getTexture("settings-41", "gui"), 0.7);
+		googleButton.name = "googleButton";
+		googleButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
+		googleButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+		Image(googleButton.backgroundSkin).scale9Grid = new Rectangle(16, 16, 4, 4);
+		googleButton.height = googleButton.width = padding * 8;
+		googleButton.layoutData = new AnchorLayoutData(padding * 38, padding * 2);
+		addChild(googleButton);
+	}
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
 	adsButton.width = adsButton.height = 140 * appModel.scale;
@@ -269,7 +283,20 @@ private function mainButtons_triggeredHandler(event:Event):void
 		case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );				return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
+		case "googleButton":	socialSignin();														 	return;
 	}
+}
+
+private function socialSignin():void 
+{
+	SocialManager.instance.addEventListener(SocialEvent.SINGIN, socialManager_signinHandler);
+	SocialManager.instance.signin();
+}
+
+private function socialManager_signinHandler(e:SocialEvent):void 
+{
+	SocialManager.instance.removeEventListener(SocialEvent.SINGIN, socialManager_signinHandler);
+	googleButton.removeFromParent();
 }
 }
 }

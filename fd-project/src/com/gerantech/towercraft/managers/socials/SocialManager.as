@@ -19,6 +19,7 @@ import flash.utils.setTimeout;
 import mx.resources.ResourceManager;
 
 [Event(name="init",			type="com.gerantech.towercraft.managers.socials.SocialEvent")]
+[Event(name="signin",		type="com.gerantech.towercraft.managers.socials.SocialEvent")]
 [Event(name="failure",		type="com.gerantech.towercraft.managers.socials.SocialEvent")]
 [Event(name="authenticate",	type="com.gerantech.towercraft.managers.socials.SocialEvent")]
 
@@ -98,7 +99,7 @@ protected function gameServices_successHandler(event:GSAuthEvent):void
 	
 //	if( timeoutID == -1 )
 //		return;
-	toast("success:"+ event.errorMessage + " player:" + event.player);
+	toast("success:" + event.errorMessage + " player:" + event.player);
 	clearTimeout(timeoutID);
 	
 	//log( "User authenticated: "+ event.player );
@@ -143,6 +144,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	UserData.instance.prefs.setBool(PrefsTypes.AUTH_41_GOOGLE, true);
 	
 	var sfs:SFSObject = event.params.params;
+	dispatchEvent(new SocialEvent(SocialEvent.SINGIN));
 	if( sfs.getInt("playerId") == AppModel.instance.game.player.id )
 	{
 		toast("player exists.");
