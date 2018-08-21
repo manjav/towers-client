@@ -15,6 +15,7 @@ import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
+import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.socials.SocialEvent;
@@ -38,6 +39,7 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.DisplayObject;
@@ -46,6 +48,7 @@ import starling.events.Event;
 
 public class HomeNewSegment extends Segment
 {
+static private var SOCIAL_AUTH_WARNED:Boolean
 private var battleTimeoutId:uint;
 private var googleButton:IconButton;
 public function HomeNewSegment() { super(); }
@@ -156,6 +159,12 @@ override public function init():void
 		googleButton.height = googleButton.width = padding * 8;
 		googleButton.layoutData = new AnchorLayoutData(padding * 38, padding * 2);
 		addChild(googleButton);
+		
+		if( !SOCIAL_AUTH_WARNED )
+		{
+			setTimeout(appModel.navigator.addChild, 1000, new BaseTooltip(loc("socials_signin_warn"), new Rectangle(stageWidth - padding * 8, padding * 44, 2, 2)));
+			SOCIAL_AUTH_WARNED = true;
+		}
 	}
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
