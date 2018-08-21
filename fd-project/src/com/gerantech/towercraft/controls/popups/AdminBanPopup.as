@@ -27,7 +27,7 @@ private var userId:int;
 private var idInput:CustomTextInput;
 private var messageInput:CustomTextInput;
 private var errorDisplay:RTLLabel;
-private var banModeSwtcher:Switcher;
+private var banModeSwitcher:Switcher;
 private var lenInput:com.gerantech.towercraft.controls.texts.CustomTextInput;
 
 public function AdminBanPopup(userId:int)
@@ -57,14 +57,14 @@ override protected function initialize():void
 	lenInput.text = "72";
 	c.addChild(lenInput);
 	
-	banModeSwtcher = new Switcher(1, 2, 3, 1);
-	banModeSwtcher.labelStringFactory = function (value:int):String { return loc("popup_ban_mode_" + value); }
-	banModeSwtcher.layoutData = new HorizontalLayoutData(100);
-	c.addChild( banModeSwtcher );
+	banModeSwitcher = new Switcher(1, 2, 3, 1);
+	banModeSwitcher.labelStringFactory = function (value:int):String { return loc("popup_ban_mode_" + value); }
+	banModeSwitcher.layoutData = new HorizontalLayoutData(100);
+	c.addChild( banModeSwitcher );
 	
 	messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
 	messageInput.height = padding * 6;
-	messageInput.text = "تعلیق به علت تخطی از قوانین بازی";
+	messageInput.text = "تعلیق به علت عدم رعایت قوانین بازی";
 	container.addChild(messageInput);
 
 	errorDisplay = new RTLLabel("", 0xFF0000, "center", null, true, null, 0.8);
@@ -79,7 +79,7 @@ protected override function acceptButton_triggeredHandler(event:Event):void
 	var sfs:ISFSObject = new SFSObject();
 	sfs.putInt("id", int(idInput.text));
 	sfs.putInt("len", int(lenInput.text));
-	sfs.putInt("mode", banModeSwtcher.value);
+	sfs.putInt("mode", banModeSwitcher.value);
 	sfs.putUtfString("msg", messageInput.text);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseHander);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.BAN, sfs);

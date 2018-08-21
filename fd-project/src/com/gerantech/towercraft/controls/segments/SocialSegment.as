@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.SegmentType;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -35,12 +36,24 @@ override public function init():void
 	super.init();
 	layout = new AnchorLayout();
 	
+	var labelDisplay:ShadowLabel;
 	if( player.get_arena(0) < 1 )
 	{
-		var labelDisplay:ShadowLabel = new ShadowLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]));
+		labelDisplay = new ShadowLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]));
+		labelDisplay.width = width;
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-		addChild(labelDisplay);		return;
+		addChild(labelDisplay);
+		return;
 	}
+	
+    if( appModel.loadingManager.serverData.containsKey("ban") && appModel.loadingManager.serverData.getSFSObject("ban").getInt("mode") > 1 )// banned user
+    {
+		labelDisplay = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(appModel.loadingManager.serverData.getSFSObject("ban").getLong("until"))]), 1, 0, "center", null, true);
+		labelDisplay.width = width;
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, 20, NaN, 20, NaN, 0);
+		addChild(labelDisplay);
+		return;
+    }
 	
 	var tabsSize:int = 120 * appModel.scale;
 	var pageLayout:HorizontalLayout = new HorizontalLayout();

@@ -146,7 +146,7 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 		dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_EXISTS, serverData));
 		return;
 	}
-    if( serverData.containsKey("ban") )// banned user
+    if( serverData.containsKey("ban") && serverData.getSFSObject("ban").getInt("mode") > 2 )// banned user
     {
         dispatchEvent(new LoadingEvent(LoadingEvent.LOGIN_USER_BANNED, serverData));
         return;

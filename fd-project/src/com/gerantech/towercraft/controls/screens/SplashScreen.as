@@ -126,7 +126,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			if( parent )
 				parent.removeChild(this);
 			var popup:BanPopup = new BanPopup();
-			popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n\n" + StrUtils.toTimeFormat( event.data.getSFSObject("ban").getLong("until") );
+			popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n" + loc("popup_ban_wait",[StrUtils.toTimeFormat(event.data.getSFSObject("ban").getLong("until"))]);
 			AppModel.instance.navigator.addPopup(popup);
 			return;
 			
