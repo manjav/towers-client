@@ -41,7 +41,7 @@ override protected function initialize():void
 	padding = 16;
 	date = new Date();
 	
-	mySkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
+	mySkin = new Image(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
@@ -107,6 +107,8 @@ override protected function commitData():void
 	messageDisplay.text = message.getUtfString("content");
 	offenderButton.label = message.getText("name") + "   " + message.getInt("offender").toString();
 	reporterButton.label = message.getInt("reporter").toString();
+	if( message.getInt("proceed") == 1 )
+		mySkin.texture = appModel.theme.itemRendererDisabledSkinTexture;
 }
 
 private function buttons_eventHandler(event:Event):void

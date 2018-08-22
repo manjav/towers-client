@@ -63,8 +63,8 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 		infractionArray.push(issueList.getSFSObject(i));
 	infractionArray.sort(function(a:ISFSObject, b:ISFSObject) : int 
 	{
-		if( a.getInt("offender") > b.getInt("offender") ) return -1;
-		if( a.getInt("offender") < b.getInt("offender") ) return 1;
+		//if( a.getInt("offender") > b.getInt("offender") ) return -1;
+		//if( a.getInt("offender") < b.getInt("offender") ) return 1;
 		if( a.getLong("offend_at") > b.getLong("offend_at") ) return -1;
 		if( a.getLong("offend_at") < b.getLong("offend_at") ) return 1;
 		return 0;
@@ -80,13 +80,24 @@ private function list_eventsHandler(event:Event):void
 {
 	var msg:SFSObject = event.data as SFSObject;
 	if( event.type == Event.SELECT )
-		appModel.navigator.addPopup(new AdminBanPopup(msg.getInt("offender")));
+		ban(msg);
 	else if( event.type == Event.CANCEL )
 		deleteItem(msg);
 	else if( event.type == Event.READY )
 		appModel.navigator.addPopup(new ProfilePopup({name:msg.getText("name"), id:msg.getInt("offender")}));
 	else if( event.type == Event.OPEN )
 		appModel.navigator.addPopup(new ProfilePopup({id:msg.getInt("reporter")}, true));
+}
+
+private function ban(msg:ISFSObject):void 
+{
+	var banPopup:AdminBanPopup = new AdminBanPopup(msg.getInt("offender"));
+	banPopup.addEventListener(Event.UPDATE, banPopup_updateHandler);
+	appModel.navigator.addPopup(banPopup);
+	function banPopup_updateHandler(e:Event) : void
+	{
+		requestInfractions();
+	}
 }
 
 private function deleteItem(msg:SFSObject):void 
