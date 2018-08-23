@@ -107,8 +107,7 @@ override protected function commitData():void
 	messageDisplay.text = message.getUtfString("content");
 	offenderButton.label = message.getText("name") + "   " + message.getInt("offender").toString();
 	reporterButton.label = message.getInt("reporter").toString();
-	if( message.getInt("proceed") == 1 )
-		mySkin.texture = appModel.theme.itemRendererDisabledSkinTexture;
+	mySkin.texture = message.getInt("proceed") == 1 ? appModel.theme.itemRendererDisabledSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 }
 
 private function buttons_eventHandler(event:Event):void
