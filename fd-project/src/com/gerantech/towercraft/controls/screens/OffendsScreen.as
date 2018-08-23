@@ -69,8 +69,30 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 		if( a.getLong("offend_at") < b.getLong("offend_at") ) return 1;
 		return 0;
 	});
-	infractions.data = infractionArray;
+	updateAll(infractionArray);
 }
+
+private function updateAll(infractionArray:Array):void 
+{
+	var missed:Boolean;
+	for (var i:int = 0; i < infractionArray.length; i++)
+	{
+		missed = true;
+		for (var j:int = 0; j < infractions.length; j++)
+		{
+			if( infractions.getItemAt(j).getInt("id") == infractionArray[i].getInt("id") && infractions.getItemAt(j).getInt("proceed") != infractionArray[i].getInt("proceed") )
+			{
+				infractions.getItemAt(j).putInt( "proceed", infractionArray[i].getInt("proceed") );
+				infractions.updateItemAt(j);
+				missed = false;
+				break;
+			}
+		}
+		if( missed )
+			infractions.addItem(infractionArray[i]);
+	}
+}
+
 private function bg_triggeredHandler(event:Event):void
 {
 	list.selectedIndex = -1;
