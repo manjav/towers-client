@@ -30,9 +30,11 @@ override protected function list_changeHandler(event:Event):void
 			appModel.navigator.pushScreen(Main.PLAYERS_SCREEN);
 			break;
 		case "Track Issues":
+			appModel.navigator.getScreen(Main.ISSUES_SCREEN).properties.reporter = -1;
 			appModel.navigator.pushScreen(Main.ISSUES_SCREEN);
 			break;
 		case "Offends":
+			appModel.navigator.getScreen(Main.OFFENDS_SCREEN).properties.reporter = -1;
 			appModel.navigator.pushScreen(Main.OFFENDS_SCREEN);
 			break;
 		case "Restore":

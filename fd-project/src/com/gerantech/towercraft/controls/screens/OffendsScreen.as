@@ -74,6 +74,12 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 
 private function updateAll(infractionArray:Array):void 
 {
+	if( infractions.length == 0 )
+	{
+		infractions.data = infractionArray;
+		return;
+	}
+	
 	var missed:Boolean;
 	for (var i:int = 0; i < infractionArray.length; i++)
 	{
