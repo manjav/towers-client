@@ -204,8 +204,7 @@ private function getListData():ListCollection
 				{
 					if( player.challenges.get(0).getState(timeManager.now) == Challenge.STATE_STARTED )
 						pd.newBadgeNumber ++;
-					else
-						pd.badgeNumber ++;
+					pd.badgeNumber ++;
 				}
 			}
 		}
