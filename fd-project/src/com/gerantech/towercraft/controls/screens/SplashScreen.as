@@ -125,9 +125,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 		case LoadingEvent.LOGIN_USER_BANNED:
 			if( parent )
 				parent.removeChild(this);
-			var popup:BanPopup = new BanPopup();
-			popup.data = event.data.getSFSObject("ban").getUtfString("message") + "\n" + loc("popup_ban_wait",[StrUtils.toTimeFormat(event.data.getSFSObject("ban").getLong("until"))]);
-			AppModel.instance.navigator.addPopup(popup);
+			AppModel.instance.navigator.addPopup(new BanPopup(event.data.getSFSObject("ban")));
 			return;
 			
 		case LoadingEvent.FORCE_UPDATE:

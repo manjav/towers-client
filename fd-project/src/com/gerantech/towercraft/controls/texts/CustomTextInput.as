@@ -9,9 +9,8 @@ import starling.events.Event;
 
 public class CustomTextInput extends TextInput
 {
-
 private var editor:StageTextTextEditor;
-public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=0, multiline:Boolean=false, textAlign:String="center")
+public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, textColor:uint=0, multiline:Boolean=false, textAlign:String="center", fontSize:Number=1)
 {
 	super();
 	
@@ -20,7 +19,7 @@ public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, 
 		editor = new StageTextTextEditor();
 		editor.fontFamily = "SourceSans";
 		editor.textAlign = textAlign;
-		editor.fontSize = AppModel.instance.theme.gameFontSize * AppModel.instance.scale ;
+		editor.fontSize = fontSize * AppModel.instance.theme.gameFontSize;
 		if( AppModel.instance.platform == AppModel.PLATFORM_WINDOWS )
 			editor.addEventListener(Event.CHANGE, editor_changeHandler);
 		editor.color = textColor;

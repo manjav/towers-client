@@ -32,7 +32,7 @@ private var deleteButton:CustomButton;
 private var offenderButton:CustomButton;
 private var reporterButton:CustomButton;
 
-public function InfractionItemRenderer(height:Number = 280){ this.height = height; }
+public function InfractionItemRenderer(height:Number = 320){ this.height = height; }
 override protected function initialize():void
 {
 	super.initialize();
@@ -53,13 +53,13 @@ override protected function initialize():void
 	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.6);
 	messageDisplay.wordWrap = false;
 	messageDisplay.touchable = false;
-	messageDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
+	messageDisplay.layoutData = new AnchorLayoutData( padding * 3, padding, NaN, padding );
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", READ_TEXT_COLOR, null, null, false, null, 0.6);
+	dateDisplay = new RTLLabel("", READ_TEXT_COLOR, "justify", "ltr", false, null, 0.6);
 	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
-	dateDisplay.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
+	dateDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
 	addChild(dateDisplay);
 	
 	offenderButton = new CustomButton();
@@ -103,7 +103,7 @@ override protected function commitData():void
 
 	message = _data as SFSObject;
 	date.time = message.getLong("offend_at");
-	dateDisplay.text = StrUtils.getDateString(date, true);
+	dateDisplay.text = StrUtils.getDateString(date, true) + "   -   " + message.getText("lobby");
 	messageDisplay.text = message.getUtfString("content");
 	offenderButton.label = message.getText("name") + "   " + message.getInt("offender").toString();
 	reporterButton.label = message.getInt("reporter").toString();

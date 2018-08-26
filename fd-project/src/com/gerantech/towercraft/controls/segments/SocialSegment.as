@@ -2,11 +2,15 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.battle.fieldes.ImageData;
 import com.gt.towers.constants.SegmentType;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -18,6 +22,7 @@ import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
 import flash.utils.setTimeout;
+import starling.display.Image;
 import starling.events.Event;
 
 public class SocialSegment extends Segment
@@ -46,12 +51,21 @@ override public function init():void
 		return;
 	}
 	
-    if( appModel.loadingManager.serverData.containsKey("ban") && appModel.loadingManager.serverData.getSFSObject("ban").getInt("mode") > 1 )// banned user
+	var ban:ISFSObject = appModel.loadingManager.serverData.containsKey("ban") ? appModel.loadingManager.serverData.getSFSObject("ban") : null;
+    if( ban != null && ban.getInt("mode") > 1 )// banned user
     {
-		labelDisplay = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(appModel.loadingManager.serverData.getSFSObject("ban").getLong("until"))]), 1, 0, "center", null, true);
+		backgroundSkin = new Image(appModel.theme.backgroundDisabledSkinTexture);
+		Image(backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
+		backgroundSkin.alpha = 0.6;
+		
+		labelDisplay = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]), 1, 0, "center", null, true, null, 0.9);
 		labelDisplay.width = width;
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, 20, NaN, 20, NaN, 0);
 		addChild(labelDisplay);
+		
+		var descDisplay:RTLLabel = new RTLLabel(ban.getUtfString("message"), 1, null, null, true, null, 0.6);
+		descDisplay.layoutData = new AnchorLayoutData(NaN, 20, NaN, 20, NaN, 0);
+		addChild(descDisplay);
 		return;
     }
 	

@@ -7,6 +7,9 @@ package com.gerantech.towercraft.controls.popups
 
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.utils.StrUtils;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.layout.AnchorLayoutData;
 import flash.desktop.NativeApplication;
 import flash.geom.Rectangle;
@@ -16,9 +19,10 @@ import starling.events.Event;
 
 public class BanPopup extends ConfirmPopup
 {
-	public function BanPopup()
+	public function BanPopup(data:ISFSObject)
 	{
-		super(loc("popup_ban_title"), loc("popup_ban_protest"), loc("close_button"));
+		super(loc("popup_ban_title",[StrUtils.toTimeFormat(data.getLong("until"))]), loc("popup_ban_protest"), loc("close_button"));
+		this.data = data;
 		closeOnOverlay = false;
 		declineStyle = "danger";
 	}
@@ -26,10 +30,10 @@ public class BanPopup extends ConfirmPopup
 	override protected function initialize():void
 	{
 		super.initialize();
-		transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.15, stage.stageHeight * 0.25, stage.stageWidth * 0.7, stage.stageHeight * 0.3);
-		//addChild(messageDisplay);
+		transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(40, 500, stageWidth - 80, stageHeight - 1000);
+		transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(40, 450, stageWidth - 80, stageHeight - 900);
 		
-		var descriptionDisplay:RTLLabel = new RTLLabel(data + "", 1, "center", null, true, "justify");
+		var descriptionDisplay:RTLLabel = new RTLLabel(data.getUtfString("message") + "\n" + loc("popup_ban_message"), 1, "justify", null, true, "center", 0.6);
 		descriptionDisplay.layoutData = new AnchorLayoutData(padding * 4, padding, padding * 6, padding);
 		container.addChild(descriptionDisplay);
 		

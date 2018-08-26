@@ -6,12 +6,13 @@ import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.LayoutGroup;
-import feathers.controls.ToggleSwitch;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import flash.geom.Rectangle;
@@ -30,7 +31,7 @@ private var lenInput:CustomTextInput;
 private var messageInput:CustomTextInput;
 private var errorDisplay:RTLLabel;
 private var banModeSwitcher:Switcher;
-private var bannedsData:ISFSObject;
+private var offenderData:ISFSObject;
 private var numBannedLabel:RTLLabel;
 
 public function AdminBanPopup(userId:int)
@@ -43,19 +44,19 @@ public function AdminBanPopup(userId:int)
 		var sfs:ISFSObject = new SFSObject();
 		sfs.putInt("id", userId);
 		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getBannedHander);
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.BAN_GET, sfs);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.OFFENDER_DATA_GET, sfs);
 		return;
 	}
-	bannedsData = new SFSObject();
-	bannedsData.putInt("time", 0);
+	offenderData = new SFSObject();
+	offenderData.putInt("time", 0);
 }
 
 protected function sfs_getBannedHander(e:SFSEvent):void 
 {
-	if( e.params.cmd != SFSCommands.BAN_GET )
+	if( e.params.cmd != SFSCommands.OFFENDER_DATA_GET )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getBannedHander);
-	bannedsData = e.params.params;
+	offenderData = e.params.params;
 	if( transitionState >= TransitionData.STATE_IN_COMPLETED )
 		insertData();
 }
@@ -63,15 +64,15 @@ protected function sfs_getBannedHander(e:SFSEvent):void
 override protected function initialize():void
 {
 	super.initialize();
-	transitionIn.destinationBound = transitionIn.sourceBound = new Rectangle(80, 520, stageWidth - 160, stageHeight - 960);
-	transitionOut.destinationBound = transitionOut.sourceBound = new Rectangle(80, 500, stageWidth - 160, stageHeight -  1000);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(40, 420, stageWidth - 80, stageHeight - 760);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(40, 400, stageWidth - 80, stageHeight - 800);
 	rejustLayoutByTransitionData();	
 }
 
 protected override function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	if( bannedsData != null )
+	if( offenderData != null )
 		insertData();
 }
 
@@ -84,7 +85,7 @@ private function insertData():void
 	HorizontalLayout(l1.layout).gap = padding;
 	container.addChild(l1);
 	
-	numBannedLabel = new RTLLabel("سوابق: " + bannedsData.getInt("time"));
+	numBannedLabel = new RTLLabel("سوابق: " + offenderData.getInt("time"));
 	numBannedLabel.width = padding * 8;
 	l1.addChild(numBannedLabel);
 	
@@ -108,11 +109,18 @@ private function insertData():void
 	banModeSwitcher.labelStringFactory = function (value:int):String { return loc("popup_ban_mode_" + value); }
 	banModeSwitcher.layoutData = new HorizontalLayoutData(100);
 	l2.addChild( banModeSwitcher );
-
 	
-	messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
-	messageInput.height = padding * 6;
-	messageInput.text = "تعلیق به علت عدم رعایت قوانین بازی";
+	var message:String = "تخلفات شما:\n\n";
+	var date:Date = new Date();
+	for (var i:int = 0; i < offenderData.getSFSArray("infractions").size(); i++ )
+	{
+		var m:ISFSObject = offenderData.getSFSArray("infractions").getSFSObject(i);
+		date.time = m.getLong("offend_at");
+		message += "[" + StrUtils.getDateString(date, true) + "]: " + m.getUtfString("content").split("\n").join(" ") + "\n";
+	}
+	messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0, true, "justify", 0.6);
+	messageInput.height = padding * 12;
+	messageInput.text = message;
 	container.addChild(messageInput);
 
 	errorDisplay = new RTLLabel("", 0xFF0000, "center", null, true, null, 0.8);
@@ -140,9 +148,9 @@ protected function sfs_banResponseHander(e:SFSEvent):void
 	errorDisplay.text = loc( "popup_ban_response_" + e.params.params.getInt("response"));
 	if( e.params.params.getInt("response") == MessageTypes.RESPONSE_SUCCEED )
 	{
-		bannedsData.putInt("time", bannedsData.getInt("time") + 1 );
-		numBannedLabel.text = "سوابق: " + bannedsData.getInt("time");
-		dispatchEventWith(Event.UPDATE, false, bannedsData);
+		offenderData.putInt("time", offenderData.getInt("time") + 1 );
+		numBannedLabel.text = "سوابق: " + offenderData.getInt("time");
+		dispatchEventWith(Event.UPDATE, false, offenderData);
 	}
 }
 }
