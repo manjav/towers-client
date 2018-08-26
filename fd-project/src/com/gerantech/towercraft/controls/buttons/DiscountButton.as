@@ -12,7 +12,7 @@ import flash.geom.Rectangle;
 import starling.textures.Texture;
 /**
 * ...
-* @author MAnsour Djawadi
+* @author Mansour Djawadi
 */
 public class DiscountButton extends ExchangeButton 
 {

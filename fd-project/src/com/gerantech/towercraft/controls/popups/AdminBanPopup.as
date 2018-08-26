@@ -20,7 +20,7 @@ import flash.text.SoftKeyboardType;
 import starling.events.Event;
 /**
 * ...
-* @author MAnsour Djawadi
+* @author Mansour Djawadi
 */
 public class AdminBanPopup extends ConfirmPopup 
 {

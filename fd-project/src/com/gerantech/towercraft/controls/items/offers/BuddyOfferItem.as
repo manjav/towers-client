@@ -11,7 +11,7 @@ import feathers.layout.AnchorLayoutData;
 
 /**
 * ...
-* @author MAnsour Djawadi
+* @author Mansour Djawadi
 */
 public class BuddyOfferItem extends TowersLayout 
 {
