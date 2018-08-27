@@ -140,7 +140,7 @@ private function createElements():void
 	cardsDisplay.layout = cardsLayout;
 	cardsDisplay.height = cardsLayout.typicalItemHeight;
 	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
-	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, padding, NaN, padding);
+	cardsDisplay.layoutData = new AnchorLayoutData(padding * 20, padding, NaN, padding);
 	cardsDisplay.dataProvider = new ListCollection(faction.cards._list);
 	addChild(cardsDisplay);
 	
@@ -148,21 +148,11 @@ private function createElements():void
 	unlocksDisplay.layoutData = new AnchorLayoutData(padding * 17, NaN, NaN, NaN, 0);
 	addChild(unlocksDisplay);
 	
-	// rank button
-	var rankButton:CustomButton = new CustomButton();
-	rankButton.label = loc("ranking_label", [""]);
-	rankButton.width = 320 * appModel.scale;
-	rankButton.height = 110 * appModel.scale;
-	rankButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.4, NaN, 0);
-	rankButton.addEventListener(Event.TRIGGERED, rankButton_triggeredHandler);
-	function rankButton_triggeredHandler():void { _owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, faction); }
-	addChild(rankButton);
-	
 	if( visible )
 	{
 		header.width = 0;
 		factionIcon.scale = appModel.scale * 1.6 * 0.9;
-		rankButton.alpha = cardsDisplay.alpha = unlocksDisplay.alpha = unlocksDisplay.alpha = factionMeature.alpha = factionLabel.alpha = factionNumber.alpha = 0;
+		cardsDisplay.alpha = unlocksDisplay.alpha = unlocksDisplay.alpha = factionMeature.alpha = factionLabel.alpha = factionNumber.alpha = 0;
 		Starling.juggler.tween(factionIcon, 0.3, {scale:appModel.scale * 1.4, transition:Transitions.EASE_OUT_BACK});
 		Starling.juggler.tween(header, 0.5, {width:this.width * 0.6, transition:Transitions.EASE_OUT_BACK});
 		Starling.juggler.tween(factionNumber, 0.2, {delay:0.3, alpha:1});
@@ -170,7 +160,6 @@ private function createElements():void
 		Starling.juggler.tween(factionMeature, 0.2, {delay:0.4, alpha:1});
 		Starling.juggler.tween(unlocksDisplay, 0.2, {delay:0.5, alpha:1});
 		Starling.juggler.tween(cardsDisplay, 0.2, {delay:0.5, alpha:1});
-		Starling.juggler.tween(rankButton, 0.2, {delay:0.6, alpha:1});
 	}
 	if( faction.index == playerLeague )
 		setTimeout(_owner.dispatchEventWith, 500, Event.OPEN);

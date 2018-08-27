@@ -88,7 +88,6 @@ override protected function initialize():void
 	//list.decelerationRate = 0.99
 	list.itemRendererFactory = function():IListItemRenderer { return new FactionItemRenderer (); }
 	list.addEventListener(FeathersEventType.CREATION_COMPLETE, list_createCompleteHandler);
-	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
 	list.elasticity = 0.03;
 	list.dataProvider = leaguesCollection;
 	addChild(list);
@@ -104,11 +103,6 @@ private function list_createCompleteHandler():void
 //	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
 	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length - FactionItemRenderer.playerLeague-1) - FactionItemRenderer._height * 0.2, 0);
 }
-
-private function list_focusInHandler(event:Event):void
-{
-	showRanking(Arena(event.data).index);
-}		
 
 public static function showRanking(arenaIndex:int):void
 {
