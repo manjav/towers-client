@@ -11,15 +11,12 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
-
-import flash.utils.setTimeout;
-
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-
+import flash.utils.setTimeout;
 import starling.core.Starling;
 import starling.events.Event;
 
@@ -92,7 +89,7 @@ private function showRanking():void
 	list.itemRendererFactory = function():IListItemRenderer { return new RankItemRenderer(); }
 	list.dataProvider = _listCollection;
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(padding*5, padding, padding*6, padding);
+	list.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 6, padding);
 	addChild(list);
 	
 	addChild(closeButton);

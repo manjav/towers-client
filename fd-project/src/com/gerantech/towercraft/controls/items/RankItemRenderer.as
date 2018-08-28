@@ -49,11 +49,11 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data ==null || _owner==null)
+	if( _data == null || _owner == null )
 		return;
 	
 	var isGap:Boolean = _data.n == undefined;
-	height = (isGap?60:140) * appModel.scale;
+	height = (isGap?60:90) * appModel.scale;
 
 	alpha = isGap ? 0 : 1;
 	
