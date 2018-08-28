@@ -31,7 +31,6 @@ import starling.events.Event;
 public class LobbyDetailsPopup extends SimplePopup
 {
 private var responseCode:int;
-private var params:SFSObject;
 private var roomData:Object;
 private var roomServerData:ISFSObject;
 private var itsMyRoom:Boolean;
@@ -167,6 +166,17 @@ private function showDetails():void
 	joinleaveButton.addEventListener(Event.SELECT, joinleaveButton_selectHandler);
 	addChild(joinleaveButton);
 	
+	if( player.admin )
+	{
+		var removeButton:CustomButton = new CustomButton();
+		removeButton.style = "danger";
+		removeButton.label = "X";
+		removeButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding + 350:NaN, NaN, appModel.isLTR?NaN:padding + 350);
+		removeButton.width = removeButton.height = 96 * appModel.scale;
+		removeButton.addEventListener(Event.TRIGGERED, removeButton_triggeredHandler);
+		addChild(removeButton);
+	}
+	
 	var closeButton:CustomButton = new CustomButton();
 	closeButton.style = "danger";
 	closeButton.label = "X";
@@ -197,6 +207,30 @@ private function showDetails():void
 	editButton.height = 96 * appModel.scale;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
+}
+
+private function removeButton_triggeredHandler(e:Event):void 
+{
+	var confirm:ConfirmPopup = new ConfirmPopup(loc("lobby_remove_confirm"));
+	confirm.acceptStyle = "danger";
+	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+	appModel.navigator.addPopup(confirm);
+	function confirm_selectHandler(event:Event):void
+	{
+		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
+		var params:SFSObject = new SFSObject();
+		params.putInt("id", roomData.id);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_REMOVE, params);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_lobbyRemoveHandler);
+	}
+	function sfs_lobbyRemoveHandler(event:SFSEvent):void
+	{
+		if( event.params.cmd != SFSCommands.LOBBY_REMOVE )
+			return;
+		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_lobbyRemoveHandler);
+		appModel.navigator.addLog(event.params.params.getInt("response"));
+		trace(event.params.params.getDump());
+	}
 }
 
 private function shareButton_triggeredHandler():void
@@ -345,7 +379,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 		function confirm_selectHandler(evet:Event):void
 		{
 			confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
-			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE, params);
+			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_LEAVE);
 			SFSConnection.instance.lastJoinedRoom = null;
 			SFSConnection.instance.lobbyManager.lobby = null;
 			updateLobbyLayout(false);

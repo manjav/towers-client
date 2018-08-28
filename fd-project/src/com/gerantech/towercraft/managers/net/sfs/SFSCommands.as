@@ -45,6 +45,7 @@ public static const LOBBY_EDIT:String = "lobbyEdit";
 public static const LOBBY_REPORT:String = "lobbyReport";
 public static const LOBBY_PUBLIC:String = "lobbyPublic";
 public static const LOBBY_PUBLIC_MESSAGE:String = "m";
+public static const LOBBY_REMOVE:String = "lobbyRemove";
 
 public static const BUDDY_ADD:String = "buddyAdd";
 public static const BUDDY_REMOVE:String = "buddyRemove";
