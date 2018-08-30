@@ -121,11 +121,16 @@ private function updateButton_triggeredHandler(event:Event):void
 		return;
 	}
 	var params:SFSObject = new SFSObject();
-	params.putInt("max", maxMembersSwitcher.value);
-	params.putInt("min", minPointSwitcher.value);
-	params.putInt("pri", privacySwitcher.value);
-	params.putInt("pic", emblemButton.value);
-	params.putUtfString("bio", bioInput.text);
+	if( roomData.max != maxMembersSwitcher.value )
+		params.putInt("max", maxMembersSwitcher.value);
+	if( roomData.min != minPointSwitcher.value )
+		params.putInt("min", minPointSwitcher.value);
+	if( roomData.pri != privacySwitcher.value )
+		params.putInt("pri", privacySwitcher.value);
+	if( roomData.pic != emblemButton.value )
+		params.putInt("pic", emblemButton.value);
+	if( roomData.bio != bioInput.text )
+		params.putUtfString("bio", bioInput.text);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_EDIT, params, SFSConnection.instance.lobbyManager.lobby);
 	SFSConnection.instance.lobbyManager.requestData(true, true);
 	close();

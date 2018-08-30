@@ -197,7 +197,7 @@ private function showDetails():void
 	addChild(shareButton);
 	
 	var u:Object = findUser(player.id);
-	if( u == null || u.permission <= 1 )
+	if( (u == null || u.permission <= 1) && !player.admin )
 		return;
 	
 	var editButton:CustomButton = new CustomButton();

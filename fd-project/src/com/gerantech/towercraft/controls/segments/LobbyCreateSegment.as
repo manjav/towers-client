@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.popups.EmblemsPopup;
@@ -11,13 +10,10 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.text.ReturnKeyLabel;
+import flash.text.SoftKeyboardType;
 import starling.events.Event;
 
 public class LobbyCreateSegment extends Segment
@@ -63,9 +59,9 @@ override protected function initialize():void
 	emblemButton.addEventListener(Event.TRIGGERED, emblemButton_triggeredHandler);
 	addChild(emblemButton);
 
-	maxSwitcher = addSwitcher("max", controlH*8.0, controlH, 10, 30, 50, 20);
-	minSwitcher = addSwitcher("min", controlH*9.5, controlH, 0, 200, 3000, 200);
-	privacySwitcher = addSwitcher("pri", controlH*11, controlH, 0, 200, 3000, 200, "lobby_pri");
+	maxSwitcher = addSwitcher("max", controlH * 8.0, controlH, 10, 30, 50, 20);
+	minSwitcher = addSwitcher("min", controlH * 9.5, controlH, 0, 200, 3000, 200);
+	privacySwitcher = addSwitcher("pri", controlH * 11, controlH, 0, 0, 1, 1, "lobby_pri");
 	
 	errorDisplay = new RTLLabel( "", 0xFF0000, "center", null, false, null, 0.9 );
 	errorDisplay.layoutData = new AnchorLayoutData( NaN, padding, controlH*2.7, padding );
