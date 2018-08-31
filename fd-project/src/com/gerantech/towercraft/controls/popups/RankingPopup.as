@@ -97,15 +97,29 @@ private function showRanking():void
 	closeButton.label = loc("close_button");
 	Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
 	
-	var indexOfMe:int = findMe();
-	if ( indexOfMe > -1 )
-		setTimeout(list.scrollToDisplayIndex, 500, indexOfMe, 0.5);
+	setTimeout(scrollToMe, 500);
 	
 	list.alpha = 0;
 	Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
 	
 	if( player.getTutorStep() == PrefsTypes.T_161_RANK_FOCUS )
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_RANK_SHOWN); 
+}
+private function scrollToMe() : void
+{
+	var indexOfMe:int = findMe();
+	if( indexOfMe > -1 )
+		list.scrollToDisplayIndex(indexOfMe, 0.5);
+	
+	list.addEventListener(Event.CHANGE, list_changeHandler);
+}
+
+protected function list_changeHandler(e:Event):void 
+{
+	list.removeEventListener(Event.CHANGE, list_changeHandler);
+	appModel.navigator.addPopup(new ProfilePopup({id:list.selectedItem.i, name:list.selectedItem.n}));
+	list.selectedIndex = -1;
+	list.addEventListener(Event.CHANGE, list_changeHandler);
 }
 
 private function findMe():int
