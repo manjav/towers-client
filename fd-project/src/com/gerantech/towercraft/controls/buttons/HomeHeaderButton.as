@@ -23,7 +23,6 @@ import starling.events.Event;
 */
 public class HomeHeaderButton extends SimpleLayoutButton 
 {
-protected var padding:Number;
 protected var exchange:ExchangeItem;
 protected var countdownDisplay:CountdownLabel;
 protected var backgroundDisplay:ImageLoader;
@@ -34,12 +33,9 @@ public function HomeHeaderButton(){super();}
 override protected function initialize() : void
 {
 	super.initialize();
-	
-	padding = 42 * appModel.scale;
 	layout = new AnchorLayout();
 	update();
 }
-
 
 public function update() : void
 {
@@ -51,7 +47,7 @@ public function update() : void
 	
 	backgroundFactory();
 	iconFactory("gift");
-	titleFactory(loc("open_label"));
+	titleFactory(loc(state == ExchangeItem.CHEST_STATE_BUSY ? "wheel_of_fortune" : "open_label"));
 	countdownFactory();
 	
 	if( state == ExchangeItem.CHEST_STATE_BUSY )
@@ -97,7 +93,7 @@ protected function iconFactory(image:String) : ImageLoader
 	iconDisplay = new ImageLoader();
 	iconDisplay.touchable = false;
 	iconDisplay.source = Assets.getTexture("home/" + image, "gui");
-	iconDisplay.layoutData = new AnchorLayoutData(padding * 0.2, padding * 0.25, padding * 0.25);
+	iconDisplay.layoutData = new AnchorLayoutData(8, 10, 10);
 	addChild(iconDisplay);
 	return iconDisplay;
 }
@@ -109,25 +105,20 @@ protected function countdownFactory() : CountdownLabel
 	
 	countdownDisplay = new CountdownLabel();
 	countdownDisplay.touchable = false;
-	countdownDisplay.height = 120 * appModel.scale;
-	countdownDisplay.layoutData = new AnchorLayoutData(NaN, padding * 4.2, NaN, padding * 0.5, NaN, 0);
+	countdownDisplay.height = 110;
+	countdownDisplay.layoutData = new AnchorLayoutData(NaN, 170, NaN, 20, NaN, 28);
 	addChild(countdownDisplay);
 	return countdownDisplay;
 }
 
 protected function titleFactory(text:String) : ShadowLabel
 {
-	if( state == ExchangeItem.CHEST_STATE_BUSY )
-		return null;
-	if( titleDisplay != null )
-	{
-		titleDisplay.text = text;
-		return null;
-	}
-	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, 1.3);
+	//if( state == ExchangeItem.CHEST_STATE_BUSY )
+	//	return null;
+	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, state == ExchangeItem.CHEST_STATE_BUSY ? 0.85 : 1.3);
 	titleDisplay.touchable = false;
 	titleDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -padding * 1.6, -padding * 0.25);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -64, state == ExchangeItem.CHEST_STATE_BUSY ? -50 : -10);
 	addChild(titleDisplay);
 	return titleDisplay;
 }
@@ -163,7 +154,7 @@ override public function set currentState(value:String) : void
 	if( backgroundDisplay == null || backgroundDisplay.layoutData == null )
 		return;
 	var ldata:AnchorLayoutData = backgroundDisplay.layoutData as AnchorLayoutData;
-	var vP:int = -padding * (value == ButtonState.DOWN ? 0.85 : 1);
+	var vP:int = value == ButtonState.DOWN ? -30 : -40;
 	ldata.top = ldata.right = ldata.bottom = ldata.left = vP;
 }
 
@@ -176,6 +167,7 @@ protected function reset() : void
 	removeChildren(0, -1, true);
 	backgroundDisplay = null;
 	iconDisplay = null;
+	titleDisplay = null;
 	countdownDisplay = null;
 	//clearTimeout(timeoutId);
 }
