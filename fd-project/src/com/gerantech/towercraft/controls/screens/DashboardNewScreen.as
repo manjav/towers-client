@@ -28,6 +28,7 @@ override protected function addedToStageHandler(event:Event):void
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabNewItemRenderer(tabSize); }
 	
 	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
+	tiledBG.alpha = 0.8;
 	tiledBG.tileGrid = new Rectangle(1, 1, 240, 240);
 	tiledBG.pixelSnapping = false;
 	backgroundSkin = tiledBG;
