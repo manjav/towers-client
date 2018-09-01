@@ -44,7 +44,7 @@ override protected function initialize():void
 	list.backgroundSkin.touchable = true;
 	showMessages();
 	
-	var bugReportButton:CustomButton = new CustomButton();
+	/*var bugReportButton:CustomButton = new CustomButton();
 	bugReportButton.style = "neutral";
 	bugReportButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
 	bugReportButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
@@ -56,7 +56,7 @@ override protected function initialize():void
 
 private function bugReportButton_triggeredHandler():void
 {
-	appModel.navigator.addPopup(new IssueReportPopup());
+	appModel.navigator.addPopup(new IssueReportPopup());*/
 }
 
 private function bg_triggeredHandler(event:Event):void

@@ -205,14 +205,14 @@ protected function busyGroupFactory() : LayoutGroup
 		var hardImage:ImageLoader = new ImageLoader();
 		hardImage.source = Assets.getTexture("res-1003", "gui");
 		hardImage.width = height * 0.2;
-		hardImage.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, padding * 2);
+		hardImage.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, padding * 2.2);
 		busyGroup.addChild(hardImage);
 		
 		countdownDisplay = new CountdownLabel();
 		countdownDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding, padding * 1.3);
 		busyGroup.addChild(countdownDisplay);
 		
-		hardLabel = new ShadowLabel("12", 1, 0, "right");
+		hardLabel = new ShadowLabel("12", 1, 0, "right", null, false, null, 0.9);
 		hardLabel.shadowDistance = padding * 0.25;
 		hardLabel.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, -padding * 2);
 		busyGroup.addChild(hardLabel);
