@@ -55,7 +55,7 @@ override protected function initialize():void
 	container.addChild(errorDisplay);
 	
 	acceptButton.isEnabled = false;
-	acceptButton.width = 360 * appModel.scale;
+	acceptButton.width = 360;
 	if( closeOnOverlay && eItem.numExchanges > 0 )
 		acceptButton.icon = Assets.getTexture("res-1003", "gui");
 	declineButton.removeFromParent();

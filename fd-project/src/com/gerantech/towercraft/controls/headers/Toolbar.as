@@ -30,7 +30,7 @@ override protected function initialize():void
 	backgroundSkin = gradient;
 	backgroundSkin.touchable = false;
 	
-	var padding:Number = 36 * appModel.scale;
+	var padding:Number = 36;
 	height = padding * 4;
 	layout = new AnchorLayout();
 	
@@ -104,7 +104,7 @@ public function updateIndicators():void
 	for (var k:Object in indicators)
 	{
 		if( k == ResourceType.CURRENCY_HARD || k == ResourceType.CURRENCY_SOFT )
-			indicators[k].y = 18 * appModel.scale;
+			indicators[k].y = 18;
 		indicators[k].setData(0, player.getResource(k as int), NaN);
 	}
 }

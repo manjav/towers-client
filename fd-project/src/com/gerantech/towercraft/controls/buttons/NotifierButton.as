@@ -41,13 +41,13 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var _padding:Number = -4 * AppModel.instance.scale;
+	var _padding:Number = -4;
 	
 	notifyImage = new ImageLoader();
 	notifyImage.touchable = false;
 	notifyImage.visible = hasBadge;
 	notifyImage.scale9Grid = MainTheme.BUTTON_SCALE9_GRID;
-	notifyImage.height = notifyImage.width = appModel.scale * 60;
+	notifyImage.height = notifyImage.width = 60;
 	notifyImage.layoutData = new AnchorLayoutData(_padding, _padding);
 	notifyImage.source = appModel.theme.buttonDangerUpSkinTexture;
 	addChild(notifyImage);
@@ -56,7 +56,7 @@ override protected function initialize():void
 	shadowDisplay.shadowDistance = _padding;
 	shadowDisplay.touchable = false;
 	shadowDisplay.visible = hasBadge;
-	shadowDisplay.height = shadowDisplay.width = appModel.scale * 60;
+	shadowDisplay.height = shadowDisplay.width = 60;
 	shadowDisplay.layoutData = new AnchorLayoutData(_padding*2, _padding);
 	addChild(shadowDisplay);
 }

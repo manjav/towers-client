@@ -36,20 +36,20 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 260 * appModel.scale;
-	var padding:int = 20 * appModel.scale;
+	height = 260;
+	var padding:int = 20;
 	
 	var mySkin:ImageSkin = new ImageSkin(appModel.theme.itemRendererDisabledSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	allisLobbyIconDisplay = new ImageLoader();
-	allisLobbyIconDisplay.width = 90 * appModel.scale;
+	allisLobbyIconDisplay.width = 90;
 	allisLobbyIconDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, NaN);
 	addChild(allisLobbyIconDisplay);
 	
 	axisLobbyIconDisplay = new ImageLoader();
-	axisLobbyIconDisplay.width = 90 * appModel.scale;
+	axisLobbyIconDisplay.width = 90;
 	axisLobbyIconDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 	addChild(axisLobbyIconDisplay);
 		

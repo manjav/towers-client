@@ -163,7 +163,7 @@ override public function set currentState(_state:String):void
 	if( !showSlider )
 		return;
 	
-	cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12 * appModel.scale : 0;
+	cardLayoutData.top = cardLayoutData.right = cardLayoutData.bottom = cardLayoutData.left = _state == STATE_DOWN ? 12 : 0;
 	if( _state == STATE_SELECTED )
 	{
 		if( newDisplay != null )

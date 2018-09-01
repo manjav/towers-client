@@ -57,7 +57,7 @@ override protected function initialize():void
 	trace(player.getLastOperation())
 
 	var listLayout:VerticalLayout = new VerticalLayout();
-	listLayout.paddingBottom = 150 * appModel.scale;
+	listLayout.paddingBottom = 150;
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	
 	list = new List();
@@ -139,8 +139,8 @@ private function list_selectHandler(event:Event):void
 	var btn:SimpleButton = event.data as SimpleButton;
 	var index:int = int(btn.name)
 
-	var popupWidth:int = 400 * appModel.scale;
-	var popupHeight:int = 300 * appModel.scale;
+	var popupWidth:int = 400;
+	var popupHeight:int = 300;
 	var bounds:Rectangle = btn.getBounds(this);
 	bounds.x += bounds.width * 0.5;
 	bounds.y -= popupHeight;
@@ -150,12 +150,12 @@ private function list_selectHandler(event:Event):void
 	var to:TransitionData = new TransitionData();
 	to.destinationAlpha = ti.sourceAlpha = 0;
 	var constrain:Rectangle = list.getBounds(this);
-	constrain.y += 80 * appModel.scale;
+	constrain.y += 80;
 	to.destinationConstrain = ti.destinationConstrain = constrain;
 	ti.transition = Transitions.EASE_OUT_BACK;
-	to.destinationBound = ti.sourceBound = new Rectangle(bounds.x - popupWidth * 0.45, bounds.y + 50 * appModel.scale, popupWidth * 0.9, popupHeight);
+	to.destinationBound = ti.sourceBound = new Rectangle(bounds.x - popupWidth * 0.45, bounds.y + 50, popupWidth * 0.9, popupHeight);
 	ti.destinationAlpha = to.sourceAlpha = 1;
-	to.sourceBound = ti.destinationBound = new Rectangle(bounds.x - popupWidth * 0.50, bounds.y - 50 * appModel.scale, popupWidth * 1.0, popupHeight);
+	to.sourceBound = ti.destinationBound = new Rectangle(bounds.x - popupWidth * 0.50, bounds.y - 50, popupWidth * 1.0, popupHeight);
 	
 	var detailsPopup:QuestDetailsPopup = new QuestDetailsPopup(index);
 	detailsPopup.transitionIn = ti;

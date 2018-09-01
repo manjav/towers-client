@@ -47,9 +47,9 @@ override protected function initialize():void
 	var bugReportButton:CustomButton = new CustomButton();
 	bugReportButton.style = "neutral";
 	bugReportButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-	bugReportButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+	bugReportButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 	bugReportButton.width = bugReportButton.height;
-	bugReportButton.layoutData = new AnchorLayoutData(NaN, 24 * appModel.scale, headerSize + 20 * appModel.scale);
+	bugReportButton.layoutData = new AnchorLayoutData(NaN, 24, headerSize + 20);
 	bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
 	addChild(bugReportButton);
 }

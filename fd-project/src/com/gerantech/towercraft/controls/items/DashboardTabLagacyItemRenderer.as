@@ -38,9 +38,9 @@ override protected function updateSelection(value:Boolean, time:Number = -1):voi
 		Starling.juggler.removeTweens(iconDisplay);
 		iconDisplay.x = itemWidth * (value?0.42:0.5);
 		if( value )
-			Starling.juggler.tween(iconDisplay, time ==-1?0.5:time, {delay:0.2, scale:appModel.scale * 2.6, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(iconDisplay, time ==-1?0.5:time, {delay:0.2, scale:2.6, transition:Transitions.EASE_OUT_BACK});
 		else
-			iconDisplay.scale = appModel.scale * 1.8;
+			iconDisplay.scale = 1.8;
 	}
 }
 }

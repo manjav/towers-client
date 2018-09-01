@@ -22,8 +22,8 @@ override protected function initialize():void
 	{
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
-		transitionIn.sourceBound = new Rectangle(0, -toastHeight * appModel.scale, stage.stageWidth, toastHeight * appModel.scale);
-		transitionIn.destinationBound = new Rectangle(0, 0, stage.stageWidth, toastHeight * appModel.scale);
+		transitionIn.sourceBound = new Rectangle(0, -toastHeight, stage.stageWidth, toastHeight);
+		transitionIn.destinationBound = new Rectangle(0, 0, stage.stageWidth, toastHeight);
 	}
 	if( transitionOut == null )
 	{

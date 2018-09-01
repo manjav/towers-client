@@ -32,8 +32,8 @@ override protected function initialize():void
 	backgroundSkin.alpha = 0.5;
 	
 	transitionIn.time = 0.7;
-	transitionOut.destinationBound.y = transitionIn.sourceBound.y = 350 * appModel.scale;
-	transitionIn.destinationBound.y = transitionOut.sourceBound.y = 400 * appModel.scale;
+	transitionOut.destinationBound.y = transitionIn.sourceBound.y = 350;
+	transitionIn.destinationBound.y = transitionOut.sourceBound.y = 400;
 	rejustLayoutByTransitionData();
 	
 	// sound

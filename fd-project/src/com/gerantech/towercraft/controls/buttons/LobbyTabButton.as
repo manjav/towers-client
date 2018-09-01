@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.buttons
 			super.initialize();
 			layout = new AnchorLayout();
 			
-			padding = 8 * appModel.scale;
+			padding = 8;
 			backgroundSkin = new Quad(1,1);
 			backgroundSkin.alpha = 0;
 						

@@ -18,7 +18,7 @@ override protected function initialize():void
 	
 	super.initialize();
 	
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	var overlay:Devider = new Devider(0, 1);
 	overlay.alpha = 0;
 	overlay.layoutData = new AnchorLayoutData(-padding, -padding, -padding, -padding);

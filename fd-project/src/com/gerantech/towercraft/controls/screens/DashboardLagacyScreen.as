@@ -39,7 +39,7 @@ override protected function addedToStageHandler(event:Event):void
 	shadow.color = Color.BLACK;
 	addChildAt(shadow, 0);
 	
-	var size:int =  24 * appModel.scale;
+	var size:int =  24;
 	var bottomShadow:ImageLoader = new ImageLoader();
 	bottomShadow.alpha = 0.7;
 	bottomShadow.height = size;

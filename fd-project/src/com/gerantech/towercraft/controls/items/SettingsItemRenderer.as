@@ -27,11 +27,11 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	height = 180 * appModel.scale;
+	height = 180;
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
-	//hlayout.paddingLeft = hlayout.paddingRight = 48 * appModel.scale;
-	hlayout.gap = 32 * appModel.scale;
+	//hlayout.paddingLeft = hlayout.paddingRight = 48;
+	hlayout.gap = 32;
 	hlayout.verticalAlign = VerticalAlign.MIDDLE;
 	layout = hlayout;
 }
@@ -72,8 +72,8 @@ override protected function commitData():void
 	else
 	{
 		buttonDisplay = new CustomButton();
-		buttonDisplay.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3*appModel.scale);
-		buttonDisplay.width = 140 * appModel.scale;
+		buttonDisplay.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3);
+		buttonDisplay.width = 140;
 		if( settingData.type == SettingsData.TYPE_BUTTON )
 			buttonDisplay.label = loc("setting_label_"+settingData.key);
 		else
@@ -104,8 +104,8 @@ private function addIconButton(type:int):void
 	var btn:CustomButton = new CustomButton();
 	btn.data = type;
 	btn.icon = Assets.getTexture("settings-"+type, "gui");
-	btn.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
-	btn.width = 160 * appModel.scale;
+	btn.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+	btn.width = 160;
 	btn.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(btn);
 }

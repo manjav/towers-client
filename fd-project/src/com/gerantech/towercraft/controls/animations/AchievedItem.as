@@ -12,8 +12,6 @@ public class AchievedItem extends Sprite
 {
 public function AchievedItem(texture:Texture, count:int, size:int = 130, prefix:String="")
 {
-	size = size * AppModel.instance.scale;
-
 	var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
 	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), size, 0xFFFFFF, "left");
 	labelDisplay.pixelSnapping = false;

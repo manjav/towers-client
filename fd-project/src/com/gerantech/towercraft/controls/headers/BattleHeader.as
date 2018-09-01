@@ -26,10 +26,10 @@ private var padding:int;
 public function BattleHeader(label:String, isAllise:Boolean)
 {
 	super();
-	height = 160 * appModel.scale;
+	height = 160;
 	this.isAllise = isAllise;
 	this.label = label;
-	padding = 48 * appModel.scale;
+	padding = 48;
 }
 
 override protected function initialize():void
@@ -48,7 +48,7 @@ private function creationCompleteHandler():void
 	ribbon.scale9Grid = MainTheme.RIBBON_SCALE9_GRID;
 	ribbon.x = width * 0.5;
 	ribbon.width = 0;
-	Starling.juggler.tween(ribbon, 0.6, {x:140 * appModel.scale, width:width - 280 * appModel.scale, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(ribbon, 0.6, {x:140, width:width - 280, transition:Transitions.EASE_OUT_BACK});
 	
 	labelDisplay = new ShadowLabel(label, isAllise?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, 1.4);
 	labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
@@ -69,7 +69,7 @@ public function addScoreImages(score:int, max:int=-1):void
 		keyImage.x = (Math.ceil(i/4) * ( i==1 ? 1 : -1 )) * padding * 5 + Starling.current.stage.stageWidth * 0.5;
 		keyImage.y = padding * ( i==0 ? -2.2	 : -1.8 );
 		keyImage.scale = 0;
-		Starling.juggler.tween(keyImage, 0.6, {delay:i * 0.3 + 0.5, scale:appModel.scale * ( i == 0 ? 1.1 : 1 ), transition:Transitions.EASE_OUT_BACK});
+		Starling.juggler.tween(keyImage, 0.6, {delay:i * 0.3 + 0.5, scale:( i == 0 ? 1.1 : 1 ), transition:Transitions.EASE_OUT_BACK});
 		addChild(keyImage);
 	}	
 }

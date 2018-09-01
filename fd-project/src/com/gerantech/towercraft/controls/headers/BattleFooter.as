@@ -51,9 +51,9 @@ public var stickerButton:CustomButton;
 public function BattleFooter()
 {
 	super();
-	_height = 320 * appModel.scale;
-	padding = 12 * appModel.scale;
-	_scaleDistance = 500 * appModel.scale;
+	_height = 320;
+	padding = 12;
+	_scaleDistance = 500;
 }
 
 override protected function initialize():void
@@ -69,7 +69,7 @@ override protected function initialize():void
 	addChild(cardsContainer);
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
-	hlayout.padding = hlayout.gap = 16 * appModel.scale;
+	hlayout.padding = hlayout.gap = 16;
 	hlayout.verticalAlign = VerticalAlign.JUSTIFY;
 	hlayout.horizontalAlign = HorizontalAlign.RIGHT;
 	cardsContainer.layout = hlayout;
@@ -83,8 +83,8 @@ override protected function initialize():void
 	draggableCard.showElixir = false;
 	draggableCard.showSlider = false;
 	draggableCard.showCount = true;
-	draggableCard.width = 180 * appModel.scale;
-	draggableCard.height = 210 * appModel.scale;
+	draggableCard.width = 180;
+	draggableCard.height = 210;
 	draggableCard.pivotX = draggableCard.width * 0.5;
 	draggableCard.pivotY = draggableCard.height * 0.5;
 	draggableCard.includeInLayout = false;
@@ -93,8 +93,8 @@ override protected function initialize():void
 	{
 		stickerButton = new CustomButton();
 		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
-		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
-		stickerButton.width = 140 * appModel.scale;
+		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+		stickerButton.width = 140;
 		stickerButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 		addChild(stickerButton);
@@ -128,7 +128,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 private function createDeckItem(i:int):void
 {
 	var card:BattleDeckCard = new BattleDeckCard(appModel.battleFieldView.battleData.battleField.deckBuildings.get( (player.troopType==0?0:4) + i).building, (player.troopType==0?0:4) + i );
-	card.width = 160 * appModel.scale;
+	card.width = 160;
 	cards.push(card);
 	cardsContainer.addChild(card);
 }

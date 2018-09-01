@@ -62,8 +62,8 @@ override public function init():void
 	leaguesButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0
 	addButton(leaguesButton, "button_leagues", 540, 520, 0.4, goUp);
-	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:560 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:520 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:560, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:520, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	battlesButton = new HomeButton(new Image(Assets.getTexture("home/battle", "gui")), 0.9);
 	addButton(battlesButton, "button_battles", 540, 970, 0.6);
@@ -77,7 +77,7 @@ override public function init():void
 		adminButton.alpha = 0;
 		adminButton.isLongPressEnabled = true;
 		adminButton.longPressDuration = 1;
-		adminButton.width = adminButton.height = 120 * appModel.scale;
+		adminButton.width = adminButton.height = 120;
 		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height - bookLine.paddingTop);
 		addChild(adminButton);
@@ -94,12 +94,12 @@ override public function init():void
 		return;
 	
 	var footer:HomeFooter = new HomeFooter();
-	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine!=null ? bookLine.height - bookLine.paddingTop + 24 * appModel.scale : 0, 0);
+	footer.layoutData = new AnchorLayoutData(NaN, NaN, bookLine!=null ? bookLine.height - bookLine.paddingTop + 24 : 0, 0);
 	addChild(footer);
 
 	dailyButton = new NotifierButton(Assets.getTexture("home/gift", "gui"));
-	dailyButton.width = dailyButton.height = 140 * appModel.scale;
-	dailyButton.layoutData = new AnchorLayoutData(120 * appModel.scale, 20 * appModel.scale);
+	dailyButton.width = dailyButton.height = 140;
+	dailyButton.layoutData = new AnchorLayoutData(120, 20);
 	dailyButton.badgeLabel = exchanger.items.get(ExchangeType.C101_FREE).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY ? "!" : "";
 	dailyButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	addChild(dailyButton);
@@ -114,8 +114,8 @@ override public function init():void
 	}
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
-	adsButton.width = adsButton.height = 140 * appModel.scale;
-	adsButton.layoutData = new AnchorLayoutData(120 * appModel.scale, NaN, NaN, 20 * appModel.scale);
+	adsButton.width = adsButton.height = 140;
+	adsButton.layoutData = new AnchorLayoutData(120, NaN, NaN, 20);
 	if( exchanger.items.get(ExchangeType.C43_ADS).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 		adsButton.badgeLabel = "!";
 	adsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -153,17 +153,17 @@ private function showOffers():void
 {
 	var offers:OfferView = new OfferView();
 	offers.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:0, NaN, appModel.isLTR?0:NaN);
-	offers.width = 780 * appModel.scale;
-	offers.height = 160 * appModel.scale;
-	offers.y = 50 * appModel.scale;
+	offers.width = 780;
+	offers.height = 160;
+	offers.y = 50;
 	addChild(offers);
 
 }
 
 private function addButton(button:HomeButton, name:String, x:int, y:int, delay:Number, callback:Function=null):void
 {
-	button.x = x * appModel.scale;
-	button.y = y * appModel.scale;
+	button.x = x;
+	button.y = y;
 	button.scale = 0.5;
 	button.alpha = 0;
 	button.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);

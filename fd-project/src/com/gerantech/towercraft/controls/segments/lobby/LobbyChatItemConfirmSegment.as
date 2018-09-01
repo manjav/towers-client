@@ -23,7 +23,7 @@ public function LobbyChatItemConfirmSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
-	height = 220 * appModel.scale;
+	height = 220;
 	
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
@@ -33,8 +33,8 @@ override public function init():void
 	
 	acceptButton = new CustomButton();
 	acceptButton.data = MessageTypes.M16_COMMENT_JOIN_ACCEPT;
-	acceptButton.width = 280 * appModel.scale;
-	acceptButton.height = 100 * appModel.scale;
+	acceptButton.width = 280;
+	acceptButton.height = 100;
 	acceptButton.label = loc("popup_accept_label");
 	acceptButton.layoutData = new AnchorLayoutData(NaN, padding*4, padding*0.5);
 	acceptButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
@@ -42,8 +42,8 @@ override public function init():void
 	
 	declineButton = new CustomButton();
 	declineButton.data = MessageTypes.M17_COMMENT_JOIN_REJECT;
-	declineButton.width = 280 * appModel.scale;
-	declineButton.height = 100 * appModel.scale;
+	declineButton.width = 280;
+	declineButton.height = 100;
 	declineButton.label = loc("popup_cancel_label");
 	declineButton.style = "danger";
 	declineButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*0.5, padding*4);

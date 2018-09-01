@@ -22,8 +22,8 @@ override public function init():void
 {
 	super.init();
 	layout = new AnchorLayout();
-	padding = 48 * appModel.scale;
-	otherPadding = 120 * appModel.scale;
+	padding = 48;
+	otherPadding = 120;
 }
 	
 public function commitData(_data:ISFSObject, index:int) : void

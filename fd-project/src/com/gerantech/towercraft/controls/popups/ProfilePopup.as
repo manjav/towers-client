@@ -129,7 +129,7 @@ private function showProfile():void
 
 	closeButton.y = height - closeButton.height - padding * 1.6;
 	closeButton.alpha = 0;
-	closeButton.height = 110 * appModel.scale;
+	closeButton.height = 110;
 	Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
 	
 	if( adminMode )

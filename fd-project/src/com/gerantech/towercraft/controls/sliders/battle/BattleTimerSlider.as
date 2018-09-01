@@ -26,8 +26,8 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	width = 280 * appModel.scale;
-	height = 72 * appModel.scale;
+	width = 280;
+	height = 72;
 
 	progressBar = new Slider();
 	progressBar.value = 1;

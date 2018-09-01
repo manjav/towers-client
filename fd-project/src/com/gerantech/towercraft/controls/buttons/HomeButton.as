@@ -13,7 +13,7 @@ private var tutorialArrow:TutorialArrow;
 public function HomeButton(icon:DisplayObject, iconScale:Number=1)
 {
 	icon.alignPivot();
-	icon.scale = AppModel.instance.scale * 2 * iconScale;
+	icon.scale = 2 * iconScale;
 	addChild(icon);
 }
 
@@ -30,7 +30,7 @@ private function tutorialArrow_createHandler():void
 {
 	tutorialArrow.removeEventListener(FeathersEventType.CREATION_COMPLETE , tutorialArrow_createHandler);
 	tutorialArrow.x = -tutorialArrow.width * 0.5;
-	tutorialArrow.y = -60 * AppModel.instance.scale;
+	tutorialArrow.y = -60;
 }
 
 override public function set currentState(value:String):void

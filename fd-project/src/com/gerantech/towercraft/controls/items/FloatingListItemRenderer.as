@@ -40,7 +40,7 @@ private function createElements(label:String) : void
 	backgroundSkin = mySkin;	
 	
 	layout = new AnchorLayout();
-	//var padding:int = 36 * appModel.scale;
+	//var padding:int = 36;
 	
 	labelDisplay = new ShadowLabel(label, 0xDDFFFF, 0, "center", null, false, "center", 0.9);
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);

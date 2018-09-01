@@ -51,7 +51,7 @@ override protected function showElements():void
 {
 	super.showElements();
 	
-	headerSize = 132 * appModel.scale;
+	headerSize = 132;
 	header = new LobbyHeader();
 	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);

@@ -27,7 +27,7 @@ package com.gerantech.towercraft.controls.groups
 		{
 			super.initialize();
 			layout = new AnchorLayout(); 
-			var padding:int = 32 * appModel.scale;
+			var padding:int = 32;
 			height = padding * 2.8;
 			
 			var skin:ImageLoader = new ImageLoader();

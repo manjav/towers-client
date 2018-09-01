@@ -33,15 +33,15 @@ override protected function initialize():void
 	bgImage.scale9Grid = new Rectangle(8, 8, 8, 8);
 	backgroundSkin = bgImage;
 	
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	layout = new AnchorLayout();
 	
 	var messageLabel:RTLLabel =  new RTLLabel("زمان باقیمانده", 1, "center", null, false, null, 0.8);
-	messageLabel.layoutData = new AnchorLayoutData(0, padding, NaN, padding, NaN, -22 * appModel.scale);
+	messageLabel.layoutData = new AnchorLayoutData(0, padding, NaN, padding, NaN, -22);
 	addChild(messageLabel);
 	
 	timeLabel = new RTLLabel("00:00", 1, "center");
-	timeLabel.layoutData = new AnchorLayoutData(NaN,padding,padding,padding, NaN, 22 * appModel.scale);
+	timeLabel.layoutData = new AnchorLayoutData(NaN,padding,padding,padding, NaN, 22);
 	addChild(timeLabel);
 }
 override public function set value(val:Number):void 

@@ -21,7 +21,7 @@ override protected function initialize():void { super.initialize(); }
 override protected function addedToStageHandler(event:Event):void
 {
 	super.addedToStageHandler(event);
-	tabPadding = 56 * appModel.scale;
+	tabPadding = 56;
 	tabSize = ( stageWidth - tabPadding * 2 ) / 5;
 	
 	tabsList.layoutData = new AnchorLayoutData(NaN, tabPadding, 0, tabPadding);
@@ -40,7 +40,7 @@ override protected function addedToStageHandler(event:Event):void
 	shadow.color = Color.BLACK;
 	addChildAt(shadow, 0);
 	
-	var size:int =  24 * appModel.scale;*/
+	var size:int =  24;*/
 	var footerBG:ImageLoader = new ImageLoader();
 	//bottomShadow.height = size;
 	footerBG.source = Assets.getTexture("home/footer-sliced", "gui");

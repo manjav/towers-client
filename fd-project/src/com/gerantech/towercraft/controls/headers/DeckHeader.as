@@ -27,8 +27,8 @@ public var cardsBounds:Vector.<Rectangle>;
 public function DeckHeader()
 {
 	super();
-	_height = 640 * appModel.scale;
-	padding = 32 * appModel.scale;
+	_height = 640;
+	padding = 32;
 }
 
 override protected function initialize():void
@@ -54,7 +54,7 @@ override protected function initialize():void
 private function createDeckItem(i:int):void
 {
 	var button:CardButton = new CardButton(player.decks.get(player.selectedDeck).get(i));
-	button.x = padding + 260 * i * appModel.scale;
+	button.x = padding + 260 * i;
 	button.y = padding * 7 ;
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button)

@@ -82,7 +82,7 @@ override protected function bookFactory() : StarlingArmatureDisplay
 	if( state != ExchangeItem.CHEST_STATE_EMPTY ) 
 	{
 		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + exchange.outcome );
-		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 0.8;
+		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 0.8;
 		bookArmature.x = width * 0.50;
 		bookArmature.y = height * 0.45;
 		if ( state == ExchangeItem.CHEST_STATE_READY )
@@ -122,7 +122,7 @@ override protected function buttonFactory() : ExchangeButton
 		buttonDisplay.count = -1;
 		buttonDisplay.type = -1;
 	}
-	buttonDisplay.height = 72 * appModel.scale;
+	buttonDisplay.height = 72;
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	addChild(buttonDisplay);
 	return buttonDisplay;
@@ -158,7 +158,7 @@ private function navigator_itemAchievedHandler(event:Event):void
 
 	var outcome:int = event.data.type;
 	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + outcome );
-	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 1.9;
+	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);
 	bookAnimation.animation.timeScale = 0.5;
 	bookAnimation.x = event.data.x;
@@ -166,7 +166,7 @@ private function navigator_itemAchievedHandler(event:Event):void
 	bookAnimation.addEventListener(EventObject.COMPLETE, bookAnimation_completeHandler);
 	appModel.navigator.addChild(bookAnimation);
 	var globalPos:Rectangle = this.getBounds(appModel.navigator); 
-	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, x:globalPos.x + width * 0.50, scale:OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 0.95, transition:Transitions.EASE_IN_OUT});
+	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, x:globalPos.x + width * 0.50, scale:OpenBookOverlay.getBookScale(exchange.outcome) * 0.95, transition:Transitions.EASE_IN_OUT});
 	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, y:globalPos.y + height * 0.45, transition:Transitions.EASE_IN_BACK});
 	function bookAnimation_completeHandler(event:StarlingEvent):void
 	{

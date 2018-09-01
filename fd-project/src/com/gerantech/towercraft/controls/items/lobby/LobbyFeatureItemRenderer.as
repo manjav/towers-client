@@ -12,7 +12,7 @@ override protected function commitData():void
 		return;
 	
 	super.commitData();
-	height = 48 * appModel.scale;
+	height = 48;
 	keyDisplay.text = loc("lobby_" + _data.key);
 	valueDisplay.text = _data.key == "pri" ? loc("lobby_pri_" + _data.value) : _data.value;
 }

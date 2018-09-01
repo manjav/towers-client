@@ -55,7 +55,7 @@ override protected function initialize():void
 	super.initialize();
 	overlay.touchable = false;
 	layout = new AnchorLayout();
-	padding = 48 * appModel.scale;
+	padding = 48;
 	
 	battleData = appModel.battleFieldView.battleData;
 

@@ -40,8 +40,8 @@ override protected function initialize():void
 		labelStringFactory = defaulLabelStringFactory;
 	
 	layout = new AnchorLayout();
-	var controlSize:int = 96 * appModel.scale;
-	minWidth = 120 * appModel.scale;
+	var controlSize:int = 96;
+	minWidth = 120;
 	minHeight = controlSize;
 	
 	var skin:Image = new Image(Assets.getTexture("theme/slider-background", "gui"));

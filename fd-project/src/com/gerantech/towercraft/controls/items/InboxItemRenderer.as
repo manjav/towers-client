@@ -51,9 +51,9 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 140 * appModel.scale;
-	padding = 32 * appModel.scale;
-	offsetY = -8*AppModel.instance.scale
+	height = 140;
+	padding = 32;
+	offsetY = -8
 	date = new Date();
 	
 	mySkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
@@ -161,7 +161,7 @@ override public function set isSelected(value:Boolean):void
 		senderLayout.right = appModel.isLTR ? NaN : (value ?3:1) * padding;
 	}
 	
-	messageDisplay.height = value ? NaN : 40 * appModel.scale;
+	messageDisplay.height = value ? NaN : 40;
 	messageLayout.top = value ? padding*2.4 : NaN;
 	messageLayout.verticalCenter = value ? NaN : offsetY;
 	messageLayout.right = padding*(value?1:(appModel.isLTR?6:8));
@@ -185,7 +185,7 @@ override public function set isSelected(value:Boolean):void
 	}
 	
 	var hasButton:Boolean = MessageTypes.isConfirm(message.getShort("type")) || message.getShort("type") == MessageTypes.M50_URL;
-	var _h:Number = value?(messageDisplay.height+padding*(4/messageDisplay.numLines)+padding+(hasButton?declineButton.height:0) ):(140*appModel.scale);
+	var _h:Number = value?(messageDisplay.height+padding*(4/messageDisplay.numLines)+padding+(hasButton?declineButton.height:0) ):(140);
 	Starling.juggler.tween(this, TWEEN_TIME, {height:_h, transition:Transitions.EASE_IN_OUT, onComplete:tweenCompleted, onCompleteArgs:[value]});
 	function tweenCompleted(_selected:Boolean):void
 	{

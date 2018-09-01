@@ -31,7 +31,7 @@ override protected function iconFactory() : Image
 {
 	var ret:Image = super.iconFactory();
 //	if( ret )
-//		ret.scale = appModel.scale * 1.7;
+//		ret.scale = 1.7;
 	return ret;
 }
 

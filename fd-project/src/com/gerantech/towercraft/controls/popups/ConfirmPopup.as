@@ -54,7 +54,7 @@ override protected function initialize():void
 	buttonLayout.gap = padding;
 	buttonContainer = new LayoutGroup();
 	buttonContainer.layoutData = new AnchorLayoutData (NaN, NaN, padding, NaN, 0);
-	buttonContainer.height = 120 * appModel.scale;
+	buttonContainer.height = 120;
 	buttonContainer.layout = buttonLayout;
 	addChild(buttonContainer);
 	

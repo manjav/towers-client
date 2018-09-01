@@ -34,9 +34,9 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	width = 280 * appModel.scale;
-	height = 72 * appModel.scale;
-	var padding:int = 12 * appModel.scale;
+	width = 280;
+	height = 72;
+	var padding:int = 12;
 	
 	progressBar = new Slider();
 	progressBar.maximum = BattleField.POPULATION_MAX;
@@ -49,16 +49,16 @@ override protected function initialize():void
 	elixirBottle.touchable = false;
 	elixirBottle.pivotX = elixirBottle.width * 0.5;
 	elixirBottle.pivotY = elixirBottle.height * 0.5;
-	elixirBottle.scale = appModel.scale * 2;
+	elixirBottle.scale = 2;
 	elixirBottle.layout = new AnchorLayout();
 	elixirBottle.backgroundSkin = new Image (Assets.getTexture("elixir", "gui"));
 	elixirBottle.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 	addChild(elixirBottle);
 	
 	elixirCountDisplay = new BitmapFontTextRenderer();
-	elixirCountDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 110*appModel.scale)
+	elixirCountDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 110)
 	elixirCountDisplay.pixelSnapping = elixirCountDisplay.touchable = false;
-	elixirCountDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -16*appModel.scale);
+	elixirCountDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -16);
 	elixirBottle.addChild(elixirCountDisplay);
 }
 
@@ -79,8 +79,8 @@ public function set value(newValue:Number):void
 	if( elixirCountDisplay)
 	{
 		elixirCountDisplay.text = _value.toString();
-		elixirBottle.scale = appModel.scale * 2.4;
-		Starling.juggler.tween(elixirBottle, 0.8, {scale:appModel.scale*2, transition:Transitions.EASE_OUT_ELASTIC});
+		elixirBottle.scale = 2.4;
+		Starling.juggler.tween(elixirBottle, 0.8, {scale:2, transition:Transitions.EASE_OUT_ELASTIC});
 	}
 }
 

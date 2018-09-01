@@ -30,7 +30,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout(); 
-	var padding:int = 32 * appModel.scale;
+	var padding:int = 32;
 	height = padding * 3;
 	
 	var skin:ImageLoader = new ImageLoader();

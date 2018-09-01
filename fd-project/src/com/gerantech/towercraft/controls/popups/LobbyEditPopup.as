@@ -37,7 +37,7 @@ protected override function initialize():void
 	addChild(titleDisplay);
 	
 	bioInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
-	bioInput.promptProperties.fontSize = bioInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
+	bioInput.promptProperties.fontSize = bioInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize;
 	bioInput.prompt = loc("lobby_bio");
 	bioInput.text = roomData.bio;
 	bioInput.layoutData = new AnchorLayoutData( padding*3.6, padding, NaN, padding );

@@ -89,7 +89,7 @@ override protected function addedToStageHandler(event:Event):void
 	bookArmature.touchable = false;
 	bookArmature.x = stage.stageWidth * 0.5;
 	bookArmature.y = stage.stageHeight * 0.5;
-	bookArmature.scale = appModel.scale * 2;
+	bookArmature.scale = 2;
 	bookArmature.addEventListener(EventObject.COMPLETE, openAnimation_completeHandler);
 	bookArmature.addEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
 	bookArmature.animation.gotoAndPlayByTime("appear", 0, 1);
@@ -98,8 +98,8 @@ override protected function addedToStageHandler(event:Event):void
 	
 	shineArmature = factory.buildArmatureDisplay("shine");
 	shineArmature.touchable = false;
-	shineArmature.scale = appModel.scale * 3;
-	shineArmature.x = 170 * appModel.scale;
+	shineArmature.scale = 3;
+	shineArmature.x = 170;
 }
 
 override public function set outcomes(value:IntIntMap):void 
@@ -222,7 +222,7 @@ private function showReward(open:Boolean = true) : void
 	
 	// expload
 	var explode:MortalParticleSystem = new MortalParticleSystem("explode", 0.5);
-	explode.x = 170 * appModel.scale;
+	explode.x = 170;
 	reward.addChildAt(explode, 1);
 	
 	Starling.juggler.tween(reward, 0.5, {delay:0.5, scale:1, x:stage.width * 0.5, y:stage.height * 0.5, transition:Transitions.EASE_OUT_BACK, onComplete:reward.showDetails});
@@ -236,8 +236,8 @@ private function grabReward(reward:BookReward, force:Boolean=false, delay:Number
 	shineArmature.removeFromParent();
 	var scal:Number = 0.8;
 	var numCol:int = rewardKeys.length == 2 || rewardKeys.length == 4 ? 2 : 3;
-	var paddingH:int = 80 * appModel.scale;
-	var paddingV:int = reward._height * 0.5 * scal + 80 * appModel.scale;
+	var paddingH:int = 80;
+	var paddingV:int = reward._height * 0.5 * scal + 80;
 	var cellH:int = ((stage.stageWidth - reward._width * 0.4 * scal - paddingH * 2) / (numCol - 1));
 	Starling.juggler.tween(reward, 0.5, {delay:delay, scale:scal, x:(reward.index % numCol) * cellH + paddingH, y:Math.floor(reward.index / numCol) * reward._height * scal + paddingV, transition:Transitions.EASE_OUT_BACK});
 }

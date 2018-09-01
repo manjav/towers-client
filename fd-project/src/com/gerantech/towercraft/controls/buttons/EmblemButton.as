@@ -23,7 +23,7 @@ package com.gerantech.towercraft.controls.buttons
 		override protected function initialize():void
 		{
 			super.initialize();
-			var padding:int = 16 * appModel.scale;
+			var padding:int = 16;
 			layout = new AnchorLayout();
 			
 			skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);

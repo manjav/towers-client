@@ -26,7 +26,7 @@ override protected function initialize():void
 {
 	toastHeight = 112;
 	closeAfter = 4000;
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	layout = new AnchorLayout();
 	super.initialize();
 	

@@ -27,7 +27,7 @@ protected function bookFactory() : StarlingArmatureDisplay
 	if( bookArmature == null )
 	{
 		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
-		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale;
+		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome);
 		bookArmature.x = width * 0.5;
 		bookArmature.y = height * 0.4;
 	}
@@ -40,7 +40,7 @@ protected function buttonFactory() : ExchangeButton
 	{
 		buttonDisplay = new ExchangeButton();
 		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
-		buttonDisplay.height = 96 * appModel.scale;
+		buttonDisplay.height = 96;
 		buttonDisplay.count = exchange.requirements.get(ResourceType.CURRENCY_HARD);	
 		buttonDisplay.type = ResourceType.CURRENCY_HARD;		
 	}

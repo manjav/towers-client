@@ -63,7 +63,7 @@ override protected function initialize():void
 	card.setData(building.type, building.get_level() - 1);
 	card.pivotY = card.height * 0.5;
 	card.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
-	card.width = 240 * appModel.scale;
+	card.width = 240;
 	card.height = card.width * 1.4;
 	card.y = (stage.stageHeight - card.height) * 0.5;
 	addChild(card);
@@ -81,22 +81,22 @@ override protected function initialize():void
 		card.scale = 2.4;
 		card.setData(building.type, building.get_level());
 		Starling.juggler.tween(card, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
-		Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y - 150 * appModel.scale, transition:Transitions.EASE_IN_OUT});
+		Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y - 150, transition:Transitions.EASE_IN_OUT});
 		
 		// shine animation
 		shineArmature = OpenBookOverlay.factory.buildArmatureDisplay("shine");
 		shineArmature.touchable = false;
 		shineArmature.scale = 0.1;
-		shineArmature.x = 120 * appModel.scale;
-		shineArmature.y = 170 * appModel.scale;
+		shineArmature.x = 120;
+		shineArmature.y = 170;
 		shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
 		card.addChildAt(shineArmature, 0);
-		Starling.juggler.tween(shineArmature, 0.3, {scale:appModel.scale * 2.5, transition:Transitions.EASE_OUT_BACK});
+		Starling.juggler.tween(shineArmature, 0.3, {scale:2.5, transition:Transitions.EASE_OUT_BACK});
 		
 		// explode particles
 		var explode:MortalParticleSystem = new MortalParticleSystem("explode", 2);
-		explode.x = 120 * appModel.scale;
-		explode.y = 170 * appModel.scale;
+		explode.x = 120;
+		explode.y = 170;
 		card.addChildAt(explode, 0);
 		
 		// scraps particles

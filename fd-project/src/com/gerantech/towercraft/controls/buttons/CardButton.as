@@ -31,7 +31,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	card = new BuildingCard();
-	card.width = 240 * appModel.scale;
+	card.width = 240;
 	card.height = card.width * 1.295;
 	card.x = card.pivotX = card.width * 0.5;
 	card.y = card.pivotY = card.height * 0.5;	

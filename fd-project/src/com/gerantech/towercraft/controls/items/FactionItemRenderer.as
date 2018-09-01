@@ -40,8 +40,8 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	height = _height;
-	padding = 48 * appModel.scale;
-	var iconSize:int = 400 * appModel.scale;
+	padding = 48;
+	var iconSize:int = 400;
 }
 
 override protected function commitData():void
@@ -83,7 +83,7 @@ private function createElements():void
 	
 	if( index > 0 )
 	{
-		var divider:Devider = new Devider(0, 5 * appModel.scale);
+		var divider:Devider = new Devider(0, 5);
 		divider.layoutData = new AnchorLayoutData(0, padding, NaN, padding);
 		addChild(divider);
 	}
@@ -95,7 +95,7 @@ private function createElements():void
 	ribbon.scale9Grid = MainTheme.RIBBON_SCALE9_GRID;
 	header.backgroundSkin = ribbon;
 	header.width = width * 0.6;
-	header.height = 160 * appModel.scale;
+	header.height = 160;
 	addChild(header);
 	
 	var factionNumber:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_" + (faction.index + 1)) , 0xCCDDFF, null, null, false, null, 0.9);
@@ -116,7 +116,7 @@ private function createElements():void
 	var factionIcon:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, faction.index));
 	factionIcon.x = width * 0.5;
 	factionIcon.y = padding * 12;
-	factionIcon.scale = appModel.scale * 1.4;
+	factionIcon.scale = 1.4;
 	if( playerLeague >= faction.index )
 		factionIcon.animation.gotoAndPlayByTime("selected", 0, 50);
 	else
@@ -151,9 +151,9 @@ private function createElements():void
 	if( visible )
 	{
 		header.width = 0;
-		factionIcon.scale = appModel.scale * 1.6 * 0.9;
+		factionIcon.scale = 1.6 * 0.9;
 		cardsDisplay.alpha = unlocksDisplay.alpha = unlocksDisplay.alpha = factionMeature.alpha = factionLabel.alpha = factionNumber.alpha = 0;
-		Starling.juggler.tween(factionIcon, 0.3, {scale:appModel.scale * 1.4, transition:Transitions.EASE_OUT_BACK});
+		Starling.juggler.tween(factionIcon, 0.3, {scale:1.4, transition:Transitions.EASE_OUT_BACK});
 		Starling.juggler.tween(header, 0.5, {width:this.width * 0.6, transition:Transitions.EASE_OUT_BACK});
 		Starling.juggler.tween(factionNumber, 0.2, {delay:0.3, alpha:1});
 		Starling.juggler.tween(factionLabel, 0.2, {delay:0.4, alpha:1});

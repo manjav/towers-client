@@ -43,8 +43,8 @@ override public function init():void
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.hasVariableItemDimensions = true;
-	listLayout.paddingTop = 120 * appModel.scale;
-	listLayout.paddingBottom = 50 * appModel.scale;
+	listLayout.paddingTop = 120;
+	listLayout.paddingBottom = 50;
 	listLayout.useVirtualLayout = true;
 	
 	updateData();
@@ -65,7 +65,7 @@ override public function focus():void
 	if( !initializeCompleted )
 		return;
 	///////////////////////showTutorial();
-	//var time:Number = Math.abs(focusedCategory * 520 * appModel.scale - itemslist.verticalScrollPosition) * 0.003;
+	//var time:Number = Math.abs(focusedCategory * 520 - itemslist.verticalScrollPosition) * 0.003;
 	if( focusedCategory == 0 )
 		itemslist.scrollToPosition(0, 0, 0.5);
 	else

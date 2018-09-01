@@ -41,7 +41,7 @@ override protected function initialize():void
 	finger.touchable = false;
 	var f:Image = new Image(Assets.getTexture("hand", "gui"));
 	f.pivotX = 0;
-	f.pivotY = f.height * 0.8 / appModel.scale;
+	f.pivotY = f.height * 0.8;
 	finger.addChild(f)
 }
 
@@ -139,13 +139,13 @@ private function animate(name:String, startX:Number, startY:Number, endX:Number,
 	finger.x = startX;
 	finger.y = startY;
 	finger.alpha = startAlpha;
-	finger.scale = startScale * appModel.scale;
+	finger.scale = startScale;
 	finger.rotation = startRotation;
 	
 	var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
 	tween.moveTo(endX, endY);
 	tween.delay = delayTime;
-	tween.scaleTo(endScale * appModel.scale);
+	tween.scaleTo(endScale);
 	tween.rotateTo(endRotation);
 	tween.fadeTo(endAlpha);
 	tween.onComplete = tweenCompleteCallback;

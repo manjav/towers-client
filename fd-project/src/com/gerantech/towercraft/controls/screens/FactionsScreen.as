@@ -73,17 +73,17 @@ override protected function initialize():void
 	shadow.height = stage.stageHeight//-footerSize;
 	addChildAt(shadow, 0);
 	
-	FactionItemRenderer._height = 1480 * appModel.scale;
+	FactionItemRenderer._height = 1480;
 	FactionItemRenderer.playerLeague = player.get_arena(0);
 
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.paddingBottom = 220 * appModel.scale;
+	listLayout.paddingBottom = 220;
 	listLayout.useVirtualLayout = false;
 	
 	list = new List();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0,0,150*appModel.scale,0);
+	list.layoutData = new AnchorLayoutData(0,0,150,0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	//list.decelerationRate = 0.99
 	list.itemRendererFactory = function():IListItemRenderer { return new FactionItemRenderer (); }
@@ -110,7 +110,7 @@ public static function showRanking(arenaIndex:int):void
 	extraInfo.putInt("arena", arenaIndex );
 	SFSConnection.instance.sendExtensionRequest( SFSCommands.RANK, extraInfo );
 	
-	var padding:int = 36 * AppModel.instance.scale;
+	var padding:int = 36;
 	var transitionIn:TransitionData = new TransitionData();
 	transitionIn.sourceAlpha = 0;
 	var transitionOut:TransitionData = new TransitionData();

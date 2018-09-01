@@ -32,7 +32,7 @@ package com.gerantech.towercraft.controls.popups
 			acceptButton.removeFromParent();
 			
 			var icon:ImageLoader = new ImageLoader();
-			icon.width = icon.height = 160 * appModel.scale;
+			icon.width = icon.height = 160;
 			icon.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 			icon.source = Assets.getTexture("improve-11", "gui");
 			addChild(icon);

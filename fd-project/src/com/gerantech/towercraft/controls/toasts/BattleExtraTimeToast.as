@@ -33,8 +33,8 @@ override protected function initialize():void
 	backgroundSkin.alpha = 0.5;
 	
 	transitionIn.time = 0.7;
-	transitionOut.destinationBound.y = transitionIn.sourceBound.y = 350 * appModel.scale;
-	transitionIn.destinationBound.y = transitionOut.sourceBound.y = 400 * appModel.scale;
+	transitionOut.destinationBound.y = transitionIn.sourceBound.y = 350;
+	transitionIn.destinationBound.y = transitionOut.sourceBound.y = 400;
 	rejustLayoutByTransitionData();
 	
 	layout = new AnchorLayout();
@@ -43,11 +43,11 @@ override protected function initialize():void
 	var timeLine:LayoutGroup = new LayoutGroup();
 	timeLine.layout = new HorizontalLayout();
 	HorizontalLayout(timeLine.layout).verticalAlign = VerticalAlign.MIDDLE;
-	timeLine.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0 * appModel.scale);
+	timeLine.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	addChild(timeLine);
 	
 	var extraIcon:ImageLoader = new ImageLoader();
-	extraIcon.width = 200 * appModel.scale;
+	extraIcon.width = 200;
 	extraIcon.source = Assets.getTexture("extra-time", "gui");
 	extraIcon.pixelSnapping = false;
 	
@@ -64,11 +64,11 @@ override protected function initialize():void
 	var elixirLine:LayoutGroup = new LayoutGroup();
 	elixirLine.layout = new HorizontalLayout();
 	HorizontalLayout(elixirLine.layout).verticalAlign = VerticalAlign.MIDDLE;
-	elixirLine.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 100 * appModel.scale);
+	elixirLine.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 100);
 	addChild(elixirLine);
 	
 	var elixirIcon:ImageLoader = new ImageLoader();
-	elixirIcon.width = 200 * appModel.scale;
+	elixirIcon.width = 200;
 	elixirIcon.source = Assets.getTexture("elixir", "gui");
 	elixirIcon.pixelSnapping = false;
 	

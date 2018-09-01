@@ -36,7 +36,7 @@ override protected function initialize():void
 	
 	descriptionInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0, true);
 	descriptionInput.prompt = loc( "popup_bugreport_description_prompt" );
-	descriptionInput.height = 420 * appModel.scale;
+	descriptionInput.height = 420;
 	container.addChild(descriptionInput);
 	
 	errorDisplay = new RTLLabel("", 0xFF0000, null, null, true, null, 0.8);

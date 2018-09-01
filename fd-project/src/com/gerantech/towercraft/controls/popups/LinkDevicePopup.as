@@ -42,7 +42,7 @@ override protected function initialize():void
 	transitionOut.destinationBound = transitionIn.sourceBound
 	super.initialize();
 	
-	var padding:int = 36 * appModel.scale;
+	var padding:int = 36;
 	var oldDeviceLabel:ShadowLabel = new ShadowLabel(loc("popup_link_old_label"), 1, 0, "center");
 	oldDeviceLabel.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 	addChild(oldDeviceLabel);

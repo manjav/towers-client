@@ -23,7 +23,7 @@ private var container:LayoutGroup;
 public function BattleStartOverlay(mapIndex:int, battleData:BattleData)
 {
 	super();
-	padding = 48 * appModel.scale;
+	padding = 48;
 	this.mapIndex = mapIndex;
 	this.battleData = battleData;
 }
@@ -47,7 +47,7 @@ override protected function initialize():void
 	if( player.inTutorial() && player.tutorialMode == 1 )
 		name = loc("trainer_label");
 	axisHeader = new BattleHeader(name, false);
-	axisHeader.layoutData = new AnchorLayoutData(300 * appModel.scale, 0, NaN, 0);
+	axisHeader.layoutData = new AnchorLayoutData(300, 0, NaN, 0);
 	container.addChild(axisHeader);
 	
 	if( mapIndex > -1 )
@@ -60,7 +60,7 @@ override protected function initialize():void
 	name = battleData.allis.getText("name") == "guest" ? loc("guest_label") : battleData.allis.getText("name");
 	alliseHeader = new BattleHeader( name, true);
 	alliseHeader.width = padding * 16;
-	alliseHeader.layoutData = new AnchorLayoutData(800 * appModel.scale, 0, NaN, 0);
+	alliseHeader.layoutData = new AnchorLayoutData(800, 0, NaN, 0);
 	container.addChild(alliseHeader);
 	
 	setTimeout(disappear, 2000);

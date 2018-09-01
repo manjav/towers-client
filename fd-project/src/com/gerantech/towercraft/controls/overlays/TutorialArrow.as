@@ -14,7 +14,6 @@ public var _height:Number;
 
 public function TutorialArrow(isUp:Boolean = true)
 {
-	scale = appModel.scale;
 	this.isUp = isUp;
 	arrow = new Image(isUp ? appModel.theme.buttonForwardUpSkinTexture : appModel.theme.buttonBackUpSkinTexture);
 	arrow.pivotY = isUp ? 0 : arrow.height;

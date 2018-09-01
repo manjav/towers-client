@@ -26,7 +26,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	layout = new AnchorLayout();
 	
 	card = new BuildingCard();

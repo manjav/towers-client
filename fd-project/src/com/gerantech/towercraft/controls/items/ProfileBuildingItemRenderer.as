@@ -41,7 +41,7 @@ override protected function initialize():void
 	backgroundSkin = mySkin;
 	
 	layout= new AnchorLayout();
-	padding = 12 * appModel.scale;
+	padding = 12;
 }
 
 override protected function commitData():void

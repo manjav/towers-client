@@ -16,7 +16,7 @@ private var closeButton:CustomButton;
 public function CloseFooter(size:int = 0)
 {
 	super();
-	this.size = size == 0 ? 150 * appModel.scale : size;
+	this.size = size == 0 ? 150 : size;
 }
 override protected function initialize():void
 {
@@ -27,7 +27,7 @@ override protected function initialize():void
 	height = size;
 	
 	closeButton = new CustomButton();
-	closeButton.layoutData = new AnchorLayoutData(16 * appModel.scale, NaN, 12 * appModel.scale, NaN, 0);
+	closeButton.layoutData = new AnchorLayoutData(16, NaN, 12, NaN, 0);
 	closeButton.addEventListener(Event.TRIGGERED, backButtonHandler);
 	addChild(closeButton);
 	label = loc("close_button");

@@ -26,8 +26,8 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-    width = 500 * appModel.scale;
-    height = 140 * appModel.scale;
+    width = 500;
+    height = 140;
 	
 	var hLayout:HorizontalLayout = new HorizontalLayout();
 	hLayout.verticalAlign = VerticalAlign.MIDDLE;
@@ -61,7 +61,7 @@ private function addButton(texture:String) : void
 		button = new IconButton(Assets.getTexture(texture, "gui"));
 	}
 	button.name = texture;
-	button.width = button.height = 140 * appModel.scale;
+	button.width = button.height = 140;
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button);
 }

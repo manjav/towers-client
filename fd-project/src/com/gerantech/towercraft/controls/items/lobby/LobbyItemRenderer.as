@@ -33,8 +33,8 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	var padding:int = 36 * appModel.scale;
-	height = 120 * appModel.scale;
+	var padding:int = 36;
+	height = 120;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID

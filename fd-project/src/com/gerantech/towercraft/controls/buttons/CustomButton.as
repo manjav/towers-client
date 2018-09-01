@@ -49,13 +49,13 @@ private var downTextue:Texture;
 public function CustomButton()
 {
 	if( width == 0 )
-		width = 250 * appModel.scale;
-	minWidth = 72 * appModel.scale;
-	minHeight = 72 * appModel.scale;
-	height = maxHeight = 128 * appModel.scale;
+		width = 250;
+	minWidth = 72;
+	minHeight = 72;
+	height = maxHeight = 128;
 	
 	iconPosition = new Point();
-	padding = 8 * appModel.scale;
+	padding = 8;
 	layout = new AnchorLayout();
 	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.8);
 	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.3);
@@ -73,9 +73,9 @@ override protected function initialize():void
 	if( _fontsize == 0 )
 	{
 		if( autoSizeLabel )
-			_fontsize = Math.max(0.5, Math.min(1.15, height / 96 / appModel.scale));
+			_fontsize = Math.max(0.5, Math.min(1.15, height / 96));
 		else
-			_fontsize = appModel.theme.gameFontSize * appModel.scale;
+			_fontsize = appModel.theme.gameFontSize;
 	}
 	
 	updateTextures();

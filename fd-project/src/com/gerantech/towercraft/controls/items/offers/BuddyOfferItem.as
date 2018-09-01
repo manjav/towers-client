@@ -22,11 +22,11 @@ public function BuddyOfferItem(data:Object)
 {
 	super();
 	type = OfferView.INVITE_BUDDY;
-	var padding:int = 20 * appModel.scale;
+	var padding:int = 20;
 	layout = new AnchorLayout();
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
-	iconDisplay.width = 360 * appModel.scale;
+	iconDisplay.width = 360;
 	iconDisplay.alignPivot();
 	iconDisplay.source = Assets.getTexture("currency-1", "gui");
 	iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding * 2, -padding * 2);

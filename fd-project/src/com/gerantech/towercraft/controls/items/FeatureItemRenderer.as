@@ -27,7 +27,7 @@ override protected function commitData():void
 	if( _firstCommit )
 	{
 		_firstCommit = false;
-		height = 64 * appModel.scale;
+		height = 64;
 	}
 	keyLabelFactory();
 	valueLabelFactory();

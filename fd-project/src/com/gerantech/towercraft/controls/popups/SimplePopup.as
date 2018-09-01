@@ -15,7 +15,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	padding = 36 * appModel.scale;
+	padding = 36;
 	
 	var skin:ImageLoader = new ImageLoader();
 	skin.source = appModel.theme.popupBackgroundSkinTexture;

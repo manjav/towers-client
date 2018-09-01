@@ -28,7 +28,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout(); 
-	var padding:int = 32 * appModel.scale;
+	var padding:int = 32;
 	height = padding * 3;
 	
 	var skin:ImageLoader = new ImageLoader();
@@ -40,7 +40,7 @@ override protected function initialize():void
 	addChild(skin);
 	
 	var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48 * appModel.scale, textColor, "center");
+	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48, textColor, "center");
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, padding * 4, NaN, -padding*0.5);
 	labelDisplay.text = label;
 	addChild(labelDisplay);

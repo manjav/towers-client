@@ -20,7 +20,7 @@ override public function init():void
 {
 	super.init();
 
-	height = 220 * appModel.scale;
+	height = 220;
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
 	background.layoutData = new AnchorLayoutData( 0, padding * 0.5, 0, padding * 0.5);

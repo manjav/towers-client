@@ -54,19 +54,19 @@ private function createCompleteHandler(e:Event):void
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 
 	var keys_1:ImageLoader = new ImageLoader();
-	keys_1.height = 54 * appModel.scale;
+	keys_1.height = 54;
 	keys_1.layoutData = new AnchorLayoutData(NaN, 0, height * 0.33);
 	keys_1.source = Assets.getTexture("keys-1", "gui");
 	addChild(keys_1);
 	
 	var keys_2:ImageLoader = new ImageLoader();
-	keys_2.height = 54 * appModel.scale;
+	keys_2.height = 54;
 	keys_2.layoutData = new AnchorLayoutData(height * 0.33, 0);
 	keys_2.source = Assets.getTexture("keys-2", "gui");
 	addChild(keys_2);
 	
 	var keys_3:ImageLoader = new ImageLoader();
-	keys_3.height = 54 * appModel.scale;
+	keys_3.height = 54;
 	keys_3.layoutData = new AnchorLayoutData(5, 0);
 	keys_3.source = Assets.getTexture("keys-3", "gui");
 	addChild(keys_3);

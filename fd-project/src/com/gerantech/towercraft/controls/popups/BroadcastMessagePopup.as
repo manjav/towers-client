@@ -39,25 +39,25 @@ package com.gerantech.towercraft.controls.popups
 			
 			messageInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT, 0, true);
 			messageInput.prompt = "Insert Message";
-			messageInput.height = 200 * appModel.scale;
+			messageInput.height = 200;
 			container.addChild(messageInput);
 			
 			dataInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
 			data == null ? (dataInput.prompt = "Insert data") : (dataInput.text = data+"");
-			dataInput.height = 100 * appModel.scale;
+			dataInput.height = 100;
 			container.addChild(dataInput);
 			
 			reseiversInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
 			receivers == null ? reseiversInput.prompt = "Recievers" : reseiversInput.text = receivers;
-			reseiversInput.height = 300 * appModel.scale;
+			reseiversInput.height = 300;
 			container.addChild(reseiversInput);
 			
 			typeSwitcher = new Switcher(0, 0, 50, 50);
-			typeSwitcher.height = 80 * appModel.scale;
+			typeSwitcher.height = 80;
 			container.addChild(typeSwitcher);
 			
 			isPushSwitcher = new Switcher(0, 0, 1, 1);
-			isPushSwitcher.height = 80 * appModel.scale;
+			isPushSwitcher.height = 80;
 			container.addChild(isPushSwitcher);
 			
 			errorDisplay = new RTLLabel("", 0xFF0000, null, null, true, null, 0.8);

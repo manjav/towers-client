@@ -29,7 +29,7 @@ override protected function initialize():void
 	
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.SEARCH);
 	textInput.promptProperties
-	textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
+	textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize;
 	textInput.maxChars = 16 ;
 	textInput.prompt = "نام  |  آیدی(!)  |  تگ(#)";
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);

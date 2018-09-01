@@ -28,7 +28,7 @@ private var timeoutId:uint;
 private var _time:uint;
 private var padding:Number;
 
-public function CountdownLabel() { super(); height = 84 * appModel.scale;}
+public function CountdownLabel() { super(); height = 84;}
 override protected function initialize() : void
 {
 	padding = height * 0.15;
@@ -59,7 +59,7 @@ override protected function initialize() : void
 	
 	var label:String = localString == null ? StrUtils.toTimeFormat(_time) : loc(localString, [StrUtils.toTimeFormat(_time)]);
 	labelDisplay = new RTLLabel(label, 1, "center", localString == null ? "ltr" : null, false, null, height / 160);
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.75, NaN, -6 * appModel.scale);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.75, NaN, -6);
 	addChild(labelDisplay);
 	
 	play();

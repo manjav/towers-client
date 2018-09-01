@@ -37,11 +37,11 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	var padding:int = 24 * appModel.scale;
-	var buttonH:int = 96 * appModel.scale;
+	var padding:int = 24;
+	var buttonH:int = 96;
 	
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.SEARCH);
-	textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
+	textInput.promptProperties.fontSize = textInput.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize;
 	textInput.maxChars = 16 ;
 	textInput.prompt = loc("lobby_name");
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
@@ -59,7 +59,7 @@ override protected function initialize():void
 
 	var rankButton:CustomButton = new CustomButton();
 	rankButton.style = "neutral";
-	rankButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4*appModel.scale);
+	rankButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 	rankButton.icon = Assets.getTexture("rank-icon", "gui");
 	rankButton.width = buttonH;
 	rankButton.height = buttonH;

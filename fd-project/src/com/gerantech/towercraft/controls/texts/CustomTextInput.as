@@ -36,7 +36,7 @@ public function CustomTextInput(softKeyboardType:String, returnKeyLabel:String, 
 		return pr;
 	}
 
-	height = 128 * AppModel.instance.scale;
+	height = 128;
 }
 
 private function editor_changeHandler(event:Event):void

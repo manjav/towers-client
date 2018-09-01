@@ -72,7 +72,7 @@ override protected function initialize():void
 			var rewardsList:List = new List();
 			rewardsList.backgroundSkin = new Quad(1, 1, 0);
 			rewardsList.backgroundSkin.alpha = 0.8;
-			rewardsList.height = 280 * appModel.scale;
+			rewardsList.height = 280;
 			rewardsList.layout = hlayout;
 			rewardsList.layoutData = new AnchorLayoutData(padding * 25, 0, NaN, 0);
 			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
@@ -82,8 +82,8 @@ override protected function initialize():void
 	}
 	
 	var closeBatton:CustomButton = new CustomButton();
-	closeBatton.width = 300 * appModel.scale;
-	closeBatton.height = 120 * appModel.scale;
+	closeBatton.width = 300;
+	closeBatton.height = 120;
 	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?31.4:27) * padding, NaN, NaN, NaN, 0);
 	closeBatton.name = "close";
 	closeBatton.label = loc("popup_ok_label");

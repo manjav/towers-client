@@ -36,10 +36,10 @@ override protected function initialize():void
 	layout = new AnchorLayout(); 
 
 	backgroundSkin = skin;
-	padding = 24 * appModel.scale;
+	padding = 24;
 	
 	labelDisplay = new ShadowLabel(_label, 1, 0, null, null, false, null, fontSize, null, "bold");
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding * 1, NaN, appModel.isLTR?padding * 1:NaN, NaN, -6 * appModel.scale);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding * 1, NaN, appModel.isLTR?padding * 1:NaN, NaN, -6);
 	addChild(labelDisplay);
 	
 	var infoButton:CustomButton = new CustomButton();

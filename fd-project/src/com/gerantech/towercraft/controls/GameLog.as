@@ -35,17 +35,17 @@ package com.gerantech.towercraft.controls
 			
 			var shadowDisplay:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.0, null, "bold");
 			shadowDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
-			shadowDisplay.y = labelDisplay.y + 4 * appModel.scale;
+			shadowDisplay.y = labelDisplay.y + 4;
 			shadowDisplay.pixelSnapping = false;
 			addChildAt(shadowDisplay, 0);
 			
 			var shadowDisplay2:RTLLabel = new RTLLabel(text, 0, "center", null, true, "center", 1.0, null, "bold");
 			shadowDisplay2.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
-			shadowDisplay2.y = labelDisplay.y - 3 * appModel.scale;
+			shadowDisplay2.y = labelDisplay.y - 3;
 			shadowDisplay2.pixelSnapping = false;
 			addChildAt(shadowDisplay2, 0);
 			
-			width = stage.width - 120 * appModel.scale;  
+			width = stage.width - 120;  
 			x = ( stage.stageWidth-width ) / 2;
 			scaleY = 0.5;
 			alpha = 0;

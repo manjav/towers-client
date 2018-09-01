@@ -55,11 +55,11 @@ override protected function initialize():void
 		return;
 
 	layout = new AnchorLayout();
-	var padding:int = 28 * appModel.scale;
+	var padding:int = 28;
 	appModel.sounds.addAndPlaySound("outcome-"+(newArena>oldArena?"victory":"defeat"));
 	
 	titleDisplay = new ShadowLabel(loc(oldArena<newArena?"arena_up":"arena_down")+ " " +loc("arena_title_"+newArena), 1, 0, "center", null, false, "center", 1.4);
-	titleDisplay.shadowDistance = 8 * AppModel.instance.scale;
+	titleDisplay.shadowDistance = 8;
 	titleDisplay.width = stage.stageWidth * 0.9;
 	titleDisplay.x = stage.stageWidth * 0.05;
 	titleDisplay.y = stage.stageHeight * 0.2;
@@ -100,8 +100,8 @@ override protected function initialize():void
 	
 	closeButton = new CustomButton();
 	closeButton.label = loc("close_button");
-	closeButton.width = 220 * appModel.scale;
-	closeButton.height = 110 * appModel.scale;
+	closeButton.width = 220;
+	closeButton.height = 110;
 	closeButton.alpha = 0;
 	closeButton.x = (stage.stageWidth-closeButton.width) * 0.5;
 	closeButton.y = stage.stageHeight * 0.77;
@@ -113,10 +113,10 @@ override protected function initialize():void
 	armatureDisplay.alpha = 0;
 	armatureDisplay.x = stage.stageWidth * 0.5;
 	armatureDisplay.y = stage.stageHeight * 0.36;
-	armatureDisplay.scale = appModel.scale ;
+	armatureDisplay.scale = 1;
 	addChild(armatureDisplay);
 	armatureDisplay.animation.gotoAndPlayByTime("selected", 0, 5);
-	Starling.juggler.tween(armatureDisplay, 1.3, {scale:appModel.scale*1.6, alpha:1.2, transition:newArena>oldArena?Transitions.EASE_OUT_ELASTIC:Transitions.EASE_OUT});
+	Starling.juggler.tween(armatureDisplay, 1.3, {scale:1.6, alpha:1.2, transition:newArena>oldArena?Transitions.EASE_OUT_ELASTIC:Transitions.EASE_OUT});
 	
 	initializingCompleted = true;
 }
@@ -127,7 +127,7 @@ private function closeButton_triggeredHandler():void
 	Starling.juggler.tween(cardsDisplay, 0.5,		{delay:0.1, y:stage.stageHeight*0.53, alpha:0, transition:Transitions.EASE_IN_BACK});
 	Starling.juggler.tween(titleDisplay, 0.5,		{delay:0.2, y:stage.stageHeight*0.30, alpha:0, transition:Transitions.EASE_IN_BACK});
 	Starling.juggler.tween(descriptionDisplay, 0.5, {delay:0.3, y:stage.stageHeight*0.47, alpha:0, transition:Transitions.EASE_IN_BACK});
-	Starling.juggler.tween(armatureDisplay, 0.5,	{delay:0.3, scale:appModel.scale*0.0, alpha:0, transition:Transitions.EASE_IN_BACK});
+	Starling.juggler.tween(armatureDisplay, 0.5,	{delay:0.3, scale:0.0, alpha:0, transition:Transitions.EASE_IN_BACK});
 	setTimeout(close, 1000, true);
 }
 

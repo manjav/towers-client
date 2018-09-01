@@ -50,7 +50,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	var padding:int = 36 * appModel.scale;
+	var padding:int = 36;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
@@ -64,7 +64,7 @@ override protected function initialize():void
 	
 	statusDisplay = new LayoutGroup();
 	statusDisplay.backgroundSkin = statusSkin;
-	statusDisplay.width = statusDisplay.height = 50 * appModel.scale;
+	statusDisplay.width = statusDisplay.height = 50;
 	statusDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/10);
 	addChild(statusDisplay);
 	
@@ -84,7 +84,7 @@ override protected function initialize():void
 	addChild(pointDisplay);
 	
 	pointIconDisplay = new ImageLoader();
-	pointIconDisplay.width = 80 * appModel.scale;
+	pointIconDisplay.width = 80;
 	pointIconDisplay.layoutData = new AnchorLayoutData(padding/3, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
 	addChild(pointIconDisplay);
 	
@@ -104,7 +104,7 @@ override protected function commitData():void
 	buddy = _data as Buddy;
 	
 	isInviteButton = buddy == null;
-	height = (isInviteButton?160:120) * appModel.scale;
+	height = (isInviteButton?160:120);
 	statusDisplay.visible = !isInviteButton;
 	if( isInviteButton )
 		return;
@@ -117,7 +117,7 @@ override protected function commitData():void
 	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(point)), "gui");
 	//trace(_data.i, player.id);
 	var itsMe:Boolean = buddy.nickName == player.nickName;
-	var fs:int = AppModel.instance.theme.gameFontSize * (itsMe?1:0.9) * appModel.scale;
+	var fs:int = AppModel.instance.theme.gameFontSize * (itsMe?1:0.9);
 	var fc:int = itsMe?MainTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 	if( fs != nameDisplay.fontSize )
 	{

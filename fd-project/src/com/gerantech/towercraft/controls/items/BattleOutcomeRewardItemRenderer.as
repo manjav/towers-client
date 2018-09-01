@@ -32,7 +32,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	height = width = 200 * appModel.scale;
+	height = width = 200;
 }
 
 override protected function commitData():void
@@ -44,7 +44,7 @@ override protected function commitData():void
 		armatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + _data.t);
 		armatureDisplay.x = width * 0.5;
 		armatureDisplay.y = height * 0.5;
-		armatureDisplay.scale = appModel.scale * 0.8;
+		armatureDisplay.scale = 0.8;
 		armatureDisplay.animation.timeScale = 0;
 		armatureDisplay.animation.gotoAndStopByProgress("appear", 1);
 		addChild(armatureDisplay);
@@ -60,8 +60,8 @@ override protected function commitData():void
 		
 		labelDisplay = new BitmapFontTextRenderer();
 		labelDisplay.text = _data.c.toString();
-		labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64 * appModel.scale, 0xFFFFFF, "center");
-		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60 * appModel.scale);
+		labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64, 0xFFFFFF, "center");
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
 		addChild(labelDisplay);
 	}
 }

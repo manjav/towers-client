@@ -17,9 +17,9 @@ package com.gerantech.towercraft.controls.texts
 		public function LTRLable(text:String, color:uint=0, align:String=null, wordWrap:Boolean=false, fontSize:Number=0, fontFamily:String=null, bold:Boolean=false, italic:Boolean=false)
 		{
 			if(fontSize == 0)
-				this.fontSize = AppModel.instance.theme.gameFontSize * AppModel.instance.scale;
+				this.fontSize = AppModel.instance.theme.gameFontSize;
 			else if(fontSize<4)
-				this.fontSize = fontSize * AppModel.instance.theme.gameFontSize * AppModel.instance.scale;
+				this.fontSize = fontSize * AppModel.instance.theme.gameFontSize;
 			else
 				this.fontSize = fontSize;
 

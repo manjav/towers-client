@@ -40,11 +40,11 @@ override protected function initialize():void
 	slider = new BuildingSlider();
 	slider.showUpgradeIcon = false;
 	slider.width = transitionIn.destinationBound.width/2;
-	slider.height = 52 * appModel.scale;
+	slider.height = 52;
 	slider.alpha = 0;
 	slider.minimum = 0;
 	slider.maximum = game.loginData.maxKeysPerDay;
-	slider.layoutData = new AnchorLayoutData(NaN, NaN, 84 * appModel.scale, NaN, 0);
+	slider.layoutData = new AnchorLayoutData(NaN, NaN, 84, NaN, 0);
 	addChild(slider);
 }
 

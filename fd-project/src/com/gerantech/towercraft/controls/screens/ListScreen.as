@@ -20,11 +20,11 @@ override protected function initialize():void
 
 	listLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.padding = 24 * appModel.scale;	
+	listLayout.padding = 24;	
 	listLayout.paddingTop = headerSize+listLayout.padding;
 	listLayout.useVirtualLayout = true;
-	listLayout.typicalItemHeight = 164 * appModel.scale;;
-	listLayout.gap = 12 * appModel.scale;	
+	listLayout.typicalItemHeight = 164;;
+	listLayout.gap = 12;	
 	
 	list = new FastList();
 	list.layout = listLayout;

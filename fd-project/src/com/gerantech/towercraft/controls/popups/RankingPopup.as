@@ -35,7 +35,7 @@ override protected function initialize():void
 	super.initialize();
 	overlay.alpha = 0.8;
 	
-	padding = 28 * appModel.scale;
+	padding = 28;
 	
 	titleDisplay = new RTLLabel(loc("ranking_label", [loc("arena_title_"+arenaIndex)]), 1, "center");
 	titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
@@ -43,7 +43,7 @@ override protected function initialize():void
 	
 	closeButton = new CustomButton();
 	closeButton.alpha = 0;
-	closeButton.height = 110 * appModel.scale;
+	closeButton.height = 110;
 	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	

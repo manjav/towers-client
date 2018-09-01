@@ -65,7 +65,7 @@ override protected function initialize():void
 	addChild(pointDisplay);
 	
 	pointIconDisplay = new ImageLoader();
-	pointIconDisplay.width = 80 * appModel.scale;
+	pointIconDisplay.width = 80;
 	pointIconDisplay.layoutData = new AnchorLayoutData(padding/2, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
 	addChild(pointIconDisplay);
 	
@@ -86,7 +86,7 @@ override protected function commitData():void
 	pointDisplay.text = "" + _data.point;
 	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.point)), "gui");
 
-	var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9) * appModel.scale;
+	var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9);
 	var fc:int = _data.id==player.id?MainTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 	if( fs != nameDisplay.fontSize )
 	{

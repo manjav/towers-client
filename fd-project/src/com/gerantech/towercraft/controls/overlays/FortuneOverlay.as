@@ -26,7 +26,7 @@ private var openOverlay:com.gerantech.towercraft.controls.overlays.OpenBookOverl
 public function FortuneOverlay(type:int)
 {
 	super(type);
-	fortuneHeight = 300 * appModel.scale;
+	fortuneHeight = 300;
 	appModel.sounds.setVolume("main-theme", 0.3);
 }
 
@@ -73,8 +73,8 @@ override protected function initialize():void
 	var time:Number = 3.5 + Math.random() * 2;
 	setTimeout(appModel.sounds.addAndPlaySound, time * 1000 - 2000, "book-appear");
 	Starling.juggler.tween(this, time, {delta:0.25, transition:Transitions.EASE_IN, onComplete:rotationCompleted});
-	Starling.juggler.tween(this, 3, {fortuneHeight:720 * appModel.scale, transition:Transitions.EASE_OUT_BACK});
-	Starling.juggler.tween(this, 1, {delay:time - 1, fortuneHeight:300 * appModel.scale, transition:Transitions.EASE_IN});
+	Starling.juggler.tween(this, 3, {fortuneHeight:720, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(this, 1, {delay:time - 1, fortuneHeight:300, transition:Transitions.EASE_IN});
 }
 
 protected function animateShadow(alphaSeed:Number, delay:Number):void
@@ -105,7 +105,7 @@ protected function rotationCompleted() : void
 	shineArmature.y = height * 0.5;
 	shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
 	addChild(shineArmature);
-	Starling.juggler.tween(shineArmature, 0.3, {scale:appModel.scale * 4, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(shineArmature, 0.3, {scale:4, transition:Transitions.EASE_OUT_BACK});
 
 	// book animation
 	var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + type);
@@ -115,7 +115,7 @@ protected function rotationCompleted() : void
 	bookArmature.scale = 0.1;
 	bookArmature.animation.gotoAndStopByProgress("appear", 1);
 	bookArmature.animation.timeScale = 0;
-	Starling.juggler.tween(bookArmature, 0.3, {scale:appModel.scale * 2.5, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(bookArmature, 0.3, {scale:2.5, transition:Transitions.EASE_OUT_BACK});
 	addChild(bookArmature);
 	
 	var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();

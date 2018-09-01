@@ -35,7 +35,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
-	hlayout.gap = hlayout.padding = 32 * appModel.scale;
+	hlayout.gap = hlayout.padding = 32;
 	hlayout.verticalAlign = VerticalAlign.MIDDLE;
 	layout = hlayout;
 

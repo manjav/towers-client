@@ -44,9 +44,9 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	var padding:int = 16 * appModel.scale;
-	width = _width = 800 * appModel.scale;
-	height = _height = 420 * appModel.scale;
+	var padding:int = 16;
+	width = _width = 800;
+	height = _height = 420;
 	
 	iconContainer = new LayoutGroup ();
 	iconContainer.x = padding;
@@ -78,9 +78,9 @@ override protected function initialize():void
 		{
 			var newDisplay:ImageLoader = new ImageLoader();
 			newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-			newDisplay.layoutData = new AnchorLayoutData( -10 * appModel.scale, NaN, NaN, -10 * appModel.scale);
-			newDisplay.width = 200 * appModel.scale;
-			newDisplay.height = 200 * appModel.scale;
+			newDisplay.layoutData = new AnchorLayoutData( -10, NaN, NaN, -10);
+			newDisplay.width = 200;
+			newDisplay.height = 200;
 			iconContainer.addChild(newDisplay);
 			appModel.game.loginData.buildingsLevel.set(type, 1);
 			
@@ -89,7 +89,7 @@ override protected function initialize():void
 	}
 	
 	countInsideDisplay = new BitmapFontTextRenderer();
-	countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 0xFFFFFF, "right");
+	countInsideDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96, 0xFFFFFF, "right");
 	countInsideDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding);
 	countInsideDisplay.text = "x " + count; 
 	
@@ -107,7 +107,7 @@ override protected function initialize():void
 	detailsContainer.addChild(titleDisplay);
 	
 	var countDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-	countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96 * appModel.scale, 16777215, "right");
+	countDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 96, 16777215, "right");
 	countDisplay.layoutData = new VerticalLayoutData(100);
 	countDisplay.text = "x " + count; 
 	detailsContainer.addChild(countDisplay);

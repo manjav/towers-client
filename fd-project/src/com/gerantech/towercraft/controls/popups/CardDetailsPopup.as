@@ -88,8 +88,8 @@ override protected function transitionInCompleted():void
 	var upgradeButton:ExchangeButton = new ExchangeButton();
 	upgradeButton.disableSelectDispatching = true;
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
-	upgradeButton.width = 380 * appModel.scale;
-	upgradeButton.height = 110 * appModel.scale;
+	upgradeButton.width = 380;
+	upgradeButton.height = 110;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.count = building.get_upgradeCost();

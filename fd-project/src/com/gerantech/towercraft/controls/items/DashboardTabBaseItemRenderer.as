@@ -38,7 +38,7 @@ public function DashboardTabBaseItemRenderer(width:Number)
 {
 	super();
 	layout = new AnchorLayout();
-	padding = 36 * appModel.scale;
+	padding = 36;
 	itemWidth = width;
 }
 

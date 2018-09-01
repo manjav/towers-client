@@ -28,7 +28,7 @@ private var league:StarlingArmatureDisplay;
 public function BattleWaitingOverlay(cancelable:Boolean)
 {
 	super();
-	padding = 48 * appModel.scale;
+	padding = 48;
 	this.cancelable = cancelable;
 }
 
@@ -42,13 +42,13 @@ override protected function initialize():void
 	league = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
 	league.x = Starling.current.stage.width * 0.5;
-	league.y = 510 * appModel.scale;
+	league.y = 510;
 	//league.scale = 0.5;
 	league.alpha = 0;
 	Starling.juggler.tween(league, 0.5, {delay: 0.2, scale: 1.5, alpha: 1, transition: Transitions.EASE_OUT_BACK, onComplete: goUp});
 	addChild(league);
-	function goUp():void { Starling.juggler.tween(league, 2, {y: 460 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown():void { Starling.juggler.tween(league, 2, {y: 510 * appModel.scale, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	function goUp():void { Starling.juggler.tween(league, 2, {y: 460, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown():void { Starling.juggler.tween(league, 2, {y: 510, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 	
 	if( cancelable )
 	{
@@ -56,7 +56,7 @@ override protected function initialize():void
 		cancelButton.label = loc("cancel_button");
 		cancelButton.alignPivot();
 		cancelButton.style = "danger";
-		cancelButton.width = 240 * appModel.scale;
+		cancelButton.width = 240;
 		cancelButton.x = stage.stageWidth * 0.5;
 		cancelButton.y = stage.stageHeight * 0.75;
 		cancelButton.alpha = 0;

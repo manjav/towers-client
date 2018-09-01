@@ -102,8 +102,8 @@ private function showLocalePopup():void
 {
 	var buttonsPopup:SimpleListPopup = new SimpleListPopup();
 	buttonsPopup.buttons = StrUtils.getLocalesByMarket(appModel.descriptor.market);
-	buttonsPopup.buttonsWidth = 160 * appModel.scale;
-	buttonsPopup.buttonHeight = 120 * appModel.scale;
+	buttonsPopup.buttonsWidth = 160;
+	buttonsPopup.buttonHeight = 120;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	appModel.navigator.addPopup(buttonsPopup);
 	function buttonsPopup_selectHandler(event:Event) : void

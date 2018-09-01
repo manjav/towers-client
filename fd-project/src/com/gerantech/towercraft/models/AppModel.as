@@ -24,7 +24,6 @@ public static const PLATFORM_IOS:int = 3;
 public var platform:int;
 public var game:Game;
 public var descriptor:Descriptor;
-public var scale:Number = 1;
 public var formalAspectratio:Number;
 public var aspectratio:Number;
 public var theme:MainTheme;

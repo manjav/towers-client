@@ -92,8 +92,8 @@ override protected function initialize():void
 	
 	buttonDisplay = new ExchangeButton();
 	buttonDisplay.disableSelectDispatching = true;
-	buttonDisplay.width = 300 * appModel.scale;
-	buttonDisplay.height = 110 * appModel.scale;
+	buttonDisplay.width = 300;
+	buttonDisplay.height = 110;
 	buttonDisplay.addEventListener(Event.SELECT, batton_selectHandler);
 	buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
@@ -108,7 +108,7 @@ override protected function initialize():void
 		if( state == ExchangeItem.CHEST_STATE_BUSY )
 		{
 			buttonDisplay.style = "neutral";
-			buttonDisplay.width = 240 * appModel.scale;
+			buttonDisplay.width = 240;
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 2, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
@@ -143,7 +143,7 @@ override protected function transitionInCompleted():void
 	OpenBookOverlay.createFactory();
 	bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + item.outcome);
 	bookArmature.addEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
-	bookArmature.scale = OpenBookOverlay.getBookScale(item.outcome) * appModel.scale * 2;
+	bookArmature.scale = OpenBookOverlay.getBookScale(item.outcome) * 2;
 	bookArmature.animation.gotoAndPlayByTime("appear", 0, 1);
 	bookArmature.x = transitionIn.destinationBound.width * 0.5;
 	bookArmature.y = padding * 0.5;
@@ -176,9 +176,9 @@ private function updateCounter():void
 	if( timeDisplay == null )
 	{
 		timeDisplay = new CountdownLabel();
-		timeDisplay.width = 320 * appModel.scale;
-		timeDisplay.height = 120 * appModel.scale;
-		timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.9, NaN, -170 * appModel.scale);
+		timeDisplay.width = 320;
+		timeDisplay.height = 120;
+		timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.9, NaN, -170);
 		addChild(timeDisplay);
 	}
 	var t:uint = uint(item.expiredAt - timeManager.now);

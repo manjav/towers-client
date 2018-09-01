@@ -40,8 +40,8 @@ public function Indicator(direction:String = "ltr", resourceType:int = 0, hasPro
 	this.resourceType = resourceType;
 	this.hasProgressbar = hasProgressbar;
 	this.hasIncreaseButton = hasIncreaseButton;
-	height = 64 * appModel.scale;
-	width = 240 * appModel.scale;
+	height = 64;
+	width = 240;
 }
 
 override protected function initialize():void
@@ -53,8 +53,8 @@ override protected function initialize():void
 	skin.scale9Grid = MainTheme.INDICATORS_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	var padding:int = 12 * appModel.scale;
-	y = 18 * appModel.scale;
+	var padding:int = 12;
+	y = 18;
 	
 	if( hasProgressbar )
 	{
@@ -66,7 +66,7 @@ override protected function initialize():void
 		addChild(progressbar);
 	}
 	
-	progressLabel = new TextField(width-padding*(hasIncreaseButton?8:5), height, _value + "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, MainTheme.PRIMARY_TEXT_COLOR));
+	progressLabel = new TextField(width-padding*(hasIncreaseButton?8:5), height, _value + "", new TextFormat("SourceSans", appModel.theme.gameFontSize*0.94, MainTheme.PRIMARY_TEXT_COLOR));
 	progressLabel.x = padding*4;
 	progressLabel.pixelSnapping = false;
 	progressLabel.autoScale = true;
@@ -161,9 +161,9 @@ private function addButton_triggerHandler(event:Event):void
 
 public function punch():void
 {
-	var reservedY:Number = 18 * appModel.scale;
+	var reservedY:Number = 18;
 	value = player.resources.get(resourceType);
-	y = reservedY - 40 * appModel.scale;
+	y = reservedY - 40;
 	Starling.juggler.tween(this, 0.3, {y:reservedY, transition:Transitions.EASE_OUT_BACK});
 }
 }

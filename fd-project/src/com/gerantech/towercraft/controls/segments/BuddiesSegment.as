@@ -62,11 +62,11 @@ override public function init():void
 	
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.padding = 24 * appModel.scale;	
+	listLayout.padding = 24;	
 	listLayout.paddingTop = listLayout.padding;
 	listLayout.useVirtualLayout = true;
-	listLayout.typicalItemHeight = 164 * appModel.scale;;
-	listLayout.gap = 12 * appModel.scale;	
+	listLayout.typicalItemHeight = 164;;
+	listLayout.gap = 12;	
 	
 	list = new FastList();
 	list.layout = listLayout;
@@ -142,9 +142,9 @@ protected function list_focusInHandler(event:Event):void
 	buttonsPopup.data = buddy;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24 * appModel.scale;
-	buttonsPopup.buttonsWidth = 360 * appModel.scale;
-	buttonsPopup.buttonHeight = 120 * appModel.scale;
+	buttonsPopup.padding = 24;
+	buttonsPopup.buttonsWidth = 360;
+	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
 	var floatingY:int = selectedItem.getBounds(stage).y

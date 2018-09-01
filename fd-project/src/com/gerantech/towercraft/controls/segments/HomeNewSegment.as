@@ -58,7 +58,7 @@ override public function init():void
 	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED  )
 		return;
 	
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	initializeCompleted = true;
 	layout = new AnchorLayout();
 //	showOffers();
@@ -75,7 +75,7 @@ override public function init():void
 	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
-	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430 * appModel.scale, 186 * appModel.scale, gridRect, shadowRect);
+	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430, 186, gridRect, shadowRect);
 	addButton(battlesButton, "battlesButton", stageWidth * 0.49 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
 	
 	if( player.challenges != null && player.challenges.exists(0) && player.challenges.get(0).getState(timeManager.now) == Challenge.STATE_STARTED )
@@ -91,7 +91,7 @@ override public function init():void
 	
 	if( player.hasQuests )
 	{
-		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 420 * appModel.scale, 186 * appModel.scale, gridRect, shadowRect);
+		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 420, 186, gridRect, shadowRect);
 		addButton(operationButton, "operationButton", stageWidth * 0.46 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
 	
@@ -107,7 +107,7 @@ override public function init():void
 		adminButton.alpha = 0;
 		adminButton.isLongPressEnabled = true;
 		adminButton.longPressDuration = 1;
-		adminButton.width = adminButton.height = 200 * appModel.scale;
+		adminButton.width = adminButton.height = 200;
 		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
 		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height);
 		addChild(adminButton);
@@ -168,8 +168,8 @@ override public function init():void
 	}
 	
 	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
-	adsButton.width = adsButton.height = 140 * appModel.scale;
-	adsButton.layoutData = new AnchorLayoutData(120 * appModel.scale, NaN, NaN, 20 * appModel.scale);
+	adsButton.width = adsButton.height = 140;
+	adsButton.layoutData = new AnchorLayoutData(120, NaN, NaN, 20);
 	if( exchanger.items.get(ExchangeType.C43_ADS).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )
 		adsButton.badgeLabel = "!";
 	adsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -207,9 +207,9 @@ private function showOffers():void
 {
 	var offers:OfferView = new OfferView();
 	offers.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:0, NaN, appModel.isLTR?0:NaN);
-	offers.width = 780 * appModel.scale;
-	offers.height = 160 * appModel.scale;
-	offers.y = 50 * appModel.scale;
+	offers.width = 780;
+	offers.height = 160;
+	offers.y = 50;
 	addChild(offers);
 }
 

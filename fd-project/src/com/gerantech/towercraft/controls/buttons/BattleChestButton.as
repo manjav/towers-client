@@ -23,12 +23,12 @@ package com.gerantech.towercraft.controls.buttons
 		public function BattleChestButton()
 		{
 			if( width == 0 )
-				width = 240 * appModel.scale;
-			minWidth = 72 * appModel.scale;
-			minHeight = 72 * appModel.scale;
-			height = maxHeight = 128 * appModel.scale;
+				width = 240;
+			minWidth = 72;
+			minHeight = 72;
+			height = maxHeight = 128;
 			
-			padding = 8 * appModel.scale;
+			padding = 8;
 			layout = new AnchorLayout();
 			shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.8);
 			labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding*0.3);

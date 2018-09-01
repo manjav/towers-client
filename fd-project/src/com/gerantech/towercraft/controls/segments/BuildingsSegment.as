@@ -41,7 +41,7 @@ override public function init():void
 	
 	layout = new AnchorLayout();
 	listLayout = new TiledRowsLayout();
-	listLayout.padding = listLayout.gap = 6 * appModel.scale;
+	listLayout.padding = listLayout.gap = 6;
 	listLayout.paddingTop = listLayout.padding * 16;
 	listLayout.paddingBottom = listLayout.padding * 2;
 	listLayout.verticalGap = listLayout.padding * 1;

@@ -23,7 +23,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	
 	// main name
 	var nameShadow:ShadowLabel = new ShadowLabel(name, 1, 0, "left", null, false, null, 1.2);

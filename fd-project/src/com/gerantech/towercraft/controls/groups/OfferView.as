@@ -57,7 +57,7 @@ override protected function initialize() : void
 	addEventListener(Event.TRIGGERED, item_triggeredHandler);
 	
 	alpha = 0;
-	Starling.juggler.tween(this, 1, {delay:2, alpha:1, y:120 * appModel.scale, transition:Transitions.EASE_OUT});
+	Starling.juggler.tween(this, 1, {delay:2, alpha:1, y:120, transition:Transitions.EASE_OUT});
 	intervalId = setInterval(punchIcon, 8000);
 }
 

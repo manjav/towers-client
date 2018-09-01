@@ -24,7 +24,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	var padding:int = 20 * appModel.scale;
+	var padding:int = 20;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
@@ -53,7 +53,7 @@ override protected function commitData():void
 		return;
 	
 	var isGap:Boolean = _data.n == undefined;
-	height = (isGap?60:100) * appModel.scale;
+	height = (isGap?60:100);
 
 	alpha = isGap ? 0 : 1;
 	
@@ -62,7 +62,7 @@ override protected function commitData():void
 	//nameShadowDisplay.text = rankIndex + ".  " + _data.n ;
 	pointDisplay.text = "" + _data.p;
 	//trace(_data.i, player.id);
-	/*var fs:int = AppModel.instance.theme.gameFontSize * (_data.i==player.id?1:0.9) * appModel.scale;
+	/*var fs:int = AppModel.instance.theme.gameFontSize * (_data.i==player.id?1:0.9);
 	var fc:int = _data.i==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 	if( fs != nameDisplay.fontSize )
 	{

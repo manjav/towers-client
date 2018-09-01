@@ -24,7 +24,7 @@ override protected function commitData():void
 	iconDisplay = new ImageLoader();
 	iconDisplay.source = Assets.getTexture("currency-" + exchange.type, "gui");
 	iconDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, NaN, 0);
-    iconDisplay.width = 380 * appModel.scale;
+    iconDisplay.width = 380;
 	addChild(iconDisplay);
 	
 	titleDisplay = new ShadowLabel(loc("exchange_title_" + exchange.type), 1, 0, null, null, false, null, 0.85);
@@ -37,7 +37,7 @@ override protected function commitData():void
 	
 	buttonDisplay = new ExchangeButton();
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
-	buttonDisplay.height = 96 * appModel.scale;
+	buttonDisplay.height = 96;
 	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
 		buttonDisplay.currency = "ت";
 	buttonDisplay.count = exchange.requirements.values()[0];

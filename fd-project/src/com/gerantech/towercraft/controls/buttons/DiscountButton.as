@@ -23,7 +23,7 @@ public class DiscountButton extends ExchangeButton
 public function DiscountButton() 
 {
 	super();
-	height = maxHeight = 140 * appModel.scale;
+	height = maxHeight = 140;
 	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, padding * 2.5);
 	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, padding * 3.0);
 	originLayoutData = new AnchorLayoutData(NaN, padding * 5, NaN, padding * 5, NaN, -padding * 4.0);

@@ -48,7 +48,7 @@ public function ExBookSlotItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-	padding = 16 * appModel.scale;
+	padding = 16;
 	backgroundSkin = skin = null;
 }
 override protected function commitData():void
@@ -110,7 +110,7 @@ override protected function bookFactory() : StarlingArmatureDisplay
 	if( state != ExchangeItem.CHEST_STATE_EMPTY ) 
 	{
 		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + exchange.outcome );
-		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 0.68;
+		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 0.68;
 		bookArmature.x = width * 0.53;
 		bookArmature.y = height * 0.65;
 		if( state == ExchangeItem.CHEST_STATE_READY )
@@ -280,7 +280,7 @@ private function achieve():void
 
 	emptyLabel.removeFromParent();
 	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + rd.key );
-	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 1.9;
+	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);
 	bookAnimation.animation.timeScale = 0.5;
 	bookAnimation.x = rd.x;
@@ -288,7 +288,7 @@ private function achieve():void
 	bookAnimation.addEventListener(EventObject.COMPLETE, bookAnimation_completeHandler);
 	appModel.navigator.addChild(bookAnimation);
 	var globalPos:Rectangle = this.getBounds(stage);trace(globalPos)
-	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, x:globalPos.x + width * 0.53, scale:OpenBookOverlay.getBookScale(exchange.outcome) * appModel.scale * 0.68, transition:Transitions.EASE_IN_OUT});
+	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, x:globalPos.x + width * 0.53, scale:OpenBookOverlay.getBookScale(exchange.outcome) * 0.68, transition:Transitions.EASE_IN_OUT});
 	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, y:globalPos.y + height * 0.65, transition:Transitions.EASE_IN_BACK});
 	function bookAnimation_completeHandler(event:StarlingEvent):void
 	{

@@ -31,7 +31,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	var padding:int = 36 * appModel.scale;
+	var padding:int = 36;
 	
 	checkBoxDisplay = new ImageLoader();
 	checkBoxDisplay.width = padding * 3;

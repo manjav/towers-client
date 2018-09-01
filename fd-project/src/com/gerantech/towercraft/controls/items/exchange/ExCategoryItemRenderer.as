@@ -39,9 +39,9 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(44, 12, 2, 4), 52 * appModel.scale);
+	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(44, 12, 2, 4), 52);
 	headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	headerDisplay.height = 112 * appModel.scale;
+	headerDisplay.height = 112;
 	addChild(headerDisplay);
 	
 	listLayout = new TiledRowsLayout();
@@ -50,7 +50,7 @@ override protected function initialize():void
 	listLayout.tileVerticalAlign = listLayout.verticalAlign = VerticalAlign.TOP;
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
-	listLayout.padding = listLayout.gap = 5 * appModel.scale;
+	listLayout.padding = listLayout.gap = 5;
 	
 	list = new List();
 	list.layout = listLayout;
@@ -70,32 +70,32 @@ override protected function commitData():void
 	headerDisplay.label = loc("exchange_title_" + line.category);
 	headerDisplay.data = line.category;
 
-    var CELL_SIZE:int = 360 * appModel.scale;
+    var CELL_SIZE:int = 360;
 	listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 4) / 3) ;
 	//descriptionDisplay.visible = false;
 	switch( line.category )
 	{
 		case ExchangeType.C20_SPECIALS:
-			CELL_SIZE = HEIGHT_C20_SPECIALS * appModel.scale;
+			CELL_SIZE = HEIGHT_C20_SPECIALS;
 			headerDisplay.showCountdown(line.items[0]);
 			if( list.itemRendererFactory == null )// init first item in feathers two called
 				list.itemRendererFactory = function ():IListItemRenderer{ return new ExSpecialItemRenderer();}
 			break;
 		
 		case ExchangeType.C30_BUNDLES:
-			CELL_SIZE = HEIGHT_C30_BUNDLES * appModel.scale;
+			CELL_SIZE = HEIGHT_C30_BUNDLES;
 			listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 2)) ;
 			headerDisplay.showCountdown(line.items[0]);
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBundleItemRenderer();}
 			break;
 		
 		case ExchangeType.C120_MAGICS:
-			CELL_SIZE = HEIGHT_C120_MAGICS * appModel.scale;
+			CELL_SIZE = HEIGHT_C120_MAGICS;
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExBookBaseItemRenderer();}
 			break;		
 		
 		default:
-            CELL_SIZE = (line.category == ExchangeType.C0_HARD || line.category == ExchangeType.C10_SOFT ? 520:360) * appModel.scale;
+            CELL_SIZE = (line.category == ExchangeType.C0_HARD || line.category == ExchangeType.C10_SOFT ? 520:360);
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExCurrencyItemRenderer();}
 			break;
 	}

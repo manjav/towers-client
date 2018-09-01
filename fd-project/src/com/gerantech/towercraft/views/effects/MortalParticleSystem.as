@@ -19,7 +19,7 @@ public class MortalParticleSystem extends PDParticleSystem
 public function MortalParticleSystem(name:String, duration:Number = 0.1, autoStart:Boolean = true) 
 {
 	super(ParticleManager.getParticleData(name), ParticleManager.getTextureByBitmap(name));
-	startSize = startSize * AppModel.instance.scale * 4;
+	startSize = startSize * 4;
 	touchable = false;
 	addEventListener(Event.COMPLETE, completeHandler);
 	if( autoStart )

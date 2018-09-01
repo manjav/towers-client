@@ -75,8 +75,8 @@ protected function addedToStageHandler(event:Event):void
 	parent.addChild(overlaysContainer);
 	
 	logs = new Vector.<GameLog>();
-	GameLog.MOVING_DISTANCE = -120 * AppModel.instance.scale;
-	GameLog.GAP = 80 * AppModel.instance.scale;
+	GameLog.MOVING_DISTANCE = -120;
+	GameLog.GAP = 80;
 	logsContainer = new LayoutGroup();
 	parent.addChild(logsContainer);
 	
@@ -255,9 +255,9 @@ public function addAnimation(x:Number, y:Number, size:int, texture:Texture, coun
 	bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
 	bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
 	bugReportButton.addEventListener(FeathersEventType.LONG_PRESS, bugReportButton_longPressHandler);
-	bugReportButton.x = 12 * AppModel.instance.scale;
-	bugReportButton.y = stage.stageHeight - 300 * AppModel.instance.scale;
-	bugReportButton.width = 120*AppModel.instance.scale;
+	bugReportButton.x = 12;
+	bugReportButton.y = stage.stageHeight - 300;
+	bugReportButton.width = 120;
 	bugReportButton.scaleY = bugReportButton.scaleX;
 	addChild(bugReportButton);
 	function bugReportButton_triggeredHandler(event:Event):void {
@@ -277,7 +277,7 @@ public function addAnimation(x:Number, y:Number, size:int, texture:Texture, coun
 	function changeHandler(event:Event):void {
 		removeChild(bugReportButton);
 		addChild(bugReportButton);
-		bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300) * AppModel.instance.scale;
+		bugReportButton.y = stage.stageHeight - (activeScreenID==Main.BATTLE_SCREEN?150:300);
 	}
 }*/
 

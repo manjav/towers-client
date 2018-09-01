@@ -67,7 +67,7 @@ override public function init():void
 {
 	super.init();
 	updateData();
-	padding = 36 * appModel.scale;
+	padding = 36;
 	
 	backgroundSkin = new Quad(1,1);
 	backgroundSkin.alpha = 0;
@@ -370,8 +370,8 @@ private function setEditMode(value:Boolean, type:int):void
 		draggableCard = new BuildingCard();
 		draggableCard.showLevel = false;
 		draggableCard.showSlider = false;
-		draggableCard.width = 240 * appModel.scale;
-		draggableCard.height = 360 * appModel.scale;
+		draggableCard.width = 240;
+		draggableCard.height = 360;
 		draggableCard.pivotX = draggableCard.width * 0.5;
 		draggableCard.pivotY = draggableCard.height * 0.5;
 		draggableCard.x = stage.stageWidth * 0.5;

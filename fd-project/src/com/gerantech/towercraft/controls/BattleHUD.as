@@ -70,20 +70,20 @@ override protected function initialize():void
 	gradient.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
 	gradient.alpha = 0.5;
-	gradient.width = 440 * appModel.scale;
-	gradient.height = 140 * appModel.scale;
+	gradient.width = 440;
+	gradient.height = 140;
 	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	addChild(gradient);
 	
 	var hasQuit:Boolean = battleData.map.isOperation && player.getLastOperation() > 3 || SFSConnection.instance.mySelf.isSpectator;
-	padding = 16 * appModel.scale;
-	var leftPadding:int = (hasQuit ? 150 : 0) * appModel.scale;
+	padding = 16;
+	var leftPadding:int = (hasQuit ? 150 : 0);
 	if( hasQuit )
 	{
 		var closeButton:CustomButton = new CustomButton();
 		closeButton.style = "danger";
 		closeButton.label = "X";
-		closeButton.height = closeButton.width = 120 * appModel.scale;
+		closeButton.height = closeButton.width = 120;
 		closeButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 		closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 		addChild(closeButton);			
@@ -132,8 +132,8 @@ override protected function initialize():void
 	{
 		stickerButton = new CustomButton();
 		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
-		stickerButton.width = 140 * appModel.scale;
+		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+		stickerButton.width = 140;
 		stickerButton.layoutData = new AnchorLayoutData(NaN, padding * 2, padding);
 		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 		addChild(stickerButton);
@@ -143,7 +143,7 @@ override protected function initialize():void
 	bubbleAllise.layoutData = new AnchorLayoutData(NaN, padding, padding);
 	
 	bubbleAxis = new StickerBubble(true);
-	bubbleAxis.layoutData = new AnchorLayoutData(140 * appModel.scale + padding, NaN, NaN, padding);
+	bubbleAxis.layoutData = new AnchorLayoutData(140 + padding, NaN, NaN, padding);
 	
 	territorySlider = new TerritorySlider();
 	territorySlider.width = (player.get_arena(0) == 0 ? 2 : 1) * padding;
@@ -163,7 +163,7 @@ private function createCompleteHandler(event:Event):void
 	if( battleData.battleField.extraTime > 0 )
 		appModel.navigator.addAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, 240, Assets.getTexture("extra-time", "gui"), battleData.battleField.extraTime, BattleTimerSlider(timerSlider).iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
 	function punchTimer():void {
-		var diff:int = 48 * appModel.scale;
+		var diff:int = 48;
 		timerSlider.y -= diff;
 		Starling.juggler.tween(timerSlider, 0.4, {y:y + diff, transition:Transitions.EASE_OUT_ELASTIC});
 	}

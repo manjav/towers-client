@@ -28,9 +28,9 @@ package com.gerantech.towercraft.controls.texts
 		public function RTLLabel(text:String, color:uint=1, align:String=null, direction:String=null, wordWrap:Boolean=false, lastAlign:String=null, fontSize:Number=0, fontFamily:String=null, fontWeight:String=null, fontPosture:String=null)
 		{
 			if( fontSize == 0 )
-				this.fontSize = AppModel.instance.theme.gameFontSize * AppModel.instance.scale;
+				this.fontSize = AppModel.instance.theme.gameFontSize;
 			else if( fontSize < 4 )
-				this.fontSize = fontSize * AppModel.instance.theme.gameFontSize * AppModel.instance.scale;
+				this.fontSize = fontSize * AppModel.instance.theme.gameFontSize;
 			else
 				this.fontSize = fontSize;
 						

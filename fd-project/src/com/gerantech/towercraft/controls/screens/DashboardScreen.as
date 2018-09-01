@@ -67,7 +67,7 @@ protected function addedToStageHandler(event:Event):void
 {
 	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	
-	footerSize = 180 * appModel.scale;
+	footerSize = 180;
 	autoSizeMode = AutoSizeMode.STAGE;
 	layout = new AnchorLayout();
 	visible = false;	

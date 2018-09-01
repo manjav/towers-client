@@ -188,7 +188,7 @@ private function startBattle():void
 		tutorials.removeAll();
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		var fscale:Number = player.get_arena(0) == 0 ? 1.2 : 1;
-		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:appModel.scale * fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
+		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:fscale, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
 		if( !player.inTutorial() )
 			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isOperation ? battleData.battleField.map.index : -1, battleData ), 0);
 	}
@@ -597,7 +597,7 @@ private function touchHandler(event:TouchEvent):void
 			}
 			else
 			{
-				endPoint.setTo((touch.globalX) / appModel.scale, (touch.globalY) / appModel.scale);
+				endPoint.setTo((touch.globalX), (touch.globalY));
 				
 				for each( pv in appModel.battleFieldView.places )
 					pv.hilight(false);

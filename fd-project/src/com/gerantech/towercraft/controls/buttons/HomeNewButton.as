@@ -38,7 +38,7 @@ public function HomeNewButton(background:String, label:String, width:Number, hei
 	pivotX = this.width * 0.5;
 	this.height = height;
 	pivotY = this.height * 0.5;
-	padding = 32 * appModel.scale * Starling.contentScaleFactor;
+	padding = 32 * Starling.contentScaleFactor;
 }
 
 override protected function initialize() : void

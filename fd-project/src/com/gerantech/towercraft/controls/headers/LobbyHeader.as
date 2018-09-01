@@ -37,7 +37,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	var padding:int = 16 * appModel.scale;
+	var padding:int = 16;
 	
 	backgroundSkin = new Quad(1,1,0);
 	backgroundSkin.alpha = 0.8;
@@ -56,7 +56,7 @@ override protected function initialize():void
 	
 	infoButton = new CustomButton();
 	infoButton.label = "i";
-	infoButton.width = infoButton.height = 84 * appModel.scale;
+	infoButton.width = infoButton.height = 84;
 	infoButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 , NaN, -padding*0.5);
 	addEventListener(Event.TRIGGERED, infoButton_triggeredHandler);
 	addChild(infoButton);

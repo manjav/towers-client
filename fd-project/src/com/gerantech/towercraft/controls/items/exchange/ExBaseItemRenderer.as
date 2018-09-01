@@ -25,7 +25,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	padding = 12 * appModel.scale;
+	padding = 12;
 	
 	skin = new ImageSkin(appModel.theme.itemRendererDisabledSkinTexture);
 	skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererDisabledSkinTexture);

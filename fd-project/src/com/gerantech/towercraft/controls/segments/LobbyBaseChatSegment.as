@@ -92,8 +92,8 @@ protected function manager_readyHandler(event:Event):void
 
 protected function showElements():void
 {
-	padding = 16 * appModel.scale;
-	footerSize = 120 * appModel.scale;
+	padding = 16;
+	footerSize = 120;
 	
 	chatLayout = new VerticalLayout();
 	chatLayout.paddingTop = padding * 2;
@@ -126,7 +126,7 @@ protected function showElements():void
     chatEnableButton = new CustomButton();
     chatEnableButton.width = chatEnableButton.height = footerSize;
     chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-    chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4 * appModel.scale);
+    chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
     chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
     addChild(chatEnableButton);
@@ -206,9 +206,9 @@ protected function showSimpleListPopup(msgPack:ISFSObject, selectedItem:LobbyCha
 	buttonsPopup.data = msgPack;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24 * appModel.scale;
-	buttonsPopup.buttonsWidth = 320 * appModel.scale;
-	buttonsPopup.buttonHeight = 120 * appModel.scale;
+	buttonsPopup.padding = 24;
+	buttonsPopup.buttonsWidth = 320;
+	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
 	var floatingY:int = selectedItem.getBounds(stage).y + floatingH * 0.5;

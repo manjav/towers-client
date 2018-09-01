@@ -69,7 +69,7 @@ override public function init():void
 		return;
     }
 	
-	var tabsSize:int = 120 * appModel.scale;
+	var tabsSize:int = 120;
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 	pageLayout.verticalAlign = VerticalAlign.JUSTIFY;

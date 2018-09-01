@@ -695,7 +695,7 @@ protected function initializeFonts():void
 {
 	this.smallFontSize = 40;
 	this.gameFontSize = 56//12;
-	this.regularFontSize = 4 / AppModel.instance.scale;// 12
+	this.regularFontSize = 4;// 12
 	this.largeFontSize = 56;
 	this.extraLargeFontSize = 72;
 

@@ -33,7 +33,7 @@ override protected function commitData():void
 	layout = new AnchorLayout();
 	
 	this.height = _owner.height;
-	padding = 16 * appModel.scale;
+	padding = 16;
 	dashboardData = _data as TabItemData;
 	
 	skin = new ImageSkin(appModel.theme.tabUpSkinTexture);

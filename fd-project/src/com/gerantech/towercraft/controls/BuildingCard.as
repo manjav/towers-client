@@ -69,7 +69,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout= new AnchorLayout();
-	padding = 16 * appModel.scale;
+	padding = 16;
 	
 	labelsContainer.layout = new AnchorLayout();
 	labelsContainer.layoutData = new AnchorLayoutData(0, 0, 0, 0);
@@ -203,7 +203,7 @@ protected function defaultLevelDisplayFactory() : RTLLabel
 	{
 		levelDisplay = new RTLLabel("Level " + level, rarity == 0?1:0, "center", null, false, null, 0.8);
 		levelDisplay.alpha = 0.8;
-		levelDisplay.height = 52 * appModel.scale;
+		levelDisplay.height = 52;
 		levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 		labelsContainer.addChild(levelDisplay);
 	}
@@ -338,7 +338,7 @@ protected function defaultElixirDisplayFactory():void
 	
 	var elixirBackground:ImageLoader = new ImageLoader();
 	elixirBackground.source = Assets.getTexture("cards/elixir-"+_elixir, "gui");
-	elixirBackground.scale = appModel.scale * 2.4;
+	elixirBackground.scale = 2.4;
 	elixirBackground.layoutData = new AnchorLayoutData(-padding*0.3, NaN, NaN, -padding*0.3);
 	addChild(elixirBackground);
 }

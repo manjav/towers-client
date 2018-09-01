@@ -155,8 +155,8 @@ private function showDetails():void
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
-	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370) * appModel.scale;
-	joinleaveButton.height = 96 * appModel.scale;
+	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370);
+	joinleaveButton.height = 96;
 	joinleaveButton.visible = roomServerData.getInt("pri") < 2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom || player.admin;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
@@ -172,7 +172,7 @@ private function showDetails():void
 		removeButton.style = "danger";
 		removeButton.label = "X";
 		removeButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding + 350:NaN, NaN, appModel.isLTR?NaN:padding + 350);
-		removeButton.width = removeButton.height = 96 * appModel.scale;
+		removeButton.width = removeButton.height = 96;
 		removeButton.addEventListener(Event.TRIGGERED, removeButton_triggeredHandler);
 		addChild(removeButton);
 	}
@@ -181,7 +181,7 @@ private function showDetails():void
 	closeButton.style = "danger";
 	closeButton.label = "X";
 	closeButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?padding * 0.5:NaN, NaN,  appModel.isLTR?NaN:padding * 0.5);
-	closeButton.width = closeButton.height = 96 * appModel.scale;
+	closeButton.width = closeButton.height = 96;
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
 	
@@ -191,8 +191,8 @@ private function showDetails():void
 	var shareButton:CustomButton = new CustomButton();
 	shareButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?128:NaN, NaN, appModel.isLTR?NaN:128);
 	shareButton.label = loc("lobby_invite");
-	shareButton.width = 170 * appModel.scale;
-	shareButton.height = 96 * appModel.scale;
+	shareButton.width = 170;
+	shareButton.height = 96;
 	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
 	addChild(shareButton);
 	
@@ -203,8 +203,8 @@ private function showDetails():void
 	var editButton:CustomButton = new CustomButton();
 	editButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?300:NaN, NaN, appModel.isLTR?NaN:300);
 	editButton.label = loc("lobby_edit");
-	editButton.width = 160 * appModel.scale;
-	editButton.height = 96 * appModel.scale;
+	editButton.width = 160;
+	editButton.height = 96;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
 }
@@ -282,9 +282,9 @@ private function membersList_focusInHandler(event:Event):void
 	buttonsPopup.buttons = btns;
 	buttonsPopup.data = selectedData;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24 * appModel.scale;
-	buttonsPopup.buttonsWidth = 320 * appModel.scale;
-	buttonsPopup.buttonHeight = 120 * appModel.scale;
+	buttonsPopup.padding = 24;
+	buttonsPopup.buttonsWidth = 320;
+	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
 	var floatingY:int = selectedItem.getBounds(stage).y

@@ -36,9 +36,9 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	padding = 36 * appModel.scale;
-	controlWidth = 440 * appModel.scale;
-	var controlH:int = 96 * appModel.scale;
+	padding = 36;
+	controlWidth = 440;
+	var controlH:int = 96;
 	
 	var tilteDisplay:RTLLabel = new RTLLabel(loc("lobby_create_message"), 1, "center" );
 	tilteDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
@@ -124,7 +124,7 @@ private function createButton_triggeredHandler(event:Event):void
 private function addInput(controlName:String, positionY:int, controlHeight:int):CustomTextInput
 {
 	var inputControl:CustomTextInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.DEFAULT);
-	inputControl.promptProperties.fontSize = inputControl.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize*appModel.scale;
+	inputControl.promptProperties.fontSize = inputControl.textEditorProperties.fontSize = 0.8*appModel.theme.gameFontSize;
 	//nameInput.maxChars = game.loginData.nameMaxLen ;
 	inputControl.prompt = loc("lobby_"+controlName);
 	inputControl.layoutData = new AnchorLayoutData( positionY, padding, NaN, padding );

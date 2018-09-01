@@ -41,7 +41,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	var size:int = 32 * appModel.scale;
+	var size:int = 32;
 	width = size * 3;
 	height = size * 3.4;
 	var color:uint = alise ? 0x007aff : 0xf20c1a;
@@ -54,7 +54,7 @@ override protected function initialize():void
 	addChild(bgImage);
 
 	labelDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
-	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), size*appModel.scale*4, color, "center");
+	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), size*4, color, "center");
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 0);
 	labelDisplay.text = "0";

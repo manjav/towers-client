@@ -34,9 +34,9 @@ package com.gerantech.towercraft.controls.tooltips
 			backgroundSkin = sk;
 			
 			var hlayout:HorizontalLayout = new HorizontalLayout();
-			hlayout.padding = 36*appModel.scale;
-			hlayout.paddingTop = (inverse?60:24)*appModel.scale;
-			hlayout.paddingBottom = (inverse?36:72)*appModel.scale;
+			hlayout.padding = 36;
+			hlayout.paddingTop = (inverse?60:24);
+			hlayout.paddingBottom = (inverse?36:72);
 			layout = hlayout;
 			
 			labelDisplay = new RTLLabel(_label, 0, "center", null, false, null, 1.2);

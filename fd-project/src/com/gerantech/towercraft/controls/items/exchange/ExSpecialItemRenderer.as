@@ -49,7 +49,7 @@ override protected function commitData():void
 	
 	var buttonDisplay:DiscountButton = new DiscountButton();
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
-	buttonDisplay.width = 320 * appModel.scale;
+	buttonDisplay.width = 320;
 	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
 		buttonDisplay.currency = "ت";
 	buttonDisplay.originCount = outValue;
@@ -59,13 +59,13 @@ override protected function commitData():void
 	
 	var ribbonDisplay:ImageLoader = new ImageLoader();
 	ribbonDisplay.source = Assets.getTexture("cards/empty-badge", "gui");
-	ribbonDisplay.layoutData = new AnchorLayoutData( -14 * appModel.scale, NaN, NaN, -14 * appModel.scale);
+	ribbonDisplay.layoutData = new AnchorLayoutData( -14, NaN, NaN, -14);
 	ribbonDisplay.height = ribbonDisplay.width = width * 0.5;
 	addChild(ribbonDisplay);
 	ribbonDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void
 	{
 		var discoutDisplay:ShadowLabel = new ShadowLabel( discount + "% OFF", 1, 0, "center", "ltr", false, null, 0.7 );
-		discoutDisplay.width = 200 * appModel.scale;
+		discoutDisplay.width = 200;
 		discoutDisplay.alignPivot();
 		discoutDisplay.rotation = -0.8;
 		discoutDisplay.x = ribbonDisplay.width * 0.33;
