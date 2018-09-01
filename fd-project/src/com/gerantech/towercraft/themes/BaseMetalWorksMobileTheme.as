@@ -140,6 +140,13 @@ public static var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 public static var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
 public static var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
 
+public static var STYLE_GREEN:uint = 0x97C42C;
+public static var STYLE_BLUE:uint = 0x3F6FB2;
+public static var STYLE_RED:uint = 0xEB2542;
+public static var STYLE_GRAY:uint = 0x333333;
+public static var STYLE_ORANGE:uint = 0xF49D27;
+
+
 public static const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
 public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(12, 12, 2, 28);//4, 4, 1, 20);
 public static const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(12, 10, 6, 26);//4, 4, 1, 20);

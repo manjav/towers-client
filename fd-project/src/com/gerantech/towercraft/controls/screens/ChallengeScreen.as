@@ -2,21 +2,20 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
-import com.gerantech.towercraft.controls.groups.Devider;
-import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemRenderer;
-import com.gerantech.towercraft.controls.items.challenges.ChallengeRewardItemRenderer;
+import com.gerantech.towercraft.controls.items.challenges.ChallengePrizeItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
-import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gt.towers.arenas.Arena;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -26,7 +25,6 @@ import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
@@ -34,11 +32,11 @@ import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
-import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalLayout;
+import starling.display.Quad;
 import starling.events.Event;
 
 /**
@@ -55,7 +53,7 @@ private var earnOverlay:OpenBookOverlay;
 public function ChallengeScreen() {	super(); }
 override protected function initialize():void
 {
-	title = loc("challenge_title_0");
+	title = loc("challenge_title_" + challenge.type);
 	super.initialize();
 	changeState();
 }
@@ -64,6 +62,10 @@ private function changeState():void
 {
 	resetAll();
 	state = challenge.getState(timeManager.now);
+	
+	backgroundSkin = new Quad(1, 1, state == Challenge.STATE_WAIT ? BaseMetalWorksMobileTheme.STYLE_BLUE : (state == Challenge.STATE_STARTED ? BaseMetalWorksMobileTheme.STYLE_GREEN : BaseMetalWorksMobileTheme.STYLE_GRAY));
+	backgroundSkin.alpha = 0.8;
+	
 	showWait();
 	showStarted();
 	showEnded();
@@ -74,7 +76,7 @@ private function showWait():void
 	if( state != Challenge.STATE_WAIT )
 		return;
 
-	var messageDisplay:RTLLabel = new RTLLabel(loc("challenge_message_0"), 1, null, null, true, null, 0.8);
+	var messageDisplay:RTLLabel = new RTLLabel(loc("challenge_message_" + challenge.type), 1, null, null, true, null, 0.8);
 	messageDisplay.layoutData = new AnchorLayoutData(200, 32, NaN, 32);
 	addChild(messageDisplay);
 
@@ -146,33 +148,47 @@ private function rewardFactory():void
 	rewardsLayout.typicalItemWidth = stageWidth * 0.5 - rewardsLayout.gap * 3;
 	
 	var rewardsData:ListCollection = new ListCollection();
-	rewardsData.addItem({index:appModel.isLTR?1:2,	book:challenge.rewards.get(appModel.isLTR?1:2)});
-	rewardsData.addItem({index:appModel.isLTR?2:1,	book:challenge.rewards.get(appModel.isLTR?2:1)});
-	rewardsData.addItem({index:appModel.isLTR?3:4,	book:challenge.rewards.get(appModel.isLTR?3:4)});
-	rewardsData.addItem({index:appModel.isLTR?4:3,	book:challenge.rewards.get(appModel.isLTR?4:3)});
-	rewardsData.addItem(appModel.isLTR ?			{index:5, book:challenge.rewards.get(5)} : {});
-	if( !appModel.isLTR )
-		rewardsData.addItem({index:5, book:challenge.rewards.get(5)});
-	
+	rewardsData.addItem(getPrize(appModel.isLTR?1:2));
+	rewardsData.addItem(getPrize(appModel.isLTR?2:1));
+	rewardsData.addItem(getPrize(appModel.isLTR?3:4));
+	rewardsData.addItem(getPrize(appModel.isLTR?4:3));
+	rewardsData.addItem(getPrize(appModel.isLTR?5:6));
+	rewardsData.addItem(getPrize(appModel.isLTR?6:5));
+	rewardsData.addItem(getPrize(appModel.isLTR?7:8));
+	rewardsData.addItem(getPrize(appModel.isLTR?8:7));
+
 	var rewardsList:List = new List();
 	rewardsList.layout = rewardsLayout;
 	rewardsList.layoutData = new AnchorLayoutData(500, 0, NaN, 0);
 	rewardsList.dataProvider = rewardsData;
-	rewardsList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeRewardItemRenderer(); }
+	rewardsList.itemRendererFactory = function () : IListItemRenderer { return new ChallengePrizeItemRenderer(); }
 	rewardsList.addEventListener(FeathersEventType.FOCUS_IN, rewardsList_focusInHandler);
 	addChild(rewardsList);
+	
+	function getPrize(key:int) : Arena 
+	{
+		if( challenge.rewards.exists(key) )
+			return challenge.rewards.get(key);
+		return new Arena(0, 0, 0, 0, null);
+	}
 }
+
 
 private function attendeesFactory() : void 
 {
-	var attendeesLayout:TiledRowsLayout = new TiledRowsLayout();
-	attendeesLayout.useSquareTiles = false;
-	attendeesLayout.requestedColumnCount = 2;
+	var pointTab:ShadowLabel = new ShadowLabel(loc(Challenge.getTargetLabel(challenge.type)), 1, 0, null, null, false, null, 0.8);
+	pointTab.layoutData = new AnchorLayoutData(headerSize + 10, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280);
+	addChild(pointTab);
+
+	var prizeTab:ShadowLabel = new ShadowLabel(loc("challenge_prize"), 1, 0, null, null, false, null, 0.8);
+	prizeTab.layoutData = new AnchorLayoutData(headerSize + 10, appModel.isLTR?50:NaN, NaN, appModel.isLTR?NaN:50);
+	addChild(prizeTab);
+
+	var attendeesLayout:VerticalLayout = new VerticalLayout();
 	attendeesLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	attendeesLayout.padding = attendeesLayout.gap = 24;
+	attendeesLayout.padding = attendeesLayout.gap = 10
 
 	challenge.sort();
-//	challenge.attendees.sortOn( ["point", "updateAt"], [Array.NUMERIC | Array.DESCENDING, Array.NUMERIC | Array.DESCENDING]);
 	var attendeesList:List = new List();
 	attendeesList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	attendeesList.layout = attendeesLayout;
@@ -181,30 +197,35 @@ private function attendeesFactory() : void
 	attendeesList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeAttendeeItemRenderer(challenge); }
 	attendeesList.addEventListener(FeathersEventType.FOCUS_IN, attendeesList_focusInHandler);
 	addChild(attendeesList);
+	
+	var shadowTop:ImageLoader = new ImageLoader();
+	shadowTop.touchable = false;
+	shadowTop.color = 0;
+	shadowTop.alpha = 0.5;
+	shadowTop.height = 30;
+	shadowTop.source = Assets.getTexture("theme/gradeint-top", "gui");
+	shadowTop.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	shadowTop.layoutData = new AnchorLayoutData(headerSize + 79, 0, NaN, 0);
+	addChild(shadowTop);
+	
+	var shadowBottom:ImageLoader = new ImageLoader();
+	shadowBottom.touchable = false;
+	shadowBottom.color = 0;
+	shadowBottom.alpha = 0.5;
+	shadowBottom.height = 30;
+	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	shadowBottom.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	shadowBottom.layoutData = new AnchorLayoutData(NaN, 0, 550, 0);
+	addChild(shadowBottom);
 }
 
 private function footerFactory():void 
 {
-	var dscriptionBG:Devider = new Devider( state == Challenge.STATE_WAIT ? 0x333333 : (state == Challenge.STATE_STARTED ? 0x235E8E : 0xB60300) );
-	dscriptionBG.layout = new AnchorLayout();
-	dscriptionBG.height = 400;
-	dscriptionBG.layoutData = new AnchorLayoutData(NaN, 0, 150, 0);
-	addChild(dscriptionBG);
-	
-	var shadow:ImageLoader = new ImageLoader();
-	shadow.color = 0;
-	shadow.alpha = 0.5;
-	shadow.height = 30;
-	shadow.source = Assets.getTexture("theme/gradeint-bottom", "gui");
-	shadow.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
-	shadow.layoutData = new AnchorLayoutData(-shadow.height, 0, NaN, 0);
-	dscriptionBG.addChild(shadow);
-	
 	var joined:Boolean = challenge.indexOfAttendees(player.id) > -1 && state == Challenge.STATE_WAIT;
 	var message:String = joined ? loc("challenge_description_joined") : loc("challenge_description_" + state);
 	var descriptionDisplay:RTLLabel = new RTLLabel(message, 1, null, null, true, null, 0.8);
-	descriptionDisplay.layoutData = new AnchorLayoutData(10, 32, 0, 32);
-	dscriptionBG.addChild(descriptionDisplay);
+	descriptionDisplay.layoutData = new AnchorLayoutData(NaN, 16, 440, 16);
+	addChild(descriptionDisplay);
 }
 
 private function countdownFactory():void 
@@ -238,6 +259,7 @@ private function buttonFactory():void
 	else
 	{
 		buttonDisplay = new CustomButton();
+		buttonDisplay.style = CustomButton.STYLE_NEUTRAL;
 		buttonDisplay.label = loc("challenge_button_" + state);
 		buttonDisplay.width = 380;
 	}
@@ -255,11 +277,11 @@ protected function attendeesList_focusInHandler(e:Event) : void
 
 protected function rewardsList_focusInHandler(e:Event) : void 
 {
+	if( !ResourceType.isBook(e.data as int) )
+		return;
 	var item:ExchangeItem = new ExchangeItem(0, 0, 0, null, e.data + ":" + player.get_arena(0));
 	appModel.navigator.addPopup(new BookDetailsPopup(item, false));
-	//challenge.getRewardByAttendee(player.id)
 }
-
 
 protected function timeManager_changeHandler(e:Event):void 
 {
@@ -301,7 +323,7 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 	else if( state == Challenge.STATE_END )
 	{
-		earnOverlay = new OpenBookOverlay(challenge.getRewardByAttendee(player.id));
+		earnOverlay = new OpenBookOverlay(challenge.getRewardByAttendee(player.id).keys()[0]);
 		appModel.navigator.addOverlay(earnOverlay);
 		
 		var params:ISFSObject = new SFSObject();

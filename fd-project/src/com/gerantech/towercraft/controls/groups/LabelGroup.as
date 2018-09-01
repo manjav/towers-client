@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.groups 
 {
 import com.gerantech.towercraft.controls.TowersLayout;
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
@@ -12,7 +13,7 @@ import flash.geom.Rectangle;
  * ...
  * @author Mansour Djawadi ...
  */
-public class LabelGroup extends TowersLayout
+public class LabelGroup extends SimpleLayoutButton
 {
 private var label:String;
 private var textColor:uint;
@@ -22,6 +23,7 @@ public function LabelGroup(label:String, textColor:uint = 0xFFFFFF)
 	super();
 	this.label = label;
 	this.textColor = textColor;
+	touchable = false;
 }
 
 override protected function initialize():void

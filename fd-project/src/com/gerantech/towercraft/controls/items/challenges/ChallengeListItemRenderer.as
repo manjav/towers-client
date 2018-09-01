@@ -3,10 +3,13 @@ package com.gerantech.towercraft.controls.items.challenges
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.PrizePalette;
 import com.gerantech.towercraft.controls.items.AbstractListItemRenderer;
+import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.socials.Challenge;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -46,16 +49,20 @@ override protected function commitData():void
 	skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	titleDisplay = new ShadowLabel(loc("challenge_title_0"), 1, 0, "center");
+	titleDisplay = new ShadowLabel(loc("challenge_title_" + challenge.type), 1, 0, "center");
 	titleDisplay.layoutData = new AnchorLayoutData(20, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
 	var prizeW:int = width * 0.5 + 20;
-	var topPrizePanel:PrizePalette = new PrizePalette(loc("challenge_top_prize"), 0xFFFFFF, challenge.rewards.get(1));
+	var topPrizePanel:PrizePalette = new PrizePalette(loc("challenge_top_prize"), 0xFFFFFF, challenge.rewards.get(1).minWinStreak);
+	topPrizePanel.touchable = true;
+	topPrizePanel.addEventListener(Event.TRIGGERED, prizePanel_triggeredHandler);
 	topPrizePanel.layoutData = new AnchorLayoutData(140, 20, 160, prizeW);
 	addChild(topPrizePanel);
 	
-	var guaranteedPrizePanel:PrizePalette = new PrizePalette(loc("challenge_guaranteed_prize"), 0xFFFFFF, challenge.rewards.get(5));
+	var guaranteedPrizePanel:PrizePalette = new PrizePalette(loc("challenge_guaranteed_prize"), 0xFFFFFF, challenge.rewards.get(challenge.rewards.keys().length).minWinStreak);
+	guaranteedPrizePanel.touchable = true;
+	guaranteedPrizePanel.addEventListener(Event.TRIGGERED, prizePanel_triggeredHandler);
 	guaranteedPrizePanel.layoutData = new AnchorLayoutData(140, prizeW, 160, 20);
 	addChild(guaranteedPrizePanel);
 	
@@ -85,6 +92,15 @@ override protected function commitData():void
 	buttonDisplay.height = 120;
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, 20, 20, NaN);
 	addChild(buttonDisplay);
+}
+
+protected function prizePanel_triggeredHandler(e:Event):void 
+{
+	var pallete:PrizePalette = e.currentTarget as PrizePalette;
+	if( !ResourceType.isBook(pallete.prize) )
+		return;
+	var item:ExchangeItem = new ExchangeItem(0, 0, 0, null, pallete.prize + ":" + player.get_arena(0));
+	appModel.navigator.addPopup(new BookDetailsPopup(item, false));
 }
 
 private function getSkin() : Texture 

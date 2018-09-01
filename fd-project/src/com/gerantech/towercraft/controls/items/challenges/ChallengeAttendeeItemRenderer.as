@@ -7,15 +7,20 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.maps.IntIntMap;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
+import feathers.layout.VerticalLayout;
 import feathers.skins.ImageSkin;
 import flash.text.engine.ElementFormat;
+import haxe.ds.IntMap;
 import starling.events.Event;
 import starling.events.Touch;
 
@@ -26,7 +31,8 @@ private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
 private var challenge:Challenge;
 private var nameDisplay:ShadowLabel;
 private var pointDisplay:RTLLabel;
-private var rewardDisplay:ImageLoader;
+private var prizeCountDisplay:RTLLabel;
+private var prizeIconDisplay:ImageLoader;
 private var mySkin:ImageSkin;
 
 override protected function initialize():void
@@ -34,25 +40,29 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 80 * appModel.scale;
-	var ltr:Boolean = true;
+	height = 120;
+	var ltr:Boolean = appModel.isLTR;
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
-	nameDisplay = new ShadowLabel("", 1, 0, "left", "ltr", false, null, 0.8);
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, ltr?200:20, NaN, ltr?20:200, NaN, -2);
-	addChild(nameDisplay);
+	prizeIconDisplay = new ImageLoader();
+	prizeIconDisplay.layoutData = new AnchorLayoutData(5, ltr?5:NaN, 5, ltr?NaN:5);
+	addChild(prizeIconDisplay);
+
+	prizeCountDisplay = new RTLLabel("", 1, "left", null, false, "left", 0.9);
+	prizeCountDisplay.layoutData = new AnchorLayoutData(NaN, ltr?90:NaN, NaN, ltr?NaN:90, NaN, -3);
+	addChild(prizeCountDisplay);
 	
 	pointDisplay = new RTLLabel("", 1, "center", null, false, "center", 0.8);
 	pointDisplay.width = 120;
 	pointDisplay.pixelSnapping = false;
-	pointDisplay.layoutData = new AnchorLayoutData(NaN, ltr?100:NaN, NaN, ltr?NaN:100, NaN, -3);
+	pointDisplay.layoutData = new AnchorLayoutData(NaN, ltr?300:NaN, NaN, ltr?NaN:300, NaN, -3);
 	addChild(pointDisplay);
 	
-	rewardDisplay = new ImageLoader();
-	rewardDisplay.layoutData = new AnchorLayoutData(-20, ltr?-20:NaN, -20, ltr?NaN:-20);
-	addChild(rewardDisplay);
+	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, ltr?400:20, NaN, ltr?20:400, NaN, -2);
+	addChild(nameDisplay);
 	
 	addEventListener(Event.TRIGGERED, item_triggeredHandler);
 }
@@ -63,12 +73,25 @@ override protected function commitData():void
 	if( _data == null || _owner == null )
 		return;
 
-	width = (stageWidth - TiledRowsLayout(owner.layout).gap * 3) * 0.5;
 	var attendee:Attendee = _data as Attendee
 	var rankIndex:int = index + 1;
 	nameDisplay.text = rankIndex + ".   " + attendee.name;
 	pointDisplay.text = "" + attendee.point;
-	rewardDisplay.source = Assets.getTexture("books/" + challenge.getRewardByRank(rankIndex), "gui");
+
+	var m:IntIntMap = challenge.getRewardByRank(rankIndex);
+	var prizeKey:int = m.keys()[0];
+	if( ResourceType.isBook(prizeKey) )
+	{
+		prizeIconDisplay.source = Assets.getTexture("books/" + prizeKey, "gui");
+		prizeCountDisplay.visible = false;
+	}
+	else
+	{
+		prizeIconDisplay.source = Assets.getTexture("cards/" + prizeKey, "gui");
+		prizeCountDisplay.text = prizeKey == -1 ? "---" : ("      x " +  m.get(prizeKey));
+		prizeCountDisplay.visible = true;
+	}
+		
 	mySkin.defaultTexture = _data.id == player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 }
 protected function item_triggeredHandler(event:Event):void

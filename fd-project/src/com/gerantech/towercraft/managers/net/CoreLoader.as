@@ -7,10 +7,12 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
+import com.gt.towers.arenas.Arena;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.maps.IntArenaMap;
 import com.gt.towers.utils.maps.IntChallengeMap;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.gt.towers.utils.maps.IntShopMap;
@@ -224,21 +226,28 @@ static public function loadChallenges(params:ISFSObject) : void
 		ch.duration = c.getInt("duration");
 		ch.capacity = c.getInt("capacity");
 		
+		var item:ISFSObject = null;
 		ch.requirements = new IntIntMap();
-		for (var r:int = 0; r < c.getSFSArray("requirements").size(); r++)
-			ch.requirements.set(c.getSFSArray("requirements").getSFSObject(r).getInt("key"), c.getSFSArray("requirements").getSFSObject(r).getInt("value"));
+		for (var j:int = 0; j < c.getSFSArray("requirements").size(); j++)
+		{
+			item = c.getSFSArray("requirements").getSFSObject(j);
+			ch.requirements.set(item.getInt("key"), item.getInt("value"));
+		}
 		
-		ch.rewards = new IntIntMap();
-		for (r = 0; r < c.getSFSArray("rewards").size(); r++)
-			ch.rewards.set(c.getSFSArray("rewards").getSFSObject(r).getInt("key"), c.getSFSArray("rewards").getSFSObject(r).getInt("value"));
+		ch.rewards = new IntArenaMap();
+		for (j = 0; j < c.getSFSArray("rewards").size(); j++)
+		{
+			item = c.getSFSArray("rewards").getSFSObject(j);
+			ch.rewards.set(item.getInt("key"), new Arena(item.getInt("key"), item.getInt("min"), item.getInt("max"), item.getInt("prize"), null));
+		}
 		
 		ch.attendees = new Array();
-		if ( c.containsKey("attendees") )
+		if( c.containsKey("attendees") )
 		{
-			for (var a:int = 0; a < c.getSFSArray("attendees").size(); a++)
+			for (j = 0; j < c.getSFSArray("attendees").size(); j++)
 			{
-				var att:ISFSObject = c.getSFSArray("attendees").getSFSObject(a);
-				ch.attendees.push(new Attendee(att.getInt("id"), att.getText("name"), att.getInt("point"), att.getInt("updateAt")));
+				item = c.getSFSArray("attendees").getSFSObject(j);
+				ch.attendees.push(new Attendee(item.getInt("id"), item.getText("name"), item.getInt("point"), item.getInt("updateAt")));
 			}
 		}
 		AppModel.instance.game.player.challenges.set(ch.type, ch);
