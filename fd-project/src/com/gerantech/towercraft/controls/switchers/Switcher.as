@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -45,7 +45,7 @@ override protected function initialize():void
 	minHeight = controlSize;
 	
 	var skin:Image = new Image(Assets.getTexture("theme/slider-background", "gui"));
-	skin.scale9Grid = BaseMetalWorksMobileTheme.SLIDER_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	backgroundSkin = skin;
 	
 	var leftButton:CustomButton = new CustomButton();

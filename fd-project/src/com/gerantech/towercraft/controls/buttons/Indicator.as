@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.buttons
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.ProgressBar;
@@ -50,7 +50,7 @@ override protected function initialize():void
 	this.isQuickHitAreaEnabled = false;
 	layout = new AnchorLayout();
 	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background", "gui"));
-	skin.scale9Grid = BaseMetalWorksMobileTheme.INDICATORS_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.INDICATORS_SCALE9_GRID;
 	backgroundSkin = skin;
 	
 	var padding:int = 12 * appModel.scale;
@@ -66,7 +66,7 @@ override protected function initialize():void
 		addChild(progressbar);
 	}
 	
-	progressLabel = new TextField(width-padding*(hasIncreaseButton?8:5), height, _value + "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR));
+	progressLabel = new TextField(width-padding*(hasIncreaseButton?8:5), height, _value + "", new TextFormat("SourceSans", appModel.theme.gameFontSize*appModel.scale*0.94, MainTheme.PRIMARY_TEXT_COLOR));
 	progressLabel.x = padding*4;
 	progressLabel.pixelSnapping = false;
 	progressLabel.autoScale = true;

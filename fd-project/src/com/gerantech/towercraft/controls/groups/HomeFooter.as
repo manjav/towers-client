@@ -6,7 +6,7 @@ import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.ImageLoader;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
@@ -34,7 +34,7 @@ override protected function initialize():void
 	layout = hLayout;
 	
 	var gradient:ImageLoader = new ImageLoader();
-	gradient.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	gradient.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
     gradient.alpha = 0.6;
     gradient.source = Assets.getTexture("theme/gradeint-left", "gui");

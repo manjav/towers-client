@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.sliders.battle
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;

@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 import starling.textures.Texture;
@@ -46,7 +46,7 @@ override protected function initialize():void
 	notifyImage = new ImageLoader();
 	notifyImage.touchable = false;
 	notifyImage.visible = hasBadge;
-	notifyImage.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
+	notifyImage.scale9Grid = MainTheme.BUTTON_SCALE9_GRID;
 	notifyImage.height = notifyImage.width = appModel.scale * 60;
 	notifyImage.layoutData = new AnchorLayoutData(_padding, _padding);
 	notifyImage.source = appModel.theme.buttonDangerUpSkinTexture;

@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
@@ -24,7 +24,7 @@ override public function init():void
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
 	background.layoutData = new AnchorLayoutData( 0, padding * 0.5, 0, padding * 0.5);
-	background.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
+	background.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
 	addChild(background);
 	
 	actionButton = new CustomButton();

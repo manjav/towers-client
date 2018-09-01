@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.items.challenges
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.arenas.Arena;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
@@ -43,7 +43,7 @@ override protected function commitData() : void
 	layout = new AnchorLayout();
 	
 	var mySkin:Image = new Image(prize.index > 3 ? appModel.theme.itemRendererUpSkinTexture : appModel.theme.itemRendererSelectedSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
 	var prizeSrc:String;

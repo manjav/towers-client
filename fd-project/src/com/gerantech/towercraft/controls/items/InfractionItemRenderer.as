@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.layout.AnchorLayout;
@@ -42,7 +42,7 @@ override protected function initialize():void
 	date = new Date();
 	
 	mySkin = new Image(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
 	senderDisplay = new RTLLabel("", 1, null, null, false, null, 0.72);

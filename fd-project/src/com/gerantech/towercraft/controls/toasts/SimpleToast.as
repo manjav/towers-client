@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.toasts
 {
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 
 import flash.utils.setTimeout;
 

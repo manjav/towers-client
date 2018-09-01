@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.skins.ImageSkin;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -15,7 +15,7 @@ public function DashboardTabLagacyItemRenderer(width:Number)
 	skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
 	skin.setTextureForState(STATE_SELECTED, appModel.theme.tabDownSkinTexture);
 	skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
 }
 

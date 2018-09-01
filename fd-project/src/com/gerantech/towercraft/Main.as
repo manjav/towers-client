@@ -3,7 +3,7 @@ package com.gerantech.towercraft
 import com.gerantech.towercraft.controls.StackNavigator;
 import com.gerantech.towercraft.controls.screens.*;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.themes.MetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.Drawers;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.core.IFeathersControl;
@@ -28,7 +28,7 @@ public static const CHALLENGE_SCREEN:String = "challengeScreen";
 
 public function Main(content:IFeathersControl=null)
 {
-	AppModel.instance.theme = new MetalWorksMobileTheme();
+	AppModel.instance.theme = new MainTheme();
 	super(content);
 }
 

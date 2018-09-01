@@ -7,7 +7,7 @@ import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.socials.Challenge;
@@ -46,7 +46,7 @@ override protected function commitData():void
 	state = challenge.getState(timeManager.now);
 	
 	var skin:Image = new Image(getSkin());
-	skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = skin;
 	
 	titleDisplay = new ShadowLabel(loc("challenge_title_" + challenge.type), 1, 0, "center");

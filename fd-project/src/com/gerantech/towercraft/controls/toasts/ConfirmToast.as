@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.toasts
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 
 import feathers.controls.ImageLoader;
 import feathers.layout.HorizontalLayout;
@@ -41,7 +41,7 @@ override protected function initialize():void
 
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
-	background.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
+	background.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
 	backgroundSkin = background;
 	
 	var messageDisplay:RTLLabel = new RTLLabel(message, 1, "center", null, true, null, 1);

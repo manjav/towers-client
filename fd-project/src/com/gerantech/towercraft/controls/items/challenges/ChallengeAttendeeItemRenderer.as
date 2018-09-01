@@ -5,7 +5,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.socials.Attendee;
@@ -43,7 +43,7 @@ override protected function initialize():void
 	height = 120;
 	var ltr:Boolean = appModel.isLTR;
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	prizeIconDisplay = new ImageLoader();

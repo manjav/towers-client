@@ -6,7 +6,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.battle.fieldes.ImageData;
 import com.gt.towers.constants.SegmentType;
@@ -55,7 +55,7 @@ override public function init():void
     if( ban != null && ban.getInt("mode") > 1 )// banned user
     {
 		backgroundSkin = new Image(appModel.theme.backgroundDisabledSkinTexture);
-		Image(backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
+		Image(backgroundSkin).scale9Grid = MainTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
 		backgroundSkin.alpha = 0.6;
 		
 		labelDisplay = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]), 1, 0, "center", null, true, null, 0.9);

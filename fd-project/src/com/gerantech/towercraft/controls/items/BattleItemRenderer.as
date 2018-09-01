@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -40,7 +40,7 @@ override protected function initialize():void
 	var padding:int = 20 * appModel.scale;
 	
 	var mySkin:ImageSkin = new ImageSkin(appModel.theme.itemRendererDisabledSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	allisLobbyIconDisplay = new ImageLoader();

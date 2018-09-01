@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.texts
 {
 	
 	import com.gerantech.towercraft.models.AppModel;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gerantech.towercraft.themes.MainTheme;
 	
 	import flash.text.engine.ElementFormat;
 	import flash.text.engine.FontDescription;
@@ -40,7 +40,7 @@ package com.gerantech.towercraft.controls.texts
 			this.fontFamily = fontFamily == null ? "SourceSansPro" : fontFamily;
 			this.fontWeight = "normal"//fontWeight==null ? "normal" : fontWeight;
 			this.fontPosture = fontPosture == null ? "normal" : fontPosture;
-			this.color = color == 1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
+			this.color = color == 1 ? MainTheme.PRIMARY_TEXT_COLOR : color;
 			this.bidiLevel = this.direction == "ltr" ? 0 : 1;
 			this.text = text;
 			this.wordWrap = wordWrap;

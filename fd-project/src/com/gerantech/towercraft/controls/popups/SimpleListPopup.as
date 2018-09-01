@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.FloatingListItemRenderer;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
@@ -42,7 +42,7 @@ override protected function initialize():void
 	}
 
 	var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
 	backgroundSkin = skin;
 	layout = new AnchorLayout();
 }

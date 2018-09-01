@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 
 import flash.geom.Point;
 
@@ -83,7 +83,7 @@ override protected function initialize():void
 	skin.setTextureForState(ButtonState.UP, defaultTextue);
 	skin.setTextureForState(ButtonState.DOWN, downTextue);
 	skin.setTextureForState(ButtonState.DISABLED, appModel.theme.buttonDisabledSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.BUTTON_SCALE9_GRID;
 	backgroundSkin = skin;
 	
 	shadowDisplay = new RTLLabel(_label, 0x000000, "center", null, false, null, _fontsize);

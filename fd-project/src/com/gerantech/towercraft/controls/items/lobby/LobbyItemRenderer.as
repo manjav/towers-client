@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.items.lobby
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 
 import feathers.controls.ImageLoader;
@@ -37,7 +37,7 @@ override protected function initialize():void
 	height = 120 * appModel.scale;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	emblemDisplay = new ImageLoader();

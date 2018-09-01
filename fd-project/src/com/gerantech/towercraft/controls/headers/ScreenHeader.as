@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.headers
 {
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import starling.display.Image;
@@ -37,7 +37,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	backgroundSkin = new Image(appModel.theme.tabUpSkinTexture);
-	Image(backgroundSkin).scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
+	Image(backgroundSkin).scale9Grid = MainTheme.TAB_SCALE9_GRID;
 	backgroundSkin.alpha = 0.9;
 	
 	layout = new AnchorLayout();

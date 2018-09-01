@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.texts
 {
 	import com.gerantech.towercraft.models.AppModel;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gerantech.towercraft.themes.MainTheme;
 	
 	import flash.text.TextFormat;
 	
@@ -26,7 +26,7 @@ package com.gerantech.towercraft.controls.texts
 			embedFonts = true;
 			this.align = align==null ? "right"/*AppModel.instance.align*/ : align;
 			this.fontFamily = fontFamily==null ? "SourceSans" : fontFamily;
-			this.color = color==1 ? BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR : color;
+			this.color = color==1 ? MainTheme.PRIMARY_TEXT_COLOR : color;
 			this.wordWrap = wordWrap;
 			textFormat = new TextFormat(this.fontFamily, this.fontSize, this.color, false, italic, null, null, null, align, null, null, null);//, -fontSize/1.2
 		}

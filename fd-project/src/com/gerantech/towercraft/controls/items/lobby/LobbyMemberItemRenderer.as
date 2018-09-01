@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -35,7 +35,7 @@ override protected function initialize():void
 	var padding:int = 36;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
@@ -87,7 +87,7 @@ override protected function commitData():void
 	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.point)), "gui");
 
 	var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9) * appModel.scale;
-	var fc:int = _data.id==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
+	var fc:int = _data.id==player.id?MainTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 	if( fs != nameDisplay.fontSize )
 	{
 		nameDisplay.fontSize = fs;

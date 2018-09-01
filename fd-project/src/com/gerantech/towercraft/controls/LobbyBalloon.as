@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls
 {
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gerantech.towercraft.themes.MainTheme;
 	
 	import starling.display.Image;
 	import starling.display.Sprite;

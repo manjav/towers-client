@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
@@ -40,7 +40,7 @@ override protected function commitData():void
 	skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
 	skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedUpSkinTexture);
 	skin.setTextureForState(STATE_DOWN, appModel.theme.tabSelectedUpSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.TAB_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
 	
 	titleDisplay = new ShadowLabel(loc("tab-"+dashboardData.index), 1, 0, "center", null, false, null, 0.8);

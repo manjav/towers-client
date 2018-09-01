@@ -108,7 +108,7 @@ import starling.textures.Texture;
 * @see MetalWorksMobileTheme
 * @see MetalWorksMobileThemeWithAssetManager
 */
-public class BaseMetalWorksMobileTheme extends StyleNameFunctionTheme
+public class MainTheme extends StyleNameFunctionTheme
 {
 public static const FONT_NAME:String = "SourceSansPro";
 
@@ -294,10 +294,11 @@ protected static function popUpOverlayFactory():DisplayObject
 /**
  * Constructor.
  */
-public function BaseMetalWorksMobileTheme()
+public function MainTheme()
 {
 	super();
 	new FontRegistor();
+	initialize();
 }
 
 /**

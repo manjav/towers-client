@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.items.DashboardTabLagacyItemRenderer;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.AutoSizeMode;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
@@ -44,7 +44,7 @@ override protected function addedToStageHandler(event:Event):void
 	bottomShadow.alpha = 0.7;
 	bottomShadow.height = size;
 	bottomShadow.source = Assets.getTexture("theme/gradeint-bottom", "gui");
-	bottomShadow.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	bottomShadow.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	bottomShadow.color = Color.BLACK;
 	bottomShadow.layoutData = new AnchorLayoutData(NaN, -size, footerSize, -size);
 	bottomShadow.touchable = false;

@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.headers
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 
 import flash.geom.Rectangle;
 
@@ -45,7 +45,7 @@ private function creationCompleteHandler():void
 	//ribbon.pivotX = ribbon.width * 0.5;
 	addChild(ribbon);
 	ribbon.pixelSnapping = false;
-	ribbon.scale9Grid = BaseMetalWorksMobileTheme.RIBBON_SCALE9_GRID;
+	ribbon.scale9Grid = MainTheme.RIBBON_SCALE9_GRID;
 	ribbon.x = width * 0.5;
 	ribbon.width = 0;
 	Starling.juggler.tween(ribbon, 0.6, {x:140 * appModel.scale, width:width - 280 * appModel.scale, transition:Transitions.EASE_OUT_BACK});

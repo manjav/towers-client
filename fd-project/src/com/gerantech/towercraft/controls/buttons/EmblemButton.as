@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.buttons
 {
 	import com.gerantech.towercraft.models.Assets;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gerantech.towercraft.themes.MainTheme;
 	import com.gerantech.towercraft.utils.StrUtils;
 	
 	import feathers.controls.ButtonState;
@@ -29,7 +29,7 @@ package com.gerantech.towercraft.controls.buttons
 			skin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
 			skin.setTextureForState(ButtonState.UP, appModel.theme.itemRendererUpSkinTexture);
 			skin.setTextureForState(ButtonState.DOWN, appModel.theme.itemRendererSelectedSkinTexture);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+			skin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 			backgroundSkin = skin;
 					
 			iconDisplay = new ImageLoader();

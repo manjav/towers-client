@@ -6,7 +6,7 @@ import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
@@ -53,11 +53,11 @@ override protected function initialize():void
 	var padding:int = 36 * appModel.scale;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 
 	statusSkin = new ImageSkin(appModel.theme.buttonUpSkinTexture);
-	statusSkin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
+	statusSkin.scale9Grid = MainTheme.BUTTON_SCALE9_GRID;
 	statusSkin.setTextureForState("Available", appModel.theme.buttonUpSkinTexture );
 	statusSkin.setTextureForState("Away", appModel.theme.buttonDisabledSkinTexture );
 	statusSkin.setTextureForState("Occupied", appModel.theme.buttonDangerUpSkinTexture );
@@ -118,7 +118,7 @@ override protected function commitData():void
 	//trace(_data.i, player.id);
 	var itsMe:Boolean = buddy.nickName == player.nickName;
 	var fs:int = AppModel.instance.theme.gameFontSize * (itsMe?1:0.9) * appModel.scale;
-	var fc:int = itsMe?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
+	var fc:int = itsMe?MainTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
 	if( fs != nameDisplay.fontSize )
 	{
 		nameDisplay.fontSize = fs;

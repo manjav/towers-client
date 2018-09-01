@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.segments.lobby
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 
@@ -28,7 +28,7 @@ override public function init():void
 	var background:ImageLoader = new ImageLoader();
 	background.source = appModel.theme.popupBackgroundSkinTexture;
 	background.layoutData = new AnchorLayoutData( 0, padding*0.5, 0, padding*0.5);
-	background.scale9Grid = BaseMetalWorksMobileTheme.POPUP_SCALE9_GRID;
+	background.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
 	addChild(background);
 	
 	acceptButton = new CustomButton();

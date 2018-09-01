@@ -8,7 +8,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.PrefsTypes;
 
 import flash.utils.setTimeout;

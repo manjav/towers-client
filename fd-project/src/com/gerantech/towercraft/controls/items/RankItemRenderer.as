@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import flash.geom.Rectangle;
 import flash.text.engine.ElementFormat;
 import feathers.layout.AnchorLayout;
@@ -27,7 +27,7 @@ override protected function initialize():void
 	var padding:int = 20 * appModel.scale;
 	
 	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 	
 	/*nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);

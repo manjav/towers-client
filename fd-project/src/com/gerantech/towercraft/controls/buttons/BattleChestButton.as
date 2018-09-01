@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.buttons
 {
 	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+	import com.gerantech.towercraft.themes.MainTheme;
 	
 	import feathers.controls.ButtonState;
 	import feathers.controls.ImageLoader;
@@ -42,7 +42,7 @@ package com.gerantech.towercraft.controls.buttons
 			skin.setTextureForState(ButtonState.UP, appModel.theme.buttonUpSkinTexture);
 			skin.setTextureForState(ButtonState.DOWN, appModel.theme.buttonDownSkinTexture);
 			skin.setTextureForState(ButtonState.DISABLED, appModel.theme.buttonDisabledSkinTexture);
-			skin.scale9Grid = BaseMetalWorksMobileTheme.BUTTON_SCALE9_GRID;
+			skin.scale9Grid = MainTheme.BUTTON_SCALE9_GRID;
 			backgroundSkin = skin;
 			
 			shadowDisplay = new RTLLabel("", 0x000000, "center");

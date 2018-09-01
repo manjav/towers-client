@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.items.exchange
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.exchanges.ExchangeItem;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.events.FeathersEventType;
@@ -31,7 +31,7 @@ override protected function initialize():void
 	skin.setTextureForState(STATE_NORMAL, appModel.theme.itemRendererDisabledSkinTexture);
 	skin.setTextureForState(STATE_DOWN, appModel.theme.itemRendererSelectedSkinTexture);
 	skin.setTextureForState(STATE_SELECTED, appModel.theme.itemRendererSelectedSkinTexture);
-	skin.scale9Grid = BaseMetalWorksMobileTheme.ITEM_RENDERER_SCALE9_GRID;
+	skin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	skin.alpha = 0.5;
 	backgroundSkin = skin;
 }

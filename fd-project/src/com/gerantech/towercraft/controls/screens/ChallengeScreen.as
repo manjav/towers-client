@@ -14,7 +14,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.arenas.Arena;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
@@ -63,7 +63,7 @@ private function changeState():void
 	resetAll();
 	state = challenge.getState(timeManager.now);
 	
-	backgroundSkin = new Quad(1, 1, state == Challenge.STATE_WAIT ? BaseMetalWorksMobileTheme.STYLE_BLUE : (state == Challenge.STATE_STARTED ? BaseMetalWorksMobileTheme.STYLE_GREEN : BaseMetalWorksMobileTheme.STYLE_GRAY));
+	backgroundSkin = new Quad(1, 1, state == Challenge.STATE_WAIT ? MainTheme.STYLE_BLUE : (state == Challenge.STATE_STARTED ? MainTheme.STYLE_GREEN : MainTheme.STYLE_GRAY));
 	backgroundSkin.alpha = 0.8;
 	
 	showWait();
@@ -204,7 +204,7 @@ private function attendeesFactory() : void
 	shadowTop.alpha = 0.5;
 	shadowTop.height = 30;
 	shadowTop.source = Assets.getTexture("theme/gradeint-top", "gui");
-	shadowTop.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	shadowTop.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	shadowTop.layoutData = new AnchorLayoutData(headerSize + 79, 0, NaN, 0);
 	addChild(shadowTop);
 	
@@ -214,7 +214,7 @@ private function attendeesFactory() : void
 	shadowBottom.alpha = 0.5;
 	shadowBottom.height = 30;
 	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom", "gui");
-	shadowBottom.scale9Grid = BaseMetalWorksMobileTheme.SHADOW_SIDE_SCALE9_GRID;
+	shadowBottom.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	shadowBottom.layoutData = new AnchorLayoutData(NaN, 0, 550, 0);
 	addChild(shadowBottom);
 }

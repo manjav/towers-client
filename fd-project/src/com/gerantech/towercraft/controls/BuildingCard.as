@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ResourceType;
@@ -154,7 +154,7 @@ protected function defaultBackgroundDisplayFactory() : ImageLoader
 		backgroundDisaplay = new ImageLoader();
 		backgroundDisaplay.color = 0xAAAA77;
 		backgroundDisaplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
-		backgroundDisaplay.scale9Grid = BaseMetalWorksMobileTheme.SMALL_BACKGROUND_SCALE9_GRID;
+		backgroundDisaplay.scale9Grid = MainTheme.SMALL_BACKGROUND_SCALE9_GRID;
 		backgroundDisaplay.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
 		addChildAt(backgroundDisaplay, 0);		
 	}

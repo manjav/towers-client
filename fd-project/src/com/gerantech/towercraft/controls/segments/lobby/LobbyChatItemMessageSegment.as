@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.AutoSizeMode;
@@ -52,24 +52,24 @@ override public function init():void
 	otherSkin.layoutData = new AnchorLayoutData( padding * 0.1, otherPadding - padding * 0.9, padding * 0.1, padding * 0.1 );
 	addChild(otherSkin);
 	
-	senderDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
+	senderDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
 	senderLayout = new AnchorLayoutData( padding );
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 	
-	roleDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.7);
+	roleDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.7);
 	roleLayout = new AnchorLayoutData( padding );
 	roleDisplay.layoutData = roleLayout;
 	addChild(roleDisplay);
 	
-	messageDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
+	messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
 		messageDisplay.leading = -padding * 0.4;
 	messageLayout = new AnchorLayoutData( padding * 2);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", BaseMetalWorksMobileTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.6);
+	dateDisplay = new RTLLabel("", MainTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.6);
 	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding * 0.4:NaN, padding * 0.6, appModel.isLTR?NaN:padding * 0.4 );
 	dateDisplay.layoutData = dateLayout;			
 	addChild(dateDisplay);

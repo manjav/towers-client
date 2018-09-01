@@ -6,7 +6,7 @@ import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.BaseMetalWorksMobileTheme;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.arenas.Arena;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.LayoutGroup;
@@ -92,7 +92,7 @@ private function createElements():void
 	header.layout = new AnchorLayout();
 	var ribbon:Image = new Image(Assets.getTexture("ribbon-blue", "gui"));
 	header.layoutData = new AnchorLayoutData(padding * 3, NaN, NaN, NaN, 0);
-	ribbon.scale9Grid = BaseMetalWorksMobileTheme.RIBBON_SCALE9_GRID;
+	ribbon.scale9Grid = MainTheme.RIBBON_SCALE9_GRID;
 	header.backgroundSkin = ribbon;
 	header.width = width * 0.6;
 	header.height = 160 * appModel.scale;
