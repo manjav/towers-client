@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.BattleHUD;
+import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ImproveButton;
 import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
@@ -760,8 +761,8 @@ override protected function backButtonFunction():void
 	if( !appModel.battleFieldView.battleData.map.isOperation || player.inTutorial() )
 		return;
 		
-	var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"), loc("popup_exit_label"));
-	confirm.declineStyle = "danger";
+	var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"));
+	confirm.acceptStyle = CustomButton.STYLE_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 	confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 	appModel.navigator.addPopup(confirm);

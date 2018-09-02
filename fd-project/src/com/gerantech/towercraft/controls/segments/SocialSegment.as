@@ -44,9 +44,9 @@ override public function init():void
 	var labelDisplay:ShadowLabel;
 	if( player.get_arena(0) < 1 )
 	{
-		labelDisplay = new ShadowLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]));
+		labelDisplay = new ShadowLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]), 1, 0, "center");
 		labelDisplay.width = width;
-		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, NaN, 0);
 		addChild(labelDisplay);
 		return;
 	}
