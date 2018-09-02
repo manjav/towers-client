@@ -246,8 +246,8 @@ private function getLevel(type:int):int
 {
 	var bLen:int = resourcesData.size()
 	for (var i:int = 0; i < bLen; i++)
-		if( resourcesData.getSFSObject(i).getInt("type") == type ) {trace(type,resourcesData.getSFSObject(i).getInt("type") )
-			return resourcesData.getSFSObject(i).getInt("level"); }
+		if( resourcesData.getSFSObject(i).getInt("type") == type ) 
+			return resourcesData.getSFSObject(i).getInt("level");
 	return 0;
 }		
 
