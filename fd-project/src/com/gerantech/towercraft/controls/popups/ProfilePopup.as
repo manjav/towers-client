@@ -43,13 +43,12 @@ public class ProfilePopup extends SimplePopup
 private var user:Object;
 private var adminMode:Boolean;
 private var playerData:ISFSObject;
-private var featuresData:ISFSArray;
-private var buildingsData:ISFSArray;
+private var resourcesData:ISFSArray;
 
 public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 {
 	this.user = user;
-	this.adminMode = player.admin;
+	this.adminMode = true// player.admin;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", user.id);
@@ -83,8 +82,7 @@ protected function sfsConnection_responceHandler(event:SFSEvent):void
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_responceHandler);
 	playerData = event.params.params as SFSObject;
-	featuresData = playerData.getSFSArray("features");
-	buildingsData = playerData.getSFSArray("buildings");
+	resourcesData = playerData.getSFSArray("resources");
 	
 	if( playerData.containsKey("ln") )
 		user.ln = playerData.getText("ln");
@@ -171,17 +169,16 @@ private function showProfile():void
 
 	
 	var featureCollection:ListCollection = new ListCollection();
-	var features:SFSArray = playerData.getSFSArray("features") as SFSArray;
 	var xp:int;
 	var point:int;
-	for ( var i:int = 0; i < features.size(); i ++ )
+	for ( var i:int = 0; i < resourcesData.size(); i ++ )
 	{
-		if( features.getSFSObject(i).getInt("type") == ResourceType.XP )
-			xp = features.getSFSObject(i).getInt("count");
-		else if( features.getSFSObject(i).getInt("type") == ResourceType.POINT )
-			point = features.getSFSObject(i).getInt("count");
-		else
-			featureCollection.addItem(features.getSFSObject(i));
+		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.XP )
+			xp = resourcesData.getSFSObject(i).getInt("count");
+		else if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.POINT )
+			point = resourcesData.getSFSObject(i).getInt("count");
+		else if( resourcesData.getSFSObject(i).getInt("type") > ResourceType.POINT )
+			featureCollection.addItem(resourcesData.getSFSObject(i));
 	}
 
 	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
@@ -247,10 +244,10 @@ public function getBuildingData():ListCollection
 
 private function getLevel(type:int):int
 {
-	var bLen:int = buildingsData.size()
-	for (var i:int = 0; i < bLen; i++) 
-		if( buildingsData.getSFSObject(i).getInt("type") == type )
-			return buildingsData.getSFSObject(i).getInt("level");
+	var bLen:int = resourcesData.size()
+	for (var i:int = 0; i < bLen; i++)
+		if( resourcesData.getSFSObject(i).getInt("type") == type ) {trace(type,resourcesData.getSFSObject(i).getInt("type") )
+			return resourcesData.getSFSObject(i).getInt("level"); }
 	return 0;
 }		
 
