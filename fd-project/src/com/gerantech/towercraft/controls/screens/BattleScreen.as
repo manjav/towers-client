@@ -128,10 +128,6 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		appModel.sounds.addAndPlaySound("battle-improve");
 		break;
 	
-	case SFSCommands.RESET_ALL:
-		resetAll(data);
-		break;
-	
 	/*case SFSCommands.LEFT_BATTLE:
 	case SFSCommands.REJOIN_BATTLE:
 		appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
@@ -199,13 +195,10 @@ private function startBattle():void
 	hud.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(hud);
 	
+	resetAll(battleData.sfsData);
 	updateTowersFromRoomVars();
 	
 	sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
-	
-	if( timeManager.now - battleData.startAt > 5 )
-		appModel.battleFieldView.responseSender.resetAllVars();
-
 	appModel.loadingManager.serverData.putBool("inBattle", false);
 	
 	// play battle theme -_-_-_
@@ -541,8 +534,10 @@ private function updateTowersFromRoomVars():void
 		}
 	}
 }
-private function resetAll(data:SFSObject):void
+private function resetAll(data:ISFSObject):void
 {
+	if( !data.containsKey("buildings") )
+		return;
 	var bSize:int = data.getSFSArray("buildings").size();
 	for( var i:int=0; i < bSize; i++ )
 	{

@@ -24,9 +24,11 @@ public var isLeft:Boolean;
 public var allis:ISFSObject;
 public var axis:ISFSObject;
 public var outcomes:Vector.<RewardData>;
+public var sfsData:ISFSObject;
 
 public function BattleData(data:ISFSObject)
 {
+	this.sfsData = data;
 	this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
 	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
 	this.singleMode = data.getBool("singleMode");

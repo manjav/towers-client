@@ -9,7 +9,6 @@ public static const LEFT_BATTLE:String = "leftBattle";
 public static const REJOIN_BATTLE:String = "rejoinBattle";
 public static const RANK:String = "rank";
 public static const LEAVE:String = "leave";
-public static const RESET_ALL:String = "resetAll";
 public static const SEND_STICKER:String = "ss";
 
 public static const PROFILE:String = "profile";
