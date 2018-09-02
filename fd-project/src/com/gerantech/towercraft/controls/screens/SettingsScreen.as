@@ -7,8 +7,7 @@ import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
-import com.gerantech.towercraft.managers.socials.SocialEvent;
-import com.gerantech.towercraft.managers.socials.SocialManager;
+import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -51,12 +50,12 @@ private function list_focusInHandler(event:Event):void
 		{
 			if( player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 			{
-				SocialManager.instance.signout();
+			OAuthManager.instance.signout();
 				list.dataProvider.updateItemAt(settingData.index);
 				return;
 			}
-			SocialManager.instance.addEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
-			SocialManager.instance.signin();
+		OAuthManager.instance.addEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
+		OAuthManager.instance.signin();
 			return;
 		}
 		
@@ -119,9 +118,9 @@ private function showLocalePopup():void
 	}
 }
 
-protected function socialManager_eventsHandler(event:SocialEvent):void
+protected function socialManager_eventsHandler(event:Event):void
 {
-	SocialManager.instance.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
+	OAuthManager.instance.removeEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
 	list.dataProvider.updateItemAt(3);
 }
 

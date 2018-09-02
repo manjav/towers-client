@@ -18,8 +18,7 @@ import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
-import com.gerantech.towercraft.managers.socials.SocialEvent;
-import com.gerantech.towercraft.managers.socials.SocialManager;
+import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
@@ -298,13 +297,13 @@ private function mainButtons_triggeredHandler(event:Event):void
 
 private function socialSignin():void 
 {
-	SocialManager.instance.addEventListener(SocialEvent.SINGIN, socialManager_signinHandler);
-	SocialManager.instance.signin();
+	OAuthManager.instance.addEventListener(OAuthManager.SINGIN, socialManager_signinHandler);
+	OAuthManager.instance.signin();
 }
 
-private function socialManager_signinHandler(e:SocialEvent):void 
+private function socialManager_signinHandler(e:Event):void 
 {
-	SocialManager.instance.removeEventListener(SocialEvent.SINGIN, socialManager_signinHandler);
+	OAuthManager.instance.removeEventListener(OAuthManager.SINGIN, socialManager_signinHandler);
 	googleButton.removeFromParent();
 }
 }

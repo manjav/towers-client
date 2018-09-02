@@ -1,11 +1,11 @@
-package com.gerantech.towercraft.managers.socials
+package com.gerantech.towercraft.managers.oauth
 {
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.events.LoadingEvent;
+import com.gerantech.towercraft.managers.BaseManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.gameservices.GameServices;
@@ -18,22 +18,21 @@ import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import mx.resources.ResourceManager;
 
-[Event(name="init",			type="com.gerantech.towercraft.managers.socials.SocialEvent")]
-[Event(name="signin",		type="com.gerantech.towercraft.managers.socials.SocialEvent")]
-[Event(name="failure",		type="com.gerantech.towercraft.managers.socials.SocialEvent")]
-[Event(name="authenticate",	type="com.gerantech.towercraft.managers.socials.SocialEvent")]
-
-public class SocialManager extends EventDispatcher
+public class OAuthManager extends BaseManager
 {
-private static var _instance:SocialManager;
+private static var _instance:OAuthManager;
+public static const INIT:String = "init";
+public static const AUTHENTICATE:String = "authenticate";
+public static const FAILURE:String = "failure";
+public static const SINGIN:String = "signin";
 
 public var type:int;
-public var user:SocialUser;
+public var user:OAuthUser;
 public var signinTimeout:int = 14;
 
 private var timeoutID:int;
 
-public function SocialManager(){};
+public function OAuthManager(){};
 public function init(type:int, showLogs:Boolean = false):void
 {
 	this.type = type;
@@ -103,11 +102,11 @@ protected function gameServices_successHandler(event:GSAuthEvent):void
 	clearTimeout(timeoutID);
 	
 	//log( "User authenticated: "+ event.player );
-	user = new SocialUser();
+	user = new OAuthUser();
 	user.id = event.player.id;
 	user.name = event.player.displayName;
 	user.imageURL = event.player.iconImageUri;
-	if( AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
+	if( appModel.game.player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 		toast(event.player.alias + " data exists in db.");
 	else
 		sendSocialData();
@@ -125,7 +124,7 @@ protected function gameServices_errorHandler(event:GSAuthEvent):void
 
 private function sendSocialData():void
 {
-	toast("sendSocialData");
+	toast("sendSocialData id:" + user.id + " " + user.name);
 	//state = STATE_SEND_SOCIAL_DATA;			
 	var sfs:SFSObject = SFSObject.newInstance();
 	sfs.putInt("accountType", type);
@@ -144,20 +143,20 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	UserData.instance.prefs.setBool(PrefsTypes.AUTH_41_GOOGLE, true);
 	
 	var sfs:SFSObject = event.params.params;
-	dispatchEvent(new SocialEvent(SocialEvent.SINGIN));
-	if( sfs.getInt("playerId") == AppModel.instance.game.player.id )
+	dispatchEventWith(OAuthManager.SINGIN);			
+	if( sfs.getInt("playerId") == appModel.game.player.id )
 	{
 		toast("player exists.");
-		dispatchEvent(new SocialEvent(SocialEvent.AUTHENTICATE));
+		dispatchEventWith(OAuthManager.AUTHENTICATE);			
 		return;
 	}
 	
-	var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_reload_authenticated_label", [sfs.getText("playerName")]));
+	var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_reload_authenticated_label", [sfs.getText("playerName")]));
 	confirm.closeOnOverlay = false;
 	confirm.data = sfs;
 	confirm.addEventListener("select", confirm_eventsHandler);
 	confirm.addEventListener("cancel", confirm_eventsHandler);
-	AppModel.instance.navigator.addChild(confirm);
+	appModel.navigator.addChild(confirm);
 }		
 private function confirm_eventsHandler(event:*):void
 {
@@ -170,17 +169,17 @@ private function confirm_eventsHandler(event:*):void
 		UserData.instance.id = sfs.getInt("playerId");
 		UserData.instance.password = sfs.getText("playerPassword");
 		UserData.instance.save();
-		AppModel.instance.loadingManager.dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
+		appModel.loadingManager.dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_RELOAD));
 		return;
 	}
-	dispatchEvent(new SocialEvent(SocialEvent.AUTHENTICATE));
+	dispatchEventWith(OAuthManager.AUTHENTICATE);			
 }
 
 
 private function dispatchFailurEvent(errorMessag:String):void
 {
 	timeoutID = -1;
-	dispatchEvent(new SocialEvent(SocialEvent.FAILURE, errorMessag));			
+	dispatchEventWith(OAuthManager.FAILURE, false, errorMessag);			
 }
 
 private function onGameServicesIdentitySuccess( event:GSIdentityEvent ):void {
@@ -207,10 +206,10 @@ public function get authenticated():Boolean
 		return GameServices.isAuthenticated;
 	return false;
 }
-public static function get instance():SocialManager
+public static function get instance():OAuthManager
 {
-	if(!_instance)
-		_instance = new SocialManager();
+	if( _instance == null )
+		_instance = new OAuthManager();
 	return _instance;
 }
 private function toast(text:String):void

@@ -2,31 +2,26 @@ package com.gerantech.towercraft.managers
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.managers.socials.SocialEvent;
-import com.gerantech.towercraft.managers.socials.SocialManager;
+import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
-import com.gt.towers.Player;
 import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import starling.events.Event;
 
 public class UserPrefs
 {
-private var player:Player;
-
 public function UserPrefs(){}
 public function init():void
 {
-	player = AppModel.instance.game.player;
-
 	// tutorial first step
     setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);   
 	authenticateSocial();
 	
 	// select language with market index
-	if ( !player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
+	if ( !AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
 	{
 		var loc:String = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
 		if( changeLocale(loc, true) )
@@ -37,10 +32,10 @@ public function init():void
 
 public function changeLocale(locale:String, forced:Boolean=false) : Boolean
 {
-	if( !forced && player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == locale )
+	if( !forced && AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == locale )
 		return false;
 	
-	player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, locale);
+	AppModel.instance.game.player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, locale);
 	AppModel.instance.direction = StrUtils.getDir(locale);
 	AppModel.instance.isLTR = AppModel.instance.direction == "ltr";
 	AppModel.instance.align = AppModel.instance.isLTR ? "left" : "right";
@@ -81,7 +76,7 @@ public function setString(key:int, value:String):void
 public function authenticateSocial():void
 {
     //NativeAbilities.instance.showToast(SocialManager.instance.initialized + " == " + SocialManager.instance.authenticated + " == " + player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE), 2);
-    if( SocialManager.instance.authenticated )
+    if( OAuthManager.instance.authenticated )
     {
         /*socials.user = new SocialUser();
         socials.user.id = "g01079473321487998344";
@@ -92,14 +87,14 @@ public function authenticateSocial():void
     }
     
     //state = STATE_SOCIAL_SIGNIN;            
-    SocialManager.instance.addEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
-    SocialManager.instance.addEventListener(SocialEvent.FAILURE, socialManager_eventsHandler);
-    SocialManager.instance.init( PrefsTypes.AUTH_41_GOOGLE , true );
+    OAuthManager.instance.addEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
+    OAuthManager.instance.addEventListener(OAuthManager.FAILURE, socialManager_eventsHandler);
+    OAuthManager.instance.init( PrefsTypes.AUTH_41_GOOGLE , true );
 }
-protected function socialManager_eventsHandler(event:SocialEvent):void
+protected function socialManager_eventsHandler(event:Event):void
 {
-    SocialManager.instance.removeEventListener(SocialEvent.AUTHENTICATE, socialManager_eventsHandler);
-    SocialManager.instance.removeEventListener(SocialEvent.FAILURE, socialManager_eventsHandler);
+    OAuthManager.instance.removeEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
+    OAuthManager.instance.removeEventListener(OAuthManager.FAILURE, socialManager_eventsHandler);
     //sendSocialData();
 }
 }
