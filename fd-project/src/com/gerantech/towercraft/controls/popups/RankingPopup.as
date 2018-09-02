@@ -37,7 +37,7 @@ override protected function initialize():void
 	
 	padding = 28;
 	
-	titleDisplay = new RTLLabel(loc("ranking_label", [loc("arena_title_"+arenaIndex)]), 1, "center");
+	titleDisplay = new RTLLabel(loc("ranking_label", [""]), 1, "center");
 	titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 	titleDisplay.alpha = 0;
 	
