@@ -31,7 +31,7 @@ override protected function update(population:int, troopType:int, occupied:Boole
 
 	// lighting
 	createLightingDisplay();
-	lightingDisplay.scale = damage;
+	lightingDisplay.scale = damage * 0.7;
 }
 
 private function createLightingDisplay():void

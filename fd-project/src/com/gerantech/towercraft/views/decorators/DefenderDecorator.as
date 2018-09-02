@@ -69,8 +69,9 @@ private function createRadiusDisplay(troopType:int):void
 		fade(radiusMinDisplay, 0.4, 3, true);
 	}
 
-	radiusMaxDisplay.color = TroopType.getColor(troopType);
-	radiusMinDisplay.color = TroopType.getColor(troopType);
+	var colorIndex:int = troopType==-1 ? -1 : (troopType == player.troopType ? 0 : 1);
+	radiusMaxDisplay.color = TroopType.getColor(colorIndex);
+	radiusMinDisplay.color = TroopType.getColor(colorIndex);
 }
 
 private function fade(display:DisplayObject, _alpha:Number, _delay:Number, _scalable:Boolean) : void
