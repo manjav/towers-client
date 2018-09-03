@@ -19,9 +19,9 @@ import starling.events.Event;
 * ...
 * @author Mansour Djawadi
 */
-public class HomeTasksButton extends HomeHeaderButton 
+public class HomeQuestsButton extends HomeHeaderButton 
 {
-public function HomeTasksButton(){super();}
+public function HomeQuestsButton(){super();}
 
 override public function update() : void
 {

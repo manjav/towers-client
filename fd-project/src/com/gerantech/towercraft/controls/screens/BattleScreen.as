@@ -370,7 +370,7 @@ private function endOverlay_retryHandler(event:Event):void
 private function showExtraTimeAd():void
 {
 	VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
-	VideoAdsManager.instance.showAd(VideoAdsManager.TYPE_QUESTS);
+	VideoAdsManager.instance.showAd(VideoAdsManager.TYPE_OPERATIONS);
 	function videoIdsManager_completeHandler(event:Event):void
 	{
 		VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
@@ -379,7 +379,7 @@ private function showExtraTimeAd():void
 			retryQuest(appModel.battleFieldView.battleData.map.index, true);
 		else
 			dispatchEventWith(Event.COMPLETE);
-		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_QUESTS, true);
+		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
 	}
 }
 
@@ -494,9 +494,6 @@ private function tutorials_tasksFinishHandler(event:Event):void
 
 protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 {
-	/*if( event.params.room == null || (event.params.room.groupId!="battles"&&event.params.room.groupId!="quests") )
-		return;
-		*/
 	if( event.params.changedVars.indexOf("towers") > -1 )
 	{
 		updateTowersFromRoomVars();

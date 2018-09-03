@@ -39,7 +39,7 @@ override protected function commitData():void
 	shire = _data as FieldData;
 
 	container.removeChildren();
-	var images:Vector.<Image> = Fields.getField(shire, "quests");
+	var images:Vector.<Image> = Fields.getField(shire, "operations");
 	for each(var img:Image in images)
 	{
 		img.touchable = false;
@@ -58,7 +58,7 @@ override protected function commitData():void
 		else if( itemIndex == OPERATION_INDEX )
 			color = "current";
 		
-		var pin:Image = new Image(Assets.getTexture("map-pin-" + color, "quests"));
+		var pin:Image = new Image(Assets.getTexture("map-pin-" + color, "operations"));
 		pin.alignPivot();
 		pin.touchable = false;
 		
@@ -71,7 +71,7 @@ override protected function commitData():void
 			pinButton.addEventListener(Event.TRIGGERED, pinButton_triggeredHandler);
 			container.addChild(pinButton);
 			
-			var shadow:Image = new Image(Assets.getTexture("pin-shadow", "quests"));
+			var shadow:Image = new Image(Assets.getTexture("pin-shadow", "operations"));
 			shadow.alignPivot();
 			shadow.alpha = 0.5;
 			shadow.y = 4;
@@ -81,7 +81,7 @@ override protected function commitData():void
 			
 			/*if ( score > 0 )
 			{
-				var star_0:Image = new Image(Assets.getTexture("star-center", "quests"));
+				var star_0:Image = new Image(Assets.getTexture("star-center", "operations"));
 				star_0.alignPivot("center", "top");
 				star_0.y = 14;
 				star_0.touchable = false;
@@ -89,7 +89,7 @@ override protected function commitData():void
 				
 				if ( score > 1 )
 				{
-					var star_1:Image = new Image(Assets.getTexture("star-side", "quests"));
+					var star_1:Image = new Image(Assets.getTexture("star-side", "operations"));
 					star_1.alignPivot("right", "top");
 					star_1.scaleX = -1
 					star_1.x = 18;
@@ -99,7 +99,7 @@ override protected function commitData():void
 					
 					if ( score > 2 )
 					{
-						var star_2:Image = new Image(Assets.getTexture("star-side", "quests"));
+						var star_2:Image = new Image(Assets.getTexture("star-side", "operations"));
 						star_2.alignPivot("right", "top");
 						star_2.x = - 18;
 						star_2.y = + 5;
@@ -111,7 +111,7 @@ override protected function commitData():void
 			
 			for (var i:int = score-1; i >= 0; i--) 
 			{
-				var keyImage:Image = new Image(Assets.getTexture("gold-key-small", "quests"));
+				var keyImage:Image = new Image(Assets.getTexture("gold-key-small", "operations"));
 				keyImage.alignPivot("center", "bottom");
 				keyImage.scale = 0.8
 				keyImage.x = Math.ceil(i*0.3) * ( i==1 ? 1 : -1 ) * 30;
@@ -130,7 +130,7 @@ override protected function commitData():void
 			pin.y = item.y;
 			container.addChild(pin);
 			
-			var lock:Image = new Image(Assets.getTexture("quest-lock", "quests"));
+			var lock:Image = new Image(Assets.getTexture("quest-lock", "operations"));
 			lock.alignPivot();
 			lock.x = item.x;
 			lock.y = item.y;
