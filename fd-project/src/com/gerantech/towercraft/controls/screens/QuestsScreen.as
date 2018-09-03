@@ -7,11 +7,11 @@ import feathers.controls.StackScreenNavigatorItem;
 import feathers.data.ListCollection;
 import starling.events.Event;
 
-public class AdminScreen extends ListScreen
+public class QuestsScreen extends ListScreen
 {
 override protected function initialize():void
 {
-	title = "Admin Screen";
+	title = "Quests Screen";
 	super.initialize();
 	
 	listLayout.gap = 0;	
