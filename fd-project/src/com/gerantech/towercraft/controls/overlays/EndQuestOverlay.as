@@ -90,7 +90,7 @@ override protected function initialize():void
 		retryButton.name = "retry";
 		retryButton.width = 300;
 		retryButton.height = 120;
-		showAdOffer = score < 3 && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_QUESTS).available;
+		showAdOffer = score < 3 && VideoAdsManager.instance.getAdByType(VideoAdsManager.TYPE_OPERATIONS).available;
 		if( showAdOffer )
 		{
 			retryButton.label = "+   " + loc("retry_button");

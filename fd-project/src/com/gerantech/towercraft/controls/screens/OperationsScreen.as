@@ -28,15 +28,12 @@ public class OperationsScreen extends BaseCustomScreen
 {
 public static var savedVerticalScrollPosition:Number = 0;
 private var list:List;
-private static var questsCollection:ListCollection;
+private static var operationsCollection:ListCollection;
 public function OperationsScreen()
 {
 	super();
-	provideQuestsData();
-}
-private function provideQuestsData():void
-{
-	if( questsCollection != null )
+	
+	if( operationsCollection != null )
 		return;
 	
 	var field:FieldData;
@@ -46,7 +43,7 @@ private function provideQuestsData():void
 	for( var i:int=0; i < fields.length; i++)
 		source.push( fields[i] );
 	source.sortOn("index", Array.NUMERIC|Array.DESCENDING);
-	questsCollection = new ListCollection(source);
+	operationsCollection = new ListCollection(source);
 }
 override protected function initialize():void
 {
@@ -69,7 +66,7 @@ override protected function initialize():void
 	list.itemRendererFactory = function():IListItemRenderer { return new OperationMapItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.elasticity = 0.03;
-	list.dataProvider = questsCollection;
+	list.dataProvider = operationsCollection;
 	addChild(list);
 	
 
@@ -180,4 +177,4 @@ override public function dispose():void
 	super.dispose();
 }
 }
-}
+}

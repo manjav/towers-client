@@ -139,7 +139,6 @@ protected function timeManager_changeHandler(event:Event) : void
 	}
 	
 	var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
-	
 	//if( buttonDisplay != null )
 	//	buttonDisplay.count = Exchanger.timeToHard(t);
 	

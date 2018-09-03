@@ -46,17 +46,17 @@ package com.gerantech.towercraft.models
 		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
 		public static const troopsAtlasXml:Class;
 		
-		[Embed(source="../../../../assets/images/quests.atf", mimeType="application/octet-stream")]
-		public static const questsAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/quests.xml", mimeType="application/octet-stream")]
-		public static const questsAtlasXml:Class;
+		[Embed(source="../../../../assets/images/operations.atf", mimeType="application/octet-stream")]
+		public static const operationsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/operations.xml", mimeType="application/octet-stream")]
+		public static const operationsAtlasXml:Class;
 		
 		[Embed(source="../../../../assets/images/gui.atf", mimeType="application/octet-stream")]
 		public static const guiAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/gui.xml", mimeType="application/octet-stream")]
 		public static const guiAtlasXml:Class;
 		
-		public static const BACKGROUND_GRID:Rectangle = new Rectangle(2,2,6,6);
+		public static const BACKGROUND_GRID:Rectangle = new Rectangle(2, 2, 6, 6);
 		
 		
 		private static var allTextures:Dictionary = new Dictionary();

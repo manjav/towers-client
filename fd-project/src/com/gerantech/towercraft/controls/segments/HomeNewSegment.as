@@ -5,7 +5,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.HomeHeaderButton;
 import com.gerantech.towercraft.controls.buttons.HomeNewButton;
-import com.gerantech.towercraft.controls.buttons.HomeTasksButton;
+import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
@@ -88,7 +88,7 @@ override public function init():void
 		battlesButton.addChild(countdownDisplay);
 	}
 	
-	if( player.hasQuests )
+	if( player.hasOperations )
 	{
 		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 420, 186, gridRect, shadowRect);
 		addButton(operationButton, "operationButton", stageWidth * 0.46 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
@@ -131,13 +131,13 @@ override public function init():void
 	giftButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
 	addChild(giftButton);
 
-	var tasksButton:HomeTasksButton = new HomeTasksButton();
-	tasksButton.name = "tasksButton";
-	tasksButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
-	tasksButton.height = padding * 12;
-	tasksButton.width = stageWidth * 0.45;
-	tasksButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
-	addChild(tasksButton);
+	var questsButton:HomeQuestsButton = new HomeQuestsButton();
+	questsButton.name = "questsButton";
+	questsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+	questsButton.height = padding * 12;
+	questsButton.width = stageWidth * 0.45;
+	questsButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
+	addChild(questsButton);
 	
 	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"), 0.9);
 	rankButton.name = "rankButton";
@@ -277,7 +277,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 		case "battlesButton":	appModel.navigator.runBattle(player.get_arena(0) > 0);				return;
 		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );				return;
 		case "rankButton": 		FactionsScreen.showRanking( appModel.game.player.get_arena(0) );	return;
-		case "tasksButton":		appModel.navigator.addLog( loc("button_under_construction", [loc("button_quests")]) ); return;
+		case "questsButton":	appModel.navigator.addLog( loc("button_under_construction", [loc("button_quests")]) ); return;
 	}
 	
 	if( player.get_arena(0) <= 0 )
