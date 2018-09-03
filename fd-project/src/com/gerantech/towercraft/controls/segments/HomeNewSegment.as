@@ -277,7 +277,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 		case "battlesButton":	appModel.navigator.runBattle(player.get_arena(0) > 0);				return;
 		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );				return;
 		case "rankButton": 		FactionsScreen.showRanking( appModel.game.player.get_arena(0) );	return;
-		case "questsButton":	appModel.navigator.addLog( loc("button_under_construction", [loc("button_quests")]) ); return;
+		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );				return;
 	}
 	
 	if( player.get_arena(0) <= 0 )
