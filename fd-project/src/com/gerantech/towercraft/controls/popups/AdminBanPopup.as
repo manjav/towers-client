@@ -39,16 +39,10 @@ public function AdminBanPopup(userId:int)
 	super(loc("popup_ban_button"), loc("popup_ban_button"), null);
 	this.userId = userId;
 
-	if( appModel.loadingManager.serverData.getInt("noticeVersion") >= 3500 )
-	{
-		var sfs:ISFSObject = new SFSObject();
-		sfs.putInt("id", userId);
-		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getBannedHander);
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.OFFENDER_DATA_GET, sfs);
-		return;
-	}
-	offenderData = new SFSObject();
-	offenderData.putInt("time", 0);
+	var sfs:ISFSObject = new SFSObject();
+	sfs.putInt("id", userId);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getBannedHander);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.OFFENDER_DATA_GET, sfs);
 }
 
 protected function sfs_getBannedHander(e:SFSEvent):void 
