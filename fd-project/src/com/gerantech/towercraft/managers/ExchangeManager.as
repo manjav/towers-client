@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.managers 
 {
 import com.gerantech.extensions.iab.IabResult;
+import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.overlays.EarnOverlay;
 import com.gerantech.towercraft.controls.overlays.FortuneOverlay;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
@@ -8,6 +9,8 @@ import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.FortuneSkipPopup;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
+import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -170,30 +173,37 @@ public function process(item : ExchangeItem) : void
 
 private function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
-	try
+
+	if( item.category == ExchangeType.C100_FREES )
+		exchanger.findRandomOutcome(item);
+	var bookType:int = -1;
+	if( item.category == ExchangeType.C30_BUNDLES )
+		bookType = item.containBook(); // reterive a book from bundle. if not found show golden book
+	else 
+		bookType = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
+	
+	var response:int = exchanger.exchange(item, timeManager.now, params.containsKey("hards") ? params.getInt("hards") : 0);
+	if( response == MessageTypes.RESPONSE_SUCCEED )
 	{
-		if( item.category == ExchangeType.C100_FREES )
-			exchanger.findRandomOutcome(item);
-		var bookType:int = -1;
-		if( item.category == ExchangeType.C30_BUNDLES )
-			bookType = item.containBook(); // reterive a book from bundle. if not found show golden book
-		else 
-			bookType = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
-		
-		if( exchanger.exchange(item, timeManager.now, params.containsKey("hards") ? params.getInt("hards") : 0) == MessageTypes.RESPONSE_SUCCEED )
+		if( ( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) ) || ( item.category == ExchangeType.C30_BUNDLES && ExchangeType.getCategory(bookType) == ExchangeType.BOOKS_50 ) )
 		{
-			if( ( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) ) || ( item.category == ExchangeType.C30_BUNDLES && ExchangeType.getCategory(bookType) == ExchangeType.BOOKS_50 ) )
-			{
-				earnOverlay = item.category == ExchangeType.C100_FREES ? new FortuneOverlay(bookType) : new OpenBookOverlay(bookType);
-				appModel.navigator.addOverlay(earnOverlay);
-			}
+			earnOverlay = item.category == ExchangeType.C100_FREES ? new FortuneOverlay(bookType) : new OpenBookOverlay(bookType);
+			appModel.navigator.addOverlay(earnOverlay);
 		}
-	} 
-	catch(error:GameError) 
+	}
+	else if ( response == MessageTypes.RESPONSE_NOT_ENOUGH_REQS )
 	{
-		if( error.id == 0 )
-			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + error.object)]));
-		return;
+		appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
+		ExchangeSegment.focusedCategory = 3;
+		if( appModel.navigator.activeScreenID == Main.DASHBOARD_SCREEN )
+		{
+			DashboardScreen(appModel.navigator.activeScreen).gotoPage(0);
+		}
+		else
+		{
+			DashboardScreen.tabIndex = 0;
+			appModel.navigator.popScreen();
+		}
 	}
 	
 	if( item.category != ExchangeType.C0_HARD )

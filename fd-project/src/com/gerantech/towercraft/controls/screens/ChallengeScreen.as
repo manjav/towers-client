@@ -15,7 +15,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.arenas.Arena;
+import com.gt.towers.others.Arena;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -307,14 +307,19 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 			return;
 		}
 		
-		if ( challenge.requirements.values()[0] > 0 )
+		if( !player.has(challenge.requirements) )
 		{
-			var registerPopup:ConfirmPopup = new ConfirmPopup(loc("challenge_join_confirm"));
-			registerPopup.addEventListener(Event.SELECT, registerPopup_selectHandler);
-			appModel.navigator.addPopup(registerPopup);
+			DashboardScreen.tabIndex = 0;
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + challenge.requirements.keys()[0])]));
+			appModel.navigator.popScreen();
 			return;
 		}
-		registerPopup_selectHandler(null);
+		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseJoinHandler);
+		var params:ISFSObject = new SFSObject();
+		params.putInt("type", challenge.type);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_JOIN, params);
+		challenge.attendees.push(new Attendee(player.id, player.nickName, 120, timeManager.now));
+		appModel.navigator.popScreen();
 	}
 	else if( state == Challenge.STATE_STARTED )
 	{
@@ -326,23 +331,11 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 		earnOverlay = new OpenBookOverlay(challenge.getRewardByAttendee(player.id).keys()[0]);
 		appModel.navigator.addOverlay(earnOverlay);
 		
-		var params:ISFSObject = new SFSObject();
+		params = new SFSObject();
 		params.putInt("id", challenge.id);
 		SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseCollectHandler);
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_COLLECT, params);
 	}
-}
-
-private function registerPopup_selectHandler(event:Event):void 
-{
-	if( event != null )
-		event.currentTarget.removeEventListener(Event.SELECT, registerPopup_selectHandler);
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseJoinHandler);
-	var params:ISFSObject = new SFSObject();
-	params.putInt("type", 0);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHALLENGE_JOIN, params);
-	challenge.attendees.push(new Attendee(player.id, player.nickName, 120, timeManager.now));
-	appModel.navigator.popScreen();
 }
 
 private function sfs_responseJoinHandler(e:SFSEvent):void 
