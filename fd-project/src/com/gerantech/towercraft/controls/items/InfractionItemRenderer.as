@@ -13,9 +13,6 @@ import starling.events.Event;
 
 public class InfractionItemRenderer extends AbstractTouchableListItemRenderer
 {
-private static const READ_TEXT_COLOR:uint = 0xEEFFFF;
-private static const TWEEN_TIME:Number = 0.3;
-
 private var offsetY:Number;
 private var padding:int;
 private var senderLayout:AnchorLayoutData;
@@ -56,7 +53,7 @@ override protected function initialize():void
 	messageDisplay.layoutData = new AnchorLayoutData( padding * 3, padding, NaN, padding );
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", READ_TEXT_COLOR, "justify", "ltr", false, null, 0.6);
+	dateDisplay = new RTLLabel("", 1, "justify", "ltr", false, null, 0.6);
 	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
 	dateDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );

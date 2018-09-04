@@ -7,7 +7,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.arenas.Arena;
+import com.gt.towers.others.Arena;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.LayoutGroup;
 import feathers.controls.List;

@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.arenas.Arena;
+import com.gt.towers.others.Arena;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;

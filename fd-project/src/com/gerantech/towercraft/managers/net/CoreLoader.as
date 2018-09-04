@@ -7,7 +7,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
-import com.gt.towers.arenas.Arena;
+import com.gt.towers.others.Arena;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.socials.Attendee;

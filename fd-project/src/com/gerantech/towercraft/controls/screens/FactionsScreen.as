@@ -8,7 +8,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gt.towers.arenas.Arena;
+import com.gt.towers.others.Arena;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingFactory;
