@@ -274,7 +274,6 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );				return;
 		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );				return;
 		case "battlesButton":	appModel.navigator.runBattle(player.get_arena(0) > 0);				return;
 		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));		return;
@@ -288,6 +287,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
+		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
 		case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );				return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
