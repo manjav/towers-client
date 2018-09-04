@@ -68,7 +68,7 @@ override protected function initialize():void
 	var battleData:BattleData = appModel.battleFieldView.battleData;
 	if( battleData.map.isOperation )
 	{
-		var message:String = appModel.battleFieldView.battleData.isLeft ? "quest_canceled" : (score>0?"quest_win_label":"quest_lose_label");
+		var message:String = appModel.battleFieldView.battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
 		var messageLabel:ShadowLabel = new ShadowLabel(loc(message), 1, 0, null, null, false, null, 2.2);
 		messageLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 7); 
 		addChild(messageLabel);

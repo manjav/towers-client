@@ -75,7 +75,7 @@ override protected function initialize():void
 	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	addChild(gradient);
 	
-	var hasQuit:Boolean = battleData.map.isOperation && player.getLastOperation() > 3 || SFSConnection.instance.mySelf.isSpectator;
+	var hasQuit:Boolean = battleData.map.isOperation || SFSConnection.instance.mySelf.isSpectator;
 	padding = 16;
 	var leftPadding:int = (hasQuit ? 150 : 0);
 	if( hasQuit )
@@ -89,8 +89,8 @@ override protected function initialize():void
 		addChild(closeButton);			
 	}
 	
-	var _name:String = battleData.map.isOperation ? loc("quest_label") + " " + StrUtils.getNumber(battleData.map.index+1) : battleData.axis.getUtfString("name");
-	var _point:int = battleData.axis.getInt("point");
+	var _name:String = battleData.map.isOperation ? loc("operation_label") + " " + StrUtils.getNumber(battleData.map.index + 1) : battleData.axis.getUtfString("name");
+	var _point:int = battleData.map.isOperation ? 0 : battleData.axis.getInt("point");
 	var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 	opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
 	addChild(opponentHeader);

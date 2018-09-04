@@ -42,8 +42,8 @@ override protected function initialize():void
 	container.height = stage.stageHeight;
 	addChild(container);
 	
+	var name:String = mapIndex >-1?(loc("operation_label") + " " +(mapIndex + 1)): battleData.axis.getText("name");
 	// axis elements
-	var name:String = mapIndex >-1?(loc("quest_label") + " " +(mapIndex + 1)): battleData.axis.getText("name");
 	if( player.inTutorial() && player.tutorialMode == 1 )
 		name = loc("trainer_label");
 	axisHeader = new BattleHeader(name, false);

@@ -48,7 +48,7 @@ protected function sfs_responseUpdateHandler(event:SFSEvent):void
 override protected function list_changeHandler(event:Event):void
 {
 	super.list_changeHandler(event);
-	appModel.navigator.runBattle(false, new FieldData(100000 + SFSObject(list.selectedItem).getInt("id"), "quest_100000"), player.nickName);
+	appModel.navigator.runBattle(false, new FieldData(100000 + SFSObject(list.selectedItem).getInt("id"), "operation_100000"), player.nickName);
 }
 
 protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void

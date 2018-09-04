@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
-import com.gerantech.towercraft.controls.items.OperationMapItemRenderer;
+import com.gerantech.towercraft.controls.items.OperationMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
@@ -93,7 +93,7 @@ override protected function initialize():void
 override protected function transitionInCompleteHandler(event:Event):void
 {
 	super.transitionInCompleteHandler(event);
-	var lastOperation:FieldData = game.fieldProvider.operations.get( "quest_" + OperationMapItemRenderer.OPERATION_INDEX );
+	var lastOperation:FieldData = game.fieldProvider.operations.get( "operation_" + OperationMapItemRenderer.OPERATION_INDEX );
 	//trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
 	if( lastOperation.index == 3 && player.nickName == "guest" )
 	{
@@ -108,10 +108,10 @@ override protected function transitionInCompleteHandler(event:Event):void
 	//	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, player.emptyDeck() ? PrefsTypes.T_121_QUESTMAP_FIRST_VIEW : PrefsTypes.T_161_QUESTMAP_SECOND_VIEW);
 
 	//quest intro
-	var tutorialData:TutorialData = new TutorialData("quest_" + lastOperation.index + "_intro");
+	var tutorialData:TutorialData = new TutorialData("operation_" + lastOperation.index + "_intro");
 	for (var i:int ; i < lastOperation.introNum.size() ; i++) 
 	{
-		var tuteMessage:String = "tutor_quest_" + lastOperation.index + "_intro_"
+		var tuteMessage:String = "tutor_operation_" + lastOperation.index + "_intro_"
 /*		if( lastQuest.index == 2 )
 			tuteMessage += (player.emptyDeck()?"first_":"second_");*/
 		tuteMessage += lastOperation.introNum.get(i);
@@ -162,7 +162,7 @@ private function list_selectHandler(event:Event):void
 	function floating_selectHandler(event:Event):void
 	{
 		detailsPopup.removeEventListener(Event.SELECT, floating_selectHandler);
-		appModel.navigator.runBattle(false, game.fieldProvider.operations.get("quest_" + index));
+		appModel.navigator.runBattle(false, game.fieldProvider.operations.get("operation_" + index));
 	}
 }
 

@@ -35,9 +35,9 @@ override protected function initialize():void
 	var score:int = rewards.getSFSObject(0).getInt("score");
 	var message:String;
 	if( playerIndex == -1 )
-		message = "quest_end_label";
+		message = "operation_end_label";
 	else
-		message = appModel.battleFieldView.battleData.isLeft ? "quest_canceled" : (score>0?"quest_win_label":"quest_lose_label");
+		message = appModel.battleFieldView.battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
 	
 	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true);
 	opponentHeader.layoutData = new AnchorLayoutData(550, 0, NaN, 0);

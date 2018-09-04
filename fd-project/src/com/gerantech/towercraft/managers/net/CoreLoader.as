@@ -73,7 +73,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	//AppModel.instance.game.eventDispatcher.addEventListener(CoreEvent.CHANGE, dsasd);
 	AppModel.instance.game.init(initData);
 	AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");
-	AppModel.instance.game.player.hasOperations = !serverData.containsKey("hasQuests") || serverData.getBool("hasQuests");
+	AppModel.instance.game.player.hasOperations = !serverData.containsKey("hasOperations") || serverData.getBool("hasOperations");
 	AppModel.instance.game.player.tutorialMode = serverData.getInt("tutorialMode");
 	AppModel.instance.game.player.invitationCode = serverData.getText("invitationCode");
 	//if( SFSConnection.instance.currentIp != "185.216.125.7" )
