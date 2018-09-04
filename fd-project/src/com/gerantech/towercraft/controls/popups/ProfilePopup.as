@@ -48,7 +48,7 @@ private var resourcesData:ISFSArray;
 public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 {
 	this.user = user;
-	this.adminMode = true// player.admin;
+	this.adminMode = player.admin;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", user.id);
