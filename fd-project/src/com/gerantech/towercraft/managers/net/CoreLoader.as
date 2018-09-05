@@ -191,14 +191,12 @@ static private function loadExchanges(serverData:SFSObject) : void
 		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
 		elements = exchange.getSFSArray("outcomes");
 		item = new ExchangeItem(exchange.getInt("type"), exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
-		item.outcomes = new IntIntMap();
 		for( var j:int=0; j<elements.size(); j++ )
 		{
 			element = elements.getSFSObject(j);
 			item.outcomes.set(element.getInt("key"), element.getInt("value"));
 		}
 		elements = exchange.getSFSArray("requirements");
-		item.requirements = new IntIntMap();
 		for( j=0; j<elements.size(); j++ )
 		{
 			element = elements.getSFSObject(j);
