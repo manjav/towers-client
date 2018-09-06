@@ -175,7 +175,7 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
 
 	if( item.category == ExchangeType.C100_FREES )
-		exchanger.findRandomOutcome(item);
+		exchanger.findRandomOutcome(item, timeManager.now);
 	var bookType:int = -1;
 	if( item.category == ExchangeType.C30_BUNDLES )
 		bookType = item.containBook(); // reterive a book from bundle. if not found show golden book
