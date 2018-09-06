@@ -90,7 +90,7 @@ override protected function initialize():void
 	}
 	
 	var _name:String = battleData.map.isOperation ? loc("operation_label") + " " + StrUtils.getNumber(battleData.map.index + 1) : battleData.axis.getUtfString("name");
-	var _point:int = battleData.map.isOperation ? 0 : battleData.axis.getInt("point");
+	var _point:int = player.admin ? battleData.axis.getInt("point") : 0;
 	var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 	opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
 	addChild(opponentHeader);
@@ -99,7 +99,7 @@ override protected function initialize():void
 	{
 		_name = battleData.allis.getUtfString("name");
 		_point = battleData.allis.getInt("point");
-		var meHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
+		var meHeader:AttendeeHeader = new AttendeeHeader(_name, player.admin ? _point : 0);
 		meHeader.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0 );
 		addChild(meHeader);
 	}
