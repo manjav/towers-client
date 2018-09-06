@@ -57,8 +57,8 @@ public function CustomButton()
 	iconPosition = new Point();
 	padding = 8;
 	layout = new AnchorLayout();
-	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.8);
-	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.3);
+	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 1.7);
+	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 1.3);
 	iconLayout = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, -padding * 0.4);
 }
 
@@ -163,7 +163,7 @@ override public function set currentState(value:String):void
 		return;
 	
 	super.currentState = value;
-	shadowLayoutData.verticalCenter = -padding*(value==ButtonState.DOWN?0.5:0.8)
+	shadowLayoutData.verticalCenter = -padding*(value==ButtonState.DOWN?1.0:1.7)
 }
 
 public function get style():String
