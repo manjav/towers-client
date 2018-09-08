@@ -67,7 +67,6 @@ override protected function transitionInCompleted():void
 		showRanking();
 }
 
-
 protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 {
 	if( event.params.cmd != SFSCommands.RANK )

@@ -9,6 +9,7 @@ import starling.events.Event;
 
 public class ListScreen extends BaseFomalScreen
 {
+protected var virtualHeader:Boolean;
 protected var listLayout:VerticalLayout;
 protected var list:FastList;
 protected var startScrollBarIndicator:Number = 0;
@@ -23,14 +24,15 @@ override protected function initialize():void
 	listLayout.padding = 24;	
 	listLayout.paddingTop = headerSize+listLayout.padding;
 	listLayout.useVirtualLayout = true;
-	listLayout.typicalItemHeight = 164;;
+	listLayout.typicalItemHeight = 164;
 	listLayout.gap = 12;	
 	
 	list = new FastList();
 	list.layout = listLayout;
 	list.layoutData = new AnchorLayoutData(0, 0, headerSize, 0);
 	list.addEventListener(Event.CHANGE, list_changeHandler);
-	setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);
+	if( virtualHeader )
+		setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);
 	addChildAt(list, 0);
 }
 

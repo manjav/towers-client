@@ -36,6 +36,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalLayout;
+import flash.utils.setTimeout;
 import starling.display.Quad;
 import starling.events.Event;
 
@@ -46,7 +47,7 @@ import starling.events.Event;
 public class ChallengeScreen extends BaseFomalScreen
 {
 public var challenge:Challenge;
-private var state:int;
+protected var state:int;
 private var countdownDisplay:CountdownLabel;
 private var earnOverlay:OpenBookOverlay;
 
@@ -58,7 +59,7 @@ override protected function initialize():void
 	changeState();
 }
 
-private function changeState():void 
+protected function changeState():void 
 {
 	resetAll();
 	state = challenge.getState(timeManager.now);
@@ -71,7 +72,7 @@ private function changeState():void
 	showEnded();
 }
 
-private function showWait():void 
+protected function showWait():void 
 {
 	if( state != Challenge.STATE_WAIT )
 		return;
@@ -86,7 +87,7 @@ private function showWait():void
 	buttonFactory();
 }
 
-private function showStarted():void 
+protected function showStarted():void 
 {
 	if( state != Challenge.STATE_STARTED )
 		return;
@@ -104,7 +105,7 @@ private function showStarted():void
 	}
 }
 
-private function sfs_responseGetHandler(e:SFSEvent):void 
+protected function sfs_responseGetHandler(e:SFSEvent):void 
 {
 	if( e.params.cmd != SFSCommands.CHALLENGE_UPDATE )
 		return;
@@ -121,7 +122,7 @@ private function sfs_responseGetHandler(e:SFSEvent):void
 	updateList();
 }
 
-private function updateList():void 
+protected function updateList():void 
 {
 	attendeesFactory();
 	footerFactory();	
@@ -129,7 +130,7 @@ private function updateList():void
 	buttonFactory();
 }
 
-private function showEnded():void 
+protected function showEnded():void 
 {
 	if( state != Challenge.STATE_END )
 		return;
@@ -139,7 +140,7 @@ private function showEnded():void
 }
 
 // factories -----------------------------------
-private function rewardFactory():void 
+protected function rewardFactory():void 
 {
 	var rewardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	rewardsLayout.useSquareTiles = false;
@@ -173,8 +174,7 @@ private function rewardFactory():void
 	}
 }
 
-
-private function attendeesFactory() : void 
+protected function attendeesFactory() : void 
 {
 	var pointTab:ShadowLabel = new ShadowLabel(loc(Challenge.getTargetLabel(challenge.type)), 1, 0, null, null, false, null, 0.8);
 	pointTab.layoutData = new AnchorLayoutData(headerSize + 10, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280);
@@ -196,6 +196,7 @@ private function attendeesFactory() : void
 	attendeesList.dataProvider = new ListCollection(challenge.attendees);
 	attendeesList.itemRendererFactory = function () : IListItemRenderer { return new ChallengeAttendeeItemRenderer(challenge); }
 	attendeesList.addEventListener(FeathersEventType.FOCUS_IN, attendeesList_focusInHandler);
+	setTimeout(scrollMe, 700, attendeesList);
 	addChild(attendeesList);
 	
 	var shadowTop:ImageLoader = new ImageLoader();
@@ -218,8 +219,21 @@ private function attendeesFactory() : void
 	shadowBottom.layoutData = new AnchorLayoutData(NaN, 0, 550, 0);
 	addChild(shadowBottom);
 }
+protected function scrollMe(attendeesList:List) : void 
+{
+	var indexOfMe:int = findMe(attendeesList);
+	if( indexOfMe > -1 )
+		attendeesList.scrollToDisplayIndex(indexOfMe, 0.5);
+}
+protected function findMe(attendeesList:List):int
+{
+	for (var i:int=0; i<attendeesList.dataProvider.length; i++)
+		if( attendeesList.dataProvider.getItemAt(i).id == player.id )
+			return i;
+	return -1;
+}
 
-private function footerFactory():void 
+protected function footerFactory():void 
 {
 	var joined:Boolean = challenge.indexOfAttendees(player.id) > -1 && state == Challenge.STATE_WAIT;
 	var message:String = joined ? loc("challenge_description_joined") : loc("challenge_description_" + state);
@@ -228,7 +242,7 @@ private function footerFactory():void
 	addChild(descriptionDisplay);
 }
 
-private function countdownFactory():void 
+protected function countdownFactory():void 
 {
 	if( countdownDisplay == null )
 		countdownDisplay = new CountdownLabel();
@@ -241,7 +255,7 @@ private function countdownFactory():void
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 }
 
-private function buttonFactory():void 
+protected function buttonFactory():void 
 {
 	var	buttonDisplay:CustomButton;
 	if( state == Challenge.STATE_WAIT )
@@ -338,7 +352,7 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 }
 
-private function sfs_responseJoinHandler(e:SFSEvent):void 
+protected function sfs_responseJoinHandler(e:SFSEvent):void 
 {
 	if( e.params.cmd != SFSCommands.CHALLENGE_JOIN )
 		return;
@@ -351,7 +365,7 @@ private function sfs_responseJoinHandler(e:SFSEvent):void
 	}
 }
 
-private function sfs_responseCollectHandler(e:SFSEvent):void 
+protected function sfs_responseCollectHandler(e:SFSEvent):void 
 {
 	if( e.params.cmd != SFSCommands.CHALLENGE_COLLECT )
 		return;
@@ -380,7 +394,7 @@ private function sfs_responseCollectHandler(e:SFSEvent):void
 	appModel.navigator.popScreen();
 }
 
-private function resetAll():void 
+protected function resetAll():void 
 {
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	removeChildren(2);

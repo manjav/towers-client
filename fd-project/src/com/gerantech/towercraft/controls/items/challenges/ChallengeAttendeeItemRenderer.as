@@ -92,7 +92,7 @@ override protected function commitData():void
 		prizeCountDisplay.visible = true;
 	}
 		
-	mySkin.defaultTexture = _data.id == player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+	mySkin.defaultTexture = attendee.id == player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 }
 protected function item_triggeredHandler(event:Event):void
 {
