@@ -11,14 +11,13 @@ public class BaseFomalScreen extends BaseCustomScreen
 public var title:String = "";
 protected var header:ScreenHeader;
 protected var footer:CloseFooter;
-protected var headerSize:int = 0;
+protected var headerSize:int = 150;
 
 public function BaseFomalScreen(){super();}
 override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	headerSize = 150;
 	
 	header = new ScreenHeader(title);
 	header.height = headerSize;

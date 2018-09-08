@@ -13,25 +13,27 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.animation.Transitions;
+import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
 public class QuestItemRenderer extends AbstractTouchableListItemRenderer
 {
-private var deleteButton:CustomButton;
+public var quest:Quest;
 private var titleDisplay:ShadowLabel;
 private var messageDisplay:RTLLabel;
 private var sliderDisplay:BuildingSlider;
 private var rewardPalette:RewardsPalette;
-private var quest:Quest;
 private var actionButton:CustomButton;
+static public var HEIGHT:int = 380;
 static private var PADDING:int = 16;
 
 public function QuestItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-	this.height = 380; 
+	this.height = HEIGHT; 
 	layout = new AnchorLayout();	
 	
 	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
@@ -72,7 +74,6 @@ override protected function initialize():void
 	actionButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?PADDING:NaN, PADDING, appModel.isLTR?NaN:PADDING);
 	actionButton.addEventListener(Event.TRIGGERED, actionButton_triggeredHandler);
 	addChild(actionButton);	
-
 	
 	/*deleteButton = new CustomButton();
 	deleteButton.label = "x";
@@ -89,9 +90,9 @@ override protected function commitData():void
 	if( _data == null || _owner == null )
 		return;
 	
-	quest = _data as Quest;quest.value = 0
-	if( quest.type == Quest.TYPE_CARD_COLLECT || quest.type == Quest.TYPE_CARD_UPGRADE )
-		titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key%100)), quest.target]);
+	quest = _data as Quest;
+	if ( quest.type == Quest.TYPE_CARD_COLLECT || quest.type == Quest.TYPE_CARD_UPGRADE ){quest.value = 1;
+	titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key%100)), quest.target]);}
 	else
 		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);
 	
@@ -112,7 +113,14 @@ override protected function commitData():void
 
 protected function actionButton_triggeredHandler(e:Event):void 
 {
-	owner.dispatchEventWith(Event.SELECT, false, quest);
+	owner.dispatchEventWith(Event.SELECT, false, this);
+}
+
+public function hide():void 
+{
+	//rewardPalette.removeFromParent();
+	//messageDisplay.removeFromParent();
+	Starling.juggler.tween(this, 0.8, {delay:0.5, alpha:-1, height:0, transition:Transitions.EASE_IN, onComplete:owner.dataProvider.removeItemAt, onCompleteArgs:[index]});
 }
 }
 }

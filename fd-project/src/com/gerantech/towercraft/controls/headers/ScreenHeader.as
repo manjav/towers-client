@@ -9,6 +9,7 @@ import starling.display.Image;
 
 public class ScreenHeader extends TowersLayout
 {
+public var labelLayout:AnchorLayoutData;
 private var labelDisplay:RTLLabel;
 private var _label:String = "";
 
@@ -42,8 +43,9 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	
+	labelLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	labelDisplay = new RTLLabel( _label, 1, "center" );
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+	labelDisplay.layoutData = labelLayout;
 	addChild( labelDisplay );
 }
 }

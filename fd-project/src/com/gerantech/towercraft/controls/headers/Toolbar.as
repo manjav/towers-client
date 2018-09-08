@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.headers
 {
+import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.events.LoadingEvent;
@@ -106,6 +107,19 @@ public function updateIndicators():void
 		if( k == ResourceType.CURRENCY_HARD || k == ResourceType.CURRENCY_SOFT )
 			indicators[k].y = 18;
 		indicators[k].setData(0, player.getResource(k as int), NaN);
+		
+		if( k == ResourceType.XP )
+		{
+			if ( appModel.navigator.activeScreenID == Main.QUESTS_SCREEN )
+			{
+				indicators[k].y = 18;
+				addChild(indicators[k]);				
+			}
+			else
+			{
+				Indicator(indicators[k]).removeFromParent();
+			}
+		}
 	}
 }
 
