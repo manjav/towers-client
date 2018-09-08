@@ -13,6 +13,8 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import flash.utils.clearTimeout;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -28,6 +30,8 @@ private var rewardPalette:RewardsPalette;
 private var actionButton:CustomButton;
 static public var HEIGHT:int = 380;
 static private var PADDING:int = 16;
+private var actionLayout:feathers.layout.AnchorLayoutData;
+private var timeoutId:uint;
 
 public function QuestItemRenderer(){}
 override protected function initialize():void
@@ -68,10 +72,11 @@ override protected function initialize():void
 	sliderDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?300:PADDING, PADDING*2, appModel.isLTR?PADDING:300);
 	addChild(sliderDisplay);
 	
+	actionLayout = new AnchorLayoutData(NaN, appModel.isLTR?PADDING:NaN, PADDING, appModel.isLTR?NaN:PADDING);;
 	actionButton = new CustomButton();
 	actionButton.width = 265;
 	actionButton.height = 84;
-	actionButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?PADDING:NaN, PADDING, appModel.isLTR?NaN:PADDING);
+	actionButton.layoutData = actionLayout;
 	actionButton.addEventListener(Event.TRIGGERED, actionButton_triggeredHandler);
 	addChild(actionButton);	
 	
@@ -87,28 +92,46 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
+	removeTweens();
 	if( _data == null || _owner == null )
 		return;
 	
 	quest = _data as Quest;
-	if ( quest.type == Quest.TYPE_CARD_COLLECT || quest.type == Quest.TYPE_CARD_UPGRADE ){quest.value = 1;
-	titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key%100)), quest.target]);}
-	else
-		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);
+	if ( quest.type == Quest.TYPE_6_CARD_COLLECT || quest.type == Quest.TYPE_7_CARD_UPGRADE )
+	titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key%100)), quest.target]);
+	else{quest.value = 0;
+		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);}
 	
 	messageDisplay.text = loc("quest_message_" + quest.type);
-	sliderDisplay.maximum = quest.target;
-	sliderDisplay.value = Math.round( quest.value );
-	sliderDisplay.addChild(sliderDisplay.labelDisplay);	
-	sliderDisplay.isEnabled = true;
 	rewardPalette.setRewards(quest.rewards);
-	
-	
-	//if( !quest.passed )
-	//	actionButton.width = 265;
-	AnchorLayoutData(actionButton.layoutData).right = appModel.isLTR?PADDING:(quest.passed()?PADDING:NaN)
-	AnchorLayoutData(actionButton.layoutData).left =  appModel.isLTR?(quest.passed()?PADDING:NaN):PADDING;
+	sliderDisplay.visible = !quest.passed();
+	if( sliderDisplay.visible )
+	{
+		sliderDisplay.maximum = quest.target;
+		sliderDisplay.value = Math.round( quest.value );
+		sliderDisplay.addChild(sliderDisplay.labelDisplay);	
+		sliderDisplay.isEnabled = true;
+	}
+
 	actionButton.label = loc(quest.passed() ? "collect_label" : "go_label");
+	actionLayout.right = appModel.isLTR?PADDING:(quest.passed()?PADDING:NaN)
+	actionLayout.left =  appModel.isLTR?(quest.passed()?PADDING:NaN):PADDING;
+	if( quest.passed() )
+		punchAction();
+}
+
+private function punchAction():void 
+{
+	actionLayout.right = actionLayout.left = -PADDING;
+	actionLayout.bottom = -PADDING * 3;
+	actionButton.height = 84 + PADDING * 6;
+	Starling.juggler.tween(actionButton, 0.4, {height:84,		transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(actionLayout, 0.4, {bottom:PADDING,	transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(actionLayout, 0.5, {right:PADDING, left:PADDING, transition:Transitions.EASE_OUT_BACK, onComplete:tweenCompleted});
+	function tweenCompleted() : void
+	{
+		timeoutId = setTimeout(punchAction, 1000 + Math.random() * 500);
+	}
 }
 
 protected function actionButton_triggeredHandler(e:Event):void 
@@ -118,9 +141,15 @@ protected function actionButton_triggeredHandler(e:Event):void
 
 public function hide():void 
 {
-	//rewardPalette.removeFromParent();
-	//messageDisplay.removeFromParent();
+	removeTweens();
 	Starling.juggler.tween(this, 0.8, {delay:0.5, alpha:-1, height:0, transition:Transitions.EASE_IN, onComplete:owner.dataProvider.removeItemAt, onCompleteArgs:[index]});
+}
+
+private function removeTweens():void 
+{
+	clearTimeout(timeoutId);
+	Starling.juggler.removeTweens(actionButton);
+	Starling.juggler.removeTweens(actionLayout);
 }
 }
 }
