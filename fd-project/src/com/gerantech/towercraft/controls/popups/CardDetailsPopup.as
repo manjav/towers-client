@@ -6,8 +6,8 @@ import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.vo.UserData;
-import com.gt.towers.buildings.AbstractBuilding;
 import com.gt.towers.buildings.Building;
+import com.gt.towers.buildings.Card;
 import com.gt.towers.constants.BuildingFeatureType;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
@@ -93,9 +93,9 @@ override protected function transitionInCompleted():void
 	upgradeButton.height = 110;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
-	upgradeButton.count =  AbstractBuilding.get_upgradeCost(building._level);
+	upgradeButton.count = Card.get_upgradeCost(building._level);
 	upgradeButton.type = ResourceType.CURRENCY_SOFT;
-	upgradeButton.isEnabled = player.resources.get(buildingType) >= AbstractBuilding.get_upgradeCards(building._level);
+	upgradeButton.isEnabled = player.resources.get(buildingType) >= Card.get_upgradeCards(building._level);
 	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 	

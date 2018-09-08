@@ -5,8 +5,8 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.buildings.AbstractBuilding;
 import com.gt.towers.buildings.Building;
+import com.gt.towers.buildings.Card;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
@@ -254,7 +254,7 @@ protected function defaultSliderDisplayFactory() : BuildingSlider
 	var building:Building = player.buildings.get(type);
 	if( building == null )
 		return null;
-	var upgradeCards:int = AbstractBuilding.get_upgradeCards(building._level);
+	var upgradeCards:int = Card.get_upgradeCards(building._level);
 	var numBuildings:int = player.resources.get(type);
 	if( sliderDisplay != null )
 	{
