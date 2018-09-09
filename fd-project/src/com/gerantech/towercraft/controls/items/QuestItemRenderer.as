@@ -97,7 +97,8 @@ override protected function commitData():void
 		return;
 	
 	quest = _data as Quest;
-	if ( quest.type == Quest.TYPE_6_CARD_COLLECT || quest.type == Quest.TYPE_7_CARD_UPGRADE )
+	
+if ( quest.type == Quest.TYPE_6_CARD_COLLECT || quest.type == Quest.TYPE_7_CARD_UPGRADE )
 	titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key%100)), quest.target]);
 	else{quest.value = 0;
 		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);}
@@ -113,9 +114,11 @@ override protected function commitData():void
 		sliderDisplay.isEnabled = true;
 	}
 
-	actionButton.label = loc(quest.passed() ? "collect_label" : "go_label");
 	actionLayout.right = appModel.isLTR?PADDING:(quest.passed()?PADDING:NaN)
 	actionLayout.left =  appModel.isLTR?(quest.passed()?PADDING:NaN):PADDING;
+	actionButton.label = loc(quest.passed() ? "collect_label" : "go_label");
+	actionButton.style = quest.passed() ? CustomButton.STYLE_NEUTRAL : CustomButton.STYLE_NORMAL;
+	Image(backgroundSkin).texture = quest.passed() ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 	if( quest.passed() )
 		punchAction();
 }

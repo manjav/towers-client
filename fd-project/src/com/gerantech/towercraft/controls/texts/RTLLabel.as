@@ -42,7 +42,8 @@ package com.gerantech.towercraft.controls.texts
 			this.fontPosture = fontPosture == null ? "normal" : fontPosture;
 			this.color = color == 1 ? MainTheme.PRIMARY_TEXT_COLOR : color;
 			this.bidiLevel = this.direction == "ltr" ? 0 : 1;
-			this.text = text;
+			if( text != null && text != "" )
+				this.text = text;
 			this.wordWrap = wordWrap;
 			if( this.wordWrap && this.align=="justify" )
 			{
