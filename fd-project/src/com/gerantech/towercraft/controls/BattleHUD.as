@@ -140,7 +140,7 @@ override protected function initialize():void
 		addChild(stickerButton);
 	}
 	
-	if( player.get_arena(player.get_point()) > 1 )
+	if( player.get_arena(player.get_point()) > 4 )
 	{
 		surrenderButton = new CustomButton();
 		surrenderButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
@@ -201,6 +201,7 @@ protected function timeManager_changeHandler(event:Event):void
 	
 	if ( !battleData.map.isOperation )
 	{
+		surrenderButton.visible = battleData.startAt + battleData.map.times.get(0) < timeManager.now;
 		var time:int = battleData.startAt + battleData.map.times.get(2) - timeManager.now;
 		if( time < 0 )
 			time = battleData.startAt + battleData.map.times.get(3) - timeManager.now;
