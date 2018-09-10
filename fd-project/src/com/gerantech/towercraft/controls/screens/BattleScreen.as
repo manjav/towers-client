@@ -755,15 +755,29 @@ override protected function backButtonFunction():void
 		return;
 	}
 	
-	if( !appModel.battleFieldView.battleData.map.isOperation || player.inTutorial() )
+	if( player.inTutorial() )
 		return;
-		
-	var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"), loc("retry_button"));
+	
+	if( !appModel.battleFieldView.battleData.map.isOperation )
+	{
+		var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
+		confirm.addEventListener(Event.SELECT, confirm_selectsHandler);
+		appModel.navigator.addPopup(confirm);
+		function confirm_selectsHandler(event:Event):void 
+		{
+			confirm.removeEventListener(Event.SELECT, confirm_selectsHandler);
+			appModel.battleFieldView.responseSender.leave();
+		}
+		return;
+	}
+
+	confirm = new ConfirmPopup(loc("leave_operation_confirm_message"), loc("retry_button"));
 	confirm.acceptStyle = CustomButton.STYLE_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 	confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 	appModel.navigator.addPopup(confirm);
-	function confirm_eventsHandler(event:Event):void {
+	function confirm_eventsHandler(event:Event):void 
+	{
 		confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
 		confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
 		
@@ -780,6 +794,7 @@ override public function dispose():void
 {
 	player.inFriendlyBattle = false;
 	removeConnectionListeners();
+	appModel.sounds.stopAllSounds(SoundManager.CATE_SFX);
 	appModel.sounds.stopAllSounds(SoundManager.CATE_THEME);
 	setTimeout(appModel.sounds.playSoundUnique, 2000, "main-theme", 1, 100);
 	removeChild(appModel.battleFieldView, true);
@@ -797,4 +812,3 @@ private function removeConnectionListeners():void
 }
 }
 }
-

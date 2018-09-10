@@ -54,6 +54,7 @@ private var bubbleAllise:StickerBubble;
 private var bubbleAxis:StickerBubble;
 private var timeLog:RTLLabel;
 private var stickerButton:CustomButton;
+private var surrenderButton:CustomButton;
 private var territorySlider:TerritorySlider;
 
 public function BattleHUD() { super(); }
@@ -139,6 +140,18 @@ override protected function initialize():void
 		addChild(stickerButton);
 	}
 	
+	if( player.get_arena(player.get_point()) > 1 )
+	{
+		surrenderButton = new CustomButton();
+		surrenderButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+		surrenderButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+		surrenderButton.width = 140;
+		surrenderButton.layoutData = new AnchorLayoutData(NaN, padding * 12, padding);
+		surrenderButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+		addChild(surrenderButton);
+	}
+	
+	
 	bubbleAllise = new StickerBubble();
 	bubbleAllise.layoutData = new AnchorLayoutData(NaN, padding, padding);
 	
@@ -152,7 +165,7 @@ override protected function initialize():void
 	addChild(territorySlider);
 }
 
-private function createCompleteHandler(event:Event):void
+protected function createCompleteHandler(event:Event):void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
@@ -169,7 +182,7 @@ private function createCompleteHandler(event:Event):void
 	}
 }
 
-private function timeManager_changeHandler(event:Event):void
+protected function timeManager_changeHandler(event:Event):void
 {
 	//trace(timeManager.now-battleData.startAt , battleData.map.times._list)
 	if( scoreIndex < battleData.map.times.size() && timeManager.now - battleData.startAt > battleData.battleField.getTime(scoreIndex) )
@@ -252,12 +265,12 @@ public function updateRoomVars():void
 		territorySlider.update(towers[1], towers[2]);
 }
 
-private function closeButton_triggeredHandler(event:Event):void
+protected function closeButton_triggeredHandler(event:Event):void
 {
 	dispatchEventWith(Event.CLOSE);
 }
 
-private function stickerButton_triggeredHandler(event:Event):void
+protected function stickerButton_triggeredHandler(event:Event):void
 {
 	stickerButton.visible = false;
 	if( stickerList == null )
@@ -300,13 +313,13 @@ private function hideStickerList():void
 	Starling.juggler.tween(stickerList.layoutData, 0.2, {bottom: -padding * 20, transition:Transitions.EASE_IN, onComplete:stickerList.removeFromParent});
 }
 
-private function stickerCloserOveraly_triggeredHandler(event:Event):void
+protected function stickerCloserOveraly_triggeredHandler(event:Event):void
 {
 	hideStickerList();
 	stickerButton.visible = true;
 }
 
-private function stickerList_changeHandler(event:Event):void
+protected function stickerList_changeHandler(event:Event):void
 {
 	hideStickerList();
 	var sticker:int = stickerList.selectedItem as int
