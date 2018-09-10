@@ -760,7 +760,10 @@ override protected function backButtonFunction():void
 	
 	if( !appModel.battleFieldView.battleData.map.isOperation )
 	{
+		if( appModel.battleFieldView.battleData.startAt + appModel.battleFieldView.battleData.map.times.get(0) > timeManager.now )
+			return;
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
+		confirm.acceptStyle = CustomButton.STYLE_DANGER;
 		confirm.addEventListener(Event.SELECT, confirm_selectsHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_selectsHandler(event:Event):void 
