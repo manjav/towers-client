@@ -98,10 +98,12 @@ override protected function commitData():void
 	
 	quest = _data as Quest;
 	
-if ( quest.type == Quest.TYPE_6_CARD_COLLECT || quest.type == Quest.TYPE_7_CARD_UPGRADE )
-	titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key%100)), quest.target]);
-	else{quest.value = 0;
-		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);}
+	if( quest.type == Quest.TYPE_7_CARD_COLLECT || quest.type == Quest.TYPE_8_CARD_UPGRADE )
+		titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key % 100)), quest.target]);
+	else if( quest.type == Quest.TYPE_9_BOOK_OPEN )
+		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("exchange_title_" + quest.key)]);
+	else
+		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);
 	
 	messageDisplay.text = loc("quest_message_" + quest.type);
 	rewardPalette.setRewards(quest.rewards);
@@ -109,7 +111,7 @@ if ( quest.type == Quest.TYPE_6_CARD_COLLECT || quest.type == Quest.TYPE_7_CARD_
 	if( sliderDisplay.visible )
 	{
 		sliderDisplay.maximum = quest.target;
-		sliderDisplay.value = Math.round( quest.value );
+		sliderDisplay.value = Math.round( quest.current );
 		sliderDisplay.addChild(sliderDisplay.labelDisplay);	
 		sliderDisplay.isEnabled = true;
 	}

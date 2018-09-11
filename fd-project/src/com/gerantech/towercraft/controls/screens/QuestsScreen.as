@@ -25,7 +25,8 @@ override protected function initialize():void
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
-	list.dataProvider = new ListCollection(Quest.GET_ALL(player));
+	Quest.fill(player);
+	list.dataProvider = new ListCollection(player.quests);
 }
 
 private function list_selectHandler(e:Event):void 
@@ -41,14 +42,15 @@ private function list_selectHandler(e:Event):void
 	{
 		case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
 		
-		case Quest.TYPE_6_CARD_COLLECT :
-		case Quest.TYPE_8_BOOK_OPEN :
-		case Quest.TYPE_1_LEAGUEUP :
 		case Quest.TYPE_0_LEVELUP :
-		case Quest.TYPE_7_CARD_UPGRADE :		DashboardScreen.tabIndex = 1;	break;
-		case Quest.TYPE_3_BATTLES :				DashboardScreen.tabIndex = 2;	break;
-		case Quest.TYPE_4_FRIENDLY_BATTLES :	DashboardScreen.tabIndex = 3;	break;
-		case Quest.TYPE_5_CHALLENGES :			DashboardScreen.tabIndex = 4;	break;
+		case Quest.TYPE_1_LEAGUEUP :
+		case Quest.TYPE_3_BATTLES :
+		case Quest.TYPE_7_CARD_COLLECT :
+		case Quest.TYPE_9_BOOK_OPEN :
+		case Quest.TYPE_4_BATTLE_WINS :			DashboardScreen.tabIndex = 2;	break;
+		case Quest.TYPE_5_FRIENDLY_BATTLES :	DashboardScreen.tabIndex = 3;	break;
+		case Quest.TYPE_6_CHALLENGES :			DashboardScreen.tabIndex = 4;	break;
+		case Quest.TYPE_8_CARD_UPGRADE :		DashboardScreen.tabIndex = 1;	break;
 	}
 	appModel.navigator.popScreen();
 }
