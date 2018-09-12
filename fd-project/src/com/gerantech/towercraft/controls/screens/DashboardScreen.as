@@ -200,10 +200,17 @@ private function getListData():ListCollection
 			}
 			else if( p == 4 )
 			{
-				if( player.challenges != null && player.challenges.exists(0) )
+				if( player.challenges != null )
 				{
-					if( player.challenges.get(0).getState(timeManager.now) == Challenge.STATE_STARTED )
-						pd.newBadgeNumber ++;
+					for each(var c:Challenge in player.challenges.values() )
+					{
+						if( c.getState(timeManager.now) == Challenge.STATE_STARTED )
+							pd.newBadgeNumber ++;
+						pd.badgeNumber ++;
+					}
+				}
+				else
+				{
 					pd.badgeNumber ++;
 				}
 			}
