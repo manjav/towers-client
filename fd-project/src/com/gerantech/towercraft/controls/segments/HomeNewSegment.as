@@ -77,15 +77,19 @@ override public function init():void
 	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430, 186, gridRect, shadowRect);
 	addButton(battlesButton, "battlesButton", stageWidth * 0.49 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
 	
-	if( player.challenges != null && player.challenges.exists(0) && player.challenges.get(0).getState(timeManager.now) == Challenge.STATE_STARTED )
+	if( player.challenges != null )
 	{
-		var ch:Challenge = player.challenges.get(0);
-		var countdownDisplay:CountdownLabel = new CountdownLabel();
-		countdownDisplay.time = ch.startAt + ch.duration - timeManager.now;
-		countdownDisplay.localString = "challenge_end_at";
-		countdownDisplay.height = 100;
-		countdownDisplay.layoutData = new AnchorLayoutData( -countdownDisplay.height * 0.5, 30, NaN, 30);
-		battlesButton.addChild(countdownDisplay);
+		var c:int = player.challenges.getStartedChallenge(timeManager.now);
+		if( c > -1 )
+		{
+			var ch:Challenge = player.challenges.get(0);
+			var countdownDisplay:CountdownLabel = new CountdownLabel();
+			countdownDisplay.time = ch.startAt + ch.duration - timeManager.now;
+			countdownDisplay.localString = "challenge_end_at";
+			countdownDisplay.height = 100;
+			countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
+			battlesButton.addChild(countdownDisplay);
+		}
 	}
 	
 	if( player.hasOperations )
