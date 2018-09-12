@@ -189,19 +189,9 @@ static private function loadExchanges(serverData:SFSObject) : void
 	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
 	{
 		exchange = serverData.getSFSArray("exchanges").getSFSObject(i);
-		elements = exchange.getSFSArray("outcomes");
 		item = new ExchangeItem(exchange.getInt("type"), exchange.getInt("numExchanges"), exchange.getInt("expiredAt"));
-		for( var j:int=0; j<elements.size(); j++ )
-		{
-			element = elements.getSFSObject(j);
-			item.outcomes.set(element.getInt("key"), element.getInt("value"));
-		}
-		elements = exchange.getSFSArray("requirements");
-		for( j=0; j<elements.size(); j++ )
-		{
-			element = elements.getSFSObject(j);
-			item.requirements.set(element.getInt("key"), element.getInt("value"));
-		}
+		item.outcomes = SFSConnection.ToMap(exchange.getSFSArray("outcomes"));
+		item.requirements = SFSConnection.ToMap(exchange.getSFSArray("requirements"));
 		if( item.outcomes.keys().length > 0 )
 			item.outcome = item.outcomes.keys()[0];
 			
@@ -225,15 +215,9 @@ static public function loadChallenges(params:ISFSObject) : void
 		ch.capacity = c.getInt("capacity");
 		
 		var item:ISFSObject = null;
-		ch.requirements = new IntIntMap();
-		for (var j:int = 0; j < c.getSFSArray("requirements").size(); j++)
-		{
-			item = c.getSFSArray("requirements").getSFSObject(j);
-			ch.requirements.set(item.getInt("key"), item.getInt("value"));
-		}
-		
+		ch.requirements = SFSConnection.ToMap(c.getSFSArray("requirements"));
 		ch.rewards = new IntArenaMap();
-		for (j = 0; j < c.getSFSArray("rewards").size(); j++)
+		for (var j:int = 0; j < c.getSFSArray("rewards").size(); j++)
 		{
 			item = c.getSFSArray("rewards").getSFSObject(j);
 			ch.rewards.set(item.getInt("key"), new Arena(item.getInt("key"), item.getInt("min"), item.getInt("max"), item.getInt("prize"), null));

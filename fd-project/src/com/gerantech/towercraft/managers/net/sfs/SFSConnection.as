@@ -2,9 +2,11 @@ package com.gerantech.towercraft.managers.net.sfs
 {
 import com.gerantech.towercraft.controls.overlays.LowConnectionOverlay;
 import com.gerantech.towercraft.models.AppModel;
+import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.SmartFox;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.requests.ExtensionRequest;
 import com.smartfoxserver.v2.requests.LoginRequest;
@@ -276,6 +278,14 @@ public function getLobby(isPublic:Boolean=false):Room
 		if( r.groupId == (isPublic?"publics":"lobbies") )
 			return r;
 	return null;
+}
+
+public static function ToMap(array:ISFSArray) : IntIntMap
+{
+	var ret :IntIntMap = new IntIntMap();
+	for (var i:int = 0; i < array.size(); i++)
+		ret.set(array.getSFSObject(i).getInt("key"), array.getSFSObject(i).getInt("value"));
+	return ret;
 }
 
 public static function get instance():SFSConnection
