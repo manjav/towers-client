@@ -10,6 +10,7 @@ import com.gt.towers.InitData;
 import com.gt.towers.others.Arena;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.others.Quest;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntArenaMap;
@@ -83,6 +84,7 @@ private function loaderInfo_completeHandler(event:Event):void
 
 	loadExchanges(serverData);
 	loadChallenges(serverData);
+	loadQuests(serverData);
 	
 /*	var swfInitData:* = new initClass();
 	swfInitData.nickName = serverData.getText("name");
@@ -233,6 +235,18 @@ static public function loadChallenges(params:ISFSObject) : void
 			}
 		}
 		AppModel.instance.game.player.challenges.set(ch.type, ch);
+	}
+}
+
+static public function loadQuests(params:ISFSObject) : void 
+{
+	if( !params.containsKey("quests") )
+		return;
+	AppModel.instance.game.player.quests = new Array();
+	for ( var i:int = 0; i < params.getSFSArray("quests").size(); i++ )
+	{
+		var q:ISFSObject = params.getSFSArray("quests").getSFSObject(i);
+		AppModel.instance.game.player.quests.push(new Quest(q.getInt("id"), q.getInt("type"), q.getInt("key"), q.getInt("nextStep"), q.getInt("current"), q.getInt("target"), SFSConnection.ToMap(q.getSFSArray("rewards"))));
 	}
 }
 }

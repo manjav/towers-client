@@ -35,14 +35,14 @@ public function setRewards(rewards:IntIntMap) : void
 
 private function addLine(key:int, value:int, index:int):void 
 {
-	var countDisplay:RTLLabel = new  RTLLabel( "x " + value, 1, null, null, false, null, 0.9);
-	countDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 50, 70 * index - 25);
+	var countDisplay:RTLLabel = new  RTLLabel( "x " + value, 0, null, null, false, null, 0.9);
+	countDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 30, 70 * index - 25);
 	addChild(countDisplay);
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.width = 70;
 	iconDisplay.height = 70;
-	iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -50, 70 * index - 25);
+	iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -70, 70 * index - 25);
 	iconDisplay.source = Assets.getTexture(getImageSource(key), "gui");
 	addChildAt(iconDisplay, 1);
 }

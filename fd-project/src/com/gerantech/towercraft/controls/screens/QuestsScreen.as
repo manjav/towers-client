@@ -2,7 +2,13 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.items.QuestItemRenderer;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.others.Quest;
+import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
@@ -19,17 +25,21 @@ override protected function initialize():void
 	headerSize = 200;
 	super.initialize();
 	
+	for each( var q:Quest in player.quests )
+		q.current = Quest.getCurrent(player, q.type, q.key);
+	
 	header.labelLayout.verticalCenter = 40;
 	listLayout.paddingLeft = listLayout.paddingRight = 12;
 	list.layoutData = new AnchorLayoutData(0, 0, footer.height, 0);
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
-	Quest.fill(player);
+	list.addEventListener(Event.UPDATE, list_updateHandler);
+	//Quest.fill(player);
 	list.dataProvider = new ListCollection(player.quests);
 }
 
-private function list_selectHandler(e:Event):void 
+protected function list_selectHandler(e:Event):void 
 {
 	var questItem:QuestItemRenderer = e.data as QuestItemRenderer;
 	if( questItem.quest.passed() )
@@ -62,6 +72,33 @@ private function passQuest(questItem:QuestItemRenderer):void
 	rect.x += 150;
 	rect.y += QuestItemRenderer.HEIGHT * 0.2;
 	appModel.navigator.addMapAnimation(rect.x, rect.y, questItem.quest.rewards);
+}
+
+
+private function list_updateHandler(e:Event):void 
+{
+	var questItem:QuestItemRenderer = e.data as QuestItemRenderer;
+	//list.dataProvider.removeItemAt(questItem.index);
+	player.quests.removeAt(questItem.index);
+	var sfs:ISFSObject = new SFSObject();
+	sfs.putInt("id", questItem.quest.id);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_rewardCollectHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.QUEST_REWARD_COLLECT, sfs);
+}
+
+private function sfs_rewardCollectHandler(e:SFSEvent):void 
+{
+	if( e.params.cmd != SFSCommands.QUEST_REWARD_COLLECT )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_rewardCollectHandler);
+	if( e.params.params.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
+		return;
+	
+	var q:ISFSObject = e.params.params.getSFSObject("quest");
+	var quest:Quest = new Quest(q.getInt("id"), q.getInt("type"), q.getInt("key"), q.getInt("nextStep"), q.getInt("current"), q.getInt("target"), SFSConnection.ToMap(q.getSFSArray("rewards")));
+	//list.dataProvider.addItem(quest);
+	player.quests.push(quest);
+	list.dataProvider.updateAll();
 }
 }
 }

@@ -60,6 +60,9 @@ public static const CHALLENGE_UPDATE:String = "challengeUpdate";
 public static const CHALLENGE_GET_ALL:String = "challengeGetAll";
 public static const CHALLENGE_COLLECT:String = "challengeCollect";
 
+public static const QUEST_REWARD_COLLECT:String = "questRewardCollect";
+
+
 public static function getDeadline(command:String):int
 {
 	switch( command )

@@ -96,10 +96,14 @@ override protected function commitData():void
 	if( _data == null || _owner == null )
 		return;
 	
-	quest = _data as Quest;
+	this.height = HEIGHT;
+	alpha = 1;
+	quest = _data as Quest; trace(index, quest.id);
 	
 	if( quest.type == Quest.TYPE_7_CARD_COLLECT || quest.type == Quest.TYPE_8_CARD_UPGRADE )
 		titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + (quest.key % 100)), quest.target]);
+	else if( quest.type == Quest.TYPE_6_CHALLENGES )
+		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("challenge_title_" + (quest.key - 1221))]);
 	else if( quest.type == Quest.TYPE_9_BOOK_OPEN )
 		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("exchange_title_" + quest.key)]);
 	else
@@ -116,7 +120,7 @@ override protected function commitData():void
 		sliderDisplay.isEnabled = true;
 	}
 
-	actionLayout.right = appModel.isLTR?PADDING:(quest.passed()?PADDING:NaN)
+	actionLayout.right = appModel.isLTR?PADDING:(quest.passed()?PADDING:NaN);
 	actionLayout.left =  appModel.isLTR?(quest.passed()?PADDING:NaN):PADDING;
 	actionButton.label = loc(quest.passed() ? "collect_label" : "go_label");
 	actionButton.style = quest.passed() ? CustomButton.STYLE_NEUTRAL : CustomButton.STYLE_NORMAL;
@@ -147,7 +151,12 @@ protected function actionButton_triggeredHandler(e:Event):void
 public function hide():void 
 {
 	removeTweens();
-	Starling.juggler.tween(this, 0.8, {delay:0.5, alpha:-1, height:0, transition:Transitions.EASE_IN, onComplete:owner.dataProvider.removeItemAt, onCompleteArgs:[index]});
+	Starling.juggler.tween(this, 0.8, {delay:0.5, alpha:-0.5, height:20, transition:Transitions.EASE_IN, onComplete:removeMe});
+}
+
+private function removeMe():void 
+{
+	owner.dispatchEventWith(Event.UPDATE, false, this);
 }
 
 private function removeTweens():void 
