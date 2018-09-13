@@ -254,13 +254,15 @@ package com.gerantech.towercraft.controls
 			else if (resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.XP || resourceType == ResourceType.POINT)
 			{
 				var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-				if (indicator.iconDisplay.stage == null)
-					return;
-				var rect:Rectangle = indicator.iconDisplay.getBounds(stage);
+				var rect:Rectangle;
+				if( indicator.iconDisplay.stage == null )
+					rect = new Rectangle(x, y - 500, 2, 2);
+				else
+					rect = indicator.iconDisplay.getBounds(stage);
 				setTimeout(function():void
 				{
 					indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;
-					addAnimation(x, y, 130, Assets.getTexture("res-" + resourceType, "gui"), count, rect, 0.02, indicator.punch);
+					addAnimation(x, y, 130, Assets.getTexture("res-" + resourceType, "gui"), count, rect, 0.02, indicator.iconDisplay.stage == null ? null : indicator.punch);
 				}, delay * 1000);
 			}
 		}
@@ -271,11 +273,16 @@ package com.gerantech.towercraft.controls
 			anim.x = x;
 			anim.y = y;
 			anim.scale = 0;
+			var del:Number		= completeCallback == null ? 1.0 : 1.5;
+			var finScale:Number = completeCallback == null ? 0.9 : 0.3;
+			var finAlpha:Number = completeCallback == null ? 0.0 : 1.0;
+			
 			Starling.juggler.tween(anim, 0.7, {delay: 0.0 + delay, scaleX: 1.0, transition: Transitions.EASE_OUT_ELASTIC});
 			Starling.juggler.tween(anim, 0.7, {delay: 0.0 + delay, scaleY: 1.0, transition: Transitions.EASE_OUT_BACK});
-			Starling.juggler.tween(anim, 0.5, {delay: 1.5 + delay, scale: 0.3, x: zone.x + zone.width * 0.5, y: zone.y, transition: Transitions.EASE_IN, onComplete: function():void
+			Starling.juggler.tween(anim, 0.5, {delay: del + delay, scale: finScale, alpha: finAlpha, x: zone.x + zone.width * 0.5, y: zone.y, transition: Transitions.EASE_IN, onComplete: function():void
 			{
-				if (completeCallback != null) completeCallback();
+				if( completeCallback != null )
+					completeCallback();
 				anim.removeFromParent(true);
 			}});
 			parent.addChild(anim);
