@@ -36,6 +36,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalLayout;
+import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.display.Quad;
 import starling.events.Event;
@@ -321,7 +322,8 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 			return;
 		}
 		
-		if( !player.has(challenge.requirements) )
+		var response:int = exchanger.exchange(Challenge.getExchangeItem(challenge.type, player.get_arena(0)), 0, 0);
+		if( response != MessageTypes.RESPONSE_SUCCEED )
 		{
 			DashboardScreen.tabIndex = 0;
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + challenge.requirements.keys()[0])]));
@@ -342,8 +344,17 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 	else if( state == Challenge.STATE_END )
 	{
-		earnOverlay = new OpenBookOverlay(challenge.getRewardByAttendee(player.id).keys()[0]);
-		appModel.navigator.addOverlay(earnOverlay);
+		var reward:int = challenge.getRewardByAttendee(player.id).keys()[0];
+		if( ResourceType.isBook(reward) )
+		{
+			earnOverlay = new OpenBookOverlay(challenge.getRewardByAttendee(player.id).keys()[0]);
+			appModel.navigator.addOverlay(earnOverlay);
+		}
+		else
+		{
+			var rect:Rectangle = CustomButton(e.currentTarget).getBounds(stage);
+			appModel.navigator.addMapAnimation(rect.x + rect.width * 0.5, rect.y, challenge.getRewardByAttendee(player.id));
+		}
 		
 		params = new SFSObject();
 		params.putInt("id", challenge.id);
@@ -388,7 +399,8 @@ protected function sfs_responseCollectHandler(e:SFSEvent):void
 	}
 	
 	player.addResources( outcomes );
-	earnOverlay.outcomes = outcomes;
+	if( earnOverlay != null )
+		earnOverlay.outcomes = outcomes;
 	
 	player.challenges = null;
 	appModel.navigator.popScreen();

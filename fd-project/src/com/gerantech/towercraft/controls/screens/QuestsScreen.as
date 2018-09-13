@@ -5,6 +5,8 @@ import com.gerantech.towercraft.controls.items.QuestItemRenderer;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.constants.MessageTypes;
+import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.others.Quest;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -24,9 +26,6 @@ override protected function initialize():void
 	virtualHeader = false;
 	headerSize = 200;
 	super.initialize();
-	
-	for each( var q:Quest in player.quests )
-		q.current = Quest.getCurrent(player, q.type, q.key);
 	
 	header.labelLayout.verticalCenter = 40;
 	listLayout.paddingLeft = listLayout.paddingRight = 12;
@@ -67,7 +66,15 @@ protected function list_selectHandler(e:Event):void
 
 private function passQuest(questItem:QuestItemRenderer):void 
 {
+	var response:int = exchanger.exchange(Quest.getExchangeItem(questItem.quest.type, questItem.quest.nextStep), 0, 0);
+	if( response != MessageTypes.RESPONSE_SUCCEED )
+	{
+		trace(response);
+		return;
+	}
+	
 	questItem.hide();
+	
 	var rect:Rectangle = questItem.getBounds(stage);
 	rect.x += 150;
 	rect.y += QuestItemRenderer.HEIGHT * 0.2;
