@@ -143,7 +143,8 @@ override protected function initialize():void
 	if( player.get_arena(player.get_point()) > 4 && !SFSConnection.instance.mySelf.isSpectator )
 	{
 		surrenderButton = new CustomButton();
-		surrenderButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+		surrenderButton.style = CustomButton.STYLE_DANGER;
+		surrenderButton.icon = Assets.getTexture("surrender", "gui");
 		surrenderButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 		surrenderButton.width = 140;
 		surrenderButton.layoutData = new AnchorLayoutData(NaN, padding * 12, padding);
