@@ -62,7 +62,7 @@ override public function init():void
 	addChild(buildingslist);
 	initializeCompleted = true;
 	showTutorial();
-	showAoutoSelected();
+	showAutoSelected();
 }
 
 override public function focus():void
@@ -107,8 +107,10 @@ override public function updateData():void
 	buildingsListCollection.updateAll();
 }
 
-private function showAoutoSelected():void 
+private function showAutoSelected():void 
 {
+	if( SELECTED_CARD == -1 ) 
+		return;
 	openCard(SELECTED_CARD);
 	SELECTED_CARD = -1;
 }
