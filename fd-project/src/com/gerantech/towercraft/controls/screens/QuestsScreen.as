@@ -80,19 +80,19 @@ protected function list_selectHandler(e:Event):void
 		return;
 	}
 	
-	switch(questItem.quest.type)
+	switch( questItem.quest.type )
 	{
 		case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
 		
+		case Quest.TYPE_3_BATTLES :				
+		case Quest.TYPE_4_BATTLE_WINS :			appModel.navigator.runBattle(player.get_arena(0) > 0);	return;
 		case Quest.TYPE_0_LEVELUP :
 		case Quest.TYPE_1_LEAGUEUP :
-		case Quest.TYPE_3_BATTLES :
-		case Quest.TYPE_7_CARD_COLLECT :
-		case Quest.TYPE_9_BOOK_OPEN :
-		case Quest.TYPE_4_BATTLE_WINS :			DashboardScreen.tabIndex = 2;	break;
+		case Quest.TYPE_9_BOOK_OPEN :			DashboardScreen.tabIndex = 2;	break;
 		case Quest.TYPE_5_FRIENDLY_BATTLES :	DashboardScreen.tabIndex = 3;	break;
 		case Quest.TYPE_6_CHALLENGES :			DashboardScreen.tabIndex = 4;	break;
 		case Quest.TYPE_8_CARD_UPGRADE :		DashboardScreen.tabIndex = 1;	break;
+		case Quest.TYPE_7_CARD_COLLECT :
 	}
 	appModel.navigator.popScreen();
 }
