@@ -198,7 +198,7 @@ private function getListData():ListCollection
 			{
 				pd.badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
 			}
-			else if( p == 4 )
+			else if( p == 4 && player.get_arena(0) > 2 )
 			{
 				if( player.challenges != null )
 				{
