@@ -26,6 +26,7 @@ public static const OFFENDS_SCREEN:String = "offendsScreen";
 public static const PLAYERS_SCREEN:String = "playersScreen";
 public static const CHALLENGE_SCREEN:String = "challengeScreen";
 static public const QUESTS_SCREEN:String = "questsScreen";
+static public const SEARCH_CHAT_SCREEN:String = "searchChatScreen";
 
 public function Main(content:IFeathersControl=null)
 {
@@ -51,9 +52,10 @@ override protected function initialize():void
 	addScreen(INBOX_SCREEN, 	InboxScreen);
 	addScreen(ISSUES_SCREEN, 	IssuesScreen);
 	addScreen(OFFENDS_SCREEN,	OffendsScreen);
-	addScreen(PLAYERS_SCREEN, 	PlayersScreen);
+	addScreen(PLAYERS_SCREEN, 	SearchPlayersScreen);
 	addScreen(CHALLENGE_SCREEN, ChallengeScreen);
 	addScreen(QUESTS_SCREEN,	QuestsScreen);
+	addScreen(SEARCH_CHAT_SCREEN,SearchChatScreen);
 	AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 }		
 private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = true, hasPopTranstion:Boolean = true):void

@@ -16,7 +16,7 @@ override protected function initialize():void
 	
 	listLayout.gap = 0;	
 //	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
-	list.dataProvider = new ListCollection(["Players", "Track Issues", "Offends", "Push Message", "Restore", "Operations", "Battles"])
+	list.dataProvider = new ListCollection(["Players", "Track Issues", "Offends", "Push Message", "Restore", "Operations", "Battles", "Search Chat"])
 }
 
 override protected function list_changeHandler(event:Event):void
@@ -46,6 +46,10 @@ override protected function list_changeHandler(event:Event):void
 			var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );
 			item.properties.cmd = String(list.selectedItem).toLowerCase() ;
 			appModel.navigator.pushScreen( Main.SPECTATE_SCREEN ) ;
+			break;
+		case "Search Chat":
+			appModel.navigator.pushScreen(Main.SEARCH_CHAT_SCREEN);
+			break;
 	}
 }
 }

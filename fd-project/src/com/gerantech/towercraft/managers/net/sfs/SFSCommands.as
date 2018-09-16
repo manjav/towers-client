@@ -29,6 +29,7 @@ public static const BAN:String = "ban";
 public static const OFFENDER_DATA_GET:String = "offenderDataGet";
 public static const INFRACTIONS_GET:String = "infractionsGet";
 public static const INFRACTIONS_DELETE:String = "infractionsDelete";
+public static const SEARCH_IN_CHATS:String = "searchInChats";
 
 public static const FIGHT:String = "f";
 public static const BUILDING_IMPROVE:String = "i";
