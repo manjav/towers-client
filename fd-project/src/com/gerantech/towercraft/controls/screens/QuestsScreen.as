@@ -112,6 +112,7 @@ private function passQuest(questItem:QuestItemRenderer):void
 	rect.x += 150;
 	rect.y += QuestItemRenderer.HEIGHT * 0.2;
 	appModel.navigator.addMapAnimation(rect.x, rect.y, questItem.quest.rewards);
+	appModel.sounds.addAndPlaySound("upgrade");
 }
 
 

@@ -41,7 +41,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	this.height = HEIGHT; 
-	layout = new AnchorLayout();	
+	layout = new AnchorLayout();
 	
 	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
