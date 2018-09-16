@@ -1,7 +1,10 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.items.QuestItemRenderer;
+import com.gerantech.towercraft.controls.segments.BuildingsSegment;
+import com.gerantech.towercraft.managers.net.CoreLoader;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.constants.MessageTypes;
@@ -27,15 +30,45 @@ override protected function initialize():void
 	headerSize = 200;
 	super.initialize();
 	
+	showQuests(true);
+}
+
+private function showQuests(needsLoad:Boolean):void 
+{
+	if( player.quests.length == 0 )
+	{
+		if( needsLoad )
+			loadQuests();
+		return;
+	}
+
+	for each( var q:Quest in player.quests )
+		q.current = Quest.getCurrent(player, q.type, q.key);
+	
 	header.labelLayout.verticalCenter = 40;
 	listLayout.paddingLeft = listLayout.paddingRight = 12;
+	listLayout.paddingTop = headerSize + 20;
 	list.layoutData = new AnchorLayoutData(0, 0, footer.height, 0);
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.addEventListener(Event.UPDATE, list_updateHandler);
-	//Quest.fill(player);
 	list.dataProvider = new ListCollection(player.quests);
+}
+
+private function loadQuests():void 
+{
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_questInitHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.QUEST_INIT);
+}
+
+protected function sfs_questInitHandler(e:SFSEvent):void 
+{
+	if( e.params.cmd != SFSCommands.QUEST_INIT )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_questInitHandler);
+	CoreLoader.loadQuests(e.params.params);
+	showQuests(false);
 }
 
 protected function list_selectHandler(e:Event):void 
