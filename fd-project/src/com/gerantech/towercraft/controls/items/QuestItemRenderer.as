@@ -7,7 +7,9 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.MainTheme;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.others.Quest;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
@@ -83,7 +85,7 @@ override protected function initialize():void
 	actionButton.height = 84;
 	actionButton.layoutData = actionLayout;
 	actionButton.addEventListener(Event.TRIGGERED, actionButton_triggeredHandler);
-	addChild(actionButton);	
+	addChild(actionButton);
 }
 
 override protected function commitData():void
@@ -130,6 +132,12 @@ override protected function commitData():void
 	Image(backgroundSkin).texture = quest.passed() ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
 	if( quest.passed() )
 		punchAction();
+
+	if( player.getTutorStep() == PrefsTypes.T_161_QUEST_FOCUS && quest.type == Quest.TYPE_3_BATTLES && quest.nextStep == 1 )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_QUEST_SHOWN);
+		actionButton.showTutorArrow(false);
+	}
 }
 
 private function punchAction():void 

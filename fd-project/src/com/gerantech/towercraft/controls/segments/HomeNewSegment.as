@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Main;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.HomeHeaderButton;
 import com.gerantech.towercraft.controls.buttons.HomeNewButton;
@@ -27,7 +26,6 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
-import com.gt.towers.constants.ResourceType;
 import com.gt.towers.socials.Challenge;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -50,6 +48,7 @@ public class HomeNewSegment extends Segment
 static private var SOCIAL_AUTH_WARNED:Boolean
 private var battleTimeoutId:uint;
 private var googleButton:IconButton;
+private var questsButton:HomeQuestsButton;
 public function HomeNewSegment() { super(); }
 override public function init():void
 {
@@ -124,9 +123,20 @@ override public function init():void
 	
 	showTutorial();
 	
-	if( player.get_battleswins() < 3 )
+	if( player.get_battleswins() < 4 )
 		return;
 
+	questsButton = new HomeQuestsButton();
+	questsButton.name = "questsButton";
+	questsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+	questsButton.height = padding * 12;
+	questsButton.width = stageWidth * 0.45;
+	questsButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
+	addChild(questsButton);
+	
+	if( player.get_battleswins() < 5 )
+		return;
+		
 	var giftButton:HomeHeaderButton = new HomeHeaderButton();
 	giftButton.name = "giftButton";
 	giftButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -134,14 +144,6 @@ override public function init():void
 	giftButton.width = stageWidth * 0.45;
 	giftButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
 	addChild(giftButton);
-
-	var questsButton:HomeQuestsButton = new HomeQuestsButton();
-	questsButton.name = "questsButton";
-	questsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
-	questsButton.height = padding * 12;
-	questsButton.width = stageWidth * 0.45;
-	questsButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
-	addChild(questsButton);
 	
 	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"), 0.9);
 	rankButton.name = "rankButton";
@@ -234,7 +236,13 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	if( player.get_battleswins() > 4 && player.nickName == "guest" )
+	if( player.get_battleswins() == 3 )
+	{
+		SimpleLayoutButton(getChildByName("battlesButton")).showTutorArrow(false);
+		return;
+	}
+	
+	if( player.get_battleswins() > 3 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
 		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
@@ -248,26 +256,21 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED  )// show rank table tutorial
+	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED  )// show quest table tutorial
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_RANK_FOCUS); 
-		var tutorialData:TutorialData = new TutorialData("rank_tutorial");
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_rank_0", null, 500, 1500, 0));
+		var tutorialData:TutorialData = new TutorialData("quest_tutorial");
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_0", null, 500, 1500, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
 		function tutorials_completeHandler(event:Event):void
 		{
-			if( event.data.name != "rank_tutorial" )
+			if( event.data.name != "quest_tutorial" )
 				return;
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_RANK_SHOWN);
-			SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
+			
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_QUEST_FOCUS); 
+			//SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
+			questsButton.showTutorArrow(false);
 		}
-		return;
-	}
-	
-	if( player.get_battleswins() > 2 && player.get_arena(0) <= 0 )
-	{
-		SimpleLayoutButton(getChildByName("battlesButton")).showTutorArrow(false);
 		return;
 	}	
 }

@@ -45,7 +45,10 @@ override protected function initialize():void
 
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 	textInput.maxChars = game.loginData.nameMaxLen ;
-	textInput.prompt = closeOnOverlay ? player.nickName : loc( "popup_select_name_prompt" );
+	if( player.nickName == "guest" )
+		textInput.prompt = loc( "popup_select_name_prompt" );
+	else
+		textInput.text = player.nickName;
 	textInput.addEventListener(Event.CHANGE, textInput_changeHandler);
 	textInput.addEventListener(FeathersEventType.ENTER, acceptButton_triggeredHandler);
 	container.addChild(textInput);
