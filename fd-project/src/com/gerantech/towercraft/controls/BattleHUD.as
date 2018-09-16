@@ -147,11 +147,10 @@ override protected function initialize():void
 		surrenderButton.icon = Assets.getTexture("surrender", "gui");
 		surrenderButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 		surrenderButton.width = 140;
-		surrenderButton.layoutData = new AnchorLayoutData(NaN, padding * 12, padding);
+		surrenderButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 		surrenderButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 		addChild(surrenderButton);
 	}
-	
 	
 	bubbleAllise = new StickerBubble();
 	bubbleAllise.layoutData = new AnchorLayoutData(NaN, padding, padding);
