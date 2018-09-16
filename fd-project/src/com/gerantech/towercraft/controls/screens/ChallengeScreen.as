@@ -339,8 +339,9 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 	else if( state == Challenge.STATE_STARTED )
 	{
-		DashboardScreen.tabIndex = 2;
-		appModel.navigator.popScreen();
+		appModel.navigator.runBattle(true);
+		/*DashboardScreen.tabIndex = 2;
+		appModel.navigator.popScreen();*/
 	}
 	else if( state == Challenge.STATE_END )
 	{
