@@ -17,6 +17,7 @@ public class SearchChatScreen extends SearchScreen
 public function SearchChatScreen(){}
 override protected function initialize() : void
 {
+	patternLimit = 2;
 	title = "Search in lobby cha";
 	super.initialize();
 	textInput.prompt = "insert word";

@@ -14,6 +14,7 @@ import starling.events.Event;
 
 public class SearchScreen extends ListScreen
 {
+protected var patternLimit:int = 3;
 protected var result:ListCollection = new ListCollection();
 protected var textInput:CustomTextInput;
 
@@ -37,7 +38,7 @@ override protected function initialize():void
 
 protected function searchButton_triggeredHandler(e:Event) : Boolean
 {
-	if( textInput.text.length < 3 )
+	if( textInput.text.length < patternLimit )
 	{
 		appModel.navigator.addLog("Wrong Pattern!");
 		return false;
