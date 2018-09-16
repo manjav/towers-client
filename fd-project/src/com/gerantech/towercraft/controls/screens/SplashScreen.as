@@ -103,7 +103,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 				stage.dispatchEvent(new Event("continue"));
 			break;
 		case LoadingEvent.CONNECTION_LOST:
-			var reloadpopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_reload_label"));
+			var reloadpopup:MessagePopup = new MessagePopup(loc("popup_" + event.type+"_message"), loc("reconnect_button"));
 			reloadpopup.data = confirmData;
 			reloadpopup.closeOnOverlay = false;
 			reloadpopup.addEventListener("select", confirm_eventsHandler);
