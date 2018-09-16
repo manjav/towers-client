@@ -129,7 +129,7 @@ protected function badgeFactory() : IndicatorButton
 
 private function navigator_dashboardTabChanged(event:Event):void
 {
-	updateSelection(index == DashboardScreen.tabIndex, event.data as Number ); 
+	updateSelection(index == DashboardScreen.TAB_INDEX, event.data as Number ); 
 }
 
 override protected function setSelection(value:Boolean):void

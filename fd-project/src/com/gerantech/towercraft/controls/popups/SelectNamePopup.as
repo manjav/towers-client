@@ -101,8 +101,8 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	{
 		if( response == 2 )
 		{
-			DashboardScreen.tabIndex = 0;
-			ExchangeSegment.focusedCategory = 3;
+			DashboardScreen.TAB_INDEX = 0;
+			ExchangeSegment.SELECTED_CATEGORY = 3;
 			appModel.navigator.addLog(loc("popup_select_name_2"));
 			setTimeout(appModel.navigator.popScreen, 700);
 			close();

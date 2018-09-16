@@ -45,8 +45,8 @@ package com.gerantech.towercraft.controls.popups
 				
 				if ( player.villageEnabled() )
 				{
-					DashboardScreen.tabIndex = 3;
-					SocialSegment.tabIndex = 2;
+					DashboardScreen.TAB_INDEX = 3;
+					SocialSegment.TAB_INDEX = 2;
 					setTimeout(appModel.navigator.popToRootScreen, 500);
 				}
 			}

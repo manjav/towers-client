@@ -194,14 +194,14 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 	else if ( response == MessageTypes.RESPONSE_NOT_ENOUGH_REQS )
 	{
 		appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
-		ExchangeSegment.focusedCategory = 3;
+		ExchangeSegment.SELECTED_CATEGORY = 3;
 		if( appModel.navigator.activeScreenID == Main.DASHBOARD_SCREEN )
 		{
 			DashboardScreen(appModel.navigator.activeScreen).gotoPage(0);
 		}
 		else
 		{
-			DashboardScreen.tabIndex = 0;
+			DashboardScreen.TAB_INDEX = 0;
 			appModel.navigator.popScreen();
 		}
 	}

@@ -325,7 +325,7 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 		var response:int = exchanger.exchange(Challenge.getExchangeItem(challenge.type, player.get_arena(0)), 0, 0);
 		if( response != MessageTypes.RESPONSE_SUCCEED )
 		{
-			DashboardScreen.tabIndex = 0;
+			DashboardScreen.TAB_INDEX = 0;
 			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + challenge.requirements.keys()[0])]));
 			appModel.navigator.popScreen();
 			return;

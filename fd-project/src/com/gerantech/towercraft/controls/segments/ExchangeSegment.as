@@ -28,7 +28,7 @@ import starling.utils.Color;
 
 public class ExchangeSegment extends Segment
 {
-public static var focusedCategory:int = 0
+public static var SELECTED_CATEGORY:int = 0
 private var itemslistData:ListCollection;
 private var itemslist:List;
 private var scrollPaddingTop:int;
@@ -66,11 +66,11 @@ override public function focus():void
 		return;
 	///////////////////////showTutorial();
 	//var time:Number = Math.abs(focusedCategory * 520 - itemslist.verticalScrollPosition) * 0.003;
-	if( focusedCategory == 0 )
+	if( SELECTED_CATEGORY == 0 )
 		itemslist.scrollToPosition(0, 0, 0.5);
 	else
-		itemslist.scrollToPosition(0, focusedCategory * ExCategoryItemRenderer.HEIGHT_NORMAL + scrollPaddingTop, 0.5);
-	focusedCategory = 0;
+		itemslist.scrollToPosition(0, SELECTED_CATEGORY * ExCategoryItemRenderer.HEIGHT_NORMAL + scrollPaddingTop, 0.5);
+	SELECTED_CATEGORY = 0;
 }
 
 override public function updateData():void

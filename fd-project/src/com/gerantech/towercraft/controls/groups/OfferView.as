@@ -88,8 +88,8 @@ private function item_triggeredHandler(e:Event):void
 	switch( item.type )
 	{
 		case INVITE_BUDDY :
-			DashboardScreen.tabIndex = 3;
-			SocialSegment.tabIndex = 2;
+			DashboardScreen.TAB_INDEX = 3;
+			SocialSegment.TAB_INDEX = 2;
 			if( appModel.navigator.activeScreenID == Main.DASHBOARD_SCREEN )
 			{
 				DashboardScreen(appModel.navigator.activeScreen).gotoPage(3);

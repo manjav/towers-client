@@ -36,7 +36,7 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-public static var tabIndex:int = 2;
+public static var TAB_INDEX:int = 2;
 protected var pageList:List;
 protected var tabsList:List;
 protected var tabSize:int;
@@ -138,7 +138,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	pageList.addEventListener(Event.READY, pageList_readyHandler);
 	pageList.addEventListener(FeathersEventType.SCROLL_COMPLETE, pageList_scrollCompleteHandler);
 	tabsList.dataProvider = segmentsCollection;
-	setTimeout(gotoPage, 10, tabIndex, 0.1);
+	setTimeout(gotoPage, 10, TAB_INDEX, 0.1);
 	visible = true;
 	
 	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
@@ -244,8 +244,8 @@ private function tabsList_selectHandler(event:Event):void
 }
 public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Boolean = true):void
 {
-	trace("gotoPage", tabIndex, pageIndex, ExchangeSegment.focusedCategory, pageList.selectedIndex, tabsList.selectedIndex)
-	tabsList.selectedIndex = tabIndex = pageIndex;
+	trace("gotoPage", TAB_INDEX, pageIndex, ExchangeSegment.SELECTED_CATEGORY, pageList.selectedIndex, tabsList.selectedIndex)
+	tabsList.selectedIndex = TAB_INDEX = pageIndex;
 	if( scrollPage )
 		pageList.scrollToDisplayIndex(pageIndex, animDuration);
 	if( animDuration > 0 )

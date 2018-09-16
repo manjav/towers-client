@@ -29,6 +29,8 @@ import starling.events.Event;
 
 public class BuildingsSegment extends Segment
 {
+
+public static var SELECTED_CARD:int = -1;
 private var buildingsListCollection:ListCollection;
 private var buildingslist:List;
 private var listLayout:TiledRowsLayout;
@@ -60,7 +62,9 @@ override public function init():void
 	addChild(buildingslist);
 	initializeCompleted = true;
 	showTutorial();
+	showAoutoSelected();
 }
+
 override public function focus():void
 {
 	updateData();
@@ -84,7 +88,7 @@ private function tutorials_finishHandler(event:Event):void
 	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
 		return;
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
-	DashboardScreen.tabIndex = 2;
+	DashboardScreen.TAB_INDEX = 2;
 	appModel.navigator.runBattle();
 }
 override public function updateData():void
@@ -103,13 +107,19 @@ override public function updateData():void
 	buildingsListCollection.updateAll();
 }
 
+private function showAoutoSelected():void 
+{
+	openCard(SELECTED_CARD);
+	SELECTED_CARD = -1;
+}
 private function list_focusInHandler(event:Event):void
 {
 	var item:CardItemRenderer = event.data as CardItemRenderer;
-	var buildingType:int = item.data as int;
-	//if( player.get_battleswins() < 3 && buildingType != BuildingType.B11_BARRACKS )
-	////	return;// disalble all items in tutorial
-	
+	openCard(item.data as int);
+}
+
+private function openCard(buildingType:int):void 
+{
 	var unlockedAt:int = game.unlockedBuildingAt( buildingType );
 	if( !player.buildings.exists( buildingType ) && unlockedAt > player.get_arena(0) )
 	{
@@ -127,7 +137,7 @@ private function list_focusInHandler(event:Event):void
 	}*/
 
 	detailsPopup = new CardDetailsPopup();
-	detailsPopup.buildingType = item.data as int;
+	detailsPopup.buildingType = buildingType;
 	detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
@@ -199,4 +209,4 @@ private function upgradeOverlay_closeHandler(event:Event):void
 	showTutorial();
 }
 }
-}
+}

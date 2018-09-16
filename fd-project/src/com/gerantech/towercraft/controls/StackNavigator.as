@@ -110,17 +110,17 @@ package com.gerantech.towercraft.controls
 			if (AppModel.instance.game.player.inTutorial())
 				return;
 			
-			if (activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.tabIndex == 0)
+			if (activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0)
 				return;
 			
 			if (event.data.resourceType == ResourceType.CURRENCY_SOFT)
 			{
-				ExchangeSegment.focusedCategory = 4;
+				ExchangeSegment.SELECTED_CATEGORY = 4;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
 			else if (event.data.resourceType == ResourceType.CURRENCY_HARD)
 			{
-				ExchangeSegment.focusedCategory = 3;
+				ExchangeSegment.SELECTED_CATEGORY = 3;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
 		}
@@ -376,8 +376,8 @@ package com.gerantech.towercraft.controls
 						break;
 					
 					case "tabs": 
-						DashboardScreen.tabIndex = int(pars["dashTab"]);
-						SocialSegment.tabIndex = int(pars["socialTab"]);
+						DashboardScreen.TAB_INDEX = int(pars["dashTab"]);
+						SocialSegment.TAB_INDEX = int(pars["socialTab"]);
 						popScreen();
 						break;
 					}
@@ -454,15 +454,15 @@ package com.gerantech.towercraft.controls
 		
 		private function lobbyManager_friendlyBattleHandler(event:Event):void
 		{
-			if ((activeScreenID == Main.DASHBOARD_SCREEN && DashboardScreen.tabIndex == 3 && SocialSegment.tabIndex == 2) || activeScreenID == Main.BATTLE_SCREEN)
+			if ((activeScreenID == Main.DASHBOARD_SCREEN && DashboardScreen.TAB_INDEX == 3 && SocialSegment.TAB_INDEX == 2) || activeScreenID == Main.BATTLE_SCREEN)
 				return;
 			var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
 			battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);
 			addToast(battleToast);
 			function battleToast_selectHandler():void
 			{
-				DashboardScreen.tabIndex = 3;
-				SocialSegment.tabIndex = 2;
+				DashboardScreen.TAB_INDEX = 3;
+				SocialSegment.TAB_INDEX = 2;
 				battleToast.removeEventListener(Event.SELECT, battleToast_selectHandler);
 				popToRootScreen();
 			}
@@ -515,8 +515,8 @@ package com.gerantech.towercraft.controls
 							navigateToURL(new URLRequest(loc("setting_value_312")));
 							break;
 						case PrefsTypes.OFFER_33_FRIENDSHIP: 
-							DashboardScreen.tabIndex = 3;
-							SocialSegment.tabIndex = 2;
+							DashboardScreen.TAB_INDEX = 3;
+							SocialSegment.TAB_INDEX = 2;
 							popToRootScreen();
 							break;
 						}
