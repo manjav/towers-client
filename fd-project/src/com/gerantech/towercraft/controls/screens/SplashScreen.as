@@ -139,7 +139,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			return;
 			
 		default:
-			var message:String = loc("popup_"+event.type+"_message");
+			var message:String = loc("popup_" + event.type+"_message");
 			if( event.type == LoadingEvent.LOGIN_ERROR )
 			{
 				if( event.data == 2 || event.data == 3 || event.data == 6 )

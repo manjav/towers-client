@@ -11,6 +11,7 @@ public function MessagePopup(message:String, acceptLabel:String = null)
 override protected function initialize():void
 {
 	super.initialize();
+	acceptButton.width = 350;
 	declineButton.removeFromParent();
 	rejustLayoutByTransitionData();
 }
