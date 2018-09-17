@@ -5,12 +5,10 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CardButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-
-import flash.geom.Rectangle;
-
+import com.gt.towers.buildings.Card;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
+import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Quad;
@@ -21,7 +19,7 @@ public class DeckHeader extends TowersLayout
 {
 public var _height:int;
 private var padding:int;
-public var cards:Vector.<BuildingCard>;
+public var cards:Vector.<CardButton>;
 public var cardsBounds:Vector.<Rectangle>;
 
 public function DeckHeader()
@@ -36,16 +34,16 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	backgroundSkin = new Quad(1,1, 0);
+	backgroundSkin = new Quad(1, 1, 0);
 	backgroundSkin.alpha = 0.8;
 	height = _height;
 	
 	
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("deck_label"));
-	titleDisplay.layoutData = new AnchorLayoutData(padding*4, NaN, NaN, NaN, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
-	cards = new Vector.<BuildingCard>();
+	cards = new Vector.<CardButton>();
 	cardsBounds = new Vector.<Rectangle>();
 	for ( var i:int = 0; i < player.decks.get(player.selectedDeck).size(); i++ ) 
 		createDeckItem(i);
@@ -60,7 +58,7 @@ private function createDeckItem(i:int):void
 	addChild(button)
 	
 	cards.push(button.card);
-	cardsBounds.push(button.card.getBounds(stage));
+	cardsBounds.push(button.getIconBounds());
 }
 
 private function buttons_triggeredHandler(event:Event):void
@@ -102,7 +100,7 @@ public function getCardIndex(touch:Touch):int
 public function update():void
 {
 	for ( var i:int = 0; i < cards.length; i++ ) 
-		cards[i].level = player.buildings.get(cards[i].type).get_level();	
+		cards[i].setData(cards[i].card.type, cards[i].card.get_level());	
 }
 }
 }

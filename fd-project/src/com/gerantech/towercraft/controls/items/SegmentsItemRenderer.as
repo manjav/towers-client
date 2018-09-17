@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
+import com.gerantech.towercraft.controls.segments.CardsSegment;
 import com.gerantech.towercraft.controls.segments.EventsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.HomeNewSegment;
@@ -58,7 +59,7 @@ override protected function commitData():void
 			segment = new ExchangeSegment();
 			break;
 		case SegmentType.S1_DECK:
-			segment = new BuildingsSegment();
+			segment = new CardsSegment();
 			break;
 		case SegmentType.S2_HOME:
 			segment = new HomeNewSegment();
