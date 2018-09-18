@@ -13,6 +13,7 @@ import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.others.Quest;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.maps.IntArenaMap;
 import com.gt.towers.utils.maps.IntChallengeMap;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -179,6 +180,16 @@ private function initServerData(sfsObj:SFSObject):void
 		element = elements.getSFSObject(i);
 		initData.prefs.set(int(element.getText("k")), element.getText("v"));
 	}
+	
+    elements = sfsObj.getSFSArray("decks");
+    for( i=0; i<elements.size(); i++ )
+    {
+        element = elements.getSFSObject(i);
+        if( initData.decks.get(element.getInt("deck_index")) == null )
+            initData.decks.set(element.getInt("deck_index"), new IntList());
+        
+        initData.decks.get(element.getInt("deck_index")).set(element.getInt("index"), element.getInt("type"));
+    }
 }
 
 static private function loadExchanges(serverData:SFSObject) : void 

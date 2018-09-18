@@ -56,7 +56,7 @@ private function createDeckItem(i:int):void
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button)
 	
-	cards.push(button.card);
+	cards.push(button);
 	cardsBounds.push(button.getIconBounds());
 }
 
@@ -71,7 +71,8 @@ public function startHanging():void
 	for ( var i:int = 0; i < cards.length; i++ ) 
 	{
 		cards[i].rotation = -0.02;
-		Starling.juggler.tween(cards[i], 0.15, {delay:i*0.05, rotation:0.015, reverse:true, repeatCount:1000, transition:Transitions.EASE_IN_OUT});
+		Starling.juggler.tween(cards[i], 0.15, {delay:i * 0.05, rotation:0.015, reverse:true, repeatCount:1000, transition:Transitions.EASE_IN_OUT});
+		
 	}
 }
 

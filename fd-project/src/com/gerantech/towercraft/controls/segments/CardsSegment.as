@@ -185,7 +185,7 @@ private function showTutorial():void
 }		
 override public function updateData():void
 {
-	if(foundCollection == null)
+	if( foundCollection == null )
 		foundCollection = new ListCollection();
 	var founds:Array = new Array();
 	var _founds:Vector.<int> = player.cards.keys();
