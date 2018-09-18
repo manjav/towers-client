@@ -5,8 +5,8 @@ import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
-import com.gt.towers.buildings.Building;
-import com.gt.towers.constants.BuildingFeatureType;
+import com.gt.towers.battle.units.Card;
+import com.gt.towers.constants.CardFeatureType;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -21,7 +21,7 @@ import starling.events.Event;
 
 public class BuildingUpgradeOverlay extends BaseOverlay
 {
-public var building:Building;
+public var building:Card;
 private var initializeStarted:Boolean;
 private var shineArmature:StarlingArmatureDisplay;
 
@@ -60,7 +60,7 @@ override protected function initialize():void
 	
 	
 	var card:BuildingCard = new BuildingCard(true, false, false, false);
-	card.setData(building.type, building.get_level() - 1);
+	card.setData(building.type, building.level - 1);
 	card.pivotY = card.height * 0.5;
 	card.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
 	card.width = 240;
@@ -79,7 +79,7 @@ override protected function initialize():void
 		addChild(titleDisplay);
 		
 		card.scale = 2.4;
-		card.setData(building.type, building.get_level());
+		card.setData(building.type, building.level);
 		Starling.juggler.tween(card, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
 		Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y - 150, transition:Transitions.EASE_IN_OUT});
 		
@@ -113,7 +113,7 @@ override protected function initialize():void
 		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width * 0.7);
 		featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(building.type); }
-		featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(building.type)._list);
+		featureList.dataProvider = new ListCollection(CardFeatureType.getRelatedTo(building.type)._list);
 		addChild(featureList);
 		
 		var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
@@ -137,4 +137,4 @@ override public function dispose():void
 	super.dispose();
 }
 }
-}
+}

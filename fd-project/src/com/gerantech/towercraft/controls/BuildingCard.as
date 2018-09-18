@@ -5,9 +5,9 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.buildings.Building;
-import com.gt.towers.buildings.Card;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.battle.units.Card;
+
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
@@ -32,7 +32,7 @@ public var countDisplayFactory:Function;
 public var elixirDisplayFactory:Function;
 public var coverDisplayFactory:Function;
 
-protected var type:int = -1;
+public var type:int = -1;
 protected var level:int = 0;
 protected var rarity:int = 0;
 protected var count:int = 0;
@@ -118,8 +118,8 @@ public function setData(type:int, level:int = 1, count:int = 1):void
 	
 	this.type = type;
 	this.availablity = game.getBuildingAvailablity(type);
-	if( ResourceType.isBuilding(type) )
-		this.level = this.availablity == BuildingType.AVAILABLITY_EXISTS && level == 1 ? player.buildings.get(type).get_level() : level;
+	if( ResourceType.isCard(type) )
+		this.level = this.availablity == CardTypes.AVAILABLITY_EXISTS && level == 1 ? player.cards.get(type).level : level;
 	this.rarity = 0;//building.rarity;;
 	this.count = count;// != 1 ? building.troopsCount : count;
 	//this.elixirSize = building.elixirSize;
@@ -147,7 +147,7 @@ private function callFactories() : void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BACKGROUND  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultBackgroundDisplayFactory() : ImageLoader 
 {
-	if( availablity != BuildingType.AVAILABLITY_NOT && type < 1000 )
+	if( availablity != CardTypes.AVAILABLITY_NOT && type < 1000 )
 		return null;
 	
 	if( backgroundDisaplay == null )
@@ -173,13 +173,13 @@ protected function defaultIconDisplayFactory() : ImageLoader
 		addChild(iconDisplay);
 	}
 
-	if( availablity == BuildingType.AVAILABLITY_NOT )
+	if( availablity == CardTypes.AVAILABLITY_NOT )
 	{
 		iconDisplay.source = Assets.getTexture("cards/99", "gui");
 	}
 	else
 	{
-		if( availablity == BuildingType.AVAILABLITY_WAIT )
+		if( availablity == CardTypes.AVAILABLITY_WAIT )
 		{
 			if( iconDisplay.filter == null )
 			{
@@ -197,7 +197,7 @@ protected function defaultIconDisplayFactory() : ImageLoader
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  LEVEL  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultLevelDisplayFactory() : RTLLabel
 {
-	if( !showLevel || !ResourceType.isBuilding(type) || availablity != BuildingType.AVAILABLITY_EXISTS || type < 0 || level <= 0 )
+	if( !showLevel || !ResourceType.isCard(type) || availablity != CardTypes.AVAILABLITY_EXISTS || type < 0 || level <= 0 )
 		return null;
 	
 	if( levelDisplay == null )
@@ -251,10 +251,10 @@ protected function defaultSliderDisplayFactory() : BuildingSlider
 	if( !showSlider || availablity || level <= 0 )
 		return null;
 	
-	var building:Building = player.buildings.get(type);
+	var building:Card = player.cards.get(type);
 	if( building == null )
 		return null;
-	var upgradeCards:int = Card.get_upgradeCards(building._level);
+	var upgradeCards:int = Card.get_upgradeCards(building.level);
 	var numBuildings:int = player.resources.get(type);
 	if( sliderDisplay != null )
 	{
@@ -286,7 +286,7 @@ public function punchSlider() : void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultRarityDisplayFactory() : ImageLoader
 {
-	if( rarity == 0 || availablity != BuildingType.AVAILABLITY_EXISTS )
+	if( rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
 		return null;
 	
 	if( rarityDisplay == null )
@@ -303,7 +303,7 @@ protected function defaultRarityDisplayFactory() : ImageLoader
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COUNT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultCountDisplayFactory() : ShadowLabel
 {
-	if( !showCount || availablity != BuildingType.AVAILABLITY_EXISTS || type < 0 || count < 1 )
+	if( !showCount || availablity != CardTypes.AVAILABLITY_EXISTS || type < 0 || count < 1 )
 		return null;
 	
 	if( countDisplay == null )

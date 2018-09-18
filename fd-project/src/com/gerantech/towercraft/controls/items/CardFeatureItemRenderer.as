@@ -1,15 +1,15 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 
 public class CardFeatureItemRenderer extends FeatureItemRenderer
 {
-private var buildingType:int;
+private var CardTypes:int;
 private var feature:int;
 
-public function CardFeatureItemRenderer(buildingType:int)
+public function CardFeatureItemRenderer(CardTypes:int)
 {
-	this.buildingType = buildingType;
+	this.CardTypes = CardTypes;
 }
 
 override protected function commitData():void
@@ -21,13 +21,12 @@ override protected function commitData():void
 	feature = _data as int;
 	keyDisplay.text = loc("building_feature_" + feature);
 	
-	var building:Building = player.buildings.get(buildingType);
-	var buildingLevel:int = building == null ? 1 : building.get_level();
-	var buildingImprove:int = building == null ? 1 : building.improveLevel;
+	var building:Card = player.cards.get(CardTypes);
+	var buildingLevel:int = building == null ? 1 : building.level;
 	
 	//var baseValue:Number = game.calculator.getBaseline(feature) * game.calculator.getUIFactor(feature);
-	var newValue:Number = game.calculator.get(feature, buildingType, buildingLevel + 1, buildingImprove) * game.calculator.getUIFactor(feature);
-	var oldValue:Number = game.calculator.get(feature, buildingType, buildingLevel + 0, buildingImprove) * game.calculator.getUIFactor(feature);
+	var newValue:Number = game.calculator.get(feature, CardTypes, buildingLevel + 1) * game.calculator.getUIFactor(feature);
+	var oldValue:Number = game.calculator.get(feature, CardTypes, buildingLevel + 0) * game.calculator.getUIFactor(feature);
 
 	var diff:Number = Math.round(Math.abs(newValue - oldValue));
 	if( building != null )

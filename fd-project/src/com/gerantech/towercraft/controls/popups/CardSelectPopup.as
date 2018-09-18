@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.core.Starling;
@@ -14,8 +14,8 @@ import starling.events.TouchPhase;
 
 public class CardSelectPopup extends SimplePopup
 {
-public var buildingType:int;
-private var card:Building;
+public var cardType:int;
+private var card:Card;
 private var _bounds:Rectangle;
 private var tutorialArrow:TutorialArrow;
 
@@ -42,11 +42,11 @@ override protected function transitionInCompleted():void
 	super.transitionInCompleted();
 	
 	_bounds = getBounds(stage);
-	card = player.buildings.get(buildingType);
+	card = player.cards.get(cardType);
 
 	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
 	buildingIcon.layoutData = new AnchorLayoutData(padding * 0.3, padding * 0.3, NaN, padding * 0.3);
-	buildingIcon.setData(card.type, card.get_level(), card.count());
+	buildingIcon.setData(card.type, card.level, card.count());
 	addChild(buildingIcon);
 	
 	var upgradable:Boolean = card.upgradable();
@@ -67,7 +67,7 @@ override protected function transitionInCompleted():void
 	var usingButton:CustomButton = new CustomButton();
 	usingButton.style = "neutral";
 	usingButton.label = loc("usage_label");
-	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*0.5, NaN, 0);
+	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, NaN, 0);
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	addChild(usingButton);		
 	usingButton.alpha = 0;
@@ -76,7 +76,7 @@ override protected function transitionInCompleted():void
 }
 /*private function showTutorArrow () : void
 {
-	if( buildingType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.TUTE_114_SELECT_BUILDING )
+	if( CardTypes != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.TUTE_114_SELECT_BUILDING )
 		return;
 	
 	if( tutorialArrow != null )

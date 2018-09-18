@@ -5,7 +5,6 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CardButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gt.towers.buildings.Card;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
@@ -99,8 +98,8 @@ public function getCardIndex(touch:Touch):int
 
 public function update():void
 {
-	for ( var i:int = 0; i < cards.length; i++ ) 
-		cards[i].setData(cards[i].card.type, cards[i].card.get_level());	
+	//for ( var i:int = 0; i < cards.length; i++ ) 
+	//	cards[i].setData(cards[i].card.type, cards[i].card.level);	
 }
 }
 }

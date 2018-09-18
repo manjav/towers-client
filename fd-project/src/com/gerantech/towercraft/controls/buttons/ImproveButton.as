@@ -2,8 +2,8 @@ package com.gerantech.towercraft.controls.buttons
 {
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.models.Assets;
-	import com.gt.towers.buildings.Building;
-	import com.gt.towers.constants.BuildingType;
+	import com.gt.towers.battle.units.Card;
+	import com.gt.towers.constants.CardTypes;
 	
 	import feathers.controls.ImageLoader;
 	
@@ -12,7 +12,7 @@ package com.gerantech.towercraft.controls.buttons
 
 	public class ImproveButton extends SimpleButton
 	{
-		public var building:Building;
+		public var building:Card;
 		public var type:int;
 		
 		private var disableFilter:ColorMatrixFilter;
@@ -23,7 +23,7 @@ package com.gerantech.towercraft.controls.buttons
 		public var locked:Boolean;
 		public var enabled:Boolean;
 		
-		public function ImproveButton(building:Building, type:int)
+		public function ImproveButton(building:Card, type:int)
 		{
 			super();
 			this.building = building;
@@ -44,8 +44,8 @@ package com.gerantech.towercraft.controls.buttons
 			//disableFilter.resolution = 0.8;
 			
 			var t:int = type;
-			if( t == BuildingType.IMPROVE )
-				t = BuildingType.get_improve(building.type) + 1;
+			if( t == CardTypes.IMPROVE )
+				t = CardTypes.get_improve(building.type) + 1;
 			
 			iconDisplay = new ImageLoader();
 			iconDisplay.source = Assets.getTexture("improve-" + t, "gui");

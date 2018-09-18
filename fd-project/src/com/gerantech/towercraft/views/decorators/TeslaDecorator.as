@@ -3,7 +3,7 @@ package com.gerantech.towercraft.views.decorators
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gerantech.towercraft.views.TroopView;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import flash.geom.Point;
 import flash.utils.setTimeout;
 import starling.core.Starling;
@@ -77,16 +77,16 @@ private function createLightRays() : void
 	var coils:Vector.<Point> = new Vector.<Point>();
 	switch( place.building.type )
 	{
-		case BuildingType.B44_CRYSTAL:
+		case CardTypes.B44_CRYSTAL:
 			coils.push(new Point( -27, -24)); coils.push(new Point( -27, 24)); coils.push( new Point(27, -24)); coils.push( new Point(27, 24));
 			break;
-		case BuildingType.B43_CRYSTAL:
+		case CardTypes.B43_CRYSTAL:
 			coils.push(new Point( -24, 22)); coils.push(new Point( 24, 22)); coils.push( new Point(0, -17));
 			break;
-		case BuildingType.B42_CRYSTAL:
+		case CardTypes.B42_CRYSTAL:
 			coils.push(new Point( -20, -17)); coils.push(new Point( 20, 17));
 			break;
-		case BuildingType.B41_CRYSTAL:
+		case CardTypes.B41_CRYSTAL:
 			coils.push(new Point(0, 0));
 			break;
 	}

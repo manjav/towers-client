@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
@@ -19,7 +19,6 @@ import starling.display.Image;
 
 public class BookReward extends TowersLayout
 {
-	
 public var _width:int = 0
 public var _height:int = 0
 public var index:int;
@@ -58,7 +57,7 @@ override protected function initialize():void
 	iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
 	Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(20, 20, 112, 74);
 	
-	var ic:int = ResourceType.isBuilding(type) ? BuildingType.get_category(type) : type;
+	var ic:int = ResourceType.isCard(type) ? CardTypes.get_category(type) : type;
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.pixelSnapping = false;
 	iconDisplay.maintainAspectRatio = false;
@@ -66,7 +65,7 @@ override protected function initialize():void
 	iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding * 1.8, padding);
 	iconContainer.addChild(iconDisplay);
 	
-	if( ResourceType.isBuilding(type) )
+	if( ResourceType.isCard(type) )
 	{
 		var improveDisplay:ImageLoader = new ImageLoader();
 		improveDisplay.source = Assets.getTexture("cards/" + type, "gui");
@@ -74,7 +73,7 @@ override protected function initialize():void
 		improveDisplay.layoutData = new AnchorLayoutData(padding, padding, padding * 1.8, padding);
 		iconContainer.addChild(improveDisplay);
 		
-		if( player.buildings.get(type).get_level() == -1 )
+		if( player.cards.get(type).level == -1 )
 		{
 			var newDisplay:ImageLoader = new ImageLoader();
 			newDisplay.source = Assets.getTexture("cards/new-badge", "gui");

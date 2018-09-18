@@ -12,8 +12,9 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
-import com.gt.towers.buildings.Building;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.battle.units.Card;
+import com.gt.towers.constants.CardFeatureType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.Exchanger;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -96,10 +97,10 @@ override public function updateData():void
 	if( buildingsListCollection == null )
 	{
 		buildingsListCollection = new ListCollection();
-		var buildings:Vector.<int> = BuildingType.getAll().keys();
+		var all:Vector.<int> = CardTypes.getAll()._list;
 		var buildingArray:Array = new Array();
-		while(buildings.length > 0)
-			buildingArray.push(buildings.pop());
+		while( all.length > 0 )
+			buildingArray.push(all.pop());
 		buildingArray.sort();
 		buildingsListCollection.data = buildingArray;
 		return;
@@ -120,10 +121,10 @@ private function list_focusInHandler(event:Event):void
 	openCard(item.data as int);
 }
 
-private function openCard(buildingType:int):void 
+private function openCard(cardType:int):void 
 {
-	var unlockedAt:int = game.unlockedBuildingAt( buildingType );
-	if( !player.buildings.exists( buildingType ) && unlockedAt > player.get_arena(0) )
+	var unlockedAt:int = game.calculator.getInt(CardFeatureType.F01_AVAILABLE_AT, cardType, 1);
+	if( !player.cards.exists( cardType ) && unlockedAt > player.get_arena(0) )
 	{
 		appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_" + (unlockedAt + 1))]));
 		return;
@@ -131,7 +132,7 @@ private function openCard(buildingType:int):void
 	
 	/*if( player.inDeckTutorial() )
 	{
-		seudUpgradeRequest(player.buildings.get(buildingType), 0);
+		seudUpgradeRequest(player.cards.get(CardTypes), 0);
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 		tutorials.dispatchEventWith("upgrade");
 		appModel.navigator.runBattle();
@@ -139,7 +140,7 @@ private function openCard(buildingType:int):void
 	}*/
 
 	detailsPopup = new CardDetailsPopup();
-	detailsPopup.buildingType = buildingType;
+	detailsPopup.cardType = cardType;
 	detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
@@ -153,7 +154,7 @@ private function openCard(buildingType:int):void
 
 private function details_updateHandler(event:Event):void
 {
-	var building:Building = player.buildings.get(event.data as int);
+	var building:Card = player.cards.get(event.data as int);
 	var confirmedHards:int = 0;
 	if( !player.has(building.get_upgradeRequirements()) )
 	{
@@ -176,33 +177,33 @@ private function upgradeConfirm_errorHandler(event:Event):void
 private function upgradeConfirm_selectHandler(event:Event):void
 {
 	var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-	seudUpgradeRequest( confirm.data as Building, Exchanger.toHard(player.deductions(confirm.requirements)) );
+	seudUpgradeRequest( confirm.data as Card, Exchanger.toHard(player.deductions(confirm.requirements)) );
 }
 
-private function seudUpgradeRequest(building:Building, confirmedHards:int):void
+private function seudUpgradeRequest(card:Card, confirmedHards:int):void
 {
-	if( detailsPopup != null && building.get_level() > -1 )
+	if( detailsPopup != null && card.level > -1 )
 	{
 		detailsPopup.close();
 		detailsPopup = null;
 	}
 	
-	if( !building.upgrade(confirmedHards) )
+	if( !card.upgrade(confirmedHards) )
 		return;
 	
 	var sfs:SFSObject = new SFSObject();
-	sfs.putInt("type", building.type);
+	sfs.putInt("type", card.type);
 	sfs.putInt("confirmedHards", confirmedHards);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
 	
 	updateData();
 	
-	if( building.get_level() < 2 )
+	if( card.level < 2 )
 		return;
 	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
-	upgradeOverlay.building = building;
+	upgradeOverlay.building = card;
 	appModel.navigator.addOverlay(upgradeOverlay);
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 }

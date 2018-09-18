@@ -8,10 +8,9 @@ import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.utils.lists.PlaceDataList;
 import flash.utils.setTimeout;
@@ -72,7 +71,7 @@ private function overlay_closeHandler(event:Event):void
 	processTasks();
 }
 
-public function showMidSwipe(target:PlaceView):void
+/*public function showMidSwipe(target:PlaceView):void
 {
 	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + target.place.index);
 	if( appModel.battleFieldView.battleData.map.index == 2 && target.place.index == 1 )
@@ -86,11 +85,6 @@ public function showMidSwipe(target:PlaceView):void
 		for (var i:int = 0; i < target.place.index + 2; i++)
 			places.push(target.getData(i));
 	}
-	/*else
-	{
-		places.push(target.getData(target.place.index));
-		places.push(target.getData(target.place.index + 1));
-	}*/
 	
 	if( places.size() > 0 )
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 800 * places.size()));
@@ -137,13 +131,13 @@ public function forceImprove() : Boolean
 		return false;
 	
 	var improvable:PlaceData = appModel.battleFieldView.battleData.battleField.map.getImprovableTutorPlace();
-	if( improvable == null || appModel.battleFieldView.battleData.battleField.places.get(improvable.index).building.type != BuildingType.B01_CAMP )
+	if( improvable == null || appModel.battleFieldView.battleData.battleField.places.get(improvable.index).building.type != CardTypes.B01_CAMP )
 		return false;
 		
 	appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = false;
 	setTimeout(function():void{ appModel.battleFieldView.places[improvable.index].decorator.improvablePanel.enabled = true}, 500);
 	return true;
-}
+}*/
 
 public function removeAll():void
 {

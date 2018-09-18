@@ -7,7 +7,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.TroopType;
 import com.gt.towers.utils.lists.IntList;
 import feathers.controls.ImageLoader;
@@ -138,7 +138,7 @@ override protected function update(population:int, troopType:int, occupied:Boole
 		troopTypeDisplay.texture = Assets.getTexture(troopTypeTexture);
 		
 		// play change troop sounds
-		if( place.building.category == BuildingType.B00_CAMP )
+		if( place.building.category == CardTypes.B00_CAMP )
 		{
 			// punch scale on occupation
 			punch(1.3);
@@ -158,11 +158,11 @@ override protected function update(population:int, troopType:int, occupied:Boole
 	var improvable:Boolean = false;
 	if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
 	{
-		var options:IntList = BuildingType.getImproveList(place.building.type);
+		var options:IntList = CardTypes.getImproveList(place.building.type);
 		for (var i:int=0; i < options.size(); i++) 
 		{
 			//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
-			if( place.building.improvable(options.get(i)) && options.get(i) != BuildingType.B01_CAMP )
+			if( place.building.improvable(options.get(i)) && options.get(i) != CardTypes.B01_CAMP )
 			{
 				improvable = true;
 				break;

@@ -14,8 +14,6 @@ import starling.events.Event;
 public class BattleFieldView extends Sprite
 {
 public var battleData:BattleData;
-public var places:Vector.<PlaceView>;
-public var troopsList:Vector.<TroopView>;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
 public var roadsContainer:Sprite;
@@ -68,7 +66,7 @@ public function BattleFieldView()
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
 
-	troopsList = new Vector.<TroopView>();
+	/*troopsList = new Vector.<TroopView>();
 	troopsContainer.addEventListener(Event.ADDED, battleField_addedHandler);
 	troopsContainer.addEventListener(Event.REMOVED, battleField_removedHandler);
 }
@@ -112,19 +110,19 @@ public function createPlaces(battleData:BattleData) : void
 		
 		addChild(p);
 		places[p.place.index] = p
-	}
+	}*/
 	
 	addChild(buildingsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
 }
 
-public function createDrops() : void
+/*public function createDrops() : void
 {
 	dropTargets = new DropTargets(stage);
 	for each( var t:PlaceView in places )
 		if( t.touchable )
 			dropTargets.add(t);
-}
+}*/
 }
 }

@@ -247,7 +247,7 @@ package com.gerantech.towercraft.controls
 		
 		public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number = 0):void
 		{
-			if (ResourceType.isBuilding(resourceType))
+			if (ResourceType.isCard(resourceType))
 			{
 				addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.3, stage.stageHeight * 0.95), delay, null);
 			}

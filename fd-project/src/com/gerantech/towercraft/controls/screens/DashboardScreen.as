@@ -11,7 +11,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.SegmentType;
@@ -180,17 +180,17 @@ private function getListData():ListCollection
 			}
 			else if( p == 1 )
 			{
-				var bs:Vector.<Building> = player.buildings.values();
-				for each(var b:Building in bs)
+				var bs:Vector.<Card> = player.cards.values();
+				for each(var b:Card in bs)
 				{
 					if( b == null )
 						continue;
 					
-					//trace(b.type, b.upgradable() , player.buildings.get(b.type).get_level());
+					//trace(b.type, b.upgradable() , player.cards.get(b.type).level);
 					if( b.upgradable() )
 						pd.badgeNumber ++;
 					
-					if( player.buildings.get(b.type).get_level() == -1 )
+					if( player.cards.get(b.type).level == -1 )
 						pd.newBadgeNumber ++;
 				}
 			}

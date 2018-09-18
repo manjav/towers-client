@@ -4,7 +4,7 @@ import com.gerantech.towercraft.managers.BaseManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gerantech.towercraft.views.TroopView;
-import com.gt.towers.constants.BuildingFeatureType;
+import com.gt.towers.constants.CardFeatureType;
 
 import flash.utils.clearTimeout;
 import flash.utils.setInterval;
@@ -26,10 +26,10 @@ private var damageRadiusMax:Number;
 public function DefensiveWeapon(placeView:PlaceView)
 {
 	this.placeView = placeView;
-	damage			= game.calculator.get(BuildingFeatureType.F21_DAMAGE,			placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
-	damageGap		= game.calculator.get(BuildingFeatureType.F22_DAMAGE_GAP,		placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
-	damageRadiusMin = game.calculator.get(BuildingFeatureType.F23_RANGE_RADIUS_MIN,	placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
-	damageRadiusMax = game.calculator.get(BuildingFeatureType.F24_RANGE_RADIUS_MAX, placeView.place.building.type, placeView.place.building.get_level(), placeView.place.building.improveLevel);
+	damage			= game.calculator.get(CardFeatureType.F21_DAMAGE,			placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageGap		= game.calculator.get(CardFeatureType.F22_DAMAGE_GAP,		placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageRadiusMin = game.calculator.get(CardFeatureType.F23_RANGE_RADIUS_MIN,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageRadiusMax = game.calculator.get(CardFeatureType.F24_RANGE_RADIUS_MAX, placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
 	hitTimeoutId = setInterval(hitTestTroopsInterval, damageGap);
 }
 

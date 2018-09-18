@@ -2,7 +2,6 @@ package com.gerantech.towercraft.managers.net
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.views.PlaceView;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
@@ -17,7 +16,7 @@ public function ResponseSender(room:Room)
 	this.room = room;
 }
 
-public function fight(sourceTowers:Vector.<PlaceView>, destination:PlaceView):void
+/*public function fight(sourceTowers:Vector.<PlaceView>, destination:PlaceView):void
 {
 	var sfsObj:SFSObject = new SFSObject();
 	var sources:SFSArray = new SFSArray();
@@ -26,7 +25,7 @@ public function fight(sourceTowers:Vector.<PlaceView>, destination:PlaceView):vo
 	sfsObj.putSFSArray("s", sources);
 	sfsObj.putInt("d", destination.place.index);
 	send(SFSCommands.FIGHT, sfsObj, room);
-}
+}*/
 
 public function hitTroop(troopId:int, damage:Number):void
 {

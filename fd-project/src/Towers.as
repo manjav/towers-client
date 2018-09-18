@@ -3,7 +3,7 @@ package
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
@@ -46,7 +46,7 @@ public function Towers()
     
 	// GameAnalytic Configurations
 	var currencies:Vector.<String> = new Vector.<String>();
-	var bt:Vector.<int> = BuildingType.getAll().keys();
+	var bt:Vector.<int> = CardTypes.getAll()._list;
 	for each( var r:int in bt )
 		currencies.push(r.toString());
 	currencies.push(ResourceType.XP.toString());

@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.layout.AnchorLayout;
 import flash.geom.Rectangle;
@@ -13,14 +13,14 @@ import starling.events.Event;
 
 public class CardButton extends SimpleLayoutButton
 {
-public var card:Building;
+public var card:Card;
 private var iconDisplay:BuildingCard;
 private var tutorialArrow:TutorialArrow;
 
 public function CardButton(type:int)
 {
 	super();
-	this.card = player.buildings.get(type);
+	this.card = player.cards.get(type);
 }
 
 public function getIconBounds():Rectangle 

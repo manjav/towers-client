@@ -2,9 +2,9 @@ package com.gerantech.towercraft.views
 {
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 import com.gt.towers.buildings.Place;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.utils.PathFinder;
 import com.gt.towers.utils.lists.PlaceList;
 import flash.utils.clearTimeout;
@@ -24,18 +24,16 @@ private var _health:Number;
 private var _muted:Boolean = true;
 
 private var path:Vector.<PlaceView>;
-private var building:Building;
-
+private var building:Card;
 private var direction:String;
 private var rushTimeoutId:uint;
 private var textureType:String;
-
 private var movieClip:MovieClip;
 private var healthDisplay:HealthBar;
 private var battleSide:int = 0;
 private var troopScale:Number = 1.2;
 
-public function TroopView(building:Building, path:PlaceList)
+public function TroopView(building:Card, path:PlaceList)
 {
 	this.id = building.place.getIncreasedId();
 	this.type = building.troopType;
@@ -49,8 +47,8 @@ public function TroopView(building:Building, path:PlaceList)
 	shadow.scale = 2;
 	addChild(shadow);
 	
-	textureType = BuildingType.getTroopName(building.type) + battleSide + "/";
-	movieClip = new MovieClip(Assets.getTextures(textureType + "do", "troops"), building.category == BuildingType.B20_RAPID?15:20);
+	textureType = CardTypes.getTroopName(building.type) + battleSide + "/";
+	movieClip = new MovieClip(Assets.getTextures(textureType + "do", "troops"), building.category == CardTypes.B20_RAPID?15:20);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
 	movieClip.scale = troopScale;
@@ -96,7 +94,7 @@ private function switchAnimation(source:Place, destination:Place):void
 	var flipped:Boolean = false;
 	var dir:String;
 	
-	if(rad >= Math.PI * -0.125 && rad < Math.PI * 0.125 )
+	if( rad >= Math.PI * -0.125 && rad < Math.PI * 0.125 )
 		dir = "do";
 	else if( rad <= Math.PI * -0.125 && rad > Math.PI * -0.375 )
 		dir = "ld";
@@ -172,14 +170,12 @@ public function get health():Number
 }
 public function set health(value:Number):void
 {
-	if ( _health == value )
+	if( _health == value )
 		return;
 	
 	_health = value;
 	if( _health < building.troopPower )
 		updateHealthDisplay(_health);
-
-		
 }
 
 private function updateHealthDisplay(health:Number):void

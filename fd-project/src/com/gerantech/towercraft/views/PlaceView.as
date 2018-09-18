@@ -13,7 +13,7 @@ import com.gt.towers.Game;
 import com.gt.towers.Player;
 import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.buildings.Place;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.TroopType;
 import com.gt.towers.utils.PathFinder;
@@ -34,7 +34,7 @@ public class PlaceView extends Sprite
 public var place:Place;
 public var raduis:Number;
 public var arrowContainer:Sprite;
-public var decorator:BuildingDecorator;
+public var decorator:CardDecorator;
 public var defensiveWeapon:DefensiveWeapon;
 private var tutors:TutorialDecorator;
 
@@ -92,11 +92,11 @@ private function createDecorator():void
 	
 	switch( place.building.category )
 	{
-		case BuildingType.B40_CRYSTAL:
+		case CardTypes.B40_CRYSTAL:
 			decorator = new TeslaDecorator(this);
 			defensiveWeapon = new DefensiveWeapon(this);
 			break;
-		case BuildingType.B10_BARRACKS:
+		case CardTypes.B10_BARRACKS:
 			decorator = new BarracksDecorator(this);
 			break;
 		default:

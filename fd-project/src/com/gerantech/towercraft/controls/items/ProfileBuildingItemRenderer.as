@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -91,7 +91,7 @@ private function createIcon(type:int, level:int):void
 		iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding * 1.2, padding);
 		addChild(iconDisplay);			
 	}
-	iconDisplay.source = Assets.getTexture("cards/" + BuildingType.get_category(type), "gui");
+	iconDisplay.source = Assets.getTexture("cards/" + CardTypes.get_category(type), "gui");
 	iconDisplay.alpha = level > 0 ? 1 : 0.6;
 	
 	if( improveDisplay == null )

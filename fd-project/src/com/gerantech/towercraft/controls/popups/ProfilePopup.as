@@ -16,7 +16,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -231,7 +231,7 @@ private function showProfile():void
 public function getBuildingData():ListCollection
 {
 	var ret:ListCollection = new ListCollection();
-	var buildings:Vector.<int> = BuildingType.getAll().keys();
+	var buildings:Vector.<int> = CardTypes.getAll()._list;
 	var buildingArray:Array = new Array();
 	while(buildings.length > 0)
 	{

@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.BattleHUD;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ImproveButton;
-import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
@@ -25,18 +24,13 @@ import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.views.BattleFieldView;
-import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
-import com.gt.towers.constants.TroopType;
-import com.gt.towers.utils.PathFinder;
-import com.gt.towers.utils.lists.PlaceDataList;
-import com.gt.towers.utils.lists.PlaceList;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.SFSRoom;
@@ -67,8 +61,8 @@ public var waitingOverlay:BattleWaitingOverlay;
 private var hud:BattleHUD;
 
 private var endPoint:Point = new Point();
-private var sourcePlaces:Vector.<PlaceView>;
-private var allPlacesInTouch:PlaceList;
+//private var sourcePlaces:Vector.<PlaceView>;
+//private var allPlacesInTouch:PlaceList;
 
 private var sfsConnection:SFSConnection;
 private var timeoutId:uint;
@@ -113,19 +107,19 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	case SFSCommands.START_BATTLE:
 		if( data.containsKey("umt") )
 		{
-			showUMPopup(data);
+			showUnderMaintenancePopup(data);
 			return;
 		}	
 		
 		var battleData:BattleData = new BattleData(data);
 		appModel.battleFieldView = new BattleFieldView();
 		addChild(appModel.battleFieldView);
-		appModel.battleFieldView.createPlaces(battleData);
+		//appModel.battleFieldView.createPlaces(battleData);
 		startBattle();
 		break;
 	
 	case SFSCommands.BUILDING_IMPROVE:
-		appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("tt"), data.getInt("p"));
+		//appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("tt"), data.getInt("p"));
 		appModel.sounds.addAndPlaySound("battle-improve");
 		break;
 	
@@ -145,13 +139,13 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	//trace(event.params.cmd, data.getDump());
 }
 
-private function showUMPopup(data:SFSObject):void
+private function showUnderMaintenancePopup(data:SFSObject):void
 {
 	if( !waitingOverlay.ready )
 	{
 		waitingOverlay.addEventListener(Event.READY, waitingOverlay_readyHandler);
 		function waitingOverlay_readyHandler():void {
-			showUMPopup(data);
+			showUnderMaintenancePopup(data);
 		}
 		return;
 	}
@@ -210,8 +204,8 @@ private function startBattle():void
 
 private function tutorials_tasksStartHandler(e:Event) : void
 {
-	clearSources(sourcePlaces);
-	sourcePlaces = null;
+	/*clearSources(sourcePlaces);
+	sourcePlaces = null;*/
 }
 
 private function showTutorials() : void 
@@ -221,7 +215,7 @@ private function showTutorials() : void
 	if( sfsConnection.mySelf.isSpectator )
 		return;
 
-	appModel.battleFieldView.createDrops();
+	//appModel.battleFieldView.createDrops();
 	if( player.get_battleswins() > 2 )
 	{
 		touchEnable = true;
@@ -248,7 +242,7 @@ private function showTutorials() : void
 	
 	if( !player.hardMode )
 	{
-		var places:PlaceDataList = field.getSwipeTutorPlaces();
+		/*var places:PlaceDataList = field.getSwipeTutorPlaces();
 		if( places.size() > 0 )
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1500));
 		
@@ -258,7 +252,7 @@ private function showTutorials() : void
 			places = new PlaceDataList();
 			places.push(place);
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
-		}
+		}*/
 	}
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	tutorials.show(tutorialData);
@@ -500,7 +494,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	    hud.updateRoomVars();
 	}
 
-	if( event.params.changedVars.indexOf("s") > -1 )
+	/*if( event.params.changedVars.indexOf("s") > -1 )
 	{
 		var room:SFSRoom = SFSRoom(event.params.room);
 		var towers:ISFSArray = room.getVariable("s").getSFSArrayValue();
@@ -509,7 +503,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		
 		for( var i:int=0; i<towers.size(); i++ )
 			appModel.battleFieldView.places[towers.getInt(i)].fight(appModel.battleFieldView.places[destination].place, troopsDivision);
-	}
+	}*/
 	//sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 }
 
@@ -518,7 +512,7 @@ private function updateTowersFromRoomVars():void
 	if( !appModel.battleFieldView.battleData.room.containsVariable("towers") )
 		return;
 	var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
-	for(var i:int=0; i<towers.size(); i++)
+	/*for(var i:int=0; i<towers.size(); i++)
 	{
 		var wrapped:SFSDataWrapper = towers.getWrappedElementAt(i);
 		if( wrapped.type == 20 )
@@ -530,18 +524,18 @@ private function updateTowersFromRoomVars():void
 		{
 			timeManager.setNow(int(wrapped.data / 1000));
 		}
-	}
+	}*/
 }
 private function resetAll(data:ISFSObject):void
 {
 	if( !data.containsKey("buildings") )
 		return;
-	var bSize:int = data.getSFSArray("buildings").size();
+	/*var bSize:int = data.getSFSArray("buildings").size();
 	for( var i:int=0; i < bSize; i++ )
 	{
 		var b:ISFSObject = data.getSFSArray("buildings").getSFSObject(i);
 		appModel.battleFieldView.places[b.getInt("i")].replaceBuilding(b.getInt("t"), b.getInt("l"), b.getInt("tt"), b.getInt("p"));
-	}
+	}*/
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -549,7 +543,7 @@ private function touchHandler(event:TouchEvent):void
 {
 	if( !touchEnable )
 		return;
-	var pv:PlaceView;
+	/*var pv:PlaceView;
 	var touch:Touch = event.getTouch(this);
 	if( touch == null )
 		return;
@@ -664,13 +658,13 @@ private function touchHandler(event:TouchEvent):void
 			appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
 			clearSources(sourcePlaces);
 		}
-	}
+	}*/
 }
 
 /**
  * Clear swiping mode
  * @param	sourceTowers
- */
+
 private function clearSources(sourceTowers:Vector.<PlaceView>):void
 {
 	for each( var tp:PlaceView in sourceTowers )
@@ -745,7 +739,7 @@ private function showImproveFloating(placeView:PlaceView):void
 		}
 	}
 }
-
+ */
 override protected function backButtonFunction():void
 {
 	if( sfsConnection.lastJoinedRoom != null && sfsConnection.mySelf.isSpectator )

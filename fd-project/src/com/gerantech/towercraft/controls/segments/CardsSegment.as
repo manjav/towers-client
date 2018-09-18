@@ -14,9 +14,10 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.List;
@@ -167,27 +168,27 @@ override public function focus():void
 protected function scroller_scrollHandler(event:Event):void
 {
 	var scrollPos:Number = Math.max(0, scroller.verticalScrollPosition);
-	var changes:Number = startScrollBarIndicator-scrollPos;
-	deckHeader.y = Math.max(-deckHeader._height, Math.min(0, deckHeader.y+changes));
+	var changes:Number = startScrollBarIndicator - scrollPos;
+	deckHeader.y = Math.max( -deckHeader._height, Math.min(0, deckHeader.y + changes));
 	deckHeader.visible = deckHeader.y > -deckHeader._height
 	startScrollBarIndicator = scrollPos;
 }
 private function showTutorial():void
 {
-	if( player.getTutorStep() != PrefsTypes.TUTE_113_SELECT_DECK )
+	/*if( player.getTutorStep() != PrefsTypes.TUTE_113_SELECT_DECK )
 		return;
 	
 	player.prefs.set(PrefsTypes.TUTOR, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
 	var tutorialData:TutorialData = new TutorialData("deck_start");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
-	tutorials.show(tutorialData);
+	tutorials.show(tutorialData);*/
 }		
 override public function updateData():void
 {
 	if(foundCollection == null)
 		foundCollection = new ListCollection();
 	var founds:Array = new Array();
-	var _founds:Vector.<int> = player.buildings.keys();
+	var _founds:Vector.<int> = player.cards.keys();
 	var c:int = 0;
 	while( _founds.length > 0 )
 	{
@@ -205,7 +206,7 @@ override public function updateData():void
 	c = 0;
 	while( c < _availables.size() )
 	{
-		if( !player.buildings.exists(_availables.get(c)) )
+		if( !player.cards.exists(_availables.get(c)) )
 			availables.push(_availables.get(c));
 		c ++;
 	}
@@ -238,14 +239,14 @@ private function deckHeader_selectHandler(event:Event):void
 	var item:BuildingCard = event.data as BuildingCard;
 	selectCard(item.type, item.getBounds(this));
 }
-private function selectCard(buildingType:int, cardBounds:Rectangle):void
+private function selectCard(cardType:int, cardBounds:Rectangle):void
 {
-	/*if( player.inTutorial() && buildingType != BuildingType.B11_BARRACKS )
+	/*if( player.inTutorial() && cardType != CardTypes.B11_BARRACKS )
 	return;// disalble all items in tutorial
 	
-	if( !player.buildings.exists( buildingType ) )
+	if( !player.cards.exists( cardType ) )
 	{
-	var unlockedAt:int = game.unlockedBuildingAt( buildingType );
+	var unlockedAt:int = game.unlockedBuildingAt( cardType );
 	if( unlockedAt <= player.get_arena(0) )
 	appModel.navigator.addLog(loc("earn_at_chests"));
 	else
@@ -255,23 +256,23 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 	
 	if( player.inTutorial() )
 	{
-	seudUpgradeRequest(player.buildings.get(buildingType), 0);
+	seudUpgradeRequest(player.cards.get(cardType), 0);
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
 	tutorials.dispatchEventWith("upgrade");
 	return;
 	}*/
 	
-	var deckInex:int = player.decks.get(player.selectedDeck).indexOf(buildingType);
+	var deckInex:int = player.decks.get(player.selectedDeck).indexOf(cardType);
 	// create transition data
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x-padding*0.5, cardBounds.y-padding, cardBounds.width+padding, cardBounds.height+padding*(deckInex>-1?4.9:7.4)); 
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (deckInex >-1?4.9:7.4));
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();
 	selectPopup.data = deckInex;
-	selectPopup.buildingType = buildingType;
+	selectPopup.cardType = cardType;
 	selectPopup.transitionIn = ti;
 	selectPopup.transitionOut = to;
 	selectPopup.addEventListener(Event.CLOSE, selectPopup_closeHandler);
@@ -279,7 +280,7 @@ private function selectCard(buildingType:int, cardBounds:Rectangle):void
 	selectPopup.addEventListener(Event.OPEN, selectPopup_openHandler);
 	selectPopup.addEventListener(Event.SELECT, selectPopup_selectHandler);
 	function selectPopup_closeHandler(event:Event):void { foundList.selectedIndex = -1; }
-	function selectPopup_openHandler(event:Event):void { showCardDetails(buildingType); }	
+	function selectPopup_openHandler(event:Event):void { showCardDetails(cardType); }	
 }
 
 private function availabledList_focusInHandler(event:Event):void
@@ -287,10 +288,10 @@ private function availabledList_focusInHandler(event:Event):void
 	showCardDetails(CardItemRenderer(event.data).data as int);
 }
 
-private function showCardDetails(buildingType:int):void
+private function showCardDetails(cardType:int):void
 {
 	detailsPopup = new CardDetailsPopup();
-	detailsPopup.buildingType = buildingType;
+	detailsPopup.cardType = cardType;
 	detailsPopup.addEventListener(Event.SELECT, selectPopup_selectHandler);
 	detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);	
@@ -299,9 +300,9 @@ private function selectPopup_selectHandler(event:Event):void
 {
 	var type:int = -1;
 	if( event.currentTarget is CardDetailsPopup )
-		type = detailsPopup.buildingType;
+		type = detailsPopup.cardType;
 	else
-		type = selectPopup.buildingType;
+		type = selectPopup.cardType;
 	setTimeout(setEditMode, 10, true, type);
 }
 
@@ -341,14 +342,14 @@ private function pushToDeck(cardIndex:int):void
 		setEditMode(false, -1);
 		return;
 	}
-	deckHeader.cards[cardIndex].type = draggableCard.type;
+	deckHeader.cards[cardIndex].card.type = draggableCard.type;
 	player.get_current_deck().set(cardIndex, draggableCard.type);
 	
 	var params:SFSObject = new SFSObject();
 	params.putShort("index", cardIndex);
 	params.putShort("type", draggableCard.type);
 	params.putShort("deckIndex", player.selectedDeck);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
+	//SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
 	
 	dispatchEventWith("scrollPolicy", true, true);
 	setEditMode(false, -1);
@@ -367,9 +368,7 @@ private function setEditMode(value:Boolean, type:int):void
 		deckHeader.removeEventListener(Event.SELECT, deckHeader_selectHandler);
 		deckHeader.startHanging();
 		
-		draggableCard = new BuildingCard();
-		draggableCard.showLevel = false;
-		draggableCard.showSlider = false;
+		draggableCard = new BuildingCard(false, false, false, false);
 		draggableCard.width = 240;
 		draggableCard.height = 360;
 		draggableCard.pivotX = draggableCard.width * 0.5;
@@ -399,7 +398,7 @@ private function setEditMode(value:Boolean, type:int):void
 
 private function details_updateHandler(event:Event):void
 {
-	var building:Building = event.data as Building;
+	var building:Card = event.data as Card;
 	var confirmedHards:int = 0;
 	if( !player.has(building.get_upgradeRequirements()) )
 	{
@@ -422,10 +421,10 @@ private function upgradeConfirm_errorHandler(event:Event):void
 private function upgradeConfirm_selectHandler(event:Event):void
 {
 	var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-	seudUpgradeRequest( confirm.data as Building, exchanger.toHard(player.deductions(confirm.requirements)) );
+	seudUpgradeRequest( confirm.data as Card, Exchanger.toHard(player.deductions(confirm.requirements)) );
 }
 
-private function seudUpgradeRequest(building:Building, confirmedHards:int):void
+private function seudUpgradeRequest(building:Card, confirmedHards:int):void
 {
 	if( selectPopup != null )
 	{
@@ -449,9 +448,9 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 	updateData();
 	
 	// dispatch tutorial event
-	if( player.inTutorial() && building.type == CardTypes.INITIAL && building.get_level() == 2 )
+	if( player.inTutorial() && building.type == CardTypes.INITIAL && building.level == 2 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 		tutorials.dispatchEventWith("upgrade");
 		return;
 	}

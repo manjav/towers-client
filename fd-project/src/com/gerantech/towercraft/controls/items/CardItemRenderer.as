@@ -7,7 +7,8 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.CardFeatureType;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
@@ -25,7 +26,7 @@ public class CardItemRenderer extends AbstractTouchableListItemRenderer
 private var _firstCommit:Boolean = true;
 private var _width:Number;
 private var _height:Number;
-private var buildingType:int = -1;
+private var cardTypes:int = -1;
 
 private var cardDisplay:BuildingCard;
 private var showLevel:Boolean;
@@ -80,10 +81,10 @@ override protected function commitData():void
 
 	if( _data is int )
 	{
-		buildingType = _data as int;
-		if( player.buildings.exists(buildingType) )
+		cardTypes = _data as int;
+		if( player.cards.exists(cardTypes) )
 		{
-			if( player.buildings.get(buildingType).get_level() == -1 )
+			if( player.cards.get(cardTypes).level == -1 )
 			{
 				if( newDisplay == null )
 				{
@@ -102,19 +103,19 @@ override protected function commitData():void
 		}
 		else
 		{
-			var unlockedAt:int = game.unlockedBuildingAt( buildingType );
+			var unlockedAt:int = game.calculator.getInt(CardFeatureType.F01_AVAILABLE_AT, cardTypes, 1);
 			if( unlockedAt > player.get_arena(0) )
-				buildingType = 99;
+				cardTypes = 99;
 		}
-		var l:int = player.buildings.exists(buildingType) ? player.buildings.get(buildingType).get_level() : 1;
-		var c:int = player.buildings.exists(buildingType) ? player.resources.get(buildingType) : 1;
-		cardDisplay.setData( buildingType, l, c);
+		var l:int = player.cards.exists(cardTypes) ? player.cards.get(cardTypes).level : 1;
+		var c:int = player.cards.exists(cardTypes) ? player.resources.get(cardTypes) : 1;
+		cardDisplay.setData( cardTypes, l, c);
 		Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	}
 	else
 	{
 		alpha = 1;
-		buildingType = _data.type;
+		cardTypes = _data.type;
 		cardDisplay.setData(_data.type, _data.level);
 	}
 
@@ -139,7 +140,7 @@ private function showTutorArrow () : void
 {
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
-	if( !player.inDeckTutorial() || buildingType != BuildingType.B11_BARRACKS || player.buildings.get(buildingType).get_level() > -1 )
+	if( !player.inDeckTutorial() || cardTypes != CardTypes.C001 || player.cards.get(cardTypes).level > -1 )
 		return;
 	
 	tutorialArrow = new TutorialArrow(true);
@@ -174,7 +175,7 @@ override public function set currentState(_state:String):void
 		owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 	}
 	
-	//if( player.buildings.exists( _data as int ) )
+	//if( player.cards.exists( _data as int ) )
 	//	visible = _state != STATE_SELECTED;
 }
 

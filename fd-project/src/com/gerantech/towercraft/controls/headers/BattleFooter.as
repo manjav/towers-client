@@ -8,9 +8,8 @@ import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.HealthBar;
-import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.battle.BattleField;
-import com.gt.towers.buildings.Building;
+import com.gt.towers.battle.units.Card;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -175,7 +174,7 @@ private function touchHandler(event:TouchEvent):void
 		else if( touch.phase == TouchPhase.ENDED )
 		{
 			place = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			var card:Building = appModel.battleFieldView.battleData.battleField.deckBuildings.get(draggableCard.data as int).building;
+			var card:Card = appModel.battleFieldView.battleData.battleField.deckBuildings.get(draggableCard.data as int).building;
 			if( place != null && place.place.building.transformable(card) )
 			{
 				appModel.battleFieldView.responseSender.improveBuilding(place.place.index, draggableCard.data as int);

@@ -259,12 +259,12 @@ public function updateRoomVars():void
 	if( battleData == null || battleData.map.isOperation || !battleData.room.containsVariable("towers") )
 		return;
 	
-	var towers:Array = [0, 0, 0];
+	/*var towers:Array = [0, 0, 0];
 	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
 		towers[ battleData.battleField.places.get(i).building.troopType + 1 ] ++;
 	
 	if( territorySlider != null )
-		territorySlider.update(towers[1], towers[2]);
+		territorySlider.update(towers[1], towers[2]);*/
 }
 
 protected function closeButton_triggeredHandler(event:Event):void

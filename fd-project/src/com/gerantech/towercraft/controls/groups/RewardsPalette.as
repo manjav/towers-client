@@ -54,7 +54,7 @@ private function getImageSource(resourceType:int) : String
 		ret = "settings-22";
 	else if( ResourceType.isBook(resourceType) )
 		ret = "books/" + resourceType;
-	else if( ResourceType.isBuilding(resourceType) )
+	else if( ResourceType.isCard(resourceType) )
 		ret = "cards/" + resourceType;
 	else
 		ret = "res-" + resourceType;
