@@ -171,7 +171,7 @@ protected function rewardFactory():void
 	{
 		if( challenge.rewards.exists(key) )
 			return challenge.rewards.get(key);
-		return new Arena(0, 0, 0, 0, null);
+		return new Arena(0, 0, 0, 0);
 	}
 }
 

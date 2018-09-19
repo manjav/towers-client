@@ -70,8 +70,8 @@ public function startHanging():void
 	y = 0;
 	for ( var i:int = 0; i < cards.length; i++ ) 
 	{
-		cards[i].rotation = -0.02;
-		Starling.juggler.tween(cards[i], 0.15, {delay:i * 0.05, rotation:0.015, reverse:true, repeatCount:1000, transition:Transitions.EASE_IN_OUT});
+		cards[i].iconDisplay.rotation = -0.02;
+		Starling.juggler.tween(cards[i].iconDisplay, 0.15, {delay:i * 0.05, rotation:0.015, reverse:true, repeatCount:1000, transition:Transitions.EASE_IN_OUT});
 		
 	}
 }
@@ -80,9 +80,9 @@ public function fix():void
 {
 	for ( var i:int = 0; i < cards.length; i++ )
 	{
-		Starling.juggler.removeTweens(cards[i]);
-		cards[i].scale = 1;
-		cards[i].rotation = 0;
+		Starling.juggler.removeTweens(cards[i].iconDisplay);
+		cards[i].iconDisplay.scale = 1;
+		cards[i].iconDisplay.rotation = 0;
 	}
 }
 

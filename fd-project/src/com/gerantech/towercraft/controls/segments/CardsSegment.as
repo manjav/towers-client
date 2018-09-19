@@ -102,14 +102,11 @@ override public function init():void
 	availabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
 	availabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
 	availabledLayout.requestedColumnCount = foundLayout.requestedColumnCount = 4;
-	availabledLayout.typicalItemWidth = foundLayout.typicalItemWidth = (width - foundLayout.gap*(foundLayout.requestedColumnCount-1) - padding*2) / foundLayout.requestedColumnCount;
-	foundLayout.typicalItemHeight = foundLayout.typicalItemWidth * 1.5;
-	availabledLayout.typicalItemHeight = foundLayout.typicalItemWidth * 1.3;
+	availabledLayout.typicalItemWidth = foundLayout.typicalItemWidth = (width - foundLayout.gap * (foundLayout.requestedColumnCount - 1) - padding * 2) / foundLayout.requestedColumnCount;
+	availabledLayout.typicalItemHeight = foundLayout.typicalItemHeight = foundLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 
 	foundList = new List();
 	foundList.verticalScrollPolicy = ScrollPolicy.OFF;
-	foundList.elasticity = 0.01;
-	//unlocksList.decelerationRate = 1;
 	foundList.layout = foundLayout;
 	foundList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(true, true, true, scroller); }
 	foundList.dataProvider = foundCollection;
@@ -119,13 +116,11 @@ override public function init():void
 	if( availabledCollection.length > 0 )
 	{
 		var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBCCDD, null, null, false, null, 0.8);
-		availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding*4, padding, NaN, padding);
+		availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding * 4, padding, NaN, padding);
 		scroller.addChild(availabledLabel);	
 		
 		availabledList = new List();
 		availabledList.verticalScrollPolicy = ScrollPolicy.OFF;
-		availabledList.elasticity = 0.01;
-		//availabledList.decelerationRate = 1;
 		availabledList.layout = availabledLayout;
 		availabledList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
 		availabledList.dataProvider = availabledCollection;
@@ -136,14 +131,12 @@ override public function init():void
 	if( unavailableCollection.length > 0 )
 	{
 		var unavailableLabel:RTLLabel = new RTLLabel(loc("unavailable_cards"), 0xBBCCDD, null, null, false, null, 0.8);
-		unavailableLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding*4, padding, NaN, padding);
+		unavailableLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding * 4, padding, NaN, padding);
 		scroller.addChild(unavailableLabel);	
 		
 		unavailableList = new List();
 		unavailableList.verticalScrollPolicy = ScrollPolicy.OFF;
 		unavailableList.alpha = 0.8;
-		unavailableList.elasticity = 0.01;
-		//availabledList.decelerationRate = 1;
 		unavailableList.layout = availabledLayout;
 		unavailableList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
 		unavailableList.dataProvider = unavailableCollection;
@@ -267,7 +260,7 @@ private function selectCard(cardType:int, cardBounds:Rectangle):void
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (deckInex >-1?4.9:7.4));
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (deckInex >-1?4.5:8));
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();
@@ -316,7 +309,7 @@ private function touchHandler(event:TouchEvent):void
 	{
 		if( touch.target.parent == draggableCard )
 			touchId = touch.id;
-		dispatchEventWith("scrollPolicy", true, false);
+		dispatchEventWith(Event.READY, true, false);
 	}
 	else if( touch.phase == TouchPhase.MOVED )
 	{
@@ -342,7 +335,7 @@ private function pushToDeck(cardIndex:int):void
 		setEditMode(false, -1);
 		return;
 	}
-	deckHeader.cards[cardIndex].card.type = draggableCard.type;
+	deckHeader.cards[cardIndex].iconDisplay.setData(draggableCard.type);
 	player.get_current_deck().set(cardIndex, draggableCard.type);
 	
 	var params:SFSObject = new SFSObject();
@@ -351,7 +344,7 @@ private function pushToDeck(cardIndex:int):void
 	params.putShort("deckIndex", player.selectedDeck);
 	//SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
 	
-	dispatchEventWith("scrollPolicy", true, true);
+	dispatchEventWith(Event.READY, true, true);
 	setEditMode(false, -1);
 }
 
@@ -370,7 +363,7 @@ private function setEditMode(value:Boolean, type:int):void
 		
 		draggableCard = new BuildingCard(false, false, false, false);
 		draggableCard.width = 240;
-		draggableCard.height = 360;
+		draggableCard.height = draggableCard.width * BuildingCard.VERICAL_SCALE;
 		draggableCard.pivotX = draggableCard.width * 0.5;
 		draggableCard.pivotY = draggableCard.height * 0.5;
 		draggableCard.x = stage.stageWidth * 0.5;
@@ -378,7 +371,7 @@ private function setEditMode(value:Boolean, type:int):void
 		draggableCard.alpha = 0;
 		Starling.juggler.tween(draggableCard, 0.5, {alpha:1, y:stage.stageHeight * 0.6, transition:Transitions.EASE_OUT});
 		addChild(draggableCard);
-		draggableCard.type = type;
+		draggableCard.setData(type);
 		
 		addEventListener(TouchEvent.TOUCH, touchHandler);
 		return;

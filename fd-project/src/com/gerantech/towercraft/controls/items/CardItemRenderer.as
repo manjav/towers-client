@@ -82,33 +82,28 @@ override protected function commitData():void
 	if( _data is int )
 	{
 		cardTypes = _data as int;
-		if( player.cards.exists(cardTypes) )
+		var exists:Boolean = player.cards.exists(cardTypes);
+		
+		// new badge visibility
+		if( exists && player.cards.get(cardTypes).level == -1 )
 		{
-			if( player.cards.get(cardTypes).level == -1 )
+			if( newDisplay == null )
 			{
-				if( newDisplay == null )
-				{
-					newDisplay = new ImageLoader();
-					newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-					newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
-					newDisplay.height = newDisplay.width = width * 0.7;
-					addChild(newDisplay);
-				}
-			}
-			else if( newDisplay != null )
-			{
-				newDisplay.removeFromParent(true);
-				newDisplay = null;
+				newDisplay = new ImageLoader();
+				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+				newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
+				newDisplay.height = newDisplay.width = width * 0.7;
+				addChild(newDisplay);
 			}
 		}
-		else
+		else if( newDisplay != null )
 		{
-			var unlockedAt:int = game.calculator.getInt(CardFeatureType.F01_AVAILABLE_AT, cardTypes, 1);
-			if( unlockedAt > player.get_arena(0) )
-				cardTypes = 99;
+			newDisplay.removeFromParent(true);
+			newDisplay = null;
 		}
-		var l:int = player.cards.exists(cardTypes) ? player.cards.get(cardTypes).level : 1;
-		var c:int = player.cards.exists(cardTypes) ? player.resources.get(cardTypes) : 1;
+		
+		var l:int = exists ? player.cards.get(cardTypes).level : 1;
+		var c:int = exists ? player.resources.get(cardTypes) : 1;
 		cardDisplay.setData( cardTypes, l, c);
 		Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	}
@@ -140,7 +135,7 @@ private function showTutorArrow () : void
 {
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);
-	if( !player.inDeckTutorial() || cardTypes != CardTypes.C001 || player.cards.get(cardTypes).level > -1 )
+	if( !player.inDeckTutorial() || cardTypes != CardTypes.INITIAL || player.cards.get(cardTypes).level > -1 )
 		return;
 	
 	tutorialArrow = new TutorialArrow(true);

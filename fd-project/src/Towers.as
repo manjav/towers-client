@@ -103,7 +103,7 @@ private function starStarling():void
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 	this.starling.stage.stageWidth  = Math.max(1080, 1920 * (stage.fullScreenWidth / stage.fullScreenHeight));
 	this.starling.stage.stageHeight = 1920; trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight, this.starling.contentScaleFactor);
-	//this.starling.showStatsAt("right", "bottom", 1/this.starling.contentScaleFactor);
+	this.starling.showStatsAt("right", "bottom", 1/this.starling.contentScaleFactor);
 }
 
 private function starling_rootCreatedHandler(event:Object):void

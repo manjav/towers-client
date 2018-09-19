@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
@@ -17,6 +18,7 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
+import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
@@ -127,21 +129,22 @@ private function createElements():void
 	addChild(factionIcon);
 	
 	// cards elements
-	var cardsLayout:HorizontalLayout = new HorizontalLayout();
+	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
+	cardsLayout.requestedColumnCount = 4;
 	cardsLayout.useVirtualLayout = false;
 	cardsLayout.gap = padding;
 	cardsLayout.typicalItemWidth = padding * 4;
-	cardsLayout.typicalItemHeight = padding * 5.2;
+	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	
 	var cardsDisplay:List = new List();
 	cardsDisplay.touchable = false;
 	cardsDisplay.layout = cardsLayout;
-	cardsDisplay.height = cardsLayout.typicalItemHeight;
+	cardsDisplay.height = cardsLayout.typicalItemHeight * 2 + cardsLayout.gap;
 	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
-	cardsDisplay.layoutData = new AnchorLayoutData(padding * 20, padding, NaN, padding);
-	cardsDisplay.dataProvider = new ListCollection(faction.cards._list);
+	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, 0, NaN, 0);trace(player.availabledCards(faction.index, true)._list)
+	cardsDisplay.dataProvider = new ListCollection(player.availabledCards(faction.index, true)._list);
 	addChild(cardsDisplay);
 	
 	var unlocksDisplay:RTLLabel = new RTLLabel(loc("arena_chance_to"), 0xCCCCCC, null, null, true, null, 0.8);

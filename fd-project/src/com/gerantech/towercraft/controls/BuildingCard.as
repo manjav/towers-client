@@ -6,7 +6,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
-
+import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
@@ -18,11 +18,10 @@ import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
-import starling.filters.ColorMatrixFilter;
 
 public class BuildingCard extends TowersLayout
 {
-public static var VERICAL_SCALE:Number = 1.295;
+public static var VERICAL_SCALE:Number = 1.25;
 
 public var backgroundDisplayFactory:Function;
 public var iconDisplayFactory:Function;
@@ -120,7 +119,7 @@ public function setData(type:int, level:int = 1, count:int = 1):void
 	this.availablity = game.getBuildingAvailablity(type);
 	if( ResourceType.isCard(type) )
 		this.level = this.availablity == CardTypes.AVAILABLITY_EXISTS && level == 1 ? player.cards.get(type).level : level;
-	this.rarity = 0;//building.rarity;;
+	this.rarity = game.calculator.getInt(CardFeatureType.F00_RARITY, type, 1);
 	this.count = count;// != 1 ? building.troopsCount : count;
 	//this.elixirSize = building.elixirSize;
 	callFactories();
@@ -128,8 +127,8 @@ public function setData(type:int, level:int = 1, count:int = 1):void
 
 private function callFactories() : void 
 {
-	if( backgroundDisplayFactory != null )
-		backgroundDisplayFactory();
+	//if( backgroundDisplayFactory != null )
+	//	backgroundDisplayFactory();
 	if( iconDisplayFactory != null )
 		iconDisplayFactory();
 	if( levelDisplayFactory != null )
@@ -173,23 +172,20 @@ protected function defaultIconDisplayFactory() : ImageLoader
 		addChild(iconDisplay);
 	}
 
-	if( availablity == CardTypes.AVAILABLITY_NOT )
+	if( availablity != CardTypes.AVAILABLITY_EXISTS )
 	{
-		iconDisplay.source = Assets.getTexture("cards/99", "gui");
+		if( iconDisplay.filter == null )
+		{
+		/*	var f:ColorMatrixFilter = new ColorMatrixFilter();
+			f.adjustSaturation( -1 );
+			iconDisplay.filter = f;*/
+		}
 	}
 	else
 	{
-		if( availablity == CardTypes.AVAILABLITY_WAIT )
-		{
-			if( iconDisplay.filter == null )
-			{
-				var f:ColorMatrixFilter = new ColorMatrixFilter();
-				f.adjustSaturation( -1 );
-				iconDisplay.filter = f;
-			}
-		}
-		iconDisplay.source = Assets.getTexture("cards/" + type, "gui");
+		iconDisplay.filter = null;
 	}
+	iconDisplay.source = Assets.getTexture("cards/" + type, "gui");
 	return iconDisplay;
 }
 

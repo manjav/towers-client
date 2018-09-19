@@ -7,6 +7,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.others.Arena;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -163,7 +164,7 @@ private function initServerData(sfsObj:SFSObject):void
 	{
 		element = elements.getSFSObject(i);
 		initData.resources.set(element.getInt("type"), element.getInt("count"));
-		if( element.getInt("type") < 1000 )
+		if( ResourceType.isCard(element.getInt("type")) )
 			initData.buildingsLevel.set(element.getInt("type"), element.getInt("level"));
 	}
 	
@@ -233,7 +234,7 @@ static public function loadChallenges(params:ISFSObject) : void
 		for (var j:int = 0; j < c.getSFSArray("rewards").size(); j++)
 		{
 			item = c.getSFSArray("rewards").getSFSObject(j);
-			ch.rewards.set(item.getInt("key"), new Arena(item.getInt("key"), item.getInt("min"), item.getInt("max"), item.getInt("prize"), null));
+			ch.rewards.set(item.getInt("key"), new Arena(item.getInt("key"), item.getInt("min"), item.getInt("max"), item.getInt("prize")));
 		}
 		
 		ch.attendees = new Array();

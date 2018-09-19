@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
+import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.CardItemRenderer;
@@ -7,6 +8,7 @@ import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
+import feathers.layout.TiledRowsLayout;
 
 import flash.utils.setTimeout;
 
@@ -75,10 +77,11 @@ override protected function initialize():void
 	Starling.juggler.tween(descriptionDisplay, 0.7, {delay:0.3, y:stage.stageHeight*0.52, alpha:1.2, transition:newArena>oldArena?Transitions.EASE_OUT_ELASTIC:Transitions.EASE_OUT});
 	addChild(descriptionDisplay);
 	
-	var cardsLayout:HorizontalLayout = new HorizontalLayout();
+	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
+	cardsLayout.requestedColumnCount = 4;
 	cardsLayout.gap = padding;
 	cardsLayout.typicalItemWidth = padding * 6;
-	cardsLayout.typicalItemHeight = padding * 8;
+	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;
 	
@@ -87,10 +90,10 @@ override protected function initialize():void
 	{
 		cardsDisplay.layout = cardsLayout;
 		cardsDisplay.x = stage.stageWidth * 0.05;
-		cardsDisplay.width = stage.stageWidth * 0.9;
-		cardsDisplay.height = cardsLayout.typicalItemHeight;
+		cardsDisplay.width = stageWidth
+		cardsDisplay.height = cardsLayout.typicalItemHeight * 2 + cardsLayout.gap;
 		cardsDisplay.horizontalScrollPolicy = cardsDisplay.verticalScrollPolicy = ScrollPolicy.OFF;
-		cardsDisplay.dataProvider = new ListCollection(game.arenas.get(newArena).cards._list);
+		cardsDisplay.dataProvider = new ListCollection(player.availabledCards(newArena, true)._list);
 		cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false ); };
 		cardsDisplay.alpha = 0;
 		cardsDisplay.y = stage.stageHeight * 0.55;

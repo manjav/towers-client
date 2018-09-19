@@ -29,7 +29,6 @@ private function playerResources_changeHandler(e:CoreEvent):void
 
 private function updateQuests():void 
 {
-	trace("updateQuests")
 	for each( var q:Quest in player.quests )
 	{
 		q.current = Quest.getCurrent(player, q.type, q.key);

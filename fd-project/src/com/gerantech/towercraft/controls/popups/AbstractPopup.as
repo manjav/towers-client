@@ -25,7 +25,7 @@ override protected function initialize():void
 		transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.45, stage.stageWidth * 0.8, stage.stageHeight * 0.1);
 		transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.4, stage.stageWidth * 0.8, stage.stageHeight * 0.2);
 	}
-	if( transitionOut== null )
+	if( transitionOut == null )
 	{
 		transitionOut = new TransitionData();
 		transitionOut.sourceAlpha = 1;

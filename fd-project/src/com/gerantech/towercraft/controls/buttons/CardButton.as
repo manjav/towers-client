@@ -13,14 +13,14 @@ import starling.events.Event;
 
 public class CardButton extends SimpleLayoutButton
 {
-public var card:Card;
-private var iconDisplay:BuildingCard;
-private var tutorialArrow:TutorialArrow;
+private var card:Card;
+public var iconDisplay:BuildingCard;
+//private var tutorialArrow:TutorialArrow;
 
 public function CardButton(type:int)
 {
 	super();
-	this.card = player.cards.get(type);
+	card = player.cards.get(type);
 }
 
 public function getIconBounds():Rectangle 
@@ -33,11 +33,12 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	iconDisplay = new BuildingCard(true, true, true, true);
+	iconDisplay = new BuildingCard(true, true, false, true);
 	iconDisplay.width = 240;
-	iconDisplay.height = iconDisplay.width * 1.295;
+	iconDisplay.height = iconDisplay.width * BuildingCard.VERICAL_SCALE;
 	iconDisplay.x = iconDisplay.pivotX = iconDisplay.width * 0.5;
-	iconDisplay.y = iconDisplay.pivotY = iconDisplay.height * 0.5;	
+	iconDisplay.y = iconDisplay.pivotY = iconDisplay.height * 0.5;
+	iconDisplay.setData(card.type, card.level, 1);
 	addChild(iconDisplay);
 	
 	/*if( type == CardTypes.INITIAL )
