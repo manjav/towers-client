@@ -26,10 +26,10 @@ private var damageRadiusMax:Number;
 public function DefensiveWeapon(placeView:PlaceView)
 {
 	this.placeView = placeView;
-	damage			= game.calculator.get(CardFeatureType.F21_DAMAGE,			placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
-	damageGap		= game.calculator.get(CardFeatureType.F22_DAMAGE_GAP,		placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
-	damageRadiusMin = game.calculator.get(CardFeatureType.F23_RANGE_RADIUS_MIN,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
-	damageRadiusMax = game.calculator.get(CardFeatureType.F24_RANGE_RADIUS_MAX, placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damage			= game.calculator.get(CardFeatureType.F22_BULLET_DAMAGE,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageGap		= game.calculator.get(CardFeatureType.F23_BULLET_FIRE_GAP,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageRadiusMin = game.calculator.get(CardFeatureType.F25_BULLET_RANGE_MIN,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageRadiusMax = game.calculator.get(CardFeatureType.F26_BULLET_RANGE_MAX, placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
 	hitTimeoutId = setInterval(hitTestTroopsInterval, damageGap);
 }
 

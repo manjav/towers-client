@@ -83,7 +83,7 @@ private function battleField_removedHandler(event:Event) : void
 	var troopView:TroopView = event.target as TroopView;
 	if( troopView == null )
 		return;
-	troopsList.removeAt(troopsList.indexOf(troopView));
+	troopsList.removeAt(troopsList.indexOf(troopView));*/
 }		
 
 public function createPlaces(battleData:BattleData) : void
@@ -101,7 +101,7 @@ public function createPlaces(battleData:BattleData) : void
 		else
 			roadsContainer.addChild(img);
 	
-	var len:uint = battleData.battleField.places.size();
+	/*var len:uint = battleData.battleField.places.size();
 	places = new Vector.<PlaceView>(len, true);
 	for ( var i:uint=0; i<len; i++ )
 	{

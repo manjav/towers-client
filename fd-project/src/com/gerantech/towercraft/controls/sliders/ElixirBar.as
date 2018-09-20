@@ -51,7 +51,7 @@ override protected function initialize():void
 	elixirBottle.pivotY = elixirBottle.height * 0.5;
 	elixirBottle.scale = 2;
 	elixirBottle.layout = new AnchorLayout();
-	elixirBottle.backgroundSkin = new Image (Assets.getTexture("elixir", "gui"));
+	//elixirBottle.backgroundSkin = new Image (Assets.getTexture("elixir", "gui"));
 	elixirBottle.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 	addChild(elixirBottle);
 	
@@ -79,8 +79,8 @@ public function set value(newValue:Number):void
 	if( elixirCountDisplay)
 	{
 		elixirCountDisplay.text = _value.toString();
-		elixirBottle.scale = 2.4;
-		Starling.juggler.tween(elixirBottle, 0.8, {scale:2, transition:Transitions.EASE_OUT_ELASTIC});
+		elixirBottle.scale = 1.4;
+		Starling.juggler.tween(elixirBottle, 0.8, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
 	}
 }
 

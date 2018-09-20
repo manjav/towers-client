@@ -81,7 +81,7 @@ public function fix():void
 	for ( var i:int = 0; i < cards.length; i++ )
 	{
 		Starling.juggler.removeTweens(cards[i].iconDisplay);
-		cards[i].iconDisplay.scale = 1;
+		cards[i].scale = 1;
 		cards[i].iconDisplay.rotation = 0;
 	}
 }

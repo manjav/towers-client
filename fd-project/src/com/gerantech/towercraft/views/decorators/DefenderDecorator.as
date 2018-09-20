@@ -29,10 +29,9 @@ public function DefenderDecorator(placeView:PlaceView)
 override protected function update(population:int, troopType:int, occupied:Boolean) : void
 {
 	super.update(population, troopType, occupied);
-
-	damage			= game.calculator.get(CardFeatureType.F21_DAMAGE,			placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
-	damageRadiusMax = game.calculator.get(CardFeatureType.F24_RANGE_RADIUS_MAX, placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
-	damageRadiusMin = game.calculator.get(CardFeatureType.F23_RANGE_RADIUS_MIN,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damage			= game.calculator.get(CardFeatureType.F22_BULLET_DAMAGE,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageRadiusMin = game.calculator.get(CardFeatureType.F25_BULLET_RANGE_MIN,	placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
+	damageRadiusMax = game.calculator.get(CardFeatureType.F26_BULLET_RANGE_MAX, placeView.place.building.type, placeView.place.building.level, placeView.place.building.improveLevel);
 	
 	// radius :
 	createRadiusDisplay(troopType);

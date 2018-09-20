@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.headers.AttendeeHeader;
+import com.gerantech.towercraft.controls.headers.BattleFooter;
 import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.sliders.battle.BattleCountdown;
@@ -31,7 +32,6 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
-import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -53,9 +53,9 @@ private var stickerCloserOveraly:SimpleLayoutButton;
 private var bubbleAllise:StickerBubble;
 private var bubbleAxis:StickerBubble;
 private var timeLog:RTLLabel;
-private var stickerButton:CustomButton;
 private var surrenderButton:CustomButton;
 private var territorySlider:TerritorySlider;
+private var deck:BattleFooter;
 
 public function BattleHUD() { super(); }
 override protected function initialize():void
@@ -129,7 +129,11 @@ override protected function initialize():void
 	if( battleData.map.isOperation )
 		return;
 		
-	if( !SFSConnection.instance.mySelf.isSpectator )
+	deck = new BattleFooter();
+	deck.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	addChild(deck);
+
+	/*if( !SFSConnection.instance.mySelf.isSpectator )
 	{
 		stickerButton = new CustomButton();
 		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
@@ -138,18 +142,23 @@ override protected function initialize():void
 		stickerButton.layoutData = new AnchorLayoutData(NaN, padding * 2, padding);
 		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 		addChild(stickerButton);
-	}
+	}*/
 	
-	if( player.get_arena(player.get_point()) > 4 && !SFSConnection.instance.mySelf.isSpectator )
+	if( !SFSConnection.instance.mySelf.isSpectator )
 	{
-		surrenderButton = new CustomButton();
-		surrenderButton.style = CustomButton.STYLE_DANGER;
-		surrenderButton.icon = Assets.getTexture("surrender", "gui");
-		surrenderButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
-		surrenderButton.width = 140;
-		surrenderButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
-		surrenderButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-		addChild(surrenderButton);
+        deck.addEventListener(FeathersEventType.BEGIN_INTERACTION, stickerButton_triggeredHandler);
+		
+		if ( player.get_arena(player.get_point()) > 4 )
+		{
+			surrenderButton = new CustomButton();
+			surrenderButton.style = CustomButton.STYLE_DANGER;
+			surrenderButton.icon = Assets.getTexture("surrender", "gui");
+			surrenderButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+			surrenderButton.width = 140;
+			surrenderButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
+			surrenderButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+			addChild(surrenderButton);
+		}
 	}
 	
 	bubbleAllise = new StickerBubble();
@@ -274,7 +283,7 @@ protected function closeButton_triggeredHandler(event:Event):void
 
 protected function stickerButton_triggeredHandler(event:Event):void
 {
-	stickerButton.visible = false;
+	deck.stickerButton.visible = false;
 	if( stickerList == null )
 	{
 		var stickersLayout:TiledRowsLayout = new TiledRowsLayout();
@@ -318,7 +327,7 @@ private function hideStickerList():void
 protected function stickerCloserOveraly_triggeredHandler(event:Event):void
 {
 	hideStickerList();
-	stickerButton.visible = true;
+	deck.stickerButton.visible = true;
 }
 
 protected function stickerList_changeHandler(event:Event):void
@@ -350,7 +359,7 @@ private function hideBubble(bubble:StickerBubble):void
 {
 	bubble.removeFromParent();
 	if( SFSConnection.instance.lastJoinedRoom != null && !SFSConnection.instance.mySelf.isSpectator )
-		stickerButton.visible = true;
+		deck.stickerButton.visible = true;
 }
 
 public function end(overlay:EndOverlay) : void 
@@ -359,7 +368,7 @@ public function end(overlay:EndOverlay) : void
 	var numCh:int = numChildren - 1;
 	while ( numCh >= 0 )
 	{
-		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != stickerButton && getChildAt(numCh) != territorySlider )
+		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != deck.stickerButton && getChildAt(numCh) != territorySlider )
 			getChildAt(numCh).removeFromParent(true);
 		numCh --;
 	}

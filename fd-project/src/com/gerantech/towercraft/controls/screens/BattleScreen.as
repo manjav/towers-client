@@ -109,12 +109,12 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
 			showUnderMaintenancePopup(data);
 			return;
-		}	
+		}
 		
 		var battleData:BattleData = new BattleData(data);
 		appModel.battleFieldView = new BattleFieldView();
 		addChild(appModel.battleFieldView);
-		//appModel.battleFieldView.createPlaces(battleData);
+		appModel.battleFieldView.createPlaces(battleData);
 		startBattle();
 		break;
 	

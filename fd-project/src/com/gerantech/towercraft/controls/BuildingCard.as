@@ -18,6 +18,7 @@ import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
+import starling.textures.TextureSmoothing;
 
 public class BuildingCard extends TowersLayout
 {
@@ -29,6 +30,7 @@ public var levelDisplayFactory:Function;
 public var sliderDisplayFactory:Function;
 public var countDisplayFactory:Function;
 public var elixirDisplayFactory:Function;
+public var rarityDisplayFactory:Function;
 public var coverDisplayFactory:Function;
 
 public var type:int = -1;
@@ -84,8 +86,10 @@ override protected function initialize():void
 		sliderDisplayFactory = defaultSliderDisplayFactory;
 	if( countDisplayFactory == null )
 		countDisplayFactory = defaultCountDisplayFactory;
-	/*if( elixirDisplayFactory == null )
-		elixirDisplayFactory = defaultElixirDisplayFactory;*/
+	if( elixirDisplayFactory == null )
+		elixirDisplayFactory = defaultElixirDisplayFactory;
+	if( rarityDisplayFactory == null )
+		rarityDisplayFactory = defaultRarityDisplayFactory;
 	if( coverDisplayFactory == null )
 		coverDisplayFactory = defaultCoverDisplayFactory;
 
@@ -121,7 +125,7 @@ public function setData(type:int, level:int = 1, count:int = 1):void
 		this.level = this.availablity == CardTypes.AVAILABLITY_EXISTS && level == 1 ? player.cards.get(type).level : level;
 	this.rarity = game.calculator.getInt(CardFeatureType.F00_RARITY, type, 1);
 	this.count = count;// != 1 ? building.troopsCount : count;
-	//this.elixirSize = building.elixirSize;
+	this.elixirSize = game.calculator.getInt(CardFeatureType.F02_ELIXIR_SIZE, type, 1);
 	callFactories();
 }
 
@@ -141,6 +145,8 @@ private function callFactories() : void
 		countDisplayFactory();
 	if( elixirDisplayFactory != null )
 		elixirDisplayFactory();
+	if( rarityDisplayFactory != null )
+		rarityDisplayFactory();
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BACKGROUND  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -313,44 +319,18 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 	return countDisplay;
 }
 
-/*
+
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ELIXIR SIZE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-public function get showElixir():Boolean
-{
-	return _showElixir;
-}
-public function set showElixir(value:Boolean):void
-{
-	if ( _showElixir == value )
-		return;
-	
-	_showElixir = value;
-	if( elixirDisplayFactory != null )
-		elixirDisplayFactory();
-}
 protected function defaultElixirDisplayFactory():void
 {
-	if( !_showElixir || _locked || _type < 0 || _level <= 0 )
+	if( !showElixir || availablity == CardTypes.AVAILABLITY_NOT || type < 0 || level <= 0 )
 		return;
 	
 	var elixirBackground:ImageLoader = new ImageLoader();
-	elixirBackground.source = Assets.getTexture("cards/elixir-"+_elixir, "gui");
-	elixirBackground.scale = 2.4;
-	elixirBackground.layoutData = new AnchorLayoutData(-padding*0.3, NaN, NaN, -padding*0.3);
+	elixirBackground.source = Assets.getTexture("cards/elixir-" + elixirSize, "gui");
+	elixirBackground.width = elixirBackground.height = 90;
+	elixirBackground.layoutData = new AnchorLayoutData( -padding * 0.5, NaN, NaN, -padding * 0.3);
 	addChild(elixirBackground);
 }
-
-public function get elixir():int
-{
-	return _elixir;
-}
-public function set elixir(value:int):void
-{
-	if ( _elixir == value )
-		return;
-	
-	_elixir = value;
-	elixirDisplayFactory();
-}*/
 }
 }

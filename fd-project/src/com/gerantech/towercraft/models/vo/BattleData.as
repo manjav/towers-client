@@ -7,6 +7,7 @@ import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.utils.lists.DeckList;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -41,6 +42,9 @@ public function BattleData(data:ISFSObject)
 	map = battleField.map;
 	allis = data.getSFSObject("allis");
 	axis = data.getSFSObject("axis");
+	
+	battleField.decks = new DeckList();
+	battleField.decks.push(SFSConnection.ToList(allis.getSFSArray("deck")));
 }
 }
 }

@@ -53,7 +53,7 @@ override protected function initialize():void
 	alpha = 0;
 	
 	cardLayoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	cardDisplay = new BuildingCard(showLevel, showSlider, false, false);
+	cardDisplay = new BuildingCard(showLevel, showSlider, false, showElixir);
 	cardDisplay.layoutData = cardLayoutData;
 	addChild(cardDisplay);
 }
