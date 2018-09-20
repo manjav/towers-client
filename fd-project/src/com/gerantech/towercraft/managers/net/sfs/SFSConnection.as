@@ -2,6 +2,7 @@ package com.gerantech.towercraft.managers.net.sfs
 {
 import com.gerantech.towercraft.controls.overlays.LowConnectionOverlay;
 import com.gerantech.towercraft.models.AppModel;
+import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.SmartFox;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -280,11 +281,18 @@ public function getLobby(isPublic:Boolean=false):Room
 	return null;
 }
 
-public static function ToMap(array:ISFSArray) : IntIntMap
+static public function ToMap(array:ISFSArray) : IntIntMap
 {
 	var ret :IntIntMap = new IntIntMap();
 	for (var i:int = 0; i < array.size(); i++)
 		ret.set(array.getSFSObject(i).getInt("key"), array.getSFSObject(i).getInt("value"));
+	return ret;
+}
+static public function ToList(array:ISFSArray) : IntList 
+{
+	var ret :IntList = new IntList();
+	for (var i:int = 0; i < array.size(); i++)
+		ret.push(array.getInt(i));
 	return ret;
 }
 
