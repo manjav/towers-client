@@ -44,7 +44,8 @@ public function BattleData(data:ISFSObject)
 	axis = data.getSFSObject("axis");
 	
 	battleField.decks = new DeckList();
-	battleField.decks.push(SFSConnection.ToList(allis.getSFSArray("deck")));
+	battleField.decks.push(SFSConnection.ToList(troopType == 0 ? allis.getSFSArray("deck") : axis.getSFSArray("deck")));
+	battleField.decks.push(SFSConnection.ToList(troopType == 1 ? allis.getSFSArray("deck") : axis.getSFSArray("deck")));
 }
 }
 }
