@@ -288,19 +288,22 @@ public function punchSlider() : void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultRarityDisplayFactory() : ImageLoader
 {
-	if( rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
+	if ( rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
+	{
+		if( rarityDisplay != null )
+			rarityDisplay.removeFromParent();
 		return null;
-	
+	}
 	if( rarityDisplay == null )
 	{
 		rarityDisplay = new ImageLoader();
 		rarityDisplay.touchable = false;
 		rarityDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
 		rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-		addChildAt(rarityDisplay, 0);
 	}
+	addChildAt(rarityDisplay, 0);
 	rarityDisplay.source = Assets.getTexture("cards/rarity-" + rarity, "gui");
-	return levelBackground;
+	return rarityDisplay;
 }
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COUNT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultCountDisplayFactory() : ShadowLabel
