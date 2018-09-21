@@ -24,7 +24,7 @@ public var cardsBounds:Vector.<Rectangle>;
 public function DeckHeader()
 {
 	super();
-	_height = 640;
+	_height = 800;
 	padding = 32;
 }
 
@@ -39,20 +39,21 @@ override protected function initialize():void
 	
 	
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("deck_label"));
-	titleDisplay.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 3, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
 	cards = new Vector.<CardButton>();
 	cardsBounds = new Vector.<Rectangle>();
-	for ( var i:int = 0; i < player.decks.get(player.selectedDeck).size(); i++ ) 
+	var numCars:int =  player.getSelectedDeck().keys().length;
+	for ( var i:int = 0; i < numCars; i++ ) 
 		createDeckItem(i);
 }
 
 private function createDeckItem(i:int):void
 {
-	button.x = padding + 260 * i;
-	button.y = padding * 7 ;
 	var button:CardButton = new CardButton(player.getSelectedDeck().get(i));
+	button.x = padding + 256 * (i % 4);
+	button.y = padding * 5 + 250 * BuildingCard.VERICAL_SCALE * Math.floor(i / 4);
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button)
 	

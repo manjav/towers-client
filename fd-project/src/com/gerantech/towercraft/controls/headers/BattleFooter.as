@@ -17,6 +17,8 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
+import flash.geom.Rectangle;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.events.Event;
@@ -36,11 +38,13 @@ private var draggableCard:BuildingCard;
 private var touchId:int;
 private var elixirBar:ElixirBar;
 private var elixirCountDisplay:BitmapFontTextRenderer;
+private var cardQueue:Vector.<int>;
+private var preparedCard:BuildingCard;
 public function BattleFooter()
 {
 	super();
 	padding = 12;
-	_height = 320;
+	_height = 380;
 	_scaleDistance = 500;
 }
 
@@ -62,30 +66,39 @@ override protected function initialize():void
 	hlayout.horizontalAlign = HorizontalAlign.RIGHT;
 	cardsContainer.layout = hlayout;
 	
+	cardQueue = appModel.battleFieldView.battleData.getAlliseDeck().values();
+	
 	cards = new Vector.<BattleDeckCard>();
-	for ( var i:int = 0; i < player.decks.get(player.selectedDeck).size(); i++ ) 
-		createDeckItem(i);
+	var minDeckSize:int = Math.min(4, cardQueue.length);
+	for ( var i:int = 0; i < minDeckSize; i++ ) 
+		createDeckItem(cardQueue.shift());
+	
+	preparedCard = new BuildingCard(false, false, false, false);
+	preparedCard.width = 160;
+	preparedCard.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0);
+	preparedCard.setData(cardQueue[0]);
+	addChild(preparedCard);
 	
 	draggableCard = new BuildingCard(false, false, false, false);
-	draggableCard.width = 180;
-	draggableCard.height = 210;
+	draggableCard.touchable = false;
+	draggableCard.width = 220;
+	draggableCard.height = draggableCard.width * BuildingCard.VERICAL_SCALE;
 	draggableCard.pivotX = draggableCard.width * 0.5;
 	draggableCard.pivotY = draggableCard.height * 0.5;
-	draggableCard.includeInLayout = false;
 	
 	if( !SFSConnection.instance.mySelf.isSpectator )
 	{
 		stickerButton = new CustomButton();
 		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
 		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
-		stickerButton.width = 140;
+		stickerButton.width = preparedCard.width - padding * 2;
 		stickerButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 		addChild(stickerButton);
 	}
 	
 	elixirBar = new ElixirBar();
-	elixirBar.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
+	elixirBar.layoutData = new AnchorLayoutData(NaN, padding, padding, preparedCard.width);
 	addChild(elixirBar);
 	
 	addEventListener(TouchEvent.TOUCH, touchHandler);
@@ -117,19 +130,21 @@ private function createDeckItem(cardType:int):void
 	cardsContainer.addChild(card);
 }
 
-private function touchHandler(event:TouchEvent):void
+protected function touchHandler(event:TouchEvent):void
 {
 	var touch:Touch = event.getTouch(this);
 	if( touch == null )
 		return;
 	if( touch.phase == TouchPhase.BEGAN)
 	{
-		var selectedCard:BuildingCard = touch.target.parent as BuildingCard; 
+		var selectedCard:BuildingCard = touch.target.parent as BuildingCard;
 		if( selectedCard == null || !selectedCard.touchable )
 		{
 			touchId = -1;			
 			return;
 		}
+		
+		selectedCard.parent.visible = false;
 		//trace(selectedCard.parent, selectedCard.parent.touchable)
 		touchId = touch.id;
 		draggableCard.x = touch.globalX - x;
@@ -156,6 +171,21 @@ private function touchHandler(event:TouchEvent):void
 		}
 		else if( touch.phase == TouchPhase.ENDED )
 		{
+			selectedCard = touch.target.parent as BuildingCard;
+			if( touch.globalY < 1435 && touch.globalY > 800 )
+			{
+				cardQueue.push(draggableCard.type);
+				selectedCard.setData(cardQueue.shift());
+				preparedCard.setData(cardQueue[0]);
+				animatePushDeck(selectedCard);
+				Starling.juggler.tween(draggableCard, 0.1, {scale:0, onComplete:draggableCard.removeFromParent});
+			}
+			else
+			{
+				draggableCard.removeFromParent();
+				selectedCard.parent.visible = true;	
+			}
+			
 			/*place = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 			var card:Card = appModel.battleFieldView.battleData.battleField.deckBuildings.get(draggableCard.data as int).building;
 			if( place != null && place.place.building.transformable(card) )
@@ -165,7 +195,6 @@ private function touchHandler(event:TouchEvent):void
 				place.showDeployWaiting(card);
 			}*/
 			
-			Starling.juggler.tween(draggableCard, 0.1, {scale:0, onComplete:draggableCard.removeFromParent});
 		/*var cardIndex:int = deckHeader.getCardIndex(touch);
 		if( touchId == -1 && cardIndex > -1 )
 		Starling.juggler.tween(draggableCard, 0.2, {x:deckHeader.cardsBounds[cardIndex].x+deckHeader.cardsBounds[cardIndex].width*0.5, y:deckHeader.cardsBounds[cardIndex].y+deckHeader.cardsBounds[cardIndex].height*0.5, onComplete:pushToDeck, onCompleteArgs:[cardIndex] });
@@ -173,6 +202,24 @@ private function touchHandler(event:TouchEvent):void
 		pushToDeck(cardIndex);*/
 			touchId = -1;			
 		}
+	}
+}
+
+private function animatePushDeck(deckSelected:BuildingCard):void 
+{
+	var card:BuildingCard = new BuildingCard(false, false, false, false);
+	card.touchable = false;
+	card.x = preparedCard.x;
+	card.y = preparedCard.y;
+	card.width = preparedCard.width;
+	card.setData(deckSelected.type);
+	addChild(card);
+	var b:Rectangle = deckSelected.getBounds(this);
+	Starling.juggler.tween(card, 0.4, {x:b.x, y:b.y, width:b.width, height:b.height, transition:Transitions.EASE_IN_OUT, onComplete:pushAnimationCompleted});
+	function pushAnimationCompleted() : void
+	{
+		card.removeFromParent(true);
+		deckSelected.parent.visible = true;	
 	}
 }
 }
