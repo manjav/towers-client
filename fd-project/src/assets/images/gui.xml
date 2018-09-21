@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:561d3da249ff9970c3e1a7d2ae8cf861:cb318e636e257c59e4d503b75b700dcc:336e91466504ac11351905e0c428ebfd$ -->
+<!-- $TexturePacker:SmartUpdate:ef4642f8ab34fa4000aa3998bcccd82f:643a43e4a46490ac62f8301c0fc18349:336e91466504ac11351905e0c428ebfd$ -->
 <TextureAtlas imagePath="gui.png" width="2048" height="2048">
     <SubTexture name="arena-0" x="1506" y="1333" width="93" height="99"/>
     <SubTexture name="arena-1" x="1694" y="715" width="93" height="99"/>
@@ -13,30 +13,30 @@
     <SubTexture name="arena-8" x="1570" y="1012" width="100" height="85"/>
     <SubTexture name="bg-shadow" x="2" y="1790" width="156" height="156"/>
     <SubTexture name="cards" x="1016" y="1457" width="103" height="103" frameX="-4" frameY="-2" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="cards/201" x="606" y="571" width="186" height="240"/>
-    <SubTexture name="cards/202" x="266" y="652" width="186" height="240"/>
-    <SubTexture name="cards/203" x="2" y="822" width="186" height="240"/>
-    <SubTexture name="cards/204" x="190" y="912" width="186" height="240"/>
-    <SubTexture name="cards/205" x="2" y="1064" width="186" height="240"/>
-    <SubTexture name="cards/206" x="378" y="912" width="186" height="240"/>
-    <SubTexture name="cards/301" x="832" y="731" width="186" height="240"/>
-    <SubTexture name="cards/302" x="1020" y="731" width="186" height="240"/>
-    <SubTexture name="cards/303" x="1208" y="728" width="186" height="240"/>
-    <SubTexture name="cards/304" x="1369" y="356" width="186" height="240"/>
-    <SubTexture name="cards/305" x="1208" y="970" width="186" height="240"/>
-    <SubTexture name="cards/306" x="566" y="1000" width="186" height="240"/>
-    <SubTexture name="cards/401" x="190" y="1154" width="186" height="240"/>
-    <SubTexture name="cards/402" x="2" y="1306" width="186" height="240"/>
-    <SubTexture name="cards/403" x="378" y="1154" width="186" height="240"/>
-    <SubTexture name="cards/404" x="754" y="973" width="186" height="240"/>
-    <SubTexture name="cards/405" x="942" y="973" width="186" height="240"/>
-    <SubTexture name="cards/406" x="1130" y="1212" width="186" height="240"/>
-    <SubTexture name="cards/501" x="566" y="1242" width="186" height="240"/>
-    <SubTexture name="cards/502" x="190" y="1396" width="186" height="240"/>
-    <SubTexture name="cards/503" x="2" y="1548" width="186" height="240"/>
-    <SubTexture name="cards/504" x="378" y="1396" width="186" height="240"/>
-    <SubTexture name="cards/505" x="754" y="1215" width="186" height="240"/>
-    <SubTexture name="cards/506" x="942" y="1215" width="186" height="240"/>
+    <SubTexture name="cards/101" x="606" y="571" width="186" height="240"/>
+    <SubTexture name="cards/102" x="266" y="652" width="186" height="240"/>
+    <SubTexture name="cards/103" x="2" y="822" width="186" height="240"/>
+    <SubTexture name="cards/104" x="190" y="912" width="186" height="240"/>
+    <SubTexture name="cards/105" x="2" y="1064" width="186" height="240"/>
+    <SubTexture name="cards/106" x="378" y="912" width="186" height="240"/>
+    <SubTexture name="cards/107" x="832" y="731" width="186" height="240"/>
+    <SubTexture name="cards/108" x="1020" y="731" width="186" height="240"/>
+    <SubTexture name="cards/109" x="1208" y="728" width="186" height="240"/>
+    <SubTexture name="cards/110" x="1369" y="356" width="186" height="240"/>
+    <SubTexture name="cards/111" x="1208" y="970" width="186" height="240"/>
+    <SubTexture name="cards/112" x="566" y="1000" width="186" height="240"/>
+    <SubTexture name="cards/113" x="190" y="1154" width="186" height="240"/>
+    <SubTexture name="cards/114" x="2" y="1306" width="186" height="240"/>
+    <SubTexture name="cards/115" x="378" y="1154" width="186" height="240"/>
+    <SubTexture name="cards/151" x="754" y="973" width="186" height="240"/>
+    <SubTexture name="cards/152" x="942" y="973" width="186" height="240"/>
+    <SubTexture name="cards/153" x="1130" y="1212" width="186" height="240"/>
+    <SubTexture name="cards/154" x="566" y="1242" width="186" height="240"/>
+    <SubTexture name="cards/155" x="190" y="1396" width="186" height="240"/>
+    <SubTexture name="cards/156" x="2" y="1548" width="186" height="240"/>
+    <SubTexture name="cards/157" x="378" y="1396" width="186" height="240"/>
+    <SubTexture name="cards/158" x="754" y="1215" width="186" height="240"/>
+    <SubTexture name="cards/159" x="942" y="1215" width="186" height="240"/>
     <SubTexture name="cards/1002" x="1396" y="718" width="180" height="209" frameX="0" frameY="-21" frameWidth="186" frameHeight="240"/>
     <SubTexture name="cards/1003" x="1318" y="1212" width="186" height="220" frameX="0" frameY="-20" frameWidth="186" frameHeight="240"/>
     <SubTexture name="cards/1004" x="1130" y="1454" width="155" height="201" frameX="-10" frameY="-5" frameWidth="186" frameHeight="240"/>
