@@ -431,7 +431,7 @@ private function seudUpgradeRequest(building:Card, confirmedHards:int):void
 	var sfs:SFSObject = new SFSObject();
 	sfs.putInt("type", building.type);
 	sfs.putInt("confirmedHards", confirmedHards);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.CARD_UPGRADE, sfs);
 	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 	upgradeOverlay.building = building;

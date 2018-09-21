@@ -194,7 +194,7 @@ private function seudUpgradeRequest(card:Card, confirmedHards:int):void
 	var sfs:SFSObject = new SFSObject();
 	sfs.putInt("type", card.type);
 	sfs.putInt("confirmedHards", confirmedHards);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.BUILDING_UPGRADE, sfs);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.CARD_UPGRADE, sfs);
 	
 	updateData();
 	

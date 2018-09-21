@@ -13,7 +13,7 @@ public static const SEND_STICKER:String = "ss";
 
 public static const PROFILE:String = "profile";
 
-public static const BUILDING_UPGRADE:String = "buildingUpgrade";
+public static const CARD_UPGRADE:String = "cardUpgrade";
 public static const EXCHANGE:String = "exchange";
 public static const SELECT_NAME:String = "selectName";
 public static const VERIFY_PURCHASE:String = "verify";
