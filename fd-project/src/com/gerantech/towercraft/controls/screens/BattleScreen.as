@@ -118,10 +118,10 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		startBattle();
 		break;
 	
-	case SFSCommands.BUILDING_IMPROVE:
+	/*case SFSCommands.BUILDING_IMPROVE:
 		//appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("tt"), data.getInt("p"));
 		appModel.sounds.addAndPlaySound("battle-improve");
-		break;
+		break;*/
 	
 	/*case SFSCommands.LEFT_BATTLE:
 	case SFSCommands.REJOIN_BATTLE:

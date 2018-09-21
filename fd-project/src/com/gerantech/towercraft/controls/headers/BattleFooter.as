@@ -92,7 +92,7 @@ override protected function initialize():void
 	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 }
 
-private function stickerButton_triggeredHandler():void
+protected function stickerButton_triggeredHandler():void
 {
 	dispatchEventWith(FeathersEventType.BEGIN_INTERACTION);
 }
@@ -109,10 +109,10 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		cards[i].updateData();
 }
 
-private function createDeckItem(i:int):void
+private function createDeckItem(cardType:int):void
 {
-	var card:BattleDeckCard = new BattleDeckCard( appModel.battleFieldView.battleData.battleField.decks.get(player.troopType), i );
-	card.width = 160;
+	var card:BattleDeckCard = new BattleDeckCard( cardType );
+	card.width = 200;
 	cards.push(card);
 	cardsContainer.addChild(card);
 }

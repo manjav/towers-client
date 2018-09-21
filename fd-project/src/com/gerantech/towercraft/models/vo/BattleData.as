@@ -7,7 +7,7 @@ import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.utils.lists.DeckList;
+import com.gt.towers.utils.maps.IntIntIntMap;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -43,9 +43,14 @@ public function BattleData(data:ISFSObject)
 	allis = data.getSFSObject("allis");
 	axis = data.getSFSObject("axis");
 	
-	battleField.decks = new DeckList();
-	battleField.decks.push(SFSConnection.ToList(troopType == 0 ? allis.getSFSArray("deck") : axis.getSFSArray("deck")));
-	battleField.decks.push(SFSConnection.ToList(troopType == 1 ? allis.getSFSArray("deck") : axis.getSFSArray("deck")));
+	battleField.decks = new IntIntIntMap();
+	battleField.decks.set(0, SFSConnection.ToMap(troopType == 0 ? allis.getSFSArray("deck") : axis.getSFSArray("deck")));
+	battleField.decks.set(1, SFSConnection.ToMap(troopType == 1 ? allis.getSFSArray("deck") : axis.getSFSArray("deck")));
+}
+
+public function getAlliseDeck():IntIntMap 
+{
+	return battleField.decks.get(troopType);
 }
 }
 }

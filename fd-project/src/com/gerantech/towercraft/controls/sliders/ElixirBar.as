@@ -49,7 +49,6 @@ override protected function initialize():void
 	elixirBottle.touchable = false;
 	elixirBottle.pivotX = elixirBottle.width * 0.5;
 	elixirBottle.pivotY = elixirBottle.height * 0.5;
-	elixirBottle.scale = 2;
 	elixirBottle.layout = new AnchorLayout();
 	//elixirBottle.backgroundSkin = new Image (Assets.getTexture("elixir", "gui"));
 	elixirBottle.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
@@ -58,7 +57,7 @@ override protected function initialize():void
 	elixirCountDisplay = new BitmapFontTextRenderer();
 	elixirCountDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 110)
 	elixirCountDisplay.pixelSnapping = elixirCountDisplay.touchable = false;
-	elixirCountDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -16);
+	elixirCountDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	elixirBottle.addChild(elixirCountDisplay);
 }
 

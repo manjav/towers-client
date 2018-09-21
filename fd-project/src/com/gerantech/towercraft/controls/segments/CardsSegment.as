@@ -11,8 +11,6 @@ import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
@@ -51,17 +49,15 @@ private var availabledCollection:ListCollection;
 private var availabledList:List;
 private var unavailableCollection:ListCollection;
 private var unavailableList:List;
-
 private var selectPopup:CardSelectPopup;
 private var detailsPopup:CardDetailsPopup;
-
 private var deckHeader:DeckHeader;
 private var startScrollBarIndicator:Number = 0;
-
 private var draggableCard:BuildingCard;
 private var touchId:int = -1;
 private var _editMode:Boolean;
 private var scroller:ScrollContainer;
+private var deckList:Vector.<int>;
 
 public function CardsSegment(){}
 override public function init():void
@@ -72,6 +68,7 @@ override public function init():void
 	
 	backgroundSkin = new Quad(1,1);
 	backgroundSkin.alpha = 0;
+	
 	
 	deckHeader = new DeckHeader();
 	deckHeader.addEventListener(Event.SELECT, deckHeader_selectHandler);
@@ -91,7 +88,8 @@ override public function init():void
 	addChildAt(scroller, 0);
 	
 
-	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [player.decks.get(player.selectedDeck).size()+foundCollection.length, player.decks.get(player.selectedDeck).size()+foundCollection.length+availabledCollection.length]), 0xBBCCDD, null, null, false, null, 0.8);
+	var deckSize:int = player.getSelectedDeck().keys().length;
+	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [deckSize+foundCollection.length, deckSize+foundCollection.length + availabledCollection.length]), 0xBBCCDD, null, null, false, null, 0.8);
 	scroller.addChild(foundLabel);
 	
 	layout = new AnchorLayout();
@@ -178,6 +176,7 @@ private function showTutorial():void
 }		
 override public function updateData():void
 {
+	deckList = player.getSelectedDeck().values();
 	if( foundCollection == null )
 		foundCollection = new ListCollection();
 	var founds:Array = new Array();
@@ -185,8 +184,8 @@ override public function updateData():void
 	var c:int = 0;
 	while( _founds.length > 0 )
 	{
-		c = _founds.pop();
-		if( player.decks.get(player.selectedDeck).indexOf(c) == -1 )
+		c = _founds.shift();
+		if( deckList.indexOf(c) == -1 )
 			founds.push(c);
 	}
 	foundCollection.data = founds;
@@ -255,12 +254,12 @@ private function selectCard(cardType:int, cardBounds:Rectangle):void
 	return;
 	}*/
 	
-	var deckInex:int = player.decks.get(player.selectedDeck).indexOf(cardType);
+	var deckInex:int = deckList.indexOf(cardType);
 	// create transition data
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (deckInex >-1?4.5:8));
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (deckInex ==-1?8:4.5));
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();
@@ -336,13 +335,13 @@ private function pushToDeck(cardIndex:int):void
 		return;
 	}
 	deckHeader.cards[cardIndex].iconDisplay.setData(draggableCard.type);
-	player.get_current_deck().set(cardIndex, draggableCard.type);
+	player.getSelectedDeck().set(cardIndex, draggableCard.type);
 	
 	var params:SFSObject = new SFSObject();
 	params.putShort("index", cardIndex);
 	params.putShort("type", draggableCard.type);
-	params.putShort("deckIndex", player.selectedDeck);
-	//SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
+	params.putShort("deckIndex", player.selectedDeckIndex);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
 	
 	dispatchEventWith(Event.READY, true, true);
 	setEditMode(false, -1);

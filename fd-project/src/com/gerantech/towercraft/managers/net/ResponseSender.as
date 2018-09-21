@@ -25,7 +25,7 @@ public function ResponseSender(room:Room)
 	sfsObj.putSFSArray("s", sources);
 	sfsObj.putInt("d", destination.place.index);
 	send(SFSCommands.FIGHT, sfsObj, room);
-}*/
+}
 
 public function hitTroop(troopId:int, damage:Number):void
 {
@@ -34,15 +34,7 @@ public function hitTroop(troopId:int, damage:Number):void
 	sfsObj.putInt("i", troopId);
 	sfsObj.putDouble("d", damage);
 	send(SFSCommands.HIT, sfsObj, room);			
-}
-
-public function improveBuilding(index:int, upgradeType:int):void
-{
-	var sfsObj:SFSObject = new SFSObject();
-	sfsObj.putInt("i", index);
-	sfsObj.putInt("t", upgradeType);
-	send(SFSCommands.BUILDING_IMPROVE, sfsObj, room);
-}
+}*/
 
 public function leave(retryMode:Boolean=false):void
 {

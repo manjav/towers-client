@@ -130,7 +130,7 @@ override protected function transitionInCompleted():void
     var usingButton:CustomButton = new CustomButton();
     usingButton.style = "neutral";
     usingButton.label = loc("usage_label");
-    usingButton.isEnabled = player.cards.exists(cardType) && player.get_current_deck().indexOf(cardType) == -1;
+    usingButton.isEnabled = player.cards.exists(cardType) && !player.getSelectedDeck().exists(cardType);
 	usingButton.width = 320;
     usingButton.height = 110;
     usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);

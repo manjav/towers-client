@@ -20,6 +20,7 @@ public static const VERIFY_PURCHASE:String = "verify";
 public static const OAUTH:String = "oauth";
 public static const REGISTER_PUSH:String = "registerPush";
 public static const RESTORE:String = "restore";
+public static const CHANGE_DECK:String = "changeDeck";
 public static const PREFS:String = "prefs";
 
 public static const ISSUE_REPORT:String = "issueReport";
@@ -30,10 +31,10 @@ public static const OFFENDER_DATA_GET:String = "offenderDataGet";
 public static const INFRACTIONS_GET:String = "infractionsGet";
 public static const INFRACTIONS_DELETE:String = "infractionsDelete";
 public static const SEARCH_IN_CHATS:String = "searchInChats";
-
+/*
 public static const FIGHT:String = "f";
 public static const BUILDING_IMPROVE:String = "i";
-public static const HIT:String = "h";
+public static const HIT:String = "h";*/
 
 public static const LOBBY_CREATE:String = "lobbyCreate";
 public static const LOBBY_DATA:String = "lobbyData";
@@ -71,13 +72,13 @@ public static function getDeadline(command:String):int
 	{
 		case START_BATTLE:
             return 14000;
-		case FIGHT:
+		//case FIGHT:
 		case LEFT_BATTLE:
 		case REJOIN_BATTLE:
 		case CANCEL_BATTLE:
 		case LEAVE:
-		case BUILDING_IMPROVE:
-		case HIT:
+		//case BUILDING_IMPROVE:
+		//case HIT:
 		case SEND_STICKER:
 		case INBOX_OPEN:
 		case INBOX_CONFIRM:

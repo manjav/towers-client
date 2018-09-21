@@ -14,12 +14,11 @@ public class BattleDeckCard extends TowersLayout
 {
 private var cardType:int;
 private var populationBar:HealthBar;
-
 private var cardView:BuildingCard;
-public function BattleDeckCard(deck:IntList, index:int)
+public function BattleDeckCard(cardType:int)
 {
 	super();
-	this.cardType = deck.get(index);
+	this.cardType = cardType;
 }
 
 override protected function initialize():void

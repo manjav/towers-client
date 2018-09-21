@@ -50,9 +50,9 @@ override protected function initialize():void
 
 private function createDeckItem(i:int):void
 {
-	var button:CardButton = new CardButton(player.decks.get(player.selectedDeck).get(i));
 	button.x = padding + 260 * i;
 	button.y = padding * 7 ;
+	var button:CardButton = new CardButton(player.getSelectedDeck().get(i));
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button)
 	

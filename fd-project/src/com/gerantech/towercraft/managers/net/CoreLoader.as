@@ -186,8 +186,8 @@ private function initServerData(sfsObj:SFSObject):void
     for( i=0; i<elements.size(); i++ )
     {
         element = elements.getSFSObject(i);
-        if( initData.decks.get(element.getInt("deck_index")) == null )
-            initData.decks.set(element.getInt("deck_index"), new IntList());
+        if( !initData.decks.exists(element.getInt("deck_index")) )
+            initData.decks.set(element.getInt("deck_index"), new IntIntMap());
         
         initData.decks.get(element.getInt("deck_index")).set(element.getInt("index"), element.getInt("type"));
     }
