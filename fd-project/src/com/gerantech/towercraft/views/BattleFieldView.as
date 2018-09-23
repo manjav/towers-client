@@ -17,7 +17,7 @@ public var battleData:BattleData;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
 public var roadsContainer:Sprite;
-public var troopsContainer:Sprite;
+public var unitsContainer:Sprite;
 public var elementsContainer:Sprite;
 public var buildingsContainer:Sprite;
 public var guiImagesContainer:Sprite;
@@ -60,7 +60,7 @@ public function BattleFieldView()
 	addChild(tiledBG);
 	
 	roadsContainer = new Sprite();
-	troopsContainer = new Sprite();
+	unitsContainer = new Sprite();
 	elementsContainer = new Sprite();
 	buildingsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
@@ -92,7 +92,7 @@ public function createPlaces(battleData:BattleData) : void
 	responseSender = new ResponseSender(battleData.room);
 	
 	addChild(roadsContainer);
-	addChild(troopsContainer);
+	addChild(unitsContainer);
 	addChild(elementsContainer);
 	var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
 	for each( var img:Image in images )
@@ -115,7 +115,18 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(buildingsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
+}		
+
+public function deployUnit(id:int, type:int, side:int, level:int, x:Number, y:Number) : void
+{
+	var unit:UnitView = new UnitView(id, type, side, level);
+	unit.x = x;
+	unit.y = y;
+	unitsContainer.addChild(unit);
 }
+
+
+
 
 /*public function createDrops() : void
 {

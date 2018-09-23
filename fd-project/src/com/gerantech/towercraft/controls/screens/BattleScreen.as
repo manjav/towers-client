@@ -125,6 +125,10 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	case SFSCommands.BATTLE_SEND_STICKER:
 		hud.showBubble(data.getInt("t"), false);
 		break;
+	
+	case SFSCommands.BATTLE_DEPLOY_UNIT:
+		appModel.battleFieldView.deployUnit(data.getInt("id"), data.getInt("t"), data.getInt("s"), data.getInt("l"), data.getDouble("x"), data.getDouble("y"));
+		break;
 	}
 	//trace(event.params.cmd, data.getDump());
 }
@@ -478,7 +482,7 @@ private function tutorials_tasksFinishHandler(event:Event):void
 
 protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 {
-	if( event.params.changedVars.indexOf("towers") > -1 )
+	if( event.params.changedVars.indexOf("units") > -1 )
 	{
 		updateTowersFromRoomVars();
 	    hud.updateRoomVars();
@@ -499,9 +503,9 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 
 private function updateTowersFromRoomVars():void
 {
-	if( !appModel.battleFieldView.battleData.room.containsVariable("towers") )
+	if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
 		return;
-	var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("towers").getValue() as SFSArray;
+	var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("units").getValue() as SFSArray;
 	/*for(var i:int=0; i<towers.size(); i++)
 	{
 		var wrapped:SFSDataWrapper = towers.getWrappedElementAt(i);
@@ -728,8 +732,8 @@ private function showImproveFloating(placeView:PlaceView):void
 			}
 		}
 	}
-}
- */
+}*/
+ 
 override protected function backButtonFunction():void
 {
 	if( sfsConnection.lastJoinedRoom != null && sfsConnection.mySelf.isSpectator )

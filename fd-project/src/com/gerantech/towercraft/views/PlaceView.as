@@ -225,9 +225,9 @@ private function rushTimeoutCallback():void
 		t.y = y;
 		t.rush(place);
 		if( path.get(0).y > y )
-			appModel.battleFieldView.troopsContainer.addChildAt(t, 0);
+			appModel.battleFieldView.unitsContainer.addChildAt(t, 0);
 		else
-			appModel.battleFieldView.troopsContainer.addChild(t);
+			appModel.battleFieldView.unitsContainer.addChild(t);
 		troopsCount --;
 	}
 }

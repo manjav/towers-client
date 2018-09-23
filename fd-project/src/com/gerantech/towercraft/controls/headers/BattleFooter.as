@@ -135,7 +135,7 @@ protected function touchHandler(event:TouchEvent):void
 	var touch:Touch = event.getTouch(this);
 	if( touch == null )
 		return;
-	if( touch.phase == TouchPhase.BEGAN)
+	if( touch.phase == TouchPhase.BEGAN )
 	{
 		var selectedCard:BuildingCard = touch.target.parent as BuildingCard;
 		if( selectedCard == null || !selectedCard.touchable )
@@ -179,6 +179,8 @@ protected function touchHandler(event:TouchEvent):void
 				preparedCard.setData(cardQueue[0]);
 				animatePushDeck(selectedCard);
 				Starling.juggler.tween(draggableCard, 0.1, {scale:0, onComplete:draggableCard.removeFromParent});
+				
+				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, touch.globalX, touch.globalY);
 			}
 			else
 			{

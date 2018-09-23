@@ -1,13 +1,9 @@
 package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.views.HealthBar;
-import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardFeatureType;
-import com.gt.towers.utils.lists.IntList;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
 import starling.core.Starling;
 
 public class BattleDeckCard extends TowersLayout
@@ -28,19 +24,11 @@ override protected function initialize():void
 	var padding:int = 16;
 	layout = new AnchorLayout();
 	
-	cardView = new BuildingCard(false, false, false, false);
+	cardView = new BuildingCard(false, false, false, true);
 	cardView.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	//cardView.data = deckIndex;
 	addChild(cardView);
 	cardView.setData(cardType);
 }
-
-/*public function get ready():Boolean
-{
-	if( building == null )
-		return false;
-	return building._population >= building.capacity; 
-}*/
 
 public function updateData():void
 {

@@ -16,18 +16,16 @@ public function ResponseSender(room:Room)
 	this.room = room;
 }
 
-/*public function fight(sourceTowers:Vector.<PlaceView>, destination:PlaceView):void
+public function deployUnit(type:int, x:Number, y:Number):void
 {
-	var sfsObj:SFSObject = new SFSObject();
-	var sources:SFSArray = new SFSArray();
-	for each(var tp:PlaceView in sourceTowers)
-		sources.addInt(tp.place.index);
-	sfsObj.putSFSArray("s", sources);
-	sfsObj.putInt("d", destination.place.index);
-	send(SFSCommands.FIGHT, sfsObj, room);
+	var params:ISFSObject = new SFSObject();
+	params.putInt("t", type);
+	params.putDouble("x", x);
+	params.putDouble("y", y);
+	send(SFSCommands.BATTLE_DEPLOY_UNIT, params, room);
 }
 
-public function hitTroop(troopId:int, damage:Number):void
+/*public function hitTroop(troopId:int, damage:Number):void
 {
 	//trace("hitTroop", troopId);
 	var sfsObj:SFSObject = new SFSObject();
