@@ -201,8 +201,8 @@ public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room
 
 protected function sfs_extensionResponseHandler(event:SFSEvent):void
 {
-	if( event.params.cmd == SFSCommands.CANCEL_BATTLE )
-		removeFromCommands(SFSCommands.START_BATTLE);
+	if( event.params.cmd == SFSCommands.BATTLE_CANCEL )
+		removeFromCommands(SFSCommands.BATTLE_START);
 	removeFromCommands(event.params.cmd);
 }
 public function removeFromCommands(command:String):void

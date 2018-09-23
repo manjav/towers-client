@@ -42,14 +42,14 @@ public function leave(retryMode:Boolean=false):void
 	if( retryMode )
 		params.putBool("retryMode", true);
 		
-	send(SFSCommands.LEAVE, params, room, false);			
+	send(SFSCommands.BATTLE_LEAVE, params, room, false);			
 }
 
 public function sendSticker(stickerType:int):void
 {
 	var sfsObj:SFSObject = new SFSObject();
 	sfsObj.putInt("t", stickerType);
-	send(SFSCommands.SEND_STICKER, sfsObj, room);			
+	send(SFSCommands.BATTLE_SEND_STICKER, sfsObj, room);			
 }
 
 private function send (extCmd:String, params:ISFSObject, room:Room, dislabledForSpectators:Boolean=true) : Boolean

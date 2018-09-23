@@ -101,12 +101,12 @@ private function cancelButton_triggeredHandler(event:Event):void
 {
 	cancelButton.touchable = false;
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_cancelResponseHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.CANCEL_BATTLE);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_CANCEL);
 }
 
 protected function sfs_cancelResponseHandler(event:SFSEvent):void
 {
-	if( event.params.cmd != SFSCommands.CANCEL_BATTLE )
+	if( event.params.cmd != SFSCommands.BATTLE_CANCEL )
 		return;
 	
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_cancelResponseHandler);

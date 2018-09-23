@@ -91,7 +91,7 @@ override protected function initialize():void
 	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	if( !isFriendly )
-		sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+		sfsConnection.sendExtensionRequest(SFSCommands.BATTLE_START, sfsObj);
 	addEventListener(TouchEvent.TOUCH, touchHandler);
 }
 
@@ -104,7 +104,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	var data:SFSObject = event.params.params as SFSObject;
 	switch(event.params.cmd)
 	{
-	case SFSCommands.START_BATTLE:
+	case SFSCommands.BATTLE_START:
 		if( data.containsKey("umt") )
 		{
 			showUnderMaintenancePopup(data);
@@ -118,21 +118,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		startBattle();
 		break;
 	
-	/*case SFSCommands.BUILDING_IMPROVE:
-		//appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("tt"), data.getInt("p"));
-		appModel.sounds.addAndPlaySound("battle-improve");
-		break;*/
-	
-	/*case SFSCommands.LEFT_BATTLE:
-	case SFSCommands.REJOIN_BATTLE:
-		appModel.navigator.addLog( loc(event.params.cmd+"_message", [data.getText("user")] ) );
-		break;*/
-	
-	case SFSCommands.END_BATTLE:
+	case SFSCommands.BATTLE_END:
 		endBattle(data);
 		break;
 	
-	case SFSCommands.SEND_STICKER:
+	case SFSCommands.BATTLE_SEND_STICKER:
 		hud.showBubble(data.getInt("t"), false);
 		break;
 	}
@@ -396,7 +386,7 @@ private function retryQuest(index:int, hasExtraTime:Boolean):void
 	//sfsObj.putText("su", spectatedUser);
 	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-	sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+	sfsConnection.sendExtensionRequest(SFSCommands.BATTLE_START, sfsObj);
 }
 
 private function endOverlay_closeHandler(event:Event):void
