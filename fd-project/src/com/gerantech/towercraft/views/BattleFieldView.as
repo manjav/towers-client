@@ -138,12 +138,10 @@ public function updateUnits():void
 	//if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
 	//	return;
 	var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
-	
 	for(var i:int=0; i<unitsList.size(); i++)
 	{
 		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
-		UnitView(battleData.battleField.units.get(vars[0])).setPosition(vars[1], vars[2]);
-		trace(unitsList.getText(i));
+		//UnitView(battleData.battleField.units.get(vars[0])).setPosition(vars[1], vars[2]);
 	}
 }
 

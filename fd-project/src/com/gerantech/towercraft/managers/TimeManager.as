@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.managers
 {
+import com.gt.towers.battle.BattleField;
 import flash.utils.clearInterval;
 import flash.utils.setInterval;
 import starling.events.Event;
@@ -16,7 +17,7 @@ public function TimeManager(now:uint)
 	_instance = this;
 	_now = now;
 	_millis = now * 1000;
-	intervalId = setInterval(timeCounterCallback, 10);
+	intervalId = setInterval(timeCounterCallback, BattleField.INTERVAL = 10);
 }
 
 public function get now():uint
@@ -36,7 +37,7 @@ public function get millis():Number
 
 private function timeCounterCallback():void
 {
-	_millis += 10;
+	_millis += BattleField.INTERVAL;
 	if( _millis > _now * 1000 + 991 )
 	{
 		_now ++;

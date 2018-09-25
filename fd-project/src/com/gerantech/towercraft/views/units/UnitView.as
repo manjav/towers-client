@@ -28,39 +28,53 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.6;
-	shadowDisplay.pivotY = shadowDisplay.height * 0.3;
+	shadowDisplay.pivotY = shadowDisplay.height * 0.4;
 	shadowDisplay.scale = 2;
+	shadowDisplay.x = this.x;
+	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 	
-	textureType = 30 + "/" + side + "/";
-	movieClip = new MovieClip(Assets.getTextures(textureType + "up-", "troops"), 15);
+	textureType = Math.min(106, type) + "/" + side + "/";trace(type, textureType)
+	movieClip = new MovieClip(Assets.getTextures(textureType + "m_000_", "troops"), 15);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
 	movieClip.scale = troopScale;
+	movieClip.x = this.x;
+	movieClip.y = this.y;
 	fieldView.unitsContainer.addChild(movieClip);
 	
-	setPosition(x, y, true);
-	//muted = false
+	muted = false
 }
 
-public function setPosition(x:Number, y:Number, forced:Boolean = false) : void
+override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
 {
-	var changed:Boolean = forced || this.x != x || this.y != y;
-	if( !changed )
+	if( !super.setPosition(x, y, forced) )
 	{
 		state = Unit.STATE_WAIT;
-		return;
+		return false;
+	}
+
+	switchAnimation(x, y);
+	
+	state = Unit.STATE_MOVE;
+	if( movieClip != null )
+	{
+		movieClip.x = this.x;
+		movieClip.y = this.y;		
 	}
 	
-	switchAnimation(x, y);
-	state = Unit.STATE_MOVE;
-	movieClip.x = shadowDisplay.x = x;
-	movieClip.y = shadowDisplay.y = y;
+	if( shadowDisplay != null )
+	{
+		shadowDisplay.x = this.x;
+		shadowDisplay.y = this.y;		
+	}
+
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = x;
-		healthDisplay.y = y - 80;
+		healthDisplay.x = this.x;
+		healthDisplay.y = this.y - 80;
 	}
+	return true;
 }
 
 public function get state() : int
@@ -73,6 +87,8 @@ public function set state(value:int) : void
 		return;
 	
 	_state = value;
+	if( movieClip == null )
+		return;
 	if( _state == Unit.STATE_WAIT )
 	{
 		movieClip.pause();
@@ -85,38 +101,44 @@ public function set state(value:int) : void
 
 private function switchAnimation(x:Number, y:Number) : void
 {
+	if( movieClip == null )
+		return;
+	if( x == -1 )
+		x = this.x;
+	if( y == -1 )
+		y = this.y;
 	var rad:Number = Math.atan2(x - this.x, y - this.y);
 	var flipped:Boolean = false;
 	var dir:String;
 	
 	if( rad >= Math.PI * -0.125 && rad < Math.PI * 0.125 )
-		dir = "do";
+		dir = "000";
 	else if( rad <= Math.PI * -0.125 && rad > Math.PI * -0.375 )
-		dir = "ld";
+		dir = "lu";
 	else if( rad <= Math.PI * -0.375 && rad > Math.PI * -0.625 )
 		dir = "le";
 	else if( rad <= Math.PI * -0.625 && rad > Math.PI * -0.875 )
-		dir = "lu";
+		dir = "ld";
 	else if( rad >= Math.PI * 0.125 && rad < Math.PI * 0.375 )
-		dir = "dr";
+		dir = "045";
 	else if( rad >= Math.PI * 0.375 && rad < Math.PI * 0.625 )
-		dir = "ri";
+		dir = "090";
 	else if( rad >= Math.PI * 0.625 && rad < Math.PI * 0.875 )
-		dir = "ru";
+		dir = "135";
 	else
-		dir = "up";
+		dir = "180";
 	
 	if( dir == "ld" || dir == "le" || dir == "lu" )
 	{
 		if( dir == "le" )
-			dir = dir.replace("le", "ri");
+			dir = dir.replace("le", "090");
 		else if( dir == "lu" )
-			dir = dir.replace("lu", "ru");
+			dir = dir.replace("lu", "045");
 		else
-			dir = dir.replace("ld", "rd");
+			dir = dir.replace("ld", "135");
 		flipped = true;
 	}
-	
+	dir = "m_" + dir;
 	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
 	if( direction == dir )
@@ -125,8 +147,8 @@ private function switchAnimation(x:Number, y:Number) : void
 	//movieClip.fps = 20 * 3000 / building.get_troopSpeed();
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
-	for ( var i:int = 0; i < movieClip.numFrames; i++ ){//trace(textureType + direction + ( i > 9 ? "_00" + (i) : "_000" + (i)), "troops");
-	movieClip.setFrameTexture(i, Assets.getTexture(textureType + direction + ( i > 9 ? "_00" + (i) : "_000" + (i)), "troops"));}
+	for ( var i:int = 1; i <= movieClip.numFrames; i++ ){//trace(textureType + direction + ( i > 9 ? "_0" + (i) : "_00" + (i)));
+	movieClip.setFrameTexture(i-1, Assets.getTexture(textureType + direction + ( i > 9 ? "_0" + (i) : "_00" + (i)), "troops"));}
 }
 
 override public function hit(damage:Number):void
