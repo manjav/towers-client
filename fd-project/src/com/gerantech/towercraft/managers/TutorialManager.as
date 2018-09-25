@@ -73,14 +73,14 @@ private function overlay_closeHandler(event:Event):void
 
 /*public function showMidSwipe(target:PlaceView):void
 {
-	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + target.place.index);
-	if( appModel.battleFieldView.battleData.map.index == 2 && target.place.index == 1 )
+	var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.battleField.map.index + "_" + target.place.index);
+	if( appModel.battleFieldView.battleData.battleField.map.index == 2 && target.place.index == 1 )
 	{
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_2_mid_2", null, 500, 1500, 2));
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_2_mid_4", null, 500, 1500, 4));
 	}
 	var places:PlaceDataList = new PlaceDataList();
-	if( appModel.battleFieldView.battleData.map.index <= 2 )
+	if( appModel.battleFieldView.battleData.battleField.map.index <= 2 )
 	{
 		for (var i:int = 0; i < target.place.index + 2; i++)
 			places.push(target.getData(i));
@@ -97,7 +97,7 @@ public function forceAggregateSwipe( sourcePlaces:Vector.<PlaceView>, target:Pla
 	if( ret )
 	{
 		removeAll();
-		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
+		var tutorialData:TutorialData = new TutorialData("occupy_" + appModel.battleFieldView.battleData.battleField.map.index + "_" + catchedPlaces.get(catchedPlaces.size() - 2).index);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, catchedPlaces, 0, 800 * catchedPlaces.size()));
 		show(tutorialData);
 	}

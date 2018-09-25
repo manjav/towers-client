@@ -43,7 +43,7 @@ override protected function initialize():void
 	opponentHeader.layoutData = new AnchorLayoutData(550, 0, NaN, 0);
 	addChild(opponentHeader);
 	
-	opponentHeader.addScoreImages(score, player.operations.get(battleData.map.index)-1);
+	opponentHeader.addScoreImages(score, player.operations.get(battleData.battleField.map.index)-1);
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;
@@ -70,7 +70,7 @@ override protected function initialize():void
 	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewardsCollection.length>0 ? 480 : 220));
 	addChild(buttons);
 	
-	var hasRetry:Boolean = playerIndex > -1 && appModel.battleFieldView.battleData.map.isOperation && player.getLastOperation() > 3 && !appModel.battleFieldView.battleData.isLeft;
+	var hasRetry:Boolean = playerIndex > -1 && appModel.battleFieldView.battleData.battleField.map.isOperation && player.getLastOperation() > 3 && !appModel.battleFieldView.battleData.isLeft;
 	
 	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300;

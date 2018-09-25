@@ -167,10 +167,10 @@ private function showMidSwipesTutorial(troopType : int) : void
 		return;
 	if( place.building.troopType == player.troopType || troopType != player.troopType )
 		return;
-	if( appModel.battleFieldView.battleData.map.isOperation && appModel.battleFieldView.battleData.map.index == 2 && player.emptyDeck() )
+	if( appModel.battleFieldView.battleData.battleField.map.isOperation && appModel.battleFieldView.battleData.battleField.map.index == 2 && player.emptyDeck() )
 		return;
 	tutorials.removeAll();
-	if( place.index > appModel.battleFieldView.battleData.map.places.size() - 2 )
+	if( place.index > appModel.battleFieldView.battleData.battleField.map.places.size() - 2 )
 		return;
 	
 	tutorials.showMidSwipe(this);
@@ -181,7 +181,7 @@ private function showMidSwipesTutorial(troopType : int) : void
 
 public function getData(index:int):PlaceData
 {
-	var p:PlaceData = appModel.battleFieldView.battleData.map.places.get(index);
+	var p:PlaceData = appModel.battleFieldView.battleData.battleField.map.places.get(index);
 	return new PlaceData(p.index, p.x, p.y, p.type, player.troopType, "", true, p.index);
 }
 

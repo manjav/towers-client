@@ -16,9 +16,7 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 public class BattleData
 {
 public var room:Room;
-public var map:FieldData;
 public var troopType:int;
-public var startAt:int;
 public var singleMode:Boolean;
 public var battleField:BattleField;
 public var isLeft:Boolean;
@@ -33,13 +31,14 @@ public function BattleData(data:ISFSObject)
 	this.troopType = AppModel.instance.game.player.troopType = data.getInt("troopType");
 	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
 	this.singleMode = data.getBool("singleMode");
-	this.startAt = data.getInt("startAt") + 1;
-	TimeManager.instance.setNow(this.startAt);
+
 	AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 	var axisGame:Game = new Game();
 	axisGame.init(new InitData());
 	battleField = new BattleField(AppModel.instance.game, axisGame, data.getText("mapName"), troopType, data.getBool("hasExtraTime"));
-	map = battleField.map;
+	battleField.startAt = data.getInt("startAt");
+	battleField.now = battleField.startAt * 1000;
+	TimeManager.instance.setNow(battleField.startAt);
 	allis = data.getSFSObject("allis");
 	axis = data.getSFSObject("axis");
 	

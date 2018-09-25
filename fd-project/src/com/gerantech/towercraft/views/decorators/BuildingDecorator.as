@@ -105,7 +105,7 @@ public function BuildingDecorator(placeView:PlaceView)
 		fieldView.guiTextsContainer.addChild(indexLabel);
 	}
 	
-	if( appModel.battleFieldView.battleData.map.name == "battle_1" )
+	if( appModel.battleFieldView.battleData.battleField.map.name == "battle_1" )
 		TutorialManager.instance.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
 }
 

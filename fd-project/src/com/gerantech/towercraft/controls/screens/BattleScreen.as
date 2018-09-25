@@ -352,7 +352,7 @@ private function endOverlay_retryHandler(event:Event):void
 	if( event.data && player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) ) 
 		showExtraTimeAd();
 	else
-		retryQuest(appModel.battleFieldView.battleData.map.index, false);
+		retryQuest(appModel.battleFieldView.battleData.battleField.map.index, false);
 }
 
 private function showExtraTimeAd():void
@@ -364,7 +364,7 @@ private function showExtraTimeAd():void
 		VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 		var ad:VideoAd = event.data as VideoAd;
 		if( ad.completed && ad.rewarded )
-			retryQuest(appModel.battleFieldView.battleData.map.index, true);
+			retryQuest(appModel.battleFieldView.battleData.battleField.map.index, true);
 		else
 			dispatchEventWith(Event.COMPLETE);
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
@@ -746,9 +746,9 @@ override protected function backButtonFunction():void
 	if( player.inTutorial() )
 		return;
 	
-	if( !appModel.battleFieldView.battleData.map.isOperation )
+	if( !appModel.battleFieldView.battleData.battleField.map.isOperation )
 	{
-		if( appModel.battleFieldView.battleData.startAt + appModel.battleFieldView.battleData.map.times.get(0) > timeManager.now )
+		if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.map.times.get(0) > timeManager.now )
 			return;
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
 		confirm.acceptStyle = CustomButton.STYLE_DANGER;
@@ -777,7 +777,7 @@ override protected function backButtonFunction():void
 		appModel.battleFieldView.responseSender.actived = false;
 			
 		if( event.type == Event.SELECT )
-			retryQuest(appModel.battleFieldView.battleData.map.index, false);
+			retryQuest(appModel.battleFieldView.battleData.battleField.map.index, false);
 	}
 }
 
@@ -802,4 +802,4 @@ private function removeConnectionListeners():void
 	sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 }
 }
-}
+}
