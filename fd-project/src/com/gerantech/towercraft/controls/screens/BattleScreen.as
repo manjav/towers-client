@@ -185,7 +185,7 @@ private function startBattle():void
 	addChild(hud);
 	
 	resetAll(battleData.sfsData);
-	updateTowersFromRoomVars();
+	appModel.battleFieldView.updateUnits();
 	
 	sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 	appModel.loadingManager.serverData.putBool("inBattle", false);
@@ -484,8 +484,8 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 {
 	if( event.params.changedVars.indexOf("units") > -1 )
 	{
-		updateTowersFromRoomVars();
-	    hud.updateRoomVars();
+		appModel.battleFieldView.updateUnits();
+	    //hud.updateRoomVars();
 	}
 
 	/*if( event.params.changedVars.indexOf("s") > -1 )
@@ -501,11 +501,11 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	//sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 }
 
-private function updateTowersFromRoomVars():void
+private function updateUnits():void
 {
-	if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
-		return;
-	var towers:SFSArray = appModel.battleFieldView.battleData.room.getVariable("units").getValue() as SFSArray;
+	//if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
+	//	return;
+	var units:SFSArray = appModel.battleFieldView.battleData.room.getVariable("units").getValue() as SFSArray;
 	/*for(var i:int=0; i<towers.size(); i++)
 	{
 		var wrapped:SFSDataWrapper = towers.getWrappedElementAt(i);

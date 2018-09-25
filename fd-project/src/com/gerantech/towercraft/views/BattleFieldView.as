@@ -1,10 +1,13 @@
 package com.gerantech.towercraft.views
 {
 import com.gerantech.towercraft.managers.DropTargets;
+import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.net.ResponseSender;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.views.units.UnitView;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Quad;
@@ -26,6 +29,7 @@ public var guiTextsContainer:Sprite;
 public function BattleFieldView()
 {
 	super();
+	touchable = false;
 	
 	// map alignment
 	var _width:Number;
@@ -65,7 +69,7 @@ public function BattleFieldView()
 	buildingsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
-
+	
 	/*troopsList = new Vector.<TroopView>();
 	troopsContainer.addEventListener(Event.ADDED, battleField_addedHandler);
 	troopsContainer.addEventListener(Event.REMOVED, battleField_removedHandler);
@@ -86,10 +90,16 @@ private function battleField_removedHandler(event:Event) : void
 	troopsList.removeAt(troopsList.indexOf(troopView));*/
 }		
 
+protected function timeManager_updateHandler(e:Event):void 
+{
+	battleData.battleField.update();
+}
+
 public function createPlaces(battleData:BattleData) : void
 {
 	this.battleData = battleData;
 	responseSender = new ResponseSender(battleData.room);
+	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
 	
 	addChild(roadsContainer);
 	addChild(unitsContainer);
@@ -119,14 +129,23 @@ public function createPlaces(battleData:BattleData) : void
 
 public function deployUnit(id:int, type:int, side:int, level:int, x:Number, y:Number) : void
 {
-	var unit:UnitView = new UnitView(id, type, side, level);
-	unit.x = x;
-	unit.y = y;
-	unitsContainer.addChild(unit);
+	battleData.battleField.units.set(id, new UnitView(id, type, side, level, x, y));
+	trace(unitsContainer.numChildren)
 }
-
-
-
+	
+public function updateUnits():void
+{
+	//if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
+	//	return;
+	var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
+	
+	for(var i:int=0; i<unitsList.size(); i++)
+	{
+		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
+		UnitView(battleData.battleField.units.get(vars[0])).setPosition(vars[1], vars[2]);
+		trace(unitsList.getText(i));
+	}
+}
 
 /*public function createDrops() : void
 {
@@ -135,5 +154,11 @@ public function deployUnit(id:int, type:int, side:int, level:int, x:Number, y:Nu
 		if( t.touchable )
 			dropTargets.add(t);
 }*/
+
+override public function dispose() : void
+{
+	TimeManager.instance.removeEventListener(Event.UPDATE, timeManager_updateHandler);
+	super.dispose();
+}
 }
 }
