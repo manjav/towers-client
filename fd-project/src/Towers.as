@@ -70,7 +70,7 @@ public function Towers()
 	AppModel.instance.formalAspectratio = 1080 / 1920;
 	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
 
-	this.mouseEnabled = this.mouseChildren = false;
+	this.mouseEnabled = false;
 	splash = new SplashScreen();
 	splash.addEventListener(Event.CLEAR, loaderInfo_completeHandler);
 	addChild(splash);
@@ -94,7 +94,6 @@ private function loaderInfo_completeHandler(event:Event):void
 
 private function starStarling():void
 {
-	Starling.multitouchEnabled = true;
 	var viewPort:Rectangle = new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
 	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 	this.starling.supportHighResolutions = true;
