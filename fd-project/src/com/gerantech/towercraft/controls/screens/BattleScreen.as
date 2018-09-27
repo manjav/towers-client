@@ -127,7 +127,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_DEPLOY_UNIT:
-		appModel.battleFieldView.deployUnit(data.getInt("id"), data.getInt("t"), data.getInt("s"), data.getInt("l"), data.getDouble("x"), data.getDouble("y"));
+		appModel.battleFieldView.deployUnit(data.getInt("id"), data.getInt("t"), data.getInt("l"), data.getInt("s"), data.getDouble("x"), data.getDouble("y"));
 		break;
 	}
 	//trace(event.params.cmd, data.getDump());

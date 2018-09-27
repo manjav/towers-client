@@ -128,9 +128,9 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(guiTextsContainer);
 }		
 
-public function deployUnit(id:int, type:int, side:int, level:int, x:Number, y:Number) : void
+public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number) : void
 {
-	battleData.battleField.units.set(id, new UnitView(id, type, side, level, x, y));
+	battleData.battleField.units.set(id, new UnitView(id, type, level, side, x, y));
 	
 	//units.set(id, new UnitView(id, type, side, level, x + 100, y));
 	//units.get(id).movable = false
