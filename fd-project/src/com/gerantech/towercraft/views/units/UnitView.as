@@ -27,8 +27,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	super(id, type, level, side, x, y);
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
-	shadowDisplay.pivotX = shadowDisplay.width * 0.6;
-	shadowDisplay.pivotY = shadowDisplay.height * 0.4;
+	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
+	shadowDisplay.pivotY = shadowDisplay.height * 0.45;
 	shadowDisplay.scale = 2;
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
