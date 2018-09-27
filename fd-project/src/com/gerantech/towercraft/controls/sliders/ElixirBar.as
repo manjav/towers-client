@@ -26,7 +26,7 @@ public function ElixirBar()
 	super();
 	touchable = false;
 	this.pivotX = this.width * 0.5;
-	this.value = appModel.battleFieldView.battleData.battleField.elixirBar.get(player.troopType);
+	this.value = appModel.battleFieldView.battleData.getAlliseEllixir();
 }
 
 override protected function initialize():void

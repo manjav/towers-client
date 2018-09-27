@@ -117,7 +117,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	var bars:SFSObject = appModel.battleFieldView.battleData.room.getVariable("bars").getValue() as SFSObject;
 	appModel.battleFieldView.battleData.battleField.elixirBar.set(0, bars.getInt("0"));
 	appModel.battleFieldView.battleData.battleField.elixirBar.set(1, bars.getInt("1"));
-	elixirBar.value = appModel.battleFieldView.battleData.battleField.elixirBar.get(player.troopType);
+	elixirBar.value = appModel.battleFieldView.battleData.getAlliseEllixir();
 	for( var i:int=0; i<cards.length; i++ )
 		cards[i].updateData();
 }
