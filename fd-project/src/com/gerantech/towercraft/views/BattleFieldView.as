@@ -16,6 +16,7 @@ import starling.events.Event;
 
 public class BattleFieldView extends Sprite
 {
+//private var units:IntUnitMap;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
@@ -30,7 +31,7 @@ public function BattleFieldView()
 {
 	super();
 	touchable = false;
-	
+	//units = new IntUnitMap();
 	// map alignment
 	var _width:Number;
 	var _height:Number;
@@ -92,7 +93,7 @@ private function battleField_removedHandler(event:Event) : void
 
 protected function timeManager_updateHandler(e:Event):void 
 {
-	battleData.battleField.update();
+	battleData.battleField.update(e.data as int);
 }
 
 public function createPlaces(battleData:BattleData) : void
@@ -130,7 +131,9 @@ public function createPlaces(battleData:BattleData) : void
 public function deployUnit(id:int, type:int, side:int, level:int, x:Number, y:Number) : void
 {
 	battleData.battleField.units.set(id, new UnitView(id, type, side, level, x, y));
-	trace(unitsContainer.numChildren)
+	
+	//units.set(id, new UnitView(id, type, side, level, x + 100, y));
+	//units.get(id).movable = false
 }
 	
 public function updateUnits():void
@@ -141,8 +144,10 @@ public function updateUnits():void
 	for(var i:int=0; i<unitsList.size(); i++)
 	{
 		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
-		//UnitView(battleData.battleField.units.get(vars[0])).setPosition(vars[1], vars[2]);
+		//UnitView(units.get(vars[0])).setPosition(-1, vars[2]);
+		UnitView(battleData.battleField.units.get(vars[0])).setPosition(-1, vars[2]);
 	}
+	
 }
 
 /*public function createDrops() : void

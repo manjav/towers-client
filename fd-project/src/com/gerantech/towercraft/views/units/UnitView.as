@@ -34,7 +34,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 	
-	textureType = Math.min(106, type) + "/" + side + "/";trace(type, textureType)
+	textureType = Math.min(108, type) + "/" + side + "/";
 	movieClip = new MovieClip(Assets.getTextures(textureType + "m_000_", "troops"), 15);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
