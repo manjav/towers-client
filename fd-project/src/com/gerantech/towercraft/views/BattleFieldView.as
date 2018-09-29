@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views
 {
+import com.gerantech.towercraft.controls.headers.BattleFooter;
 import com.gerantech.towercraft.managers.DropTargets;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.net.ResponseSender;
@@ -7,6 +8,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
+import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.units.Unit;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import starling.core.Starling;
@@ -34,13 +36,19 @@ public function BattleFieldView()
 	touchable = false;
 	//units = new IntUnitMap();
 	// map alignment
-	var _width:Number;
-	var _height:Number;
+	var _width:Number = BattleField.WIDTH
+	var _height:Number = BattleField.HEIGHT;
+	alignPivot();
 	AppModel.instance.aspectratio = Starling.current.stage.stageWidth / Starling.current.stage.stageHeight;
-	if(  AppModel.instance.aspectratio < AppModel.instance.formalAspectratio )
+	pivotX = BattleField.WIDTH * 0.5;
+	pivotY = BattleField.HEIGHT * 0.5;
+	x = Starling.current.stage.stageWidth * 0.5;
+	y = (Starling.current.stage.stageHeight - BattleFooter.HEIGHT) * 0.5;
+
+	/*if( AppModel.instance.aspectratio < AppModel.instance.formalAspectratio )
 	{
 		_width = Starling.current.stage.stageWidth;
-		_height = Starling.current.stage.stageWidth * AppModel.instance.formalAspectratio;
+		_height = Starling.current.stage.stageWidth * (BattleField.HEIGHT / BattleField.WIDTH);// AppModel.instance.formalAspectratio;
 		x = pivotX = _width * 0.5;
 		pivotY = _height * 0.5;
 		y = pivotY + (Starling.current.stage.stageHeight - _height ) * 0.5;
@@ -48,11 +56,11 @@ public function BattleFieldView()
 	else
 	{
 		_height = Starling.current.stage.stageHeight;
-		_width = Starling.current.stage.stageHeight * AppModel.instance.formalAspectratio;
+		_width = Starling.current.stage.stageHeight * (BattleField.WIDTH / BattleField.HEIGHT);// AppModel.instance.formalAspectratio;
 		y = pivotY = _height * 0.5;
 		pivotX = _width * 0.5;
 		x = pivotX + (Starling.current.stage.stageWidth - _width ) * 0.5;
-	}
+	}*/
 	scale = 0.8;
 	
 	// tile grass ground

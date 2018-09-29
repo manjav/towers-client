@@ -28,8 +28,8 @@ import starling.events.TouchPhase;
 
 public class BattleFooter extends TowersLayout
 {
+static public var HEIGHT:int = 380;
 public var stickerButton:CustomButton;
-private var _height:int;
 private var _scaleDistance:int;
 private var padding:int;
 private var cards:Vector.<BattleDeckCard>;
@@ -40,11 +40,11 @@ private var elixirBar:ElixirBar;
 private var elixirCountDisplay:BitmapFontTextRenderer;
 private var cardQueue:Vector.<int>;
 private var preparedCard:BuildingCard;
+
 public function BattleFooter()
 {
 	super();
 	padding = 12;
-	_height = 380;
 	_scaleDistance = 500;
 }
 
@@ -54,7 +54,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	backgroundSkin = new Quad(1, 1, 0);
 	backgroundSkin.alpha = 0.7;
-	height = _height;
+	height = HEIGHT;
 	
 	cardsContainer = new LayoutGroup();
 	cardsContainer.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
