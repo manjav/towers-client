@@ -172,7 +172,7 @@ protected function touchHandler(event:TouchEvent):void
 		else if( touch.phase == TouchPhase.ENDED )
 		{
 			selectedCard = touch.target.parent as BuildingCard;
-			if( touch.globalY < 1435 && touch.globalY > 800 )
+			if( touch.globalY < 1435 && touch.globalY > 800 && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
 				selectedCard.setData(cardQueue.shift());
@@ -180,6 +180,9 @@ protected function touchHandler(event:TouchEvent):void
 				animatePushDeck(selectedCard);
 				Starling.juggler.tween(draggableCard, 0.1, {scale:0, onComplete:draggableCard.removeFromParent});
 				
+				elixirBar.value -= draggableCard.elixirSize;
+				for( var i:int=0; i<cards.length; i++ )
+					cards[i].updateData();
 				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, touch.globalX, touch.globalY);
 			}
 			else

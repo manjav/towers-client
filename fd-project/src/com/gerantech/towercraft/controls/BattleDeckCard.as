@@ -33,7 +33,7 @@ override protected function initialize():void
 public function updateData():void
 {
 	//Starling.juggler.tween(populationBar, 0.5, {value:Card._population, transition:Transitions.EASE_OUT_ELASTIC});
-	cardView.touchable = appModel.battleFieldView.battleData.getAlliseEllixir() >= game.calculator.getInt(CardFeatureType.F02_ELIXIR_SIZE, cardType, 1);
+	cardView.touchable = appModel.battleFieldView.battleData.getAlliseEllixir() >= cardView.elixirSize;
 	cardView.alpha = cardView.touchable ? 1 : 0.5;
 	//populationBar.value = building._population;
 }

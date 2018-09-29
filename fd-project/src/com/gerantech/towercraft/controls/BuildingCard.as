@@ -34,11 +34,11 @@ public var rarityDisplayFactory:Function;
 public var coverDisplayFactory:Function;
 
 public var type:int = -1;
-protected var level:int = 0;
-protected var rarity:int = 0;
-protected var count:int = 0;
-protected var elixirSize:int = 0;
-protected var availablity:int = 0;
+public var level:int = 0;
+public var rarity:int = 0;
+public var count:int = 0;
+public var elixirSize:int = 0;
+public var availablity:int = 0;
 
 protected var showLevel:Boolean = true;
 protected var showSlider:Boolean = true;
@@ -326,7 +326,7 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  ELIXIR SIZE  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultElixirDisplayFactory():void
 {
-	if( !showElixir || availablity == CardTypes.AVAILABLITY_NOT || type < 0 || level <= 0 )
+	if( !showElixir || availablity == CardTypes.AVAILABLITY_NOT || level <= 0 )
 		return;
 	
 	var elixirBackground:ImageLoader = new ImageLoader();
