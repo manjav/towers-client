@@ -47,7 +47,7 @@ for %%a in (%DATE: =0%) do set DATE=%%a
 
 :: Output packages
 set DIST_PATH=dist
-set DIST_NAME=koot-%APP_VER%.%DATE%-%MARKET%
+set DIST_NAME=k2k-%APP_VER%.%DATE%-%MARKET%
 
 :: Debugging using a custom IP
 set DEBUG_IP=
