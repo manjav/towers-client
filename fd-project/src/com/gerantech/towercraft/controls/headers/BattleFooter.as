@@ -160,8 +160,8 @@ protected function touchHandler(event:TouchEvent):void
 			return;
 		if( touch.phase == TouchPhase.MOVED )
 		{
-			draggableCard.x = touch.globalX-x;
-			draggableCard.y = touch.globalY-y;
+			draggableCard.x = Math.max( 150, Math.min(stageWidth-150, touch.globalX - x));
+			draggableCard.y = Math.min(960, touch.globalY - y);
 			draggableCard.scale = Math.max(0.5, (_scaleDistance+Math.min(touch.globalY - y, 0)) / _scaleDistance * 1.2);
 			/*var place:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
 			if( place == null )
@@ -172,7 +172,7 @@ protected function touchHandler(event:TouchEvent):void
 		else if( touch.phase == TouchPhase.ENDED )
 		{
 			selectedCard = touch.target.parent as BuildingCard;
-			if( touch.globalY < 1435 && touch.globalY > 800 && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
+			if( touch.globalY < 1435 && touch.globalY > 960 && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
 				selectedCard.setData(cardQueue.shift());

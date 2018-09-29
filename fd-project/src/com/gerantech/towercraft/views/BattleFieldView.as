@@ -66,12 +66,20 @@ public function BattleFieldView()
 	// tile grass ground
 	//var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
     var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
-	tiledBG.x = -_width * 0.5;
-	tiledBG.y = -_height * 0.5;
-	tiledBG.width = _width * 2;
-	tiledBG.height = _height * 2;
+	tiledBG.x = 0//-_width * 0.5;
+	tiledBG.y = 0//-_height * 0.5;
+	tiledBG.width = _width ;
+	tiledBG.height = _height;
 	//tiledBG.tileGrid = new Rectangle(1, 1, 230, 230);
 	addChild(tiledBG);
+	
+	var tile1dBG:Quad = new Quad(1, 1, 0xFFFFFF);
+	tile1dBG.x = 0//-_width * 0.5;
+	tile1dBG.y = _height * 0.33333//-_height * 0.5;
+	tile1dBG.width = _width ;
+	tile1dBG.height = _height * 0.33333;
+	tile1dBG.alpha = 0.2;
+	addChild(tile1dBG);
 	
 	roadsContainer = new Sprite();
 	unitsContainer = new Sprite();
@@ -114,12 +122,12 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(roadsContainer);
 	addChild(unitsContainer);
 	addChild(elementsContainer);
-	var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
+	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
 	for each( var img:Image in images )
 		if( img.name == "battlefields" )
 			elementsContainer.addChild(img);
 		else
-			roadsContainer.addChild(img);
+			roadsContainer.addChild(img);*/
 	
 	/*var len:uint = battleData.battleField.places.size();
 	places = new Vector.<PlaceView>(len, true);
