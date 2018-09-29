@@ -24,7 +24,7 @@ public var cardsBounds:Vector.<Rectangle>;
 public function DeckHeader()
 {
 	super();
-	_height = 800;
+	_height = 920;
 	padding = 32;
 }
 
@@ -53,7 +53,7 @@ private function createDeckItem(i:int):void
 {
 	var button:CardButton = new CardButton(player.getSelectedDeck().get(i));
 	button.x = padding + 256 * (i % 4);
-	button.y = padding * 5 + 250 * BuildingCard.VERICAL_SCALE * Math.floor(i / 4);
+	button.y = padding * 5 + 290 * BuildingCard.VERICAL_SCALE * Math.floor(i / 4);
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(button)
 	
