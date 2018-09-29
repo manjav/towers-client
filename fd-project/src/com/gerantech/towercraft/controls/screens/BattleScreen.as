@@ -24,6 +24,7 @@ import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
@@ -128,6 +129,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	
 	case SFSCommands.BATTLE_DEPLOY_UNIT:
 		appModel.battleFieldView.deployUnit(data.getInt("id"), data.getInt("t"), data.getInt("l"), data.getInt("s"), data.getDouble("x"), data.getDouble("y"));
+		break;
+	
+	case SFSCommands.BATTLE_ATTACK:
+		appModel.battleFieldView.battleData.battleField.units.get(data.getInt("t")).hit(data.getDouble("d"));
+		UnitView(appModel.battleFieldView.battleData.battleField.units.get(data.getInt("o"))).attacks(data.getInt("t"));
 		break;
 	}
 	//trace(event.params.cmd, data.getDump());

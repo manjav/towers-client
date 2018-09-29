@@ -9,7 +9,8 @@ public static const BATTLE_LEAVE:String = "battleLeave";
 public static const BATTLE_END:String = "battleEnd";
 public static const BATTLE_SEND_STICKER:String = "ss";
 public static const BATTLE_DEPLOY_UNIT:String = "d";
-	
+public static const BATTLE_ATTACK:String = "a";
+
 
 public static const RANK:String = "rank";
 

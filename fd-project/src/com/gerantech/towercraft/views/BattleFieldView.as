@@ -7,6 +7,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
+import com.gt.towers.battle.units.Unit;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import starling.core.Starling;
 import starling.display.Image;
@@ -131,23 +132,22 @@ public function createPlaces(battleData:BattleData) : void
 public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number) : void
 {
 	battleData.battleField.units.set(id, new UnitView(id, type, level, side, x, y));
-	
 	//units.set(id, new UnitView(id, type, side, level, x + 100, y));
 	//units.get(id).movable = false
 }
-	
+
 public function updateUnits():void
 {
-	//if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
-	//	return;
+	/*if( !battleData.room.containsVariable("units") )
+		return;
 	var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
 	for(var i:int=0; i<unitsList.size(); i++)
 	{
 		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
 		//UnitView(units.get(vars[0])).setPosition(-1, vars[2]);
-		UnitView(battleData.battleField.units.get(vars[0])).setPosition(-1, vars[2]);
-	}
-	
+		var u:Unit = UnitView(units.get(vars[0]));
+		u.setPosition(vars[1], vars[2]);
+	}*/
 }
 
 /*public function createDrops() : void
