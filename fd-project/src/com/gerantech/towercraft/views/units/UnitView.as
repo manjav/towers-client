@@ -26,6 +26,8 @@ private var shadowDisplay:Image;
 private var healthDisplay:HealthBar;
 private var troopScale:Number = 4;
 private var deployIcon:CountdownIcon;
+private var rangeDisplay:Image;
+private var debugMode:Boolean = true;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
 {
@@ -57,11 +59,17 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
     deployIcon.rotateTo(0, 360, card.deployTime);
     fieldView.guiImagesContainer.addChild(deployIcon);
 	
-    /*setTimeout(deployIcon.punch, 100);
-    var delay:Number = card.deployTime + 0.1;
-    deployIcon.rotateTo(0, 360, delay / 1000);
-    setTimeout(deployIcon.punch, delay);
-    setTimeout(deployIcon.removeFromParent, card.deployTime+50);*/
+	if( debugMode )
+	{
+		rangeDisplay = new Image(Assets.getTexture("damage-range"));
+		rangeDisplay.pivotX = rangeDisplay.width * 0.5;
+		rangeDisplay.pivotY = rangeDisplay.height * 0.5;
+		rangeDisplay.width = card.bulletRangeMax * 2;
+		rangeDisplay.height = card.bulletRangeMax * 2 * 0.7;
+		rangeDisplay.x = this.x;
+		rangeDisplay.y = this.y;
+		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
+	}
 }
 
 override public function fireEvent(dispatcherId:int, type:String, data:*) : void
@@ -110,7 +118,19 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 	if( healthDisplay != null )
 	{
 		healthDisplay.x = this.x;
-		healthDisplay.y = this.y - 80;
+		healthDisplay.y = this.y - 180;
+	}
+
+	if( healthDisplay != null )
+	{
+		healthDisplay.x = this.x;
+		healthDisplay.y = this.y - 180;
+	}
+
+	if( rangeDisplay != null )
+	{
+		rangeDisplay.x = this.x;
+		rangeDisplay.y = this.y;
 	}
 	return true;
 }
@@ -178,6 +198,8 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	for ( var i:int = 1; i < textures.length; i++ )
 		movieClip.addFrame(textures[i]);
 	movieClip.currentFrame = 0;
+	
+	
 }
 
 override public function hit(damage:Number):void
@@ -214,7 +236,7 @@ private function setHealth(health:Number):void
 		{
 			healthDisplay = new HealthBar(battleField.getColorIndex(side), health, card.health);
 			healthDisplay.x = this.x;
-			healthDisplay.y = this.y - 80;
+			healthDisplay.y = this.y - 180;
 			fieldView.guiImagesContainer.addChild(healthDisplay);
 			//healthDisplay.scale = scale;
 		}
