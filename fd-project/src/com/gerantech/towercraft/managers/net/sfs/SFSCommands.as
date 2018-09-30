@@ -10,10 +10,9 @@ public static const BATTLE_END:String = "battleEnd";
 public static const BATTLE_SEND_STICKER:String = "ss";
 public static const BATTLE_DEPLOY_UNIT:String = "d";
 public static const BATTLE_ATTACK:String = "a";
-
+public static const BATTLE_NEW_ROUND:String = "battleNewRound";
 
 public static const RANK:String = "rank";
-
 public static const PROFILE:String = "profile";
 
 public static const CARD_UPGRADE:String = "cardUpgrade";

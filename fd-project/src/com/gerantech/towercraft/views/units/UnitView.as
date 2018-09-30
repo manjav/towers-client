@@ -283,6 +283,8 @@ override public function dispose():void
 	muted = true;
 	movieClip.removeFromParent(true);
 	shadowDisplay.removeFromParent(true);
+	if( rangeDisplay != null )
+		rangeDisplay.removeFromParent(true);
 	if( healthDisplay != null )
 		healthDisplay.removeFromParent(true);
 	super.dispose();

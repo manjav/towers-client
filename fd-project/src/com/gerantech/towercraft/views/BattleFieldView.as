@@ -177,7 +177,19 @@ public function updateUnits():void
 override public function dispose() : void
 {
 	TimeManager.instance.removeEventListener(Event.UPDATE, timeManager_updateHandler);
+	clearUnits();
 	super.dispose();
+}
+
+public function clearUnits():void 
+{
+	var uKeys:Vector.<int> = battleData.battleField.units.keys();
+	var i:int = uKeys.length - 1;
+	while ( i >= 0 )
+	{
+		battleData.battleField.units.get(uKeys[i]).dispose();
+		i --;
+	}
 }
 }
 }

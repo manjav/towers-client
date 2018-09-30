@@ -7,7 +7,9 @@ import com.gerantech.towercraft.controls.headers.BattleFooter;
 import com.gerantech.towercraft.controls.items.StickerItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.sliders.battle.BattleCountdown;
+import com.gerantech.towercraft.controls.sliders.battle.BattleScoreBoard;
 import com.gerantech.towercraft.controls.sliders.battle.BattleTimerSlider;
+import com.gerantech.towercraft.controls.sliders.battle.IBattleBoard;
 import com.gerantech.towercraft.controls.sliders.battle.IBattleSlider;
 import com.gerantech.towercraft.controls.sliders.battle.TerritorySlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -40,7 +42,7 @@ import starling.display.Quad;
 import starling.events.Event;
 import starling.utils.Color;
 
-public class BattleHUD extends TowersLayout
+ public class BattleHUD extends TowersLayout
 {
 private var padding:int;
 private var scoreIndex:int = 0;
@@ -54,7 +56,7 @@ private var bubbleAllise:StickerBubble;
 private var bubbleAxis:StickerBubble;
 private var timeLog:RTLLabel;
 private var surrenderButton:CustomButton;
-private var territorySlider:TerritorySlider;
+private var scoreBoard:IBattleBoard;
 private var deck:BattleFooter;
 
 public function BattleHUD() { super(); }
@@ -167,11 +169,9 @@ override protected function initialize():void
 	bubbleAxis = new StickerBubble(true);
 	bubbleAxis.layoutData = new AnchorLayoutData(140 + padding, NaN, NaN, padding);
 	
-	territorySlider = new TerritorySlider();
-	territorySlider.width = (player.get_arena(0) == 0 ? 2 : 1) * padding;
-	territorySlider.maximum = battleData.battleField.map.places.size();
-	territorySlider.layoutData = new AnchorLayoutData(0, 0, 0);
-	addChild(territorySlider);
+	scoreBoard = new BattleScoreBoard();
+	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, 0);
+	addChild(scoreBoard);
 }
 
 protected function createCompleteHandler(event:Event):void
@@ -271,9 +271,13 @@ public function updateRoomVars():void
 	/*var towers:Array = [0, 0, 0];
 	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
 		towers[ battleData.battleField.places.get(i).building.troopType + 1 ] ++;
-	
-	if( territorySlider != null )
-		territorySlider.update(towers[1], towers[2]);*/
+		updateScores(towers[1], towers[2]);
+*/
+}
+public function updateScores(allise:int, axis:int) : void
+{
+	if( scoreBoard != null )
+		scoreBoard.update(allise, axis);
 }
 
 protected function closeButton_triggeredHandler(event:Event):void
@@ -368,14 +372,14 @@ public function end(overlay:EndOverlay) : void
 	var numCh:int = numChildren - 1;
 	while ( numCh >= 0 )
 	{
-		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != deck.stickerButton && getChildAt(numCh) != territorySlider )
+		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != deck.stickerButton && getChildAt(numCh) != scoreBoard )
 			getChildAt(numCh).removeFromParent(true);
 		numCh --;
 	}
 
 	addChildAt(overlay, 0);
-	if( territorySlider != null )
-		addChildAt(territorySlider, 0);
+	if( scoreBoard != null )
+		addChildAt(scoreBoard, 0);
 }
 
 public function stopTimers() : void

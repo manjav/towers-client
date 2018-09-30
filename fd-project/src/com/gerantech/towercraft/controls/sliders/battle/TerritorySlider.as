@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.sliders.battle 
 {
+import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
@@ -15,7 +16,7 @@ import starling.events.Event;
 * ...
 * @author Mansour Djawadi
 */
-public class TerritorySlider extends IBattleSlider 
+public class TerritorySlider extends IBattleBoard 
 {
 private var axisFill:ImageLoader;
 private var allisFill:ImageLoader;
@@ -72,7 +73,7 @@ private function createCompleteHandler(e:Event):void
 	addChild(keys_3);
 }
 
-public function update(allise:int, axis:int):void
+override public function update(allise:int, axis:int):void
 {	
 	var sum:int = allise + axis;
 	Starling.juggler.tween(allisFill,	0.5, {height : height * ( allise	/ sum ), transition:Transitions.EASE_OUT_BACK});
