@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.battle.BattleField;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.LayoutGroup;
@@ -160,7 +161,7 @@ protected function touchHandler(event:TouchEvent):void
 			return;
 		if( touch.phase == TouchPhase.MOVED )
 		{
-			draggableCard.x = Math.max( 150, Math.min(stageWidth-150, touch.globalX - x));
+			draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX - x));
 			draggableCard.y = Math.min(960, touch.globalY - y);
 			draggableCard.scale = Math.max(0.5, (_scaleDistance+Math.min(touch.globalY - y, 0)) / _scaleDistance * 1.2);
 			/*var place:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;

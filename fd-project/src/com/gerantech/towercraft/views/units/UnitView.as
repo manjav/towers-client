@@ -24,7 +24,7 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var shadowDisplay:Image;
 private var healthDisplay:HealthBar;
-private var troopScale:Number = 2;
+private var troopScale:Number = 4;
 private var deployIcon:CountdownIcon;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
@@ -167,7 +167,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	//movieClip.fps = 20 * 3000 / building.get_troopSpeed();
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
-	var numFrames:int = movieClip.numFrames - 1; trace(textureType + direction, numFrames);
+	var numFrames:int = movieClip.numFrames - 1;// trace(textureType + direction, numFrames);
 	while ( numFrames > 0 )
 	{
 		movieClip.removeFrameAt(numFrames);
