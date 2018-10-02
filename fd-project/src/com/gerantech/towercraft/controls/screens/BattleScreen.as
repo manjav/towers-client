@@ -128,7 +128,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_DEPLOY_UNIT:
-		appModel.battleFieldView.deployUnit(data.getInt("i"), data.getInt("t"), data.getInt("l"), data.getInt("s"), data.getDouble("x"), data.getDouble("y"));
+		for (var i:int = 0; i < data.getSFSArray("units").size(); i++ )
+		{
+			var sfs:ISFSObject = data.getSFSArray("units").getSFSObject(i);
+			appModel.battleFieldView.deployUnit(sfs.getInt("i"), sfs.getInt("t"), sfs.getInt("l"), sfs.getInt("s"), sfs.getDouble("x"), sfs.getDouble("y"));
+		}
 		break;
 	
 	case SFSCommands.BATTLE_ATTACK:
