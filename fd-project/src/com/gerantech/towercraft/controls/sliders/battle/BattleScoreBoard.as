@@ -17,29 +17,36 @@ public class BattleScoreBoard extends IBattleBoard
 {
 private var allisScoreDisplay:BitmapFontTextRenderer;
 private var axisScoreDisplay:BitmapFontTextRenderer;
-public function BattleScoreBoard() {super();}
+public function BattleScoreBoard() 
+{
+	super();
+	height = 300;
+	width = 100;
+}
 override protected function initialize():void
 {
 	super.initialize();
 	
-	var bgImage:Image = new Image(Assets.getTexture("healthbar-bg--1", "gui"));
+	var bgImage:Image = new Image(Assets.getTexture("theme/seek-slider-progress-skin", "gui"));
 	bgImage.alpha = 0.6;
 	bgImage.scale9Grid = new Rectangle(4, 8, 4, 6);
 	backgroundSkin = bgImage;
 	
 	layout = new AnchorLayout();
 	
-	allisScoreDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+	allisScoreDisplay = new BitmapFontTextRenderer();
 	allisScoreDisplay.text = "0";
-	allisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 40, 0xFFFFFF, "left");
-	allisScoreDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, 100);
+	allisScoreDisplay.width = allisScoreDisplay.height = 120;
+	allisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 40, 0xFFFFFF, "center");
+	allisScoreDisplay.layoutData = new AnchorLayoutData(NaN, 0, 0, 0, NaN, 100);
 	allisScoreDisplay.pixelSnapping = false;
 	addChild(allisScoreDisplay);
 	
-	axisScoreDisplay = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+	axisScoreDisplay = new BitmapFontTextRenderer();
 	axisScoreDisplay.text = "0";
+	axisScoreDisplay.width = axisScoreDisplay.height = 120;
 	axisScoreDisplay.textFormat = allisScoreDisplay.textFormat;
-	axisScoreDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, -100);
+	axisScoreDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0, NaN, -100);
 	axisScoreDisplay.pixelSnapping = false;
 	addChild(axisScoreDisplay);
 	

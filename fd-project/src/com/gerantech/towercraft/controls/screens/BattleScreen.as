@@ -128,7 +128,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_DEPLOY_UNIT:
-		appModel.battleFieldView.deployUnit(data.getInt("id"), data.getInt("t"), data.getInt("l"), data.getInt("s"), data.getDouble("x"), data.getDouble("y"));
+		appModel.battleFieldView.deployUnit(data.getInt("i"), data.getInt("t"), data.getInt("l"), data.getInt("s"), data.getDouble("x"), data.getDouble("y"));
 		break;
 	
 	case SFSCommands.BATTLE_ATTACK:
@@ -137,7 +137,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_NEW_ROUND:
-		appModel.battleFieldView.clearUnits();
+		appModel.battleFieldView.battleData.battleField.reset();
 		hud.updateScores(data.getInt(appModel.battleFieldView.battleData.battleField.side + ""), data.getInt(appModel.battleFieldView.battleData.battleField.side == 0 ? "1" : "0"));
 		break;
 	}

@@ -21,6 +21,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.battle.BattleField;
 import com.gt.towers.constants.StickerType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import feathers.controls.ImageLoader;
@@ -170,8 +171,10 @@ override protected function initialize():void
 	bubbleAxis.layoutData = new AnchorLayoutData(140 + padding, NaN, NaN, padding);
 	
 	scoreBoard = new BattleScoreBoard();
-	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, 0);
+	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0);
+	scoreBoard.y = (BattleField.HEIGHT - scoreBoard.height) * 0.5;
 	addChild(scoreBoard);
+	updateScores(battleData.allis.getInt("score"), battleData.axis.getInt("score"));
 }
 
 protected function createCompleteHandler(event:Event):void

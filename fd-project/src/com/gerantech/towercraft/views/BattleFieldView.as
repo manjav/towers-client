@@ -10,6 +10,7 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.units.Unit;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import starling.core.Starling;
 import starling.display.Image;
@@ -122,6 +123,13 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(roadsContainer);
 	addChild(unitsContainer);
 	addChild(elementsContainer);
+	
+	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
+	{
+		var u:ISFSObject =  battleData.sfsData.getSFSArray("units").getSFSObject(i);
+		deployUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"));
+	}
+
 	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
 	for each( var img:Image in images )
 		if( img.name == "battlefields" )
@@ -145,9 +153,11 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(guiTextsContainer);
 }		
 
-public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number) : void
+public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1) : void
 {
 	battleData.battleField.units.set(id, new UnitView(id, type, level, side, x, y));
+	if( health >= 0 )
+		battleData.battleField.units.get(id).health = health;
 	//units.set(id, new UnitView(id, type, side, level, x + 100, y));
 	//units.get(id).movable = false
 }
@@ -177,19 +187,8 @@ public function updateUnits():void
 override public function dispose() : void
 {
 	TimeManager.instance.removeEventListener(Event.UPDATE, timeManager_updateHandler);
-	clearUnits();
+	battleData.battleField.dispose();
 	super.dispose();
-}
-
-public function clearUnits():void 
-{
-	var uKeys:Vector.<int> = battleData.battleField.units.keys();
-	var i:int = uKeys.length - 1;
-	while ( i >= 0 )
-	{
-		battleData.battleField.units.get(uKeys[i]).dispose();
-		i --;
-	}
 }
 }
 }
