@@ -24,7 +24,7 @@ private var textureType:String;
 private var movieClip:MovieClip;
 private var shadowDisplay:Image;
 private var healthDisplay:HealthBar;
-private var troopScale:Number = 4;
+private var troopScale:Number = 2;
 private var deployIcon:CountdownIcon;
 private var rangeDisplay:Image;
 private var debugMode:Boolean = true;
@@ -66,6 +66,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		rangeDisplay.pivotY = rangeDisplay.height * 0.5;
 		rangeDisplay.width = card.bulletRangeMax * 2;
 		rangeDisplay.height = card.bulletRangeMax * 2 * 0.7;
+		rangeDisplay.alpha = 0.5;
 		rangeDisplay.x = this.x;
 		rangeDisplay.y = this.y;
 		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
@@ -226,8 +227,8 @@ override public function hit(damage:Number):void
 private function remove(blood:Image):void 
 {
 	blood.removeFromParent(true);
-}
-*/
+}*/
+
 private function setHealth(health:Number):void
 {
 	if( health < card.health )
@@ -287,7 +288,21 @@ override public function dispose():void
 		rangeDisplay.removeFromParent(true);
 	if( healthDisplay != null )
 		healthDisplay.removeFromParent(true);
+	if( deployIcon != null )
+		deployIcon.removeFromParent(true);
 	super.dispose();
+}
+
+public function set alpha(value:Number):void 
+{
+	movieClip.alpha = value;;
+	shadowDisplay.alpha = value;;
+	if( rangeDisplay != null )
+		rangeDisplay.alpha = value;;
+	if( healthDisplay != null )
+		healthDisplay.alpha = value;;
+	if( deployIcon != null )
+		deployIcon.alpha = value;;
 }
 }
 }

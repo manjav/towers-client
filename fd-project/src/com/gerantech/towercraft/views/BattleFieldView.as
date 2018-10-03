@@ -10,6 +10,7 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.units.Unit;
+import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import starling.core.Starling;
@@ -158,8 +159,9 @@ public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	battleData.battleField.units.set(id, new UnitView(id, type, level, side, x, y));
 	if( health >= 0 )
 		battleData.battleField.units.get(id).health = health;
-	//units.set(id, new UnitView(id, type, side, level, x + 100, y));
-	//units.get(id).movable = false
+	/*units.set(id, new UnitView(id, type, side, level, x, y));
+	UnitView(units.get(id)).alpha = 0.5;
+	units.get(id).movable = false*/
 }
 
 public function updateUnits():void
@@ -175,14 +177,6 @@ public function updateUnits():void
 		u.setPosition(vars[1], vars[2]);
 	}*/
 }
-
-/*public function createDrops() : void
-{
-	dropTargets = new DropTargets(stage);
-	for each( var t:PlaceView in places )
-		if( t.touchable )
-			dropTargets.add(t);
-}*/
 
 override public function dispose() : void
 {
