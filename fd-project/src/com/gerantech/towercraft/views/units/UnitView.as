@@ -66,7 +66,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		rangeDisplay.pivotY = rangeDisplay.height * 0.5;
 		rangeDisplay.width = card.bulletRangeMax * 2;
 		rangeDisplay.height = card.bulletRangeMax * 2 * 0.7;
-		rangeDisplay.alpha = 0.5;
+		rangeDisplay.alpha = 0.2;
 		rangeDisplay.x = this.x;
 		rangeDisplay.y = this.y;
 		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
