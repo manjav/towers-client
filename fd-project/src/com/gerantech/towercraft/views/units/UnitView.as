@@ -32,7 +32,7 @@ private var debugMode:Boolean = true;
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
 {
 	super(id, type, level, side, x, y);
-	//trace(side, x.toFixed(), y.toFixed());
+	//trace("UnitView", id, type, side, x.toFixed(), y.toFixed());
 
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
@@ -93,6 +93,9 @@ public function attacks(target:int): void
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
 {
+	if( disposed )
+		return false;
+	
 	var _x:Number = this.x;
 	var _y:Number = this.y;
 	if( !super.setPosition(x, y, forced) )
@@ -199,35 +202,16 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	for ( var i:int = 1; i < textures.length; i++ )
 		movieClip.addFrame(textures[i]);
 	movieClip.currentFrame = 0;
-	
-	
 }
 
 override public function hit(damage:Number):void
 {
 	super.hit(damage);
+	if( disposed )
+		return;
 	//trace(id, health, damage)
 	setHealth(health);
-	if( health > 0 )
-		return;
-	
-	/*AppModel.instance.sounds.addAndPlaySound("kill");
-	var blood:Image = new Image(Assets.getTexture("blood", "troops"));
-	blood.pivotX = blood.width * 0.5
-	blood.pivotY = blood.height * 0.5
-	blood.x = x;
-	blood.y = y;
-	parent.addChildAt(blood, 1);
-	Starling.juggler.tween(blood, 2, {delay:1, alpha:0, onComplete:remove, onCompleteArgs:[blood]});
-	Starling.juggler.tween(blood, 0.05, {scale:scale, transition:Transitions.EASE_OUT});
-	blood.scale = 0;*/
-
 }
-/*
-private function remove(blood:Image):void 
-{
-	blood.removeFromParent(true);
-}*/
 
 private function setHealth(health:Number):void
 {
@@ -270,7 +254,7 @@ public function set muted(value:Boolean):void
 	movieClip.muted = _muted;
 	if ( _muted )
 	{
-		Starling.juggler.removeTweens(this);
+		//Starling.juggler.removeTweens(this);
 		Starling.juggler.remove(movieClip);
 	}
 	else
@@ -281,6 +265,7 @@ public function set muted(value:Boolean):void
 
 override public function dispose():void
 {
+	super.dispose();
 	muted = true;
 	movieClip.removeFromParent(true);
 	shadowDisplay.removeFromParent(true);
@@ -290,19 +275,18 @@ override public function dispose():void
 		healthDisplay.removeFromParent(true);
 	if( deployIcon != null )
 		deployIcon.removeFromParent(true);
-	super.dispose();
 }
 
-public function set alpha(value:Number):void 
+/*public function set alpha(value:Number):void 
 {
-	movieClip.alpha = value;;
-	shadowDisplay.alpha = value;;
+	movieClip.alpha = value;
+	shadowDisplay.alpha = value;
 	if( rangeDisplay != null )
-		rangeDisplay.alpha = value;;
+		rangeDisplay.alpha = value;
 	if( healthDisplay != null )
-		healthDisplay.alpha = value;;
+		healthDisplay.alpha = value;
 	if( deployIcon != null )
-		deployIcon.alpha = value;;
-}
+		deployIcon.alpha = value;
+}*/
 }
 }

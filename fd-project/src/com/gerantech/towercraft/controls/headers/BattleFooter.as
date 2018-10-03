@@ -31,7 +31,6 @@ public class BattleFooter extends TowersLayout
 {
 static public var HEIGHT:int = 380;
 public var stickerButton:CustomButton;
-private var _scaleDistance:int;
 private var padding:int;
 private var cards:Vector.<BattleDeckCard>;
 private var cardsContainer:LayoutGroup;
@@ -46,7 +45,6 @@ public function BattleFooter()
 {
 	super();
 	padding = 12;
-	_scaleDistance = 500;
 }
 
 override protected function initialize():void
@@ -146,14 +144,12 @@ protected function touchHandler(event:TouchEvent):void
 		}
 		
 		selectedCard.parent.visible = false;
-		//trace(selectedCard.parent, selectedCard.parent.touchable)
 		touchId = touch.id;
-		draggableCard.x = touch.globalX - x;
-		draggableCard.y = touch.globalY - y;
+		draggableCard.x = touch.globalX;
+		draggableCard.y = touch.globalY;
 		Starling.juggler.tween(draggableCard, 0.1, {scale:1.3});
-		addChild(draggableCard);
+		stage.addChild(draggableCard);
 		draggableCard.setData(selectedCard.type);
-		//draggableCard.data = selectedCard.data;
 	}
 	else 
 	{
@@ -161,19 +157,14 @@ protected function touchHandler(event:TouchEvent):void
 			return;
 		if( touch.phase == TouchPhase.MOVED )
 		{
-			draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX - x));
-			draggableCard.y = Math.min(960, touch.globalY - y);
-			draggableCard.scale = Math.max(0.5, (_scaleDistance+Math.min(touch.globalY - y, 0)) / _scaleDistance * 1.2);
-			/*var place:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			if( place == null )
-				return;*/
-			//place.place.building.improvable(draggableCard.type);
-			//deckHeader.getCardIndex(touch);
+			draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
+			draggableCard.y = Math.max(BattleField.HEIGHT * 0.666, touch.globalY);
+			draggableCard.scale = Math.max(0.5, (500 + Math.min(touch.globalY - y, 0)) / 500 * 1.3);
 		}
 		else if( touch.phase == TouchPhase.ENDED )
 		{
 			selectedCard = touch.target.parent as BuildingCard;
-			if( touch.globalY < 1435 && touch.globalY > 960 && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
+			if( touch.globalY < BattleField.HEIGHT && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
 				selectedCard.setData(cardQueue.shift());
@@ -184,28 +175,13 @@ protected function touchHandler(event:TouchEvent):void
 				elixirBar.value -= draggableCard.elixirSize;
 				for( var i:int=0; i<cards.length; i++ )
 					cards[i].updateData();
-				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, touch.globalX, touch.globalY);
+				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, draggableCard.x, draggableCard.y);
 			}
 			else
 			{
 				draggableCard.removeFromParent();
 				selectedCard.parent.visible = true;	
 			}
-			
-			/*place = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			var card:Card = appModel.battleFieldView.battleData.battleField.deckBuildings.get(draggableCard.data as int).building;
-			if( place != null && place.place.building.transformable(card) )
-			{
-				appModel.battleFieldView.responseSender.improveBuilding(place.place.index, draggableCard.data as int);
-				elixirBar.value -= card.elixirSize;
-				place.showDeployWaiting(card);
-			}*/
-			
-		/*var cardIndex:int = deckHeader.getCardIndex(touch);
-		if( touchId == -1 && cardIndex > -1 )
-		Starling.juggler.tween(draggableCard, 0.2, {x:deckHeader.cardsBounds[cardIndex].x+deckHeader.cardsBounds[cardIndex].width*0.5, y:deckHeader.cardsBounds[cardIndex].y+deckHeader.cardsBounds[cardIndex].height*0.5, onComplete:pushToDeck, onCompleteArgs:[cardIndex] });
-		else
-		pushToDeck(cardIndex);*/
 			touchId = -1;			
 		}
 	}

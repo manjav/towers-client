@@ -1,9 +1,7 @@
 package com.gerantech.towercraft.views
 {
 import com.gerantech.towercraft.models.Assets;
-
 import flash.geom.Rectangle;
-
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.layout.AnchorLayout;
@@ -11,14 +9,11 @@ import feathers.layout.AnchorLayoutData;
 
 public class HealthBar extends LayoutGroup
 {
-	
 public var atlas:String  = "battlefields";
 private var scaleRect:Rectangle;
-
 private var _value:Number = 0;
 private var _troopType:int = -2;
 private var maximum:Number;
-
 private var fillDisplay:ImageLoader;
 private var backroundDisplay:ImageLoader;
 
@@ -28,6 +23,7 @@ public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 
 	touchable = false;
 	this.pivotX = this.width * 0.5;
 	this.width = 48;
+	this.height = 16;
 	this.troopType = troopType;
 	this.value = initValue;
 	this.maximum = initMax;
