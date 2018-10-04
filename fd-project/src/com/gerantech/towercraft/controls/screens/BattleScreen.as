@@ -135,9 +135,10 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		}
 		break;
 	
-	case SFSCommands.BATTLE_ATTACK:
-		appModel.battleFieldView.battleData.battleField.units.get(data.getInt("t")).hit(data.getDouble("d"));
-		UnitView(appModel.battleFieldView.battleData.battleField.units.get(data.getInt("o"))).attacks(data.getInt("t"));
+	case SFSCommands.BATTLE_HIT:
+		appModel.battleFieldView.hitUnits(data.getInt("b"), data.getDouble("d"), data.getIntArray("t"));
+		//appModel.battleFieldView.battleData.battleField.units.get(data.getInt("t")).hit(data.getDouble("d"));
+		//UnitView(appModel.battleFieldView.battleData.battleField.units.get(data.getInt("o"))).attacks(data.getInt("t"));
 		break;
 	
 	case SFSCommands.BATTLE_NEW_ROUND:

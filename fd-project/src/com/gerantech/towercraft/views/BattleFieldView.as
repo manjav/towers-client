@@ -164,6 +164,12 @@ public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	units.get(id).movable = false*/
 }
 
+public function hitUnits(buletId:int, damage:Number, targets:Array) : void
+{
+	for each( var id:int in targets )
+		battleData.battleField.units.get(id).hit(damage);
+}
+
 public function updateUnits():void
 {
 	/*if( !battleData.room.containsVariable("units") )
@@ -172,9 +178,15 @@ public function updateUnits():void
 	for(var i:int=0; i<unitsList.size(); i++)
 	{
 		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
+		if( !battleData.battleField.units.exists(vars[0]) )
+			continue;
 		//UnitView(units.get(vars[0])).setPosition(-1, vars[2]);
-		var u:Unit = UnitView(units.get(vars[0]));
-		u.setPosition(vars[1], vars[2]);
+		var u:Unit = UnitView(battleData.battleField.units.get(vars[0]));
+		var damage:Number = u.health - vars[3];
+		if( damage > 0 )
+			u.hit(damage);
+		trace(u.side, damage);
+		//u.setPosition(vars[1], vars[2]);
 	}*/
 }
 

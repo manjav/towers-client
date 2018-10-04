@@ -4,8 +4,10 @@ import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.HealthBar;
+import com.gerantech.towercraft.views.weapons.BulletView;
+import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Unit;
-import com.gt.towers.events.UnitEvent;
+import com.gt.towers.events.BattleEvent;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
@@ -37,7 +39,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.45;
-	shadowDisplay.scale = 2;
+	shadowDisplay.scale = 3;
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
@@ -75,12 +77,21 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 
 override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
-	if( type == UnitEvent.DEPLOY )
+	if( type == BattleEvent.DEPLOY )
 	{
 		deployIcon.punch();
 		setTimeout(deployIcon.removeFromParent, 50);
 		muted = false;
 		return;
+	}
+		
+
+	if( type == BattleEvent.ATTACK )
+	{
+		var enemy:Unit = data as Unit;
+		battleField.bullets.set(battleField.bulletId, new BulletView(battleField, battleField.bulletId, card, side, x, y, enemy.x, enemy.y));
+		battleField.bulletId ++;
+		attacks(enemy.id);
 	}
 }
 
@@ -247,7 +258,6 @@ public function set muted(value:Boolean):void
 	_muted = value;
 	
 	//visible = !_muted;
-	
 	if( movieClip == null )
 		return;
 		

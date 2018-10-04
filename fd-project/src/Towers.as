@@ -95,14 +95,14 @@ private function loaderInfo_completeHandler(event:Event):void
 private function starStarling():void
 {
 	var viewPort:Rectangle = new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
-	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
+	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE_EXTENDED);
 	this.starling.supportHighResolutions = true;
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 	this.starling.stage.stageWidth  = Math.max(1080, 1920 * (stage.fullScreenWidth / stage.fullScreenHeight));
 	this.starling.stage.stageHeight = 1920; trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight, this.starling.contentScaleFactor);
-	this.starling.showStatsAt("right", "bottom", 1/this.starling.contentScaleFactor);
+	this.starling.showStatsAt("right", "bottom", 1 / this.starling.contentScaleFactor);
 }
 
 private function starling_rootCreatedHandler(event:Object):void
