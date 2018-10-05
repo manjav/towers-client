@@ -192,7 +192,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		flipped = true;
 	}
 	
-	//movieClip.loop = anim == "m_";
+	movieClip.loop = anim == "m_";
 	dir = anim + dir;
 	movieClip.scaleX = (flipped ? -troopScale : troopScale );
 	
