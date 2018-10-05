@@ -6,6 +6,7 @@ import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
+import starling.core.Starling;
 import starling.display.Image;
 
 /**
@@ -25,7 +26,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	shadowDisplay.scale = 3;
+	shadowDisplay.scale = 2;
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChild(shadowDisplay);
@@ -71,10 +72,16 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 override public function dispose():void
 {
 	super.dispose();
+	shadowDisplay.texture = Assets.getTexture("damage-range");
+	shadowDisplay.width = card.bulletDamageArea * 2;
+	shadowDisplay.height = card.bulletDamageArea * 1.42;
+	Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});
 	//muted = true;
-	shadowDisplay.removeFromParent(true);
+	//shadowDisplay.removeFromParent(true);
 	//movieClip.removeFromParent(true);
 }
+
+
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 /*protected function get game():			Game			{	return appModel.game;				}
 protected function get player():		Player			{	return game.player;					}*/
