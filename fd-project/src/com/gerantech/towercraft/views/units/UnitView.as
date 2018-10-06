@@ -236,10 +236,10 @@ override public function hit(damage:Number):void
 		if( hitFilter == null )
 		{
 			hitFilter = new ColorMatrixFilter();
-			hitFilter.adjustBrightness(1);
+			hitFilter.adjustBrightness(0.8);
 		}
 		movieClip.filter = hitFilter;
-		hitTimeoutId = setTimeout( function():void{ movieClip.filter = null; }, 60);
+		hitTimeoutId = setTimeout( function():void{ movieClip.filter = null; }, 30);
 	}
 
 	setHealth(health);

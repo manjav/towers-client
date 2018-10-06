@@ -8,6 +8,7 @@ import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
 import starling.core.Starling;
 import starling.display.Image;
+import starling.textures.Texture;
 
 /**
 * ...
@@ -23,10 +24,12 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	
 	//textureType = Math.min(108, type) + "/" + battleField.getColorIndex(side) + "/";
 	
-	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
+	var txtx:Texture = Texture.fromEmbeddedAsset(Assets.bullet_101);
+	shadowDisplay = new Image(txtx);
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	shadowDisplay.scale = 2;
+	shadowDisplay.scale = 1;
+	shadowDisplay.rotation = Math.atan2(dy-y, dx-x)
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChild(shadowDisplay);
@@ -75,6 +78,7 @@ override public function dispose():void
 	shadowDisplay.texture = Assets.getTexture("damage-range");
 	shadowDisplay.width = card.bulletDamageArea * 2;
 	shadowDisplay.height = card.bulletDamageArea * 1.42;
+	shadowDisplay.rotation = 0;
 	Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});
 	//muted = true;
 	//shadowDisplay.removeFromParent(true);

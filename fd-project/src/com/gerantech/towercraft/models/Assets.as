@@ -15,7 +15,11 @@ package com.gerantech.towercraft.models
 	
 	public class Assets
 	{
-		[Embed(source="../../../../assets/fonts/fontclash-font.png")]
+	
+[Embed(source="../../../../assets/images/bullet-101.png")]
+public static const bullet_101:Class; 
+
+[Embed(source="../../../../assets/fonts/fontclash-font.png")]
 		public static const fontTexture:Class;
 		[Embed(source="../../../../assets/fonts/fontclash-font.fnt", mimeType="application/octet-stream")]
 		public static const fontXml:Class;
