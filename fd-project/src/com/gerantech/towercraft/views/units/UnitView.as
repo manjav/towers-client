@@ -10,15 +10,18 @@ import com.gt.towers.battle.units.Unit;
 import com.gt.towers.events.BattleEvent;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
+import flash.xml.XMLTag;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
 import starling.events.Event;
+import starling.filters.ColorMatrixFilter;
 import starling.textures.Texture;
 
 public class UnitView extends BaseUnit
 {
+private var hitFilter:ColorMatrixFilter;
 private var _state:int;
 private var _muted:Boolean = true;
 private var direction:String;
@@ -30,9 +33,11 @@ private var troopScale:Number = 2;
 private var deployIcon:CountdownIcon;
 private var rangeDisplay:Image;
 private var debugMode:Boolean = true;
+private var hitTimeoutId:uint;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
 {
+	
 	super(id, type, level, side, x, y);
 	//trace("UnitView", id, type, side, x.toFixed(), y.toFixed());
 
@@ -75,6 +80,11 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	}
 }
 
+/*override public function update() : void
+{
+	super.update();
+}*/
+
 override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.DEPLOY )
@@ -84,14 +94,14 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 		muted = false;
 		return;
 	}
-		
-
+	
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
 		battleField.bullets.set(battleField.bulletId, new BulletView(battleField, battleField.bulletId, card, side, x, y, enemy.x, enemy.y));
 		battleField.bulletId ++;
 		attacks(enemy.id);
+		return;
 	}
 }
 
@@ -221,6 +231,17 @@ override public function hit(damage:Number):void
 	if( disposed )
 		return;
 	//trace(id, health, damage)
+	if( movieClip != null )
+	{
+		if( hitFilter == null )
+		{
+			hitFilter = new ColorMatrixFilter();
+			hitFilter.adjustBrightness(1);
+		}
+		movieClip.filter = hitFilter;
+		hitTimeoutId = setTimeout( function():void{ movieClip.filter = null; }, 60);
+	}
+
 	setHealth(health);
 }
 
@@ -273,9 +294,10 @@ public function set muted(value:Boolean):void
 	}
 }
 
-override public function dispose():void
+override public function dispose() : void
 {
 	super.dispose();
+	clearTimeout(hitTimeoutId);
 	muted = true;
 	movieClip.removeFromParent(true);
 	shadowDisplay.removeFromParent(true);
