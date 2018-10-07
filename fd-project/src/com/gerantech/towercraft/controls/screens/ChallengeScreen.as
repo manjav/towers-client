@@ -15,6 +15,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.others.Arena;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
@@ -339,7 +340,7 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 	else if( state == Challenge.STATE_STARTED )
 	{
-		appModel.navigator.runBattle(true);
+		appModel.navigator.runBattle();
 		/*DashboardScreen.tabIndex = 2;
 		appModel.navigator.popScreen();*/
 	}

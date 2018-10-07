@@ -54,8 +54,9 @@ import starling.events.TouchPhase;
 
 public class BattleScreen extends BaseCustomScreen
 {
+public var index:int;
+public var battleType:String;
 public var isFriendly:Boolean;
-public var requestField:FieldData;
 public var spectatedUser:String;
 public var waitingOverlay:BattleWaitingOverlay;
 
@@ -83,10 +84,10 @@ override protected function initialize():void
 	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
 	var sfsObj:SFSObject = new SFSObject();
-	sfsObj.putBool("q", requestField != null && requestField.isOperation);
-	sfsObj.putInt("i", requestField != null && requestField.isOperation ? requestField.index : 0);
+	sfsObj.putText("type", battleType);
+	sfsObj.putInt("index", index);
 	if( spectatedUser != null && spectatedUser != "" )
-		sfsObj.putText("su", spectatedUser);
+		sfsObj.putText("spectatedUser", spectatedUser);
 
 	sfsConnection = SFSConnection.instance;
 	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
@@ -190,7 +191,7 @@ private function startBattle():void
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:1, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
 		if( !player.inTutorial() )
-			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isOperation ? battleData.battleField.map.index : -1, battleData ), 0);
+			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isOperation() ? battleData.battleField.map.index : -1, battleData ), 0);
 	}
 	
 	// show battle HUD
@@ -232,7 +233,7 @@ private function showTutorials() : void
 	}
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
-	if( player.tutorialMode == 0 && !field.isOperation )
+	if( player.tutorialMode == 0 && !field.isOperation() )
 		return;
 
 	// create tutorial steps
@@ -338,7 +339,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 7);
 	
 	var endOverlay:EndOverlay;
-	if( field.isOperation )
+	if( field.isOperation() )
 	{
 		endOverlay = new EndQuestOverlay(playerIndex, rewards, inTutorial);
 	}
@@ -422,7 +423,7 @@ private function endOverlay_closeHandler(event:Event):void
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 	// set quest score
-	if( field.isOperation )
+	if( field.isOperation() )
 	{
 		if( player.operations.get( field.index ) < endOverlay.score )
 			player.operations.set(field.index, endOverlay.score);
@@ -761,7 +762,7 @@ override protected function backButtonFunction():void
 	if( player.inTutorial() )
 		return;
 	
-	if( !appModel.battleFieldView.battleData.battleField.map.isOperation )
+	if( !appModel.battleFieldView.battleData.battleField.map.isOperation() )
 	{
 		if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.map.times.get(0) > timeManager.now )
 			return;

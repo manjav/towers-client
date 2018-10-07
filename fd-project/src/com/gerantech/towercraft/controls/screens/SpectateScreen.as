@@ -48,7 +48,7 @@ protected function sfs_responseUpdateHandler(event:SFSEvent):void
 override protected function list_changeHandler(event:Event):void
 {
 	super.list_changeHandler(event);
-	appModel.navigator.runBattle(false, new FieldData(100000 + SFSObject(list.selectedItem).getInt("id"), "operation_100000"), player.nickName);
+	appModel.navigator.runBattle(FieldData.TYPE_OPERATION, 100000, false);
 }
 
 protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void
@@ -60,7 +60,6 @@ protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void
 
 private function updateRooms(_rooms:ISFSArray):void
 {
-	trace("roooooooooooooom");
 	var battles:Array = new Array();
 	for (var i:int = 0; i < _rooms.size(); i++) 
 		battles.push(_rooms.getSFSObject(i));

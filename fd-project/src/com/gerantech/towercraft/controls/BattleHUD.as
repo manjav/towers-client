@@ -79,7 +79,7 @@ override protected function initialize():void
 	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	addChild(gradient);
 	
-	var hasQuit:Boolean = battleData.battleField.map.isOperation || SFSConnection.instance.mySelf.isSpectator;
+	var hasQuit:Boolean = battleData.battleField.map.isOperation() || SFSConnection.instance.mySelf.isSpectator;
 	padding = 16;
 	var leftPadding:int = (hasQuit ? 150 : 0);
 	if( hasQuit )
@@ -93,7 +93,7 @@ override protected function initialize():void
 		addChild(closeButton);			
 	}
 	
-	var _name:String = battleData.battleField.map.isOperation ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.map.index + 1) : battleData.axis.getUtfString("name");
+	var _name:String = battleData.battleField.map.isOperation() ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.map.index + 1) : battleData.axis.getUtfString("name");
 	var _point:int = player.admin ? battleData.axis.getInt("point") : 0;
 	var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 	opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
@@ -115,7 +115,7 @@ override protected function initialize():void
 		addChild(timeLog);
 	}
 
-	if( battleData.battleField.map.isOperation )
+	if( battleData.battleField.map.isOperation() )
 	{
 		timerSlider = new BattleTimerSlider();
 		timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
@@ -129,7 +129,7 @@ override protected function initialize():void
 	
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	
-	if( battleData.battleField.map.isOperation )
+	if( battleData.battleField.map.isOperation() )
 		return;
 		
 	deck = new BattleFooter();
@@ -181,7 +181,7 @@ protected function createCompleteHandler(event:Event):void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-	if( !battleData.battleField.map.isOperation )
+	if( !battleData.battleField.map.isOperation() )
 		return;
 	
 	setTimePosition();
@@ -211,7 +211,7 @@ protected function timeManager_changeHandler(event:Event):void
 		}
 	}
 	
-	if ( !battleData.battleField.map.isOperation )
+	if ( !battleData.battleField.map.isOperation() )
 	{
 		if( surrenderButton != null )
 			surrenderButton.visible = battleData.battleField.startAt + battleData.battleField.map.times.get(0) < timeManager.now;
@@ -244,7 +244,7 @@ private function showTimeNotice(score:int):void
 	if( score > 1 )
 		return;
 	
-	if( battleData.battleField.map.isOperation )
+	if( battleData.battleField.map.isOperation() )
 	{
 		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
 	}
@@ -268,7 +268,7 @@ public function animateShadow(shadow:Image, alphaSeed:Number):void
 
 public function updateRoomVars():void
 {
-	if( battleData == null || battleData.battleField.map.isOperation || !battleData.room.containsVariable("towers") )
+	if( battleData == null || battleData.battleField.map.isOperation() || !battleData.room.containsVariable("towers") )
 		return;
 	
 	/*var towers:Array = [0, 0, 0];

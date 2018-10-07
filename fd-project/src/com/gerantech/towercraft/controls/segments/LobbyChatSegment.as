@@ -12,6 +12,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
@@ -111,7 +112,7 @@ protected function battleButton_triggeredHandler(event:Event):void
 protected function manager_triggerHandler(event:Event):void
 {
 	buttonsEnabled = true;
-	appModel.navigator.runBattle(false, null, null, true);
+	appModel.navigator.runBattle(FieldData.TYPE_TOUCHDOWN, 0, false, null, true);
 }
 
 override public function enabledChatting(value:Boolean):void

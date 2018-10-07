@@ -85,7 +85,7 @@ protected function list_selectHandler(e:Event):void
 		case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
 		
 		case Quest.TYPE_3_BATTLES :				
-		case Quest.TYPE_4_BATTLE_WINS :			appModel.navigator.runBattle(player.get_arena(0) > 0);	return;
+		case Quest.TYPE_4_BATTLE_WINS :			appModel.navigator.runBattle();	return;
 		case Quest.TYPE_0_LEVELUP :
 		case Quest.TYPE_1_LEAGUEUP :
 		case Quest.TYPE_9_BOOK_OPEN :			DashboardScreen.TAB_INDEX = 2;	break;

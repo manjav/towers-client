@@ -48,7 +48,7 @@ override protected function initialize():void
 protected override function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	doubleSwipe = this.places.get(0).tutorIndex >= 10;
+	//doubleSwipe = this.places.get(0).tutorIndex >= 10;
 	appModel.battleFieldView.addChild(finger);
 	
 	swipeNumText = new BitmapFontTextRenderer();

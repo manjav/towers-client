@@ -202,7 +202,7 @@ private function spectate(buddy:Buddy):void
 {
 	if( !buddy.containsVariable("br") )
 		return;
-	appModel.navigator.runBattle(false, new FieldData(100000 + buddy.getVariable("br").getIntValue(), "operation_100000"), buddy.name);
+	appModel.navigator.runBattle(FieldData.TYPE_OPERATION, 100000, false, buddy.name);
 }
 
 private function removeFriend( buddy:Buddy ):void

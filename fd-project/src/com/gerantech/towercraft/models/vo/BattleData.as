@@ -33,7 +33,7 @@ public function BattleData(data:ISFSObject)
 	AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 	var axisGame:Game = new Game();
 	axisGame.init(new InitData());
-	battleField = new BattleField(AppModel.instance.game, axisGame, data.getText("mapName"), data.getInt("side"), data.getBool("hasExtraTime"));
+	battleField = new BattleField(AppModel.instance.game, axisGame, data.getText("type"), data.getInt("index"), data.getInt("side"));
 	battleField.startAt = data.getInt("startAt");
 	battleField.now = battleField.startAt * 1000;
 	TimeManager.instance.setNow(battleField.startAt);

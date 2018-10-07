@@ -162,7 +162,7 @@ private function list_selectHandler(event:Event):void
 	function floating_selectHandler(event:Event):void
 	{
 		detailsPopup.removeEventListener(Event.SELECT, floating_selectHandler);
-		appModel.navigator.runBattle(false, game.fieldProvider.operations.get("operation_" + index));
+		appModel.navigator.runBattle(FieldData.TYPE_OPERATION, index, false);
 	}
 }
 
