@@ -158,13 +158,16 @@ protected function touchHandler(event:TouchEvent):void
 		if( touch.phase == TouchPhase.MOVED )
 		{
 			draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
-			draggableCard.y = Math.max(BattleField.HEIGHT * 0.666, touch.globalY);
+			draggableCard.y = Math.max(BattleField.HEIGHT * 0.17 + appModel.battleFieldView.y, touch.globalY);
 			draggableCard.scale = Math.max(0.5, (500 + Math.min(touch.globalY - y, 0)) / 500 * 1.3);
 		}
 		else if( touch.phase == TouchPhase.ENDED )
 		{
 			selectedCard = touch.target.parent as BuildingCard;
-			if( touch.globalY < BattleField.HEIGHT && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
+			var rect:Rectangle = draggableCard.getBounds(appModel.battleFieldView);
+			rect.x += rect.width * 0.5;
+			rect.y += rect.height * 0.5;
+			if( rect.y < BattleField.HEIGHT && rect.y > BattleField.HEIGHT * 0.6666 && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
 				selectedCard.setData(cardQueue.shift());
@@ -175,7 +178,7 @@ protected function touchHandler(event:TouchEvent):void
 				elixirBar.value -= draggableCard.elixirSize;
 				for( var i:int=0; i<cards.length; i++ )
 					cards[i].updateData();
-				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, draggableCard.x, draggableCard.y);
+				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, rect.x, rect.y);
 			}
 			else
 			{

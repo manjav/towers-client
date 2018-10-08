@@ -35,53 +35,34 @@ public var guiTextsContainer:Sprite;
 public function BattleFieldView()
 {
 	super();
-	touchable = false;
-	//units = new IntUnitMap();
+	
 	// map alignment
-	var _width:Number = BattleField.WIDTH
-	var _height:Number = BattleField.HEIGHT;
 	alignPivot();
+	
 	AppModel.instance.aspectratio = Starling.current.stage.stageWidth / Starling.current.stage.stageHeight;
 	pivotX = BattleField.WIDTH * 0.5;
 	pivotY = BattleField.HEIGHT * 0.5;
 	x = Starling.current.stage.stageWidth * 0.5;
-	y = (Starling.current.stage.stageHeight - BattleFooter.HEIGHT) * 0.5;
+	y = (Starling.current.stage.stageHeight - BattleFooter.HEIGHT * 0.5) * 0.5;
 
-	/*if( AppModel.instance.aspectratio < AppModel.instance.formalAspectratio )
-	{
-		_width = Starling.current.stage.stageWidth;
-		_height = Starling.current.stage.stageWidth * (BattleField.HEIGHT / BattleField.WIDTH);// AppModel.instance.formalAspectratio;
-		x = pivotX = _width * 0.5;
-		pivotY = _height * 0.5;
-		y = pivotY + (Starling.current.stage.stageHeight - _height ) * 0.5;
-	}
-	else
-	{
-		_height = Starling.current.stage.stageHeight;
-		_width = Starling.current.stage.stageHeight * (BattleField.WIDTH / BattleField.HEIGHT);// AppModel.instance.formalAspectratio;
-		y = pivotY = _height * 0.5;
-		pivotX = _width * 0.5;
-		x = pivotX + (Starling.current.stage.stageWidth - _width ) * 0.5;
-	}*/
-	scale = 0.8;
-	
 	// tile grass ground
-	//var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
+	/*var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
+	tiledBG.tileGrid = new Rectangle(1, 1, 230, 230);*/
     var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
-	tiledBG.x = 0//-_width * 0.5;
-	tiledBG.y = 0//-_height * 0.5;
-	tiledBG.width = _width ;
-	tiledBG.height = _height;
-	//tiledBG.tileGrid = new Rectangle(1, 1, 230, 230);
+	tiledBG.x = -BattleField.WIDTH * 0.5;
+	tiledBG.width = BattleField.WIDTH * 2;
+	tiledBG.y = -BattleField.HEIGHT * 0.5;
+	tiledBG.height = BattleField.HEIGHT * 2;
 	addChild(tiledBG);
 	
-	var tile1dBG:Quad = new Quad(1, 1, 0xFFFFFF);
-	tile1dBG.x = 0//-_width * 0.5;
-	tile1dBG.y = _height * 0.33333//-_height * 0.5;
-	tile1dBG.width = _width ;
-	tile1dBG.height = _height * 0.33333;
-	tile1dBG.alpha = 0.2;
-	addChild(tile1dBG);
+	var axisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0xFF0000);
+	axisRegion.alpha = 0.1;
+	addChild(axisRegion);
+	
+	var allisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0x0000FF);
+	allisRegion.y = BattleField.HEIGHT * 0.666666
+	allisRegion.alpha = 0.2;
+	addChild(allisRegion);
 	
 	roadsContainer = new Sprite();
 	unitsContainer = new Sprite();
@@ -89,25 +70,11 @@ public function BattleFieldView()
 	buildingsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
-	
-	/*troopsList = new Vector.<TroopView>();
-	troopsContainer.addEventListener(Event.ADDED, battleField_addedHandler);
-	troopsContainer.addEventListener(Event.REMOVED, battleField_removedHandler);
-}
 
-private function battleField_addedHandler(event:Event) : void
-{
-	var troopView:TroopView = event.target as TroopView;
-	if( troopView == null )
-		return;
-	troopsList.push(troopView);
-}
-private function battleField_removedHandler(event:Event) : void
-{
-	var troopView:TroopView = event.target as TroopView;
-	if( troopView == null )
-		return;
-	troopsList.removeAt(troopsList.indexOf(troopView));*/
+	scale = 0.8;
+	touchable = false;
+
+	//units = new IntUnitMap();
 }		
 
 protected function timeManager_updateHandler(e:Event):void 
@@ -124,11 +91,11 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(roadsContainer);
 	addChild(unitsContainer);
 	addChild(elementsContainer);
-	
+
 	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
 	{
 		var u:ISFSObject =  battleData.sfsData.getSFSArray("units").getSFSObject(i);
-		deployUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"));
+		deployUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
 	}
 
 	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
@@ -154,11 +121,15 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(guiTextsContainer);
 }		
 
-public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1) : void
+public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
 {
-	battleData.battleField.units.set(id, new UnitView(id, type, level, side, x, y));
+	var u:UnitView = new UnitView(id, type, level, side, x, y);
 	if( health >= 0 )
-		battleData.battleField.units.get(id).health = health;
+		u.health = health;
+	if( fixedPosition )
+		u.setPosition(x, y, true);
+	battleData.battleField.units.set(id, u);
+
 	/*units.set(id, new UnitView(id, type, side, level, x, y));
 	UnitView(units.get(id)).alpha = 0.5;
 	units.get(id).movable = false*/
