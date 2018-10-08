@@ -83,11 +83,11 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
-	var sfsObj:SFSObject = new SFSObject();
-	sfsObj.putText("type", battleType);
-	sfsObj.putInt("index", index);
+	var params:SFSObject = new SFSObject();
+	params.putText("type", battleType);
+	params.putInt("index", index);
 	if( spectatedUser != null && spectatedUser != "" )
-		sfsObj.putText("spectatedUser", spectatedUser);
+		params.putText("spectatedUser", spectatedUser);
 
 	sfsConnection = SFSConnection.instance;
 	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
