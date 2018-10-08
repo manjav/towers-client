@@ -73,7 +73,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		rangeDisplay.pivotY = rangeDisplay.height * 0.5;
 		rangeDisplay.width = card.bulletRangeMax * 2;
 		rangeDisplay.height = card.bulletRangeMax * 2 * 0.7;
-		rangeDisplay.alpha = 0.2;
+		rangeDisplay.alpha = 0.1;
 		rangeDisplay.x = this.x;
 		rangeDisplay.y = this.y;
 		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
@@ -309,7 +309,7 @@ override public function dispose() : void
 		deployIcon.removeFromParent(true);
 }
 
-/*public function set alpha(value:Number):void 
+public function set alpha(value:Number):void 
 {
 	movieClip.alpha = value;
 	shadowDisplay.alpha = value;
@@ -319,6 +319,6 @@ override public function dispose() : void
 		healthDisplay.alpha = value;
 	if( deployIcon != null )
 		deployIcon.alpha = value;
-}*/
+}
 }
 }

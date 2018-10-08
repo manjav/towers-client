@@ -29,7 +29,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	shadowDisplay.scale = 2;
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
-	fieldView.unitsContainer.addChild(shadowDisplay);
+	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 	
 	/*movieClip = new MovieClip(Assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_"), "troops"), 15);
 	movieClip.pivotX = movieClip.width * 0.5;

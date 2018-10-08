@@ -2,14 +2,12 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.BattleHUD;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.buttons.ImproveButton;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
 import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
-import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 import com.gerantech.towercraft.events.GameEvent;
@@ -24,33 +22,22 @@ import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.views.BattleFieldView;
-import com.gerantech.towercraft.views.units.UnitView;
-import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.constants.CardTypes;
-import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.SFSRoom;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
-import com.smartfoxserver.v2.entities.data.SFSDataWrapper;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.geom.Point;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
-import starling.events.Touch;
-import starling.events.TouchEvent;
-import starling.events.TouchPhase;
 
 public class BattleScreen extends BaseCustomScreen
 {
@@ -61,18 +48,6 @@ public var spectatedUser:String;
 public var waitingOverlay:BattleWaitingOverlay;
 
 private var hud:BattleHUD;
-
-private var endPoint:Point = new Point();
-//private var sourcePlaces:Vector.<PlaceView>;
-//private var allPlacesInTouch:PlaceList;
-
-private var sfsConnection:SFSConnection;
-private var timeoutId:uint;
-private var transitionInCompleted:Boolean = true;
-
-private var state:int = 0;
-private static const STATE_CREATED:int = 0;
-private static const STATE_STARTED:int = 1;
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
 
@@ -81,7 +56,6 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
 	var params:SFSObject = new SFSObject();
 	params.putText("type", battleType);
@@ -89,12 +63,10 @@ override protected function initialize():void
 	if( spectatedUser != null && spectatedUser != "" )
 		params.putText("spectatedUser", spectatedUser);
 
-	sfsConnection = SFSConnection.instance;
-	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
-	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	if( !isFriendly )
-		sfsConnection.sendExtensionRequest(SFSCommands.BATTLE_START, sfsObj);
-	addEventListener(TouchEvent.TOUCH, touchHandler);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
 }
 
 protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
@@ -203,7 +175,7 @@ private function startBattle():void
 	resetAll(battleData.sfsData);
 	appModel.battleFieldView.updateUnits();
 	
-	sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 	appModel.loadingManager.serverData.putBool("inBattle", false);
 	
 	// play battle theme -_-_-_
@@ -222,7 +194,7 @@ private function showTutorials() : void
 {
 	touchEnable = true;
 	tutorBattleIndex = Math.min(3, player.get_battleswins()) * 20;
-	if( sfsConnection.mySelf.isSpectator )
+	if( SFSConnection.instance.mySelf.isSpectator )
 		return;
 
 	//appModel.battleFieldView.createDrops();
@@ -368,7 +340,7 @@ private function endOverlay_retryHandler(event:Event):void
 	if( event.data && player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) ) 
 		showExtraTimeAd();
 	else
-		retryQuest(appModel.battleFieldView.battleData.battleField.map.index, false);
+		retryOperation(appModel.battleFieldView.battleData.battleField.map.index, false);
 }
 
 private function showExtraTimeAd():void
@@ -380,14 +352,14 @@ private function showExtraTimeAd():void
 		VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 		var ad:VideoAd = event.data as VideoAd;
 		if( ad.completed && ad.rewarded )
-			retryQuest(appModel.battleFieldView.battleData.battleField.map.index, true);
+			retryOperation(appModel.battleFieldView.battleData.battleField.map.index, true);
 		else
 			dispatchEventWith(Event.COMPLETE);
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
 	}
 }
 
-private function retryQuest(index:int, hasExtraTime:Boolean):void
+private function retryOperation(index:int, hasExtraTime:Boolean):void
 {
 	waitingOverlay = new BattleWaitingOverlay(false);
 	appModel.navigator.addOverlay(waitingOverlay);
@@ -397,16 +369,16 @@ private function retryQuest(index:int, hasExtraTime:Boolean):void
 	disposeBattleAssets();
 	removeChild(appModel.battleFieldView, true);
 	
-	var sfsObj:SFSObject = new SFSObject();
-	sfsObj.putBool("q", true);
-	sfsObj.putInt("i", index);
+	var params:SFSObject = new SFSObject();
+	params.putText("type", FieldData.TYPE_OPERATION);
+	params.putInt("index", index);
 	if( hasExtraTime )
-		sfsObj.putBool("e", true);
+		params.putBool("hasExtraTime", true);
 	//if( spectatedUser != null && spectatedUser != "" )
-	//sfsObj.putText("su", spectatedUser);
-	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
-	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-	sfsConnection.sendExtensionRequest(SFSCommands.BATTLE_START, sfsObj);
+	//sfsObj.putText("spectatedUser", spectatedUser);
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
+	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
 }
 
 private function endOverlay_closeHandler(event:Event):void
@@ -548,211 +520,9 @@ private function resetAll(data:ISFSObject):void
 	}*/
 }
 
-// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Touch Handler _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-private function touchHandler(event:TouchEvent):void
-{
-	if( !touchEnable )
-		return;
-	/*var pv:PlaceView;
-	var touch:Touch = event.getTouch(this);
-	if( touch == null )
-		return;
-	
-	if( touch.phase == TouchPhase.BEGAN )
-	{
-		sourcePlaces = new Vector.<PlaceView>();
-		//trace("BEGAN", touch.target, touch.target.parent);
-		if( !(touch.target.parent is PlaceView) )
-			return;
-		
-		pv = touch.target.parent as PlaceView;
-		
-		if( pv.place.building.troopType != player.troopType )
-			return;
-		
-		allPlacesInTouch = appModel.battleFieldView.battleData.battleField.getPlacesByTroopType(TroopType.NONE);
-		sourcePlaces.push(pv);
-	}
-	else 
-	{
-		if( sourcePlaces == null || sourcePlaces.length == 0 )
-			return;
-		
-		if( touch.phase == TouchPhase.MOVED )
-		{
-			pv = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			if( pv != null && (PathFinder.find(sourcePlaces[0].place, pv.place, allPlacesInTouch) != null || sourcePlaces[0].place.building.troopType == pv.place.building.troopType) )
-			{
-				// check next tower liked by selected places
-				if( sourcePlaces.indexOf(pv)==-1 && pv.place.building.troopType == player.troopType )
-					sourcePlaces.push(pv);
-				endPoint.setTo(pv.x, pv.y);
-				
-				// show drop zone
-				for each( var tp:PlaceView in appModel.battleFieldView.places )
-					tp.hilight(tp == pv && sourcePlaces[0] != pv);
-			}
-			else
-			{
-				endPoint.setTo((touch.globalX), (touch.globalY));
-				
-				for each( pv in appModel.battleFieldView.places )
-					pv.hilight(false);
-			}
-			
-			for each( pv in sourcePlaces )
-			{
-				pv.arrowContainer.visible = true;
-				pv.arrowTo(endPoint.x - pv.x, endPoint.y - pv.y);
-			}
-		}
-		else if( touch.phase == TouchPhase.ENDED )
-		{
-			if( sourcePlaces == null )
-				return;
-			
-			var destination:PlaceView = appModel.battleFieldView.dropTargets.contain(touch.globalX, touch.globalY) as PlaceView;
-			if( destination == null )
-			{
-				clearSources(sourcePlaces);
-				return;
-			}
-			
-			// remove destination from sources if exists
-			var self:int = sourcePlaces.indexOf(destination);
-			if( self > -1 )
-			{
-				if( sourcePlaces.length == 1 )
-				{
-					sourcePlaces[0].dispatchEventWith(Event.SELECT);
-					showImproveFloating(sourcePlaces[0]);
-				}
-				
-				clearSource(sourcePlaces[self]);
-				sourcePlaces.removeAt(self);
-			}
-			
-			// force improve in tutorial mode
-			if( state == STATE_CREATED && tutorials.forceImprove() )
-			{
-				clearSources(sourcePlaces);
-				return;
-			}
-			
-			// check sources has a path to destination
-			for (var i:int = sourcePlaces.length-1; i>=0; i--)
-			{
-				if(sourcePlaces[i].place.building.troopType != player.troopType || PathFinder.find(sourcePlaces[i].place, destination.place, allPlacesInTouch) == null)
-				{
-					clearSource(sourcePlaces[i]);
-					sourcePlaces.removeAt(i);
-				}
-			}
-			
-			// no fihgters
-			if( sourcePlaces.length == 0 )
-			{
-				clearSources(sourcePlaces);
-				return;
-			}
-			
-			// force aggregation swipe in tutorial mode
-			if( tutorials.forceAggregateSwipe(sourcePlaces, destination) )
-			{
-				clearSources(sourcePlaces);
-				return;
-			}
-			
-			// send fight data to room
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 4);
-			appModel.battleFieldView.responseSender.fight(sourcePlaces, destination);
-			clearSources(sourcePlaces);
-		}
-	}*/
-}
-
-/**
- * Clear swiping mode
- * @param	sourceTowers
-
-private function clearSources(sourceTowers:Vector.<PlaceView>):void
-{
-	for each( var tp:PlaceView in sourceTowers )
-		clearSource(tp);
-		
-	for each( tp in appModel.battleFieldView.places )
-		tp.hilight(false);
-
-	sourceTowers = null;
-	allPlacesInTouch = null;
-}
-private function clearSource(sourceTower:PlaceView):void
-{
-	sourceTower.arrowContainer.visible = false;
-	sourceTower.hilight(false);
-}
-
-private function showImproveFloating(placeView:PlaceView):void
-{
-	if( player.inTutorial() && player.emptyDeck() )
-		return;
-	
-	// create transition in data
-	var ti:TransitionData = new TransitionData();
-	ti.transition = Transitions.EASE_OUT_BACK;
-	ti.sourceAlpha = 0;
-	ti.destinationPosition = ti.sourcePosition = new Point(placeView.x, placeView.y);
-	
-	// create transition out data
-	var to:TransitionData = new TransitionData();
-	to.sourceAlpha = 1;
-	to.destinationPosition = to.sourcePosition = ti.sourcePosition;
-	
-	var floating:ImproveFloating = new ImproveFloating();
-	floating.placeView = placeView;
-	floating.transitionIn = ti;
-	floating.transitionOut = to;
-	floating.addEventListener(Event.CLOSE, floating_closeHandler);
-	floating.addEventListener(Event.SELECT, floating_selectHandler);
-	appModel.battleFieldView.addChild(floating);
-	function floating_closeHandler():void
-	{
-		floating.removeEventListener(Event.CLOSE, floating_closeHandler);
-		floating.removeEventListener(Event.SELECT, floating_selectHandler);
-	}
-	function floating_selectHandler(event:Event):void
-	{
-		state = STATE_STARTED;
-		var btn:ImproveButton = event.data as ImproveButton;
-		if( btn.locked )
-		{
-			if( player.get_arena(0) <= 1 )
-				appModel.navigator.addLog(loc("improve_locked_meaagse"));
-			return;
-		}
-		else if( !btn.enabled )
-		{
-			if( player.get_arena(0) <= 1 )
-				appModel.navigator.addLog(loc("improve_disabled_meaagse"));
-			return;
-		}
-		appModel.battleFieldView.responseSender.improveBuilding(btn.building.place.index, btn.type);
-		if( player.getTutorStep() == tutorBattleIndex + 1 )
-		{
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 2);
-			if( player.getTutorStep() == PrefsTypes.T_042_IMPROVE )
-			{
-				var tutorialData:TutorialData = new TutorialData("after_improve");
-				tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_3_mid_2"));
-				tutorials.show(tutorialData);
-			}
-		}
-	}
-}*/
- 
 override protected function backButtonFunction():void
 {
-	if( sfsConnection.lastJoinedRoom != null && sfsConnection.mySelf.isSpectator )
+	if( SFSConnection.instance.lastJoinedRoom != null && SFSConnection.instance.mySelf.isSpectator )
 	{
 		appModel.battleFieldView.responseSender.leave();
 		dispatchEventWith(Event.COMPLETE);
@@ -793,7 +563,7 @@ override protected function backButtonFunction():void
 		appModel.battleFieldView.responseSender.actived = false;
 			
 		if( event.type == Event.SELECT )
-			retryQuest(appModel.battleFieldView.battleData.battleField.map.index, false);
+			retryOperation(appModel.battleFieldView.battleData.battleField.map.index, false);
 	}
 }
 
@@ -812,10 +582,9 @@ private function removeConnectionListeners():void
 {
 	if( tutorials != null )
 		tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
-	removeEventListener(TouchEvent.TOUCH, touchHandler);
-	sfsConnection.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-	sfsConnection.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-	sfsConnection.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 }
 }
-}
+}
