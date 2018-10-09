@@ -8,6 +8,7 @@ import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.events.BattleEvent;
+import com.gt.towers.utils.CoreUtils;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import flash.xml.XMLTag;
@@ -32,7 +33,7 @@ private var healthDisplay:HealthBar;
 private var troopScale:Number = 2;
 private var deployIcon:CountdownIcon;
 private var rangeDisplay:Image;
-private var debugMode:Boolean = true;
+private var debugMode:Boolean = false;
 private var hitTimeoutId:uint;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
@@ -169,36 +170,16 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		x = this.x;
 	if( y == -1 )
 		y = this.y;
-	var rad:Number = Math.atan2(oldX - x, oldY - y);
 	var flipped:Boolean = false;
-	var dir:String;
-	
-
-	if( rad >= Math.PI * -0.125 && rad < Math.PI * 0.125 )
-		dir = "000";
-	else if( rad <= Math.PI * -0.125 && rad > Math.PI * -0.375 )
-		dir = "945";
-	else if( rad <= Math.PI * -0.375 && rad > Math.PI * -0.625 )
-		dir = "990";
-	else if( rad <= Math.PI * -0.625 && rad > Math.PI * -0.875 )
-		dir = "935";
-	else if( rad >= Math.PI * 0.125 && rad < Math.PI * 0.375 )
-		dir = "045";
-	else if( rad >= Math.PI * 0.375 && rad < Math.PI * 0.625 )
-		dir = "090";
-	else if( rad >= Math.PI * 0.625 && rad < Math.PI * 0.875 )
-		dir = "135";
-	else
-		dir = "180";
-	
-	if( dir == "945" || dir == "990" || dir == "935" )
+	var dir:String = CoreUtils.getRadString(Math.atan2(oldX - x, oldY - y));
+	if( dir == "-45" || dir == "-90" || dir == "-35" )
 	{
-		if( dir == "945" )
-			dir = dir.replace("945", "045");
-		else if( dir == "990" )
-			dir = dir.replace("990", "090");
+		if( dir == "-45" )
+			dir = dir.replace("-45", "045");
+		else if( dir == "-90" )
+			dir = dir.replace("-90", "090");
 		else
-			dir = dir.replace("935", "135");
+			dir = dir.replace("-35", "135");
 		flipped = true;
 	}
 	

@@ -6,6 +6,8 @@ import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.calculators.BulletSourceCalculator;
+import flash.geom.Point;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
@@ -28,12 +30,13 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	
 	var rotation:Number = Math.atan2(x - dx, y - dy);
 	
+	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rotation);
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 15);
-	fireDisplay.pivotX = fireDisplay.width * 0.1;
+	fireDisplay.pivotX = fireDisplay.width * 0.5;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
-	fireDisplay.x = this.x;
-	fireDisplay.y = this.y;
-	fireDisplay.rotation = rotation;
+	fireDisplay.x = this.x + fireOffset.x;
+	fireDisplay.y = this.y + fireOffset.y;
+	fireDisplay.rotation = rotation; trace(card.type, rotation);
 	fieldView.effectsContainer.addChild(fireDisplay);
 	fireDisplay.play();
 	Starling.juggler.add(fireDisplay);
@@ -44,7 +47,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
 	bulletDisplay.rotation = rotation;
 	bulletDisplay.x = this.x;
-	bulletDisplay.y = this.y;
+	bulletDisplay.y = this.y - card.height;
 	fieldView.effectsContainer.addChild(bulletDisplay);
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
@@ -67,7 +70,7 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 	if( bulletDisplay != null )
 	{
 		bulletDisplay.x = this.x;
-		bulletDisplay.y = this.y;		
+		bulletDisplay.y = this.y - card.health;		
 	}
 	
 	if( shadowDisplay != null )
@@ -87,7 +90,7 @@ override public function dispose():void
 	hitDisplay.pivotX = hitDisplay.width * 0.5;
 	hitDisplay.pivotY = hitDisplay.height * 0.5;
 	hitDisplay.x = this.x;
-	hitDisplay.y = this.y;
+	hitDisplay.y = this.y - card.height;
 	fieldView.effectsContainer.addChild(hitDisplay);
 	hitDisplay.play();
 	Starling.juggler.add(hitDisplay);
