@@ -100,13 +100,13 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		hud.showBubble(data.getInt("t"), false);
 		break;
 	
-	case SFSCommands.BATTLE_DEPLOY_UNIT:
+	case SFSCommands.BATTLE_SUMMON_UNIT:
 		for (var i:int = 0; i < data.getSFSArray("units").size(); i++ )
 		{
 			var sfs:ISFSObject = data.getSFSArray("units").getSFSObject(i);
 			if ( i == 0 )
 				appModel.sounds.addAndPlaySound(sfs.getInt("t") + "-summon");
-			appModel.battleFieldView.deployUnit(sfs.getInt("i"), sfs.getInt("t"), sfs.getInt("l"), sfs.getInt("s"), sfs.getDouble("x"), sfs.getDouble("y"));
+			appModel.battleFieldView.summonUnit(sfs.getInt("i"), sfs.getInt("t"), sfs.getInt("l"), sfs.getInt("s"), sfs.getDouble("x"), sfs.getDouble("y"));
 		}
 		break;
 	

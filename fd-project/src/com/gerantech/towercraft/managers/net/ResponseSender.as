@@ -22,7 +22,7 @@ public function deployUnit(type:int, x:Number, y:Number):void
 	params.putInt("t", type);
 	params.putDouble("x", x);
 	params.putDouble("y", y);
-	send(SFSCommands.BATTLE_DEPLOY_UNIT, params, room);
+	send(SFSCommands.BATTLE_SUMMON_UNIT, params, room);
 }
 
 /*public function hitTroop(troopId:int, damage:Number):void

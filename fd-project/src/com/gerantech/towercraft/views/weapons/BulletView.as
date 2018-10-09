@@ -35,7 +35,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	fireDisplay.pivotX = fireDisplay.width * 0.1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
 	fireDisplay.x = this.x //+ fireOffset.x;
-	fireDisplay.y = this.y - card.height;
+	fireDisplay.y = this.y - card.sizeV;
 	fireDisplay.rotation = rotation;
 	fieldView.effectsContainer.addChild(fireDisplay);
 	fireDisplay.play();
@@ -47,7 +47,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
 	bulletDisplay.rotation = rotation;
 	bulletDisplay.x = this.x;
-	bulletDisplay.y = this.y - card.height;
+	bulletDisplay.y = this.y - card.sizeV;
 	fieldView.effectsContainer.addChild(bulletDisplay);
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
@@ -70,7 +70,7 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 	if( bulletDisplay != null )
 	{
 		bulletDisplay.x = this.x;
-		bulletDisplay.y = this.y - card.health;		
+		bulletDisplay.y = this.y - card.sizeV;		
 	}
 	
 	if( shadowDisplay != null )
@@ -91,7 +91,7 @@ override public function dispose():void
 	hitDisplay.pivotX = hitDisplay.width * 0.5;
 	hitDisplay.pivotY = hitDisplay.height * 0.5;
 	hitDisplay.x = this.x;
-	hitDisplay.y = this.y - card.height;
+	hitDisplay.y = this.y - card.sizeV;
 	fieldView.effectsContainer.addChild(hitDisplay);
 	hitDisplay.play();
 	Starling.juggler.add(hitDisplay);

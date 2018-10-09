@@ -67,7 +67,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	deployIcon.scale = 0.6;
 	deployIcon.x = this.x;
 	deployIcon.y = this.y - 80;
-    deployIcon.rotateTo(0, 360, card.deployTime);
+    deployIcon.rotateTo(0, 360, card.summonTime);
     fieldView.guiImagesContainer.addChild(deployIcon);
 	
 	if( debugMode )
