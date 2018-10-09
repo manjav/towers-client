@@ -16,7 +16,7 @@ public function ResponseSender(room:Room)
 	this.room = room;
 }
 
-public function deployUnit(type:int, x:Number, y:Number):void
+public function summonUnit(type:int, x:Number, y:Number):void
 {
 	var params:ISFSObject = new SFSObject();
 	params.putInt("t", type);
