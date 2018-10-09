@@ -9,10 +9,7 @@ import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
-import com.gt.towers.battle.units.Unit;
-import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Quad;
@@ -31,6 +28,7 @@ public var elementsContainer:Sprite;
 public var buildingsContainer:Sprite;
 public var guiImagesContainer:Sprite;
 public var guiTextsContainer:Sprite;
+public var effectsContainer:Sprite;
 
 public function BattleFieldView()
 {
@@ -68,12 +66,12 @@ public function BattleFieldView()
 	unitsContainer = new Sprite();
 	elementsContainer = new Sprite();
 	buildingsContainer = new Sprite();
+	effectsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
 
 	scale = 0.8;
 	touchable = false;
-
 	//units = new IntUnitMap();
 }		
 
@@ -98,12 +96,12 @@ public function createPlaces(battleData:BattleData) : void
 		deployUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
 	}
 
-	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
+	var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
 	for each( var img:Image in images )
 		if( img.name == "battlefields" )
 			elementsContainer.addChild(img);
 		else
-			roadsContainer.addChild(img);*/
+			roadsContainer.addChild(img);
 	
 	/*var len:uint = battleData.battleField.places.size();
 	places = new Vector.<PlaceView>(len, true);
@@ -117,6 +115,7 @@ public function createPlaces(battleData:BattleData) : void
 	}*/
 	
 	addChild(buildingsContainer);
+	addChild(effectsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
 }		

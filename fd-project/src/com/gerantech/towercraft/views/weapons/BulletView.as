@@ -8,6 +8,8 @@ import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
 import starling.core.Starling;
 import starling.display.Image;
+import starling.display.MovieClip;
+import starling.events.Event;
 
 /**
 * ...
@@ -16,12 +18,34 @@ import starling.display.Image;
 public class BulletView extends Bullet 
 {
 private var shadowDisplay:Image;
+private var bulletDisplay:Image;
 
 public function BulletView(battleField:BattleField, id:int, card:Card, side:int, x:Number, y:Number, dx:Number, dy:Number) 
 {
 	super(battleField, id, card, side, x, y, dx, dy);
 	
-	//textureType = Math.min(108, type) + "/" + battleField.getColorIndex(side) + "/";
+	//appModel.sounds.addAndPlaySound(
+	
+	var rotation:Number = Math.atan2(x - dx, y - dy);
+	
+	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 15);
+	fireDisplay.pivotX = fireDisplay.width * 0.1;
+	fireDisplay.pivotY = fireDisplay.height * 0.5;
+	fireDisplay.x = this.x;
+	fireDisplay.y = this.y;
+	fireDisplay.rotation = rotation;
+	fieldView.effectsContainer.addChild(fireDisplay);
+	fireDisplay.play();
+	Starling.juggler.add(fireDisplay);
+	fireDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(fireDisplay); fireDisplay.removeFromParent(true); });
+	
+	bulletDisplay = new Image(Assets.getTexture("bullets/" + card.type, "effects"))
+	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
+	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
+	bulletDisplay.rotation = rotation;
+	bulletDisplay.x = this.x;
+	bulletDisplay.y = this.y;
+	fieldView.effectsContainer.addChild(bulletDisplay);
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
@@ -30,35 +54,21 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
-	
-	/*movieClip = new MovieClip(Assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_"), "troops"), 15);
-	movieClip.pivotX = movieClip.width * 0.5;
-	movieClip.pivotY = movieClip.height * 0.75;
-	movieClip.scale = troopScale;
-	movieClip.x = this.x;
-	movieClip.y = this.y;
-	fieldView.unitsContainer.addChild(movieClip);*/
 }
-
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
 {
 	if( disposed )
 		return false;
 	
-	/*var _x:Number = this.x;
-	var _y:Number = this.y;*/
 	if( !super.setPosition(x, y, forced) )
 		return false;
 
-/*	switchAnimation("m_", x, _x, y, _y);
-	
-	//state = Unit.STATE_MOVE;
-	if( movieClip != null )
+	if( bulletDisplay != null )
 	{
-		movieClip.x = this.x;
-		movieClip.y = this.y;		
-	}*/
+		bulletDisplay.x = this.x;
+		bulletDisplay.y = this.y;		
+	}
 	
 	if( shadowDisplay != null )
 	{
@@ -72,13 +82,27 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 override public function dispose():void
 {
 	super.dispose();
-	shadowDisplay.texture = Assets.getTexture("damage-range");
+	
+	var hitDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/hit_effect_", "effects"), 15);
+	hitDisplay.pivotX = hitDisplay.width * 0.5;
+	hitDisplay.pivotY = hitDisplay.height * 0.5;
+	hitDisplay.x = this.x;
+	hitDisplay.y = this.y;
+	fieldView.effectsContainer.addChild(hitDisplay);
+	hitDisplay.play();
+	Starling.juggler.add(hitDisplay);
+	hitDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(hitDisplay); hitDisplay.removeFromParent(true); });
+	
+	/*shadowDisplay.texture = Assets.getTexture("damage-range");
 	shadowDisplay.width = card.bulletDamageArea * 2;
 	shadowDisplay.height = card.bulletDamageArea * 1.42;
-	Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});
-	//muted = true;
-	//shadowDisplay.removeFromParent(true);
-	//movieClip.removeFromParent(true);
+	Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});*/
+	
+	if( bulletDisplay != null )
+		bulletDisplay.removeFromParent(true);		
+	
+	if( shadowDisplay != null )
+		shadowDisplay.removeFromParent(true);		
 }
 
 

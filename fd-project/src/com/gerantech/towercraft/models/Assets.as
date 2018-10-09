@@ -46,6 +46,11 @@ package com.gerantech.towercraft.models
 		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
 		public static const troopsAtlasXml:Class;
 		
+		[Embed(source="../../../../assets/images/effects.atf", mimeType="application/octet-stream")]
+		public static const effectsAtlasTexture:Class;
+		[Embed(source="../../../../assets/images/effects.xml", mimeType="application/octet-stream")]
+		public static const effectsAtlasXml:Class;
+		
 		[Embed(source="../../../../assets/images/operations.atf", mimeType="application/octet-stream")]
 		public static const operationsAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/operations.xml", mimeType="application/octet-stream")]
