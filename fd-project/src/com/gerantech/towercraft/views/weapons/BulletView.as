@@ -12,6 +12,7 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
 import starling.events.Event;
+import starling.utils.MathUtil;
 
 /**
 * ...
@@ -28,15 +29,16 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	
 	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	
-	var rotation:Number = Math.atan2(x - dx, y - dy);
+	var rotation:Number = MathUtil.normalizeAngle( -Math.atan2(x - dx, y - dy) - 90) ;
+	//trace(rotation, x, dx, y, dy)
 	
 	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rotation);
-	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 15);
-	fireDisplay.pivotX = fireDisplay.width * 0.5;
+	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
+	fireDisplay.pivotX = fireDisplay.width * 0.1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
-	fireDisplay.x = this.x + fireOffset.x;
-	fireDisplay.y = this.y + fireOffset.y;
-	fireDisplay.rotation = rotation; trace(card.type, rotation);
+	fireDisplay.x = this.x //+ fireOffset.x;
+	fireDisplay.y = this.y - card.height;
+	fireDisplay.rotation = rotation;
 	fieldView.effectsContainer.addChild(fireDisplay);
 	fireDisplay.play();
 	Starling.juggler.add(fireDisplay);
