@@ -62,7 +62,7 @@ package com.gerantech.towercraft.managers
 			sounds[id] = {s:sound, c:category};
 			function assets_loadCallback(ratio:Number):void
 			{
-				if(ratio < 1)
+				if( ratio < 1 )
 					return;
 				sound = AppModel.instance.assets.getSound(id);
 				sounds[id] = {s:sound, c:category};
@@ -120,7 +120,7 @@ package com.gerantech.towercraft.managers
 					return;
 				if( category == CATE_THEME && !AppModel.instance.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC) )
 					return;
-
+				
 				var soundObject:Sound = sounds[id].s;
 				var channel:SoundChannel = soundObject.play(0, repetitions);
 				

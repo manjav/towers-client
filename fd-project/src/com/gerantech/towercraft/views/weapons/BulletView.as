@@ -26,7 +26,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 {
 	super(battleField, id, card, side, x, y, dx, dy);
 	
-	//appModel.sounds.addAndPlaySound(
+	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	
 	var rotation:Number = Math.atan2(x - dx, y - dy);
 	
