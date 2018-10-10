@@ -36,8 +36,8 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
 	fireDisplay.pivotX = fireDisplay.width * 0.1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
-	fireDisplay.x = this.x //+ fireOffset.x;
-	fireDisplay.y = this.y - card.height;
+	fireDisplay.x = this.x + fireOffset.x;
+	fireDisplay.y = this.y - fireOffset.y;
 	fireDisplay.rotation = rotation;
 	fieldView.effectsContainer.addChild(fireDisplay);
 	fireDisplay.play();
