@@ -2,6 +2,7 @@ package com.gerantech.towercraft.views.units
 {
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.units.Unit;
@@ -14,6 +15,7 @@ import starling.display.Image;
 import starling.display.MovieClip;
 import starling.filters.ColorMatrixFilter;
 import starling.textures.Texture;
+import starling.utils.Color;
 
 public class UnitView extends BaseUnit
 {
@@ -27,9 +29,10 @@ private var shadowDisplay:Image;
 private var healthDisplay:HealthBar;
 private var troopScale:Number = 2;
 private var deployIcon:CountdownIcon;
-private var rangeDisplay:Image;
-private var debugMode:Boolean = false;
 private var hitTimeoutId:uint;
+
+private var rangeDisplay:Image;
+private var sizeDisplay:Image;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
 {
@@ -65,13 +68,24 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
     deployIcon.rotateTo(0, 360, card.summonTime);
     fieldView.guiImagesContainer.addChild(deployIcon);
 	
-	if( debugMode )
+	if( BattleFieldView.DEBUG_MODE )
 	{
+		sizeDisplay = new Image(Assets.getTexture("damage-range"));
+		sizeDisplay.pivotX = sizeDisplay.width * 0.5;
+		sizeDisplay.pivotY = sizeDisplay.height * 0.5;
+		sizeDisplay.width = card.sizeH * 2;
+		sizeDisplay.height = card.sizeH * 1.42;
+		//sizeDisplay.alpha = 0.1;
+		sizeDisplay.color = Color.NAVY;
+		sizeDisplay.x = this.x;
+		sizeDisplay.y = this.y;
+		fieldView.unitsContainer.addChildAt(sizeDisplay, 0);
+		
 		rangeDisplay = new Image(Assets.getTexture("damage-range"));
 		rangeDisplay.pivotX = rangeDisplay.width * 0.5;
 		rangeDisplay.pivotY = rangeDisplay.height * 0.5;
 		rangeDisplay.width = card.bulletRangeMax * 2;
-		rangeDisplay.height = card.bulletRangeMax * 2 * 0.7;
+		rangeDisplay.height = card.bulletRangeMax * 1.42;
 		rangeDisplay.alpha = 0.1;
 		rangeDisplay.x = this.x;
 		rangeDisplay.y = this.y;
@@ -150,6 +164,12 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 	{
 		rangeDisplay.x = this.x;
 		rangeDisplay.y = this.y;
+	}
+	
+	if( sizeDisplay != null )
+	{
+		sizeDisplay.x = this.x;
+		sizeDisplay.y = this.y;
 	}
 	return true;
 }
@@ -282,6 +302,8 @@ override public function dispose() : void
 		healthDisplay.removeFromParent(true);
 	if( deployIcon != null )
 		deployIcon.removeFromParent(true);
+	if( sizeDisplay != null )
+		sizeDisplay.removeFromParent(true);
 }
 
 public function set alpha(value:Number):void 

@@ -7,6 +7,7 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.calculators.BulletSourceCalculator;
+import com.gt.towers.utils.CoreUtils;
 import flash.geom.Point;
 import starling.core.Starling;
 import starling.display.Image;
@@ -29,15 +30,17 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	
 	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	
-	var rad:Number = Math.atan2(x - dx, y - dy);
-	var rotation:Number = MathUtil.normalizeAngle( -rad) + 1.5708; trace("rotation", rad, rotation);
-	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rad);
+	var rotation:Number = MathUtil.normalizeAngle( -Math.atan2(x - dx, y - dy));// - 1.5708;
+	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rotation);
+	//trace("type", card.type, "  rotation", rotation, CoreUtils.getRadString(rotation), " ", fireOffset);
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
-	fireDisplay.pivotX = fireDisplay.width * 0.1;
+	fireDisplay.pivotX = 1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
 	fireDisplay.x = this.x + fireOffset.x;
-	fireDisplay.y = this.y - fireOffset.y;
+	fireDisplay.y = this.y + fireOffset.y;
 	fireDisplay.rotation = rotation;
+	fireDisplay.width = card.sizeH * 3.5;
+	fireDisplay.scaleY = fireDisplay.scaleX;
 	fieldView.effectsContainer.addChild(fireDisplay);
 	fireDisplay.play();
 	Starling.juggler.add(fireDisplay);
@@ -54,7 +57,8 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	shadowDisplay.scale = 2;
+	shadowDisplay.width = card.sizeH * 2;
+	shadowDisplay.height = card.sizeH * 1.42;
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
@@ -98,22 +102,24 @@ override public function dispose():void
 	Starling.juggler.add(hitDisplay);
 	hitDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(hitDisplay); hitDisplay.removeFromParent(true); });
 	
-	/*shadowDisplay.texture = Assets.getTexture("damage-range");
-	shadowDisplay.width = card.bulletDamageArea * 2;
-	shadowDisplay.height = card.bulletDamageArea * 1.42;
-	Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});*/
+	if( BattleFieldView.DEBUG_MODE )
+	{
+		shadowDisplay.texture = Assets.getTexture("damage-range");
+		shadowDisplay.width = card.bulletDamageArea * 2;
+		shadowDisplay.height = card.bulletDamageArea * 1.42;
+		Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});
+	}
+	else
+	{
+		if( shadowDisplay != null )
+			shadowDisplay.removeFromParent(true);
+	}
 	
 	if( bulletDisplay != null )
-		bulletDisplay.removeFromParent(true);		
-	
-	if( shadowDisplay != null )
-		shadowDisplay.removeFromParent(true);		
+		bulletDisplay.removeFromParent(true);
 }
 
-
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
-/*protected function get game():			Game			{	return appModel.game;				}
-protected function get player():		Player			{	return game.player;					}*/
 protected function get fieldView():		BattleFieldView {	return appModel.battleFieldView;	}
 }
 }
