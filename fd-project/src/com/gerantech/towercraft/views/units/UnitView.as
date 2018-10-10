@@ -1,22 +1,17 @@
 package com.gerantech.towercraft.views.units
 {
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
-import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-import flash.xml.XMLTag;
-import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
-import starling.events.Event;
 import starling.filters.ColorMatrixFilter;
 import starling.textures.Texture;
 
@@ -84,11 +79,6 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	}
 }
 
-/*override public function update() : void
-{
-	super.update();
-}*/
-
 override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.DEPLOY )
@@ -112,9 +102,9 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 public function attacks(target:int): void
 {
 	switchAnimation("s_", battleField.units.get(target).x, x, battleField.units.get(target).y, y);
+	movieClip.currentFrame = 0;
 	movieClip.play();
 }
-
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
 {
@@ -284,7 +274,8 @@ override public function dispose() : void
 	clearTimeout(hitTimeoutId);
 	muted = true;
 	movieClip.removeFromParent(true);
-	shadowDisplay.removeFromParent(true);
+	if( shadowDisplay != null )
+		shadowDisplay.removeFromParent(true);
 	if( rangeDisplay != null )
 		rangeDisplay.removeFromParent(true);
 	if( healthDisplay != null )
@@ -296,7 +287,8 @@ override public function dispose() : void
 public function set alpha(value:Number):void 
 {
 	movieClip.alpha = value;
-	shadowDisplay.alpha = value;
+	if( shadowDisplay != null )
+		shadowDisplay.alpha = value;
 	if( rangeDisplay != null )
 		rangeDisplay.alpha = value;
 	if( healthDisplay != null )
