@@ -6,7 +6,7 @@ import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.calculators.BulletSourceCalculator;
+import com.gt.towers.calculators.BulletFirePositionCalculator;
 import com.gt.towers.utils.CoreUtils;
 import flash.geom.Point;
 import starling.core.Starling;
@@ -31,7 +31,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	
 	var rotation:Number = MathUtil.normalizeAngle( -Math.atan2(x - dx, y - dy));// - 1.5708;
-	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rotation);
+	var fireOffset:Point = BulletFirePositionCalculator.getPoint(card.type, rotation);
 	//trace("type", card.type, "  rotation", rotation, CoreUtils.getRadString(rotation), " ", fireOffset);
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
 	fireDisplay.pivotX = 1;
