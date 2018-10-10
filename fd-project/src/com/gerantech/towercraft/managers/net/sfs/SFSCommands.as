@@ -2,14 +2,13 @@ package com.gerantech.towercraft.managers.net.sfs
 {
 public class SFSCommands
 {
-	
 public static const BATTLE_START:String = "battleStart";
 public static const BATTLE_CANCEL:String = "battleCancel";
 public static const BATTLE_LEAVE:String = "battleLeave";
 public static const BATTLE_END:String = "battleEnd";
 public static const BATTLE_SEND_STICKER:String = "ss";
 public static const BATTLE_NEW_ROUND:String = "battleNewRound";
-public static const BATTLE_DEPLOY_UNIT:String = "d";
+public static const BATTLE_SUMMON_UNIT:String = "s";
 public static const BATTLE_HIT:String = "h";
 
 public static const RANK:String = "rank";
@@ -72,7 +71,7 @@ public static function getDeadline(command:String):int
             return 14000;
 		case BATTLE_CANCEL:
 		case BATTLE_LEAVE:
-		case BATTLE_DEPLOY_UNIT:
+		case BATTLE_SUMMON_UNIT:
 		case BATTLE_SEND_STICKER:
 		case INBOX_OPEN:
 		case INBOX_CONFIRM:

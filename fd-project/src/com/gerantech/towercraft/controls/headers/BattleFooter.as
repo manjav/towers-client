@@ -178,7 +178,7 @@ protected function touchHandler(event:TouchEvent):void
 				elixirBar.value -= draggableCard.elixirSize;
 				for( var i:int=0; i<cards.length; i++ )
 					cards[i].updateData();
-				appModel.battleFieldView.responseSender.deployUnit(draggableCard.type, rect.x, rect.y);
+				appModel.battleFieldView.responseSender.summonUnit(draggableCard.type, rect.x, rect.y);
 			}
 			else
 			{

@@ -93,7 +93,7 @@ public function createPlaces(battleData:BattleData) : void
 	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
 	{
 		var u:ISFSObject =  battleData.sfsData.getSFSArray("units").getSFSObject(i);
-		deployUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
+		summonUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
 	}
 
 	var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
@@ -120,7 +120,7 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(guiTextsContainer);
 }		
 
-public function deployUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
+public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
 {
 	var u:UnitView = new UnitView(id, type, level, side, x, y);
 	if( health >= 0 )

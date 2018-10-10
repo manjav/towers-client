@@ -42,15 +42,18 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	super(id, type, level, side, x, y);
 	//trace("UnitView", id, type, side, x.toFixed(), y.toFixed());
 
-	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
-	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
-	shadowDisplay.pivotY = shadowDisplay.height * 0.45;
-	shadowDisplay.scale = 3;
-	shadowDisplay.x = this.x;
-	shadowDisplay.y = this.y;
-	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
+	if( type < 200 )
+	{
+		shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
+		shadowDisplay.pivotX = shadowDisplay.width * 0.55;
+		shadowDisplay.pivotY = shadowDisplay.height * 0.45;
+		shadowDisplay.scale = 3;
+		shadowDisplay.x = this.x;
+		shadowDisplay.y = this.y;
+		fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
+	}
 	
-	textureType = Math.min(108, type) + "/" + battleField.getColorIndex(side) + "/";
+	textureType = Math.min(208, type) + "/" + battleField.getColorIndex(side) + "/";
 	movieClip = new MovieClip(Assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_"), "troops"), 15);
 	movieClip.pivotX = movieClip.width * 0.5;
 	movieClip.pivotY = movieClip.height * 0.75;
@@ -64,7 +67,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	deployIcon.scale = 0.6;
 	deployIcon.x = this.x;
 	deployIcon.y = this.y - 80;
-    deployIcon.rotateTo(0, 360, card.deployTime);
+    deployIcon.rotateTo(0, 360, card.summonTime);
     fieldView.guiImagesContainer.addChild(deployIcon);
 	
 	if( debugMode )

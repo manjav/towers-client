@@ -16,13 +16,13 @@ public function ResponseSender(room:Room)
 	this.room = room;
 }
 
-public function deployUnit(type:int, x:Number, y:Number):void
+public function summonUnit(type:int, x:Number, y:Number):void
 {
 	var params:ISFSObject = new SFSObject();
 	params.putInt("t", type);
 	params.putDouble("x", x);
 	params.putDouble("y", y);
-	send(SFSCommands.BATTLE_DEPLOY_UNIT, params, room);
+	send(SFSCommands.BATTLE_SUMMON_UNIT, params, room);
 }
 
 /*public function hitTroop(troopId:int, damage:Number):void
