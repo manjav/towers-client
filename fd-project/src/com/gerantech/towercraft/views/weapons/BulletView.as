@@ -29,8 +29,9 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	
 	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	
-	var rotation:Number = MathUtil.normalizeAngle( -Math.atan2(x - dx, y - dy)) - 90;
-	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rotation);
+	var rad:Number = Math.atan2(x - dx, y - dy);
+	var rotation:Number = MathUtil.normalizeAngle( -rad) + 1.5708; trace("rotation", rad, rotation);
+	var fireOffset:Point = BulletSourceCalculator.getPoint(card.type, rad);
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
 	fireDisplay.pivotX = fireDisplay.width * 0.1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;

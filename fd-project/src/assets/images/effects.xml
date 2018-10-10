@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:2a07ae08e747cc2b23a5c72fa103e3b7:5f95f446494a1079c09e7c11b208cb85:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
+<!-- $TexturePacker:SmartUpdate:f735e04f82bb4b0e3c2e359dc108009a:6785c3f42a75f6b984417e9cf73a2de2:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
 <TextureAtlas imagePath="effects.png" width="2048" height="2048">
-    <SubTexture name="bullets/101" x="1997" y="315" width="19" height="9"/>
-    <SubTexture name="bullets/102" x="1860" y="235" width="14" height="11"/>
-    <SubTexture name="bullets/103" x="1343" y="245" width="9" height="7"/>
-    <SubTexture name="bullets/104" x="1860" y="284" width="12" height="9"/>
-    <SubTexture name="bullets/105" x="1860" y="235" width="14" height="11"/>
-    <SubTexture name="bullets/106" x="1997" y="380" width="24" height="34"/>
-    <SubTexture name="bullets/107" x="1997" y="415" width="20" height="12"/>
-    <SubTexture name="bullets/108" x="1997" y="370" width="38" height="9"/>
-    <SubTexture name="bullets/201" x="1997" y="370" width="38" height="9"/>
-    <SubTexture name="fires/shootFire_00001" x="1997" y="327" width="48" height="42" frameX="-5" frameY="-20" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00002" x="739" y="499" width="58" height="49" frameX="-1" frameY="-16" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00003" x="1075" y="552" width="65" height="60" frameX="0" frameY="-11" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00004" x="1243" y="411" width="73" height="74" frameX="0" frameY="-4" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00005" x="449" y="494" width="80" height="80"/>
-    <SubTexture name="fires/shootFire_00006" x="449" y="575" width="80" height="80"/>
-    <SubTexture name="fires/shootFire_00007" x="101" y="779" width="80" height="80"/>
-    <SubTexture name="fires/shootFire_00008" x="1009" y="411" width="80" height="80"/>
-    <SubTexture name="fires/shootFire_00009" x="1090" y="411" width="76" height="74" frameX="0" frameY="-4" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00010" x="2022" y="380" width="21" height="22" frameX="-21" frameY="-28" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00011" x="2022" y="403" width="21" height="22" frameX="-21" frameY="-28" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00012" x="2028" y="164" width="19" height="23" frameX="-22" frameY="-28" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00013" x="2028" y="188" width="19" height="23" frameX="-22" frameY="-28" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00014" x="2028" y="212" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00015" x="2028" y="235" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00016" x="2028" y="258" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00017" x="2028" y="281" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00018" x="2028" y="304" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00019" x="2018" y="426" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00020" x="1997" y="428" width="19" height="22" frameX="-22" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00021" x="2017" y="449" width="17" height="22" frameX="-23" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00022" x="522" y="231" width="17" height="22" frameX="-23" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00023" x="522" y="254" width="17" height="21" frameX="-23" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00024" x="522" y="276" width="17" height="21" frameX="-23" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00025" x="522" y="298" width="17" height="21" frameX="-23" frameY="-29" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00026" x="522" y="320" width="16" height="20" frameX="-24" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00027" x="522" y="341" width="16" height="20" frameX="-24" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00028" x="522" y="362" width="16" height="20" frameX="-24" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00029" x="522" y="383" width="16" height="20" frameX="-24" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00030" x="522" y="404" width="16" height="19" frameX="-24" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00031" x="522" y="424" width="15" height="19" frameX="-25" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00032" x="239" y="235" width="15" height="19" frameX="-25" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00033" x="255" y="235" width="15" height="19" frameX="-25" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00034" x="239" y="255" width="15" height="19" frameX="-25" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00035" x="1860" y="216" width="14" height="18" frameX="-26" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00036" x="1860" y="247" width="13" height="18" frameX="-26" frameY="-30" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00037" x="1860" y="266" width="13" height="17" frameX="-26" frameY="-31" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00038" x="1343" y="210" width="9" height="17" frameX="-30" frameY="-31" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00039" x="1343" y="228" width="9" height="16" frameX="-30" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="bullets/101" x="1343" y="249" width="9" height="19"/>
+    <SubTexture name="bullets/102" x="1860" y="216" width="11" height="14"/>
+    <SubTexture name="bullets/103" x="1343" y="282" width="7" height="9"/>
+    <SubTexture name="bullets/104" x="1343" y="269" width="9" height="12"/>
+    <SubTexture name="bullets/105" x="1860" y="216" width="11" height="14"/>
+    <SubTexture name="bullets/106" x="1997" y="437" width="34" height="24"/>
+    <SubTexture name="bullets/107" x="2028" y="308" width="12" height="20"/>
+    <SubTexture name="bullets/108" x="1343" y="210" width="9" height="38"/>
+    <SubTexture name="bullets/201" x="1343" y="210" width="9" height="38"/>
+    <SubTexture name="fires/shootFire_00001" x="1997" y="388" width="42" height="48" frameX="-20" frameY="-27" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00002" x="1997" y="329" width="49" height="58" frameX="-16" frameY="-21" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00003" x="292" y="624" width="60" height="65" frameX="-11" frameY="-15" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00004" x="722" y="594" width="74" height="73" frameX="-4" frameY="-7" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00005" x="797" y="579" width="80" height="80"/>
+    <SubTexture name="fires/shootFire_00006" x="878" y="579" width="80" height="80"/>
+    <SubTexture name="fires/shootFire_00007" x="515" y="605" width="80" height="80"/>
+    <SubTexture name="fires/shootFire_00008" x="596" y="605" width="80" height="80"/>
+    <SubTexture name="fires/shootFire_00009" x="722" y="517" width="74" height="76" frameX="-4" frameY="-4" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00010" x="522" y="271" width="22" height="21" frameX="-28" frameY="-38" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00011" x="522" y="293" width="22" height="21" frameX="-28" frameY="-38" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00012" x="522" y="231" width="23" height="19" frameX="-28" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00013" x="522" y="251" width="23" height="19" frameX="-28" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00014" x="522" y="315" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00015" x="522" y="335" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00016" x="522" y="355" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00017" x="522" y="375" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00018" x="522" y="395" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00019" x="522" y="415" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00020" x="239" y="235" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00021" x="239" y="255" width="22" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00022" x="239" y="273" width="22" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00023" x="239" y="291" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00024" x="239" y="309" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00025" x="239" y="327" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00026" x="239" y="345" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00027" x="239" y="362" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00028" x="239" y="379" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00029" x="239" y="396" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00030" x="2028" y="164" width="19" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00031" x="2028" y="181" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00032" x="2028" y="197" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00033" x="2028" y="213" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00034" x="2028" y="229" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00035" x="2028" y="245" width="18" height="14" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00036" x="2028" y="260" width="18" height="13" frameX="-30" frameY="-41" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00037" x="2028" y="274" width="17" height="13" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00038" x="2028" y="288" width="17" height="9" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00039" x="2028" y="298" width="16" height="9" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
     <SubTexture name="hits/explosion_1_00001" x="553" y="1" width="272" height="224" frameX="-4" frameY="-28" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00002" x="1616" y="1" width="258" height="214" frameX="-12" frameY="-33" frameWidth="280" frameHeight="280"/>
-    <SubTexture name="hits/explosion_1_00003" x="1" y="779" width="99" height="95" frameX="-91" frameY="-92" frameWidth="280" frameHeight="280"/>
+    <SubTexture name="hits/explosion_1_00003" x="1205" y="411" width="99" height="95" frameX="-91" frameY="-92" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00004" x="1860" y="315" width="136" height="132" frameX="-73" frameY="-74" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00005" x="1875" y="164" width="152" height="150" frameX="-65" frameY="-65" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00006" x="1875" y="1" width="170" height="162" frameX="-55" frameY="-59" frameWidth="280" frameHeight="280"/>
-    <SubTexture name="hits/explosion_1_00007" x="218" y="624" width="195" height="180" frameX="-43" frameY="-50" frameWidth="280" frameHeight="280"/>
+    <SubTexture name="hits/explosion_1_00007" x="1009" y="411" width="195" height="180" frameX="-43" frameY="-50" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00008" x="226" y="425" width="222" height="198" frameX="-29" frameY="-41" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00009" x="553" y="226" width="246" height="216" frameX="-18" frameY="-32" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00010" x="826" y="1" width="263" height="224" frameX="-9" frameY="-27" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00011" x="1" y="1" width="277" height="233" frameX="-2" frameY="-22" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00012" x="279" y="1" width="273" height="229" frameX="-3" frameY="-23" frameWidth="280" frameHeight="280"/>
-    <SubTexture name="hits/explosion_1_00013" x="538" y="443" width="200" height="161" frameX="-41" frameY="-55" frameWidth="280" frameHeight="280"/>
+    <SubTexture name="hits/explosion_1_00013" x="521" y="443" width="200" height="161" frameX="-41" frameY="-55" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00014" x="800" y="411" width="208" height="167" frameX="-37" frameY="-52" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00015" x="1" y="604" width="216" height="174" frameX="-33" frameY="-48" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00016" x="1" y="425" width="224" height="178" frameX="-29" frameY="-46" frameWidth="280" frameHeight="280"/>
@@ -74,11 +74,11 @@
     <SubTexture name="hits/explosion_1_00022" x="1354" y="208" width="257" height="203" frameX="-12" frameY="-33" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00023" x="1354" y="1" width="261" height="206" frameX="-10" frameY="-31" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion_1_00024" x="1090" y="1" width="263" height="208" frameX="-9" frameY="-30" frameWidth="280" frameHeight="280"/>
-    <SubTexture name="hits/hit_effect_00001" x="739" y="443" width="59" height="55" frameX="-11" frameY="-12" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="hits/hit_effect_00002" x="1009" y="555" width="62" height="59" frameX="-9" frameY="-11" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="hits/hit_effect_00003" x="1009" y="492" width="65" height="62" frameX="-8" frameY="-9" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="hits/hit_effect_00004" x="1090" y="486" width="69" height="65" frameX="-6" frameY="-8" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="hits/hit_effect_00001" x="353" y="624" width="59" height="55" frameX="-11" frameY="-12" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="hits/hit_effect_00002" x="449" y="623" width="62" height="59" frameX="-9" frameY="-11" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="hits/hit_effect_00003" x="449" y="560" width="65" height="62" frameX="-8" frameY="-9" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="hits/hit_effect_00004" x="449" y="494" width="69" height="65" frameX="-6" frameY="-8" frameWidth="80" frameHeight="80"/>
     <SubTexture name="hits/hit_effect_00005" x="449" y="425" width="71" height="68" frameX="-5" frameY="-6" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="hits/hit_effect_00006" x="1167" y="485" width="73" height="70" frameX="-4" frameY="-5" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="hits/hit_effect_00007" x="1167" y="411" width="75" height="73" frameX="-3" frameY="-3" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="hits/hit_effect_00006" x="218" y="624" width="73" height="70" frameX="-4" frameY="-5" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="hits/hit_effect_00007" x="722" y="443" width="75" height="73" frameX="-3" frameY="-3" frameWidth="80" frameHeight="80"/>
 </TextureAtlas>
