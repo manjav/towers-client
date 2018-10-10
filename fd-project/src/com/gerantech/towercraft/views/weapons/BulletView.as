@@ -107,6 +107,9 @@ override public function dispose():void
 		shadowDisplay.texture = Assets.getTexture("damage-range");
 		shadowDisplay.width = card.bulletDamageArea * 2;
 		shadowDisplay.height = card.bulletDamageArea * 1.42;
+		shadowDisplay.x = this.x;
+		shadowDisplay.y = this.y;
+		fieldView.effectsContainer.addChild(shadowDisplay);
 		Starling.juggler.tween(shadowDisplay, 0.5, {scale:0, onComplete:shadowDisplay.removeFromParent, onCompleteArgs:[true]});
 	}
 	else
