@@ -10,9 +10,11 @@ import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
+import starling.events.Event;
 import starling.filters.ColorMatrixFilter;
 import starling.textures.Texture;
 import starling.utils.Color;
@@ -24,13 +26,12 @@ private var _state:int;
 private var _muted:Boolean = true;
 private var direction:String;
 private var textureType:String;
-private var movieClip:MovieClip;
+private var bodyDisplay:MovieClip;
 private var shadowDisplay:Image;
 private var healthDisplay:HealthBar;
 private var troopScale:Number = 2;
 private var deployIcon:CountdownIcon;
 private var hitTimeoutId:uint;
-
 private var rangeDisplay:Image;
 private var sizeDisplay:Image;
 
@@ -38,35 +39,47 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 {
 	
 	super(id, type, level, side, x, y);
-	//trace("UnitView", id, type, side, x.toFixed(), y.toFixed());
 
-	if( type < 200 )
-	{
+	//if( type < 200 )
+	//{
 		shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 		shadowDisplay.pivotX = shadowDisplay.width * 0.55;
-		shadowDisplay.pivotY = shadowDisplay.height * 0.45;
-		shadowDisplay.scale = 3;
+		shadowDisplay.pivotY = shadowDisplay.height * 0.55;
+		shadowDisplay.width = card.sizeH * 2;
+		shadowDisplay.height = card.sizeH * 1.42;
 		shadowDisplay.x = this.x;
 		shadowDisplay.y = this.y;
 		fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
-	}
+	//}
+	
+	var appearanceDelay:Number = Math.random() * 0.5;
 	
 	textureType = Math.min(208, type) + "/" + battleField.getColorIndex(side) + "/";
-	movieClip = new MovieClip(Assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_"), "troops"), 15);
-	movieClip.pivotX = movieClip.width * 0.5;
-	movieClip.pivotY = movieClip.height * 0.75;
-	movieClip.scale = troopScale;
-	movieClip.x = this.x;
-	movieClip.y = this.y;
-	fieldView.unitsContainer.addChild(movieClip);
+	bodyDisplay = new MovieClip(Assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_"), "troops"), 15);
+	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
+	bodyDisplay.pivotY = bodyDisplay.height * 0.75;
+	bodyDisplay.x = this.x;
+	bodyDisplay.y = this.y;
+	bodyDisplay.scaleX = troopScale;
+	bodyDisplay.scaleY = troopScale;
+	fieldView.unitsContainer.addChild(bodyDisplay);
+
+	if( movable )
+	{
+		bodyDisplay.alpha = 0;
+		bodyDisplay.y = this.y - 100;
+		bodyDisplay.scaleY = troopScale * 4;
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay, alpha:1, y:this.y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1, scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
+	}
 	
 	deployIcon = new CountdownIcon();
 	deployIcon.stop();
-	deployIcon.scale = 0.6;
+	deployIcon.scale = 0.5;
 	deployIcon.x = this.x;
 	deployIcon.y = this.y - 80;
     deployIcon.rotateTo(0, 360, card.summonTime);
-    fieldView.guiImagesContainer.addChild(deployIcon);
+    setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
 	
 	if( BattleFieldView.DEBUG_MODE )
 	{
@@ -116,8 +129,8 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 public function attacks(target:int): void
 {
 	switchAnimation("s_", battleField.units.get(target).x, x, battleField.units.get(target).y, y);
-	movieClip.currentFrame = 0;
-	movieClip.play();
+	bodyDisplay.currentFrame = 0;
+	bodyDisplay.play();
 }
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
@@ -136,10 +149,10 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 	switchAnimation("m_", x, _x, y, _y);
 	
 	//state = Unit.STATE_MOVE;
-	if( movieClip != null )
+	if( bodyDisplay != null )
 	{
-		movieClip.x = this.x;
-		movieClip.y = this.y;		
+		bodyDisplay.x = this.x;
+		bodyDisplay.y = this.y;		
 	}
 	
 	if( shadowDisplay != null )
@@ -177,7 +190,7 @@ override public function setPosition(x:Number, y:Number, forced:Boolean = false)
 
 private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, oldY:Number):void
 {
-	if( movieClip == null )
+	if( bodyDisplay == null )
 		return;
 	if( x == -1 )
 		x = this.x;
@@ -196,9 +209,9 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		flipped = true;
 	}
 	
-	movieClip.loop = anim == "m_";
+	bodyDisplay.loop = anim == "m_";
 	dir = anim + dir;
-	movieClip.scaleX = (flipped ? -troopScale : troopScale );
+	bodyDisplay.scaleX = (flipped ? -troopScale : troopScale );
 	
 	if( direction == dir )
 		return;
@@ -206,17 +219,17 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	//movieClip.fps = 20 * 3000 / building.get_troopSpeed();
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
-	var numFrames:int = movieClip.numFrames - 1;// trace(textureType + direction, numFrames);
+	var numFrames:int = bodyDisplay.numFrames - 1;// trace(textureType + direction, numFrames);
 	while ( numFrames > 0 )
 	{
-		movieClip.removeFrameAt(numFrames);
+		bodyDisplay.removeFrameAt(numFrames);
 		numFrames --;
 	}
 	var textures:Vector.<Texture> = Assets.getTextures(textureType + direction, "troops");
-	movieClip.setFrameTexture(0, textures[0]);
+	bodyDisplay.setFrameTexture(0, textures[0]);
 	for ( var i:int = 1; i < textures.length; i++ )
-		movieClip.addFrame(textures[i]);
-	movieClip.currentFrame = 0;
+		bodyDisplay.addFrame(textures[i]);
+	bodyDisplay.currentFrame = 0;
 }
 
 override public function hit(damage:Number):void
@@ -225,15 +238,15 @@ override public function hit(damage:Number):void
 	if( disposed )
 		return;
 	//trace(id, health, damage)
-	if( movieClip != null )
+	if( bodyDisplay != null )
 	{
 		if( hitFilter == null )
 		{
 			hitFilter = new ColorMatrixFilter();
 			hitFilter.adjustBrightness(0.6);
 		}
-		movieClip.filter = hitFilter;
-		hitTimeoutId = setTimeout( function():void{ movieClip.filter = null; }, 50);
+		bodyDisplay.filter = hitFilter;
+		hitTimeoutId = setTimeout( function():void{ bodyDisplay.filter = null; }, 50);
 	}
 
 	setHealth(health);
@@ -273,19 +286,35 @@ public function set muted(value:Boolean):void
 	_muted = value;
 	
 	//visible = !_muted;
-	if( movieClip == null )
+	if( bodyDisplay == null )
 		return;
 		
-	movieClip.muted = _muted;
+	bodyDisplay.muted = _muted;
 	if ( _muted )
 	{
 		//Starling.juggler.removeTweens(this);
-		Starling.juggler.remove(movieClip);
+		Starling.juggler.remove(bodyDisplay);
 	}
 	else
 	{
-		Starling.juggler.add(movieClip);
+		Starling.juggler.add(bodyDisplay);
 	}
+}
+
+protected function defaultSummonEffectFactory() : void
+{
+	var summonDisplay:MovieClip = new MovieClip(Assets.getTextures("summons/explosion-", "effects"), 35);
+	summonDisplay.pivotX = summonDisplay.width * 0.5;
+	summonDisplay.pivotY = summonDisplay.height * 0.5;
+	summonDisplay.width = card.sizeH * 2.00;
+	summonDisplay.height = card.sizeH * 1.42;
+	summonDisplay.x = this.x;
+	summonDisplay.y = this.y;
+	fieldView.unitsContainer.addChildAt(summonDisplay, 0);
+	summonDisplay.play();
+	Starling.juggler.add(summonDisplay);
+	summonDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(summonDisplay); summonDisplay.removeFromParent(true); });
+	return;
 }
 
 override public function dispose() : void
@@ -293,7 +322,7 @@ override public function dispose() : void
 	super.dispose();
 	clearTimeout(hitTimeoutId);
 	muted = true;
-	movieClip.removeFromParent(true);
+	bodyDisplay.removeFromParent(true);
 	if( shadowDisplay != null )
 		shadowDisplay.removeFromParent(true);
 	if( rangeDisplay != null )
@@ -308,7 +337,7 @@ override public function dispose() : void
 
 public function set alpha(value:Number):void 
 {
-	movieClip.alpha = value;
+	bodyDisplay.alpha = value;
 	if( shadowDisplay != null )
 		shadowDisplay.alpha = value;
 	if( rangeDisplay != null )

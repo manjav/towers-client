@@ -47,8 +47,6 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	shadowDisplay.width = card.sizeH * 2;
-	shadowDisplay.height = card.sizeH * 1.42;
 	shadowDisplay.x = this.x;
 	shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
@@ -136,11 +134,11 @@ protected function defaultHitDisplayFactory() : void
 	
 	if( isExplosive )
 	{
-		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/explosion_1_", "effects"), 30);
+		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/explosion-", "effects"), 35);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
 		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
-		explosionDisplay.width = card.bulletDamageArea * 2.00;
-		explosionDisplay.height = card.bulletDamageArea * 1.42;
+		explosionDisplay.width = card.bulletDamageArea * 3.00;
+		explosionDisplay.height = card.bulletDamageArea * 2;
 		explosionDisplay.x = this.x;
 		explosionDisplay.y = this.y;
 		fieldView.effectsContainer.addChild(explosionDisplay);
