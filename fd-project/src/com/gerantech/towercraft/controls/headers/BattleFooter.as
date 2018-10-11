@@ -73,6 +73,7 @@ override protected function initialize():void
 		createDeckItem(cardQueue.shift());
 	
 	preparedCard = new BuildingCard(false, false, false, false);
+	preparedCard.touchable = false;
 	preparedCard.width = 160;
 	preparedCard.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0);
 	preparedCard.setData(cardQueue[0]);
@@ -121,7 +122,7 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 		cards[i].updateData();
 }
 
-private function createDeckItem(cardType:int):void
+private function createDeckItem(cardType:int) : void
 {
 	var card:BattleDeckCard = new BattleDeckCard( cardType );
 	card.width = 200;
@@ -129,7 +130,7 @@ private function createDeckItem(cardType:int):void
 	cardsContainer.addChild(card);
 }
 
-protected function touchHandler(event:TouchEvent):void
+protected function touchHandler(event:TouchEvent) : void
 {
 	var touch:Touch = event.getTouch(this);
 	if( touch == null )
@@ -190,7 +191,7 @@ protected function touchHandler(event:TouchEvent):void
 	}
 }
 
-private function animatePushDeck(deckSelected:BuildingCard):void 
+private function animatePushDeck(deckSelected:BuildingCard) : void 
 {
 	var card:BuildingCard = new BuildingCard(false, false, false, false);
 	card.touchable = false;
@@ -206,6 +207,13 @@ private function animatePushDeck(deckSelected:BuildingCard):void
 		card.removeFromParent(true);
 		deckSelected.parent.visible = true;	
 	}
+}
+
+override public function dispose() : void
+{
+	super.dispose();
+	draggableCard.removeFromParent(true);
+	removeEventListener(TouchEvent.TOUCH, touchHandler);
 }
 }
 }

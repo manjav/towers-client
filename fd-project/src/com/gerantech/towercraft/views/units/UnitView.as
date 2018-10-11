@@ -69,8 +69,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		bodyDisplay.alpha = 0;
 		bodyDisplay.y = this.y - 100;
 		bodyDisplay.scaleY = troopScale * 4;
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay, alpha:1, y:this.y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1, scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:1, y:this.y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
 	}
 	
 	deployIcon = new CountdownIcon();
