@@ -18,7 +18,7 @@ import starling.events.Event;
 
 public class BattleFieldView extends Sprite
 {
-public static const DEBUG_MODE:Boolean = true;
+public static const DEBUG_MODE:Boolean = false;
 //private var units:IntUnitMap;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
@@ -55,7 +55,7 @@ public function BattleFieldView()
 	addChild(tiledBG);
 	
 	var axisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0xFF0000);
-	axisRegion.alpha = 0.1;
+	axisRegion.alpha = 0.05;
 	addChild(axisRegion);
 	
 	var allisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0x0000FF);
