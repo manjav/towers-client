@@ -82,7 +82,7 @@ protected function list_selectHandler(e:Event):void
 	
 	switch( questItem.quest.type )
 	{
-		case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
+		//case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
 		
 		case Quest.TYPE_3_BATTLES :				
 		case Quest.TYPE_4_BATTLE_WINS :			appModel.navigator.runBattle();	return;

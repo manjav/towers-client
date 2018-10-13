@@ -136,7 +136,7 @@ protected function defaultHitDisplayFactory() : void
 	{
 		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/explosion-", "effects"), 35);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
-		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
+		explosionDisplay.scaleY = explosionDisplay.scaleX;
 		explosionDisplay.width = card.bulletDamageArea * 3.00;
 		explosionDisplay.height = card.bulletDamageArea * 2;
 		explosionDisplay.x = this.x;
