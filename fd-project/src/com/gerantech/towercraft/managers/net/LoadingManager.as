@@ -165,7 +165,7 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 	
 	var noticeVersion:int = serverData.getInt("noticeVersion");
 	var forceVersion:int = serverData.getInt("forceVersion");
-	//trace(appModel.descriptor.versionCode, "noticeVersion:" + noticeVersion, "forceVersion:" + forceVersion)
+	trace(appModel.descriptor.versionCode, "noticeVersion:" + noticeVersion, "forceVersion:" + forceVersion)
 	if( appModel.descriptor.versionCode < serverData.getInt("forceVersion") )
 		dispatchEvent(new LoadingEvent(LoadingEvent.FORCE_UPDATE));
 	else if( appModel.descriptor.versionCode < serverData.getInt("noticeVersion") )
@@ -205,7 +205,7 @@ protected function coreLoader_completeHandler(event:Event):void
 	sfsConnection.lobbyManager = new LobbyManager();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
-	registerPushManager();
+	//registerPushManager();
 	
 	// prevent ADs for new users
 	if( appModel.game.player.get_arena(0) == 0 || appModel.game.player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) )
