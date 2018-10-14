@@ -134,11 +134,11 @@ protected function defaultHitDisplayFactory() : void
 	
 	if( isExplosive )
 	{
-		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/explosion-", "effects"), 35);
+		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/explosion-", "effects"), 45);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
-		explosionDisplay.scaleY = explosionDisplay.scaleX;
+		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
 		explosionDisplay.width = card.bulletDamageArea * 3.00;
-		explosionDisplay.height = card.bulletDamageArea * 2;
+		explosionDisplay.scaleY = explosionDisplay.scaleX;
 		explosionDisplay.x = this.x;
 		explosionDisplay.y = this.y;
 		fieldView.effectsContainer.addChild(explosionDisplay);

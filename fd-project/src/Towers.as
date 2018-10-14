@@ -23,7 +23,6 @@ import flash.utils.getTimer;
 import starling.core.Starling;
 
 [ResourceBundle("loc")]
-[SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
 public class Towers extends Sprite
 {
 public static var t:int;

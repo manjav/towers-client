@@ -254,7 +254,7 @@ override public function hit(damage:Number):void
 
 private function setHealth(health:Number):void
 {
-	if( health < card.health )
+	if( health > 0 && health < card.health )
 	{
 		if( healthDisplay == null )
 		{
@@ -268,11 +268,11 @@ private function setHealth(health:Number):void
 		{
 			healthDisplay.value = health;
 		}
+		return;
 	}
-	else
-	{
+	
+	if( health < 0 )
 		dispose();
-	}
 }
 
 public function get muted():Boolean
