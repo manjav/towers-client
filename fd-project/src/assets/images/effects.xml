@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:424560c74464614ec8917475c5f6c565:7c4ab48d6e156ffd4af41107a56cc134:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
+<!-- $TexturePacker:SmartUpdate:7a49315cb49f1514c721b8d400a4d466:393f9213e74b1034f3fd386020035217:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
 <TextureAtlas imagePath="effects.png" width="2048" height="2048">
     <SubTexture name="bullets/101" x="604" y="226" width="9" height="19"/>
     <SubTexture name="bullets/102" x="604" y="172" width="11" height="14"/>
@@ -10,6 +10,7 @@
     <SubTexture name="bullets/106" x="582" y="282" width="34" height="24"/>
     <SubTexture name="bullets/107" x="604" y="151" width="12" height="20"/>
     <SubTexture name="bullets/108" x="604" y="187" width="9" height="38"/>
+    <SubTexture name="bullets/109" x="1217" y="111" width="50" height="50"/>
     <SubTexture name="bullets/201" x="604" y="187" width="9" height="38"/>
     <SubTexture name="fires/shootFire_00001" x="963" y="224" width="42" height="48" frameX="-20" frameY="-27" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00002" x="1217" y="162" width="49" height="58" frameX="-16" frameY="-21" frameWidth="80" frameHeight="80"/>
