@@ -33,7 +33,7 @@ public function CardDetailsPopup(){}
 override protected function initialize():void
 {
 	// create transition in data
-	var popupHeight:int = stageHeight * 0.7;// (cardType.get_category(cardType) == CardTypes.B40_CRYSTAL ? 0.60 : 0.52);
+	var popupHeight:int = stageHeight * 0.55;// (cardType.get_category(cardType) == CardTypes.B40_CRYSTAL ? 0.60 : 0.52);
 	var popupY:int = (stageHeight - popupHeight) * 0.5;
 	transitionIn = new TransitionData();
 	transitionIn.transition = Transitions.EASE_OUT;
@@ -99,9 +99,12 @@ override protected function transitionInCompleted():void
 	if( card.level == -1 )
 		dispatchEventWith(Event.UPDATE, false, cardType);
 	
+	var inDeck:Boolean = player.getSelectedDeck().existsValue(cardType);
+
 	var upgradeButton:ExchangeButton = new ExchangeButton();
 	upgradeButton.disableSelectDispatching = true;
-	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, -padding * 5);
+
+	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, inDeck ? 0 : -padding * 5);
 	upgradeButton.width = 320;
 	upgradeButton.height = 110;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
@@ -121,21 +124,25 @@ override protected function transitionInCompleted():void
 	/*upgradeButton.alpha = 0;
 	Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});*/
 	
-	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
-	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding + upgradeButton.height, NaN, -padding * 5);
+	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_label"), 1, "center", null, true, null, 0.7);
+	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding + upgradeButton.height, NaN, inDeck ? 0 : -padding * 5);
 	upgradeLabel.alpha = 0;
 	Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
 	addChild(upgradeLabel);
 	
-    var usingButton:CustomButton = new CustomButton();
-    usingButton.style = "neutral";
-    usingButton.label = loc("usage_label");
-    usingButton.isEnabled = player.cards.exists(cardType) && !player.getSelectedDeck().exists(cardType);
-	usingButton.width = 320;
-    usingButton.height = 110;
-    usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
-    usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding*5);
-    addChild(usingButton);
+	if( !inDeck )
+	{
+		var usingButton:CustomButton = new CustomButton();
+		usingButton.style = "neutral";
+		usingButton.label = loc("usage_label");
+		usingButton.isEnabled = player.cards.exists(cardType) && !player.getSelectedDeck().exists(cardType);
+		usingButton.width = 320;
+		usingButton.height = 110;
+		usingButton.isEnabled = !
+		usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
+		usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding * 5);
+		addChild(usingButton);
+	}
     
  /*   showTutorArrow();
 }
@@ -171,6 +178,7 @@ private function upgradeButton_selectHandler(event:Event):void
 private function upgradeButton_triggeredHandler():void
 {
 	dispatchEventWith(Event.UPDATE, false, cardType);
+	close();
 }
 }
 }

@@ -54,7 +54,7 @@ override protected function transitionInCompleted():void
 	detailsButton.height = 120;
 	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
 	detailsButton.style = upgradable ? "normal" : "neutral";
-	detailsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * (data>-1?0.5:4.0), NaN, 0);
+	detailsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * (data?0.5:4.0), NaN, 0);
 	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
 	detailsButton.alpha = 0;
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
@@ -62,7 +62,7 @@ override protected function transitionInCompleted():void
 	
 	//showTutorArrow();
 	
-	if( data > -1 )
+	if( data )
 		return;
 	
 	var usingButton:CustomButton = new CustomButton();

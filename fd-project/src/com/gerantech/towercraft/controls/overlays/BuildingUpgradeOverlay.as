@@ -21,22 +21,20 @@ import starling.events.Event;
 
 public class BuildingUpgradeOverlay extends BaseOverlay
 {
-public var building:Card;
+public var card:Card;
 private var initializeStarted:Boolean;
 private var shineArmature:StarlingArmatureDisplay;
 
 public function BuildingUpgradeOverlay()
 {
 	super();
-	//BattleOutcomeOverlay.createFactionsFactory(initialize);
 }
 
 override protected function initialize():void
 {
 	if( stage != null )
 		addChild(defaultOverlayFactory());
-	//if( stage == null || appModel.assets.isLoading || initializeStarted )
-		//return;
+
 	super.initialize();
 	appModel.navigator.activeScreen.visible = false;
 	initializeStarted = true;
@@ -47,41 +45,31 @@ override protected function initialize():void
 	width = stage.stageWidth;
 	height = stage.stageHeight;
 	overlay.alpha = 1;
-/*	
-	if(BattleOutcomeOverlay.dragonBonesData == null)
-		return;
 	
-	var armatureDisplay:StarlingArmatureDisplay = BattleOutcomeOverlay.animFactory.buildArmatureDisplay("levelup");
-	armatureDisplay.x = stage.stageWidth/2;
-	armatureDisplay.y = stage.stageHeight / 2;
-	armatureDisplay.scale = appModel.scale;
-	armatureDisplay.animation.gotoAndPlayByFrame("appearin", 1, 1);
-	addChild(armatureDisplay);*/
-	
-	
-	var card:BuildingCard = new BuildingCard(true, false, false, false);
-	card.setData(building.type, building.level - 1);
-	card.pivotY = card.height * 0.5;
-	card.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
-	card.width = 240;
-	card.height = card.width * 1.4;
-	card.y = (stage.stageHeight - card.height) * 0.5;
-	addChild(card);
-	card.scale = 1.6;
+	var cardView:BuildingCard = new BuildingCard(true, false, false, false);
+	cardView.pivotX= cardView.width * 0.5;
+	cardView.pivotY = cardView.height * 0.5;
+	cardView.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
+	cardView.width = 240;
+	cardView.height = cardView.width * BuildingCard.VERICAL_SCALE;
+	cardView.y = (stage.stageHeight - cardView.height) * 0.5;
+	addChild(cardView);
+	cardView.setData(card.type, card.level - 1);
+	//card.scale = 1.6;
 	
 	appModel.sounds.setVolume("main-theme", 0.3);
 	setTimeout(levelUp, 500);
 	setTimeout(showFeatures, 1800);
 	function levelUp():void {
-		var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + building.type), 1, "center", null, false, null, 1.5);
+		var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + cardView.type), 1, "center", null, false, null, 1.5);
 		titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
-		titleDisplay.y = (stage.stageHeight - card.height) / 3;
+		titleDisplay.y = (stage.stageHeight - cardView.height) / 3;
 		addChild(titleDisplay);
 		
-		card.scale = 2.4;
-		card.setData(building.type, building.level);
-		Starling.juggler.tween(card, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
-		Starling.juggler.tween(card, 0.5, {delay:0.7, y:card.y - 150, transition:Transitions.EASE_IN_OUT});
+		cardView.scale = 2.4;
+		cardView.setData(card.type, card.level);
+		Starling.juggler.tween(cardView, 0.3, {scale:1.6, transition:Transitions.EASE_OUT});
+		Starling.juggler.tween(cardView, 0.5, {delay:0.7, y:cardView.y - 150, transition:Transitions.EASE_IN_OUT});
 		
 		// shine animation
 		shineArmature = OpenBookOverlay.factory.buildArmatureDisplay("shine");
@@ -90,14 +78,14 @@ override protected function initialize():void
 		shineArmature.x = 120;
 		shineArmature.y = 170;
 		shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
-		card.addChildAt(shineArmature, 0);
+		cardView.addChildAt(shineArmature, 0);
 		Starling.juggler.tween(shineArmature, 0.3, {scale:2.5, transition:Transitions.EASE_OUT_BACK});
 		
 		// explode particles
 		var explode:MortalParticleSystem = new MortalParticleSystem("explode", 2);
 		explode.x = 120;
 		explode.y = 170;
-		card.addChildAt(explode, 0);
+		cardView.addChildAt(explode, 0);
 		
 		// scraps particles
 		var scraps:MortalParticleSystem = new MortalParticleSystem("scrap", 5);
@@ -112,8 +100,8 @@ override protected function initialize():void
 		featureList.width = stage.stageWidth * 0.5;
 		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width * 0.7);
 		featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(building.type); }
-		featureList.dataProvider = new ListCollection(CardFeatureType.getRelatedTo(building.type)._list);
+		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(card.type); }
+		featureList.dataProvider = new ListCollection(CardFeatureType.getRelatedTo(card.type)._list);
 		addChild(featureList);
 		
 		var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
@@ -137,4 +125,4 @@ override public function dispose():void
 	super.dispose();
 }
 }
-}
+}

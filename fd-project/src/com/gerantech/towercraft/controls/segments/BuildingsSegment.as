@@ -203,7 +203,7 @@ private function seudUpgradeRequest(card:Card, confirmedHards:int):void
 	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
-	upgradeOverlay.building = card;
+	upgradeOverlay.card = card;
 	appModel.navigator.addOverlay(upgradeOverlay);
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 }
