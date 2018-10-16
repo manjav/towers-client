@@ -342,7 +342,6 @@ private function pushToDeck(cardIndex:int):void
 	params.putShort("deckIndex", player.selectedDeckIndex);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.CHANGE_DECK, params);
 	
-	dispatchEventWith(Event.READY, true, true);
 	setEditMode(false, -1);
 }
 
@@ -385,6 +384,7 @@ private function setEditMode(value:Boolean, type:int):void
 	scroller.alpha = 0;
 	Starling.juggler.tween(scroller, 0.3, {alpha:1});
 	removeEventListener(TouchEvent.TOUCH, touchHandler);
+	dispatchEventWith(Event.READY, true, true);
 }
 
 private function details_updateHandler(event:Event):void
@@ -405,7 +405,7 @@ private function details_updateHandler(event:Event):void
 		return;
 	}
 	
-	sendUpgradeRequest(card, 0);
+	seudUpgradeRequest(card, 0);
 }
 private function upgradeConfirm_errorHandler(event:Event):void
 {
@@ -416,10 +416,10 @@ private function upgradeConfirm_errorHandler(event:Event):void
 private function upgradeConfirm_selectHandler(event:Event):void
 {
 	var confirm:RequirementConfirmPopup = event.currentTarget as RequirementConfirmPopup;
-	sendUpgradeRequest( confirm.data as Card, Exchanger.toHard(player.deductions(confirm.requirements)) );
+	seudUpgradeRequest( confirm.data as Card, Exchanger.toHard(player.deductions(confirm.requirements)) );
 }
 
-private function sendUpgradeRequest(card:Card, confirmedHards:int):void
+private function seudUpgradeRequest(card:Card, confirmedHards:int):void
 {
 	if( selectPopup != null )
 	{
