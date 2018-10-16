@@ -33,13 +33,11 @@ private var splash:SplashScreen;
 
 public function Towers()
 {
-	/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
-	{
-		var str:String = improveLevel + " : ";
-		for(var level:int=1; level<=10; level++)
-			str += level + "[" + ((  0.25 + Math.log(level) * 0.02 + Math.log(improveLevel) * 0.003  )).toFixed(3) + "]   " ;
-		trace(str);
-	}
+	/*var str:String = "";
+	var ret:Number = -0.05;
+	for( var level:int=1; level<=13; level++ )
+		str += level + "[" + ((			ret + (Math.log(level) * 0.585) * (ret/Math.abs(ret))			)).toFixed(3) + "]   " ;
+	trace(str);
 	NativeApplication.nativeApplication.exit();
 	return;*/
     
@@ -54,9 +52,9 @@ public function Towers()
 	currencies.push(ResourceType.CURRENCY_SOFT.toString());
 	
 	GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
-		.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("8ecad253293db70a84469b3d79243f12").setGameSecretAndroid("6c3abba9c19b989f5e45749396bcb1b78b51fbf2")
+		.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("df4b20d8b9a4b0ec2fdf5ac49471d5b2").setGameSecretAndroid("972a1c900218b46f42d8a93e2f69710545903307")
 		.setResourceCurrencies(currencies)
-		.setResourceItemTypes(new <String>["outcome", "special", "chest", "purchase", "exchange", "upgrade", "donate"])
+		.setResourceItemTypes(new <String>["outcome", "special", "book", "purchase", "exchange", "upgrade", "donate"])
 	/*.setBuildiOS(AppModel.instance.descriptor.versionNumber).setGameKeyiOS("[ios_game_key]").setGameSecretiOS("[ios_secret_key]")*/
 	GameAnalytics.init();
 	

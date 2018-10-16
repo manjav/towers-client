@@ -71,7 +71,7 @@
 	<application android:enabled="true" >
 		
 <!-- Google Play -->
-		<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 818896630544" />
+		<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 123068560070" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		
 <!-- OneSignal BEGIN -->
