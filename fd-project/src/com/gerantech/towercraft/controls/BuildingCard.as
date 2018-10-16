@@ -256,7 +256,7 @@ protected function defaultSliderDisplayFactory() : BuildingSlider
 	var building:Card = player.cards.get(type);
 	if( building == null )
 		return null;
-	var upgradeCards:int = Card.get_upgradeCards(building.level);
+	var upgradeCards:int = Card.get_upgradeCards(building.level, building.rarity);
 	var numBuildings:int = player.resources.get(type);
 	if( sliderDisplay != null )
 	{

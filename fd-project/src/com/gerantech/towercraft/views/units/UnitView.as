@@ -119,8 +119,8 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
-		battleField.bullets.set(battleField.bulletId, new BulletView(battleField, battleField.bulletId, card, side, x, y, enemy.x, enemy.y));
-		battleField.bulletId ++;
+		battleField.bullets.set(enemy.bulletId, new BulletView(battleField, enemy.bulletId, card, side, x, y, enemy.x, enemy.y));
+		enemy.bulletId ++;
 		attacks(enemy.id);
 		return;
 	}
@@ -220,7 +220,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
 	direction = dir;
 	var numFrames:int = bodyDisplay.numFrames - 1;// trace(textureType + direction, numFrames);
-	while ( numFrames > 0 )
+	while( numFrames > 0 )
 	{
 		bodyDisplay.removeFrameAt(numFrames);
 		numFrames --;
@@ -262,7 +262,6 @@ private function setHealth(health:Number):void
 			healthDisplay.x = this.x;
 			healthDisplay.y = this.y - 180;
 			fieldView.guiImagesContainer.addChild(healthDisplay);
-			//healthDisplay.scale = scale;
 		}
 		else
 		{

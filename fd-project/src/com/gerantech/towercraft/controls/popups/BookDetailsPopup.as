@@ -67,13 +67,13 @@ override protected function initialize():void
 	titleDisplay.layoutData = new AnchorLayoutData(padding * 9, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 
-	var numCards:int = ExchangeType.getNumTotalCards(item.outcome, arena, player.splitTestCoef)
+	var numCards:int = ExchangeType.getNumTotalCards(item.outcome, arena, player.splitTestCoef, 0);
 	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(numCards * 0.9) + " - " + int(numCards * 1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
 	cardsPalette.layoutData = new AnchorLayoutData(padding * 13, NaN, NaN, padding * 2.4);
 	addChild(cardsPalette);
 	
-	var numSofts:int = ExchangeType.getNumSofts(item.outcome, arena, player.splitTestCoef)
+	var numSofts:int = ExchangeType.getNumSofts(item.outcome, arena, player.splitTestCoef);
 	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
 	softsPalette.layoutData = new AnchorLayoutData(padding * 13, padding * 2);

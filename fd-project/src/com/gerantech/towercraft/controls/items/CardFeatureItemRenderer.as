@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.constants.CardFeatureType;
 
 public class CardFeatureItemRenderer extends FeatureItemRenderer
 {
@@ -19,15 +20,13 @@ override protected function commitData():void
 	
 	super.commitData();
 	feature = _data as int;
-	keyDisplay.text = loc("building_feature_" + feature);
 	
 	var building:Card = player.cards.get(CardTypes);
 	var buildingLevel:int = building == null ? 1 : building.level;
 	
 	//var baseValue:Number = game.calculator.getBaseline(feature) * game.calculator.getUIFactor(feature);
-	var newValue:Number = game.calculator.get(feature, CardTypes, buildingLevel + 1) * game.calculator.getUIFactor(feature);
-	var oldValue:Number = game.calculator.get(feature, CardTypes, buildingLevel + 0) * game.calculator.getUIFactor(feature);
-
+	var newValue:Number = game.calculator.get(feature, CardTypes, buildingLevel + 1) * CardFeatureType.getUIFactor(feature);
+	var oldValue:Number = game.calculator.get(feature, CardTypes, buildingLevel + 0) * CardFeatureType.getUIFactor(feature);
 	var diff:Number = Math.round(Math.abs(newValue - oldValue));
 	if( building != null )
 	{
@@ -38,6 +37,8 @@ override protected function commitData():void
 	{
 		valueDisplay.text = Math.round(oldValue);
 	}
+	
+	keyDisplay.text = loc("building_feature_" + feature + (newValue > 0 ? "" : "_1"));
 }
 }
 }

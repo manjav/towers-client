@@ -42,7 +42,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	bulletDisplay.rotation = rotation;
 	bulletDisplay.x = this.x;
 	bulletDisplay.y = this.y - card.sizeV;
-	fieldView.effectsContainer.addChild(bulletDisplay);
+	fieldView.unitsContainer.addChildAt(bulletDisplay, 0);
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;

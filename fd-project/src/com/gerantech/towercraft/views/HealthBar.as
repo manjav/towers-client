@@ -23,7 +23,7 @@ public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 
 	touchable = false;
 	this.pivotX = this.width * 0.5;
 	this.width = 48;
-	this.height = 16;
+	this.minHeight = height = 12;
 	this.troopType = troopType;
 	this.value = initValue;
 	this.maximum = initMax;
@@ -40,7 +40,7 @@ override protected function initialize():void
 	backroundDisplay.pixelSnapping = false;
 	backroundDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
 	backroundDisplay.scale9Grid = scaleRect;
-	backroundDisplay.source = Assets.getTexture("healthbar-bg-"+(atlas=="battlefields"?_troopType:-1), atlas);
+	backroundDisplay.source = Assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1), atlas);
 	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChildAt(backroundDisplay, 0);
 	
