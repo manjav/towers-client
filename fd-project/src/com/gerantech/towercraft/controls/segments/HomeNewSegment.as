@@ -54,7 +54,7 @@ public function HomeNewSegment() { super(); }
 override public function init():void
 {
 	super.init();
-	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED  )
+	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 		return;
 	
 	var padding:int = 16;
@@ -74,8 +74,8 @@ override public function init():void
 	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
-	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430, 186, gridRect, shadowRect);
-	addButton(battlesButton, "battlesButton", stageWidth * 0.49 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
+	var rightBattleButton:HomeNewButton = new HomeNewButton("battle-right", loc("button_battle_right"), 430, 186, gridRect, shadowRect);
+	addButton(rightBattleButton, "rightButton", stageWidth * 0.49 + rightBattleButton.width * 0.5, stageHeight * 0.66, 0.6);
 	
 	if( player.challenges != null )
 	{
@@ -88,14 +88,14 @@ override public function init():void
 			countdownDisplay.localString = "challenge_end_at";
 			countdownDisplay.height = 100;
 			countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
-			battlesButton.addChild(countdownDisplay);
+			leftBattleButton.addChild(countdownDisplay);
 		}
 	}
 	
 	if( player.hasOperations )
 	{
-		var operationButton:HomeNewButton = new HomeNewButton("operation", loc("button_operation"), 420, 186, gridRect, shadowRect);
-		addButton(operationButton, "operationButton", stageWidth * 0.46 - operationButton.width * 0.5, stageHeight * 0.66, 0.7);
+		var leftBattleButton:HomeNewButton = new HomeNewButton("battle-left", loc("button_battle_left"), 420, 186, gridRect, shadowRect);
+		addButton(leftBattleButton, "leftButton", stageWidth * 0.46 - leftBattleButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
 	
 	// bookline
@@ -283,11 +283,11 @@ private function mainButtons_triggeredHandler(event:Event):void
 	switch( buttonName )
 	{
 		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );					return;
-		case "battlesButton":	appModel.navigator.runBattle();											return;
 		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));			return;
 		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
-		case "operationButton":	appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
+		case "leftButton":		appModel.navigator.runBattle();											return;
+		case "rightButton":		appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 	}
 	
 	if( player.get_arena(0) <= 0 )
@@ -298,7 +298,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		//case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );			return;
+		//case "rightButton":		appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 		case "googleButton":	socialSignin();														 	return;
 	}
