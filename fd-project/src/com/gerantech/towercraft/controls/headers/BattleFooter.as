@@ -8,6 +8,7 @@ import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.constants.CardTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.LayoutGroup;
@@ -159,7 +160,7 @@ protected function touchHandler(event:TouchEvent) : void
 		if( touch.phase == TouchPhase.MOVED )
 		{
 			draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
-			draggableCard.y = Math.max(BattleField.HEIGHT * 0.17 + appModel.battleFieldView.y, touch.globalY);
+			draggableCard.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?-0.5:0.17) + appModel.battleFieldView.y, touch.globalY);
 			draggableCard.scale = Math.max(0.5, (500 + Math.min(touch.globalY - y, 0)) / 500 * 1.3);
 		}
 		else if( touch.phase == TouchPhase.ENDED )
@@ -168,7 +169,7 @@ protected function touchHandler(event:TouchEvent) : void
 			var rect:Rectangle = draggableCard.getBounds(appModel.battleFieldView);
 			rect.x += rect.width * 0.5;
 			rect.y += rect.height * 0.5;
-			if( rect.y < BattleField.HEIGHT && rect.y > BattleField.HEIGHT * 0.6666 && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
+			if( rect.y < BattleField.HEIGHT && rect.y > BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?0.0:0.6666) && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
 				selectedCard.setData(cardQueue.shift());
