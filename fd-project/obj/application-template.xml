@@ -31,32 +31,8 @@
   </icon>
   <android>
     <manifestAdditions><![CDATA[<manifest android:installLocation="auto">
-<!-- OneSignal permissions -->
-	<permission android:name="air.com.grantech.towers.permission.C2D_MESSAGE" android:protectionLevel="signature" />
-	<uses-permission android:name="air.com.grantech.towers.permission.C2D_MESSAGE" />
-	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-<!-- START: ShortcutBadger -->
-	<!-- Samsung -->
-	<uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
-	<uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
-	<!-- HTC -->
-	<uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS"/>
-	<uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT"/>
-	<!-- Sony -->
-	<uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE"/>
-	<!-- Apex -->
-	<uses-permission android:name="com.anddoes.launcher.permission.UPDATE_COUNT"/>
-	<!-- Solid -->
-	<uses-permission android:name="com.majeur.launcher.permission.UPDATE_BADGE"/>
-	<!-- Huawei -->
-	<uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
-	<uses-permission android:name="com.huawei.android.launcher.permission.READ_SETTINGS" />
-	<uses-permission android:name="com.huawei.android.launcher.permission.WRITE_SETTINGS" />
-<!-- End: ShortcutBadger -->
- 
-<!-- In APP Billing permissions -->
+	<!-- In APP Billing permissions -->
 	<!--<uses-permission android:name="com.android.vending.BILLING" /> <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> <uses-permission android:name="ir.mservices.market.BILLING" /> <uses-permission android:name="com.arioclub.android.sdk.IAB" />-->
 	<uses-permission android:name="com.domain.market.BILLING" />
 	
@@ -73,35 +49,6 @@
 <!-- Google Play -->
 		<meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 123068560070" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-		
-<!-- OneSignal BEGIN -->
-		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-		<meta-data android:name="onesignal_app_id" android:value="83cdb330-900e-4494-82a8-068b5a358c18" />
-		<meta-data android:name="onesignal_google_project_number" android:value="str:818896630544" />
-		
-		<receiver android:name="com.onesignal.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
-		  <intent-filter>
-			<action android:name="com.google.android.c2dm.intent.RECEIVE" />
-			<category android:name="air.com.grantech.towers" />
-		  </intent-filter>
-		</receiver>
-		<receiver android:name="com.onesignal.NotificationOpenedReceiver" />
-		<service android:name="com.onesignal.GcmIntentService" />
-		<service android:name="com.onesignal.SyncService" android:stopWithTask="false" />
-		<activity android:name="com.onesignal.PermissionsActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-		<service android:name="com.onesignal.NotificationRestoreService" />
-		<receiver android:name="com.onesignal.BootUpReceiver">
-		  <intent-filter>
-			<action android:name="android.intent.action.BOOT_COMPLETED" />
-			<action android:name="android.intent.action.QUICKBOOT_POWERON" />
-		  </intent-filter>
-		</receiver>
-		<receiver android:name="com.onesignal.UpgradeReceiver">
-		  <intent-filter>
-			<action android:name="android.intent.action.air.com.grantech.towers" />
-		  </intent-filter>
-		</receiver>
-<!-- OneSignal END -->
 		
 		<activity android:excludeFromRecents="false">
 		  <intent-filter>
@@ -150,7 +97,6 @@
 	<extensionID>com.marpies.ane.googleplayservices.iid</extensionID>
 	<extensionID>com.marpies.ane.googleplayservices.location</extensionID>
 	<extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
-	<extensionID>com.marpies.ane.onesignal</extensionID>
 	<extensionID>com.gerantech.extensions.iabilling</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
     <extensionID>ir.tapsell.sdk.air</extensionID>

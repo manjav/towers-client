@@ -9,14 +9,12 @@ import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
 import com.gerantech.towercraft.managers.VideoAdsManager;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
 import com.gt.towers.constants.PrefsTypes;
-import com.marpies.ane.onesignal.OneSignal;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -218,7 +216,7 @@ protected function coreLoader_completeHandler(event:Event):void
 }
 private function registerPushManager():void
 {
-    OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );
+    /*OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );
     OneSignal.idsAvailable( onOneSignalIdsAvailable );
     function onOneSignalIdsAvailable( oneSignalUserId:String, oneSignalPushToken:String ):void {
         var pushParams:ISFSObject = new SFSObject();
@@ -240,7 +238,8 @@ private function registerPushManager():void
     }
     if( OneSignal.init( "83cdb330-900e-4494-82a8-068b5a358c18" ) ) {
         //NativeAbilities.instance.showToast("OneSignal.init", 2);
-    }
+    }*/
+	
     /*OneSignal.addNotificationReceivedCallback( onNotificationReceived );
     function onNotificationReceived( notification:OneSignalNotification ):void {
     NativeAbilities.instance.showToast(notification.message, 2);
