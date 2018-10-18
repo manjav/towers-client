@@ -74,13 +74,16 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
 	}
 	
-	deployIcon = new CountdownIcon();
-	deployIcon.stop();
-	deployIcon.scale = 0.5;
-	deployIcon.x = this.x;
-	deployIcon.y = this.y - 80;
-    deployIcon.rotateTo(0, 360, card.summonTime);
-    setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
+	if( card.summonTime > 0 )
+	{
+		deployIcon = new CountdownIcon();
+		deployIcon.stop();
+		deployIcon.scale = 0.5;
+		deployIcon.x = this.x;
+		deployIcon.y = this.y - 80;
+		deployIcon.rotateTo(0, 360, card.summonTime);
+		setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
+	}
 	
 	if( BattleFieldView.DEBUG_MODE )
 	{
@@ -111,8 +114,11 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.DEPLOY )
 	{
-		deployIcon.punch();
-		setTimeout(deployIcon.removeFromParent, 50);
+		if( deployIcon != null )
+		{
+			deployIcon.punch();
+			setTimeout(deployIcon.removeFromParent, 50);
+		}
 		muted = false;
 		return;
 	}

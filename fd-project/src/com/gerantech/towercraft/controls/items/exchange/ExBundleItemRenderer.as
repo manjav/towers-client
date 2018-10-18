@@ -95,7 +95,7 @@ private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void
 	outcome.y = padding * 16;
 	addChild(outcome);
 	
-	var labelDisplay:ShadowLabel = new ShadowLabel(loc((ResourceType.isCard(outKeys[i]) ? "building_title_" : (ResourceType.isBook(outKeys[i])?"exchange_title_":"resource_title_")) + outKeys[i]), 1, 0, "center");
+	var labelDisplay:ShadowLabel = new ShadowLabel(loc((ResourceType.isCard(outKeys[i]) ? "card_title_" : (ResourceType.isBook(outKeys[i])?"exchange_title_":"resource_title_")) + outKeys[i]), 1, 0, "center");
 	labelDisplay.width = rowH;
 	labelDisplay.pivotX = rowH * 0.5;
 	labelDisplay.x = i * rowH + rowH * 0.5;

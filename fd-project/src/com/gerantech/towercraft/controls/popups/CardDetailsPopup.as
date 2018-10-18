@@ -172,7 +172,7 @@ private function usingButton_triggeredHandler():void
 }
 private function upgradeButton_selectHandler(event:Event):void
 {
-	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("building_title_" + cardType)]));
+	appModel.navigator.addLog(loc("popup_upgrade_building_error", [loc("card_title_" + cardType)]));
 	cardDisplay.punchSlider()
 }
 private function upgradeButton_triggeredHandler():void

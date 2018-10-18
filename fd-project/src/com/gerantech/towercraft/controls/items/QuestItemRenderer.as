@@ -105,7 +105,7 @@ override protected function commitData():void
 	iconDisplay.y = iconStr.substr(0,9) == "home/tab-" ? -PADDING * 3 : -PADDING;
 	
 	if( quest.type == Quest.TYPE_7_CARD_COLLECT || quest.type == Quest.TYPE_8_CARD_UPGRADE )
-		titleDisplay.text = loc("quest_title_" + quest.type, [loc("building_title_" + quest.key), quest.target]);
+		titleDisplay.text = loc("quest_title_" + quest.type, [loc("card_title_" + quest.key), quest.target]);
 	else if( quest.type == Quest.TYPE_6_CHALLENGES )
 		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("challenge_title_" + (quest.key - 1221))]);
 	else if( quest.type == Quest.TYPE_9_BOOK_OPEN )
