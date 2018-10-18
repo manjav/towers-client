@@ -7,6 +7,8 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.calculators.BulletFirePositionCalculator;
+import com.gt.towers.constants.CardTypes;
+import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
 import flash.geom.Point;
 import starling.core.Starling;
@@ -24,8 +26,8 @@ public class BulletView extends Bullet
 {
 public var fireDisplayFactory:Function;
 public var hitDisplayFactory:Function;
+private var bulletDisplay:MovieClip;
 private var shadowDisplay:Image;
-private var bulletDisplay:Image;
 private var rotation:Number;
 
 public function BulletView(battleField:BattleField, id:int, card:Card, side:int, x:Number, y:Number, dx:Number, dy:Number) 
@@ -36,13 +38,13 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 	
 	rotation = MathUtil.normalizeAngle( -Math.atan2(x - dx, y - dy));
 
-	bulletDisplay = new Image(Assets.getTexture("bullets/" + card.type, "effects"))
+	bulletDisplay = new MovieClip(Assets.getTextures("bullets/" + card.type + "/", "effects"))
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
+	bulletDisplay.loop = CardTypes.isSpell(card.type);
 	bulletDisplay.rotation = rotation;
 	bulletDisplay.x = this.x;
 	bulletDisplay.y = this.y - card.sizeV;
-	fieldView.unitsContainer.addChildAt(bulletDisplay, 0);
 	
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
@@ -56,6 +58,19 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 		
 	if( hitDisplayFactory == null )
 		hitDisplayFactory = defaultHitDisplayFactory;
+}
+
+override public function fireEvent(dispatcherId:int, type:String, data:*) : void
+{
+	if( type == BattleEvent.DEPLOY )
+	{
+		if( bulletDisplay.numFrames > 1 )
+		{
+			Starling.juggler.add(bulletDisplay);
+			bulletDisplay.play();
+		}
+		fieldView.effectsContainer.addChild(bulletDisplay);
+	}
 }
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
@@ -104,7 +119,10 @@ override public function dispose():void
 	}
 	
 	if( bulletDisplay != null )
+	{
+		Starling.juggler.remove(bulletDisplay);
 		bulletDisplay.removeFromParent(true);
+	}
 }
 
 protected function defaultFireDisplayFactory() : void 
@@ -130,7 +148,7 @@ protected function defaultFireDisplayFactory() : void
 
 protected function defaultHitDisplayFactory() : void
 {
-	var isExplosive:Boolean = card.type == 104 || card.type == 105 || card.type == 106;
+	var isExplosive:Boolean = card.bulletDamageArea > 50 && card.bulletDamage > 0;// card.type == 104 || card.type == 105 || card.type == 106;
 	
 	if( isExplosive )
 	{

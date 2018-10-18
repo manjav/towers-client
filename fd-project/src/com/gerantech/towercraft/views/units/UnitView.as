@@ -5,6 +5,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
+import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
@@ -192,9 +193,9 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 {
 	if( bodyDisplay == null )
 		return;
-	if( x == -1 )
+	if( x == GameObject.NaN )
 		x = this.x;
-	if( y == -1 )
+	if( y == GameObject.NaN )
 		y = this.y;
 	var flipped:Boolean = false;
 	var dir:String = CoreUtils.getRadString(Math.atan2(oldX - x, oldY - y));

@@ -8,7 +8,11 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
+import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.units.Card;
+import com.gt.towers.constants.CardFeatureType;
+import com.gt.towers.constants.CardTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import starling.core.Starling;
 import starling.display.Image;
@@ -123,6 +127,14 @@ public function createPlaces(battleData:BattleData) : void
 
 public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
 {
+	if( CardTypes.isSpell(type) )
+	{
+		var card:Card = new Card(AppModel.instance.game, type, level);
+		var offsetY:Number = card.game.calculator.get(CardFeatureType.F28_BULLET_FIRE_POSITION, type, 0)
+		battleData.battleField.bullets.set(id, new BulletView(battleData.battleField, id, card, side, x, y + offsetY, x, y));
+		return;
+	}
+	
 	var u:UnitView = new UnitView(id, type, level, side, x, y);
 	if( health >= 0 )
 		u.health = health;
