@@ -46,13 +46,13 @@ package com.gerantech.towercraft.managers
 		/** Add sounds to the sound dictionary */
 		public function addSound(id:String, sound:Sound=null, callback:Function=null, category:int=1):void 
 		{
-			if ( soundIsAdded(id) )
+			if( soundIsAdded(id) )
 			{
-				if(callback != null)
+				if( callback != null )
 					callback();
 				return;
 			}
-
+			
 			if( sound == null )
 			{
 				AppModel.instance.assets.enqueue("assets/sounds/" + id + ".mp3");
@@ -66,37 +66,39 @@ package com.gerantech.towercraft.managers
 					return;
 				sound = AppModel.instance.assets.getSound(id);
 				sounds[id] = {s:sound, c:category};
-				if(callback != null)
+				if( callback != null )
 					callback();
 			}
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Remove sounds from the sound manager */
-		public function removeSound(id:String):void {
-			if (soundIsAdded(id)) {
+		public function removeSound(id:String):void
+		{
+			if( soundIsAdded(id) )
+			{
 				delete sounds[id];	
 				
-			//	AppModel.instance.assets.
-				if (soundIsPlaying(id))
+				if( soundIsPlaying(id) )
 					delete currPlayingSounds[id];
 			}
-			else {
+			else
+			{
 				throw Error("The sound you are trying to remove is not in the sound manager");
 			}
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Check if a sound is in the sound manager */
-		public function soundIsAdded(id:String):Boolean {
+		public function soundIsAdded(id:String):Boolean
+		{
 			return Boolean(sounds[id]);
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Check if a sound is playing */
 		public function soundIsPlaying(id:String):Boolean
 		{
-			for (var currID:String in currPlayingSounds) {
-				if ( currID == id )
+			for( var currID:String in currPlayingSounds )
+				if( currID == id )
 					return true;
-			}	
 			return false;
 		}
 		
@@ -122,15 +124,13 @@ package com.gerantech.towercraft.managers
 					return;
 				
 				var soundObject:Sound = sounds[id].s;
-				var channel:SoundChannel = soundObject.play(0, repetitions);
-				
-				if (!channel)
+				if( soundObject == null )
 					return;
-				
+				var channel:SoundChannel = soundObject.play(0, repetitions);
 				channel.addEventListener(Event.SOUND_COMPLETE, removeSoundFromDictionary);
 				
 				// if the sound manager is muted, set the sound's volume to zero
-				var v:Number = (_isMuted)? 0 : volume;
+				var v:Number = _isMuted ? 0 : volume;
 				var s:SoundTransform = new SoundTransform(v, panning);
 				channel.soundTransform = s;
 				
@@ -143,11 +143,11 @@ package com.gerantech.towercraft.managers
 		}
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Remove a sound from the dictionary of the sounds that are currently playing */
-		private function removeSoundFromDictionary(e:Event):void {			
-			
+		private function removeSoundFromDictionary(e:Event):void
+		{			
 			for (var id:String in currPlayingSounds) 
 			{
-				if (currPlayingSounds[id].channel == e.target)
+				if( currPlayingSounds[id].channel == e.target )
 					delete currPlayingSounds[id];
 			}
 			e.currentTarget.removeEventListener(Event.SOUND_COMPLETE, removeSoundFromDictionary);
