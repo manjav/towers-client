@@ -36,6 +36,7 @@ public function BattleData(data:ISFSObject)
 	battleField = new BattleField(AppModel.instance.game, axisGame, data.getText("type"), data.getInt("index"), data.getInt("side"));
 	battleField.startAt = data.getInt("startAt");
 	battleField.now = battleField.startAt * 1000;
+	battleField.state = BattleField.STATE_1_CREATED;
 	TimeManager.instance.setNow(battleField.startAt);
 	allis = data.getSFSObject("allis");
 	axis = data.getSFSObject("axis");

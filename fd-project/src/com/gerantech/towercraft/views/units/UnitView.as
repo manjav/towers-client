@@ -23,7 +23,6 @@ import starling.utils.Color;
 public class UnitView extends BaseUnit
 {
 private var hitFilter:ColorMatrixFilter;
-private var _state:int;
 private var _muted:Boolean = true;
 private var direction:String;
 private var textureType:String;
@@ -38,20 +37,16 @@ private var sizeDisplay:Image;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
 {
-	
 	super(id, type, level, side, x, y);
 
-	//if( type < 200 )
-	//{
-		shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
-		shadowDisplay.pivotX = shadowDisplay.width * 0.55;
-		shadowDisplay.pivotY = shadowDisplay.height * 0.55;
-		shadowDisplay.width = card.sizeH * 2;
-		shadowDisplay.height = card.sizeH * 1.42;
-		shadowDisplay.x = this.x;
-		shadowDisplay.y = this.y;
-		fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
-	//}
+	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
+	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
+	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
+	shadowDisplay.width = card.sizeH * 2;
+	shadowDisplay.height = card.sizeH * 1.42;
+	shadowDisplay.x = this.x;
+	shadowDisplay.y = this.y;
+	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 	
 	var appearanceDelay:Number = Math.random() * 0.5;
 	
@@ -110,16 +105,32 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	}
 }
 
-override public function fireEvent(dispatcherId:int, type:String, data:*) : void
+override public function setState(state:int) : Boolean
 {
-	if( type == BattleEvent.DEPLOY )
+	if( !super.setState(state) )
+		return false;
+	
+	if( state == GameObject.STATE_1_DIPLOYED )
 	{
 		muted = false;
-		return;
 		if( deployIcon != null )
 			deployIcon.scaleTo(0, 0, 0.5, function():void{deployIcon.removeFromParent(true);} );
 	}
-	
+	else if( state == GameObject.STATE_3_WAITING )
+	{
+		bodyDisplay.currentFrame = 0;
+		bodyDisplay.pause();
+	}
+	else if ( state == GameObject.STATE_2_MOVING )
+	{
+		bodyDisplay.play();
+	}
+
+	return true;
+}
+
+override public function fireEvent(dispatcherId:int, type:String, data:*) : void
+{
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
@@ -139,17 +150,16 @@ public function attacks(target:int): void
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
 {
-	if( disposed )
+	if( disposed() )
 		return false;
 	
 	var _x:Number = this.x;
 	var _y:Number = this.y;
 	if( !super.setPosition(x, y, forced) )
 	{
-		//state = Unit.STATE_WAIT;
 		return false;
 	}
-
+	
 	switchAnimation("m_", x, _x, y, _y);
 	
 	//state = Unit.STATE_MOVE;
@@ -200,6 +210,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		x = this.x;
 	if( y == GameObject.NaN )
 		y = this.y;
+
 	var flipped:Boolean = false;
 	var dir:String = CoreUtils.getRadString(Math.atan2(oldX - x, oldY - y));
 	if( dir == "-45" || dir == "-90" || dir == "-35" )
@@ -239,7 +250,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 override public function hit(damage:Number):void
 {
 	super.hit(damage);
-	if( disposed )
+	if( disposed() )
 		return;
 	//trace(id, health, damage)
 	if( bodyDisplay != null )

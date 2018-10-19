@@ -4,6 +4,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.calculators.BulletFirePositionCalculator;
@@ -62,7 +63,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 
 override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
-	if( type == BattleEvent.DEPLOY )
+	if( type == BattleEvent.STATE_CHANGE && state == GameObject.STATE_1_DIPLOYED )
 	{
 		if( bulletDisplay.numFrames > 1 )
 		{
@@ -75,7 +76,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 
 override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
 {
-	if( disposed )
+	if( disposed() )
 		return false;
 	
 	if( !super.setPosition(x, y, forced) )
@@ -148,11 +149,14 @@ protected function defaultFireDisplayFactory() : void
 
 protected function defaultHitDisplayFactory() : void
 {
-	var isExplosive:Boolean = card.bulletDamageArea > 50 && card.bulletDamage > 0;// card.type == 104 || card.type == 105 || card.type == 106;
-	
-	if( isExplosive )
+	var hasDamageArea:Boolean = card.bulletDamageArea > 50 && card.bulletDamage > 0;
+	if( hasDamageArea )
 	{
-		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures("hits/explosion-", "effects"), 45);
+		var textureURL:String = "hits/explosion-";
+		if( card.type == CardTypes.C152 )
+			textureURL = "hits/arrows-";
+		
+		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures(textureURL, "effects"), card.type == CardTypes.C152 ? 1 : 45);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
 		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
 		explosionDisplay.width = card.bulletDamageArea * 3.00;

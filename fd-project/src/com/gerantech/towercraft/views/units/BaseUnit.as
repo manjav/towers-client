@@ -10,7 +10,7 @@ import starling.events.EventDispatcher;
 
 /**
 * ...
-* @author ...
+* @author Mansour Djawadi
 */
 public class BaseUnit extends Unit
 {

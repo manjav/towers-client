@@ -88,6 +88,7 @@ protected function timeManager_updateHandler(e:Event):void
 public function createPlaces(battleData:BattleData) : void
 {
 	this.battleData = battleData;
+	battleData.battleField.state = BattleField.STATE_2_STARTED;
 	responseSender = new ResponseSender(battleData.room);
 	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
 	
