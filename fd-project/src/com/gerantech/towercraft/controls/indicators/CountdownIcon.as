@@ -56,21 +56,16 @@ public function rotateTo(from:Number, to:Number, duration:Number = 1):void
 	Starling.juggler.repeatCall(rotateAround, duration * fr / Math.abs(diff), Math.abs(diff) / fr);
 	function rotateAround():void
 	{
-		//trace("rotateAround", index, deg2rad(index), fr)
+		trace("rotateAround", index, deg2rad(index), fr)
 		index = diff > 0 ? 1 : -1;
 		needle.rotation += deg2rad(fr);
 	}
 }
 
-public function punch():void
+public function scaleTo(value:Number, delay:Number = 0.5, duration:Number = 0.5, endCallback:Function=null):void
 {
-	_scale = scale;
-	timeoutId = setTimeout(animatePunchScale, 1000 + Math.random() * 1000);
-}
-private function animatePunchScale():void
-{
-	Starling.juggler.tween(this, 0.5, {scale:_scale, transition:Transitions.EASE_OUT_BACK, onComplete:punch});
-	scale = _scale * 1.5;
+	scale *= 1.5;
+	Starling.juggler.tween(this, duration, {delay:delay, scale:value, transition:Transitions.EASE_OUT_BACK, onComplete:endCallback});
 }		
 
 public function stop():void

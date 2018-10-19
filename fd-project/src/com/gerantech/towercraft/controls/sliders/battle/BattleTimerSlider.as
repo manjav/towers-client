@@ -101,7 +101,7 @@ override public function enableStars(score:int):void
 		Starling.juggler.tween(stars[i], 0.3, {delay:i * 0.1, alpha:1});
 	}
 	if( score == 0 )
-		iconDisplay.punch();
+		iconDisplay.scaleTo(1);
 }
 
 override public function dispose():void

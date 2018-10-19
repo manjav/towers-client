@@ -81,7 +81,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		deployIcon.scale = 0.5;
 		deployIcon.x = this.x;
 		deployIcon.y = this.y - 80;
-		deployIcon.rotateTo(0, 360, card.summonTime);
+		deployIcon.rotateTo(0, 360, card.summonTime / 1000);
 		setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
 	}
 	
@@ -114,13 +114,10 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.DEPLOY )
 	{
-		if( deployIcon != null )
-		{
-			deployIcon.punch();
-			setTimeout(deployIcon.removeFromParent, 50);
-		}
 		muted = false;
 		return;
+		if( deployIcon != null )
+			deployIcon.scaleTo(0, 0, 0.5, function():void{deployIcon.removeFromParent(true);} );
 	}
 	
 	if( type == BattleEvent.ATTACK )
