@@ -56,7 +56,7 @@ public function rotateTo(from:Number, to:Number, duration:Number = 1):void
 	Starling.juggler.repeatCall(rotateAround, duration * fr / Math.abs(diff), Math.abs(diff) / fr);
 	function rotateAround():void
 	{
-		trace("rotateAround", index, deg2rad(index), fr)
+		//trace("rotateAround", index, deg2rad(index), fr)
 		index = diff > 0 ? 1 : -1;
 		needle.rotation += deg2rad(fr);
 	}
