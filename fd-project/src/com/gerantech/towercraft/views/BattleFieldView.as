@@ -95,8 +95,8 @@ public function createPlaces(battleData:BattleData) : void
 	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
 	
 	addChild(roadsContainer);
-	addChild(unitsContainer);
 	addChild(elementsContainer);
+	addChild(unitsContainer);
 
 	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
 	{
@@ -147,8 +147,8 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	var u:UnitView = new UnitView(id, type, level, side, x, y, 0);
 	if( health >= 0 )
 		u.health = health;
-	if( fixedPosition )
-		u.setPosition(x, y, 0, true);
+	if( fixedPosition && battleData.battleField.side == 1 )
+		u.setPosition(BattleField.WIDTH - x, BattleField.HEIGHT - y, 0, true);
 	battleData.battleField.units.set(id, u);
 
 	/*units.set(id, new UnitView(id, type, side, level, x, y));
