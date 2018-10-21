@@ -11,8 +11,10 @@ import com.gerantech.towercraft.views.units.UnitView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.calculators.BulletFirePositionCalculator;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.utils.Point3;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import starling.core.Starling;
 import starling.display.Image;
@@ -131,16 +133,22 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	if( CardTypes.isSpell(type) )
 	{
 		var card:Card = new Card(AppModel.instance.game, type, level);
-		var offsetY:Number = card.game.calculator.get(CardFeatureType.F28_BULLET_FIRE_POSITION, type, 0)
-		battleData.battleField.bullets.set(id, new BulletView(battleData.battleField, id, card, side, x, y + offsetY, x, y));
+		var offset:Point3 = BulletFirePositionCalculator.getPoint(card.type, 0);
+		var _x:Number = side == battleData.battleField.side ? x : BattleField.WIDTH - x;
+		var _y:Number = side == battleData.battleField.side ? y : BattleField.HEIGHT - y;
+		offset.x *= (side == battleData.battleField.side) ? 1 : -1;
+		offset.y *= (side == battleData.battleField.side) ? 1 : -1;
+		var spell:BulletView = new BulletView(battleData.battleField, id, card, side, _x + offset.x, _y + offset.y, offset.z, _x, _y, 0);
+		battleData.battleField.bullets.set(id, spell);
+		//trace("summon spell", " side:" + side, " x:" + x, " y:" + y, " offsetX:" + offset.x, " offsetY:" + offset.y, " offsetZ:" + offset.z);
 		return;
 	}
 	
-	var u:UnitView = new UnitView(id, type, level, side, x, y);
+	var u:UnitView = new UnitView(id, type, level, side, x, y, 0);
 	if( health >= 0 )
 		u.health = health;
 	if( fixedPosition )
-		u.setPosition(x, y, true);
+		u.setPosition(x, y, 0, true);
 	battleData.battleField.units.set(id, u);
 
 	/*units.set(id, new UnitView(id, type, side, level, x, y));

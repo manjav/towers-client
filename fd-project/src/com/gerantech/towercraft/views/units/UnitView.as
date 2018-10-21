@@ -35,9 +35,9 @@ private var hitTimeoutId:uint;
 private var rangeDisplay:Image;
 private var sizeDisplay:Image;
 
-public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number)
+public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number, z:Number)
 {
-	super(id, type, level, side, x, y);
+	super(id, type, level, side, x, y, z);
 
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
@@ -134,7 +134,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
-		battleField.bullets.set(enemy.bulletId, new BulletView(battleField, enemy.bulletId, card, side, x, y, enemy.x, enemy.y));
+		battleField.bullets.set(enemy.bulletId, new BulletView(battleField, enemy.bulletId, card, side, x, y, 0, enemy.x, enemy.y, 0));
 		enemy.bulletId ++;
 		attacks(enemy.id);
 		return;
@@ -148,17 +148,15 @@ public function attacks(target:int): void
 	bodyDisplay.play();
 }
 
-override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
+override public function setPosition(x:Number, y:Number, z:Number, forced:Boolean = false) : Boolean
 {
 	if( disposed() )
 		return false;
 	
 	var _x:Number = this.x;
 	var _y:Number = this.y;
-	if( !super.setPosition(x, y, forced) )
-	{
+	if( !super.setPosition(x, y, z, forced) )
 		return false;
-	}
 	
 	switchAnimation("m_", x, _x, y, _y);
 	

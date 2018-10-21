@@ -10,10 +10,8 @@ import com.gt.towers.battle.units.Card;
 import com.gt.towers.calculators.BulletFirePositionCalculator;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
-import com.gt.towers.utils.CoreUtils;
-import flash.geom.Point;
+import com.gt.towers.utils.Point3;
 import starling.core.Starling;
-import starling.display.DisplayObject;
 import starling.display.Image;
 import starling.display.MovieClip;
 import starling.events.Event;
@@ -31,13 +29,13 @@ private var bulletDisplay:MovieClip;
 private var shadowDisplay:Image;
 private var rotation:Number;
 
-public function BulletView(battleField:BattleField, id:int, card:Card, side:int, x:Number, y:Number, dx:Number, dy:Number) 
+public function BulletView(battleField:BattleField, id:int, card:Card, side:int, x:Number, y:Number, z:Number, fx:Number, fy:Number, fz:Number) 
 {
-	super(battleField, id, card, side, x, y, dx, dy);
+	super(battleField, id, card, side, x, y, z, fx, fy, fz);
 	
 	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	
-	rotation = MathUtil.normalizeAngle( -Math.atan2(x - dx, y - dy));
+	rotation = MathUtil.normalizeAngle( -Math.atan2(-dx, -dy -dz * BattleField.CAMERA_ANGLE));
 
 	bulletDisplay = new MovieClip(Assets.getTextures("bullets/" + card.type + "/", "effects"))
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
@@ -74,18 +72,22 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	}
 }
 
-override public function setPosition(x:Number, y:Number, forced:Boolean = false) : Boolean
+override public function setPosition(x:Number, y:Number, z:Number, forced:Boolean = false) : Boolean
 {
 	if( disposed() )
 		return false;
-	
-	if( !super.setPosition(x, y, forced) )
+
+	if( !super.setPosition(x, y, z, forced) )
 		return false;
 
+	var _y:Number = this.y + (this.z * BattleField.CAMERA_ANGLE);
+	//if( card.type == 151 )
+	//	trace("setPosition"," x:" + this.x, " y:" + this.y, " z:" + this.z, " _y:" + _y);
+	
 	if( bulletDisplay != null )
 	{
 		bulletDisplay.x = this.x;
-		bulletDisplay.y = this.y - card.sizeV * 0.65;		
+		bulletDisplay.y = _y - card.sizeV * 0.65;		
 	}
 	
 	if( shadowDisplay != null )
@@ -131,7 +133,7 @@ protected function defaultFireDisplayFactory() : void
 	if( card.type == 106 || card.type == 108 || card.type == 201 )
 		return;
 	
-	var fireOffset:Point = BulletFirePositionCalculator.getPoint(card.type, rotation);
+	var fireOffset:Point3 = BulletFirePositionCalculator.getPoint(card.type, rotation);
 	//trace("type", card.type, "  rotation", rotation, CoreUtils.getRadString(rotation), " ", fireOffset);
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
 	fireDisplay.pivotX = 1;
