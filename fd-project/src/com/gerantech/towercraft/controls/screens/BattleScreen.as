@@ -22,6 +22,7 @@ import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
@@ -248,6 +249,7 @@ private function showTutorials() : void
 private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
 	var inTutorial:Boolean = player.get_battleswins() < 3;
+	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_3_ENDED;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 
 	// show celebration tutorial steps
