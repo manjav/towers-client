@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:4e489c5af9b1f72f2f244450b0689d8e:819d967d3400054ca7334406d6c04adb:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
+<!-- $TexturePacker:SmartUpdate:3ef8fbb0b216bb5c446ea656670ca9f8:8b8efa81f57b6685dd62527ad8033601:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
 <TextureAtlas imagePath="effects.png" width="2048" height="2048">
     <SubTexture name="bullets/101/000" x="429" y="193" width="9" height="19"/>
     <SubTexture name="bullets/102/000" x="1576" y="122" width="11" height="14"/>
@@ -11,6 +11,8 @@
     <SubTexture name="bullets/107/000" x="244" y="399" width="12" height="20"/>
     <SubTexture name="bullets/108/000" x="429" y="154" width="9" height="38"/>
     <SubTexture name="bullets/109/000" x="1221" y="263" width="50" height="50"/>
+    <SubTexture name="bullets/110/000" x="429" y="226" width="7" height="9"/>
+    <SubTexture name="bullets/111/000" x="429" y="213" width="9" height="12"/>
     <SubTexture name="bullets/151/000" x="1221" y="314" width="38" height="71" frameX="-59" frameY="-40" frameWidth="150" frameHeight="150"/>
     <SubTexture name="bullets/152/000" x="793" y="1" width="173" height="157" frameX="-65" frameY="-120" frameWidth="300" frameHeight="300"/>
     <SubTexture name="bullets/201/000" x="429" y="154" width="9" height="38"/>
