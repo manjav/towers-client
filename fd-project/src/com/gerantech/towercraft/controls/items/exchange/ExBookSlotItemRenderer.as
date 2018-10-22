@@ -278,7 +278,8 @@ private function achieve():void
 	if( achieved == -1 )
 		return;
 
-	emptyLabel.removeFromParent();
+	if( emptyLabel != null )
+		emptyLabel.removeFromParent();
 	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + rd.key );
 	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);

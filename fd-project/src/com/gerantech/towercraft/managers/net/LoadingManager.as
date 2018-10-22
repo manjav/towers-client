@@ -210,9 +210,9 @@ protected function coreLoader_completeHandler(event:Event):void
         return;
 
 	// catch video ads
-	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
+/*	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
 	if( appModel.game.player.getLastOperation() < appModel.game.fieldProvider.operations.keys().length )
-		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
+		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);*/
 }
 private function registerPushManager():void
 {
