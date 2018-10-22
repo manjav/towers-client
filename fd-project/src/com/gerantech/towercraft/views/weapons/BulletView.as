@@ -33,6 +33,7 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 {
 	super(battleField, id, card, side, x, y, z, fx, fy, fz);
 	
+	appModel.sounds.addAndPlaySound(card.type + "-shoot");
 	rotation = MathUtil.normalizeAngle( -Math.atan2(-dx, -dy -dz * BattleField.CAMERA_ANGLE));
 
 	bulletDisplay = new MovieClip(Assets.getTextures("bullets/" + card.type + "/", "effects"))
@@ -63,7 +64,6 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		if( bulletDisplay.numFrames > 1 )
 		{
-			appModel.sounds.addAndPlaySound(card.type + "-shoot");
 			Starling.juggler.add(bulletDisplay);
 			bulletDisplay.play();
 		}
