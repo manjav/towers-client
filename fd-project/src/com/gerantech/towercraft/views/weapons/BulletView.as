@@ -33,8 +33,6 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 {
 	super(battleField, id, card, side, x, y, z, fx, fy, fz);
 	
-	appModel.sounds.addAndPlaySound(card.type + "-shoot");
-	
 	rotation = MathUtil.normalizeAngle( -Math.atan2(-dx, -dy -dz * BattleField.CAMERA_ANGLE));
 
 	bulletDisplay = new MovieClip(Assets.getTextures("bullets/" + card.type + "/", "effects"))
@@ -65,6 +63,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		if( bulletDisplay.numFrames > 1 )
 		{
+			appModel.sounds.addAndPlaySound(card.type + "-shoot");
 			Starling.juggler.add(bulletDisplay);
 			bulletDisplay.play();
 		}
@@ -109,7 +108,7 @@ override public function dispose():void
 	{
 		shadowDisplay.texture = Assets.getTexture("damage-range");
 		shadowDisplay.width = card.bulletDamageArea * 2;
-		shadowDisplay.height = card.bulletDamageArea * 1.42;
+		shadowDisplay.height = card.bulletDamageArea * 2 * BattleField.CAMERA_ANGLE;
 		shadowDisplay.x = this.x;
 		shadowDisplay.y = this.y;
 		fieldView.effectsContainer.addChild(shadowDisplay);
@@ -161,7 +160,7 @@ protected function defaultHitDisplayFactory() : void
 		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures(textureURL, "effects"), card.type == CardTypes.C152 ? 1 : 45);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
 		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
-		explosionDisplay.width = card.bulletDamageArea * 3.00;
+		explosionDisplay.width = card.bulletDamageArea * 1.8;
 		explosionDisplay.scaleY = explosionDisplay.scaleX;
 		explosionDisplay.x = this.x;
 		explosionDisplay.y = this.y;
