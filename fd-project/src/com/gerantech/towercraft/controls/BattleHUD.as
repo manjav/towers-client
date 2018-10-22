@@ -15,12 +15,14 @@ import com.gerantech.towercraft.controls.sliders.battle.TerritorySlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
+import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.constants.StickerType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -123,7 +125,7 @@ override protected function initialize():void
 	else
 	{
 		timerSlider = new BattleCountdown();
-		timerSlider.layoutData = new AnchorLayoutData(padding * 5, padding * 3);
+		timerSlider.layoutData = new AnchorLayoutData(padding, padding);
 	}
 	addChild(timerSlider);
 	
@@ -174,7 +176,7 @@ override protected function initialize():void
 	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0);
 	scoreBoard.y = (BattleField.HEIGHT - scoreBoard.height) * 0.5;
 	addChild(scoreBoard);
-	updateScores(battleData.allis.getInt("score"), battleData.axis.getInt("score"));
+	updateScores(1, 0, battleData.allis.getInt("score"), battleData.axis.getInt("score"), -1);
 }
 
 protected function createCompleteHandler(event:Event):void
@@ -248,19 +250,23 @@ private function showTimeNotice(score:int):void
 	{
 		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
 	}
-	else if( score == -1 )
+	else
 	{
-		var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
-		shadow.touchable = false;
-		shadow.width = stage.stageWidth;
-		shadow.height = stage.stageHeight;
-		shadow.alpha = 0.5;
-		shadow.color = 0xAA0000;;
-		addChildAt(shadow, 0);
-		setTimeout(animateShadow, 1000, shadow, 0);
-		appModel.navigator.addPopup(new BattleExtraTimeToast());
+		if( score == -1 )
+		{
+			var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+			shadow.touchable = false;
+			shadow.width = stage.stageWidth;
+			shadow.height = stage.stageHeight;
+			shadow.alpha = 0.5;
+			shadow.color = 0xAA0000;;
+			addChildAt(shadow, 0);
+			setTimeout(animateShadow, 1000, shadow, 0);
+			appModel.navigator.addPopup(new BattleExtraTimeToast());
+		}
 	}
 }
+
 public function animateShadow(shadow:Image, alphaSeed:Number):void
 {
 	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[shadow, alphaSeed==0?0.6:0]});
@@ -277,10 +283,25 @@ public function updateRoomVars():void
 		updateScores(towers[1], towers[2]);
 */
 }
-public function updateScores(allise:int, axis:int) : void
+public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
+	var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
+	if( unit != null )
+		unit.showWinnerFocus();
+	
+	if( allise > 2 || axis > 2 )
+		return;
+	
+	if( allise > 0 || axis > 0 )
+	{
+		var side:int = winnerSide == battleData.battleField.side ? 0 : 1;
+		appModel.navigator.addPopup(new BattleTurnToast(side, winnerSide == battleData.battleField.side ? allise : axis));
+	}
+	
 	if( scoreBoard != null )
 		scoreBoard.update(allise, axis);
+	
+	setTimeout(appModel.navigator.addLog, 3000, loc("round_label", [loc("num_" + round)]));
 }
 
 protected function closeButton_triggeredHandler(event:Event):void

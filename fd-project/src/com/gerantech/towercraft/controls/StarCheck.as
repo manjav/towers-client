@@ -19,13 +19,15 @@ override protected function initialize():void
 	skin = new ImageSkin(Assets.getTexture("gold-key", "gui"));
 	skin.setTextureForState(ButtonState.UP, Assets.getTexture("gold-key", "gui"));
 	skin.setTextureForState(ButtonState.DISABLED, Assets.getTexture("gold-key-off", "gui"));
+	skin.defaultTexture = skin.getTextureForState(isEnabled ? ButtonState.UP : ButtonState.DISABLED );
 	backgroundSkin = skin;
 }
 
 override public function set isEnabled(value:Boolean):void
 {
 	super.isEnabled = value;
-	skin.defaultTexture = skin.getTextureForState(value ? ButtonState.UP : ButtonState.DISABLED );
+	if( skin != null )
+		skin.defaultTexture = skin.getTextureForState(value ? ButtonState.UP : ButtonState.DISABLED );
 }
 }
 }

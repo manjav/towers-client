@@ -5,6 +5,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
+import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.events.BattleEvent;
@@ -327,6 +328,19 @@ protected function defaultSummonEffectFactory() : void
 	Starling.juggler.add(summonDisplay);
 	summonDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(summonDisplay); summonDisplay.removeFromParent(true); });
 	return;
+}
+
+public function showWinnerFocus():void 
+{
+	var winnerDisplay:Image = new Image(Assets.getTexture("damage-range"));
+	winnerDisplay.pivotX = winnerDisplay.width * 0.5;
+	winnerDisplay.pivotY = winnerDisplay.height * 0.5;
+	winnerDisplay.width = 500;
+	winnerDisplay.height = 500 * BattleField.CAMERA_ANGLE;
+	winnerDisplay.x = this.x;
+	winnerDisplay.y = this.y;
+	fieldView.unitsContainer.addChildAt(winnerDisplay, 0);
+	Starling.juggler.tween(winnerDisplay, 1, {scale:0, transition:Transitions.EASE_IN_BACK, onComplete:winnerDisplay.removeFromParent, onCompleteArgs:[true]});
 }
 
 override public function dispose() : void

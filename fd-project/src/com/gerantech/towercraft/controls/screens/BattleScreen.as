@@ -102,11 +102,11 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_SUMMON_UNIT:
-		for (var i:int = 0; i < data.getSFSArray("units").size(); i++ )
+		for( var i:int = 0; i < data.getSFSArray("units").size(); i++ )
 		{
 			var sfs:ISFSObject = data.getSFSArray("units").getSFSObject(i);
 			appModel.battleFieldView.summonUnit(sfs.getInt("i"), sfs.getInt("t"), sfs.getInt("l"), sfs.getInt("s"), sfs.getDouble("x"), sfs.getDouble("y"));
-			if ( i == 0 )
+			if( i == 0 )
 				appModel.sounds.addAndPlaySound(sfs.getInt("t") + "-summon");
 		}
 		break;
@@ -118,8 +118,8 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_NEW_ROUND:
-		appModel.battleFieldView.battleData.battleField.reset();
-		hud.updateScores(data.getInt(appModel.battleFieldView.battleData.battleField.side + ""), data.getInt(appModel.battleFieldView.battleData.battleField.side == 0 ? "1" : "0"));
+		appModel.battleFieldView.battleData.battleField.requestReset();
+		hud.updateScores(data.getInt("round"), data.getInt("winner"), data.getInt(appModel.battleFieldView.battleData.battleField.side + ""), data.getInt(appModel.battleFieldView.battleData.battleField.side == 0 ? "1" : "0"), data.getInt("unitId"));
 		break;
 	}
 	//trace(event.params.cmd, data.getDump());
@@ -249,7 +249,7 @@ private function showTutorials() : void
 private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
 	var inTutorial:Boolean = player.get_battleswins() < 3;
-	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_3_ENDED;
+	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_4_ENDED;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
 
 	// show celebration tutorial steps
