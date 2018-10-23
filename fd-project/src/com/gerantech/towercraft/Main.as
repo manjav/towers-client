@@ -41,6 +41,8 @@ override protected function initialize():void
 	
 	AppModel.instance.navigator =  new StackNavigator();
 	this.content = AppModel.instance.navigator;
+	stage.color = 0x002040;
+
 
 	addScreen(DASHBOARD_SCREEN,	DashboardNewScreen);
 	addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);

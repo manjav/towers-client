@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.items.DashboardTabNewItemRenderer;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.ImageLoader;
@@ -27,11 +28,9 @@ override protected function addedToStageHandler(event:Event):void
 	tabsList.layoutData = new AnchorLayoutData(NaN, tabPadding, 0, tabPadding);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabNewItemRenderer(tabSize); }
 	
-	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
-	tiledBG.alpha = 0.8;
-	tiledBG.tileGrid = new Rectangle(1, 1, 240, 240);
-	tiledBG.pixelSnapping = false;
-	backgroundSkin = tiledBG;
+	var tileBacground:TileBackground = new TileBackground("home/pistole-tile");
+	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	addChildAt(tileBacground, 0);
 	
 	/*var shadow:ImageLoader = new ImageLoader();
 	shadow.source = Assets.getTexture("bg-shadow", "gui");

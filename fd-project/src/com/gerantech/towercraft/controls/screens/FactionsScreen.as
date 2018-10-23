@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
+import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
@@ -63,9 +64,9 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
-	tiledBG.tileGrid = new Rectangle(1, 1, 240, 240);
-	backgroundSkin = tiledBG;
+	var tileBacground:TileBackground = new TileBackground("home/pistole-tile");
+	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	addChildAt(tileBacground, 0);;
 	
 	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
 	shadow.color = 0;
