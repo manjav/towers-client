@@ -24,6 +24,7 @@ import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.StickerType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import feathers.controls.ImageLoader;
@@ -174,7 +175,7 @@ override protected function initialize():void
 	
 	scoreBoard = new BattleScoreBoard();
 	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0);
-	scoreBoard.y = (BattleField.HEIGHT - scoreBoard.height) * 0.5;
+	scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
 	addChild(scoreBoard);
 	updateScores(1, 0, battleData.allis.getInt("score"), battleData.axis.getInt("score"), -1);
 }
@@ -285,6 +286,9 @@ public function updateRoomVars():void
 }
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
+	if( battleData.battleField.map.type != FieldData.TYPE_TOUCHDOWN )
+		return;
+	
 	var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
 	if( unit != null )
 		unit.showWinnerFocus();
