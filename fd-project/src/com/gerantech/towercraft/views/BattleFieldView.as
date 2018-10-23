@@ -12,7 +12,6 @@ import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.calculators.BulletFirePositionCalculator;
-import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.utils.Point3;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -153,7 +152,7 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 
 	/*units.set(id, new UnitView(id, type, side, level, x, y));
 	UnitView(units.get(id)).alpha = 0.5;
-	units.get(id).movable = false*/
+	units.get(id).movable = false;*/
 }
 
 public function hitUnits(buletId:int, damage:Number, targets:Array) : void
