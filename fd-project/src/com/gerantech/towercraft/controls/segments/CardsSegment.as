@@ -57,7 +57,6 @@ private var draggableCard:BuildingCard;
 private var touchId:int = -1;
 private var _editMode:Boolean;
 private var scroller:ScrollContainer;
-//private var deckList:Vector.<int>;
 
 public function CardsSegment(){}
 override public function init():void
@@ -68,7 +67,6 @@ override public function init():void
 	
 	backgroundSkin = new Quad(1,1);
 	backgroundSkin.alpha = 0;
-	
 	
 	deckHeader = new DeckHeader();
 	deckHeader.addEventListener(Event.SELECT, deckHeader_selectHandler);
@@ -216,7 +214,6 @@ override public function updateData():void
 			unavailables.push(_unavailables.get(c));
 		c ++;
 	}
-	unavailables.reverse();
 	unavailableCollection.data = unavailables;
 }
 

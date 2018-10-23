@@ -111,8 +111,8 @@ package com.gerantech.towercraft.managers
 		
 		// -------------------------------------------------------------------------------------------------------------------------		
 		/** Play a sound */
-		public function playSound(id:String, volume:Number = 1.0, repetitions:int = 1, panning:Number = 0):void {			
-			
+		public function playSound(id:String, volume:Number = 1.0, repetitions:int = 1, panning:Number = 0):void
+		{			
 			if( soundIsAdded(id) )
 			{
 				if( AppModel.instance.loadingManager.state < LoadingManager.STATE_LOADED )
