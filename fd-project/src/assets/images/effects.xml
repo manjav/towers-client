@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:3ef8fbb0b216bb5c446ea656670ca9f8:8b8efa81f57b6685dd62527ad8033601:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
+<!-- $TexturePacker:SmartUpdate:1c22365d8338375b640df131268feb62:1116300b6a21e99e959497aa66f3f907:d6b616cefc56cd8e170b4bb7e3f14aba$ -->
 <TextureAtlas imagePath="effects.png" width="2048" height="2048">
     <SubTexture name="bullets/101/000" x="429" y="193" width="9" height="19"/>
     <SubTexture name="bullets/102/000" x="1576" y="122" width="11" height="14"/>
@@ -10,15 +10,139 @@
     <SubTexture name="bullets/106/000" x="244" y="373" width="13" height="25"/>
     <SubTexture name="bullets/107/000" x="244" y="399" width="12" height="20"/>
     <SubTexture name="bullets/108/000" x="429" y="154" width="9" height="38"/>
-    <SubTexture name="bullets/109/000" x="1221" y="263" width="50" height="50"/>
+    <SubTexture name="bullets/109/000" x="1364" y="230" width="50" height="50"/>
     <SubTexture name="bullets/110/000" x="429" y="226" width="7" height="9"/>
     <SubTexture name="bullets/111/000" x="429" y="213" width="9" height="12"/>
-    <SubTexture name="bullets/151/000" x="1221" y="314" width="38" height="71" frameX="-59" frameY="-40" frameWidth="150" frameHeight="150"/>
+    <SubTexture name="bullets/151/000" x="2008" y="274" width="38" height="71" frameX="-59" frameY="-40" frameWidth="150" frameHeight="150"/>
     <SubTexture name="bullets/152/000" x="793" y="1" width="173" height="157" frameX="-65" frameY="-120" frameWidth="300" frameHeight="300"/>
     <SubTexture name="bullets/201/000" x="429" y="154" width="9" height="38"/>
-    <SubTexture name="fires/shootFire_00001" x="1078" y="201" width="42" height="48" frameX="-20" frameY="-27" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00002" x="1078" y="142" width="49" height="58" frameX="-16" frameY="-21" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00003" x="1732" y="130" width="60" height="65" frameX="-11" frameY="-15" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00000" x="2031" y="92" width="14" height="15" frameX="-33" frameY="-13" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00001" x="1253" y="127" width="28" height="22" frameX="-26" frameY="-11" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00002" x="2004" y="346" width="33" height="24" frameX="-25" frameY="-10" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00003" x="1080" y="222" width="40" height="28" frameX="-23" frameY="-6" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00004" x="1080" y="142" width="44" height="30" frameX="-22" frameY="-5" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00005" x="850" y="196" width="49" height="33" frameX="-20" frameY="-4" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00006" x="850" y="159" width="55" height="36" frameX="-17" frameY="-5" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00007" x="790" y="159" width="59" height="39" frameX="-15" frameY="-7" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00008" x="1943" y="255" width="64" height="41" frameX="-12" frameY="-9" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00009" x="1876" y="253" width="66" height="44" frameX="-11" frameY="-11" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00010" x="1805" y="224" width="70" height="47" frameX="-9" frameY="-14" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00011" x="1732" y="224" width="72" height="49" frameX="-8" frameY="-17" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00012" x="1871" y="298" width="60" height="51" frameX="-6" frameY="-21" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00013" x="1956" y="156" width="73" height="52" frameX="0" frameY="-25" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00014" x="1732" y="130" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00015" x="1806" y="130" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00016" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00017" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00018" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00019" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00020" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00021" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00022" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00023" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00024" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00025" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00026" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00027" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00028" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00029" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00030" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00031" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00032" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00033" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00034" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00035" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00036" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00037" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00038" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00039" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00040" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00041" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00042" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00043" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00044" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00045" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00046" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00047" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00048" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00049" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00050" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00051" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00052" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00053" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00054" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00055" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00056" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00057" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00058" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00059" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00060" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00061" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00062" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00063" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00064" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00065" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00066" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00067" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00068" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00069" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00070" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00071" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00072" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00073" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00074" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00075" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00076" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00077" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00078" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00079" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00080" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00081" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00082" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00083" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00084" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00085" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00086" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00087" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00088" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00089" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00090" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00091" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00092" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00093" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00094" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00095" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00096" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00097" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00098" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00099" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00100" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00101" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00102" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00103" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00104" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00105" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00106" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00107" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00108" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00109" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00110" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00111" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00112" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00113" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00114" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00115" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00116" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00117" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00118" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00119" x="1880" y="159" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00120" x="1732" y="177" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00121" x="1806" y="177" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00122" x="1880" y="206" width="73" height="46" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="die/blood_splash_00123" x="1954" y="209" width="73" height="45" frameX="0" frameY="-31" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00001" x="1080" y="173" width="42" height="48" frameX="-20" frameY="-27" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00002" x="906" y="159" width="49" height="58" frameX="-16" frameY="-21" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00003" x="1943" y="297" width="60" height="65" frameX="-11" frameY="-15" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00004" x="1956" y="82" width="74" height="73" frameX="-4" frameY="-7" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00005" x="168" y="292" width="80" height="80"/>
     <SubTexture name="fires/shootFire_00006" x="163" y="373" width="80" height="80"/>
@@ -27,41 +151,41 @@
     <SubTexture name="fires/shootFire_00009" x="1881" y="82" width="74" height="76" frameX="-4" frameY="-4" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00010" x="1417" y="125" width="22" height="21" frameX="-28" frameY="-38" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00011" x="1417" y="147" width="22" height="21" frameX="-28" frameY="-38" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00012" x="1253" y="127" width="23" height="19" frameX="-28" frameY="-39" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00013" x="1253" y="147" width="23" height="19" frameX="-28" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00012" x="1253" y="150" width="23" height="19" frameX="-28" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00013" x="1253" y="170" width="23" height="19" frameX="-28" frameY="-39" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00014" x="1417" y="169" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00015" x="1417" y="189" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00016" x="1417" y="209" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00017" x="1417" y="229" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00018" x="1253" y="167" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00019" x="1253" y="187" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00020" x="1253" y="207" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00021" x="1253" y="227" width="22" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00022" x="1253" y="245" width="22" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00023" x="1389" y="230" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00024" x="1389" y="248" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00025" x="2022" y="156" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00026" x="1221" y="246" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00027" x="2022" y="174" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00028" x="2022" y="191" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00029" x="2022" y="208" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00030" x="1793" y="130" width="19" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00031" x="1813" y="130" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00032" x="1833" y="130" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00033" x="1853" y="130" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00034" x="1813" y="146" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00035" x="1793" y="147" width="18" height="14" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00036" x="1833" y="146" width="18" height="13" frameX="-30" frameY="-41" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00018" x="1253" y="190" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00019" x="1253" y="210" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00020" x="1221" y="246" width="22" height="19" frameX="-29" frameY="-39" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00021" x="1221" y="266" width="22" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00022" x="1221" y="284" width="22" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00023" x="1221" y="302" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00024" x="1221" y="320" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00025" x="790" y="199" width="21" height="17" frameX="-29" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00026" x="812" y="199" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00027" x="812" y="216" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00028" x="790" y="217" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00029" x="900" y="218" width="20" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00030" x="2028" y="209" width="19" height="16" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00031" x="2028" y="226" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00032" x="2028" y="242" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00033" x="2008" y="255" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00034" x="2028" y="258" width="19" height="15" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00035" x="921" y="218" width="18" height="14" frameX="-30" frameY="-40" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00036" x="940" y="218" width="18" height="13" frameX="-30" frameY="-41" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00037" x="422" y="289" width="17" height="13" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="fires/shootFire_00038" x="1852" y="146" width="17" height="9" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
+    <SubTexture name="fires/shootFire_00038" x="2030" y="156" width="17" height="9" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
     <SubTexture name="fires/shootFire_00039" x="2031" y="82" width="16" height="9" frameX="-31" frameY="-41" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="hits/arrows-000" x="1276" y="230" width="112" height="94" frameX="-95" frameY="-118" frameWidth="300" frameHeight="300"/>
+    <SubTexture name="hits/arrows-000" x="967" y="142" width="112" height="94" frameX="-95" frameY="-118" frameWidth="300" frameHeight="300"/>
     <SubTexture name="hits/explosion-001" x="618" y="1" width="174" height="145" frameX="-3" frameY="-18" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-002" x="1" y="205" width="166" height="139" frameX="-7" frameY="-21" frameWidth="180" frameHeight="180"/>
-    <SubTexture name="hits/explosion-003" x="1956" y="156" width="65" height="63" frameX="-58" frameY="-58" frameWidth="180" frameHeight="180"/>
+    <SubTexture name="hits/explosion-003" x="1805" y="272" width="65" height="63" frameX="-58" frameY="-58" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-004" x="168" y="205" width="89" height="86" frameX="-46" frameY="-47" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-005" x="1121" y="246" width="99" height="98" frameX="-41" frameY="-41" frameWidth="180" frameHeight="180"/>
-    <SubTexture name="hits/explosion-006" x="967" y="142" width="110" height="106" frameX="-35" frameY="-37" frameWidth="180" frameHeight="180"/>
+    <SubTexture name="hits/explosion-006" x="1253" y="230" width="110" height="106" frameX="-35" frameY="-37" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-007" x="1128" y="127" width="124" height="118" frameX="-29" frameY="-31" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-008" x="1736" y="1" width="144" height="128" frameX="-18" frameY="-26" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-009" x="967" y="1" width="160" height="140" frameX="-11" frameY="-20" frameWidth="180" frameHeight="180"/>
@@ -80,7 +204,7 @@
     <SubTexture name="hits/explosion-022" x="1" y="1" width="257" height="203" frameX="-12" frameY="-33" frameWidth="280" frameHeight="280"/>
     <SubTexture name="hits/explosion-023" x="259" y="154" width="169" height="134" frameX="-6" frameY="-19" frameWidth="180" frameHeight="180"/>
     <SubTexture name="hits/explosion-024" x="618" y="147" width="171" height="136" frameX="-5" frameY="-18" frameWidth="180" frameHeight="180"/>
-    <SubTexture name="hits/hit" x="1221" y="263" width="50" height="50"/>
+    <SubTexture name="hits/hit" x="1364" y="230" width="50" height="50"/>
     <SubTexture name="summons/explosion-001" x="1286" y="125" width="130" height="104" frameX="-26" frameY="-35" frameWidth="180" frameHeight="180"/>
     <SubTexture name="summons/explosion-002" x="1440" y="122" width="135" height="109" frameX="-23" frameY="-33" frameWidth="180" frameHeight="180"/>
     <SubTexture name="summons/explosion-003" x="1590" y="118" width="141" height="113" frameX="-20" frameY="-31" frameWidth="180" frameHeight="180"/>
