@@ -320,7 +320,7 @@ protected function defaultSummonEffectFactory() : void
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
 	summonDisplay.width = card.sizeH * 2.00;
-	summonDisplay.height = card.sizeH * 1.42;
+	summonDisplay.height = card.sizeH * 2.00 * BattleField.CAMERA_ANGLE;
 	summonDisplay.x = this.x;
 	summonDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(summonDisplay, 0);
@@ -343,6 +343,23 @@ public function showWinnerFocus():void
 	Starling.juggler.tween(winnerDisplay, 1, {scale:0, transition:Transitions.EASE_IN_BACK, onComplete:winnerDisplay.removeFromParent, onCompleteArgs:[true]});
 }
 
+private function showBloodSplashhAnimation():void 
+{
+	var bloodSplashDisplay:MovieClip = new MovieClip(Assets.getTextures("die/blood_splash_", "effects"), 30);
+	bloodSplashDisplay.pivotX = bloodSplashDisplay.width * 0.5;
+	bloodSplashDisplay.pivotY = bloodSplashDisplay.height * 0.5;
+	bloodSplashDisplay.width = (card.sizeH * 0.7) + 130;
+	bloodSplashDisplay.scaleY = bloodSplashDisplay.scaleX;
+	bloodSplashDisplay.scaleX *= Math.random() > 0.5 ? -1 : 1;
+	bloodSplashDisplay.color = 0xFF0000 + Math.random() * 5000;
+	bloodSplashDisplay.x = this.x;
+	bloodSplashDisplay.y = this.y;
+	fieldView.unitsContainer.addChildAt(bloodSplashDisplay, 0);
+	bloodSplashDisplay.play();
+	Starling.juggler.add(bloodSplashDisplay);
+	bloodSplashDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(bloodSplashDisplay); bloodSplashDisplay.removeFromParent(true); });
+}
+
 override public function dispose() : void
 {
 	super.dispose();
@@ -359,7 +376,9 @@ override public function dispose() : void
 		deployIcon.removeFromParent(true);
 	if( sizeDisplay != null )
 		sizeDisplay.removeFromParent(true);
+	showBloodSplashhAnimation();
 }
+
 
 public function set alpha(value:Number):void 
 {
