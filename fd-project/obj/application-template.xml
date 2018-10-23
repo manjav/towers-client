@@ -3,12 +3,12 @@
   <id>com.grantech.k2k</id>
   <versionNumber>0.1.100</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <filename>k2K</filename>
-  <name>K2K</name>
+  <filename>Pistole</filename>
+  <name>Pistole</name>
   <description>__DESCRIPTION__</description><!--<description>{"platform":"android", "market":"cafebazaar"}</description> cafebazaar-myket-cando-ario-google -->
   <initialWindow>
-    <title>towerstory</title>
-    <content>towerstory.swf</content>
+    <title>Pistole</title>
+    <content>release.swf</content>
     <visible>true</visible>
     <fullScreen>true</fullScreen>
     <renderMode>direct</renderMode>

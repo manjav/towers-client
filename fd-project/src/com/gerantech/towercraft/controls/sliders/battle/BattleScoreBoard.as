@@ -65,14 +65,14 @@ override protected function initialize():void
 	
 	allisScoreDisplay = new BitmapFontTextRenderer();
 	allisScoreDisplay.text = "0";
-	allisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60, 0x0000FF, "center");
+	allisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60, 0x3333FF, "center");
 	allisScoreDisplay.layoutData = new AnchorLayoutData(NaN, 0, 20, 0);
 	allisScoreDisplay.pixelSnapping = false;
 	addChild(allisScoreDisplay);
 	
 	axisScoreDisplay = new BitmapFontTextRenderer();
 	axisScoreDisplay.text = "0";
-	axisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60, 0xFF0000, "center");
+	axisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60, 0xFF3333, "center");
 	axisScoreDisplay.layoutData = axisBG.layoutData
 	axisScoreDisplay.pixelSnapping = false;
 	addChild(axisScoreDisplay);

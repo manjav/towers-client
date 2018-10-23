@@ -18,5 +18,5 @@ bin-release/
 
 fd-project/obj/towerstoryConfig.old
 fd-project/obj/towerstoryConfig.xml
-fd-project/bin/towerstory.swf
+fd-project/bin/release.swf
 fd-project/application.xml
