@@ -3,11 +3,11 @@
   <id>com.grantech.k2k</id>
   <versionNumber>0.1.100</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
-  <filename>Pistole</filename>
+  <filename>Pistol</filename>
   <name>Pistole</name>
   <description>__DESCRIPTION__</description><!--<description>{"platform":"android", "market":"cafebazaar"}</description> cafebazaar-myket-cando-ario-google -->
   <initialWindow>
-    <title>Pistole</title>
+    <title>Pistol</title>
     <content>release.swf</content>
     <visible>true</visible>
     <fullScreen>true</fullScreen>
