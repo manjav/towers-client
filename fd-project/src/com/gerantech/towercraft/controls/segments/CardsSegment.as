@@ -93,8 +93,9 @@ override public function init():void
 	layout = new AnchorLayout();
 	var foundLayout:TiledRowsLayout = new TiledRowsLayout();
 	var availabledLayout:TiledRowsLayout = new TiledRowsLayout();
-	availabledLayout.gap = foundLayout.gap = foundLayout.paddingTop = padding * 0.5;
-	availabledLayout.paddingBottom = foundLayout.paddingBottom = padding*2;
+	foundLayout.paddingTop = padding * 0.5;
+	availabledLayout.gap = foundLayout.gap = padding * 1.3;
+	availabledLayout.paddingBottom = foundLayout.paddingBottom = padding * 2;
 	availabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
 	availabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
 	availabledLayout.requestedColumnCount = foundLayout.requestedColumnCount = 4;

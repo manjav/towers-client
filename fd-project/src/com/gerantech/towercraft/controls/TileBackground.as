@@ -16,7 +16,7 @@ public class TileBackground extends TowersLayout
 {
 private var tiledBG:Image;
 private var movingSpeed:Number;
-public function TileBackground(image:String, movingSpeed:Number = 0.05) 
+public function TileBackground(image:String, movingSpeed:Number = 0.03) 
 {
 	this.movingSpeed = movingSpeed;
 	tiledBG = new Image(Assets.getTexture(image, "gui"));

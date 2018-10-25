@@ -23,7 +23,7 @@ import starling.events.Event;
 
 public class BattleFieldView extends Sprite
 {
-public static const DEBUG_MODE:Boolean = true;
+public static const DEBUG_MODE:Boolean = false;
 //private var units:IntUnitMap;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;

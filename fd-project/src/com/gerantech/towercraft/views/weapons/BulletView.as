@@ -118,8 +118,6 @@ private function defaultBulletDisplayFactory() : void
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
 	bulletDisplay.loop = CardTypes.isSpell(card.type);
 	bulletDisplay.rotation = rotation;
-	//bulletDisplay.x = this.x;
-	//bulletDisplay.y = this.y - card.sizeV;
 	fieldView.effectsContainer.addChild(bulletDisplay);
 	if( bulletDisplay.numFrames > 1 )
 	{
@@ -130,8 +128,6 @@ private function defaultBulletDisplayFactory() : void
 	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	//shadowDisplay.x = this.x;
-	//shadowDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 }
 
@@ -141,7 +137,7 @@ protected function defaultFireDisplayFactory() : void
 		return;
 	
 	var fireOffset:Point3 = BulletFirePositionCalculator.getPoint(card.type, rotation);
-	trace("type", card.type, "  rotation", rotation, fireOffset);
+	//trace("type", card.type, "  rotation", rotation, fireOffset);
 	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
 	fireDisplay.pivotX = 1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
