@@ -192,8 +192,7 @@ private function dfsdf():void
 		sfs.putInt("score", i==0?2:0);
 		sfs.putInt("id", i == 0?10383:214);
 		sfs.putText("name", i == 0?"10383":"214");
-		sfs.putInt("1001", 12);
-		sfs.putInt("1004", 2);
+		sfs.putInt("2", 12);
 		rwards.addSFSObject(sfs);
 	}
 	appModel.battleFieldView = new BattleFieldView();

@@ -24,7 +24,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	acceptButton.label = String(numHards);
-	acceptButton.icon = Assets.getTexture("res-" + ResourceType.CURRENCY_HARD, "gui");
+	acceptButton.icon = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 }
 
 override protected function acceptButton_triggeredHandler(event:Event):void

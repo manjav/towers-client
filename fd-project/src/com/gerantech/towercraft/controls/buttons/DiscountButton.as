@@ -49,7 +49,7 @@ override public function set type(value:int):void
 		return;
 	super.type = value;
 	
-	var hasIcon:Boolean = value > 0 && value != ResourceType.CURRENCY_REAL;
+	var hasIcon:Boolean = value > 0 && value != ResourceType.R5_CURRENCY_REAL;
 	if( hasIcon )
 		icon = Assets.getTexture("res-" + value, "gui");;
 }

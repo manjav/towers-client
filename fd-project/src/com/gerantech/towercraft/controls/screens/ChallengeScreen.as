@@ -396,7 +396,7 @@ protected function sfs_responseCollectHandler(e:SFSEvent):void
 	for( var i:int=0; i<params.getSFSArray("rewards").size(); i++ )
 	{
 		reward = params.getSFSArray("rewards").getSFSObject(i);
-		if( ResourceType.isCard(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.XP )
+		if( ResourceType.isCard(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.R4_CURRENCY_HARD || reward.getInt("t") == ResourceType.R3_CURRENCY_SOFT || reward.getInt("t") == ResourceType.R1_XP )
 			outcomes.set(reward.getInt("t"), reward.getInt("c"));
 	}
 	

@@ -173,26 +173,26 @@ private function showProfile():void
 	var point:int;
 	for ( var i:int = 0; i < resourcesData.size(); i ++ )
 	{
-		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.XP )
+		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.R1_XP )
 			xp = resourcesData.getSFSObject(i).getInt("count");
-		else if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.POINT )
+		else if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.R2_POINT )
 			point = resourcesData.getSFSObject(i).getInt("count");
-		else if( resourcesData.getSFSObject(i).getInt("type") > ResourceType.POINT )
+		else if( !ResourceType.isCard(resourcesData.getSFSObject(i).getInt("type")) )
 			featureCollection.addItem(resourcesData.getSFSObject(i));
 	}
 
 	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.XP] = new IndicatorXP("ltr");
-	indicators[ResourceType.XP].setData(0, xp, NaN);
-	indicators[ResourceType.XP].width = padding * 7;
-	indicators[ResourceType.XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
-	addChild(indicators[ResourceType.XP]);
+	indicators[ResourceType.R1_XP] = new IndicatorXP("ltr");
+	indicators[ResourceType.R1_XP].setData(0, xp, NaN);
+	indicators[ResourceType.R1_XP].width = padding * 7;
+	indicators[ResourceType.R1_XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
+	addChild(indicators[ResourceType.R1_XP]);
 	
-	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
-	indicators[ResourceType.POINT].width = padding * 7;
-	indicators[ResourceType.POINT].setData(0, point, NaN);
-	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(padding * 3.5, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
-	addChild(indicators[ResourceType.POINT]);
+	indicators[ResourceType.R2_POINT] = new Indicator("ltr", ResourceType.R2_POINT, false, false);
+	indicators[ResourceType.R2_POINT].width = padding * 7;
+	indicators[ResourceType.R2_POINT].setData(0, point, NaN);
+	indicators[ResourceType.R2_POINT].layoutData = new AnchorLayoutData(padding * 3.5, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
+	addChild(indicators[ResourceType.R2_POINT]);
 	
 	// features
 	var featureList:List = new List();

@@ -72,14 +72,8 @@ override protected function initialize():void
 	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
 	addChild(pointDisplay);
 	
-	/*pointIconDisplay = new ImageLoader();
-	pointIconDisplay.source = Assets.getTexture("res-1001", "gui");
-	pointIconDisplay.layoutData = new AnchorLayoutData(padding/3, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
-	addChild(pointIconDisplay);*/
-	
 	addEventListener(Event.TRIGGERED, item_triggeredHandler);
 }
-
 override protected function commitData():void
 {
 	super.commitData();

@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.sliders.battle
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayout;
@@ -51,13 +52,13 @@ override protected function initialize():void
 	
 	
 	var allisIcon:ImageLoader = new ImageLoader();
-	allisIcon.source = Assets.getTexture("res-1001", "gui");
+	allisIcon.source = Assets.getTexture("res-" + ResourceType.R2_POINT, "gui");
 	allisIcon.height = 160;
 	allisIcon.layoutData = new AnchorLayoutData(NaN, 0, 80, 0);
 	addChild(allisIcon);
 
 	var axisIcon:ImageLoader = new ImageLoader();
-	axisIcon.source = Assets.getTexture("res-1001", "gui");
+	axisIcon.source = Assets.getTexture("res-" + ResourceType.R2_POINT, "gui");
 	axisIcon.height = 160;
 	axisIcon.layoutData = new AnchorLayoutData(80, 0, NaN, 0);
 	addChild(axisIcon);

@@ -148,7 +148,7 @@ override protected function trigger():void
 {
 	hideArrow();
 	super.trigger();
-	if( resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.XP || resourceType == ResourceType.POINT )
+	if( resourceType == ResourceType.R3_CURRENCY_SOFT || resourceType == ResourceType.R4_CURRENCY_HARD || resourceType == ResourceType.R1_XP || resourceType == ResourceType.R2_POINT )
 		appModel.navigator.addChild(new BaseTooltip(loc("tooltip_indicator_" + resourceType), iconDisplay.getBounds(stage)));
 	else
 		dispatchEventWith(Event.SELECT);

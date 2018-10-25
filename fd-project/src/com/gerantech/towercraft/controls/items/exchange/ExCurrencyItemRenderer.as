@@ -38,7 +38,7 @@ override protected function commitData():void
 	buttonDisplay = new ExchangeButton();
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 	buttonDisplay.height = 96;
-	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
+	if( exchange.requirements.keys()[0] == ResourceType.R5_CURRENCY_REAL )
 		buttonDisplay.currency = "ت";
 	buttonDisplay.count = exchange.requirements.values()[0];
 	buttonDisplay.type = exchange.requirements.keys()[0];

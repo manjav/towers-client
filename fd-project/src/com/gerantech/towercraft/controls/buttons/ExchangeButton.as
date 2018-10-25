@@ -34,7 +34,7 @@ public function set type(value:int):void
 		return;
 	_type = value;
 	
-	var hasIcon:Boolean = _count > 0 && _type > 0 && _type != ResourceType.CURRENCY_REAL;
+	var hasIcon:Boolean = _count > 0 && _type > 0 && _type != ResourceType.R5_CURRENCY_REAL;
 	if( hasIcon )
 		icon = Assets.getTexture("res-" + _type, "gui");
 }

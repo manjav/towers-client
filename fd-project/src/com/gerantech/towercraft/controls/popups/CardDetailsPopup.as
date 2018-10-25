@@ -110,9 +110,9 @@ override protected function transitionInCompleted():void
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.count = Card.get_upgradeCost(card.level, card.rarity);
-	upgradeButton.type = ResourceType.CURRENCY_SOFT;
+	upgradeButton.type = ResourceType.R3_CURRENCY_SOFT;
 	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.level, card.rarity);
-	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
+	upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 	
 	if( player.inDeckTutorial() )

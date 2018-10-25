@@ -46,10 +46,10 @@ public function Towers()
 	var bt:Vector.<int> = CardTypes.getAll()._list;
 	for each( var r:int in bt )
 		currencies.push(r.toString());
-	currencies.push(ResourceType.XP.toString());
-	currencies.push(ResourceType.POINT.toString());
-	currencies.push(ResourceType.CURRENCY_HARD.toString());
-	currencies.push(ResourceType.CURRENCY_SOFT.toString());
+	currencies.push(ResourceType.R1_XP.toString());
+	currencies.push(ResourceType.R2_POINT.toString());
+	currencies.push(ResourceType.R4_CURRENCY_HARD.toString());
+	currencies.push(ResourceType.R3_CURRENCY_SOFT.toString());
 	
 	GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
 		.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("df4b20d8b9a4b0ec2fdf5ac49471d5b2").setGameSecretAndroid("972a1c900218b46f42d8a93e2f69710545903307")

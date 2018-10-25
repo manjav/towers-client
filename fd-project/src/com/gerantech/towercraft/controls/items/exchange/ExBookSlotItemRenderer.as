@@ -14,6 +14,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
 import dragonBones.events.EventObject;
@@ -203,7 +204,7 @@ protected function busyGroupFactory() : LayoutGroup
 		busyGroup.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		
 		var hardImage:ImageLoader = new ImageLoader();
-		hardImage.source = Assets.getTexture("res-1003", "gui");
+		hardImage.source = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 		hardImage.width = height * 0.2;
 		hardImage.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, padding * 2.2);
 		busyGroup.addChild(hardImage);

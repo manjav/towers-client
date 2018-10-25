@@ -121,21 +121,21 @@ override protected function initialize() : void
 	botLine.addChild(clanNameDisplay);
 	
 	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.XP] = new IndicatorXP("ltr");
-	indicators[ResourceType.XP].name = "xpIndicator";
-	indicators[ResourceType.XP].setData(8000, player.get_xp(), 12000);
-	indicators[ResourceType.XP].width = padding * 6;
-	indicators[ResourceType.XP].addEventListener(Event.SELECT, buttons_eventsHandler);
-	indicators[ResourceType.XP].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	botLine.addChild(indicators[ResourceType.XP]);
+	indicators[ResourceType.R1_XP] = new IndicatorXP("ltr");
+	indicators[ResourceType.R1_XP].name = "xpIndicator";
+	indicators[ResourceType.R1_XP].setData(8000, player.get_xp(), 12000);
+	indicators[ResourceType.R1_XP].width = padding * 6;
+	indicators[ResourceType.R1_XP].addEventListener(Event.SELECT, buttons_eventsHandler);
+	indicators[ResourceType.R1_XP].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
+	botLine.addChild(indicators[ResourceType.R1_XP]);
 	
-	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
-	indicators[ResourceType.POINT].name = "pointIndicator";
-	indicators[ResourceType.POINT].width = padding * 5;
-	indicators[ResourceType.POINT].setData(0, player.get_point(), NaN);
-	indicators[ResourceType.POINT].addEventListener(Event.SELECT, buttons_eventsHandler);
-	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	botLine.addChild(indicators[ResourceType.POINT]);
+	indicators[ResourceType.R2_POINT] = new Indicator("ltr", ResourceType.R2_POINT, false, false);
+	indicators[ResourceType.R2_POINT].name = "pointIndicator";
+	indicators[ResourceType.R2_POINT].width = padding * 5;
+	indicators[ResourceType.R2_POINT].setData(0, player.get_point(), NaN);
+	indicators[ResourceType.R2_POINT].addEventListener(Event.SELECT, buttons_eventsHandler);
+	indicators[ResourceType.R2_POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
+	botLine.addChild(indicators[ResourceType.R2_POINT]);
 	
 	appModel.navigator.toolbar.checkIndictorAchievements();
 }

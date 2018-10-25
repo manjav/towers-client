@@ -41,8 +41,8 @@ protected function buttonFactory() : ExchangeButton
 		buttonDisplay = new ExchangeButton();
 		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 		buttonDisplay.height = 96;
-		buttonDisplay.count = exchange.requirements.get(ResourceType.CURRENCY_HARD);	
-		buttonDisplay.type = ResourceType.CURRENCY_HARD;		
+		buttonDisplay.count = exchange.requirements.get(ResourceType.R4_CURRENCY_HARD);	
+		buttonDisplay.type = ResourceType.R4_CURRENCY_HARD;		
 	}
 	addChild(buttonDisplay);
 	return buttonDisplay;

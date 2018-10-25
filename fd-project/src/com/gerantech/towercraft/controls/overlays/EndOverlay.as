@@ -96,7 +96,7 @@ protected function getRewardsCollection(playerIndex:int):ListCollection
 	for( var i:int = 0; i < keys.length; i++)
 	{
 		var key:int = int(keys[i])
-		if( ResourceType.isBook(key) || key == ResourceType.POINT || key == ResourceType.XP || key == ResourceType.CURRENCY_SOFT )
+		if( ResourceType.isBook(key) || key == ResourceType.R2_POINT || key == ResourceType.R1_XP || key == ResourceType.R3_CURRENCY_SOFT )
 			ret.push({t:key, c:rewards.getSFSObject(playerIndex).getInt(keys[i])});
 	}
 	return ret;

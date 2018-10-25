@@ -35,15 +35,15 @@ override protected function initialize():void
 	height = padding * 4;
 	layout = new AnchorLayout();
 	
-	indicators[ResourceType.CURRENCY_HARD] = new Indicator("rtl", ResourceType.CURRENCY_HARD);
-	indicators[ResourceType.CURRENCY_HARD].addEventListener(Event.SELECT, indicators_selectHandler);
-	indicators[ResourceType.CURRENCY_HARD].layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN);
-	addChild(indicators[ResourceType.CURRENCY_HARD]);
+	indicators[ResourceType.R4_CURRENCY_HARD] = new Indicator("rtl", ResourceType.R4_CURRENCY_HARD);
+	indicators[ResourceType.R4_CURRENCY_HARD].addEventListener(Event.SELECT, indicators_selectHandler);
+	indicators[ResourceType.R4_CURRENCY_HARD].layoutData = new AnchorLayoutData(NaN, padding, NaN, NaN);
+	addChild(indicators[ResourceType.R4_CURRENCY_HARD]);
 	
-	indicators[ResourceType.CURRENCY_SOFT] = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
-	indicators[ResourceType.CURRENCY_SOFT].addEventListener(Event.SELECT, indicators_selectHandler);
-	indicators[ResourceType.CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding * 3 + indicators[ResourceType.CURRENCY_HARD].width, NaN, NaN);
-	addChild(indicators[ResourceType.CURRENCY_SOFT]);
+	indicators[ResourceType.R3_CURRENCY_SOFT] = new Indicator("rtl", ResourceType.R3_CURRENCY_SOFT);
+	indicators[ResourceType.R3_CURRENCY_SOFT].addEventListener(Event.SELECT, indicators_selectHandler);
+	indicators[ResourceType.R3_CURRENCY_SOFT].layoutData = new AnchorLayoutData(NaN, padding * 3 + indicators[ResourceType.R4_CURRENCY_HARD].width, NaN, NaN);
+	addChild(indicators[ResourceType.R3_CURRENCY_SOFT]);
 
 	if( appModel.loadingManager.state >= LoadingManager.STATE_LOADED )
 		loadingManager_loadedHandler(null);
@@ -104,11 +104,11 @@ public function updateIndicators():void
 	
 	for (var k:Object in indicators)
 	{
-		if( k == ResourceType.CURRENCY_HARD || k == ResourceType.CURRENCY_SOFT )
+		if( k == ResourceType.R4_CURRENCY_HARD || k == ResourceType.R3_CURRENCY_SOFT )
 			indicators[k].y = 18;
 		indicators[k].setData(0, player.getResource(k as int), NaN);
 		
-		if( k == ResourceType.XP )
+		if( k == ResourceType.R1_XP )
 		{
 			if ( appModel.navigator.activeScreenID == Main.QUESTS_SCREEN )
 			{

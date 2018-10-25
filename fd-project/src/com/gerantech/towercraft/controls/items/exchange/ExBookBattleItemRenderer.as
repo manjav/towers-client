@@ -115,7 +115,7 @@ override protected function buttonFactory() : ExchangeButton
 	{
 		buttonDisplay.style = "neutral";
 		buttonDisplay.count = 10;
-		buttonDisplay.type = ResourceType.CURRENCY_HARD;
+		buttonDisplay.type = ResourceType.R4_CURRENCY_HARD;
 	}
 	else if( state == ExchangeItem.CHEST_STATE_READY )
 	{

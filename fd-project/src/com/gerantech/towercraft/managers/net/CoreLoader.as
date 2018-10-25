@@ -252,9 +252,9 @@ static public function loadChallenges(params:ISFSObject) : void
 
 static public function loadQuests(params:ISFSObject) : void 
 {
+	AppModel.instance.game.player.quests = new Array();
 	if( !params.containsKey("quests") )
 		return;
-	AppModel.instance.game.player.quests = new Array();
 	for ( var i:int = 0; i < params.getSFSArray("quests").size(); i++ )
 	{
 		var q:ISFSObject = params.getSFSArray("quests").getSFSObject(i);

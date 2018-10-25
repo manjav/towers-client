@@ -102,7 +102,7 @@ override protected function initialize():void
 	
 	addChild(iconContainer);
 	
-	var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_" + type), 1, "right", null, false, "right", 1.1, null, "bold");
+	var titleDisplay:RTLLabel = new RTLLabel(loc((ResourceType.isCard(type) ? "card_title_" : "resource_title_" ) + type), 1, "right", null, false, "right", 1.1, null, "bold");
 	detailsContainer.addChild(titleDisplay);
 	
 	var countDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();

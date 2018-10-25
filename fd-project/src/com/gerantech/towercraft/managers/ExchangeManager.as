@@ -92,7 +92,7 @@ public function process(item : ExchangeItem) : void
 	{
 		if( !player.has(item.requirements) )
 		{
-			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R4_CURRENCY_HARD)]));
 			dispatchCustomEvent(FeathersEventType.ERROR, item);
 			return;
 		}
@@ -240,7 +240,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		for( var i:int=0; i<data.getSFSArray("rewards").size(); i++ )
 		{
 			reward = data.getSFSArray("rewards").getSFSObject(i);
-			if( ResourceType.isCard(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.XP )
+			if( ResourceType.isCard(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.R4_CURRENCY_HARD || reward.getInt("t") == ResourceType.R3_CURRENCY_SOFT || reward.getInt("t") == ResourceType.R1_XP )
 				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		

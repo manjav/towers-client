@@ -35,7 +35,7 @@ override protected function initialize():void
 	{
 		var pointIcon:ImageLoader = new ImageLoader();
 		pointIcon.width = padding*4.6;
-		pointIcon.source = Assets.getTexture("res-"+ResourceType.POINT, "gui");
+		pointIcon.source = Assets.getTexture("res-"+ResourceType.R2_POINT, "gui");
 		pointIcon.layoutData = new AnchorLayoutData(padding*5, NaN, NaN, padding*0.5 );
 		addChild(pointIcon);
 		

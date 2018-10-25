@@ -15,6 +15,7 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -407,8 +408,8 @@ private function details_updateHandler(event:Event):void
 }
 private function upgradeConfirm_errorHandler(event:Event):void
 {
-    appModel.navigator.toolbar.dispatchEventWith(Event.SELECT, true, {resourceType:1002});
-    appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+    appModel.navigator.toolbar.dispatchEventWith(Event.SELECT, true, {resourceType:ResourceType.R3_CURRENCY_SOFT});
+    appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R3_CURRENCY_SOFT)]));
     detailsPopup.close();
 }
 private function upgradeConfirm_selectHandler(event:Event):void

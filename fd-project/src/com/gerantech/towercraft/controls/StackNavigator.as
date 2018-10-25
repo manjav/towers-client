@@ -113,12 +113,12 @@ package com.gerantech.towercraft.controls
 			if (activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0)
 				return;
 			
-			if (event.data.resourceType == ResourceType.CURRENCY_SOFT)
+			if (event.data.resourceType == ResourceType.R3_CURRENCY_SOFT)
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 4;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
-			else if (event.data.resourceType == ResourceType.CURRENCY_HARD)
+			else if (event.data.resourceType == ResourceType.R4_CURRENCY_HARD)
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 3;
 				DashboardScreen(activeScreen).gotoPage(0);
@@ -252,7 +252,7 @@ package com.gerantech.towercraft.controls
 			{
 				addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.3, stage.stageHeight * 0.95), delay, null);
 			}
-			else if (resourceType == ResourceType.CURRENCY_SOFT || resourceType == ResourceType.CURRENCY_HARD || resourceType == ResourceType.XP || resourceType == ResourceType.POINT)
+			else if (resourceType == ResourceType.R3_CURRENCY_SOFT || resourceType == ResourceType.R4_CURRENCY_HARD || resourceType == ResourceType.R1_XP || resourceType == ResourceType.R2_POINT)
 			{
 				var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
 				var rect:Rectangle;

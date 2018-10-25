@@ -181,7 +181,7 @@ private function getRewardsCollection():ListCollection
 	var rw:Array = SFSArray(rewards).toArray();
 	var ret:ListCollection = new ListCollection();
 	for ( var i:int=0; i<rw.length; i++ )
-		if( rw[i].t == ResourceType.POINT || rw[i].t == ResourceType.KEY || rw[i].t == ResourceType.CURRENCY_SOFT )
+		if( rw[i].t == ResourceType.R2_POINT || rw[i].t == ResourceType.KEY || rw[i].t == ResourceType.R3_CURRENCY_SOFT )
 			ret.addItem( rw[i] );
 	
 	return ret;

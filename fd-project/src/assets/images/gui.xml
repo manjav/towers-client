@@ -46,8 +46,8 @@
     <SubTexture name="cards/157" x="1205" y="486" width="186" height="240"/>
     <SubTexture name="cards/158" x="932" y="746" width="186" height="240"/>
     <SubTexture name="cards/159" x="617" y="956" width="186" height="240"/>
-    <SubTexture name="cards/1002" x="1393" y="550" width="180" height="209" frameX="0" frameY="-21" frameWidth="186" frameHeight="240"/>
-    <SubTexture name="cards/1003" x="262" y="1222" width="186" height="220" frameX="0" frameY="-20" frameWidth="186" frameHeight="240"/>
+    <SubTexture name="cards/3" x="1393" y="550" width="180" height="209" frameX="0" frameY="-21" frameWidth="186" frameHeight="240"/>
+    <SubTexture name="cards/4" x="262" y="1222" width="186" height="220" frameX="0" frameY="-20" frameWidth="186" frameHeight="240"/>
     <SubTexture name="cards/1004" x="1575" y="537" width="155" height="201" frameX="-10" frameY="-5" frameWidth="186" frameHeight="240"/>
     <SubTexture name="cards/bevel-card" x="457" y="496" width="110" height="132" frameX="-6" frameY="-6" frameWidth="122" frameHeight="144"/>
     <SubTexture name="cards/elixir-1" x="190" y="1135" width="60" height="64"/>
@@ -235,10 +235,10 @@
     <SubTexture name="population-0" x="884" y="377" width="49" height="56"/>
     <SubTexture name="population-1" x="884" y="435" width="49" height="56"/>
     <SubTexture name="rank-icon" x="1058" y="1408" width="70" height="51" frameX="-4" frameY="-14" frameWidth="80" frameHeight="80"/>
-    <SubTexture name="res-1000" x="1182" y="1150" width="109" height="112" frameX="-2" frameY="0" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1001" x="454" y="1175" width="95" height="103" frameX="-9" frameY="-3" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1002" x="744" y="1937" width="95" height="103" frameX="-8" frameY="-6" frameWidth="112" frameHeight="112"/>
-    <SubTexture name="res-1003" x="206" y="1949" width="104" height="92" frameX="-5" frameY="-8" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-1" x="1182" y="1150" width="109" height="112" frameX="-2" frameY="0" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-2" x="454" y="1175" width="95" height="103" frameX="-9" frameY="-3" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-3" x="744" y="1937" width="95" height="103" frameX="-8" frameY="-6" frameWidth="112" frameHeight="112"/>
+    <SubTexture name="res-4" x="206" y="1949" width="104" height="92" frameX="-5" frameY="-8" frameWidth="112" frameHeight="112"/>
     <SubTexture name="ribbon-blue" x="682" y="1280" width="190" height="150"/>
     <SubTexture name="ribbon-red" x="654" y="1755" width="190" height="150"/>
     <SubTexture name="search-icon" x="808" y="472" width="69" height="75" frameX="-3" frameY="-4" frameWidth="80" frameHeight="80"/>

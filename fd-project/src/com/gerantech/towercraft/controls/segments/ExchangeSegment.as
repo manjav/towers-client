@@ -130,7 +130,7 @@ private function list_changeHandler(event:Event) : void
 }
 private function confirms_errorHandler(event:Event):void
 {
-	appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
+	appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R4_CURRENCY_HARD)]));
 }
 private function confirms_selectHandler(event:Event):void
 {

@@ -31,8 +31,8 @@ public function SelectNamePopup()
 {
 	eItem = exchanger.items.get(ExchangeType.C42_RENAME);
 	
-		super(loc((player.nickName != "guest" && eItem.numExchanges == 0) ? "popup_select_name_title_warned" :  "popup_select_name_title"), 
-	(player.nickName != "guest" && eItem.numExchanges > 0) ? exchanger.getRequierement(eItem, timeManager.now).get(ResourceType.CURRENCY_HARD).toString() : loc("popup_register_label"),
+	super(loc((player.nickName != "guest" && eItem.numExchanges == 0) ? "popup_select_name_title_warned" :  "popup_select_name_title"), 
+	(player.nickName != "guest" && eItem.numExchanges > 0) ? exchanger.getRequierement(eItem, timeManager.now).get(ResourceType.R4_CURRENCY_HARD).toString() : loc("popup_register_label"),
 	null);
 }
 
@@ -40,8 +40,8 @@ override protected function initialize():void
 {
 	super.initialize();
 	closeWithKeyboard = closeOnOverlay = player.nickName != "guest";
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.35, stage.stageWidth*0.9, stage.stageHeight*0.30);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth*0.05, stage.stageHeight*0.30, stage.stageWidth*0.9, stage.stageHeight*0.35);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.35, stage.stageWidth * 0.9, stage.stageHeight * 0.30);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.30, stage.stageWidth * 0.9, stage.stageHeight * 0.35);
 
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 	textInput.maxChars = game.loginData.nameMaxLen ;
@@ -60,7 +60,7 @@ override protected function initialize():void
 	acceptButton.isEnabled = false;
 	acceptButton.width = 360;
 	if( closeOnOverlay && eItem.numExchanges > 0 )
-		acceptButton.icon = Assets.getTexture("res-1003", "gui");
+		acceptButton.icon = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 	declineButton.removeFromParent();
 	rejustLayoutByTransitionData();
 }
