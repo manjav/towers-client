@@ -69,7 +69,7 @@ private function createLevel(level:int):void
 		return;
 	if( levelDisplay == null )
 	{
-		levelDisplay = new RTLLabel("Level " + level, 0, "center", null, false, null, 0.7);
+		levelDisplay = new RTLLabel("" + level, 0, "center", null, false, null, 0.7);
 		levelDisplay.alpha = 0.8;
 		levelDisplay.height = height * 0.25;
 		levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
@@ -77,7 +77,7 @@ private function createLevel(level:int):void
 	}
 	else
 	{
-		levelDisplay.text = "Level "+ level;
+		levelDisplay.text = ""+ level;
 	}
 }
 
