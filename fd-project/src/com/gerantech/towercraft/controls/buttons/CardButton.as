@@ -1,15 +1,9 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.BuildingCard;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
-import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.constants.PrefsTypes;
 import feathers.layout.AnchorLayout;
 import flash.geom.Rectangle;
-import starling.display.Stage;
-import starling.events.Event;
 
 public class CardButton extends SimpleLayoutButton
 {
@@ -53,6 +47,11 @@ private function tutorialManager_finishHandler(event:Event):void
 	var tuteData:TutorialData = event.data as TutorialData;
 	if( tuteData.name == "deck_start" )
 		showTutorArrow(false);*/
+}
+
+public function update():void 
+{
+	iconDisplay.setData(iconDisplay.type, player.cards.get(iconDisplay.type).level);
 }
 }
 }

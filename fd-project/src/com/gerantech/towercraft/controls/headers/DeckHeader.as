@@ -100,8 +100,8 @@ public function getCardIndex(touch:Touch):int
 
 public function update():void
 {
-	//for ( var i:int = 0; i < cards.length; i++ ) 
-	//	cards[i].setData(cards[i].card.type, cards[i].card.level);	
+	for( var i:int = 0; i < cards.length; i++ ) 
+		cards[i].update();	
 }
 }
 }
