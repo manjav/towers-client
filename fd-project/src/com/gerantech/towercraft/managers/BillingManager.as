@@ -45,43 +45,43 @@ public function init():void
 	}
 	
 	// provide all sku items
-	items = new Array("com.grantech.towers.item_0");
+	items = new Array("k2k.item_0");
 	var keys:Vector.<int> = exchanger.items.keys();
 	for each(var k:int in keys)
 		if( ExchangeType.getCategory(k) == ExchangeType.C0_HARD )
-			items.push("com.grantech.towers.item_" + k);
+			items.push("k2k.item_" + k);
 		else if( ExchangeType.getCategory(k) == ExchangeType.C30_BUNDLES )
-			items.push("towres.bundle_" + k);
+			items.push("k2k.bundle_" + k);
 
 	var base64Key:String, bindURL:String, packageURL:String;
 	switch( appModel.descriptor.market )
 	{
 		case "google":
-			base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuBhhd2cIGxyfSAM1Vnv1qLtlmN25UD1KhXpvy8S8JrOIssw6sSoJXBfu8oWWi2VaQ6OPZJifiWKzV3E8+6mxCXn4u+GiO3v1F3zlhhbEPDuKxHu+cnEA3yCQy3w6HLe8f60+85I7VoGsgkEOu0E5fIJ1f5udp209gbi0DrajuTiC5cH4bZNSpDTpE2YE2T4rvsM4nVvN38PNE+xExsNtemm6QGbu9A5x9nWZrGP5dLNT6CSVuu8zdddHGkGCxOzvHekZ/Zsg3ZO9VvNp2n64puKiiCRul5U821iwl5k060CO1glHWrxwoFCWiZwyjnNKYggGBaaIw3m+amh2xp7eNwIDAQAB";
+			base64Key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1FccxhKFO5uuTqOy+KG/q3dddZ69FQ9a/XIrJ6rGjrAf8lG4wBzbgropt6T2+NEQOsN8lsqpvLEp/JprowBS8ANsM9E3D6nGGnsT649kceEKktImiilbEMfqmFjXqgGMbdfGV9VFuk40Vi/yPoHAV3SWP0P7XjtXFyi1rX8xV9IaUMvO+bOjLH4fuNJWhQbH7IxATA3OgCaBnGJ2FhjR0puv3401mlpkCpYxTeKYZ2TWE204QxalkTdY1BL+bFoxn8K9dCo8eNBmWDqizA3TDXHRvVCEOSURqoxB11q2LbL66bTgmwj6y46xEukLkeOFdCHLUS5EHMQYkyjk4RdBXwIDAQAB";
 			bindURL = "com.android.vending.billing.InAppBillingService.BIND";
 			packageURL = "com.android.vending";
 			break;
 		
 		case "myket":
-			base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCfyHCc9OS523q+g7p/Deo3EVu89t0O2x5jjNqM74ojc1UfrXLsETjMcmS6FAtDYhL5gZT6fWkMe7Vx2sKKeFP1mdops4xLK4cQURMd5f7WqRls9cMiaitdnEV6x1kIr/VrS1ieypH9NqtF739LOyptXERLuY/GWgEnU30x7nj4swIDAQAB";
+			base64Key = "";
 			bindURL = "ir.mservices.market.InAppBillingService.BIND";
 			packageURL = "ir.mservices.market";
 			break;
 		
 		case "cando":
-			base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCC3hfXAyBj1bnrlNilrtdW4U1qkI8FP27usDKinH9w/XQddtbyn/yY+Qpgi9rZqGEiy8g7jqZr6YZAM3hJCB4V6dvZPwdHmF2AgtbQJQGYbk4lfhfzQl+UGUtsRJtiaPoJZ7ZTYFlqlAz0tRR83w5y0NdkHyqnaJYyOBvI9jgmXwIDAQAB";
+			base64Key = "";
 			bindURL = "com.ada.market.service.payment.BIND";
 			packageURL = "com.ada.market";
 			break;
 		
 		case "ario":
-			base64Key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1FSvYe0mDDFAnk8SHSMLFxaaQF9MvObuQ8U9tWf4uE0OT8erPKhgUR7cqOF74TXAYlrSwbyTC/nHgqURLRX7C0iFFT1/j9BpMKxNULb/CqulNaJg6AEfQbwTcwIfVzS04dUPhjhR9MdRICfiZkMzWesWfyE4Dfre+p5vt0qC0MQIDAQAB";
+			base64Key = "";
 			bindURL = "com.arioclub.android.sdk.iab.InAppBillingService.BIND";
 			packageURL = "com.arioclub.android";
 			break;
 		
 		default://cafebazaar
-			base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
+			base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwCoKU7EhXq5BhXRVJPe1JvmuPyJhHpsg6Ei9XM6dF0T1a4B4Czca8awJAzaSgx8/NEVYX8pBoP36/GqZ6XRi7yBORtoMHnVzL6qbGtPrGvLww1RwlPRnwVqkIxWhCFqa1U4J/WnskeL/K7SBjHoJlIoc2Mb1xeOWOZZQM1bU10LpkblO6lzSdMnTw9Jgs+UptXC6lLy/+sdfwcUjBfgBfJplPxS2Gtvk5yHkCacfkUCAwEAAQ==";
 			bindURL = "ir.cafebazaar.pardakht.InAppBillingService.BIND";
 			packageURL = "com.farsitel.bazaar";
 			break;
