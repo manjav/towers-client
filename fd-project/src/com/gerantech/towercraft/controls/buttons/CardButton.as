@@ -51,7 +51,7 @@ private function tutorialManager_finishHandler(event:Event):void
 
 public function update():void 
 {
-	iconDisplay.setData(iconDisplay.type, player.cards.get(iconDisplay.type).level);
+	iconDisplay.setData(iconDisplay.type, player.cards.get(iconDisplay.type).level, player.resources.get(iconDisplay.type));
 }
 }
 }

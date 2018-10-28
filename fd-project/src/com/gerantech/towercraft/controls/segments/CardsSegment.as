@@ -148,6 +148,7 @@ override public function init():void
 }
 protected function navigator_bookOpenedHandler(event:Event):void
 {
+	deckHeader.update();
 	updateData();
 }
 
