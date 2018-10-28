@@ -145,7 +145,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.T_000_FIRST_RUN ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
 	
 	appModel.navigator.handleInvokes();
-	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
+	exchangeManager.addEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endHandler);
 	
 	SFSConnection.instance.lobbyManager.addEventListener(Event.UPDATE, lobbyManager_updateHandler);
 }
@@ -155,68 +155,17 @@ private function pageList_readyHandler(event:Event):void
 	tabsList.isEnabled = event.data;
 	pageList.horizontalScrollPolicy = event.data ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 }
-protected function navigator_bookOpenedHandler(event:Event):void
+protected function exchangeManager_endHandler(event:Event):void
 {
-	segmentsCollection = getListData();
-	tabsList.dataProvider = segmentsCollection;
+	TabItemData(segmentsCollection.getItemAt(1)).update();
+	//segmentsCollection.updateItemAt(1);
+	tabsList.dataProvider.updateItemAt(1);
 }
 private function getListData():ListCollection
 {
 	var ret:ListCollection = new ListCollection();
 	for each( var p:int in SegmentType.getDashboardsSegments()._list )
-	{
-		var pd:TabItemData = new TabItemData(p);
-		if( !player.inTutorial() )
-		{
-			if( p == 0 )
-			{
-				for each(var e:ExchangeItem in exchanger.items.values())
-				if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > timeManager.now) )
-				{
-					pd.newBadgeNumber ++;
-					pd.badgeNumber ++;
-				}
-				
-			}
-			else if( p == 1 )
-			{
-				var bs:Vector.<Card> = player.cards.values();
-				for each(var b:Card in bs)
-				{
-					if( b == null )
-						continue;
-					
-					//trace(b.type, b.upgradable() , player.cards.get(b.type).level);
-					if( b.upgradable() )
-						pd.badgeNumber ++;
-					
-					if( player.cards.get(b.type).level == -1 )
-						pd.newBadgeNumber ++;
-				}
-			}
-			else if( p == 3 )
-			{
-				pd.badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
-			}
-			else if( p == 4 && player.get_arena(0) > 2 )
-			{
-				if( player.challenges != null )
-				{
-					for each(var c:Challenge in player.challenges.values() )
-					{
-						if( c.getState(timeManager.now) == Challenge.STATE_STARTED )
-							pd.newBadgeNumber ++;
-						pd.badgeNumber ++;
-					}
-				}
-				else
-				{
-					pd.badgeNumber ++;
-				}
-			}
-		}
-		ret.addItem(pd);
-	}
+		ret.addItem(new TabItemData(p));
 	return ret;
 }
 
