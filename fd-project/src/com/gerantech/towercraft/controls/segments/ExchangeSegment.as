@@ -1,17 +1,9 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.items.exchange.ExCategoryItemRenderer;
-import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.ShopLine;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.ExchangeType;
-import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.exchanges.ExchangeItem;
-import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
@@ -21,10 +13,7 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-import flash.filesystem.File;
-import flash.geom.Rectangle;
 import starling.events.Event;
-import starling.utils.Color;
 
 public class ExchangeSegment extends Segment
 {

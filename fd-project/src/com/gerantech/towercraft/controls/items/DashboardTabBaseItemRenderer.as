@@ -119,11 +119,11 @@ protected function badgeFactory() : IndicatorButton
 		badgeNumber = new IndicatorButton("0", 0.8);
 		badgeNumber.width = badgeNumber.height = padding * 1.8;
 		badgeNumber.layoutData = new AnchorLayoutData(padding * 0.5, padding * 0.5);
-		addChild(badgeNumber);
 	}
 	badgeNumber.fixed = index == 0;
 	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
 	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
+	addChild(badgeNumber);
 	return null;
 }
 

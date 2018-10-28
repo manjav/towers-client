@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.buttons 
 {
-import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -8,7 +7,6 @@ import com.gt.towers.constants.ResourceType;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
-import flash.geom.Rectangle;
 import starling.textures.Texture;
 /**
 * ...

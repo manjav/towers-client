@@ -9,7 +9,6 @@ import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.constants.ExchangeType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -17,7 +16,6 @@ import feathers.events.FeathersEventType;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import mx.resources.ResourceManager;
-import starling.events.EventDispatcher;
 
 public class BillingManager extends BaseManager
 {
@@ -92,7 +90,7 @@ public function init():void
 }
 protected function iab_setupFinishedHandler(event:IabEvent):void
 {
-	log("setup: "+event.result.response);
+	log("setup: " + event.result.response);
 	Iab.instance.removeEventListener(IabEvent.SETUP_FINISHED, iab_setupFinishedHandler);
 	dispatchEventWith(FeathersEventType.INITIALIZE);
 	if( event.result.succeed )
@@ -111,7 +109,7 @@ public function queryInventory():void
 
 protected function iab_queryInventoryFinishedHandler(event:IabEvent):void
 {
-	log("queryInventory: "+event.result.response);
+	log("queryInventory: " + event.result.response);
 	if( !event.result.succeed )
 	{
 		dispatchEventWith(FeathersEventType.END_INTERACTION, false, event.result);

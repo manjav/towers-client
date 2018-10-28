@@ -152,9 +152,9 @@ override public function init():void
 	
 	initializeCompleted = true;
 	showTutorial();
-	appModel.navigator.addEventListener("bookOpened", navigator_bookOpenedHandler);
+	exchangeManager.addEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endHandler);
 }
-protected function navigator_bookOpenedHandler(event:Event):void
+protected function exchangeManager_endHandler(event:Event):void
 {
 	updateData();
 }
