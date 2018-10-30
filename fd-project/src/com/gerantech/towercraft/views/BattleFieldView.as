@@ -15,6 +15,7 @@ import com.gt.towers.calculators.BulletFirePositionCalculator;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.utils.Point3;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import flash.filesystem.File;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.Quad;
@@ -39,6 +40,16 @@ public var effectsContainer:Sprite;
 public function BattleFieldView()
 {
 	super();
+	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/atlases" ) );
+	AppModel.instance.assets.loadQueue(assetManagerLoaded);
+
+}
+
+private function assetManagerLoaded(ratio:Number):void 
+{
+	if( ratio < 1 )
+		return;
+
 	
 	// map alignment
 	alignPivot();

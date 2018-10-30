@@ -1,11 +1,11 @@
 package com.gerantech.towercraft.views
 {
-import com.gerantech.towercraft.models.Assets;
-import flash.geom.Rectangle;
+import com.gerantech.towercraft.models.AppModel;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
 
 public class HealthBar extends LayoutGroup
 {
@@ -40,14 +40,14 @@ override protected function initialize():void
 	backroundDisplay.pixelSnapping = false;
 	backroundDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
 	backroundDisplay.scale9Grid = scaleRect;
-	backroundDisplay.source = Assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1), atlas);
+	backroundDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1));
 	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChildAt(backroundDisplay, 0);
 	
 	fillDisplay = new ImageLoader();
 	fillDisplay.pixelSnapping = false;
 	fillDisplay.scale9Grid = scaleRect;
-	fillDisplay.source = Assets.getTexture("healthbar-fill-"+_troopType, atlas);
+	fillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-"+_troopType);
 	fillDisplay.width =  width * (value / maximum);
 	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChildAt(fillDisplay, 0);
@@ -81,9 +81,9 @@ public function set troopType(value:int):void
 	_troopType = value;
 	
 	if( backroundDisplay )
-		backroundDisplay.source = Assets.getTexture("healthbar-bg-" + _troopType);
+		backroundDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + _troopType);
 	if( fillDisplay )
-		fillDisplay.source = Assets.getTexture("healthbar-fill-" + _troopType);
+		fillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-" + _troopType);
 
 }
 }

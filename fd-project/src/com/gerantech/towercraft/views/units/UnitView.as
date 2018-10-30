@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.views.units
 {
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
@@ -40,7 +39,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 {
 	super(id, type, level, side, x, y, z);
 
-	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
+	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
 	shadowDisplay.width = card.sizeH * 2;
@@ -52,7 +51,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	var appearanceDelay:Number = Math.random() * 0.5;
 	
 	textureType = Math.min(208, type) + "/" + battleField.getColorIndex(side) + "/";
-	bodyDisplay = new MovieClip(Assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_"), "troops"), 15);
+	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_")), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 	bodyDisplay.pivotY = bodyDisplay.height * 0.75;
 	bodyDisplay.x = this.x;
@@ -83,7 +82,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	
 	if( BattleFieldView.DEBUG_MODE )
 	{
-		sizeDisplay = new Image(Assets.getTexture("damage-range"));
+		sizeDisplay = new Image(appModel.assets.getTexture("damage-range"));
 		sizeDisplay.pivotX = sizeDisplay.width * 0.5;
 		sizeDisplay.pivotY = sizeDisplay.height * 0.5;
 		sizeDisplay.width = card.sizeH * 2;
@@ -94,7 +93,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		sizeDisplay.y = this.y;
 		fieldView.unitsContainer.addChildAt(sizeDisplay, 0);
 		
-		rangeDisplay = new Image(Assets.getTexture("damage-range"));
+		rangeDisplay = new Image(appModel.assets.getTexture("damage-range"));
 		rangeDisplay.pivotX = rangeDisplay.width * 0.5;
 		rangeDisplay.pivotY = rangeDisplay.height * 0.5;
 		rangeDisplay.width = card.bulletRangeMax * 2;
@@ -239,7 +238,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		bodyDisplay.removeFrameAt(numFrames);
 		numFrames --;
 	}
-	var textures:Vector.<Texture> = Assets.getTextures(textureType + direction, "troops");
+	var textures:Vector.<Texture> = appModel.assets.getTextures(textureType + direction);
 	bodyDisplay.setFrameTexture(0, textures[0]);
 	for ( var i:int = 1; i < textures.length; i++ )
 		bodyDisplay.addFrame(textures[i]);
@@ -316,7 +315,7 @@ public function set muted(value:Boolean):void
 
 protected function defaultSummonEffectFactory() : void
 {
-	var summonDisplay:MovieClip = new MovieClip(Assets.getTextures("summons/explosion-", "effects"), 35);
+	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explosion-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
 	summonDisplay.width = card.sizeH * 2.00;
@@ -332,7 +331,7 @@ protected function defaultSummonEffectFactory() : void
 
 public function showWinnerFocus():void 
 {
-	var winnerDisplay:Image = new Image(Assets.getTexture("damage-range"));
+	var winnerDisplay:Image = new Image(appModel.assets.getTexture("damage-range"));
 	winnerDisplay.pivotX = winnerDisplay.width * 0.5;
 	winnerDisplay.pivotY = winnerDisplay.height * 0.5;
 	winnerDisplay.width = 500;
@@ -345,7 +344,7 @@ public function showWinnerFocus():void
 
 private function showBloodSplashhAnimation():void 
 {
-	var bloodSplashDisplay:MovieClip = new MovieClip(Assets.getTextures("die/blood_splash_", "effects"), 30);
+	var bloodSplashDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("die/blood_splash_"), 30);
 	bloodSplashDisplay.pivotX = bloodSplashDisplay.width * 0.5;
 	bloodSplashDisplay.pivotY = bloodSplashDisplay.height * 0.5;
 	bloodSplashDisplay.width = (card.sizeH * 0.7) + 130;

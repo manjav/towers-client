@@ -52,7 +52,11 @@ private var hud:BattleHUD;
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
 
-public function BattleScreen(){}
+public function BattleScreen()
+{
+	appModel.battleFieldView = new BattleFieldView();
+	addChild(appModel.battleFieldView);
+}
 override protected function initialize():void
 {
 	super.initialize();
@@ -87,8 +91,6 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		}
 		
 		var battleData:BattleData = new BattleData(data);
-		appModel.battleFieldView = new BattleFieldView();
-		addChild(appModel.battleFieldView);
 		appModel.battleFieldView.createPlaces(battleData);
 		startBattle();
 		break;

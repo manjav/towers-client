@@ -36,26 +36,6 @@ package com.gerantech.towercraft.models
 		/**
 		 * Texture Atlas 
 		 */
-		[Embed(source="../../../../assets/images/battlefields.atf", mimeType="application/octet-stream")]
-		public static const battlefieldsAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/battlefields.xml", mimeType="application/octet-stream")]
-		public static const battlefieldsAtlasXml:Class;		
-		
-		[Embed(source="../../../../assets/images/troops.atf", mimeType="application/octet-stream")]
-		public static const troopsAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/troops.xml", mimeType="application/octet-stream")]
-		public static const troopsAtlasXml:Class;
-		
-		[Embed(source="../../../../assets/images/effects.atf", mimeType="application/octet-stream")]
-		public static const effectsAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/effects.xml", mimeType="application/octet-stream")]
-		public static const effectsAtlasXml:Class;
-		
-	/*	[Embed(source="../../../../assets/images/operations.atf", mimeType="application/octet-stream")]
-		public static const operationsAtlasTexture:Class;
-		[Embed(source="../../../../assets/images/operations.xml", mimeType="application/octet-stream")]
-		public static const operationsAtlasXml:Class;
-	*/	
 		[Embed(source="../../../../assets/images/gui.atf", mimeType="application/octet-stream")]
 		public static const guiAtlasTexture:Class;
 		[Embed(source="../../../../assets/images/gui.xml", mimeType="application/octet-stream")]

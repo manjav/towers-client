@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.views.weapons 
 {
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -99,7 +98,7 @@ override public function dispose():void
 	
 	if( BattleFieldView.DEBUG_MODE )
 	{
-		var damageAreaDisplay:Image = new Image(Assets.getTexture("damage-range"));
+		var damageAreaDisplay:Image = new Image(appModel.assets.getTexture("damage-range"));
 		damageAreaDisplay.pivotX = damageAreaDisplay.width * 0.5;
 		damageAreaDisplay.pivotY = damageAreaDisplay.height * 0.5;
 		damageAreaDisplay.width = card.bulletDamageArea * 2;
@@ -113,7 +112,7 @@ override public function dispose():void
 
 private function defaultBulletDisplayFactory() : void 
 {
-	bulletDisplay = new MovieClip(Assets.getTextures("bullets/" + card.type + "/", "effects"))
+	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + card.type + "/"))
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
 	bulletDisplay.loop = CardTypes.isSpell(card.type);
@@ -125,7 +124,7 @@ private function defaultBulletDisplayFactory() : void
 		bulletDisplay.play();
 	}
 	
-	shadowDisplay = new Image(Assets.getTexture("troops-shadow", "troops"));
+	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
@@ -138,7 +137,7 @@ protected function defaultFireDisplayFactory() : void
 	
 	var fireOffset:Point3 = BulletFirePositionCalculator.getPoint(card.type, rotation);
 	//trace("type", card.type, "  rotation", rotation, fireOffset);
-	var fireDisplay:MovieClip = new MovieClip(Assets.getTextures("fires/shootFire_", "effects"), 45);
+	var fireDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("fires/shootFire_"), 45);
 	fireDisplay.pivotX = 1;
 	fireDisplay.pivotY = fireDisplay.height * 0.5;
 	fireDisplay.x = this.x + fireOffset.x;
@@ -161,7 +160,7 @@ protected function defaultHitDisplayFactory() : void
 		if( card.type == CardTypes.C152 )
 			textureURL = "hits/arrows-";
 		
-		var explosionDisplay:MovieClip = new MovieClip(Assets.getTextures(textureURL, "effects"), card.type == CardTypes.C152 ? 1 : 45);
+		var explosionDisplay:MovieClip = new MovieClip(appModel.assets.getTextures(textureURL), card.type == CardTypes.C152 ? 1 : 45);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
 		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
 		explosionDisplay.width = card.bulletDamageArea * 1.8;
@@ -175,7 +174,7 @@ protected function defaultHitDisplayFactory() : void
 		return;
 	}
 
-	var hitDisplay:Image = new Image(Assets.getTexture("hits/hit", "effects"));
+	var hitDisplay:Image = new Image(appModel.assets.getTexture("hits/hit"));
 	hitDisplay.pivotX = hitDisplay.width * 0.5;
 	hitDisplay.pivotY = hitDisplay.height * 0.5;
 	hitDisplay.x = this.x;
