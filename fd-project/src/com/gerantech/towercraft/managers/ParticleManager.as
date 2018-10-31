@@ -13,17 +13,17 @@ public class ParticleManager
 	
 [Embed(source="../../../../assets/particles/fire/particle.pex", mimeType="application/octet-stream")]
 private static const fireConfig:Class;
-[Embed(source="../../../../assets/particles/fire/texture.png")]
+[Embed(source="../../../../assets/particles/fire/texture.atf", mimeType="application/octet-stream")]
 private static const fireParticle:Class;
 
 [Embed(source="../../../../assets/particles/scrap/particle.pex", mimeType="application/octet-stream")]
 private static const scrapConfig:Class;
-[Embed(source="../../../../assets/particles/scrap/texture.png")]
+[Embed(source="../../../../assets/particles/scrap/texture.atf", mimeType="application/octet-stream")]
 private static const scrapParticle:Class;
 
 [Embed(source="../../../../assets/particles/explode/particle.pex", mimeType="application/octet-stream")]
 private static const explodeConfig:Class;
-[Embed(source="../../../../assets/particles/explode/texture.png")]
+[Embed(source="../../../../assets/particles/explode/texture.atf", mimeType="application/octet-stream")]
 private static const explodeParticle:Class;
 
 

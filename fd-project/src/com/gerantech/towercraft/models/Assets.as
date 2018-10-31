@@ -15,7 +15,7 @@ package com.gerantech.towercraft.models
 	
 	public class Assets
 	{
-		[Embed(source="../../../../assets/fonts/fontclash-font.png")]
+		[Embed(source="../../../../assets/fonts/fontclash-font.atf", mimeType="application/octet-stream")]
 		public static const fontTexture:Class;
 		[Embed(source="../../../../assets/fonts/fontclash-font.fnt", mimeType="application/octet-stream")]
 		public static const fontXml:Class;
@@ -24,10 +24,10 @@ package com.gerantech.towercraft.models
 		
 		public static function getFont(name:String="font"):BitmapFont
 		{
-			if (fonts[name] == undefined)
+			if( fonts[name] == undefined )
 			{
-				var texture:Texture = Texture.fromEmbeddedAsset(fontTexture);
-				var xml:XML = XML(new fontXml());
+				var texture:Texture = Texture.fromAtfData(new Assets[name + "Texture"](), 1, false);
+				var xml:XML = XML(new Assets[name + "Xml"]);
 				fonts[name] = new BitmapFont(texture, xml);
 			}
 			return fonts[name];
@@ -74,7 +74,7 @@ package com.gerantech.towercraft.models
 		 */
 		private static function getTextureByBitmap(name:String):Texture
 		{
-			if (allTextures[name] == undefined)
+			if( allTextures[name] == undefined )
 				allTextures[name] = Texture.fromAtfData(new Assets[name](), 1, false);
 			return allTextures[name];
 		}
@@ -85,7 +85,7 @@ package com.gerantech.towercraft.models
 		 */
 		private static function getAtlas(name:String):TextureAtlas
 		{
-			if (allTextureAtlases[name] == undefined)
+			if( allTextureAtlases[name] == undefined )
 			{
 				var texture:Texture = getTextureByBitmap(name+"AtlasTexture");
 				var xml:XML = XML(new Assets[name+"AtlasXml"]);
@@ -117,7 +117,7 @@ package com.gerantech.towercraft.models
 		 */
 		public static function getSclaed9Textures(name:String):Texture
 		{
-			if(allTextures[name] == undefined)
+			if( allTextures[name] == undefined )
 			{
 				var bmp:Bitmap = new Assets[name+"Bitmap"]();
 				
