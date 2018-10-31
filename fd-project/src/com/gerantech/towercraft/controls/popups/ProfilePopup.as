@@ -52,7 +52,7 @@ private var resourcesData:ISFSArray;
 public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 {
 	this.user = user;
-	this.adminMode = player.admin;
+	this.adminMode = false//player.admin;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", user.id);
@@ -70,8 +70,8 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.5));
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.6));
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.65));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.15), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.75));
 	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void
@@ -252,12 +252,12 @@ private function showProfile():void
     deckLayout.useSquareTiles = false;
     deckLayout.useVirtualLayout = false;
     deckLayout.requestedColumnCount = 4;
-    deckLayout.typicalItemWidth = (width - deckLayout.gap * (deckLayout.requestedColumnCount - 1) - padding * 4) / deckLayout.requestedColumnCount;
+    deckLayout.typicalItemWidth = (width * 0.9 - deckLayout.gap * (deckLayout.requestedColumnCount - 1) - padding * 4) / deckLayout.requestedColumnCount;
     deckLayout.typicalItemHeight = deckLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	
 	var deckList:List = new List();
     deckList.layout = deckLayout;
-    deckList.height = deckLayout.typicalItemHeight;
+    deckList.height = deckLayout.typicalItemHeight * 2 + deckLayout.gap;
     deckList.verticalScrollPolicy = deckList.horizontalScrollPolicy = ScrollPolicy.OFF;
     deckList.layoutData = new AnchorLayoutData(featureList.dataProvider.length * 70 + top + 150, 0, NaN, 0);
     deckList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(true, false); }
