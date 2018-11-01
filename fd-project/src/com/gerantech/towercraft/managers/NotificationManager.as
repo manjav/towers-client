@@ -62,15 +62,19 @@ public function reset():void
 	var numWaitsForgot:int = 0;
 	var itemsKey:Vector.<int> = exchanger.items.keys();
 	var i:int = 0;
+	var existsBusy:Boolean = false;
 	while( i < itemsKey.length )
 	{
 		var cate:int = ExchangeType.getCategory(itemsKey[i]);
 		var state:int = exchanger.items.get(itemsKey[i]).getState(TimeManager.instance.now);
 		if( cate == ExchangeType.C110_BATTLES )
 		{
+			existsBusy = existsBusy || state == ExchangeItem.CHEST_STATE_BUSY;
+			if( existsBusy )
+				numWaitsForgot = 0;
 			if( state == ExchangeItem.CHEST_STATE_READY )
 				numReadiesForgot ++;
-			else
+			else if( state == ExchangeItem.CHEST_STATE_WAIT && !existsBusy )
 				numWaitsForgot ++;
 		}
 		else if( cate == ExchangeType.C100_FREES )
