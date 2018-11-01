@@ -1,60 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:1a6030b1ac185fe8d9a3a35b9108420d:320695a2642e3ac8f3716e133643139c:f35d6734face8652aa91c1defb5ab9b6$ -->
-<TextureAtlas imagePath="battlefields.png" width="1024" height="512">
-    <SubTexture name="aim" x="2" y="68" width="324" height="202"/>
-    <SubTexture name="attack-line-0000" x="695" y="290" width="32" height="48" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0001" x="536" y="435" width="32" height="62" frameX="-16" frameY="-2" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0002" x="570" y="435" width="36" height="61" frameX="-14" frameY="-3" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0003" x="603" y="173" width="34" height="61" frameX="-15" frameY="-3" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0004" x="639" y="173" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0005" x="648" y="68" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0006" x="751" y="68" width="36" height="59" frameX="-14" frameY="-5" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0007" x="592" y="325" width="34" height="59" frameX="-15" frameY="-5" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0008" x="659" y="235" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0009" x="673" y="171" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0010" x="661" y="429" width="36" height="58" frameX="-14" frameY="-6" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0011" x="693" y="231" width="34" height="57" frameX="-15" frameY="-7" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0012" x="699" y="419" width="32" height="48" frameX="-16" frameY="-16" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0013" x="502" y="435" width="32" height="63" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="attack-line-0014" x="500" y="173" width="36" height="64" frameX="-14" frameY="0" frameWidth="64" frameHeight="64"/>
-    <SubTexture name="bush-0" x="707" y="171" width="86" height="53"/>
-    <SubTexture name="bush-1" x="101" y="474" width="29" height="34"/>
-    <SubTexture name="bush-2" x="699" y="469" width="35" height="37"/>
-    <SubTexture name="bush-3" x="592" y="386" width="49" height="43"/>
+<!-- $TexturePacker:SmartUpdate:5acb9287b70221854aaca796f8267d4f:722c4bbbd9e7e40263951eaa6f82ee4f:f35d6734face8652aa91c1defb5ab9b6$ -->
+<TextureAtlas imagePath="battlefields.png" width="1024" height="1024">
+    <SubTexture name="aim" x="500" y="820" width="324" height="202"/>
+    <SubTexture name="attack-line-0000" x="762" y="693" width="32" height="48" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0001" x="796" y="743" width="32" height="62" frameX="-16" frameY="-2" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0002" x="977" y="680" width="36" height="61" frameX="-14" frameY="-3" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0003" x="767" y="243" width="34" height="61" frameX="-15" frameY="-3" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0004" x="764" y="306" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0005" x="727" y="325" width="32" height="60" frameX="-16" frameY="-4" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0006" x="691" y="190" width="36" height="59" frameX="-14" frameY="-5" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0007" x="728" y="264" width="34" height="59" frameX="-15" frameY="-5" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0008" x="691" y="350" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0009" x="444" y="410" width="32" height="58" frameX="-16" frameY="-6" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0010" x="729" y="204" width="36" height="58" frameX="-14" frameY="-6" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0011" x="691" y="291" width="34" height="57" frameX="-15" frameY="-7" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0012" x="796" y="693" width="32" height="48" frameX="-16" frameY="-16" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0013" x="762" y="743" width="32" height="63" frameX="-16" frameY="-1" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="attack-line-0014" x="977" y="614" width="36" height="64" frameX="-14" frameY="0" frameWidth="64" frameHeight="64"/>
+    <SubTexture name="boarder-line" x="131" y="34" width="31" height="13" frameX="0" frameY="0" frameWidth="55" frameHeight="13"/>
+    <SubTexture name="building" x="2" y="68" width="440" height="504"/>
+    <SubTexture name="bush-0" x="917" y="382" width="86" height="53"/>
+    <SubTexture name="bush-1" x="478" y="410" width="29" height="34"/>
+    <SubTexture name="bush-2" x="767" y="204" width="35" height="37"/>
+    <SubTexture name="bush-3" x="758" y="159" width="49" height="43"/>
     <SubTexture name="bush-4" x="964" y="2" width="56" height="64"/>
-    <SubTexture name="bush-5" x="695" y="340" width="35" height="38"/>
-    <SubTexture name="bush-6" x="643" y="385" width="51" height="42"/>
+    <SubTexture name="bush-5" x="691" y="251" width="35" height="38"/>
+    <SubTexture name="bush-6" x="221" y="822" width="51" height="42"/>
     <SubTexture name="bush-7" x="2" y="34" width="31" height="28"/>
-    <SubTexture name="chair-0" x="696" y="380" width="40" height="37"/>
-    <SubTexture name="chair-1" x="789" y="68" width="67" height="48"/>
-    <SubTexture name="damage-range" x="2" y="272" width="200" height="200"/>
+    <SubTexture name="car-1" x="423" y="574" width="200" height="244"/>
+    <SubTexture name="car-2" x="221" y="574" width="200" height="246"/>
+    <SubTexture name="chair-0" x="977" y="575" width="40" height="37"/>
+    <SubTexture name="chair-1" x="660" y="693" width="67" height="48"/>
+    <SubTexture name="cross-line" x="625" y="693" width="33" height="125" frameX="0" frameY="0" frameWidth="62" frameHeight="125"/>
+    <SubTexture name="damage-range" x="298" y="822" width="200" height="200"/>
+    <SubTexture name="dead-line" x="2" y="866" width="152" height="153"/>
     <SubTexture name="end-line" x="2" y="2" width="960" height="30"/>
-    <SubTexture name="fence-0" x="648" y="130" width="132" height="39"/>
-    <SubTexture name="fence-1" x="132" y="474" width="66" height="33"/>
-    <SubTexture name="fence-2" x="346" y="267" width="31" height="114"/>
-    <SubTexture name="fence-3" x="328" y="68" width="149" height="116"/>
+    <SubTexture name="fence-0" x="826" y="34" width="132" height="39"/>
+    <SubTexture name="fence-1" x="691" y="95" width="66" height="33"/>
+    <SubTexture name="fence-2" x="729" y="693" width="31" height="114"/>
+    <SubTexture name="fence-3" x="826" y="575" width="149" height="116"/>
+    <SubTexture name="groud-dirt" x="2" y="574" width="217" height="290"/>
     <SubTexture name="healthbar-bg--1" x="35" y="34" width="14" height="24"/>
     <SubTexture name="healthbar-bg-0" x="51" y="34" width="14" height="24"/>
     <SubTexture name="healthbar-bg-1" x="67" y="34" width="14" height="24"/>
     <SubTexture name="healthbar-fill--1" x="83" y="34" width="14" height="24"/>
     <SubTexture name="healthbar-fill-0" x="99" y="34" width="14" height="24"/>
     <SubTexture name="healthbar-fill-1" x="115" y="34" width="14" height="24"/>
-    <SubTexture name="hole-0" x="204" y="272" width="140" height="137"/>
-    <SubTexture name="hole-1" x="2" y="474" width="97" height="35"/>
-    <SubTexture name="hole-2" x="328" y="186" width="83" height="79"/>
-    <SubTexture name="hut-0" x="479" y="68" width="167" height="103"/>
-    <SubTexture name="rock-0" x="413" y="186" width="85" height="66"/>
-    <SubTexture name="rock-1" x="628" y="325" width="65" height="58"/>
-    <SubTexture name="rock-2" x="782" y="129" width="56" height="39"/>
-    <SubTexture name="rock-3" x="608" y="431" width="51" height="58"/>
-    <SubTexture name="rock-4" x="303" y="411" width="86" height="93"/>
-    <SubTexture name="rock-5" x="581" y="238" width="76" height="85"/>
-    <SubTexture name="rock-6-" x="391" y="381" width="109" height="91"/>
-    <SubTexture name="tanker-0" x="682" y="68" width="67" height="59"/>
-    <SubTexture name="tree-0" x="379" y="267" width="109" height="112"/>
-    <SubTexture name="tree-1" x="490" y="254" width="89" height="91"/>
-    <SubTexture name="tree-2" x="538" y="173" width="63" height="63"/>
-    <SubTexture name="tree-3" x="204" y="411" width="97" height="93"/>
-    <SubTexture name="tree-4" x="502" y="347" width="88" height="86"/>
+    <SubTexture name="hole-0" x="156" y="866" width="140" height="137"/>
+    <SubTexture name="hole-1" x="925" y="345" width="97" height="35"/>
+    <SubTexture name="hole-2" x="937" y="177" width="83" height="79"/>
+    <SubTexture name="hut-0" x="826" y="470" width="167" height="103"/>
+    <SubTexture name="obstacle-left" x="622" y="470" width="67" height="74"/>
+    <SubTexture name="obstacle-right" x="660" y="743" width="64" height="74"/>
+    <SubTexture name="rock-0" x="937" y="109" width="85" height="66"/>
+    <SubTexture name="rock-1" x="691" y="130" width="65" height="58"/>
+    <SubTexture name="rock-2" x="960" y="68" width="56" height="39"/>
+    <SubTexture name="rock-3" x="762" y="34" width="51" height="58"/>
+    <SubTexture name="rock-4" x="444" y="470" width="86" height="93"/>
+    <SubTexture name="rock-5" x="937" y="258" width="76" height="85"/>
+    <SubTexture name="rock-6-" x="826" y="189" width="109" height="91"/>
+    <SubTexture name="tanker-0" x="691" y="34" width="67" height="59"/>
+    <SubTexture name="tree-0" x="826" y="75" width="109" height="112"/>
+    <SubTexture name="tree-1" x="826" y="377" width="89" height="91"/>
+    <SubTexture name="tree-2" x="760" y="94" width="63" height="63"/>
+    <SubTexture name="tree-3" x="826" y="282" width="97" height="93"/>
+    <SubTexture name="tree-4" x="532" y="470" width="88" height="86"/>
 </TextureAtlas>
