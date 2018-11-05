@@ -54,7 +54,7 @@ private function assetManagerLoaded(ratio:Number):void
 	//movieClips = new Vector.<MovieClip>();
 	var uiBuilder:UIBuilder = new UIBuilder(new DefaultAssetMediator(AppModel.instance.assets));
 
-	var map:Sprite = uiBuilder.create(AppModel.instance.assets.getObject("map-1"), false) as Sprite;
+	var map:Sprite = uiBuilder.create(AppModel.instance.assets.getObject("street"), false) as Sprite;
 	map = map.getChildByName("main") as Sprite;
 	addChild(map);
 	//activeMovieClips(map);

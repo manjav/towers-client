@@ -1,52 +1,33 @@
 <?xml version="1.0" encoding="UTF - 8"?>
-<TextureAtlas imagePath="battlefields.png" width="1024" height="1024">
+<TextureAtlas imagePath="battlefields.png" width="2048" height="2048">
 	<SubTexture name="building" x="0" y="0" width="440" height="503"/>
 	<SubTexture name="aim" x="441" y="0" width="324" height="201"/>
 	<SubTexture name="groud-dirt" x="766" y="0" width="217" height="289"/>
-	<SubTexture name="car-2" x="441" y="202" width="200" height="245"/>
-	<SubTexture name="car-1" x="642" y="290" width="200" height="243"/>
-	<SubTexture name="damage-range" x="441" y="448" width="200" height="199"/>
-	<SubTexture name="end-line" x="0" y="648" width="960" height="29"/>
-	<SubTexture name="dead-line" x="843" y="290" width="152" height="152"/>
-	<SubTexture name="hole-0" x="843" y="443" width="140" height="136"/>
-	<SubTexture name="fence-3" x="0" y="504" width="149" height="115"/>
-	<SubTexture name="hut-0" x="150" y="504" width="167" height="102"/>
-	<SubTexture name="tree-0" x="318" y="504" width="109" height="111"/>
-	<SubTexture name="rock-6-" x="642" y="534" width="109" height="90"/>
-	<SubTexture name="tree-3" x="0" y="678" width="97" height="92"/>
-	<SubTexture name="tree-1" x="752" y="534" width="89" height="90"/>
-	<SubTexture name="rock-4" x="98" y="678" width="86" height="92"/>
-	<SubTexture name="tree-4" x="642" y="202" width="88" height="85"/>
-	<SubTexture name="hole-2" x="185" y="678" width="83" height="78"/>
-	<SubTexture name="rock-5" x="269" y="678" width="76" height="84"/>
-	<SubTexture name="rock-0" x="842" y="580" width="85" height="65"/>
-	<SubTexture name="fence-0" x="150" y="607" width="132" height="38"/>
-	<SubTexture name="obstacle-left" x="346" y="678" width="67" height="73"/>
-	<SubTexture name="obstacle-right" x="414" y="678" width="64" height="73"/>
-	<SubTexture name="bush-0" x="928" y="580" width="86" height="52"/>
-	<SubTexture name="cross-line" x="984" y="0" width="32" height="124" frameX="0" frameY="0" frameWidth="62" frameHeight="125"/>
-	<SubTexture name="tree-2" x="479" y="678" width="63" height="62"/>
-	<SubTexture name="tanker-0" x="543" y="678" width="67" height="58"/>
-	<SubTexture name="rock-1" x="611" y="678" width="65" height="57"/>
-	<SubTexture name="bush-4" x="961" y="633" width="56" height="63"/>
-	<SubTexture name="fence-2" x="984" y="125" width="31" height="113"/>
-	<SubTexture name="hole-1" x="677" y="678" width="97" height="34"/>
-	<SubTexture name="chair-1" x="775" y="678" width="67" height="47"/>
-	<SubTexture name="rock-3" x="843" y="678" width="51" height="57"/>
-	<SubTexture name="rock-2" x="895" y="678" width="56" height="38"/>
-	<SubTexture name="fence-1" x="952" y="697" width="66" height="32"/>
-	<SubTexture name="bush-6" x="677" y="713" width="51" height="41"/>
-	<SubTexture name="bush-3" x="895" y="717" width="49" height="42"/>
-	<SubTexture name="chair-0" x="729" y="713" width="40" height="36"/>
-	<SubTexture name="bush-5" x="984" y="239" width="35" height="37"/>
-	<SubTexture name="bush-2" x="984" y="443" width="35" height="36"/>
-	<SubTexture name="bush-1" x="731" y="202" width="29" height="33"/>
-	<SubTexture name="bush-7" x="731" y="236" width="31" height="27"/>
-	<SubTexture name="boarder-line" x="731" y="264" width="30" height="12" frameX="0" frameY="0" frameWidth="55" frameHeight="13"/>
-	<SubTexture name="healthbar-bg-0" x="996" y="277" width="14" height="23"/>
-	<SubTexture name="healthbar-bg-1" x="996" y="301" width="14" height="23"/>
-	<SubTexture name="healthbar-bg--1" x="996" y="325" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-0" x="996" y="349" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-1" x="996" y="373" width="14" height="23"/>
-	<SubTexture name="healthbar-fill--1" x="996" y="397" width="14" height="23"/>
+	<SubTexture name="map-layers_0008_cheker" x="984" y="0" width="239" height="233"/>
+	<SubTexture name="map-layers_0000_block" x="1224" y="0" width="338" height="154"/>
+	<SubTexture name="map-layers_0010_car" x="1563" y="0" width="199" height="252"/>
+	<SubTexture name="map-layers_0011_car" x="1763" y="0" width="199" height="252"/>
+	<SubTexture name="car-2" x="1224" y="155" width="200" height="245"/>
+	<SubTexture name="car-1" x="441" y="202" width="200" height="243"/>
+	<SubTexture name="map-layers_0009_car" x="984" y="234" width="200" height="214"/>
+	<SubTexture name="damage-range" x="1425" y="253" width="200" height="199"/>
+	<SubTexture name="map-layers_0003_block" x="1626" y="253" width="248" height="158"/>
+	<SubTexture name="map-layers_0002_block" x="642" y="290" width="242" height="158"/>
+	<SubTexture name="map-layers_0001_block" x="1626" y="412" width="241" height="158"/>
+	<SubTexture name="end-line" x="441" y="449" width="960" height="29"/>
+	<SubTexture name="dead-line" x="1875" y="253" width="152" height="152"/>
+	<SubTexture name="map-layers_0005_yellow-thing" x="1875" y="406" width="99" height="161"/>
+	<SubTexture name="map-layers_0004_manhole" x="1963" y="0" width="83" height="84"/>
+	<SubTexture name="map-layers_0006_cone" x="1963" y="85" width="74" height="72"/>
+	<SubTexture name="obstacle-left" x="1425" y="155" width="67" height="73"/>
+	<SubTexture name="map-layers_0007_line" x="1963" y="158" width="72" height="66"/>
+	<SubTexture name="obstacle-right" x="1493" y="155" width="64" height="73"/>
+	<SubTexture name="cross-line" x="1185" y="234" width="32" height="124" frameX="0" frameY="0" frameWidth="62" frameHeight="125"/>
+	<SubTexture name="boarder-line" x="642" y="202" width="30" height="12" frameX="0" frameY="0" frameWidth="55" frameHeight="13"/>
+	<SubTexture name="healthbar-bg-0" x="673" y="202" width="14" height="23"/>
+	<SubTexture name="healthbar-bg-1" x="688" y="202" width="14" height="23"/>
+	<SubTexture name="healthbar-bg--1" x="703" y="202" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-0" x="718" y="202" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-1" x="733" y="202" width="14" height="23"/>
+	<SubTexture name="healthbar-fill--1" x="748" y="202" width="14" height="23"/>
 </TextureAtlas>
