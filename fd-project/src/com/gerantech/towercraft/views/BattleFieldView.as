@@ -52,7 +52,7 @@ private function assetManagerLoaded(ratio:Number):void
 		return;
 
 	//movieClips = new Vector.<MovieClip>();
-	/*var uiBuilder:UIBuilder = new UIBuilder(new DefaultAssetMediator(AppModel.instance.assets));
+	var uiBuilder:UIBuilder = new UIBuilder(new DefaultAssetMediator(AppModel.instance.assets));
 
 	var map:Sprite = uiBuilder.create(AppModel.instance.assets.getObject("map-1"), false) as Sprite;
 	map = map.getChildByName("main") as Sprite;
@@ -61,7 +61,7 @@ private function assetManagerLoaded(ratio:Number):void
 	
 	map.x = BattleField.WIDTH * 0.5//Starling.current.stage.stageWidth * 0.5;
 	map.y = BattleField.HEIGHT * 0.5//(Starling.current.stage.stageHeight - 330 * 0.5) * 0.5;
-	*/
+	
 	// map alignment
 	alignPivot();
 	
@@ -74,7 +74,8 @@ private function assetManagerLoaded(ratio:Number):void
 	// tile grass ground
 	/*var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
 	tiledBG.tileGrid = new Rectangle(1, 1, 230, 230);*/
-    var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
+    
+	/*var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
 	tiledBG.x = -BattleField.WIDTH * 0.5;
 	tiledBG.width = BattleField.WIDTH * 2;
 	tiledBG.y = -BattleField.HEIGHT * 0.5;
@@ -88,7 +89,7 @@ private function assetManagerLoaded(ratio:Number):void
 	var allisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0x0000FF);
 	allisRegion.y = BattleField.HEIGHT * 0.666666
 	allisRegion.alpha = 0.2;
-	addChild(allisRegion);
+	addChild(allisRegion);*/
 	
 	roadsContainer = new Sprite();
 	unitsContainer = new Sprite();
@@ -125,13 +126,13 @@ public function createPlaces(battleData:BattleData) : void
 		summonUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
 	}
 
-	var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
+	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
 	for each( var img:Image in images )
 		if( img.name == "battlefields" )
 			elementsContainer.addChild(img);
 		else
 			roadsContainer.addChild(img);
-	
+	*/
 	/*var len:uint = battleData.battleField.places.size();
 	places = new Vector.<PlaceView>(len, true);
 	for ( var i:uint=0; i<len; i++ )
