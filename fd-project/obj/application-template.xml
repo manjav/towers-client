@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/26.0">
   <id>com.grantech.k2k</id>
-  <versionNumber>0.1.101</versionNumber>
+  <versionNumber>0.1.102</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>Pistol</filename>
   <name>Pistole</name>
@@ -36,13 +36,11 @@
 	<!--<uses-permission android:name="com.android.vending.BILLING" /> <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR" /> <uses-permission android:name="ir.mservices.market.BILLING" /> <uses-permission android:name="com.arioclub.android.sdk.IAB" />-->
 	<uses-permission android:name="com.domain.market.BILLING" />
 	
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
 	
 	<application android:enabled="true" >
 		
