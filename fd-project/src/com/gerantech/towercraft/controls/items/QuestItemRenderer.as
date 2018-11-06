@@ -107,9 +107,9 @@ override protected function commitData():void
 	if( quest.type == Quest.TYPE_7_CARD_COLLECT || quest.type == Quest.TYPE_8_CARD_UPGRADE )
 		titleDisplay.text = loc("quest_title_" + quest.type, [loc("card_title_" + quest.key), quest.target]);
 	else if( quest.type == Quest.TYPE_6_CHALLENGES )
-		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("challenge_title_" + (quest.key - 1221))]);
+		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("challenge_title_" + (quest.key - 31))]);
 	else if( quest.type == Quest.TYPE_9_BOOK_OPEN )
-		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("exchange_title_" + quest.key)]);
+		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target, loc("resource_title_" + quest.key)]);
 	else
 		titleDisplay.text = loc("quest_title_" + quest.type, [quest.target]);
 	
