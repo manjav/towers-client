@@ -56,6 +56,10 @@ public function initialize():void
 	if( lobby != null && lobby.id == _lobby.id )
 		return;
 	
+	var sdfs:* = _lobby.properties;
+	for ( var s:String in _lobby.properties )
+	trace(s, _lobby.properties[s]);
+		
 	dispose();
 	lobby = _lobby;
 	requestData();
@@ -81,6 +85,7 @@ protected function sfs_getLobbyInfoHandler(event:SFSEvent):void
 		return;
 
 	var data:ISFSObject = event.params.params as SFSObject;
+	id = data.getInt("id");
 	point = data.getInt("sum");
 	emblem = data.getInt("pic");
 	activeness = data.getInt("act");

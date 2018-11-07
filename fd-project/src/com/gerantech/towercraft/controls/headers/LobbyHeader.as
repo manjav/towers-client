@@ -80,7 +80,7 @@ protected function room_userChangeHandler(event:SFSEvent):void
 
 protected function infoButton_triggeredHandler(event:Event):void
 {
-	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:manager.lobby.id, name:manager.lobby.name, pic:manager.emblem, num:manager.members.size(), sum:manager.point, all:manager.members, max:manager.lobby.maxUsers});
+	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:manager.id, name:manager.lobby.name, pic:manager.emblem, num:manager.members.size(), sum:manager.point, all:manager.members, max:manager.lobby.maxUsers});
 	detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	function detailsPopup_updateHandler(ev:Event):void 

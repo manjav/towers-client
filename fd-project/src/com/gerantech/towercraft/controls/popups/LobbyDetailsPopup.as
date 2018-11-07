@@ -150,8 +150,7 @@ private function showDetails():void
 	membersList.dataProvider = memberCollection;
 	addChild(membersList);
 	
-	var lobby:Room = SFSConnection.instance.lobbyManager.lobby;
-	itsMyRoom = lobby != null && lobby.id == roomData.id;
+	itsMyRoom = SFSConnection.instance.lobbyManager.lobby != null && SFSConnection.instance.lobbyManager.id == roomData.id;
 	
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
