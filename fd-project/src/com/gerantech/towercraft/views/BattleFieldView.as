@@ -181,7 +181,10 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 public function hitUnits(buletId:int, damage:Number, targets:Array) : void
 {
 	for each( var id:int in targets )
-		battleData.battleField.units.get(id).hit(damage);
+		if( battleData.battleField.units.exists( id ) )
+			battleData.battleField.units.get(id).hit(damage);
+		else
+			trace("unit " + id + " not found.");
 }
 
 public function updateUnits():void
