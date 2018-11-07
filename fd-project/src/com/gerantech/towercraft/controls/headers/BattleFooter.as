@@ -213,6 +213,7 @@ private function animatePushDeck(deckSelected:BuildingCard) : void
 override public function dispose() : void
 {
 	super.dispose();
+	SFSConnection.instance.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 	draggableCard.removeFromParent(true);
 	removeEventListener(TouchEvent.TOUCH, touchHandler);
 }

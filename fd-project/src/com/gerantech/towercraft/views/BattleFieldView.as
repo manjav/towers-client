@@ -207,7 +207,8 @@ public function updateUnits():void
 override public function dispose() : void
 {
 	TimeManager.instance.removeEventListener(Event.UPDATE, timeManager_updateHandler);
-	battleData.battleField.dispose();
+	if( battleData != null )
+		battleData.battleField.dispose();
 	super.dispose();
 }
 }
