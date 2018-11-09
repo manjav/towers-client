@@ -94,7 +94,6 @@ private function loaderInfo_completeHandler(event:Event):void
 
 private function starStarling():void
 {
-	Starling.multitouchEnabled = true;
 	var viewPort:Rectangle = new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
 	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 	this.starling.supportHighResolutions = true;
