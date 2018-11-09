@@ -14,6 +14,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.utils.Utils;
+import com.gt.towers.battle.FieldProvider;
 import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -211,7 +212,7 @@ protected function coreLoader_completeHandler(event:Event):void
 
 	// catch video ads
 	VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_CHESTS, true);
-	if( appModel.game.player.getLastOperation() < appModel.game.fieldProvider.operations.keys().length )
+	if( appModel.game.player.getLastOperation() < FieldProvider.operations.keys().length )
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
 }
 private function registerPushManager():void

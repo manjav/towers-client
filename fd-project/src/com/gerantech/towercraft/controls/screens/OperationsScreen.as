@@ -8,6 +8,7 @@ import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gt.towers.battle.FieldProvider;
 import com.gt.towers.battle.fieldes.FieldData;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -39,7 +40,7 @@ public function OperationsScreen()
 	var field:FieldData;
 	var source:Array = new Array();
 	
-	var fields:Vector.<FieldData> = game.fieldProvider.shires.values();
+	var fields:Vector.<FieldData> = FieldProvider.shires.values();
 	for( var i:int=0; i < fields.length; i++)
 		source.push( fields[i] );
 	source.sortOn("index", Array.NUMERIC|Array.DESCENDING);
@@ -75,7 +76,7 @@ override protected function initialize():void
 	else if( OperationMapItemRenderer.OPERATION_INDEX > 0 )
 	{
 //		var pageIndex:uint = game.fieldProvider.shires.keys().length - game.fieldProvider.getCurrentShire(player.getLastOperation()).index - 1;
-		var pageIndex:uint = game.fieldProvider.shires.keys().length - Math.floor(player.getLastOperation() / 10) - 1;
+		var pageIndex:uint = FieldProvider.shires.keys().length - Math.floor(player.getLastOperation() / 10) - 1;
 		//trace(pageIndex, QuestMapItemRenderer.questIndex, game.fieldProvider.getCurrentShire(QuestMapItemRenderer.questIndex).index, list.dataProvider.length)
 		if( pageIndex > 0 )
 			setTimeout(list.scrollToDisplayIndex, 1000, pageIndex, 1);
@@ -93,7 +94,7 @@ override protected function initialize():void
 override protected function transitionInCompleteHandler(event:Event):void
 {
 	super.transitionInCompleteHandler(event);
-	var lastOperation:FieldData = game.fieldProvider.operations.get( "operation_" + OperationMapItemRenderer.OPERATION_INDEX );
+	var lastOperation:FieldData = FieldProvider.operations.get( "operation_" + OperationMapItemRenderer.OPERATION_INDEX );
 	//trace("inTutorial:", player.inTutorial(), lastQuest.name, "hasStart:", lastQuest.hasStart, "hasIntro:", lastQuest.hasIntro, "hasFinal:", lastQuest.hasFinal, lastQuest.times);
 	if( lastOperation.index == 3 && player.nickName == "guest" )
 	{
@@ -162,7 +163,7 @@ private function list_selectHandler(event:Event):void
 	function floating_selectHandler(event:Event):void
 	{
 		detailsPopup.removeEventListener(Event.SELECT, floating_selectHandler);
-		appModel.navigator.runBattle(false, game.fieldProvider.operations.get("operation_" + index));
+		appModel.navigator.runBattle(false, FieldProvider.operations.get("operation_" + index));
 	}
 }
 
