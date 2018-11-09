@@ -58,7 +58,6 @@
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
-    <element path="ane\com.marpies.ane.onesignal.ane" />
     <element path="ane\com.marpies.ane.gameanalytics.ane" />
     <element path="ane\com.marpies.ane.gameServices.ane" />
     <element path="ane\com.marpies.ane.googleplayservices.ads.ane" />
