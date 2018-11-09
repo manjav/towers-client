@@ -6,10 +6,10 @@ import com.gerantech.towercraft.utils.StrUtils;
 import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
 
-public class QuestDetailsPopup extends SimplePopup
+public class OperationDetailsPopup extends SimplePopup
 {
 private var operationIndex:int;
-public function QuestDetailsPopup(questIndex:int)
+public function OperationDetailsPopup(operationIndex:int)
 {
 	super();
 	this.operationIndex = operationIndex;

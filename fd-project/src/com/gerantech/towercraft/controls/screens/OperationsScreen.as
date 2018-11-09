@@ -4,7 +4,7 @@ import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.OperationMapItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.popups.QuestDetailsPopup;
+import com.gerantech.towercraft.controls.popups.OperationDetailsPopup;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
@@ -28,8 +28,8 @@ import starling.events.Event;
 public class OperationsScreen extends BaseCustomScreen
 {
 public static var savedVerticalScrollPosition:Number = 0;
-private var list:List;
 private static var operationsCollection:ListCollection;
+private var list:List;
 public function OperationsScreen()
 {
 	super();
@@ -155,7 +155,7 @@ private function list_selectHandler(event:Event):void
 	ti.destinationAlpha = to.sourceAlpha = 1;
 	to.sourceBound = ti.destinationBound = new Rectangle(bounds.x - popupWidth * 0.50, bounds.y - 50, popupWidth * 1.0, popupHeight);
 	
-	var detailsPopup:QuestDetailsPopup = new QuestDetailsPopup(index);
+	var detailsPopup:OperationDetailsPopup = new OperationDetailsPopup(index);
 	detailsPopup.transitionIn = ti;
 	detailsPopup.transitionOut = to;
 	detailsPopup.addEventListener(Event.SELECT, floating_selectHandler);

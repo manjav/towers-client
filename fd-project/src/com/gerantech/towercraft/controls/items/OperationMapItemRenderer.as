@@ -50,7 +50,7 @@ override protected function commitData():void
 	{
 		var itemIndex:int = item.index + shire.index * 10;
 		var score:int = player.operations.get(itemIndex);
-		//trace(index , player.operations.get(index) )
+		//trace(itemIndex  , OPERATION_INDEX )
 		
 		var color:String = "locked";
 		if ( itemIndex < OPERATION_INDEX )
@@ -65,7 +65,7 @@ override protected function commitData():void
 		if( itemIndex <= OPERATION_INDEX )
 		{
 			var pinButton:SimpleButton = new SimpleButton();
-			pinButton.name = itemIndex+"";
+			pinButton.name = itemIndex.toString();
 			pinButton.x = item.x;
 			pinButton.y = item.y;
 			pinButton.addEventListener(Event.TRIGGERED, pinButton_triggeredHandler);
