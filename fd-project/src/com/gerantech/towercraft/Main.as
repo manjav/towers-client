@@ -46,7 +46,7 @@ override protected function initialize():void
 
 	addScreen(DASHBOARD_SCREEN,	DashboardNewScreen);
 	addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);
-	addScreen(OPERATIONS_SCREEN,OperationsScreen, true, false);
+	//addScreen(OPERATIONS_SCREEN,OperationsScreen, true, false);
 	addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);
 	addScreen(SETTINGS_SCREEN, 	SettingsScreen);
 	addScreen(ADMIN_SCREEN, 	AdminScreen);

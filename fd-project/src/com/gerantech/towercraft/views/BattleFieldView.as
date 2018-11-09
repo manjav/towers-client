@@ -5,7 +5,6 @@ import com.gerantech.towercraft.managers.DropTargets;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.net.ResponseSender;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Fields;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gerantech.towercraft.views.weapons.BulletView;
@@ -17,16 +16,15 @@ import com.gt.towers.utils.Point3;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import flash.filesystem.File;
 import starling.core.Starling;
-import starling.display.Image;
-import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
 import starlingbuilder.engine.DefaultAssetMediator;
-import starlingbuilder.engine.UIBuilder;
 
 public class BattleFieldView extends Sprite
 {
 public static const DEBUG_MODE:Boolean = false;
+
+private var mapBuilder:MapBuilder;
 //private var units:IntUnitMap;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
@@ -51,16 +49,12 @@ private function assetManagerLoaded(ratio:Number):void
 	if( ratio < 1 )
 		return;
 
-	//movieClips = new Vector.<MovieClip>();
-	var uiBuilder:UIBuilder = new UIBuilder(new DefaultAssetMediator(AppModel.instance.assets));
-
-	var map:Sprite = uiBuilder.create(AppModel.instance.assets.getObject("street"), false) as Sprite;
-	map = map.getChildByName("main") as Sprite;
-	addChild(map);
-	//activeMovieClips(map);
+	mapBuilder = new MapBuilder(new DefaultAssetMediator(AppModel.instance.assets));
+	mapBuilder.create(AppModel.instance.assets.getObject("street"), false);
+	addChild(mapBuilder.mainMap);
 	
-	map.x = BattleField.WIDTH * 0.5//Starling.current.stage.stageWidth * 0.5;
-	map.y = BattleField.HEIGHT * 0.5//(Starling.current.stage.stageHeight - 330 * 0.5) * 0.5;
+	mapBuilder.mainMap.x = BattleField.WIDTH * 0.5//Starling.current.stage.stageWidth * 0.5;
+	mapBuilder.mainMap.y = BattleField.HEIGHT * 0.5//(Starling.current.stage.stageHeight - 330 * 0.5) * 0.5;
 	
 	// map alignment
 	alignPivot();
@@ -101,8 +95,11 @@ private function assetManagerLoaded(ratio:Number):void
 
 	scale = 0.8;
 	touchable = false;
+	
+	if( battleData != null )
+		createPlaces(battleData);
 	//units = new IntUnitMap();
-}		
+}	
 
 protected function timeManager_updateHandler(e:Event):void 
 {
@@ -112,6 +109,8 @@ protected function timeManager_updateHandler(e:Event):void
 public function createPlaces(battleData:BattleData) : void
 {
 	this.battleData = battleData;
+	if( mapBuilder == null )
+		return;
 	battleData.battleField.state = BattleField.STATE_2_STARTED;
 	responseSender = new ResponseSender(battleData.room);
 	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
@@ -212,6 +211,8 @@ override public function dispose() : void
 	TimeManager.instance.removeEventListener(Event.UPDATE, timeManager_updateHandler);
 	if( battleData != null )
 		battleData.battleField.dispose();
+	if( mapBuilder != null )
+		mapBuilder.dispose();
 	super.dispose();
 }
 }
