@@ -29,7 +29,7 @@ override protected function addedToStageHandler(event:Event):void
 	
 	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
 	tiledBG.alpha = 0.8;
-	tiledBG.tileGrid = new Rectangle(1, 1, 240, 240);
+	tiledBG.tileGrid = new Rectangle(0, 0, 242, 242);
 	tiledBG.pixelSnapping = false;
 	backgroundSkin = tiledBG;
 	
