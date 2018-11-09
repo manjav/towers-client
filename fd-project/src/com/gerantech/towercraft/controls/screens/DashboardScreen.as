@@ -159,7 +159,7 @@ protected function exchangeManager_endHandler(event:Event):void
 {
 	TabItemData(segmentsCollection.getItemAt(1)).update();
 	//segmentsCollection.updateItemAt(1);
-	if( tabsList != null )
+	if( tabsList != null && tabsList.dataProvider != null )
 		tabsList.dataProvider.updateItemAt(1);
 }
 private function getListData():ListCollection
