@@ -11,12 +11,22 @@ import feathers.controls.AutoSizeMode;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.extensions.rtl_text.BitmapFontRTL;
+import starling.text.TextField;
+import starling.textures.Texture;
 
 public class LobbyChatItemMessageSegment extends LobbyChatItemSegment
 {
+
+static private var bmpFontRTL:BitmapFontRTL;
+[Embed(source="../../../../../../assets/fonts/adobeArabic.fnt", mimeType="application/octet-stream")]
+public static const adobeXml:Class;
+[Embed(source="../../../../../../assets/fonts/adobeArabic_0.png")]
+public static const adobeTexture:Class;
+	
 private var senderDisplay:RTLLabel;
 private var roleDisplay:RTLLabel;
-private var messageDisplay:RTLLabel;
+private var messageDisplay:TextField;
 private var dateDisplay:RTLLabel;
 
 private var meSkin:ImageLoader;
@@ -26,10 +36,17 @@ private var date:Date;
 private var inPadding:int;
 private var senderLayout:AnchorLayoutData;
 private var roleLayout:AnchorLayoutData;
-private var messageLayout:AnchorLayoutData;
+//private var messageLayout:AnchorLayoutData;
 private var dateLayout:AnchorLayoutData;
+private var textBounds:Rectangle;
 
-public function LobbyChatItemMessageSegment(owner:FastList) { super(owner); }
+public function LobbyChatItemMessageSegment(owner:FastList) 
+{
+	super(owner);
+	bmpFontRTL = new BitmapFontRTL(Texture.fromEmbeddedAsset(adobeTexture), XML(new adobeXml()));
+	TextField.registerCompositor(bmpFontRTL, bmpFontRTL.name);
+
+}
 override public function init():void
 {
 	super.init();
@@ -62,11 +79,16 @@ override public function init():void
 	roleDisplay.layoutData = roleLayout;
 	addChild(roleDisplay);
 	
-	messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
-	if( appModel.platform == AppModel.PLATFORM_ANDROID )
-		messageDisplay.leading = -padding * 0.4;
-	messageLayout = new AnchorLayoutData( padding * 2);
-	messageDisplay.layoutData = messageLayout;
+	//messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
+	messageDisplay = new TextField(width - padding * 2 - otherPadding, 200, "");
+	messageDisplay.setRequiresRecomposition();
+	messageDisplay.format.setTo(bmpFontRTL.name, appModel.theme.gameFontSize, MainTheme.PRIMARY_BACKGROUND_COLOR, appModel.align, "top");
+	messageDisplay.border = true;
+
+//	if( appModel.platform == AppModel.PLATFORM_ANDROID )
+	//	messageDisplay.leading = -padding * 0.4;
+	//messageLayout = new AnchorLayoutData( padding * 2);
+	messageDisplay.y = padding * 2;
 	addChild(messageDisplay);
 	
 	dateDisplay = new RTLLabel("", MainTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.6);
@@ -95,11 +117,17 @@ override public function commitData(_data:ISFSObject, index:int):void
 	roleDisplay.text = user == null?"":(loc("lobby_role_" + user.getShort("permission")));
 	roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
-	messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
-	messageLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
+	//messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
+	//messageLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	messageDisplay.text = data.getUtfString("t");
-	messageDisplay.validate();
+	messageDisplay.setRequiresRecomposition();
+	textBounds = messageDisplay.textBounds;
+	messageDisplay.height = textBounds.height + textBounds.y * 2;
+	messageDisplay.x = (itsMe ? otherPadding : padding) + inPadding;
+
+	//messageDisplay.validate();
 	
+	messageDisplay.height = 1000;
 	date.time = data.getInt("u") * 1000;
 	dateDisplay.text = StrUtils.dateToTime(date);
 	dateLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
