@@ -6,6 +6,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.FieldProvider;
 import com.gt.towers.utils.maps.IntIntIntMap;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.Room;
@@ -27,7 +28,7 @@ public function BattleData(data:ISFSObject)
 	this.sfsData = data;
 	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
 	this.singleMode = data.getBool("singleMode");
-
+	FieldProvider.map = data.getText("map");
 	AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 	var axisGame:Game = new Game();
 	axisGame.init(new InitData());

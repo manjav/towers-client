@@ -16,6 +16,8 @@ import com.gt.towers.utils.Point3;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import flash.filesystem.File;
 import starling.core.Starling;
+import starling.display.Canvas;
+import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
 import starlingbuilder.engine.DefaultAssetMediator;
@@ -42,6 +44,9 @@ public function BattleFieldView()
 	super();
 	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/atlases" ) );
 	AppModel.instance.assets.loadQueue(assetManagerLoaded);
+	touchable = false;
+	alignPivot();
+	scale = 0.8;
 }
 
 private function assetManagerLoaded(ratio:Number):void 
@@ -50,14 +55,21 @@ private function assetManagerLoaded(ratio:Number):void
 		return;
 
 	mapBuilder = new MapBuilder(new DefaultAssetMediator(AppModel.instance.assets));
-	mapBuilder.create(AppModel.instance.assets.getObject("street"), false);
-	addChild(mapBuilder.mainMap);
-	
+	if( battleData != null )
+		createPlaces(battleData);
+	//units = new IntUnitMap();
+}	
+
+public function createPlaces(battleData:BattleData) : void
+{
+	this.battleData = battleData;
+	if( mapBuilder == null )
+		return;
+
+	mapBuilder.create(battleData.battleField.json, false);
 	mapBuilder.mainMap.x = BattleField.WIDTH * 0.5//Starling.current.stage.stageWidth * 0.5;
 	mapBuilder.mainMap.y = BattleField.HEIGHT * 0.5//(Starling.current.stage.stageHeight - 330 * 0.5) * 0.5;
-	
-	// map alignment
-	alignPivot();
+	addChild(mapBuilder.mainMap);
 	
 	AppModel.instance.aspectratio = Starling.current.stage.stageWidth / Starling.current.stage.stageHeight;
 	pivotX = BattleField.WIDTH * 0.5;
@@ -65,26 +77,6 @@ private function assetManagerLoaded(ratio:Number):void
 	x = Starling.current.stage.stageWidth * 0.5;
 	y = (Starling.current.stage.stageHeight - BattleFooter.HEIGHT * 0.5) * 0.5;
 
-	// tile grass ground
-	/*var tiledBG:Image = new Image(Assets.getTexture("ground-232"));
-	tiledBG.tileGrid = new Rectangle(1, 1, 230, 230);*/
-    
-	/*var tiledBG:Quad = new Quad(1, 1, 0xA3BB3A);
-	tiledBG.x = -BattleField.WIDTH * 0.5;
-	tiledBG.width = BattleField.WIDTH * 2;
-	tiledBG.y = -BattleField.HEIGHT * 0.5;
-	tiledBG.height = BattleField.HEIGHT * 2;
-	addChild(tiledBG);
-	
-	var axisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0xFF0000);
-	axisRegion.alpha = 0.05;
-	addChild(axisRegion);
-	
-	var allisRegion:Quad = new Quad(BattleField.WIDTH, BattleField.HEIGHT * 0.33333, 0x0000FF);
-	allisRegion.y = BattleField.HEIGHT * 0.666666
-	allisRegion.alpha = 0.2;
-	addChild(allisRegion);*/
-	
 	roadsContainer = new Sprite();
 	unitsContainer = new Sprite();
 	elementsContainer = new Sprite();
@@ -93,24 +85,6 @@ private function assetManagerLoaded(ratio:Number):void
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
 
-	scale = 0.8;
-	touchable = false;
-	
-	if( battleData != null )
-		createPlaces(battleData);
-	//units = new IntUnitMap();
-}	
-
-protected function timeManager_updateHandler(e:Event):void 
-{
-	battleData.battleField.update(e.data as int);
-}
-
-public function createPlaces(battleData:BattleData) : void
-{
-	this.battleData = battleData;
-	if( mapBuilder == null )
-		return;
 	battleData.battleField.state = BattleField.STATE_2_STARTED;
 	responseSender = new ResponseSender(battleData.room);
 	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
@@ -143,11 +117,29 @@ public function createPlaces(battleData:BattleData) : void
 		places[p.place.index] = p
 	}*/
 	
+	/*for ( i = 0; i < battleData.battleField.tileMap.width; i ++ )
+		for ( var j:int = 0; j < battleData.battleField.tileMap.height; j ++ )
+			draw(i, j, battleData.battleField.tileMap.map[i][j], battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight);
+	
+    function draw(i:int, j:int, color:int, width:int, height:int):void
+    {
+        var q:Quad = new Quad(width - 2, height - 2, color);
+		q.alpha = 0.2;
+		q.x = i * width;
+		q.y = j * height;
+		guiTextsContainer.addChild(q);
+    }*/
+
 	addChild(buildingsContainer);
 	addChild(effectsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
-}		
+}
+
+protected function timeManager_updateHandler(e:Event):void 
+{
+	battleData.battleField.update(e.data as int);
+}
 
 public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
 {

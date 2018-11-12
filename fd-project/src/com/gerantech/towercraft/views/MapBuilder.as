@@ -30,13 +30,7 @@ override public function create(data:Object, trimLeadingSpace:Boolean = true, bi
 	var root:Sprite = super.create(data, trimLeadingSpace, binder) as Sprite;
 	mainMap = root.getChildByName("main") as Sprite;
 	activeMovieClips(mainMap);
-	addObstacles(root.getChildByName("obstacles"));
 	return root;
-}
-
-private function addObstacles(childByName:starling.display.DisplayObject):void 
-{
-	
 }
 
 private function activeMovieClips(container:DisplayObjectContainer) : void
