@@ -7,6 +7,7 @@ import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.FieldProvider;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.utils.maps.IntIntIntMap;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.Room;
@@ -28,12 +29,14 @@ public function BattleData(data:ISFSObject)
 	this.sfsData = data;
 	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
 	this.singleMode = data.getBool("singleMode");
-	FieldProvider.map = data.getText("map");
 	AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 	var axisGame:Game = new Game();
 	axisGame.init(new InitData());
 	battleField = new BattleField();
-	battleField.initialize(AppModel.instance.game, axisGame, data.getText("type"), data.getInt("index"), data.getInt("side"), data.getInt("startAt") * 1000, false);
+	
+	var field:FieldData = FieldProvider.getField(data.getText("type"), data.getInt("index"));
+	field.mapLayout = data.getText("map");
+	battleField.initialize(AppModel.instance.game, axisGame, field, data.getInt("side"), data.getInt("startAt") * 1000, false);
 	battleField.state = BattleField.STATE_1_CREATED;
 	TimeManager.instance.setNow(battleField.startAt);
 	allis = data.getSFSObject("allis");

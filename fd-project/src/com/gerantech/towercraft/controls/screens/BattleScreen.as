@@ -168,7 +168,7 @@ private function startBattle():void
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:1, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
 		if( !player.inTutorial() )
-			hud.addChildAt(new BattleStartOverlay(battleData.battleField.map.isOperation() ? battleData.battleField.map.index : -1, battleData ), 0);
+			hud.addChildAt(new BattleStartOverlay(battleData.battleField.field.isOperation() ? battleData.battleField.field.index : -1, battleData ), 0);
 	}
 	
 	// show battle HUD
@@ -209,7 +209,7 @@ private function showTutorials() : void
 		return;
 	}
 	
-	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 	if( player.tutorialMode == 0 && !field.isOperation() )
 		return;
 
@@ -252,7 +252,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
 	var inTutorial:Boolean = player.get_battleswins() < 3;
 	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_4_ENDED;
-	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 
 	// show celebration tutorial steps
 	if( player.get_battleswins() == 0 && !skipCelebration )
@@ -346,7 +346,7 @@ private function endOverlay_retryHandler(event:Event):void
 	if( event.data && player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) ) 
 		showExtraTimeAd();
 	else
-		retryOperation(appModel.battleFieldView.battleData.battleField.map.index, false);
+		retryOperation(appModel.battleFieldView.battleData.battleField.field.index, false);
 }
 
 private function showExtraTimeAd():void
@@ -358,7 +358,7 @@ private function showExtraTimeAd():void
 		VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
 		var ad:VideoAd = event.data as VideoAd;
 		if( ad.completed && ad.rewarded )
-			retryOperation(appModel.battleFieldView.battleData.battleField.map.index, true);
+			retryOperation(appModel.battleFieldView.battleData.battleField.field.index, true);
 		else
 			dispatchEventWith(Event.COMPLETE);
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
@@ -399,7 +399,7 @@ private function endOverlay_closeHandler(event:Event):void
 		return;
 	}
 	
-	var field:FieldData = appModel.battleFieldView.battleData.battleField.map;
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 	// set quest score
 	if( field.isOperation() )
 	{
@@ -538,9 +538,9 @@ override protected function backButtonFunction():void
 	if( player.inTutorial() )
 		return;
 	
-	if( !appModel.battleFieldView.battleData.battleField.map.isOperation() )
+	if( !appModel.battleFieldView.battleData.battleField.field.isOperation() )
 	{
-		if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.map.times.get(0) > timeManager.now )
+		if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.field.times.get(0) > timeManager.now )
 			return;
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
 		confirm.acceptStyle = CustomButton.STYLE_DANGER;
@@ -569,7 +569,7 @@ override protected function backButtonFunction():void
 		appModel.battleFieldView.responseSender.actived = false;
 			
 		if( event.type == Event.SELECT )
-			retryOperation(appModel.battleFieldView.battleData.battleField.map.index, false);
+			retryOperation(appModel.battleFieldView.battleData.battleField.field.index, false);
 	}
 }
 

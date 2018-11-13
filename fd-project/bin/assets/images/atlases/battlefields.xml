@@ -2,28 +2,30 @@
 <TextureAtlas imagePath="battlefields.png" width="1024" height="1024">
 	<SubTexture name="aim" x="0" y="0" width="324" height="201"/>
 	<SubTexture name="map-layers_0008_cheker" x="325" y="0" width="239" height="233"/>
-	<SubTexture name="tile" x="565" y="0" width="240" height="179"/>
-	<SubTexture name="bolevard" x="806" y="0" width="200" height="199"/>
-	<SubTexture name="cone" x="565" y="180" width="200" height="199"/>
-	<SubTexture name="damage-range" x="766" y="200" width="200" height="199"/>
-	<SubTexture name="roadblock" x="0" y="202" width="200" height="199"/>
-	<SubTexture name="roadblock-2" x="201" y="234" width="200" height="199"/>
-	<SubTexture name="roadblock-3" x="402" y="380" width="200" height="199"/>
-	<SubTexture name="standguard" x="603" y="400" width="200" height="199"/>
-	<SubTexture name="tire" x="804" y="400" width="200" height="190"/>
-	<SubTexture name="tire-r" x="0" y="402" width="200" height="190"/>
-	<SubTexture name="end-line" x="0" y="600" width="960" height="29"/>
-	<SubTexture name="manhole" x="402" y="234" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
-	<SubTexture name="grid" x="201" y="434" width="64" height="63"/>
-	<SubTexture name="healthbar-bg-0" x="1007" y="0" width="14" height="23"/>
-	<SubTexture name="healthbar-bg-1" x="1007" y="24" width="14" height="23"/>
-	<SubTexture name="healthbar-bg--1" x="1007" y="48" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-0" x="1007" y="72" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-1" x="1007" y="96" width="14" height="23"/>
-	<SubTexture name="healthbar-fill--1" x="1007" y="120" width="14" height="23"/>
-	<SubTexture name="alpha-mask" x="1007" y="144" width="16" height="15"/>
-	<SubTexture name="asphalt-1" x="1007" y="160" width="16" height="15"/>
-	<SubTexture name="asphalt-2" x="1007" y="176" width="16" height="15"/>
-	<SubTexture name="white-line" x="766" y="180" width="16" height="15"/>
-	<SubTexture name="edge-tile" x="783" y="180" width="8" height="2"/>
+	<SubTexture name="bolevard" x="565" y="0" width="400" height="135"/>
+	<SubTexture name="tile" x="565" y="136" width="240" height="179"/>
+	<SubTexture name="cone" x="806" y="136" width="200" height="199"/>
+	<SubTexture name="damage-range" x="0" y="202" width="200" height="199"/>
+	<SubTexture name="roadblock" x="201" y="234" width="200" height="199"/>
+	<SubTexture name="roadblock-2" x="402" y="316" width="200" height="199"/>
+	<SubTexture name="roadblock-3" x="603" y="316" width="200" height="199"/>
+	<SubTexture name="standguard" x="804" y="336" width="200" height="199"/>
+	<SubTexture name="tire" x="0" y="402" width="200" height="190"/>
+	<SubTexture name="tire-r" x="201" y="434" width="200" height="190"/>
+	<SubTexture name="end-line" x="0" y="625" width="960" height="29"/>
+	<SubTexture name="manhole" x="0" y="655" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="tree_0" x="163" y="655" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
+	<SubTexture name="tree_1" x="281" y="655" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
+	<SubTexture name="grid" x="402" y="234" width="64" height="63"/>
+	<SubTexture name="healthbar-bg-0" x="966" y="0" width="14" height="23"/>
+	<SubTexture name="healthbar-bg-1" x="981" y="0" width="14" height="23"/>
+	<SubTexture name="healthbar-bg--1" x="996" y="0" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-0" x="966" y="24" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-1" x="981" y="24" width="14" height="23"/>
+	<SubTexture name="healthbar-fill--1" x="996" y="24" width="14" height="23"/>
+	<SubTexture name="alpha-mask" x="966" y="48" width="16" height="15"/>
+	<SubTexture name="asphalt-1" x="983" y="48" width="16" height="15"/>
+	<SubTexture name="asphalt-2" x="1000" y="48" width="16" height="15"/>
+	<SubTexture name="white-line" x="966" y="64" width="16" height="15"/>
+	<SubTexture name="edge-tile" x="1011" y="0" width="8" height="2"/>
 </TextureAtlas>

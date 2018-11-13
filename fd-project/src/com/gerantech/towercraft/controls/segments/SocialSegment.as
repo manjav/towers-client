@@ -8,7 +8,6 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
-import com.gt.towers.battle.fieldes.ImageData;
 import com.gt.towers.constants.SegmentType;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.List;

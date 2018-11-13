@@ -82,7 +82,7 @@ override protected function initialize():void
 	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
 	addChild(gradient);
 	
-	var hasQuit:Boolean = battleData.battleField.map.isOperation() || SFSConnection.instance.mySelf.isSpectator;
+	var hasQuit:Boolean = battleData.battleField.field.isOperation() || SFSConnection.instance.mySelf.isSpectator;
 	padding = 16;
 	var leftPadding:int = (hasQuit ? 150 : 0);
 	if( hasQuit )
@@ -96,7 +96,7 @@ override protected function initialize():void
 		addChild(closeButton);			
 	}
 	
-	var _name:String = battleData.battleField.map.isOperation() ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.map.index + 1) : battleData.axis.getUtfString("name");
+	var _name:String = battleData.battleField.field.isOperation() ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.field.index + 1) : battleData.axis.getUtfString("name");
 	var _point:int = player.admin ? battleData.axis.getInt("point") : 0;
 	var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 	opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
@@ -118,7 +118,7 @@ override protected function initialize():void
 		addChild(timeLog);
 	}
 
-	if( battleData.battleField.map.isOperation() )
+	if( battleData.battleField.field.isOperation() )
 	{
 		timerSlider = new BattleTimerSlider();
 		timerSlider.layoutData = new AnchorLayoutData(padding * 4, padding * 6);
@@ -132,7 +132,7 @@ override protected function initialize():void
 	
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	
-	if( battleData.battleField.map.isOperation() )
+	if( battleData.battleField.field.isOperation() )
 		return;
 		
 	deck = new BattleFooter();
@@ -184,7 +184,7 @@ protected function createCompleteHandler(event:Event):void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-	if( !battleData.battleField.map.isOperation() )
+	if( !battleData.battleField.field.isOperation() )
 		return;
 	
 	setTimePosition();
@@ -199,11 +199,11 @@ protected function createCompleteHandler(event:Event):void
 
 protected function timeManager_changeHandler(event:Event):void
 {
-	//trace(timeManager.now-battleData.startAt , battleData.battleField.map.times._list)
-	if( scoreIndex < battleData.battleField.map.times.size() && timeManager.now - battleData.battleField.startAt > battleData.battleField.getTime(scoreIndex) )
+	//trace(timeManager.now-battleData.startAt , battleData.battleField.field.times._list)
+	if( scoreIndex < battleData.battleField.field.times.size() && timeManager.now - battleData.battleField.startAt > battleData.battleField.getTime(scoreIndex) )
 	{
 		scoreIndex ++;
-		if( scoreIndex < battleData.battleField.map.times.size() )
+		if( scoreIndex < battleData.battleField.field.times.size() )
 		{
 			setTimePosition();
 		}
@@ -214,13 +214,13 @@ protected function timeManager_changeHandler(event:Event):void
 		}
 	}
 	
-	if ( !battleData.battleField.map.isOperation() )
+	if ( !battleData.battleField.field.isOperation() )
 	{
 		if( surrenderButton != null )
-			surrenderButton.visible = battleData.battleField.startAt + battleData.battleField.map.times.get(0) < timeManager.now;
-		var time:int = battleData.battleField.startAt + battleData.battleField.map.times.get(2) - timeManager.now;
+			surrenderButton.visible = battleData.battleField.startAt + battleData.battleField.field.times.get(0) < timeManager.now;
+		var time:int = battleData.battleField.startAt + battleData.battleField.field.times.get(2) - timeManager.now;
 		if( time < 0 )
-			time = battleData.battleField.startAt + battleData.battleField.map.times.get(3) - timeManager.now;
+			time = battleData.battleField.startAt + battleData.battleField.field.times.get(3) - timeManager.now;
 		timerSlider.value = time;
 		return;
 	}
@@ -239,7 +239,7 @@ private function setTimePosition():void
 	timerSlider.minimum = scoreIndex > 0 ? battleData.battleField.getTime(scoreIndex - 1) : 0;
 	timerSlider.value = timerSlider.maximum = battleData.battleField.getTime(scoreIndex);
 	showTimeNotice(2 - scoreIndex);
-	trace("[" + battleData.battleField.map.times._list + "]", "min:", timerSlider.minimum, "max:", timerSlider.maximum, "score:", 2 - scoreIndex);
+	trace("[" + battleData.battleField.field.times._list + "]", "min:", timerSlider.minimum, "max:", timerSlider.maximum, "score:", 2 - scoreIndex);
 }		
 
 private function showTimeNotice(score:int):void
@@ -247,7 +247,7 @@ private function showTimeNotice(score:int):void
 	if( score > 1 )
 		return;
 	
-	if( battleData.battleField.map.isOperation() )
+	if( battleData.battleField.field.isOperation() )
 	{
 		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
 	}
@@ -275,7 +275,7 @@ public function animateShadow(shadow:Image, alphaSeed:Number):void
 
 public function updateRoomVars():void
 {
-	if( battleData == null || battleData.battleField.map.isOperation() || !battleData.room.containsVariable("towers") )
+	if( battleData == null || battleData.battleField.field.isOperation() || !battleData.room.containsVariable("towers") )
 		return;
 	
 	/*var towers:Array = [0, 0, 0];
@@ -286,7 +286,7 @@ public function updateRoomVars():void
 }
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
-	if( battleData.battleField.map.type != FieldData.TYPE_TOUCHDOWN )
+	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
 		return;
 	
 	var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;

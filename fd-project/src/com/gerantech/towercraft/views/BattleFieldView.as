@@ -99,7 +99,7 @@ public function createPlaces(battleData:BattleData) : void
 		summonUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
 	}
 
-	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.map, "battlefields");
+	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.field, "battlefields");
 	for each( var img:Image in images )
 		if( img.name == "battlefields" )
 			elementsContainer.addChild(img);

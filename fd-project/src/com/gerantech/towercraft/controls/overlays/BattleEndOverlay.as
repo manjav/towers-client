@@ -66,7 +66,7 @@ override protected function initialize():void
 	padding = 48;
 	
 	var battleData:BattleData = appModel.battleFieldView.battleData;
-	if( battleData.battleField.map.isOperation )
+	if( battleData.battleField.field.isOperation )
 	{
 		var message:String = appModel.battleFieldView.battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
 		var messageLabel:ShadowLabel = new ShadowLabel(loc(message), 1, 0, null, null, false, null, 2.2);
@@ -120,7 +120,7 @@ override protected function initialize():void
 	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewards.size()>0?480:220));
 	addChild(buttons);
 	
-	var hasRetry:Boolean = appModel.battleFieldView.battleData.battleField.map.isOperation && player.getLastOperation() > 3 && !appModel.battleFieldView.battleData.isLeft;
+	var hasRetry:Boolean = appModel.battleFieldView.battleData.battleField.field.isOperation && player.getLastOperation() > 3 && !appModel.battleFieldView.battleData.isLeft;
 	
 	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300;
