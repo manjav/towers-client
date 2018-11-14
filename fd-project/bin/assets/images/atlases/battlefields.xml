@@ -12,20 +12,20 @@
 	<SubTexture name="standguard" x="804" y="336" width="200" height="199"/>
 	<SubTexture name="tire" x="0" y="402" width="200" height="190"/>
 	<SubTexture name="tire-r" x="201" y="434" width="200" height="190"/>
-	<SubTexture name="end-line" x="0" y="625" width="960" height="29"/>
-	<SubTexture name="manhole" x="0" y="655" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
-	<SubTexture name="tree_0" x="163" y="655" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
-	<SubTexture name="tree_1" x="281" y="655" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
+	<SubTexture name="manhole" x="402" y="516" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="tree_0" x="565" y="516" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
+	<SubTexture name="tree_1" x="683" y="516" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
 	<SubTexture name="grid" x="402" y="234" width="64" height="63"/>
-	<SubTexture name="healthbar-bg-0" x="966" y="0" width="14" height="23"/>
-	<SubTexture name="healthbar-bg-1" x="981" y="0" width="14" height="23"/>
-	<SubTexture name="healthbar-bg--1" x="996" y="0" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-0" x="966" y="24" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-1" x="981" y="24" width="14" height="23"/>
-	<SubTexture name="healthbar-fill--1" x="996" y="24" width="14" height="23"/>
-	<SubTexture name="alpha-mask" x="966" y="48" width="16" height="15"/>
-	<SubTexture name="asphalt-1" x="983" y="48" width="16" height="15"/>
-	<SubTexture name="asphalt-2" x="1000" y="48" width="16" height="15"/>
-	<SubTexture name="white-line" x="966" y="64" width="16" height="15"/>
-	<SubTexture name="edge-tile" x="1011" y="0" width="8" height="2"/>
+	<SubTexture name="end-line" x="966" y="0" width="32" height="31"/>
+	<SubTexture name="healthbar-bg-0" x="999" y="0" width="14" height="23"/>
+	<SubTexture name="healthbar-bg-1" x="999" y="24" width="14" height="23"/>
+	<SubTexture name="healthbar-bg--1" x="966" y="32" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-0" x="981" y="32" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-1" x="996" y="48" width="14" height="23"/>
+	<SubTexture name="healthbar-fill--1" x="966" y="56" width="14" height="23"/>
+	<SubTexture name="alpha-mask" x="981" y="72" width="16" height="15"/>
+	<SubTexture name="asphalt-1" x="998" y="72" width="16" height="15"/>
+	<SubTexture name="asphalt-2" x="966" y="88" width="16" height="15"/>
+	<SubTexture name="white-line" x="983" y="88" width="16" height="15"/>
+	<SubTexture name="edge-tile" x="1014" y="0" width="8" height="2"/>
 </TextureAtlas>
