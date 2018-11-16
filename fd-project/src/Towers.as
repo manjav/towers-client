@@ -20,6 +20,7 @@ import flash.events.InvokeEvent;
 import flash.events.UncaughtErrorEvent;
 import flash.geom.Rectangle;
 import flash.utils.getTimer;
+import haxe.Log;
 import starling.core.Starling;
 
 [ResourceBundle("loc")]
@@ -33,6 +34,7 @@ private var splash:SplashScreen;
 
 public function Towers()
 {
+	Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
 	/*var str:String = "";
 	var ret:Number = -0.05;
 	for( var level:int=1; level<=13; level++ )
