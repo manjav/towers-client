@@ -8,13 +8,11 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.constants.ResourceType;
-import com.gt.towers.others.Arena;
-import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.others.Arena;
 import com.gt.towers.others.Quest;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
-import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.maps.IntArenaMap;
 import com.gt.towers.utils.maps.IntChallengeMap;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -22,11 +20,9 @@ import com.gt.towers.utils.maps.IntShopMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import flash.Lib;
 import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.utils.setTimeout;
-import haxe.Log;
 
 
 [Event(name="complete", type="flash.events.Event")]
@@ -71,7 +67,7 @@ private function loaderInfo_completeHandler(event:Event):void
 	var gameClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.Game") as Class;
 	var initClass:Class = loader.fileLoader.contentLoaderInfo.applicationDomain.getDefinition("com.gt.towers.InitData") as Class;
 	*/
-	Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
+	//Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
 	AppModel.instance.game = new Game();
 	//AppModel.instance.game.eventDispatcher.addEventListener(CoreEvent.CHANGE, dsasd);
 	AppModel.instance.game.init(initData);
