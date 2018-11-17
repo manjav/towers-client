@@ -119,21 +119,21 @@ public function createPlaces(battleData:BattleData) : void
 	
 	/*for ( i = 0; i < battleData.battleField.tileMap.width; i ++ )
 		for ( var j:int = 0; j < battleData.battleField.tileMap.height; j ++ )
-			draw(i, j, battleData.battleField.tileMap.map[i][j], battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight);
+			drawTile(i, j, battleData.battleField.tileMap.map[i][j], battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight);*/
 	
-    function draw(i:int, j:int, color:int, width:int, height:int):void
-    {
-        var q:Quad = new Quad(width - 2, height - 2, color);
-		q.alpha = 0.2;
-		q.x = i * width;
-		q.y = j * height;
-		guiTextsContainer.addChild(q);
-    }*/
-
 	addChild(buildingsContainer);
 	addChild(effectsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
+}
+
+private function drawTile(i:int, j:int, color:int, width:int, height:int, alpha:Number = 0.1):void
+{
+	var q:Quad = new Quad(width - 2, height - 2, color);
+	q.alpha = alpha;
+	q.x = i * width;
+	q.y = j * height;
+	guiTextsContainer.addChild(q);
 }
 
 protected function timeManager_updateHandler(e:Event):void 
