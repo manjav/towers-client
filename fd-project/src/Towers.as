@@ -1,6 +1,7 @@
 package
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.screens.BattleScreen;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.constants.CardTypes;
@@ -109,15 +110,18 @@ private function starling_rootCreatedHandler(event:Object):void
 	this.stage.addEventListener(Event.DEACTIVATE, stage_deactivateHandler, false, 0, true);
 }
 
-private function stage_deactivateHandler(event:Event):void
+protected function stage_deactivateHandler(event:Event):void
 {
-	this.starling.stop(true);
-	stage.frameRate = 0;
+	if( !BattleScreen.IN_BATTLE )
+	{
+		this.starling.stop(true);
+		stage.frameRate = 0;
+	}
 	this.stage.addEventListener(Event.ACTIVATE, stage_activateHandler, false, 0, true);
 	AppModel.instance.sounds.muteAll(true);
 	AppModel.instance.notifier.reset();
 }
-private function stage_activateHandler(event:Event):void
+protected function stage_activateHandler(event:Event):void
 {
 	this.stage.removeEventListener(Event.ACTIVATE, stage_activateHandler);
 	stage.frameRate = 60;

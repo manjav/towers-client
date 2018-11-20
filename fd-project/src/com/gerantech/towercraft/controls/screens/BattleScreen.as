@@ -42,6 +42,8 @@ import starling.events.Event;
 
 public class BattleScreen extends BaseCustomScreen
 {
+public static var IN_BATTLE:Boolean;
+
 public var index:int;
 public var battleType:String;
 public var isFriendly:Boolean;
@@ -148,6 +150,7 @@ private function startBattle():void
 	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
 		return;
 	
+	IN_BATTLE = true;
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
 	var battleData:BattleData = appModel.battleFieldView.battleData;
 	if( !waitingOverlay.ready )
@@ -250,6 +253,7 @@ private function showTutorials() : void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
+	IN_BATTLE = false;
 	var inTutorial:Boolean = player.get_battleswins() < 3;
 	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_4_ENDED;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
