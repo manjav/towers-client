@@ -39,13 +39,15 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 {
 	super(id, type, level, side, x, y, z);
 
+	var _x:Number = getSideX();
+	var _y:Number = getSideY();
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
 	shadowDisplay.width = card.sizeH * 2;
 	shadowDisplay.height = card.sizeH * 1.42;
-	shadowDisplay.x = this.x;
-	shadowDisplay.y = this.y;
+	shadowDisplay.x = _x;
+	shadowDisplay.y = _y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 	
 	var appearanceDelay:Number = Math.random() * 0.5;
@@ -54,8 +56,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_")), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 	bodyDisplay.pivotY = bodyDisplay.height * 0.75;
-	bodyDisplay.x = this.x;
-	bodyDisplay.y = this.y;
+	bodyDisplay.x = _x;
+	bodyDisplay.y = _y;
 	bodyDisplay.scaleX = troopScale;
 	bodyDisplay.scaleY = troopScale;
 	fieldView.unitsContainer.addChild(bodyDisplay);
@@ -63,9 +65,9 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	if( movable )
 	{
 		bodyDisplay.alpha = 0;
-		bodyDisplay.y = this.y - 100;
+		bodyDisplay.y = _y - 100;
 		bodyDisplay.scaleY = troopScale * 4;
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:1, y:this.y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:1, y:_y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
 		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
 	}
 	
@@ -74,8 +76,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		deployIcon = new CountdownIcon();
 		deployIcon.stop();
 		deployIcon.scale = 0.5;
-		deployIcon.x = this.x;
-		deployIcon.y = this.y - 80;
+		deployIcon.x = _x;
+		deployIcon.y = _y - 80;
 		deployIcon.rotateTo(0, 360, card.summonTime / 1000);
 		setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
 	}
@@ -89,8 +91,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		sizeDisplay.height = card.sizeH * 1.42;
 		//sizeDisplay.alpha = 0.1;
 		sizeDisplay.color = Color.NAVY;
-		sizeDisplay.x = this.x;
-		sizeDisplay.y = this.y;
+		sizeDisplay.x = _x;
+		sizeDisplay.y = _y;
 		fieldView.unitsContainer.addChildAt(sizeDisplay, 0);
 		
 		rangeDisplay = new Image(appModel.assets.getTexture("damage-range"));
@@ -99,8 +101,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		rangeDisplay.width = card.bulletRangeMax * 2;
 		rangeDisplay.height = card.bulletRangeMax * 1.42;
 		rangeDisplay.alpha = 0.1;
-		rangeDisplay.x = this.x;
-		rangeDisplay.y = this.y;
+		rangeDisplay.x = _x;
+		rangeDisplay.y = _y;
 		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
 	}
 }
@@ -139,6 +141,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 		attacks(enemy.id);
 		return;
 	}
+	super.fireEvent(dispatcherId, type, data);
 }
 
 public function attacks(target:int): void
@@ -160,41 +163,44 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 	
 	switchAnimation("m_", x, _x, y, _y);
 	
+	_x = getSideX();
+	_y = getSideY();
+	
 	//state = Unit.STATE_MOVE;
 	if( bodyDisplay != null )
 	{
-		bodyDisplay.x = this.x;
-		bodyDisplay.y = this.y;		
+		bodyDisplay.x = _x;
+		bodyDisplay.y = _y;		
 	}
 	
 	if( shadowDisplay != null )
 	{
-		shadowDisplay.x = this.x;
-		shadowDisplay.y = this.y;		
+		shadowDisplay.x = _x;
+		shadowDisplay.y = _y;		
 	}
 
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = this.x;
-		healthDisplay.y = this.y - 180;
+		healthDisplay.x = _x;
+		healthDisplay.y = _y - 180;
 	}
 
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = this.x;
-		healthDisplay.y = this.y - 180;
+		healthDisplay.x = _x;
+		healthDisplay.y = _y - 180;
 	}
 
 	if( rangeDisplay != null )
 	{
-		rangeDisplay.x = this.x;
-		rangeDisplay.y = this.y;
+		rangeDisplay.x = _x;
+		rangeDisplay.y = _y;
 	}
 	
 	if( sizeDisplay != null )
 	{
-		sizeDisplay.x = this.x;
-		sizeDisplay.y = this.y;
+		sizeDisplay.x = _x;
+		sizeDisplay.y = _y;
 	}
 	return true;
 }
@@ -272,8 +278,8 @@ private function setHealth(health:Number):void
 		if( healthDisplay == null )
 		{
 			healthDisplay = new HealthBar(battleField.getColorIndex(side), health, card.health);
-			healthDisplay.x = this.x;
-			healthDisplay.y = this.y - 180;
+			healthDisplay.x = getSideX();
+			healthDisplay.y = getSideY() - 180;
 			fieldView.guiImagesContainer.addChild(healthDisplay);
 		}
 		else
@@ -320,8 +326,8 @@ protected function defaultSummonEffectFactory() : void
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
 	summonDisplay.width = card.sizeH * 2.00;
 	summonDisplay.height = card.sizeH * 2.00 * BattleField.CAMERA_ANGLE;
-	summonDisplay.x = this.x;
-	summonDisplay.y = this.y;
+	summonDisplay.x = getSideX();
+	summonDisplay.y = getSideY();
 	fieldView.unitsContainer.addChildAt(summonDisplay, 0);
 	summonDisplay.play();
 	Starling.juggler.add(summonDisplay);
@@ -336,8 +342,8 @@ public function showWinnerFocus():void
 	winnerDisplay.pivotY = winnerDisplay.height * 0.5;
 	winnerDisplay.width = 500;
 	winnerDisplay.height = 500 * BattleField.CAMERA_ANGLE;
-	winnerDisplay.x = this.x;
-	winnerDisplay.y = this.y;
+	winnerDisplay.x = getSideX();
+	winnerDisplay.y = getSideY();
 	fieldView.unitsContainer.addChildAt(winnerDisplay, 0);
 	Starling.juggler.tween(winnerDisplay, 1, {scale:0, transition:Transitions.EASE_IN_BACK, onComplete:winnerDisplay.removeFromParent, onCompleteArgs:[true]});
 }
@@ -351,7 +357,7 @@ private function showBloodSplashhAnimation():void
 	bloodSplashDisplay.scaleY = bloodSplashDisplay.scaleX;
 	bloodSplashDisplay.scaleX *= Math.random() > 0.5 ? -1 : 1;
 	bloodSplashDisplay.color = 0xFF0000 + Math.random() * 5000;
-	bloodSplashDisplay.x = this.x;
+	bloodSplashDisplay.x = getSideX();
 	bloodSplashDisplay.y = this.y;
 	fieldView.unitsContainer.addChildAt(bloodSplashDisplay, 0);
 	bloodSplashDisplay.play();

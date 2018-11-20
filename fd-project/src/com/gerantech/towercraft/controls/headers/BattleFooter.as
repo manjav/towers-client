@@ -180,6 +180,9 @@ protected function touchHandler(event:TouchEvent) : void
 				elixirBar.value -= draggableCard.elixirSize;
 				for( var i:int=0; i<cards.length; i++ )
 					cards[i].updateData();
+					
+				rect.x = appModel.battleFieldView.battleData.battleField.side == 0 ? rect.x : BattleField.WIDTH - rect.x;
+				rect.y = appModel.battleFieldView.battleData.battleField.side == 0 ? rect.y : BattleField.HEIGHT - rect.y;
 				appModel.battleFieldView.responseSender.summonUnit(draggableCard.type, rect.x, rect.y);
 			}
 			else

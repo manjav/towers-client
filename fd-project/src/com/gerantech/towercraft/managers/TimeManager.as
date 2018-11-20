@@ -20,7 +20,7 @@ public function TimeManager(now:uint)
 	_now = now;
 	_millis = now * 1000;
 	sampler = getTimer();
-	intervalId = setInterval(timeCounterCallback, 15);
+	intervalId = setInterval(timeCounterCallback, BattleField.DELTA_TIME);
 }
 
 public function get now():uint

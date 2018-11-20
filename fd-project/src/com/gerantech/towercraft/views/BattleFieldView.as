@@ -9,14 +9,19 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.battle.units.Unit;
 import com.gt.towers.calculators.BulletFirePositionCalculator;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.Point3;
+import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import flash.filesystem.File;
+import flash.utils.setTimeout;
 import starling.core.Starling;
-import starling.display.Canvas;
 import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
@@ -27,7 +32,7 @@ public class BattleFieldView extends Sprite
 public static const DEBUG_MODE:Boolean = false;
 
 private var mapBuilder:MapBuilder;
-//private var units:IntUnitMap;
+private var units:IntUnitMap;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
@@ -44,6 +49,7 @@ public function BattleFieldView()
 	super();
 	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/atlases" ) );
 	AppModel.instance.assets.loadQueue(assetManagerLoaded);
+	units = new IntUnitMap();
 	touchable = false;
 	alignPivot();
 	scale = 0.8;
@@ -57,7 +63,6 @@ private function assetManagerLoaded(ratio:Number):void
 	mapBuilder = new MapBuilder(new DefaultAssetMediator(AppModel.instance.assets));
 	if( battleData != null )
 		createPlaces(battleData);
-	//units = new IntUnitMap();
 }	
 
 public function createPlaces(battleData:BattleData) : void
@@ -127,15 +132,6 @@ public function createPlaces(battleData:BattleData) : void
 	addChild(guiTextsContainer);
 }
 
-private function drawTile(i:int, j:int, color:int, width:int, height:int, alpha:Number = 0.1):void
-{
-	var q:Quad = new Quad(width - 2, height - 2, color);
-	q.alpha = alpha;
-	q.x = i * width;
-	q.y = j * height;
-	guiTextsContainer.addChild(q);
-}
-
 protected function timeManager_updateHandler(e:Event):void 
 {
 	battleData.battleField.update(e.data as int);
@@ -158,15 +154,23 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	}
 	
 	var u:UnitView = new UnitView(id, type, level, side, x, y, 0);
+	u.addEventListener("findPath", findPathHandler);
+	//setTimeout(guiTextsContainer.removeChildren, 500);
+
 	if( health >= 0 )
 		u.health = health;
-	if( fixedPosition )
-		u.setPosition(battleData.battleField.side == 0 ? x : BattleField.WIDTH - x, battleData.battleField.side == 0 ? y : BattleField.HEIGHT - y, 0, true);
 	battleData.battleField.units.set(id, u);
+}
 
-	/*units.set(id, new UnitView(id, type, side, level, x, y));
-	UnitView(units.get(id)).alpha = 0.5;
-	units.get(id).movable = false;*/
+private function findPathHandler(e:BattleEvent):void 
+{
+	guiTextsContainer.removeChildren();
+	var u:UnitView = e.currentTarget as UnitView;
+	if( u.path == null )
+		return;
+	var c:uint = Math.random() * 0xFFFFFF;
+	for (var i:int = 0; i < u.path.length; i ++)
+		drawTile(u.path[i].i, u.path[i].j, c, battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight, 0.3);
 }
 
 public function hitUnits(buletId:int, damage:Number, targets:Array) : void
@@ -180,22 +184,45 @@ public function hitUnits(buletId:int, damage:Number, targets:Array) : void
 
 public function updateUnits():void
 {
-	/*if( !battleData.room.containsVariable("units") )
+	if( !battleData.room.containsVariable("units") )
 		return;
 	var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
-	for(var i:int=0; i<unitsList.size(); i++)
+	for( var i:int=0; i < unitsList.size(); i++ )
 	{
 		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
-		if( !battleData.battleField.units.exists(vars[0]) )
-			continue;
-		//UnitView(units.get(vars[0])).setPosition(-1, vars[2]);
-		var u:Unit = UnitView(battleData.battleField.units.get(vars[0]));
-		var damage:Number = u.health - vars[3];
-		if( damage > 0 )
-			u.hit(damage);
-		trace(u.side, damage);
-		//u.setPosition(vars[1], vars[2]);
-	}*/
+		if( units.exists(vars[0]) )
+		{
+			units.get(vars[0]).setPosition(vars[1], vars[2], GameObject.NaN);
+		}
+		else
+		{
+			var u:UnitView = new UnitView(vars[0], vars[4], vars[5], 1, vars[1], vars[2], 0);
+			u.alpha = 0.5;
+			u.movable = false;
+			units.set(vars[0], u);
+		}
+	}
+	
+	var us:Vector.<Unit> = units.values();
+	for (i = 0; i < us.length; i++)
+	{
+		var indexOf:int = getu(us[i].id);
+		if ( indexOf == -1 )
+		{
+			us[i].dispose();
+			units.remove(us[i].id);
+		}
+	}
+	function getu(id:int) : int
+	{
+		for (var j:int = 0; j < unitsList.size(); j++)
+		{
+			vars = unitsList.getText(j).split(",");// id, x, y, health
+			if( vars[0] == us[i].id )
+				return us[i].id;
+		}
+		return -1;
+	}
 }
 
 override public function dispose() : void
@@ -206,6 +233,15 @@ override public function dispose() : void
 	if( mapBuilder != null )
 		mapBuilder.dispose();
 	super.dispose();
+}
+
+private function drawTile(i:int, j:int, color:int, width:int, height:int, alpha:Number = 0.1):void
+{
+	var q:Quad = new Quad(width - 2, height - 2, color);
+	q.alpha = alpha;
+	q.x = i * width;
+	q.y = j * height;
+	guiTextsContainer.addChild(q);
 }
 }
 }
