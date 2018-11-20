@@ -184,6 +184,7 @@ public function hitUnits(buletId:int, damage:Number, targets:Array) : void
 
 public function updateUnits():void
 {
+	return;
 	if( !battleData.room.containsVariable("units") )
 		return;
 	var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
