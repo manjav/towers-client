@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="UTF - 8"?>
-<TextureAtlas imagePath="battlefields.png" width="1024" height="1024">
-	<SubTexture name="aim" x="0" y="0" width="324" height="201"/>
-	<SubTexture name="map-layers_0008_cheker" x="325" y="0" width="239" height="233"/>
-	<SubTexture name="bolevard" x="565" y="0" width="400" height="135"/>
-	<SubTexture name="cone" x="565" y="136" width="200" height="199"/>
-	<SubTexture name="damage-range" x="766" y="136" width="200" height="199"/>
-	<SubTexture name="standguard" x="0" y="202" width="200" height="199"/>
-	<SubTexture name="tire" x="201" y="234" width="200" height="190"/>
-	<SubTexture name="tire-r" x="402" y="336" width="200" height="190"/>
-	<SubTexture name="tile" x="603" y="336" width="160" height="127"/>
-	<SubTexture name="manhole" x="764" y="336" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
-	<SubTexture name="tree_0" x="0" y="402" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
-	<SubTexture name="tree_1" x="118" y="425" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
-	<SubTexture name="grid" x="402" y="234" width="64" height="63"/>
-	<SubTexture name="end-line" x="966" y="0" width="32" height="31"/>
-	<SubTexture name="healthbar-bg-0" x="999" y="0" width="14" height="23"/>
-	<SubTexture name="healthbar-bg-1" x="999" y="24" width="14" height="23"/>
-	<SubTexture name="healthbar-bg--1" x="966" y="32" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-0" x="981" y="32" width="14" height="23"/>
-	<SubTexture name="healthbar-fill-1" x="996" y="48" width="14" height="23"/>
-	<SubTexture name="healthbar-fill--1" x="966" y="56" width="14" height="23"/>
-	<SubTexture name="alpha-mask" x="981" y="72" width="16" height="15"/>
-	<SubTexture name="asphalt-1" x="998" y="72" width="16" height="15"/>
-	<SubTexture name="asphalt-2" x="966" y="88" width="16" height="15"/>
-	<SubTexture name="white-line" x="983" y="88" width="16" height="15"/>
-	<SubTexture name="edge-tile" x="1014" y="0" width="8" height="2"/>
+<TextureAtlas imagePath="battlefields.png" width="2048" height="2048">
+	<SubTexture name="gariiiiii" x="0" y="0" width="537" height="450" frameX="0" frameY="-35" frameWidth="610" frameHeight="600"/>
+	<SubTexture name="home1" x="538" y="0" width="558" height="418" frameX="-29" frameY="-61" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="melon-store" x="1097" y="0" width="455" height="437" frameX="-35" frameY="-64" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="home2-r" x="1553" y="0" width="440" height="445" frameX="-47" frameY="-29" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="home2" x="538" y="419" width="442" height="372" frameX="-87" frameY="-105" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="home4" x="981" y="438" width="368" height="436" frameX="-120" frameY="-98" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="home1-r" x="1350" y="446" width="544" height="294" frameX="-12" frameY="-159" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="home3" x="0" y="451" width="490" height="272" frameX="-38" frameY="-174" frameWidth="600" frameHeight="600"/>
+	<SubTexture name="pellle" x="0" y="724" width="320" height="327" frameX="-32" frameY="0" frameWidth="400" frameHeight="400"/>
+	<SubTexture name="aim" x="1350" y="741" width="324" height="201"/>
+	<SubTexture name="map-layers_0008_cheker" x="1675" y="741" width="239" height="233"/>
+	<SubTexture name="bolevard" x="321" y="792" width="400" height="135"/>
+	<SubTexture name="cone" x="722" y="792" width="200" height="199"/>
+	<SubTexture name="damage-range" x="923" y="875" width="200" height="199"/>
+	<SubTexture name="standguard" x="1124" y="875" width="200" height="199"/>
+	<SubTexture name="tire" x="321" y="928" width="200" height="190"/>
+	<SubTexture name="tire-r" x="1325" y="943" width="200" height="190"/>
+	<SubTexture name="ttrree" x="1895" y="446" width="140" height="198" frameX="-113" frameY="-92" frameWidth="400" frameHeight="400"/>
+	<SubTexture name="tile" x="522" y="928" width="160" height="127"/>
+	<SubTexture name="manhole" x="1526" y="975" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="tree_0" x="1915" y="645" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
+	<SubTexture name="tree_1" x="1915" y="796" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
+	<SubTexture name="grid" x="321" y="724" width="64" height="63"/>
+	<SubTexture name="end-line" x="1994" y="0" width="32" height="31"/>
+	<SubTexture name="healthbar-bg-0" x="2027" y="0" width="14" height="23"/>
+	<SubTexture name="healthbar-bg-1" x="2027" y="24" width="14" height="23"/>
+	<SubTexture name="healthbar-bg--1" x="1994" y="32" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-0" x="2009" y="32" width="14" height="23"/>
+	<SubTexture name="healthbar-fill-1" x="2024" y="48" width="14" height="23"/>
+	<SubTexture name="healthbar-fill--1" x="1994" y="56" width="14" height="23"/>
+	<SubTexture name="alpha-mask" x="2009" y="72" width="16" height="15"/>
+	<SubTexture name="asphalt-1" x="2026" y="72" width="16" height="15"/>
+	<SubTexture name="asphalt-2" x="1994" y="88" width="16" height="15"/>
+	<SubTexture name="white-line" x="2011" y="88" width="16" height="15"/>
+	<SubTexture name="edge-tile" x="2039" y="48" width="8" height="2"/>
 </TextureAtlas>
