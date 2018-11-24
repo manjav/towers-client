@@ -137,7 +137,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
-		battleField.bullets.set(enemy.bulletId, new BulletView(battleField, enemy.bulletId, card, side, x, y, 0, enemy.x, enemy.y, 0));
+		battleField.bullets.set(enemy.bulletId, new BulletView(battleField, enemy.bulletId, card, side, __x, __y, 0, enemy.getSideX(), enemy.getSideY(), 0));
 		enemy.bulletId ++;
 		attacks(enemy.id);
 		return;
