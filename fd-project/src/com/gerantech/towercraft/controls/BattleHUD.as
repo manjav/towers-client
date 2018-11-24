@@ -173,6 +173,9 @@ override protected function initialize():void
 	bubbleAxis = new StickerBubble(true);
 	bubbleAxis.layoutData = new AnchorLayoutData(140 + padding, NaN, NaN, padding);
 	
+	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
+		return;
+	
 	scoreBoard = new BattleScoreBoard();
 	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0);
 	scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
