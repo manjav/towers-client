@@ -180,14 +180,8 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = __x;
-		healthDisplay.y = __y - 180;
-	}
-
-	if( healthDisplay != null )
-	{
-		healthDisplay.x = __x;
-		healthDisplay.y = __y - 180;
+		healthDisplay.x = __x - healthDisplay.width * 0.5;
+		healthDisplay.y = __y - card.sizeV - 60;
 	}
 
 	if( rangeDisplay != null )
@@ -277,8 +271,8 @@ private function setHealth(health:Number):void
 		if( healthDisplay == null )
 		{
 			healthDisplay = new HealthBar(battleField.getColorIndex(side), health, card.health);
-			healthDisplay.x = getSideX();
-			healthDisplay.y = getSideY() - 180;
+			healthDisplay.x = __x - healthDisplay.width * 0.5;
+			healthDisplay.y = __y - card.sizeV - 60;
 			fieldView.guiImagesContainer.addChild(healthDisplay);
 		}
 		else
