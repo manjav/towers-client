@@ -34,20 +34,21 @@ private var deployIcon:CountdownIcon;
 private var hitTimeoutId:uint;
 private var rangeDisplay:Image;
 private var sizeDisplay:Image;
+private var __x:Number;
+private var __y:Number;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number, z:Number)
 {
 	super(id, type, level, side, x, y, z);
-
-	var _x:Number = getSideX();
-	var _y:Number = getSideY();
+	__x = getSideX();
+	__y = getSideY();
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
 	shadowDisplay.width = card.sizeH * 2;
 	shadowDisplay.height = card.sizeH * 1.42;
-	shadowDisplay.x = _x;
-	shadowDisplay.y = _y;
+	shadowDisplay.x = __x;
+	shadowDisplay.y = __y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 	
 	var appearanceDelay:Number = Math.random() * 0.5;
@@ -56,8 +57,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_")), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 	bodyDisplay.pivotY = bodyDisplay.height * 0.75;
-	bodyDisplay.x = _x;
-	bodyDisplay.y = _y;
+	bodyDisplay.x = __x;
+	bodyDisplay.y = __y;
 	bodyDisplay.scaleX = troopScale;
 	bodyDisplay.scaleY = troopScale;
 	fieldView.unitsContainer.addChild(bodyDisplay);
@@ -65,9 +66,9 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	if( movable )
 	{
 		bodyDisplay.alpha = 0;
-		bodyDisplay.y = _y - 100;
+		bodyDisplay.y = __y - 100;
 		bodyDisplay.scaleY = troopScale * 4;
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:1, y:_y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:1, y:__y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
 		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
 	}
 	
@@ -76,8 +77,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		deployIcon = new CountdownIcon();
 		deployIcon.stop();
 		deployIcon.scale = 0.5;
-		deployIcon.x = _x;
-		deployIcon.y = _y - 80;
+		deployIcon.x = __x;
+		deployIcon.y = __y - 80;
 		deployIcon.rotateTo(0, 360, card.summonTime / 1000);
 		setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
 	}
@@ -91,8 +92,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		sizeDisplay.height = card.sizeH * 1.42;
 		//sizeDisplay.alpha = 0.1;
 		sizeDisplay.color = Color.NAVY;
-		sizeDisplay.x = _x;
-		sizeDisplay.y = _y;
+		sizeDisplay.x = __x;
+		sizeDisplay.y = __y;
 		fieldView.unitsContainer.addChildAt(sizeDisplay, 0);
 		
 		rangeDisplay = new Image(appModel.assets.getTexture("damage-range"));
@@ -101,8 +102,8 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		rangeDisplay.width = card.bulletRangeMax * 2;
 		rangeDisplay.height = card.bulletRangeMax * 1.42;
 		rangeDisplay.alpha = 0.1;
-		rangeDisplay.x = _x;
-		rangeDisplay.y = _y;
+		rangeDisplay.x = __x;
+		rangeDisplay.y = __y;
 		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
 	}
 }
@@ -146,7 +147,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 
 public function attacks(target:int): void
 {
-	switchAnimation("s_", battleField.units.get(target).x, x, battleField.units.get(target).y, y);
+	switchAnimation("s_", battleField.units.get(target).getSideX(), __x, battleField.units.get(target).getSideY(), __y);
 	bodyDisplay.currentFrame = 0;
 	bodyDisplay.play();
 }
@@ -156,51 +157,49 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 	if( disposed() )
 		return false;
 	
-	var _x:Number = this.x;
-	var _y:Number = this.y;
+	var _x:Number = getSideX();
+	var _y:Number = getSideY();
 	if( !super.setPosition(x, y, z, forced) )
 		return false;
 	
-	switchAnimation("m_", x, _x, y, _y);
+	__x = getSideX();
+	__y = getSideY();
+	switchAnimation("m_", __x, _x, __y, _y);
 	
-	_x = getSideX();
-	_y = getSideY();
-	
-	//state = Unit.STATE_MOVE;
 	if( bodyDisplay != null )
 	{
-		bodyDisplay.x = _x;
-		bodyDisplay.y = _y;		
+		bodyDisplay.x = __x;
+		bodyDisplay.y = __y;		
 	}
 	
 	if( shadowDisplay != null )
 	{
-		shadowDisplay.x = _x;
-		shadowDisplay.y = _y;		
+		shadowDisplay.x = __x;
+		shadowDisplay.y = __y;		
 	}
 
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = _x;
-		healthDisplay.y = _y - 180;
+		healthDisplay.x = __x;
+		healthDisplay.y = __y - 180;
 	}
 
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = _x;
-		healthDisplay.y = _y - 180;
+		healthDisplay.x = __x;
+		healthDisplay.y = __y - 180;
 	}
 
 	if( rangeDisplay != null )
 	{
-		rangeDisplay.x = _x;
-		rangeDisplay.y = _y;
+		rangeDisplay.x = __x;
+		rangeDisplay.y = __y;
 	}
 	
 	if( sizeDisplay != null )
 	{
-		sizeDisplay.x = _x;
-		sizeDisplay.y = _y;
+		sizeDisplay.x = __x;
+		sizeDisplay.y = __y;
 	}
 	return true;
 }
