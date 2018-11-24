@@ -1,13 +1,14 @@
 package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.views.HealthBar;
-import com.gt.towers.constants.CardFeatureType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import starling.core.Starling;
+import starling.filters.ColorMatrixFilter;
 
 public class BattleDeckCard extends TowersLayout
 {
+private var _filter:ColorMatrixFilter;
 private var cardType:int;
 private var populationBar:HealthBar;
 private var cardView:BuildingCard;
@@ -15,6 +16,8 @@ public function BattleDeckCard(cardType:int)
 {
 	super();
 	this.cardType = cardType;
+	_filter = new ColorMatrixFilter();
+	_filter.adjustSaturation(-1);
 }
 
 override protected function initialize():void
@@ -32,10 +35,16 @@ override protected function initialize():void
 
 public function updateData():void
 {
-	//Starling.juggler.tween(populationBar, 0.5, {value:Card._population, transition:Transitions.EASE_OUT_ELASTIC});
-	cardView.touchable = appModel.battleFieldView.battleData.getAlliseEllixir() >= cardView.elixirSize;
-	cardView.alpha = cardView.touchable ? 1 : 0.5;
-	//populationBar.value = building._population;
+	isEnabled = appModel.battleFieldView.battleData.getAlliseEllixir() >= cardView.elixirSize;
+}
+
+override public function set isEnabled(value:Boolean) : void 
+{
+	if( super.isEnabled == value )
+		return;
+	super.isEnabled = value;
+	cardView.touchable = value;
+	cardView.filter = value ? null : _filter;
 }
 
 override public function dispose():void
