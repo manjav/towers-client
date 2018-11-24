@@ -5,16 +5,13 @@
 	<SubTexture name="bolevard" x="565" y="0" width="400" height="135"/>
 	<SubTexture name="cone" x="565" y="136" width="200" height="199"/>
 	<SubTexture name="damage-range" x="766" y="136" width="200" height="199"/>
-	<SubTexture name="roadblock" x="0" y="202" width="200" height="199"/>
-	<SubTexture name="roadblock-2" x="201" y="234" width="200" height="199"/>
-	<SubTexture name="roadblock-3" x="402" y="336" width="200" height="199"/>
-	<SubTexture name="standguard" x="603" y="336" width="200" height="199"/>
-	<SubTexture name="tire" x="804" y="336" width="200" height="190"/>
-	<SubTexture name="tire-r" x="0" y="402" width="200" height="190"/>
-	<SubTexture name="tile" x="201" y="434" width="160" height="127"/>
-	<SubTexture name="manhole" x="804" y="527" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
-	<SubTexture name="tree_0" x="362" y="536" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
-	<SubTexture name="tree_1" x="480" y="536" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
+	<SubTexture name="standguard" x="0" y="202" width="200" height="199"/>
+	<SubTexture name="tire" x="201" y="234" width="200" height="190"/>
+	<SubTexture name="tire-r" x="402" y="336" width="200" height="190"/>
+	<SubTexture name="tile" x="603" y="336" width="160" height="127"/>
+	<SubTexture name="manhole" x="764" y="336" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="tree_0" x="0" y="402" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
+	<SubTexture name="tree_1" x="118" y="425" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
 	<SubTexture name="grid" x="402" y="234" width="64" height="63"/>
 	<SubTexture name="end-line" x="966" y="0" width="32" height="31"/>
 	<SubTexture name="healthbar-bg-0" x="999" y="0" width="14" height="23"/>
