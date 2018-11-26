@@ -169,7 +169,6 @@ protected function touchHandler(event:TouchEvent) : void
 			placeHolder.x = draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
 			placeHolder.y = draggableCard.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?-0.5:0.17) + appModel.battleFieldView.y, touch.globalY);
 			draggableCard.scale = Math.min(1.2, (100 + touch.globalY - y) / 200 * 1.2);
-			trace(touch.globalY - y)
 			draggableCard.visible = draggableCard.scale >= 0.6;
 			placeHolder.visible = !draggableCard.visible; 
 		}
