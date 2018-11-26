@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.views.units.CardPlaceHolder;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.constants.CardTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -41,6 +42,7 @@ private var elixirBar:ElixirBar;
 private var elixirCountDisplay:BitmapFontTextRenderer;
 private var cardQueue:Vector.<int>;
 private var preparedCard:BuildingCard;
+private var placeHolder:CardPlaceHolder;
 
 public function BattleFooter()
 {
@@ -80,13 +82,6 @@ override protected function initialize():void
 	preparedCard.setData(cardQueue[0]);
 	addChild(preparedCard);
 	
-	draggableCard = new BuildingCard(false, false, false, false);
-	draggableCard.touchable = false;
-	draggableCard.width = 220;
-	draggableCard.height = draggableCard.width * BuildingCard.VERICAL_SCALE;
-	draggableCard.pivotX = draggableCard.width * 0.5;
-	draggableCard.pivotY = draggableCard.height * 0.5;
-	
 	if( !SFSConnection.instance.mySelf.isSpectator )
 	{
 		stickerButton = new CustomButton();
@@ -101,6 +96,15 @@ override protected function initialize():void
 	elixirBar = new ElixirBar();
 	elixirBar.layoutData = new AnchorLayoutData(NaN, padding, padding, preparedCard.width);
 	addChild(elixirBar);
+	
+	draggableCard = new BuildingCard(false, false, false, false);
+	draggableCard.touchable = false;
+	draggableCard.width = 220;
+	draggableCard.height = draggableCard.width * BuildingCard.VERICAL_SCALE;
+	draggableCard.pivotX = draggableCard.width * 0.5;
+	draggableCard.pivotY = draggableCard.height * 0.5;
+
+	placeHolder = new CardPlaceHolder();
 	
 	addEventListener(TouchEvent.TOUCH, touchHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
@@ -147,11 +151,14 @@ protected function touchHandler(event:TouchEvent) : void
 		
 		selectedCard.parent.visible = false;
 		touchId = touch.id;
-		draggableCard.x = touch.globalX;
-		draggableCard.y = touch.globalY;
+		
+		placeHolder.x = draggableCard.x = touch.globalX;
+		placeHolder.y = draggableCard.y = touch.globalY;
 		Starling.juggler.tween(draggableCard, 0.1, {scale:1.3});
 		stage.addChild(draggableCard);
+		stage.addChild(placeHolder);
 		draggableCard.setData(selectedCard.type);
+		placeHolder.type = selectedCard.type;
 	}
 	else 
 	{
@@ -159,9 +166,12 @@ protected function touchHandler(event:TouchEvent) : void
 			return;
 		if( touch.phase == TouchPhase.MOVED )
 		{
-			draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
-			draggableCard.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?-0.5:0.17) + appModel.battleFieldView.y, touch.globalY);
-			draggableCard.scale = Math.max(0.5, (500 + Math.min(touch.globalY - y, 0)) / 500 * 1.3);
+			placeHolder.x = draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
+			placeHolder.y = draggableCard.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?-0.5:0.17) + appModel.battleFieldView.y, touch.globalY);
+			draggableCard.scale = Math.min(1.2, (100 + touch.globalY - y) / 200 * 1.2);
+			trace(touch.globalY - y)
+			draggableCard.visible = draggableCard.scale >= 0.6;
+			placeHolder.visible = !draggableCard.visible; 
 		}
 		else if( touch.phase == TouchPhase.ENDED )
 		{
@@ -169,6 +179,7 @@ protected function touchHandler(event:TouchEvent) : void
 			var rect:Rectangle = draggableCard.getBounds(appModel.battleFieldView);
 			rect.x += rect.width * 0.5;
 			rect.y += rect.height * 0.5;
+			placeHolder.removeFromParent();
 			if( rect.y < BattleField.HEIGHT && rect.y > BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?0.0:0.6666) && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
@@ -178,7 +189,7 @@ protected function touchHandler(event:TouchEvent) : void
 				Starling.juggler.tween(draggableCard, 0.1, {scale:0, onComplete:draggableCard.removeFromParent});
 				
 				elixirBar.value -= draggableCard.elixirSize;
-				for( var i:int=0; i<cards.length; i++ )
+				for( var i:int=0; i < cards.length; i++ )
 					cards[i].updateData();
 					
 				rect.x = appModel.battleFieldView.battleData.battleField.side == 0 ? rect.x : BattleField.WIDTH - rect.x;
