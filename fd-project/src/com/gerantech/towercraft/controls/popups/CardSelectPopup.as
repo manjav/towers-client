@@ -31,7 +31,7 @@ override protected function initialize():void
 override protected function stage_touchHandler(event:TouchEvent):void
 {
 	var touch:Touch = event.getTouch(stage, TouchPhase.BEGAN);
-	if( touch == null )
+	if( touch == null || _bounds == null )
 		return;
 	if( !_bounds.contains(touch.globalX, touch.globalY) )
 		close();
