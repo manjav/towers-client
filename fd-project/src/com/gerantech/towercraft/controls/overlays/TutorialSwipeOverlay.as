@@ -39,7 +39,7 @@ override protected function initialize():void
 	super.initialize();
 	finger = new Sprite();
 	finger.touchable = false;
-	var f:Image = new Image(Assets.getTexture("hand", "gui"));
+	var f:Image = new Image(Assets.getTexture("hand"));
 	f.pivotX = 0;
 	f.pivotY = f.height * 0.8;
 	finger.addChild(f)

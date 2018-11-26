@@ -61,7 +61,7 @@ override protected function showElements():void
 	battleButton = new CustomButton();
 	battleButton.style = "danger";
 	battleButton.width = battleButton.height = footerSize;
-	battleButton.icon = Assets.getTexture("home/tab-2", "gui");
+	battleButton.icon = Assets.getTexture("home/tab-2");
 	battleButton.iconLayout = new AnchorLayoutData(-padding, -padding, -padding, -padding);
     battleButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);

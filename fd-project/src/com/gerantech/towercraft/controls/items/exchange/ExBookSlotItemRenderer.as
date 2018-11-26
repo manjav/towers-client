@@ -172,7 +172,7 @@ protected function waitGroupFactory() : LayoutGroup
 		waitGroup.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		
 		var ribbonImage:ImageLoader = new ImageLoader();
-		ribbonImage.source = Assets.getTexture("home/open-ribbon", "gui");
+		ribbonImage.source = Assets.getTexture("home/open-ribbon");
 		ribbonImage.layoutData = new AnchorLayoutData(0, NaN, NaN, NaN, 0);
 		waitGroup.addChild(ribbonImage);
 		

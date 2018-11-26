@@ -49,7 +49,7 @@ override protected function commitData():void
 	addChild(buttonDisplay);
 	
 	var ribbonDisplay:ImageLoader = new ImageLoader();
-	ribbonDisplay.source = Assets.getTexture("cards/empty-badge", "gui");
+	ribbonDisplay.source = Assets.getTexture("cards/empty-badge");
 	ribbonDisplay.layoutData = new AnchorLayoutData( -14, NaN, NaN, -14);
 	ribbonDisplay.height = ribbonDisplay.width = padding * 18;
 	addChild(ribbonDisplay);

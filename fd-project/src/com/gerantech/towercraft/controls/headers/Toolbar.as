@@ -25,7 +25,7 @@ override protected function initialize():void
 {
 	super.initialize();
 
-	var gradient:Image = new Image(Assets.getTexture("theme/gradeint-top", "gui"));
+	var gradient:Image = new Image(Assets.getTexture("theme/gradeint-top"));
 	gradient.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	gradient.color = 0x1122;
 	backgroundSkin = gradient;

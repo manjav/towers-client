@@ -79,7 +79,7 @@ override protected function initialize():void
 	gradient.alpha = 0.5;
 	gradient.width = 440;
 	gradient.height = 140;
-	gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
+	gradient.source = Assets.getTexture("theme/gradeint-left");
 	addChild(gradient);
 	
 	var hasQuit:Boolean = battleData.battleField.field.isOperation() || SFSConnection.instance.mySelf.isSpectator;
@@ -142,7 +142,7 @@ override protected function initialize():void
 	/*if( !SFSConnection.instance.mySelf.isSpectator )
 	{
 		stickerButton = new CustomButton();
-		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-right");
 		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 		stickerButton.width = 140;
 		stickerButton.layoutData = new AnchorLayoutData(NaN, padding * 2, padding);
@@ -158,7 +158,7 @@ override protected function initialize():void
 		{
 			surrenderButton = new CustomButton();
 			surrenderButton.style = CustomButton.STYLE_DANGER;
-			surrenderButton.icon = Assets.getTexture("surrender", "gui");
+			surrenderButton.icon = Assets.getTexture("surrender");
 			surrenderButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 			surrenderButton.width = 140;
 			surrenderButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
@@ -192,7 +192,7 @@ protected function createCompleteHandler(event:Event):void
 	
 	setTimePosition();
 	if( battleData.battleField.extraTime > 0 )
-		appModel.navigator.addAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, 240, Assets.getTexture("extra-time", "gui"), battleData.battleField.extraTime, BattleTimerSlider(timerSlider).iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
+		appModel.navigator.addAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, 240, Assets.getTexture("extra-time"), battleData.battleField.extraTime, BattleTimerSlider(timerSlider).iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
 	function punchTimer():void {
 		var diff:int = 48;
 		timerSlider.y -= diff;
@@ -258,7 +258,7 @@ private function showTimeNotice(score:int):void
 	{
 		if( score == -1 )
 		{
-			var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+			var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
 			shadow.touchable = false;
 			shadow.width = stage.stageWidth;
 			shadow.height = stage.stageHeight;

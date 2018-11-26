@@ -21,12 +21,12 @@ private var timeoutId:uint;
 
 public function CountdownIcon(autoplay:Boolean = true)
 {
-	background =  new Image(Assets.getTexture("timer", "gui"));
+	background =  new Image(Assets.getTexture("timer"));
 	background.pivotX = background.width * 0.5;
 	background.pivotY = background.height * 0.5;
 	addChild(background);
 	
-	needle = new Image(Assets.getTexture("timer-needle", "gui"));
+	needle = new Image(Assets.getTexture("timer-needle"));
 	needle.pivotX = needle.width * 0.5;
 	needle.pivotY = needle.height * 0.5;
 	needle.rotation = 0.47;

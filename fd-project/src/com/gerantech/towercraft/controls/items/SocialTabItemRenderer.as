@@ -63,7 +63,7 @@ private function updateBadge():void
 	}
 	else
 	{
-		badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification", "gui")
+		badgeDisplay.source = Assets.getTexture(dashboardData.newBadgeNumber>0 ? "theme/badge-notification-new" : "theme/badge-notification")
 		addChild(badgeDisplay);
 	}
 }

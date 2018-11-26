@@ -22,7 +22,7 @@ package com.gerantech.towercraft.controls
 			pivotX = width * 0.5;
 			pivotY = height;
 			
-			var background:Image = new Image(Assets.getTexture("lobby-balloon", "gui"));
+			var background:Image = new Image(Assets.getTexture("lobby-balloon"));
 			background.pivotX = background.width * 0.5;
 			background.pivotY = background.height;
 			addChild(background);

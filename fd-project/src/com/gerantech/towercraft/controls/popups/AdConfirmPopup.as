@@ -28,7 +28,7 @@ override protected function initialize():void
 	
 	var cardsDisplay:ImageLoader = new ImageLoader();
 	cardsDisplay.height = padding * 8;
-	cardsDisplay.source = Assets.getTexture("cards", "gui");
+	cardsDisplay.source = Assets.getTexture("cards");
 	cardsDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding*7, NaN, 0);
 	addChild(cardsDisplay)
 	

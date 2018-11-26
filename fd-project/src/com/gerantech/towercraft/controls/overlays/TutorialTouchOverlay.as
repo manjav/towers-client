@@ -23,7 +23,7 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	finger = new Image(Assets.getTexture("hand", "gui"));
+	finger = new Image(Assets.getTexture("hand"));
 	//finger.pivotX = finger.width  * 0.0;
 	//finger.pivotY = finger.height * 0.4
 	finger.rotation = 0.4;

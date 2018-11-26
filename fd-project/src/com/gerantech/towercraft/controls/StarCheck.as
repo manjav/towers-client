@@ -16,9 +16,9 @@ override protected function initialize():void
 	super.initialize();
 	
     touchable = false;
-	skin = new ImageSkin(Assets.getTexture("gold-key", "gui"));
-	skin.setTextureForState(ButtonState.UP, Assets.getTexture("gold-key", "gui"));
-	skin.setTextureForState(ButtonState.DISABLED, Assets.getTexture("gold-key-off", "gui"));
+	skin = new ImageSkin(Assets.getTexture("gold-key"));
+	skin.setTextureForState(ButtonState.UP, Assets.getTexture("gold-key"));
+	skin.setTextureForState(ButtonState.DISABLED, Assets.getTexture("gold-key-off"));
 	skin.defaultTexture = skin.getTextureForState(isEnabled ? ButtonState.UP : ButtonState.DISABLED );
 	backgroundSkin = skin;
 }

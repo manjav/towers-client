@@ -32,7 +32,7 @@ override protected function initialize():void
 	{
 		upgradeDisplay = new ImageLoader();
 		upgradeDisplay.maintainAspectRatio = false;
-		upgradeDisplay.source = Assets.getTexture("theme/upgrade-ready", "gui");
+		upgradeDisplay.source = Assets.getTexture("theme/upgrade-ready");
 	}
 }
 

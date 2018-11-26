@@ -50,7 +50,7 @@ override protected function initialize():void
 	realtimeDisplay = new ImageLoader();
 	realtimeDisplay.blendMode = BlendMode.ADD;
 	realtimeDisplay.alpha = 0.4;
-	realtimeDisplay.source = Assets.getTexture("theme/slider-background", "gui");
+	realtimeDisplay.source = Assets.getTexture("theme/slider-background");
 	realtimeDisplay.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	realtimeDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChild(realtimeDisplay);
@@ -60,7 +60,7 @@ override protected function initialize():void
 	elixirBottle.pivotX = elixirBottle.width * 0.5;
 	elixirBottle.pivotY = elixirBottle.height * 0.5;
 	elixirBottle.layout = new AnchorLayout();
-	//elixirBottle.backgroundSkin = new Image (Assets.getTexture("elixir", "gui"));
+	//elixirBottle.backgroundSkin = new Image (Assets.getTexture("elixir"));
 	elixirBottle.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 	addChild(elixirBottle);
 	

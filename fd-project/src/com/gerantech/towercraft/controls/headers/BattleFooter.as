@@ -90,7 +90,7 @@ override protected function initialize():void
 	if( !SFSConnection.instance.mySelf.isSpectator )
 	{
 		stickerButton = new CustomButton();
-		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left", "gui");
+		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left");
 		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 		stickerButton.width = preparedCard.width - padding * 2;
 		stickerButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);

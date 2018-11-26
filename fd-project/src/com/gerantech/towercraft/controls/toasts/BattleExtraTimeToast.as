@@ -48,7 +48,7 @@ override protected function initialize():void
 	
 	var extraIcon:ImageLoader = new ImageLoader();
 	extraIcon.width = 200;
-	extraIcon.source = Assets.getTexture("extra-time", "gui");
+	extraIcon.source = Assets.getTexture("extra-time");
 	extraIcon.pixelSnapping = false;
 	
 	var extraLabel:ShadowLabel = new ShadowLabel(loc("battle_extratime"), 1, 0, null, null, false, null, 1.4);
@@ -69,7 +69,7 @@ override protected function initialize():void
 	
 	var elixirIcon:ImageLoader = new ImageLoader();
 	elixirIcon.width = 200;
-	elixirIcon.source = Assets.getTexture("elixir", "gui");
+	elixirIcon.source = Assets.getTexture("elixir");
 	elixirIcon.pixelSnapping = false;
 	
 	var elixirLabel:ShadowLabel = new ShadowLabel("2x", 0x27E0DC, 0, null, null, false, null, 2.2);

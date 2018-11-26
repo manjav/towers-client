@@ -92,7 +92,7 @@ private function createElements():void
 	// header elements
 	var header:LayoutGroup = new LayoutGroup();
 	header.layout = new AnchorLayout();
-	var ribbon:Image = new Image(Assets.getTexture("ribbon-blue", "gui"));
+	var ribbon:Image = new Image(Assets.getTexture("ribbon-blue"));
 	header.layoutData = new AnchorLayoutData(padding * 3, NaN, NaN, NaN, 0);
 	ribbon.scale9Grid = MainTheme.RIBBON_SCALE9_GRID;
 	header.backgroundSkin = ribbon;

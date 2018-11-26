@@ -146,9 +146,9 @@ override public function init():void
 	giftButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
 	addChild(giftButton);
 	
-	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"), 0.9);
+	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking"), 0.9);
 	rankButton.name = "rankButton";
-	rankButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
+	rankButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
 	rankButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	Image(rankButton.backgroundSkin).scale9Grid = new Rectangle(16, 16, 4, 4);
 	rankButton.height = rankButton.width = padding * 8;
@@ -157,9 +157,9 @@ override public function init():void
 	
 	if( player.get_arena(0) > 0 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 	{
-		googleButton = new IconButton(Assets.getTexture("settings-41", "gui"), 0.7);
+		googleButton = new IconButton(Assets.getTexture("settings-41"), 0.7);
 		googleButton.name = "googleButton";
-		googleButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
+		googleButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
 		googleButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 		Image(googleButton.backgroundSkin).scale9Grid = new Rectangle(16, 16, 4, 4);
 		googleButton.height = googleButton.width = padding * 8;
@@ -173,7 +173,7 @@ override public function init():void
 		}
 	}
 	
-	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate", "gui"));
+	/*adsButton = new NotifierButton(Assets.getTexture("button-spectate"));
 	adsButton.width = adsButton.height = 140;
 	adsButton.layoutData = new AnchorLayoutData(120, NaN, NaN, 20);
 	if( exchanger.items.get(ExchangeType.C43_ADS).getState(timeManager.now) == ExchangeItem.CHEST_STATE_READY )

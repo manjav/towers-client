@@ -37,7 +37,7 @@ override protected function initialize():void
 	gradient.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
     gradient.alpha = 0.6;
-    gradient.source = Assets.getTexture("theme/gradeint-left", "gui");
+    gradient.source = Assets.getTexture("theme/gradeint-left");
 	backgroundSkin = gradient;
 	
 	addButton("home/settings");
@@ -53,7 +53,7 @@ private function addButton(texture:String) : void
 	var button:IconButton;
 	if( texture == "home/inbox" )
 	{
-		button = inboxButton = new NotifierButton(Assets.getTexture("home/inbox", "gui"));
+		button = inboxButton = new NotifierButton(Assets.getTexture("home/inbox"));
 		inboxButton.badgeLabel = InboxService.instance.numUnreads.toString();
 	}
 	else

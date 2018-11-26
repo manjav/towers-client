@@ -48,7 +48,7 @@ override protected function initialize() : void
 	if( !hasItem )
 		return;
 
-	var gradient:Image = new ImageSkin( Assets.getTexture("theme/gradeint-right", "gui") );
+	var gradient:Image = new ImageSkin( Assets.getTexture("theme/gradeint-right") );
 	gradient.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
     gradient.alpha = 0.6;

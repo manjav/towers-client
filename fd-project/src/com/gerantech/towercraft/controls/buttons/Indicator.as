@@ -49,7 +49,7 @@ override protected function initialize():void
 	super.initialize();
 	this.isQuickHitAreaEnabled = false;
 	layout = new AnchorLayout();
-	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background", "gui"));
+	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background"));
 	skin.scale9Grid = MainTheme.INDICATORS_SCALE9_GRID;
 	backgroundSkin = skin;
 	

@@ -54,7 +54,7 @@ override protected function initialize():void
 	insideBG.alpha = 0.8;
 	insideBG.scale9Grid = new Rectangle(4, 4, 2, 2);
 	insideBG.maintainAspectRatio = false;
-	insideBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
+	insideBG.source = Assets.getTexture("theme/popup-inside-background-skin");
 	insideBG.layoutData = new AnchorLayoutData(padding * 6, padding, padding * 1.2, padding);
 	addChild(insideBG);
 	
@@ -68,7 +68,7 @@ override protected function initialize():void
 	addChild(titleDisplay);
 
 	var numCards:int = ExchangeType.getNumTotalCards(item.outcome, arena, player.splitTestCoef, 0);
-	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards", "gui"), int(numCards * 0.9) + " - " + int(numCards * 1.1));
+	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards"), int(numCards * 0.9) + " - " + int(numCards * 1.1));
 	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
 	cardsPalette.layoutData = new AnchorLayoutData(padding * 13, NaN, NaN, padding * 2.4);
 	addChild(cardsPalette);
@@ -87,7 +87,7 @@ override protected function initialize():void
 	downBG.color = state == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA
 	downBG.scale9Grid = new Rectangle(4, 4, 2, 2);
 	downBG.maintainAspectRatio = false;
-	downBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
+	downBG.source = Assets.getTexture("theme/popup-inside-background-skin");
 	downBG.layoutData = new AnchorLayoutData(NaN, padding * 1.3, padding * 1.5, padding * 1.3);
 	downBG.height = padding * 4.4;
 	addChild(downBG);

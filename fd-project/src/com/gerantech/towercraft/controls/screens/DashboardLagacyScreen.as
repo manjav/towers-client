@@ -28,12 +28,12 @@ override protected function addedToStageHandler(event:Event):void
 	
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabLagacyItemRenderer(tabSize); }
 	
-	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile", "gui"));
+	var tiledBG:Image = new Image(Assets.getTexture("home/main-map-tile"));
 	tiledBG.tileGrid = new Rectangle(1, 1, 128, 128);
 	backgroundSkin = tiledBG;
 	
 	var shadow:ImageLoader = new ImageLoader();
-	shadow.source = Assets.getTexture("bg-shadow", "gui");
+	shadow.source = Assets.getTexture("bg-shadow");
 	shadow.maintainAspectRatio = false
 	shadow.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
 	shadow.color = Color.BLACK;
@@ -43,7 +43,7 @@ override protected function addedToStageHandler(event:Event):void
 	var bottomShadow:ImageLoader = new ImageLoader();
 	bottomShadow.alpha = 0.7;
 	bottomShadow.height = size;
-	bottomShadow.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	bottomShadow.source = Assets.getTexture("theme/gradeint-bottom");
 	bottomShadow.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	bottomShadow.color = Color.BLACK;
 	bottomShadow.layoutData = new AnchorLayoutData(NaN, -size, footerSize, -size);
@@ -52,7 +52,7 @@ override protected function addedToStageHandler(event:Event):void
 	
 	tabBorder = new ImageLoader();
 	tabBorder.touchable = false;
-	tabBorder.source = Assets.getTexture("theme/tab-selected-border", "gui");
+	tabBorder.source = Assets.getTexture("theme/tab-selected-border");
 	tabBorder.width = tabSize * 2;
 	tabBorder.height = footerSize;
 	tabBorder.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);

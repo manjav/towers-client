@@ -137,7 +137,7 @@ private function showProfile():void
 	if( adminMode )
 	{
 		var banButton:CustomButton = new CustomButton();
-		banButton.icon = Assets.getTexture("settings-5", "gui");
+		banButton.icon = Assets.getTexture("settings-5");
 		banButton.style = "danger";
 		banButton.width = banButton.height = padding * 3;
 		banButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding);
@@ -145,7 +145,7 @@ private function showProfile():void
 		addChild(banButton);
 		
 		var issuesButton:CustomButton = new CustomButton();
-		issuesButton.icon = Assets.getTexture("home/inbox", "gui");
+		issuesButton.icon = Assets.getTexture("home/inbox");
 		issuesButton.width = issuesButton.height = padding * 3
 		issuesButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding * 5:NaN, padding, appModel.isLTR?NaN:padding * 5);
 		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);

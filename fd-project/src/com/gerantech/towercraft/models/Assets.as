@@ -84,16 +84,14 @@ package com.gerantech.towercraft.models
 		 * @param name A key that found a texture from atlas.
 		 * @return the Texture instance (there is only oneinstance per app).
 		 */
-		public static function getTexture(texturName:String, atlasName:String ="battlefields" ):Texture
+		public static function getTexture(texturName:String, atlasName:String ="gui" ):Texture
 		{
 			return getAtlas(atlasName).getTexture(texturName);
-			//return AppModel.instance.assetManager.getTexture(name);
 		} 
-		public static function getTextures(texturName:String, atlasName:String ="battlefields" ):Vector.<Texture>
+		/*public static function getTextures(texturName:String, atlasName:String ="battlefields" ):Vector.<Texture>
 		{
 			return getAtlas(atlasName).getTextures(texturName);
-		} 
-
+		}*/
 		
 		/**
 		 * Returns a scale9Textures from this class based on a string key.

@@ -47,7 +47,7 @@ override protected function initialize():void
 	var color:uint = alise ? 0x007aff : 0xf20c1a;
 
 	var bgImage:ImageLoader = new ImageLoader();
-	bgImage.source = Assets.getTexture("theme/indicator-background", "gui");
+	bgImage.source = Assets.getTexture("theme/indicator-background");
 	bgImage.alpha = 0.7;
 	bgImage.scale9Grid = new Rectangle(8, 12, 4, 4);
 	bgImage.layoutData = new AnchorLayoutData(0, 0, 0, 0);
@@ -64,7 +64,7 @@ override protected function initialize():void
 	iconDisplay.pivotX = iconDisplay.width * 0.5;
 	iconDisplay.pivotY = iconDisplay.height * 0.5;
 	iconDisplay.width = iconDisplay.height = size * 2.4;
-	iconDisplay.source = Assets.getTexture("res-1004", "gui");
+	iconDisplay.source = Assets.getTexture("res-1004");
 	labelDisplay.pixelSnapping = false;
 	iconDisplay.layoutData = new AnchorLayoutData(-size, NaN, NaN, NaN, 0);
 	

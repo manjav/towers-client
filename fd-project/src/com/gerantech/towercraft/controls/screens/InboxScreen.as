@@ -46,7 +46,7 @@ override protected function initialize():void
 	
 	/*var bugReportButton:CustomButton = new CustomButton();
 	bugReportButton.style = "neutral";
-	bugReportButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+	bugReportButton.icon = Assets.getTexture("tooltip-bg-bot-right");
 	bugReportButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 	bugReportButton.width = bugReportButton.height;
 	bugReportButton.layoutData = new AnchorLayoutData(NaN, 24, headerSize + 20);

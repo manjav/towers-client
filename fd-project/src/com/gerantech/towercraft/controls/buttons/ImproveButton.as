@@ -60,7 +60,7 @@ package com.gerantech.towercraft.controls.buttons
 				var lockDisplay:ImageLoader = new ImageLoader();
 				lockDisplay.width = lockDisplay.height = size * 0.6;
 				lockDisplay.x = lockDisplay.y = -size * 0.7;
-				lockDisplay.source = Assets.getTexture("improve-lock", "gui");
+				lockDisplay.source = Assets.getTexture("improve-lock");
 				lockDisplay.touchable = false;
 				addChild(lockDisplay);
 			}

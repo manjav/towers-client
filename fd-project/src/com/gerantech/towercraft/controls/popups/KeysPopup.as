@@ -25,7 +25,7 @@ override protected function initialize():void
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.width = iconDisplay.height = padding*9;
-	iconDisplay.source = Assets.getTexture("cards/1004", "gui");
+	iconDisplay.source = Assets.getTexture("cards/1004");
 	iconDisplay.layoutData = new AnchorLayoutData(padding*3, appModel.isLTR?0:NaN, NaN, appModel.isLTR?NaN:0);
 	addChild(iconDisplay);
 	

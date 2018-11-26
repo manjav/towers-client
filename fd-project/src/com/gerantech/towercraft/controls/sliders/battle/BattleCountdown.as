@@ -28,7 +28,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var bgImage:Image = new Image(Assets.getTexture("theme/check-up-icon", "gui"));
+	var bgImage:Image = new Image(Assets.getTexture("theme/check-up-icon"));
 	bgImage.alpha = 0.6;
 	bgImage.scale9Grid = new Rectangle(8, 8, 8, 8);
 	backgroundSkin = bgImage;
@@ -54,7 +54,7 @@ override public function enableStars(score:int):void
 {
 	if( score == -1 )
 	{
-		Image(backgroundSkin).texture = Assets.getTexture("theme/check-down-icon", "gui");
+		Image(backgroundSkin).texture = Assets.getTexture("theme/check-down-icon");
 		Image(backgroundSkin).color = 0xFF0000;
 		backgroundSkin.alpha = 0.8;
 		timeLabel.scale = 0.4;

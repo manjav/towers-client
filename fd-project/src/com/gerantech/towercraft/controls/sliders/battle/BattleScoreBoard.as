@@ -33,7 +33,7 @@ override protected function initialize():void
 	
 	var allisBG:ImageLoader = new ImageLoader();
 	allisBG.color = 0x000088;
-	allisBG.source = Assets.getTexture("theme/seek-slider-progress-skin", "gui");
+	allisBG.source = Assets.getTexture("theme/seek-slider-progress-skin");
 	allisBG.scale9Grid = new Rectangle(4, 8, 4, 6);
 	allisBG.height = 160;
 	allisBG.alpha = 0.6;
@@ -43,7 +43,7 @@ override protected function initialize():void
 
 	var axisBG:ImageLoader = new ImageLoader();
 	axisBG.color = 0x880000;
-	axisBG.source = Assets.getTexture("theme/seek-slider-progress-skin", "gui");
+	axisBG.source = Assets.getTexture("theme/seek-slider-progress-skin");
 	axisBG.scale9Grid = new Rectangle(4, 8, 4, 6);
 	axisBG.height = 160;
 	axisBG.alpha = 0.6;

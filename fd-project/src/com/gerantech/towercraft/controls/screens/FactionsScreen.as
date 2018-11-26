@@ -68,7 +68,7 @@ override protected function initialize():void
 	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChildAt(tileBacground, 0);;
 	
-	var shadow:Image = new Image(Assets.getTexture("bg-shadow", "gui"));
+	var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
 	shadow.color = 0;
 	shadow.width = stage.stageWidth;
 	shadow.height = stage.stageHeight//-footerSize;

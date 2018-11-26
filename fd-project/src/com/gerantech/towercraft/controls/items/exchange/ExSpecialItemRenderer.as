@@ -37,7 +37,7 @@ override protected function commitData():void
 	if( exchange.numExchanges > 0 )
 	{
 		var fineDisplay:ImageLoader = new ImageLoader();
-		fineDisplay.source = Assets.getTexture("checkbox-on", "gui");
+		fineDisplay.source = Assets.getTexture("checkbox-on");
 		fineDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 4, NaN, padding * 2);
 		fineDisplay.height = fineDisplay.width = width * 0.32;
 		addChild(fineDisplay);
@@ -58,7 +58,7 @@ override protected function commitData():void
 	addChild(buttonDisplay);
 	
 	var ribbonDisplay:ImageLoader = new ImageLoader();
-	ribbonDisplay.source = Assets.getTexture("cards/empty-badge", "gui");
+	ribbonDisplay.source = Assets.getTexture("cards/empty-badge");
 	ribbonDisplay.layoutData = new AnchorLayoutData( -14, NaN, NaN, -14);
 	ribbonDisplay.height = ribbonDisplay.width = width * 0.5;
 	addChild(ribbonDisplay);

@@ -54,7 +54,7 @@ override protected function commitData():void
 		return;
 	place = _data as PlaceData;
 	messageDisplay.text = loc("tutor_battle_" + place.type + "_task_" + place.index);
-	checkBoxDisplay.source = Assets.getTexture("checkbox-off", "gui");
+	checkBoxDisplay.source = Assets.getTexture("checkbox-off");
 }
 
 private function sfs_responseHandler(event:SFSEvent):void 
@@ -79,7 +79,7 @@ private function tutorials_tasksStartHandler(event:Event) : void
 }
 private function punch() : void 
 {
-	checkBoxDisplay.source = Assets.getTexture("checkbox-on", "gui");
+	checkBoxDisplay.source = Assets.getTexture("checkbox-on");
 	checkBoxDisplay.scale = 2;
 	Starling.juggler.tween(checkBoxDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT});
 }

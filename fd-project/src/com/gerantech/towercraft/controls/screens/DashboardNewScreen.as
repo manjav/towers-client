@@ -33,7 +33,7 @@ override protected function addedToStageHandler(event:Event):void
 	addChildAt(tileBacground, 0);
 	
 	/*var shadow:ImageLoader = new ImageLoader();
-	shadow.source = Assets.getTexture("bg-shadow", "gui");
+	shadow.source = Assets.getTexture("bg-shadow");
 	shadow.maintainAspectRatio = false
 	shadow.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
 	shadow.color = Color.BLACK;
@@ -42,7 +42,7 @@ override protected function addedToStageHandler(event:Event):void
 	var size:int =  24;*/
 	var footerBG:ImageLoader = new ImageLoader();
 	//bottomShadow.height = size;
-	footerBG.source = Assets.getTexture("home/footer-sliced", "gui");
+	footerBG.source = Assets.getTexture("home/footer-sliced");
 	footerBG.scale9Grid = new Rectangle(100, 80, 56, 120);
 	footerBG.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	footerBG.touchable = false;
@@ -50,7 +50,7 @@ override protected function addedToStageHandler(event:Event):void
 	
 	tabSelection = new ImageLoader();
 	tabSelection.touchable = false;
-	tabSelection.source = Assets.getTexture("home/tab", "gui");
+	tabSelection.source = Assets.getTexture("home/tab");
 	tabSelection.width = tabSize * 1.54;
 	tabSelection.maintainAspectRatio = false;
 	//tabSelection.height = footerSize;

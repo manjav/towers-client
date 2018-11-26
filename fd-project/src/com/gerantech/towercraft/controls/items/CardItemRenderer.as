@@ -90,7 +90,7 @@ override protected function commitData():void
 			if( newDisplay == null )
 			{
 				newDisplay = new ImageLoader();
-				newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+				newDisplay.source = Assets.getTexture("cards/new-badge");
 				newDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, 0);
 				newDisplay.height = newDisplay.width = width * 0.7;
 				addChild(newDisplay);

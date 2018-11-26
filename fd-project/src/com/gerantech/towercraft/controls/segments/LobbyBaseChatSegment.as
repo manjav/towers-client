@@ -125,7 +125,7 @@ protected function showElements():void
 	
     chatEnableButton = new CustomButton();
     chatEnableButton.width = chatEnableButton.height = footerSize;
-    chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+    chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right");
     chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
     chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);

@@ -161,7 +161,7 @@ protected function defaultBackgroundDisplayFactory() : ImageLoader
 		backgroundDisaplay.color = 0xAAAA77;
 		backgroundDisaplay.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
 		backgroundDisaplay.scale9Grid = MainTheme.SMALL_BACKGROUND_SCALE9_GRID;
-		backgroundDisaplay.source = Assets.getTexture("theme/popup-inside-background-skin", "gui");
+		backgroundDisaplay.source = Assets.getTexture("theme/popup-inside-background-skin");
 		addChildAt(backgroundDisaplay, 0);		
 	}
 	return backgroundDisaplay;
@@ -240,7 +240,7 @@ private function defaultCoverDisplayFactory() : ImageLoader
 	{
 		coverDisplay = new ImageLoader();
 		coverDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
-		coverDisplay.source = Assets.getTexture("cards/bevel-card", "gui");
+		coverDisplay.source = Assets.getTexture("cards/bevel-card");
 		coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		addChild(coverDisplay);
 	}

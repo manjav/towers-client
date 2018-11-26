@@ -52,7 +52,7 @@ override protected function initialize():void
 	var searchButton:CustomButton = new CustomButton();
 	searchButton.width = buttonH;
 	searchButton.height = buttonH;
-	searchButton.icon = Assets.getTexture("search-icon", "gui");
+	searchButton.icon = Assets.getTexture("search-icon");
 	searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding*2+buttonH:NaN, NaN, appModel.isLTR?NaN:padding*2+buttonH );
 	searchButton.addEventListener(Event.TRIGGERED,  searchButton_triggeredHandler);
 	addChild(searchButton);	
@@ -60,7 +60,7 @@ override protected function initialize():void
 	var rankButton:CustomButton = new CustomButton();
 	rankButton.style = "neutral";
 	rankButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
-	rankButton.icon = Assets.getTexture("rank-icon", "gui");
+	rankButton.icon = Assets.getTexture("rank-icon");
 	rankButton.width = buttonH;
 	rankButton.height = buttonH;
 	rankButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );

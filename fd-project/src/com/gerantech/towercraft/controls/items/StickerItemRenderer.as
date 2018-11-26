@@ -15,7 +15,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var sk:Image = new Image(Assets.getTexture("sticker-item", "gui"));
+	var sk:Image = new Image(Assets.getTexture("sticker-item"));
 	sk.scale9Grid = new Rectangle(14, 14, 2, 2);
 	backgroundSkin = sk;
 	layout = new AnchorLayout();

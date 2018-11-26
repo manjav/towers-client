@@ -28,7 +28,7 @@ public function BuddyOfferItem(data:Object)
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.width = 360;
 	iconDisplay.alignPivot();
-	iconDisplay.source = Assets.getTexture("currency-1", "gui");
+	iconDisplay.source = Assets.getTexture("currency-1");
 	iconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -padding * 2, -padding * 2);
 	addChild(iconDisplay);
 	

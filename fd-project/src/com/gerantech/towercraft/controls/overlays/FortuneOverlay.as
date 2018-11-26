@@ -63,7 +63,7 @@ override protected function initialize():void
 	shadow.alpha = 0;
 	shadow.touchable = false;
 	shadow.maintainAspectRatio = false;
-	shadow.source = Assets.getTexture("bg-shadow", "gui");
+	shadow.source = Assets.getTexture("bg-shadow");
 	shadow.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	//shadow.color = 0xAA0000;
 	addChild(shadow);

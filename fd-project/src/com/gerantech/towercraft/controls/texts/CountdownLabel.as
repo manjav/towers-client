@@ -35,19 +35,19 @@ override protected function initialize() : void
 	layout = new AnchorLayout();
 	
 	var skin:ImageLoader = new ImageLoader();
-	skin.source = Assets.getTexture("theme/indicator-background", "gui");
+	skin.source = Assets.getTexture("theme/indicator-background");
 	skin.scale9Grid = new Rectangle(8, 12, 4, 4);
 	skin.layoutData = new AnchorLayoutData(padding, 0, padding * 1.5, height * 0.5);
 	skin.alpha = 0.95;
 	addChild(skin);
 	
 	clockDisplay = new ImageLoader();
-	clockDisplay.source = Assets.getTexture("timer", "gui");
+	clockDisplay.source = Assets.getTexture("timer");
 	clockDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	clockDisplay.height = clockDisplay.width = height;
 	addChild(clockDisplay);
 	
-	needleDisplay = new Image(Assets.getTexture("timer-needle", "gui"));
+	needleDisplay = new Image(Assets.getTexture("timer-needle"));
 	needleDisplay.pivotX = needleDisplay.width * 0.5;
 	needleDisplay.pivotY = needleDisplay.height * 0.5;
 	needleDisplay.height = height * 0.6;

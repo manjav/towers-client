@@ -54,7 +54,7 @@ override protected function initialize():void
 	addChild(iconDisplay);
 	
 	var messageBG:ImageLoader = new ImageLoader();
-	messageBG.source = Assets.getTexture("theme/popup-inside-background-skin", "gui")
+	messageBG.source = Assets.getTexture("theme/popup-inside-background-skin")
 	messageBG.alpha = 0.3;
 	messageBG.scale9Grid = new Rectangle(4, 4, 2, 2);
 	messageBG.layoutData = new AnchorLayoutData(120, appModel.isLTR?300:PADDING, 110, appModel.isLTR?PADDING:300);

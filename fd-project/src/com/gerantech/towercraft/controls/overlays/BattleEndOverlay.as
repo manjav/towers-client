@@ -144,7 +144,7 @@ override protected function initialize():void
 		if( showAdOffer )
 		{
 			retryButton.label = "+   " + loc("retry_button");
-			retryButton.icon = Assets.getTexture("extra-time", "gui");
+			retryButton.icon = Assets.getTexture("extra-time");
 		}
 		else
 		{

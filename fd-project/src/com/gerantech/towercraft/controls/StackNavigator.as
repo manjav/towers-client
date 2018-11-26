@@ -250,7 +250,7 @@ package com.gerantech.towercraft.controls
 		{
 			if (ResourceType.isCard(resourceType))
 			{
-				addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(stage.stageWidth * 0.3, stage.stageHeight * 0.95), delay, null);
+				addAnimation(x, y, 130, Assets.getTexture("cards"), count, new Rectangle(stage.stageWidth * 0.3, stage.stageHeight * 0.95), delay, null);
 			}
 			else if (resourceType == ResourceType.R3_CURRENCY_SOFT || resourceType == ResourceType.R4_CURRENCY_HARD || resourceType == ResourceType.R1_XP || resourceType == ResourceType.R2_POINT)
 			{
@@ -295,7 +295,7 @@ package com.gerantech.towercraft.controls
 		   var bugReportButton:SimpleButton = new SimpleButton();
 		   bugReportButton.isLongPressEnabled = true;
 		   bugReportButton.alpha = AppModel.instance.game.player.inTutorial() ? 0 : 1;
-		   bugReportButton.addChild(new Image(Assets.getTexture("bug-icon", "gui")));
+		   bugReportButton.addChild(new Image(Assets.getTexture("bug-icon")));
 		   bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
 		   bugReportButton.addEventListener(FeathersEventType.LONG_PRESS, bugReportButton_longPressHandler);
 		   bugReportButton.x = 12;

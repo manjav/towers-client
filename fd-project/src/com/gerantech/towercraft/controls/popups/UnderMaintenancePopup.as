@@ -34,7 +34,7 @@ package com.gerantech.towercraft.controls.popups
 			var icon:ImageLoader = new ImageLoader();
 			icon.width = icon.height = 160;
 			icon.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
-			icon.source = Assets.getTexture("improve-11", "gui");
+			icon.source = Assets.getTexture("improve-11");
 			addChild(icon);
 			
 			setInterval( updateLabel, 1000);

@@ -44,7 +44,7 @@ override protected function initialize() : void
 	
 	var padding:int = height * 0.12;
 	
-	var skin:Image = new Image(Assets.getTexture("home/profile-sliced", "gui"));
+	var skin:Image = new Image(Assets.getTexture("home/profile-sliced"));
 	skin.scale9Grid = new Rectangle(140, 50, 54, 280);
 	backgroundSkin = skin;
 	var hitObject:SimpleLayoutButton = new SimpleLayoutButton();
@@ -66,7 +66,7 @@ override protected function initialize() : void
 	namePlace.touchable = false;
 	namePlace.layoutData = new HorizontalLayoutData(100);
 	namePlace.layout = new AnchorLayout();
-	namePlace.backgroundSkin = new Image(Assets.getTexture("home/profile-rect", "gui"));
+	namePlace.backgroundSkin = new Image(Assets.getTexture("home/profile-rect"));
 	Image(namePlace.backgroundSkin).scale9Grid = scale9
 	topLine.addChild(namePlace);
 	
@@ -75,10 +75,10 @@ override protected function initialize() : void
 	namePlace.addChild(nameDisplay);
 	
 	// inbox button with notification badge
-	var inboxButton:NotifierButton = new NotifierButton(Assets.getTexture("home/inbox", "gui"));
+	var inboxButton:NotifierButton = new NotifierButton(Assets.getTexture("home/inbox"));
 	inboxButton.name = "inboxButton";
 	inboxButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
-	inboxButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
+	inboxButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
 	Image(inboxButton.backgroundSkin).scale9Grid = scale9
 	inboxButton.height = inboxButton.width = topLine.height;
 	topLine.addChild(inboxButton);
@@ -91,9 +91,9 @@ override protected function initialize() : void
 	}
 	
 	// settings button
-	var settingsButton:IconButton = new IconButton(Assets.getTexture("home/settings", "gui"));
+	var settingsButton:IconButton = new IconButton(Assets.getTexture("home/settings"));
 	settingsButton.name = "settingsButton";
-	settingsButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin", "gui"));
+	settingsButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
 	settingsButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
 	Image(settingsButton.backgroundSkin).scale9Grid = scale9
 	settingsButton.height = settingsButton.width = topLine.height;

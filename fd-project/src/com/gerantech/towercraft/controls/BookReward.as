@@ -54,7 +54,7 @@ override protected function initialize():void
 	iconContainer.height = height;
 	iconContainer.layout = new AnchorLayout();
 	
-	iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button", "gui"));
+	iconContainer.backgroundSkin = new Image(Assets.getTexture("theme/building-button"));
 	Image(iconContainer.backgroundSkin).scale9Grid = new Rectangle(20, 20, 112, 74);
 	
 	var ic:int = ResourceType.isCard(type) ? CardTypes.get_category(type) : type;
@@ -76,7 +76,7 @@ override protected function initialize():void
 		if( player.cards.get(type).level == -1 )
 		{
 			var newDisplay:ImageLoader = new ImageLoader();
-			newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
+			newDisplay.source = Assets.getTexture("cards/new-badge");
 			newDisplay.layoutData = new AnchorLayoutData( -10, NaN, NaN, -10);
 			newDisplay.width = 200;
 			newDisplay.height = 200;

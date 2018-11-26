@@ -206,7 +206,7 @@ protected function attendeesFactory() : void
 	shadowTop.color = 0;
 	shadowTop.alpha = 0.5;
 	shadowTop.height = 30;
-	shadowTop.source = Assets.getTexture("theme/gradeint-top", "gui");
+	shadowTop.source = Assets.getTexture("theme/gradeint-top");
 	shadowTop.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	shadowTop.layoutData = new AnchorLayoutData(headerSize + 79, 0, NaN, 0);
 	addChild(shadowTop);
@@ -216,7 +216,7 @@ protected function attendeesFactory() : void
 	shadowBottom.color = 0;
 	shadowBottom.alpha = 0.5;
 	shadowBottom.height = 30;
-	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom");
 	shadowBottom.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
 	shadowBottom.layoutData = new AnchorLayoutData(NaN, 0, 550, 0);
 	addChild(shadowBottom);
