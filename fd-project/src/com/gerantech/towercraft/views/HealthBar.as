@@ -14,13 +14,13 @@ private var scaleRect:Rectangle;
 private var _value:Number = 0;
 private var _troopType:int = -2;
 private var maximum:Number;
-private var fillDisplay:ImageLoader;
-private var backroundDisplay:ImageLoader;
 
 public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 1)
+private var sliderFillDisplay:ImageLoader;
+private var sliderBackDisplay:ImageLoader;
 {
 	super();
-	touchable = false;
+	this.touchable = false;
 	this.pivotX = this.width * 0.5;
 	this.width = 48;
 	this.minHeight = height = 12;
@@ -36,28 +36,29 @@ override protected function initialize():void
 	scaleRect = new Rectangle(atlas == "battlefields"?4:2, atlas == "battlefields"?8:4, atlas == "battlefields"?4:2, atlas == "battlefields"?6:3);
 	layout = new AnchorLayout();
 	
-	backroundDisplay = new ImageLoader();
-	backroundDisplay.pixelSnapping = false;
-	backroundDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
-	backroundDisplay.scale9Grid = scaleRect;
-	backroundDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1));
-	backroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChildAt(backroundDisplay, 0);
+	sliderBackDisplay = new ImageLoader();
+	sliderBackDisplay.pixelSnapping = false;
+	sliderBackDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
+	sliderBackDisplay.scale9Grid = scaleRect;
+	sliderBackDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1));
+	sliderBackDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	addChild(sliderBackDisplay);
 	
-	fillDisplay = new ImageLoader();
-	fillDisplay.pixelSnapping = false;
-	fillDisplay.scale9Grid = scaleRect;
-	fillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-"+_troopType);
-	fillDisplay.width =  width * (value / maximum);
-	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
-	addChildAt(fillDisplay, 0);
+	sliderFillDisplay = new ImageLoader();
+	sliderFillDisplay.pixelSnapping = false;
+	sliderFillDisplay.scale9Grid = scaleRect;
+	sliderFillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-"+_troopType);
+	sliderFillDisplay.width =  width * (value / maximum);
+	sliderFillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
+	addChild(sliderFillDisplay);
+	
 }
 
-public function get value():Number
+public function get value() : Number
 {
 	return _value;
 }
-public function set value(v:Number):void
+public function set value(v:Number) : void
 {
 	if( _value == v )
 		return;
@@ -66,8 +67,16 @@ public function set value(v:Number):void
 	if( v < 0 )
 		v = 0;
 	_value = v;
-	if( fillDisplay )
-		fillDisplay.width =  width * (v / maximum);
+
+	var impacted:Boolean = _value < maximum;
+	if( sliderFillDisplay != null )
+	{
+		sliderFillDisplay.visible = impacted;
+		sliderFillDisplay.width =  width * (v / maximum);
+	}
+	
+	if( sliderFillDisplay != null )
+		sliderFillDisplay.visible = impacted;
 }
 
 public function get troopType():int
@@ -80,10 +89,10 @@ public function set troopType(value:int):void
 		return;
 	_troopType = value;
 	
-	if( backroundDisplay )
-		backroundDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + _troopType);
-	if( fillDisplay )
-		fillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-" + _troopType);
+	if( sliderBackDisplay!= null )
+		sliderBackDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + _troopType);
+	if( sliderFillDisplay != null )
+		sliderFillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-" + _troopType);
 
 }
 }

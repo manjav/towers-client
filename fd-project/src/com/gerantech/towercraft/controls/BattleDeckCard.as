@@ -1,17 +1,13 @@
 package com.gerantech.towercraft.controls
 {
-import com.gerantech.towercraft.views.HealthBar;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import starling.core.Starling;
 import starling.filters.ColorMatrixFilter;
-
 public class BattleDeckCard extends TowersLayout
 {
-private var _filter:ColorMatrixFilter;
 private var cardType:int;
-private var populationBar:HealthBar;
 private var cardView:BuildingCard;
+private var _filter:ColorMatrixFilter;
 public function BattleDeckCard(cardType:int)
 {
 	super();
@@ -45,12 +41,6 @@ override public function set isEnabled(value:Boolean) : void
 	super.isEnabled = value;
 	cardView.touchable = value;
 	cardView.filter = value ? null : _filter;
-}
-
-override public function dispose():void
-{
-	Starling.juggler.removeTweens(populationBar);
-	super.dispose();
 }
 }
 }
