@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.views
+package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.models.AppModel;
 import feathers.controls.ImageLoader;
@@ -9,15 +9,14 @@ import flash.geom.Rectangle;
 
 public class HealthBar extends LayoutGroup
 {
-public var atlas:String  = "battlefields";
-private var scaleRect:Rectangle;
+protected var atlas:String  = "battlefields";
+protected var maximum:Number;
+protected var scaleRect:Rectangle;
 private var _value:Number = 0;
 private var _troopType:int = -2;
-private var maximum:Number;
-
-public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 1)
 private var sliderFillDisplay:ImageLoader;
 private var sliderBackDisplay:ImageLoader;
+public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 1)
 {
 	super();
 	this.touchable = false;
@@ -37,21 +36,22 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	sliderBackDisplay = new ImageLoader();
-	sliderBackDisplay.pixelSnapping = false;
+	sliderBackDisplay.pixelSnapping = true;
 	sliderBackDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
 	sliderBackDisplay.scale9Grid = scaleRect;
 	sliderBackDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1));
+	sliderBackDisplay.visible = value < maximum;
 	sliderBackDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(sliderBackDisplay);
 	
 	sliderFillDisplay = new ImageLoader();
-	sliderFillDisplay.pixelSnapping = false;
+	sliderFillDisplay.pixelSnapping = true;
 	sliderFillDisplay.scale9Grid = scaleRect;
-	sliderFillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-"+_troopType);
+	sliderFillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-" + _troopType);
+	sliderFillDisplay.visible = value < maximum;
 	sliderFillDisplay.width =  width * (value / maximum);
 	sliderFillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChild(sliderFillDisplay);
-	
 }
 
 public function get value() : Number
@@ -71,12 +71,12 @@ public function set value(v:Number) : void
 	var impacted:Boolean = _value < maximum;
 	if( sliderFillDisplay != null )
 	{
-		sliderFillDisplay.visible = impacted;
+		sliderFillDisplay.visible = _value < maximum;
 		sliderFillDisplay.width =  width * (v / maximum);
 	}
 	
 	if( sliderFillDisplay != null )
-		sliderFillDisplay.visible = impacted;
+		sliderFillDisplay.visible = _value < maximum;
 }
 
 public function get troopType():int

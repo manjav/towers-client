@@ -5,7 +5,7 @@ import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.views.HealthBar;
+import com.gerantech.towercraft.controls.sliders.battle.HealthBar;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.TroopType;

@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views
 {
+import com.gerantech.towercraft.controls.sliders.battle.HealthBar;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.battle.units.Card;

@@ -1,8 +1,9 @@
 package com.gerantech.towercraft.views.units
 {
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
+import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.views.BattleFieldView;
-import com.gerantech.towercraft.views.HealthBar;
+import com.gerantech.towercraft.controls.sliders.battle.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -28,7 +29,7 @@ private var direction:String;
 private var textureType:String;
 private var bodyDisplay:MovieClip;
 private var shadowDisplay:Image;
-private var healthDisplay:HealthBar;
+private var healthDisplay:HealthBarLeveled;
 private var troopScale:Number = 2;
 private var deployIcon:CountdownIcon;
 private var hitTimeoutId:uint;
@@ -266,22 +267,18 @@ override public function hit(damage:Number):void
 
 private function setHealth(health:Number):void
 {
-	if( health > 0 && health < card.health )
+	if( healthDisplay == null )
 	{
-		if( healthDisplay == null )
-		{
-			healthDisplay = new HealthBar(battleField.getColorIndex(side), health, card.health);
-			healthDisplay.x = __x - healthDisplay.width * 0.5;
-			healthDisplay.y = __y - card.sizeV - 60;
-			fieldView.guiImagesContainer.addChild(healthDisplay);
-		}
-		else
-		{
-			healthDisplay.value = health;
-		}
-		return;
+		healthDisplay = new HealthBarLeveled(battleField.getColorIndex(side), card.level, health, card.health);
+		healthDisplay.x = __x - healthDisplay.width * 0.5;
+		healthDisplay.y = __y - card.sizeV - 60;
+		fieldView.guiImagesContainer.addChild(healthDisplay);
 	}
-	
+	else
+	{
+		healthDisplay.value = health;
+	}
+
 	if( health < 0 )
 		dispose();
 }
