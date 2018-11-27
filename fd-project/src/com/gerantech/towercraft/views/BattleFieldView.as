@@ -53,6 +53,14 @@ public function BattleFieldView()
 	touchable = false;
 	alignPivot();
 	scale = 0.8;
+	
+	roadsContainer = new Sprite();
+	unitsContainer = new Sprite();
+	elementsContainer = new Sprite();
+	buildingsContainer = new Sprite();
+	effectsContainer = new Sprite();
+	guiImagesContainer = new Sprite();
+	guiTextsContainer = new Sprite();
 }
 
 private function assetManagerLoaded(ratio:Number):void 
@@ -81,14 +89,6 @@ public function createPlaces(battleData:BattleData) : void
 	pivotY = BattleField.HEIGHT * 0.5;
 	x = Starling.current.stage.stageWidth * 0.5;
 	y = (Starling.current.stage.stageHeight - BattleFooter.HEIGHT * 0.5) * 0.5;
-
-	roadsContainer = new Sprite();
-	unitsContainer = new Sprite();
-	elementsContainer = new Sprite();
-	buildingsContainer = new Sprite();
-	effectsContainer = new Sprite();
-	guiImagesContainer = new Sprite();
-	guiTextsContainer = new Sprite();
 
 	battleData.battleField.state = BattleField.STATE_2_STARTED;
 	responseSender = new ResponseSender(battleData.room);
