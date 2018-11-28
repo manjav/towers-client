@@ -1,58 +1,65 @@
 package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.models.AppModel;
-import feathers.controls.ImageLoader;
+import com.gerantech.towercraft.views.BattleFieldView;
+import starling.display.Image;
 import feathers.controls.LayoutGroup;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 
-public class HealthBar extends LayoutGroup
+public class HealthBar
 {
-protected var atlas:String  = "battlefields";
+static protected var SCALE_RECT:Rectangle = new Rectangle(3, 3, 9, 9);
+public var width:Number = 48;
+public var height:Number = 15;
+protected var _value:Number = 0;
+protected var _troopType:int = -2;
 protected var maximum:Number;
-protected var scaleRect:Rectangle;
-private var _value:Number = 0;
-private var _troopType:int = -2;
-private var sliderFillDisplay:ImageLoader;
-private var sliderBackDisplay:ImageLoader;
-public function HealthBar(troopType:int, initValue:Number = 0, initMax:Number = 1)
+protected var sliderFillDisplay:Image;
+protected var sliderBackDisplay:Image;
+protected var filedView:BattleFieldView;
+public function HealthBar(filedView:BattleFieldView, troopType:int, initValue:Number = 0, initMax:Number = 1)
 {
 	super();
-	this.touchable = false;
-	this.pivotX = this.width * 0.5;
-	this.width = 48;
-	this.minHeight = height = 12;
-	this.troopType = troopType;
 	this.value = initValue;
 	this.maximum = initMax;
+	this.troopType = troopType;
+	this.filedView = filedView;
+
+	sliderBackDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/back"));
+	sliderBackDisplay.scale9Grid = SCALE_RECT;
+	sliderBackDisplay.pixelSnapping = false;
+	sliderBackDisplay.touchable = false;
+	sliderBackDisplay.width = width;
+	sliderBackDisplay.height = height;
+	sliderBackDisplay.visible = value < maximum;
+	filedView.guiImagesContainer.addChild(sliderBackDisplay);
+	
+	sliderFillDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/fill"));
+	sliderFillDisplay.scale9Grid = SCALE_RECT;
+	sliderFillDisplay.pixelSnapping = false;
+	sliderFillDisplay.touchable = false;
+	sliderFillDisplay.height = height;
+	sliderFillDisplay.visible = value < maximum;
+	filedView.guiImagesContainer.addChild(sliderFillDisplay);
 }
 
-override protected function initialize():void
+public function setPosition(x:Number, y:Number) : void
 {
-	super.initialize();
-	
-	scaleRect = new Rectangle(atlas == "battlefields"?4:2, atlas == "battlefields"?8:4, atlas == "battlefields"?4:2, atlas == "battlefields"?6:3);
-	layout = new AnchorLayout();
-	
-	sliderBackDisplay = new ImageLoader();
-	sliderBackDisplay.pixelSnapping = true;
-	sliderBackDisplay.alpha = atlas == "battlefields" ? 0.5 : 1;
-	sliderBackDisplay.scale9Grid = scaleRect;
-	sliderBackDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + (atlas == "battlefields"?_troopType: -1));
-	sliderBackDisplay.visible = value < maximum;
-	sliderBackDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(sliderBackDisplay);
-	
-	sliderFillDisplay = new ImageLoader();
-	sliderFillDisplay.pixelSnapping = true;
-	sliderFillDisplay.scale9Grid = scaleRect;
-	sliderFillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-" + _troopType);
-	sliderFillDisplay.visible = value < maximum;
-	sliderFillDisplay.width =  width * (value / maximum);
-	sliderFillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
-	addChild(sliderFillDisplay);
+	if( sliderBackDisplay != null )
+	{
+		sliderBackDisplay.x = x - width * 0.5;
+		sliderBackDisplay.y = y;
+	}
+	if( sliderFillDisplay != null )
+	{
+		sliderFillDisplay.x = x - width * 0.5;
+		sliderFillDisplay.y = y;
+	}
 }
+
+
 
 public function get value() : Number
 {
@@ -68,11 +75,10 @@ public function set value(v:Number) : void
 		v = 0;
 	_value = v;
 
-	var impacted:Boolean = _value < maximum;
 	if( sliderFillDisplay != null )
 	{
 		sliderFillDisplay.visible = _value < maximum;
-		sliderFillDisplay.width =  width * (v / maximum);
+		sliderFillDisplay.width =  width * (_value / maximum);
 	}
 	
 	if( sliderFillDisplay != null )
@@ -90,10 +96,18 @@ public function set troopType(value:int):void
 	_troopType = value;
 	
 	if( sliderBackDisplay!= null )
-		sliderBackDisplay.source = AppModel.instance.assets.getTexture("healthbar-bg-" + _troopType);
+		sliderBackDisplay.texture = AppModel.instance.assets.getTexture("sliders/" + troopType + "/back");
 	if( sliderFillDisplay != null )
-		sliderFillDisplay.source = AppModel.instance.assets.getTexture("healthbar-fill-" + _troopType);
+		sliderFillDisplay.texture = AppModel.instance.assets.getTexture("sliders/" + troopType + "/fill");
 
+}
+
+public function dispose() : void 
+{
+	if( sliderBackDisplay!= null )
+		sliderBackDisplay.removeFromParent(true);
+	if( sliderFillDisplay != null )
+		sliderFillDisplay.removeFromParent(true);
 }
 }
 }

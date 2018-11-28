@@ -3,7 +3,6 @@ package com.gerantech.towercraft.views.units
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.views.BattleFieldView;
-import com.gerantech.towercraft.controls.sliders.battle.HealthBar;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -63,6 +62,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	bodyDisplay.scaleX = troopScale;
 	bodyDisplay.scaleY = troopScale;
 	fieldView.unitsContainer.addChild(bodyDisplay);
+	setHealth(card.health);
 
 	if( movable )
 	{
@@ -180,10 +180,7 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 	}
 
 	if( healthDisplay != null )
-	{
-		healthDisplay.x = __x - healthDisplay.width * 0.5;
-		healthDisplay.y = __y - card.sizeV - 60;
-	}
+		healthDisplay.setPosition(__x, __y - card.sizeV - 60);
 
 	if( rangeDisplay != null )
 	{
@@ -269,10 +266,8 @@ private function setHealth(health:Number):void
 {
 	if( healthDisplay == null )
 	{
-		healthDisplay = new HealthBarLeveled(battleField.getColorIndex(side), card.level, health, card.health);
-		healthDisplay.x = __x - healthDisplay.width * 0.5;
-		healthDisplay.y = __y - card.sizeV - 60;
-		fieldView.guiImagesContainer.addChild(healthDisplay);
+		healthDisplay = new HealthBarLeveled(fieldView, battleField.getColorIndex(side), card.level, health, card.health);
+		healthDisplay.setPosition(__x, __y - card.sizeV - 60);
 	}
 	else
 	{
@@ -365,12 +360,12 @@ override public function dispose() : void
 		shadowDisplay.removeFromParent(true);
 	if( rangeDisplay != null )
 		rangeDisplay.removeFromParent(true);
-	if( healthDisplay != null )
-		healthDisplay.removeFromParent(true);
 	if( deployIcon != null )
 		deployIcon.removeFromParent(true);
 	if( sizeDisplay != null )
 		sizeDisplay.removeFromParent(true);
+	if( healthDisplay != null )
+		healthDisplay.dispose();
 	showBloodSplashhAnimation();
 }
 
@@ -383,7 +378,7 @@ public function set alpha(value:Number):void
 	if( rangeDisplay != null )
 		rangeDisplay.alpha = value;
 	if( healthDisplay != null )
-		healthDisplay.alpha = value;
+		rangeDisplay.alpha = value;
 	if( deployIcon != null )
 		deployIcon.alpha = value;
 }
