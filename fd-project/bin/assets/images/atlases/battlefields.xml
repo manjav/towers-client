@@ -56,9 +56,9 @@
 	<SubTexture name="white-line" x="2027" y="48" width="16" height="15"/>
 	<SubTexture name="sliders/0/back" x="2027" y="64" width="15" height="13"/>
 	<SubTexture name="sliders/0/fill" x="2027" y="78" width="15" height="13"/>
-	<SubTexture name="sliders/-1/back" x="2027" y="92" width="15" height="13"/>
-	<SubTexture name="sliders/-1/fill" x="2027" y="106" width="15" height="13"/>
-	<SubTexture name="sliders/1/lider-fill" x="2027" y="120" width="15" height="13"/>
-	<SubTexture name="sliders/1/slider-back" x="2027" y="134" width="15" height="13"/>
+	<SubTexture name="sliders/1/back" x="2027" y="92" width="15" height="13"/>
+	<SubTexture name="sliders/-1/back" x="2027" y="106" width="15" height="13"/>
+	<SubTexture name="sliders/1/fill" x="2027" y="120" width="15" height="13"/>
+	<SubTexture name="sliders/-1/fill" x="2027" y="134" width="15" height="13"/>
 	<SubTexture name="edge-tile" x="2027" y="148" width="8" height="2"/>
 </TextureAtlas>

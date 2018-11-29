@@ -209,8 +209,10 @@
 	<SubTexture name="die/blood_splash_00000" x="1011" y="254" width="12" height="12" frameX="-34" frameY="-14" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="bullets/102/000" x="1011" y="267" width="11" height="13"/>
 	<SubTexture name="bullets/105/000" x="1011" y="267" width="11" height="13"/>
+	<SubTexture name="bullets/113/000" x="1011" y="267" width="11" height="13"/>
 	<SubTexture name="bullets/104/000" x="578" y="287" width="9" height="11"/>
 	<SubTexture name="bullets/111/000" x="578" y="287" width="9" height="11"/>
+	<SubTexture name="bullets/112/000" x="578" y="287" width="9" height="11"/>
 	<SubTexture name="fires/shootFire_00038" x="143" y="350" width="15" height="6" frameX="-32" frameY="-42" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="fires/shootFire_00039" x="143" y="357" width="14" height="6" frameX="-32" frameY="-42" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="bullets/103/000" x="1015" y="61" width="7" height="8"/>
