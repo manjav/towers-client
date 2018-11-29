@@ -29,7 +29,6 @@ public function HealthBar(filedView:BattleFieldView, troopType:int, initValue:Nu
 
 	sliderBackDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/back"));
 	sliderBackDisplay.scale9Grid = SCALE_RECT;
-	sliderBackDisplay.pixelSnapping = false;
 	sliderBackDisplay.touchable = false;
 	sliderBackDisplay.width = width;
 	sliderBackDisplay.height = height;
@@ -38,7 +37,6 @@ public function HealthBar(filedView:BattleFieldView, troopType:int, initValue:Nu
 	
 	sliderFillDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/fill"));
 	sliderFillDisplay.scale9Grid = SCALE_RECT;
-	sliderFillDisplay.pixelSnapping = false;
 	sliderFillDisplay.touchable = false;
 	sliderFillDisplay.height = height;
 	sliderFillDisplay.visible = value < maximum;

@@ -21,8 +21,6 @@ public function HealthBarLeveled(filedView:BattleFieldView, troopType:int, level
 
 	levelDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/level-" + level));
 	levelDisplay.pivotX = levelDisplay.width * 0.5;
-	//levelDisplay.pivotY = levelDisplay.height * 0.5;
-	levelDisplay.pixelSnapping = false;
 	levelDisplay.touchable = false;
 	levelDisplay.visible = value < maximum || troopType > 0;
 	filedView.guiImagesContainer.addChild(levelDisplay);
