@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.managers 
 {
+import flash.utils.ByteArray;
 import flash.utils.Dictionary;
 import starling.extensions.PDParticleSystem;
 import starling.textures.Texture;
@@ -27,8 +28,9 @@ private static const explodeConfig:Class;
 private static const explodeParticle:Class;
 
 
-private static var allTextures:Dictionary = new Dictionary();
-private static var allXMLs:Dictionary = new Dictionary();
+
+private static var _TEXTURES:Dictionary = new Dictionary();
+private static var _CONFIGS:Dictionary = new Dictionary();
 public function ParticleManager() {}
 
 /**
@@ -38,10 +40,10 @@ public function ParticleManager() {}
  */
 public static function getTextureByBitmap(name:String) : Texture
 {
-	if( allTextures[name] == undefined )
-		allTextures[name] = Texture.fromEmbeddedAsset(ParticleManager[name + "Particle"]);
+	if( _TEXTURES[name] == undefined )
+		_TEXTURES[name] = Texture.fromEmbeddedAsset(ParticleManager[name + "Particle"]);
 		//allTextures[name] = Texture.fromAtfData(new ParticleManager[name + "Particle"], 1, false);
-	return allTextures[name];
+	return _TEXTURES[name];
 }
 
 /**
@@ -49,11 +51,17 @@ public static function getTextureByBitmap(name:String) : Texture
  * @param name A key that matches a static constant of XML type.
  * @return a particle config.
  */
-public static function getParticleData(name:String) : XML
+public static function getParticleData(name:String) : Object
 {
-	if( allXMLs[name] == undefined )
-		allXMLs[name] = XML(new ParticleManager[name + "Config"]())
-	return allXMLs[name];
+	if( _CONFIGS[name] == undefined )
+	{
+		var text:ByteArray = new ParticleManager[name + "Config"]();
+		if( text.readUTFBytes(1) == "<" )
+			_CONFIGS[name] = XML(text);
+		else
+			_CONFIGS[name] = JSON.parse(text.toString());
+	}
+	return _CONFIGS[name];
 }
 
 public static function getParticle(name:String) : PDParticleSystem
