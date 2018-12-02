@@ -140,7 +140,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		var enemy:Unit = data as Unit;
 		
-		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, __x, __y, 0, enemy.getSideX(), enemy.getSideY(), 0);
+		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, x, y, 0, enemy.x, enemy.y, 0);
 		b.targetId = enemy.id;
 		battleField.bullets.set(enemy.bulletId, b);
 		enemy.bulletId ++;
@@ -347,7 +347,7 @@ private function showBloodSplashhAnimation():void
 	bloodSplashDisplay.scaleX *= Math.random() > 0.5 ? -1 : 1;
 	bloodSplashDisplay.color = 0xFF0000 + Math.random() * 5000;
 	bloodSplashDisplay.x = getSideX();
-	bloodSplashDisplay.y = this.y;
+	bloodSplashDisplay.y = getSideY();
 	fieldView.unitsContainer.addChildAt(bloodSplashDisplay, 0);
 	bloodSplashDisplay.play();
 	Starling.juggler.add(bloodSplashDisplay);

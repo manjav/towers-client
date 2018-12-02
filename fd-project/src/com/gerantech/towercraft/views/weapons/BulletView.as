@@ -63,20 +63,21 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 	if( !super.setPosition(x, y, z, forced) )
 		return false;
 
-	var _y:Number = this.y + (this.z * BattleField.CAMERA_ANGLE);
+	var _x:Number = this.getSideX();
+	var _y:Number = this.getSideY() + (this.z * BattleField.CAMERA_ANGLE);
 	//if( card.type == 151 )
 	//	trace("setPosition"," x:" + this.x, " y:" + this.y, " z:" + this.z, " _y:" + _y);
 	
 	if( bulletDisplay != null )
 	{
-		bulletDisplay.x = this.x;
-		bulletDisplay.y = _y - card.sizeV * 0.65;		
+		bulletDisplay.x = _x;
+		bulletDisplay.y = _y - card.sizeV * BattleField.CAMERA_ANGLE;	
 	}
 	
 	if( shadowDisplay != null )
 	{
-		shadowDisplay.x = this.x;
-		shadowDisplay.y = this.y;		
+		shadowDisplay.x = _x;
+		shadowDisplay.y = _y;
 	} 
 
 	return true;
@@ -127,7 +128,7 @@ private function defaultBulletDisplayFactory() : void
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
+	//fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 }
 
 protected function defaultFireDisplayFactory() : void 
