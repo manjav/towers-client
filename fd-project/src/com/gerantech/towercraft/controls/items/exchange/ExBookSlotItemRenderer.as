@@ -258,10 +258,9 @@ protected function timeManager_changeHandler(event:Event):void
 		countdownDisplay.time = t;
 }
 
-
 private function achieve():void 
 {
-	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData.outcomes == null )
+	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.outcomes == null )
 		return;
 	
 	var achieved:int =-1;

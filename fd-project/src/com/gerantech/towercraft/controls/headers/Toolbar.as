@@ -68,7 +68,7 @@ protected function addedToStageHandler(e:Event):void
 
 public function checkIndictorAchievements():void 
 {
-	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData.outcomes == null )
+	if( appModel.battleFieldView == null || appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.outcomes == null )
 		return;
 	
 	var achieved:Array = new Array();
