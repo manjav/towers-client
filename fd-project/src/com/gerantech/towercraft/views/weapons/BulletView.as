@@ -96,7 +96,7 @@ override public function dispose():void
 		bulletDisplay.removeFromParent(true);
 	}
 	
-	if( BattleFieldView.DEBUG_MODE )
+	if( BattleField.DEBUG_MODE )
 	{
 		var damageAreaDisplay:Image = new Image(appModel.assets.getTexture("damage-range"));
 		damageAreaDisplay.pivotX = damageAreaDisplay.width * 0.5;
