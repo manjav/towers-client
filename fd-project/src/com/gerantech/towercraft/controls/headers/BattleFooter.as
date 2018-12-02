@@ -167,7 +167,7 @@ protected function touchHandler(event:TouchEvent) : void
 		if( touch.phase == TouchPhase.MOVED )
 		{
 			placeHolder.x = draggableCard.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
-			placeHolder.y = draggableCard.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?-0.5:0.17) + appModel.battleFieldView.y, touch.globalY);
+			placeHolder.y = draggableCard.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?-0.5:0.01) + appModel.battleFieldView.y, touch.globalY);
 			draggableCard.scale = Math.min(1.2, (100 + touch.globalY - y) / 200 * 1.2);
 			draggableCard.visible = draggableCard.scale >= 0.6;
 			placeHolder.visible = !draggableCard.visible; 
@@ -179,7 +179,7 @@ protected function touchHandler(event:TouchEvent) : void
 			rect.x += rect.width * 0.5;
 			rect.y += rect.height * 0.5;
 			placeHolder.removeFromParent();
-			if( rect.y < BattleField.HEIGHT && rect.y > BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?0.0:0.6666) && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
+			if( rect.y < BattleField.HEIGHT && rect.y > BattleField.HEIGHT * (CardTypes.isSpell(draggableCard.type)?0.0:0.5) && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(draggableCard.type);
 				selectedCard.setData(cardQueue.shift());

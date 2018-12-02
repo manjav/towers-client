@@ -6,6 +6,7 @@ import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
+import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
@@ -84,7 +85,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		setTimeout(fieldView.guiImagesContainer.addChild, appearanceDelay * 1000, deployIcon);
 	}
 	
-	if( BattleFieldView.DEBUG_MODE )
+	if( BattleField.DEBUG_MODE )
 	{
 		sizeDisplay = new Image(appModel.assets.getTexture("damage-range"));
 		sizeDisplay.pivotX = sizeDisplay.width * 0.5;
@@ -138,7 +139,10 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
-		battleField.bullets.set(enemy.bulletId, new BulletView(battleField, enemy.bulletId, card, side, __x, __y, 0, enemy.getSideX(), enemy.getSideY(), 0));
+		
+		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, __x, __y, 0, enemy.getSideX(), enemy.getSideY(), 0);
+		b.targetId = enemy.id;
+		battleField.bullets.set(enemy.bulletId, b);
 		enemy.bulletId ++;
 		attacks(enemy.id);
 		return;
