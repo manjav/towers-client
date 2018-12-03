@@ -12,7 +12,7 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.battle.units.Unit;
-import com.gt.towers.calculators.BulletFirePositionCalculator;
+import com.gt.towers.calculators.GraphicMetrics;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.Point3;
@@ -20,7 +20,6 @@ import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import flash.filesystem.File;
-import flash.utils.setTimeout;
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.display.Sprite;
@@ -140,7 +139,7 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	if( CardTypes.isSpell(type) )
 	{
 		var card:Card = new Card(AppModel.instance.game, type, level);
-		var offset:Point3 = BulletFirePositionCalculator.getPoint(card.type, 0);
+		var offset:Point3 = GraphicMetrics.getPoint(card.type, 0);
 		var spell:BulletView = new BulletView(battleData.battleField, id, card, side, x + offset.x, y + offset.y, offset.z, x, y, 0);
 		battleData.battleField.bullets.set(id, spell);
 		//trace("summon spell", " side:" + side, " x:" + x, " y:" + y, " offsetX:" + offset.x, " offsetY:" + offset.y, " offsetZ:" + offset.z);

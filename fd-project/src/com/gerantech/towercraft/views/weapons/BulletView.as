@@ -6,7 +6,6 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.calculators.BulletFirePositionCalculator;
 import com.gt.towers.calculators.GraphicMetrics;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
@@ -140,7 +139,7 @@ protected function defaultFireDisplayFactory() : void
 	if( !GraphicMetrics.hasFireEffect(card.type) || card.bulletDamage < 0 )
 		return;
 	
-	var fireOffset:Point3 = BulletFirePositionCalculator.getPoint(card.type, rotation);
+	var fireOffset:Point3 = GraphicMetrics.getPoint(card.type, rotation);
 	//trace("type", card.type, "  rotation", rotation, fireOffset);
 	var fireDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("fires/shootFire_"), 45);
 	fireDisplay.pivotX = 1;
