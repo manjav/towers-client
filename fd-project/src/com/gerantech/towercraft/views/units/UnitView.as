@@ -269,14 +269,10 @@ override public function hit(damage:Number):void
 private function setHealth(health:Number):void
 {
 	if( healthDisplay == null )
-	{
 		healthDisplay = new HealthBarLeveled(fieldView, battleField.getColorIndex(side), card.level, health, card.health);
-		healthDisplay.setPosition(__x, __y - card.sizeV - 60);
-	}
 	else
-	{
 		healthDisplay.value = health;
-	}
+	healthDisplay.setPosition(__x, __y - card.sizeV - 60);
 
 	if( health < 0 )
 		dispose();
