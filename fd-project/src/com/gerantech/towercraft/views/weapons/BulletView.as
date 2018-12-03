@@ -7,6 +7,7 @@ import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.calculators.BulletFirePositionCalculator;
+import com.gt.towers.calculators.GraphicMetrics;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.Point3;
@@ -113,6 +114,9 @@ override public function dispose():void
 
 private function defaultBulletDisplayFactory() : void 
 {
+	if( !GraphicMetrics.hasBulletEffect(card.type) )
+		return;
+	
 	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + card.type + "/"))
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
@@ -128,12 +132,12 @@ private function defaultBulletDisplayFactory() : void
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.5;
-	//fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
+	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 }
 
 protected function defaultFireDisplayFactory() : void 
 {
-	if( CardTypes.isSpell(card.type) || card.bulletDamage < 0 || card.type == 106 || card.type == 108 || card.type == 201 )
+	if( !GraphicMetrics.hasFireEffect(card.type) || card.bulletDamage < 0 )
 		return;
 	
 	var fireOffset:Point3 = BulletFirePositionCalculator.getPoint(card.type, rotation);
@@ -154,6 +158,9 @@ protected function defaultFireDisplayFactory() : void
 
 protected function defaultHitDisplayFactory() : void
 {
+	if( !GraphicMetrics.hasHitEffect(card.type) )
+		return;
+
 	var hasDamageArea:Boolean = card.bulletDamageArea > 50 && card.bulletDamage > 0;
 	if( hasDamageArea )
 	{
