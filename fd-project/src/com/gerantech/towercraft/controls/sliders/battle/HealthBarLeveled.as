@@ -28,11 +28,21 @@ public function HealthBarLeveled(filedView:BattleFieldView, troopType:int, level
 
 override public function setPosition(x:Number, y:Number) : void
 {
-	super.setPosition(x, y);
+	if( sliderBackDisplay != null )
+	{
+		sliderBackDisplay.x = x - width * 0.35;
+		sliderBackDisplay.y = y;
+	}
+	if( sliderFillDisplay != null )
+	{
+		sliderFillDisplay.x = x - width * 0.35;
+		sliderFillDisplay.y = y;
+	}
+
 	if( levelDisplay != null )
 	{
 		levelDisplay.x = x + (value < maximum ? 0 :width * 0.5) - levelDisplay.width;
-		levelDisplay.y = y - 8;
+		levelDisplay.y = y - 7;
 	}
 }
 
