@@ -174,13 +174,13 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 	if( bodyDisplay != null )
 	{
 		bodyDisplay.x = __x;
-		bodyDisplay.y = __y;		
+		bodyDisplay.y = __y;	
 	}
 	
 	if( shadowDisplay != null )
 	{
 		shadowDisplay.x = __x;
-		shadowDisplay.y = __y;		
+		shadowDisplay.y = __y;
 	}
 
 	if( healthDisplay != null )
@@ -333,7 +333,7 @@ public function showWinnerFocus():void
 	Starling.juggler.tween(winnerDisplay, 1, {scale:0, transition:Transitions.EASE_IN_BACK, onComplete:winnerDisplay.removeFromParent, onCompleteArgs:[true]});
 }
 
-private function showBloodSplashhAnimation():void 
+private function showBloodSplashAnimation():void 
 {
 	var bloodSplashDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("die/blood_splash_"), 30);
 	bloodSplashDisplay.pivotX = bloodSplashDisplay.width * 0.5;
@@ -366,7 +366,7 @@ override public function dispose() : void
 		sizeDisplay.removeFromParent(true);
 	if( healthDisplay != null )
 		healthDisplay.dispose();
-	showBloodSplashhAnimation();
+	showBloodSplashAnimation();
 }
 
 
@@ -378,7 +378,7 @@ public function set alpha(value:Number):void
 	if( rangeDisplay != null )
 		rangeDisplay.alpha = value;
 	if( healthDisplay != null )
-		rangeDisplay.alpha = value;
+		healthDisplay.alpha = value;
 	if( deployIcon != null )
 		deployIcon.alpha = value;
 }
