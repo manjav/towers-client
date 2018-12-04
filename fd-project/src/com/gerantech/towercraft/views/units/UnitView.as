@@ -378,7 +378,7 @@ public function set alpha(value:Number):void
 	if( rangeDisplay != null )
 		rangeDisplay.alpha = value;
 	if( healthDisplay != null )
-		rangeDisplay.alpha = value;
+		healthDisplay.alpha = value;
 	if( deployIcon != null )
 		deployIcon.alpha = value;
 }

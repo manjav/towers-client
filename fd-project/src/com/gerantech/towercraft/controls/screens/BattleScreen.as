@@ -116,7 +116,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_HIT:
-		appModel.battleFieldView.hitUnits(data.getInt("b"), data.getDouble("d"), data.getIntArray("t"));
+		appModel.battleFieldView.hitUnits(data.getInt("b"), data.getSFSArray("t"));
 		//appModel.battleFieldView.battleData.battleField.units.get(data.getInt("t")).hit(data.getDouble("d"));
 		//UnitView(appModel.battleFieldView.battleData.battleField.units.get(data.getInt("o"))).attacks(data.getInt("t"));
 		break;

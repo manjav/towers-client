@@ -57,5 +57,9 @@ override public function dispose() : void
 	if( levelDisplay != null )
 		levelDisplay.removeFromParent(true);
 }
+
+public function set alpha(value:Number):void 
+{
+}
 }
 }

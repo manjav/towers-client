@@ -17,6 +17,7 @@ import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.Point3;
 import com.gt.towers.utils.maps.IntUnitMap;
+import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import flash.filesystem.File;
@@ -165,13 +166,17 @@ private function findPathHandler(e:BattleEvent):void
 		drawTile(u.path[i].i, u.path[i].j, c, battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight, 0.3);
 }
 
-public function hitUnits(buletId:int, damage:Number, targets:Array) : void
+public function hitUnits(buletId:int, targets:ISFSArray) : void
 {
-	for each( var id:int in targets )
-		if( battleData.battleField.units.exists( id ) )
-			battleData.battleField.units.get(id).hit(damage);
+	for ( var i:int = 0; i < targets.size(); i ++ )
+	{
+		var id:int = targets.getSFSObject(i).getInt("i");
+		var health:Number = targets.getSFSObject(i).getDouble("h");
+		if( battleData.battleField.units.exists(id) )
+			battleData.battleField.units.get(id).hit(battleData.battleField.units.get(id).health - health);
 		else
 			trace("unit " + id + " not found.");
+	}
 }
 
 public function updateUnits():void
@@ -189,8 +194,9 @@ public function updateUnits():void
 		}
 		else
 		{
-			var u:UnitView = new UnitView(vars[0], vars[4], vars[5], 1, vars[1], vars[2], 0);
-			u.alpha = 0.5;
+			var u:UnitView = new UnitView(vars[0], vars[4], 1, vars[5], vars[1], vars[2], 0);
+			u.alpha = 0.3;
+			u.isDump = true;
 			u.movable = false;
 			units.set(vars[0], u);
 		}
@@ -199,8 +205,8 @@ public function updateUnits():void
 	var us:Vector.<Unit> = units.values();
 	for (i = 0; i < us.length; i++)
 	{
-		var indexOf:int = getu(us[i].id);
-		if ( indexOf == -1 )
+		var id:int = getu(us[i].id);
+		if( id == -1 )
 		{
 			us[i].dispose();
 			units.remove(us[i].id);
