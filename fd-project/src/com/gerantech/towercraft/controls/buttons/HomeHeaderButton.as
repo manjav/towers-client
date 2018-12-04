@@ -115,7 +115,7 @@ protected function titleFactory(text:String) : ShadowLabel
 {
 	//if( state == ExchangeItem.CHEST_STATE_BUSY )
 	//	return null;
-	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, state == ExchangeItem.CHEST_STATE_BUSY ? 0.85 : 1.1);
+	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, state == ExchangeItem.CHEST_STATE_BUSY ? 0.7 : 0.95);
 	titleDisplay.touchable = false;
 	titleDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
 	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -64, state == ExchangeItem.CHEST_STATE_BUSY ? -50 : -10);
