@@ -102,24 +102,6 @@ public function createPlaces(battleData:BattleData) : void
 		summonUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
 	}
 
-	/*var images:Vector.<Image> = Fields.getField(battleData.battleField.field, "battlefields");
-	for each( var img:Image in images )
-		if( img.name == "battlefields" )
-			elementsContainer.addChild(img);
-		else
-			roadsContainer.addChild(img);
-	*/
-	/*var len:uint = battleData.battleField.places.size();
-	places = new Vector.<PlaceView>(len, true);
-	for ( var i:uint=0; i<len; i++ )
-	{
-		var p:PlaceView = new PlaceView(battleData.battleField.places.get(i));
-		p.name = p.place.index.toString();
-		
-		addChild(p);
-		places[p.place.index] = p
-	}*/
-	
 	/*for ( i = 0; i < battleData.battleField.tileMap.width; i ++ )
 		for ( var j:int = 0; j < battleData.battleField.tileMap.height; j ++ )
 			drawTile(i, j, battleData.battleField.tileMap.map[i][j], battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight);*/
