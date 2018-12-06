@@ -23,7 +23,6 @@ import starling.utils.MathUtil;
 public class BulletView extends Bullet 
 {
 public var bulletDisplayFactory:Function;
-public var fireDisplayFactory:Function;
 public var hitDisplayFactory:Function;
 private var bulletDisplay:MovieClip;
 private var shadowDisplay:Image;
@@ -32,14 +31,10 @@ private var rotation:Number;
 public function BulletView(battleField:BattleField, id:int, card:Card, side:int, x:Number, y:Number, z:Number, fx:Number, fy:Number, fz:Number) 
 {
 	super(battleField, id, card, side, x, y, z, fx, fy, fz);
-	
-	rotation = MathUtil.normalizeAngle( -Math.atan2(-dx, -dy -dz * BattleField.CAMERA_ANGLE));
+	rotation = MathUtil.normalizeAngle( -Math.atan2( -dx, -dy -dz * BattleField.CAMERA_ANGLE));
 	
 	if( bulletDisplayFactory == null )
 		bulletDisplayFactory = defaultBulletDisplayFactory;
-	
-	if( fireDisplayFactory == null )
-		fireDisplayFactory = defaultFireDisplayFactory;
 		
 	if( hitDisplayFactory == null )
 		hitDisplayFactory = defaultHitDisplayFactory;
@@ -51,7 +46,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		appModel.sounds.addAndPlaySound(card.type + "-shoot");
 		bulletDisplayFactory();
-		fireDisplayFactory();
+		//fireDisplayFactory();
 	}
 }
 
@@ -134,27 +129,6 @@ private function defaultBulletDisplayFactory() : void
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
 }
 
-protected function defaultFireDisplayFactory() : void 
-{
-	if( !GraphicMetrics.hasFireEffect(card.type) || card.bulletDamage < 0 )
-		return;
-	
-	var fireOffset:Point3 = GraphicMetrics.getPoint(card.type, rotation);
-	//trace("type", card.type, "  rotation", rotation, fireOffset);
-	var fireDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("fires/shootFire_"), 45);
-	fireDisplay.pivotX = 1;
-	fireDisplay.pivotY = fireDisplay.height * 0.5;
-	fireDisplay.x = this.x + fireOffset.x;
-	fireDisplay.y = this.y + fireOffset.y;
-	fireDisplay.rotation = rotation;
-	fireDisplay.width = card.sizeH * 3.5;
-	fireDisplay.scaleY = fireDisplay.scaleX;
-	fieldView.effectsContainer.addChild(fireDisplay);
-	fireDisplay.play();
-	Starling.juggler.add(fireDisplay);
-	fireDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(fireDisplay); fireDisplay.removeFromParent(true); });
-}
-
 protected function defaultHitDisplayFactory() : void
 {
 	if( !GraphicMetrics.hasHitEffect(card.type) )
@@ -185,8 +159,9 @@ protected function defaultHitDisplayFactory() : void
 	hitDisplay.pivotX = hitDisplay.width * 0.5;
 	hitDisplay.pivotY = hitDisplay.height * 0.5;
 	hitDisplay.x = this.x;
-	hitDisplay.y = this.y - 25;
+	hitDisplay.y = this.y - 35;
 	fieldView.effectsContainer.addChild(hitDisplay);
+	hitDisplay.scale = 1.5;
 	Starling.juggler.tween(hitDisplay, 0.2, {scale:0, onComplete:hitDisplay.removeFromParent, onCompleteArgs:[true]});
 }
 

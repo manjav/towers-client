@@ -8,8 +8,10 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Unit;
+import com.gt.towers.calculators.GraphicMetrics;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
+import com.gt.towers.utils.Point3;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
@@ -23,6 +25,9 @@ import starling.utils.Color;
 
 public class UnitView extends BaseUnit
 {
+	
+public var fireDisplayFactory:Function;
+
 private var hitFilter:ColorMatrixFilter;
 private var _muted:Boolean = true;
 private var direction:String;
@@ -37,6 +42,7 @@ private var rangeDisplay:Image;
 private var sizeDisplay:Image;
 private var __x:Number;
 private var __y:Number;
+private var fireDisplay:MovieClip;
 
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number, z:Number)
 {
@@ -108,6 +114,9 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		rangeDisplay.y = __y;
 		fieldView.unitsContainer.addChildAt(rangeDisplay, 0);
 	}
+	
+	if( fireDisplayFactory == null )
+		fireDisplayFactory = defaultFireDisplayFactory;
 }
 
 override public function setState(state:int) : Boolean
@@ -139,12 +148,18 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
+
+		var rad:Number = Math.atan2(x - enemy.x, y - enemy.y);
+		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad);
 		
-		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, x, y, 0, enemy.x, enemy.y, 0);
+		trace(card.type, fireOffset);
+		
+		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, x , y, 0, enemy.x, enemy.y, 0);
 		b.targetId = enemy.id;
 		battleField.bullets.set(enemy.bulletId, b);
 		enemy.bulletId ++;
 		attacks(enemy.id);
+		fireDisplayFactory(fireOffset.x, fireOffset.y, rad);
 		return;
 	}
 	super.fireEvent(dispatcherId, type, data);
@@ -332,6 +347,30 @@ public function showWinnerFocus():void
 	fieldView.unitsContainer.addChildAt(winnerDisplay, 0);
 	Starling.juggler.tween(winnerDisplay, 1, {scale:0, transition:Transitions.EASE_IN_BACK, onComplete:winnerDisplay.removeFromParent, onCompleteArgs:[true]});
 }
+
+protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number) : void 
+{
+	if( !GraphicMetrics.hasFireEffect(card.type) || card.bulletDamage < 0 )
+		return;
+
+	if( fireDisplay == null )
+	{
+		//trace("type", card.type, "  rotation", rotation, fireOffset);
+		fireDisplay = new MovieClip(appModel.assets.getTextures("fires/shootFire_"), 45);
+		fireDisplay.pivotX = fireDisplay.width *	0.5;
+		fireDisplay.pivotY = fireDisplay.height *	0.9;
+		fireDisplay.width = card.sizeH * 3.5;
+		fireDisplay.scaleY = fireDisplay.scaleX;
+	}
+	fireDisplay.x = this.x + x * 0.68;
+	fireDisplay.y = this.y + y * 0.68;
+	fireDisplay.rotation = -rotation;
+	fieldView.effectsContainer.addChild(fireDisplay);
+	fireDisplay.play();
+	Starling.juggler.add(fireDisplay);
+	fireDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(fireDisplay); fireDisplay.removeFromParent(); });
+}
+
 
 private function showBloodSplashAnimation():void 
 {
