@@ -104,8 +104,8 @@ override public function dispose():void
 		damageAreaDisplay.pivotY = damageAreaDisplay.height * 0.5;
 		damageAreaDisplay.width = card.bulletDamageArea * 2;
 		damageAreaDisplay.height = card.bulletDamageArea * 2 * BattleField.CAMERA_ANGLE;
-		damageAreaDisplay.x = this.x;
-		damageAreaDisplay.y = this.y;
+		damageAreaDisplay.x = getSideX();
+		damageAreaDisplay.y = getSideY();
 		fieldView.effectsContainer.addChild(damageAreaDisplay);
 		Starling.juggler.tween(damageAreaDisplay, 0.5, {scale:0, onComplete:damageAreaDisplay.removeFromParent, onCompleteArgs:[true]});
 	}
@@ -170,10 +170,10 @@ protected function defaultHitDisplayFactory() : void
 		var explosionDisplay:MovieClip = new MovieClip(appModel.assets.getTextures(textureURL), card.type == CardTypes.C152 ? 1 : 45);
 		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
 		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
-		explosionDisplay.width = card.bulletDamageArea * 1.8;
+		explosionDisplay.width = card.bulletDamageArea * 2.8;
 		explosionDisplay.scaleY = explosionDisplay.scaleX;
-		explosionDisplay.x = this.x;
-		explosionDisplay.y = this.y;
+		explosionDisplay.x = getSideX();
+		explosionDisplay.y = getSideY();
 		fieldView.effectsContainer.addChild(explosionDisplay);
 		explosionDisplay.play();
 		Starling.juggler.add(explosionDisplay);
@@ -184,8 +184,9 @@ protected function defaultHitDisplayFactory() : void
 	var hitDisplay:Image = new Image(appModel.assets.getTexture("hits/hit"));
 	hitDisplay.pivotX = hitDisplay.width * 0.5;
 	hitDisplay.pivotY = hitDisplay.height * 0.5;
-	hitDisplay.x = this.x;
-	hitDisplay.y = this.y - 25;
+	hitDisplay.x = getSideX();
+	hitDisplay.y = getSideY() - 35;
+	hitDisplay.scale = 1.5;
 	fieldView.effectsContainer.addChild(hitDisplay);
 	Starling.juggler.tween(hitDisplay, 0.2, {scale:0, onComplete:hitDisplay.removeFromParent, onCompleteArgs:[true]});
 }
