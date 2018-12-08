@@ -48,7 +48,7 @@ protected function sfs_responseUpdateHandler(event:SFSEvent):void
 override protected function list_changeHandler(event:Event):void
 {
 	super.list_changeHandler(event);
-	appModel.navigator.runBattle(FieldData.TYPE_OPERATION, 100000, false);
+	appModel.navigator.runBattle(cmd == "operations" ? FieldData.TYPE_OPERATION : FieldData.TYPE_HEADQUARTER, 100000, false);
 }
 
 protected function sfs_roomVariablesUpdateHandler(event:SFSEvent):void

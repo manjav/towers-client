@@ -285,7 +285,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));			return;
 		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
-		case "leftButton":		appModel.navigator.runBattle();											return;
+		case "leftButton":		appModel.navigator.runBattle(FieldData.TYPE_TOUCHDOWN);					return;
 		case "rightButton":		appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 	}
 	
