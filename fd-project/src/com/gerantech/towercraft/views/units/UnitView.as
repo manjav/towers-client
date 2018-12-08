@@ -149,16 +149,17 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		var enemy:Unit = data as Unit;
 
-		var rad:Number = Math.atan2(x - enemy.x, y - enemy.y);
-		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad);
-		trace(card.type, fireOffset);
+		var rad:Number = Math.atan2(__x - getSide_X(enemy.x), getSide_Y(y) - getSide_Y(enemy.y));
+		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad).scale(0.5);
+		fireDisplayFactory(__x + fireOffset.x, __y + fireOffset.y, rad);
+		//trace(card.type, fireOffset);
 		
-		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, x , y, 0, enemy.x, enemy.y, 0);
+		fireOffset = GraphicMetrics.getFirePoint(card.type, Math.atan2(x - enemy.x, y - enemy.y)).scale(0.5);
+		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, x + fireOffset.x, y, fireOffset.y / BattleField.CAMERA_ANGLE, enemy.x, enemy.y, 0);
 		b.targetId = enemy.id;
 		battleField.bullets.set(enemy.bulletId, b);
 		enemy.bulletId ++;
 		attacks(enemy.id);
-		fireDisplayFactory(fireOffset.x, fireOffset.y, rad);
 		return;
 	}
 	super.fireEvent(dispatcherId, type, data);
@@ -361,15 +362,14 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 		fireDisplay.width = card.sizeH * 3.5;
 		fireDisplay.scaleY = fireDisplay.scaleX;
 	}
-	fireDisplay.x = this.x + x * 0.68;
-	fireDisplay.y = this.y + y * 0.68;
+	fireDisplay.x = x;
+	fireDisplay.y = y;
 	fireDisplay.rotation = -rotation;
 	fieldView.effectsContainer.addChild(fireDisplay);
 	fireDisplay.play();
 	Starling.juggler.add(fireDisplay);
 	fireDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(fireDisplay); fireDisplay.removeFromParent(); });
 }
-
 
 private function showBloodSplashAnimation():void 
 {
