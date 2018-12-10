@@ -54,7 +54,7 @@ override protected function initialize():void
 private function list_changeHandler(event:Event):void
 {
 	var ei:ExchangeItem = exchanger.items.get(list.selectedItem as int);
-	if(!ei.enabled)
+	if(	!ei.enabled	)
 		return;
 	ei.enabled = false;
 	exchangeManager.process(ei);

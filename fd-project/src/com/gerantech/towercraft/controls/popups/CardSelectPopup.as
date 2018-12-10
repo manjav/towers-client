@@ -4,6 +4,8 @@ import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.PrefsTypes;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.core.Starling;
@@ -60,7 +62,7 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
 	addChild(detailsButton);
 	
-	//showTutorArrow();
+	showTutorArrow();
 	
 	if( data )
 		return;
@@ -76,9 +78,9 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(usingButton, 0.1, {delay:0.05, alpha:1});
 	
 }
-/*private function showTutorArrow () : void
+private function showTutorArrow () : void
 {
-	if( CardTypes != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.TUTE_114_SELECT_BUILDING )
+	if( cardType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.T_035_DECK_FOCUS )
 		return;
 	
 	if( tutorialArrow != null )
@@ -87,7 +89,7 @@ override protected function transitionInCompleted():void
 	tutorialArrow = new TutorialArrow(true);
 	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.6);
 	addChild(tutorialArrow);
-}*/
+}
 
 protected function usingButton_triggeredHandler(event:Event):void
 {

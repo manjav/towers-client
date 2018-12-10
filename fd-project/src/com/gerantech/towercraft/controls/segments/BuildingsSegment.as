@@ -75,7 +75,6 @@ override public function focus():void
 }	
 private function showTutorial():void
 {
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
 	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
 		return;
 	
@@ -87,8 +86,6 @@ private function showTutorial():void
 
 private function tutorials_finishHandler(event:Event):void 
 {
-	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
-		return;
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
 	DashboardScreen.TAB_INDEX = 2;
 	appModel.navigator.runBattle();

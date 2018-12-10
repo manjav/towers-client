@@ -112,7 +112,7 @@ protected function battleButton_triggeredHandler(event:Event):void
 protected function manager_triggerHandler(event:Event):void
 {
 	buttonsEnabled = true;
-	appModel.navigator.runBattle(FieldData.TYPE_TOUCHDOWN, 0, false, null, true);
+	appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER, 0, false, null, true);
 }
 
 override public function enabledChatting(value:Boolean):void

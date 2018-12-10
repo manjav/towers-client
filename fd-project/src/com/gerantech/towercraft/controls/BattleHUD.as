@@ -17,8 +17,10 @@ import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -70,9 +72,6 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	this.battleData = appModel.battleFieldView.battleData;
 	
-	if( player.inTutorial() )
-		return;
-
 	var gradient:ImageLoader = new ImageLoader();
 	gradient.scale9Grid = MainTheme.SHADOW_SIDE_SCALE9_GRID;
     gradient.color = Color.BLACK;
@@ -87,13 +86,13 @@ override protected function initialize():void
 	var leftPadding:int = (hasQuit ? 150 : 0);
 	if( hasQuit )
 	{
-		var closeButton:CustomButton = new CustomButton();
-		closeButton.style = "danger";
-		closeButton.label = "X";
-		closeButton.height = closeButton.width = 120;
-		closeButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
-		closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-		addChild(closeButton);			
+		var leaveButton:CustomButton = new CustomButton();
+		leaveButton.style = "danger";
+		leaveButton.label = "X";
+		leaveButton.height = leaveButton.width = 120;
+		leaveButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
+		leaveButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+		addChild(leaveButton);			
 	}
 	
 	var _name:String = battleData.battleField.field.isOperation() ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.field.index + 1) : battleData.axis.getUtfString("name");
@@ -134,9 +133,13 @@ override protected function initialize():void
 	
 	if( battleData.battleField.field.isOperation() )
 		return;
-		
+	
 	deck = new BattleFooter();
-	deck.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	deck.layoutData = new AnchorLayoutData(NaN, 0, -500, 0);
+	if( player.get_battleswins() < 3 )
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
+	else
+		Starling.juggler.tween(deck.layoutData, 0.4, {delay:3, bottom:0, transition:Transitions.EASE_OUT});
 	addChild(deck);
 
 	/*if( !SFSConnection.instance.mySelf.isSpectator )
@@ -181,6 +184,14 @@ override protected function initialize():void
 	scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
 	addChild(scoreBoard);
 	updateScores(1, 0, battleData.allis.getInt("score"), battleData.axis.getInt("score"), -1);
+}
+
+private function tutorials_tasksFinishHandler(event:Event):void 
+{
+	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
+	var tutorial:TutorialData = event.data as TutorialData;
+	if( tutorial.data == "start" )
+		Starling.juggler.tween(deck.layoutData, 0.4, {bottom:0, transition:Transitions.EASE_OUT});
 }
 
 protected function createCompleteHandler(event:Event):void

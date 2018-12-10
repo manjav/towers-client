@@ -55,7 +55,7 @@ private function createDeckItem(i:int):void
 	button.x = padding + 256 * (i % 4);
 	button.y = padding * 5 + 290 * BuildingCard.VERICAL_SCALE * Math.floor(i / 4);
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
-	addChild(button)
+	addChildAt(button, 0)
 	
 	cards.push(button);
 	cardsBounds.push(button.getIconBounds());

@@ -125,7 +125,7 @@ package com.gerantech.towercraft.controls
 			}
 		}
 		
-		public function runBattle(type:String = "touchdown", index:int = 0, cancelable:Boolean = true, spectatedUser:String = null, isFriendly:Boolean = false):void
+		public function runBattle(type:String = "headquarter", index:int = 0, cancelable:Boolean = true, spectatedUser:String = null, isFriendly:Boolean = false):void
 		{
 			var item:StackScreenNavigatorItem = getScreen(Main.BATTLE_SCREEN);
 			item.properties.battleType = type;

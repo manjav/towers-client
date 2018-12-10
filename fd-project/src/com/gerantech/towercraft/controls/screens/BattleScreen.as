@@ -224,9 +224,8 @@ private function showTutorials() : void
 	var tuteMessage:String = "";
 	for (var i:int=0 ; i < field.startNum.size() ; i++) 
 	{
-		tuteMessage = "tutor_" + field.name + "_start_";
+		tuteMessage = "tutor_" + field.type + "_" + player.get_battleswins() + "_start_";
 		tuteMessage += field.startNum.get(i);
-		trace("tuteMessage:", tuteMessage);
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, field.startNum.get(i)));
 	}
 	

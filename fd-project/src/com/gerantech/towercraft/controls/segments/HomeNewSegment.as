@@ -67,15 +67,16 @@ override public function init():void
 	var leaguesButton:HomeButton = new HomeButton(league, 0.7);
 	league.pivotX = league.pivotY = 0;
 	league.touchable = player.getTutorStep() > PrefsTypes.T_047_WIN;
-	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, stageHeight * 0.45, 0.4, league.touchable ? goUp : null);
-	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.47, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
-	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:stageHeight * 0.45, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
+	var leagueY:Number = stageHeight * (player.get_battleswins()<4?0.35:0.45)
+	addButton(leaguesButton, "leaguesButton", stageWidth * 0.5, leagueY, 0.4, league.touchable ? goUp : null);
+	function goUp()		: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:leagueY + 0.00, transition:Transitions.EASE_IN_OUT, onComplete:goDown}); }
+	function goDown()	: void { Starling.juggler.tween(leaguesButton, 2, {delay:0.5, y:leagueY + 0.02, transition:Transitions.EASE_IN_OUT, onComplete:goUp}); }
 
 	// battle and operations button
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
 	var rightBattleButton:HomeNewButton = new HomeNewButton("battle-right", loc("button_battle_right"), 430, 186, gridRect, shadowRect);
-	addButton(rightBattleButton, "rightButton", stageWidth * 0.49 + rightBattleButton.width * 0.5, stageHeight * 0.66, 0.6);
+	addButton(rightBattleButton, "rightButton", stageWidth * (player.get_battleswins()<4?0.29:0.49) + rightBattleButton.width * 0.5, stageHeight * (player.get_battleswins()<4?0.57:0.66), 0.6);
 	
 	if( player.challenges != null )
 	{
@@ -90,12 +91,6 @@ override public function init():void
 			countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
 			leftBattleButton.addChild(countdownDisplay);
 		}
-	}
-	
-	if( player.hasOperations )
-	{
-		var leftBattleButton:HomeNewButton = new HomeNewButton("battle-left", loc("button_battle_left"), 420, 186, gridRect, shadowRect);
-		addButton(leftBattleButton, "leftButton", stageWidth * 0.46 - leftBattleButton.width * 0.5, stageHeight * 0.66, 0.7);
 	}
 	
 	// bookline
@@ -115,18 +110,24 @@ override public function init():void
 		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height);
 		addChild(adminButton);
 	}
+	showTutorial();
+	
+	if( player.get_battleswins() < 4 )
+		return;
+
+	if( player.hasOperations )
+	{
+		var leftBattleButton:HomeNewButton = new HomeNewButton("battle-left", loc("button_battle_left"), 420, 186, gridRect, shadowRect);
+		addButton(leftBattleButton, "leftButton", stageWidth * 0.46 - leftBattleButton.width * 0.5, stageHeight * 0.66, 0.7);
+	}
 	
 	var profile:Profile  = new Profile();
 	profile.name = "profile";
 	profile.height = padding * 20;
 	profile.layoutData = new AnchorLayoutData(padding * 6, 0, NaN, 0);
 	addChild(profile);
-	
-	showTutorial();
-	
-	if( player.get_battleswins() < 4 )
-		return;
 
+	
 	questsButton = new HomeQuestsButton();
 	questsButton.name = "questsButton";
 	questsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -238,7 +239,7 @@ private function showTutorial():void
 
 	if( player.get_battleswins() == 3 )
 	{
-		SimpleLayoutButton(getChildByName("battlesButton")).showTutorArrow(false);
+		SimpleLayoutButton(getChildByName("rightButton")).showTutorArrow(false);
 		return;
 	}
 	
@@ -278,14 +279,13 @@ private function showTutorial():void
 private function mainButtons_triggeredHandler(event:Event):void
 {
 	var buttonName:String = DisplayObject(event.currentTarget).name;
-	
 	switch( buttonName )
 	{
 		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );					return;
 		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));			return;
 		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
 		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
-		case "leftButton":		appModel.navigator.runBattle();											return;
+		case "leftButton":		appModel.navigator.runBattle(FieldData.TYPE_TOUCHDOWN);					return;
 		case "rightButton":		appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 	}
 	
@@ -297,7 +297,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		//case "rightButton":		appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
+		//case "rightButton":	appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 		case "googleButton":	socialSignin();														 	return;
 	}

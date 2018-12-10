@@ -14,14 +14,14 @@ import starling.events.Event;
 public class UserPrefs
 {
 public function UserPrefs(){}
-public function init():void
+public function init() : void
 {
 	// tutorial first step
-    setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);   
+    setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);
 	authenticateSocial();
 	
 	// select language with market index
-	if ( !AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
+	if( !AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
 	{
 		var loc:String = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
 		if( changeLocale(loc, true) )
