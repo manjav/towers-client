@@ -44,7 +44,7 @@ override protected function initialize():void
 	
 	var name:String = mapIndex >-1?(loc("operation_label") + " " +(mapIndex + 1)): battleData.axis.getText("name");
 	// axis elements
-	if( player.inTutorial() && player.tutorialMode == 1 )
+	if( player.get_battleswins() < 4 && player.tutorialMode == 1 )
 		name = loc("trainer_label");
 	axisHeader = new BattleHeader(name, false);
 	axisHeader.layoutData = new AnchorLayoutData(300, 0, NaN, 0);

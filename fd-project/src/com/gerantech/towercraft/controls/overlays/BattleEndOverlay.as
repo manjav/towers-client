@@ -76,7 +76,7 @@ override protected function initialize():void
 	else
 	{
 		// opponent elements
-		var opponentHeader:BattleHeader = new BattleHeader(battleData.opponent.getVariable("name").getStringValue(), false);
+		var opponentHeader:BattleHeader = new BattleHeader(player.get_battleswins() < 4 ? loc("trainer_label") : battleData.opponent.getVariable("name").getStringValue(), false);
 		opponentHeader.width = padding * 16;
 		opponentHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 12);
 		addChild(opponentHeader);
