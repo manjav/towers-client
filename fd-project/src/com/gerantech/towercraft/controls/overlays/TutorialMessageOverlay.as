@@ -6,6 +6,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.VerticalAlign;
+import flash.filesystem.File;
 import flash.geom.Rectangle;
 import starling.events.Event;
 import starling.events.TouchEvent;
@@ -13,15 +14,30 @@ import starling.events.TouchEvent;
 public class TutorialMessageOverlay extends TutorialOverlay
 {
 private var side:int;
+private var mentorImageLoaded:Boolean;
 public function TutorialMessageOverlay(task:TutorialTask):void
 {
 	super(task);
 	side = int(task.data) % 2;
+	appModel.assets.enqueue( File.applicationDirectory.resolvePath("assets/images/gui") );
+	appModel.assets.loadQueue(assetManagerLoaded);
+}
+
+private function assetManagerLoaded(ratio:Number):void 
+{
+	if( ratio < 1 )
+		return;
+	mentorImageLoaded = true;
+	if( transitionState < TransitionData.STATE_IN_COMPLETED )
+		return;
 }
 
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
+	if( !mentorImageLoaded )
+		return;
+	
 	appModel.sounds.addAndPlaySound("whoosh");
 	overlay.touchable = true;
 	

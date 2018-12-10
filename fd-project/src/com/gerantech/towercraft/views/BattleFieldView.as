@@ -45,7 +45,7 @@ public var effectsContainer:Sprite;
 public function BattleFieldView()
 {
 	super();
-	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/atlases" ) );
+	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/battle" ) );
 	AppModel.instance.assets.loadQueue(assetManagerLoaded);
 	units = new IntUnitMap();
 	touchable = false;
