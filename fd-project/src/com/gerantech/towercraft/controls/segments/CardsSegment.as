@@ -465,8 +465,8 @@ private function upgradeOverlay_closeHandler(event:Event):void
 
 private function tutorials_finishHandler(event:Event):void 
 {
-	var tutorialData:TutorialData = event.currentTarget as TutorialData;
-	if( tutorialData.name != "deck_end" )
+	var tutorial:TutorialData = event.data as TutorialData;
+	if( tutorial.name != "deck_end" )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
