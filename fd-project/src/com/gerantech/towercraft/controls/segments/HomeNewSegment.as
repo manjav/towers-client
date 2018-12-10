@@ -237,11 +237,11 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	if( player.get_battleswins() == 3 )
+	/*if( player.get_battleswins() == 3 )
 	{
 		SimpleLayoutButton(getChildByName("rightButton")).showTutorArrow(false);
 		return;
-	}
+	}*/
 	
 	if( player.get_battleswins() > 3 && player.nickName == "guest" )
 	{
