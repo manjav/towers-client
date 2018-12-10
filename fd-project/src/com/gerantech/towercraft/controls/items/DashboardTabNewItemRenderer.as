@@ -20,7 +20,7 @@ override protected function titleFactory() : ShadowLabel
 		return null;
 	}
 
-	titleDisplay = new ShadowLabel(loc("tab-" + dashboardData.index), 0xf6cb95, 0, null, null, false, null, 0.8, null, "bold");
+	titleDisplay = new ShadowLabel(loc("tab-" + dashboardData.index), 0xC6DDDB, 0, null, null, false, null, 0.8, null, "bold");
 	titleDisplay.visible = false;
 	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding * 1.3);
 	addChild(titleDisplay);
