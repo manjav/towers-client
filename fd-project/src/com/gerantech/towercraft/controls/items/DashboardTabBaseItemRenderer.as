@@ -166,6 +166,7 @@ private function tutorialManager_finishHandler(event:Event):void
 {
 	if( !player.inDeckTutorial() || event.data.name != "shop_end" || stage == null )
 		return;
+	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showTutorArrow();
 }
