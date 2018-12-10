@@ -157,14 +157,14 @@ protected function updateSelection(value:Boolean, time:Number = -1):void
 
 private function tutorialManager_upgradeHandler(event:Event):void
 {
-	if( index != 1 || stage == null )
+	if( index != 2 || stage == null )
 		return;
 	tutorials.removeEventListener("upgrade", tutorialManager_upgradeHandler);
 	showTutorArrow();
 }
 private function tutorialManager_finishHandler(event:Event):void
 {
-	if( !player.inDeckTutorial() || event.data.name != "shop_end" || stage == null )
+	if( !player.inDeckTutorial() || event.data.name != "open_book_end" || stage == null )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
 	showTutorArrow();

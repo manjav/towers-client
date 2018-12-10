@@ -122,7 +122,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	}
 	
 	// tutorial mode
-	if( player.inTutorial() )
+	if( player.get_battleswins() == 0 )
 	{
 		if( player.tutorialMode == 0 )
 			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);

@@ -49,14 +49,14 @@ public static function get instance() : ExchangeManager
 public function ExchangeManager() {	super(); }
 public function process(item : ExchangeItem) : void 
 {
-	if( player.inTutorial() )
+	if( player.get_battleswins() < 1 )
 	{
 		dispatchCustomEvent(FeathersEventType.ERROR, item);
 		return;// disalble all items in tutorial
 	}
 
 	var params:SFSObject = new SFSObject();
-	params.putInt("type", item.type );
+	params.putInt("type", item.type);
 	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES )
 	{
 		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
@@ -244,7 +244,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		
-		player.addResources( outcomes );
+		player.addResources(outcomes );
 		earnOverlay.outcomes = outcomes;
 		earnOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 		function openChestOverlay_closeHandler(event:Event):void {
@@ -262,10 +262,9 @@ private function gotoDeckTutorial():void
 {
 	if( !player.inSlotTutorial() )
 		return;
-
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_035_DECK_FOCUS);
-	var tutorialData:TutorialData = new TutorialData("shop_end");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_shop_6", null, 500, 1500, 4));
+	var tutorialData:TutorialData = new TutorialData("open_book_end");
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_cards_2", null, 500, 1500, 4));
 	tutorials.show(tutorialData);
 }
 

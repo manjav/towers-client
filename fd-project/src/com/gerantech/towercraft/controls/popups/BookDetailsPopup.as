@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
@@ -43,7 +42,7 @@ public function BookDetailsPopup(item:ExchangeItem, showButton:Boolean = true)
 override protected function initialize():void
 {
 	super.initialize();
-	closeOnOverlay = closeWithKeyboard = player.getTutorStep() >= PrefsTypes.T_047_WIN;
+	//closeOnOverlay = closeWithKeyboard = player.getTutorStep() >= PrefsTypes.T_047_WIN;
 	
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * (showButton ? 0.30 : 0.35), stage.stageWidth * 0.9, stage.stageHeight * (showButton ? 0.4 : 0.25));
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * (showButton ? 0.25 : 0.30), stage.stageWidth * 0.9, stage.stageHeight * (showButton ? 0.5 : 0.35));
@@ -131,7 +130,7 @@ override protected function initialize():void
 	}
 	addChild(buttonDisplay);
 	
-	if( player.inSlotTutorial() )
+	if( player.get_battleswins() < 4 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_032_SLOT_OPENED);
 		buttonDisplay.showTutorArrow(false);
