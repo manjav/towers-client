@@ -441,10 +441,10 @@ public function showBattleHint(appear:Boolean) : void
 			enemyHint.scale = 0;
 			enemyHint.alpha = 0;
 			fieldView.guiTextsContainer.addChild(enemyHint);
-			Starling.juggler.tween(enemyHint, 0.6, {alpha:1, scale:1, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(enemyHint, 0.6, {delay:1, alpha:1, scale:1, transition:Transitions.EASE_OUT_BACK});
 		}
 		if( player.get_battleswins() < 2 )
-			fieldView.guiTextsContainer.addChild(new BaseTooltip(StrUtils.loc("tutor_headquarter_" + player.get_battleswins() + "_enemy_balloon"), new Rectangle(__x,__y,1,1)));
+			setTimeout(fieldView.guiTextsContainer.addChild, 2000, new BaseTooltip(StrUtils.loc("tutor_headquarter_" + player.get_battleswins() + "_enemy_balloon"), new Rectangle(__x,__y,1,1)));
 	}
 	else
 	{
