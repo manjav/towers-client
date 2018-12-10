@@ -23,6 +23,8 @@ package com.gerantech.towercraft.controls.tooltips
 		private var position:Point;
 		private var fontScale:Number;
 		private var hSize:Number;
+		public var halign:String;
+		public var valign:String;
 
 		public function BaseTooltip(message:String, position:Rectangle, fontScale:Number=0.8, hSize:Number=0.5)
 		{
@@ -41,10 +43,12 @@ package com.gerantech.towercraft.controls.tooltips
 			width = maxWidth = stage.stageWidth * hSize;
 			padding = 24;
 			
-			var halign:String = position.x < stage.stageWidth * 0.5 ? "left" : "right";
-			var valign:String = position.y < stage.stageHeight * 0.5 ? "top" : "bot";
-			var skin:Image = new Image(Assets.getTexture("tooltip-bg-"+valign+"-"+halign, "gui"));
-			skin.scale9Grid = new Rectangle(halign=="left"?38:14, valign=="top"?36:14, 2, 2);
+			if( halign == null )
+				halign = position.x < stage.stageWidth * 0.5 ? "left" : "right";
+			if( valign == null )
+				valign = position.y < stage.stageHeight * 0.5 ? "top" : "bot";
+			var skin:Image = new Image(Assets.getTexture("tooltip-bg-" + valign + "-" + halign, "gui"));
+			skin.scale9Grid = new Rectangle(halign == "left"?38:14, valign == "top"?36:14, 2, 2);
 			backgroundSkin = skin;
 			layout = new AnchorLayout();
 			
