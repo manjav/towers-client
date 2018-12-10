@@ -11,7 +11,6 @@ import com.gerantech.towercraft.controls.sliders.battle.BattleScoreBoard;
 import com.gerantech.towercraft.controls.sliders.battle.BattleTimerSlider;
 import com.gerantech.towercraft.controls.sliders.battle.IBattleBoard;
 import com.gerantech.towercraft.controls.sliders.battle.IBattleSlider;
-import com.gerantech.towercraft.controls.sliders.battle.TerritorySlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
@@ -25,7 +24,6 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.units.UnitView;
-import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.StickerType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -133,14 +131,6 @@ override protected function initialize():void
 	
 	if( battleData.battleField.field.isOperation() )
 		return;
-	
-	deck = new BattleFooter();
-	deck.layoutData = new AnchorLayoutData(NaN, 0, -500, 0);
-	if( player.get_battleswins() < 3 )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-	else
-		Starling.juggler.tween(deck.layoutData, 0.4, {delay:3, bottom:0, transition:Transitions.EASE_OUT});
-	addChild(deck);
 
 	/*if( !SFSConnection.instance.mySelf.isSpectator )
 	{
@@ -155,9 +145,7 @@ override protected function initialize():void
 	
 	if( !SFSConnection.instance.mySelf.isSpectator )
 	{
-        deck.addEventListener(FeathersEventType.BEGIN_INTERACTION, stickerButton_triggeredHandler);
-		
-		if ( player.get_arena(player.get_point()) > 4 )
+		if( player.get_arena(player.get_point()) > 4 )
 		{
 			surrenderButton = new CustomButton();
 			surrenderButton.style = CustomButton.STYLE_DANGER;
@@ -186,12 +174,13 @@ override protected function initialize():void
 	updateScores(1, 0, battleData.allis.getInt("score"), battleData.axis.getInt("score"), -1);
 }
 
-private function tutorials_tasksFinishHandler(event:Event):void 
+public function showDeck() : void
 {
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-	var tutorial:TutorialData = event.data as TutorialData;
-	if( tutorial.data == "start" )
-		Starling.juggler.tween(deck.layoutData, 0.4, {bottom:0, transition:Transitions.EASE_OUT});
+	deck = new BattleFooter();
+	deck.layoutData = new AnchorLayoutData(NaN, 0, -500, 0);
+	deck.addEventListener(FeathersEventType.BEGIN_INTERACTION, stickerButton_triggeredHandler);
+	Starling.juggler.tween(deck.layoutData, 0.4, {delay:0.5, bottom:0, transition:Transitions.EASE_OUT});
+	addChild(deck);
 }
 
 protected function createCompleteHandler(event:Event):void

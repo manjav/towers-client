@@ -200,7 +200,6 @@ private function tutorials_tasksStartHandler(e:Event) : void
 
 private function showTutorials() : void 
 {
-	touchEnable = true;
 	tutorBattleIndex = Math.min(3, player.get_battleswins()) * 20;
 	if( SFSConnection.instance.mySelf.isSpectator )
 		return;
@@ -208,7 +207,7 @@ private function showTutorials() : void
 	//appModel.battleFieldView.createDrops();
 	if( player.get_battleswins() > 2 )
 	{
-		touchEnable = true;
+		readyBattle();
 		return;
 	}
 	
@@ -229,24 +228,16 @@ private function showTutorials() : void
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, field.startNum.get(i)));
 	}
 	
-	if( !player.hardMode )
-	{
-		/*var places:PlaceDataList = field.getSwipeTutorPlaces();
-		if( places.size() > 0 )
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, null, places, 0, 1500));
-		
-		var place:PlaceData = field.getImprovableTutorPlace()
-		if( place != null )
-		{
-			places = new PlaceDataList();
-			places.push(place);
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 0));
-		}*/
-	}
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	tutorials.show(tutorialData);
 	
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 1);
+}
+
+private function readyBattle() : void 
+{
+	touchEnable = true;
+	hud.showDeck();
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- End Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -262,7 +253,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	{
 		var tutorialData:TutorialData = new TutorialData("tutor_battle_celebration");
 		tutorialData.data = data;
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_battle_" + player.get_battleswins() + "_celebration"));
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_" + field.type + "_" + player.get_battleswins() + "_celebration"));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 		tutorials.show(tutorialData);
 		return;
@@ -452,14 +443,13 @@ private function endOverlay_closeHandler(event:Event):void
 	dispatchEventWith(Event.COMPLETE);
 }
 
-
 private function tutorials_tasksFinishHandler(event:Event):void
 {
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	var tutorial:TutorialData = event.data as TutorialData;
 	if( tutorial.data == "start" )
 	{
-		touchEnable = true;
+		readyBattle();
 		return;
 	}
 	
