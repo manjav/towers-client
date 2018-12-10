@@ -2,14 +2,23 @@ package com.gerantech.towercraft.views.units
 {
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
+import com.gerantech.towercraft.events.GameEvent;
+import com.gerantech.towercraft.managers.TutorialManager;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.calculators.GraphicMetrics;
+import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.TroopType;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
 import com.gt.towers.utils.Point3;
+import flash.geom.Rectangle;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
@@ -42,6 +51,9 @@ private var __x:Number;
 private var __y:Number;
 private var fireDisplay:MovieClip;
 
+private var aimDisplay:Image;
+private var enemyHint:ShadowLabel;
+
 public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number, z:Number)
 {
 	super(id, type, level, side, x, y, z);
@@ -51,7 +63,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
 	shadowDisplay.width = card.sizeH * 2;
-	shadowDisplay.height = card.sizeH * 1.42;
+	shadowDisplay.height = card.sizeH * 2 * BattleField.CAMERA_ANGLE;
 	shadowDisplay.x = __x;
 	shadowDisplay.y = __y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
@@ -115,6 +127,19 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	
 	if( fireDisplayFactory == null )
 		fireDisplayFactory = defaultFireDisplayFactory;
+		
+	if( side == 1 && player.get_battleswins() < 3 && CardTypes.isBuilding(card.type) )
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
+}
+
+protected function tutorials_tasksFinishHandler(event:Event):void 
+{
+	var tutorial:TutorialData = event.data as TutorialData;
+	if( tutorial.data == "start" )
+	{
+		showBattleHint(true);
+		setTimeout(showBattleHint, 10000, false);
+	}
 }
 
 override public function setState(state:int) : Boolean
@@ -386,6 +411,54 @@ private function showBloodSplashAnimation():void
 	bloodSplashDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(bloodSplashDisplay); bloodSplashDisplay.removeFromParent(true); });
 }
 
+// aim for tutorial
+public function showBattleHint(appear:Boolean) : void
+{
+	if( appear )
+	{
+		if( player.get_battleswins() == 0 )
+		{
+			aimDisplay = new Image(appModel.assets.getTexture("aim"));
+			aimDisplay.touchable = false;
+			aimDisplay.alignPivot();
+			aimDisplay.scale = 1.6;
+			aimDisplay.alpha = 0;
+			aimDisplay.color = TroopType.getColor(1);
+			aimDisplay.x = __x;
+			aimDisplay.y = __y;
+			fieldView.guiImagesContainer.addChild(aimDisplay);
+			
+			scaleIn();
+			function scaleIn () : void {Starling.juggler.tween(aimDisplay, 1, {alpha:0.9, scale:1.2, transition:Transitions.EASE_IN_OUT, onComplete:scaleOut})}
+			function scaleOut() : void {Starling.juggler.tween(aimDisplay, 1, {alpha:0.2, scale:1.6, transition:Transitions.EASE_IN_OUT, onComplete:scaleIn })}
+			
+			enemyHint = new ShadowLabel(StrUtils.loc("tutor_headquarter_0_enemy_hint"), 1, 0, "center", null, true, "center", 1.4);
+			enemyHint.width = Starling.current.stage.width * 0.8;
+			enemyHint.pivotX = enemyHint.width * 0.5;
+			enemyHint.pivotY = enemyHint.height * 0.5;
+			enemyHint.x = Starling.current.stage.width * 0.50;
+			enemyHint.y = Starling.current.stage.height * 0.15;
+			enemyHint.scale = 0;
+			enemyHint.alpha = 0;
+			fieldView.guiTextsContainer.addChild(enemyHint);
+			Starling.juggler.tween(enemyHint, 0.6, {alpha:1, scale:1, transition:Transitions.EASE_OUT_BACK});
+		}
+		if( player.get_battleswins() < 2 )
+			fieldView.guiTextsContainer.addChild(new BaseTooltip(StrUtils.loc("tutor_headquarter_" + player.get_battleswins() + "_enemy_balloon"), new Rectangle(__x,__y,1,1)));
+	}
+	else
+	{
+		if( aimDisplay != null )
+		{
+			enemyHint.removeFromParent();
+			
+			Starling.juggler.removeTweens(aimDisplay);
+			Starling.juggler.tween(aimDisplay, 0.6, {alpha:0.0, scaleX:1.0, scaleY:1.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{ aimDisplay.removeFromParent(true); aimDisplay = null; }});
+		}
+	}
+}
+
+
 override public function dispose() : void
 {
 	super.dispose();
@@ -403,6 +476,7 @@ override public function dispose() : void
 	if( healthDisplay != null )
 		healthDisplay.dispose();
 	showBloodSplashAnimation();
+	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 }
 
 
