@@ -1,9 +1,9 @@
 package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.tooltips.ConfirmTooltip;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import feathers.controls.ImageLoader;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.VerticalAlign;
 import flash.filesystem.File;
@@ -42,19 +42,29 @@ override protected function transitionInCompleted():void
 	overlay.touchable = true;
 	
 	var charachter:ImageLoader = new ImageLoader();
-	charachter.source =  Assets.getTexture("chars/char-" + side, "gui");
+	charachter.addEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
+	charachter.source =  appModel.assets.getTexture("mentor-" + side);
 	charachter.verticalAlign = VerticalAlign.BOTTOM;
 	charachter.layoutData = new AnchorLayoutData(NaN, side == 0?NaN:0, 0, side == 0?0:NaN);
-	charachter.height = stage.stageHeight * (side == 0?0.45:0.5);
+	charachter.width = stage.stageWidth * (side == 0?0.8:0.5);
+	//charachter.height = stage.stageHeight * (side == 0?0.45:0.5);
 	charachter.touchable = false;
 	addChild(charachter);
-	
-	var position:Rectangle = new Rectangle(width * (side == 0?0.20:0.8), height * (side == 0?0.5:0.5), 1, 1);
+}
+
+private function character_completeHandler(e:Event):void 
+{
+	var charachter:ImageLoader = e.currentTarget as ImageLoader;
+	charachter.removeEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
+
+	var position:Rectangle = new Rectangle(stage.stageWidth * (side == 0?0.20:0.8), height - charachter.height - 100, 1, 1);
 	var tootlip:ConfirmTooltip = new ConfirmTooltip( loc(task.message), position, 1, 0.75, task.type == TutorialTask.TYPE_CONFIRM);
+	tootlip.valign = "bot";
 	tootlip.addEventListener(Event.SELECT, tootlip_eventsHandler); 
 	tootlip.addEventListener(Event.CANCEL, tootlip_eventsHandler); 
 	addChild(tootlip);
 }
+
 private function tootlip_eventsHandler(event:Event):void
 {
 	dispatchEventWith(event.type);
