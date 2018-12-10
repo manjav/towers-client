@@ -93,7 +93,8 @@ override protected function initialize():void
 		addChild(leaveButton);			
 	}
 	
-	var _name:String = battleData.battleField.field.isOperation() ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.field.index + 1) : battleData.axis.getUtfString("name");
+	//var _name:String = battleData.battleField.field.isOperation() ? loc("operation_label") + " " + StrUtils.getNumber(battleData.battleField.field.index + 1) : battleData.axis.getUtfString("name");
+	var _name:String = player.get_battleswins() < 4 ? loc("trainer_label") : battleData.axis.getUtfString("name");
 	var _point:int = player.admin ? battleData.axis.getInt("point") : 0;
 	var opponentHeader:AttendeeHeader = new AttendeeHeader(_name, _point);
 	opponentHeader.layoutData = new AnchorLayoutData(0, NaN, NaN, leftPadding );
