@@ -81,7 +81,7 @@ override protected function commitData():void
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_033_BOOK_OPENED);
 		showTutorArrow();
 	}
-	else if( state == ExchangeItem.CHEST_STATE_WAIT && exchange.outcome == ExchangeType.BOOK_51_METAL )
+	else if( state == ExchangeItem.CHEST_STATE_WAIT && player.getResource(ResourceType.R21_BOOK_OPENED_BATTLE) == 0 )
 	{
 		var tutorialData:TutorialData = new TutorialData("open_slot");
 		tutorialData.data = "free";
