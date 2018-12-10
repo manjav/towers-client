@@ -46,6 +46,7 @@ override protected function initialize() : void
 	
 	var skin:Image = new Image(Assets.getTexture("home/profile-sliced"));
 	skin.scale9Grid = new Rectangle(140, 50, 54, 280);
+	skin.alpha = 0.6;
 	backgroundSkin = skin;
 	var hitObject:SimpleLayoutButton = new SimpleLayoutButton();
 	hitObject.layoutData = new AnchorLayoutData(0, 0, 0, 0);
@@ -54,7 +55,7 @@ override protected function initialize() : void
 	
 	var topLine:LayoutGroup = new LayoutGroup();
 	topLine.height = height * 0.32;
-	topLine.layoutData = new AnchorLayoutData(padding, padding * 3, NaN, padding * 3);
+	topLine.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
 	topLine.layout = new HorizontalLayout();
 	HorizontalLayout(topLine.layout).gap = padding * 0.5;
 	HorizontalLayout(topLine.layout).verticalAlign = VerticalAlign.JUSTIFY;
@@ -95,7 +96,7 @@ override protected function initialize() : void
 	settingsButton.name = "settingsButton";
 	settingsButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
 	settingsButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
-	Image(settingsButton.backgroundSkin).scale9Grid = scale9
+	Image(settingsButton.backgroundSkin).scale9Grid = scale9;
 	settingsButton.height = settingsButton.width = topLine.height;
 	topLine.addChild(settingsButton);
 	
@@ -103,7 +104,7 @@ override protected function initialize() : void
 	var botLine:LayoutGroup = new LayoutGroup();
 	botLine.height = height * 0.25;
 	botLine.layout = new HorizontalLayout();
-	botLine.layoutData = new AnchorLayoutData(NaN, padding * 3.2, padding * 2.2, padding * 3.0);
+	botLine.layoutData = new AnchorLayoutData(NaN, padding * 1.2, padding * 2.2, padding);
 	//HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
 	HorizontalLayout(botLine.layout).gap = padding;
 	HorizontalLayout(botLine.layout).firstGap = padding * 0.5;
