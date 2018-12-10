@@ -130,13 +130,16 @@ override protected function initialize():void
 	addChild(timerSlider);
 	
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
-	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	
 	if( battleData.battleField.field.isOperation() )
 		return;
 	
 	deck = new BattleFooter();
 	deck.layoutData = new AnchorLayoutData(NaN, 0, -500, 0);
+	if( player.get_battleswins() < 3 )
+		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
+	else
+		Starling.juggler.tween(deck.layoutData, 0.4, {delay:3, bottom:0, transition:Transitions.EASE_OUT});
 	addChild(deck);
 
 	/*if( !SFSConnection.instance.mySelf.isSpectator )
