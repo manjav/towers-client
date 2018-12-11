@@ -5,7 +5,6 @@ import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.GameEvent;
-import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.weapons.BulletView;
@@ -83,11 +82,11 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 
 	if( movable )
 	{
-		bodyDisplay.alpha = 0;
+		bodyDisplay.alpha = 0.5;
 		bodyDisplay.y = __y - 100;
 		bodyDisplay.scaleY = troopScale * 4;
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:1, y:__y, transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale, transition:Transitions.EASE_OUT_BACK});		
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		y:__y,				transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale,	transition:Transitions.EASE_OUT_BACK});		
 	}
 	
 	if( card.summonTime > 0 )
@@ -144,6 +143,7 @@ protected function tutorials_tasksFinishHandler(event:Event):void
 
 override public function setState(state:int) : Boolean
 {
+	trace(state)
 	if( !super.setState(state) )
 		return false;
 	
@@ -158,9 +158,14 @@ override public function setState(state:int) : Boolean
 		bodyDisplay.currentFrame = 0;
 		bodyDisplay.pause();
 	}
-	else if ( state == GameObject.STATE_2_MOVING )
+	else if( state == GameObject.STATE_2_MOVING )
 	{
 		bodyDisplay.play();
+	}
+	else if( state == GameObject.STATE_6_MORTAL )
+	{
+		Starling.juggler.removeTweens(bodyDisplay);
+		bodyDisplay.alpha = 1;
 	}
 
 	return true;
@@ -171,7 +176,6 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	if( type == BattleEvent.ATTACK )
 	{
 		var enemy:Unit = data as Unit;
-
 		var rad:Number = Math.atan2(__x - getSide_X(enemy.x), getSide_Y(y) - getSide_Y(enemy.y));
 		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad).scale(0.5);
 		fireDisplayFactory(__x + fireOffset.x, __y + fireOffset.y, rad);
@@ -344,6 +348,9 @@ public function set muted(value:Boolean):void
 
 protected function defaultSummonEffectFactory() : void
 {
+	Starling.juggler.tween(bodyDisplay, 0.2, {alpha:0, repeatCount:9});
+
+	
 	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explosion-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
