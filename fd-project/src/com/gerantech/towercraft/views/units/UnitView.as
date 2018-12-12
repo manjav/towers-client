@@ -82,10 +82,10 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 
 	if( movable )
 	{
-		bodyDisplay.alpha = 0.5;
+		bodyDisplay.alpha = 0;
 		bodyDisplay.y = __y - 100;
 		bodyDisplay.scaleY = troopScale * 4;
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		y:__y,				transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:0.5, y:__y,	transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
 		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale,	transition:Transitions.EASE_OUT_BACK});		
 	}
 	
