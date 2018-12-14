@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.battle.units.ScriptEngine;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
@@ -123,9 +124,9 @@ public function setData(type:int, level:int = 1, count:int = 1):void
 	this.availablity = game.getBuildingAvailablity(type);
 	if( ResourceType.isCard(type) )
 		this.level = this.availablity == CardTypes.AVAILABLITY_EXISTS && level == 1 ? player.cards.get(type).level : level;
-	this.rarity = game.calculator.getInt(CardFeatureType.F00_RARITY, type, 1);
+	this.rarity = ScriptEngine.getInt(CardFeatureType.F00_RARITY, type, 1);
 	this.count = count;// != 1 ? building.troopsCount : count;
-	this.elixirSize = game.calculator.getInt(CardFeatureType.F02_ELIXIR_SIZE, type, 1);
+	this.elixirSize = ScriptEngine.getInt(CardFeatureType.F02_ELIXIR_SIZE, type, 1);
 	callFactories();
 }
 

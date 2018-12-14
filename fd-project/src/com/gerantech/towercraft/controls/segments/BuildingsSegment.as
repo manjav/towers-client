@@ -13,6 +13,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.battle.units.ScriptEngine;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
@@ -121,7 +122,7 @@ private function list_focusInHandler(event:Event):void
 
 private function openCard(cardType:int):void 
 {
-	var unlockedAt:int = game.calculator.getInt(CardFeatureType.F01_AVAILABLE_AT, cardType, 1);
+	var unlockedAt:int = ScriptEngine.getInt(CardFeatureType.F01_AVAILABLE_AT, cardType, 1);
 	if( !player.cards.exists( cardType ) && unlockedAt > player.get_arena(0) )
 	{
 		appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_" + (unlockedAt + 1))]));

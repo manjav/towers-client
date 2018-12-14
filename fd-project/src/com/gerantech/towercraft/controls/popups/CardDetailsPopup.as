@@ -9,6 +9,7 @@ import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.battle.units.ScriptEngine;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
@@ -69,7 +70,7 @@ override protected function transitionInCompleted():void
 	addChild(titleDisplay);
 	
 	var rarityColors:Array = [0xFFFFFF, 0xffcc00, 0x00eeff];
-	var rarity:int = game.calculator.getInt(CardFeatureType.F00_RARITY, cardType, 1);
+	var rarity:int = ScriptEngine.getInt(CardFeatureType.F00_RARITY, cardType, 1);
 	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_" +rarity), rarityColors[rarity]);
 	rarityPalette.width = (transitionIn.destinationBound.width - padding * 13) * 0.48;
 	rarityPalette.layoutData = new AnchorLayoutData(padding * 3.7, appModel.isLTR?NaN:padding * 12, NaN, appModel.isLTR?padding * 12:NaN);

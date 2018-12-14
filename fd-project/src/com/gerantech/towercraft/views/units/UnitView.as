@@ -11,7 +11,7 @@ import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Unit;
-import com.gt.towers.calculators.GraphicMetrics;
+import com.gt.towers.utils.GraphicMetrics;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.TroopType;
 import com.gt.towers.events.BattleEvent;
