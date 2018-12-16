@@ -143,7 +143,7 @@ private function createElements():void
 	cardsDisplay.layout = cardsLayout;
 	cardsDisplay.height = cardsLayout.typicalItemHeight * 2 + cardsLayout.gap;
 	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
-	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, 0, NaN, 0);trace(player.availabledCards(faction.index, true)._list)
+	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, 0, NaN, 0);
 	cardsDisplay.dataProvider = new ListCollection(player.availabledCards(faction.index, true)._list);
 	addChild(cardsDisplay);
 	

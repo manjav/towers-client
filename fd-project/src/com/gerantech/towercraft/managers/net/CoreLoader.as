@@ -25,7 +25,6 @@ import flash.events.Event;
 import flash.events.EventDispatcher;
 import flash.utils.setTimeout;
 
-
 [Event(name="complete", type="flash.events.Event")]
 [Event(name="error", type="flash.events.ErrorEvent")]
 public class CoreLoader extends EventDispatcher
@@ -49,10 +48,6 @@ public function CoreLoader(sfsObj:SFSObject)
 	AppModel.instance.game.player.hasOperations = !serverData.containsKey("hasOperations") || serverData.getBool("hasOperations");
 	AppModel.instance.game.player.tutorialMode = serverData.getInt("tutorialMode");
 	AppModel.instance.game.player.invitationCode = serverData.getText("invitationCode");
-	//if( SFSConnection.instance.currentIp != "185.216.125.7" )
-	//	AppModel.instance.game.player.admin = true;
-	
-	//trace(serverData.getSFSArray("resources").getDump())
 
 	loadExchanges(serverData);
 	loadChallenges(serverData);

@@ -102,7 +102,7 @@ private function passQuest(questItem:QuestItemRenderer):void
 	var response:int = exchanger.exchange(Quest.getExchangeItem(questItem.quest.type, questItem.quest.nextStep), 0, 0);
 	if( response != MessageTypes.RESPONSE_SUCCEED )
 	{
-		trace(response);
+		trace("quests response:", response);
 		return;
 	}
 	

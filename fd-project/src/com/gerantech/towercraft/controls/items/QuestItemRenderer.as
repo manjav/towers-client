@@ -97,7 +97,7 @@ override protected function commitData():void
 	
 	this.height = HEIGHT;
 	alpha = 1;
-	quest = _data as Quest; trace(index, quest.id);
+	quest = _data as Quest;
 	
 	var iconStr:String = QuestItemRenderer.getIcon(quest.type);
 	iconDisplay.source = Assets.getTexture(iconStr, "gui");

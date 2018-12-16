@@ -46,7 +46,7 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	var chats:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("result"));
 	for (var i:int = 0; i < chats.size(); i++)
 		result.addItem(chats.getSFSObject(i));
-	trace(event.params.params.getDump())
+//	trace(event.params.params.getDump())
 }
 
 protected function list_focusHandler(event:Event) : void

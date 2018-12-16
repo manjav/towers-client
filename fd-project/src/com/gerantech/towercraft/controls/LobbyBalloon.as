@@ -44,7 +44,6 @@ package com.gerantech.towercraft.controls
 		{
 			if( value == _unreads )
 				return;
-			trace(value)
 			visible = value > 0;
 			_unreads = value;
 			if( value == 0)

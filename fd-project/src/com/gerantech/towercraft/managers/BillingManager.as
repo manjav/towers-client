@@ -166,7 +166,6 @@ private function verify(purchase:Purchase):void
 			return;
 		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
 		var result:SFSObject = event.params.params;
-		trace(result.getDump());
 		if( result.getBool("success") )
 		{
 			if( appModel.descriptor.market == "cafebazaar" || appModel.descriptor.market == "ario" )

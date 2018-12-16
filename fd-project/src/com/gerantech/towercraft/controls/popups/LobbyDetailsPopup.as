@@ -228,7 +228,6 @@ private function removeButton_triggeredHandler(e:Event):void
 			return;
 		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_lobbyRemoveHandler);
 		appModel.navigator.addLog(event.params.params.getInt("response"));
-		trace(event.params.params.getDump());
 	}
 }
 

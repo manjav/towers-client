@@ -51,7 +51,6 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	backgroundSkin = new Quad(1,1, 0xFFDF78);
 	OperationMapItemRenderer.OPERATION_INDEX = player.getLastOperation();
-	trace(player.getLastOperation())
 
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.paddingBottom = 150;
