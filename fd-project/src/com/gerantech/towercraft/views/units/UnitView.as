@@ -160,9 +160,9 @@ override public function setState(state:int) : Boolean
 	else if( state == GameObject.STATE_3_WAITING )
 	{
 		bodyDisplay.currentFrame = 0;
-		bodyDisplay.pause();
+		//bodyDisplay.pause();
 	}
-	else if( state == GameObject.STATE_2_MOVING )
+	else if( state == GameObject.STATE_2_MOVING || state == GameObject.STATE_7_SHOOTING )
 	{
 		bodyDisplay.play();
 	}
@@ -190,17 +190,9 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 		b.targetId = enemy.id;
 		battleField.bullets.set(enemy.bulletId, b);
 		enemy.bulletId ++;
-		attacks(enemy.id);
-		return;
+		switchAnimation("s_", battleField.units.get(enemy.id).getSideX(), __x, battleField.units.get(enemy.id).getSideY(), __y);
 	}
 	super.fireEvent(dispatcherId, type, data);
-}
-
-public function attacks(target:int): void
-{
-	switchAnimation("s_", battleField.units.get(target).getSideX(), __x, battleField.units.get(target).getSideY(), __y);
-	bodyDisplay.currentFrame = 0;
-	bodyDisplay.play();
 }
 
 override public function setPosition(x:Number, y:Number, z:Number, forced:Boolean = false) : Boolean
@@ -273,9 +265,12 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	bodyDisplay.scaleX = (flipped ? -troopScale : troopScale );
 	
 	if( textureName == textureType + anim + dir )
+	{
+		if( anim == "s_" )
+			bodyDisplay.currentFrame = 0;
 		return;
+	}
 
-	bodyDisplay.stop();
 	textureName = textureType + anim + dir;
 	var numFrames:int = bodyDisplay.numFrames - 1;// trace(textureType + direction, numFrames);
 	while( numFrames > 0 )
@@ -283,7 +278,7 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		bodyDisplay.removeFrameAt(numFrames);
 		numFrames --;
 	}
-	var textures:Vector.<Texture> = appModel.assets.getTextures(textureType + textureName);
+	var textures:Vector.<Texture> = appModel.assets.getTextures(textureName);
 	bodyDisplay.setFrameTexture(0, textures[0]);
 	for ( var i:int = 1; i < textures.length; i++ )
 		bodyDisplay.addFrame(textures[i]);
