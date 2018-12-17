@@ -31,25 +31,27 @@ import starling.utils.Color;
 
 public class UnitView extends BaseUnit
 {
-	
-public var fireDisplayFactory:Function;
+static private const _WIDTH:int = 300;
+static private const _HEIGHT:int = 300;
 
-private var hitFilter:ColorMatrixFilter;
-private var _muted:Boolean = true;
-private var direction:String;
-private var textureType:String;
-private var bodyDisplay:MovieClip;
-private var shadowDisplay:Image;
-private var healthDisplay:HealthBarLeveled;
 private var troopScale:Number = 2;
-private var deployIcon:CountdownIcon;
 private var hitTimeoutId:uint;
 private var rangeDisplay:Image;
 private var sizeDisplay:Image;
 private var __x:Number;
 private var __y:Number;
-private var fireDisplay:MovieClip;
+private var _muted:Boolean = true;
+private var textureType:String;
+private var textureName:String;
 
+public var fireDisplayFactory:Function;
+
+private var bodyDisplay:MovieClip;
+private var shadowDisplay:Image;
+private var hitFilter:ColorMatrixFilter;
+private var healthDisplay:HealthBarLeveled;
+private var fireDisplay:MovieClip;
+private var deployIcon:CountdownIcon;
 private var aimDisplay:Image;
 private var enemyHint:ShadowLabel;
 
@@ -70,14 +72,17 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	var appearanceDelay:Number = Math.random() * 0.5;
 	
 	textureType = Math.min(208, type) + "/" + battleField.getColorIndex(side) + "/";
-	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureType + "m_" + (side == battleField.side ? "000_" : "180_")), 15);
+	textureName = textureType + "m_" + (side == battleField.side ? "000_" : "180_");
+	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureName), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 	bodyDisplay.pivotY = bodyDisplay.height * 0.75;
 	bodyDisplay.x = __x;
 	bodyDisplay.y = __y;
-	bodyDisplay.scaleX = troopScale;
-	bodyDisplay.scaleY = troopScale;
+	bodyDisplay.width = _WIDTH;
+	bodyDisplay.height = _HEIGHT;
+	troopScale = bodyDisplay.scale * 0.7;
 	fieldView.unitsContainer.addChild(bodyDisplay);
+	Starling.juggler.add(bodyDisplay);
 	setHealth(card.health);
 
 	if( movable )
@@ -143,13 +148,12 @@ protected function tutorials_tasksFinishHandler(event:Event):void
 
 override public function setState(state:int) : Boolean
 {
-	trace(state)
 	if( !super.setState(state) )
 		return false;
 	
 	if( state == GameObject.STATE_1_DIPLOYED )
 	{
-		muted = false;
+		//muted = false;
 		if( deployIcon != null )
 			deployIcon.scaleTo(0, 0, 0.5, function():void{deployIcon.removeFromParent(true);} );
 	}
@@ -266,22 +270,20 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	}
 	
 	bodyDisplay.loop = anim == "m_";
-	dir = anim + dir;
 	bodyDisplay.scaleX = (flipped ? -troopScale : troopScale );
 	
-	if( direction == dir )
+	if( textureName == textureType + anim + dir )
 		return;
 
-	//movieClip.fps = 20 * 3000 / building.get_troopSpeed();
-	//movieClip.fps = building.get_troopSpriteCount()*3000/building.get_troopSpeed();
-	direction = dir;
+	bodyDisplay.stop();
+	textureName = textureType + anim + dir;
 	var numFrames:int = bodyDisplay.numFrames - 1;// trace(textureType + direction, numFrames);
 	while( numFrames > 0 )
 	{
 		bodyDisplay.removeFrameAt(numFrames);
 		numFrames --;
 	}
-	var textures:Vector.<Texture> = appModel.assets.getTextures(textureType + direction);
+	var textures:Vector.<Texture> = appModel.assets.getTextures(textureType + textureName);
 	bodyDisplay.setFrameTexture(0, textures[0]);
 	for ( var i:int = 1; i < textures.length; i++ )
 		bodyDisplay.addFrame(textures[i]);
@@ -320,36 +322,9 @@ private function setHealth(health:Number):void
 		dispose();
 }
 
-public function get muted():Boolean
-{
-	return _muted;
-}
-public function set muted(value:Boolean):void 
-{
-	if( _muted == value )
-		return;
-	_muted = value;
-	
-	//visible = !_muted;
-	if( bodyDisplay == null )
-		return;
-		
-	bodyDisplay.muted = _muted;
-	if ( _muted )
-	{
-		//Starling.juggler.removeTweens(this);
-		Starling.juggler.remove(bodyDisplay);
-	}
-	else
-	{
-		Starling.juggler.add(bodyDisplay);
-	}
-}
-
 protected function defaultSummonEffectFactory() : void
 {
 	Starling.juggler.tween(bodyDisplay, 0.2, {alpha:0, repeatCount:9});
-
 	
 	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explosion-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
@@ -470,7 +445,7 @@ override public function dispose() : void
 {
 	super.dispose();
 	clearTimeout(hitTimeoutId);
-	muted = true;
+	Starling.juggler.remove(bodyDisplay);
 	bodyDisplay.removeFromParent(true);
 	if( shadowDisplay != null )
 		shadowDisplay.removeFromParent(true);
