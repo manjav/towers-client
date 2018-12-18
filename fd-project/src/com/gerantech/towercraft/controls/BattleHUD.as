@@ -169,8 +169,8 @@ override protected function initialize():void
 		return;
 	
 	scoreBoard = new BattleScoreBoard();
-	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0);
-	scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
+	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, NaN, -BattleFooter.HEIGHT * 0.2);
+	//scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
 	addChild(scoreBoard);
 	updateScores(1, 0, battleData.allis.getInt("score"), battleData.axis.getInt("score"), -1);
 }
