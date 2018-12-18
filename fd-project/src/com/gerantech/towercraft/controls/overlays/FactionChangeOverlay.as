@@ -94,7 +94,7 @@ override protected function initialize():void
 		cardsDisplay.height = cardsLayout.typicalItemHeight * 2 + cardsLayout.gap;
 		cardsDisplay.horizontalScrollPolicy = cardsDisplay.verticalScrollPolicy = ScrollPolicy.OFF;
 		cardsDisplay.dataProvider = new ListCollection(player.availabledCards(newArena, true)._list);
-		cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false ); };
+		cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
 		cardsDisplay.alpha = 0;
 		cardsDisplay.y = stage.stageHeight * 0.55;
 		Starling.juggler.tween(cardsDisplay, 0.7, {delay:0.5, y:stage.stageHeight*0.58, alpha:1.2, transition:Transitions.EASE_OUT_BACK});
