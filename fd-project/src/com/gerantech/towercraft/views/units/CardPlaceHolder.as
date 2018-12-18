@@ -88,8 +88,10 @@ public function set type(value:int) : void
 	{
 		var unitDisplay:Image = new Image(AppModel.instance.assets.getTexture(_type + "/0/m_000_001"));
 		unitDisplay.pivotX = unitDisplay.width * 0.5;
-		unitDisplay.pivotY = unitDisplay.height * 0.75;
-		unitDisplay.scale = 2;
+		unitDisplay.pivotY = unitDisplay.height * UnitView._PIVOT_Y;
+		unitDisplay.width = UnitView._WIDTH;
+		unitDisplay.height = UnitView._HEIGHT;
+		unitDisplay.scale *= UnitView._SCALE;
 		unitDisplay.x = CoreUtils.getXPosition(nums, i, 0);
 		unitDisplay.y = CoreUtils.getYPosition(nums, i, 0);
 		unitsContainer.addChild(unitDisplay);

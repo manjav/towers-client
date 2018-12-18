@@ -31,8 +31,10 @@ import starling.utils.Color;
 
 public class UnitView extends BaseUnit
 {
-static private const _WIDTH:int = 300;
-static private const _HEIGHT:int = 300;
+static public const _WIDTH:int = 300;
+static public const _HEIGHT:int = 300;
+static public const _SCALE:Number = 0.7;
+static public const _PIVOT_Y:Number = 0.75;
 
 private var troopScale:Number = 2;
 private var hitTimeoutId:uint;
@@ -75,12 +77,12 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	textureName = textureType + "m_" + (side == battleField.side ? "000_" : "180_");
 	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureName), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
-	bodyDisplay.pivotY = bodyDisplay.height * 0.75;
+	bodyDisplay.pivotY = bodyDisplay.height * _PIVOT_Y;
 	bodyDisplay.x = __x;
 	bodyDisplay.y = __y;
 	bodyDisplay.width = _WIDTH;
 	bodyDisplay.height = _HEIGHT;
-	troopScale = bodyDisplay.scale * 0.7;
+	troopScale = bodyDisplay.scale *= _SCALE;
 	fieldView.unitsContainer.addChild(bodyDisplay);
 	Starling.juggler.add(bodyDisplay);
 	setHealth(card.health);
