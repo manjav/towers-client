@@ -69,14 +69,13 @@ override protected function transitionInCompleted():void
 	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding * 12, NaN, appModel.isLTR?padding * 12:padding);
 	addChild(titleDisplay);
 	
-	var rarityColors:Array = [0xFFFFFF, 0xffcc00, 0x00eeff];
 	var rarity:int = ScriptEngine.getInt(CardFeatureType.F00_RARITY, cardType, 1);
-	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_" +rarity), rarityColors[rarity]);
+	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_" + rarity), CardTypes.getRarityColor(rarity));
 	rarityPalette.width = (transitionIn.destinationBound.width - padding * 13) * 0.48;
 	rarityPalette.layoutData = new AnchorLayoutData(padding * 3.7, appModel.isLTR?NaN:padding * 12, NaN, appModel.isLTR?padding * 12:NaN);
 	addChild(rarityPalette);
-/*	
-	var categoryPalette:ColorGroup = new ColorGroup(loc("card_category_" + building.category));
+	
+	/*var categoryPalette:ColorGroup = new ColorGroup(loc("card_category_" + building.category));
 	categoryPalette.width = (transitionIn.destinationBound.width - padding * 13) * 0.48;
 	categoryPalette.layoutData = new AnchorLayoutData(padding * 3.7, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	addChild(categoryPalette);*/

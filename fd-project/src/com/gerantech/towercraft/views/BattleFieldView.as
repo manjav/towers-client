@@ -48,7 +48,7 @@ public function BattleFieldView()
 	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/battle" ) );
 	AppModel.instance.assets.loadQueue(assetManagerLoaded);
 	units = new IntUnitMap();
-	touchable = false;
+	touchGroup = true;
 	alignPivot();
 	scale = 0.8;
 	

@@ -123,7 +123,8 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	
 	case SFSCommands.BATTLE_NEW_ROUND:
 		appModel.battleFieldView.battleData.battleField.requestReset();
-		hud.updateScores(data.getInt("round"), data.getInt("winner"), data.getInt(appModel.battleFieldView.battleData.battleField.side + ""), data.getInt(appModel.battleFieldView.battleData.battleField.side == 0 ? "1" : "0"), data.getInt("unitId"));
+		if( hud != null )
+			hud.updateScores(data.getInt("round"), data.getInt("winner"), data.getInt(appModel.battleFieldView.battleData.battleField.side + ""), data.getInt(appModel.battleFieldView.battleData.battleField.side == 0 ? "1" : "0"), data.getInt("unitId"));
 		break;
 	}
 	//trace(event.params.cmd, data.getDump());

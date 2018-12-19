@@ -45,6 +45,7 @@ protected var showLevel:Boolean = true;
 protected var showSlider:Boolean = true;
 protected var showCount:Boolean = false;
 protected var showElixir:Boolean = true;
+protected var showRarity:Boolean = true;
 
 protected var padding:int;
 protected var backgroundDisaplay:ImageLoader;
@@ -100,12 +101,12 @@ override protected function initialize():void
 }
 
 
-private function addedHandler():void
+protected function addedHandler():void
 {
 	if( labelsContainer )
 		addChild(labelsContainer);	
 }
-private function createCompleteHandler():void
+protected function createCompleteHandler():void
 {
 	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	height = width * VERICAL_SCALE;
@@ -138,6 +139,8 @@ private function callFactories() : void
 		iconDisplayFactory();
 	if( levelDisplayFactory != null )
 		levelDisplayFactory();
+	if( rarityDisplayFactory != null )
+		rarityDisplayFactory();
 	if( coverDisplayFactory != null )
 		coverDisplayFactory();
 	if( sliderDisplayFactory != null )
@@ -146,8 +149,6 @@ private function callFactories() : void
 		countDisplayFactory();
 	if( elixirDisplayFactory != null )
 		elixirDisplayFactory();
-	if( rarityDisplayFactory != null )
-		rarityDisplayFactory();
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BACKGROUND  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -240,7 +241,7 @@ private function defaultCoverDisplayFactory() : ImageLoader
 	if( coverDisplay == null )
 	{
 		coverDisplay = new ImageLoader();
-		coverDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
+		coverDisplay.scale9Grid = new Rectangle(47, 47, 4, 4);
 		coverDisplay.source = Assets.getTexture("cards/bevel-card");
 		coverDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		addChild(coverDisplay);
@@ -289,7 +290,7 @@ public function punchSlider() : void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultRarityDisplayFactory() : ImageLoader
 {
-	if ( rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
+	if ( !showRarity || rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
 	{
 		if( rarityDisplay != null )
 			rarityDisplay.removeFromParent();
@@ -299,11 +300,12 @@ protected function defaultRarityDisplayFactory() : ImageLoader
 	{
 		rarityDisplay = new ImageLoader();
 		rarityDisplay.touchable = false;
-		rarityDisplay.scale9Grid = new Rectangle(60, 68, 4, 6);
+		rarityDisplay.scale9Grid = new Rectangle(39, 39, 4, 4);
 		rarityDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	}
-	addChildAt(rarityDisplay, 0);
-	rarityDisplay.source = Assets.getTexture("cards/rarity-" + rarity, "gui");
+	addChild(rarityDisplay);
+	rarityDisplay.source = Assets.getTexture("cards/hilight", "gui");
+	rarityDisplay.color = CardTypes.getRarityColor(rarity);
 	return rarityDisplay;
 }
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COUNT  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

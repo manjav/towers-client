@@ -5,12 +5,13 @@ import feathers.layout.AnchorLayoutData;
 import starling.filters.ColorMatrixFilter;
 public class BattleDeckCard extends TowersLayout
 {
-private var cardType:int;
+public var cardType:int;
 private var cardView:BuildingCard;
 private var _filter:ColorMatrixFilter;
 public function BattleDeckCard(cardType:int)
 {
 	super();
+	touchGroup = true;
 	this.cardType = cardType;
 	_filter = new ColorMatrixFilter();
 	_filter.adjustSaturation(-1);
@@ -19,8 +20,6 @@ public function BattleDeckCard(cardType:int)
 override protected function initialize():void
 {
 	super.initialize();
-	
-	var padding:int = 16;
 	layout = new AnchorLayout();
 	
 	cardView = new BuildingCard(false, false, false, true);
@@ -34,12 +33,19 @@ public function updateData():void
 	isEnabled = appModel.battleFieldView.battleData.getAlliseEllixir() >= cardView.elixirSize;
 }
 
+public function setData(cardType:int) : void 
+{
+	this.cardType = cardType;
+	if( cardView != null )
+		cardView.setData(cardType);	
+}
+
 override public function set isEnabled(value:Boolean) : void 
 {
 	if( super.isEnabled == value )
 		return;
 	super.isEnabled = value;
-	cardView.touchable = value;
+	touchable = value;
 	cardView.filter = value ? null : _filter;
 }
 }
