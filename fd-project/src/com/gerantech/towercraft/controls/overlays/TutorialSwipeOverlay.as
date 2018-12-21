@@ -5,6 +5,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.utils.lists.PlaceDataList;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.text.BitmapFontTextFormat;
+import flash.geom.Point;
 import starling.animation.Transitions;
 import starling.animation.Tween;
 import starling.core.Starling;
@@ -13,25 +14,24 @@ import starling.display.Sprite;
 
 public class TutorialSwipeOverlay extends TutorialOverlay
 {
-private var finger:Sprite;
-private var places:PlaceDataList;
 private var tweenStep:int ;
 private var doubleSwipe:Boolean;
 private var doubleCount:int = 0;
+
+private var finger:Sprite;
+private var cardCadr:Image;
 private var swipeNumText:BitmapFontTextRenderer;
 
 public function TutorialSwipeOverlay(task:TutorialTask)
 {
-	var array:Array = [];
-	while(task.places.size() > 0)
-		array.push(task.places._list.pop());
-	array.sortOn("tutorIndex", Array.NUMERIC | Array.DESCENDING);
+//	task.points.sortOn("tutorIndex", Array.NUMERIC | Array.DESCENDING);
 	
-	this.places = new PlaceDataList();
+	/*this.places = new Vector.<Point>();
 	while( array.length > 0 ) 
 		this.places.push(array.pop());
-	
+	*/
 	super(task);
+	touchable = false;
 }
 
 override protected function initialize():void
@@ -48,8 +48,8 @@ override protected function initialize():void
 protected override function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	//doubleSwipe = this.places.get(0).tutorIndex >= 10;
-	appModel.battleFieldView.addChild(finger);
+	//doubleSwipe = this.task.points[0).tutorIndex >= 10;
+	addChild(finger);
 	
 	swipeNumText = new BitmapFontTextRenderer();
 	swipeNumText.textFormat = new BitmapFontTextFormat(Assets.getFont(), appModel.theme.gameFontSize * 1.4, 0xFFFFFF, "center")
@@ -62,16 +62,24 @@ protected override function transitionInCompleted():void
 	swipeNumText.pivotX = swipeNumText.width * 0.5;
 	swipeNumText.pivotY = swipeNumText.height * 0.5;
 	
+	cardCadr = new Image(Assets.getTexture("cards/tutor-frame"));
+	cardCadr.pivotX = cardCadr.width * 0.5;
+	cardCadr.pivotY = cardCadr.height * 0.5;
+	cardCadr.rotation = 0.3;
+	cardCadr.alpha = 0;
+	cardCadr.scale = 0;
+	finger.addChildAt(cardCadr, 0);
+	
 	tweenCompleteCallback("stepLast")
 }
 
 private function swipe(from:int, to:int, fromAlpha:Number=1, toAlpha:Number=1, fromScale:Number=1, toScale:Number=1, fromRotation:Number=0, toRotation:Number=0, time:Number=1.5, doubleA:Boolean=true, swipeIndex:int=-1):void
 {
 	animate( "stepMid",
-		places.get(from).x, 
-		places.get(from).y, 
-		places.get(to).x, 
-		places.get(to).y,
+		task.points[from].x, 
+		task.points[from].y, 
+		task.points[to].x, 
+		task.points[to].y,
 		fromAlpha, toAlpha, fromScale, toScale, fromRotation, toRotation, time, 0, swipeIndex
 	);
 }
@@ -88,42 +96,42 @@ private function tweenCompleteCallback(swipeName:String):void
 			if( swipeName == "stepMid" )
 				tweenStep ++;
 			
-			if( tweenStep == places.size()-1 )
+			if( tweenStep == task.points.length - 1 )
 			{
 				if ( doubleSwipe && doubleCount == 0 )
 				{
 					doubleCount ++;
 					animate( "doubleOut",
-						places.get(tweenStep).x, 
-						places.get(tweenStep).y, 
-						places.get(tweenStep).x, 
-						places.get(tweenStep).y,
+						task.points[tweenStep].x, 
+						task.points[tweenStep].y, 
+						task.points[tweenStep].x, 
+						task.points[tweenStep].y,
 						1, 0, 1, 1, 0, -0.2, 0.2);
 				}
 				else
 				{
 					animate( "stepLast",
-						places.get(tweenStep).x, 
-						places.get(tweenStep).y, 
-						places.get(tweenStep).x, 
-						places.get(tweenStep).y - 200,
+						task.points[tweenStep].x, 
+						task.points[tweenStep].y, 
+						task.points[tweenStep].x, 
+						task.points[tweenStep].y - 200,
 						1, 0, 1, 1.3, -0.3, 0, 0.7);
 				}
 			}
 			else
 			{
-				swipe(tweenStep, tweenStep + 1, 1, 1, 1, 1, -0.3, -0.3, 1, true, places.size() > 2?tweenStep: -1);
+				swipe(tweenStep, tweenStep + 1, 1, 1, 1, 1, -0.3, -0.3, 1, true, task.points.length > 2 ? tweenStep : -1);
 			}
 			break;
 		case "stepLast":
 			tweenStep = 0;
 			doubleCount = 0;
 			animate( "stepFirst",
-				places.get(0).x, 
-				places.get(0).y - 200, 
-				places.get(0).x, 
-				places.get(0).y,
-				0, 1, 1.3, 1, 0, -0.3, 0.7, 0);	
+				task.points[0].x, 
+				task.points[0].y - 200, 
+				task.points[0].x, 
+				task.points[0].y,
+				0, 1, 1.3, 1, 0, -0.3, 0.5, 0);	
 			break;
 		case "doubleOut":
 			tweenStep = 0;
@@ -131,7 +139,7 @@ private function tweenCompleteCallback(swipeName:String):void
 			tweenCompleteCallback("stepFirst");
 			break;
 	}
-	//trace("tweenStep:", tweenStep, places.get(tweenStep).tutorIndex);
+	//trace("tweenStep:", tweenStep, task.points[tweenStep).tutorIndex);
 }
 
 private function animate(name:String, startX:Number, startY:Number, endX:Number, endY:Number, startAlpha:Number=1, endAlpha:Number=1, startScale:Number=1, endScale:Number=1, startRotation:Number=0, endRotation:Number=0, time:Number=1.5, delayTime:Number=0, swipeIndex:int=-1):void
@@ -142,7 +150,8 @@ private function animate(name:String, startX:Number, startY:Number, endX:Number,
 	finger.scale = startScale;
 	finger.rotation = startRotation;
 	
-	var tween:Tween = new Tween(finger, time, Transitions.EASE_IN_OUT);
+	var __ts:Number = 1.6;
+	var tween:Tween = new Tween(finger, time * __ts, Transitions.EASE_IN_OUT);
 	tween.moveTo(endX, endY);
 	tween.delay = delayTime;
 	tween.scaleTo(endScale);
@@ -163,6 +172,11 @@ private function animate(name:String, startX:Number, startY:Number, endX:Number,
 		swipeNumText.text = "";
 	}
 	swipeNumText.visible = swipeIndex > -1;
+	
+	if( startRotation == 0 && endRotation != 0 )
+		Starling.juggler.tween(cardCadr, 0.4, {delay:0.8, alpha:1, scale:1, transition:Transitions.EASE_OUT});
+	if( startRotation != 0 && endRotation == 0 )
+		Starling.juggler.tween(cardCadr, 0.3, {delay:0.0, alpha:0, scale:0, transition:Transitions.EASE_IN});
 }
 override public function close(dispose:Boolean = true):void 
 {

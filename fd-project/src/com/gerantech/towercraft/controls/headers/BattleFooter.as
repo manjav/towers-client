@@ -34,8 +34,8 @@ public class BattleFooter extends TowersLayout
 {
 static public var HEIGHT:int = 380;
 public var stickerButton:CustomButton;
+public var cards:Vector.<BattleDeckCard>;
 private var padding:int;
-private var cards:Vector.<BattleDeckCard>;
 private var cardsContainer:LayoutGroup;
 private var draggableCard:Draggable;
 private var preparedCard:BuildingCard;
@@ -148,7 +148,7 @@ protected function stage_touchHandler(event:TouchEvent) : void
 			/*if( touch.target is BattleFieldView )
 				touchId = touch.id;
 			else*/
-				touchId = -1;
+			touchId = -1;
 			return;
 		}
 		
