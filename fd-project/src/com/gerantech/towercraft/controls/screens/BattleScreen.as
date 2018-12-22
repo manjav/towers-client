@@ -489,26 +489,6 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	}*/
 	//sfsConnection.removeFromCommands(SFSCommands.FIGHT);
 }
-
-private function updateUnits():void
-{
-	//if( !appModel.battleFieldView.battleData.room.containsVariable("units") )
-	//	return;
-	var units:SFSArray = appModel.battleFieldView.battleData.room.getVariable("units").getValue() as SFSArray;
-	/*for(var i:int=0; i<towers.size(); i++)
-	{
-		var wrapped:SFSDataWrapper = towers.getWrappedElementAt(i);
-		if( wrapped.type == 20 )
-		{
-			var t:Array = wrapped.data.split(",");//trace(t)
-			appModel.battleFieldView.places[t[0]].update(t[1], t[2]);
-		}
-		else if( wrapped.type == 5 )
-		{
-			timeManager.setNow(int(wrapped.data / 1000));
-		}
-	}*/
-}
 private function resetAll(data:ISFSObject):void
 {
 	if( !data.containsKey("buildings") )

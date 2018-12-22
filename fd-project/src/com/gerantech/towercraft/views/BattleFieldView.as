@@ -20,6 +20,7 @@ import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.filesystem.File;
 import starling.core.Starling;
 import starling.display.Quad;
@@ -161,12 +162,18 @@ public function hitUnits(buletId:int, targets:ISFSArray) : void
 	}
 }
 
-public function updateUnits():void
+public function updateUnits() : void
 {
-	return;
 	if( !battleData.room.containsVariable("units") )
 		return;
-	var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
+		
+	var serverUnitIds:Array = SFSObject(battleData.room.getVariable("units").getValue()).getIntArray("keys");
+	var clientUnitIds:Vector.<int> = battleData.battleField.units.keys();
+	for ( var i:int = 0; i < clientUnitIds.length; i++ )
+		if( serverUnitIds.indexOf(clientUnitIds[i]) == -1 )
+			battleData.battleField.units.get(clientUnitIds[i]).hit(100);
+	
+	/*var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
 	for( var i:int=0; i < unitsList.size(); i++ )
 	{
 		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
@@ -183,7 +190,7 @@ public function updateUnits():void
 			units.set(vars[0], u);
 		}
 	}
-	
+
 	var us:Vector.<Unit> = units.values();
 	for (i = 0; i < us.length; i++)
 	{
@@ -203,7 +210,7 @@ public function updateUnits():void
 				return us[i].id;
 		}
 		return -1;
-	}
+	}*/
 }
 
 override public function dispose() : void
