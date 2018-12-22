@@ -1,3 +1,9 @@
+// version
+if( featureType == -2 )
+{
+	return 1300.0;
+}
+
 // rarity
 if( featureType == 0 )
 {
@@ -510,3 +516,5 @@ if( featureType == 28 )
 		default		:	0	;
 	}
 }
+
+return 0;
