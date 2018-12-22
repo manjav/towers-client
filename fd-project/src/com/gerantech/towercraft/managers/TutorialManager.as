@@ -13,6 +13,7 @@ import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.utils.lists.PlaceDataList;
+import flash.geom.Point;
 import flash.utils.setTimeout;
 
 import starling.events.Event;
@@ -21,7 +22,7 @@ public class TutorialManager extends BaseManager
 {
 private static var _instance:TutorialManager;
 private var tutorialData:TutorialData;
-private var catchedPlaces:PlaceDataList;
+private var catchedPlaces:Vector.<Point>;
 
 public function TutorialManager(){}
 public function show(data:TutorialData):void
@@ -50,10 +51,10 @@ private function processTasks():void
 			break;
 		
 		case TutorialTask.TYPE_SWIPE:
-			catchedPlaces = new PlaceDataList();
-			for each(var pd:PlaceData in task.places._list)
+/*			catchedPlaces = new Vector.<Point>();
+			for each(var pd:Point in task.points)
 				catchedPlaces.push(pd);
-			var swipeoverlay:TutorialSwipeOverlay = new TutorialSwipeOverlay(task);
+*/			var swipeoverlay:TutorialSwipeOverlay = new TutorialSwipeOverlay(task);
 			swipeoverlay.addEventListener(Event.CLOSE, overlay_closeHandler);
 			appModel.navigator.addOverlay(swipeoverlay);
 			break;
