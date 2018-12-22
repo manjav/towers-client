@@ -5,6 +5,7 @@ package com.gerantech.towercraft.managers.net
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.units.ScriptEngine;
@@ -41,7 +42,11 @@ public function CoreLoader(sfsObj:SFSObject)
 	initServerData(serverData);
 
 	//Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
-	ScriptEngine.initialize(serverData.getText("script"));
+	if( serverData.containsKey("script") )
+		ScriptEngine.initialize(serverData.getText("script"));
+	else
+		ScriptEngine.initialize(new Assets.features());
+		
 	AppModel.instance.game = new Game();
 	AppModel.instance.game.init(initData);
 	AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");

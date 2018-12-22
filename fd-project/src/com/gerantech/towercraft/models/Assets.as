@@ -41,6 +41,9 @@ package com.gerantech.towercraft.models
 		[Embed(source="../../../../assets/images/gui.xml", mimeType="application/octet-stream")]
 		public static const guiAtlasXml:Class;
 		
+		[Embed(source="../../../../assets/texts/features.js", mimeType="application/octet-stream")]
+		public static const features:Class;
+		
 		public static const BACKGROUND_GRID:Rectangle = new Rectangle(2, 2, 6, 6);
 		
 		
