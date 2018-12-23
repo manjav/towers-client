@@ -41,12 +41,11 @@ public function CoreLoader(sfsObj:SFSObject)
 	
 	initServerData(serverData);
 
-	//Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
-	if( serverData.containsKey("script") )
-		ScriptEngine.initialize(serverData.getText("script"));
-	else
-		ScriptEngine.initialize(new Assets.features());
-		
+	if( !serverData.containsKey("script") )
+		serverData.putText("script", new Assets.features());
+	ScriptEngine.initialize(serverData.getText("script"));
+	trace("script version:", ScriptEngine.get(-2, 0))
+	
 	AppModel.instance.game = new Game();
 	AppModel.instance.game.init(initData);
 	AppModel.instance.game.sessionsCount = serverData.getInt("sessionsCount");

@@ -1,3 +1,36 @@
+// version
+if( featureType == -2 )
+{
+	return 1300.0;
+}
+
+
+// chance
+if( featureType == -1 )
+{
+	return switch ( type )
+	{
+		case	101	:	0	;
+		case	102	:	0	;
+		case	103	:	0	;
+		case	104	:	0	;
+		case	105	:	0	;
+		case	106	:	0	;
+		case	107	:	0	;
+		case	108	:	1	;
+		case	109	:	4	;
+		case	110	:	12	;
+		case	111	:	18	;
+		case	112	:	30	;
+		case	113	:	40	;
+		
+		case	151	:	8	;
+		case	152	:	10	;
+		
+		default: 1000;
+	}
+}
+
 // rarity
 if( featureType == 0 )
 {
@@ -66,33 +99,6 @@ if( featureType == 1 )
 		case	159	:	 9	;
 		
 		default		:	 9	;
-	}
-}
-
-
-// chance
-if( featureType == -1 )
-{
-	return switch ( type )
-	{
-		case	101	:	0	;
-		case	102	:	0	;
-		case	103	:	0	;
-		case	104	:	0	;
-		case	105	:	0	;
-		case	106	:	0	;
-		case	107	:	0	;
-		case	108	:	1	;
-		case	109	:	4	;
-		case	110	:	12	;
-		case	111	:	18	;
-		case	112	:	30	;
-		case	113	:	40	;
-		
-		case	151	:	8	;
-		case	152	:	10	;
-		
-		default: 1000;
 	}
 }
 
@@ -510,3 +516,5 @@ if( featureType == 28 )
 		default		:	0	;
 	}
 }
+
+return 0;
