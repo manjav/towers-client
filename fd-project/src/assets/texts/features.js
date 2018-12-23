@@ -386,7 +386,7 @@ if( featureType == 22 )
 		case	151	:	1.00	;
 		case	152	:	0.60 	;
 		
-		case	201	:	0.003	;
+		case	201	:	0.002	;
 		
 		default : 1;
 	}
