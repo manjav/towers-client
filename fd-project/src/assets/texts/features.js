@@ -66,43 +66,6 @@ if( featureType == 0 )
 	}
 }
 
-
-// availableAt
-if( featureType == 1 )
-{
-	return switch( cardType )
-	{
-		case	101	:	 0	;
-		case	102	:	 0	;
-		case	103	:	 0	;
-		case	104	:	 0	;
-		case	105	:	 0	;
-		case	106	:	 0	;
-		case	107	:	 0	;
-		case	108	:	 0	;
-		case	109	:	 1	;
-		case	110	:	 2	;
-		case	111	:	 3	;
-		case	112	:	 3	;
-		case	113	:	 4	;
-		case	114	:	 6	;
-		case	115	:	 9	;
-		
-		case	151	:	 1	;
-		case	152	:	 2	;
-		case	153	:	 5	;
-		case	154	:	 6	;
-		case	155	:	 7	;
-		case	156	:	 7	;
-		case	157	:	 8	;
-		case	158	:	 8	;
-		case	159	:	 9	;
-		
-		default		:	 9	;
-	}
-}
-
-
 // availableAt
 if( featureType == 1 )
 {
