@@ -39,12 +39,10 @@ public function CoreLoader(sfsObj:SFSObject)
 	this.serverData = sfsObj;
 	this.version = serverData.getText("coreVersion");
 	
-	initServerData(serverData);
-
-	if( !serverData.containsKey("script") )
-		serverData.putText("script", new Assets.features());
 	ScriptEngine.initialize(serverData.getText("script"));
 	trace("script version:", ScriptEngine.get(-2, 0))
+
+	initServerData(serverData);
 	
 	AppModel.instance.game = new Game();
 	AppModel.instance.game.init(initData);
