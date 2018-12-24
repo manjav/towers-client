@@ -1,14 +1,15 @@
+//trace("featureType:" + featureType + " cardType:" + cardType + " cardLevel:" + cardLevel);
+
 // version
 if( featureType == -2 )
 {
 	return 1300.0;
 }
 
-
 // chance
 if( featureType == -1 )
 {
-	return switch ( type )
+	return switch ( cardType )
 	{
 		case	101	:	0	;
 		case	102	:	0	;
