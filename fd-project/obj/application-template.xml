@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/26.0">
   <id>com.grantech.k2k</id>
-  <versionNumber>0.1.300</versionNumber>
+  <versionNumber>0.1.400</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>Pistol</filename>
-  <name>Pistole</name>
+  <name>Pistol</name>
   <description>__DESCRIPTION__</description><!--<description>{"platform":"android", "market":"cafebazaar"}</description> cafebazaar-myket-cando-ario-google -->
   <initialWindow>
     <title>Pistol</title>
