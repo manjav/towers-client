@@ -62,8 +62,6 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	super(id, type, level, side, x, y, z);
 	__x = getSideX();
 	__y = getSideY();
-	
-	trace(card.type, card.level, card.bulletDamage);
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
