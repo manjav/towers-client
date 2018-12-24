@@ -103,6 +103,42 @@ if( featureType == 1 )
 }
 
 
+// availableAt
+if( featureType == 1 )
+{
+	return switch( cardType )
+	{
+		case	101	:	 0	;
+		case	102	:	 0	;
+		case	103	:	 0	;
+		case	104	:	 0	;
+		case	105	:	 0	;
+		case	106	:	 0	;
+		case	107	:	 0	;
+		case	108	:	 0	;
+		case	109	:	 1	;
+		case	110	:	 2	;
+		case	111	:	 3	;
+		case	112	:	 3	;
+		case	113	:	 4	;
+		case	114	:	 6	;
+		case	115	:	 9	;
+		
+		case	151	:	 1	;
+		case	152	:	 2	;
+		case	153	:	 5	;
+		case	154	:	 6	;
+		case	155	:	 7	;
+		case	156	:	 7	;
+		case	157	:	 8	;
+		case	158	:	 8	;
+		case	159	:	 9	;
+		
+		default		:	 9	;
+	}
+}
+
+
 // elixirSize
 if( featureType == 2 )
 {
@@ -369,7 +405,7 @@ if( featureType == 22 )
 {
 	var ret = switch( cardType )
 	{
-		case	101	:	0.25	;
+		case	101	:	0.20	;
 		case	102	:	0.30	;
 		case	103	:	0.10	;
 		case	104	:	0.30	;
@@ -386,7 +422,7 @@ if( featureType == 22 )
 		case	151	:	1.00	;
 		case	152	:	0.60 	;
 		
-		case	201	:	0.002	;
+		case	201	:	0.0000000002	;
 		
 		default : 1;
 	}
@@ -471,7 +507,7 @@ if( featureType == 26 )
 		case	112	:	0.4 ;
 		case	113	:	0.4 ;
 		
-		case 	201 : 	1.5 ;
+		case 	201 : 	1.7 ;
 		
 		default : 1;
 	}
