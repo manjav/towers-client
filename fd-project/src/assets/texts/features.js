@@ -98,6 +98,8 @@ if( featureType == 1 )
 		case	158	:	 8	;
 		case	159	:	 9	;
 		
+		case	201	:	 0	;
+		
 		default		:	 9	;
 	}
 }
@@ -222,8 +224,8 @@ if( featureType == 12 )
 	var ret = switch ( cardType )
 	{
 		case	101	:	0.50;
-		case	102	:	5.00;
-		case	103	:	0.10;
+		case	102	:	4.00;
+		case	103	:	0.09;
 		case	104	:	1.00;
 		case	105	:	1.60;
 		case	106	:	0.60;
@@ -371,7 +373,7 @@ if( featureType == 22 )
 	{
 		case	101	:	0.20	;
 		case	102	:	0.30	;
-		case	103	:	0.10	;
+		case	103	:	0.07	;
 		case	104	:	0.30	;
 		case	105	:	0.30	;
 		case	106	:	0.25	;
@@ -386,7 +388,7 @@ if( featureType == 22 )
 		case	151	:	1.00	;
 		case	152	:	0.60 	;
 		
-		case	201	:	0.002	;
+		case	201	:	0.05	;
 		
 		default : 1;
 	}
@@ -413,7 +415,7 @@ if( featureType == 23 )
 		case	112	:	0.7	;
 		case	113	:	0.8	;
 		
-		case 	201 :	0.3 ;
+		case 	201 :	0.6 ;
 		
 		default : 1;
 	}
