@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gt.towers.utils.CoreUtils;
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayoutData;
@@ -19,7 +20,7 @@ public function HealthBarLeveled(filedView:BattleFieldView, troopType:int, level
 	super(filedView, troopType, initValue, initMax);
 	this.level = level;
 
-	levelDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/level-" + level));
+	levelDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/level-" + CoreUtils.clamp(level, 1, 13)));
 	levelDisplay.pivotX = levelDisplay.width * 0.5;
 	levelDisplay.touchable = false;
 	levelDisplay.visible = value < maximum || troopType > 0;
