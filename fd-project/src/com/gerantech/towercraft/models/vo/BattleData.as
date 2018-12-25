@@ -36,7 +36,7 @@ public function BattleData(data:ISFSObject)
 	AppModel.instance.game.player.inFriendlyBattle = data.getBool("isFriendly");
 	var axisGame:Game = new Game();	
 	axisGame.init(new InitData());
-	axisGame.player.resources.set(ResourceType.R1_XP,	 axis.getInt("point") * 6 + 1);
+	axisGame.player.resources.set(ResourceType.R1_XP,	 axis.getInt("xp"));
 	axisGame.player.resources.set(ResourceType.R2_POINT, axis.getInt("point"));
 	
 	var field:FieldData = FieldProvider.getField(data.getText("type"), data.getInt("index"));
