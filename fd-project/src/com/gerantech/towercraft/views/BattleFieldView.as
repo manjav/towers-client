@@ -122,7 +122,7 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 {
 	if( CardTypes.isSpell(type) )
 	{
-		var card:Card = new Card(AppModel.instance.game, type, level);
+		var card:Card = battleData.getAlliseDeck().get(type);
 		var offset:Point3 = GraphicMetrics.getPoint(card.type, 0);
 		var spell:BulletView = new BulletView(battleData.battleField, id, card, side, x + offset.x, y + offset.y * (side == 0 ? 0.7 : -0.7), offset.z * 0.7, x, y, 0);
 		battleData.battleField.bullets.set(id, spell);

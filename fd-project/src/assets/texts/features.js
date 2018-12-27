@@ -215,7 +215,7 @@ if( featureType == 11 )
 		
 		default: 1;
 	}
-	return ret * 0.085 * 1.3;
+	return ret * 0.085 * 1.1;
 }
 
 // health

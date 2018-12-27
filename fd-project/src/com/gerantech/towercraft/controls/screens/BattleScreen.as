@@ -550,7 +550,6 @@ override protected function backButtonFunction():void
 
 override public function dispose():void
 {
-	player.inFriendlyBattle = false;
 	removeConnectionListeners();
 	appModel.sounds.stopAllSounds(SoundManager.CATE_SFX);
 	appModel.sounds.stopAllSounds(SoundManager.CATE_THEME);

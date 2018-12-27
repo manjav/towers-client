@@ -32,9 +32,9 @@ override protected function initialize():void
 	var isDraw:Boolean = reward_1.getInt("score") == reward_2.getInt("score") ;
 	var pi:int = playerIndex == -1 ? 0 : playerIndex;
 	
-	if( isDraw || player.inFriendlyBattle )
+	if( isDraw || battleData.battleField.friendlyMode )
 	{
-		var drawLabel:ShadowLabel = new ShadowLabel(loc(player.inFriendlyBattle?"buddy_battle":"draw_label"), 1, 0, null, null, false, null, 1.4);
+		var drawLabel:ShadowLabel = new ShadowLabel(loc(battleData.battleField.friendlyMode?"buddy_battle":"draw_label"), 1, 0, null, null, false, null, 1.4);
 		drawLabel.layoutData = new AnchorLayoutData(padding * 3.5, NaN, NaN, NaN, 0);
 		addChild(drawLabel);
 	}
