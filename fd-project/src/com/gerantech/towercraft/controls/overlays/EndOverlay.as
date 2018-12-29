@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -32,12 +33,14 @@ protected var battleData:BattleData;
 protected var showAdOffer:Boolean;
 private var timeoutId:uint;
 
-public function EndOverlay(playerIndex:int, rewards:ISFSArray, inTutorial:Boolean=false)
+public function EndOverlay(battleData:BattleData, playerIndex:int, rewards:ISFSArray, inTutorial:Boolean = false)
 {
 	super();
+	this.battleData = battleData;
+	this.playerIndex = playerIndex;
 	this.rewards = rewards;
 	this.inTutorial = inTutorial;
-	this.playerIndex = playerIndex;
+	this.battleData.outcomes = new Vector.<RewardData>();
 	if( playerIndex > -1 )
 	{
 		this.score = rewards.getSFSObject(playerIndex).getInt("score");
@@ -56,8 +59,6 @@ override protected function initialize():void
 	overlay.touchable = false;
 	layout = new AnchorLayout();
 	padding = 48;
-	
-	battleData = appModel.battleFieldView.battleData;
 
 	appModel.sounds.addAndPlaySound("outcome-" + (winRatio >= 1?"victory":"defeat"));
 	initialingCompleted = true;
@@ -67,7 +68,7 @@ override protected function initialize():void
 
 private function showParticle():void 
 {
-	if ( !appModel.battleFieldView.battleData.isLeft && playerIndex != -1 )
+	if ( !battleData.isLeft && playerIndex != -1 )
 	{
 		var particle:MortalParticleSystem = new MortalParticleSystem(winRatio >= 1 ? "scrap" : "fire", 4);
 		particle.x = stage.stageWidth * 0.5;
@@ -79,7 +80,7 @@ private function showParticle():void
 
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:Devider = new Devider(appModel.battleFieldView.battleData.isLeft || playerIndex == -1 ? 0x000000 : (winRatio > 1 ? 0x002211 : 0x331300));
+	var overlay:Devider = new Devider(battleData.isLeft || playerIndex == -1 ? 0x000000 : (winRatio > 1 ? 0x002211 : 0x331300));
 	overlay.alpha = 0.7;
 	overlay.width = stage.width;
 	overlay.height = stage.height;

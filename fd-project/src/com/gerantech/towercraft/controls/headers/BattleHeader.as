@@ -1,9 +1,12 @@
 package com.gerantech.towercraft.controls.headers
 {
 import com.gerantech.towercraft.controls.TowersLayout;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
+import dragonBones.Armature;
+import dragonBones.starling.StarlingArmatureDisplay;
 
 import flash.geom.Rectangle;
 
@@ -21,6 +24,8 @@ public class BattleHeader extends TowersLayout
 public var labelDisplay:ShadowLabel;
 private var label:String;
 private var isAllise:Boolean;
+private var created:Boolean;
+private var needsShowWinner:Boolean;
 
 private var padding:int;
 public function BattleHeader(label:String, isAllise:Boolean)
@@ -58,6 +63,10 @@ private function creationCompleteHandler():void
 	
 	labelDisplay.alpha = 0;
 	Starling.juggler.tween(labelDisplay, 0.3, {delay:0.5, alpha:1});
+	
+	created = true;
+	if( needsShowWinner )
+		showWinnerLabel(true);
 }
 
 public function addScoreImages(score:int, max:int=-1):void
@@ -74,11 +83,29 @@ public function addScoreImages(score:int, max:int=-1):void
 	}	
 }
 
-public function showWinnerLabel(isWinner:Boolean):void
+public function showWinnerLabel(isWinner:Boolean) : void
 {
-	var winnerLabel:ShadowLabel = new ShadowLabel(loc(isWinner?"winner_label":"loser_label"));
+	if( !isWinner )
+		return;
+	if( !created )
+	{
+		needsShowWinner = true;
+		return;
+	}
+	
+	var winnerLabel:ShadowLabel = new ShadowLabel(loc(isWinner ? "winner_label" : "loser_label"));
 	winnerLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding * 1.4); 
 	addChild(winnerLabel);	
+	
+	var armatureDisplay:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("shine");
+	armatureDisplay.animation.timeScale = 0.5;
+	armatureDisplay.alpha = 0.7;
+	armatureDisplay.x = width * 0.5;
+	//armatureDisplay.y = height * 0.5;
+	armatureDisplay.scaleX = 3.5;
+	armatureDisplay.scaleY = 1.7;
+	armatureDisplay.animation.gotoAndPlayByFrame("rotate", 1);
+	addChildAt(armatureDisplay, 0);
 }
 }
 }

@@ -6,7 +6,7 @@ import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
-import com.gerantech.towercraft.controls.overlays.EndQuestOverlay;
+import com.gerantech.towercraft.controls.overlays.EndOperationOverlay;
 import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
@@ -296,8 +296,6 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 			outcomes.set(int(bookKey), item.getInt(bookKey));
 	}
 	
-	appModel.battleFieldView.battleData.outcomes = new Vector.<RewardData>();
-	
 	// arena changes manipulation
 	var prevArena:int = 0;
 	var nextArena:int = 0;
@@ -315,11 +313,11 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	var endOverlay:EndOverlay;
 	if( field.isOperation() )
 	{
-		endOverlay = new EndQuestOverlay(playerIndex, rewards, inTutorial);
+		endOverlay = new EndOperationOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
 	}
 	else
 	{
-		endOverlay = new EndBattleOverlay(playerIndex, rewards, inTutorial);
+		endOverlay = new EndBattleOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
 		if( playerIndex > -1 && prevArena != nextArena )
 			endOverlay.data = [prevArena, nextArena];
 	}

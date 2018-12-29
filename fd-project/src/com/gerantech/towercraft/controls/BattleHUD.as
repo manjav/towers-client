@@ -233,7 +233,7 @@ protected function timeManager_changeHandler(event:Event):void
 		}
 	}
 	
-	if ( !battleData.battleField.field.isOperation() )
+	if( !battleData.battleField.field.isOperation() )
 	{
 		if( surrenderButton != null )
 			surrenderButton.visible = battleData.battleField.startAt + battleData.battleField.field.times.get(0) < timeManager.now;
@@ -419,7 +419,7 @@ public function end(overlay:EndOverlay) : void
 	var numCh:int = numChildren - 1;
 	while ( numCh >= 0 )
 	{
-		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != deck.stickerButton && getChildAt(numCh) != scoreBoard )
+		if( getChildAt(numCh) != bubbleAllise && getChildAt(numCh) != bubbleAxis && getChildAt(numCh) != scoreBoard )
 			getChildAt(numCh).removeFromParent(true);
 		numCh --;
 	}

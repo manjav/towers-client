@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.models.vo.BattleData;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.List;
@@ -19,9 +20,9 @@ import starling.events.Event;
 
 public class EndBattleOverlay extends EndOverlay
 {
-public function EndBattleOverlay(playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean=false)
+public function EndBattleOverlay(battleData:BattleData, playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean = false)
 {
-	super(playerIndex, rewards, tutorialMode);
+	super(battleData, playerIndex, rewards, tutorialMode);
 }
 override protected function initialize():void
 {
@@ -75,7 +76,7 @@ override protected function initialize():void
 			rewardsList.height = 280;
 			rewardsList.layout = hlayout;
 			rewardsList.layoutData = new AnchorLayoutData(padding * 25, 0, NaN, 0);
-			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
+			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData);	}
 			rewardsList.dataProvider = _rewards;
 			addChild(rewardsList);
 		}
