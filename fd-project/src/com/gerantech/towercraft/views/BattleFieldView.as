@@ -9,17 +9,14 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
-import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.battle.units.Unit;
-import com.gt.towers.utils.GraphicMetrics;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
+import com.gt.towers.utils.GraphicMetrics;
 import com.gt.towers.utils.Point3;
 import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.filesystem.File;
 import starling.core.Starling;
@@ -122,8 +119,8 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 {
 	if( CardTypes.isSpell(type) )
 	{
-		var card:Card = battleData.getAlliseDeck().get(type);
-		var offset:Point3 = GraphicMetrics.getPoint(card.type, 0);
+		var card:Card = battleData.battleField.decks.get(side).get(type);
+		var offset:Point3 = GraphicMetrics.getSpellStartPoint(card.type);
 		var spell:BulletView = new BulletView(battleData.battleField, id, card, side, x + offset.x, y + offset.y * (side == 0 ? 0.7 : -0.7), offset.z * 0.7, x, y, 0);
 		battleData.battleField.bullets.set(id, spell);
 		//trace("summon spell", " side:" + side, " x:" + x, " y:" + y, " offset:" + offset);
