@@ -192,9 +192,11 @@ private function dfsdf():void
 	{
 		var sfs:SFSObject = new SFSObject();
 		sfs.putInt("score", i==0?2:0);
-		sfs.putInt("id", i == 0?10001:214);
+		sfs.putInt("id", i == 0?10004:214);
 		sfs.putText("name", i == 0?"ManJav":"Enemy");
+		sfs.putInt("3", 22);
 		sfs.putInt("2", 12);
+		sfs.putInt("52", 2);
 		rwards.addSFSObject(sfs);
 		
 		var p:SFSObject = new SFSObject();

@@ -54,7 +54,7 @@ override protected function initialize():void
 	// allise
 	name = reward_2.getText("name") == "guest" ? loc("guest_label") : reward_2.getText("name");
 	var alliseHeader:BattleHeader = new BattleHeader(name, reward_2.getInt("id") == player.id);
-	alliseHeader.layoutData = new AnchorLayoutData(padding * 20, 0, NaN, 0);
+	alliseHeader.layoutData = new AnchorLayoutData(padding * 21, 0, NaN, 0);
 	addChild(alliseHeader);
 	alliseHeader.addScoreImages(reward_2.getInt("score"));
 	if( !isDraw )
@@ -72,10 +72,10 @@ override protected function initialize():void
 		{
 			var rewardsList:List = new List();
 			rewardsList.backgroundSkin = new Quad(1, 1, 0);
-			rewardsList.backgroundSkin.alpha = 0.8;
-			rewardsList.height = 280;
+			rewardsList.backgroundSkin.alpha = 0.6;
+			rewardsList.height = 230;
 			rewardsList.layout = hlayout;
-			rewardsList.layoutData = new AnchorLayoutData(padding * 25, 0, NaN, 0);
+			rewardsList.layoutData = new AnchorLayoutData(padding * 26, 0, NaN, 0);
 			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData);	}
 			rewardsList.dataProvider = _rewards;
 			addChild(rewardsList);
