@@ -78,21 +78,6 @@ override public function init():void
 	var rightBattleButton:HomeNewButton = new HomeNewButton("battle-right", loc("button_battle_right"), 430, 186, gridRect, shadowRect);
 	addButton(rightBattleButton, "rightButton", stageWidth * (player.get_battleswins()<4?0.29:0.49) + rightBattleButton.width * 0.5, stageHeight * (player.get_battleswins()<4?0.57:0.66), 0.6);
 	
-	if( player.challenges != null )
-	{
-		var c:int = player.challenges.getStartedChallenge(timeManager.now);
-		if( c > -1 )
-		{
-			var ch:Challenge = player.challenges.get(0);
-			var countdownDisplay:CountdownLabel = new CountdownLabel();
-			countdownDisplay.time = ch.startAt + ch.duration - timeManager.now;
-			countdownDisplay.localString = "challenge_end_at";
-			countdownDisplay.height = 100;
-			countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
-			leftBattleButton.addChild(countdownDisplay);
-		}
-	}
-	
 	// bookline
 	var bookLine:HomeBooksLine = new HomeBooksLine();
     bookLine.height = padding * 20;
@@ -119,6 +104,21 @@ override public function init():void
 	{
 		var leftBattleButton:HomeNewButton = new HomeNewButton("battle-left", loc("button_battle_left"), 420, 186, gridRect, shadowRect);
 		addButton(leftBattleButton, "leftButton", stageWidth * 0.46 - leftBattleButton.width * 0.5, stageHeight * 0.66, 0.7);
+		
+		if( player.challenges != null )
+		{
+			var c:int = player.challenges.getStartedChallenge(timeManager.now);
+			if( c > -1 )
+			{
+				var ch:Challenge = player.challenges.get(0);
+				var countdownDisplay:CountdownLabel = new CountdownLabel();
+				countdownDisplay.time = ch.startAt + ch.duration - timeManager.now;
+				countdownDisplay.localString = "challenge_end_at";
+				countdownDisplay.height = 100;
+				countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
+				leftBattleButton.addChild(countdownDisplay);
+			}
+		}
 	}
 	
 	var profile:Profile  = new Profile();
