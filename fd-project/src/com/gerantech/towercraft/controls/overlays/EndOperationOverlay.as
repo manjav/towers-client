@@ -5,27 +5,25 @@ import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
 import com.gerantech.towercraft.managers.VideoAdsManager;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.BattleData;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-
 import feathers.controls.LayoutGroup;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
+import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
-
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.events.Event;
-import feathers.data.ListCollection;
 
-public class EndQuestOverlay extends EndOverlay
+public class EndOperationOverlay extends EndOverlay
 {
-public function EndQuestOverlay(playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean=false)
+public function EndOperationOverlay(battleData:BattleData, playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean = false)
 {
-	super(playerIndex, rewards, tutorialMode);
+	super(battleData, playerIndex, rewards, tutorialMode);
 }
 
 override protected function initialize():void
@@ -37,7 +35,7 @@ override protected function initialize():void
 	if( playerIndex == -1 )
 		message = "operation_end_label";
 	else
-		message = appModel.battleFieldView.battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
+		message = battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
 	
 	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true);
 	opponentHeader.layoutData = new AnchorLayoutData(550, 0, NaN, 0);
@@ -60,7 +58,7 @@ override protected function initialize():void
 		rewardsList.height = 400;
 		rewardsList.layout = hlayout;
 		rewardsList.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, 160);
-		rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer();	}
+		rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData);	}
 		rewardsList.dataProvider = rewardsCollection;
 		addChild(rewardsList);
 	}
@@ -70,7 +68,7 @@ override protected function initialize():void
 	buttons.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, (rewardsCollection.length>0 ? 480 : 220));
 	addChild(buttons);
 	
-	var hasRetry:Boolean = playerIndex > -1 && appModel.battleFieldView.battleData.map.isOperation && player.getLastOperation() > 3 && !appModel.battleFieldView.battleData.isLeft;
+	var hasRetry:Boolean = playerIndex > -1 && battleData.map.isOperation && player.getLastOperation() > 3 && !battleData.isLeft;
 	
 	var closeBatton:CustomButton = new CustomButton();
 	closeBatton.width = 300;

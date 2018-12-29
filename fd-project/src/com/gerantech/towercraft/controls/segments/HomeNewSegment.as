@@ -195,12 +195,10 @@ private function dfsdf():void
 		sfs.putInt("1004", 2);
 		rwards.addSFSObject(sfs);
 	}
-	appModel.battleFieldView = new BattleFieldView();
 	var sfs2:ISFSObject = new SFSObject();
 	sfs2.putText("mapName", "battle_3");
 	sfs2.putBool("hasExtraTime", false);
-	appModel.battleFieldView.battleData = new BattleData(sfs2);
-	appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
+	appModel.navigator.addOverlay(new EndBattleOverlay(new BattleData(sfs2), 0, rwards, false));
 }
 override public function focus():void
 {

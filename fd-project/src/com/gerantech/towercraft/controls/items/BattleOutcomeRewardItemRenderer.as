@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.items
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -26,8 +27,9 @@ private var labelDisplay:BitmapFontTextRenderer;
 private var reward:SFSObject;
 private var buildingCrad:BuildingCard;
 private var armatureDisplay:StarlingArmatureDisplay;
+private var battleData:BattleData;
 
-public function BattleOutcomeRewardItemRenderer(){}
+public function BattleOutcomeRewardItemRenderer(battleData:BattleData){ this.battleData = battleData; }
 override protected function initialize():void
 {
 	super.initialize();
@@ -74,7 +76,7 @@ override protected function feathersControl_removedFromStageHandler(event:Event)
 	if( _data.c != 0 )// && !SFSConnection.instance.mySelf.isSpectator
 	{
 		var rect:Rectangle = getBounds(stage);
-		appModel.battleFieldView.battleData.outcomes.push(new RewardData(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, _data.t, _data.c));
+		battleData.outcomes.push(new RewardData(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, _data.t, _data.c));
 	}
 	super.feathersControl_removedFromStageHandler(event);
 }
