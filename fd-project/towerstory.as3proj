@@ -4,14 +4,14 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin\towerstory.swf" />
+    <movie path="bin\release.swf" />
     <movie fps="60" />
-    <movie width="480" />
-    <movie height="762" />
+    <movie width="1080" />
+    <movie height="1920" />
     <movie version="26" />
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />
-    <movie background="#FFFFFF" />
+    <movie background="#000000" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
@@ -101,7 +101,7 @@
   <postBuildCommand alwaysRun="False" />
   <!-- Other project options -->
   <options>
-    <option showHiddenPaths="False" />
+    <option showHiddenPaths="True" />
     <option testMovie="Custom" />
     <option testMovieCommand="bat\RunApp.bat" />
   </options>
