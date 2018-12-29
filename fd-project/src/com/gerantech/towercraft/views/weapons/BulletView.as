@@ -136,6 +136,10 @@ protected function defaultHitDisplayFactory() : void
 	var hasDamageArea:Boolean = card.bulletDamageArea > 50 && card.bulletDamage > 0;
 	if( hasDamageArea )
 	{
+		var explosionSoundId:String = getExplosionSound(card);
+		if( explosionSoundId != null )
+			appModel.sounds.addAndPlaySound(explosionSoundId);
+		
 		var textureURL:String = "hits/explosion-";
 		if( card.type == CardTypes.C152 )
 			textureURL = "hits/arrows-";
@@ -162,6 +166,15 @@ protected function defaultHitDisplayFactory() : void
 	hitDisplay.scale = 1.5;
 	fieldView.effectsContainer.addChild(hitDisplay);
 	Starling.juggler.tween(hitDisplay, 0.2, {scale:0, onComplete:hitDisplay.removeFromParent, onCompleteArgs:[true]});
+}
+
+static protected function getExplosionSound(card:Card) : String
+{
+	switch(card.type)
+	{
+		case 106: return "battle-capture";
+	}
+	return null;
 }
 
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
