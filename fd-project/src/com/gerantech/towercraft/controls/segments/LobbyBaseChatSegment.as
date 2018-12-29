@@ -314,7 +314,7 @@ protected function sendButton_triggeredHandler(event:Event):void
 private function areUVerbose():Boolean 
 {
 	var last:ISFSObject = manager.messages.getItemAt(manager.messages.length - 1) as SFSObject;
-	if ( last != null && last.getInt("i") == player.id )
+	if ( last != null && last.getInt("i") == player.id && last.containsKey("t") )
 		return (last.getText("t").split("\n").length > 5 );
 	return false;
 }
