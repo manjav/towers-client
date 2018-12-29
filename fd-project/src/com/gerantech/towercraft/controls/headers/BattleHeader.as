@@ -78,7 +78,7 @@ public function addScoreImages(score:int, max:int=-1):void
 		keyImage.x = (Math.ceil(i/4) * ( i==1 ? 1 : -1 )) * padding * 5 + Starling.current.stage.stageWidth * 0.5;
 		keyImage.y = padding * ( i==0 ? -2.2	 : -1.8 );
 		keyImage.scale = 0;
-		Starling.juggler.tween(keyImage, 0.6, {delay:i * 0.3 + 0.5, scale:( i == 0 ? 1.1 : 1 ), transition:Transitions.EASE_OUT_BACK});
+		Starling.juggler.tween(keyImage, 0.6, {delay:(i+1) * 0.6 + 0.5, scale:( i == 0 ? 1.2 : 1 ), transition:Transitions.EASE_OUT_BOUNCE});
 		addChild(keyImage);
 	}	
 }
