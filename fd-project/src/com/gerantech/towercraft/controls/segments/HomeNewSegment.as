@@ -187,21 +187,32 @@ override public function init():void
 private function dfsdf():void
 {
 	var rwards:SFSArray = new SFSArray();
+	var sfs2:ISFSObject = new SFSObject();
 	for (var i:int = 0; i < 2; i++) 
 	{
 		var sfs:SFSObject = new SFSObject();
 		sfs.putInt("score", i==0?2:0);
-		sfs.putInt("id", i == 0?10383:214);
-		sfs.putText("name", i == 0?"10383":"214");
+		sfs.putInt("id", i == 0?10001:214);
+		sfs.putText("name", i == 0?"ManJav":"Enemy");
 		sfs.putInt("2", 12);
 		rwards.addSFSObject(sfs);
+		
+		var p:SFSObject = new SFSObject();
+		p.putText("name", i == 0?"ManJav":"Enemy");
+		p.putInt("xp", 0);
+		p.putInt("point", 0);
+		p.putIntArray("deck", []);
+		p.putInt("score", 0);
+		sfs2.putSFSObject(i == 0?"allis":"axis", p);
 	}
-	appModel.battleFieldView = new BattleFieldView();
-	var sfs2:ISFSObject = new SFSObject();
-	sfs2.putText("mapName", "battle_3");
+	sfs2.putInt("index", 1);
+	sfs2.putText("type", "touchdown");
+	sfs2.putText("map", "{}");
 	sfs2.putBool("hasExtraTime", false);
-	appModel.battleFieldView.battleData = new BattleData(sfs2);
-	appModel.navigator.addOverlay(new EndBattleOverlay(0, rwards, false));
+	sfs2.putInt("side", 0);
+	sfs2.putInt("startAt", 1243554);
+	sfs2.putBool("isFriendly", false)
+	appModel.navigator.addOverlay(new EndBattleOverlay(new BattleData(sfs2), 0, rwards, false));
 }
 override public function focus():void
 {
