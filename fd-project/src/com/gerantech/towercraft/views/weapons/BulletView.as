@@ -172,7 +172,7 @@ static protected function getExplosionSound(card:Card) : String
 {
 	switch(card.type)
 	{
-		case 106: return "battle-capture";
+		case 106: return "grenade-explosion";
 	}
 	return null;
 }
