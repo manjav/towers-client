@@ -130,7 +130,7 @@ override public function set buttonsEnabled(value:Boolean):void
 
 override public function dispose():void
 {
-	if( manager != null )
+	if( manager != null ) 
 		manager.removeEventListener(Event.TRIGGERED, manager_triggerHandler);
 	super.dispose();
 }
