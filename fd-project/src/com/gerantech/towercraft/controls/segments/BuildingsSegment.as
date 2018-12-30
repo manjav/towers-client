@@ -61,36 +61,14 @@ override public function init():void
 	buildingslist.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
 	addChild(buildingslist);
 	initializeCompleted = true;
-	showTutorial();
 	showAutoSelected();
 }
 
 override public function focus():void
 {
 	updateData();
-	if( initializeCompleted )
-		showTutorial();
-}	
-private function showTutorial():void
-{
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
-	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
-		return;
-	
-	var tutorialData:TutorialData = new TutorialData("deck_end");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
-	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-	tutorials.show(tutorialData);
-}		
-
-private function tutorials_finishHandler(event:Event):void 
-{
-	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
-		return;
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
-	DashboardScreen.TAB_INDEX = 2;
-	appModel.navigator.runBattle();
 }
+
 override public function updateData():void
 {
 	if( buildingsListCollection == null )
@@ -201,14 +179,9 @@ private function seudUpgradeRequest(building:Building, confirmedHards:int):void
 		return;
 	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
-	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
 	upgradeOverlay.building = building;
 	appModel.navigator.addOverlay(upgradeOverlay);
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
 }
-private function upgradeOverlay_closeHandler(event:Event):void 
-{
-	showTutorial();
 }
 }
-}

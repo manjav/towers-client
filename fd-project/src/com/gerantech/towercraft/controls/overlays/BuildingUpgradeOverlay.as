@@ -3,10 +3,17 @@ package com.gerantech.towercraft.controls.overlays
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
+import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.events.GameEvent;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingFeatureType;
+import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.PrefsTypes;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
@@ -72,6 +79,7 @@ override protected function initialize():void
 	appModel.sounds.setVolume("main-theme", 0.3);
 	setTimeout(levelUp, 500);
 	setTimeout(showFeatures, 1800);
+	setTimeout(showEnd, 2500);
 	function levelUp():void {
 		var titleDisplay:RTLLabel = new RTLLabel(loc("building_title_" + building.type), 1, "center", null, false, null, 1.5);
 		titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
@@ -107,7 +115,8 @@ override protected function initialize():void
 		
 		appModel.sounds.addAndPlaySound("upgrade");
 	}
-	function showFeatures():void {
+	function showFeatures():void 
+	{
 		var featureList:List = new List();
 		featureList.width = stage.stageWidth * 0.5;
 		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width * 0.7);
@@ -115,13 +124,66 @@ override protected function initialize():void
 		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(building.type); }
 		featureList.dataProvider = new ListCollection(BuildingFeatureType.getRelatedTo(building.type)._list);
 		addChild(featureList);
-		
-		var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
-		buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
-		buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-		addChild(buttonOverlay);
+	}
+	function showEnd():void 
+	{
+		if( player.getTutorStep() >= PrefsTypes.T_038_CARD_UPGRADED && building.type == BuildingType.B11_BARRACKS && building.get_level() == 2 )
+		{
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
+			
+			// dispatch tutorial event
+			var tutorialData:TutorialData = new TutorialData("deck_end");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
+			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
+			tutorials.show(tutorialData);
+		}
+		else
+		{
+			var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
+			buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
+			buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+			addChild(buttonOverlay);
+		}
 	}
 }
+
+private function tutorials_finishHandler(event:Event):void 
+{
+	var tutorial:TutorialData = event.data as TutorialData;
+	if( tutorial.name != "deck_end" )
+		return;
+	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE);
+	DashboardScreen.TAB_INDEX = 2;
+	appModel.navigator.runBattle();
+	close();
+}
+
+
+/*
+private function showTutorial():void
+{
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_036_DECK_SHOWN );
+	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
+		return;
+	
+	var tutorialData:TutorialData = new TutorialData("deck_end");
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
+	tutorials.show(tutorialData);
+}		
+
+private function tutorials_finishHandler(event:Event):void 
+{
+	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
+		return;
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
+	DashboardScreen.TAB_INDEX = 2;
+	appModel.navigator.runBattle();
+}
+*/
+
+
 
 
 private function buttonOverlay_triggeredHandler(event:Event):void
