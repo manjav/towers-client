@@ -80,7 +80,7 @@ override protected function transitionInCompleted():void
 }
 private function showTutorArrow () : void
 {
-	if( cardType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.T_035_DECK_FOCUS )
+	if( cardType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.T_015_DECK_FOCUS )
 		return;
 	
 	if( tutorialArrow != null )

@@ -132,7 +132,7 @@ override protected function initialize():void
 	
 	if( player.get_battleswins() < 4 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_032_SLOT_OPENED);
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_012_SLOT_OPENED);
 		buttonDisplay.showTutorArrow(false);
 	}
 }

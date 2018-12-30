@@ -453,7 +453,7 @@ private function upgradeOverlay_closeHandler(event:Event):void
 	var upgradeOverlay:BuildingUpgradeOverlay = event.currentTarget as BuildingUpgradeOverlay;
 	if( player.inTutorial() && upgradeOverlay.card.type == CardTypes.INITIAL && upgradeOverlay.card.level == 2 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_018_CARD_UPGRADED );
 		
 		// dispatch tutorial event
 		var tutorialData:TutorialData = new TutorialData("deck_end");
@@ -469,7 +469,7 @@ private function tutorials_finishHandler(event:Event):void
 	if( tutorial.name != "deck_end" )
 		return;
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_019_RETURN_TO_BATTLE );
 	DashboardScreen.TAB_INDEX = 2;
 	appModel.navigator.runBattle();
 

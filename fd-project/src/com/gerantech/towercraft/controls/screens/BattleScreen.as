@@ -460,7 +460,7 @@ private function tutorials_tasksFinishHandler(event:Event):void
 	}
 	if( player.get_battleswins() == 2 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_031_SLOT_FOCUS);
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_011_SLOT_FOCUS);
 		appModel.navigator.popToRootScreen();
 		return;
 	}
