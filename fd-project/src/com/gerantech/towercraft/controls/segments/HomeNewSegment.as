@@ -205,7 +205,7 @@ private function dfsdf():void
 		p.putInt("point", 0);
 		p.putIntArray("deck", []);
 		p.putInt("score", 0);
-		sfs2.putSFSObject(i == 0?"allis":"axis", p);
+		sfs2.putSFSObject("p" + i, p);
 	}
 	sfs2.putInt("index", 1);
 	sfs2.putText("type", "touchdown");

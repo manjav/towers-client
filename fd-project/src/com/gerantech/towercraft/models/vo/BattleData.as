@@ -41,7 +41,7 @@ public function BattleData(data:ISFSObject)
 	id.resources.set(ResourceType.R2_POINT,	 axis.getInt("point"));
 	for ( var i:int = 0; i < axis.getIntArray("deck").length; i++ )
 		id.buildingsLevel.set(axis.getIntArray("deck")[i], 1);
-	axisGame.init(id);trace("saaaaaaaaaa", axis.getIntArray("deck"))
+	axisGame.init(id);
 	
 	var field:FieldData = FieldProvider.getField(data.getText("type"), data.getInt("index"));
 	field.mapLayout = data.getText("map");
