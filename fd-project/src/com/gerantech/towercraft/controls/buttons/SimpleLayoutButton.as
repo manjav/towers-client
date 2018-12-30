@@ -8,6 +8,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 import flash.geom.Point;
 import flash.utils.getTimer;
+import flash.utils.setTimeout;
 import starling.events.Event;
 import starling.events.Touch;
 import starling.events.TouchEvent;
@@ -209,7 +210,7 @@ public function showTutorArrow(isUp:Boolean) : void
 	
 	tutorialArrow = new TutorialArrow(isUp);
 	tutorialArrow.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -tutorialArrow._height : NaN, NaN, 0);
-	addChild(tutorialArrow);
+	setTimeout(addChild, 200, tutorialArrow);
 }
 }
 }
