@@ -207,17 +207,14 @@ private function showTutorials() : void
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_battleswins() > 2 )
+	if( player.get_battleswins() == 1 || player.get_battleswins() > 2 )
 	{
 		readyBattle();
 		return;
 	}
 	
-	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
-	if( player.tutorialMode == 0 && !field.isOperation() )
-		return;
-
 	// create tutorial steps
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 	var tutorialData:TutorialData = new TutorialData(field.name + "_start");
 	tutorialData.data = "start";
 	

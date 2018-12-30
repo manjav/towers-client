@@ -142,12 +142,10 @@ override public function init():void
 		unavailableList.layout = availabledLayout;
 		unavailableList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
 		unavailableList.dataProvider = unavailableCollection;
-		//unavailabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
 		scroller.addChild(unavailableList);
 	}
 	
 	initializeCompleted = true;
-	showTutorial();
 	exchangeManager.addEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endHandler);
 }
 protected function exchangeManager_endHandler(event:Event):void
@@ -156,11 +154,6 @@ protected function exchangeManager_endHandler(event:Event):void
 	updateData();
 }
 
-override public function focus():void
-{
-	if( initializeCompleted )
-		showTutorial();
-}
 protected function scroller_scrollHandler(event:Event):void
 {
 	var scrollPos:Number = Math.max(0, scroller.verticalScrollPosition);
@@ -169,16 +162,7 @@ protected function scroller_scrollHandler(event:Event):void
 	deckHeader.visible = deckHeader.y > -deckHeader._height
 	startScrollBarIndicator = scrollPos;
 }
-private function showTutorial():void
-{
-	/*if( player.getTutorStep() != PrefsTypes.TUTE_113_SELECT_DECK )
-		return;
-	
-	player.prefs.set(PrefsTypes.TUTOR, PrefsTypes.TUTE_114_SELECT_BUILDING.toString() );
-	var tutorialData:TutorialData = new TutorialData("deck_start");
-	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
-	tutorials.show(tutorialData);*/
-}		
+
 override public function updateData():void
 {
 	if( foundCollection == null )
@@ -237,26 +221,6 @@ private function deckHeader_selectHandler(event:Event):void
 private function selectCard(cardType:int, cardBounds:Rectangle):void
 {
 	var inDeck:Boolean = player.getSelectedDeck().existsValue(cardType);
-	/*if( player.inTutorial() && cardType != CardTypes.B11_BARRACKS )
-	return;// disalble all items in tutorial
-	
-	if( !player.cards.exists( cardType ) )
-	{
-	var unlockedAt:int = game.unlockedBuildingAt( cardType );
-	if( unlockedAt <= player.get_arena(0) )
-	appModel.navigator.addLog(loc("earn_at_chests"));
-	else
-	appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_"+(unlockedAt+1))]));
-	return;
-	}
-	
-	if( player.inTutorial() )
-	{
-	seudUpgradeRequest(player.cards.get(cardType), 0);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.TUTE_115_UPGRADE_BUILDING );
-	tutorials.dispatchEventWith("upgrade");
-	return;
-	}*/
 	
 	// create transition data
 	var ti:TransitionData = new TransitionData(0.1);
