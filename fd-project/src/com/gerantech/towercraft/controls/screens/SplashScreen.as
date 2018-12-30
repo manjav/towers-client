@@ -131,7 +131,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 		case LoadingEvent.FORCE_UPDATE:
 			var updatepopup:MessagePopup = new MessagePopup(loc("popup_"+event.type+"_message"), loc("popup_update_label"));
 			updatepopup.data = confirmData;
-			updatepopup.closeOnOverlay = false;
+			updatepopup.closeOnStage = updatepopup.closeWithKeyboard = updatepopup.closeOnOverlay = false;
 			updatepopup.addEventListener("select", confirm_eventsHandler);
 			AppModel.instance.navigator.addPopup(updatepopup);
 			if( parent )
