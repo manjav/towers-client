@@ -8,17 +8,11 @@ import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.popups.CardSelectPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
-import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
-import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.lists.IntList;
@@ -405,38 +399,10 @@ private function seudUpgradeRequest(card:Card, confirmedHards:int):void
 	
 	var upgradeOverlay:BuildingUpgradeOverlay = new BuildingUpgradeOverlay();
 	upgradeOverlay.card = card;
-	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
 	appModel.navigator.addOverlay(upgradeOverlay);
 	
 	deckHeader.update();
 	updateData();
 }		
-
-private function upgradeOverlay_closeHandler(event:Event):void 
-{
-	var upgradeOverlay:BuildingUpgradeOverlay = event.currentTarget as BuildingUpgradeOverlay;
-	if( player.inTutorial() && upgradeOverlay.card.type == CardTypes.INITIAL && upgradeOverlay.card.level == 2 )
-	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_018_CARD_UPGRADED );
-		
-		// dispatch tutorial event
-		var tutorialData:TutorialData = new TutorialData("deck_end");
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-		tutorials.show(tutorialData);
-	}	
-}
-
-private function tutorials_finishHandler(event:Event):void 
-{
-	var tutorial:TutorialData = event.data as TutorialData;
-	if( tutorial.name != "deck_end" )
-		return;
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_019_RETURN_TO_BATTLE );
-	DashboardScreen.TAB_INDEX = 2;
-	appModel.navigator.runBattle();
-
-}
 }
 }
