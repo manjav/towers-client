@@ -161,9 +161,11 @@ public function process(item : ExchangeItem) : void
 		var details:BookDetailsPopup = new BookDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
 		appModel.navigator.addPopup(details);
-		function details_selectHandler(event:Event):void{
-			details.removeEventListener(Event.SELECT, details_selectHandler);
+		function details_selectHandler(event:Event):void
+		{
 			_state = item.getState(timeManager.now);
+			if( _state != ExchangeItem.CHEST_STATE_WAIT )
+				details.removeEventListener(Event.SELECT, details_selectHandler);
 			if( _state == ExchangeItem.CHEST_STATE_WAIT && exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_ALREADY_SENT )
 				params.putInt("hards", Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
 			exchange(item, params);
