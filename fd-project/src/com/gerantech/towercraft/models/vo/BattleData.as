@@ -48,7 +48,6 @@ public function BattleData(data:ISFSObject)
 	battleField = new BattleField();
 	battleField.initialize(battleField.side == 0 ? AppModel.instance.game : axisGame, battleField.side == 0 ? axisGame : AppModel.instance.game, field, data.getInt("side"), data.getInt("startAt") * 1000, false, data.getBool("isFriendly"));
 	battleField.state = BattleField.STATE_1_CREATED;
-	 
 	battleField.decks = new IntIntCardMap();
 	battleField.decks.set(0, BattleField.getDeckCards(battleField.side == 0 ? AppModel.instance.game : axisGame, SFSConnection.ArrayToMap(data.getSFSObject("p0").getIntArray("deck")), data.getBool("isFriendly")));
 	battleField.decks.set(1, BattleField.getDeckCards(battleField.side == 0 ? axisGame : AppModel.instance.game, SFSConnection.ArrayToMap(data.getSFSObject("p1").getIntArray("deck")), data.getBool("isFriendly")));

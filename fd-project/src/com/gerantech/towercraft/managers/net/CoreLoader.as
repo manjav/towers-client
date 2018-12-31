@@ -5,14 +5,13 @@ package com.gerantech.towercraft.managers.net
 {
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
-import com.gt.towers.battle.units.ScriptEngine;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.others.Arena;
 import com.gt.towers.others.Quest;
+import com.gt.towers.scripts.ScriptEngine;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntArenaMap;

@@ -6,10 +6,10 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.battle.units.ScriptEngine;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.scripts.ScriptEngine;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
@@ -19,7 +19,6 @@ import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
-import starling.textures.TextureSmoothing;
 
 public class BuildingCard extends TowersLayout
 {

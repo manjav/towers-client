@@ -73,7 +73,7 @@ override protected function initialize():void
 	hlayout.horizontalAlign = HorizontalAlign.RIGHT;
 	cardsContainer.layout = hlayout;
 	
-	cardQueue = appModel.battleFieldView.battleData.getAlliseDeck().keys();
+	cardQueue = appModel.battleFieldView.battleData.getAlliseDeck()._queue;
 	cards = new Vector.<BattleDeckCard>();
 	var minDeckSize:int = Math.min(4, cardQueue.length);
 	for ( var i:int = 0; i < minDeckSize; i++ ) 
