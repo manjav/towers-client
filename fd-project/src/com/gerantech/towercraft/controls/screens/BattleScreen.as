@@ -207,17 +207,14 @@ private function showTutorials() : void
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_battleswins() > 2 )
+	if( player.get_battleswins() == 1 || player.get_battleswins() > 2 )
 	{
 		readyBattle();
 		return;
 	}
 	
-	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
-	if( player.tutorialMode == 0 && !field.isOperation() )
-		return;
-
 	// create tutorial steps
+	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 	var tutorialData:TutorialData = new TutorialData(field.name + "_start");
 	tutorialData.data = "start";
 	
@@ -460,7 +457,7 @@ private function tutorials_tasksFinishHandler(event:Event):void
 	}
 	if( player.get_battleswins() == 2 )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_031_SLOT_FOCUS);
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_011_SLOT_FOCUS);
 		appModel.navigator.popToRootScreen();
 		return;
 	}

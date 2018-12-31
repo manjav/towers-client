@@ -140,8 +140,8 @@ public function process(item : ExchangeItem) : void
 			item.outcomes = new IntIntMap();
 			exchange(item, params);
 			
-			if( player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_033_BOOK_OPENED );
+			if( player.getTutorStep() == PrefsTypes.T_012_SLOT_OPENED )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_013_BOOK_OPENED );
 			
 			return;
 		}
@@ -161,9 +161,11 @@ public function process(item : ExchangeItem) : void
 		var details:BookDetailsPopup = new BookDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
 		appModel.navigator.addPopup(details);
-		function details_selectHandler(event:Event):void{
-			details.removeEventListener(Event.SELECT, details_selectHandler);
+		function details_selectHandler(event:Event):void
+		{
 			_state = item.getState(timeManager.now);
+			if( _state != ExchangeItem.CHEST_STATE_WAIT )
+				details.removeEventListener(Event.SELECT, details_selectHandler);
 			if( _state == ExchangeItem.CHEST_STATE_WAIT && exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_ALREADY_SENT )
 				params.putInt("hards", Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
 			exchange(item, params);
@@ -262,7 +264,7 @@ private function gotoDeckTutorial():void
 {
 	if( !player.inSlotTutorial() )
 		return;
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_035_DECK_FOCUS);
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_015_DECK_FOCUS);
 	var tutorialData:TutorialData = new TutorialData("open_book_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_cards_2", null, 500, 1500, 4));
 	tutorials.show(tutorialData);

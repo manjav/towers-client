@@ -76,7 +76,7 @@ override public function focus():void
 }	
 private function showTutorial():void
 {
-	if( player.getTutorStep() != PrefsTypes.T_038_CARD_UPGRADED )
+	if( player.getTutorStep() != PrefsTypes.T_018_CARD_UPGRADED )
 		return;
 	
 	var tutorialData:TutorialData = new TutorialData("deck_end");
@@ -87,7 +87,7 @@ private function showTutorial():void
 
 private function tutorials_finishHandler(event:Event):void 
 {
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_039_RETURN_TO_BATTLE );
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_019_RETURN_TO_BATTLE );
 	DashboardScreen.TAB_INDEX = 2;
 	appModel.navigator.runBattle();
 }
@@ -132,7 +132,7 @@ private function openCard(cardType:int):void
 	/*if( player.inDeckTutorial() )
 	{
 		seudUpgradeRequest(player.cards.get(CardTypes), 0);
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_018_CARD_UPGRADED );
 		tutorials.dispatchEventWith("upgrade");
 		appModel.navigator.runBattle();
 		return;
@@ -204,7 +204,7 @@ private function seudUpgradeRequest(card:Card, confirmedHards:int):void
 	upgradeOverlay.addEventListener(Event.CLOSE, upgradeOverlay_closeHandler);
 	upgradeOverlay.card = card;
 	appModel.navigator.addOverlay(upgradeOverlay);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_038_CARD_UPGRADED );
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_018_CARD_UPGRADED );
 }
 private function upgradeOverlay_closeHandler(event:Event):void 
 {

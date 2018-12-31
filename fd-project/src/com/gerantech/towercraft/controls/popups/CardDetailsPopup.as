@@ -105,6 +105,7 @@ override protected function transitionInCompleted():void
 	upgradeButton.disableSelectDispatching = true;
 
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, inDeck ? 0 : -padding * 5);
+	upgradeButton.alpha = 0;
 	upgradeButton.width = 320;
 	upgradeButton.height = 110;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
@@ -114,20 +115,20 @@ override protected function transitionInCompleted():void
 	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.level, card.rarity);
 	upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
-	
-	if( player.inDeckTutorial() )
+	Starling.juggler.tween(upgradeButton, 0.3, {delay:0.1, alpha:1, onComplete:upgradeButton_tweenCompleted});
+	function upgradeButton_tweenCompleted () : void
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_037_CARD_OPENED );
-		upgradeButton.showTutorArrow(true);
+		if( player.inDeckTutorial() )
+		{
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_017_CARD_OPENED );
+			upgradeButton.showTutorArrow(true);
+		}
 	}
 
-	/*upgradeButton.alpha = 0;
-	Starling.juggler.tween(upgradeButton, 0.1, {alpha:1, delay:0.3});*/
-	
 	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_label"), 1, "center", null, true, null, 0.7);
 	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding + upgradeButton.height, NaN, inDeck ? 0 : -padding * 5);
 	upgradeLabel.alpha = 0;
-	Starling.juggler.tween(upgradeLabel, 0.1, {alpha:1, delay:0.3});
+	Starling.juggler.tween(upgradeLabel, 0.3, {delay:0.4, alpha:1});
 	addChild(upgradeLabel);
 	
 	if( !inDeck )
@@ -142,22 +143,7 @@ override protected function transitionInCompleted():void
 		usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 		usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding * 5);
 		addChild(usingButton);
-	}
-    
- /*   showTutorArrow();
-}
-
-private function showTutorArrow () : void
-{
-    if( buildingType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.TUTE_114_SELECT_BUILDING )
-        return;
-    
-    if( tutorialArrow != null )
-        tutorialArrow.removeFromParent(true);
-    
-    tutorialArrow = new TutorialArrow(true);
-    tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, -padding * 2.4, NaN, -padding * 5);
-    addChild(tutorialArrow);*/
+	}    
 }
 
 override protected function transitionOutStarted():void

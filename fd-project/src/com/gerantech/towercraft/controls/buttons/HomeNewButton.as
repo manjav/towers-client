@@ -44,7 +44,7 @@ public function HomeNewButton(background:String, label:String, width:Number, hei
 override protected function initialize() : void
 {
 	super.initialize();
-	touchable = player.getTutorStep() > PrefsTypes.T_038_CARD_UPGRADED;
+	touchable = player.getTutorStep() > PrefsTypes.T_018_CARD_UPGRADED;
 	layout = new AnchorLayout();
 	
 	backgroundDisplay = new ImageLoader();

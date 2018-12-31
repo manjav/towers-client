@@ -55,7 +55,7 @@ override protected function commitData():void
 		{
 			if( index == 1 )
 			{
-				if( player.inDeckTutorial() || player.getTutorStep() == PrefsTypes.T_038_CARD_UPGRADED )
+				if( player.inDeckTutorial() || player.getTutorStep() == PrefsTypes.T_018_CARD_UPGRADED )
 					setTimeout(showTutorArrow, 500);
 				else 
 					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);

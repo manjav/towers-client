@@ -76,9 +76,9 @@ override protected function commitData():void
 		timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 		timeManager_changeHandler(null);
 	}
-	else if( state == ExchangeItem.CHEST_STATE_READY && player.getTutorStep() == PrefsTypes.T_032_SLOT_OPENED )
+	else if( state == ExchangeItem.CHEST_STATE_READY && player.getTutorStep() == PrefsTypes.T_012_SLOT_OPENED )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_033_BOOK_OPENED);
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_013_BOOK_OPENED);
 		showTutorArrow();
 	}
 	else if( state == ExchangeItem.CHEST_STATE_WAIT && player.getResource(ResourceType.R21_BOOK_OPENED_BATTLE) == 0 )

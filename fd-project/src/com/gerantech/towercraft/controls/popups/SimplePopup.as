@@ -8,7 +8,6 @@ import feathers.layout.AnchorLayoutData;
 public class SimplePopup extends AbstractPopup
 {
 protected var padding:int;
-
 public function SimplePopup(){ super(); }
 override protected function initialize():void
 {
