@@ -65,7 +65,7 @@ public function rotateTo(from:Number, to:Number, duration:Number = 1):void
 public function scaleTo(value:Number, delay:Number = 0.5, duration:Number = 0.5, endCallback:Function=null):void
 {
 	scale *= 1.5;
-	Starling.juggler.tween(this, duration, {delay:delay, scale:value, transition:Transitions.EASE_OUT_BACK, onComplete:endCallback});
+	Starling.juggler.tween(this, duration, {delay:delay, scale:value, transition:Transitions.EASE_IN_BACK, onComplete:endCallback});
 }		
 
 public function stop():void
