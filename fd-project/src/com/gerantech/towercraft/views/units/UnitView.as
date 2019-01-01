@@ -73,7 +73,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	
 	var appearanceDelay:Number = Math.random() * 0.5;
 	
-	textureType = Math.min(208, type) + "/" + battleField.getColorIndex(side) + "/";
+	textureType = (type) + "/" + battleField.getColorIndex(side) + "/";
 	textureName = textureType + "m_" + (side == battleField.side ? "000_" : "180_");
 	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureName), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
@@ -83,8 +83,9 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	bodyDisplay.width = _WIDTH;
 	bodyDisplay.height = _HEIGHT;
 	troopScale = bodyDisplay.scale *= _SCALE;
-	fieldView.unitsContainer.addChild(bodyDisplay);
+	bodyDisplay.pause();
 	Starling.juggler.add(bodyDisplay);
+	fieldView.unitsContainer.addChild(bodyDisplay);
 	setHealth(card.health);
 
 	if( movable )
@@ -114,7 +115,6 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 		sizeDisplay.pivotY = sizeDisplay.height * 0.5;
 		sizeDisplay.width = card.sizeH * 2;
 		sizeDisplay.height = card.sizeH * 1.42;
-		//sizeDisplay.alpha = 0.1;
 		sizeDisplay.color = Color.NAVY;
 		sizeDisplay.x = __x;
 		sizeDisplay.y = __y;
@@ -134,7 +134,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	if( fireDisplayFactory == null )
 		fireDisplayFactory = defaultFireDisplayFactory;
 		
-	if( side == 1 && player.get_battleswins() < 3 && CardTypes.isBuilding(card.type) )
+	if( card.type == 201 && side == 1 && player.get_battleswins() < 3 )
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 }
 
@@ -155,25 +155,27 @@ override public function setState(state:int) : Boolean
 	
 	if( state == GameObject.STATE_1_DIPLOYED )
 	{
-		//muted = false;
 		if( deployIcon != null )
 			deployIcon.scaleTo(0, 0, 0.5, function():void{deployIcon.removeFromParent(true);} );
+	}
+	else if( state == GameObject.STATE_2_MORTAL )
+	{
+		bodyDisplay.pause();
+		bodyDisplay.x = __x;
+		bodyDisplay.y = __y;
+		bodyDisplay.alpha = 1;
+		bodyDisplay.scaleY = troopScale;
+		Starling.juggler.removeTweens(bodyDisplay);
 	}
 	else if( state == GameObject.STATE_3_WAITING )
 	{
 		bodyDisplay.currentFrame = 0;
 		//bodyDisplay.pause();
 	}
-	else if( state == GameObject.STATE_2_MOVING || state == GameObject.STATE_7_SHOOTING )
+	else if( state == GameObject.STATE_4_MOVING || state == GameObject.STATE_5_SHOOTING )
 	{
 		bodyDisplay.play();
 	}
-	else if( state == GameObject.STATE_6_MORTAL )
-	{
-		Starling.juggler.removeTweens(bodyDisplay);
-		bodyDisplay.alpha = 1;
-	}
-
 	return true;
 }
 

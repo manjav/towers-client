@@ -39,7 +39,6 @@ public function leave(retryMode:Boolean=false):void
 	var params:SFSObject = new SFSObject();
 	if( retryMode )
 		params.putBool("retryMode", true);
-		
 	send(SFSCommands.BATTLE_LEAVE, params, room, false);			
 }
 
