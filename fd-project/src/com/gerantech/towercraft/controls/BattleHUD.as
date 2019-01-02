@@ -168,9 +168,6 @@ override protected function initialize():void
 	bubbleAxis = new StickerBubble(true);
 	bubbleAxis.layoutData = new AnchorLayoutData(140 + padding, NaN, NaN, padding);
 	
-	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
-		return;
-	
 	scoreBoard = new BattleScoreBoard();
 	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, NaN, -BattleFooter.HEIGHT * 0.2);
 	//scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
@@ -305,13 +302,6 @@ public function updateRoomVars():void
 }
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
-	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
-		return;
-	
-	var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
-	if( unit != null )
-		unit.showWinnerFocus();
-	
 	if( allise > 2 || axis > 2 )
 		return;
 	
@@ -323,6 +313,13 @@ public function updateScores(round:int, winnerSide:int, allise:int, axis:int, un
 	
 	if( scoreBoard != null )
 		scoreBoard.update(allise, axis);
+	
+	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
+		return;
+	
+	var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
+	if( unit != null )
+		unit.showWinnerFocus();
 	
 	setTimeout(appModel.navigator.addLog, 3000, loc("round_label", [loc("num_" + round)]));
 }

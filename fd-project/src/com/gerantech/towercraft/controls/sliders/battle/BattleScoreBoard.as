@@ -19,6 +19,8 @@ public class BattleScoreBoard extends IBattleBoard
 {
 private var allisScoreDisplay:BitmapFontTextRenderer;
 private var axisScoreDisplay:BitmapFontTextRenderer;
+private var alliseValue:int;
+private var axisValue:int;
 public function BattleScoreBoard() 
 {
 	super();
@@ -87,9 +89,18 @@ private function createCompleteHandler(e:Event):void
 
 override public function update(allise:int, axis:int):void
 {
-	allisScoreDisplay.text = allise.toString();
-	axisScoreDisplay.text = axis.toString();
-
+	if( alliseValue != allise )
+	{
+		alliseValue = allise;
+		allisScoreDisplay.text = allise.toString();
+		appModel.sounds.addAndPlaySound("scoreboard-change-0");
+	}
+	if( axisValue != axis )
+	{
+		axisValue = axis;
+		axisScoreDisplay.text = axis.toString();
+		appModel.sounds.addAndPlaySound("scoreboard-change-1");
+	}
 	/*//var sum:int = allise + axis;
 	Starling.juggler.tween(allisFill,	0.5, {height : height * ( allise	/ sum ), transition:Transitions.EASE_OUT_BACK});
 	Starling.juggler.tween(axisFill,	0.5, {height : height * ( axis		/ sum ), transition:Transitions.EASE_OUT_BACK});*/
