@@ -233,7 +233,7 @@ protected function buttonsPopup_selectHandler(event:Event):void
 {
 	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
 	buttonsPopup.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	buttonsPopup.removeEventListener(Event.CLOSE, buttonsPopup_selectHandler);buttonsPopup_close);
+	buttonsPopup.removeEventListener(Event.CLOSE, buttonsPopup_selectHandler);
 	
 	if( event.type == Event.CLOSE )
 		return;
