@@ -33,6 +33,7 @@ import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.DisplayObject;
 import starling.events.Event;
 
 public class LobbyBaseChatSegment extends Segment
@@ -196,16 +197,16 @@ protected function chatList_focusInHandler(event:Event):void
 	var msgPack:ISFSObject = selectedItem.data as ISFSObject;
 	// prevent hints for my messages
 	if( msgPack.getInt("i") != player.id && msgPack.getShort("m") == MessageTypes.M0_TEXT )
-		showSimpleListPopup(msgPack, selectedItem, "lobby_report", "lobby_profile", "lobby_reply")
+		showSimpleListPopup(msgPack, selectedItem, buttonsPopup_selectHandler, buttonsPopup_selectHandler, "lobby_report", "lobby_profile", "lobby_reply")
 }
 
-protected function showSimpleListPopup(msgPack:ISFSObject, selectedItem:LobbyChatItemRenderer, ... buttons):void
+protected function showSimpleListPopup(data:Object, selectedItem:DisplayObject, selectHandler:Function, closeHaandler:Function, ... buttons):void
 {
 	var buttonsPopup:SimpleListPopup = new SimpleListPopup(buttons);
 	buttonsPopup.buttons = buttons;
-	buttonsPopup.data = msgPack;
-	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
+	buttonsPopup.data = data;
+	buttonsPopup.addEventListener(Event.SELECT, selectHandler);
+	buttonsPopup.addEventListener(Event.CLOSE, closeHaandler);
 	buttonsPopup.padding = 24;
 	buttonsPopup.buttonsWidth = 320;
 	buttonsPopup.buttonHeight = 120;
@@ -218,21 +219,25 @@ protected function showSimpleListPopup(msgPack:ISFSObject, selectedItem:LobbyCha
 	ti.transition = Transitions.EASE_OUT_BACK;
 	to.sourceAlpha = 1;
 	to.destinationAlpha = 0;
-	to.destinationBound = ti.sourceBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.4, floatingW, floatingH*0.8);
-	to.sourceBound = ti.destinationBound = new Rectangle(selectedItem.getTouch().globalX-floatingW/2, floatingY+buttonsPopup.buttonHeight/2-floatingH*0.5, floatingW, floatingH);
+	var offsetX:Number = 0;
+	if( selectedItem is LobbyChatItemRenderer )
+		offsetX = LobbyChatItemRenderer(selectedItem).getTouch().globalX;
+	to.destinationBound = ti.sourceBound = new Rectangle(offsetX - floatingW / 2, floatingY + buttonsPopup.buttonHeight / 2 - floatingH * 0.4, floatingW, floatingH * 0.8);
+	to.sourceBound = ti.destinationBound = new Rectangle(offsetX - floatingW / 2, floatingY + buttonsPopup.buttonHeight / 2 - floatingH * 0.5, floatingW, floatingH);
 	buttonsPopup.transitionIn = ti;
 	buttonsPopup.transitionOut = to;
 	appModel.navigator.addPopup(buttonsPopup);	
 }
-private function buttonsPopup_selectHandler(event:Event):void
+
+protected function buttonsPopup_selectHandler(event:Event):void
 {
-	event.currentTarget.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	event.currentTarget.removeEventListener(Event.CLOSE, buttonsPopup_selectHandler);
+	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
+	buttonsPopup.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
+	buttonsPopup.removeEventListener(Event.CLOSE, buttonsPopup_selectHandler);buttonsPopup_close);
 	
 	if( event.type == Event.CLOSE )
 		return;
 	
-	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
 	var msgPack:ISFSObject = buttonsPopup.data as ISFSObject;
 	switch( event.data )
 	{

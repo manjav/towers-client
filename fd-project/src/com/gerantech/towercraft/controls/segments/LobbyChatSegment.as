@@ -1,12 +1,9 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
-import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
-import com.gerantech.towercraft.controls.texts.CustomTextInput;
+import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -15,15 +12,8 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
-import flash.utils.setTimeout;
-
-import feathers.controls.StackScreenNavigatorItem;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-
+import flash.utils.setTimeout;
 import starling.events.Event;
 
 public class LobbyChatSegment extends LobbyBaseChatSegment
@@ -85,7 +75,7 @@ protected function chatList_triggeredHandler(event:Event):void
 		var sfs:SFSObject = new SFSObject();
 		sfs.putInt("i", params.getInt("o"));
 		sfs.putUtfString("s", params.getUtfString("on"));
-		showSimpleListPopup(sfs, selectedItem, "lobby_profile");
+		showSimpleListPopup(sfs, selectedItem, buttonsPopup_selectHandler, buttonsPopup_selectHandler, "lobby_profile");
 		return;
 	}
 	// accept or reject
@@ -101,12 +91,25 @@ override protected function scrollChatList(changes:Number) : void
 
 protected function battleButton_triggeredHandler(event:Event):void
 {
+	showSimpleListPopup(null, battleButton, battlebutton_selectHandler, battlebutton_selectHandler, "button_battle_left", "button_battle_right");
+    scrollToEnd();
+}
+
+protected function battlebutton_selectHandler(event:Event):void 
+{
+	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
+	buttonsPopup.removeEventListener(Event.SELECT, battlebutton_selectHandler);
+	buttonsPopup.removeEventListener(Event.CLOSE, battlebutton_selectHandler);
+	if( event.type == Event.CLOSE )
+		return;
+	
 	setTimeout(function():void{ buttonsEnabled = false}, 1);
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 	params.putShort("st", 0);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-    scrollToEnd();
+	if( event.data == "button_battle_left" )
+		params.putBool("bt", true);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby);
 }
 
 protected function manager_triggerHandler(event:Event):void
