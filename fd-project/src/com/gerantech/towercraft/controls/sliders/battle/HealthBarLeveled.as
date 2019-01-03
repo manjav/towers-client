@@ -3,9 +3,6 @@ package com.gerantech.towercraft.controls.sliders.battle
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.utils.CoreUtils;
-import feathers.controls.ImageLoader;
-import feathers.controls.text.BitmapFontTextRenderer;
-import feathers.layout.AnchorLayoutData;
 import starling.display.Image;
 /**
 * ...
@@ -31,12 +28,12 @@ override public function setPosition(x:Number, y:Number) : void
 {
 	if( sliderBackDisplay != null )
 	{
-		sliderBackDisplay.x = x - width * 0.35;
+		sliderBackDisplay.x = x - width * 0.28;
 		sliderBackDisplay.y = y;
 	}
 	if( sliderFillDisplay != null )
 	{
-		sliderFillDisplay.x = x - width * 0.35;
+		sliderFillDisplay.x = x - width * 0.28;
 		sliderFillDisplay.y = y;
 	}
 
