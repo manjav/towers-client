@@ -150,6 +150,7 @@ protected function tutorials_tasksFinishHandler(event:Event):void
 
 override public function setState(state:int) : Boolean
 {
+	var _state:int = super.state;
 	if( !super.setState(state) )
 		return false;
 	
@@ -170,7 +171,12 @@ override public function setState(state:int) : Boolean
 	else if( state == GameObject.STATE_3_WAITING )
 	{
 		bodyDisplay.currentFrame = 0;
-		//bodyDisplay.pause();
+		if ( _state != GameObject.STATE_5_SHOOTING )
+		{
+			bodyDisplay.pause();
+			if( CardTypes.isHero(card.type) )
+				updateTexture(textureType + "m_" + (side == battleField.side ? "000_" : "180_"));
+		}
 	}
 	else if( state == GameObject.STATE_4_MOVING || state == GameObject.STATE_5_SHOOTING )
 	{
@@ -275,7 +281,12 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		return;
 	}
 
-	textureName = textureType + anim + dir;
+	updateTexture(textureType + anim + dir);
+}
+
+private function updateTexture(textureName:String) : void 
+{
+	this.textureName = textureName;
 	var numFrames:int = bodyDisplay.numFrames - 1;// trace(textureType + direction, numFrames);
 	while( numFrames > 0 )
 	{
