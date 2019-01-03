@@ -45,10 +45,7 @@ override protected function initialize():void
 	addChild(titleDisplay);
 	
 	// sound
-	if( score == 1 )
-		appModel.sounds.addAndPlaySound("battle-clock-ticking");
-	else if( score == 0 )
-		appModel.sounds.playSoundUnique("battle-clock-ticking", 0.4, 200, 0.3);
+	appModel.sounds.addAndPlaySound("scoreboard-change-" + side);
 
 	var _h:int = transitionIn.destinationBound.height;
 	stars = new Vector.<StarCheck>();

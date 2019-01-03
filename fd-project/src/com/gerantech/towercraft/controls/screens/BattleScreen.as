@@ -328,7 +328,6 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 private function disposeBattleAssets():void
 {
 	appModel.sounds.stopSound("battle-theme");
-	appModel.sounds.stopSound("battle-clock-ticking");			
 }
 
 private function endOverlay_retryHandler(event:Event):void

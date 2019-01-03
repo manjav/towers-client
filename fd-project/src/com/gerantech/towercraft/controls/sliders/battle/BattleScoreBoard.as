@@ -93,13 +93,11 @@ override public function update(allise:int, axis:int):void
 	{
 		alliseValue = allise;
 		allisScoreDisplay.text = allise.toString();
-		appModel.sounds.addAndPlaySound("scoreboard-change-0");
 	}
 	if( axisValue != axis )
 	{
 		axisValue = axis;
 		axisScoreDisplay.text = axis.toString();
-		appModel.sounds.addAndPlaySound("scoreboard-change-1");
 	}
 	/*//var sum:int = allise + axis;
 	Starling.juggler.tween(allisFill,	0.5, {height : height * ( allise	/ sum ), transition:Transitions.EASE_OUT_BACK});
