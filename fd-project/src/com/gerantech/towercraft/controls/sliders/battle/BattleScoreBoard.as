@@ -54,14 +54,14 @@ override protected function initialize():void
 	
 	
 	var allisIcon:ImageLoader = new ImageLoader();
-	allisIcon.source = Assets.getTexture("res-" + ResourceType.R2_POINT, "gui");
-	allisIcon.height = 160;
+	allisIcon.source = Assets.getTexture("gold-key");
+	allisIcon.height = 100;
 	allisIcon.layoutData = new AnchorLayoutData(NaN, 0, 80, 0);
 	addChild(allisIcon);
 
 	var axisIcon:ImageLoader = new ImageLoader();
-	axisIcon.source = Assets.getTexture("res-" + ResourceType.R2_POINT, "gui");
-	axisIcon.height = 160;
+	axisIcon.source = Assets.getTexture("gold-key");
+	axisIcon.height = 100;
 	axisIcon.layoutData = new AnchorLayoutData(80, 0, NaN, 0);
 	addChild(axisIcon);
 	

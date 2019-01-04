@@ -322,7 +322,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
 	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
 	
-	setTimeout(hud.end, player.get_arena(0) == 0?800:0, endOverlay);// delay for noobs
+	setTimeout(hud.end, player.get_arena(0) == 0?800:200, endOverlay);// delay for noobs
 }
 
 private function disposeBattleAssets():void

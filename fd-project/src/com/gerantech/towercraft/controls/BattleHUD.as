@@ -13,17 +13,14 @@ import com.gerantech.towercraft.controls.sliders.battle.IBattleBoard;
 import com.gerantech.towercraft.controls.sliders.battle.IBattleSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
-import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.StickerType;
@@ -263,12 +260,12 @@ private function showTimeNotice(score:int):void
 	if( score > 1 )
 		return;
 	
-	if( battleData.battleField.field.isOperation() )
+/*	if( battleData.battleField.field.isOperation() )
 	{
 		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
 	}
 	else
-	{
+	{*/
 		if( score == -1 )
 		{
 			var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
@@ -281,7 +278,7 @@ private function showTimeNotice(score:int):void
 			setTimeout(animateShadow, 1000, shadow, 0);
 			appModel.navigator.addPopup(new BattleExtraTimeToast());
 		}
-	}
+	//}
 }
 
 public function animateShadow(shadow:Image, alphaSeed:Number):void
@@ -291,10 +288,10 @@ public function animateShadow(shadow:Image, alphaSeed:Number):void
 
 public function updateRoomVars():void
 {
-	if( battleData == null || battleData.battleField.field.isOperation() || !battleData.room.containsVariable("towers") )
+	/*if( battleData == null || battleData.battleField.field.isOperation() || !battleData.room.containsVariable("towers") )
 		return;
 	
-	/*var towers:Array = [0, 0, 0];
+	var towers:Array = [0, 0, 0];
 	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
 		towers[ battleData.battleField.places.get(i).building.troopType + 1 ] ++;
 		updateScores(towers[1], towers[2]);
@@ -302,18 +299,22 @@ public function updateRoomVars():void
 }
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
-	if( allise > 2 || axis > 2 )
-		return;
-	
-	if( allise > 0 || axis > 0 )
-	{
-		var side:int = winnerSide == battleData.battleField.side ? 0 : 1;
-		appModel.navigator.addPopup(new BattleTurnToast(side, winnerSide == battleData.battleField.side ? allise : axis));
-	}
-	
+	trace("updateScores:", "round:" + round, "winnerSide:" + winnerSide, "allise:" + allise, "axis:" + axis, "unitId:" + unitId);
 	if( scoreBoard != null )
 		scoreBoard.update(allise, axis);
+
+	// prevent end of battle state
+	if( allise > 2 || axis > 2 || (battleData.battleField.now * 0.001 - battleData.battleField.startAt) > battleData.battleField.getTime(2) )
+		return;
 	
+	// invalid data
+	if( allise <= 0 && axis <= 0 )
+		return;
+	
+	var side:int = winnerSide == battleData.battleField.side ? 0 : 1;
+	appModel.navigator.addPopup(new BattleTurnToast(side, winnerSide == battleData.battleField.side ? allise : axis));
+	
+	// uniit focus only appeared  in touchdown battles
 	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
 		return;
 	
