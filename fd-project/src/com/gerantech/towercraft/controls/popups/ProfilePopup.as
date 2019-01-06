@@ -141,15 +141,16 @@ private function showProfile():void
 		var banButton:CustomButton = new CustomButton();
 		banButton.icon = Assets.getTexture("settings-5");
 		banButton.style = "danger";
-		banButton.width = banButton.height = padding * 3;
-		banButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, padding, appModel.isLTR?NaN:padding);
+		banButton.width = banButton.height = padding * 2;
+		banButton.layoutData = new AnchorLayoutData(NaN, padding * 0.5, padding * 0.5);
 		banButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(banButton);
 		
 		var issuesButton:CustomButton = new CustomButton();
 		issuesButton.icon = Assets.getTexture("home/inbox");
-		issuesButton.width = issuesButton.height = padding * 3
-		issuesButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding * 5:NaN, padding, appModel.isLTR?NaN:padding * 5);
+		issuesButton.style = CustomButton.STYLE_NEUTRAL;
+		issuesButton.width = issuesButton.height = padding * 2;
+		issuesButton.layoutData = new AnchorLayoutData(NaN, padding * 3, padding * 0.5);
 		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(issuesButton);
 		
