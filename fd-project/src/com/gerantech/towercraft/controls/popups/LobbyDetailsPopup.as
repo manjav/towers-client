@@ -111,8 +111,8 @@ protected override function transitionInCompleted():void
 
 private function showDetails():void
 {
-	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0xAAAAAA, "justify", null, true, null, 0.55);
-	bioDisplay.layoutData = new AnchorLayoutData(padding * 3.4, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6 : padding);
+	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0xCCCCDD, "justify", null, true, null, 0.55);
+	bioDisplay.layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6 : padding);
 	addChild(bioDisplay);
 	
 	var features:Array = new Array();
