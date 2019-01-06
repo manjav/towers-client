@@ -5,6 +5,8 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import starling.core.Starling;
+import starling.display.DisplayObject;
+import starling.display.Quad;
 
 public class FeatureItemRenderer extends AbstractTouchableListItemRenderer
 {
@@ -29,29 +31,38 @@ override protected function commitData():void
 		_firstCommit = false;
 		height = 64;
 	}
+	backgroundFactory();
 	keyLabelFactory();
 	valueLabelFactory();
 	
 	alpha = 0;
 	Starling.juggler.tween(this, 0.2, {delay:index / 30, alpha:1});
 }
+protected function backgroundFactory():DisplayObject
+{
+	if( backgroundSkin != null )
+		return null;
+	backgroundSkin = new Quad(1, 1, index % 2 == 0 ? 0xFFFFFF : 0xAAAAAA);
+	backgroundSkin.alpha = 0.5;
+	return backgroundSkin;
+}
 
-protected function keyLabelFactory():RTLLabel
+protected function keyLabelFactory(scale:Number = 0.8, color:uint = 0):RTLLabel
 {
 	if( keyDisplay != null )
 		return null;
-	keyDisplay = new RTLLabel("", 1, null, null,	false, null, 0.9);
-	keyDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:0, NaN, appModel.isLTR?0:NaN, NaN, 0);
+	keyDisplay = new RTLLabel("", color, null, null, false, null, scale * 0.9);
+	keyDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:12, NaN, appModel.isLTR?12:NaN, NaN, 0);
 	addChild(keyDisplay);
 	return keyDisplay;
 }
 
-protected function valueLabelFactory():void
+protected function valueLabelFactory(scale:Number = 0.8, color:uint = 0):void
 {
 	if( valueDisplay != null )
 		return;
-	valueDisplay = new LTRLable("", 1, "left");
-	valueDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?0:NaN, NaN, appModel.isLTR?NaN:0, NaN, 0);
+	valueDisplay = new LTRLable("", color, "left", false, scale);
+	valueDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
 	addChild(valueDisplay);
 }
 }

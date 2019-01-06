@@ -117,7 +117,7 @@ private function openCard(buildingType:int):void
 	}*/
 
 	detailsPopup = new CardDetailsPopup();
-	detailsPopup.buildingType = buildingType;
+	detailsPopup.cardType = buildingType;
 	detailsPopup.addEventListener(Event.CLOSE, details_closeHandler);
 	appModel.navigator.addPopup(detailsPopup);
 	detailsPopup.addEventListener(Event.UPDATE, details_updateHandler);

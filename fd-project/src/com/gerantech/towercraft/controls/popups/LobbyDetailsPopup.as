@@ -10,12 +10,14 @@ import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -56,17 +58,16 @@ public function LobbyDetailsPopup(roomData:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.06, stage.stageWidth * 0.9, stage.stageHeight * 0.88);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.04, stage.stageWidth * 0.9, stage.stageHeight * 0.92);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(-padding * 0.5, -padding * 0.5, stageWidth + padding, stageHeight + padding);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(-padding * 0.5, -padding * 0.5, stageWidth + padding, stageHeight + padding);
 	rejustLayoutByTransitionData();
 	
-	var iconDisplay:EmblemButton = new EmblemButton(roomData.pic);
-	iconDisplay.touchable = false;
+	var iconDisplay:ImageLoader = new ImageLoader();
+	iconDisplay.height = iconDisplay.width = padding * 4;
+	iconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(roomData.pic + ""), "gui");
 	iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
-	iconDisplay.width = padding * 4.0;
-	iconDisplay.height = padding * 4.2
 	addChild(iconDisplay);
-
+	
 	var titleDisplay:RTLLabel = new RTLLabel(roomData.name);
 	titleDisplay.layoutData = new AnchorLayoutData(padding * 0.8, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6:padding);
 	addChild(titleDisplay);
@@ -110,7 +111,7 @@ protected override function transitionInCompleted():void
 
 private function showDetails():void
 {
-	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 1, "justify", null, true, null, 0.6);
+	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0xAAAAAA, "justify", null, true, null, 0.55);
 	bioDisplay.layoutData = new AnchorLayoutData(padding * 3.4, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6 : padding);
 	addChild(bioDisplay);
 	
@@ -122,7 +123,7 @@ private function showDetails():void
 	
 	//trace(sfsData.getDump())
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding * 7, padding * 2, NaN, padding * 2);
+	featureList.layoutData = new AnchorLayoutData(padding * 5.4, padding, NaN, padding);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
 	featureList.dataProvider = new ListCollection(features);
@@ -131,11 +132,11 @@ private function showDetails():void
 	tabs = new Vector.<LobbyTabButton>();
 	tabs[0] = new LobbyTabButton(loc("lobby_point"), true);
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[0].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 2.5:NaN, NaN, appModel.isLTR?NaN:padding * 2.5);
+	tabs[0].layoutData = new AnchorLayoutData( padding * 13.5, appModel.isLTR?padding * 2.5:NaN, NaN, appModel.isLTR?NaN:padding * 2.5);
 	addChild(tabs[0]);
 	tabs[1] = new LobbyTabButton(loc("lobby_activeness"), true);
 	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding * 16, appModel.isLTR?padding * 7.5:NaN, NaN, appModel.isLTR?NaN:padding * 7.5);
+	tabs[1].layoutData = new AnchorLayoutData( padding * 13.5, appModel.isLTR?padding * 7.5:NaN, NaN, appModel.isLTR?NaN:padding * 7.5);
 	tabs[1].isEnabled = false;
 	addChild(tabs[1]);
 	
@@ -144,7 +145,7 @@ private function showDetails():void
 	
 	var membersList:List = new List();
 	membersList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	membersList.layoutData = new AnchorLayoutData(padding * 18.5, padding, padding, padding);
+	membersList.layoutData = new AnchorLayoutData(padding * 16, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
 	membersList.dataProvider = memberCollection;
@@ -155,10 +156,10 @@ private function showDetails():void
 	var joinleaveButton:CustomButton = new CustomButton();
 	joinleaveButton.disableSelectDispatching = true;
 	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370);
-	joinleaveButton.height = 96;
+	joinleaveButton.height = 76;
 	joinleaveButton.visible = roomServerData.getInt("pri") < 2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom || player.admin;
-	joinleaveButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	joinleaveButton.layoutData = new AnchorLayoutData(padding * 11, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri") == 0?"lobby_join_label":"lobby_request_label"));
 	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
@@ -170,8 +171,9 @@ private function showDetails():void
 		var removeButton:CustomButton = new CustomButton();
 		removeButton.style = "danger";
 		removeButton.label = "X";
-		removeButton.layoutData = new AnchorLayoutData(padding * 13.2, appModel.isLTR?padding + 350:NaN, NaN, appModel.isLTR?NaN:padding + 350);
+		removeButton.layoutData = new AnchorLayoutData(padding * 11, appModel.isLTR?padding + 350:NaN, NaN, appModel.isLTR?NaN:padding + 350);
 		removeButton.width = removeButton.height = 96;
+		removeButton.height = 76;
 		removeButton.addEventListener(Event.TRIGGERED, removeButton_triggeredHandler);
 		addChild(removeButton);
 	}
@@ -179,8 +181,8 @@ private function showDetails():void
 	var closeButton:CustomButton = new CustomButton();
 	closeButton.style = "danger";
 	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?padding * 0.5:NaN, NaN,  appModel.isLTR?NaN:padding * 0.5);
-	closeButton.width = closeButton.height = 96;
+	closeButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	closeButton.width = closeButton.height = 72;
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
 	
@@ -188,10 +190,10 @@ private function showDetails():void
 		return;
 	
 	var shareButton:CustomButton = new CustomButton();
-	shareButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?128:NaN, NaN, appModel.isLTR?NaN:128);
+	shareButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?120:NaN, NaN, appModel.isLTR?NaN:120);
 	shareButton.label = loc("lobby_invite");
 	shareButton.width = 170;
-	shareButton.height = 96;
+	shareButton.height = 72;
 	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
 	addChild(shareButton);
 	
@@ -200,10 +202,10 @@ private function showDetails():void
 		return;
 	
 	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(padding * 0.5, appModel.isLTR?300:NaN, NaN, appModel.isLTR?NaN:300);
+	editButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?300:NaN, NaN, appModel.isLTR?NaN:300);
 	editButton.label = loc("lobby_edit");
 	editButton.width = 160;
-	editButton.height = 96;
+	editButton.height = 72;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
 }

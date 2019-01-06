@@ -31,7 +31,7 @@ package com.gerantech.towercraft.controls.buttons
 			skin.setTextureForState(ButtonState.DOWN, appModel.theme.itemRendererSelectedSkinTexture);
 			skin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 			backgroundSkin = skin;
-					
+			
 			iconDisplay = new ImageLoader();
 			iconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(_value+""), "gui");
 			iconDisplay.layoutData = new AnchorLayoutData(padding, padding, padding*1.3, padding);
