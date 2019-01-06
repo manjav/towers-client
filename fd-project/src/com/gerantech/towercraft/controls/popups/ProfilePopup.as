@@ -18,19 +18,21 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollContainer;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
@@ -40,6 +42,7 @@ import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
 import flash.utils.Dictionary;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 
 public class ProfilePopup extends SimplePopup 
@@ -52,7 +55,7 @@ private var resourcesData:ISFSArray;
 public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 {
 	this.user = user;
-	this.adminMode = false//player.admin;
+	this.adminMode = player.admin;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", user.id);
@@ -70,8 +73,8 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.65));
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.15), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.75));
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.65));
 	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void
@@ -104,23 +107,22 @@ protected function sfsConnection_responceHandler(event:SFSEvent):void
 
 private function showProfile():void
 {
-	var lobbyIconDisplay:EmblemButton = new EmblemButton(user.lp);
-	lobbyIconDisplay.touchable = false;
-	lobbyIconDisplay.width = padding * 5.3;
-	lobbyIconDisplay.height = padding * 5.6;
+	var lobbyIconDisplay:ImageLoader = new ImageLoader();
+	lobbyIconDisplay.height = lobbyIconDisplay.width = padding * 3.5;
+	lobbyIconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(user.lp + ""), "gui");
 	lobbyIconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(lobbyIconDisplay);
 	
-	var nameDisplay:ShadowLabel = new ShadowLabel(playerData.containsKey("pd")?playerData.getSFSObject("pd").getText("name"):user.name, 1, 0, null, null, true, "center", 1);
-	nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
+	var nameDisplay:ShadowLabel = new ShadowLabel(playerData.containsKey("pd")?playerData.getSFSObject("pd").getText("name"):user.name, 1, 0, null, null, true, "center", 0.9);
+	nameDisplay.layoutData = new AnchorLayoutData(padding * 0.8, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(nameDisplay);
 	
-	var tagDisplay:RTLLabel = new RTLLabel("#" + playerData.getText("tag") + (adminMode?(" => " + user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.8);
-	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.6, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
+	var tagDisplay:RTLLabel = new RTLLabel("#" + playerData.getText("tag") + (adminMode?(" => " + user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.58);
+	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.0, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(tagDisplay);
 	
-	var lobbyNameDisplay:RTLLabel = new RTLLabel(user.ln, 0xAABBBB, null, "ltr", true, null, 0.8);
-	lobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 5, appModel.isLTR?NaN:padding * 7, NaN, appModel.isLTR?padding * 7:NaN);
+	var lobbyNameDisplay:RTLLabel = new RTLLabel(user.ln, 0xAABBBB, null, "ltr", true, null, 0.6);
+	lobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 3.3, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(lobbyNameDisplay);
 	
 	var closeButton:CustomButton = new CustomButton();
@@ -129,10 +131,10 @@ private function showProfile():void
 	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
 	addChild(closeButton);
 
-	closeButton.y = height - closeButton.height - padding * 1.6;
+	closeButton.y = height - closeButton.height - padding;
 	closeButton.alpha = 0;
 	closeButton.height = 110;
-	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1, y:height - closeButton.height - padding});
+	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1, y:height - closeButton.height - padding * 0.4});
 	
 	if( adminMode )
 	{
@@ -189,18 +191,23 @@ private function showProfile():void
 	indicators[ResourceType.R1_XP] = new IndicatorXP("ltr");
 	indicators[ResourceType.R1_XP].setData(0, xp, NaN);
 	indicators[ResourceType.R1_XP].width = padding * 7;
-	indicators[ResourceType.R1_XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
+	indicators[ResourceType.R1_XP].height = padding * 1.5;
+	indicators[ResourceType.R1_XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
 	addChild(indicators[ResourceType.R1_XP]);
 	
 	indicators[ResourceType.R2_POINT] = new Indicator("ltr", ResourceType.R2_POINT, false, false);
 	indicators[ResourceType.R2_POINT].width = padding * 7;
+	indicators[ResourceType.R2_POINT].height = padding * 1.5;
 	indicators[ResourceType.R2_POINT].setData(0, point, NaN);
-	indicators[ResourceType.R2_POINT].layoutData = new AnchorLayoutData(padding * 3.5, appModel.isLTR?padding * 2:NaN, NaN, appModel.isLTR?NaN:padding * 2);
+	indicators[ResourceType.R2_POINT].layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
 	addChild(indicators[ResourceType.R2_POINT]);
 	
 	var scroller:ScrollContainer = new ScrollContainer();
+	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin"));
+	scroller.backgroundSkin.alpha = 0.2;
+	Image(scroller.backgroundSkin).scale9Grid = new Rectangle(7, 7, 2, 2);
 	scroller.layout = new AnchorLayout();
-	scroller.layoutData = new AnchorLayoutData(padding * 7, padding * 2, padding * 5, padding * 2);
+	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 4, padding);
 	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	addChild(scroller);
 	
@@ -210,7 +217,7 @@ private function showProfile():void
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new ProfileFeatureItemRenderer(); }
 	featureList.verticalScrollPolicy = featureList.horizontalScrollPolicy = ScrollPolicy.OFF;
 	featureList.dataProvider = featureCollection;
-	featureList.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
+	featureList.layoutData = new AnchorLayoutData(10, 10, NaN, 10);
 	scroller.addChild(featureList);
 	
 	var featureLayout:VerticalLayout = new VerticalLayout();
@@ -226,14 +233,14 @@ private function showProfile():void
 		listLayout.gap = padding * 0.2;
 		listLayout.useSquareTiles = false;
 		listLayout.requestedColumnCount = 10;
-		listLayout.typicalItemWidth = (width -listLayout.padding * (listLayout.requestedColumnCount + 1)) / listLayout.requestedColumnCount;
+		listLayout.typicalItemWidth = (width - listLayout.padding * (listLayout.requestedColumnCount + 1)) / listLayout.requestedColumnCount;
 		listLayout.typicalItemHeight = listLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 		
 		var buildingslist:FastList = new FastList();
 		buildingslist.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 		buildingslist.layout = listLayout;
 		buildingslist.verticalScrollPolicy = buildingslist.horizontalScrollPolicy = ScrollPolicy.OFF;
-		buildingslist.layoutData = new AnchorLayoutData(featureCollection.length * 70, 0, NaN, 0);
+		buildingslist.layoutData = new AnchorLayoutData(featureCollection.length * 50, 0, NaN, 0);
 		buildingslist.itemRendererFactory = function():IListItemRenderer { return new ProfileBuildingItemRenderer(); }
 		buildingslist.dataProvider = getBuildingData();
 		scroller.addChild(buildingslist);		
@@ -243,23 +250,24 @@ private function showProfile():void
 	var top:int = adminMode ? 430 : 20;
     var deckHeader:BattleHeader = new BattleHeader(loc("deck_label"), true);
     deckHeader.width = transitionIn.destinationBound.width * 0.8;
-	deckHeader.scaleY = 0.85;
-    deckHeader.layoutData = new AnchorLayoutData(featureList.dataProvider.length * 70 + top, NaN, NaN, NaN, 0);
+    deckHeader.height = 120;
+    deckHeader.layoutData = new AnchorLayoutData(featureList.dataProvider.length * 50 + top, NaN, NaN, NaN, 0);
+	deckHeader.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void{	deckHeader.scale = 0.80;});
     scroller.addChild(deckHeader);
     
     var deckLayout:TiledRowsLayout = new TiledRowsLayout();
-    deckLayout.gap = padding * 0.5;
+    deckLayout.gap = padding * 0.3;
     deckLayout.useSquareTiles = false;
     deckLayout.useVirtualLayout = false;
     deckLayout.requestedColumnCount = 4;
-    deckLayout.typicalItemWidth = (width * 0.9 - deckLayout.gap * (deckLayout.requestedColumnCount - 1) - padding * 4) / deckLayout.requestedColumnCount;
+    deckLayout.typicalItemWidth = (width - deckLayout.gap * (deckLayout.requestedColumnCount - 1) - padding * 4) / deckLayout.requestedColumnCount;
     deckLayout.typicalItemHeight = deckLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	
 	var deckList:List = new List();
     deckList.layout = deckLayout;
     deckList.height = deckLayout.typicalItemHeight * 2 + deckLayout.gap;
     deckList.verticalScrollPolicy = deckList.horizontalScrollPolicy = ScrollPolicy.OFF;
-    deckList.layoutData = new AnchorLayoutData(featureList.dataProvider.length * 70 + top + 150, 0, NaN, 0);
+    deckList.layoutData = new AnchorLayoutData(featureList.dataProvider.length * 50 + top + 150, 0, NaN, 0);
     deckList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(true, false); }
     deckList.dataProvider = getDeckData();
     scroller.addChild(deckList);

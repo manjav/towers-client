@@ -7,6 +7,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import dragonBones.Armature;
 import dragonBones.starling.StarlingArmatureDisplay;
+import feathers.controls.ImageLoader;
 
 import flash.geom.Rectangle;
 
@@ -31,7 +32,8 @@ private var padding:int;
 public function BattleHeader(label:String, isAllise:Boolean)
 {
 	super();
-	height = 160;
+	width = 250;
+	height = 140;
 	this.isAllise = isAllise;
 	this.label = label;
 	padding = 48;
@@ -46,19 +48,20 @@ override protected function initialize():void
 
 private function creationCompleteHandler():void
 {
-	var ribbon:Image = new Image(Assets.getTexture("ribbon-"+(isAllise?"blue":"red"), "gui"));
-	//ribbon.pivotX = ribbon.width * 0.5;
-	addChild(ribbon);
+	var ribbon:ImageLoader = new ImageLoader();
+	ribbon.source = Assets.getTexture("ribbon-" + (isAllise?"blue":"red"), "gui");
 	ribbon.pixelSnapping = false;
 	ribbon.scale9Grid = MainTheme.RIBBON_SCALE9_GRID;
-	ribbon.x = width * 0.5;
+	ribbon.layoutData = new AnchorLayoutData(0, NaN, 0, NaN, 0);
+	addChild(ribbon);
+
 	ribbon.width = 0;
-	Starling.juggler.tween(ribbon, 0.6, {x:140, width:width - 280, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(ribbon, 0.6, {width:width, transition:Transitions.EASE_OUT_BACK});
 	
-	labelDisplay = new ShadowLabel(label, isAllise?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, 1.4);
+	labelDisplay = new ShadowLabel(label, isAllise?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, height * 0.01);
 	labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, padding * -0.6); 
-	labelDisplay.shadowDistance *= -0.65;
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.2); 
+//	labelDisplay.shadowDistance *= -height * 0.05;
 	addChild(labelDisplay);
 	
 	labelDisplay.alpha = 0;

@@ -85,7 +85,7 @@ override protected function transitionInCompleted():void
 	addChild(messageDisplay);
 	
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding * 16, padding * 2, NaN, padding * 2);
+	featureList.layoutData = new AnchorLayoutData(padding * 15, padding, NaN, padding);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(cardType); }
 	featureList.dataProvider = new ListCollection(CardFeatureType.getRelatedTo(cardType)._list);

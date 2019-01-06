@@ -334,18 +334,19 @@
 	<SubTexture name="cards/rarity-skin-0" x="2030" y="146" width="16" height="15"/>
 	<SubTexture name="cards/rarity-skin-1" x="1289" y="611" width="16" height="15"/>
 	<SubTexture name="cards/rarity-skin-2" x="1311" y="898" width="16" height="15"/>
-	<SubTexture name="theme/gradeint-bottom" x="1328" y="898" width="16" height="15"/>
-	<SubTexture name="theme/gradeint-left" x="1345" y="898" width="16" height="15"/>
-	<SubTexture name="theme/gradeint-right" x="1362" y="898" width="16" height="15"/>
-	<SubTexture name="theme/gradeint-top" x="1379" y="898" width="16" height="15"/>
-	<SubTexture name="theme/list-background-skin" x="1396" y="898" width="16" height="15"/>
-	<SubTexture name="theme/page-indicator-disabled-symbol" x="1413" y="898" width="16" height="15"/>
-	<SubTexture name="theme/page-indicator-selected-disabled-symbol" x="563" y="917" width="16" height="15"/>
-	<SubTexture name="theme/page-indicator-selected-symbol" x="580" y="917" width="16" height="15"/>
-	<SubTexture name="theme/page-indicator-symbol" x="349" y="1069" width="16" height="15"/>
-	<SubTexture name="theme/picker-list-button-disabled-icon" x="506" y="1096" width="16" height="15"/>
-	<SubTexture name="theme/picker-list-button-icon" x="523" y="1096" width="16" height="15"/>
-	<SubTexture name="theme/seek-slider-progress-skin" x="540" y="1096" width="16" height="15"/>
+	<SubTexture name="theme/background-round-skin" x="1328" y="898" width="16" height="15"/>
+	<SubTexture name="theme/gradeint-bottom" x="1345" y="898" width="16" height="15"/>
+	<SubTexture name="theme/gradeint-left" x="1362" y="898" width="16" height="15"/>
+	<SubTexture name="theme/gradeint-right" x="1379" y="898" width="16" height="15"/>
+	<SubTexture name="theme/gradeint-top" x="1396" y="898" width="16" height="15"/>
+	<SubTexture name="theme/list-background-skin" x="1413" y="898" width="16" height="15"/>
+	<SubTexture name="theme/page-indicator-disabled-symbol" x="563" y="917" width="16" height="15"/>
+	<SubTexture name="theme/page-indicator-selected-disabled-symbol" x="580" y="917" width="16" height="15"/>
+	<SubTexture name="theme/page-indicator-selected-symbol" x="349" y="1069" width="16" height="15"/>
+	<SubTexture name="theme/page-indicator-symbol" x="506" y="1096" width="16" height="15"/>
+	<SubTexture name="theme/picker-list-button-disabled-icon" x="523" y="1096" width="16" height="15"/>
+	<SubTexture name="theme/picker-list-button-icon" x="540" y="1096" width="16" height="15"/>
+	<SubTexture name="theme/seek-slider-progress-skin" x="557" y="1096" width="16" height="15"/>
 	<SubTexture name="theme/vertical-simple-scroll-bar-thumb-skin" x="871" y="346" width="10" height="23"/>
 	<SubTexture name="theme/horizontal-simple-scroll-bar-thumb-skin" x="1938" y="428" width="24" height="9"/>
 	<SubTexture name="theme/background-danger-border-skin" x="1627" y="177" width="10" height="9"/>
