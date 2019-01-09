@@ -69,8 +69,8 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.65));
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.25:0.40), stageWidth * 0.9, stageHeight * (adminMode?0.5:0.2));
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.20:0.35), stageWidth * 0.9, stageHeight * (adminMode?0.6:0.3));
 	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void
@@ -174,7 +174,7 @@ private function showProfile():void
 	var featureCollection:ListCollection = new ListCollection();
 	var xp:int;
 	var point:int;
-	for ( var i:int = 0; i < resourcesData.size(); i ++ )
+	for( var i:int = 0; i < resourcesData.size(); i ++ )
 	{
 		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.XP )
 			xp = resourcesData.getSFSObject(i).getInt("count");
@@ -200,7 +200,7 @@ private function showProfile():void
 	addChild(indicators[ResourceType.POINT]);
 	
 	var scroller:ScrollContainer = new ScrollContainer();
-	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin"));
+	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin", "gui"));
 	scroller.backgroundSkin.alpha = 0.2;
 	Image(scroller.backgroundSkin).scale9Grid = new Rectangle(7, 7, 2, 2);
 	scroller.layout = new AnchorLayout();
