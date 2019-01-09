@@ -288,14 +288,6 @@ public function animateShadow(shadow:Image, alphaSeed:Number):void
 
 public function updateRoomVars():void
 {
-	/*if( battleData == null || battleData.battleField.field.isOperation() || !battleData.room.containsVariable("towers") )
-		return;
-	
-	var towers:Array = [0, 0, 0];
-	for ( var i:int = 0; i < battleData.battleField.places.size(); i++ )
-		towers[ battleData.battleField.places.get(i).building.troopType + 1 ] ++;
-		updateScores(towers[1], towers[2]);
-*/
 }
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {

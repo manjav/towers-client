@@ -25,7 +25,7 @@ public function BattleScoreBoard()
 {
 	super();
 	height = 500;
-	width = 100;
+	width = 140;
 }
 override protected function initialize():void
 {
@@ -56,13 +56,13 @@ override protected function initialize():void
 	var allisIcon:ImageLoader = new ImageLoader();
 	allisIcon.source = Assets.getTexture("gold-key");
 	allisIcon.height = 100;
-	allisIcon.layoutData = new AnchorLayoutData(NaN, 0, 80, 0);
+	allisIcon.layoutData = new AnchorLayoutData(NaN, 0, 100, 0);
 	addChild(allisIcon);
 
 	var axisIcon:ImageLoader = new ImageLoader();
 	axisIcon.source = Assets.getTexture("gold-key");
 	axisIcon.height = 100;
-	axisIcon.layoutData = new AnchorLayoutData(80, 0, NaN, 0);
+	axisIcon.layoutData = new AnchorLayoutData(100, 0, NaN, 0);
 	addChild(axisIcon);
 	
 	

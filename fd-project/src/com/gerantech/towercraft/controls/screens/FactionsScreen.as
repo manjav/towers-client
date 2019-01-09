@@ -3,13 +3,18 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
+import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
+import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.others.Arena;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingFactory;
@@ -97,6 +102,52 @@ override protected function initialize():void
 	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
+	
+	//testBattleToast();
+	//testBattleOverlay();
+}
+
+private function testBattleToast():void 
+{
+	appModel.navigator.addPopup(new BattleTurnToast(1, 3));
+}
+
+private function testBattleOverlay() : void
+{
+	var rewards:SFSArray = new SFSArray();
+	var sfs2:SFSObject = new SFSObject();
+	for (var i:int = 0; i < 2; i++) 
+	{
+		var sfs:SFSObject = new SFSObject();
+		sfs.putInt("score", i == 0?2:0);
+		sfs.putInt("id", i == 0?10004:214);
+		sfs.putText("name", i == 0?"ManJav":"Enemy");
+		sfs.putInt("3", 22);
+		sfs.putInt("2", 12);
+		sfs.putInt("52", 112);
+		rewards.addSFSObject(sfs);
+		
+		var p:SFSObject = new SFSObject();
+		p.putText("name", i == 0?"ManJav":"Enemy");
+		p.putInt("xp", 0);
+		p.putInt("point", 0);
+		p.putIntArray("deck", []);
+		p.putInt("score", 0);
+		sfs2.putSFSObject("p" + i, p);
+	}
+	sfs2.putInt("index", 1);
+	sfs2.putText("type", "touchdown");
+	sfs2.putText("map", "{}");
+	sfs2.putBool("hasExtraTime", false);
+	sfs2.putInt("side", 0);
+	sfs2.putInt("startAt", 1243554);
+	sfs2.putBool("isFriendly", false);
+	
+	appModel.battleFieldView = new BattleFieldView();
+	appModel.battleFieldView.battleData = new BattleData(sfs2);
+	var endOverlay:EndBattleOverlay = new EndBattleOverlay(appModel.battleFieldView.battleData, 0, rewards, false);
+	endOverlay.addEventListener(Event.CLOSE, function():void{dispatchEventWith(Event.COMPLETE); });
+	appModel.navigator.addOverlay(endOverlay);
 }
 
 private function list_createCompleteHandler():void
