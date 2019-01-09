@@ -68,8 +68,8 @@ protected function showAchieveAnimation(item:ExchangeItem):void
 {
 	var outs:Vector.<int> = item.outcomes.keys();
 	var rect:Rectangle = getBounds(stage);
-	for ( var i:int = 0; i < outs.length; i++ )
-		appModel.navigator.addResourceAnimation(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, outs[i], item.outcomes.get(outs[i]), i * 0.3 + 0.1);
+	for( var i:int = 0; i < outs.length; i++ )
+		appModel.navigator.dispatchEventWith("achieveResource", false, [rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, outs[i], item.outcomes.get(outs[i]), i * 0.3 + 0.1]);
 }
 
 override public function dispose() : void

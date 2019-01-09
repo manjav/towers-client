@@ -36,7 +36,6 @@ import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
-import flash.utils.Dictionary;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
@@ -174,7 +173,7 @@ private function showProfile():void
 	var featureCollection:ListCollection = new ListCollection();
 	var xp:int;
 	var point:int;
-	for( var i:int = 0; i < resourcesData.size(); i ++ )
+	for( var i:int = 0; i < resourcesData.size(); i++ )
 	{
 		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.XP )
 			xp = resourcesData.getSFSObject(i).getInt("count");
@@ -184,20 +183,19 @@ private function showProfile():void
 			featureCollection.addItem(resourcesData.getSFSObject(i));
 	}
 
-	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.XP] = new IndicatorXP("ltr");
-	indicators[ResourceType.XP].setData(0, xp, NaN);
-	indicators[ResourceType.XP].width = padding * 7;
-	indicators[ResourceType.XP].height = padding * 1.5;
-	indicators[ResourceType.XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
-	addChild(indicators[ResourceType.XP]);
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr", false);
+	indicatorXP.setData(NaN, xp, NaN);
+	indicatorXP.width = padding * 7;
+	indicatorXP.height = padding * 1.5;
+	indicatorXP.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
+	addChild(indicatorXP);
 	
-	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
-	indicators[ResourceType.POINT].width = padding * 7;
-	indicators[ResourceType.POINT].height = padding * 1.5;
-	indicators[ResourceType.POINT].setData(0, point, NaN);
-	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
-	addChild(indicators[ResourceType.POINT]);
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.POINT, false, false, false);
+	indicatorPoint.setData(0, point, Number.MAX_VALUE);
+	indicatorPoint.width = padding * 7;
+	indicatorPoint.height = padding * 1.5;
+	indicatorPoint.layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
+	addChild(indicatorPoint);
 	
 	var scroller:ScrollContainer = new ScrollContainer();
 	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin", "gui"));

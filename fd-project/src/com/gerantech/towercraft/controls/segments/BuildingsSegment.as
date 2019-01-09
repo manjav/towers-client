@@ -5,16 +5,13 @@ import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.overlays.BuildingUpgradeOverlay;
 import com.gerantech.towercraft.controls.popups.CardDetailsPopup;
 import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
-import com.gerantech.towercraft.controls.screens.DashboardScreen;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.buildings.Building;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchanger;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.List;
@@ -147,7 +144,7 @@ private function details_updateHandler(event:Event):void
 }
 private function upgradeConfirm_errorHandler(event:Event):void
 {
-	appModel.navigator.toolbar.dispatchEventWith(Event.SELECT, true, {resourceType:1002});
+	appModel.navigator.gotoShop(ResourceType.CURRENCY_SOFT);
 	appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
 	detailsPopup.close();
 }

@@ -68,7 +68,7 @@ override protected function initialize():void
 	if( playerIndex > -1 && !isDraw )
 	{
 		if( reward_2.getInt("score") > 0 )
-			appModel.battleFieldView.battleData.outcomes.push(new RewardData(stageWidth * 0.5, padding * 21, ResourceType.R17_STARS, reward_2.getInt("score")));
+			appModel.battleFieldView.battleData.outcomes.push(new RewardData(stageWidth * 0.5, padding * 21, ResourceType.STARS, reward_2.getInt("score")));
 		
 		var _rewards:ListCollection = getRewardsCollection(playerIndex);
 		if( _rewards.length > 0 )

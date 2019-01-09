@@ -1,5 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
+import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.buttons.IndicatorXP;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.OperationMapItemRenderer;
@@ -10,6 +12,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gt.towers.battle.FieldProvider;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.constants.ResourceType;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -53,7 +56,7 @@ override protected function initialize():void
 	backgroundSkin = new Quad(1,1, 0xFFDF78);
 	OperationMapItemRenderer.OPERATION_INDEX = player.getLastOperation();
 	trace(player.getLastOperation())
-
+	
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.paddingBottom = 150;
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
@@ -70,6 +73,17 @@ override protected function initialize():void
 	list.dataProvider = operationsCollection;
 	addChild(list);
 	
+	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.CURRENCY_HARD);
+	indicatorHC.layoutData = new AnchorLayoutData(18, 40);
+	addChild(indicatorHC);
+	
+	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
+	indicatorSC.layoutData = new AnchorLayoutData(18, 360);
+	addChild(indicatorSC);
+	
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr");
+	indicatorXP.layoutData = new AnchorLayoutData(18, NaN, NaN, 32);
+	addChild(indicatorXP);
 
 	if( savedVerticalScrollPosition != 0 )
 		list.scrollToPosition(0, savedVerticalScrollPosition, 0);

@@ -105,8 +105,8 @@ protected function countdownFactory() : CountdownLabel
 	
 	countdownDisplay = new CountdownLabel();
 	countdownDisplay.touchable = false;
-	countdownDisplay.height = 110;
-	countdownDisplay.layoutData = new AnchorLayoutData(NaN, 170, NaN, 20, NaN, 28);
+	countdownDisplay.height = 90;
+	countdownDisplay.layoutData = new AnchorLayoutData(NaN, 170, NaN, 20, NaN, 20);
 	addChild(countdownDisplay);
 	return countdownDisplay;
 }

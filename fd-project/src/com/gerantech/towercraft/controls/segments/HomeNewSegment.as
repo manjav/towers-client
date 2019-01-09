@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.HomeHeaderButton;
 import com.gerantech.towercraft.controls.buttons.HomeNewButton;
 import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
+import com.gerantech.towercraft.controls.buttons.HomeStarsButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
@@ -136,14 +137,14 @@ override public function init():void
 	
 	if( player.get_battleswins() < 5 )
 		return;
-		
-	var giftButton:HomeHeaderButton = new HomeHeaderButton();
-	giftButton.name = "giftButton";
-	giftButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
-	giftButton.height = padding * 12;
-	giftButton.width = stageWidth * 0.45;
-	giftButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
-	addChild(giftButton);
+	
+    var starsButton:HomeStarsButton = new HomeStarsButton();
+    starsButton.name = "starsButton";
+    starsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
+    starsButton.height = padding * 12;
+    starsButton.width = stageWidth * 0.45;
+    starsButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4 , padding * 2);
+    addChild(starsButton);
 	
 	var rankButton:IconButton = new IconButton(Assets.getTexture("home/ranking", "gui"), 0.9);
 	rankButton.name = "rankButton";
@@ -179,26 +180,6 @@ override public function init():void
 		adsButton.badgeLabel = "!";
 	adsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	addChild(adsButton);*/
-	//dfsdf();
-}
-
-private function dfsdf():void
-{
-	var rwards:SFSArray = new SFSArray();
-	for (var i:int = 0; i < 2; i++) 
-	{
-		var sfs:SFSObject = new SFSObject();
-		sfs.putInt("score", i==0?2:0);
-		sfs.putInt("id", i == 0?10383:214);
-		sfs.putText("name", i == 0?"10383":"214");
-		sfs.putInt("1001", 12);
-		sfs.putInt("1004", 2);
-		rwards.addSFSObject(sfs);
-	}
-	var sfs2:ISFSObject = new SFSObject();
-	sfs2.putText("mapName", "battle_3");
-	sfs2.putBool("hasExtraTime", false);
-	appModel.navigator.addOverlay(new EndBattleOverlay(new BattleData(sfs2), 0, rwards, false));
 }
 override public function focus():void
 {
@@ -283,7 +264,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 		case "battlesButton":	appModel.navigator.runBattle(player.get_arena(0) > 0);					return;
 		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));			return;
 		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
-		case "giftButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C101_FREE));	return;
+        case "starsButton":     exchangeManager.process(exchanger.items.get(ExchangeType.C104_STARS));    return;
 	}
 	
 	if( player.get_arena(0) <= 0 )

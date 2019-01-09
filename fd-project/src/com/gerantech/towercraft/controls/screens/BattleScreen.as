@@ -312,7 +312,11 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 			if( ResourceType.isBook(key) )
 				bookKey = _keys[i];
 			else if( key > 0 )
+			{
+				if( key == ResourceType.STARS )
+					exchanger.collectStars(item.getInt(_keys[i]), timeManager.now);
 				outcomes.set(key, item.getInt(_keys[i]));
+			}
 		}
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));

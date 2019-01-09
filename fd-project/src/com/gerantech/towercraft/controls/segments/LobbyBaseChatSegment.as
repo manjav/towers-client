@@ -352,7 +352,6 @@ public function set buttonsEnabled(value:Boolean):void
 	_buttonsEnabled = value;
 	chatTextInput.isEnabled = _buttonsEnabled;
     chatEnableButton.isEnabled = _buttonsEnabled;
-    appModel.navigator.toolbar.touchable = false;
     chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }

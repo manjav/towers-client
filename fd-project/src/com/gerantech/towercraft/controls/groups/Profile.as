@@ -23,7 +23,6 @@ import feathers.layout.HorizontalLayout;
 import feathers.layout.HorizontalLayoutData;
 import feathers.layout.VerticalAlign;
 import flash.geom.Rectangle;
-import flash.utils.Dictionary;
 import starling.display.DisplayObject;
 import starling.display.Image;
 import starling.events.Event;
@@ -104,7 +103,7 @@ override protected function initialize() : void
 	botLine.height = height * 0.25;
 	botLine.layout = new HorizontalLayout();
 	botLine.layoutData = new AnchorLayoutData(NaN, padding * 3.2, padding * 2.2, padding * 3.0);
-	//HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
+	HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
 	HorizontalLayout(botLine.layout).gap = padding;
 	HorizontalLayout(botLine.layout).firstGap = padding * 0.5;
 	addChild(botLine);
@@ -120,24 +119,17 @@ override protected function initialize() : void
 	clanNameDisplay.layoutData = new HorizontalLayoutData(100);
 	botLine.addChild(clanNameDisplay);
 	
-	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.XP] = new IndicatorXP("ltr");
-	indicators[ResourceType.XP].name = "xpIndicator";
-	indicators[ResourceType.XP].setData(8000, player.get_xp(), 12000);
-	indicators[ResourceType.XP].width = padding * 6;
-	indicators[ResourceType.XP].addEventListener(Event.SELECT, buttons_eventsHandler);
-	indicators[ResourceType.XP].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	botLine.addChild(indicators[ResourceType.XP]);
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr");
+	indicatorXP.name = "xpIndicator";
+	indicatorXP.width = padding * 6;
+	indicatorXP.addEventListener(Event.SELECT, buttons_eventsHandler);
+	botLine.addChild(indicatorXP);
 	
-	indicators[ResourceType.POINT] = new Indicator("ltr", ResourceType.POINT, false, false);
-	indicators[ResourceType.POINT].name = "pointIndicator";
-	indicators[ResourceType.POINT].width = padding * 5;
-	indicators[ResourceType.POINT].setData(0, player.get_point(), NaN);
-	indicators[ResourceType.POINT].addEventListener(Event.SELECT, buttons_eventsHandler);
-	indicators[ResourceType.POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	botLine.addChild(indicators[ResourceType.POINT]);
-	
-	appModel.navigator.toolbar.checkIndictorAchievements();
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.POINT, false, false);
+	indicatorPoint.name = "pointIndicator";
+	indicatorPoint.width = padding * 5;
+	indicatorPoint.addEventListener(Event.SELECT, buttons_eventsHandler);
+	botLine.addChild(indicatorPoint);
 }
 
 private function buttons_eventsHandler(event:Event):void 
