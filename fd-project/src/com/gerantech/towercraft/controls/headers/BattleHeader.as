@@ -1,12 +1,15 @@
 package com.gerantech.towercraft.controls.headers
 {
+import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
+import dragonBones.Armature;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.ImageLoader;
+import flash.utils.setTimeout;
 
 import flash.geom.Rectangle;
 
@@ -28,13 +31,15 @@ private var created:Boolean;
 private var needsShowWinner:Boolean;
 
 private var padding:int;
-public function BattleHeader(label:String, isAllise:Boolean)
+private var score:int;
+public function BattleHeader(label:String, isAllise:Boolean, score:int)
 {
 	super();
-	width = 250;
+	width = 220;
 	height = 140;
-	this.isAllise = isAllise;
 	this.label = label;
+	this.isAllise = isAllise;
+	this.score = score;
 	padding = 48;
 }
 
@@ -55,7 +60,7 @@ private function creationCompleteHandler():void
 	addChild(ribbon);
 
 	ribbon.width = 0;
-	Starling.juggler.tween(ribbon, 0.6, {width:width, transition:Transitions.EASE_OUT_BACK});
+	Starling.juggler.tween(ribbon, 0.6, {width:this.width, transition:Transitions.EASE_OUT_BACK});
 	
 	labelDisplay = new ShadowLabel(label, isAllise?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, height * 0.01);
 	labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
@@ -69,19 +74,18 @@ private function creationCompleteHandler():void
 	created = true;
 	if( needsShowWinner )
 		showWinnerLabel(true);
-}
 
-public function addScoreImages(score:int, max:int=-1):void
-{
-	for (var i:int = 0; i < score; i++) 
+	if( score == -1 )
+		return;
+	
+	for( var i:int = 0; i < 3; i++ ) 
 	{
-		var keyImage:Image = new Image(Assets.getTexture("gold-key" + (i <= max ? "-off" : ""), "gui"));
-		keyImage.alignPivot();
-		keyImage.x = (Math.ceil(i/4) * ( i==1 ? 1 : -1 )) * padding * 5 + Starling.current.stage.stageWidth * 0.5;
-		keyImage.y = padding * ( i==0 ? -2.2	 : -1.8 );
-		keyImage.scale = 0;
-		Starling.juggler.tween(keyImage, 0.6, {delay:i * 0.3 + 0.5, scale:( i == 0 ? 1.1 : 1 ), transition:Transitions.EASE_OUT_BACK});
-		addChild(keyImage);
+		var starImage:StarCheck = new StarCheck(false, i == 0 ? 220 : 180);
+		starImage.x = width * 0.5 + (Math.ceil(i / 4) * ( i == 1 ? 1 : -1 )) * 256;
+		starImage.y = i == 0 ? -140 : -90;
+		addChild(starImage);
+		if( i < score )
+			setTimeout(starImage.active, (i+1) * 500 + 500);
 	}	
 }
 
@@ -104,8 +108,8 @@ public function showWinnerLabel(isWinner:Boolean) : void
 	armatureDisplay.alpha = 0.7;
 	armatureDisplay.x = width * 0.5;
 	//armatureDisplay.y = height * 0.5;
-	armatureDisplay.scaleX = 3.5;
-	armatureDisplay.scaleY = 1.7;
+	armatureDisplay.scaleX = 4;
+	armatureDisplay.scaleY = 2;
 	armatureDisplay.animation.gotoAndPlayByFrame("rotate", 1);
 	addChildAt(armatureDisplay, 0);
 }

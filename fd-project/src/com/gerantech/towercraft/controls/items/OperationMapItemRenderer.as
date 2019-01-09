@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.buttons.SimpleButton;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.Fields;
@@ -79,47 +80,13 @@ override protected function commitData():void
 			
 			pinButton.addChild(pin);
 			
-			/*if ( score > 0 )
+			for( var i:int = 0; i < 3; i++ ) 
 			{
-				var star_0:Image = new Image(Assets.getTexture("star-center", "operations"));
-				star_0.alignPivot("center", "top");
-				star_0.y = 14;
-				star_0.touchable = false;
-				pinButton.addChild(star_0);
-				
-				if ( score > 1 )
-				{
-					var star_1:Image = new Image(Assets.getTexture("star-side", "operations"));
-					star_1.alignPivot("right", "top");
-					star_1.scaleX = -1
-					star_1.x = 18;
-					star_1.y = 5;
-					star_1.touchable = false;
-					pinButton.addChild(star_1);
-					
-					if ( score > 2 )
-					{
-						var star_2:Image = new Image(Assets.getTexture("star-side", "operations"));
-						star_2.alignPivot("right", "top");
-						star_2.x = - 18;
-						star_2.y = + 5;
-						star_2.touchable = false;
-						pinButton.addChild(star_2);
-					}
-				}
-			}*/
-			
-			for (var i:int = score-1; i >= 0; i--) 
-			{
-				var keyImage:Image = new Image(Assets.getTexture("gold-key-small", "operations"));
-				keyImage.alignPivot("center", "bottom");
-				keyImage.scale = 0.8
-				keyImage.x = Math.ceil(i*0.3) * ( i==1 ? 1 : -1 ) * 30;
-				keyImage.y =  i == 0 ? -32 : -24;
-				keyImage.touchable = false;
-				pinButton.addChild(keyImage);
+				var starImage:StarCheck = new StarCheck(i < score, i == 0 ? 40 : 32, "operations");
+				starImage.x = (Math.ceil(i / 4) * ( i == 1 ? 1 : -1 )) * 30;
+				starImage.y = (i == 0 ? -50 : -40);
+				pinButton.addChild(starImage);
 			}
-			
 			
 			if( item.index == OPERATION_INDEX )
 				intervalId = setInterval(punchButton, 2000,  pinButton, 2);

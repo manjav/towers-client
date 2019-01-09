@@ -35,13 +35,13 @@ override protected function initialize():void
 	if( playerIndex == -1 )
 		message = "operation_end_label";
 	else
-		message = battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
+		message = battleData.isLeft ? "operation_canceled" : (score > 0?"operation_win_label":"operation_lose_label");
 	
-	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true);
-	opponentHeader.layoutData = new AnchorLayoutData(550, 0, NaN, 0);
+	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true, score);
+	opponentHeader.layoutData = new AnchorLayoutData(550, 100, NaN, 100);
 	addChild(opponentHeader);
 	
-	opponentHeader.addScoreImages(score, player.operations.get(battleData.map.index)-1);
+//	opponentHeader.addScoreImages(score, player.operations.get(battleData.map.index)-1);
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;
@@ -104,7 +104,7 @@ override protected function initialize():void
 		buttons.addChild(retryButton);
 	}
 		
-	appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+	appModel.sounds.addAndPlaySound("outcome-" + (score > 0?"victory":"defeat"));
 	initialingCompleted = true;
 }
 }

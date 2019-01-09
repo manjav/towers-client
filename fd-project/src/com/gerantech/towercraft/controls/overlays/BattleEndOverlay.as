@@ -77,8 +77,7 @@ override protected function initialize():void
 	{
 		// opponent elements
 		var opponentHeader:BattleHeader = new BattleHeader(battleData.opponent.getVariable("name").getStringValue(), false);
-		opponentHeader.width = padding * 16;
-		opponentHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 12);
+		opponentHeader.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, 0, -padding * 12);
 		addChild(opponentHeader);
 	
 		var opponentLabel:ShadowLabel = new ShadowLabel(loc(score>0?"loser_label":"winner_label"), 1, 0, null, null, false, null, 1.4);
@@ -87,8 +86,7 @@ override protected function initialize():void
 
 		// player elements
 		var playerHeader:BattleHeader = new BattleHeader(battleData.me.getVariable("name").getStringValue(), true);
-		playerHeader.width = padding * 16;
-		playerHeader.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 3);
+		playerHeader.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, 0, -padding * 3);
 		addChild(playerHeader);
 
 		var playerLabel:ShadowLabel = new ShadowLabel(loc(score<=0?"loser_label":"winner_label"), 1, 0, null, null, false, null, 1.4);

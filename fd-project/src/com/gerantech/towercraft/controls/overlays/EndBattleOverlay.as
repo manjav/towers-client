@@ -5,6 +5,8 @@ import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.models.vo.RewardData;
+import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.List;
@@ -27,7 +29,6 @@ public function EndBattleOverlay(battleData:BattleData, playerIndex:int, rewards
 override protected function initialize():void
 {
 	super.initialize();
-	
 	var reward_1:ISFSObject = rewards.getSFSObject(playerIndex ==-1?1:1 - playerIndex);
 	var reward_2:ISFSObject = rewards.getSFSObject(playerIndex ==-1?0:playerIndex);
 	var isDraw:Boolean = reward_1.getInt("score") == reward_2.getInt("score") ;
@@ -44,19 +45,18 @@ override protected function initialize():void
 	var name:String = reward_1.getText("name");
 	if( player.inTutorial() && player.tutorialMode == 1 )
 		name = loc("trainer_label");
-	var axisHeader:BattleHeader = new BattleHeader(name, reward_1.getInt("id") == player.id);
-	axisHeader.layoutData = new AnchorLayoutData(padding * 11, 0, NaN, 0);
+	var axisHeader:BattleHeader = new BattleHeader(name, reward_1.getInt("id") == player.id, reward_1.getInt("score"));
+	axisHeader.layoutData = new AnchorLayoutData(padding * 11, 100, NaN, 100);
 	addChild(axisHeader);
-	axisHeader.addScoreImages(reward_1.getInt("score"));
+	//axisHeader.addScoreImages(reward_1.getInt("score"));
 	if( !isDraw )
 		axisHeader.showWinnerLabel(reward_1.getInt("score") > reward_2.getInt("score"));
 	
 	// allise
 	name = reward_2.getText("name") == "guest" ? loc("guest_label") : reward_2.getText("name");
-	var alliseHeader:BattleHeader = new BattleHeader(name, reward_2.getInt("id") == player.id);
-	alliseHeader.layoutData = new AnchorLayoutData(padding * 20, 0, NaN, 0);
+	var alliseHeader:BattleHeader = new BattleHeader(name, reward_2.getInt("id") == player.id, reward_2.getInt("score"));
+	alliseHeader.layoutData = new AnchorLayoutData(padding * 21, 100, NaN, 100);
 	addChild(alliseHeader);
-	alliseHeader.addScoreImages(reward_2.getInt("score"));
 	if( !isDraw )
 		alliseHeader.showWinnerLabel(reward_2.getInt("score") > reward_1.getInt("score"));
 
@@ -67,15 +67,18 @@ override protected function initialize():void
 	
 	if( playerIndex > -1 && !isDraw )
 	{
+		if( reward_2.getInt("score") > 0 )
+			appModel.battleFieldView.battleData.outcomes.push(new RewardData(stageWidth * 0.5, padding * 21, ResourceType.R17_STARS, reward_2.getInt("score")));
+		
 		var _rewards:ListCollection = getRewardsCollection(playerIndex);
 		if( _rewards.length > 0 )
 		{
 			var rewardsList:List = new List();
 			rewardsList.backgroundSkin = new Quad(1, 1, 0);
-			rewardsList.backgroundSkin.alpha = 0.8;
-			rewardsList.height = 280;
+			rewardsList.backgroundSkin.alpha = 0.6;
+			rewardsList.height = 230;
 			rewardsList.layout = hlayout;
-			rewardsList.layoutData = new AnchorLayoutData(padding * 25, 0, NaN, 0);
+			rewardsList.layoutData = new AnchorLayoutData(padding * 26, 0, NaN, 0);
 			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData);	}
 			rewardsList.dataProvider = _rewards;
 			addChild(rewardsList);
