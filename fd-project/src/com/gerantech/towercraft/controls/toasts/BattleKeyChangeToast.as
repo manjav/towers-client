@@ -47,7 +47,7 @@ override protected function initialize():void
 	for ( var i:int = 0; i < 3; i++ )
 	{
 		var star:StarCheck = new StarCheck();
-		star.width = star.height = _h * 0.7;
+		star.width = star.height = _h;
 		star.pivotX = star.width * 0.5;
 		star.pivotY = star.height * 0.5;
 		star.x = transitionIn.destinationBound.width * 0.5 + Math.ceil(i / 4) * ( i == 1 ? 1 : -1 ) * _h * 0.7;
@@ -56,8 +56,9 @@ override protected function initialize():void
 		stars.push(star);
 	}
 	
-	for ( i = 0; i < stars.length; i++ )
-		stars[i].isEnabled = score >= i;
+	for( i = 0; i < stars.length; i++ )
+		if( score >= i )
+			stars[i].active();
 }
 override protected function transitionInCompleted() : void
 {

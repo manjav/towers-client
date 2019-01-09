@@ -58,6 +58,7 @@ private var tutorBattleIndex:int;
 public function BattleScreen()
 {
 	appModel.battleFieldView = new BattleFieldView();
+	appModel.battleFieldView.initialize();
 	addChild(appModel.battleFieldView);
 }
 override protected function initialize():void

@@ -37,11 +37,11 @@ override protected function initialize():void
 	else
 		message = battleData.isLeft ? "operation_canceled" : (score>0?"operation_win_label":"operation_lose_label");
 	
-	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true);
+	var opponentHeader:BattleHeader = new BattleHeader(loc(message), true, score);
 	opponentHeader.layoutData = new AnchorLayoutData(550, 0, NaN, 0);
 	addChild(opponentHeader);
 	
-	opponentHeader.addScoreImages(score, player.operations.get(battleData.battleField.field.index)-1);
+//	opponentHeader.addScoreImages(score, player.operations.get(battleData.battleField.field.index)-1);
 	
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;

@@ -40,9 +40,9 @@ public var guiImagesContainer:Sprite;
 public var guiTextsContainer:Sprite;
 public var effectsContainer:Sprite;
 
-public function BattleFieldView()
+public function BattleFieldView() { super(); }
+public function initialize () : void 
 {
-	super();
 	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/battle" ) );
 	AppModel.instance.assets.loadQueue(assetManagerLoaded);
 	units = new IntUnitMap();
