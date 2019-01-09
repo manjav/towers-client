@@ -4,8 +4,6 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Main;
 	import com.gerantech.towercraft.controls.animations.AchievedItem;
-	import com.gerantech.towercraft.controls.buttons.Indicator;
-	import com.gerantech.towercraft.controls.headers.Toolbar;
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
@@ -23,12 +21,10 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 	import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 	import com.gerantech.towercraft.models.AppModel;
-	import com.gerantech.towercraft.models.Assets;
 	import com.gerantech.towercraft.models.tutorials.TutorialTask;
 	import com.gerantech.towercraft.models.vo.UserData;
 	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gerantech.towercraft.utils.Utils;
-	import com.gt.towers.battle.fieldes.FieldData;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
 	import com.gt.towers.utils.maps.IntIntMap;
@@ -44,7 +40,6 @@ package com.gerantech.towercraft.controls
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.utils.Dictionary;
-	import flash.utils.setTimeout;
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.events.Event;
@@ -52,11 +47,9 @@ package com.gerantech.towercraft.controls
 	
 	public class StackNavigator extends StackScreenNavigator
 	{
-		public var toolbar:Toolbar;
-		
 		public function StackNavigator()
 		{
-			addEventListener(Event.CHANGE, navigator_changeHandler);
+			//addEventListener(Event.CHANGE, navigator_changeHandler);
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 		}
@@ -82,43 +75,22 @@ package com.gerantech.towercraft.controls
 			GameLog.GAP = 80;
 			logsContainer = new LayoutGroup();
 			parent.addChild(logsContainer);
-			
-			toolbar = new Toolbar();
-			toolbar.width = stage.stageWidth;
-			toolbar.addEventListener(Event.SELECT, toolbar_selectHandler);
 		}
 		
-		protected function navigator_changeHandler(event:Event):void
+		public function gotoShop(resourceType:int):void
 		{
-			if (toolbar == null)
-				return;
-			if (activeScreenID == Main.DASHBOARD_SCREEN || activeScreenID == Main.OPERATIONS_SCREEN || activeScreenID == Main.QUESTS_SCREEN)
-			{
-				addChild(toolbar);
-				toolbar.alpha = 0;
-				toolbar.updateIndicators();
-				Starling.juggler.tween(toolbar, 0.1, {delay: 0.8, alpha: 1});
-			}
-			else
-			{
-				toolbar.removeFromParent();
-			}
-		}
-		
-		protected function toolbar_selectHandler(event:Event):void
-		{
-			if (AppModel.instance.game.player.inTutorial())
+			if( AppModel.instance.game.player.inTutorial() )
 				return;
 			
-			if (activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0)
+			if( activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0 )
 				return;
 			
-			if (event.data.resourceType == ResourceType.R3_CURRENCY_SOFT)
+			if( resourceType == ResourceType.R3_CURRENCY_SOFT )
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 4;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
-			else if (event.data.resourceType == ResourceType.R4_CURRENCY_HARD)
+			else if( resourceType == ResourceType.R4_CURRENCY_HARD )
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 3;
 				DashboardScreen(activeScreen).gotoPage(0);
@@ -241,30 +213,8 @@ package com.gerantech.towercraft.controls
 			var keys:Vector.<int> = map.keys();
 			while (i < keys.length)
 			{
-				addResourceAnimation(x, y + i * 120, keys[i], map.get(keys[i]), delay + i * 0.2);
+				dispatchEventWith("achieveResource", false, [x, y + i * 120, keys[i], map.get(keys[i]), delay + i * 0.2]);
 				i++;
-			}
-		}
-		
-		public function addResourceAnimation(x:Number, y:Number, resourceType:int, count:int, delay:Number = 0):void
-		{
-			if (ResourceType.isCard(resourceType))
-			{
-				addAnimation(x, y, 130, Assets.getTexture("cards"), count, new Rectangle(stage.stageWidth * 0.3, stage.stageHeight * 0.95), delay, null);
-			}
-			else if (resourceType == ResourceType.R3_CURRENCY_SOFT || resourceType == ResourceType.R4_CURRENCY_HARD || resourceType == ResourceType.R1_XP || resourceType == ResourceType.R2_POINT)
-			{
-				var indicator:Indicator = Indicator(toolbar.indicators[resourceType]);
-				var rect:Rectangle;
-				if( indicator.iconDisplay.stage == null )
-					rect = new Rectangle(x, y - 500, 2, 2);
-				else
-					rect = indicator.iconDisplay.getBounds(stage);
-				setTimeout(function():void
-				{
-					indicator.value = AppModel.instance.game.player.resources.get(resourceType) - count;
-					addAnimation(x, y, 130, Assets.getTexture("res-" + resourceType, "gui"), count, rect, 0.02, indicator.iconDisplay.stage == null ? null : indicator.punch);
-				}, delay * 1000);
 			}
 		}
 		

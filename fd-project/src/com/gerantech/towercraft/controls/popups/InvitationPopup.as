@@ -35,7 +35,7 @@ package com.gerantech.towercraft.controls.popups
 				{
 					player.resources.increase(params.getInt("rewardType"), params.getInt("rewardCount") );
 					var rec:Rectangle = acceptButton.getBounds(stage);
-					appModel.navigator.addResourceAnimation(rec.x+rec.width*0.5, rec.y, params.getInt("rewardType"), params.getInt("rewardCount"));
+					appModel.navigator.dispatchEventWith("achieveResource", false, [rec.x + rec.width * 0.5, rec.y, params.getInt("rewardType"), params.getInt("rewardCount")]);
 				}
 
 				var f:SFSObject = new SFSObject();

@@ -178,7 +178,7 @@ private function showProfile():void
 	var featureCollection:ListCollection = new ListCollection();
 	var xp:int;
 	var point:int;
-	for ( var i:int = 0; i < resourcesData.size(); i ++ )
+	for( var i:int = 0; i < resourcesData.size(); i++ )
 	{
 		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.R1_XP )
 			xp = resourcesData.getSFSObject(i).getInt("count");
@@ -188,20 +188,19 @@ private function showProfile():void
 			featureCollection.addItem(resourcesData.getSFSObject(i));
 	}
 
-	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.R1_XP] = new IndicatorXP("ltr");
-	indicators[ResourceType.R1_XP].setData(0, xp, NaN);
-	indicators[ResourceType.R1_XP].width = padding * 7;
-	indicators[ResourceType.R1_XP].height = padding * 1.5;
-	indicators[ResourceType.R1_XP].layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
-	addChild(indicators[ResourceType.R1_XP]);
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr", false);
+	indicatorXP.setData(NaN, xp, NaN);
+	indicatorXP.width = padding * 7;
+	indicatorXP.height = padding * 1.5;
+	indicatorXP.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
+	addChild(indicatorXP);
 	
-	indicators[ResourceType.R2_POINT] = new Indicator("ltr", ResourceType.R2_POINT, false, false);
-	indicators[ResourceType.R2_POINT].width = padding * 7;
-	indicators[ResourceType.R2_POINT].height = padding * 1.5;
-	indicators[ResourceType.R2_POINT].setData(0, point, NaN);
-	indicators[ResourceType.R2_POINT].layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
-	addChild(indicators[ResourceType.R2_POINT]);
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.R2_POINT, false, false, false);
+	indicatorPoint.setData(0, point, Number.MAX_VALUE);
+	indicatorPoint.width = padding * 7;
+	indicatorPoint.height = padding * 1.5;
+	indicatorPoint.layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
+	addChild(indicatorPoint);
 	
 	var scroller:ScrollContainer = new ScrollContainer();
 	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin"));
@@ -249,7 +248,7 @@ private function showProfile():void
 	
 	// deck
 	var top:int = adminMode ? 430 : 20;
-    var deckHeader:BattleHeader = new BattleHeader(loc("deck_label"), true);
+    var deckHeader:BattleHeader = new BattleHeader(loc("deck_label"), true, -1);
     deckHeader.width = transitionIn.destinationBound.width * 0.8;
     deckHeader.height = 120;
     deckHeader.layoutData = new AnchorLayoutData(featureList.dataProvider.length * 50 + top, NaN, NaN, NaN, 0);

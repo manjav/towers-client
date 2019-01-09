@@ -10,9 +10,9 @@ public class IndicatorXP extends Indicator
 {
 private var levelDisplay:com.gerantech.towercraft.controls.texts.ShadowLabel;
 
-public function IndicatorXP(direction:String="ltr") 
+public function IndicatorXP(direction:String="ltr", autoApdate:Boolean = true) 
 {
-	super(direction, ResourceType.R1_XP, true, false);
+	super(direction, ResourceType.R1_XP, true, false, autoApdate);
 }
 override protected function initialize():void
 {
@@ -24,10 +24,13 @@ override protected function initialize():void
 	levelDisplay.width = iconDisplay.width;
 	addChild(levelDisplay);
 }
-override public function setData(minimum:Number, value:Number, maximum:Number):void
+
+override public function setData(minimum:Number, value:Number, maximum:Number, changeDuration:Number = 0):void
 {
-	var level:int = player.get_level(value);
-	super.setData(game.levels[level - 1], value, game.levels[level]);
+	if( value == -1 )
+		value = player.get_xp();
+	var level:int = player.get_level(value);//trace(value, level, player.resources.toString())
+	super.setData(game.levels[level - 1], value, game.levels[level], changeDuration);
 	if( levelDisplay != null )
 		levelDisplay.text = level.toString();
 }

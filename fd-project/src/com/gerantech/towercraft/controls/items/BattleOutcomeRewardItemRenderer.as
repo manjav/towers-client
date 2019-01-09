@@ -10,6 +10,7 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
@@ -65,6 +66,18 @@ override protected function commitData():void
 		labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64, 0xFFFFFF, "center");
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
 		addChild(labelDisplay);
+		
+	}
+	_owner.addEventListener(FeathersEventType.CREATION_COMPLETE, owner_createCompleteHandler);
+}
+
+protected function owner_createCompleteHandler(e:Event):void 
+{
+	_owner.removeEventListener(FeathersEventType.CREATION_COMPLETE, owner_createCompleteHandler);
+	if( _data.c != 0 )// && !SFSConnection.instance.mySelf.isSpectator
+	{
+		var rect:Rectangle = getBounds(stage);
+		battleData.outcomes.push(new RewardData(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, _data.t, _data.c));
 	}
 }
 
@@ -72,12 +85,6 @@ override protected function feathersControl_removedFromStageHandler(event:Event)
 {
 	if( iconDisplay == null )
 		Starling.juggler.removeTweens(iconDisplay);
-		
-	if( _data.c != 0 )// && !SFSConnection.instance.mySelf.isSpectator
-	{
-		var rect:Rectangle = getBounds(stage);
-		battleData.outcomes.push(new RewardData(rect.x + rect.width * 0.5, rect.y + rect.height * 0.5, _data.t, _data.c));
-	}
 	super.feathersControl_removedFromStageHandler(event);
 }
 }

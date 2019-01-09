@@ -23,7 +23,6 @@ import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
-import com.gt.towers.utils.GameError;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
@@ -147,6 +146,14 @@ public function process(item : ExchangeItem) : void
 		}
 		else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
 		{
+			if( item.type == ExchangeType.C104_STARS )
+			{
+				if( _state == ExchangeItem.CHEST_STATE_BUSY )
+					appModel.navigator.addLog(loc("popup_chest_message_110", [""]));
+				else
+					appModel.navigator.addLog(loc("exchange_hint_104", [10]));
+				return;
+			}
 			var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
 			dailyPopup.addEventListener(Event.SELECT, dailyPopup_selectHandler);
 			appModel.navigator.addPopup(dailyPopup);

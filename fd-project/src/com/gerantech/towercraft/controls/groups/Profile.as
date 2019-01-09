@@ -105,7 +105,7 @@ override protected function initialize() : void
 	botLine.height = height * 0.25;
 	botLine.layout = new HorizontalLayout();
 	botLine.layoutData = new AnchorLayoutData(NaN, padding * 1.2, padding * 2.2, padding);
-	//HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
+	HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
 	HorizontalLayout(botLine.layout).gap = padding;
 	HorizontalLayout(botLine.layout).firstGap = padding * 0.5;
 	addChild(botLine);
@@ -121,24 +121,17 @@ override protected function initialize() : void
 	clanNameDisplay.layoutData = new HorizontalLayoutData(100);
 	botLine.addChild(clanNameDisplay);
 	
-	var indicators:Dictionary = appModel.navigator.toolbar.indicators;
-	indicators[ResourceType.R1_XP] = new IndicatorXP("ltr");
-	indicators[ResourceType.R1_XP].name = "xpIndicator";
-	indicators[ResourceType.R1_XP].setData(8000, player.get_xp(), 12000);
-	indicators[ResourceType.R1_XP].width = padding * 6;
-	indicators[ResourceType.R1_XP].addEventListener(Event.SELECT, buttons_eventsHandler);
-	indicators[ResourceType.R1_XP].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	botLine.addChild(indicators[ResourceType.R1_XP]);
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr");
+	indicatorXP.name = "xpIndicator";
+	indicatorXP.width = padding * 6;
+	indicatorXP.addEventListener(Event.SELECT, buttons_eventsHandler);
+	botLine.addChild(indicatorXP);
 	
-	indicators[ResourceType.R2_POINT] = new Indicator("ltr", ResourceType.R2_POINT, false, false);
-	indicators[ResourceType.R2_POINT].name = "pointIndicator";
-	indicators[ResourceType.R2_POINT].width = padding * 5;
-	indicators[ResourceType.R2_POINT].setData(0, player.get_point(), NaN);
-	indicators[ResourceType.R2_POINT].addEventListener(Event.SELECT, buttons_eventsHandler);
-	indicators[ResourceType.R2_POINT].layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding);
-	botLine.addChild(indicators[ResourceType.R2_POINT]);
-	
-	appModel.navigator.toolbar.checkIndictorAchievements();
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.R2_POINT, false, false);
+	indicatorPoint.name = "pointIndicator";
+	indicatorPoint.width = padding * 5;
+	indicatorPoint.addEventListener(Event.SELECT, buttons_eventsHandler);
+	botLine.addChild(indicatorPoint);
 }
 
 private function buttons_eventsHandler(event:Event):void 

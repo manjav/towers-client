@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -12,6 +13,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import feathers.controls.AutoSizeMode;
 import feathers.controls.List;
@@ -100,7 +102,6 @@ protected function addedToStageHandler(event:Event):void
 	tabsList.addEventListener(Event.SELECT, tabsList_selectHandler);
 	addChild(tabsList);
 
-	
 	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 		appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
 	else
@@ -116,6 +117,14 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		appModel.navigator.runBattle();
 		return;
 	}
+	
+	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.R4_CURRENCY_HARD);
+	indicatorHC.layoutData = new AnchorLayoutData(18, 36);
+	addChild(indicatorHC);
+	
+	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.R3_CURRENCY_SOFT);
+	indicatorSC.layoutData = new AnchorLayoutData(18, 360);
+	addChild(indicatorSC);
 	
 	// tutorial mode
 	if( player.get_battleswins() == 0 )

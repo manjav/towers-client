@@ -288,8 +288,12 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 			var key:int = int(_keys[i]);
 			if( ResourceType.isBook(key) )
 				bookKey = _keys[i];
-			else if( key > 0 )
+			else if ( key > 0 )
+			{
+				if( key == ResourceType.R17_STARS )
+					exchanger.collectStars(item.getInt(_keys[i]), timeManager.now);
 				outcomes.set(key, item.getInt(_keys[i]));
+			}
 		}
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));

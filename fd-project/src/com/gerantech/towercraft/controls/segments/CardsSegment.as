@@ -371,7 +371,7 @@ private function details_updateHandler(event:Event):void
 }
 private function upgradeConfirm_errorHandler(event:Event):void
 {
-    appModel.navigator.toolbar.dispatchEventWith(Event.SELECT, true, {resourceType:ResourceType.R3_CURRENCY_SOFT});
+    appModel.navigator.gotoShop(ResourceType.R3_CURRENCY_SOFT);
     appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R3_CURRENCY_SOFT)]));
     detailsPopup.close();
 }
