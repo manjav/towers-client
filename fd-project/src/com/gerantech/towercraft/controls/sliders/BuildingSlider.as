@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.sliders
 {
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.ImageLoader;
 import feathers.controls.ProgressBar;
@@ -21,12 +20,7 @@ public function BuildingSlider() { super(); }
 override protected function initialize():void
 {
 	super.initialize();
-	
-	labelDisplay = new ShadowLabel("", 0xEEEEFF, 0, "center", "ltr", false, null, 0.75);
-	labelDisplay.mainLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-	labelDisplay.shadowLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3);
-	labelDisplay.y = -6;
-	//labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48, 0xFFFFFF, "center");
+	labelFactory();
 	
 	if( showUpgradeIcon )
 	{
@@ -34,6 +28,20 @@ override protected function initialize():void
 		upgradeDisplay.maintainAspectRatio = false;
 		upgradeDisplay.source = Assets.getTexture("theme/upgrade-ready");
 	}
+}
+
+private function labelFactory() : void 
+{
+	if( labelDisplay != null )
+	{
+		labelDisplay.text = value + " / " + maximum;
+		return;
+	}
+	labelDisplay = new ShadowLabel(value + " / " + maximum, 0xEEEEFF, 0, "center", "ltr", false, null, 0.75);
+	labelDisplay.mainLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+	labelDisplay.shadowLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3);
+	labelDisplay.y = -6;
+	//labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48, 0xFFFFFF, "center");
 }
 
 override protected function draw():void
@@ -44,12 +52,15 @@ override protected function draw():void
 
 override public function set value(newValue:Number):void
 {
-	super.value = Math.max(0, Math.min( newValue, maximum ) );
-	labelDisplay.text = newValue + " / " + maximum;
+	var _val:int = Math.max(0, newValue);
+	if( _val == super.value )
+		return;
+	super.value = _val;
+	labelFactory();
 	//addChild(labelDisplay);
-	isEnabled = newValue >= maximum;
+	isEnabled = _val >= maximum;
 	
-	if( showUpgradeIcon && newValue >= maximum )
+	if( showUpgradeIcon && _val >= maximum )
 	{
 		upgradeDisplay.width = upgradeDisplay.height = height;
 		upgradeDisplay.x = height * 0.1;
@@ -64,7 +75,7 @@ override public function set value(newValue:Number):void
 		stopPunching();
 	}
 	
-	var gap:Number = (showUpgradeIcon && newValue >= maximum ) ? height * 0.3 : 0;
+	var gap:Number = (showUpgradeIcon && _val >= maximum ) ? height * 0.3 : 0;
 	labelDisplay.x = gap;
 	labelDisplay.width = width-gap;
 }
