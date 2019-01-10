@@ -36,20 +36,17 @@ override protected function initialize():void
 	iconDisplay.width = iconDisplay.height = height * 2.0;
 	iconDisplay.x = width;
 	iconDisplay.y = height * 0.5;
-	//iconDisplay.layoutData = new AnchorLayoutData (NaN, -height/2, NaN, NaN, NaN, 0);
 	addChild(iconDisplay);
 	
 	stars = new Vector.<StarCheck>();
-	for ( var i:int=0; i<3; i++ )
+	for ( var i:int = 0; i < 3; i++ )
 	{
-		var star:StarCheck = new StarCheck();
-		star.width = star.height = height * 0.85;
-		star.x = i * (width-height) * 0.33 + height * 0.25;
-		star.y = height * 0.05;
-		addChild(star)
-		stars.push(star);
+		var starImage:StarCheck = new StarCheck(true, i == 0 ? 60 : 50);
+        starImage.x = width * 0.5 + (Math.ceil(i / 4) * ( i == 1 ? 1 : -1 )) * 70 - 20;
+        starImage.y = height * 0.5 + (i == 0 ? -4 : 0);
+        addChild(starImage);
+		stars.push(starImage);
 	}
-	stars.reverse();
 }
 
 override public function get value():Number
@@ -87,17 +84,15 @@ override public function set maximum(value:Number):void
 	progressBar.maximum = value;
 }
 
-
 override public function enableStars(score:int):void
 {
-	for ( var i:int=0; i<stars.length; i++ )
+	for( var i:int=0; i<stars.length; i++ )
 	{
-		stars[i].isEnabled = score >= i;
-		stars[i].alpha = 0;
-		Starling.juggler.tween(stars[i], 0.3, {delay:i * 0.1, alpha:1});
+		if( score < i )
+			stars[i].deactive();
 	}
 	if( score == 0 )
-		iconDisplay.scaleTo(1);
+		iconDisplay.punch();
 }
 
 override public function dispose():void
