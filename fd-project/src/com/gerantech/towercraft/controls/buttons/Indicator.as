@@ -12,6 +12,7 @@ import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
 import feathers.controls.ImageLoader;
 import feathers.controls.ProgressBar;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
@@ -67,6 +68,7 @@ override protected function initialize():void
 	if( hasProgressbar )
 	{
 		progressbar = new ProgressBar();
+		progressbar.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void { progressbar.backgroundSkin.visible = false; });
 		progressbar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		progressbar.minimum = minimum;
 		progressbar.maximum = maximum;
