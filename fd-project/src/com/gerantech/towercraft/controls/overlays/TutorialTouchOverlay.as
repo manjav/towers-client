@@ -6,10 +6,12 @@ import com.gt.towers.battle.fieldes.PlaceData;
 import feathers.layout.AnchorLayout;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.DisplayObjectContainer;
 import starling.display.Image;
 
 public class TutorialTouchOverlay extends TutorialOverlay
 {
+public var context:DisplayObjectContainer;
 private var finger:Image;
 private var place:PlaceData;
 public function TutorialTouchOverlay(task:TutorialTask)
@@ -30,11 +32,13 @@ override protected function initialize():void
 	finger.x = place.x;
 	finger.y = (place.y - 300);
 	finger.touchable = false;
+	if( context == null )
+		context = appModel.battleFieldView;
 }
 protected override function transitionInStarted():void
 {
 	super.transitionInStarted();
-	appModel.battleFieldView.addChild(finger);
+	context.addChild(finger);
 	touchFinger();
 }
 private function touchFinger(delay:Number=0):void
