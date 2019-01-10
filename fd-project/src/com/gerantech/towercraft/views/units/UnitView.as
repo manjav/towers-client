@@ -33,7 +33,7 @@ public class UnitView extends BaseUnit
 {
 static public const _WIDTH:int = 300;
 static public const _HEIGHT:int = 300;
-static public const _SCALE:Number = 0.7;
+static public const _SCALE:Number = 0.85;
 static public const _PIVOT_Y:Number = 0.75;
 
 private var troopScale:Number = 2;
