@@ -3,7 +3,10 @@ package com.gerantech.towercraft.controls.overlays
 import com.gerantech.towercraft.controls.BookReward;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gt.towers.utils.Point3;
 import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.events.EventObject;
 import dragonBones.objects.DragonBonesData;
@@ -13,6 +16,7 @@ import dragonBones.starling.StarlingFactory;
 import feathers.controls.AutoSizeMode;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Point;
 import flash.utils.getTimer;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
@@ -113,7 +117,7 @@ override public function set outcomes(value:IntIntMap):void
 	rewardItems = new Vector.<BookReward>();
 	rewardKeys = outcomes.keys();
 	if( readyToWait )
-	bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
+		bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
 }
 
 private function openAnimation_soundEventHandler(event:StarlingEvent):void
@@ -127,11 +131,28 @@ protected function openAnimation_completeHandler(event:StarlingEvent):void
 	{
 		readyToWait = true;
 		if( outcomes != null )
+		{
+			if( player.get_arena(0) < 2 )
+				bookArmature.addEventListener(EventObject.LOOP_COMPLETE, openAnimation_loopCompleteHandler);
 			bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
+		}
 	}
 	else if( event.eventObject.animationState.name == "hide" )
 	{
 		close();
+	}
+}
+
+protected function openAnimation_loopCompleteHandler(event:StarlingEvent) : void 
+{
+	//trace(event.eventObject.animationState.name, event.eventObject.animationState.currentPlayTimes);
+	if( event.eventObject.animationState.name == "wait" && event.eventObject.animationState.currentPlayTimes == 2 )
+	{
+		bookArmature.removeEventListener(EventObject.LOOP_COMPLETE, openAnimation_loopCompleteHandler);
+		
+		var overlay:TutorialTouchOverlay = new TutorialTouchOverlay(new TutorialTask(TutorialTask.TYPE_TOUCH, "", [new Point(bookArmature.x, bookArmature.y - 10)], 0, 0))
+		overlay.context = this;
+		appModel.navigator.addOverlay(overlay);
 	}
 }
 
@@ -246,7 +267,8 @@ override public function dispose():void
 {
 	appModel.navigator.activeScreen.visible = true;
 	appModel.sounds.setVolume("main-theme", 1);
-	buttonOverlay.removeEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
+	if( buttonOverlay != null )
+		buttonOverlay.removeEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 	bookArmature.removeEventListener(EventObject.SOUND_EVENT, openAnimation_soundEventHandler);
 	bookArmature.removeEventListener(dragonBones.events.EventObject.COMPLETE, openAnimation_completeHandler);
 	super.dispose();
