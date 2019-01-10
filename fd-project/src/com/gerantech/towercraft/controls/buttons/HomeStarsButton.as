@@ -10,7 +10,7 @@ import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-import flash.events.Event;
+import starling.events.Event;
 import flash.utils.Dictionary;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
