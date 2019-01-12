@@ -25,7 +25,7 @@ public function BattleScoreBoard()
 {
 	super();
 	height = 500;
-	width = 140;
+	width = 80;
 }
 override protected function initialize():void
 {
@@ -34,34 +34,34 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	
 	var allisBG:ImageLoader = new ImageLoader();
-	allisBG.color = 0x000088;
-	allisBG.source = Assets.getTexture("theme/seek-slider-progress-skin");
-	allisBG.scale9Grid = new Rectangle(4, 8, 4, 6);
-	allisBG.height = 160;
+	allisBG.color = 0x000044;
+	allisBG.source = Assets.getTexture("theme/background-round-skin");
+	allisBG.scale9Grid = new Rectangle(7, 7, 2, 2);
+	allisBG.height = 140;
 	allisBG.alpha = 0.6;
 	allisBG.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	addChild(allisBG);
 
 
 	var axisBG:ImageLoader = new ImageLoader();
-	axisBG.color = 0x880000;
-	axisBG.source = Assets.getTexture("theme/seek-slider-progress-skin");
-	axisBG.scale9Grid = new Rectangle(4, 8, 4, 6);
-	axisBG.height = 160;
+	axisBG.color = 0x440000;
+	axisBG.source = Assets.getTexture("theme/background-round-skin");
+	axisBG.scale9Grid = new Rectangle(7, 7, 2, 2);
+	axisBG.height = 140;
 	axisBG.alpha = 0.6;
 	axisBG.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	addChild(axisBG);	
 	
 	
 	var allisIcon:ImageLoader = new ImageLoader();
-	allisIcon.source = Assets.getTexture("gold-key");
-	allisIcon.height = 100;
+	allisIcon.source = Assets.getTexture("res-17");
+	allisIcon.height = 70;
 	allisIcon.layoutData = new AnchorLayoutData(NaN, 0, 100, 0);
 	addChild(allisIcon);
 
 	var axisIcon:ImageLoader = new ImageLoader();
-	axisIcon.source = Assets.getTexture("gold-key");
-	axisIcon.height = 100;
+	axisIcon.source = Assets.getTexture("res-17");
+	axisIcon.height = 70;
 	axisIcon.layoutData = new AnchorLayoutData(100, 0, NaN, 0);
 	addChild(axisIcon);
 	
@@ -76,7 +76,7 @@ override protected function initialize():void
 	axisScoreDisplay = new BitmapFontTextRenderer();
 	axisScoreDisplay.text = "0";
 	axisScoreDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 60, 0xFF3333, "center");
-	axisScoreDisplay.layoutData = axisBG.layoutData
+	axisScoreDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	axisScoreDisplay.pixelSnapping = false;
 	addChild(axisScoreDisplay);
 	

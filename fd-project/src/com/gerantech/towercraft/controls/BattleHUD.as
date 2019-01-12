@@ -200,7 +200,6 @@ protected function createCompleteHandler(event:Event):void
 	if( !battleData.battleField.field.isOperation() )
 		return;
 	
-	setTimePosition();
 	if( battleData.battleField.extraTime > 0 )
 		appModel.navigator.addAnimation(stage.stageWidth * 0.5, stage.stageHeight * 0.5, 240, Assets.getTexture("extra-time"), battleData.battleField.extraTime, BattleTimerSlider(timerSlider).iconDisplay.getBounds(this), 0.5, punchTimer, "+ ");
 	function punchTimer():void {
@@ -212,78 +211,47 @@ protected function createCompleteHandler(event:Event):void
 
 protected function timeManager_changeHandler(event:Event):void
 {
+	if( battleData.battleField.field.isOperation() )
+		return;
 	//trace(timeManager.now-battleData.startAt , battleData.battleField.field.times._list)
-	if( scoreIndex < battleData.battleField.field.times.size() && timeManager.now - battleData.battleField.startAt > battleData.battleField.getTime(scoreIndex) )
 	{
-		scoreIndex ++;
-		if( scoreIndex < battleData.battleField.field.times.size() )
-		{
-			setTimePosition();
-		}
-		else
-		{
-			timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
-			timerSlider.enableStars(0);
-		}
-	}
-	
-	if( !battleData.battleField.field.isOperation() )
-	{
+		
 		if( surrenderButton != null )
-			surrenderButton.visible = battleData.battleField.startAt + battleData.battleField.field.times.get(0) < timeManager.now;
+			surrenderButton.visible = timeManager.now > battleData.battleField.startAt + battleData.battleField.field.times.get(2);
 		var time:int = battleData.battleField.startAt + battleData.battleField.field.times.get(2) - timeManager.now;
 		if( time < 0 )
 			time = battleData.battleField.startAt + battleData.battleField.field.times.get(3) - timeManager.now;
 		timerSlider.value = time;
-		return;
-	}
-	
-	time = timeManager.now - battleData.battleField.startAt - timerSlider.minimum;
-	if( debugMode )
-		timeLog.text = time.toString();
-	//trace(time, timerSlider.minimum, timerSlider.maximum)
-	if( time % 2 == 0 )
-		Starling.juggler.tween(timerSlider, 1, {value:timerSlider.maximum - time, transition:Transitions.EASE_OUT_ELASTIC});
-}
-
-private function setTimePosition():void
-{
-	timerSlider.enableStars(2 - scoreIndex);
-	timerSlider.minimum = scoreIndex > 0 ? battleData.battleField.getTime(scoreIndex - 1) : 0;
-	timerSlider.value = timerSlider.maximum = battleData.battleField.getTime(scoreIndex);
-	showTimeNotice(2 - scoreIndex);
-	trace("[" + battleData.battleField.field.times._list + "]", "min:", timerSlider.minimum, "max:", timerSlider.maximum, "score:", 2 - scoreIndex);
-}		
-
-private function showTimeNotice(score:int):void
-{
-	if( score > 1 )
-		return;
-	
-/*	if( battleData.battleField.field.isOperation() )
-	{
-		appModel.navigator.addPopup(new BattleKeyChangeToast(score));
-	}
-	else
-	{*/
-		if( score == -1 )
+		
+		var duration:int = int(battleData.battleField.getDuration());
+		if( duration == battleData.battleField.getTime(1) )
 		{
-			var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
-			shadow.touchable = false;
-			shadow.width = stage.stageWidth;
-			shadow.height = stage.stageHeight;
-			shadow.alpha = 0.5;
-			shadow.color = 0xAA0000;;
-			addChildAt(shadow, 0);
-			setTimeout(animateShadow, 1000, shadow, 0);
-			appModel.navigator.addPopup(new BattleExtraTimeToast());
+			timerSlider.enableStars(0x08899);
+			appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_ELIXIR_2X));
 		}
-	//}
+		
+		if( battleData.allis.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) )
+		{
+			appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_EXTRA_TIME));
+			animateShadow(0.5);
+			timerSlider.enableStars(0xFF0000);
+		}
+	}
 }
 
-public function animateShadow(shadow:Image, alphaSeed:Number):void
+public function animateShadow(alphaSeed:Number, shadow:Image = null) : void
 {
-	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[shadow, alphaSeed==0?0.6:0]});
+	if( shadow == null )
+	{
+		var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
+		shadow.touchable = false;
+		shadow.width = stage.stageWidth;
+		shadow.height = stage.stageHeight;
+		shadow.alpha = 0.8;
+		shadow.color = 0xAA0000;
+		addChildAt(shadow, 0);
+	}
+	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[alphaSeed==0?0.6:0, shadow]});
 }
 
 public function updateRoomVars():void
@@ -292,6 +260,9 @@ public function updateRoomVars():void
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
 	trace("updateScores:", "round:" + round, "winnerSide:" + winnerSide, "allise:" + allise, "axis:" + axis, "unitId:" + unitId);
+	battleData.allis.putInt("score", allise);
+	battleData.axis.putInt("score", axis);
+	
 	if( scoreBoard != null )
 		scoreBoard.update(allise, axis);
 

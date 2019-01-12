@@ -51,7 +51,7 @@ public var isFriendly:Boolean;
 public var spectatedUser:String;
 public var waitingOverlay:BattleWaitingOverlay;
 
-private var hud:BattleHUD;
+public var hud:BattleHUD;
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
 

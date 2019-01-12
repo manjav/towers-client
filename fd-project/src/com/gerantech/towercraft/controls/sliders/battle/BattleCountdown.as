@@ -28,9 +28,10 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	var bgImage:Image = new Image(Assets.getTexture("theme/check-up-icon"));
+	var bgImage:Image = new Image(Assets.getTexture("theme/background-round-skin"));
 	bgImage.alpha = 0.6;
-	bgImage.scale9Grid = new Rectangle(8, 8, 8, 8);
+	bgImage.color = 0;
+	bgImage.scale9Grid = new Rectangle(7, 7, 2, 2);
 	backgroundSkin = bgImage;
 	
 	var padding:int = 16;
@@ -52,14 +53,13 @@ override public function set value(val:Number):void
 }
 override public function enableStars(score:int):void 
 {
-	if( score == -1 )
-	{
-		Image(backgroundSkin).texture = Assets.getTexture("theme/check-down-icon");
-		Image(backgroundSkin).color = 0xFF0000;
-		backgroundSkin.alpha = 0.8;
-		timeLabel.scale = 0.4;
-		Starling.juggler.tween(timeLabel, 0.5, {scale : 1, transition:Transitions.EASE_OUT_BACK});
-	}
+	if( score < 3 )
+		return;
+
+	Image(backgroundSkin).color = score;
+	backgroundSkin.alpha = 0.8;
+	timeLabel.scale = 0.4;
+	Starling.juggler.tween(timeLabel, 0.5, {scale : 1, transition:Transitions.EASE_OUT_BACK});
 }
 }
 }
