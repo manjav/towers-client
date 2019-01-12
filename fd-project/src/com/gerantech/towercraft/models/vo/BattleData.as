@@ -25,6 +25,7 @@ public var isLeft:Boolean;
 public var allis:ISFSObject;
 public var axis:ISFSObject;
 public var outcomes:Vector.<RewardData>;
+public var stars:Vector.<int>;
 public var sfsData:ISFSObject;
 
 public function BattleData(data:ISFSObject)
@@ -46,12 +47,12 @@ public function BattleData(data:ISFSObject)
 	var field:FieldData = FieldProvider.getField(data.getText("type"), data.getInt("index"));
 	field.mapLayout = data.getText("map");
 	battleField = new BattleField();
-	battleField.initialize(battleField.side == 0 ? AppModel.instance.game : axisGame, battleField.side == 0 ? axisGame : AppModel.instance.game, field, data.getInt("side"), data.getInt("startAt") * 1000, false, data.getBool("isFriendly"));
+	battleField.initialize(battleField.side == 0 ? AppModel.instance.game : axisGame, battleField.side == 0 ? axisGame : AppModel.instance.game, field, data.getInt("side"), data.getInt("startAt"), data.getDouble("now"), false, data.getBool("isFriendly"));
 	battleField.state = BattleField.STATE_1_CREATED;
 	battleField.decks = new IntIntCardMap();
 	battleField.decks.set(0, BattleField.getDeckCards(battleField.side == 0 ? AppModel.instance.game : axisGame, SFSConnection.ArrayToMap(data.getSFSObject("p0").getIntArray("deck")), data.getBool("isFriendly")));
 	battleField.decks.set(1, BattleField.getDeckCards(battleField.side == 0 ? axisGame : AppModel.instance.game, SFSConnection.ArrayToMap(data.getSFSObject("p1").getIntArray("deck")), data.getBool("isFriendly")));
-	TimeManager.instance.setNow(battleField.startAt);
+	TimeManager.instance.setNow(Math.ceil(data.getDouble("now") / 1000));
 }
 
 public function getAlliseDeck():IntCardMap 

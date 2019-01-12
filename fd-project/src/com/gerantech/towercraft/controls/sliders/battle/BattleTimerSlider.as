@@ -91,8 +91,6 @@ override public function enableStars(score:int):void
 		if( score < i )
 			stars[i].deactive();
 	}
-	if( score == 0 )
-		iconDisplay.punch();
 }
 
 override public function dispose():void
