@@ -77,10 +77,10 @@ public function reset():void
 			else if( state == ExchangeItem.CHEST_STATE_WAIT && !existsBusy )
 				numWaitsForgot ++;
 		}
-		else if( cate == ExchangeType.C100_FREES )
+		/*else if( cate == ExchangeType.C100_FREES )
 		{
 			notify("notify_exchange_wait_" + cate, (exchanger.items.get(itemsKey[i]).expiredAt + 15 + Math.random() * 10) * 1000);
-		}
+		}*/
 		i++;
 	}
 	
