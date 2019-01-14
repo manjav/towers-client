@@ -90,7 +90,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	fieldView.unitsContainer.addChild(bodyDisplay);
 	setHealth(card.health);
 
-	if( movable )
+	if( CardTypes.isTroop(card.type) )
 	{
 		bodyDisplay.alpha = 0;
 		bodyDisplay.y = __y - 100;
