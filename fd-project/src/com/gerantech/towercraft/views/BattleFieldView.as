@@ -43,8 +43,6 @@ public var effectsContainer:Sprite;
 public function BattleFieldView() { super(); }
 public function initialize () : void 
 {
-	AppModel.instance.assets.enqueue( File.applicationDirectory.resolvePath( "assets/images/battle" ) );
-	AppModel.instance.assets.loadQueue(assetManagerLoaded);
 	units = new IntUnitMap();
 	touchGroup = true;
 	alignPivot();
@@ -57,17 +55,26 @@ public function initialize () : void
 	effectsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
+	
+	if( AppModel.instance.assets.getObject("arts-rules") != null )
+	{
+		assetManagerLoaded(1);
+		return;
+	}
+	AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath("assets/images/battle"));
+	AppModel.instance.assets.loadQueue(assetManagerLoaded);
 }
 
 private function assetManagerLoaded(ratio:Number):void 
 {
 	if( ratio < 1 )
 		return;
-
 	mapBuilder = new MapBuilder(new DefaultAssetMediator(AppModel.instance.assets));
 	if( battleData != null )
 		createPlaces(battleData);
-}	
+	if( AppModel.instance.artRules == null )
+		AppModel.instance.artRules = new ArtRules(AppModel.instance.assets.getObject("arts-rules"));
+}
 
 public function createPlaces(battleData:BattleData) : void
 {

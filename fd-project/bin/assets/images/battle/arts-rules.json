@@ -1,0 +1,26 @@
+{
+"units":[
+{"id":101, "bullet":"101", "fire":"fire-",	"explode":"hit-",		"die":"blood-",	"summonSFX":["101-summon"], "attackSFX":["101-attack"], "explodeSFX":[]},
+{"id":102, "bullet":"102", "fire":"fire-",	"explode":"hit-",		"die":"blood-",	"summonSFX":["102-summon"], "attackSFX":["102-attack"], "explodeSFX":[]},
+{"id":103, "bullet":"103", "fire":"",		"explode":"",			"die":"blood-",	"summonSFX":["103-summon"], "attackSFX":["103-attack"], "explodeSFX":[]},
+{"id":104, "bullet":"104", "fire":"fire-",	"explode":"explode-",	"die":"blood-",	"summonSFX":["104-summon"], "attackSFX":["104-attack"], "explodeSFX":[]},
+{"id":105, "bullet":"105", "fire":"",		"explode":"",			"die":"blood-",	"summonSFX":["105-summon"], "attackSFX":["105-attack"], "explodeSFX":[]},
+{"id":106, "bullet":"106", "fire":"",		"explode":"explode-",	"die":"blood-",	"summonSFX":["106-summon"], "attackSFX":["106-attack"], "explodeSFX":["grenade"]},
+{"id":107, "bullet":"107", "fire":"",		"explode":"hit",		"die":"", 		"summonSFX":["107-summon"], "attackSFX":["107-attack"], "explodeSFX":[]},
+{"id":108, "bullet":"108", "fire":"",		"explode":"explode-",	"die":"blood-",	"summonSFX":["108-summon"], "attackSFX":["108-attack"], "explodeSFX":[]},
+{"id":109, "bullet":"109", "fire":"",		"explode":"hit-",		"die":"blood-",	"summonSFX":["109-summon"], "attackSFX":["109-attack"], "explodeSFX":[]},
+{"id":110, "bullet":"110", "fire":"fire-",	"explode":"hit-",		"die":"blood-",	"summonSFX":["110-summon"], "attackSFX":["110-attack"], "explodeSFX":[]},
+{"id":111, "bullet":"111", "fire":"fire-",	"explode":"explode-",	"die":"blood-",	"summonSFX":["111-summon"], "attackSFX":["111-attack"], "explodeSFX":[]},
+{"id":112, "bullet":"112", "fire":"",		"explode":"",			"die":"blood-",	"summonSFX":["112-summon"], "attackSFX":["112-attack"], "explodeSFX":[]},
+{"id":113, "bullet":"113", "fire":"",		"explode":"",			"die":"blood-",	"summonSFX":["113-summon"], "attackSFX":["113-attack"], "explodeSFX":[]},
+
+{"id":151, "bullet":"151", "fire":"",		"explode":"explode-",	"die":"", 		"summonSFX":["151-summon"], "attackSFX":["151-attack"], "explodeSFX":["grenade"]},
+{"id":152, "bullet":"152", "fire":"",		"explode":"arrows-",	"die":"",		"summonSFX":["152-summon"], "attackSFX":["152-attack"], "explodeSFX":[]},
+{"id":153, "bullet":"153", "fire":"",		"explode":"freeze-",	"die":"",		"summonSFX":["153-summon"], "attackSFX":["153-attack"], "explodeSFX":["grenade"]},
+
+{"id":201, "bullet":"201", "fire":"",		"explode":"hit-",		"die":"blood-",	"summonSFX":[],				"attackSFX":["201-attack"], "explodeSFX":[]},
+
+{"id":221, "bullet":"221", "fire":"",		"explode":"",			"die":"blood-",	"summonSFX":[],				"attackSFX":["221-attack"], "explodeSFX":[]},
+{"id":222, "bullet":"222", "fire":"fire-",	"explode":"hit-",		"die":"blood-",	"summonSFX":[],				"attackSFX":["221-attack"], "explodeSFX":[]}
+]
+}

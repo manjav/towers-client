@@ -7,6 +7,8 @@ import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.views.ArtRules;
+import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -336,7 +338,7 @@ protected function defaultSummonEffectFactory() : void
 {
 	Starling.juggler.tween(bodyDisplay, 0.2, {alpha:0, repeatCount:9});
 	
-	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explosion-"), 35);
+	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explode-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
 	summonDisplay.width = card.sizeH * 2.00;
@@ -365,7 +367,8 @@ public function showWinnerFocus():void
 
 protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number) : void 
 {
-	if( !GraphicMetrics.hasFireEffect(card.type) || card.bulletDamage < 0 )
+	var fire:String = appModel.artRules.get(card.type, ArtRules.FIRE);
+	if( fire == "" )
 		return;
 
 	if( fireDisplay == null )
