@@ -144,8 +144,8 @@ override protected function update(population:int, troopType:int, occupied:Boole
 			punch(1.3);
 			
 			var soundName:String = troopType == player.troopType ? "battle-capture" : "battle-lost";
-			if( troopType != TroopType.NONE && !appModel.sounds.soundIsPlaying(soundName) )
-				appModel.sounds.addAndPlaySound(soundName);
+			if( troopType != TroopType.NONE && !appModel.sounds.isPlaying(soundName) )
+				appModel.sounds.addAndPlay(soundName);
 		}
 	}
 	
@@ -182,7 +182,7 @@ private function punch(scale:Number) : void
 
 public function showUnderAttack():void
 {
-	appModel.sounds.addAndPlaySound("battle-swords");
+	appModel.sounds.addAndPlay("battle-swords");
 	underAttack.visible = true;
 	punch(0.9);
 	clearTimeout(underAttackId);

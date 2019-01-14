@@ -56,7 +56,7 @@ override protected function initialize():void
 
 	layout = new AnchorLayout();
 	var padding:int = 28;
-	appModel.sounds.addAndPlaySound("outcome-"+(newArena>oldArena?"victory":"defeat"));
+	appModel.sounds.addAndPlay("outcome-"+(newArena>oldArena?"victory":"defeat"));
 	
 	titleDisplay = new ShadowLabel(loc(oldArena<newArena?"arena_up":"arena_down")+ " " +loc("arena_title_"+newArena), 1, 0, "center", null, false, "center", 1.4);
 	titleDisplay.shadowDistance = 8;

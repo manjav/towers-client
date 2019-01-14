@@ -58,7 +58,8 @@ override protected function initialize():void
 	
 	timeLine.scale = 0;
 	Starling.juggler.tween(timeLine, 0.3, {delay:0.0, scale:1, transition:Transitions.EASE_OUT_BACK });
-	Starling.juggler.tween(timeLine, 0.3, {delay:3.0, scale:0, transition:Transitions.EASE_IN_BACK });	
+	Starling.juggler.tween(timeLine, 0.3, {delay:3.0, scale:0, transition:Transitions.EASE_IN_BACK });		
+	appModel.sounds.addAndPlay("whoosh");
 	
 /*	// elixir
 	var elixirLine:LayoutGroup = new LayoutGroup();
@@ -79,7 +80,7 @@ override protected function initialize():void
 	elixirLine.scale = 0;
 	Starling.juggler.tween(elixirLine, 0.3, {delay:0.2, scale:1, transition:Transitions.EASE_OUT_BACK });
 	Starling.juggler.tween(elixirLine, 0.3, {delay:3.1, scale:0, transition:Transitions.EASE_IN_BACK });;*/
-	appModel.sounds.addAndPlaySound("whoosh");
+	appModel.sounds.addAndPlay("whoosh");
 }
 }
 }

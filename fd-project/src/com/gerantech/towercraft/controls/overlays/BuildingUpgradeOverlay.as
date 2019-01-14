@@ -113,7 +113,7 @@ override protected function initialize():void
 		scraps.y = -stage.stageHeight * 0.1;
 		addChildAt(scraps, 1);
 		
-		appModel.sounds.addAndPlaySound("upgrade");
+		appModel.sounds.addAndPlay("upgrade");
 	}
 	function showFeatures():void 
 	{

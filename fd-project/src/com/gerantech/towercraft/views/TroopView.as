@@ -145,7 +145,7 @@ public function hit(damage:Number):void
 	if( health > 0 )
 		return;
 	
-	AppModel.instance.sounds.addAndPlaySound("kill");
+	AppModel.instance.sounds.addAndPlay("kill");
 	var blood:Image = new Image(Assets.getTexture("blood", "troops"));
 	blood.pivotX = blood.width * 0.5
 	blood.pivotY = blood.height * 0.5

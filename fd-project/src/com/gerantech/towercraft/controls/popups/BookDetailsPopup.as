@@ -100,7 +100,7 @@ override protected function transitionInCompleted():void
 	{
 		bookArmature.removeEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
 		addChildAt(bookArmature, 3);
-		appModel.sounds.addAndPlaySound(event.eventObject.name);
+		appModel.sounds.addAndPlay(event.eventObject.name);
 	}
 	
 	if( player.get_battleswins() < 4 )

@@ -84,7 +84,7 @@ override protected function initialize():void
 			iconContainer.addChild(newDisplay);
 			appModel.game.loginData.buildingsLevel.set(type, 1);
 			
-			setTimeout(appModel.sounds.addAndPlaySound, 100, "book-open-new");
+			setTimeout(appModel.sounds.addAndPlay, 100, "book-open-new");
 		}
 	}
 	

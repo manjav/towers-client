@@ -123,7 +123,7 @@ override public function set outcomes(value:IntIntMap):void
 
 private function openAnimation_soundEventHandler(event:StarlingEvent):void
 {
-	appModel.sounds.addAndPlaySound(event.eventObject.name);
+	appModel.sounds.addAndPlay(event.eventObject.name);
 }
 
 protected function openAnimation_completeHandler(event:StarlingEvent):void

@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views
 {
+import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
@@ -211,8 +212,7 @@ public function fight(destination:Place, troopsCount:Number) : void
 		else if( troopsCount >= 20 )
 			soundIndex = 3;
 		
-		if( !appModel.sounds.soundIsPlaying("battle-go-army-" + soundIndex) )
-			appModel.sounds.addAndPlaySound("battle-go-army-" + soundIndex);
+		appModel.sounds.addAndPlay("battle-go-army-" + soundIndex, null, SoundManager.SINGLE_BYPASS_THIS);
 	}
 }
 

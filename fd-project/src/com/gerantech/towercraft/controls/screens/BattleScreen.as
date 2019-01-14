@@ -126,7 +126,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	
 	case SFSCommands.BUILDING_IMPROVE:
 		appModel.battleFieldView.places[data.getInt("i")].replaceBuilding(data.getInt("t"), data.getInt("l"), data.getInt("tt"), data.getInt("p"));
-		appModel.sounds.addAndPlaySound("battle-improve");
+		appModel.sounds.addAndPlay("battle-improve");
 		break;
 	
 	/*case SFSCommands.LEFT_BATTLE:
@@ -203,9 +203,8 @@ private function startBattle():void
 	appModel.loadingManager.serverData.putBool("inBattle", false);
 	
 	// play battle theme -_-_-_
-	appModel.sounds.stopSound("main-theme");
-	appModel.sounds.addSound("battle-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-	function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
+	appModel.sounds.stopAll(SoundManager.CATE_THEME);
+	appModel.sounds.addAndPlay("battle-theme", null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 100);
 }
 
 private function tutorials_tasksStartHandler(e:Event) : void
@@ -355,8 +354,8 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 
 private function disposeBattleAssets():void
 {
-	appModel.sounds.stopSound("battle-theme");
-	appModel.sounds.stopSound("battle-clock-ticking");			
+	appModel.sounds.stop("battle-theme");
+	appModel.sounds.stop("battle-clock-ticking");			
 }
 
 private function endOverlay_retryHandler(event:Event):void
@@ -799,9 +798,9 @@ override public function dispose():void
 {
 	player.inFriendlyBattle = false;
 	removeConnectionListeners();
-	appModel.sounds.stopAllSounds(SoundManager.CATE_SFX);
-	appModel.sounds.stopAllSounds(SoundManager.CATE_THEME);
-	setTimeout(appModel.sounds.playSoundUnique, 2000, "main-theme", 1, 100);
+	appModel.sounds.stopAll(SoundManager.CATE_SFX);
+	appModel.sounds.stopAll(SoundManager.CATE_THEME);
+	setTimeout(appModel.sounds.play, 2000, "main-theme", 1, 100, 0, SoundManager.SINGLE_BYPASS_THIS);
 	removeChild(appModel.battleFieldView, true);
 	super.dispose();
 }

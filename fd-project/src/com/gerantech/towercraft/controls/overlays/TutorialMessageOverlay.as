@@ -22,7 +22,7 @@ public function TutorialMessageOverlay(task:TutorialTask):void
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	appModel.sounds.addAndPlaySound("whoosh");
+	appModel.sounds.addAndPlay("whoosh");
 	overlay.touchable = true;
 	
 	var charachter:ImageLoader = new ImageLoader();

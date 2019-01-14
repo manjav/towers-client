@@ -46,7 +46,7 @@ private function hitTestTroopsInterval():void
 		troop = AppModel.instance.battleFieldView.troopsList[i];
 		if( checkTriggerd(troop) )
 		{
-			AppModel.instance.sounds.addAndPlaySound("shot-tower");
+			AppModel.instance.sounds.addAndPlay("shot-tower");
 			troop.hit(damage);
 			placeView.dispatchEventWith(Event.TRIGGERED, false, [coilIndex, troop]);
 			//dispatchEventWith(Event.TRIGGERED, false, troop);

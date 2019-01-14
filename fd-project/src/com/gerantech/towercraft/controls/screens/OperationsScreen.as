@@ -137,7 +137,7 @@ override protected function transitionInCompleteHandler(event:Event):void
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASK_SHOWN, tutorials_showHandler);
 	tutorials.show(tutorialData);
 	if( tutorialData.numTasks > 0 )
-		appModel.sounds.addAndPlaySound("outcome-defeat");
+		appModel.sounds.addAndPlay("outcome-defeat");
 }
 
 private function tutorials_showHandler(event:Event):void

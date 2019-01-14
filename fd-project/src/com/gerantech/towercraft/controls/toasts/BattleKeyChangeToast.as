@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.toasts 
 {
 import com.gerantech.towercraft.controls.StarCheck;
+import com.gerantech.towercraft.managers.SoundManager;
 import flash.utils.setTimeout;
 import starling.display.Quad;
 /**
@@ -32,9 +33,9 @@ override protected function initialize():void
 	
 	// sound
 	if( score == 1 )
-		appModel.sounds.addAndPlaySound("battle-clock-ticking");
+		appModel.sounds.addAndPlay("battle-clock-ticking");
 	else if( score == 0 )
-		appModel.sounds.playSoundUnique("battle-clock-ticking", 0.4, 200, 0.3);
+		appModel.sounds.play("battle-clock-ticking", 0.4, 200, 0.3, SoundManager.SINGLE_FORCE_THIS);
 
 	for ( var i:int = 0; i < 3; i++ )
 	{
