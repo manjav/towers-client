@@ -133,7 +133,7 @@ private function createElements():void
 	cardsLayout.requestedColumnCount = 4;
 	cardsLayout.useVirtualLayout = false;
 	cardsLayout.gap = padding;
-	cardsLayout.typicalItemWidth = stageWidth / cardsLayout.requestedColumnCount - cardsLayout.gap * 2;
+	cardsLayout.typicalItemWidth = stageWidth / cardsLayout.requestedColumnCount - cardsLayout.gap ;
 	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 	cardsLayout.horizontalAlign = "center";
 	cardsLayout.verticalAlign = VerticalAlign.JUSTIFY;

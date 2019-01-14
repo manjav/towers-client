@@ -38,7 +38,7 @@ override protected function transitionInCompleted():void
 	if( !mentorImageLoaded )
 		return;
 	
-	appModel.sounds.addAndPlaySound("whoosh");
+	appModel.sounds.addAndPlay("whoosh");
 	overlay.touchable = true;
 	
 	var charachter:ImageLoader = new ImageLoader();

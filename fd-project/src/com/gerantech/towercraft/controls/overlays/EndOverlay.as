@@ -60,7 +60,7 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	padding = 48;
 
-	appModel.sounds.addAndPlaySound("outcome-" + (winRatio >= 1?"victory":"defeat"));
+	appModel.sounds.addAndPlay("outcome-" + (winRatio >= 1?"victory":"defeat"));
 	initialingCompleted = true;
 	
 	timeoutId = setTimeout(showParticle, 800);

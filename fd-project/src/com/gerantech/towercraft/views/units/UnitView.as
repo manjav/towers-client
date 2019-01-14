@@ -90,7 +90,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	fieldView.unitsContainer.addChild(bodyDisplay);
 	setHealth(card.health);
 
-	if( movable )
+	if( CardTypes.isTroop(card.type) )
 	{
 		bodyDisplay.alpha = 0;
 		bodyDisplay.y = __y - 100;
@@ -374,7 +374,7 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 	if( fireDisplay == null )
 	{
 		//trace("type", card.type, "  rotation", rotation, fireOffset);
-		fireDisplay = new MovieClip(appModel.assets.getTextures("fires/shootFire_"), 45);
+		fireDisplay = new MovieClip(appModel.assets.getTextures("fires/" + fire), 45);
 		fireDisplay.pivotX = fireDisplay.width *	0.5;
 		fireDisplay.pivotY = fireDisplay.height *	0.9;
 		fireDisplay.width = card.sizeH * 3.5;
@@ -389,21 +389,25 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 	fireDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(fireDisplay); fireDisplay.removeFromParent(); });
 }
 
-private function showBloodSplashAnimation():void 
+private function showDieAnimation():void 
 {
-	var bloodSplashDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("die/blood_splash_"), 30);
-	bloodSplashDisplay.pivotX = bloodSplashDisplay.width * 0.5;
-	bloodSplashDisplay.pivotY = bloodSplashDisplay.height * 0.5;
-	bloodSplashDisplay.width = (card.sizeH * 0.7) + 130;
-	bloodSplashDisplay.scaleY = bloodSplashDisplay.scaleX;
-	bloodSplashDisplay.scaleX *= Math.random() > 0.5 ? -1 : 1;
-	bloodSplashDisplay.color = 0xFF0000 + Math.random() * 5000;
-	bloodSplashDisplay.x = getSideX();
-	bloodSplashDisplay.y = getSideY();
-	fieldView.unitsContainer.addChildAt(bloodSplashDisplay, 0);
-	bloodSplashDisplay.play();
-	Starling.juggler.add(bloodSplashDisplay);
-	bloodSplashDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(bloodSplashDisplay); bloodSplashDisplay.removeFromParent(true); });
+	var die:String = appModel.artRules.get(card.type, ArtRules.DIE);
+	if( die == "" )
+		return;
+
+	var dieDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("die/" + die), 30);
+	dieDisplay.pivotX = dieDisplay.width * 0.5;
+	dieDisplay.pivotY = dieDisplay.height * 0.5;
+	dieDisplay.width = (card.sizeH * 0.7) + 130;
+	dieDisplay.scaleY = dieDisplay.scaleX;
+	dieDisplay.scaleX *= Math.random() > 0.5 ? -1 : 1;
+	dieDisplay.color = 0xFF0000 + Math.random() * 5000;
+	dieDisplay.x = getSideX();
+	dieDisplay.y = getSideY();
+	fieldView.unitsContainer.addChildAt(dieDisplay, 0);
+	dieDisplay.play();
+	Starling.juggler.add(dieDisplay);
+	dieDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(dieDisplay); dieDisplay.removeFromParent(true); });
 }
 
 // aim for tutorial
@@ -470,7 +474,7 @@ override public function dispose() : void
 		sizeDisplay.removeFromParent(true);
 	if( healthDisplay != null )
 		healthDisplay.dispose();
-	showBloodSplashAnimation();
+	showDieAnimation();
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 }
 

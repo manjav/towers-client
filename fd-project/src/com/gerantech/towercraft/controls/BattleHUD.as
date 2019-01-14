@@ -368,7 +368,7 @@ public function showBubble(type:int, itsMe:Boolean=true):void
 	addChild(bubble);
 	Starling.juggler.tween(bubble, 0.2, {scale:1.0, transition:Transitions.EASE_OUT_BACK});
 	Starling.juggler.tween(bubble, 0.2, {scale:0.5, transition:Transitions.EASE_IN_BACK, delay:4, onComplete:hideBubble, onCompleteArgs:[bubble]});
-	appModel.sounds.addAndPlaySound("whoosh");
+	appModel.sounds.addAndPlay("whoosh");
 }
 
 private function hideBubble(bubble:StickerBubble):void

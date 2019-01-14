@@ -45,7 +45,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.STATE_CHANGE && state == GameObject.STATE_1_DIPLOYED )
 	{
-		appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
+		appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
 		bulletDisplayFactory();
 	}
 }
@@ -131,23 +131,23 @@ private function defaultBulletDisplayFactory() : void
 
 protected function defaultHitDisplayFactory() : void
 {
-	var explosion:String = appModel.artRules.get(card.type, ArtRules.EXPLOSION);
-	if( explosion == "" )
+	var hit:String = appModel.artRules.get(card.type, ArtRules.HIT);
+	if( hit == "" )
 		return;
 	
-	var explosionDisplay:MovieClip = new MovieClip(appModel.assets.getTextures(explosion), 45);
-	explosionDisplay.pivotX = explosionDisplay.width * 0.5;
-	explosionDisplay.pivotY = explosionDisplay.height * 0.5;
-	explosionDisplay.width = card.bulletDamageArea * 2.8;
-	explosionDisplay.scaleY = explosionDisplay.scaleX;
-	explosionDisplay.x = getSideX();
-	explosionDisplay.y = getSideY();
-	fieldView.effectsContainer.addChild(explosionDisplay);
-	explosionDisplay.play();
-	Starling.juggler.add(explosionDisplay);
-	explosionDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(explosionDisplay); explosionDisplay.removeFromParent(true); });
+	var hitDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("hits/" + hit), 45);
+	hitDisplay.pivotX = hitDisplay.width * 0.5;
+	hitDisplay.pivotY = hitDisplay.height * 0.5;
+	hitDisplay.width = card.bulletDamageArea * 2.8;
+	hitDisplay.scaleY = hitDisplay.scaleX;
+	hitDisplay.x = getSideX();
+	hitDisplay.y = getSideY();
+	fieldView.effectsContainer.addChild(hitDisplay);
+	hitDisplay.play();
+	Starling.juggler.add(hitDisplay);
+	hitDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(hitDisplay); hitDisplay.removeFromParent(true); });
 
-	appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(card.type, ArtRules.EXPLOSION_SFX));
+	appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.HIT_SFX));
 }
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get fieldView():		BattleFieldView {	return appModel.battleFieldView;	}

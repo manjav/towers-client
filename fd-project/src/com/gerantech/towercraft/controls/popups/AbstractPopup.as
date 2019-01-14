@@ -61,7 +61,7 @@ protected function rejustLayoutByTransitionData():void
 			onComplete:transitionInCompleted
 		}
 	);
-	appModel.sounds.addAndPlaySound("whoosh");
+	appModel.sounds.addAndPlay("whoosh");
 
 }		
 

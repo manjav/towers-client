@@ -113,8 +113,6 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		{
 			var sfs:ISFSObject = data.getSFSArray("units").getSFSObject(i);
 			appModel.battleFieldView.summonUnit(sfs.getInt("i"), sfs.getInt("t"), sfs.getInt("l"), sfs.getInt("s"), sfs.getDouble("x"), sfs.getDouble("y"));
-			if( i == 0 )
-				appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(sfs.getInt("t"), ArtRules.SUMMON_SFX));
 		}
 		break;
 	
@@ -190,9 +188,8 @@ private function startBattle():void
 	appModel.loadingManager.serverData.putBool("inBattle", false);
 	
 	// play battle theme -_-_-_
-	appModel.sounds.stopSound("main-theme");
-	appModel.sounds.addSound("battle-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-	function themeLoaded():void { appModel.sounds.playSoundUnique("battle-theme", 0.8, 100); }
+	appModel.sounds.stopAll(SoundManager.CATE_THEME);
+	appModel.sounds.addAndPlay("battle-theme", null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 100);
 }
 
 private function tutorials_tasksStartHandler(e:Event) : void
@@ -331,7 +328,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 
 private function disposeBattleAssets():void
 {
-	appModel.sounds.stopSound("battle-theme");
+	appModel.sounds.stop("battle-theme");
 }
 
 private function endOverlay_retryHandler(event:Event):void
@@ -550,9 +547,9 @@ override protected function backButtonFunction():void
 override public function dispose():void
 {
 	removeConnectionListeners();
-	appModel.sounds.stopAllSounds(SoundManager.CATE_SFX);
-	appModel.sounds.stopAllSounds(SoundManager.CATE_THEME);
-	setTimeout(appModel.sounds.playSoundUnique, 2000, "main-theme", 1, 100);
+	appModel.sounds.stopAll(SoundManager.CATE_SFX);
+	appModel.sounds.stopAll(SoundManager.CATE_THEME);
+	setTimeout(appModel.sounds.play, 2000, "main-theme", 1, 100, 0, SoundManager.SINGLE_BYPASS_THIS);
 	removeChild(appModel.battleFieldView, true);
 	super.dispose();
 }

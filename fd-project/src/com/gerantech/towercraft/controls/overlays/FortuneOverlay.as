@@ -71,7 +71,7 @@ override protected function initialize():void
 	
 	// become to faster rotation
 	var time:Number = 3.5 + Math.random() * 2;
-	setTimeout(appModel.sounds.addAndPlaySound, time * 1000 - 2000, "book-appear");
+	setTimeout(appModel.sounds.addAndPlay, time * 1000 - 2000, "book-appear");
 	Starling.juggler.tween(this, time, {delta:0.25, transition:Transitions.EASE_IN, onComplete:rotationCompleted});
 	Starling.juggler.tween(this, 3, {fortuneHeight:720, transition:Transitions.EASE_OUT_BACK});
 	Starling.juggler.tween(this, 1, {delay:time - 1, fortuneHeight:300, transition:Transitions.EASE_IN});

@@ -146,8 +146,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	setTimeout(gotoPage, 10, TAB_INDEX, 0.1);
 	visible = true;
 	
-	appModel.sounds.addSound("main-theme", null,  themeLoaded, SoundManager.CATE_THEME);
-	function themeLoaded():void { if( player.getTutorStep()>PrefsTypes.T_000_FIRST_RUN ) appModel.sounds.playSoundUnique("main-theme", 1, 100); }
+	appModel.sounds.addAndPlay("main-theme", null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 100);
 	
 	appModel.navigator.handleInvokes();
 	exchangeManager.addEventListener(FeathersEventType.END_INTERACTION, exchangeManager_endHandler);
@@ -203,7 +202,7 @@ public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Bo
 	if( scrollPage )
 		pageList.scrollToDisplayIndex(pageIndex, animDuration);
 	if( animDuration > 0 )
-		appModel.sounds.addAndPlaySound("tab");
+		appModel.sounds.addAndPlay("tab");
 	appModel.navigator.dispatchEventWith("dashboardTabChanged", false, animDuration);
 }
 

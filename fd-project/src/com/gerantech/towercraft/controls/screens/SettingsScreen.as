@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
+import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
@@ -64,9 +65,9 @@ private function list_focusInHandler(event:Event):void
 		if( settingData.key == PrefsTypes.SETTINGS_1_MUSIC )
 		{
 			if( player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC) )
-				appModel.sounds.playSoundUnique("main-theme", 1, 100);
+				appModel.sounds.play("main-theme", 1, 100, 0, SoundManager.SINGLE_FORCE_THIS);
 			else
-				appModel.sounds.stopSound("main-theme");
+				appModel.sounds.stop("main-theme");
 		}
 	}
 	else if( settingData.type == SettingsData.TYPE_BUTTON )

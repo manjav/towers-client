@@ -9,11 +9,11 @@ public class ArtRules
 {
 static public const BULLET:String = "bullet";
 static public const FIRE:String = "fire";
-static public const EXPLOSION:String = "explode";
+static public const HIT:String = "hit";
 static public const DIE:String = "die";
 static public const SUMMON_SFX:String = "summonSFX";
 static public const ATTACK_SFX:String = "attackSFX";
-static public const EXPLOSION_SFX:String = "explodeSFX";
+static public const HIT_SFX:String = "hitSFX";
 
 private var rules:Dictionary;
 public function ArtRules(data:Object)

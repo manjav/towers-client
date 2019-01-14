@@ -93,7 +93,7 @@ protected function trigger():void
 	if( hasEventListener(Event.TRIGGERED) )
 	{
 		this.dispatchEventWith(Event.TRIGGERED, false, this);
-		appModel.sounds.addAndPlaySound("button");
+		appModel.sounds.addAndPlay("button");
 	}
 	if( tutorialArrow != null )
 		tutorialArrow.removeFromParent(true);

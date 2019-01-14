@@ -130,7 +130,7 @@ private function tabsList_changeHandler(event:Event):void
 	pageList.scrollToDisplayIndex(tabsList.selectedIndex, scrollTime);
 	scrollTime = 0.5;
 	
-	appModel.sounds.addAndPlaySound("tab");
+	appModel.sounds.addAndPlay("tab");
 }
 
 
