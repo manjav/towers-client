@@ -236,6 +236,10 @@ protected function timeManager_changeHandler(event:Event):void
 			animateShadow(0.5);
 			timerSlider.enableStars(0xFF0000);
 		}
+		
+		if( duration == battleData.battleField.getTime(2) - 10 )
+			appModel.sounds.addAndPlaySound("battle-cd");
+		
 	}
 }
 
