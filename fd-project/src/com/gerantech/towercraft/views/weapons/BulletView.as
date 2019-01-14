@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.views.weapons 
 {
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -44,7 +45,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.STATE_CHANGE && state == GameObject.STATE_1_DIPLOYED )
 	{
-		appModel.sounds.addAndPlaySound(card.type + "-shoot");
+		appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
 		bulletDisplayFactory();
 	}
 }
@@ -107,10 +108,10 @@ override public function dispose():void
 
 private function defaultBulletDisplayFactory() : void 
 {
-	if( !GraphicMetrics.hasBulletEffect(card.type) )
+	var bullet:String = appModel.artRules.get(card.type, ArtRules.BULLET);
+	if( bullet == "" )
 		return;
-	
-	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + card.type + "/"))
+	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + bullet + "/"))
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
 	bulletDisplay.loop = CardTypes.isSpell(card.type);
@@ -130,53 +131,24 @@ private function defaultBulletDisplayFactory() : void
 
 protected function defaultHitDisplayFactory() : void
 {
-	if( !GraphicMetrics.hasHitEffect(card.type) )
+	var explosion:String = appModel.artRules.get(card.type, ArtRules.EXPLOSION);
+	if( explosion == "" )
 		return;
+	
+	var explosionDisplay:MovieClip = new MovieClip(appModel.assets.getTextures(explosion), 45);
+	explosionDisplay.pivotX = explosionDisplay.width * 0.5;
+	explosionDisplay.pivotY = explosionDisplay.height * 0.5;
+	explosionDisplay.width = card.bulletDamageArea * 2.8;
+	explosionDisplay.scaleY = explosionDisplay.scaleX;
+	explosionDisplay.x = getSideX();
+	explosionDisplay.y = getSideY();
+	fieldView.effectsContainer.addChild(explosionDisplay);
+	explosionDisplay.play();
+	Starling.juggler.add(explosionDisplay);
+	explosionDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(explosionDisplay); explosionDisplay.removeFromParent(true); });
 
-	var hasDamageArea:Boolean = card.bulletDamageArea > 50 && card.bulletDamage > 0;
-	if( hasDamageArea )
-	{
-		var explosionSoundId:String = getExplosionSound(card);
-		if( explosionSoundId != null )
-			appModel.sounds.addAndPlaySound(explosionSoundId);
-		
-		var textureURL:String = "hits/explosion-";
-		if( card.type == CardTypes.C152 )
-			textureURL = "hits/arrows-";
-		
-		var explosionDisplay:MovieClip = new MovieClip(appModel.assets.getTextures(textureURL), card.type == CardTypes.C152 ? 1 : 45);
-		explosionDisplay.pivotX = explosionDisplay.width * 0.5;
-		explosionDisplay.pivotY = explosionDisplay.height * 0.5;
-		explosionDisplay.width = card.bulletDamageArea * 2.8;
-		explosionDisplay.scaleY = explosionDisplay.scaleX;
-		explosionDisplay.x = getSideX();
-		explosionDisplay.y = getSideY();
-		fieldView.effectsContainer.addChild(explosionDisplay);
-		explosionDisplay.play();
-		Starling.juggler.add(explosionDisplay);
-		explosionDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(explosionDisplay); explosionDisplay.removeFromParent(true); });
-		return;
-	}
-
-	var hitDisplay:Image = new Image(appModel.assets.getTexture("hits/hit"));
-	hitDisplay.pivotX = hitDisplay.width * 0.5;
-	hitDisplay.pivotY = hitDisplay.height * 0.5;
-	hitDisplay.x = getSideX();
-	hitDisplay.y = getSideY() - 35;
-	hitDisplay.scale = 1.5;
-	fieldView.effectsContainer.addChild(hitDisplay);
-	Starling.juggler.tween(hitDisplay, 0.2, {scale:0, onComplete:hitDisplay.removeFromParent, onCompleteArgs:[true]});
+	appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(card.type, ArtRules.EXPLOSION_SFX));
 }
-
-static protected function getExplosionSound(card:Card) : String
-{
-	switch(card.type)
-	{
-		case 106: return "grenade-explosion";
-	}
-	return null;
-}
-
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get fieldView():		BattleFieldView {	return appModel.battleFieldView;	}
 }

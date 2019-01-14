@@ -21,6 +21,7 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
+import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
@@ -113,14 +114,12 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 			var sfs:ISFSObject = data.getSFSArray("units").getSFSObject(i);
 			appModel.battleFieldView.summonUnit(sfs.getInt("i"), sfs.getInt("t"), sfs.getInt("l"), sfs.getInt("s"), sfs.getDouble("x"), sfs.getDouble("y"));
 			if( i == 0 )
-				appModel.sounds.addAndPlaySound(sfs.getInt("t") + "-summon");
+				appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(sfs.getInt("t"), ArtRules.SUMMON_SFX));
 		}
 		break;
 	
 	case SFSCommands.BATTLE_HIT:
 		appModel.battleFieldView.hitUnits(data.getInt("b"), data.getSFSArray("t"));
-		//appModel.battleFieldView.battleData.battleField.units.get(data.getInt("t")).hit(data.getDouble("d"));
-		//UnitView(appModel.battleFieldView.battleData.battleField.units.get(data.getInt("o"))).attacks(data.getInt("t"));
 		break;
 	
 	case SFSCommands.BATTLE_NEW_ROUND:

@@ -7,6 +7,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.vo.Descriptor;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.Game;
 import flash.desktop.NativeApplication;
@@ -38,6 +39,7 @@ public var assets:AssetManager;
 public var sounds:SoundManager;
 public var notifier:NotificationManager;
 public var invokes:Array;
+public var artRules:ArtRules;
 
 public function AppModel()
 {

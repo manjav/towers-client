@@ -26,6 +26,12 @@ public function SoundManager()
 	currPlayingSounds = new Dictionary();
 }
 
+public function addAndPlayBatch(sounds:Array):void 
+{
+	if( sounds == null || sounds.length == 0 )
+		return;
+	addAndPlaySound(sounds[Math.floor(Math.random() * sounds.length)]);
+}
 public function addAndPlaySound(id:String, sound:Sound=null, category:int=1):void 
 {
 	addSound(id, sound, soundAdded, category);
