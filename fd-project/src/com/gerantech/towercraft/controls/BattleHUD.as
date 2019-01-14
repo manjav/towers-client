@@ -238,7 +238,7 @@ protected function timeManager_changeHandler(event:Event):void
 		}
 		
 		if( duration == battleData.battleField.getTime(2) - 10 )
-			appModel.sounds.addAndPlaySound("battle-cd");
+			appModel.sounds.addAndPlay("battle-cd");
 		
 	}
 }
