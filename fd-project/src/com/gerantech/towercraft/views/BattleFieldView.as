@@ -70,11 +70,11 @@ private function assetManagerLoaded(ratio:Number):void
 {
 	if( ratio < 1 )
 		return;
+	if( AppModel.instance.artRules == null )
+		AppModel.instance.artRules = new ArtRules(AppModel.instance.assets.getObject("arts-rules"));
 	mapBuilder = new MapBuilder(new DefaultAssetMediator(AppModel.instance.assets));
 	if( battleData != null )
 		createPlaces(battleData);
-	if( AppModel.instance.artRules == null )
-		AppModel.instance.artRules = new ArtRules(AppModel.instance.assets.getObject("arts-rules"));
 }
 
 public function createPlaces(battleData:BattleData) : void
@@ -125,6 +125,11 @@ protected function timeManager_updateHandler(e:Event):void
 
 public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
 {
+	if( mapBuilder == null )
+	{
+		trace("not able to summon id: " + id, "type: " + type, "side: " + side)
+		return;
+	}
 	if( CardTypes.isSpell(type) )
 	{
 		var card:Card = battleData.battleField.decks.get(side).get(type);
