@@ -2,6 +2,7 @@ package com.gerantech.towercraft.views
 {
 import com.gerantech.towercraft.controls.headers.BattleFooter;
 import com.gerantech.towercraft.managers.DropTargets;
+import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.net.ResponseSender;
 import com.gerantech.towercraft.models.AppModel;
@@ -140,6 +141,8 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	if( health >= 0 )
 		u.health = health;
 	battleData.battleField.units.set(id, u);
+	
+	AppModel.instance.sounds.addAndPlayRandom(AppModel.instance.artRules.getArray(type, ArtRules.SUMMON_SFX), SoundManager.CATE_SFX, SoundManager.SINGLE_BYPASS_THIS);
 }
 
 private function findPathHandler(e:BattleEvent):void 

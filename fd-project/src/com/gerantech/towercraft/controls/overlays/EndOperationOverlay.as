@@ -104,7 +104,7 @@ override protected function initialize():void
 		buttons.addChild(retryButton);
 	}
 		
-	appModel.sounds.addAndPlaySound("outcome-"+(score>0?"victory":"defeat"));
+	appModel.sounds.addAndPlay("outcome-"+(score>0?"victory":"defeat"));
 	initialingCompleted = true;
 }
 }

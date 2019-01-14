@@ -45,7 +45,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
 	if( type == BattleEvent.STATE_CHANGE && state == GameObject.STATE_1_DIPLOYED )
 	{
-		appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
+		appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
 		bulletDisplayFactory();
 	}
 }
@@ -147,7 +147,7 @@ protected function defaultHitDisplayFactory() : void
 	Starling.juggler.add(explosionDisplay);
 	explosionDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(explosionDisplay); explosionDisplay.removeFromParent(true); });
 
-	appModel.sounds.addAndPlayBatch(appModel.artRules.getArray(card.type, ArtRules.EXPLOSION_SFX));
+	appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.HIT_SFX));
 }
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get fieldView():		BattleFieldView {	return appModel.battleFieldView;	}
