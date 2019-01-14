@@ -138,7 +138,7 @@ private function closeButton_triggeredHandler():void
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
 	var overlay:Devider = new Devider(newArena>oldArena?0x001144:0x441111);
-	overlay.alpha = 0.7;
+	overlay.alpha = 0.85;
 	overlay.width = stage.width * 3;
 	overlay.height = stage.height * 3;
 	overlay.x = -overlay.width / 2;
