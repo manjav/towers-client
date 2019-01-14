@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.buttons
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.LoadingEvent;
+import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.RewardData;
@@ -185,6 +186,7 @@ public function addResourceAnimation(x:Number, y:Number, type:int, count:int, de
 		else
 			rect = iconDisplay.getBounds(stage);
 		
+		appModel.sounds.addAndPlay("res-appear-" + type, null, SoundManager.CATE_SFX, SoundManager.SINGLE_FORCE_THIS, 1);
 		appModel.navigator.addAnimation(x, y, 130, Assets.getTexture("res-" + type, "gui"), count, rect, 0.02, punch);
 	}, delay * 1000);
 }
@@ -233,6 +235,7 @@ private function addButton_triggerHandler(event:Event):void
 
 public function punch():void
 {
+	appModel.sounds.addAndPlay("res-disappear-" + type, null, SoundManager.CATE_SFX, SoundManager.SINGLE_FORCE_THIS, 1);
 	setData(minimum, -1, maximum, 1);
 	iconDisplay.scale = 2;
 	Starling.juggler.tween(iconDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT_BACK});
