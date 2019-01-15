@@ -13,6 +13,8 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ResourceType;
 import com.gt.towers.others.Arena;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -103,8 +105,17 @@ override protected function initialize():void
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
 	
+	testOffer();
 	//testBattleToast();
 	//testBattleOverlay();
+}
+
+private function testOffer():void 
+{
+	var wins: int = player.getResource(ResourceType.R13_BATTLES_WINS);
+	player.resources.set(ResourceType.R13_BATTLES_WINS, player.prefs.getAsInt(PrefsTypes.OFFER_30_RATING) + 1);
+	appModel.navigator.showOffer();
+	player.resources.set(ResourceType.R13_BATTLES_WINS, wins);
 }
 
 private function testBattleToast():void 
