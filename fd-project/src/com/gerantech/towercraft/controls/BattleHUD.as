@@ -214,36 +214,35 @@ protected function timeManager_changeHandler(event:Event):void
 	if( battleData.battleField.field.isOperation() )
 		return;
 	//trace(timeManager.now-battleData.startAt , battleData.battleField.field.times._list)
+	
+	if( surrenderButton != null )
+		surrenderButton.visible = timeManager.now > battleData.battleField.startAt + battleData.battleField.field.times.get(2);
+	var time:int = battleData.battleField.startAt + battleData.battleField.field.times.get(2) - timeManager.now;
+	if( time < 0 )
+		time = battleData.battleField.startAt + battleData.battleField.field.times.get(3) - timeManager.now;
+	timerSlider.value = time;
+	
+	var duration:int = int(battleData.battleField.getDuration());
+	
+	if( duration == battleData.battleField.getTime(1) - 2 )
 	{
-		
-		if( surrenderButton != null )
-			surrenderButton.visible = timeManager.now > battleData.battleField.startAt + battleData.battleField.field.times.get(2);
-		var time:int = battleData.battleField.startAt + battleData.battleField.field.times.get(2) - timeManager.now;
-		if( time < 0 )
-			time = battleData.battleField.startAt + battleData.battleField.field.times.get(3) - timeManager.now;
-		timerSlider.value = time;
-		
-		var duration:int = int(battleData.battleField.getDuration());
-		if( duration == battleData.battleField.getTime(1) )
-		{
-			timerSlider.enableStars(0x08899);
-			appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_ELIXIR_2X));
-		}
-		
-		if( battleData.allis.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) )
-		{
-			appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_EXTRA_TIME));
-			animateShadow(0.5);
-			timerSlider.enableStars(0xFF0000);
-		}
-		
-		if( duration == battleData.battleField.getTime(2) - 10 )
-			appModel.sounds.addAndPlay("battle-cd");
-		
+		timerSlider.enableStars(0x08899);
+		animateShadow(0.5, null, 0x08899);
+		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_ELIXIR_2X));
 	}
+	
+	if( battleData.allis.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) - 2 )
+	{
+		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_EXTRA_TIME));
+		animateShadow(0.5, null, 0xAA0000);
+		timerSlider.enableStars(0xFF0000);
+	}
+	
+	if( duration == battleData.battleField.getTime(2) - 10 )
+		appModel.sounds.addAndPlay("battle-cd");
 }
 
-public function animateShadow(alphaSeed:Number, shadow:Image = null) : void
+public function animateShadow(alphaSeed:Number, shadow:Image = null, color:uint = 0) : void
 {
 	if( shadow == null )
 	{
@@ -252,10 +251,11 @@ public function animateShadow(alphaSeed:Number, shadow:Image = null) : void
 		shadow.width = stage.stageWidth;
 		shadow.height = stage.stageHeight;
 		shadow.alpha = 0.8;
-		shadow.color = 0xAA0000;
 		addChildAt(shadow, 0);
 	}
-	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[alphaSeed==0?0.6:0, shadow]});
+	shadow.color = color;
+	Starling.juggler.removeTweens(shadow);
+	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[alphaSeed==0?0.8:0, shadow, color]});
 }
 
 public function updateRoomVars():void
