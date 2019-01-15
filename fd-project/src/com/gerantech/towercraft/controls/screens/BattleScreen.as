@@ -188,7 +188,7 @@ private function startBattle():void
 	appModel.loadingManager.serverData.putBool("inBattle", false);
 	
 	// play battle theme -_-_-_
-	appModel.sounds.stopAll(SoundManager.CATE_THEME);
+	appModel.sounds.stopAll();
 	appModel.sounds.addAndPlay("battle-theme", null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 100);
 }
 
@@ -245,7 +245,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_4_ENDED;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 	touchEnable = false;
-	disposeBattleAssets();
+	appModel.sounds.stopAll();
 	hud.stopTimers();
 
 	// show celebration tutorial steps
@@ -326,12 +326,6 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	setTimeout(hud.end, player.get_arena(0) == 0?800:200, endOverlay);// delay for noobs
 }
 
-private function disposeBattleAssets():void
-{
-	appModel.sounds.stopAll(SoundManager.CATE_SFX);
-	appModel.sounds.stopAll(SoundManager.CATE_THEME);
-}
-
 private function endOverlay_retryHandler(event:Event):void
 {
 	event.currentTarget.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
@@ -365,7 +359,7 @@ private function retryOperation(index:int, hasExtraTime:Boolean):void
 	
 	hud.removeFromParent(true);
 	appModel.battleFieldView.responseSender.actived = false;
-	disposeBattleAssets();
+	appModel.sounds.stopAll();
 	removeChild(appModel.battleFieldView, true);
 	
 	var params:SFSObject = new SFSObject();
