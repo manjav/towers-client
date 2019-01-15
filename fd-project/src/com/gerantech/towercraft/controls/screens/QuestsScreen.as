@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.buttons.IndicatorXP;
 import com.gerantech.towercraft.controls.items.QuestItemRenderer;
 import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.managers.net.CoreLoader;
@@ -38,6 +39,10 @@ override protected function initialize():void
 	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.R3_CURRENCY_SOFT);
 	indicatorSC.layoutData = new AnchorLayoutData(22, 360);
 	addChild(indicatorSC);
+	
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr");
+	indicatorXP.layoutData = new AnchorLayoutData(22, NaN, NaN, 40);
+	addChild(indicatorXP);
 	
 	showQuests(true);
 }
