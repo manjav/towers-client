@@ -243,7 +243,7 @@ private function showTutorial():void
 			//SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
 			questsButton.showTutorArrow(false);
 		}*/
-		HomeNewButton(getChildByName("rightButton")).showTutorArrow(false);
+		//HomeNewButton(getChildByName("rightButton")).showTutorArrow(false);
 	}	
 }
 
