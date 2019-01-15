@@ -21,6 +21,6 @@
 {"id":201, "bullet":"201", "fire":"",		"hit":"hit-",		"die":"blood-",	"summonSFX":[],				"attackSFX":["201-attack"], "hitSFX":[]},
 
 {"id":221, "bullet":"221", "fire":"",		"hit":"",			"die":"blood-",	"summonSFX":[],				"attackSFX":["221-attack"], "hitSFX":[]},
-{"id":222, "bullet":"222", "fire":"fire-",	"hit":"hit-",		"die":"blood-",	"summonSFX":[],				"attackSFX":["221-attack"], "hitSFX":[]}
+{"id":222, "bullet":"222", "fire":"fire-",	"hit":"hit-",		"die":"blood-",	"summonSFX":[],				"attackSFX":["222-attack"], "hitSFX":[]}
 ]
 }
