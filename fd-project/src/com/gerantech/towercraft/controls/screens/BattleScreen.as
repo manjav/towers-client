@@ -244,6 +244,9 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	var inTutorial:Boolean = player.get_battleswins() < 3;
 	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_4_ENDED;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
+	touchEnable = false;
+	disposeBattleAssets();
+	hud.stopTimers();
 
 	// show celebration tutorial steps
 	if( player.get_battleswins() == 0 && !skipCelebration )
@@ -256,9 +259,6 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		return;
 	}
 
-	touchEnable = false;
-	disposeBattleAssets();
-	hud.stopTimers();
 	tutorials.removeAll();
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
@@ -328,7 +328,8 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 
 private function disposeBattleAssets():void
 {
-	appModel.sounds.stop("battle-theme");
+	appModel.sounds.stopAll(SoundManager.CATE_SFX);
+	appModel.sounds.stopAll(SoundManager.CATE_THEME);
 }
 
 private function endOverlay_retryHandler(event:Event):void
