@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.views.units
 {
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
+import com.gerantech.towercraft.controls.sliders.battle.HealthBarDetailed;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
@@ -8,7 +9,6 @@ import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.ArtRules;
-import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -325,9 +325,17 @@ override public function hit(damage:Number):void
 private function setHealth(health:Number):void
 {
 	if( healthDisplay == null )
-		healthDisplay = new HealthBarLeveled(fieldView, battleField.getColorIndex(side), card.level, health, card.health);
+	{
+		if( CardTypes.isTroop(card.type) )
+			healthDisplay = new HealthBarLeveled(fieldView, battleField.getColorIndex(side), card.level, health, card.health);
+		else
+			healthDisplay = new HealthBarDetailed(fieldView, battleField.getColorIndex(side), card.level, health, card.health);		
+		healthDisplay.initialize();
+	}
 	else
+	{
 		healthDisplay.value = health;
+	}
 	healthDisplay.setPosition(__x, __y - card.sizeV - 60);
 
 	if( health < 0 )

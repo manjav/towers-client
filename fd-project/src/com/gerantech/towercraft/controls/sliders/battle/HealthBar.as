@@ -2,11 +2,8 @@ package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.BattleFieldView;
-import starling.display.Image;
-import feathers.controls.LayoutGroup;
-import feathers.layout.AnchorLayout;
-import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.display.Image;
 
 public class HealthBar
 {
@@ -14,20 +11,23 @@ static protected var SCALE_RECT:Rectangle = new Rectangle(3, 3, 9, 9);
 public var width:Number = 48;
 public var height:Number = 15;
 protected var _value:Number = 0;
-protected var _troopType:int = -2;
+protected var _side:int = -2;
 protected var maximum:Number;
 protected var sliderFillDisplay:Image;
 protected var sliderBackDisplay:Image;
 protected var filedView:BattleFieldView;
-public function HealthBar(filedView:BattleFieldView, troopType:int, initValue:Number = 0, initMax:Number = 1)
+public function HealthBar(filedView:BattleFieldView, side:int, initValue:Number = 0, initMax:Number = 1)
 {
 	super();
 	this.value = initValue;
 	this.maximum = initMax;
-	this.troopType = troopType;
+	this.side = side;
 	this.filedView = filedView;
+}
 
-	sliderBackDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/back"));
+public function initialize() : void
+{
+	sliderBackDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + side + "/back"));
 	sliderBackDisplay.scale9Grid = SCALE_RECT;
 	sliderBackDisplay.touchable = false;
 	sliderBackDisplay.width = width;
@@ -35,7 +35,7 @@ public function HealthBar(filedView:BattleFieldView, troopType:int, initValue:Nu
 	sliderBackDisplay.visible = value < maximum;
 	filedView.guiImagesContainer.addChild(sliderBackDisplay);
 	
-	sliderFillDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/fill"));
+	sliderFillDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + side + "/fill"));
 	sliderFillDisplay.scale9Grid = SCALE_RECT;
 	sliderFillDisplay.touchable = false;
 	sliderFillDisplay.height = height;
@@ -83,20 +83,20 @@ public function set value(v:Number) : void
 		sliderFillDisplay.visible = _value < maximum;
 }
 
-public function get troopType():int
+public function get side():int
 {
-	return _troopType;
+	return _side;
 }
-public function set troopType(value:int):void
+public function set side(value:int):void
 {
-	if( _troopType == value )
+	if( _side == value )
 		return;
-	_troopType = value;
+	_side = value;
 	
 	if( sliderBackDisplay!= null )
-		sliderBackDisplay.texture = AppModel.instance.assets.getTexture("sliders/" + troopType + "/back");
+		sliderBackDisplay.texture = AppModel.instance.assets.getTexture("sliders/" + _side + "/back");
 	if( sliderFillDisplay != null )
-		sliderFillDisplay.texture = AppModel.instance.assets.getTexture("sliders/" + troopType + "/fill");
+		sliderFillDisplay.texture = AppModel.instance.assets.getTexture("sliders/" + _side + "/fill");
 
 }
 

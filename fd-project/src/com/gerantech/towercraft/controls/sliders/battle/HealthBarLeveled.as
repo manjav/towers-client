@@ -12,16 +12,21 @@ public class HealthBarLeveled extends HealthBar
 {
 private var level:int;
 private var levelDisplay:Image;
-public function HealthBarLeveled(filedView:BattleFieldView, troopType:int, level:int=1, initValue:Number=0, initMax:Number=1) 
+public function HealthBarLeveled(filedView:BattleFieldView, side:int, level:int = 1, initValue:Number = 0, initMax:Number = 1)
 {
-	super(filedView, troopType, initValue, initMax);
+	super(filedView, side, initValue, initMax);
 	this.level = level;
+}
 
-	levelDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + troopType + "/level-" + CoreUtils.clamp(level, 1, 13)));
+override public function initialize() : void
+{
+	super.initialize();
+	
+	levelDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + _side + "/level-" + CoreUtils.clamp(level, 1, 13)));
 	levelDisplay.pivotX = levelDisplay.width * 0.5;
 	levelDisplay.touchable = false;
-	levelDisplay.visible = value < maximum || troopType > 0;
-	filedView.guiImagesContainer.addChild(levelDisplay);
+	levelDisplay.visible = value < maximum || _side > 0;
+	filedView.guiImagesContainer.addChild(levelDisplay);	
 }
 
 override public function setPosition(x:Number, y:Number) : void
@@ -39,7 +44,7 @@ override public function setPosition(x:Number, y:Number) : void
 
 	if( levelDisplay != null )
 	{
-		levelDisplay.x = x + (value < maximum ? 0 :width * 0.5) - levelDisplay.width;
+		levelDisplay.x = x + (value < maximum ? 0 : width * 0.5) - levelDisplay.width;
 		levelDisplay.y = y - 7;
 	}
 }
@@ -50,13 +55,13 @@ override public function set value(v:Number) : void
 		return;
 	super.value = v;
 	
-	var visible:Boolean = v < maximum || troopType > 0;
+	var __visible:Boolean = v < maximum || _side > 0;
 	if( sliderFillDisplay != null )
-		sliderFillDisplay.visible = visible;
+		sliderFillDisplay.visible = __visible;
 	if( sliderBackDisplay != null )
-		sliderBackDisplay.visible = visible;
+		sliderBackDisplay.visible = __visible;
 	if( levelDisplay != null )
-		levelDisplay.visible = visible;
+		levelDisplay.visible = __visible;
 }
 
 override public function dispose() : void 
