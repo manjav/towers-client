@@ -53,7 +53,7 @@ override public function init():void
 	var padding:int = 16;
 	initializeCompleted = true;
 	layout = new AnchorLayout();
-//	showOffers();
+	//showOffers();
 
 	var league:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
 	league.animation.gotoAndPlayByTime("selected", 0, 50);
@@ -119,8 +119,10 @@ override public function init():void
 	profile.height = padding * 20;
 	profile.layoutData = new AnchorLayoutData(padding * 6, 0, NaN, 0);
 	addChild(profile);
-
 	
+	if( player.get_arena(0) < 1 )
+		return;
+		
 	questsButton = new HomeQuestsButton();
 	questsButton.name = "questsButton";
 	questsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -129,9 +131,6 @@ override public function init():void
 	questsButton.layoutData = new AnchorLayoutData(profile.y + profile.height + padding * 4, NaN, NaN, padding * 2);
 	addChild(questsButton);
 	
-	if( player.get_battleswins() < 5 )
-		return;
-		
 	var starsButton:HomeStarsButton = new HomeStarsButton();
 	starsButton.name = "starsButton";
 	starsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
@@ -231,7 +230,7 @@ private function showTutorial():void
 	
 	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED  )// show quest table tutorial
 	{
-		var tutorialData:TutorialData = new TutorialData("quest_tutorial");
+		/*var tutorialData:TutorialData = new TutorialData("quest_tutorial");
 		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_0", null, 500, 1500, 0));
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 		tutorials.show(tutorialData);
@@ -243,8 +242,8 @@ private function showTutorial():void
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_QUEST_FOCUS); 
 			//SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
 			questsButton.showTutorArrow(false);
-		}
-		return;
+		}*/
+		HomeNewButton(getChildByName("rightButton")).showTutorArrow(false);
 	}	
 }
 
