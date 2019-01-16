@@ -23,7 +23,7 @@ override protected function initialize():void
 	acceptButton.label = loc("popup_ok_label");
 	acceptButton.height = padding * 4;
 	acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
-	acceptButton.layoutData = new AnchorLayoutData(NaN, hasDecline ? padding : NaN, padding * 2, NaN, hasDecline ? NaN : 0);
+	acceptButton.layoutData = new AnchorLayoutData(NaN, hasDecline ? padding * 2 : NaN, padding * 2, NaN, hasDecline ? NaN : 0);
 	addChild(acceptButton);
 	
 	if( hasDecline )
@@ -33,7 +33,7 @@ override protected function initialize():void
 		declineButton.style = "danger";
 		declineButton.height = padding * 4;
 		declineButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
-		declineButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
+		declineButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, padding * 2);
 		addChild(declineButton);
 	}
 }

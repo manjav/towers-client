@@ -105,7 +105,7 @@ override protected function initialize():void
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
 	
-	testOffer();
+	//testOffer();
 	//testBattleToast();
 	//testBattleOverlay();
 }

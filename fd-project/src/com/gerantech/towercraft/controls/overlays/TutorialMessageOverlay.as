@@ -13,7 +13,7 @@ import starling.events.TouchEvent;
 
 public class TutorialMessageOverlay extends TutorialOverlay
 {
-private var side:int;
+protected var side:int;
 private var mentorImageLoaded:Boolean;
 public function TutorialMessageOverlay(task:TutorialTask):void
 {
@@ -52,9 +52,9 @@ override protected function transitionInCompleted():void
 	addChild(charachter);
 }
 
-private function character_completeHandler(e:Event):void 
+protected function character_completeHandler(event:Event):void 
 {
-	var charachter:ImageLoader = e.currentTarget as ImageLoader;
+	var charachter:ImageLoader = event.currentTarget as ImageLoader;
 	charachter.removeEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
 
 	var position:Rectangle = new Rectangle(stage.stageWidth * (side == 0?0.20:0.8), height - charachter.height - 100, 1, 1);
@@ -65,7 +65,7 @@ private function character_completeHandler(e:Event):void
 	addChild(tootlip);
 }
 
-private function tootlip_eventsHandler(event:Event):void
+protected function tootlip_eventsHandler(event:Event):void
 {
 	dispatchEventWith(event.type);
 	ConfirmTooltip(event.currentTarget).close();
