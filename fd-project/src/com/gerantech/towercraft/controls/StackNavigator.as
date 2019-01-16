@@ -6,9 +6,11 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.animations.AchievedItem;
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
+	import com.gerantech.towercraft.controls.overlays.RatingMessageOverlay;
 	import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 	import com.gerantech.towercraft.controls.popups.AbstractPopup;
 	import com.gerantech.towercraft.controls.popups.InvitationPopup;
+	import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 	import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.segments.ExchangeSegment;
@@ -186,18 +188,18 @@ package com.gerantech.towercraft.controls
 		
 		private var battleconfirmToast:ConfirmToast;
 		
-		public function addLog(text:String):void
+		public function addLog(text:String, offsetY:int = 0):void
 		{
-			addLogGame(new GameLog(text));
+			addLogGame(new GameLog(text), offsetY);
 		}
 		
-		public function addLogGame(log:GameLog):void
+		public function addLogGame(log:GameLog, offsetY:int = 0):void
 		{
-			if (busyLogger)
+			if( busyLogger )
 				return;
 			
 			busyLogger = true;
-			log.y = logs.length * GameLog.GAP + stage.stageHeight * 0.5;
+			log.y = logs.length * GameLog.GAP + stage.stageHeight * 0.5 - offsetY;
 			logsContainer.addChild(log);
 			logs.push(log);
 			Starling.juggler.tween(logsContainer, 0.3, {y: logsContainer.y - GameLog.GAP, transition: Transitions.EASE_OUT, onComplete: function():void
@@ -394,7 +396,7 @@ package com.gerantech.towercraft.controls
 			var wins:int = AppModel.instance.game.player.get_battleswins();
 			var prefs:IntStrMap = AppModel.instance.game.player.prefs;
 			var type:int = 0;
-			if (wins > prefs.getAsInt(PrefsTypes.OFFER_30_RATING))
+			if( wins > prefs.getAsInt(PrefsTypes.OFFER_30_RATING) )
 				type = PrefsTypes.OFFER_30_RATING;
 			else if (wins > prefs.getAsInt(PrefsTypes.OFFER_31_TELEGRAM))
 				type = PrefsTypes.OFFER_31_TELEGRAM;
@@ -404,9 +406,13 @@ package com.gerantech.towercraft.controls
 				type = PrefsTypes.OFFER_33_FRIENDSHIP;
 			//trace(sessions, type, prefs.keys(), prefs.values());
 			
-			if (type > 0)
+			if( type > 0 )
 			{
-				var confirm:TutorialMessageOverlay = new TutorialMessageOverlay(new TutorialTask(TutorialTask.TYPE_CONFIRM, "popup_offer_" + type));
+				var confirm:TutorialMessageOverlay;
+				if( type == PrefsTypes.OFFER_30_RATING )
+					confirm = new RatingMessageOverlay(new TutorialTask(TutorialTask.TYPE_CONFIRM, "popup_offer_" + type));
+				else
+					confirm = new TutorialMessageOverlay(new TutorialTask(TutorialTask.TYPE_CONFIRM, "popup_offer_" + type));
 				confirm.addEventListener(Event.SELECT, confirm_handler);
 				confirm.addEventListener(Event.CANCEL, confirm_handler);
 				confirm.data = type;
@@ -440,6 +446,12 @@ package com.gerantech.towercraft.controls
 					}
 					else
 					{
+						switch (t)
+						{
+						case PrefsTypes.OFFER_30_RATING: 
+							addPopup(new IssueReportPopup());
+							break;
+						}
 						UserData.instance.prefs.setInt(t, prefs.getAsInt(t) + 50);
 					}
 				}
