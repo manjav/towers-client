@@ -207,11 +207,13 @@ private function showOpenWarn() : void
 	if( state != ExchangeItem.CHEST_STATE_WAIT )
 		return;
 	Starling.juggler.removeTweens(ribbonImage);
+	ribbonImage.color = 0xFFFFFF;
 	ribbonImage.y = 0;
 	ribbonImage.scaleY = 1;
 	var readyToOpen:Boolean = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now) == null;
 	if( !readyToOpen )
 		return;
+	ribbonImage.color = 0x66FFAA;
 	up();
 	function up()	: void { Starling.juggler.tween(ribbonImage, 1.5, {scaleY:0.95, y:-1,	transition:Transitions.EASE_OUT,onComplete:down,	delay:0}); }
 	function down() : void { Starling.juggler.tween(ribbonImage, 0.3, {scaleY:1.10, y:4,	transition:Transitions.EASE_IN,	onComplete:up,		delay:Math.random() * 3}); }
