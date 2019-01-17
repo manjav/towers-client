@@ -43,6 +43,7 @@ private var readyLabel:ShadowLabel;
 private var timeoutId:uint;
 private var hardLabel:ShadowLabel;
 private var tutorialArrow:TutorialArrow;
+private var ribbonImage:ImageLoader;
 
 public function ExBookSlotItemRenderer(){}
 override protected function initialize():void
@@ -170,14 +171,12 @@ protected function waitGroupFactory() : LayoutGroup
 		waitGroup.layout = new AnchorLayout();
 		waitGroup.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		
-		var ribbonImage:ImageLoader = new ImageLoader();
+		ribbonImage = new ImageLoader();
+		ribbonImage.pixelSnapping = false;
 		ribbonImage.source = Assets.getTexture("home/open-ribbon", "gui");
-		ribbonImage.layoutData = new AnchorLayoutData(0, NaN, NaN, NaN, 0);
+		ribbonImage.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+		ribbonImage.addEventListener(FeathersEventType.CREATION_COMPLETE, ribbonImage_createCompleteHandler);
 		waitGroup.addChild(ribbonImage);
-		
-		var openLabel:ShadowLabel = new  ShadowLabel(loc("open_label"), 1, 0, null, null, false, null, 0.6);
-		openLabel.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
-		waitGroup.addChild(openLabel);
 		
 		var timeLabel:ShadowLabel = new  ShadowLabel(StrUtils.toTimeFormat(ExchangeType.getCooldown(exchange.outcome)), 1, 0, null, null, false, null, 0.9);
 		timeLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.15);
@@ -189,6 +188,33 @@ protected function waitGroupFactory() : LayoutGroup
 	}
 	addChild(waitGroup);
 	return waitGroup;
+}
+
+protected function ribbonImage_createCompleteHandler(event:Event) : void
+{
+	ribbonImage.removeEventListener(FeathersEventType.CREATION_COMPLETE, ribbonImage_createCompleteHandler);
+	var openLabel:ShadowLabel = new  ShadowLabel(loc("open_label"), 1, 0, "center", null, false, null, 0.6);
+	openLabel.width = ribbonImage.width;
+	openLabel.pivotX = openLabel.width * 0.5;
+	openLabel.x = ribbonImage.width * 0.5;
+	openLabel.y = 18;
+	ribbonImage.addChild(openLabel);
+	
+	showOpenWarn();
+}
+private function showOpenWarn() : void 
+{
+	if( state != ExchangeItem.CHEST_STATE_WAIT )
+		return;
+	Starling.juggler.removeTweens(ribbonImage);
+	ribbonImage.y = 0;
+	ribbonImage.scaleY = 1;
+	var readyToOpen:Boolean = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now) == null;
+	if( !readyToOpen )
+		return;
+	up();
+	function up()	: void { Starling.juggler.tween(ribbonImage, 1.5, {scaleY:0.95, y:-1,	transition:Transitions.EASE_OUT,onComplete:down,	delay:0}); }
+	function down() : void { Starling.juggler.tween(ribbonImage, 0.3, {scaleY:1.10, y:4,	transition:Transitions.EASE_IN,	onComplete:up,		delay:Math.random() * 3}); }
 }
 
 protected function busyGroupFactory() : LayoutGroup
@@ -339,6 +365,13 @@ private function reset() : void
 	waitGroup = null;
 	readyLabel = null;
 	clearTimeout(timeoutId);
+}
+
+
+override protected function resetData(item:ExchangeItem):void 
+{
+	showOpenWarn();
+	super.resetData(item);
 }
 
 override protected function showAchieveAnimation(item:ExchangeItem):void {}
