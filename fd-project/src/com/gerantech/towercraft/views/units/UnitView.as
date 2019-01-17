@@ -430,9 +430,9 @@ public function showBattleHint(appear:Boolean) : void
 			aimDisplay.alignPivot();
 			aimDisplay.scale = 1.6;
 			aimDisplay.alpha = 0;
-			aimDisplay.color = TroopType.getColor(1);
 			aimDisplay.x = __x;
 			aimDisplay.y = __y;
+			aimDisplay.color = Color.GREEN;
 			fieldView.guiImagesContainer.addChild(aimDisplay);
 			
 			scaleIn();
