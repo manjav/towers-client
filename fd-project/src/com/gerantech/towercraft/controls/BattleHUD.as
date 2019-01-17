@@ -15,6 +15,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
+import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -222,16 +223,20 @@ protected function timeManager_changeHandler(event:Event):void
 		time = battleData.battleField.startAt + battleData.battleField.field.times.get(3) - timeManager.now;
 	timerSlider.value = time;
 	
-	var duration:int = int(battleData.battleField.getDuration());
-	
-	if( duration == battleData.battleField.getTime(1) - 2 )
+	var duration:int = int(battleData.battleField.getDuration() + 1.6);
+	if( duration == 60 || duration == 120 || duration == 180 )
+	{
+		appModel.sounds.stopAll(SoundManager.CATE_THEME);
+		appModel.sounds.addAndPlay("battle-" + duration, null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 4);
+	}
+	if( duration == battleData.battleField.getTime(1) )
 	{
 		timerSlider.enableStars(0x08899);
 		animateShadow(0.5, null, 0x08899);
 		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_ELIXIR_2X));
 	}
 	
-	if( battleData.allis.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) - 2 )
+	if( battleData.allis.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) )
 	{
 		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_EXTRA_TIME));
 		animateShadow(0.5, null, 0xAA0000);

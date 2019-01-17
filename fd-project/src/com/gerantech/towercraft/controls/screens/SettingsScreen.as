@@ -67,7 +67,7 @@ private function list_focusInHandler(event:Event):void
 			if( player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC) )
 				appModel.sounds.play("main-theme", 1, 100, 0, SoundManager.SINGLE_FORCE_THIS);
 			else
-				appModel.sounds.stop("main-theme");
+				appModel.sounds.stopAll();
 		}
 	}
 	else if( settingData.type == SettingsData.TYPE_BUTTON )

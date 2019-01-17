@@ -189,7 +189,7 @@ private function startBattle():void
 	
 	// play battle theme -_-_-_
 	appModel.sounds.stopAll();
-	appModel.sounds.addAndPlay("battle-theme", null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 100);
+	appModel.sounds.addAndPlay("battle-0", null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 8);
 }
 
 private function tutorials_tasksStartHandler(e:Event) : void
@@ -542,8 +542,7 @@ override protected function backButtonFunction():void
 override public function dispose():void
 {
 	removeConnectionListeners();
-	appModel.sounds.stopAll(SoundManager.CATE_SFX);
-	appModel.sounds.stopAll(SoundManager.CATE_THEME);
+	appModel.sounds.stopAll();
 	setTimeout(appModel.sounds.play, 2000, "main-theme", 1, 100, 0, SoundManager.SINGLE_BYPASS_THIS);
 	removeChild(appModel.battleFieldView, true);
 	super.dispose();
