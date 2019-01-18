@@ -137,9 +137,7 @@ public function play(id:String, volume:Number = 1.0, repeats:int = 1, panning:Nu
 		channel.addEventListener(Event.SOUND_COMPLETE, channel_soundCompleteHandler);
 		
 		// if the sound manager is muted, set the sound's volume to zero
-		var v:Number = _isMuted ? 0 : volume;
-		var s:SoundTransform = new SoundTransform(v, panning);
-		channel.soundTransform = s;
+		channel.soundTransform = new SoundTransform(_isMuted ? 0 : volume, panning);
 		
 		playings[id] = { channel:channel, sound:soundObject, volume:volume };
 	}
