@@ -224,7 +224,7 @@ protected function timeManager_changeHandler(event:Event):void
 	timerSlider.value = time;
 	
 	var duration:int = int(battleData.battleField.getDuration() + 1.6);
-	if( duration == 60 || duration == 120 || duration == 180 )
+	if( duration == 120 || duration == 180 )
 	{
 		appModel.sounds.stopAll(SoundManager.CATE_THEME);
 		appModel.sounds.addAndPlay("battle-" + duration, null, SoundManager.CATE_THEME, SoundManager.SINGLE_BYPASS_THIS, 4);
