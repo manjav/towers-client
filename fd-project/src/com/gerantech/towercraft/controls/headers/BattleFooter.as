@@ -9,7 +9,6 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.units.CardPlaceHolder;
 import com.gt.towers.battle.BattleField;
-import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -163,6 +162,9 @@ protected function stage_touchHandler(event:TouchEvent) : void
 		draggableCard.setData(placeHolder.type = selectedCard.cardType);
 		stage.addChild(draggableCard);
 		stage.addChild(placeHolder);
+		
+		if( appModel.battleFieldView.mapBuilder.summonHint != null )
+			appModel.battleFieldView.mapBuilder.summonHint.visible = true;
 	}
 	else 
 	{
@@ -179,6 +181,8 @@ protected function stage_touchHandler(event:TouchEvent) : void
 		}
 		else if( touch.phase == TouchPhase.ENDED && selectedCard != null )
 		{
+			if( appModel.battleFieldView.mapBuilder.summonHint != null )
+				appModel.battleFieldView.mapBuilder.summonHint.visible = false;
 			placeHolder.removeFromParent();
 			setTouchPosition(touch);
 			touchPosition.x -= (appModel.battleFieldView.x - BattleField.WIDTH * 0.5);

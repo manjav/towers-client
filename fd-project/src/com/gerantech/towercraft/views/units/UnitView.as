@@ -469,6 +469,8 @@ public function showBattleHint(appear:Boolean) : void
 override public function dispose() : void
 {
 	super.dispose();
+	if( CardTypes.isHero(card.type) && side != battleField.side )
+		fieldView.mapBuilder.changeSummonArea(id < 4);
 	clearTimeout(hitTimeoutId);
 	Starling.juggler.remove(bodyDisplay);
 	bodyDisplay.removeFromParent(true);

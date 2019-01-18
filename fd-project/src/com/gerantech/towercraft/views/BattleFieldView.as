@@ -28,8 +28,8 @@ import starlingbuilder.engine.DefaultAssetMediator;
 
 public class BattleFieldView extends Sprite
 {
-private var mapBuilder:MapBuilder;
 private var units:IntUnitMap;
+public var mapBuilder:MapBuilder;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;

@@ -1,8 +1,10 @@
 package com.gerantech.towercraft.views 
 {
+import com.gerantech.towercraft.models.AppModel;
 import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.display.DisplayObjectContainer;
+import starling.display.Image;
 import starling.display.MovieClip;
 import starling.display.Sprite;
 import starlingbuilder.engine.IAssetMediator;
@@ -18,6 +20,7 @@ public class MapBuilder extends UIBuilder
 {
 public static const linkers:Array = [MovieClip];
 public var mainMap:Sprite;
+public var summonHint:Image;
 private var movieClips:Vector.<MovieClip>;
 public function MapBuilder(assetMediator:IAssetMediator, forEditor:Boolean=false, template:Object=null, localization:ILocalization=null, tweenBuilder:ITweenBuilder=null) 
 {
@@ -46,7 +49,26 @@ private function activeMovieClips(container:DisplayObjectContainer) : void
 		}
 		if( container.getChildAt(i) is DisplayObjectContainer )
 			activeMovieClips(container.getChildAt(i) as DisplayObjectContainer );
+			
+		if( container.getChildAt(i).name == "summon-area" )
+		{
+			summonHint = container.getChildAt(i) as Image;
+			summonHint.visible = false;
+		}
 	}
+}
+
+public function changeSummonArea(isRight:Boolean) : void
+{
+	if( summonHint == null )
+		return;
+	if( AppModel.instance.battleFieldView.battleData.allis.getInt("score") > 1 )
+	{
+		summonHint.texture = AppModel.instance.assets.getTexture("summon-2");
+		return;
+	}
+	summonHint.texture = AppModel.instance.assets.getTexture("summon-1");
+	summonHint.scaleX = Math.abs(summonHint.scaleX) * (isRight ? -1 : 1);
 }
 
 public function dispose() : void 

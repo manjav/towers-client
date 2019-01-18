@@ -10,7 +10,6 @@ import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.ImageLoader;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
-import flash.geom.Rectangle;
 import starling.events.Event;
 import starling.utils.Color;
 

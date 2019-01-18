@@ -20,8 +20,11 @@
 	<SubTexture name="car-blue" x="1526" y="975" width="286" height="103" frameX="-6" frameY="-86" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="car-red" x="522" y="992" width="286" height="103" frameX="-8" frameY="-86" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="ttrree" x="1895" y="446" width="140" height="198" frameX="-113" frameY="-92" frameWidth="400" frameHeight="400"/>
-	<SubTexture name="tile" x="1813" y="975" width="160" height="127"/>
-	<SubTexture name="manhole" x="0" y="1052" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="summon-0" x="1813" y="975" width="136" height="167"/>
+	<SubTexture name="summon-1" x="0" y="1052" width="136" height="167"/>
+	<SubTexture name="summon-2" x="137" y="1052" width="136" height="167"/>
+	<SubTexture name="tile" x="809" y="1075" width="160" height="127"/>
+	<SubTexture name="manhole" x="970" y="1075" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
 	<SubTexture name="tree_0" x="1915" y="645" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
 	<SubTexture name="tree_1" x="1915" y="796" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
 	<SubTexture name="grid" x="321" y="724" width="64" height="63"/>
@@ -52,6 +55,7 @@
 	<SubTexture name="sliders/1/level-7" x="491" y="535" width="23" height="27"/>
 	<SubTexture name="sliders/1/level-8" x="491" y="563" width="23" height="27"/>
 	<SubTexture name="sliders/1/level-9" x="491" y="591" width="23" height="27"/>
+	<SubTexture name="car-shadow" x="981" y="419" width="28" height="11" frameX="-1" frameY="-9" frameWidth="30" frameHeight="30"/>
 	<SubTexture name="alpha-mask" x="2027" y="0" width="16" height="15"/>
 	<SubTexture name="asphalt-1" x="2027" y="16" width="16" height="15"/>
 	<SubTexture name="asphalt-2" x="2027" y="32" width="16" height="15"/>
