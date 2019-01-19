@@ -23,7 +23,6 @@ override public function initialize() : void
 	super.initialize();
 	
 	levelDisplay = new Image(AppModel.instance.assets.getTexture("sliders/" + _side + "/level-" + CoreUtils.clamp(level, 1, 13)));
-	levelDisplay.pivotX = levelDisplay.width * 0.5;
 	levelDisplay.touchable = false;
 	levelDisplay.visible = value < maximum || _side > 0;
 	filedView.guiImagesContainer.addChild(levelDisplay);	
@@ -33,18 +32,18 @@ override public function setPosition(x:Number, y:Number) : void
 {
 	if( sliderBackDisplay != null )
 	{
-		sliderBackDisplay.x = x - width * 0.28;
+		sliderBackDisplay.x = x - width * 0.5;
 		sliderBackDisplay.y = y;
 	}
 	if( sliderFillDisplay != null )
 	{
-		sliderFillDisplay.x = x - width * 0.28;
+		sliderFillDisplay.x = x - width * 0.5;
 		sliderFillDisplay.y = y;
 	}
 
 	if( levelDisplay != null )
 	{
-		levelDisplay.x = x + (value < maximum ? 0 : width * 0.5) - levelDisplay.width;
+		levelDisplay.x = x - (value < maximum ? (width * 0.5 + levelDisplay.width) : (levelDisplay.width * 0.5));
 		levelDisplay.y = y - 7;
 	}
 }

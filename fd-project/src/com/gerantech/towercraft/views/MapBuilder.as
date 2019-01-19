@@ -73,7 +73,7 @@ public function setSummonAreaEnable(value:Boolean) : void
 	if( value )
 	{
 		summonHint.visible = true;
-		Starling.juggler.tween(summonHint, 0.2, {alpha:0.6});
+		Starling.juggler.tween(summonHint, 0.2, {alpha:0.5});
 	}
 	else
 	{

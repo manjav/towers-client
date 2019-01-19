@@ -23,7 +23,7 @@ override public function initialize() : void
 
 	healthDisplay = new BitmapFontTextRenderer();
 	healthDisplay.pixelSnapping = false;
-	healthDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 28, 0xFFFFFF, "center");
+	healthDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 28, 0xFFFFFF, "left");
 	healthDisplay.visible = value < maximum || _side > 0;
 	filedView.guiTextsContainer.addChild(healthDisplay);
 }
@@ -33,8 +33,8 @@ override public function setPosition(x:Number, y:Number) : void
 	super.setPosition(x, y);
 	if( healthDisplay != null )
 	{
-		healthDisplay.x = x - width * 0.16;
-		healthDisplay.y = y + (_side == 0 ? -2 : -30);
+		healthDisplay.x = x - width * 0.5 + 2;
+		healthDisplay.y = y + (_side == 0 ? -4 : -32);
 	}
 }
 
