@@ -18,9 +18,15 @@ import starlingbuilder.engine.tween.ITweenBuilder;
 */
 public class MapBuilder extends UIBuilder 
 {
-public static const linkers:Array = [MovieClip];
+static public const linkers:Array = [MovieClip];
+static public const SUMMON_AREA_FIRST:int = 0;
+static public const SUMMON_AREA_RIFGT:int = 1;
+static public const SUMMON_AREA_LEFT:int = 2;
+static public const SUMMON_AREA_BOTH:int = 3;
+
 public var mainMap:Sprite;
-public var summonHint:Image;
+public var summonAreaMode:int;
+private var summonHint:Image;
 private var movieClips:Vector.<MovieClip>;
 public function MapBuilder(assetMediator:IAssetMediator, forEditor:Boolean=false, template:Object=null, localization:ILocalization=null, tweenBuilder:ITweenBuilder=null) 
 {
@@ -58,15 +64,34 @@ private function activeMovieClips(container:DisplayObjectContainer) : void
 	}
 }
 
+public function setSummonAreaEnable(value:Boolean) : void
+{
+	if( summonHint == null )
+		return;
+		
+	Starling.juggler.removeTweens(summonHint);
+	if( value )
+	{
+		summonHint.visible = true;
+		Starling.juggler.tween(summonHint, 0.2, {alpha:0.6});
+	}
+	else
+	{
+		Starling.juggler.tween(summonHint, 0.2, {alpha:0, onComplete:function () : void { summonHint.visible = false; }});
+	}
+}
+
 public function changeSummonArea(isRight:Boolean) : void
 {
 	if( summonHint == null )
 		return;
 	if( AppModel.instance.battleFieldView.battleData.allis.getInt("score") > 1 )
 	{
+		summonAreaMode = SUMMON_AREA_BOTH;
 		summonHint.texture = AppModel.instance.assets.getTexture("summon-2");
 		return;
 	}
+	summonAreaMode = isRight ? SUMMON_AREA_RIFGT : SUMMON_AREA_LEFT;
 	summonHint.texture = AppModel.instance.assets.getTexture("summon-1");
 	summonHint.scaleX = Math.abs(summonHint.scaleX) * (isRight ? -1 : 1);
 }

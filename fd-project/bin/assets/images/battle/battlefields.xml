@@ -23,11 +23,13 @@
 	<SubTexture name="summon-0" x="1813" y="975" width="136" height="167"/>
 	<SubTexture name="summon-1" x="0" y="1052" width="136" height="167"/>
 	<SubTexture name="summon-2" x="137" y="1052" width="136" height="167"/>
-	<SubTexture name="tile" x="809" y="1075" width="160" height="127"/>
-	<SubTexture name="manhole" x="970" y="1075" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="summon-t" x="809" y="1075" width="136" height="167"/>
+	<SubTexture name="tile" x="946" y="1075" width="160" height="127"/>
+	<SubTexture name="manhole" x="1107" y="1075" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
 	<SubTexture name="tree_0" x="1915" y="645" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
 	<SubTexture name="tree_1" x="1915" y="796" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
 	<SubTexture name="grid" x="321" y="724" width="64" height="63"/>
+	<SubTexture name="white-line" x="386" y="724" width="103" height="19" frameX="-97" frameY="0" frameWidth="200" frameHeight="20"/>
 	<SubTexture name="end-line" x="1994" y="0" width="32" height="31"/>
 	<SubTexture name="sliders/0/level-10" x="1994" y="32" width="32" height="27"/>
 	<SubTexture name="sliders/0/level-11" x="1994" y="60" width="32" height="27"/>
@@ -59,12 +61,11 @@
 	<SubTexture name="alpha-mask" x="2027" y="0" width="16" height="15"/>
 	<SubTexture name="asphalt-1" x="2027" y="16" width="16" height="15"/>
 	<SubTexture name="asphalt-2" x="2027" y="32" width="16" height="15"/>
-	<SubTexture name="white-line" x="2027" y="48" width="16" height="15"/>
-	<SubTexture name="sliders/0/back" x="2027" y="64" width="15" height="13"/>
-	<SubTexture name="sliders/0/fill" x="2027" y="78" width="15" height="13"/>
-	<SubTexture name="sliders/1/back" x="2027" y="92" width="15" height="13"/>
-	<SubTexture name="sliders/-1/back" x="2027" y="106" width="15" height="13"/>
-	<SubTexture name="sliders/1/fill" x="2027" y="120" width="15" height="13"/>
-	<SubTexture name="sliders/-1/fill" x="2027" y="134" width="15" height="13"/>
-	<SubTexture name="edge-tile" x="2027" y="148" width="8" height="2"/>
+	<SubTexture name="sliders/0/back" x="2027" y="48" width="15" height="13"/>
+	<SubTexture name="sliders/0/fill" x="2027" y="62" width="15" height="13"/>
+	<SubTexture name="sliders/1/back" x="2027" y="76" width="15" height="13"/>
+	<SubTexture name="sliders/-1/back" x="2027" y="90" width="15" height="13"/>
+	<SubTexture name="sliders/1/fill" x="2027" y="104" width="15" height="13"/>
+	<SubTexture name="sliders/-1/fill" x="2027" y="118" width="15" height="13"/>
+	<SubTexture name="edge-tile" x="2027" y="132" width="8" height="2"/>
 </TextureAtlas>

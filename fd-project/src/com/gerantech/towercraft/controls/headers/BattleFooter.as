@@ -7,8 +7,10 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.views.MapBuilder;
 import com.gerantech.towercraft.views.units.CardPlaceHolder;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.CardTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -163,8 +165,7 @@ protected function stage_touchHandler(event:TouchEvent) : void
 		stage.addChild(draggableCard);
 		stage.addChild(placeHolder);
 		
-		if( appModel.battleFieldView.mapBuilder.summonHint != null )
-			appModel.battleFieldView.mapBuilder.summonHint.visible = true;
+		appModel.battleFieldView.mapBuilder.setSummonAreaEnable(true);
 	}
 	else 
 	{
@@ -181,13 +182,12 @@ protected function stage_touchHandler(event:TouchEvent) : void
 		}
 		else if( touch.phase == TouchPhase.ENDED && selectedCard != null )
 		{
-			if( appModel.battleFieldView.mapBuilder.summonHint != null )
-				appModel.battleFieldView.mapBuilder.summonHint.visible = false;
+			appModel.battleFieldView.mapBuilder.setSummonAreaEnable(false);
 			placeHolder.removeFromParent();
 			setTouchPosition(touch);
 			touchPosition.x -= (appModel.battleFieldView.x - BattleField.WIDTH * 0.5);
 			touchPosition.y -= (appModel.battleFieldView.y - BattleField.HEIGHT * 0.5);
-			if( touchPosition.y < BattleField.HEIGHT && touchPosition.y > BattleField.HEIGHT * (CardTypes.isSpell(selectedCard.cardType)?0.0:0.5) && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
+			if( validateSummonPosition() && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
 				cardQueue.push(selectedCard.cardType);
 				selectedCard.setData(cardQueue.shift());
@@ -216,10 +216,40 @@ protected function stage_touchHandler(event:TouchEvent) : void
 	}
 }
 
+private function validateSummonPosition() : Boolean
+{
+	trace("touchPosition", touchPosition);
+	if( touchPosition.y < 0 || touchPosition.y > BattleField.HEIGHT )
+		return false;
+	
+	if( CardTypes.isSpell(selectedCard.cardType) )
+		return true;
+	return true;
+/*	if( touchPosition.y 
+	touchPosition.y < BattleField.HEIGHT && touchPosition.y > BattleField.HEIGHT * (CardTypes.isSpell(selectedCard.cardType)?0.0:0.5) &&*/
+}
+
 private function setTouchPosition(touch:Touch) : void 
 {
 	touchPosition.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
-	touchPosition.y = Math.max(BattleField.HEIGHT * (CardTypes.isSpell(selectedCard.cardType)?-0.5:0.01) + appModel.battleFieldView.y, touch.globalY);
+	var limitY:Number = -0.5;
+	if( !CardTypes.isSpell(selectedCard.cardType) )
+	{
+		if( appModel.battleFieldView.battleData.battleField.field.type == FieldData.TYPE_TOUCHDOWN )
+		{
+			limitY = 0.15;
+		}
+		else
+		{
+			if( appModel.battleFieldView.mapBuilder.summonAreaMode >= MapBuilder.SUMMON_AREA_BOTH )
+				limitY = -0.24;
+			else if( touch.globalX > stageWidth * 0.5 )
+				limitY = appModel.battleFieldView.mapBuilder.summonAreaMode == MapBuilder.SUMMON_AREA_RIFGT ? -0.24 : 0.01;
+			else
+				limitY = appModel.battleFieldView.mapBuilder.summonAreaMode == MapBuilder.SUMMON_AREA_LEFT ? -0.24 : 0.01;
+		}
+	}
+	touchPosition.y = Math.max(BattleField.HEIGHT * limitY + appModel.battleFieldView.y, touch.globalY);
 }
 
 private function pushNewCardToDeck(deckSelected:BattleDeckCard) : void 
