@@ -30,13 +30,13 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	card = new BuildingCard();
-	card.width = 240;
-	card.height = card.width * 1.295;
-	card.x = card.pivotX = card.width * 0.5;
-	card.y = card.pivotY = card.height * 0.5;	
-	addChild(card);
-	card.type = type;
+	iconDisplay = new BuildingCard(true, true, false, true);
+	iconDisplay.width = 240;
+	iconDisplay.height = iconDisplay.width * BuildingCard.VERICAL_SCALE;
+	iconDisplay.x = iconDisplay.pivotX = iconDisplay.width * 0.5;
+	iconDisplay.y = iconDisplay.pivotY = iconDisplay.height * 0.5;
+	addChild(iconDisplay);
+	iconDisplay.setData(card.type, card.level, 1);
 	
 	if( type == CardTypes.INITIAL )
 		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);

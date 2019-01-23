@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -11,9 +12,13 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gt.towers.buildings.Building;
+import com.gt.towers.buildings.Place;
+import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.others.Arena;
+import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.objects.DragonBonesData;
@@ -99,18 +104,36 @@ override protected function initialize():void
 	addChild(list);
 
 	var closeFooter:CloseFooter = new CloseFooter();
-	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
+	closeFooter.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
 
-	testOffer();
+	testOpenBook();
+	//testOffer();
 	//testBattleToast();
 	//testBattleOverlay();
 }
 
+private function testOpenBook():void 
+{
+	OpenBookOverlay.createFactory();
+	var openOverlay:OpenBookOverlay = new OpenBookOverlay(59);
+	appModel.navigator.addOverlay(openOverlay);
+	var outcomes:IntIntMap = new IntIntMap();
+	outcomes.set(ResourceType.CURRENCY_SOFT, 50);
+	outcomes.set(ResourceType.CURRENCY_HARD, 5);
+	outcomes.set(11, 1);
+	outcomes.set(12, 1);
+	outcomes.set(21, 12);
+	outcomes.set(22, 2);
+	outcomes.set(44, 1);
+	player.resources.set(44, 2);
+	//player.buildings.set(44, new Building(game, new Place(game 110, -1))
+	openOverlay.outcomes = outcomes;
+}
+
 private function testOffer():void 
 {
-	
 	var wins: int = player.getResource(ResourceType.BATTLES_WINS);
 	player.resources.set(ResourceType.BATTLES_WINS, player.prefs.getAsInt(PrefsTypes.OFFER_30_RATING) + 1);
 	appModel.navigator.showOffer();

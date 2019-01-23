@@ -1,19 +1,14 @@
 package com.gerantech.towercraft.controls.buttons 
 {
-import com.gerantech.towercraft.controls.sliders.BuildingSlider;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.vo.RewardData;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
-import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
-import flash.utils.Dictionary;
-import flash.utils.clearTimeout;
-import flash.utils.setTimeout;
 
 /**
 * ...
@@ -68,7 +63,7 @@ protected function sliderFactory() : Indicator
 	ind_17.setData(0, -1, 10);
 	ind_17.height = 50;
 	ind_17.layoutData = new AnchorLayoutData(NaN, 180, 50, 80);
-	ind_17.formatLabelFactory = function(minimum:Number, value:Number, maximum:Number) : String
+	ind_17.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 	{
 		return value + " / " + maximum;
 	}
@@ -79,6 +74,7 @@ protected function sliderFactory() : Indicator
 		AnchorLayoutData(icon.layoutData).verticalCenter = -12;
 		AnchorLayoutData(icon.layoutData).left = -60;
 	});
+	ind_17.maximum = 10;
 	addChild(ind_17);
 	return ind_17;
 }

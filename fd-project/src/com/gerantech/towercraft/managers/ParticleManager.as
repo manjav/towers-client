@@ -27,7 +27,10 @@ private static const explodeConfig:Class;
 [Embed(source="../../../../assets/particles/explode/texture.atf", mimeType="application/octet-stream")]
 private static const explodeParticle:Class;
 
-
+/*[Embed(source="../../../../assets/particles/kira/particle_texture.json", mimeType="application/octet-stream")]
+private static const kiraConfig:Class;
+[Embed(source="../../../../assets/particles/kira/particle_texture.atf", mimeType="application/octet-stream")]
+private static const kiraParticle:Class;*/
 
 private static var _TEXTURES:Dictionary = new Dictionary();
 private static var _CONFIGS:Dictionary = new Dictionary();

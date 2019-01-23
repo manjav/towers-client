@@ -52,9 +52,6 @@ override protected function initialize():void
 	alpha = 0;
 	
 	cardLayoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	cardDisplay = new BuildingCard(showLevel, showSlider, false, false);
-	cardDisplay.layoutData = cardLayoutData;
-	addChild(cardDisplay);
 }
 
 override protected function commitData():void
@@ -76,6 +73,13 @@ override protected function commitData():void
 		}
 		_firstCommit = false;
 		_owner.addEventListener(FeathersEventType.CREATION_COMPLETE, _owner_createHandler);
+	}
+
+	if( cardDisplay == null )
+	{
+		cardDisplay = new BuildingCard(showLevel, showSlider, false, false);
+		cardDisplay.layoutData = cardLayoutData;
+		addChild(cardDisplay);
 	}
 
 	if( _data is int )

@@ -49,10 +49,10 @@ override protected function initialize():void
 	super.initialize();
 	
 	cardDisplay = new BuildingCard(true, true, false, false);
-	cardDisplay.setData(cardType);
 	cardDisplay.width = padding * 9;
 	cardDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(cardDisplay);
+	cardDisplay.setData(cardType);
 }
 
 override protected function transitionInCompleted():void

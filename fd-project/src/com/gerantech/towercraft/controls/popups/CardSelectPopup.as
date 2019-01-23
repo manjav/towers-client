@@ -51,11 +51,10 @@ override protected function transitionInCompleted():void
 	_bounds = getBounds(stage);
 	building = player.buildings.get(buildingType);
 
-	var buildingIcon:BuildingCard = new BuildingCard();
-	buildingIcon.showSlider = false;
-	buildingIcon.layoutData = new AnchorLayoutData(padding*0.3, padding*0.3, NaN, padding*0.3);
+	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
+	buildingIcon.layoutData = new AnchorLayoutData(padding * 0.3, padding * 0.3, NaN, padding * 0.3);
 	addChild(buildingIcon);
-	buildingIcon.type = buildingType;
+	buildingIcon.setData(card.type, card.level, card.count());
 	
 	var upgradable:Boolean = building.upgradable();
 	var detailsButton:CustomButton = new CustomButton();
