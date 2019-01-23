@@ -48,8 +48,8 @@ override protected function transitionInCompleted():void
 
 	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
 	buildingIcon.layoutData = new AnchorLayoutData(padding * 0.3, padding * 0.3, NaN, padding * 0.3);
-	buildingIcon.setData(card.type, card.level, card.count());
 	addChild(buildingIcon);
+	buildingIcon.setData(card.type, card.level, card.count());
 	
 	var upgradable:Boolean = card.upgradable();
 	var detailsButton:CustomButton = new CustomButton();

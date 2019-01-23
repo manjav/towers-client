@@ -43,9 +43,6 @@ override protected function initialize():void
 	alpha = 0;
 	
 	cardLayoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	cardDisplay = new BuildingCard(showLevel, showSlider, false, showElixir);
-	cardDisplay.layoutData = cardLayoutData;
-	addChild(cardDisplay);
 }
 
 override protected function commitData():void
@@ -67,6 +64,13 @@ override protected function commitData():void
 		}
 		_firstCommit = false;
 		_owner.addEventListener(FeathersEventType.CREATION_COMPLETE, _owner_createHandler);
+	}
+
+	if( cardDisplay == null )
+	{
+		cardDisplay = new BuildingCard(showLevel, showSlider, false, showElixir);
+		cardDisplay.layoutData = cardLayoutData;
+		addChild(cardDisplay);
 	}
 
 	if( _data is int )
@@ -93,8 +97,8 @@ override protected function commitData():void
 		}
 		
 		var l:int = exists ? player.cards.get(cardType).level : 1;
-		var c:int = exists ? player.resources.get(cardType) : 1;
-		cardDisplay.setData( cardType, l, c);
+		var c:int = exists ? player.getResource(cardType) : 1;
+		cardDisplay.setData(cardType, l, c);
 		Starling.juggler.tween(this, 0.2, {delay:0.05 * index, alpha:1});
 	}
 	else
@@ -102,7 +106,7 @@ override protected function commitData():void
 		alpha = 1;
 		cardType = _data.type;
 		cardDisplay.setData(_data.type, _data.level);
-	}
+	}	
 }
 
 private function _owner_createHandler():void

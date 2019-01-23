@@ -32,8 +32,8 @@ override protected function initialize():void
 	iconDisplay.height = iconDisplay.width * BuildingCard.VERICAL_SCALE;
 	iconDisplay.x = iconDisplay.pivotX = iconDisplay.width * 0.5;
 	iconDisplay.y = iconDisplay.pivotY = iconDisplay.height * 0.5;
-	iconDisplay.setData(card.type, card.level, 1);
 	addChild(iconDisplay);
+	iconDisplay.setData(card.type, card.level, 1);
 	
 	if( card.type == CardTypes.INITIAL && player.inDeckTutorial())
 		showTutorArrow(true);

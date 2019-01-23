@@ -75,12 +75,14 @@ private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void
 		bookArmature.scaleY = bookArmature.scaleX;
 		bookArmature.animation.gotoAndStopByProgress("appear", 1);
 		bookArmature.animation.timeScale = 0;
+		addChild(bookArmature);
 		outcome = bookArmature;
 	}
 	else
 	{
 		var cardDisplay:BuildingCard = new BuildingCard(false, false, false, false);
 		cardDisplay.width = padding * 18;
+		addChild(cardDisplay);
 		cardDisplay.setData(outKeys[i]);
 		cardDisplay.pivotX = cardDisplay.width * 0.5;
 		cardDisplay.pivotY = cardDisplay.pivotX * BuildingCard.VERICAL_SCALE;	
@@ -93,7 +95,6 @@ private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void
 
 	outcome.x = i * rowH + rowH * 0.5;
 	outcome.y = padding * 16;
-	addChild(outcome);
 	
 	var labelDisplay:ShadowLabel = new ShadowLabel(loc((ResourceType.isCard(outKeys[i]) ? "card_title_" : (ResourceType.isBook(outKeys[i])?"exchange_title_":"resource_title_")) + outKeys[i]), 1, 0, "center");
 	labelDisplay.width = rowH;

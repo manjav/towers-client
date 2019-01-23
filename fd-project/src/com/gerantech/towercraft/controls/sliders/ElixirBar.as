@@ -16,7 +16,7 @@ import starling.display.BlendMode;
 
 public class ElixirBar extends TowersLayout
 {
-private var progressBar:Slider;
+private var progressBar:LabeledProgressBar;
 private var elixirBottle:LayoutGroup;
 private var realtimeDisplay:ImageLoader;
 private var elixirCountDisplay:BitmapFontTextRenderer;
@@ -40,7 +40,8 @@ override protected function initialize():void
 	height = 72;
 	var padding:int = 12;
 	
-	progressBar = new Slider();
+	progressBar = new LabeledProgressBar();
+	progressBar.hasLabelTextRenderer = false;
 	progressBar.maximum = BattleField.POPULATION_MAX;
 	progressBar.value = value;
 	progressBar.isEnabled = false;

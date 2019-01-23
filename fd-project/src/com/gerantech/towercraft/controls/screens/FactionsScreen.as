@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
+import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
@@ -13,9 +14,12 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gt.towers.battle.units.Card;
+import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.others.Arena;
+import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.objects.DragonBonesData;
@@ -105,14 +109,33 @@ override protected function initialize():void
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
 	
+	testOpenBook();
 	//testOffer();
 	//testBattleToast();
 	//testBattleOverlay();
 }
 
+private function testOpenBook():void 
+{
+	OpenBookOverlay.createFactory();
+	var openOverlay:OpenBookOverlay = new OpenBookOverlay(59);
+	appModel.navigator.addOverlay(openOverlay);
+	var outcomes:IntIntMap = new IntIntMap();
+	outcomes.set(ResourceType.R3_CURRENCY_SOFT, 50);
+	outcomes.set(ResourceType.R4_CURRENCY_HARD, 5);
+	outcomes.set(CardTypes.C105, 1);
+	outcomes.set(CardTypes.C110, 1);
+	outcomes.set(CardTypes.C103, 12);
+	outcomes.set(CardTypes.C107, 2);
+	outcomes.set(CardTypes.C104, 2);
+	player.resources.set(CardTypes.C110, 2);
+	player.cards.set(CardTypes.C110, new Card(game, 110, -1))
+	openOverlay.outcomes = outcomes;
+}
+
 private function testOffer():void 
 {
-	var wins: int = player.getResource(ResourceType.R13_BATTLES_WINS);
+	var wins:int = player.getResource(ResourceType.R13_BATTLES_WINS);
 	player.resources.set(ResourceType.R13_BATTLES_WINS, player.prefs.getAsInt(PrefsTypes.OFFER_30_RATING) + 1);
 	appModel.navigator.showOffer();
 	player.resources.set(ResourceType.R13_BATTLES_WINS, wins);

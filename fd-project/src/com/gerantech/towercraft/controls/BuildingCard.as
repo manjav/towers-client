@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls
 {
-import com.gerantech.towercraft.controls.sliders.BuildingSlider;
+import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.buttons.IndicatorCard;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
@@ -52,7 +53,7 @@ protected var iconDisplay:ImageLoader;
 protected var labelsContainer:LayoutGroup;
 protected var levelDisplay:RTLLabel;
 protected var levelBackground:ImageLoader;
-protected var sliderDisplay:BuildingSlider;
+protected var sliderDisplay:Indicator;
 protected var coverDisplay:ImageLoader;
 protected var rarityDisplay:ImageLoader;
 protected var countDisplay:ShadowLabel;
@@ -96,7 +97,7 @@ override protected function initialize():void
 
 	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	addEventListener(Event.ADDED, addedHandler);
-	callFactories();
+//	callFactories();
 }
 
 
@@ -235,7 +236,7 @@ protected function defaultLevelDisplayFactory() : RTLLabel
 
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  COVER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-private function defaultCoverDisplayFactory() : ImageLoader 
+protected function defaultCoverDisplayFactory() : ImageLoader 
 {
 	if( coverDisplay == null )
 	{
@@ -249,40 +250,47 @@ private function defaultCoverDisplayFactory() : ImageLoader
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  SLIDER  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-protected function defaultSliderDisplayFactory() : BuildingSlider
+protected function defaultSliderDisplayFactory() : Indicator
 {
-	if( !showSlider || availablity || level <= 0 )
+	if( !showSlider )
 		return null;
 	
-	var building:Card = player.cards.get(type);
-	if( building == null )
-		return null;
-	var upgradeCards:int = Card.get_upgradeCards(building.level, building.rarity);
-	var numBuildings:int = player.resources.get(type);
-	if( sliderDisplay != null )
+	if( ResourceType.isCard(type) )
 	{
-		sliderDisplay.maximum = upgradeCards;
-		sliderDisplay.value = numBuildings;
-		return sliderDisplay;
+		if( this.availablity < CardTypes.AVAILABLITY_WAIT )
+			return null;
+		
+		var card:Card = player.cards.get(type);
+		if( card == null )
+			return null;
 	}
-	sliderDisplay = new BuildingSlider();
-	sliderDisplay.height = padding * 3;
-	sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.3, -padding * 2.8, padding * 0.3);
-	sliderDisplay.addEventListener(FeathersEventType.CREATION_COMPLETE, function():void{
-		sliderDisplay.labelDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, -padding * 3, padding * (building.upgradable(0)?4:2));
-		labelsContainer.addChild(sliderDisplay.labelDisplay);
-		sliderDisplay.maximum = upgradeCards;
-		sliderDisplay.value = numBuildings;
-	});
-	addChild(sliderDisplay);
+	if( sliderDisplay == null )
+	{
+		if( ResourceType.isCard(type) )
+			sliderDisplay = new IndicatorCard("ltr", type);
+		else
+			sliderDisplay = new Indicator("ltr", type, false, false);
+		sliderDisplay.clampValue = false;
+		sliderDisplay.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
+		{
+			return ResourceType.isCard(type) ? (Math.round(value) + " / " + maximum) : Math.round(value).toString();
+		}
+		sliderDisplay.height = padding * 3;
+		sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.5, -padding * 2.8, padding * 0.5);
+		addChild(sliderDisplay);
+	}
+	else
+	{
+		sliderDisplay.setData(0, -1, sliderDisplay.maximum);
+	}
 	return sliderDisplay;
 }
 public function punchSlider() : void
 {
 	if( sliderDisplay != null )
 	{
-		sliderDisplay.labelDisplay.scale = 1.5;
-		Starling.juggler.tween(sliderDisplay.labelDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT});
+		sliderDisplay.alpha = 0;
+		Starling.juggler.tween(sliderDisplay, 1.0, {alpha:1, repeatCount:3});
 	}
 }
 

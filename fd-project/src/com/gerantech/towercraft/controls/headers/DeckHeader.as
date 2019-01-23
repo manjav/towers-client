@@ -33,8 +33,8 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	backgroundSkin = new Quad(1, 1, 0);
-	backgroundSkin.alpha = 0.8;
+	backgroundSkin = new Quad(1, 1, 0x666666);
+	backgroundSkin.alpha = 0.7;
 	height = _height;
 	
 	

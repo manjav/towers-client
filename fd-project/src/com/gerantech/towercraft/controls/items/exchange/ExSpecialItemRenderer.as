@@ -29,10 +29,10 @@ override protected function commitData():void
 	super.commitData();
 	skin.alpha = 0.7;
 	var cardDisplay:BuildingCard = new BuildingCard(false, false, true, false);
-	cardDisplay.setData(exchange.outcome, 1, exchange.outcomes.values()[0]);
 	cardDisplay.width = width * 0.65;
 	cardDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
 	addChild(cardDisplay);
+	cardDisplay.setData(exchange.outcome, 1, exchange.outcomes.values()[0]);
 	
 	if( exchange.numExchanges > 0 )
 	{

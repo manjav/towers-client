@@ -1,6 +1,9 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.sliders.LabeledProgressBar;
+import com.gerantech.towercraft.controls.texts.LTRLable;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.SoundManager;
@@ -11,6 +14,7 @@ import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
+import com.gt.towers.utils.CoreUtils;
 import feathers.controls.ImageLoader;
 import feathers.controls.ProgressBar;
 import feathers.events.FeathersEventType;
@@ -35,12 +39,11 @@ public var maximum:Number = Number.MAX_VALUE;
 public var hasProgressbar:Boolean;
 public var hasIncreaseButton:Boolean;
 public var autoApdate:Boolean;
-public var formatLabelFactory:Function;
 public var iconDisplay:ImageLoader;
+protected var progressBar:LabeledProgressBar;
 
-private var progressbar:ProgressBar;
-private var progressLabel:TextField;
 private var tutorialArrow:TutorialArrow;
+private var _displayValue:Number = Number.MIN_VALUE;
 
 public function Indicator(direction:String, type:int, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean = true, autoApdate:Boolean = true)
 {
@@ -63,25 +66,19 @@ override protected function initialize():void
 	skin.scale9Grid = MainTheme.INDICATORS_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	if( formatLabelFactory == null )
-		formatLabelFactory = defultFormatLabelFactory;
+	progressBar = new LabeledProgressBar();
+	progressBar.clampValue = this._clampValue;
+	progressBar.formatValueFactory = this._formatValueFactory;;
+	progressBar.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void { progressBar.backgroundDisabledSkin.visible = progressBar.backgroundSkin.visible = false; });
+	progressBar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	progressBar.minimum = minimum;
+	progressBar.maximum = maximum;
+	progressBar.value = value;
+	addChild(progressBar);
 	
-	if( hasProgressbar )
-	{
-		progressbar = new ProgressBar();
-		progressbar.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void { progressbar.backgroundSkin.visible = false; });
-		progressbar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-		progressbar.minimum = minimum;
-		progressbar.maximum = maximum;
-		progressbar.value = value;
-		addChild(progressbar);
-	}
-	
-	progressLabel = new TextField(width - (hasIncreaseButton?96:60), height, formatLabelFactory(minimum, value, maximum), new TextFormat("SourceSans", appModel.theme.gameFontSize * 0.94, MainTheme.PRIMARY_TEXT_COLOR));
-	progressLabel.x = 48;
-	progressLabel.pixelSnapping = false;
-	progressLabel.autoScale = true;
-	addChild(progressLabel);
+	if( !hasProgressbar )
+		progressBar.fillSkin.visible = false;
+//	progressLabel.layoutData = new AnchorLayoutData(NaN, (direction == "rtl" || (direction == "ltr" && hasIncreaseButton)) ? 40 : 0, NaN, direction == "ltr"||(direction == "rtl"&&hasIncreaseButton) ? 40 : 0, NaN, -1);
 	
 	iconDisplay = new ImageLoader();
 	iconDisplay.pivotX = iconDisplay.pivotY = iconDisplay.width * 0.5;
@@ -140,9 +137,10 @@ protected function addedToStageHandler(event:Event):void
 
 protected function playerResources_changeHandler(event:CoreEvent):void
 {
+	if( event.key != type )
+		return;
 	trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
-	if( event.key == type )
-		setData(minimum, -1, maximum);
+	setData(minimum, -1, maximum);
 }
 
 public function setData(minimum:Number, value:Number, maximum:Number, changeDuration:Number = 0):void
@@ -150,25 +148,68 @@ public function setData(minimum:Number, value:Number, maximum:Number, changeDura
 	this.minimum = minimum;
 	if( value == -1 )
 		value = getValue();
-	this.value = Math.max(minimum, Math.min( maximum, value ) );
+	if( clampValue )
+		this.value = CoreUtils.clamp(value, minimum, maximum);
+	else
+		this.value = value;
 	this.maximum = maximum;
-	trace(type, this.minimum, value, this.maximum, this.value);
-	if( progressLabel != null )
-		progressLabel.text = formatLabelFactory(minimum, value, maximum);
-	if( progressbar != null )
+	//trace("type:" + type, "this.minimum:" + this.minimum, "value:" + value, "this.maximum:" + this.maximum, "this.value:" + this.value, "changeDuration:" + changeDuration);
+	
+	if( progressBar != null )
 	{
-		progressbar.minimum = minimum;
-		progressbar.maximum = maximum;
-		if( changeDuration <= 0 )
-			progressbar.value = this.value;
-		else
-			Starling.juggler.tween(progressbar, changeDuration, {value:this.value, transition:Transitions.EASE_IN_OUT})
+		progressBar.minimum = this.minimum;
+		progressBar.maximum = this.maximum;
 	}
+	
+	if( changeDuration <= 0 )
+		displayValue = this.value;
+	else
+		Starling.juggler.tween(this, changeDuration, {displayValue:this.value, transition:Transitions.EASE_IN_OUT})
+}
+
+public function get displayValue() : Number 
+{
+	return _displayValue;
+}
+public function set displayValue(v:Number) : void 
+{
+	if( _displayValue == v )
+		return;
+	_displayValue = v;
+	
+	if( progressBar != null )
+		progressBar.value = v;
+}
+
+private var _clampValue:Boolean = true;
+public function get clampValue():Boolean 
+{
+	return _clampValue;
+}
+public function set clampValue(value:Boolean):void 
+{
+	if( this._clampValue == value )
+		return;
+	this._clampValue = value;
+	if( progressBar != null )
+		progressBar.clampValue = this._clampValue;;
+}
+
+private var _formatValueFactory:Function;
+public function get formatValueFactory():Function 
+{
+	return _formatValueFactory;
+}
+public function set formatValueFactory(value:Function):void 
+{
+	this._formatValueFactory = value;
+	if( progressBar != null )
+		progressBar.formatValueFactory = this._formatValueFactory;;
 }
 
 public function addResourceAnimation(x:Number, y:Number, type:int, count:int, delay:Number = 0):void
 {
-	if( ResourceType.isCard(type) && type == ResourceType.R3_CURRENCY_SOFT )
+	if( ResourceType.isCard(type) && this.type == ResourceType.R3_CURRENCY_SOFT )
 	{
 		appModel.navigator.addAnimation(x, y, 130, Assets.getTexture("cards"), count, new Rectangle(320, 1900), delay, null);
 		return;
@@ -194,11 +235,6 @@ public function addResourceAnimation(x:Number, y:Number, type:int, count:int, de
 private function getValue() : int
 {
 	return type == ResourceType.R17_STARS ? exchanger.items.get(ExchangeType.C104_STARS).numExchanges : player.getResource(type);
-}
-
-private function defultFormatLabelFactory(minimum:Number, value:Number, maximum:Number) : String
-{
-	return value.toString();
 }
 
 public function showArrow():void

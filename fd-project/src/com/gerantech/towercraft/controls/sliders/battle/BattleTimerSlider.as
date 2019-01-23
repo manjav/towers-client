@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.controls.StarCheck;
 import com.gerantech.towercraft.controls.indicators.CountdownIcon;
-import com.gerantech.towercraft.controls.sliders.Slider;
+import com.gerantech.towercraft.controls.sliders.LabeledProgressBar;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
@@ -12,7 +12,7 @@ import starling.core.Starling;
 public class BattleTimerSlider extends IBattleSlider
 {
 private var timeoutId:uint;
-private var progressBar:Slider;
+private var progressBar:LabeledProgressBar;
 public var iconDisplay:CountdownIcon;
 private var stars:Vector.<StarCheck>;
 
@@ -25,7 +25,8 @@ override protected function initialize():void
 	width = 280;
 	height = 72;
 
-	progressBar = new Slider();
+	progressBar = new LabeledProgressBar();
+	progressBar.hasLabelTextRenderer = false;
 	progressBar.value = 1;
 	progressBar.isEnabled = false;
 	progressBar.horizontalAlign = HorizontalAlign.RIGHT;
