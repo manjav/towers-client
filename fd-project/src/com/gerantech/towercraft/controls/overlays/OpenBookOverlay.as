@@ -6,7 +6,8 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
-import com.gt.towers.utils.Point3;
+import com.gt.towers.battle.fieldes.PlaceData;
+import com.gt.towers.utils.lists.PlaceDataList;
 import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.events.EventObject;
 import dragonBones.objects.DragonBonesData;
@@ -149,8 +150,10 @@ protected function openAnimation_loopCompleteHandler(event:StarlingEvent) : void
 	if( event.eventObject.animationState.name == "wait" && event.eventObject.animationState.currentPlayTimes == 2 )
 	{
 		bookArmature.removeEventListener(EventObject.LOOP_COMPLETE, openAnimation_loopCompleteHandler);
-		
-		var overlay:TutorialTouchOverlay = new TutorialTouchOverlay(new TutorialTask(TutorialTask.TYPE_TOUCH, "", [new Point(bookArmature.x, bookArmature.y - 10)], 0, 0))
+				
+		var placeDataList:PlaceDataList = new PlaceDataList();
+		placeDataList.push(new PlaceData(0, bookArmature.x, bookArmature.y - 10, 0, 0, ""));
+		var overlay:TutorialTouchOverlay = new TutorialTouchOverlay(new TutorialTask(TutorialTask.TYPE_TOUCH, "", placeDataList, 0, 0))
 		overlay.context = this;
 		appModel.navigator.addOverlay(overlay);
 	}
