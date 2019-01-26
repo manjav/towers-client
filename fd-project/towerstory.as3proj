@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin\release.swf" />
+    <movie path="bin\towerstory.swf" />
     <movie fps="60" />
     <movie width="1080" />
     <movie height="1920" />

@@ -8,7 +8,7 @@
   <description>__DESCRIPTION__</description><!--<description>{"platform":"android", "market":"cafebazaar"}</description> cafebazaar-myket-cando-ario-google -->
   <initialWindow>
     <title>KOOT</title>
-    <content>release.swf</content>
+    <content>towerstory.swf</content>
     <visible>true</visible>
     <fullScreen>true</fullScreen>
     <renderMode>direct</renderMode>

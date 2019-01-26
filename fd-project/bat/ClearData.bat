@@ -15,5 +15,5 @@ set APP_IP=%APP_IP: =%
 
 echo Delete %APP_IP%-user-data.sol ?
 pause
-cd %AppData%\%APP_ID%\Local Store\#SharedObjects\release.swf
+cd %AppData%\%APP_ID%\Local Store\#SharedObjects\towerstory.swf
 del /F /Q %APP_IP%-user-data.sol
