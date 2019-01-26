@@ -12,9 +12,6 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.BattleFieldView;
-import com.gt.towers.buildings.Building;
-import com.gt.towers.buildings.Place;
-import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.others.Arena;
@@ -108,7 +105,7 @@ override protected function initialize():void
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
 
-	testOpenBook();
+	//testOpenBook();
 	//testOffer();
 	//testBattleToast();
 	//testBattleOverlay();
