@@ -210,9 +210,10 @@ public function set formatValueFactory(value:Function):void
 
 public function addResourceAnimation(x:Number, y:Number, type:int, count:int, delay:Number = 0):void
 {
-	if( ResourceType.isBuilding(type) && type == ResourceType.CURRENCY_SOFT )
+	if( ResourceType.isBuilding(type) && this.type == ResourceType.CURRENCY_SOFT )
 	{
-		appModel.navigator.addAnimation(x, y, 130, Assets.getTexture("cards"), count, new Rectangle(320, 1900), delay, null);
+		appModel.sounds.addAndPlay("res-appear-1001",null, SoundManager.CATE_SFX, SoundManager.SINGLE_FORCE_THIS);
+		appModel.navigator.addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(320, 1900), delay, null);
 		return;
 	}
 	
