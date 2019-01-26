@@ -31,7 +31,7 @@ override protected function transitionInCompleted():void
 	charachter.source =  Assets.getTexture("chars/char-" + side, "gui");
 	charachter.verticalAlign = VerticalAlign.BOTTOM;
 	charachter.layoutData = new AnchorLayoutData(NaN, side == 0?NaN:0, 0, side == 0?0:NaN);
-	charachter.height = stage.stageHeight * (side == 0?0.45:0.5);
+	charachter.height = stage.stageHeight * (side == 0?0.4:0.5);
     charachter.addEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
 	charachter.touchable = false;
 	addChild(charachter);

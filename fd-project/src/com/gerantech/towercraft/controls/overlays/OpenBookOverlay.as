@@ -144,6 +144,9 @@ protected function openAnimation_soundEventHandler(event:StarlingEvent):void
 {
 	switch( event.eventObject.name )
 	{
+		case "book-open":
+			break;
+		
 		case "reward-shown":
 			showDetails();
 			break;
