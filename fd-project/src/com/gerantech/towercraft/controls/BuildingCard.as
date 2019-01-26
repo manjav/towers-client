@@ -152,7 +152,7 @@ private function callFactories() : void
 }
 
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  BACKGROUND  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-protected function defaultBackgroundDisplayFactory() : ImageLoader 
+protected function defaultBackgroundDisplayFactory() : ImageLoader
 {
 	if( availablity != CardTypes.AVAILABLITY_NOT && type < 1000 )
 		return null;
