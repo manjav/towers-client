@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.buttons
 {
 	import com.gerantech.towercraft.models.Assets;
 	import com.gt.towers.buildings.Building;
+	import com.gt.towers.buildings.Card;
 	import feathers.layout.AnchorLayoutData;
 	import starling.animation.Transitions;
 	import starling.core.Starling;
@@ -29,7 +30,7 @@ override protected function initialize():void
 override public function setData(minimum:Number, value:Number, maximum:Number, changeDuration:Number = 0):void
 {
 	var card:Building = player.buildings.get(type);
-	maximum = 12//Building.get_upgradeCards(card == null?1:card.level, card == null?0:card.rarity);
+	maximum = Card.get_upgradeCards(card == null?1:card._level);
 	super.setData(minimum, value, maximum, changeDuration);
 	var _upgradable:Boolean = this.value >= maximum;
 
