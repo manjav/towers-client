@@ -17,15 +17,15 @@
 	<SubTexture name="standguard" x="1124" y="875" width="200" height="199"/>
 	<SubTexture name="tire" x="321" y="928" width="200" height="190"/>
 	<SubTexture name="tire-r" x="1325" y="943" width="200" height="190"/>
-	<SubTexture name="car-blue" x="1526" y="975" width="286" height="103" frameX="-6" frameY="-86" frameWidth="300" frameHeight="300"/>
-	<SubTexture name="car-red" x="522" y="992" width="286" height="103" frameX="-8" frameY="-86" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="ttrree" x="1895" y="446" width="140" height="198" frameX="-113" frameY="-92" frameWidth="400" frameHeight="400"/>
-	<SubTexture name="summon-0" x="1813" y="975" width="136" height="167"/>
-	<SubTexture name="summon-1" x="0" y="1052" width="136" height="167"/>
-	<SubTexture name="summon-2" x="137" y="1052" width="136" height="167"/>
-	<SubTexture name="summon-t" x="809" y="1075" width="136" height="167"/>
-	<SubTexture name="tile" x="946" y="1075" width="160" height="127"/>
-	<SubTexture name="manhole" x="1107" y="1075" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="car-blue" x="1526" y="975" width="227" height="103" frameX="-37" frameY="-86" frameWidth="300" frameHeight="300"/>
+	<SubTexture name="car-red" x="1754" y="975" width="227" height="103" frameX="-36" frameY="-86" frameWidth="300" frameHeight="300"/>
+	<SubTexture name="summon-0" x="522" y="928" width="136" height="167"/>
+	<SubTexture name="summon-1" x="659" y="992" width="136" height="167"/>
+	<SubTexture name="summon-2" x="0" y="1052" width="136" height="167"/>
+	<SubTexture name="summon-t" x="137" y="1052" width="136" height="167"/>
+	<SubTexture name="tile" x="796" y="1075" width="160" height="127"/>
+	<SubTexture name="manhole" x="957" y="1075" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
 	<SubTexture name="tree_0" x="1915" y="645" width="117" height="150" frameX="-6" frameY="0" frameWidth="123" frameHeight="154"/>
 	<SubTexture name="tree_1" x="1915" y="796" width="116" height="148" frameX="0" frameY="0" frameWidth="120" frameHeight="151"/>
 	<SubTexture name="grid" x="321" y="724" width="64" height="63"/>

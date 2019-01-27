@@ -5,8 +5,8 @@ import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
-import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOperationOverlay;
+import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
@@ -18,10 +18,8 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
-import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
-import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
@@ -31,12 +29,10 @@ import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.geom.Point;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -59,12 +55,14 @@ private var tutorBattleIndex:int;
 public function BattleScreen()
 {
 	appModel.battleFieldView = new BattleFieldView();
+	appModel.battleFieldView.addEventListener(Event.COMPLETE, battleFieldView_completeHandler);
 	appModel.battleFieldView.initialize();
 	addChild(appModel.battleFieldView);
 }
-override protected function initialize():void
+
+protected function battleFieldView_completeHandler(e:Event):void 
 {
-	super.initialize();
+	appModel.battleFieldView.removeEventListener(Event.COMPLETE, battleFieldView_completeHandler);
 	layout = new AnchorLayout();
 	
 	var params:SFSObject = new SFSObject();
@@ -76,8 +74,12 @@ override protected function initialize():void
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	if( !isFriendly )
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);	
 }
+/*override protected function initialize():void
+{
+	super.initialize();
+}*/
 
 protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 {

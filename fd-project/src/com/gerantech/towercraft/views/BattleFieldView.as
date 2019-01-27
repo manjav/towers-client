@@ -59,7 +59,7 @@ public function initialize () : void
 	
 	if( AppModel.instance.assets.getObject("arts-rules") != null )
 	{
-		assetManagerLoaded(1);
+		Starling.juggler.delayCall(assetManagerLoaded, 0.1, 1);
 		return;
 	}
 	AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath("assets/images/battle"));
@@ -73,8 +73,7 @@ private function assetManagerLoaded(ratio:Number):void
 	if( AppModel.instance.artRules == null )
 		AppModel.instance.artRules = new ArtRules(AppModel.instance.assets.getObject("arts-rules"));
 	mapBuilder = new MapBuilder(new DefaultAssetMediator(AppModel.instance.assets));
-	if( battleData != null )
-		createPlaces(battleData);
+	dispatchEventWith(Event.COMPLETE);
 }
 
 public function createPlaces(battleData:BattleData) : void

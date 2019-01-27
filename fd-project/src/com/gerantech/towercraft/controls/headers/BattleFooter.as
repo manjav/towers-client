@@ -218,7 +218,6 @@ protected function stage_touchHandler(event:TouchEvent) : void
 
 private function validateSummonPosition() : Boolean
 {
-	trace("touchPosition", touchPosition);
 	if( touchPosition.y < 0 || touchPosition.y > BattleField.HEIGHT )
 		return false;
 	
