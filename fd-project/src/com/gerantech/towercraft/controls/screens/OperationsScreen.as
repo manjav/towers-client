@@ -43,9 +43,9 @@ public function OperationsScreen()
 	var field:FieldData;
 	var source:Array = new Array();
 	
-	var fields:Vector.<FieldData> = FieldProvider.shires.values();
-	for( var i:int=0; i < fields.length; i++)
-		source.push( fields[i] );
+	var keys:Vector.<String> = FieldProvider.shires.keys();
+	for( var i:int=0; i < keys.length; i++)
+		source.push( FieldProvider.shires.get(keys[i]) );
 	source.sortOn("index", Array.NUMERIC|Array.DESCENDING);
 	operationsCollection = new ListCollection(source);
 }

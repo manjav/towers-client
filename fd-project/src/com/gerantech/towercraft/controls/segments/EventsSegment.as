@@ -83,7 +83,10 @@ private function sfs_responseHandler(e:SFSEvent):void
 
 private function showChallenges():void 
 {
-	eventsList.dataProvider = new ListCollection(player.challenges.values());
+	var keys:Vector.<int> = player.challenges.keys();
+	eventsList.dataProvider = new ListCollection();
+	for( var i:int = 0; i < keys.length; i++ )
+		eventsList.dataProvider.addItem(player.challenges.get(keys[i]));
 }
 
 protected function eventsList_changeHandler(event:Event) : void 
