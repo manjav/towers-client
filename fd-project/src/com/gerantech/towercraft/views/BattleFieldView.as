@@ -160,7 +160,7 @@ private function findPathHandler(e:BattleEvent):void
 		return;
 	var c:uint = Math.random() * 0xFFFFFF;
 	for (var i:int = 0; i < u.path.length; i ++)
-		drawTile(u.path[i].i, u.path[i].j, c, battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight, 0.3);
+		drawTile(u.path[i].x, u.path[i].y, c, battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight, 0.3);
 }
 
 public function hitUnits(buletId:int, targets:ISFSArray) : void
@@ -237,12 +237,12 @@ override public function dispose() : void
 	super.dispose();
 }
 
-private function drawTile(i:int, j:int, color:int, width:int, height:int, alpha:Number = 0.1):void
+private function drawTile(x:Number, y:Number, color:int, width:int, height:int, alpha:Number = 0.1):void
 {
 	var q:Quad = new Quad(width - 2, height - 2, color);
 	q.alpha = alpha;
-	q.x = i * width;
-	q.y = j * height;
+	q.x = x - width / 2;
+	q.y = y - -height / 2;
 	guiTextsContainer.addChild(q);
 }
 }
