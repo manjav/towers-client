@@ -18,7 +18,6 @@ import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
-import com.gt.towers.others.Arena;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -54,11 +53,11 @@ public function FactionsScreen()
 	if( leaguesCollection == null )
 	{
 		leaguesCollection = new ListCollection();
-		var leagues:Vector.<Arena> = game.arenas.values();
-		var numLeagues:int = leagues.length - 1;
+		var keys:Vector.<int> = game.arenas.keys();
+		var numLeagues:int = keys.length - 1;
 		while( numLeagues >= 0 )
 		{
-			leaguesCollection.addItem(leagues[numLeagues]);
+			leaguesCollection.addItem(game.arenas..get(keys[numLeagues]));
 			numLeagues --;
 		}
 	}
@@ -95,7 +94,7 @@ override protected function initialize():void
 	
 	list = new List();
 	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0,0,150,0);
+	list.layoutData = new AnchorLayoutData(0, 0, 150, 0);
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	//list.decelerationRate = 0.99
 	list.itemRendererFactory = function():IListItemRenderer { return new FactionItemRenderer (); }
@@ -109,7 +108,7 @@ override protected function initialize():void
 	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
 	addChild(closeFooter);
 	
-	testOpenBook();
+	//testOpenBook();
 	//testOffer();
 	//testBattleToast();
 	//testBattleOverlay();

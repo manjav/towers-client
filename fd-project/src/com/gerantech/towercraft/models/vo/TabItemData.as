@@ -36,19 +36,24 @@ public function update() : void
 	
 	if( index == 0 )
 	{
-		for each(var e:ExchangeItem in player.game.exchanger.items.values())
-		if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
+		var keys:Vector.<int> = player.game.exchanger.items.keys();
+		for each( var k:int in keys )
 		{
-			newBadgeNumber ++;
-			badgeNumber ++;
+			var e:ExchangeItem = player.game.exchanger.items.get(k);
+			if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
+			{
+				newBadgeNumber ++;
+				badgeNumber ++;
+			}
 		}
 		
 	}
 	else if( index == 1 )
 	{
-		var bs:Vector.<Card> = player.cards.values();
-		for each(var b:Card in bs)
+		keys = player.cards.keys();
+		for each( k in keys )
 		{
+			var b:Card = player.cards.get(k);
 			if( b == null )
 				continue;
 			
@@ -68,8 +73,10 @@ public function update() : void
 	{
 		if( player.challenges != null )
 		{
-			for each(var c:Challenge in player.challenges.values() )
+			keys = player.challenges.keys();
+			for each( k in keys )
 			{
+				var c:Challenge = player.challenges.get(k);
 				if( c.getState(TimeManager.instance.now) == Challenge.STATE_STARTED )
 					newBadgeNumber ++;
 				badgeNumber ++;

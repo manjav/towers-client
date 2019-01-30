@@ -12,6 +12,7 @@ import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
+import com.gt.towers.battle.units.Card;
 import com.gt.towers.battle.units.Unit;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.TroopType;
@@ -59,9 +60,9 @@ private var deployIcon:CountdownIcon;
 private var aimDisplay:Image;
 private var enemyHint:ShadowLabel;
 
-public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Number, z:Number)
+public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
-	super(id, type, level, side, x, y, z);
+	super(card, id, side, x, y, z);
 	__x = getSideX();
 	__y = getSideY();
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
@@ -75,7 +76,7 @@ public function UnitView(id:int, type:int, level:int, side:int, x:Number, y:Numb
 	
 	var appearanceDelay:Number = Math.random() * 0.5;
 	
-	textureType = (type) + "/" + battleField.getColorIndex(side) + "/";
+	textureType = (card.type) + "/" + battleField.getColorIndex(side) + "/";
 	textureName = textureType + "m_" + (side == battleField.side ? "000_" : "180_");
 	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureName), 15);
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;

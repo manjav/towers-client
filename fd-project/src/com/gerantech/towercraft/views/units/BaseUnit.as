@@ -14,9 +14,9 @@ import com.gt.towers.battle.units.Unit;
 */
 public class BaseUnit extends Unit
 {
-public function BaseUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, z:Number)
+public function BaseUnit(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
-	super(id, AppModel.instance.battleFieldView.battleData.battleField, new Card(AppModel.instance.game, type, level), side, x, y, z);
+	super(id, AppModel.instance.battleFieldView.battleData.battleField, card, side, x, y, z);
 }
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get game():			Game			{	return appModel.game;				}
