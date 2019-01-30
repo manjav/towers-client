@@ -5,8 +5,10 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.text.BitmapFontTextFormat;
 import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -18,7 +20,7 @@ import starling.display.Image;
 */
 public class BattleCountdown extends IBattleSlider
 {
-public var timeLabel:RTLLabel;
+public var timeLabel:BitmapFontTextRenderer;
 
 public function BattleCountdown() 
 {
@@ -41,8 +43,12 @@ override protected function initialize():void
 	messageLabel.layoutData = new AnchorLayoutData(0, padding, NaN, padding, NaN, -22);
 	addChild(messageLabel);
 	
-	timeLabel = new RTLLabel("00:00", 1, "center");
-	timeLabel.layoutData = new AnchorLayoutData(NaN,padding,padding,padding, NaN, 22);
+	timeLabel = new BitmapFontTextRenderer();//imageDisplay.width, imageDisplay.width/2, "");
+	timeLabel.textFormat = new BitmapFontTextFormat(Assets.getFont(), 56, 0xFFFFFF, "center");
+	timeLabel.pixelSnapping = false;
+	
+	//timeLabel = new Bitmap("00:00", 1, "center");
+	timeLabel.layoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 22);
 	addChild(timeLabel);
 }
 override public function set value(val:Number):void 
