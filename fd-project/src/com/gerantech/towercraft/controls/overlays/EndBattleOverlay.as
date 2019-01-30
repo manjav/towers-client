@@ -65,7 +65,7 @@ override protected function initialize():void
 	hlayout.verticalAlign = VerticalAlign.MIDDLE;
 	hlayout.gap = padding;
 	
-	if( playerIndex > -1 && !isDraw )
+	if( playerIndex > -1 )
 	{
 		if( reward_2.getInt("score") > 0 )
 			appModel.battleFieldView.battleData.outcomes.push(new RewardData(stageWidth * 0.5, padding * 21, ResourceType.STARS, reward_2.getInt("score")));
