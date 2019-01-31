@@ -22,6 +22,7 @@ public static const ADMIN_SCREEN:String = "adminScreen";
 public static const SPECTATE_SCREEN:String = "spectateScreen";
 public static const INBOX_SCREEN:String = "inboxScreen";
 public static const ISSUES_SCREEN:String = "issuesScreen";
+public static const BANNEDS_SCREEN:String = "bannedsScreen";
 public static const OFFENDS_SCREEN:String = "offendsScreen";
 public static const PLAYERS_SCREEN:String = "playersScreen";
 public static const CHALLENGE_SCREEN:String = "challengeScreen";
@@ -51,6 +52,7 @@ override protected function initialize():void
 	addScreen(SPECTATE_SCREEN, 	SpectateScreen);
 	addScreen(INBOX_SCREEN, 	InboxScreen);
 	addScreen(ISSUES_SCREEN, 	IssuesScreen);
+	addScreen(BANNEDS_SCREEN,	BanndsScreen);
 	addScreen(OFFENDS_SCREEN,	OffendsScreen);
 	addScreen(PLAYERS_SCREEN, 	SearchPlayersScreen);
 	addScreen(CHALLENGE_SCREEN, ChallengeScreen);

@@ -50,7 +50,7 @@ protected function sfs_getBannedHander(e:SFSEvent):void
 	if( e.params.cmd != SFSCommands.OFFENDER_DATA_GET )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_getBannedHander);
-	offenderData = e.params.params;
+	offenderData  = e.params.params;
 	if( transitionState >= TransitionData.STATE_IN_COMPLETED )
 		insertData();
 }
@@ -144,7 +144,6 @@ protected function sfs_banResponseHander(e:SFSEvent):void
 	{
 		offenderData.putInt("time", offenderData.getInt("time") + 1 );
 		numBannedLabel.text = "سوابق: " + offenderData.getInt("time");
-		dispatchEventWith(Event.UPDATE, false, offenderData);
 	}
 }
 }

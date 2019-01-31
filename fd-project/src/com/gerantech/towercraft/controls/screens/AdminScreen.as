@@ -32,7 +32,7 @@ override protected function list_changeHandler(event:Event):void
 			appModel.navigator.pushScreen(Main.ISSUES_SCREEN);
 			break;
 		case "Offends":
-			appModel.navigator.getScreen(Main.OFFENDS_SCREEN).properties.reporter = -1;
+			appModel.navigator.getScreen(Main.OFFENDS_SCREEN).properties.target = 0;
 			appModel.navigator.pushScreen(Main.OFFENDS_SCREEN);
 			break;
 		case "Restore":
