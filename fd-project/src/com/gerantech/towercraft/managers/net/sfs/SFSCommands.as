@@ -28,6 +28,7 @@ public static const ISSUE_REPORT:String = "issueReport";
 public static const ISSUE_GET:String = "issueGet";
 public static const ISSUE_TRACK:String = "issueTrack";
 public static const BAN:String = "ban";
+public static const BANNED_DATA_GET:String = "bannedDataGet";
 public static const OFFENDER_DATA_GET:String = "offenderDataGet";
 public static const INFRACTIONS_GET:String = "infractionsGet";
 public static const INFRACTIONS_DELETE:String = "infractionsDelete";

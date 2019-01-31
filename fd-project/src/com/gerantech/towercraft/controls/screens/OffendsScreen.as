@@ -1,75 +1,90 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.InfractionItemRenderer;
 import com.gerantech.towercraft.controls.popups.AdminBanPopup;
-import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
-import feathers.layout.AnchorLayoutData;
-import starling.display.Quad;
 import starling.events.Event;
 
 public class OffendsScreen extends ListScreen
 {
-public var reporter:int = -1;
+public var target:int = 0;
 private var infractions:ListCollection;
 public function OffendsScreen(){}
 override protected function initialize():void
 {
-	title = "Infractions";
+	title = target != 0 ? ((target > 0 ? "Offends of " : "Reports of ") + target ) : "All Infractions";
 	super.initialize();
 	
 	infractions = new ListCollection();
 	requestInfractions();
 	
 	listLayout.paddingRight = listLayout.paddingLeft = listLayout.gap = 2;	
-	listLayout.hasVariableItemDimensions = true;
+	//listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new InfractionItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_eventsHandler);
 	list.addEventListener(Event.CANCEL, list_eventsHandler);
 	list.addEventListener(Event.READY, list_eventsHandler);
 	list.addEventListener(Event.OPEN, list_eventsHandler);
 	list.dataProvider = infractions;
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_ResponseHandler);
 }
 
 public function requestInfractions() : void 
 {
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
 	var params:SFSObject;
-	if( reporter != -1 )
+	if( target != 0 )
 	{
 		params = new SFSObject();
-		params.putInt("id", reporter);
+		params.putInt("id", target);
 	}
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.INFRACTIONS_GET, params);
 }
 
-protected function sfs_issuesResponseHandler(event:SFSEvent):void
+protected function sfs_ResponseHandler(event:SFSEvent):void
 {
-	if( event.params.cmd != SFSCommands.INFRACTIONS_GET )
-		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
-	var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("data"));
-	var infractionArray:Array = new Array();
-	for (var i:int = 0; i < issueList.size(); i++)
-		infractionArray.push(issueList.getSFSObject(i));
-	infractionArray.sort(function(a:ISFSObject, b:ISFSObject) : int 
+	if( event.params.cmd == SFSCommands.INFRACTIONS_GET )
 	{
-		//if( a.getInt("offender") > b.getInt("offender") ) return -1;
-		//if( a.getInt("offender") < b.getInt("offender") ) return 1;
-		if( a.getLong("offend_at") > b.getLong("offend_at") ) return -1;
-		if( a.getLong("offend_at") < b.getLong("offend_at") ) return 1;
-		return 0;
-	});
-	updateAll(infractionArray);
+		//SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_ResponseHandler);
+		var issueList:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("data"));
+		var infractionArray:Array = new Array();
+		for (var i:int = 0; i < issueList.size(); i++)
+			infractionArray.push(issueList.getSFSObject(i));
+		infractionArray.sort(function(a:ISFSObject, b:ISFSObject) : int 
+		{
+			//if( a.getInt("offender") > b.getInt("offender") ) return -1;
+			//if( a.getInt("offender") < b.getInt("offender") ) return 1;
+			if( a.getLong("offend_at") > b.getLong("offend_at") ) return -1;
+			if( a.getLong("offend_at") < b.getLong("offend_at") ) return 1;
+			return 0;
+		});
+		infractions.data = infractionArray;
+	}
+	
+	if( event.params.cmd == SFSCommands.BAN )
+	{
+		var res:SFSObject = event.params.params as SFSObject;
+		if( res.getInt("response") != MessageTypes.RESPONSE_SUCCEED )
+			return;
+		for( i = 0; i < infractions.length; i++ )
+		{
+			var it:SFSObject = infractions.getItemAt(i) as SFSObject;
+			if( it.getInt("offender") == res.getInt("id") )
+			{
+				it.putInt("proceed", 1);
+				infractions.updateItemAt(i);
+			}
+		}
+	}
+
 }
 
 private function updateAll(infractionArray:Array):void 
@@ -135,6 +150,12 @@ private function deleteItem(msg:SFSObject):void
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.INFRACTIONS_DELETE, params);
 	
 	infractions.removeItem(msg);
+}
+override public function dispose() : void
+{
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_ResponseHandler);
+	list.removeEventListeners();
+	super.dispose();
 }
 }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SmartFoxConfig>
   <!--Mandatory Settings -->
-  <!--<ip>127.0.0.1</ip>-->
+  <ip>127.0.0.1</ip>
   <!--<ip>192.168.1.118</ip> -->
   <!--<ip>192.168.14.221</ip>-->
   <!--<ip>192.168.43.158</ip>-->
-  <ip>185.216.127.44</ip>
+  <!--<ip>185.216.127.44</ip>-->
   <port>9933</port>
   <zone>towers</zone>
   <!-- End Mandatory Settings -->

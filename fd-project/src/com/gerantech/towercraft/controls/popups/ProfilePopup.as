@@ -4,7 +4,6 @@ import com.gerantech.towercraft.Main;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
@@ -40,7 +39,6 @@ import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
-import flash.utils.Dictionary;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
@@ -140,7 +138,7 @@ private function showProfile():void
 	{
 		var banButton:CustomButton = new CustomButton();
 		banButton.icon = Assets.getTexture("settings-5");
-		banButton.style = "danger";
+		banButton.style = CustomButton.STYLE_DANGER;
 		banButton.width = banButton.height = padding * 2;
 		banButton.layoutData = new AnchorLayoutData(NaN, padding * 0.5, padding * 0.5);
 		banButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
@@ -154,6 +152,27 @@ private function showProfile():void
 		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(issuesButton);
 		
+		var offendsButton:CustomButton = new CustomButton();
+		offendsButton.icon = Assets.getTexture("settings-3");
+		offendsButton.width = offendsButton.height = padding * 2;
+		offendsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 0.5);
+		offendsButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
+		addChild(offendsButton);
+		
+		var reportsButton:CustomButton = new CustomButton();
+		reportsButton.icon = Assets.getTexture("settings-315");
+		reportsButton.width = reportsButton.height = padding * 2;
+		reportsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 3);
+		reportsButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
+		addChild(reportsButton);
+		
+		var bannesButton:CustomButton = new CustomButton();
+		bannesButton.icon = Assets.getTexture("search-icon");
+		bannesButton.width = bannesButton.height = padding * 2;
+		bannesButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 5.5);
+		bannesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
+		addChild(bannesButton);
+		
 		function adminButtons_triggeredHandler(event:Event):void
 		{
 			if( event.currentTarget == banButton )
@@ -161,19 +180,34 @@ private function showProfile():void
 				appModel.navigator.addPopup(new AdminBanPopup(user.id));
 				return;
 			}
-			if( appModel.navigator.activeScreen is IssuesScreen )
+			
+			if( event.currentTarget == issuesButton )
 			{
-				IssuesScreen(appModel.navigator.activeScreen).reporter = user.id;
-				IssuesScreen(appModel.navigator.activeScreen).requestIssues();
+				if( appModel.navigator.activeScreen is IssuesScreen )
+				{
+					IssuesScreen(appModel.navigator.activeScreen).reporter = user.id;
+					IssuesScreen(appModel.navigator.activeScreen).requestIssues();
+					close();
+					return;
+				}
+				appModel.navigator.getScreen( Main.ISSUES_SCREEN ).properties.reporter = user.id;
+				appModel.navigator.pushScreen( Main.ISSUES_SCREEN );
 				close();
-				return;
 			}
-			appModel.navigator.getScreen( Main.ISSUES_SCREEN ).properties.reporter = user.id;
-			appModel.navigator.pushScreen( Main.ISSUES_SCREEN ) ;
-			close();
+			
+			if( event.currentTarget == offendsButton || event.currentTarget == reportsButton )
+			{
+				appModel.navigator.getScreen( Main.OFFENDS_SCREEN ).properties.target = user.id * (event.currentTarget == reportsButton ? -1 : 1);
+				appModel.navigator.pushScreen( Main.OFFENDS_SCREEN );
+			}
+			
+			if( event.currentTarget == bannesButton )
+			{
+				appModel.navigator.getScreen( Main.BANNEDS_SCREEN).properties.target = user.id;
+				appModel.navigator.pushScreen( Main.BANNEDS_SCREEN );
+			}
 		}
 	}
-
 	
 	var featureCollection:ListCollection = new ListCollection();
 	var xp:int;
