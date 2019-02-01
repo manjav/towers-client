@@ -67,14 +67,14 @@ override protected function initialize():void
 	
 	
 	var card:BuildingCard = new BuildingCard(true, false, false, false);
-	card.setData(building.type, building.get_level() - 1);
 	card.pivotY = card.height * 0.5;
 	card.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
 	card.width = 240;
 	card.height = card.width * 1.4;
 	card.y = (stage.stageHeight - card.height) * 0.5;
-	addChild(card);
 	card.scale = 1.6;
+	addChild(card);
+	card.setData(building.type, building.get_level() - 1);
 	
 	appModel.sounds.setVolume("main-theme", 0.3);
 	setTimeout(levelUp, 500);
