@@ -16,7 +16,7 @@ public function AchievedItem(texture:Texture, count:int, size:int = 130, prefix:
 	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), size, 0xFFFFFF, "left");
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.text = prefix + count;
-	labelDisplay.y = -size * 0.75;
+	labelDisplay.y = -size * 0.9;
 	addChild(labelDisplay);
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
