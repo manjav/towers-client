@@ -80,7 +80,7 @@ override protected function transitionInCompleted():void
 			var tutorialData:TutorialData = new TutorialData(SFSCommands.BUILDING_IMPROVE);
 			var places:PlaceDataList = new PlaceDataList();
 			var point:Rectangle = buttons[i].getBounds(appModel.battleFieldView);
-			places.push(new PlaceData( 0, point.x + point.width * 0.5, point.y + point.height, 0, 0, ""));
+			places.push(new PlaceData( 0, point.x + point.width * 0.5, point.y, 0, 0, ""));
 			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_TOUCH, null, places, 0, 200));
 			tutorials.show(tutorialData);
 		}

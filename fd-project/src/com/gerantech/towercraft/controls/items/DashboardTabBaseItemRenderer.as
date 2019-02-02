@@ -1,24 +1,16 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.buttons.IndicatorButton;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.overlays.HandPoint;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.PrefsTypes;
-
-import flash.utils.setTimeout;
-
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
-
-import starling.animation.Transitions;
-import starling.core.Starling;
+import flash.utils.setTimeout;
 import starling.display.Image;
 import starling.events.Event;
 
@@ -29,10 +21,9 @@ protected var _firstCommit:Boolean = true;
 protected var titleDisplay:ShadowLabel;
 protected var iconDisplay:Image;
 protected var badgeNumber:IndicatorButton;
-
 protected var padding:int;
 protected var dashboardData:TabItemData;
-private var tutorialArrow:TutorialArrow;
+private var handPoint:HandPoint;
 
 public function DashboardTabBaseItemRenderer(width:Number)
 {
@@ -147,8 +138,8 @@ override protected function setSelection(value:Boolean):void
 		badgeFactory();
 	}
 	
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
 }
 
 protected function updateSelection(value:Boolean, time:Number = -1):void
@@ -172,12 +163,13 @@ private function tutorialManager_finishHandler(event:Event):void
 }
 private function showTutorArrow () : void
 {
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
+	handPoint = null;
 	
-	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.layoutData = new AnchorLayoutData(-tutorialArrow.height, NaN, NaN, NaN, 0);
-	addChild(tutorialArrow);
+	handPoint = new HandPoint(width * 0.5, 0);
+//	handPoint.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -handPoint._height : NaN, NaN, 0);
+	setTimeout(addChild, 200, handPoint);
 }
 }
 }

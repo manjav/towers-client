@@ -1,17 +1,14 @@
 package com.gerantech.towercraft.controls.buttons 
 {
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.core.Starling;
-import starling.display.DisplayObject;
 
 /**
 * ...

@@ -210,7 +210,7 @@ private function showTutorial():void
 
 	if( player.get_battleswins() == 3 )
 	{
-		SimpleLayoutButton(getChildByName("battlesButton")).showTutorArrow(false);
+		SimpleLayoutButton(getChildByName("battlesButton")).showTutorHint();
 		return;
 	}
 	
@@ -241,7 +241,7 @@ private function showTutorial():void
 			
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_QUEST_FOCUS); 
 			//SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
-			questsButton.showTutorArrow(false);
+			questsButton.showTutorHint();
 		}
 		return;
 	}	

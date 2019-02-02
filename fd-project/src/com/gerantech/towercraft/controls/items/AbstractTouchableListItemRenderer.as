@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.overlays.HandPoint;
 import flash.geom.Point;
+import flash.utils.setTimeout;
 
 import starling.display.DisplayObjectContainer;
 import starling.events.Event;
@@ -14,13 +16,14 @@ public static const STATE_NORMAL:String = "normal";
 public static const STATE_DOWN:String = "down";
 public static const STATE_SELECTED:String = "selected";
 public static const STATE_DISABLED:String = "disabled";
+private static const HELPER_POINT:Point = new Point();
 public var stateNames:Vector.<String> = new <String> [ STATE_NORMAL, STATE_DOWN, STATE_SELECTED, STATE_DISABLED ];
-private var _currentState:String = STATE_NORMAL;
 
 protected var touch:Touch;
 protected var touchTarget:DisplayObjectContainer;
 private var touchID:int = -1;
-private static const HELPER_POINT:Point = new Point();
+private var handPoint:HandPoint;
+private var _currentState:String = STATE_NORMAL;
 
 public function AbstractTouchableListItemRenderer(){}
 override protected function initialize():void
@@ -104,6 +107,9 @@ override public function set isSelected(value:Boolean):void
 	super.isSelected = value;
 
 	currentState = value ? STATE_SELECTED : STATE_NORMAL;
+	
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
 }
 
 public function get currentState():String
@@ -131,6 +137,17 @@ public function set currentState(value:String):void
 	
 	if( skin )
 		skin.defaultTexture = skin.getTextureForState(_currentState);
+}
+
+
+protected function showTutorHint(offsetX:Number = 0, offsetY:Number = 0) : void 
+{
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
+	
+	handPoint = new HandPoint(width * 0.5 + offsetX, offsetY);
+//	handPoint.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -handPoint._height : NaN, NaN, 0);
+	setTimeout(addChild, 200, handPoint);
 }
 }
 }

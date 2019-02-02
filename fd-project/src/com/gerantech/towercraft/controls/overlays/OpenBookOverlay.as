@@ -178,11 +178,7 @@ protected function openAnimation_loopCompleteHandler(event:StarlingEvent) : void
 	if( event.eventObject.animationState.name == "wait" && event.eventObject.animationState.currentPlayTimes == 2 )
 	{
 		bookArmature.removeEventListener(EventObject.LOOP_COMPLETE, openAnimation_loopCompleteHandler);
-				
-		var placeDataList:PlaceDataList = new PlaceDataList();
-		placeDataList.push(new PlaceData(0, bookArmature.x, bookArmature.y - 10, 0, 0, ""));
-		var overlay:TutorialTouchOverlay = new TutorialTouchOverlay(new TutorialTask(TutorialTask.TYPE_TOUCH, "", placeDataList, 0, 0))
-		overlay.context = this;
+		var overlay:TutorialTouchOverlay = new TutorialTouchOverlay(null, bookArmature.x, bookArmature.y - 100, this);
 		appModel.navigator.addOverlay(overlay);
 	}
 }
@@ -282,7 +278,7 @@ private function showDetails() : void
 		var kira:MortalParticleSystem = new MortalParticleSystem("kira", 1);
 		kira.capacity = rewardRarity == 2 ? 200 : 80;
 		kira.speed = rewardRarity == 2 ? 180 : 30;
-		kira.startColor = rewardRarity == 2 ? new ColorArgb(0, 0.5, 1, 0.9) : new ColorArgb(1, 0.5, 0, 0.5);
+		kira.startColor = rewardRarity == 2 ? new ColorArgb(1, 0, 0.8, 0.9) : new ColorArgb(1, 0.5, 0, 0.5);
 		kira.x = card.width * 0.5;
 		kira.y = card.height * 0.5;
 		card.effectsLayer.addChild(kira);

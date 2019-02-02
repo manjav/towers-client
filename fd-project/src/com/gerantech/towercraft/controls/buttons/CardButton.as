@@ -5,20 +5,15 @@ import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gt.towers.constants.CardTypes;
-import com.gt.towers.constants.PrefsTypes;
-
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
-import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
-
+import flash.geom.Rectangle;
 public class CardButton extends SimpleLayoutButton
 {
 public var card:BuildingCard;
 private var type:int;
-
 private var tutorialArrow:TutorialArrow;
-
 public function CardButton(type:int)
 {
 	super();
@@ -37,9 +32,14 @@ override protected function initialize():void
 	iconDisplay.y = iconDisplay.pivotY = iconDisplay.height * 0.5;
 	addChild(iconDisplay);
 	iconDisplay.setData(card.type, card.level, 1);
-	
-	if( type == CardTypes.INITIAL )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
+	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
+}
+
+protected function createCompleteHandler(e:Event):void 
+{
+	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
+	if( card.type == CardTypes.INITIAL && player.inDeckTutorial())
+		showTutorHint(0, 100);
 }
 
 private function tutorialManager_finishHandler(event:Event):void
@@ -50,22 +50,6 @@ private function tutorialManager_finishHandler(event:Event):void
 	var tuteData:TutorialData = event.data as TutorialData;
 	if( tuteData.name == "deck_start" )
 		showTutorArrow();
-}
-private function showTutorArrow () : void
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	
-	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.4);
-	addChild(tutorialArrow);
-}
-
-override protected function trigger():void
-{
-	super.trigger();
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
 }
 }
 }

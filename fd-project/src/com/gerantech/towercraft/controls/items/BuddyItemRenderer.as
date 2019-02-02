@@ -1,25 +1,18 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.entities.Buddy;
 import com.smartfoxserver.v2.entities.variables.SFSBuddyVariable;
-
-import flash.text.engine.ElementFormat;
-
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
-
+import flash.text.engine.ElementFormat;
 import starling.events.Event;
 import starling.events.Touch;
 
@@ -32,7 +25,6 @@ private var nameShadowDisplay:RTLLabel;
 private var pointDisplay:RTLLabel;
 private var pointIconDisplay:ImageLoader;
 private var inviteDisplay:RTLLabel;
-
 private var _isInviteButton:Boolean;
 private var mySkin:ImageSkin;
 private var statusSkin:ImageSkin;
@@ -158,7 +150,7 @@ public function set isInviteButton(value:Boolean):void
 		return;
 	
 	mySkin.defaultTexture = _isInviteButton ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
-	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
+/*	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 }
 
 private function tutorials_completeHandler(event:Event):void
@@ -169,6 +161,6 @@ private function tutorials_completeHandler(event:Event):void
 	tutorialArrow.layoutData = new AnchorLayoutData(height, NaN, NaN, NaN, 0);
 	addChild(tutorialArrow);
 	UserData.instance.prefs.setInt(PrefsTypes.OFFER_33_FRIENDSHIP, player.prefs.getAsInt(PrefsTypes.OFFER_33_FRIENDSHIP)+50);
-}
+*/}
 } 
 }

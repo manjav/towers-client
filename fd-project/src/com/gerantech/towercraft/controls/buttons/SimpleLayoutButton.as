@@ -1,10 +1,9 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
+import com.gerantech.towercraft.controls.overlays.HandPoint;
 import feathers.controls.ButtonState;
 import feathers.events.FeathersEventType;
-import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 import flash.geom.Point;
 import flash.utils.getTimer;
@@ -31,7 +30,7 @@ protected var _touchBeginTime:int;
 protected var _hasLongPressed:Boolean = false;
 private var _currentState:String = ButtonState.UP;
 private var touchPointID:int;
-private var tutorialArrow:TutorialArrow;
+private var handPoint:HandPoint;
 
 [Event(name="triggered",type="starling.events.Event")]
 
@@ -95,9 +94,9 @@ protected function trigger():void
 		this.dispatchEventWith(Event.TRIGGERED, false, this);
 		appModel.sounds.addAndPlay("button");
 	}
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	tutorialArrow = null;
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
+	handPoint = null;
 }
 
 /**
@@ -202,15 +201,14 @@ protected function longPress_enterFrameHandler(event:Event):void
 	}
 }
 
-
-public function showTutorArrow(isUp:Boolean) : void 
+public function showTutorHint(offsetX:Number = 0, offsetY:Number = 0) : void 
 {
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
 	
-	tutorialArrow = new TutorialArrow(isUp);
-	tutorialArrow.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -tutorialArrow._height : NaN, NaN, 0);
-	setTimeout(addChild, 200, tutorialArrow);
+	handPoint = new HandPoint(width * 0.5 + offsetX, offsetY);
+//	handPoint.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -handPoint._height : NaN, NaN, 0);
+	setTimeout(addChild, 200, handPoint);
 }
 }
 }

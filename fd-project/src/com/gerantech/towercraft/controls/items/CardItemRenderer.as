@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.BuildingCard;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -34,7 +33,6 @@ private var showElixir:Boolean;
 private var scroller:ScrollContainer;
 private var cardLayoutData:AnchorLayoutData;
 private var newDisplay:ImageLoader;
-private var tutorialArrow:TutorialArrow;
 
 public function CardItemRenderer(showLevel:Boolean = true, showSlider:Boolean = true, showElixir:Boolean = false, scroller:ScrollContainer = null)
 {
@@ -122,7 +120,8 @@ override protected function commitData():void
 		cardDisplay.setData(_data.type, _data.level);
 	}
 
-	showTutorArrow();
+	if( player.inDeckTutorial() && buildingType == BuildingType.B11_BARRACKS )
+		showTutorHint(0, 100);
 }
 
 private function _owner_createHandler():void
@@ -138,25 +137,6 @@ private function scroller_scrollHandler(event:Event):void
 {
 	visible = onScreen(getBounds(stage));//trace(index, visible)
 }		
-
-private function showTutorArrow () : void
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	if( !player.inDeckTutorial() || buildingType != BuildingType.B11_BARRACKS || player.buildings.get(buildingType).get_level() > -1 )
-		return;
-	
-	tutorialArrow = new TutorialArrow(true);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.3);
-	addChild(tutorialArrow);
-}
-
-override public function set isSelected(value:Boolean):void
-{
-	super.isSelected = value
-	if( value && tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-}
 
 override public function set currentState(_state:String):void
 {
