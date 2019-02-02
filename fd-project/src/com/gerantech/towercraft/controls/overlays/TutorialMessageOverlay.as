@@ -46,7 +46,7 @@ override protected function transitionInCompleted():void
 	charachter.source =  appModel.assets.getTexture("mentor-" + side);
 	charachter.verticalAlign = VerticalAlign.BOTTOM;
 	charachter.layoutData = new AnchorLayoutData(NaN, side == 0?NaN:0, 0, side == 0?0:NaN);
-	charachter.width = stage.stageWidth * (side == 0?0.8:0.5);
+	charachter.width = stage.stageWidth * (side == 0?0.6:0.5);
 	//charachter.height = stage.stageHeight * (side == 0?0.45:0.5);
 	charachter.touchable = false;
 	addChild(charachter);
