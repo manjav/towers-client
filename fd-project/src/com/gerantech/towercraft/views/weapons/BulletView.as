@@ -134,6 +134,9 @@ protected function defaultHitDisplayFactory() : void
 	var hit:String = appModel.artRules.get(card.type, ArtRules.HIT);
 	if( hit == "" )
 		return;
+		
+	if( hit == "explode-" )
+		fieldView.shake();
 	
 	var hitDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("hits/" + hit), 45);
 	hitDisplay.pivotX = hitDisplay.width * 0.5;

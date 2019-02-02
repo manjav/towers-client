@@ -14,12 +14,14 @@ import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.GraphicMetrics;
+import com.gt.towers.utils.Point2;
 import com.gt.towers.utils.Point3;
 import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.filesystem.File;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Quad;
 import starling.display.Sprite;
@@ -28,7 +30,6 @@ import starlingbuilder.engine.DefaultAssetMediator;
 
 public class BattleFieldView extends Sprite
 {
-private var units:IntUnitMap;
 public var mapBuilder:MapBuilder;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
@@ -38,6 +39,8 @@ public var unitsContainer:Sprite;
 public var guiImagesContainer:Sprite;
 public var guiTextsContainer:Sprite;
 public var effectsContainer:Sprite;
+private var units:IntUnitMap;
+private var center:Point2;
 
 public function BattleFieldView() { super(); }
 public function initialize () : void 
@@ -86,8 +89,9 @@ public function createPlaces(battleData:BattleData) : void
 	AppModel.instance.aspectratio = Starling.current.stage.stageWidth / Starling.current.stage.stageHeight;
 	pivotX = BattleField.WIDTH * 0.5;
 	pivotY = BattleField.HEIGHT * 0.5;
-	x = Starling.current.stage.stageWidth * 0.5;
-	y = (Starling.current.stage.stageHeight - BattleFooter.HEIGHT * 0.5) * 0.5;
+	center = new Point2(Starling.current.stage.stageWidth * 0.5, (Starling.current.stage.stageHeight - BattleFooter.HEIGHT * 0.5) * 0.5);
+	x = center.x;
+	y = center.y;
 
 	battleData.battleField.state = BattleField.STATE_2_STARTED;
 	responseSender = new ResponseSender(battleData.room);
@@ -231,12 +235,19 @@ override public function dispose() : void
 	super.dispose();
 }
 
+public function shake() : void
+{return;
+	x = center.x + 5;
+	y = center.y + 5;
+	Starling.juggler.tween(this, 0.4, {x:center.x, y:center.y, transition:Transitions.EASE_IN_ELASTIC});
+}
+
 private function drawTile(x:Number, y:Number, color:int, width:int, height:int, alpha:Number = 0.1):void
 {
 	var q:Quad = new Quad(width - 2, height - 2, color);
 	q.alpha = alpha;
-	q.x = x - width / 2;
-	q.y = y - -height / 2;
+	q.x = x - width * 0.5;
+	q.y = y - -height * 0.5;
 	guiTextsContainer.addChild(q);
 }
 }
