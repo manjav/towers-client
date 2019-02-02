@@ -274,6 +274,14 @@ public function updateScores(round:int, winnerSide:int, allise:int, axis:int, un
 	
 	if( scoreBoard != null )
 		scoreBoard.update(allise, axis);
+	
+	// uniit focus only appeared  in touchdown battles
+	if( battleData.battleField.field.type == FieldData.TYPE_TOUCHDOWN )
+	{	
+		var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
+		if( unit != null )
+			unit.showWinnerFocus();
+	}
 
 	// prevent end of battle state
 	if( allise > 2 || axis > 2 || (battleData.battleField.now * 0.001 - battleData.battleField.startAt) > battleData.battleField.getTime(2) )
@@ -285,14 +293,6 @@ public function updateScores(round:int, winnerSide:int, allise:int, axis:int, un
 	
 	var side:int = winnerSide == battleData.battleField.side ? 0 : 1;
 	appModel.navigator.addPopup(new BattleTurnToast(side, winnerSide == battleData.battleField.side ? allise : axis));
-	
-	// uniit focus only appeared  in touchdown battles
-	if( battleData.battleField.field.type != FieldData.TYPE_TOUCHDOWN )
-		return;
-	
-	var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
-	if( unit != null )
-		unit.showWinnerFocus();
 	
 	setTimeout(appModel.navigator.addLog, 3000, loc("round_label", [loc("num_" + round)]));
 }
