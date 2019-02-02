@@ -35,8 +35,6 @@ public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
 public var roadsContainer:Sprite;
 public var unitsContainer:Sprite;
-public var elementsContainer:Sprite;
-public var buildingsContainer:Sprite;
 public var guiImagesContainer:Sprite;
 public var guiTextsContainer:Sprite;
 public var effectsContainer:Sprite;
@@ -51,8 +49,6 @@ public function initialize () : void
 	
 	roadsContainer = new Sprite();
 	unitsContainer = new Sprite();
-	elementsContainer = new Sprite();
-	buildingsContainer = new Sprite();
 	effectsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
 	guiTextsContainer = new Sprite();
@@ -99,7 +95,6 @@ public function createPlaces(battleData:BattleData) : void
 	
 	addChild(roadsContainer);
 	addChild(unitsContainer);
-	addChild(elementsContainer);
 
 	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
 	{
@@ -111,7 +106,6 @@ public function createPlaces(battleData:BattleData) : void
 		for ( var j:int = 0; j < battleData.battleField.tileMap.height; j ++ )
 			drawTile(i, j, battleData.battleField.tileMap.map[i][j], battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight);*/
 	
-	addChild(buildingsContainer);
 	addChild(effectsContainer);
 	addChild(guiImagesContainer);
 	addChild(guiTextsContainer);
