@@ -235,6 +235,9 @@ private function showTutorials() : void
 
 private function readyBattle() : void 
 {
+	if( player.get_battleswins() < 3 )
+		appModel.battleFieldView.mapBuilder.showEnemyHint();
+	
 	touchEnable = true;
 	hud.showDeck();
 }

@@ -136,19 +136,6 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	
 	if( fireDisplayFactory == null )
 		fireDisplayFactory = defaultFireDisplayFactory;
-		
-	if( card.type == 201 && side == 1 && player.get_battleswins() < 3 )
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-}
-
-protected function tutorials_tasksFinishHandler(event:Event):void 
-{
-	var tutorial:TutorialData = event.data as TutorialData;
-	if( tutorial.data == "start" )
-	{
-		showBattleHint(true);
-		setTimeout(showBattleHint, 10000, false);
-	}
 }
 
 override public function setState(state:int) : Boolean
@@ -486,9 +473,7 @@ override public function dispose() : void
 	if( healthDisplay != null )
 		healthDisplay.dispose();
 	showDieAnimation();
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 }
-
 
 public function set alpha(value:Number):void 
 {

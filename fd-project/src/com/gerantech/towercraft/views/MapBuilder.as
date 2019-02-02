@@ -26,6 +26,7 @@ static public const SUMMON_AREA_BOTH:int = 3;
 
 public var mainMap:Sprite;
 public var summonAreaMode:int;
+private var enemyHint:Sprite;
 private var summonHint:Image;
 private var movieClips:Vector.<MovieClip>;
 public function MapBuilder(assetMediator:IAssetMediator, forEditor:Boolean=false, template:Object=null, localization:ILocalization=null, tweenBuilder:ITweenBuilder=null) 
@@ -55,11 +56,17 @@ private function activeMovieClips(container:DisplayObjectContainer) : void
 		}
 		if( container.getChildAt(i) is DisplayObjectContainer )
 			activeMovieClips(container.getChildAt(i) as DisplayObjectContainer );
-			
+		
 		if( container.getChildAt(i).name == "summon-area" )
 		{
 			summonHint = container.getChildAt(i) as Image;
 			summonHint.visible = false;
+		}
+		
+		if( container.getChildAt(i).name == "focus-rects" )
+		{
+			enemyHint = container.getChildAt(i) as Sprite;
+			enemyHint.visible = false;
 		}
 	}
 }
@@ -94,6 +101,18 @@ public function changeSummonArea(isRight:Boolean) : void
 	summonAreaMode = isRight ? SUMMON_AREA_RIFGT : SUMMON_AREA_LEFT;
 	summonHint.texture = AppModel.instance.assets.getTexture("summon-1");
 	summonHint.scaleX = Math.abs(summonHint.scaleX) * (isRight ? -1 : 1);
+}
+
+public function showEnemyHint() : void
+{
+	if( enemyHint == null )
+		return;
+	enemyHint.visible = true;
+	Starling.juggler.tween(enemyHint, 1.5, {alpha:0, repeatCount:10, onComplete:hideHint});
+	function hideHint() : void
+	{
+		enemyHint.visible = true;
+	}
 }
 
 public function dispose() : void 
