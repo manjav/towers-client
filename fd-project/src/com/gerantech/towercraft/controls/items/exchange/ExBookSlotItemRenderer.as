@@ -1,14 +1,11 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.overlays.HandPoint;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -43,7 +40,7 @@ private var busyGroup:LayoutGroup;
 private var readyLabel:ShadowLabel;
 private var timeoutId:uint;
 private var hardLabel:ShadowLabel;
-private var tutorialArrow:TutorialArrow;
+private var handPoint:HandPoint;
 private var ribbonImage:ImageLoader;
 
 public function ExBookSlotItemRenderer(){}
@@ -84,11 +81,7 @@ override protected function commitData():void
 	}
 	else if( state == ExchangeItem.CHEST_STATE_WAIT && player.getResource(ResourceType.R21_BOOK_OPENED_BATTLE) == 0 )
 	{
-		var tutorialData:TutorialData = new TutorialData("open_slot");
-		tutorialData.data = "free";
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_slot_description"));
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-		tutorials.show(tutorialData);
+		showTutorArrow();
 	}
 	
 	// show book falling
@@ -331,29 +324,22 @@ private function achieve():void
 	appModel.battleFieldView.battleData.outcomes.removeAt(achieved);
 }
 
-private function tutorialManager_finishHandler(event:Event):void
-{
-	if( exchange.category != ExchangeType.C110_BATTLES || event.data.name != "open_slot" || stage == null )
-		return;
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-	showTutorArrow();
-}
 private function showTutorArrow () : void
 {
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
 	
-	tutorialArrow = new TutorialArrow(false);
-	tutorialArrow.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
-	addChild(tutorialArrow);
+	handPoint = new HandPoint(width * 0.5, 0);
+//	handPoint.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -handPoint._height : NaN, NaN, 0);
+	setTimeout(addChild, 200, handPoint);
 }
 override public function set isSelected(value:Boolean):void
 {
 	if( value == super.isSelected )
 		return;
 	super.isSelected = value;
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
+	if( handPoint != null )
+		handPoint.removeFromParent(true);
 }
 
 private function reset() : void

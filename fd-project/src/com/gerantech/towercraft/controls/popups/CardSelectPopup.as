@@ -2,9 +2,7 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
@@ -19,7 +17,7 @@ public class CardSelectPopup extends SimplePopup
 public var cardType:int;
 private var card:Card;
 private var _bounds:Rectangle;
-private var tutorialArrow:TutorialArrow;
+private var detailsButton:CustomButton;
 
 public function CardSelectPopup(){}
 override protected function initialize():void
@@ -52,7 +50,7 @@ override protected function transitionInCompleted():void
 	buildingIcon.setData(card.type, card.level, card.count());
 	
 	var upgradable:Boolean = card.upgradable();
-	var detailsButton:CustomButton = new CustomButton();
+	detailsButton = new CustomButton();
 	detailsButton.height = 120;
 	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
 	detailsButton.style = upgradable ? "normal" : "neutral";
@@ -62,7 +60,7 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
 	addChild(detailsButton);
 	
-	showTutorArrow();
+	showTutorHint();
 	
 	if( data )
 		return;
@@ -78,17 +76,11 @@ override protected function transitionInCompleted():void
 	Starling.juggler.tween(usingButton, 0.1, {delay:0.05, alpha:1});
 	
 }
-private function showTutorArrow () : void
+private function showTutorHint () : void
 {
-	if( cardType != CardTypes.INITIAL || player.getTutorStep() != PrefsTypes.T_015_DECK_FOCUS )
+	if( player.getTutorStep() != PrefsTypes.T_015_DECK_FOCUS )
 		return;
-	
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	
-	tutorialArrow = new TutorialArrow(true);
-	tutorialArrow.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, height * 0.6);
-	addChild(tutorialArrow);
+	detailsButton.showTutorHint();
 }
 
 protected function usingButton_triggeredHandler(event:Event):void

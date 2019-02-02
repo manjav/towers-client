@@ -106,7 +106,7 @@ override protected function transitionInCompleted():void
 	if( player.get_battleswins() < 4 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_012_SLOT_OPENED);
-		buttonDisplay.showTutorArrow(false);
+		buttonDisplay.showTutorHint();
 	}
 }
 
@@ -261,7 +261,7 @@ protected function batton_triggeredHandler(event:Event) : void
 	{
 		update(state);
 		if( player.get_battleswins() < 4 )
-			setTimeout(buttonDisplay.showTutorArrow, 100, false);
+			setTimeout(buttonDisplay.showTutorHint, 100);
 		return;
 	}
 	close();

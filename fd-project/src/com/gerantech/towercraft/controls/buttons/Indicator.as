@@ -1,9 +1,6 @@
 package com.gerantech.towercraft.controls.buttons
 {
-import com.gerantech.towercraft.controls.overlays.TutorialArrow;
 import com.gerantech.towercraft.controls.sliders.LabeledProgressBar;
-import com.gerantech.towercraft.controls.texts.LTRLable;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.SoundManager;
@@ -16,7 +13,6 @@ import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.utils.CoreUtils;
 import feathers.controls.ImageLoader;
-import feathers.controls.ProgressBar;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -26,8 +22,6 @@ import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
-import starling.text.TextField;
-import starling.text.TextFormat;
 
 public class Indicator extends SimpleLayoutButton
 {
@@ -42,7 +36,6 @@ public var autoApdate:Boolean;
 public var iconDisplay:ImageLoader;
 protected var progressBar:LabeledProgressBar;
 
-private var tutorialArrow:TutorialArrow;
 private var _displayValue:Number = Number.MIN_VALUE;
 
 public function Indicator(direction:String, type:int, hasProgressbar:Boolean = false, hasIncreaseButton:Boolean = true, autoApdate:Boolean = true)
@@ -238,24 +231,8 @@ private function getValue() : int
 	return type == ResourceType.R17_STARS ? exchanger.items.get(ExchangeType.C104_STARS).numExchanges : player.getResource(type);
 }
 
-public function showArrow():void
-{
-	if( tutorialArrow != null || !player.inTutorial() )
-		return;
-	
-	tutorialArrow = new TutorialArrow(true);
-	tutorialArrow.layoutData = new AnchorLayoutData(height, NaN, NaN, NaN, 0);
-	addChild(tutorialArrow);	
-}
-public function hideArrow():void
-{
-	if( tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-	tutorialArrow = null;
-}
 override protected function trigger():void
 {
-	hideArrow();
 	super.trigger();
 	if( type == ResourceType.R3_CURRENCY_SOFT || type == ResourceType.R4_CURRENCY_HARD || type == ResourceType.R1_XP || type == ResourceType.R2_POINT )
 		appModel.navigator.addChild(new BaseTooltip(loc("tooltip_indicator_" + type), iconDisplay.getBounds(stage)));
@@ -264,7 +241,6 @@ override protected function trigger():void
 }	
 private function addButton_triggerHandler(event:Event):void
 {
-	hideArrow();
 	if( type == ResourceType.R3_CURRENCY_SOFT || type == ResourceType.R4_CURRENCY_HARD )
 		appModel.navigator.gotoShop(type);
 	dispatchEventWith(Event.SELECT);

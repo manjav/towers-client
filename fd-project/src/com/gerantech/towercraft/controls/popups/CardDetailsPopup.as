@@ -121,7 +121,7 @@ override protected function transitionInCompleted():void
 		if( player.inDeckTutorial() )
 		{
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_017_CARD_OPENED );
-			upgradeButton.showTutorArrow(true);
+			upgradeButton.showTutorHint();
 		}
 	}
 

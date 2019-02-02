@@ -141,7 +141,7 @@ override protected function commitData():void
 	if( player.getTutorStep() == PrefsTypes.T_161_QUEST_FOCUS && quest.type == Quest.TYPE_3_BATTLES && quest.nextStep == 1 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_QUEST_SHOWN);
-		actionButton.showTutorArrow(false);
+		actionButton.showTutorHint();
 	}
 }
 

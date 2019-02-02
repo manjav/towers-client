@@ -3,7 +3,9 @@ package com.gerantech.towercraft.controls.buttons
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
+import starling.events.Event;
 import flash.geom.Rectangle;
 
 public class CardButton extends SimpleLayoutButton
@@ -35,24 +37,19 @@ override protected function initialize():void
 	addChild(iconDisplay);
 	iconDisplay.setData(card.type, card.level, 1);
 	
+	addEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
+}
+
+protected function createCompleteHandler(e:Event):void 
+{
+	removeEventListener(FeathersEventType.CREATION_COMPLETE, createCompleteHandler);
 	if( card.type == CardTypes.INITIAL && player.inDeckTutorial())
-		showTutorArrow(true);
+		showTutorHint(0, 100);
 }
 
 public function update():void 
 {
 	iconDisplay.setData(iconDisplay.type, player.cards.get(iconDisplay.type).level, player.resources.get(iconDisplay.type));
 }
-
-
-
-/*override public function set isSelected(value:Boolean):void
-{
-	super.isSelected = value
-	if( value && tutorialArrow != null )
-		tutorialArrow.removeFromParent(true);
-}*/
-
-
 }
 }
