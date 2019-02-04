@@ -69,7 +69,7 @@ override public function init():void
 	var gridRect:Rectangle = new Rectangle(124, 74, 18, 80);
 	var shadowRect:Rectangle = new Rectangle(25, 15, 54, 36);
 	var rightBattleButton:HomeNewButton = new HomeNewButton("battle-right", loc("button_battle_right"), 430, 186, gridRect, shadowRect);
-	addButton(rightBattleButton, "rightButton", stageWidth * (player.get_battleswins()<4?0.29:0.49) + rightBattleButton.width * 0.5, stageHeight * (player.get_battleswins()<4?0.57:0.66), 0.6);
+	addButton(rightBattleButton, "rightButton", stageWidth * (player.get_arena(0)<2?0.29:0.49) + rightBattleButton.width * 0.5, stageHeight * (player.get_battleswins()<4?0.57:0.66), 0.6);
 	
 	// bookline
 	var bookLine:HomeBooksLine = new HomeBooksLine();
@@ -93,7 +93,7 @@ override public function init():void
 	if( player.get_battleswins() < 4 )
 		return;
 
-	if( player.hasOperations )
+	if( player.get_arena(0) >= 2 )
 	{
 		var leftBattleButton:HomeNewButton = new HomeNewButton("battle-left", loc("button_battle_left"), 420, 186, gridRect, shadowRect);
 		addButton(leftBattleButton, "leftButton", stageWidth * 0.46 - leftBattleButton.width * 0.5, stageHeight * 0.66, 0.7);
