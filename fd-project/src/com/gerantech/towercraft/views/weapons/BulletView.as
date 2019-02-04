@@ -43,10 +43,14 @@ public function BulletView(battleField:BattleField, id:int, card:Card, side:int,
 
 override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 {
-	if( type == BattleEvent.STATE_CHANGE && state == GameObject.STATE_1_DIPLOYED )
+	if( type == BattleEvent.STATE_CHANGE )
 	{
-		appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
-		bulletDisplayFactory();
+		if( state == GameObject.STATE_1_DIPLOYED )
+		{
+			appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
+			bulletDisplayFactory();
+		}
+	//	else if ( state == GameObject.Sta )
 	}
 }
 
@@ -59,14 +63,14 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 		return false;
 
 	var _x:Number = this.getSideX();
-	var _y:Number = this.getSideY() + (this.z * BattleField.CAMERA_ANGLE);
+	var _y:Number = this.getSideY();
 	//if( card.type == 151 )
-	//	trace("setPosition"," x:" + this.x, " y:" + this.y, " z:" + this.z, " _y:" + _y);
+		//trace(id, "side:" + side," x:" + this.x, " y:" + this.y, " z:" + this.z, " _y:" + _y);
 	
 	if( bulletDisplay != null )
 	{
 		bulletDisplay.x = _x;
-		bulletDisplay.y = _y - card.sizeV * BattleField.CAMERA_ANGLE;	
+		bulletDisplay.y = _y + this.z * BattleField.CAMERA_ANGLE;
 	}
 	
 	if( shadowDisplay != null )
@@ -111,14 +115,14 @@ private function defaultBulletDisplayFactory() : void
 	var bullet:String = appModel.artRules.get(card.type, ArtRules.BULLET);
 	if( bullet == "" )
 		return;
-	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + bullet + "/"))
+	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + bullet + "/"));
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;
 	bulletDisplay.pivotY = bulletDisplay.height * 0.5;
-	bulletDisplay.loop = CardTypes.isSpell(card.type);
 	bulletDisplay.rotation = rotation;
 	fieldView.effectsContainer.addChild(bulletDisplay);
 	if( bulletDisplay.numFrames > 1 )
 	{
+		bulletDisplay.loop = true;
 		Starling.juggler.add(bulletDisplay);
 		bulletDisplay.play();
 	}
