@@ -253,17 +253,6 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	appModel.sounds.stopAll();
 	hud.stopTimers();
 
-	// show celebration tutorial steps
-	if( player.get_battleswins() == 0 && !skipCelebration )
-	{
-		var tutorialData:TutorialData = new TutorialData("tutor_battle_celebration");
-		tutorialData.data = data;
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_" + field.type + "_" + player.get_battleswins() + "_celebration"));
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-		tutorials.show(tutorialData);
-		return;
-	}
-
 	tutorials.removeAll();
 	
 	var rewards:ISFSArray = data.getSFSArray("outcomes");
