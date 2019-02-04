@@ -4,9 +4,11 @@ import com.gerantech.towercraft.controls.BattleDeckCard;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
 import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.MapBuilder;
 import com.gerantech.towercraft.views.units.CardPlaceHolder;
 import com.gt.towers.battle.BattleField;
@@ -35,18 +37,19 @@ public class BattleFooter extends TowersLayout
 {
 static public var HEIGHT:int = 380;
 public var stickerButton:CustomButton;
-public var cards:Vector.<BattleDeckCard>;
 private var padding:int;
 private var cardsContainer:LayoutGroup;
 private var draggableCard:Draggable;
 private var preparedCard:BuildingCard;
 private var placeHolder:CardPlaceHolder;
+private var cards:Vector.<BattleDeckCard>;
 private var touchId:int;
 private var elixirBar:ElixirBar;
 private var cardQueue:Vector.<int>;
 private var touchPosition:Point = new Point();
 private var selectedCard:BattleDeckCard;
 private var selectedCardPosition:Rectangle;
+private var task:TutorialTask;
 
 public function BattleFooter()
 {
@@ -118,11 +121,17 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 	if( !appModel.battleFieldView.battleData.room.containsVariable("bars") )
 		return;
 	var bars:SFSObject = appModel.battleFieldView.battleData.room.getVariable("bars").getValue() as SFSObject;
-	appModel.battleFieldView.battleData.battleField.elixirBar.set(0, bars.getInt("0"));
-	appModel.battleFieldView.battleData.battleField.elixirBar.set(1, bars.getInt("1"));
+	battleField.elixirBar.set(0, bars.getInt("0"));
+	battleField.elixirBar.set(1, bars.getInt("1"));
 	elixirBar.value = appModel.battleFieldView.battleData.getAlliseEllixir();
 	for( var i:int=0; i<cards.length; i++ )
 		cards[i].updateData();
+}
+
+public function updateScore(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void 
+{
+	if( player.get_battleswins() == 0 && battleField.numSummonedUnits < 4 && allise == 1)
+		showSummonTutorial(0, new Point(450, 650), 200);
 }
 
 private function createDeckItem(cardType:int) : void
@@ -132,6 +141,21 @@ private function createDeckItem(cardType:int) : void
 	cards.push(card);
 	cardsContainer.addChild(card);
 }
+
+public function transitionInCompleteHandler() : void 
+{
+	if( player.get_battleswins() < 3 )
+		showSummonTutorial(1, new Point(200, 1250), 500);
+}
+
+private function showSummonTutorial(index:Number, point:Point, delay:int) : void 
+{
+	var c:Rectangle = cards[index].getBounds(stage);
+	task = new TutorialTask(TutorialTask.TYPE_SWIPE, "", [new Point(c.x + cards[index].width * 0.5, c.y + cards[index].height * 0.5), point], delay, 1500);
+	var swipeoverlay:TutorialSwipeOverlay = new TutorialSwipeOverlay(task);
+	appModel.navigator.addChild(swipeoverlay);
+}
+
 
 protected function stage_touchHandler(event:TouchEvent) : void
 {
@@ -187,6 +211,12 @@ protected function stage_touchHandler(event:TouchEvent) : void
 			touchPosition.y -= (appModel.battleFieldView.y - BattleField.HEIGHT * 0.5);
 			if( validateSummonPosition() && appModel.battleFieldView.battleData.getAlliseEllixir() >= draggableCard.elixirSize )
 			{
+				if( task != null )
+				{
+					touchPosition.x = task.points[1].x - (appModel.battleFieldView.x - BattleField.WIDTH * 0.5);
+					touchPosition.y = task.points[1].y - (appModel.battleFieldView.y - BattleField.HEIGHT * 0.5);	
+				}
+				
 				cardQueue.push(selectedCard.cardType);
 				selectedCard.setData(cardQueue.shift());
 				preparedCard.setData(cardQueue[0]);
@@ -198,9 +228,24 @@ protected function stage_touchHandler(event:TouchEvent) : void
 				for( var i:int=0; i < cards.length; i++ )
 					cards[i].updateData();
 					
-				touchPosition.x = appModel.battleFieldView.battleData.battleField.side == 0 ? touchPosition.x : BattleField.WIDTH - touchPosition.x;
-				touchPosition.y = appModel.battleFieldView.battleData.battleField.side == 0 ? touchPosition.y : BattleField.HEIGHT - touchPosition.y;
+				touchPosition.x = battleField.side == 0 ? touchPosition.x : BattleField.WIDTH - touchPosition.x;
+				touchPosition.y = battleField.side == 0 ? touchPosition.y : BattleField.HEIGHT - touchPosition.y;
 				appModel.battleFieldView.responseSender.summonUnit(draggableCard.type, touchPosition.x, touchPosition.y);
+				
+				task = null;
+				if( player.get_battleswins() < 2 )
+				{
+					battleField.numSummonedUnits ++;
+					if ( battleField.numSummonedUnits == 1 ) // pause battle
+					{
+						battleField.pauseTime = battleField.now + 2500;
+						showSummonTutorial(1, new Point(300, 1200), 2000);
+					}
+					else if( battleField.numSummonedUnits == 2 ) // resume battle
+					{
+						battleField.pauseTime = (battleField.startAt + 2000) * 1000;
+					}
+				}
 			}
 			else
 			{
@@ -229,10 +274,11 @@ private function validateSummonPosition() : Boolean
 private function setTouchPosition(touch:Touch) : void 
 {
 	touchPosition.x = Math.max(BattleField.PADDING, Math.min(stageWidth - BattleField.PADDING, touch.globalX));
+	
 	var limitY:Number = -0.5;
 	if( !CardTypes.isSpell(selectedCard.cardType) )
 	{
-		if( appModel.battleFieldView.battleData.battleField.field.type == FieldData.TYPE_TOUCHDOWN )
+		if( battleField.field.type == FieldData.TYPE_TOUCHDOWN )
 		{
 			limitY = 0.15;
 		}
@@ -275,8 +321,13 @@ override public function dispose() : void
 	placeHolder.removeFromParent(true);
 	removeEventListener(TouchEvent.TOUCH, stage_touchHandler);
 }
+private function get battleField() : BattleField
+{
+	return appModel.battleFieldView.battleData.battleField;
 }
 }
+}
+
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.ImageLoader;

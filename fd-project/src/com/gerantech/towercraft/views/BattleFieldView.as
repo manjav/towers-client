@@ -181,7 +181,7 @@ public function updateUnits() : void
 		
 	var serverUnitIds:Array = SFSObject(battleData.room.getVariable("units").getValue()).getIntArray("keys");
 	var clientUnitIds:Vector.<int> = battleData.battleField.units.keys();
-	for ( var i:int = 0; i < clientUnitIds.length; i++ )
+	for( var i:int = 0; i < clientUnitIds.length; i++ )
 		if( serverUnitIds.indexOf(clientUnitIds[i]) == -1 )
 			battleData.battleField.units.get(clientUnitIds[i]).hit(100);
 	

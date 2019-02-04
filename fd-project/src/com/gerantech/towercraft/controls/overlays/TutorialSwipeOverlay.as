@@ -19,7 +19,7 @@ private var doubleSwipe:Boolean;
 private var doubleCount:int = 0;
 
 private var finger:Sprite;
-private var cardCadr:Image;
+private var cardFrame:Image;
 private var swipeNumText:BitmapFontTextRenderer;
 
 public function TutorialSwipeOverlay(task:TutorialTask)
@@ -62,13 +62,13 @@ protected override function transitionInCompleted():void
 	swipeNumText.pivotX = swipeNumText.width * 0.5;
 	swipeNumText.pivotY = swipeNumText.height * 0.5;
 	
-	cardCadr = new Image(Assets.getTexture("cards/tutor-frame"));
-	cardCadr.pivotX = cardCadr.width * 0.5;
-	cardCadr.pivotY = cardCadr.height * 0.5;
-	cardCadr.rotation = 0.3;
-	cardCadr.alpha = 0;
-	cardCadr.scale = 0;
-	finger.addChildAt(cardCadr, 0);
+	cardFrame = new Image(Assets.getTexture("cards/tutor-frame"));
+	cardFrame.pivotX = cardFrame.width * 0.5;
+	cardFrame.pivotY = cardFrame.height * 0.5;
+	cardFrame.rotation = 0.3;
+	cardFrame.alpha = 0;
+	cardFrame.scale = 0;
+	finger.addChildAt(cardFrame, 0);
 	
 	tweenCompleteCallback("stepLast")
 }
@@ -174,9 +174,9 @@ private function animate(name:String, startX:Number, startY:Number, endX:Number,
 	swipeNumText.visible = swipeIndex > -1;
 	
 	if( startRotation == 0 && endRotation != 0 )
-		Starling.juggler.tween(cardCadr, 0.4, {delay:0.8, alpha:1, scale:1, transition:Transitions.EASE_OUT});
+		Starling.juggler.tween(cardFrame, 0.4, {delay:0.8, alpha:1, scale:1, transition:Transitions.EASE_OUT});
 	if( startRotation != 0 && endRotation == 0 )
-		Starling.juggler.tween(cardCadr, 0.3, {delay:0.0, alpha:0, scale:0, transition:Transitions.EASE_IN});
+		Starling.juggler.tween(cardFrame, 0.3, {delay:0.0, alpha:0, scale:0, transition:Transitions.EASE_IN});
 }
 override public function close(dispose:Boolean = true):void 
 {

@@ -18,8 +18,6 @@ import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.views.units.UnitView;
@@ -37,8 +35,6 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
-import flash.geom.Point;
-import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -178,20 +174,8 @@ public function showDeck() : void
 	deck = new BattleFooter();
 	deck.layoutData = new AnchorLayoutData(NaN, 0, -500, 0);
 	deck.addEventListener(FeathersEventType.BEGIN_INTERACTION, stickerButton_triggeredHandler);
-	Starling.juggler.tween(deck.layoutData, 0.4, {delay:0.5, bottom:0, transition:Transitions.EASE_OUT, onComplete:deck_transitionInCompleteHandler});
+	Starling.juggler.tween(deck.layoutData, 0.4, {delay:0.5, bottom:0, transition:Transitions.EASE_OUT, onComplete:deck.transitionInCompleteHandler});
 	addChild(deck);
-	
-	function deck_transitionInCompleteHandler() : void
-	{
-		if( player.get_battleswins() > 1 )
-			return;
-		
-		var tutorialData:TutorialData = new TutorialData("swipe");
-		tutorialData.data = "swipe";
-		var c:Rectangle = deck.cards[1].getBounds(stage);
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_SWIPE, "", [new Point(c.x + deck.cards[1].width * 0.5, c.y + deck.cards[1].height * 0.5), new Point(200, 1200)], 500, 1500));
-		tutorials.show(tutorialData);
-	}
 }
 
 protected function createCompleteHandler(event:Event):void
@@ -272,6 +256,8 @@ public function updateScores(round:int, winnerSide:int, allise:int, axis:int, un
 	battleData.allis.putInt("score", allise);
 	battleData.axis.putInt("score", axis);
 	
+	if( deck != null )
+		deck.updateScore(round, winnerSide, allise, axis, unitId);
 	if( scoreBoard != null )
 		scoreBoard.update(allise, axis);
 	
