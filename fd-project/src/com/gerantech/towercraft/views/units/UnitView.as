@@ -406,54 +406,6 @@ private function showDieAnimation():void
 	dieDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(dieDisplay); dieDisplay.removeFromParent(true); });
 }
 
-// aim for tutorial
-public function showBattleHint(appear:Boolean) : void
-{
-	if( appear )
-	{
-		if( player.get_battleswins() == 0 )
-		{
-			aimDisplay = new Image(appModel.assets.getTexture("aim"));
-			aimDisplay.touchable = false;
-			aimDisplay.alignPivot();
-			aimDisplay.scale = 1.6;
-			aimDisplay.alpha = 0;
-			aimDisplay.x = __x;
-			aimDisplay.y = __y;
-			aimDisplay.color = Color.GREEN;
-			fieldView.guiImagesContainer.addChild(aimDisplay);
-			
-			scaleIn();
-			function scaleIn () : void {Starling.juggler.tween(aimDisplay, 1, {alpha:0.9, scale:1.2, transition:Transitions.EASE_IN_OUT, onComplete:scaleOut})}
-			function scaleOut() : void {Starling.juggler.tween(aimDisplay, 1, {alpha:0.2, scale:1.6, transition:Transitions.EASE_IN_OUT, onComplete:scaleIn })}
-			
-			enemyHint = new ShadowLabel(StrUtils.loc("tutor_headquarter_0_enemy_hint"), 1, 0, "center", null, true, "center", 1.4);
-			enemyHint.width = Starling.current.stage.width * 0.8;
-			enemyHint.pivotX = enemyHint.width * 0.5;
-			enemyHint.pivotY = enemyHint.height * 0.5;
-			enemyHint.x = Starling.current.stage.width * 0.50;
-			enemyHint.y = Starling.current.stage.height * 0.15;
-			enemyHint.scale = 0;
-			enemyHint.alpha = 0;
-			fieldView.guiTextsContainer.addChild(enemyHint);
-			Starling.juggler.tween(enemyHint, 0.6, {delay:1, alpha:1, scale:1, transition:Transitions.EASE_OUT_BACK});
-		}
-		if( player.get_battleswins() < 2 )
-			setTimeout(fieldView.guiTextsContainer.addChild, 2000, new BaseTooltip(StrUtils.loc("tutor_headquarter_" + player.get_battleswins() + "_enemy_balloon"), new Rectangle(__x,__y,1,1)));
-	}
-	else
-	{
-		if( aimDisplay != null )
-		{
-			enemyHint.removeFromParent();
-			
-			Starling.juggler.removeTweens(aimDisplay);
-			Starling.juggler.tween(aimDisplay, 0.6, {alpha:0.0, scaleX:1.0, scaleY:1.0, transition:Transitions.EASE_IN_BACK, onComplete:function():void{ aimDisplay.removeFromParent(true); aimDisplay = null; }});
-		}
-	}
-}
-
-
 override public function dispose() : void
 {
 	super.dispose();

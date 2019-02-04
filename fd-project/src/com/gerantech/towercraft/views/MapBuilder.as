@@ -1,6 +1,9 @@
 package com.gerantech.towercraft.views 
 {
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.utils.StrUtils;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.display.DisplayObjectContainer;
@@ -109,9 +112,22 @@ public function showEnemyHint() : void
 		return;
 	enemyHint.visible = true;
 	Starling.juggler.tween(enemyHint, 1.5, {alpha:0, repeatCount:10, onComplete:hideHint});
+	
+	var enemyHintText:ShadowLabel = new ShadowLabel(StrUtils.loc("tutor_headquarter_0_enemy_hint"), 1, 0, "center", null, true, "center", 1.4);
+	enemyHintText.width = Starling.current.stage.width * 0.8;
+	enemyHintText.pivotX = enemyHintText.width * 0.5;
+	enemyHintText.pivotY = enemyHintText.height * 0.5;
+	enemyHintText.x = Starling.current.stage.width * 0.45;
+	enemyHintText.y = Starling.current.stage.height * 0.15;
+	enemyHintText.scale = 0;
+	enemyHintText.alpha = 0;
+	AppModel.instance.battleFieldView.guiTextsContainer.addChild(enemyHintText);
+	Starling.juggler.tween(enemyHintText, 0.6, {delay:1, alpha:1, scale:1, transition:Transitions.EASE_OUT_BACK});
+
 	function hideHint() : void
 	{
-		enemyHint.visible = true;
+		enemyHintText.visible = true;
+		enemyHintText.removeFromParent(true);
 	}
 }
 
