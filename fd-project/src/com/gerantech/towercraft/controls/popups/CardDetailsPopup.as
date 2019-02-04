@@ -2,6 +2,8 @@ package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.buttons.ExchangeDButton;
+import com.gerantech.towercraft.controls.groups.ColorGroup;
 import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -85,18 +87,19 @@ override protected function transitionInCompleted():void
 	// remove new badge
 	if( card.get_level() == -1 )
 		dispatchEventWith(Event.UPDATE, false, cardType);
-	
-	var upgradeButton:ExchangeButton = new ExchangeButton();
+
+	var upgradeButton:ExchangeDButton = new ExchangeDButton();
 	upgradeButton.disableSelectDispatching = true;
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, 0);
 	upgradeButton.alpha = 0;
 	upgradeButton.width = 320;
-	upgradeButton.height = 110;
+	upgradeButton.height = 130;
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
-	upgradeButton.count = Card.get_upgradeCost(card._level);
+	upgradeButton.count = Card.get_upgradeCost(card.get_level());
 	upgradeButton.type = ResourceType.CURRENCY_SOFT;
-	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card._level);
+	upgradeButton.label = loc("upgrade_label") + "\n" + Card.get_upgradeCost(card.get_level());
+	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.get_level());
 	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 	Starling.juggler.tween(upgradeButton, 0.3, {delay:0.1, alpha:1, onComplete:upgradeButton_tweenCompleted});
@@ -108,12 +111,6 @@ override protected function transitionInCompleted():void
 			upgradeButton.showTutorHint();
 		}
 	}
-
-	var upgradeLabel:RTLLabel = new RTLLabel(loc("upgrade_title"), 1, "center", null, true, null, 0.7);
-	upgradeLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding + upgradeButton.height, NaN, 0);
-	upgradeLabel.alpha = 0;
-	Starling.juggler.tween(upgradeLabel, 0.3, {delay:0.4, alpha:1});
-	addChild(upgradeLabel);
 }
 
 override protected function transitionOutStarted():void
