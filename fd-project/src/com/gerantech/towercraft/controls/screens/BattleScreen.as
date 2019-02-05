@@ -311,7 +311,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	else
 	{
 		endOverlay = new EndBattleOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
-		if( playerIndex > -1 && prevArena != nextArena )
+		if( playerIndex > -1 && nextArena > 1 && prevArena != nextArena )
 			endOverlay.data = [prevArena, nextArena];
 	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
