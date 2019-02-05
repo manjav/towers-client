@@ -11,6 +11,7 @@ import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.FortuneSkipPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
@@ -138,9 +139,6 @@ public function process(item : ExchangeItem) : void
 		{
 			item.outcomes = new IntIntMap();
 			exchange(item, params);
-			
-			if( player.getTutorStep() == PrefsTypes.T_012_SLOT_OPENED )
-				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_013_BOOK_OPENED );
 			
 			return;
 		}
@@ -271,12 +269,12 @@ private function gotoDeckTutorial():void
 {
 	if( !player.inSlotTutorial() )
 		return;
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_015_DECK_FOCUS);
+	/*UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_015_DECK_FOCUS);
 	var tutorialData:TutorialData = new TutorialData("open_book_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_cards_2", null, 500, 1500, 4));
-	tutorials.show(tutorialData);
+	tutorials.show(tutorialData);*/
+	tutorials.dispatchEventWith(GameEvent.TUTORIAL_TASKS_FINISH, false, {name:"open_book_end"});
 }
-
 
 private function showAd():void
 {

@@ -165,7 +165,6 @@ private function showTutorArrow () : void
 {
 	if( handPoint != null )
 		handPoint.removeFromParent(true);
-	handPoint = null;
 	
 	handPoint = new HandPoint(width * 0.5, 0);
 //	handPoint.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -handPoint._height : NaN, NaN, 0);
