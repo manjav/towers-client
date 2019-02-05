@@ -77,7 +77,7 @@ override public function updateData():void
 	{
 		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C30_BUNDLES && exchanger.items.get(itemKeys[i]).expiredAt > timeManager.now )
 			bundles.add(itemKeys[i]);
-		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C20_SPECIALS )
+		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C20_SPECIALS && itemKeys[i] != ExchangeType.C29_DAILY_BATTLES )
 			specials.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
 			magics.add(itemKeys[i]);
