@@ -68,8 +68,8 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
-	shadowDisplay.width = card.sizeH * 2;
-	shadowDisplay.height = card.sizeH * 2 * BattleField.CAMERA_ANGLE;
+	shadowDisplay.width = GraphicMetrics.getShadowSize(card.type);
+	shadowDisplay.height = shadowDisplay.width * BattleField.CAMERA_ANGLE;
 	shadowDisplay.x = __x;
 	shadowDisplay.y = __y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
@@ -337,8 +337,8 @@ protected function defaultSummonEffectFactory() : void
 	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explode-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
-	summonDisplay.width = card.sizeH * 2.00;
-	summonDisplay.height = card.sizeH * 2.00 * BattleField.CAMERA_ANGLE;
+	summonDisplay.width = GraphicMetrics.getShadowSize(card.type) * 2.00;
+	summonDisplay.height = summonDisplay.width * BattleField.CAMERA_ANGLE;
 	summonDisplay.x = getSideX();
 	summonDisplay.y = getSideY();
 	fieldView.unitsContainer.addChildAt(summonDisplay, 0);
