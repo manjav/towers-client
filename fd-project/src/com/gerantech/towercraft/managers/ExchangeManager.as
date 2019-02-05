@@ -198,7 +198,7 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 			appModel.navigator.addOverlay(earnOverlay);
 		}
 	}
-	else if ( response == MessageTypes.RESPONSE_NOT_ENOUGH_REQS )
+	else if( response == MessageTypes.RESPONSE_NOT_ENOUGH_REQS )
 	{
 		appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
 		ExchangeSegment.SELECTED_CATEGORY = 3;
@@ -269,10 +269,11 @@ private function gotoDeckTutorial():void
 {
 	if( !player.inSlotTutorial() )
 		return;
-	/*UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_015_DECK_FOCUS);
+	/*
 	var tutorialData:TutorialData = new TutorialData("open_book_end");
 	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_cards_2", null, 500, 1500, 4));
 	tutorials.show(tutorialData);*/
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_015_DECK_FOCUS);
 	tutorials.dispatchEventWith(GameEvent.TUTORIAL_TASKS_FINISH, false, {name:"open_book_end"});
 }
 
