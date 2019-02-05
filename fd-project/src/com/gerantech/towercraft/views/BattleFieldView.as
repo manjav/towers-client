@@ -23,6 +23,8 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.filesystem.File;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.DisplayObject;
+import starling.display.DisplayObjectContainer;
 import starling.display.Quad;
 import starling.display.Sprite;
 import starling.events.Event;
@@ -34,11 +36,10 @@ public var mapBuilder:MapBuilder;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
-public var roadsContainer:Sprite;
 public var unitsContainer:Sprite;
-public var guiImagesContainer:Sprite;
-public var guiTextsContainer:Sprite;
-public var effectsContainer:Sprite;
+public var guiImagesContainer:DisplayObjectContainer;
+public var guiTextsContainer:DisplayObjectContainer;
+public var effectsContainer:DisplayObjectContainer;
 private var units:IntUnitMap;
 private var center:Point2;
 
@@ -50,7 +51,6 @@ public function initialize () : void
 	alignPivot();
 	scale = 0.8;
 	
-	roadsContainer = new Sprite();
 	unitsContainer = new Sprite();
 	effectsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
@@ -97,7 +97,6 @@ public function createPlaces(battleData:BattleData) : void
 	responseSender = new ResponseSender(battleData.room);
 	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
 	
-	addChild(roadsContainer);
 	addChild(unitsContainer);
 
 	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
@@ -118,6 +117,12 @@ public function createPlaces(battleData:BattleData) : void
 protected function timeManager_updateHandler(e:Event):void 
 {
 	battleData.battleField.update(e.data as int);
+	unitsContainer.sortChildren(unitSortMethod);
+}
+
+private function unitSortMethod(left:DisplayObject, right:DisplayObject) : Number
+{
+	return left.y - right.y;
 }
 
 public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Number, health:Number = -1, fixedPosition:Boolean = false) : void
