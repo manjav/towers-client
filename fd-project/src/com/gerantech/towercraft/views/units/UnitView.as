@@ -68,8 +68,8 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
-	shadowDisplay.width = card.sizeH * 2;
-	shadowDisplay.height = card.sizeH * 2 * BattleField.CAMERA_ANGLE;
+	shadowDisplay.width = GraphicMetrics.getShadowSize(card.type);
+	shadowDisplay.height = shadowDisplay.width * BattleField.CAMERA_ANGLE;
 	shadowDisplay.x = __x;
 	shadowDisplay.y = __y;
 	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
