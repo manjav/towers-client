@@ -337,8 +337,8 @@ protected function defaultSummonEffectFactory() : void
 	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explode-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
-	summonDisplay.width = card.sizeH * 2.00;
-	summonDisplay.height = card.sizeH * 2.00 * BattleField.CAMERA_ANGLE;
+	summonDisplay.width = GraphicMetrics.getShadowSize(card.type) * 2.00;
+	summonDisplay.height = summonDisplay.width * BattleField.CAMERA_ANGLE;
 	summonDisplay.x = getSideX();
 	summonDisplay.y = getSideY();
 	fieldView.unitsContainer.addChildAt(summonDisplay, 0);
