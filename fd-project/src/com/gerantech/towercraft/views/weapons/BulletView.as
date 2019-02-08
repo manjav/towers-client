@@ -7,10 +7,7 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.bullets.Bullet;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.utils.GraphicMetrics;
-import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
-import com.gt.towers.utils.Point3;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.display.MovieClip;
@@ -50,7 +47,22 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 			appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.ATTACK_SFX));
 			bulletDisplayFactory();
 		}
-	//	else if ( state == GameObject.Sta )
+		else if ( state == GameObject.STATE_5_SHOOTING )
+		{
+			hitDisplayFactory();
+			if( BattleField.DEBUG_MODE )
+			{
+				var damageAreaDisplay:Image = new Image(appModel.assets.getTexture("damage-range"));
+				damageAreaDisplay.pivotX = damageAreaDisplay.width * 0.5;
+				damageAreaDisplay.pivotY = damageAreaDisplay.height * 0.5;
+				damageAreaDisplay.width = card.bulletDamageArea * 2;
+				damageAreaDisplay.height = card.bulletDamageArea * 2 * BattleField.CAMERA_ANGLE;
+				damageAreaDisplay.x = getSideX();
+				damageAreaDisplay.y = getSideY();
+				fieldView.effectsContainer.addChild(damageAreaDisplay);
+				Starling.juggler.tween(damageAreaDisplay, 0.5, {scale:0, onComplete:damageAreaDisplay.removeFromParent, onCompleteArgs:[true]});
+			}
+		}
 	}
 }
 
@@ -80,34 +92,6 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 	} 
 
 	return true;
-}
-
-override public function dispose():void
-{
-	super.dispose();
-	hitDisplayFactory();
-
-	if( shadowDisplay != null )
-		shadowDisplay.removeFromParent(true);
-	
-	if( bulletDisplay != null )
-	{
-		Starling.juggler.remove(bulletDisplay);
-		bulletDisplay.removeFromParent(true);
-	}
-	
-	if( BattleField.DEBUG_MODE )
-	{
-		var damageAreaDisplay:Image = new Image(appModel.assets.getTexture("damage-range"));
-		damageAreaDisplay.pivotX = damageAreaDisplay.width * 0.5;
-		damageAreaDisplay.pivotY = damageAreaDisplay.height * 0.5;
-		damageAreaDisplay.width = card.bulletDamageArea * 2;
-		damageAreaDisplay.height = card.bulletDamageArea * 2 * BattleField.CAMERA_ANGLE;
-		damageAreaDisplay.x = getSideX();
-		damageAreaDisplay.y = getSideY();
-		fieldView.effectsContainer.addChild(damageAreaDisplay);
-		Starling.juggler.tween(damageAreaDisplay, 0.5, {scale:0, onComplete:damageAreaDisplay.removeFromParent, onCompleteArgs:[true]});
-	}
 }
 
 private function defaultBulletDisplayFactory() : void 
@@ -156,6 +140,21 @@ protected function defaultHitDisplayFactory() : void
 
 	appModel.sounds.addAndPlayRandom(appModel.artRules.getArray(card.type, ArtRules.HIT_SFX));
 }
+
+override public function dispose():void
+{
+	if( shadowDisplay != null )
+		shadowDisplay.removeFromParent(true);
+	
+	if( bulletDisplay != null )
+	{
+		Starling.juggler.remove(bulletDisplay);
+		bulletDisplay.removeFromParent(true);
+	}
+	
+	super.dispose();
+}
+
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get fieldView():		BattleFieldView {	return appModel.battleFieldView;	}
 }
