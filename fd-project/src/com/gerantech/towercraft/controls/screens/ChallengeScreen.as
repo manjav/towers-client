@@ -6,7 +6,6 @@ import com.gerantech.towercraft.controls.items.challenges.ChallengeAttendeeItemR
 import com.gerantech.towercraft.controls.items.challenges.ChallengePrizeItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
-import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -19,6 +18,7 @@ import com.gt.towers.others.Arena;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.others.Arena;
 import com.gt.towers.socials.Attendee;
 import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -322,7 +322,7 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 			return;
 		}
 		
-		var response:int = exchanger.exchange(Challenge.getExchangeItem(challenge.type, player.get_arena(0)), 0, 0);
+		var response:int = exchanger.exchange(Challenge.getJoinExchangeItem(challenge.type, player.get_arena(0)), 0, 0);
 		if( response != MessageTypes.RESPONSE_SUCCEED )
 		{
 			DashboardScreen.TAB_INDEX = 0;
