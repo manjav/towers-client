@@ -95,7 +95,7 @@ override protected function commitData():void
 			break;		
 		
 		default:
-            CELL_SIZE = (line.category == ExchangeType.C0_HARD || line.category == ExchangeType.C10_SOFT ? 520:360);
+            CELL_SIZE = (line.category == ExchangeType.C0_HARD || line.category == ExchangeType.C10_SOFT || line.category == ExchangeType.C70_TICKETS ? 520:360);
 			list.itemRendererFactory = function ():IListItemRenderer{ return new ExCurrencyItemRenderer();}
 			break;
 	}

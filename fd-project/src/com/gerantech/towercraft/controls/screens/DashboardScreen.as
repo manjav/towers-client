@@ -126,6 +126,10 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	indicatorSC.layoutData = new AnchorLayoutData(18, 360);
 	addChild(indicatorSC);
 	
+	var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
+	indicatorCT.layoutData = new AnchorLayoutData(18, 680);
+	addChild(indicatorCT);
+	
 	// tutorial mode
 	if( player.get_battleswins() == 0 )
 	{

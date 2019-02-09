@@ -71,6 +71,7 @@ override public function updateData():void
 	var bundles:ShopLine = new ShopLine(ExchangeType.C30_BUNDLES);
 	var specials:ShopLine = new ShopLine(ExchangeType.C20_SPECIALS);
 	var magics:ShopLine = new ShopLine(ExchangeType.C120_MAGICS);
+	var tickets:ShopLine = new ShopLine(ExchangeType.C70_TICKETS);
 	var hards:ShopLine = new ShopLine(ExchangeType.C0_HARD);
 	var softs:ShopLine = new ShopLine(ExchangeType.C10_SOFT);
 	for (var i:int=0; i<itemKeys.length; i++)
@@ -81,6 +82,8 @@ override public function updateData():void
 			specials.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
 			magics.add(itemKeys[i]);
+		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C70_TICKETS )
+			tickets.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C0_HARD && itemKeys[i] != ExchangeType.C0_HARD )//test
 			hards.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C10_SOFT )
@@ -88,7 +91,7 @@ override public function updateData():void
 	}
 	
 	scrollPaddingTop = ExCategoryItemRenderer.HEIGHT_C120_MAGICS;
-	var categoreis:Array = new Array( magics, hards, softs );
+	var categoreis:Array = new Array( magics, tickets, hards, softs );
 	if( specials.items.length > 0 )
 	{
 		categoreis.unshift(specials);
