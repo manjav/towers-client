@@ -114,12 +114,12 @@ override protected function initialize():void
 		{
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_018_CARD_UPGRADED );
 			exchangeManager.dispatchEventWith(FeathersEventType.END_INTERACTION, false, {type:-100});
-			
-			var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
-			buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
-			buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			addChild(buttonOverlay);
 		}
+		
+		var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
+		buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
+		buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+		addChild(buttonOverlay);
 	}
 }
 
