@@ -190,9 +190,9 @@ private function buttonFactory(state:int):void
 		}
 		else if( state == ExchangeItem.CHEST_STATE_READY )
 		{
-			updateButton(0, -1);
+			buttonDisplay.style = "normal";
+			updateButton(-1, -1);
 		}
-		
 	}
 	else
 	{
