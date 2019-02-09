@@ -98,6 +98,11 @@ package com.gerantech.towercraft.controls
 				ExchangeSegment.SELECTED_CATEGORY = 3;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
+			else if( resourceType == ResourceType.TICKET )
+			{
+				ExchangeSegment.SELECTED_CATEGORY = 2;
+				DashboardScreen(activeScreen).gotoPage(0);
+			}
 		}
 		
 		public function runBattle(cancelable:Boolean = false, requestField:FieldData = null, spectatedUser:String = null, isFriendly:Boolean = false):void

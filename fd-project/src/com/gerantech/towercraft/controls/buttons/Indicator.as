@@ -235,14 +235,14 @@ private function getValue() : int
 override protected function trigger():void
 {
 	super.trigger();
-	if( type == ResourceType.CURRENCY_SOFT || type == ResourceType.CURRENCY_HARD || type == ResourceType.XP || type == ResourceType.POINT )
+	if( type == ResourceType.XP || type == ResourceType.POINT || type == ResourceType.CURRENCY_SOFT || type == ResourceType.CURRENCY_HARD || type == ResourceType.TICKET )
 		appModel.navigator.addChild(new BaseTooltip(loc("tooltip_indicator_" + type), iconDisplay.getBounds(stage)));
 	else
 		dispatchEventWith(Event.SELECT);
 }	
 private function addButton_triggerHandler(event:Event):void
 {
-	if( type == ResourceType.CURRENCY_SOFT || type == ResourceType.CHALLENGES )
+	if( type == ResourceType.CURRENCY_SOFT || type == ResourceType.CURRENCY_HARD || type == ResourceType.TICKET )
 		appModel.navigator.gotoShop(type);
 	dispatchEventWith(Event.SELECT);
 }		
@@ -251,7 +251,7 @@ public function punch():void
 {
 	appModel.sounds.addAndPlay("res-disappear-" + type, null, SoundManager.CATE_SFX, SoundManager.SINGLE_FORCE_THIS, 1);
 	setData(minimum, -1, maximum, 1);
-	iconDisplay.scale = 2;
+	iconDisplay.scale = 1.5;
 	Starling.juggler.tween(iconDisplay, 0.5, {scale:1, transition:Transitions.EASE_OUT_BACK});
 }
 

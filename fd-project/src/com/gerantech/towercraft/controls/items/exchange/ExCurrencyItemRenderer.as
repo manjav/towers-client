@@ -22,7 +22,7 @@ override protected function commitData():void
 	super.commitData();
 	
 	iconDisplay = new ImageLoader();
-	iconDisplay.source = Assets.getTexture("currency-" + exchange.type, "gui");
+	iconDisplay.source = Assets.getTexture("shop/currency-" + exchange.type, "gui");
 	iconDisplay.layoutData = new AnchorLayoutData(0, NaN, NaN, NaN, 0);
     iconDisplay.width = 380;
 	addChild(iconDisplay);
