@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
+import feathers.controls.Screen;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
@@ -93,9 +94,12 @@ override protected function initialize():void
 
 override public function dispose() : void
 {
-	if ( elixirLine != null )
+	if( elixirLine != null )
 	{
-		var hud:BattleHUD = BattleScreen(appModel.navigator.activeScreen).hud;
+		var battleScreen:BattleScreen = appModel.navigator.activeScreen as BattleScreen;
+		if( battleScreen == null )
+			return;
+		var hud:BattleHUD = battleScreen.hud;
 		var mapped:Rectangle = elixirLine.getBounds(stage);
 		elixirLine.includeInLayout = false;
 		elixirLine.x = mapped.x;

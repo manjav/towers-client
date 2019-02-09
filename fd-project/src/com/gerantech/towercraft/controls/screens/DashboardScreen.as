@@ -12,7 +12,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import feathers.controls.AutoSizeMode;
@@ -126,6 +126,10 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	indicatorSC.layoutData = new AnchorLayoutData(18, 360);
 	addChild(indicatorSC);
 	
+	var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
+	indicatorCT.layoutData = new AnchorLayoutData(18, 680);
+	addChild(indicatorCT);
+	
 	// tutorial mode
 	if( player.get_battleswins() == 0 )
 	{
@@ -161,9 +165,10 @@ private function pageList_readyHandler(event:Event):void
 }
 protected function exchangeManager_endHandler(event:Event):void
 {
-	TabItemData(segmentsCollection.getItemAt(1)).update();
-	//segmentsCollection.updateItemAt(1);
-	segmentsCollection.updateItemAt(1);
+	if( ExchangeType.getCategory(event.data.type) == ExchangeType.C110_BATTLES )//open first books
+		segmentsCollection.updateItemAt(1);
+	else if( event.data.type == -100 )//upgrade initial card
+		segmentsCollection.updateItemAt(1);
 }
 private function getListData():ListCollection
 {

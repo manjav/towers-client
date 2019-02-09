@@ -76,7 +76,6 @@ override protected function commitData():void
 	}
 	else if( state == ExchangeItem.CHEST_STATE_READY && player.getTutorStep() == PrefsTypes.T_012_SLOT_OPENED )
 	{
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_013_BOOK_OPENED);
 		showTutorArrow();
 	}
 	else if( state == ExchangeItem.CHEST_STATE_WAIT && player.getResource(ResourceType.R21_BOOK_OPENED_BATTLE) == 0 )
@@ -93,8 +92,6 @@ private function createComplteHandler(event:Event):void
 	event.currentTarget.removeEventListener(FeathersEventType.CREATION_COMPLETE, createComplteHandler);
 	setTimeout(achieve, 10);
 }
-
-
 
 /**
  * add, remove or update armature depends on type and state
