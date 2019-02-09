@@ -370,7 +370,7 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 	if( fireDisplay == null )
 	{
 		//trace("type", card.type, "  rotation", rotation, fireOffset);
-		fireDisplay = new MovieClip(appModel.assets.getTextures("fires/" + fire), 45);
+		fireDisplay = new MovieClip(appModel.assets.getTextures("fires/" + fire + "/"), 45);
 		fireDisplay.pivotX = fireDisplay.width *	0.5;
 		fireDisplay.pivotY = fireDisplay.height *	0.9;
 		fireDisplay.width = card.sizeH * 3.5;
