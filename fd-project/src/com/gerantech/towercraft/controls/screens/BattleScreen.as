@@ -41,14 +41,13 @@ import starling.events.Event;
 public class BattleScreen extends BaseCustomScreen
 {
 public static var IN_BATTLE:Boolean;
-
 public var index:int;
 public var battleType:String;
 public var isFriendly:Boolean;
 public var spectatedUser:String;
 public var waitingOverlay:BattleWaitingOverlay;
-
 public var hud:BattleHUD;
+
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
 
@@ -207,7 +206,7 @@ private function showTutorials() : void
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_battleswins() != 0 && player.get_battleswins() != 3 )
+	if( player.get_battleswins() > 3 )
 	{
 		readyBattle();
 		return;

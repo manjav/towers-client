@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.buttons.HomeNewButton;
 import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
 import com.gerantech.towercraft.controls.buttons.HomeStarsButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.OfferView;
 import com.gerantech.towercraft.controls.groups.Profile;
@@ -13,12 +14,9 @@ import com.gerantech.towercraft.controls.popups.SelectNamePopup;
 import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.ExchangeType;
@@ -208,11 +206,11 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	/*if( player.get_battleswins() == 3 )
+	if( player.get_battleswins() <= 3 && player.getTutorStep() >= PrefsTypes.T_018_CARD_UPGRADED )
 	{
-		SimpleLayoutButton(getChildByName("rightButton")).showTutorArrow(false);
+		SimpleLayoutButton(getChildByName("rightButton")).showTutorHint();
 		return;
-	}*/
+	}
 	
 	if( player.get_battleswins() > 3 && player.nickName == "guest" )
 	{

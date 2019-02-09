@@ -78,9 +78,8 @@ override protected function transitionInCompleted():void
 }
 private function showTutorHint () : void
 {
-	if( player.getTutorStep() != PrefsTypes.T_015_DECK_FOCUS )
-		return;
-	detailsButton.showTutorHint();
+	if( player.inDeckTutorial() && card.upgradable() )
+		detailsButton.showTutorHint();
 }
 
 protected function usingButton_triggeredHandler(event:Event):void
