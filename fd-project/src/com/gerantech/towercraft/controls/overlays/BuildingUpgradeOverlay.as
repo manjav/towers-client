@@ -7,7 +7,6 @@ import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gt.towers.battle.units.Card;
@@ -19,6 +18,7 @@ import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.utils.setTimeout;
@@ -31,12 +31,7 @@ public class BuildingUpgradeOverlay extends BaseOverlay
 public var card:Card;
 private var initializeStarted:Boolean;
 private var shineArmature:StarlingArmatureDisplay;
-
-public function BuildingUpgradeOverlay()
-{
-	super();
-}
-
+public function BuildingUpgradeOverlay(){ super(); }
 override protected function initialize():void
 {
 	if( stage != null )
@@ -118,15 +113,8 @@ override protected function initialize():void
 		if( player.inTutorial() && card.type == CardTypes.INITIAL && card.level == 2 )
 		{
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_018_CARD_UPGRADED );
+			exchangeManager.dispatchEventWith(FeathersEventType.END_INTERACTION, false, {type:-100});
 			
-			// dispatch tutorial event
-			var tutorialData:TutorialData = new TutorialData("deck_end");
-			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_deck_0", null, 500, 1500, 0));
-			tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
-			tutorials.show(tutorialData);
-		}
-		else
-		{
 			var buttonOverlay:SimpleLayoutButton = new SimpleLayoutButton();
 			buttonOverlay.addEventListener(Event.TRIGGERED, buttonOverlay_triggeredHandler);
 			buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);

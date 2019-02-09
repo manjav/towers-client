@@ -41,26 +41,20 @@ override protected function commitData():void
 		height = _owner.height;
 		_firstCommit = false;
 		
-		// show focus in tutorial 
-		if( player.inTutorial() || player.tutorialMode == 1 )
-		{
-			if( index == 1 )
-			{
-				if( player.inDeckTutorial() || player.getTutorStep() == PrefsTypes.T_018_CARD_UPGRADED )
-					setTimeout(showTutorArrow, 500);
-				else 
-					tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-			}
-			else if( index == 2 )
-			{
-				tutorials.addEventListener("upgrade", tutorialManager_upgradeHandler);
-			}
-		}
 		appModel.navigator.addEventListener("dashboardTabChanged", navigator_dashboardTabChanged);
 	}
 	super.commitData();
 	dashboardData = _data as TabItemData;
 	
+	// show focus in tutorial 
+	if( DashboardScreen.TAB_INDEX != index && player.inTutorial() )
+	{
+		if( index == 1 && player.inDeckTutorial() )
+			showTutorHint();
+		else if( index == 2 && player.getTutorStep() == PrefsTypes.T_018_CARD_UPGRADED )
+			showTutorHint();
+	}
+
 	titleFactory();
 	iconFactory();
 	badgeFactory();
@@ -69,7 +63,10 @@ override protected function commitData():void
 protected function iconFactory() : Image 
 {
 	if( iconDisplay != null )
+	{
+		iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
 		return null;
+	}
 
 	iconDisplay = new Image(Assets.getTexture("home/tab-" + dashboardData.index, "gui"));
 	iconDisplay.alignPivot();
@@ -146,29 +143,15 @@ protected function updateSelection(value:Boolean, time:Number = -1):void
 {
 }
 
-private function tutorialManager_upgradeHandler(event:Event):void
-{
-	if( index != 2 || stage == null )
-		return;
-	tutorials.removeEventListener("upgrade", tutorialManager_upgradeHandler);
-	showTutorArrow();
-}
-private function tutorialManager_finishHandler(event:Event):void
-{
-	if( !player.inDeckTutorial() || event.data.name != "open_book_end" || stage == null )
-		return;
-	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
-	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorialManager_finishHandler);
-	showTutorArrow();
-}
-private function showTutorArrow () : void
+private function showTutorHint () : void
 {
 	if( handPoint != null )
 		handPoint.removeFromParent(true);
-	
+	if( isSelected )
+		return;
 	handPoint = new HandPoint(width * 0.5, 0);
 //	handPoint.layoutData = new AnchorLayoutData(isUp ? NaN : 0, NaN, isUp ? -handPoint._height : NaN, NaN, 0);
-	setTimeout(addChild, 200, handPoint);
+	addChild(handPoint);
 }
 }
 }

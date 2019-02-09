@@ -14,8 +14,6 @@ import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.tutorials.TutorialData;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gt.towers.constants.ExchangeType;
@@ -139,7 +137,6 @@ public function process(item : ExchangeItem) : void
 		{
 			item.outcomes = new IntIntMap();
 			exchange(item, params);
-			
 			return;
 		}
 		else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
@@ -180,7 +177,6 @@ public function process(item : ExchangeItem) : void
 
 private function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
-
 	if( item.category == ExchangeType.C100_FREES )
 		exchanger.findRandomOutcome(item, timeManager.now);
 	var bookType:int = -1;
@@ -188,12 +184,15 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 		bookType = item.containBook(); // reterive a book from bundle. if not found show golden book
 	else 
 		bookType = item.category == ExchangeType.BOOKS_50 ? item.type : item.outcome; // reserved because outcome changed after exchange
-	
+
 	var response:int = exchanger.exchange(item, timeManager.now, params.containsKey("hards") ? params.getInt("hards") : 0);
 	if( response == MessageTypes.RESPONSE_SUCCEED )
 	{
 		if( ( item.isBook() && ( item.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY || item.category == ExchangeType.C100_FREES ) ) || ( item.category == ExchangeType.C30_BUNDLES && ExchangeType.getCategory(bookType) == ExchangeType.BOOKS_50 ) )
 		{
+			if( item.category == ExchangeType.C110_BATTLES )
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_013_BOOK_OPENED);
+			
 			earnOverlay = item.category == ExchangeType.C100_FREES ? new FortuneOverlay(bookType) : new OpenBookOverlay(bookType);
 			appModel.navigator.addOverlay(earnOverlay);
 		}
