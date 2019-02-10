@@ -133,9 +133,7 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 		return;
 	}
 	
-	var card:Card = battleData.battleField.decks.get(side).get(type);
-	if( card == null )
-		card = new Card(battleData.battleField.games[side], type, level);
+	var card:Card = getCard(side, type, level);
 	if( CardTypes.isSpell(type) )
 	{
 		var offset:Point3 = GraphicMetrics.getSpellStartPoint(card.type);
@@ -153,6 +151,17 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 	battleData.battleField.units.set(id, u);
 	
 	AppModel.instance.sounds.addAndPlayRandom(AppModel.instance.artRules.getArray(type, ArtRules.SUMMON_SFX), SoundManager.CATE_SFX, SoundManager.SINGLE_BYPASS_THIS);
+}
+
+private function getCard(side:int, type:int, level:int) : Card
+{
+	var ret:Card = battleData.battleField.decks.get(side).get(type);
+	if( ret == null )
+	{
+		trace("create new card while battling ==> side:", side, "type:", type, "level:", level);
+		ret = new Card(battleData.battleField.games[side], type, level);
+	}
+	return ret;
 }
 
 private function findPathHandler(e:BattleEvent):void 
