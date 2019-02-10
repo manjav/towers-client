@@ -10,7 +10,9 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
+import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.units.Card;
+import com.gt.towers.battle.units.Unit;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.GraphicMetrics;
@@ -19,6 +21,7 @@ import com.gt.towers.utils.Point3;
 import com.gt.towers.utils.maps.IntUnitMap;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.filesystem.File;
 import starling.animation.Transitions;
@@ -192,24 +195,28 @@ public function updateUnits() : void
 {
 	if( !battleData.room.containsVariable("units") )
 		return;
-		
-	var serverUnitIds:Array = SFSObject(battleData.room.getVariable("units").getValue()).getIntArray("keys");
+	
+	var unitData:SFSObject = battleData.room.getVariable("units").getValue() as SFSObject;
+	var serverUnitIds:Array = unitData.getIntArray("keys");
 	var clientUnitIds:Vector.<int> = battleData.battleField.units.keys();
 	for( var i:int = 0; i < clientUnitIds.length; i++ )
 		if( serverUnitIds.indexOf(clientUnitIds[i]) == -1 )
 			battleData.battleField.units.get(clientUnitIds[i]).hit(100);
 	
-	/*var unitsList:SFSArray = battleData.room.getVariable("units").getValue() as SFSArray;
-	for( var i:int=0; i < unitsList.size(); i++ )
+	if( !unitData.containsKey("testData") )
+		return;
+	
+	var serverUnitTests:Array = unitData.getUtfStringArray("testData");
+	for( i = 0; i < serverUnitTests.length; i++ )
 	{
-		var vars:Array = unitsList.getText(i).split(",");// id, x, y, health
+		var vars:Array = serverUnitTests[i].split(",");// unit.id + "," + unit.x + "," + unit.y + "," + unit.health + "," + unit.card.type + "," + unit.side + "," + unit.card.level
 		if( units.exists(vars[0]) )
 		{
 			units.get(vars[0]).setPosition(vars[1], vars[2], GameObject.NaN);
 		}
 		else
 		{
-			var u:UnitView = new UnitView(vars[0], vars[4], 1, vars[5], vars[1], vars[2], 0);
+			var u:UnitView = new UnitView(getCard(vars[5], vars[4], vars[6]), vars[0], vars[5], vars[1], vars[2], 0);
 			u.alpha = 0.3;
 			u.isDump = true;
 			u.movable = false;
@@ -217,26 +224,15 @@ public function updateUnits() : void
 		}
 	}
 
-	var us:Vector.<Unit> = units.values();
-	for (i = 0; i < us.length; i++)
+	clientUnitIds = units.keys();
+	for( i = 0; i < clientUnitIds.length; i++ )
 	{
-		var id:int = getu(us[i].id);
-		if( id == -1 )
+		if( serverUnitIds.indexOf(clientUnitIds[i]) == -1 )
 		{
-			us[i].dispose();
-			units.remove(us[i].id);
+			units.get(clientUnitIds[i]).dispose();
+			units.remove(clientUnitIds[i]);
 		}
 	}
-	function getu(id:int) : int
-	{
-		for (var j:int = 0; j < unitsList.size(); j++)
-		{
-			vars = unitsList.getText(j).split(",");// id, x, y, health
-			if( vars[0] == us[i].id )
-				return us[i].id;
-		}
-		return -1;
-	}*/
 }
 
 override public function dispose() : void
