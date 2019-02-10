@@ -285,7 +285,7 @@ static public function ArrayToMap(array:Array):IntIntMap
 {
 	var ret :IntIntMap = new IntIntMap();
 	for (var i:int = 0; i < array.length; i++)
-		ret.set(i, array[i]);
+		ret.set(i, int(array[i]));
 	return ret;
 }
 static public function ToMap(array:ISFSArray) : IntIntMap
