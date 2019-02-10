@@ -57,7 +57,7 @@ override protected function initialize():void
 	}
 	
 	// allise elements
-	name = battleData.allis.getText("name") == "guest" ? loc("guest_label") : battleData.allis.getText("name");
+	name = battleData.allise.getText("name") == "guest" ? loc("guest_label") : battleData.allise.getText("name");
 	alliseHeader = new BattleHeader(name, true, -1);
 	alliseHeader.width = padding * 16;
 	alliseHeader.layoutData = new AnchorLayoutData(800, 100, NaN, 100);

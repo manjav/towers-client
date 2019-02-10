@@ -73,7 +73,7 @@ private function initServerData(sfsObj:SFSObject):void
 		element = elements.getSFSObject(i);
 		initData.resources.set(element.getInt("type"), element.getInt("count"));
 		if( ResourceType.isCard(element.getInt("type")) )
-			initData.buildingsLevel.set(element.getInt("type"), element.getInt("level"));
+			initData.cardsLevel.set(element.getInt("type"), element.getInt("level"));
 	}
 	
 	elements = sfsObj.getSFSArray("operations");

@@ -95,7 +95,7 @@ public function changeSummonArea(isRight:Boolean) : void
 {
 	if( summonHint == null )
 		return;
-	if( AppModel.instance.battleFieldView.battleData.allis.getInt("score") > 1 )
+	if( AppModel.instance.battleFieldView.battleData.allise.getInt("score") > 1 )
 	{
 		summonAreaMode = SUMMON_AREA_BOTH;
 		summonHint.texture = AppModel.instance.assets.getTexture("summon-2");

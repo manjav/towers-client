@@ -22,7 +22,7 @@ public var room:Room;
 public var singleMode:Boolean;
 public var battleField:BattleField;
 public var isLeft:Boolean;
-public var allis:ISFSObject;
+public var allise:ISFSObject;
 public var axis:ISFSObject;
 public var outcomes:Vector.<RewardData>;
 public var stars:Vector.<int>;
@@ -33,7 +33,7 @@ public function BattleData(data:ISFSObject)
 	this.sfsData = data;
 	this.room = SFSConnection.instance.getRoomById(data.getInt("roomId"));
 	this.singleMode = data.getBool("singleMode");
-	this.allis = data.getSFSObject("p" + data.getInt("side"));
+	this.allise = data.getSFSObject("p" + data.getInt("side"));
 	this.axis = data.getSFSObject(data.getInt("side") == 0 ? "p1" : "p0");
 	
 	var axisGame:Game = new Game();

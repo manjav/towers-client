@@ -99,8 +99,8 @@ override protected function initialize():void
 	
 	if( SFSConnection.instance.mySelf.isSpectator )
 	{
-		_name = battleData.allis.getUtfString("name");
-		_point = battleData.allis.getInt("point");
+		_name = battleData.allise.getUtfString("name");
+		_point = battleData.allise.getInt("point");
 		var meHeader:AttendeeHeader = new AttendeeHeader(_name, player.admin ? _point : 0);
 		meHeader.layoutData = new AnchorLayoutData(NaN, NaN, 0, 0 );
 		addChild(meHeader);
@@ -166,7 +166,7 @@ override protected function initialize():void
 	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, NaN, -BattleFooter.HEIGHT * 0.2);
 	//scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
 	addChild(scoreBoard);
-	updateScores(1, 0, battleData.allis.getInt("score"), battleData.axis.getInt("score"), -1);
+	updateScores(1, 0, battleData.allise.getInt("score"), battleData.axis.getInt("score"), -1);
 }
 
 public function showDeck() : void
@@ -220,7 +220,7 @@ protected function timeManager_changeHandler(event:Event):void
 		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_ELIXIR_2X));
 	}
 	
-	if( battleData.allis.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) )
+	if( battleData.allise.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) )
 	{
 		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_EXTRA_TIME));
 		animateShadow(0.5, null, 0xAA0000);
@@ -253,7 +253,7 @@ public function updateRoomVars():void
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
 	trace("updateScores:", "round:" + round, "winnerSide:" + winnerSide, "allise:" + allise, "axis:" + axis, "unitId:" + unitId);
-	battleData.allis.putInt("score", allise);
+	battleData.allise.putInt("score", allise);
 	battleData.axis.putInt("score", axis);
 	
 	if( deck != null )
