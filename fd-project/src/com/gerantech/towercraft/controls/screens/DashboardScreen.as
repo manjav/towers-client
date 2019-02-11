@@ -123,11 +123,11 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	addChild(indicatorHC);
 	
 	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.R3_CURRENCY_SOFT);
-	indicatorSC.layoutData = new AnchorLayoutData(18, 360);
+	indicatorSC.layoutData = new AnchorLayoutData(18, NaN, NaN, NaN, 0);
 	addChild(indicatorSC);
 	
 	var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
-	indicatorCT.layoutData = new AnchorLayoutData(18, 680);
+	indicatorCT.layoutData = new AnchorLayoutData(18, NaN, NaN, 42);
 	addChild(indicatorCT);
 	
 	// tutorial mode
