@@ -21,6 +21,7 @@ import starling.events.Event;
 
 public class ExCategoryItemRenderer extends AbstractTouchableListItemRenderer 
 {
+private static const _COLOR:Object = {c0:0xcc00ff, c10:0xffba00, c20:0x43da00, c30:0x2b85ff, c70:0xf2421f, c120:0x2b85ff};
 private var line:ShopLine;
 private var list:List;
 private var listLayout:TiledRowsLayout;
@@ -39,7 +40,7 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	headerDisplay = new ExchangeHeader("shop-line-header", new Rectangle(44, 12, 2, 4), 52);
+	headerDisplay = new ExchangeHeader("shop/header", new Rectangle(44, 12, 2, 4), 52);
 	headerDisplay.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
 	headerDisplay.height = 112;
 	addChild(headerDisplay);
@@ -69,6 +70,7 @@ override protected function commitData():void
 	line = _data as ShopLine;
 	headerDisplay.label = loc("exchange_title_" + line.category);
 	headerDisplay.data = line.category;
+	headerDisplay.color = _COLOR["c" + line.category];
 
     var CELL_SIZE:int = 360;
 	listLayout.typicalItemWidth = Math.floor((width - listLayout.gap * 4) / 3) ;
