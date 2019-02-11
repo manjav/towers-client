@@ -34,7 +34,7 @@ override protected function initialize():void
 	addChild(originDisplay);
 	
 	var priceLine:ImageLoader = new ImageLoader();
-	priceLine.source = Assets.getTexture("discount-line", "gui");
+	priceLine.source = Assets.getTexture("shop/discount-line", "gui");
 	priceLine.layoutData = new AnchorLayoutData(NaN, padding * 5, NaN, padding * 5, NaN, -padding * 4.0);
 	addChild(priceLine);
 	
