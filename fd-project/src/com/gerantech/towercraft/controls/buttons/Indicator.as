@@ -84,7 +84,7 @@ override protected function initialize():void
 	if( hasIncreaseButton )
 	{
 		var addButton:IndicatorButton = new IndicatorButton();
-		addButton.width = addButton.height = height + 12;
+		addButton.width = addButton.height = height + 4;
 		addButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
 		addButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
 		addChild(addButton);
