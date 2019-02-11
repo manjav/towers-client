@@ -41,7 +41,6 @@ public function HomeNewButton(background:String, label:String, width:Number, hei
 override protected function initialize() : void
 {
 	super.initialize();
-	touchable = player.getTutorStep() >= PrefsTypes.T_018_CARD_UPGRADED;
 	layout = new AnchorLayout();
 	
 	backgroundDisplay = new ImageLoader();
@@ -57,7 +56,16 @@ override protected function initialize() : void
 	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.2);
 	labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, padding * 0.2, -padding * 0.35);
-	addChild(labelDisplay);	
+	addChild(labelDisplay);
+}
+
+/**
+ * Triggers the button.
+ */
+override protected function trigger() : void
+{
+	if( player.getTutorStep() >= PrefsTypes.T_018_CARD_UPGRADED )
+		super.trigger();
 }
 
 override public function set currentState(value:String):void

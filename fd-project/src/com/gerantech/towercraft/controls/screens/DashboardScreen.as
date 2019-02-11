@@ -168,7 +168,7 @@ protected function exchangeManager_endHandler(event:Event):void
 	if( ExchangeType.getCategory(event.data.type) == ExchangeType.C110_BATTLES )//open first books
 		segmentsCollection.updateItemAt(1);
 	else if( event.data.type == -100 )//upgrade initial card
-		segmentsCollection.updateItemAt(1);
+		segmentsCollection.updateItemAt(2);
 }
 private function getListData():ListCollection
 {
