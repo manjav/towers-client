@@ -14,6 +14,7 @@ import com.gerantech.towercraft.controls.sliders.battle.IBattleSlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
+import com.gerantech.towercraft.controls.toasts.LastSecondsToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -21,6 +22,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.views.units.UnitView;
+import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.StickerType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -53,6 +55,7 @@ private var battleData:BattleData;
 private var timerSlider:IBattleSlider;
 private var stickerList:List;
 private var stickerCloserOveraly:SimpleLayoutButton;
+private var lastSecondsToast:LastSecondsToast;
 private var bubbleAllise:StickerBubble;
 private var bubbleAxis:StickerBubble;
 private var timeLog:RTLLabel;
@@ -207,7 +210,7 @@ protected function timeManager_changeHandler(event:Event):void
 		time = battleData.battleField.startAt + battleData.battleField.field.times.get(3) - timeManager.now;
 	timerSlider.value = time;
 	
-	var duration:int = int(battleData.battleField.getDuration() + 1.6);
+	var duration:int = int(battleData.battleField.getDuration() + 1);
 	if( duration == 120 || duration == 180 )
 	{
 		appModel.sounds.stopAll(SoundManager.CATE_THEME);
@@ -227,8 +230,13 @@ protected function timeManager_changeHandler(event:Event):void
 		timerSlider.enableStars(0xFF0000);
 	}
 	
-	if( duration == battleData.battleField.getTime(2) - 10 )
-		appModel.sounds.addAndPlay("battle-cd");
+	if( duration == battleData.battleField.getTime(2) - 10 || duration == battleData.battleField.getTime(3) - 10 )
+	{
+		lastSecondsToast = new LastSecondsToast();
+		lastSecondsToast.x = appModel.battleFieldView.x;
+		lastSecondsToast.y = appModel.battleFieldView.y + 20;
+		addChild(lastSecondsToast);
+	}
 }
 
 public function animateShadow(alphaSeed:Number, shadow:Image = null, color:uint = 0) : void
