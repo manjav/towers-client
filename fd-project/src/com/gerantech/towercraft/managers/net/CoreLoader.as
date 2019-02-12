@@ -217,7 +217,8 @@ static public function loadChallenges(params:ISFSObject) : void
 		ch.capacity = c.getInt("capacity");
 		
 		var item:ISFSObject = null;
-		ch.requirements = SFSConnection.ToMap(c.getSFSArray("requirements"));
+		ch.joinRequirements = SFSConnection.ToMap(c.getSFSArray("joinRequirements"));
+		ch.runRequirements = SFSConnection.ToMap(c.getSFSArray("runRequirements"));
 		ch.rewards = new IntArenaMap();
 		for (var j:int = 0; j < c.getSFSArray("rewards").size(); j++)
 		{

@@ -60,6 +60,7 @@ import starling.events.TouchPhase;
 public class BattleScreen extends BaseCustomScreen
 {
 public var isFriendly:Boolean;
+public var challengeType:int;
 public var requestField:FieldData;
 public var spectatedUser:String;
 public var waitingOverlay:BattleWaitingOverlay;
@@ -87,17 +88,19 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
-	var sfsObj:SFSObject = new SFSObject();
-	sfsObj.putBool("q", requestField != null && requestField.isOperation);
-	sfsObj.putInt("i", requestField != null && requestField.isOperation ? requestField.index : 0);
+	var params:SFSObject = new SFSObject();
+	params.putBool("q", requestField != null && requestField.isOperation);
+	params.putInt("i", requestField != null && requestField.isOperation ? requestField.index : 0);
 	if( spectatedUser != null && spectatedUser != "" )
-		sfsObj.putText("su", spectatedUser);
+		params.putText("su", spectatedUser);
+	if( challengeType > -1 )
+		params.putInt("ct", challengeType);
 
 	sfsConnection = SFSConnection.instance;
 	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	if( !isFriendly )
-		sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, sfsObj);
+		sfsConnection.sendExtensionRequest(SFSCommands.START_BATTLE, params);
 	addEventListener(TouchEvent.TOUCH, touchHandler);
 }
 
