@@ -134,6 +134,10 @@ public function play(id:String, volume:Number = 1.0, repeats:int = 1, panning:Nu
 		if( soundObject == null )
 			return;
 		var channel:SoundChannel = soundObject.play(0, repeats);
+		
+		if( channel == null )
+			return;
+		
 		channel.addEventListener(Event.SOUND_COMPLETE, channel_soundCompleteHandler);
 		
 		// if the sound manager is muted, set the sound's volume to zero
