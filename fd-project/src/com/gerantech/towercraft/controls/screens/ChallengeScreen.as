@@ -264,17 +264,22 @@ protected function buttonFactory():void
 			return;
 		
 		buttonDisplay = new ExchangeButton();
-		ExchangeButton(buttonDisplay).count = challenge.requirements.values()[0];
+		ExchangeButton(buttonDisplay).count = challenge.joinRequirements.values()[0];
 		if( ExchangeButton(buttonDisplay).count > 0 )
 			buttonDisplay.label = loc("challenge_button_" + state) + "   " + ExchangeButton(buttonDisplay).count;
-		ExchangeButton(buttonDisplay).type = challenge.requirements.keys()[0];
+		ExchangeButton(buttonDisplay).type = challenge.joinRequirements.keys()[0];
 		buttonDisplay.width = 500;
 	}
 	else
 	{
-		buttonDisplay = new CustomButton();
+		buttonDisplay = new ExchangeButton();
 		buttonDisplay.style = CustomButton.STYLE_NEUTRAL;
-		buttonDisplay.label = loc("challenge_button_" + state);
+		ExchangeButton(buttonDisplay).count = challenge.runRequirements.values()[0];
+		if( ExchangeButton(buttonDisplay).count > 0 )
+			buttonDisplay.label = ExchangeButton(buttonDisplay).count + "     " + loc("challenge_button_" + state);
+		else
+			buttonDisplay.label = loc("challenge_button_" + state);
+		ExchangeButton(buttonDisplay).type = challenge.runRequirements.keys()[0];
 		buttonDisplay.width = 380;
 	}
 	
@@ -321,11 +326,11 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 			return;
 		}
 		
-		var response:int = exchanger.exchange(Challenge.getJoinExchangeItem(challenge.type, player.get_arena(0)), 0, 0);
+		var response:int = exchanger.exchange(Challenge.getExchangeItem(challenge.type, challenge.joinRequirements, player.get_arena(0)), 0, 0);
 		if( response != MessageTypes.RESPONSE_SUCCEED )
 		{
 			DashboardScreen.TAB_INDEX = 0;
-			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + challenge.requirements.keys()[0])]));
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + challenge.joinRequirements.keys()[0])]));
 			appModel.navigator.popScreen();
 			return;
 		}
@@ -338,7 +343,15 @@ protected function buttonDisplay_triggeredHandler(e:Event):void
 	}
 	else if( state == Challenge.STATE_STARTED )
 	{
-		appModel.navigator.runBattle();
+		response = challenge.run(game, timeManager.now, player.get_arena(0));
+		if( response != MessageTypes.RESPONSE_SUCCEED )
+		{
+			DashboardScreen.TAB_INDEX = 0;
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + challenge.joinRequirements.keys()[0])]));
+			appModel.navigator.popScreen();
+			return;
+		}
+		appModel.navigator.runBattle("headquarter", 0, false, null, false, challenge.type);
 		/*DashboardScreen.tabIndex = 2;
 		appModel.navigator.popScreen();*/
 	}

@@ -43,6 +43,7 @@ public class BattleScreen extends BaseCustomScreen
 public static var IN_BATTLE:Boolean;
 public var index:int;
 public var battleType:String;
+public var challengeType:int;
 public var isFriendly:Boolean;
 public var spectatedUser:String;
 public var waitingOverlay:BattleWaitingOverlay;
@@ -69,6 +70,8 @@ protected function battleFieldView_completeHandler(e:Event):void
 	params.putInt("index", index);
 	if( spectatedUser != null && spectatedUser != "" )
 		params.putText("spectatedUser", spectatedUser);
+	if( challengeType > -1 )
+		params.putInt("challengeType", challengeType);
 
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
