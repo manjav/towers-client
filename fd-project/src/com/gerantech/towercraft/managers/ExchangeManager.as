@@ -56,10 +56,10 @@ public function process(item : ExchangeItem) : void
 
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", item.type );
-	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES )
+	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES || item.category == ExchangeType.C70_TICKETS )
 	{
 		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
-		BillingManager.instance.purchase((item.category == ExchangeType.C0_HARD ? "com.grantech.towers.item_" : "towres.bundle_") + item.type);
+		BillingManager.instance.purchase((item.category == ExchangeType.C30_BUNDLES ? "k2k.bundle_" : "com.grantech.towers.item_") + item.type);
 		function billinManager_endInteractionHandler ( event:Event ) : void {
 			BillingManager.instance.removeEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 			var result:IabResult = event.data as IabResult;
