@@ -12,6 +12,7 @@ import com.gerantech.towercraft.controls.sliders.battle.TerritorySlider;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.toasts.BattleExtraTimeToast;
 import com.gerantech.towercraft.controls.toasts.BattleKeyChangeToast;
+import com.gerantech.towercraft.controls.toasts.LastSecondsToast;
 import com.gerantech.towercraft.controls.tooltips.StickerBubble;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
@@ -31,7 +32,6 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
-import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -45,7 +45,6 @@ public class BattleHUD extends TowersLayout
 private var padding:int;
 private var scoreIndex:int = 0;
 private var debugMode:Boolean = false;
-
 private var battleData:BattleData;
 private var timerSlider:IBattleSlider;
 private var stickerList:List;
@@ -56,6 +55,7 @@ private var timeLog:RTLLabel;
 private var stickerButton:CustomButton;
 private var surrenderButton:CustomButton;
 private var territorySlider:TerritorySlider;
+private var lastSecondsToast:LastSecondsToast;
 
 public function BattleHUD() { super(); }
 override protected function initialize():void
@@ -216,6 +216,14 @@ protected function timeManager_changeHandler(event:Event):void
 	//trace(time, timerSlider.minimum, timerSlider.maximum)
 	if( time % 2 == 0 )
 		Starling.juggler.tween(timerSlider, 1, {value:timerSlider.maximum - time, transition:Transitions.EASE_OUT_ELASTIC});
+		
+	if( time == battleData.battleField.getTime(2) - 10 || duration == battleData.battleField.getTime(3) - 10 )
+    {
+        lastSecondsToast = new LastSecondsToast();
+        lastSecondsToast.x = appModel.battleFieldView.x;
+        lastSecondsToast.y = appModel.battleFieldView.y + 20;
+        addChild(lastSecondsToast);
+    }
 }
 
 private function setTimePosition():void

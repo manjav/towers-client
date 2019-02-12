@@ -2,12 +2,9 @@ package com.gerantech.towercraft.controls.toasts
 {
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.AbstractPopup;
-import flash.utils.setTimeout;
-
-import flash.geom.Rectangle;
-
 import feathers.controls.LayoutGroup;
-
+import flash.geom.Rectangle;
+import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.display.DisplayObject;
 
