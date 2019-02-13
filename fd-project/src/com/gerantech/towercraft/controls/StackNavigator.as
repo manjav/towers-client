@@ -104,13 +104,14 @@ package com.gerantech.towercraft.controls
 			}
 		}
 		
-		public function runBattle(type:String = "headquarter", index:int = 0, cancelable:Boolean = true, spectatedUser:String = null, isFriendly:Boolean = false):void
+		public function runBattle(type:String = "headquarter", index:int = 0, cancelable:Boolean = true, spectatedUser:String = null, isFriendly:Boolean = false, challengeType:int = -1) : void
 		{
 			var item:StackScreenNavigatorItem = getScreen(Main.BATTLE_SCREEN);
 			item.properties.battleType = type;
 			item.properties.index = index;
 			item.properties.spectatedUser = spectatedUser;
 			item.properties.isFriendly = isFriendly;
+			item.properties.challengeType = challengeType;
 			item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable && AppModel.instance.game.player.get_arena(0) > 0);
 			pushScreen(Main.BATTLE_SCREEN);
 			addOverlay(item.properties.waitingOverlay);

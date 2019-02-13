@@ -96,7 +96,7 @@ override public function init():void
 		var leftBattleButton:HomeNewButton = new HomeNewButton("battle-left", loc("button_battle_left"), 420, 186, gridRect, shadowRect);
 		addButton(leftBattleButton, "leftButton", stageWidth * 0.46 - leftBattleButton.width * 0.5, stageHeight * 0.66, 0.7);
 		
-		if( player.challenges != null )
+		/*if( player.challenges != null )
 		{
 			var c:int = player.challenges.getStartedChallenge(timeManager.now);
 			if( c > -1 )
@@ -109,7 +109,7 @@ override public function init():void
 				countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
 				leftBattleButton.addChild(countdownDisplay);
 			}
-		}
+		}*/
 	}
 	
 	var profile:Profile  = new Profile();
