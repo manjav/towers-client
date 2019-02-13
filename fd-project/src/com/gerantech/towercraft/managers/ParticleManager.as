@@ -32,6 +32,11 @@ private static const kiraConfig:Class;
 [Embed(source="../../../../assets/particles/kira/particle_texture.atf", mimeType="application/octet-stream")]
 private static const kiraParticle:Class;
 
+[Embed(source="../../../../assets/particles/shoot-smoke/particle_texture.json", mimeType="application/octet-stream")]
+private static const shootSmokeConfig:Class;
+[Embed(source = "../../../../assets/particles/shoot-smoke/particle_texture.atf", mimeType="application/octet-stream")]
+private static const shootSmokeParticle:Class;
+
 private static var _TEXTURES:Dictionary = new Dictionary();
 private static var _CONFIGS:Dictionary = new Dictionary();
 public function ParticleManager() {}

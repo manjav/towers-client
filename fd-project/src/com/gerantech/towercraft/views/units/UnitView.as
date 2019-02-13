@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.sliders.battle.HealthBarDetailed;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.views.ArtRules;
+import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -361,6 +362,13 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 	if( fire == "" )
 		return;
 
+	//shoot smoke
+	var shootSmoke:MortalParticleSystem = new MortalParticleSystem("shootSmoke");
+	shootSmoke.x = x;
+	shootSmoke.y = y;
+	fieldView.effectsContainer.addChild(shootSmoke);
+
+	return;
 	if( fireDisplay == null )
 	{
 		//trace("type", card.type, "  rotation", rotation, fireOffset);
