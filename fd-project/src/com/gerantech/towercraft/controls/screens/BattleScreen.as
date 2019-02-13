@@ -93,9 +93,9 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	switch(event.params.cmd)
 	{
 	case SFSCommands.BATTLE_START:
-		if( data.containsKey("umt") )
+		if( data.containsKey("umt") || data.containsKey("response") )
 		{
-			showUnderMaintenancePopup(data);
+			showErrorPopup(data);
 			return;
 		}
 		
@@ -134,17 +134,20 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	//trace(event.params.cmd, data.getDump());
 }
 
-private function showUnderMaintenancePopup(data:SFSObject):void
+private function showErrorPopup(data:SFSObject):void
 {
 	if( !waitingOverlay.ready )
 	{
 		waitingOverlay.addEventListener(Event.READY, waitingOverlay_readyHandler);
 		function waitingOverlay_readyHandler():void {
-			showUnderMaintenancePopup(data);
+			showErrorPopup(data);
 		}
 		return;
 	}
-	appModel.navigator.addPopup(new UnderMaintenancePopup(data.getInt("umt"), false));
+	if( data.containsKey("umt") )
+		appModel.navigator.addPopup(new UnderMaintenancePopup(data.getInt("umt"), false));
+	else if( data.containsKey("response") )
+		appModel.navigator.addLog(loc("error_" + data.getInt("response")));
 	waitingOverlay.disappear();
 	dispatchEventWith(Event.COMPLETE);
 }
