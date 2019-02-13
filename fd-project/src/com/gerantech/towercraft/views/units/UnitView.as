@@ -55,6 +55,8 @@ private var deployIcon:CountdownIcon;
 private var aimDisplay:Image;
 private var enemyHint:ShadowLabel;
 private var shootSmokeParticle:MortalParticleSystem;
+private var shootFlameParticle:MortalParticleSystem;
+private var shootShotgunParticle:MortalParticleSystem;
 
 public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
@@ -177,7 +179,7 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		var enemy:Unit = data as Unit;
 		var rad:Number = Math.atan2(__x - getSide_X(enemy.x), getSide_Y(y) - getSide_Y(enemy.y));
-		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad).scale(0.5);
+		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad);
 		fireDisplayFactory(__x + fireOffset.x, __y + fireOffset.y, rad);
 		//trace(card.type, fireOffset);
 		
@@ -365,11 +367,32 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 
 	//shoot smoke
 	if( shootSmokeParticle == null )
-		shootSmokeParticle = new MortalParticleSystem("shootSmoke", 1, false);
+		shootSmokeParticle = new MortalParticleSystem("shootSmoke", 1, false, false);
 	shootSmokeParticle.x = x;
 	shootSmokeParticle.y = y;
-	shootSmokeParticle.start(0.1)
+	shootSmokeParticle.pivotY = shootSmokeParticle.height *	0.9;
+	shootSmokeParticle.start()
 	fieldView.effectsContainer.addChild(shootSmokeParticle);
+	
+	//shoot flame
+	if( shootFlameParticle == null )
+		shootFlameParticle = new MortalParticleSystem("shootFlame", 1, false, false);
+	shootFlameParticle.x = x;
+	shootFlameParticle.pivotY = shootFlameParticle.height *	0.9;
+	shootFlameParticle.y = y;
+	shootFlameParticle.rotation = -rotation;
+	shootFlameParticle.start();
+	fieldView.effectsContainer.addChild(shootFlameParticle);
+	
+	//shoot shotgun bullets
+	if( shootShotgunParticle == null )
+		shootShotgunParticle = new MortalParticleSystem("shootShotgun", 1, false, false);
+	shootShotgunParticle.x = x;
+	shootShotgunParticle.pivotY = shootShotgunParticle.height *	0.9;
+	shootShotgunParticle.y = y;
+	shootShotgunParticle.rotation = -rotation;
+	shootShotgunParticle.start();
+	fieldView.effectsContainer.addChild(shootShotgunParticle);
 
 	return;
 	if( fireDisplay == null )

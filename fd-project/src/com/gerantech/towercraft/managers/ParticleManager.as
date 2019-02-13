@@ -37,6 +37,16 @@ private static const shootSmokeConfig:Class;
 [Embed(source = "../../../../assets/particles/shoot-smoke/particle_texture.atf", mimeType="application/octet-stream")]
 private static const shootSmokeParticle:Class;
 
+[Embed(source="../../../../assets/particles/shoot-flame/particle_texture.json", mimeType="application/octet-stream")]
+private static const shootFlameConfig:Class;
+[Embed(source = "../../../../assets/particles/shoot-flame/particle_texture.atf", mimeType="application/octet-stream")]
+private static const shootFlameParticle:Class;
+
+[Embed(source="../../../../assets/particles/shoot-shotgun/particle_texture.json", mimeType="application/octet-stream")]
+private static const shootShotgunConfig:Class;
+[Embed(source = "../../../../assets/particles/shoot-shotgun/particle_texture.atf", mimeType="application/octet-stream")]
+private static const shootShotgunParticle:Class;
+
 private static var _TEXTURES:Dictionary = new Dictionary();
 private static var _CONFIGS:Dictionary = new Dictionary();
 public function ParticleManager() {}
