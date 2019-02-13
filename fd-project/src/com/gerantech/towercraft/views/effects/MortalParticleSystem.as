@@ -16,26 +16,26 @@ import starling.textures.Texture;
 public class MortalParticleSystem extends PDParticleSystem 
 {
 
-public function MortalParticleSystem(name:String, duration:Number = 0.1, autoStart:Boolean = true) 
+public function MortalParticleSystem(name:String, duration:Number = 0.1, autoStart:Boolean = true ) 
 {
 	super(ParticleManager.getParticleData(name), ParticleManager.getTextureByBitmap(name));
 	startSize = startSize * 4;
 	touchable = false;
-	addEventListener(Event.COMPLETE, completeHandler);
 	if( autoStart )
 		start(duration);
 }
 
-private function completeHandler(e:Event):void 
+override public function start(duration:Number = 1.79769313486232E+308):void 
+{
+	addEventListener(Event.COMPLETE, completeHandler);
+	super.start(duration);
+	Starling.juggler.add(this);
+}
+
+protected function completeHandler(e:Event):void 
 {
 	removeEventListener(Event.COMPLETE, completeHandler);
 	remove(false);
-}
-
-override public function start(duration:Number = 1.79769313486232E+308):void 
-{
-	super.start(duration);
-	Starling.juggler.add(this);
 }
 
 public function remove(clear:Boolean):void 
