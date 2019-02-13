@@ -54,6 +54,7 @@ private var fireDisplay:MovieClip;
 private var deployIcon:CountdownIcon;
 private var aimDisplay:Image;
 private var enemyHint:ShadowLabel;
+private var shootSmokeParticle:MortalParticleSystem;
 
 public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
@@ -363,10 +364,12 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 		return;
 
 	//shoot smoke
-	var shootSmoke:MortalParticleSystem = new MortalParticleSystem("shootSmoke");
-	shootSmoke.x = x;
-	shootSmoke.y = y;
-	fieldView.effectsContainer.addChild(shootSmoke);
+	if( shootSmokeParticle == null )
+		shootSmokeParticle = new MortalParticleSystem("shootSmoke", 1, false);
+	shootSmokeParticle.x = x;
+	shootSmokeParticle.y = y;
+	shootSmokeParticle.start(0.1)
+	fieldView.effectsContainer.addChild(shootSmokeParticle);
 
 	return;
 	if( fireDisplay == null )
