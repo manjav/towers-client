@@ -71,6 +71,7 @@ private function showParticle():void
 	if ( !battleData.isLeft && playerIndex != -1 )
 	{
 		var particle:MortalParticleSystem = new MortalParticleSystem(winRatio >= 1 ? "scrap" : "fire", 4);
+		particle.startSize *= 4;
 		particle.x = stage.stageWidth * 0.5;
 		particle.y = winRatio >= 1 ? -stage.stageHeight*0.1 : stage.stageHeight * 1.05;
 		addChildAt(particle, 1);

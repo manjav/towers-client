@@ -103,12 +103,14 @@ override protected function initialize():void
 		
 		// explode particles
 		var explode:MortalParticleSystem = new MortalParticleSystem("explode", 2);
+		explode.startSize *= 4;
 		explode.x = 120;
 		explode.y = 170;
 		card.addChildAt(explode, 0);
 		
 		// scraps particles
 		var scraps:MortalParticleSystem = new MortalParticleSystem("scrap", 5);
+		scraps.startSize *= 4;
 		scraps.x = stage.stageWidth * 0.5;
 		scraps.y = -stage.stageHeight * 0.1;
 		addChildAt(scraps, 1);
