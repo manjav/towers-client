@@ -231,6 +231,7 @@ private function pullCard() : void
 	
 	// expload in book
 	var explode:MortalParticleSystem = new MortalParticleSystem("explode");
+	explode.startSize *= 3;
 	explode.scaleY = 0.8;
 	explode.speedVariance = 0;
 	explode.emitAngle = 0.8;
@@ -263,12 +264,6 @@ private function showDetails() : void
 
 	card.addChild(card.effectsLayer);
 	
-	//var explode:MortalParticleSystem = new MortalParticleSystem("explode", 0.05);
-	//explode.speed = 244;
-	//explode.x = card.width * 0.5;
-	//explode.y = card.height * 0.5;
-	//card.effectsLayer..addChildAt(explode, 0);
-	//
 	shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
 	shineArmature.animation.timeScale = 0.5;
 	addChildAt(shineArmature, 1);
@@ -276,6 +271,7 @@ private function showDetails() : void
 	if( rewardRarity > 0 )
 	{
 		var kira:MortalParticleSystem = new MortalParticleSystem("kira", 1);
+		kira.startSize *= 4;
 		kira.capacity = rewardRarity == 2 ? 200 : 80;
 		kira.speed = rewardRarity == 2 ? 180 : 30;
 		kira.startColor = rewardRarity == 2 ? new ColorArgb(1, 0, 0.8, 0.9) : new ColorArgb(1, 0.5, 0, 0.5);

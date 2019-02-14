@@ -93,6 +93,7 @@ protected function rotationCompleted() : void
 	
 	// explode particles
 	var explode:MortalParticleSystem = new MortalParticleSystem("explode", 1);
+	explode.startSize *= 4;
 	explode.x = width * 0.5;
 	explode.y = height * 0.5;
 	addChild(explode);
