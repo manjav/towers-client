@@ -66,7 +66,7 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
 	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
 	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
-	shadowDisplay.width = GraphicMetrics.getShadowSize(card.type);
+	shadowDisplay.width = ArtRules.getShadowSize(card.type);
 	shadowDisplay.height = shadowDisplay.width * BattleField.CAMERA_ANGLE;
 	shadowDisplay.x = __x;
 	shadowDisplay.y = __y;
@@ -179,11 +179,10 @@ override public function fireEvent(dispatcherId:int, type:String, data:*) : void
 	{
 		var enemy:Unit = data as Unit;
 		var rad:Number = Math.atan2(__x - getSide_X(enemy.x), getSide_Y(y) - getSide_Y(enemy.y));
-		var fireOffset:Point3 = GraphicMetrics.getFirePoint(card.type, rad);
+		var fireOffset:Point3 = ArtRules.getFlamePosition(card.type, rad);
 		fireDisplayFactory(__x + fireOffset.x, __y + fireOffset.y, rad);
-		//trace(card.type, fireOffset);
 		
-		fireOffset = GraphicMetrics.getFirePoint(card.type, Math.atan2(x - enemy.x, y - enemy.y)).scale(0.5);
+		fireOffset = ArtRules.getFlamePosition(card.type, Math.atan2(x - enemy.x, y - enemy.y));
 		var b:BulletView = new BulletView(battleField, enemy.bulletId, card, side, x + fireOffset.x, y, fireOffset.y / BattleField.CAMERA_ANGLE, enemy.x, enemy.y, 0);
 		b.targetId = enemy.id;
 		battleField.bullets.set(enemy.bulletId, b);
@@ -335,7 +334,7 @@ protected function defaultSummonEffectFactory() : void
 	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explode-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
 	summonDisplay.pivotY = summonDisplay.height * 0.5;
-	summonDisplay.width = GraphicMetrics.getShadowSize(card.type) * 2.00;
+	summonDisplay.width = ArtRules.getShadowSize(card.type) * 2.00;
 	summonDisplay.height = summonDisplay.width * BattleField.CAMERA_ANGLE;
 	summonDisplay.x = getSideX();
 	summonDisplay.y = getSideY();
@@ -367,6 +366,7 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 	{
 		if( flameParticle == null )
 			flameParticle = new BattleParticleSystem("flame-" + flame, "flames/flame-" + flame, 1, false, false);
+		flameParticle.scale = ArtRules.getFlameSize(card.type)
 		flameParticle.x = x;
 		flameParticle.pivotY = flameParticle.height *	0.9;
 		flameParticle.y = y;
@@ -381,6 +381,7 @@ protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number
 	{
 		if( smokeParticle == null )
 			smokeParticle = new BattleParticleSystem("smoke-" + smoke, "smokes/smoke-" + flame, 1, false, false);
+		smokeParticle.scale = ArtRules.getSmokeSize(card.type)
 		smokeParticle.x = x;
 		smokeParticle.y = y;
 		smokeParticle.pivotY = smokeParticle.height *	0.9;
