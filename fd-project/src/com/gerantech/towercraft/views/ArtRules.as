@@ -241,7 +241,7 @@ static public function getFlameSize(type:int): Number
 {
 	switch( type )
 	{
-		case	101	:	return 0.5;
+		case	101	:	return 0.8;
 		case	102	:	return 1.0;
 		case	104	:	return 0.7;
 		case	111	:	return 0.7;
@@ -256,10 +256,10 @@ static public function getSmokeSize(type:int): Number
 {
 	switch( type )
 	{
-		case	101	:	return 0.5;
-		case	102	:	return 0.5;
-		case	104	:	return 0.5;
-		case	111	:	return 0.5;
+		case	101	:	return 0.6;
+		case	102	:	return 1.2;
+		case	104	:	return 1.0;
+		case	111	:	return 1.0;
 		
 		case	201 :	return 0.7;
 		case	222 :	return 0.5;
