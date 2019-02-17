@@ -249,7 +249,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		for( var i:int=0; i<data.getSFSArray("rewards").size(); i++ )
 		{
 			reward = data.getSFSArray("rewards").getSFSObject(i);
-			if( ResourceType.isBuilding(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.XP )
+			if( ResourceType.isBuilding(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.R6_TICKET )
 				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		
