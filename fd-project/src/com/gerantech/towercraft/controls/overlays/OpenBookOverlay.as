@@ -8,7 +8,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
@@ -230,8 +230,8 @@ private function pullCard() : void
 	bookArmature.animation.gotoAndPlayByTime("open", 0, 1);
 	
 	// expload in book
-	var explode:MortalParticleSystem = new MortalParticleSystem("explode");
-	explode.startSize *= 3;
+	var explode:UIParticleSystem = new UIParticleSystem("explode");
+	explode.startSize *= 4;
 	explode.scaleY = 0.8;
 	explode.speedVariance = 0;
 	explode.emitAngle = 0.8;
@@ -270,7 +270,7 @@ private function showDetails() : void
 	
 	if( rewardRarity > 0 )
 	{
-		var kira:MortalParticleSystem = new MortalParticleSystem("kira", 1);
+		var kira:UIParticleSystem = new UIParticleSystem("kira", 1);
 		kira.startSize *= 4;
 		kira.capacity = rewardRarity == 2 ? 200 : 80;
 		kira.speed = rewardRarity == 2 ? 180 : 30;

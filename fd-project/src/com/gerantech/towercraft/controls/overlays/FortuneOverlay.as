@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.overlays
 import com.gerantech.towercraft.controls.Spinner;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.utils.maps.IntIntMap;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.ImageLoader;
@@ -92,7 +92,7 @@ protected function rotationCompleted() : void
 	shadow.removeFromParent();
 	
 	// explode particles
-	var explode:MortalParticleSystem = new MortalParticleSystem("explode", 1);
+	var explode:UIParticleSystem = new UIParticleSystem("explode", 1);
 	explode.startSize *= 4;
 	explode.x = width * 0.5;
 	explode.y = height * 0.5;

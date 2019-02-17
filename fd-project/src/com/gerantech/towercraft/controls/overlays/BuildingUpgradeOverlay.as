@@ -8,7 +8,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.vo.UserData;
-import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
@@ -85,14 +85,14 @@ override protected function initialize():void
 		Starling.juggler.tween(shineArmature, 0.3, {scale:2.5, transition:Transitions.EASE_OUT_BACK});
 		
 		// explode particles
-		var explode:MortalParticleSystem = new MortalParticleSystem("explode", 2);
+		var explode:UIParticleSystem = new UIParticleSystem("explode", 2);
 		explode.startSize *= 4;
 		explode.x = 120;
 		explode.y = 170;
 		cardView.addChildAt(explode, 0);
 		
 		// scraps particles
-		var scraps:MortalParticleSystem = new MortalParticleSystem("scrap", 5);
+		var scraps:UIParticleSystem = new UIParticleSystem("scrap", 5);
 		scraps.startSize *= 4;
 		scraps.x = stage.stageWidth * 0.5;
 		scraps.y = -stage.stageHeight * 0.1;

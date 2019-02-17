@@ -16,9 +16,9 @@ import starling.textures.Texture;
 public class MortalParticleSystem extends PDParticleSystem 
 {
 public var autoDispose:Boolean;
-public function MortalParticleSystem(name:String, duration:Number = 0.1, autoStart:Boolean = true, autoDispose:Boolean = true) 
+public function MortalParticleSystem(config:Object, texture:Texture, duration:Number = 0.1, autoStart:Boolean = true, autoDispose:Boolean = true) 
 {
-	super(ParticleManager.getParticleData(name), ParticleManager.getTextureByBitmap(name));
+	super(config, texture);
 	this.touchable = false;
 	this.autoDispose = autoDispose;
 	if( autoStart )

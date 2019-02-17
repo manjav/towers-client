@@ -5,7 +5,7 @@ import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
-import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import feathers.controls.AutoSizeMode;
@@ -70,7 +70,7 @@ private function showParticle():void
 {
 	if ( !battleData.isLeft && playerIndex != -1 )
 	{
-		var particle:MortalParticleSystem = new MortalParticleSystem(winRatio >= 1 ? "scrap" : "fire", 4);
+		var particle:UIParticleSystem = new UIParticleSystem(winRatio >= 1 ? "scrap" : "fire", 4);
 		particle.startSize *= 4;
 		particle.x = stage.stageWidth * 0.5;
 		particle.y = winRatio >= 1 ? -stage.stageHeight*0.1 : stage.stageHeight * 1.05;
