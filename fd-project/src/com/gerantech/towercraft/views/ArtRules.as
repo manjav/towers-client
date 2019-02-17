@@ -242,21 +242,12 @@ static public function getFlameSize(type:int): Number
 	switch( type )
 	{
 		case	101	:	return 0.5;
-		case	102	:	return 0.5;
-		case	103	:	return 0.5;
-		case	104	:	return 0.5;
-		case	105	:	return 0.5;
-		case	106	:	return 0.5;
-		case	107	:	return 0.5;
-		case	108	:	return 0.5;
-		case	109	:	return 0.5;
-		case	110	:	return 0.5;
-		case	111	:	return 0.5;
-		case	112	:	return 0.5;
-		case	113	:	return 0.5;
+		case	102	:	return 1.0;
+		case	104	:	return 0.7;
+		case	111	:	return 0.7;
 		
-		case	201 :	return 1;
-		case	222 :	return 1;
+		case	201 :	return 1.0;
+		case	222 :	return 1.0;
 	}
 	return 10;
 }
@@ -267,20 +258,11 @@ static public function getSmokeSize(type:int): Number
 	{
 		case	101	:	return 0.5;
 		case	102	:	return 0.5;
-		case	103	:	return 0.5;
 		case	104	:	return 0.5;
-		case	105	:	return 0.5;
-		case	106	:	return 0.5;
-		case	107	:	return 0.5;
-		case	108	:	return 0.5;
-		case	109	:	return 0.5;
-		case	110	:	return 0.5;
 		case	111	:	return 0.5;
-		case	112	:	return 0.5;
-		case	113	:	return 0.5;
 		
-		case	201 :	return 1;
-		case	222 :	return 1;
+		case	201 :	return 0.7;
+		case	222 :	return 0.5;
 	}
 	return 10;
 }
