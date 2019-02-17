@@ -250,7 +250,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 				outcomes.set(reward.getInt("t"), reward.getInt("c"));
 		}
 		
-		player.addResources(outcomes );
+		player.addResources(outcomes);
 		earnOverlay.outcomes = outcomes;
 		earnOverlay.addEventListener(Event.CLOSE, openChestOverlay_closeHandler);
 		function openChestOverlay_closeHandler(event:Event):void {

@@ -97,7 +97,7 @@ override public function setPosition(x:Number, y:Number, z:Number, forced:Boolea
 private function defaultBulletDisplayFactory() : void 
 {
 	var bullet:String = appModel.artRules.get(card.type, ArtRules.BULLET);
-	if( bullet == "" )
+	if( bullet == "" || bullet.substr(0,3) == "ps-" )
 		return;
 	bulletDisplay = new MovieClip(appModel.assets.getTextures("bullets/" + bullet + "/"));
 	bulletDisplay.pivotX = bulletDisplay.width * 0.5;

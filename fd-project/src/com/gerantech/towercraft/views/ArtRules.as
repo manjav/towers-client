@@ -8,7 +8,9 @@ import flash.utils.Dictionary;
 public class ArtRules 
 {
 static public const BULLET:String = "bullet";
-static public const FIRE:String = "fire";
+static public const BULLET_FX:String = "bulletFX";
+static public const FLAME:String = "flame";
+static public const SMOKE:String = "smoke";
 static public const HIT:String = "hit";
 static public const DIE:String = "die";
 static public const SUMMON_SFX:String = "summonSFX";

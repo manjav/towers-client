@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.sliders.battle.HealthBarDetailed;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.views.ArtRules;
+import com.gerantech.towercraft.views.effects.BattleParticleSystem;
 import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
@@ -46,17 +47,16 @@ private var textureName:String;
 
 public var fireDisplayFactory:Function;
 
-private var bodyDisplay:MovieClip;
-private var shadowDisplay:Image;
-private var hitFilter:ColorMatrixFilter;
-private var healthDisplay:HealthBarLeveled;
-private var fireDisplay:MovieClip;
 private var deployIcon:CountdownIcon;
 private var aimDisplay:Image;
+private var shadowDisplay:Image;
 private var enemyHint:ShadowLabel;
-private var shootSmokeParticle:MortalParticleSystem;
-private var shootFlameParticle:MortalParticleSystem;
-private var shootShotgunParticle:MortalParticleSystem;
+private var bodyDisplay:MovieClip;
+private var hitFilter:ColorMatrixFilter;
+private var healthDisplay:HealthBarLeveled;
+private var flameParticle:BattleParticleSystem;
+private var smokeParticle:BattleParticleSystem;
+private var bulletParticle:BattleParticleSystem;
 
 public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
@@ -361,56 +361,46 @@ public function showWinnerFocus():void
 
 protected function defaultFireDisplayFactory(x:Number, y:Number, rotation:Number) : void 
 {
-	var fire:String = appModel.artRules.get(card.type, ArtRules.FIRE);
-	if( fire == "" )
-		return;
-
-	//shoot smoke
-	if( shootSmokeParticle == null )
-		shootSmokeParticle = new MortalParticleSystem("shootSmoke", 1, false, false);
-	shootSmokeParticle.x = x;
-	shootSmokeParticle.y = y;
-	shootSmokeParticle.pivotY = shootSmokeParticle.height *	0.9;
-	shootSmokeParticle.start()
-	fieldView.effectsContainer.addChild(shootSmokeParticle);
-	
-	//shoot flame
-	if( shootFlameParticle == null )
-		shootFlameParticle = new MortalParticleSystem("shootFlame", 1, false, false);
-	shootFlameParticle.x = x;
-	shootFlameParticle.pivotY = shootFlameParticle.height *	0.9;
-	shootFlameParticle.y = y;
-	shootFlameParticle.rotation = -rotation;
-	shootFlameParticle.start();
-	fieldView.effectsContainer.addChild(shootFlameParticle);
-	
-	//shoot shotgun bullets
-	if( shootShotgunParticle == null )
-		shootShotgunParticle = new MortalParticleSystem("shootShotgun", 1, false, false);
-	shootShotgunParticle.x = x;
-	shootShotgunParticle.pivotY = shootShotgunParticle.height *	0.9;
-	shootShotgunParticle.y = y;
-	shootShotgunParticle.rotation = -rotation;
-	shootShotgunParticle.start();
-	fieldView.effectsContainer.addChild(shootShotgunParticle);
-
-	return;
-	if( fireDisplay == null )
+	// flame particle
+	var flame:String = appModel.artRules.get(card.type, ArtRules.FLAME);
+	if( flame != "" )
 	{
-		//trace("type", card.type, "  rotation", rotation, fireOffset);
-		fireDisplay = new MovieClip(appModel.assets.getTextures("fires/" + fire + "/"), 45);
-		fireDisplay.pivotX = fireDisplay.width *	0.5;
-		fireDisplay.pivotY = fireDisplay.height *	0.9;
-		fireDisplay.width = card.sizeH * 3.5;
-		fireDisplay.scaleY = fireDisplay.scaleX;
+		if( flameParticle == null )
+			flameParticle = new BattleParticleSystem("flame-" + flame, "flames/flame-" + flame, 1, false, false);
+		flameParticle.x = x;
+		flameParticle.pivotY = flameParticle.height *	0.9;
+		flameParticle.y = y;
+		flameParticle.rotation = -rotation;
+		flameParticle.start();
+		fieldView.effectsContainer.addChild(flameParticle);
 	}
-	fireDisplay.x = x;
-	fireDisplay.y = y;
-	fireDisplay.rotation = -rotation;
-	fieldView.effectsContainer.addChild(fireDisplay);
-	fireDisplay.play();
-	Starling.juggler.add(fireDisplay);
-	fireDisplay.addEventListener(Event.COMPLETE, function() : void { Starling.juggler.remove(fireDisplay); fireDisplay.removeFromParent(); });
+
+	// smoke particle
+	var smoke:String = appModel.artRules.get(card.type, ArtRules.SMOKE);
+	if( smoke != "" )
+	{
+		if( smokeParticle == null )
+			smokeParticle = new BattleParticleSystem("smoke-" + smoke, "smokes/smoke-" + flame, 1, false, false);
+		smokeParticle.x = x;
+		smokeParticle.y = y;
+		smokeParticle.pivotY = smokeParticle.height *	0.9;
+		smokeParticle.start()
+		fieldView.effectsContainer.addChild(smokeParticle);
+	}
+
+	// bullet particles
+	var bulletPS:String = appModel.artRules.get(card.type, ArtRules.BULLET);
+	if( bulletPS.substr(0,3) == "ps-" )
+	{
+		if( bulletParticle == null )
+			bulletParticle = new BattleParticleSystem(bulletPS, "bullets/" + bulletPS + "/" + bulletPS, 1, false, false);
+		bulletParticle.x = x;
+		bulletParticle.pivotY = bulletParticle.height *	0.9;
+		bulletParticle.y = y;
+		bulletParticle.rotation = -rotation;
+		bulletParticle.start();
+		fieldView.effectsContainer.addChild(bulletParticle);
+	}
 }
 
 private function showDieAnimation():void 
