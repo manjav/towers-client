@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls
 {
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.views.effects.MortalParticleSystem;
+import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
@@ -27,10 +27,11 @@ public function active() : void
 	if( actived )
 		return;
 	
-	var pd:MortalParticleSystem = new MortalParticleSystem("explode", 0.1);
+	var pd:UIParticleSystem = new UIParticleSystem("explode", 0.1);
 	pd.x = x;
 	pd.y = y;
 	pd.speed *= 5;
+	pd.startSize *= 3;
 	pd.lifespan *= 0.1;
 	//pd.x = pd.y = width * 0.5;
 	parent.addChildAt(pd, parent.getChildIndex(this));
