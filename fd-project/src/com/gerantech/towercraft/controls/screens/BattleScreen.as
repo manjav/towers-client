@@ -51,11 +51,14 @@ public var hud:BattleHUD;
 
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
+private var battleData:BattleData;
 
 public function BattleScreen()
 {
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
+
 	appModel.battleFieldView = new BattleFieldView();
-	appModel.battleFieldView.addEventListener(Event.COMPLETE, battleFieldView_completeHandler);
+	appModel.battleFieldView.addEventListener(Event.COMPLETE, 				battleFieldView_completeHandler);
 	appModel.battleFieldView.initialize();
 	addChild(appModel.battleFieldView);
 }
@@ -73,15 +76,12 @@ protected function battleFieldView_completeHandler(e:Event):void
 	if( challengeType > -1 )
 		params.putInt("challengeType", challengeType);
 
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
 	if( !isFriendly )
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);	
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
+		
+	startBattle();
 }
-/*override protected function initialize():void
-{
-	super.initialize();
-}*/
 
 protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 {
@@ -90,20 +90,25 @@ protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
 protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 {
 	var data:SFSObject = event.params.params as SFSObject;
-	switch(event.params.cmd)
+	if( event.params.cmd == SFSCommands.BATTLE_START )
 	{
-	case SFSCommands.BATTLE_START:
 		if( data.containsKey("umt") || data.containsKey("response") )
 		{
 			showErrorPopup(data);
 			return;
 		}
 		
-		var battleData:BattleData = new BattleData(data);
-		appModel.battleFieldView.createPlaces(battleData);
-		startBattle();
-		break;
+		this.battleData = new BattleData(data);
+		if( appModel.battleFieldView.mapBuilder != null )
+			startBattle();
+		return;
+	}
 	
+	if( appModel.battleFieldView.battleData == null )
+		return;
+	
+	switch(event.params.cmd)
+	{
 	case SFSCommands.BATTLE_END:
 		endBattle(data);
 		break;
@@ -155,8 +160,12 @@ private function showErrorPopup(data:SFSObject):void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- Start Battle _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 private function startBattle():void
 {
-	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
+	if( this.battleData == null)
 		return;
+	appModel.battleFieldView.createPlaces(this.battleData);
+
+//	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
+//		return;
 	
 	IN_BATTLE = true;
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
