@@ -58,6 +58,7 @@ private function showScondsTexts() : void
 
 override public function dispose() : void
 {
+	AppModel.instance.sounds.stop("battle-cd");
 	Starling.juggler.removeTweens(this);
 	clearInterval(intervalId);
 	super.dispose();
