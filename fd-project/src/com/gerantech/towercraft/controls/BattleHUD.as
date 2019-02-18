@@ -217,7 +217,7 @@ protected function timeManager_changeHandler(event:Event):void
 	if( time % 2 == 0 )
 		Starling.juggler.tween(timerSlider, 1, {value:timerSlider.maximum - time, transition:Transitions.EASE_OUT_ELASTIC});
 		
-	if( time == battleData.battleField.getTime(2) - 10 || duration == battleData.battleField.getTime(3) - 10 )
+	if( time == battleData.battleField.getTime(2) - 10 || time == battleData.battleField.getTime(3) - 10 )
     {
         lastSecondsToast = new LastSecondsToast();
         lastSecondsToast.x = appModel.battleFieldView.x;
