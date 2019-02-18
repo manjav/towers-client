@@ -70,7 +70,7 @@ override public function init():void
 	var battlesButton:HomeNewButton = new HomeNewButton("battle", loc("button_battle"), 430, 186, gridRect, shadowRect);
 	addButton(battlesButton, "battlesButton", stageWidth * 0.49 + battlesButton.width * 0.5, stageHeight * 0.66, 0.6);
 	
-	if( player.challenges != null )
+	/*if( player.challenges != null )
 	{
 		var c:int = player.challenges.getStartedChallenge(timeManager.now);
 		if( c > -1 )
@@ -83,7 +83,7 @@ override public function init():void
 			countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
 			battlesButton.addChild(countdownDisplay);
 		}
-	}
+	}*/
 	
 	if( player.hasOperations )
 	{
