@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/26.0">
   <id>com.grantech.towers</id>
-  <versionNumber>0.3.910</versionNumber>
+  <versionNumber>0.4.000</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>KOOT</filename>
   <name>KOOT</name>
