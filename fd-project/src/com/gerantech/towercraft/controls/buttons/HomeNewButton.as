@@ -41,7 +41,6 @@ public function HomeNewButton(background:String, label:String, width:Number, hei
 override protected function initialize() : void
 {
 	super.initialize();
-	touchable = player.getTutorStep() > PrefsTypes.T_038_CARD_UPGRADED;
 	layout = new AnchorLayout();
 	
 	backgroundDisplay = new ImageLoader();
@@ -64,6 +63,15 @@ override public function set currentState(value:String):void
 {
 	super.currentState = value;
 	scale = value == ButtonState.DOWN ? 0.9 : 1;
+}
+
+/**
+ * Triggers the button.
+ */
+override protected function trigger() : void
+{
+    if( player.getTutorStep() >= PrefsTypes.T_038_CARD_UPGRADED )
+        super.trigger();
 }
 }
 }
