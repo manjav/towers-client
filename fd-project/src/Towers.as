@@ -67,6 +67,7 @@ public function Towers()
 		this.stage.scaleMode = StageScaleMode.NO_SCALE;
 		this.stage.align = StageAlign.TOP_LEFT;
 	}
+	AppModel.instance.formalAspectratio = 1080 / 1920;
 	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
 
 	this.mouseEnabled = this.mouseChildren = false;
