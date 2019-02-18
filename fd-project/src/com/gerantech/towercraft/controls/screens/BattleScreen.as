@@ -7,8 +7,8 @@ import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
-import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOperationOverlay;
+import com.gerantech.towercraft.controls.overlays.EndOverlay;
 import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -21,16 +21,12 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
-import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gerantech.towercraft.views.PlaceView;
-import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.constants.BuildingType;
-import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.TroopType;
@@ -86,7 +82,6 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	//backgroundSkin = new Quad(1,1, BaseMetalWorksMobileTheme.CHROME_COLOR);
 	
 	var params:SFSObject = new SFSObject();
 	params.putBool("q", requestField != null && requestField.isOperation);
@@ -95,7 +90,7 @@ override protected function initialize():void
 		params.putText("su", spectatedUser);
 	if( challengeType > -1 )
 		params.putInt("ct", challengeType);
-
+	
 	sfsConnection = SFSConnection.instance;
 	sfsConnection.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 	sfsConnection.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
