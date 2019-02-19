@@ -121,7 +121,7 @@ override protected function commitData():void
 	}
 
 	if( player.inDeckTutorial() && buildingType == BuildingType.B11_BARRACKS )
-		showTutorHint(0, 100);
+		showTutorHint(-50, 200);
 }
 
 private function _owner_createHandler():void
