@@ -212,7 +212,7 @@ public function fight(destination:Place, troopsCount:Number) : void
 		else if( troopsCount >= 20 )
 			soundIndex = 3;
 		
-		appModel.sounds.addAndPlay("battle-go-army-" + soundIndex, null, SoundManager.SINGLE_BYPASS_THIS);
+		appModel.sounds.addAndPlay("battle-go-army-" + soundIndex, null, 1, SoundManager.SINGLE_BYPASS_THIS);
 	}
 }
 
