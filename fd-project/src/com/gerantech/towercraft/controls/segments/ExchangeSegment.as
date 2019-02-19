@@ -82,7 +82,7 @@ override public function updateData():void
 			specials.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C120_MAGICS )
 			magics.add(itemKeys[i]);
-		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C70_TICKETS )
+		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C70_TICKETS && player.unlocked_challenge() )
 			tickets.add(itemKeys[i]);
 		else if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C0_HARD && itemKeys[i] != ExchangeType.C0_HARD )//test
 			hards.add(itemKeys[i]);
@@ -91,22 +91,30 @@ override public function updateData():void
 	}
 	
 	scrollPaddingTop = ExCategoryItemRenderer.HEIGHT_C120_MAGICS;
-	var categoreis:Array = new Array( magics, tickets, hards, softs );
-	if( specials.items.length > 0 )
-	{
-		categoreis.unshift(specials);
-		scrollPaddingTop += ExCategoryItemRenderer.HEIGHT_C20_SPECIALS;
-	}
+	var categoreis:Array = new Array();
 	if( bundles.items.length > 0 )
 	{
-		categoreis.unshift(bundles);
+		categoreis.push(bundles);
 		scrollPaddingTop += ExCategoryItemRenderer.HEIGHT_C30_BUNDLES;
 	}
+	if( specials.items.length > 0 )
+	{
+		categoreis.push(specials);
+		scrollPaddingTop += ExCategoryItemRenderer.HEIGHT_C20_SPECIALS;
+	}
+	if( magics.items.length > 0 )
+		categoreis.push(magics);
+	if( tickets.items.length > 0 )
+		categoreis.push(tickets);
+	if( hards.items.length > 0 )
+		categoreis.push(hards);
+	if( softs.items.length > 0 )
+		categoreis.push(softs);
+
 	for (i=0; i<categoreis.length; i++)
 		categoreis[i].items.sort();
 	
 	itemslistData = new ListCollection(categoreis);
-	
 	scrollPaddingTop = ExCategoryItemRenderer.HEIGHT_C120_MAGICS;
 }
 
