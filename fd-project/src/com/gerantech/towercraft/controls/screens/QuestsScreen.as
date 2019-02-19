@@ -153,7 +153,8 @@ private function sfs_rewardCollectHandler(e:SFSEvent):void
 	var quest:Quest = new Quest(q.getInt("id"), q.getInt("type"), q.getInt("key"), q.getInt("nextStep"), q.getInt("current"), q.getInt("target"), SFSConnection.ToMap(q.getSFSArray("rewards")));
 	//list.dataProvider.addItem(quest);
 	player.quests.push(quest);
-	list.dataProvider.updateAll();
+	if( list.dataProvider != null )
+		list.dataProvider.updateAll();
 }
 }
 }
