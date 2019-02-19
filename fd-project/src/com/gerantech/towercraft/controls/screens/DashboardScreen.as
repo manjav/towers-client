@@ -126,9 +126,12 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	indicatorSC.layoutData = new AnchorLayoutData(18, NaN, NaN, NaN, 0);
 	addChild(indicatorSC);
 	
-	var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
-	indicatorCT.layoutData = new AnchorLayoutData(18, NaN, NaN, 42);
-	addChild(indicatorCT);
+	if( player.unlocked_challenge() )
+	{
+		var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
+		indicatorCT.layoutData = new AnchorLayoutData(18, NaN, NaN, 42);
+		addChild(indicatorCT);
+	}
 	
 	// tutorial mode
 	if( player.get_battleswins() == 0 )
