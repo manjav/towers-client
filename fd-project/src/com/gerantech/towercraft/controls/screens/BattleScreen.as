@@ -699,7 +699,7 @@ private function showImproveFloating(placeView:PlaceView):void
 	var ti:TransitionData = new TransitionData();
 	ti.transition = Transitions.EASE_OUT_BACK;
 	ti.sourceAlpha = 0;
-	ti.destinationPosition = ti.sourcePosition = new Point(placeView.x, placeView.y);
+	ti.destinationPosition = ti.sourcePosition = new Point(placeView.x, placeView.y - 15);
 	
 	// create transition out data
 	var to:TransitionData = new TransitionData();
@@ -728,7 +728,7 @@ private function showImproveFloating(placeView:PlaceView):void
 				appModel.navigator.addLog(loc("improve_locked_meaagse"));
 			return;
 		}
-		else if( !btn.enabled )
+		else if( !btn.improvable )
 		{
 			if( player.get_arena(0) <= 1 )
 				appModel.navigator.addLog(loc("improve_disabled_meaagse"));

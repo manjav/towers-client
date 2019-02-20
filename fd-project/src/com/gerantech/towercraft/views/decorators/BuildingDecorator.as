@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.views.decorators
 {
+import com.gerantech.towercraft.controls.floatings.ImproveFloating;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.TutorialManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -158,11 +159,11 @@ override protected function update(population:int, troopType:int, occupied:Boole
 	var improvable:Boolean = false;
 	if( !player.inTutorial() && !SFSConnection.instance.mySelf.isSpectator )
 	{
-		var options:IntList = BuildingType.getImproveList(place.building.type);
-		for (var i:int=0; i < options.size(); i++) 
+		var options:Array = ImproveFloating.getOptions(placeView.place.building.type);
+		for (var i:int=0; i < options.length; i++) 
 		{
 			//trace("index:", place.index, "option:", options.get(i), "improvable:", place.building.improvable(options.get(i)), "_population:", place.building._population)
-			if( place.building.improvable(options.get(i)) && options.get(i) != BuildingType.B01_CAMP )
+			if( place.building.improvable(options[i]) && options[i] != BuildingType.B01_CAMP )
 			{
 				improvable = true;
 				break;

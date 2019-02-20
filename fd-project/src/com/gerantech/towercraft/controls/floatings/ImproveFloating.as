@@ -8,7 +8,6 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.PlaceView;
 import com.gt.towers.battle.fieldes.PlaceData;
 import com.gt.towers.constants.BuildingType;
-import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.lists.PlaceDataList;
 import feathers.controls.Button;
 import flash.geom.Rectangle;
@@ -39,21 +38,19 @@ override protected function initialize():void
 	circle.width = circle.height = raduis;
 	Starling.juggler.tween(circle, 0.2, {width:raduis * 2, height:raduis * 2, transition:Transitions.EASE_OUT});
 	addChild(circle);
-		
+	
 	buttons = new Vector.<ImproveButton>();
-	var options:IntList = BuildingType.getImproveList(placeView.place.building.type);
-	var numButtons:int = options.size();
+	var options:Array = getOptions(placeView.place.building.type);
+	var numButtons:int = options.length;
 	for (var i:int=0; i < numButtons; i++) 
 	{
-		var impoveType:int = options.get(i);
-		
-		buttons[i] = new ImproveButton(placeView.place.building, impoveType);
+		buttons[i] = new ImproveButton(placeView.place.building, options[i]);
 		buttons[i].renable();
-		buttons[i].visible = impoveType != BuildingType.B01_CAMP || arena > 2
+		buttons[i].visible = options[i] != BuildingType.B01_CAMP || arena > 2;
 		
 		var angle:Number = Math.PI * 2 / numButtons * i;
-		var _x:Number = Math.sin(angle) * raduis;
-		var _y:Number = Math.cos(angle) * raduis;
+		var _x:Number = Math.sin(angle) * raduis - ImproveButton.WIDTH * 0.5;
+		var _y:Number = Math.cos(angle) * raduis - ImproveButton.HEIGHT * 0.5;
 		buttons[i].x = _x * 0.7;
 		buttons[i].y = _y * 0.7;
 		buttons[i].alpha = 0;
@@ -105,8 +102,16 @@ private function buttons_triggeredHandler(event:Event):void
 	dispatchEventWith(Event.SELECT, false, event.currentTarget as ImproveButton);
 	close();
 }
-
-override public function close(dispose:Boolean=true):void
+public static function getOptions(type:int) : Array
+{
+	if( BuildingType.get_category(type) == BuildingType.B00_CAMP )
+		return [41, 21, 11, 31];
+	var imp:int = BuildingType.get_improve(type);
+	if( imp >= 1 && imp < 4 )
+		return [1, -2];
+	return [1];
+}
+override public function close(dispose:Boolean = true):void
 {
 	placeView.removeEventListener(Event.UPDATE, placeView_updateHandler);
 	super.close(dispose);
