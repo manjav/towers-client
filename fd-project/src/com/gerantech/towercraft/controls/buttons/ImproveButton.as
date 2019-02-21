@@ -61,6 +61,7 @@ override protected function initialize() : void
 		lockDisplay.touchable = false;
 		//lockDisplay.width = lockDisplay.height = size * 0.6;
 		//lockDisplay.x = lockDisplay.y = -size * 0.7;
+		lockDisplay.layoutData = new AnchorLayoutData(-20, NaN, NaN, -10);
 		lockDisplay.source = Assets.getTexture("cards/improves/lock", "gui");
 		addChild(lockDisplay);
 	}
