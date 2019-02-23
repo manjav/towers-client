@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF - 8"?>
-<TextureAtlas imagePath="tutors.png" width="512" height="512">
-	<SubTexture name="mentor-0" x="0" y="0" width="394" height="509" frameX="0" frameY="0" frameWidth="401" frameHeight="510"/>
-</TextureAtlas>

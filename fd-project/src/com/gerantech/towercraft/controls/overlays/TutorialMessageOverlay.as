@@ -1,63 +1,69 @@
 package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.tooltips.ConfirmTooltip;
+import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import dragonBones.events.EventObject;
+import dragonBones.objects.DragonBonesData;
+import dragonBones.starling.StarlingArmatureDisplay;
+import dragonBones.starling.StarlingFactory;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.VerticalAlign;
 import flash.filesystem.File;
 import flash.geom.Rectangle;
+import starling.animation.Transitions;
+import starling.core.Starling;
 import starling.events.Event;
 import starling.events.TouchEvent;
 
 public class TutorialMessageOverlay extends TutorialOverlay
 {
+	
+public static var factory: StarlingFactory;
+public static var dragonBonesData:DragonBonesData;
+
 protected var side:int;
-private var mentorImageLoaded:Boolean;
+protected var characterArmature:StarlingArmatureDisplay;
 public function TutorialMessageOverlay(task:TutorialTask):void
 {
 	super(task);
 	side = int(task.data) % 2;
-	appModel.assets.enqueue( File.applicationDirectory.resolvePath("assets/images/gui") );
-	appModel.assets.loadQueue(assetManagerLoaded);
+	Assets.loadAnimationAssets(createFactory, "characters");
 }
 
-private function assetManagerLoaded(ratio:Number):void 
+public static function createFactory():void
 {
-	if( ratio < 1 )
+	if( factory != null )
 		return;
-	mentorImageLoaded = true;
-	if( transitionState < TransitionData.STATE_IN_COMPLETED )
-		return;
+	factory = new StarlingFactory();
+	dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("characters_ske"));
+	factory.parseTextureAtlasData(AppModel.instance.assets.getObject("characters_tex"), AppModel.instance.assets.getTexture("characters_tex"));
 }
 
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	if( !mentorImageLoaded )
-		return;
 	
 	appModel.sounds.addAndPlay("whoosh");
 	overlay.touchable = true;
 	
-	var charachter:ImageLoader = new ImageLoader();
-	charachter.addEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
-	charachter.source =  appModel.assets.getTexture("mentor-" + side);
-	charachter.verticalAlign = VerticalAlign.BOTTOM;
-	charachter.layoutData = new AnchorLayoutData(NaN, side == 0?NaN:0, 0, side == 0?0:NaN);
-	charachter.width = stage.stageWidth * (side == 0?0.6:0.5);
-	//charachter.height = stage.stageHeight * (side == 0?0.45:0.5);
-	charachter.touchable = false;
-	addChild(charachter);
+	characterArmature = factory.buildArmatureDisplay("103");
+	characterArmature.touchable = false;
+	characterArmature.x = side == 0 ? -300 : stageWidth + 300;
+	characterArmature.y = stageHeight;
+	characterArmature.scale = 1 / 0.7;
+	characterArmature.addEventListener(EventObject.COMPLETE, characterArmature_completeHandler);
+	characterArmature.animation.gotoAndPlayByTime("appear", 0, 1);
+	addChild(characterArmature);
+	Starling.juggler.tween(characterArmature, 0.4, {delay:0.2, x:(side == 0 ? 220 : stageWidth - 220), transition:Transitions.EASE_OUT_BACK, onComplete:characterArmature_completeHandler});
 }
 
-protected function character_completeHandler(event:Event):void 
+protected function characterArmature_completeHandler():void 
 {
-	var charachter:ImageLoader = event.currentTarget as ImageLoader;
-	charachter.removeEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
-
-	var position:Rectangle = new Rectangle(stage.stageWidth * (side == 0?0.20:0.8), height - charachter.height - 100, 1, 1);
+	var position:Rectangle = new Rectangle(characterArmature.x, stageHeight - 900, 1, 1);
 	var tootlip:ConfirmTooltip = new ConfirmTooltip( loc(task.message), position, 1, 0.75, task.type == TutorialTask.TYPE_CONFIRM);
 	tootlip.valign = "bot";
 	tootlip.addEventListener(Event.SELECT, tootlip_eventsHandler); 
