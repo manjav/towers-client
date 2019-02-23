@@ -44,7 +44,7 @@ protected var segmentsCollection:ListCollection;
 public function DashboardScreen()
 {
 	if( !Assets.animationAssetsLoaded )
-		Assets.loadAnimationAssets(initialize);
+		Assets.loadAnimationAssets(initialize, "factions", "books");
 }
 
 override protected function initialize():void

@@ -172,15 +172,30 @@ package com.gerantech.towercraft.models
 		
 		static private var animAssetsLoadCallback:Function;
 		static public var animationAssetsLoaded:Boolean;
-		static public function loadAnimationAssets(callback:Function) : void
+		static public function loadAnimationAssets(callback:Function, ...args) : void
 		{
-			//  AppModel.instance.assets.verbose = true;
-			if( AppModel.instance.assets.getTexture("factions_tex") == null )
-				AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/factions" ));
-			if( AppModel.instance.assets.getTexture("books_tex") == null )
-				AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/books" ));
-			animAssetsLoadCallback = callback;
-			AppModel.instance.assets.loadQueue(assets_loadCallback);
+			for each( var item:String in args )
+				checkLoadingAssets(item);
+			
+			//AppModel.instance.assets.verbose = true;
+			var needLoading:Boolean;
+			function checkLoadingAssets(item:String) : void
+			{
+				if( AppModel.instance.assets.getTexture(item + "_tex") == null )
+				{
+					AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath( "assets/animations/" + item ));
+					needLoading = true;
+				}
+			}
+			if( needLoading )
+			{
+				animAssetsLoadCallback = callback;
+				AppModel.instance.assets.loadQueue(assets_loadCallback);
+			}
+			else
+			{
+				callback();
+			}
 		}
 		private static function assets_loadCallback(ratio:Number) : void
 		{
