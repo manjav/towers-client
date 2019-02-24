@@ -38,128 +38,129 @@
 	<SubTexture name="hits/arrows-000" x="109" y="768" width="110" height="91" frameX="-96" frameY="-119" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="hits/explode-005" x="924" y="286" width="97" height="95" frameX="-42" frameY="-42" frameWidth="180" frameHeight="180"/>
 	<SubTexture name="hits/explode-004" x="489" y="292" width="87" height="83" frameX="-47" frameY="-48" frameWidth="180" frameHeight="180"/>
-	<SubTexture name="flames/flame-base" x="956" y="0" width="64" height="62"/>
-	<SubTexture name="hits/explode-003" x="956" y="63" width="63" height="60" frameX="-59" frameY="-59" frameWidth="180" frameHeight="180"/>
-	<SubTexture name="bullets/ps-splash/ps-splash" x="956" y="124" width="63" height="56" frameX="-1" frameY="-3" frameWidth="64" frameHeight="64"/>
+	<SubTexture name="hits/base/hit-base" x="956" y="0" width="64" height="63"/>
+	<SubTexture name="flames/flame-base" x="956" y="64" width="64" height="62"/>
+	<SubTexture name="hits/explode-003" x="956" y="127" width="63" height="60" frameX="-59" frameY="-59" frameWidth="180" frameHeight="180"/>
+	<SubTexture name="bullets/ps-splash/ps-splash" x="952" y="188" width="63" height="56" frameX="-1" frameY="-3" frameWidth="64" frameHeight="64"/>
 	<SubTexture name="die/blood-013" x="168" y="201" width="72" height="49" frameX="0" frameY="-26" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-011" x="952" y="181" width="70" height="46" frameX="-9" frameY="-18" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-014" x="220" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-015" x="293" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-016" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-017" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-018" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-019" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-020" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-021" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-022" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-023" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-024" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-025" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-026" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-027" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-028" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-029" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-030" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-031" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-032" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-033" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-034" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-035" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-036" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-037" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-038" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-039" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-040" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-041" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-042" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-043" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-044" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-045" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-046" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-047" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-048" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-049" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-050" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-051" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-052" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-053" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-054" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-055" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-056" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-057" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-058" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-059" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-060" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-061" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-062" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-063" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-064" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-065" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-066" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-067" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-068" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-069" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-070" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-071" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-072" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-073" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-074" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-075" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-076" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-077" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-078" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-079" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-080" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-081" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-082" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-083" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-084" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-085" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-086" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-087" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-088" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-089" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-090" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-091" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-092" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-093" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-094" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-095" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-096" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-097" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-098" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-099" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-100" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-101" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-102" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-103" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-104" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-105" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-106" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-107" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-108" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-109" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-110" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-111" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-112" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-113" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-114" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-115" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-116" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-117" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-118" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-119" x="366" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-120" x="439" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-121" x="512" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-122" x="585" y="769" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-123" x="658" y="769" width="72" height="42" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="die/blood-010" x="952" y="228" width="68" height="44" frameX="-10" frameY="-15" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-011" x="220" y="768" width="70" height="46" frameX="-9" frameY="-18" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-014" x="291" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-015" x="364" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-016" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-017" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-018" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-019" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-020" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-021" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-022" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-023" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-024" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-025" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-026" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-027" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-028" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-029" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-030" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-031" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-032" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-033" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-034" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-035" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-036" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-037" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-038" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-039" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-040" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-041" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-042" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-043" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-044" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-045" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-046" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-047" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-048" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-049" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-050" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-051" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-052" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-053" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-054" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-055" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-056" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-057" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-058" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-059" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-060" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-061" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-062" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-063" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-064" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-065" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-066" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-067" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-068" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-069" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-070" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-071" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-072" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-073" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-074" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-075" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-076" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-077" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-078" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-079" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-080" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-081" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-082" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-083" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-084" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-085" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-086" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-087" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-088" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-089" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-090" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-091" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-092" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-093" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-094" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-095" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-096" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-097" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-098" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-099" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-100" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-101" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-102" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-103" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-104" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-105" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-106" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-107" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-108" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-109" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-110" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-111" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-112" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-113" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-114" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-115" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-116" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-117" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-118" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-119" x="437" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-120" x="510" y="768" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-121" x="583" y="769" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-122" x="656" y="769" width="72" height="43" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-123" x="895" y="774" width="72" height="42" frameX="0" frameY="-32" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-010" x="291" y="812" width="68" height="44" frameX="-10" frameY="-15" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="die/blood-012" x="965" y="382" width="58" height="48" frameX="-7" frameY="-22" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="die/blood-009" x="957" y="540" width="64" height="41" frameX="-12" frameY="-12" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="bullets/heal/000" x="965" y="431" width="50" height="49"/>
 	<SubTexture name="hits/hit-000" x="965" y="431" width="50" height="49"/>
 	<SubTexture name="bullets/bomb/000" x="444" y="543" width="36" height="68" frameX="-60" frameY="-41" frameWidth="150" frameHeight="150"/>
-	<SubTexture name="die/blood-008" x="957" y="582" width="62" height="38" frameX="-13" frameY="-10" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="die/blood-008" x="952" y="245" width="62" height="38" frameX="-13" frameY="-10" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="die/blood-007" x="489" y="376" width="57" height="36" frameX="-16" frameY="-8" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="die/blood-006" x="965" y="481" width="53" height="33" frameX="-18" frameY="-6" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="die/blood-005" x="168" y="251" width="47" height="30" frameX="-21" frameY="-5" frameWidth="80" frameHeight="80"/>
@@ -168,55 +169,55 @@
 	<SubTexture name="sliders/0/level-10" x="924" y="382" width="32" height="27"/>
 	<SubTexture name="sliders/0/level-11" x="770" y="544" width="32" height="27"/>
 	<SubTexture name="sliders/0/level-12" x="770" y="572" width="32" height="27"/>
-	<SubTexture name="sliders/0/level-13" x="770" y="600" width="32" height="27"/>
-	<SubTexture name="sliders/1/level-10" x="444" y="612" width="32" height="27"/>
-	<SubTexture name="sliders/1/level-11" x="957" y="621" width="32" height="27"/>
-	<SubTexture name="sliders/1/level-12" x="990" y="621" width="32" height="27"/>
-	<SubTexture name="sliders/1/level-13" x="770" y="628" width="32" height="27"/>
-	<SubTexture name="bullets/grenade/012" x="262" y="661" width="27" height="27" frameX="-2" frameY="-2" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/006" x="569" y="666" width="28" height="26" frameX="-2" frameY="-3" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/018" x="262" y="689" width="28" height="26" frameX="-2" frameY="-2" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/019" x="598" y="666" width="24" height="29" frameX="-4" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="sliders/0/level-13" x="957" y="582" width="32" height="27"/>
+	<SubTexture name="sliders/1/level-10" x="990" y="582" width="32" height="27"/>
+	<SubTexture name="sliders/1/level-11" x="770" y="600" width="32" height="27"/>
+	<SubTexture name="sliders/1/level-12" x="957" y="610" width="32" height="27"/>
+	<SubTexture name="sliders/1/level-13" x="990" y="610" width="32" height="27"/>
+	<SubTexture name="bullets/grenade/012" x="444" y="612" width="27" height="27" frameX="-2" frameY="-2" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/006" x="770" y="628" width="28" height="26" frameX="-2" frameY="-3" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/018" x="262" y="661" width="28" height="26" frameX="-2" frameY="-2" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/019" x="569" y="666" width="24" height="29" frameX="-4" frameY="0" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/013" x="965" y="515" width="30" height="23" frameX="0" frameY="-4" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/023" x="128" y="582" width="23" height="30" frameX="-5" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/007" x="569" y="693" width="24" height="28" frameX="-4" frameY="-2" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/007" x="594" y="666" width="24" height="28" frameX="-4" frameY="-2" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/011" x="128" y="613" width="22" height="30" frameX="-5" frameY="-1" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/017" x="444" y="640" width="31" height="21" frameX="0" frameY="-5" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="die/blood-002" x="594" y="696" width="31" height="21" frameX="-26" frameY="-11" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="sliders/0/level-1" x="262" y="716" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-2" x="594" y="718" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-3" x="569" y="722" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-4" x="731" y="769" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-5" x="895" y="774" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-6" x="919" y="774" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-7" x="943" y="774" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-8" x="967" y="774" width="23" height="27"/>
-	<SubTexture name="sliders/0/level-9" x="991" y="774" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-1" x="731" y="797" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-2" x="895" y="802" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-3" x="919" y="802" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-4" x="943" y="802" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-5" x="967" y="802" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-6" x="991" y="802" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-7" x="220" y="812" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-8" x="244" y="812" width="23" height="27"/>
-	<SubTexture name="sliders/1/level-9" x="268" y="812" width="23" height="27"/>
-	<SubTexture name="bullets/grenade/001" x="262" y="744" width="29" height="21" frameX="-2" frameY="-5" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/005" x="593" y="746" width="30" height="20" frameX="-1" frameY="-6" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/008" x="292" y="812" width="19" height="30" frameX="-6" frameY="-1" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/020" x="312" y="812" width="19" height="30" frameX="-7" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/014" x="332" y="812" width="31" height="18" frameX="0" frameY="-6" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/002" x="364" y="812" width="31" height="17" frameX="-1" frameY="-7" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="die/blood-002" x="262" y="688" width="31" height="21" frameX="-26" frameY="-11" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="sliders/0/level-1" x="594" y="695" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-2" x="569" y="696" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-3" x="262" y="710" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-4" x="593" y="723" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-5" x="569" y="724" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-6" x="262" y="738" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-7" x="729" y="769" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-8" x="968" y="774" width="23" height="27"/>
+	<SubTexture name="sliders/0/level-9" x="992" y="774" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-1" x="729" y="797" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-2" x="968" y="802" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-3" x="992" y="802" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-4" x="360" y="812" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-5" x="384" y="812" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-6" x="408" y="812" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-7" x="432" y="812" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-8" x="456" y="812" width="23" height="27"/>
+	<SubTexture name="sliders/1/level-9" x="480" y="812" width="23" height="27"/>
+	<SubTexture name="bullets/grenade/001" x="504" y="812" width="29" height="21" frameX="-2" frameY="-5" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/005" x="534" y="812" width="30" height="20" frameX="-1" frameY="-6" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/008" x="0" y="813" width="19" height="30" frameX="-6" frameY="-1" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/020" x="20" y="813" width="19" height="30" frameX="-7" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/014" x="957" y="638" width="31" height="18" frameX="0" frameY="-6" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/002" x="989" y="638" width="31" height="17" frameX="-1" frameY="-7" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/022" x="109" y="709" width="17" height="31" frameX="-8" frameY="0" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/000" x="996" y="515" width="25" height="21" frameX="-4" frameY="-5" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/016" x="396" y="812" width="31" height="16" frameX="0" frameY="-7" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="die/blood-001" x="428" y="812" width="26" height="19" frameX="-27" frameY="-12" frameWidth="80" frameHeight="80"/>
-	<SubTexture name="bullets/grenade/010" x="455" y="812" width="16" height="30" frameX="-8" frameY="-1" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/004" x="472" y="812" width="31" height="15" frameX="-1" frameY="-8" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/016" x="593" y="751" width="31" height="16" frameX="0" frameY="-7" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="die/blood-001" x="40" y="813" width="26" height="19" frameX="-27" frameY="-12" frameWidth="80" frameHeight="80"/>
+	<SubTexture name="bullets/grenade/010" x="565" y="812" width="16" height="30" frameX="-8" frameY="-1" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/004" x="67" y="813" width="31" height="15" frameX="-1" frameY="-8" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/021" x="591" y="155" width="14" height="31" frameX="-9" frameY="0" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="bullets/grenade/009" x="591" y="187" width="14" height="30" frameX="-9" frameY="-1" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/003" x="504" y="812" width="31" height="13" frameX="-1" frameY="-9" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="bullets/grenade/015" x="536" y="812" width="31" height="13" frameX="0" frameY="-9" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/003" x="582" y="813" width="31" height="13" frameX="-1" frameY="-9" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="bullets/grenade/015" x="614" y="813" width="31" height="13" frameX="0" frameY="-9" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="sliders/0/back" x="591" y="218" width="15" height="13"/>
 	<SubTexture name="sliders/0/fill" x="591" y="232" width="15" height="13"/>
 	<SubTexture name="sliders/1/back" x="591" y="246" width="15" height="13"/>
@@ -227,6 +228,6 @@
 	<SubTexture name="die/blood-000" x="241" y="220" width="12" height="12" frameX="-34" frameY="-14" frameWidth="80" frameHeight="80"/>
 	<SubTexture name="bullets/black-l/000" x="241" y="233" width="11" height="13"/>
 	<SubTexture name="bullets/arrow/000" x="777" y="147" width="5" height="22" frameX="-2" frameY="-8" frameWidth="9" frameHeight="38"/>
-	<SubTexture name="bullets/black-m/000" x="952" y="273" width="9" height="11"/>
-	<SubTexture name="bullets/black-s/000" x="962" y="273" width="7" height="8"/>
+	<SubTexture name="bullets/black-m/000" x="577" y="292" width="9" height="11"/>
+	<SubTexture name="bullets/black-s/000" x="1016" y="188" width="7" height="8"/>
 </TextureAtlas>
