@@ -37,7 +37,8 @@ public var mapBuilder:MapBuilder;
 public var battleData:BattleData;
 public var responseSender:ResponseSender;
 public var dropTargets:DropTargets;
-public var unitsContainer:Sprite;
+public var shadowsContainer:DisplayObjectContainer;
+public var unitsContainer:DisplayObjectContainer;
 public var guiImagesContainer:DisplayObjectContainer;
 public var guiTextsContainer:DisplayObjectContainer;
 public var effectsContainer:DisplayObjectContainer;
@@ -52,6 +53,7 @@ public function initialize () : void
 	alignPivot();
 	scale = 0.8;
 	
+	shadowsContainer = new Sprite();
 	unitsContainer = new Sprite();
 	effectsContainer = new Sprite();
 	guiImagesContainer = new Sprite();
@@ -98,9 +100,10 @@ public function createPlaces(battleData:BattleData) : void
 	responseSender = new ResponseSender(battleData.room);
 	TimeManager.instance.addEventListener(Event.UPDATE, timeManager_updateHandler);
 	
+	addChild(shadowsContainer);
 	addChild(unitsContainer);
 
-	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i ++ )
+	for( var i:int = 0; i < battleData.sfsData.getSFSArray("units").size(); i++ )
 	{
 		var u:ISFSObject =  battleData.sfsData.getSFSArray("units").getSFSObject(i);
 		summonUnit(u.getInt("i"), u.getInt("t"), u.getInt("l"), u.getInt("s"), u.getDouble("x"), u.getDouble("y"), u.getDouble("h"), true);
