@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/26.0">
   <id>com.grantech.towers</id>
-  <versionNumber>0.4.000</versionNumber>
+  <versionNumber>0.4.020</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>KOOT</filename>
   <name>KOOT</name>
   <description>__DESCRIPTION__</description><!--<description>{"platform":"android", "market":"cafebazaar"}</description> cafebazaar-myket-cando-ario-google -->
   <initialWindow>
     <title>KOOT</title>
-    <content>towerstory.swf</content>
+    <content>release.swf</content>
     <visible>true</visible>
     <fullScreen>true</fullScreen>
     <renderMode>direct</renderMode>
