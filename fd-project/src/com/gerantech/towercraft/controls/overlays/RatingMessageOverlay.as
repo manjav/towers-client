@@ -1,36 +1,26 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.RatingItemRenderer;
 import com.gerantech.towercraft.controls.tooltips.ConfirmTooltip;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import feathers.controls.ImageLoader;
+import dragonBones.events.EventObject;
+import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalLayout;
-import feathers.layout.VerticalAlign;
-import flash.filesystem.File;
 import flash.geom.Rectangle;
 import starling.events.Event;
-import starling.events.TouchEvent;
 
 public class RatingMessageOverlay extends TutorialMessageOverlay
 {
-	private var list:List;
-public function RatingMessageOverlay(task:TutorialTask):void
+private var list:List;
+public function RatingMessageOverlay(task:TutorialTask):void { super(task); }
+override protected function characterArmature_completeHandler():void 
 {
-	super(task);
-}
-
-override protected function character_completeHandler(event:Event):void 
-{
-	var charachter:ImageLoader = event.currentTarget as ImageLoader;
-	charachter.removeEventListener(FeathersEventType.CREATION_COMPLETE, character_completeHandler);
-
-	var position:Rectangle = new Rectangle(stage.stageWidth * (side == 0?0.20:0.8), height - charachter.height - 100, 1, 1);
+	var position:Rectangle = new Rectangle(characterArmature.x, stageHeight - 900, 1, 1);
 	var tootlip:ConfirmTooltip = new ConfirmTooltip( loc(task.message) + "\n\n\n\n", position, 1, 0.75, false);
 	tootlip.valign = "bot";
 	tootlip.addEventListener(FeathersEventType.CREATION_COMPLETE, tootlip_createCompleteHandler);

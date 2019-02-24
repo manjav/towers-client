@@ -5,8 +5,8 @@ import com.gerantech.towercraft.controls.sliders.battle.HealthBarDetailed;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.views.ArtRules;
+import com.gerantech.towercraft.views.UnitMC;
 import com.gerantech.towercraft.views.effects.BattleParticleSystem;
-import com.gerantech.towercraft.views.effects.MortalParticleSystem;
 import com.gerantech.towercraft.views.weapons.BulletView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
@@ -15,7 +15,6 @@ import com.gt.towers.battle.units.Unit;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
-import com.gt.towers.utils.GraphicMetrics;
 import com.gt.towers.utils.Point3;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -42,41 +41,42 @@ private var sizeDisplay:Image;
 private var __x:Number;
 private var __y:Number;
 private var _muted:Boolean = true;
-private var textureType:String;
-private var textureName:String;
 
 public var fireDisplayFactory:Function;
 
 private var deployIcon:CountdownIcon;
 private var aimDisplay:Image;
-private var shadowDisplay:Image;
 private var enemyHint:ShadowLabel;
-private var bodyDisplay:MovieClip;
-private var hitFilter:ColorMatrixFilter;
+private var bodyDisplay:UnitMC;
+private var shadowDisplay:UnitMC;
 private var healthDisplay:HealthBarLeveled;
 private var flameParticle:BattleParticleSystem;
 private var smokeParticle:BattleParticleSystem;
 private var bulletParticle:BattleParticleSystem;
+private var hitFilter:ColorMatrixFilter;
 
 public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
 	super(card, id, side, x, y, z);
 	__x = getSideX();
 	__y = getSideY();
-	shadowDisplay = new Image(appModel.assets.getTexture("troops-shadow"));
-	shadowDisplay.pivotX = shadowDisplay.width * 0.55;
-	shadowDisplay.pivotY = shadowDisplay.height * 0.55;
-	shadowDisplay.width = ArtRules.getShadowSize(card.type);
-	shadowDisplay.height = shadowDisplay.width * BattleField.CAMERA_ANGLE;
+	
+	shadowDisplay = new UnitMC("109/", "m_" + (side == battleField.side ? "000_" : "180_"));
+	shadowDisplay.alpha = 0.4;
+	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
+	shadowDisplay.pivotY = shadowDisplay.height * _PIVOT_Y;
 	shadowDisplay.x = __x;
 	shadowDisplay.y = __y;
-	fieldView.unitsContainer.addChildAt(shadowDisplay, 0);
-	
+	shadowDisplay.width = _WIDTH;
+	shadowDisplay.height = _HEIGHT;
+	troopScale = shadowDisplay.scale *= _SCALE;
+	shadowDisplay.pause();
+	Starling.juggler.add(shadowDisplay);
+	fieldView.shadowsContainer.addChild(shadowDisplay);
+
 	var appearanceDelay:Number = Math.random() * 0.5;
 	
-	textureType = (card.type) + "/" + battleField.getColorIndex(side) + "/";
-	textureName = textureType + "m_" + (side == battleField.side ? "000_" : "180_");
-	bodyDisplay = new MovieClip(appModel.assets.getTextures(textureName), 15);
+	bodyDisplay = new UnitMC(card.type + "/" + battleField.getColorIndex(side) + "/", "m_" + (side == battleField.side ? "000_" : "180_"));
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
 	bodyDisplay.pivotY = bodyDisplay.height * _PIVOT_Y;
 	bodyDisplay.x = __x;
@@ -87,6 +87,7 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	bodyDisplay.pause();
 	Starling.juggler.add(bodyDisplay);
 	fieldView.unitsContainer.addChild(bodyDisplay);
+
 	setHealth(card.health);
 
 	if( CardTypes.isTroop(card.type) )
@@ -159,16 +160,22 @@ override public function setState(state:int) : Boolean
 	else if( state == GameObject.STATE_3_WAITING )
 	{
 		bodyDisplay.currentFrame = 0;
+		shadowDisplay.currentFrame = 0;
 		if ( _state != GameObject.STATE_5_SHOOTING )
 		{
+			shadowDisplay.pause();
 			bodyDisplay.pause();
 			if( CardTypes.isHero(card.type) )
-				updateTexture(textureType + "m_" + (side == battleField.side ? "000_" : "180_"));
+			{
+				bodyDisplay.updateTexture("m_", side == battleField.side ? "000_" : "180_");
+				shadowDisplay.updateTexture("m_", side == battleField.side ? "000_" : "180_");
+			}
 		}
 	}
 	else if( state == GameObject.STATE_4_MOVING || state == GameObject.STATE_5_SHOOTING )
 	{
 		bodyDisplay.play();
+		shadowDisplay.play();
 	}
 	return true;
 }
@@ -258,33 +265,13 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		flipped = true;
 	}
 	
-	bodyDisplay.loop = anim == "m_";
+	shadowDisplay.loop = bodyDisplay.loop = anim == "m_";
+
 	bodyDisplay.scaleX = (flipped ? -troopScale : troopScale );
+	bodyDisplay.updateTexture(anim, dir);
 	
-	if( textureName == textureType + anim + dir )
-	{
-		if( anim == "s_" )
-			bodyDisplay.currentFrame = 0;
-		return;
-	}
-
-	updateTexture(textureType + anim + dir);
-}
-
-private function updateTexture(textureName:String) : void 
-{
-	this.textureName = textureName;
-	var numFrames:int = bodyDisplay.numFrames - 1;// trace(textureType + direction, numFrames);
-	while( numFrames > 0 )
-	{
-		bodyDisplay.removeFrameAt(numFrames);
-		numFrames --;
-	}
-	var textures:Vector.<Texture> = appModel.assets.getTextures(textureName);
-	bodyDisplay.setFrameTexture(0, textures[0]);
-	for ( var i:int = 1; i < textures.length; i++ )
-		bodyDisplay.addFrame(textures[i]);
-	bodyDisplay.currentFrame = 0;
+	shadowDisplay.scaleX = (flipped ? -shadowDisplay.scaleY : shadowDisplay.scaleY );
+	shadowDisplay.updateTexture(anim, dir);
 }
 
 override public function hit(damage:Number):void
@@ -458,7 +445,7 @@ public function set alpha(value:Number):void
 {
 	bodyDisplay.alpha = value;
 	if( shadowDisplay != null )
-		shadowDisplay.alpha = value;
+		shadowDisplay.alpha = value - 0.6;
 	if( rangeDisplay != null )
 		rangeDisplay.alpha = value;
 	if( healthDisplay != null )
