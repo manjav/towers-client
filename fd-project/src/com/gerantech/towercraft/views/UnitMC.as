@@ -28,7 +28,6 @@ public function updateTexture(anim:String, dir:String):void
 			this.currentFrame = 0;
 		return;
 	}
-
 	
 	this.animTextureName = anim + dir;
 	var _numFrames:int = this.numFrames - 1;// trace(textureType + direction, numFrames);

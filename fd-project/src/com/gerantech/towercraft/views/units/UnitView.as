@@ -322,6 +322,7 @@ protected function defaultSummonEffectFactory() : void
 	//summonParticle.scale = ArtRules.getSmokeSize(card.type)
 	summonParticle.x = x;
 	summonParticle.y = y;
+	summonParticle.alpha = 0.1;
 	//summonParticle.pivotY = summonParticle.height *	0.9;
 	summonParticle.start(-1);
 	fieldView.unitsContainer.addChildAt(summonParticle, 0);
