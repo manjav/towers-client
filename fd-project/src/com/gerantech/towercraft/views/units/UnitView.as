@@ -61,8 +61,8 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	__x = getSideX();
 	__y = getSideY();
 	
-	shadowDisplay = new UnitMC("109/", "m_" + (side == battleField.side ? "000_" : "180_"));
-	shadowDisplay.alpha = 0.4;
+	shadowDisplay = new UnitMC(card.type + "/", "m_" + (side == battleField.side ? "000_" : "180_"));
+	shadowDisplay.alpha = 0.2;
 	shadowDisplay.pivotX = shadowDisplay.width * 0.5;
 	shadowDisplay.pivotY = shadowDisplay.height * _PIVOT_Y;
 	shadowDisplay.x = __x;
@@ -265,11 +265,11 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 		flipped = true;
 	}
 	
-	shadowDisplay.loop = bodyDisplay.loop = anim == "m_";
-
+	bodyDisplay.loop = anim == "m_";
 	bodyDisplay.scaleX = (flipped ? -troopScale : troopScale );
 	bodyDisplay.updateTexture(anim, dir);
 	
+	shadowDisplay.loop = bodyDisplay.loop;
 	shadowDisplay.scaleX = (flipped ? -shadowDisplay.scaleY : shadowDisplay.scaleY );
 	shadowDisplay.updateTexture(anim, dir);
 }

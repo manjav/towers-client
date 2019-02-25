@@ -37,6 +37,11 @@ public function updateTexture(anim:String, dir:String):void
 		this.removeFrameAt(_numFrames);
 		_numFrames --;
 	}
+	/*if( _numFrames <= 0 )
+	{
+		this.currentFrame = 0;
+		return;
+	}*/
 	var textures:Vector.<Texture> = AppModel.instance.assets.getTextures(baseTextureName + animTextureName);
 	this.setFrameTexture(0, textures[0]);
 	for ( var i:int = 1; i < textures.length; i++ )
