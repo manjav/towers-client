@@ -317,6 +317,15 @@ private function setHealth(health:Number):void
 protected function defaultSummonEffectFactory() : void
 {
 	Starling.juggler.tween(bodyDisplay, 0.2, {alpha:0, repeatCount:9});
+
+	var summonParticle:BattleParticleSystem = new BattleParticleSystem("summon-base", "summons/summon-base", 1, false, true);
+	//summonParticle.scale = ArtRules.getSmokeSize(card.type)
+	summonParticle.x = x;
+	summonParticle.y = y;
+	//summonParticle.pivotY = summonParticle.height *	0.9;
+	summonParticle.start(-1);
+	fieldView.unitsContainer.addChildAt(summonParticle, 0);
+	return;
 	
 	var summonDisplay:MovieClip = new MovieClip(appModel.assets.getTextures("summons/explode-"), 35);
 	summonDisplay.pivotX = summonDisplay.width * 0.5;
