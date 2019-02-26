@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarDetailed;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.UnitMC;
 import com.gerantech.towercraft.views.effects.BattleParticleSystem;
@@ -34,8 +35,8 @@ static public const _HEIGHT:int = 300;
 static public const _SCALE:Number = 0.85;
 static public const _PIVOT_Y:Number = 0.75;
 
-private var troopScale:Number = 2;
-private var hitTimeoutId:uint;
+private var shadowScale:Number;
+private var bodyScale:Number;
 private var rangeDisplay:Image;
 private var sizeDisplay:Image;
 private var __x:Number;
@@ -45,21 +46,51 @@ private var _muted:Boolean = true;
 public var fireDisplayFactory:Function;
 
 private var deployIcon:CountdownIcon;
-private var aimDisplay:Image;
 private var enemyHint:ShadowLabel;
+private var aimDisplay:Image;
+private var baseDisplay:Image;
 private var bodyDisplay:UnitMC;
 private var shadowDisplay:UnitMC;
 private var healthDisplay:HealthBarLeveled;
 private var flameParticle:BattleParticleSystem;
 private var smokeParticle:BattleParticleSystem;
 private var bulletParticle:BattleParticleSystem;
-private var hitFilter:ColorMatrixFilter;
+private var hitFilterBase:ColorMatrixFilter;
+private var hitFilterBody:ColorMatrixFilter;
 
 public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Number)
 {
 	super(card, id, side, x, y, z);
 	__x = getSideX();
 	__y = getSideY();
+
+	var appearanceDelay:Number = Math.random() * 0.5;
+	
+	if( CardTypes.isBuilding(card.type) )
+	{
+		baseDisplay = new Image(appModel.assets.getTexture(card.type + "/" + battleField.getColorIndex(side) + "/base"));
+		baseDisplay.pivotX = baseDisplay.width * 0.5;
+		baseDisplay.pivotY = baseDisplay.height * _PIVOT_Y;
+		baseDisplay.x = __x;
+		baseDisplay.y = __y;
+		baseDisplay.width = _WIDTH;
+		baseDisplay.height = _HEIGHT;
+		baseDisplay.scale *= _SCALE;
+		fieldView.unitsContainer.addChild(baseDisplay);
+	}
+	
+	
+	bodyDisplay = new UnitMC(card.type + "/" + battleField.getColorIndex(side) + "/", "m_" + (side == battleField.side ? "000_" : "180_"));
+	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
+	bodyDisplay.pivotY = bodyDisplay.height * _PIVOT_Y;
+	bodyDisplay.x = __x;
+	bodyDisplay.y = __y;
+	bodyDisplay.width = _WIDTH;
+	bodyDisplay.height = _HEIGHT;
+	bodyScale = bodyDisplay.scale *= _SCALE;
+	bodyDisplay.pause();
+	Starling.juggler.add(bodyDisplay);
+	fieldView.unitsContainer.addChild(bodyDisplay);
 	
 	shadowDisplay = new UnitMC(card.type + "/", "m_" + (side == battleField.side ? "000_" : "180_"));
 	shadowDisplay.alpha = 0.2;
@@ -69,24 +100,10 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	shadowDisplay.y = __y;
 	shadowDisplay.width = _WIDTH;
 	shadowDisplay.height = _HEIGHT;
-	troopScale = shadowDisplay.scale *= _SCALE;
+	shadowScale = shadowDisplay.scale *= _SCALE;
 	shadowDisplay.pause();
 	Starling.juggler.add(shadowDisplay);
 	fieldView.shadowsContainer.addChild(shadowDisplay);
-
-	var appearanceDelay:Number = Math.random() * 0.5;
-	
-	bodyDisplay = new UnitMC(card.type + "/" + battleField.getColorIndex(side) + "/", "m_" + (side == battleField.side ? "000_" : "180_"));
-	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
-	bodyDisplay.pivotY = bodyDisplay.height * _PIVOT_Y;
-	bodyDisplay.x = __x;
-	bodyDisplay.y = __y;
-	bodyDisplay.width = _WIDTH;
-	bodyDisplay.height = _HEIGHT;
-	troopScale = bodyDisplay.scale *= _SCALE;
-	bodyDisplay.pause();
-	Starling.juggler.add(bodyDisplay);
-	fieldView.unitsContainer.addChild(bodyDisplay);
 
 	setHealth(card.health);
 
@@ -94,9 +111,12 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 	{
 		bodyDisplay.alpha = 0;
 		bodyDisplay.y = __y - 100;
-		bodyDisplay.scaleY = troopScale * 4;
+		bodyDisplay.scaleY = bodyScale * 4;
 		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay,		alpha:0.5, y:__y,	transition:Transitions.EASE_OUT, onComplete:defaultSummonEffectFactory});
-		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:troopScale,	transition:Transitions.EASE_OUT_BACK});		
+		Starling.juggler.tween(bodyDisplay, 0.3, {delay:appearanceDelay + 0.1,	scaleY:bodyScale,	transition:Transitions.EASE_OUT_BACK});
+		
+		shadowDisplay.scale = 0.1
+		Starling.juggler.tween(shadowDisplay, 0.3, {delay:appearanceDelay + 0.1,scale:shadowScale,	transition:Transitions.EASE_OUT_BACK});
 	}
 	
 	if( card.summonTime > 0 )
@@ -150,12 +170,16 @@ override public function setState(state:int) : Boolean
 	}
 	else if( state == GameObject.STATE_2_MORTAL )
 	{
+		// finish summon animations
 		bodyDisplay.pause();
 		bodyDisplay.x = __x;
 		bodyDisplay.y = __y;
 		bodyDisplay.alpha = 1;
-		bodyDisplay.scaleY = troopScale;
+		bodyDisplay.scaleY = bodyScale;
 		Starling.juggler.removeTweens(bodyDisplay);
+		
+		shadowDisplay.scale = shadowScale;
+		Starling.juggler.removeTweens(shadowDisplay);
 	}
 	else if( state == GameObject.STATE_3_WAITING )
 	{
@@ -266,11 +290,11 @@ private function switchAnimation(anim:String, x:Number, oldX:Number, y:Number, o
 	}
 	
 	bodyDisplay.loop = anim == "m_";
-	bodyDisplay.scaleX = (flipped ? -troopScale : troopScale );
+	bodyDisplay.scaleX = (flipped ? -bodyScale : bodyScale );
 	bodyDisplay.updateTexture(anim, dir);
 	
 	shadowDisplay.loop = bodyDisplay.loop;
-	shadowDisplay.scaleX = (flipped ? -shadowDisplay.scaleY : shadowDisplay.scaleY );
+	//shadowDisplay.scaleX = (flipped ? -shadowDisplay.scaleY : shadowDisplay.scaleY );
 	shadowDisplay.updateTexture(anim, dir);
 }
 
@@ -282,13 +306,23 @@ override public function hit(damage:Number):void
 	//trace(id, health, damage)
 	if( bodyDisplay != null )
 	{
-		if( hitFilter == null )
+		if( hitFilterBody == null )
 		{
-			hitFilter = new ColorMatrixFilter();
-			hitFilter.adjustBrightness(0.6);
+			hitFilterBody = new ColorMatrixFilter();
+			hitFilterBody.adjustBrightness(0.6);
+			hitFilterBase = new ColorMatrixFilter();
+			hitFilterBase.adjustBrightness(0.6);
 		}
-		bodyDisplay.filter = hitFilter;
-		hitTimeoutId = setTimeout( function():void{ bodyDisplay.filter = null; }, 50);
+		bodyDisplay.filter = hitFilterBody;
+		if( baseDisplay != null )
+			baseDisplay.filter = hitFilterBase;
+		setTimeout( function() : void
+		{
+			if( bodyDisplay != null && bodyDisplay.parent != null )
+				bodyDisplay.filter = null;
+			if( baseDisplay != null && baseDisplay.parent != null )
+				baseDisplay.filter = null;
+		}, 50);
 	}
 
 	setHealth(health);
@@ -425,11 +459,12 @@ override public function dispose() : void
 	super.dispose();
 	if( CardTypes.isHero(card.type) && side != battleField.side )
 		fieldView.mapBuilder.changeSummonArea(id < 4);
-	clearTimeout(hitTimeoutId);
 	Starling.juggler.remove(bodyDisplay);
 	bodyDisplay.removeFromParent(true);
 	if( shadowDisplay != null )
 		shadowDisplay.removeFromParent(true);
+	if( baseDisplay != null )
+		baseDisplay.removeFromParent(true);
 	if( rangeDisplay != null )
 		rangeDisplay.removeFromParent(true);
 	if( deployIcon != null )

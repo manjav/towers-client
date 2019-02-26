@@ -13,23 +13,20 @@
 	<SubTexture name="bolevard" x="441" y="915" width="400" height="135"/>
 	<SubTexture name="damage-range" x="1722" y="562" width="200" height="199"/>
 	<SubTexture name="ttrree" x="441" y="501" width="140" height="198" frameX="-113" frameY="-92" frameWidth="400" frameHeight="400"/>
-	<SubTexture name="car-blue" x="0" y="947" width="227" height="103" frameX="-37" frameY="-86" frameWidth="300" frameHeight="300"/>
-	<SubTexture name="car-red" x="0" y="1051" width="227" height="103" frameX="-36" frameY="-86" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="summon-0" x="441" y="700" width="136" height="167"/>
 	<SubTexture name="summon-1" x="842" y="915" width="136" height="167"/>
-	<SubTexture name="summon-2" x="228" y="947" width="136" height="167"/>
-	<SubTexture name="summon-t" x="365" y="1051" width="136" height="167"/>
-	<SubTexture name="cone" x="502" y="1051" width="150" height="149"/>
-	<SubTexture name="standguard" x="653" y="1051" width="150" height="149"/>
-	<SubTexture name="tile" x="804" y="1083" width="160" height="127"/>
-	<SubTexture name="manhole" x="965" y="1109" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
+	<SubTexture name="summon-2" x="0" y="947" width="136" height="167"/>
+	<SubTexture name="summon-t" x="137" y="947" width="136" height="167"/>
+	<SubTexture name="cone" x="274" y="947" width="150" height="149"/>
+	<SubTexture name="standguard" x="425" y="1051" width="150" height="149"/>
+	<SubTexture name="tile" x="576" y="1051" width="160" height="127"/>
+	<SubTexture name="manhole" x="737" y="1083" width="162" height="111" frameX="-15" frameY="-52" frameWidth="200" frameHeight="200"/>
 	<SubTexture name="focus-rectangle" x="1962" y="328" width="80" height="79"/>
 	<SubTexture name="grid" x="1962" y="408" width="64" height="63"/>
 	<SubTexture name="white-line" x="1923" y="562" width="103" height="19" frameX="-97" frameY="0" frameWidth="200" frameHeight="20"/>
 	<SubTexture name="end-line" x="2007" y="0" width="32" height="31"/>
-	<SubTexture name="car-shadow" x="2007" y="32" width="28" height="11" frameX="-1" frameY="-9" frameWidth="30" frameHeight="30"/>
-	<SubTexture name="alpha-mask" x="2007" y="44" width="16" height="15"/>
-	<SubTexture name="asphalt-1" x="2024" y="44" width="16" height="15"/>
-	<SubTexture name="asphalt-2" x="2007" y="60" width="16" height="15"/>
-	<SubTexture name="edge-tile" x="2036" y="32" width="8" height="2"/>
+	<SubTexture name="alpha-mask" x="2007" y="32" width="16" height="15"/>
+	<SubTexture name="asphalt-1" x="2024" y="32" width="16" height="15"/>
+	<SubTexture name="asphalt-2" x="2007" y="48" width="16" height="15"/>
+	<SubTexture name="edge-tile" x="2024" y="48" width="8" height="2"/>
 </TextureAtlas>
