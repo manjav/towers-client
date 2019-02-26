@@ -319,11 +319,10 @@ protected function defaultSummonEffectFactory() : void
 	Starling.juggler.tween(bodyDisplay, 0.2, {alpha:0, repeatCount:9});
 
 	var summonParticle:BattleParticleSystem = new BattleParticleSystem("summon-base", "summons/summon-base", 1, false, true);
-	//summonParticle.scale = ArtRules.getSmokeSize(card.type)
+	summonParticle.scaleY = BattleField.CAMERA_ANGLE;
 	summonParticle.x = x;
 	summonParticle.y = y;
-	summonParticle.alpha = 0.1;
-	//summonParticle.pivotY = summonParticle.height *	0.9;
+	summonParticle.alpha = 0.06;
 	summonParticle.start(-1);
 	fieldView.unitsContainer.addChildAt(summonParticle, 0);
 	return;
