@@ -3,6 +3,7 @@ package com.gerantech.towercraft.views.weapons
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.BattleFieldView;
+import com.gerantech.towercraft.views.effects.BattleParticleSystem;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.GameObject;
 import com.gt.towers.battle.bullets.Bullet;
@@ -123,6 +124,15 @@ protected function defaultHitDisplayFactory() : void
 	if( hit == "" )
 		return;
 		
+	/*if( hit.substr(0,3) == "ps-" )
+	{//"hits/" + hit + "/" +
+		var hitParticle:BattleParticleSystem = new BattleParticleSystem(hit, hit, 1, true, true);
+		hitParticle.x = getSideX();
+		hitParticle.y = getSideY();
+		fieldView.effectsContainer.addChild(hitParticle);
+		return;
+	}*/
+	
 	if( hit == "explode-" )
 		fieldView.shake();
 	

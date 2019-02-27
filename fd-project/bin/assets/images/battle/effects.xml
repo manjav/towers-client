@@ -26,7 +26,7 @@
 	<SubTexture name="hits/arrows-000" x="467" y="287" width="110" height="91" frameX="-96" frameY="-119" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="hits/explode-005" x="735" y="520" width="97" height="95" frameX="-42" frameY="-42" frameWidth="180" frameHeight="180"/>
 	<SubTexture name="hits/explode-004" x="159" y="201" width="87" height="83" frameX="-47" frameY="-48" frameWidth="180" frameHeight="180"/>
-	<SubTexture name="hits/base/hit-base" x="956" y="0" width="64" height="63"/>
+	<SubTexture name="hits/ps-melee/ps-melee" x="956" y="0" width="64" height="63"/>
 	<SubTexture name="summons/summon-base" x="956" y="64" width="64" height="63"/>
 	<SubTexture name="flames/flame-base" x="956" y="128" width="64" height="62"/>
 	<SubTexture name="hits/explode-003" x="952" y="191" width="63" height="60" frameX="-59" frameY="-59" frameWidth="180" frameHeight="180"/>
