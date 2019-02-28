@@ -146,7 +146,7 @@ public function summonUnit(id:int, type:int, level:int, side:int, x:Number, y:Nu
 		//trace("summon spell", " side:" + side, " x:" + x, " y:" + y, " offset:" + offset);
 		return;
 	}
-	
+
 	var u:UnitView = new UnitView(card, id, side, x, y, 0);
 	u.addEventListener("findPath", findPathHandler);
 

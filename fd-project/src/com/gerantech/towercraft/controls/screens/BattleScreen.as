@@ -58,7 +58,7 @@ public function BattleScreen()
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
 
 	appModel.battleFieldView = new BattleFieldView();
-	appModel.battleFieldView.addEventListener(Event.COMPLETE, 				battleFieldView_completeHandler);
+	appModel.battleFieldView.addEventListener(Event.COMPLETE,	battleFieldView_completeHandler);
 	appModel.battleFieldView.initialize();
 	addChild(appModel.battleFieldView);
 }
@@ -162,14 +162,12 @@ private function startBattle():void
 {
 	if( this.battleData == null)
 		return;
-	appModel.battleFieldView.createPlaces(this.battleData);
 
 //	if( appModel.battleFieldView.battleData == null || appModel.battleFieldView.battleData.room == null )
 //		return;
 	
 	IN_BATTLE = true;
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_STARTED, tutorials_tasksStartHandler);
-	var battleData:BattleData = appModel.battleFieldView.battleData;
 	if( !waitingOverlay.ready )
 	{
 		waitingOverlay.addEventListener(Event.READY, waitingOverlay_readyHandler);
@@ -180,6 +178,9 @@ private function startBattle():void
 		}
 		return;
 	}
+	
+	appModel.battleFieldView.createPlaces(this.battleData);
+
 	waitingOverlay.disappear();
 	waitingOverlay.addEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 	function waitingOverlay_closeHandler(e:Event):void 

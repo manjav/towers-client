@@ -4,7 +4,6 @@ import com.gerantech.towercraft.controls.indicators.CountdownIcon;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarDetailed;
 import com.gerantech.towercraft.controls.sliders.battle.HealthBarLeveled;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.ArtRules;
 import com.gerantech.towercraft.views.UnitMC;
 import com.gerantech.towercraft.views.effects.BattleParticleSystem;
@@ -17,7 +16,6 @@ import com.gt.towers.constants.CardTypes;
 import com.gt.towers.events.BattleEvent;
 import com.gt.towers.utils.CoreUtils;
 import com.gt.towers.utils.Point3;
-import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -25,7 +23,6 @@ import starling.display.Image;
 import starling.display.MovieClip;
 import starling.events.Event;
 import starling.filters.ColorMatrixFilter;
-import starling.textures.Texture;
 import starling.utils.Color;
 
 public class UnitView extends BaseUnit
@@ -78,7 +75,6 @@ public function UnitView(card:Card, id:int, side:int, x:Number, y:Number, z:Numb
 		baseDisplay.scale *= _SCALE;
 		fieldView.unitsContainer.addChild(baseDisplay);
 	}
-	
 	
 	bodyDisplay = new UnitMC(card.type + "/" + battleField.getColorIndex(side) + "/", "m_" + (side == battleField.side ? "000_" : "180_"));
 	bodyDisplay.pivotX = bodyDisplay.width * 0.5;
