@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <application xmlns="http://ns.adobe.com/air/application/31.0">
   <id>com.grantech.k2k</id>
-  <versionNumber>0.1.700</versionNumber>
+  <versionNumber>0.1.800</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
   <filename>Pistol</filename>
   <name>Pistol</name>
