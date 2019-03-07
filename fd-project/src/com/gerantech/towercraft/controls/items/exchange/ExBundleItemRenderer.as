@@ -41,7 +41,7 @@ override protected function commitData():void
 	var buttonDisplay:DiscountButton = new DiscountButton();
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 	buttonDisplay.width = 320;
-	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
+	if( exchange.requirements.keys()[0] == ResourceType.R5_CURRENCY_REAL )
 		buttonDisplay.currency = "ت";
 	buttonDisplay.originCount = outValue;
 	buttonDisplay.count = exchange.requirements.values()[0];

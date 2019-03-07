@@ -125,7 +125,7 @@ override protected function initialize() : void
 	indicatorXP.addEventListener(Event.SELECT, buttons_eventsHandler);
 	botLine.addChild(indicatorXP);
 	
-	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.POINT, false, false);
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.R2_POINT, false, false);
 	indicatorPoint.name = "pointIndicator";
 	indicatorPoint.width = padding * 5;
 	indicatorPoint.addEventListener(Event.SELECT, buttons_eventsHandler);

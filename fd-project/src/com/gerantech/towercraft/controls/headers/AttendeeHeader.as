@@ -27,7 +27,7 @@ override protected function initialize():void
 	
 	// main name
 	var nameShadow:ShadowLabel = new ShadowLabel(name, 1, 0, "left", null, false, null, 1.2);
-	nameShadow.layoutData = new AnchorLayoutData(padding*0.5, NaN, NaN, padding );
+	nameShadow.layoutData = new AnchorLayoutData(padding * 0.5, NaN, NaN, padding);
 	addChild(nameShadow);
 	
 	// point name
@@ -35,12 +35,12 @@ override protected function initialize():void
 	{
 		var pointIcon:ImageLoader = new ImageLoader();
 		pointIcon.width = padding*4.6;
-		pointIcon.source = Assets.getTexture("res-"+ResourceType.POINT, "gui");
-		pointIcon.layoutData = new AnchorLayoutData(padding*5, NaN, NaN, padding*0.5 );
+		pointIcon.source = Assets.getTexture("res-" + ResourceType.R2_POINT, "gui");
+		pointIcon.layoutData = new AnchorLayoutData(padding * 5, NaN, NaN, padding * 0.5);
 		addChild(pointIcon);
 		
 		var pointDisplay:ShadowLabel = new ShadowLabel(point.toString(), 1, 0, "left", null, false, null, 0.9);
-		pointDisplay.layoutData = new AnchorLayoutData(padding*5.5, NaN, NaN, padding*5 );
+		pointDisplay.layoutData = new AnchorLayoutData(padding * 5.5, NaN, NaN, padding * 5);
 		addChild(pointDisplay);
 	}
 }

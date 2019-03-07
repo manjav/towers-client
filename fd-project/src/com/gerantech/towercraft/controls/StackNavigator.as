@@ -88,17 +88,17 @@ package com.gerantech.towercraft.controls
 			if( activeScreenID != Game.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0 )
 				return;
 			
-			if( resourceType == ResourceType.CURRENCY_SOFT )
+			if( resourceType == ResourceType.R3_CURRENCY_SOFT )
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 4;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
-			else if( resourceType == ResourceType.CURRENCY_HARD )
+			else if( resourceType == ResourceType.R4_CURRENCY_HARD )
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 3;
 				DashboardScreen(activeScreen).gotoPage(0);
 			}
-			else if( resourceType == ResourceType.TICKET )
+			else if( resourceType == ResourceType.R6_TICKET )
 			{
 				ExchangeSegment.SELECTED_CATEGORY = 2;
 				DashboardScreen(activeScreen).gotoPage(0);

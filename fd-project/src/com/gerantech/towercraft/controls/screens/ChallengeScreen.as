@@ -14,7 +14,6 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
-import com.gt.towers.others.Arena;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -406,7 +405,7 @@ protected function sfs_responseCollectHandler(e:SFSEvent):void
 	for( var i:int=0; i<params.getSFSArray("rewards").size(); i++ )
 	{
 		reward = params.getSFSArray("rewards").getSFSObject(i);
-		if( ResourceType.isBuilding(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.CURRENCY_HARD || reward.getInt("t") == ResourceType.CURRENCY_SOFT || reward.getInt("t") == ResourceType.XP )
+		if( ResourceType.isBuilding(reward.getInt("t")) || ResourceType.isBook(reward.getInt("t")) || reward.getInt("t") == ResourceType.R4_CURRENCY_HARD || reward.getInt("t") == ResourceType.R3_CURRENCY_SOFT || reward.getInt("t") == ResourceType.R1_XP )
 			outcomes.set(reward.getInt("t"), reward.getInt("c"));
 	}
 	

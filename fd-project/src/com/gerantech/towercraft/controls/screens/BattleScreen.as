@@ -313,7 +313,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 				bookKey = _keys[i];
 			else if( key > 0 )
 			{
-				if( key == ResourceType.STARS )
+				if( key == ResourceType.R17_STARS )
 					exchanger.collectStars(item.getInt(_keys[i]), timeManager.now);
 				outcomes.set(key, item.getInt(_keys[i]));
 			}

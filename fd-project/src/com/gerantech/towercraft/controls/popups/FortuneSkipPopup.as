@@ -40,8 +40,8 @@ override protected function initialize():void
 	buttonContainer.removeChild(acceptButton);
 	acceptButton = new ExchangeButton();
 	acceptButton.style = "neutral";
-	ExchangeButton(acceptButton).count = exchanger.getRequierement(item, timeManager.now).get(ResourceType.CURRENCY_HARD);
-	ExchangeButton(acceptButton).type = ResourceType.CURRENCY_HARD;
+	ExchangeButton(acceptButton).count = exchanger.getRequierement(item, timeManager.now).get(ResourceType.R4_CURRENCY_HARD);
+	ExchangeButton(acceptButton).type = ResourceType.R4_CURRENCY_HARD;
 	acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
 	buttonContainer.addChild(acceptButton);
 }

@@ -73,7 +73,7 @@ override protected function initialize():void
 	addChild(cardsPalette);
 	
 	var numSofts:int = ExchangeType.getNumSofts(item.outcome, arena, player.splitTestCoef);
-	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFF99);
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.R3_CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.4;
 	softsPalette.layoutData = new AnchorLayoutData(padding * 13, padding * 2);
 	addChild(softsPalette);
@@ -112,7 +112,7 @@ override protected function transitionInCompleted():void
 
 private function update(state:int):void 
 {
-	closeOnOverlay = closeWithKeyboard = player.getResource(ResourceType.BOOK_OPENED_BATTLE) > 0;
+	closeOnOverlay = closeWithKeyboard = player.getResource(ResourceType.R21_BOOK_OPENED_BATTLE) > 0;
 	footerFactory(state);
 	messageFactory(state);
 	buttonFactory(state);
@@ -177,14 +177,14 @@ private function buttonFactory(state:int):void
 			buttonDisplay.width = 240;
 			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 2, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
-			updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
+			updateButton(ResourceType.R4_CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
 			countdownFactory(state);
 		}
 		else if( state == ExchangeItem.CHEST_STATE_WAIT )
 		{
 			var free:Boolean = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
 			buttonDisplay.style = free ? "normal" : "neutral";
-			updateButton(free ? ResourceType.POINT : ResourceType.CURRENCY_HARD, free ? -1 : Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
+			updateButton(free ? ResourceType.R2_POINT : ResourceType.R4_CURRENCY_HARD, free ? -1 : Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
 			if( !free )
 				messageDisplay.text =  loc("popup_chest_message_120");
 		}
@@ -196,7 +196,7 @@ private function buttonFactory(state:int):void
 	}
 	else
 	{
-		updateButton(ResourceType.CURRENCY_HARD, item.requirements.get(ResourceType.CURRENCY_HARD));
+		updateButton(ResourceType.R4_CURRENCY_HARD, item.requirements.get(ResourceType.R4_CURRENCY_HARD));
 	}
 }
 
@@ -234,7 +234,7 @@ private function updateButton(type:int, count:int):void
 //           -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- Handlers -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 protected function timeManager_changeHandler(event:Event):void
 {
-	updateButton(ResourceType.CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
+	updateButton(ResourceType.R4_CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
 	var _state:int = state;
 	countdownFactory(_state);
 	if( _state == ExchangeItem.CHEST_STATE_READY )

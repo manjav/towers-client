@@ -32,11 +32,11 @@ override protected function initialize():void
 	headerSize = 200;
 	super.initialize();
 	
-	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.CURRENCY_HARD);
+	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.R4_CURRENCY_HARD);
 	indicatorHC.layoutData = new AnchorLayoutData(22, 40);
 	addChild(indicatorHC);
 	
-	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
+	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.R3_CURRENCY_SOFT);
 	indicatorSC.layoutData = new AnchorLayoutData(22, 360);
 	addChild(indicatorSC);
 	

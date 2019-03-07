@@ -116,8 +116,8 @@ private function testOpenBook():void
 	var openOverlay:OpenBookOverlay = new OpenBookOverlay(59);
 	appModel.navigator.addOverlay(openOverlay);
 	var outcomes:IntIntMap = new IntIntMap();
-	outcomes.set(ResourceType.CURRENCY_SOFT, 50);
-	outcomes.set(ResourceType.CURRENCY_HARD, 5);
+	outcomes.set(ResourceType.R3_CURRENCY_SOFT, 50);
+	outcomes.set(ResourceType.R4_CURRENCY_HARD, 5);
 	outcomes.set(11, 1);
 	outcomes.set(12, 1);
 	outcomes.set(21, 12);
@@ -130,10 +130,10 @@ private function testOpenBook():void
 
 private function testOffer():void 
 {
-	var wins: int = player.getResource(ResourceType.BATTLES_WINS);
-	player.resources.set(ResourceType.BATTLES_WINS, player.prefs.getAsInt(PrefsTypes.OFFER_30_RATING) + 1);
+	var wins: int = player.getResource(ResourceType.R13_BATTLES_WINS);
+	player.resources.set(ResourceType.R13_BATTLES_WINS, player.prefs.getAsInt(PrefsTypes.OFFER_30_RATING) + 1);
 	appModel.navigator.showOffer();
-	player.resources.set(ResourceType.BATTLES_WINS, wins);
+	player.resources.set(ResourceType.R13_BATTLES_WINS, wins);
 }
 
 private function testBattleToast():void 

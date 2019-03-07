@@ -12,7 +12,7 @@ private var levelDisplay:com.gerantech.towercraft.controls.texts.ShadowLabel;
 
 public function IndicatorXP(direction:String="ltr", autoApdate:Boolean = true) 
 {
-	super(direction, ResourceType.XP, true, false, autoApdate);
+	super(direction, ResourceType.R1_XP, true, false, autoApdate);
 }
 override protected function initialize():void
 {

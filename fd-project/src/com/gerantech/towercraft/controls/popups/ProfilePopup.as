@@ -211,9 +211,9 @@ private function showProfile():void
 	var point:int;
 	for( var i:int = 0; i < resourcesData.size(); i++ )
 	{
-		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.XP )
+		if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.R1_XP )
 			xp = resourcesData.getSFSObject(i).getInt("count");
-		else if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.POINT )
+		else if( resourcesData.getSFSObject(i).getInt("type") == ResourceType.R2_POINT )
 			point = resourcesData.getSFSObject(i).getInt("count");
 		else if( !ResourceType.isBuilding(resourcesData.getSFSObject(i).getInt("type")) )
 			featureCollection.addItem(resourcesData.getSFSObject(i));
@@ -226,7 +226,7 @@ private function showProfile():void
 	indicatorXP.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding * 1.5:NaN, NaN, appModel.isLTR?NaN:padding * 1.5);
 	addChild(indicatorXP);
 	
-	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.POINT, false, false, false);
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.R2_POINT, false, false, false);
 	indicatorPoint.setData(0, point, Number.MAX_VALUE);
 	indicatorPoint.width = padding * 7;
 	indicatorPoint.height = padding * 1.5;

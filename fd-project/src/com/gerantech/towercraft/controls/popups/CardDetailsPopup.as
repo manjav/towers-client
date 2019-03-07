@@ -97,10 +97,10 @@ override protected function transitionInCompleted():void
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.count = Card.get_upgradeCost(card.get_level());
-	upgradeButton.type = ResourceType.CURRENCY_SOFT;
+	upgradeButton.type = ResourceType.R3_CURRENCY_SOFT;
 	upgradeButton.label = loc("upgrade_label") + "\n" + Card.get_upgradeCost(card.get_level());
 	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.get_level());
-	upgradeButton.fontColor = player.resources.get(ResourceType.CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
+	upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 	Starling.juggler.tween(upgradeButton, 0.3, {delay:0.1, alpha:1, onComplete:upgradeButton_tweenCompleted});
 	function upgradeButton_tweenCompleted () : void

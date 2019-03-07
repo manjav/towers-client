@@ -32,7 +32,7 @@ public function SelectNamePopup()
 	eItem = exchanger.items.get(ExchangeType.C42_RENAME);
 	
 		super(loc((player.nickName != "guest" && eItem.numExchanges == 0) ? "popup_select_name_title_warned" :  "popup_select_name_title"), 
-	(player.nickName != "guest" && eItem.numExchanges > 0) ? exchanger.getRequierement(eItem, timeManager.now).get(ResourceType.CURRENCY_HARD).toString() : loc("popup_register_label"),
+	(player.nickName != "guest" && eItem.numExchanges > 0) ? exchanger.getRequierement(eItem, timeManager.now).get(ResourceType.R4_CURRENCY_HARD).toString() : loc("popup_register_label"),
 	null);
 }
 

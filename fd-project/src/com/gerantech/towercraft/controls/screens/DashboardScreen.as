@@ -122,17 +122,17 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		return;
 	}
 	
-	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.CURRENCY_HARD);
+	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.R4_CURRENCY_HARD);
 	indicatorHC.layoutData = new AnchorLayoutData(18, 36);
 	addChild(indicatorHC);
 	
-	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.CURRENCY_SOFT);
+	var indicatorSC:Indicator = new Indicator("rtl", ResourceType.R3_CURRENCY_SOFT);
 	indicatorSC.layoutData = new AnchorLayoutData(18, NaN, NaN, NaN, 0);
 	addChild(indicatorSC);
 	
 	if( player.unlocked_challenge() )
 	{
-		var indicatorCT:Indicator = new Indicator("rtl", ResourceType.TICKET);
+		var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
 		indicatorCT.layoutData = new AnchorLayoutData(18, NaN, NaN, 42);
 		addChild(indicatorCT);
 	}

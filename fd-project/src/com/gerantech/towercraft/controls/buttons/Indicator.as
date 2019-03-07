@@ -203,7 +203,7 @@ public function set formatValueFactory(value:Function):void
 
 public function addResourceAnimation(x:Number, y:Number, type:int, count:int, delay:Number = 0):void
 {
-	if( ResourceType.isBuilding(type) && this.type == ResourceType.CURRENCY_SOFT )
+	if( ResourceType.isBuilding(type) && this.type == ResourceType.R3_CURRENCY_SOFT )
 	{
 		appModel.sounds.addAndPlay("res-appear-1001",null, SoundManager.CATE_SFX, SoundManager.SINGLE_FORCE_THIS);
 		appModel.navigator.addAnimation(x, y, 130, Assets.getTexture("cards", "gui"), count, new Rectangle(320, 1900), delay, null);
@@ -229,20 +229,20 @@ public function addResourceAnimation(x:Number, y:Number, type:int, count:int, de
 
 private function getValue() : int
 {
-	return type == ResourceType.STARS ? exchanger.items.get(ExchangeType.C104_STARS).numExchanges : player.getResource(type);
+	return type == ResourceType.R17_STARS ? exchanger.items.get(ExchangeType.C104_STARS).numExchanges : player.getResource(type);
 }
 
 override protected function trigger():void
 {
 	super.trigger();
-	if( type == ResourceType.XP || type == ResourceType.POINT || type == ResourceType.CURRENCY_SOFT || type == ResourceType.CURRENCY_HARD || type == ResourceType.TICKET )
+	if( type == ResourceType.R1_XP || type == ResourceType.R2_POINT || type == ResourceType.R3_CURRENCY_SOFT || type == ResourceType.R4_CURRENCY_HARD || type == ResourceType.R6_TICKET )
 		appModel.navigator.addChild(new BaseTooltip(loc("tooltip_indicator_" + type), iconDisplay.getBounds(stage)));
 	else
 		dispatchEventWith(Event.SELECT);
 }	
 private function addButton_triggerHandler(event:Event):void
 {
-	if( type == ResourceType.CURRENCY_SOFT || type == ResourceType.CURRENCY_HARD || type == ResourceType.TICKET )
+	if( type == ResourceType.R3_CURRENCY_SOFT || type == ResourceType.R4_CURRENCY_HARD || type == ResourceType.R6_TICKET )
 		appModel.navigator.gotoShop(type);
 	dispatchEventWith(Event.SELECT);
 }		

@@ -59,7 +59,7 @@ protected function sliderFactory() : Indicator
 		return null;
 	}
 		
-	var ind_17:Indicator = new Indicator("ltr", ResourceType.STARS, true, false);
+	var ind_17:Indicator = new Indicator("ltr", ResourceType.R17_STARS, true, false);
 	ind_17.setData(0, -1, 10);
 	ind_17.height = 50;
 	ind_17.layoutData = new AnchorLayoutData(NaN, 180, 50, 80);
@@ -87,7 +87,7 @@ protected function navigator_achieveResourceHandler(event:Event) : void
 	for( var i:int = 0; i < appModel.battleFieldView.battleData.outcomes.length; i++ )
 	{
 		var rd:RewardData = appModel.battleFieldView.battleData.outcomes[i];
-		if( rd.key == ResourceType.STARS )
+		if( rd.key == ResourceType.R17_STARS )
 		{
 			appModel.battleFieldView.battleData.outcomes.removeAt(i);
 			return;

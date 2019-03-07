@@ -44,13 +44,13 @@ override protected function commitData():void
 		return;
 	}
 	
-	var outValue:int = exchange.requirements.keys()[0] == ResourceType.CURRENCY_HARD ? Exchanger.toHard(exchange.outcomes) : Exchanger.toSoft(exchange.outcomes);
+	var outValue:int = exchange.requirements.keys()[0] == ResourceType.R4_CURRENCY_HARD ? Exchanger.toHard(exchange.outcomes) : Exchanger.toSoft(exchange.outcomes);
 	var discount:int = Math.round((1 - (exchange.requirements.values()[0] / outValue)) * 100)
 	
 	var buttonDisplay:DiscountButton = new DiscountButton();
 	buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
 	buttonDisplay.width = 320;
-	if( exchange.requirements.keys()[0] == ResourceType.CURRENCY_REAL )
+	if( exchange.requirements.keys()[0] == ResourceType.R5_CURRENCY_REAL )
 		buttonDisplay.currency = "ت";
 	buttonDisplay.originCount = outValue;
 	buttonDisplay.count = exchange.requirements.values()[0];
