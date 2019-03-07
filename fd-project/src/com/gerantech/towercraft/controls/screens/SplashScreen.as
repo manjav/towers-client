@@ -217,9 +217,11 @@ private function reload():void
 {
 	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.CONNECTION_LOST,	loadingManager_eventsHandler);
 	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
+
+	this.stage.addChild(logo);
+	logo.gotoAndPlay(1);
 	logo.addEventListener("clear", logo_clearHandler);
-	stage.dispatchEvent(new Event("start"));
-	removeLogo();
+	logo.removeEventListener("cancel", logo_cancelHandler);
 }
 protected function logo_cancelHandler(event:*):void
 {
