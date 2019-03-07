@@ -10,6 +10,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.SplashMovie;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.desktop.NativeApplication;
 import flash.display.DisplayObjectContainer;
@@ -22,18 +23,15 @@ import flash.utils.getTimer;
 
 public class SplashScreen extends Sprite
 {
-[Embed(source="../../../../../assets/animations/splash-screen.swf")]
-private static const splash_screen_file:Class;
-
-private var logo:MovieClip;
+private var logo:SplashMovie;
 private var _parent:DisplayObjectContainer;
-
 public function SplashScreen()
 {
 	addEventListener("addedToStage", addedToStageHadnler);
 	
-	logo = new splash_screen_file();
+	logo = new SplashMovie();
 	logo.addEventListener("clear", logo_clearHandler);
+	MovieClip(logo).play();
 	addChild(logo);
 }
 protected function logo_clearHandler(event:*):void
@@ -72,9 +70,9 @@ protected function stage_resizeHandler(event:*):void
 	graphics.clear();
 	graphics.beginFill(0);
 	graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
-	logo.scaleY = logo.scaleX = stage.fullScreenWidth / logo.width;
+	logo.scaleY = logo.scaleX = stage.fullScreenWidth / 1080;
 	//trace(stage.fullScreenWidth, stage.fullScreenHeight, logo.width, logo.height, logo.scaleY, 'sssssssssssssssssss')
-	logo.y = (stage.fullScreenHeight - (logo.height * logo.scaleY)) * 0.5;
+	logo.y = (stage.fullScreenHeight - (1920 * logo.scaleY)) * 0.5;
 }
 
 protected function loadingManager_eventsHandler(event:LoadingEvent):void
