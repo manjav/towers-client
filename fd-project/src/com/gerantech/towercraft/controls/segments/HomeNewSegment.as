@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.HomeNewButton;
 import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
@@ -104,7 +104,7 @@ override public function init():void
 		adminButton.isLongPressEnabled = true;
 		adminButton.longPressDuration = 1;
 		adminButton.width = adminButton.height = 200;
-		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Main.ADMIN_SCREEN)});
+		adminButton.addEventListener(FeathersEventType.LONG_PRESS, function():void{appModel.navigator.pushScreen(Game.ADMIN_SCREEN)});
 		adminButton.layoutData = new AnchorLayoutData(NaN, 0, bookLine.height);
 		addChild(adminButton);
 	}
@@ -253,10 +253,10 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		case "leaguesButton":	appModel.navigator.pushScreen( Main.FACTIONS_SCREEN );					return;
+		case "leaguesButton":	appModel.navigator.pushScreen( Game.FACTIONS_SCREEN );					return;
 		case "battlesButton":	appModel.navigator.runBattle(player.get_arena(0) > 0);					return;
 		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));			return;
-		case "questsButton":	appModel.navigator.pushScreen( Main.QUESTS_SCREEN );					return;
+		case "questsButton":	appModel.navigator.pushScreen( Game.QUESTS_SCREEN );					return;
         case "starsButton":     exchangeManager.process(exchanger.items.get(ExchangeType.C104_STARS));    return;
 	}
 	
@@ -268,7 +268,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		case "operationButton":	appModel.navigator.pushScreen( Main.OPERATIONS_SCREEN );				return;
+		case "operationButton":	appModel.navigator.pushScreen( Game.OPERATIONS_SCREEN );				return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 		case "googleButton":	socialSignin();														 	return;
 	}

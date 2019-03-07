@@ -86,7 +86,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 	switch(event.type)
 	{
 		case LoadingEvent.LOADED:
-			trace("LoadingEvent.LOADED", "t[" + (getTimer() - Towers.t) + "," + (getTimer() - AppModel.instance.loadingManager.loadStartAt) + "]");
+			trace("LoadingEvent.LOADED", "t[" + (getTimer() - Main.t) + "," + (getTimer() - AppModel.instance.loadingManager.loadStartAt) + "]");
 			logo.addEventListener("cancel", logo_cancelHandler);
 			logo.play();
 			break;

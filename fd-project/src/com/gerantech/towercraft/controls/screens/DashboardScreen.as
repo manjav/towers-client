@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
@@ -141,7 +141,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	if( player.inTutorial() )
 	{
 		if( player.tutorialMode == 0 )
-			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);
+			appModel.navigator.pushScreen(Game.OPERATIONS_SCREEN);
 		else if( player.tutorialMode == 1 )
 			appModel.navigator.runBattle();
 		return;

@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.managers 
 {
 import com.gerantech.extensions.iab.IabResult;
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.overlays.EarnOverlay;
 import com.gerantech.towercraft.controls.overlays.FortuneOverlay;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
@@ -204,7 +204,7 @@ private function exchange( item:ExchangeItem, params:SFSObject ) : void
 	{
 		appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
 		ExchangeSegment.SELECTED_CATEGORY = 3;
-		if( appModel.navigator.activeScreenID == Main.DASHBOARD_SCREEN )
+		if( appModel.navigator.activeScreenID == Game.DASHBOARD_SCREEN )
 		{
 			DashboardScreen(appModel.navigator.activeScreen).gotoPage(0);
 		}

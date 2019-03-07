@@ -1,6 +1,6 @@
 package
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.constants.BuildingType;
@@ -8,7 +8,6 @@ import com.gt.towers.constants.ResourceType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
 import feathers.events.FeathersEventType;
-import feathers.utils.ScreenDensityScaleFactorManager;
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
 import flash.display.StageAlign;
@@ -25,13 +24,13 @@ import starling.core.Starling;
 
 [ResourceBundle("loc")]
 [SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
-public class Towers extends Sprite
+public class Main extends Sprite
 {
 public static var t:int;
 private var starling:Starling;
 private var splash:SplashScreen;
 
-public function Towers()
+public function Main()
 {
 	/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 	{
@@ -65,9 +64,9 @@ public function Towers()
 	stage.align = StageAlign.TOP_LEFT;
 
 	AppModel.instance.formalAspectratio = 1080 / 1920;
-	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
+	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
 
-	this.mouseEnabled = this.mouseChildren = false;
+	mouseEnabled = mouseChildren = false;
 	splash = new SplashScreen(stage);
 	splash.addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, loaderInfo_completeHandler);
 	loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
@@ -78,19 +77,18 @@ public function Towers()
 
 private function loaderInfo_completeHandler(event:Event):void
 {
-	if( event.currentTarget == this.loaderInfo )
-		this.loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
+	if( event.currentTarget == loaderInfo )
+		loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 	else
-		this.splash.removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, loaderInfo_completeHandler);
+		splash.removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, loaderInfo_completeHandler);
 	
-	if( this.loaderInfo.bytesLoaded == this.loaderInfo.bytesTotal && this.splash.appeared )
+	if( loaderInfo.bytesLoaded == loaderInfo.bytesTotal && splash.transitionInCompleted )
 		starStarling();
 }
 
 private function starStarling():void
 {
-	var viewPort:Rectangle = new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
-	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
+	this.starling = new Starling(Game, this.stage, new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
 	this.starling.supportHighResolutions = true;
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();

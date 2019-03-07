@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeListItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.CoreLoader;
@@ -91,7 +91,7 @@ private function showChallenges():void
 
 protected function eventsList_changeHandler(event:Event) : void 
 {
-	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.CHALLENGE_SCREEN );
+	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Game.CHALLENGE_SCREEN );
 	var ch:Challenge = ChallengeListItemRenderer(event.data).challenge;
 	if( ch.getState(timeManager.now) >= Challenge.STATE_STARTED && ch.indexOfAttendees(player.id) <= -1 )
 	{
@@ -99,7 +99,7 @@ protected function eventsList_changeHandler(event:Event) : void
 		return;
 	}
 	item.properties.challenge = ch ;
-	appModel.navigator.pushScreen( Main.CHALLENGE_SCREEN ) ;
+	appModel.navigator.pushScreen( Game.CHALLENGE_SCREEN ) ;
 }
 }
 }

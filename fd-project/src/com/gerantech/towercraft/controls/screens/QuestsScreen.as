@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
@@ -96,7 +96,7 @@ protected function list_selectHandler(e:Event):void
 	
 	switch( questItem.quest.type )
 	{
-		case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
+		case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Game.OPERATIONS_SCREEN);	return;
 		
 		case Quest.TYPE_3_BATTLES :				
 		case Quest.TYPE_4_BATTLE_WINS :			appModel.navigator.runBattle(player.get_arena(0) > 0);	return;

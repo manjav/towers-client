@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
@@ -187,21 +187,21 @@ private function showProfile():void
 					close();
 					return;
 				}
-				appModel.navigator.getScreen( Main.ISSUES_SCREEN ).properties.reporter = user.id;
-				appModel.navigator.pushScreen( Main.ISSUES_SCREEN );
+				appModel.navigator.getScreen( Game.ISSUES_SCREEN ).properties.reporter = user.id;
+				appModel.navigator.pushScreen( Game.ISSUES_SCREEN );
 				close();
 			}
 			
 			if( event.currentTarget == offendsButton || event.currentTarget == reportsButton )
 			{
-				appModel.navigator.getScreen( Main.OFFENDS_SCREEN ).properties.target = user.id * (event.currentTarget == reportsButton ? -1 : 1);
-				appModel.navigator.pushScreen( Main.OFFENDS_SCREEN );
+				appModel.navigator.getScreen( Game.OFFENDS_SCREEN ).properties.target = user.id * (event.currentTarget == reportsButton ? -1 : 1);
+				appModel.navigator.pushScreen( Game.OFFENDS_SCREEN );
 			}
 			
 			if( event.currentTarget == bannesButton )
 			{
-				appModel.navigator.getScreen( Main.BANNEDS_SCREEN).properties.target = user.id;
-				appModel.navigator.pushScreen( Main.BANNEDS_SCREEN );
+				appModel.navigator.getScreen( Game.BANNEDS_SCREEN).properties.target = user.id;
+				appModel.navigator.pushScreen( Game.BANNEDS_SCREEN );
 			}
 		}
 	}

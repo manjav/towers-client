@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.groups 
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.offers.BuddyOfferItem;
@@ -90,14 +90,14 @@ private function item_triggeredHandler(e:Event):void
 		case INVITE_BUDDY :
 			DashboardScreen.TAB_INDEX = 3;
 			SocialSegment.TAB_INDEX = 2;
-			if( appModel.navigator.activeScreenID == Main.DASHBOARD_SCREEN )
+			if( appModel.navigator.activeScreenID == Game.DASHBOARD_SCREEN )
 			{
 				DashboardScreen(appModel.navigator.activeScreen).gotoPage(3);
 				return;
 			}
 			appModel.navigator.popAll();
 			appModel.navigator.removeAllPopups();
-			appModel.navigator.rootScreenID = Main.DASHBOARD_SCREEN;
+			appModel.navigator.rootScreenID = Game.DASHBOARD_SCREEN;
 		break;
 	}
 }

@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;

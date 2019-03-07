@@ -11,7 +11,7 @@ import feathers.motion.Cover;
 import feathers.motion.Reveal;
 import starling.events.Event;
 
-public class Main extends Drawers
+public class Game extends Drawers
 {
 public static const DASHBOARD_SCREEN:String = "dashboardScreen";
 public static const BATTLE_SCREEN:String = "battleScreen";
@@ -29,7 +29,7 @@ public static const CHALLENGE_SCREEN:String = "challengeScreen";
 static public const QUESTS_SCREEN:String = "questsScreen";
 static public const SEARCH_CHAT_SCREEN:String = "searchChatScreen";
 
-public function Main(content:IFeathersControl=null)
+public function Game(content:IFeathersControl=null)
 {
 	AppModel.instance.theme = new MainTheme();
 	super(content);
