@@ -12,30 +12,44 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.SplashMovie;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.events.FeathersEventType;
 import flash.desktop.NativeApplication;
 import flash.display.DisplayObjectContainer;
-import flash.display.MovieClip;
-import flash.display.Sprite;
+import flash.display.Stage;
 import flash.events.Event;
+import flash.events.EventDispatcher;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import flash.utils.getTimer;
 
-public class SplashScreen extends Sprite
+public class SplashScreen extends EventDispatcher
 {
+private var stage:Stage;
 private var logo:SplashMovie;
-private var _parent:DisplayObjectContainer;
-public function SplashScreen()
+public var transitionInCompleted:Boolean;
+public function SplashScreen(stage:Stage)
 {
-	addEventListener("addedToStage", addedToStageHadnler);
+	this.stage = stage;
+	this.stage.addEventListener("resize", stage_resizeHandler);
 	
 	logo = new SplashMovie();
 	logo.addEventListener("clear", logo_clearHandler);
-	MovieClip(logo).play();
-	addChild(logo);
+	this.stage.addChild(logo);
+}
+protected function stage_resizeHandler(event:*):void
+{
+	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
+	logo.graphics.clear();
+	logo.graphics.beginFill(0);
+	logo.graphics.drawRect(-100, -100, stage.fullScreenWidth * 3, stage.fullScreenHeight * 3);
+	logo.scaleY = logo.scaleX = stage.fullScreenWidth / 1080;
+	//trace(stage.fullScreenWidth, stage.fullScreenHeight, logo.width, logo.height, logo.scaleY, 'sssssssssssssssssss')
+	logo.y = (stage.fullScreenHeight - (1920 * logo.scaleY)) * 0.5;
 }
 protected function logo_clearHandler(event:*):void
 {
+	transitionInCompleted = true;
+	dispatchEvent(new Event(FeathersEventType.TRANSITION_IN_COMPLETE));
 	logo.removeEventListener("clear", logo_clearHandler);
 	
 	if(	AppModel.instance.loadingManager == null )
@@ -53,27 +67,6 @@ protected function logo_clearHandler(event:*):void
 	AppModel.instance.loadingManager.addEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
 	AppModel.instance.loadingManager.load();
 }
-protected function addedToStageHadnler(event:*):void
-{
-	stage.addEventListener("resize", stage_resizeHandler);
-	addEventListener("removedFromStage", removedFromStageHadnler);
-	removeEventListener("addedToStage", addedToStageHadnler);
-	_parent = parent;
-}
-protected function removedFromStageHadnler(event:*):void
-{
-	stage.removeEventListener("resize", stage_resizeHandler);
-}
-protected function stage_resizeHandler(event:*):void
-{
-	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
-	graphics.clear();
-	graphics.beginFill(0);
-	graphics.drawRect(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
-	logo.scaleY = logo.scaleX = stage.fullScreenWidth / 1080;
-	//trace(stage.fullScreenWidth, stage.fullScreenHeight, logo.width, logo.height, logo.scaleY, 'sssssssssssssssssss')
-	logo.y = (stage.fullScreenHeight - (1920 * logo.scaleY)) * 0.5;
-}
 
 protected function loadingManager_eventsHandler(event:LoadingEvent):void
 {
@@ -87,27 +80,23 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.CORE_LOADING_ERROR,	loadingManager_eventsHandler);
 	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);
 
-	trace(event.type)
-	
 	var confirmData:SFSObject = new SFSObject();
-	confirmData.putText("type", event.type);			
+	confirmData.putText("type", event.type);
 	
 	switch(event.type)
 	{
 		case LoadingEvent.LOADED:
 			trace(AppModel.instance.game.player.id, "loaded", "t[" + (getTimer() - Towers.t) + "," + (getTimer() - AppModel.instance.loadingManager.loadStartAt) + "]");
 			logo.addEventListener("cancel", logo_cancelHandler);
-			if( stage != null )
-				stage.dispatchEvent(new Event("continue"));
+			logo.play();
 			break;
 		case LoadingEvent.CONNECTION_LOST:
-			var reloadpopup:MessagePopup = new MessagePopup(loc("popup_" + event.type+"_message"), loc("reconnect_button"));
+			var reloadpopup:MessagePopup = new MessagePopup(loc("popup_" + event.type + "_message"), loc("reconnect_button"));
 			reloadpopup.data = confirmData;
 			reloadpopup.closeOnOverlay = false;
 			reloadpopup.addEventListener("select", confirm_eventsHandler);
 			AppModel.instance.navigator.addPopup(reloadpopup);
-			if( parent )
-				parent.removeChild(this);
+			removeLogo();
 			break;
 		
 		case LoadingEvent.FORCE_RELOAD:
@@ -115,14 +104,12 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			break;
 		
 		case LoadingEvent.UNDER_MAINTENANCE:
-			if( parent )
-				parent.removeChild(this);
+			removeLogo();
 			AppModel.instance.navigator.addPopup(new UnderMaintenancePopup(event.data.getInt("umt")));
 			break;
 		
 		case LoadingEvent.LOGIN_USER_BANNED:
-			if( parent )
-				parent.removeChild(this);
+			removeLogo();
 			AppModel.instance.navigator.addPopup(new BanPopup(event.data.getSFSObject("ban")));
 			return;
 			
@@ -132,12 +119,11 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			updatepopup.closeOnStage = updatepopup.closeWithKeyboard = updatepopup.closeOnOverlay = false;
 			updatepopup.addEventListener("select", confirm_eventsHandler);
 			AppModel.instance.navigator.addPopup(updatepopup);
-			if( parent )
-				parent.removeChild(this);
+			removeLogo();
 			return;
 			
 		default:
-			var message:String = loc("popup_" + event.type+"_message");
+			var message:String = loc("popup_" + event.type + "_message");
 			if( event.type == LoadingEvent.LOGIN_ERROR )
 			{
 				if( event.data == 2 || event.data == 3 || event.data == 6 )
@@ -164,8 +150,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			confirm.addEventListener("select", confirm_eventsHandler);
 			confirm.addEventListener("cancel", confirm_eventsHandler);
 			AppModel.instance.navigator.addPopup(confirm);
-			if( parent )
-				parent.removeChild(this);
+			removeLogo();
 			/*break;
 			// complain !!!!! ..............
 			trace("LoadingEvent:", event.type, "t["+(getTimer()-Towers.t)+"]");*/
@@ -232,15 +217,20 @@ private function reload():void
 {
 	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.CONNECTION_LOST,	loadingManager_eventsHandler);
 	AppModel.instance.loadingManager.removeEventListener(LoadingEvent.FORCE_RELOAD,		loadingManager_eventsHandler);
-	_parent.addChild(this);
 	logo.addEventListener("clear", logo_clearHandler);
 	stage.dispatchEvent(new Event("start"));
+	removeLogo();
 }
 protected function logo_cancelHandler(event:*):void
 {
+	removeLogo();
+}
+private function removeLogo():void 
+{
 	logo.removeEventListener("cancel", logo_cancelHandler);
-	if( parent )
-		parent.removeChild(this);
+	if( logo.parent == stage )
+		stage.removeChild(logo);
+
 }
 
 protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String

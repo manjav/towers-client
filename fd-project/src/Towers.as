@@ -8,6 +8,7 @@ import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
+import feathers.events.FeathersEventType;
 import feathers.utils.ScreenDensityScaleFactorManager;
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
@@ -28,9 +29,7 @@ import starling.core.Starling;
 public class Towers extends Sprite
 {
 public static var t:int;
-
 private var starling:Starling;
-private var loadingState:int = 0;
 private var splash:SplashScreen;
 
 public function Towers()
@@ -62,17 +61,15 @@ public function Towers()
 	GameAnalytics.init();
 	
 	t = getTimer();
-	if( this.stage )
-	{
-		this.stage.scaleMode = StageScaleMode.NO_SCALE;
-		this.stage.align = StageAlign.TOP_LEFT;
-	}
+	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
+	stage.scaleMode = StageScaleMode.NO_SCALE;
+	stage.align = StageAlign.TOP_LEFT;
 	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
 
-	this.mouseEnabled = false;
-	splash = new SplashScreen();
-	splash.addEventListener(Event.CLEAR, loaderInfo_completeHandler);
-	addChild(splash);
+	this.mouseEnabled = this.mouseChildren = false;
+	splash = new SplashScreen(stage);
+	splash.addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, loaderInfo_completeHandler);
+
 	loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 	loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, loaderInfo_uncaughtErrorHandler);
 
@@ -81,13 +78,12 @@ public function Towers()
 
 private function loaderInfo_completeHandler(event:Event):void
 {
-	loadingState ++;
 	if( event.currentTarget == this.loaderInfo )
 		this.loaderInfo.removeEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 	else
-		splash.removeEventListener(Event.CLEAR, loaderInfo_completeHandler);
+		this.splash.removeEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, loaderInfo_completeHandler);
 	
-	if( loadingState >= 2 )
+	if( this.loaderInfo.bytesLoaded == this.loaderInfo.bytesTotal && this.splash.transitionInCompleted )
 		starStarling();
 }
 
