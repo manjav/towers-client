@@ -72,7 +72,6 @@
     <element path="ane\com.marpies.ane.androidsupport.ane" />
     <element path="ane\iabilling.ane" />
     <element path="ane\native-android.ane" />
-    <element path="ane\tapsell-3.0.1-a3.0.27-i3.0.4.ane" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>
