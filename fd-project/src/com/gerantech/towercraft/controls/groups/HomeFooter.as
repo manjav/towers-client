@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.groups 
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.NotifierButton;
@@ -69,9 +69,9 @@ private function buttons_triggeredHandler(event:Event):void
 {
 	switch ( IconButton(event.currentTarget).name )
 	{
-		case "home/settings" :	appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);	break;
-		case "home/inbox" :		appModel.navigator.pushScreen(Main.INBOX_SCREEN);		break;
-		case "home/spectate" :	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Main.SPECTATE_SCREEN ); break;
+		case "home/settings" :	appModel.navigator.pushScreen(Game.SETTINGS_SCREEN);	break;
+		case "home/inbox" :		appModel.navigator.pushScreen(Game.INBOX_SCREEN);		break;
+		case "home/spectate" :	var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Game.SPECTATE_SCREEN );item.properties.cmd = "battles";appModel.navigator.pushScreen( Game.SPECTATE_SCREEN ); break;
 	}
 }
 

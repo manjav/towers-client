@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
 import com.gerantech.towercraft.controls.popups.RestorePopup;
 import feathers.controls.StackScreenNavigatorItem;
@@ -25,15 +25,15 @@ override protected function list_changeHandler(event:Event):void
 	switch(list.selectedItem)
 	{
 		case "Players":
-			appModel.navigator.pushScreen(Main.PLAYERS_SCREEN);
+			appModel.navigator.pushScreen(Game.PLAYERS_SCREEN);
 			break;
 		case "Track Issues":
-			appModel.navigator.getScreen(Main.ISSUES_SCREEN).properties.reporter = -1;
-			appModel.navigator.pushScreen(Main.ISSUES_SCREEN);
+			appModel.navigator.getScreen(Game.ISSUES_SCREEN).properties.reporter = -1;
+			appModel.navigator.pushScreen(Game.ISSUES_SCREEN);
 			break;
 		case "Offends":
-			appModel.navigator.getScreen(Main.OFFENDS_SCREEN).properties.target = 0;
-			appModel.navigator.pushScreen(Main.OFFENDS_SCREEN);
+			appModel.navigator.getScreen(Game.OFFENDS_SCREEN).properties.target = 0;
+			appModel.navigator.pushScreen(Game.OFFENDS_SCREEN);
 			break;
 		case "Restore":
 			appModel.navigator.addPopup(new RestorePopup());
@@ -43,12 +43,12 @@ override protected function list_changeHandler(event:Event):void
 			break;
 		case "Operations":
 		case "Battles":
-			var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Main.SPECTATE_SCREEN );
+			var item:StackScreenNavigatorItem = appModel.navigator.getScreen( Game.SPECTATE_SCREEN );
 			item.properties.cmd = String(list.selectedItem).toLowerCase() ;
-			appModel.navigator.pushScreen( Main.SPECTATE_SCREEN ) ;
+			appModel.navigator.pushScreen( Game.SPECTATE_SCREEN ) ;
 			break;
 		case "Search Chat":
-			appModel.navigator.pushScreen(Main.SEARCH_CHAT_SCREEN);
+			appModel.navigator.pushScreen(Game.SEARCH_CHAT_SCREEN);
 			break;
 	}
 }

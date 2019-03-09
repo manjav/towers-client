@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls
 {
 	import avmplus.getQualifiedClassName;
 	import com.gerantech.extensions.NativeAbilities;
-	import com.gerantech.towercraft.Main;
+	import com.gerantech.towercraft.Game;
 	import com.gerantech.towercraft.controls.animations.AchievedItem;
 	import com.gerantech.towercraft.controls.overlays.BaseOverlay;
 	import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
@@ -84,7 +84,7 @@ package com.gerantech.towercraft.controls
 			if( AppModel.instance.game.player.inTutorial() )
 				return;
 			
-			if( activeScreenID != Main.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0 )
+			if( activeScreenID != Game.DASHBOARD_SCREEN || DashboardScreen.TAB_INDEX == 0 )
 				return;
 			
 			if( resourceType == ResourceType.R3_CURRENCY_SOFT )
@@ -106,14 +106,14 @@ package com.gerantech.towercraft.controls
 		
 		public function runBattle(type:String = "headquarter", index:int = 0, cancelable:Boolean = true, spectatedUser:String = null, isFriendly:Boolean = false, challengeType:int = -1) : void
 		{
-			var item:StackScreenNavigatorItem = getScreen(Main.BATTLE_SCREEN);
+			var item:StackScreenNavigatorItem = getScreen(Game.BATTLE_SCREEN);
 			item.properties.battleType = type;
 			item.properties.index = index;
 			item.properties.spectatedUser = spectatedUser;
 			item.properties.isFriendly = isFriendly;
 			item.properties.challengeType = challengeType;
 			item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable && AppModel.instance.game.player.get_arena(0) > 0);
-			pushScreen(Main.BATTLE_SCREEN);
+			pushScreen(Game.BATTLE_SCREEN);
 			addOverlay(item.properties.waitingOverlay);
 		}
 		
@@ -182,7 +182,7 @@ package com.gerantech.towercraft.controls
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function addToast(toast:BaseToast):void
 		{
-			if (activeScreenID == Main.BATTLE_SCREEN)
+			if (activeScreenID == Game.BATTLE_SCREEN)
 				return;
 			addPopup(toast);
 		}
@@ -381,11 +381,11 @@ package com.gerantech.towercraft.controls
 				break;
 			
 			case 1: 
-				var item:StackScreenNavigatorItem = getScreen(Main.BATTLE_SCREEN);
+				var item:StackScreenNavigatorItem = getScreen(Game.BATTLE_SCREEN);
 				item.properties.isFriendly = true;
 				item.properties.waitingOverlay = new BattleWaitingOverlay(false);
 				addOverlay(item.properties.waitingOverlay);
-				pushScreen(Main.BATTLE_SCREEN);
+				pushScreen(Game.BATTLE_SCREEN);
 				break;
 			
 			case 4: 
@@ -413,7 +413,7 @@ package com.gerantech.towercraft.controls
 		
 		private function lobbyManager_friendlyBattleHandler(event:Event):void
 		{
-			if ((activeScreenID == Main.DASHBOARD_SCREEN && DashboardScreen.TAB_INDEX == 3 && SocialSegment.TAB_INDEX == 2) || activeScreenID == Main.BATTLE_SCREEN)
+			if ((activeScreenID == Game.DASHBOARD_SCREEN && DashboardScreen.TAB_INDEX == 3 && SocialSegment.TAB_INDEX == 2) || activeScreenID == Game.BATTLE_SCREEN)
 				return;
 			var battleToast:SimpleToast = new SimpleToast(loc("lobby_battle_request", [event.data]));
 			battleToast.addEventListener(Event.SELECT, battleToast_selectHandler);

@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.groups 
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
@@ -138,8 +138,8 @@ private function buttons_eventsHandler(event:Event):void
 {
 	switch(DisplayObject(event.currentTarget).name)
 	{
-	case "inboxButton":		appModel.navigator.pushScreen(Main.INBOX_SCREEN);		break;
-	case "settingsButton":	appModel.navigator.pushScreen(Main.SETTINGS_SCREEN);	break;
+	case "inboxButton":		appModel.navigator.pushScreen(Game.INBOX_SCREEN);		break;
+	case "settingsButton":	appModel.navigator.pushScreen(Game.SETTINGS_SCREEN);	break;
 	}
 }
 public function updateName() : void 

@@ -1,6 +1,6 @@
 package
 {
-import com.gerantech.towercraft.Main;
+import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.BattleScreen;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
@@ -26,13 +26,13 @@ import haxe.Log;
 import starling.core.Starling;
 
 [ResourceBundle("loc")]
-public class Towers extends Sprite
+public class Main extends Sprite
 {
 public static var t:int;
 private var starling:Starling;
 private var splash:SplashScreen;
 
-public function Towers()
+public function Main()
 {
 	Log.trace = function(v : * , p : * = null) : void {trace(p.fileName.substr(0,p.fileName.length-3) +"|" + p.methodName+":" + p.lineNumber + " =>  " + v); }
 	/*var str:String = "";
@@ -61,7 +61,6 @@ public function Towers()
 	GameAnalytics.init();
 	
 	t = getTimer();
-	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
 	stage.scaleMode = StageScaleMode.NO_SCALE;
 	stage.align = StageAlign.TOP_LEFT;
 	AppModel.instance.aspectratio = this.stage.fullScreenWidth / this.stage.fullScreenHeight;
@@ -72,7 +71,6 @@ public function Towers()
 
 	loaderInfo.addEventListener(Event.COMPLETE, loaderInfo_completeHandler);
 	loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, loaderInfo_uncaughtErrorHandler);
-
 	NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
 }
 
@@ -90,7 +88,7 @@ private function loaderInfo_completeHandler(event:Event):void
 private function starStarling():void
 {
 	var viewPort:Rectangle = new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight);
-	this.starling = new Starling(com.gerantech.towercraft.Main, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE_EXTENDED);
+	this.starling = new Starling(Game, this.stage, viewPort, null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE_EXTENDED);
 	this.starling.supportHighResolutions = true;
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();

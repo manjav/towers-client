@@ -97,6 +97,6 @@
 	<extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
 	<extensionID>com.gerantech.extensions.iabilling</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
-    <!-- <extensionID>ir.tapsell.sdk.air</extensionID> -->
+    <extensionID>ir.tapsell.sdk.air</extensionID> 
   </extensions>
 </application>
