@@ -63,7 +63,7 @@ private function creationCompleteHandler():void
 	Starling.juggler.tween(ribbon, 0.6, {width:this.width, transition:Transitions.EASE_OUT_BACK});
 	
 	labelDisplay = new ShadowLabel(label, isAllise?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, height * 0.01);
-	labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
+	//labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.15); 
 //	labelDisplay.shadowDistance *= -height * 0.05;
 	addChild(labelDisplay);
