@@ -1,6 +1,9 @@
 package com.gerantech.towercraft.controls.sliders
 {
 import com.gerantech.towercraft.controls.texts.LTRLable;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ProgressBar;
 import feathers.core.ITextRenderer;
 import feathers.layout.Direction;
@@ -10,7 +13,7 @@ import feathers.utils.math.clamp;
 public class LabeledProgressBar extends ProgressBar
 {
 public var horizontalAlign:String = "left";
-public var labelTextRenderer:LTRLable;
+public var labelTextRenderer:RTLLabel;
 public function LabeledProgressBar() { super(); }
 override protected function initialize():void
 {
@@ -93,7 +96,7 @@ protected function defaultTextRendererFactory() : ITextRenderer
 		return null;
 	}
 	
-	var _labelTextRenderer:LTRLable = new LTRLable("", 1, "center", false, 0.8);
+	var _labelTextRenderer:RTLLabel = new RTLLabel("", 1, "center", null, false, null, 0.6);
 	//_labelTextRenderer.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, -1);
 	_labelTextRenderer.pixelSnapping = false;
 	return _labelTextRenderer;
@@ -111,7 +114,7 @@ public function set formatValueFactory(value:Function):void
 }
 protected function defultFormatValueFactory(value:Number, minimum:Number, maximum:Number) : String
 {
-	return Math.round(value).toString();
+	return StrUtils.getNumber(Math.round(value));
 }
 
 override public function set value(newValue:Number) : void

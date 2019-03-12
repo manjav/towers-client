@@ -37,7 +37,7 @@ override protected function initialize():void
 	
 	nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
 	nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding/8);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, 0);
 	addChild(nameDisplay);
 	
 	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.8);
