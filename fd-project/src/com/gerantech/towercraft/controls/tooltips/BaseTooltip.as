@@ -26,7 +26,7 @@ package com.gerantech.towercraft.controls.tooltips
 		public var halign:String;
 		public var valign:String;
 
-		public function BaseTooltip(message:String, position:Rectangle, fontScale:Number=0.8, hSize:Number=0.5)
+		public function BaseTooltip(message:String, position:Rectangle, fontScale:Number=0.7, hSize:Number=0.5)
 		{
 			super();
 			visible = false;
@@ -54,7 +54,7 @@ package com.gerantech.towercraft.controls.tooltips
 			
 			labelDisplay = new RTLLabel(message, 0, "justify", null, true, null, fontScale);
 			labelDisplay.touchable = false;
-			labelDisplay.pixelSnapping = false;
+		//	labelDisplay.pixelSnapping = false;
 			labelDisplay.layoutData = new AnchorLayoutData(padding*(valign == "top"?1.6:0.6), padding, padding*(valign=="top"?1:2), padding);
 			labelDisplay.validate();
 			addChild(labelDisplay);
