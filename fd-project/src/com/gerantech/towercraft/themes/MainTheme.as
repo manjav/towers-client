@@ -654,7 +654,7 @@ protected function initialize():void
 protected function initializeStage():void
 {
 	this.starling.stage.color = PRIMARY_BACKGROUND_COLOR;
-	this.starling.nativeStage.color = PRIMARY_BACKGROUND_COLOR;
+	this.starling.nativeStage.color = 0;// PRIMARY_BACKGROUND_COLOR;
 }
 
 /**

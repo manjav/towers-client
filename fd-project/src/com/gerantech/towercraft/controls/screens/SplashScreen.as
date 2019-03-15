@@ -41,10 +41,10 @@ protected function stage_resizeHandler(event:*):void
 	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
 	logo.graphics.clear();
 	logo.graphics.beginFill(0);
-	logo.graphics.drawRect(-100, -100, stage.fullScreenWidth * 3, stage.fullScreenHeight * 3);
+	logo.graphics.drawRect(-stage.fullScreenWidth, -stage.fullScreenHeight, stage.fullScreenWidth * 4, stage.fullScreenHeight * 4);
 	logo.scaleY = logo.scaleX = stage.fullScreenWidth / 1080;
 	//trace(stage.fullScreenWidth, stage.fullScreenHeight, logo.width, logo.height, logo.scaleY, 'sssssssssssssssssss')
-	logo.y = (stage.fullScreenHeight - (1920 * logo.scaleY)) * 0.5;
+	logo.y = (stage.fullScreenHeight - (2160 * logo.scaleY)) * 0.5;
 }
 protected function logo_clearHandler(event:*):void
 {

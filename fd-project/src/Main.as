@@ -87,13 +87,16 @@ private function loaderInfo_completeHandler(event:Event):void
 
 private function starStarling():void
 {
-	this.starling = new Starling(Game, stage, new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE_EXTENDED);
+	var ratio:Number = 1080 / stage.fullScreenWidth;
+	var _height:Number = Math.min(stage.fullScreenWidth * 2, stage.fullScreenHeight);
+	this.starling = new Starling(Game, stage, new Rectangle(0, stage.fullScreenHeight - _height, stage.fullScreenWidth, _height), null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE_EXTENDED);
+	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 	this.starling.supportHighResolutions = true;
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();
-	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
-	this.starling.stage.stageWidth  = Math.max(1080, 1920 * (stage.fullScreenWidth / stage.fullScreenHeight));
-	this.starling.stage.stageHeight = 1920; trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight, this.starling.contentScaleFactor);
+	this.starling.stage.stageWidth  = 1080;
+	this.starling.stage.stageHeight = _height * ratio;
+	trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight, this.starling.contentScaleFactor);
 //	this.starling.showStatsAt("right", "top", 1 / this.starling.contentScaleFactor);
 }
 
