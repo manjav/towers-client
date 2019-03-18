@@ -513,126 +513,123 @@ public var lightDisabledScrollTextFontStyles:TextFormat;
  * does not initialize this member variable. Subclasses are expected to
  * load the assets somehow and set the <code>atlas</code> member
  * variable before calling <code>initialize()</code>.
+ *
+ * Initializes the textures by extracting them from the atlas and
+ * setting up any scaling grids that are needed.
  */
-//public var atlas:TextureAtlas;
+public function get backgroundSkinTexture() : Texture { return Assets.getTexture("theme/background-skin", "gui"); }
+public function get backgroundDisabledSkinTexture() : Texture { return Assets.getTexture("theme/background-disabled-skin", "gui"); }
+public function get backgroundInsetSkinTexture() : Texture { return Assets.getTexture("theme/background-inset-skin", "gui"); }
+public function get backgroundInsetDisabledSkinTexture() : Texture { return Assets.getTexture("theme/background-inset-disabled-skin", "gui"); }
+public function get backgroundInsetFocusedSkinTexture() : Texture { return Assets.getTexture("theme/background-focused-skin", "gui"); }
+public function get backgroundInsetDangerSkinTexture() : Texture { return Assets.getTexture("theme/background-inset-danger-skin", "gui"); }
+public function get backgroundLightBorderSkinTexture() : Texture { return Assets.getTexture("theme/background-light-border-skin", "gui"); }
+public function get backgroundDarkBorderSkinTexture() : Texture { return Assets.getTexture("theme/background-dark-border-skin", "gui"); }
+public function get backgroundDangerBorderSkinTexture() : Texture { return Assets.getTexture("theme/background-danger-border-skin", "gui"); }
 
-public var headerBackgroundSkinTexture:Texture;
-public var popUpHeaderBackgroundSkinTexture:Texture;
-public var popupBackgroundSkinTexture:Texture;
-public var backgroundSkinTexture:Texture;
-public var backgroundDisabledSkinTexture:Texture;
-public var backgroundInsetSkinTexture:Texture;
-public var backgroundInsetDisabledSkinTexture:Texture;
-public var backgroundInsetFocusedSkinTexture:Texture;
-public var backgroundInsetDangerSkinTexture:Texture;
-public var backgroundLightBorderSkinTexture:Texture;
-public var backgroundDarkBorderSkinTexture:Texture;
-public var backgroundDangerBorderSkinTexture:Texture;
-public var buttonUpSkinTexture:Texture;
-public var buttonDownSkinTexture:Texture;
-public var buttonDisabledSkinTexture:Texture;
-public var buttonSelectedUpSkinTexture:Texture;
-public var buttonSelectedDisabledSkinTexture:Texture;
-public var buttonCallToActionUpSkinTexture:Texture;
-public var buttonCallToActionDownSkinTexture:Texture;
-public var buttonDangerUpSkinTexture:Texture;
-public var buttonDangerDownSkinTexture:Texture;
-public var buttonNeutralUpSkinTexture:Texture;
-public var buttonNeutralDownSkinTexture:Texture;
-public var buttonBackUpSkinTexture:Texture;
-public var buttonBackDownSkinTexture:Texture;
-public var buttonBackDisabledSkinTexture:Texture;
-public var buttonForwardUpSkinTexture:Texture;
-public var buttonForwardDownSkinTexture:Texture;
-public var buttonForwardDisabledSkinTexture:Texture;
-public var pickerListButtonIconTexture:Texture;
-public var pickerListButtonSelectedIconTexture:Texture;
-public var pickerListButtonIconDisabledTexture:Texture;
-public var tabUpSkinTexture:Texture;
-public var tabDownSkinTexture:Texture;
-public var tabDisabledSkinTexture:Texture;
-public var tabSelectedUpSkinTexture:Texture;
-public var tabSelectedDisabledSkinTexture:Texture;
-public var pickerListItemSelectedIconTexture:Texture;
-public var spinnerListSelectionOverlaySkinTexture:Texture;
-public var radioUpIconTexture:Texture;
-public var radioDownIconTexture:Texture;
-public var radioDisabledIconTexture:Texture;
-public var radioSelectedUpIconTexture:Texture;
-public var radioSelectedDownIconTexture:Texture;
-public var radioSelectedDisabledIconTexture:Texture;
-public var checkUpIconTexture:Texture;
-public var checkDownIconTexture:Texture;
-public var checkDisabledIconTexture:Texture;
-public var checkSelectedUpIconTexture:Texture;
-public var checkSelectedDownIconTexture:Texture;
-public var checkSelectedDisabledIconTexture:Texture;
-public var pageIndicatorNormalSkinTexture:Texture;
-public var pageIndicatorSelectedSkinTexture:Texture;
-public var itemRendererUpSkinTexture:Texture;
-public var itemRendererSelectedSkinTexture:Texture;
-public var itemRendererDisabledSkinTexture:Texture;
-public var itemRendererDangerSkinTexture:Texture;
-public var insetItemRendererUpSkinTexture:Texture;
-public var insetItemRendererSelectedSkinTexture:Texture;
-public var insetItemRendererFirstUpSkinTexture:Texture;
-public var insetItemRendererFirstSelectedSkinTexture:Texture;
-public var insetItemRendererLastUpSkinTexture:Texture;
-public var insetItemRendererLastSelectedSkinTexture:Texture;
-public var insetItemRendererSingleUpSkinTexture:Texture;
-public var insetItemRendererSingleSelectedSkinTexture:Texture;
-public var calloutTopArrowSkinTexture:Texture;
-public var calloutRightArrowSkinTexture:Texture;
-public var calloutBottomArrowSkinTexture:Texture;
-public var calloutLeftArrowSkinTexture:Texture;
-public var dangerCalloutTopArrowSkinTexture:Texture;
-public var dangerCalloutRightArrowSkinTexture:Texture;
-public var dangerCalloutBottomArrowSkinTexture:Texture;
-public var dangerCalloutLeftArrowSkinTexture:Texture;
-public var verticalScrollBarThumbSkinTexture:Texture;
-public var horizontalScrollBarThumbSkinTexture:Texture;
-public var searchIconTexture:Texture;
-public var searchIconDisabledTexture:Texture;
-public var listDrillDownAccessoryTexture:Texture;
-public var listDrillDownAccessorySelectedTexture:Texture;
+public function get buttonUpSkinTexture() : Texture { return Assets.getTexture("theme/button-normal-up-skin", "gui"); }
+public function get buttonDownSkinTexture() : Texture { return Assets.getTexture("theme/button-normal-down-skin", "gui"); }
+public function get buttonDangerUpSkinTexture() : Texture { return Assets.getTexture("theme/button-danger-up-skin", "gui"); }
+public function get buttonDangerDownSkinTexture() : Texture { return Assets.getTexture("theme/button-danger-down-skin", "gui"); }
+public function get buttonNeutralUpSkinTexture() : Texture { return Assets.getTexture("theme/button-neutral-up-skin", "gui"); }
+public function get buttonNeutralDownSkinTexture() : Texture { return Assets.getTexture("theme/button-neutral-down-skin", "gui"); }
+public function get buttonHilightUpSkinTexture() : Texture { return Assets.getTexture("theme/button-hilight-up-skin", "gui"); }
+public function get buttonHilightDownSkinTexture() : Texture { return Assets.getTexture("theme/button-hilight-down-skin", "gui"); }
+public function get buttonDisabledSkinTexture() : Texture { return Assets.getTexture("theme/button-disabled-skin", "gui"); }
+public function get buttonSelectedUpSkinTexture() : Texture { return Assets.getTexture("theme/toggle-button-selected-up-skin", "gui"); }
+public function get buttonSelectedDisabledSkinTexture() : Texture { return Assets.getTexture("theme/toggle-button-selected-disabled-skin", "gui"); }
+public function get buttonCallToActionUpSkinTexture() : Texture { return Assets.getTexture("theme/call-to-action-button-up-skin", "gui"); }
+public function get buttonCallToActionDownSkinTexture() : Texture { return Assets.getTexture("theme/call-to-action-button-down-skin", "gui"); }
+public function get buttonBackUpSkinTexture() : Texture { return Assets.getTexture("theme/back-button-up-skin", "gui"); }
+public function get buttonBackDownSkinTexture() : Texture { return Assets.getTexture("theme/back-button-down-skin", "gui"); }
+public function get buttonBackDisabledSkinTexture() : Texture { return Assets.getTexture("theme/back-button-disabled-skin", "gui"); }
+public function get buttonForwardUpSkinTexture() : Texture { return Assets.getTexture("theme/forward-button-up-skin", "gui"); }
+public function get buttonForwardDownSkinTexture() : Texture { return Assets.getTexture("theme/forward-button-down-skin", "gui"); }
+public function get buttonForwardDisabledSkinTexture() : Texture { return Assets.getTexture("theme/forward-button-disabled-skin", "gui"); }
 
-//media textures
-/*protected var playPauseButtonPlayUpIconTexture:Texture;
-protected var playPauseButtonPlayDownIconTexture:Texture;
-protected var playPauseButtonPauseUpIconTexture:Texture;
-protected var playPauseButtonPauseDownIconTexture:Texture;
-protected var overlayPlayPauseButtonPlayUpIconTexture:Texture;
-protected var overlayPlayPauseButtonPlayDownIconTexture:Texture;
-protected var fullScreenToggleButtonEnterUpIconTexture:Texture;
-protected var fullScreenToggleButtonEnterDownIconTexture:Texture;
-protected var fullScreenToggleButtonExitUpIconTexture:Texture;
-protected var fullScreenToggleButtonExitDownIconTexture:Texture;*/
-protected var muteToggleButtonLoudUpIconTexture:Texture;
-protected var muteToggleButtonLoudDownIconTexture:Texture;
-protected var muteToggleButtonMutedUpIconTexture:Texture;
-protected var muteToggleButtonMutedDownIconTexture:Texture;
-protected var volumeSliderMinimumTrackSkinTexture:Texture;
-protected var volumeSliderMaximumTrackSkinTexture:Texture;
-protected var seekSliderProgressSkinTexture:Texture;
+public function get tabUpSkinTexture() : Texture { return Assets.getTexture("theme/tab-up-skin", "gui"); }
+public function get tabDownSkinTexture() : Texture { return Assets.getTexture("theme/tab-up-skin", "gui"); }
+public function get tabDisabledSkinTexture() : Texture { return Assets.getTexture("theme/tab-disabled-skin", "gui"); }
+public function get tabSelectedUpSkinTexture() : Texture { return Assets.getTexture("theme/tab-selected-up-skin", "gui"); }
+public function get tabSelectedDisabledSkinTexture() : Texture { return Assets.getTexture("theme/tab-up-skin", "gui"); }
 
-/**
- * Disposes the atlas before calling super.dispose()
- */
-override public function dispose():void
-{
-	/*if(this.atlas)
-	{
-		//if anything is keeping a reference to the texture, we don't
-		//want it to keep a reference to the theme too.
-		this.atlas.texture.root.onRestore = null;
-		
-		this.atlas.dispose();
-		this.atlas = null;
-	}
-*/
-	//don't forget to call super.dispose()!
-	super.dispose();
-}
+public function get pickerListButtonIconTexture() : Texture { return Assets.getTexture("theme/picker-list-button-icon", "gui"); }
+public function get pickerListButtonSelectedIconTexture() : Texture { return Assets.getTexture("theme/picker-list-button-selected-icon", "gui"); }
+public function get pickerListButtonIconDisabledTexture() : Texture { return Assets.getTexture("theme/picker-list-button-disabled-icon", "gui"); }
+public function get pickerListItemSelectedIconTexture() : Texture { return Assets.getTexture("theme/picker-list-item-renderer-selected-icon", "gui"); }
+
+public function get spinnerListSelectionOverlaySkinTexture() : Texture { return Assets.getTexture("theme/spinner-list-selection-overlay-skin", "gui"); }
+
+public function get checkUpIconTexture() : Texture { return Assets.getTexture("theme/check-up-icon", "gui"); }
+public function get checkDownIconTexture() : Texture { return Assets.getTexture("theme/check-down-icon", "gui"); }
+public function get checkDisabledIconTexture() : Texture { return Assets.getTexture("theme/check-disabled-icon", "gui"); }
+public function get checkSelectedUpIconTexture() : Texture { return Assets.getTexture("theme/check-selected-up-icon", "gui"); }
+public function get checkSelectedDownIconTexture() : Texture { return Assets.getTexture("theme/check-selected-down-icon", "gui"); }
+public function get checkSelectedDisabledIconTexture() : Texture { return Assets.getTexture("theme/check-selected-disabled-icon", "gui"); }
+
+public function get radioUpIconTexture() : Texture { return this.checkUpIconTexture; }
+public function get radioDownIconTexture() : Texture { return this.checkDownIconTexture; }
+public function get radioDisabledIconTexture() : Texture { return this.checkDisabledIconTexture; }
+public function get radioSelectedUpIconTexture() : Texture { return Assets.getTexture("theme/radio-selected-up-icon", "gui"); }
+public function get radioSelectedDownIconTexture() : Texture { return Assets.getTexture("theme/radio-selected-down-icon", "gui"); }
+public function get radioSelectedDisabledIconTexture() : Texture { return Assets.getTexture("theme/radio-selected-disabled-icon", "gui"); }
+
+public function get pageIndicatorSelectedSkinTexture() : Texture { return Assets.getTexture("theme/page-indicator-selected-symbol", "gui"); }
+public function get pageIndicatorNormalSkinTexture() : Texture { return Assets.getTexture("theme/page-indicator-symbol", "gui"); }
+
+public function get searchIconTexture() : Texture { return Assets.getTexture("theme/search-icon", "gui"); }
+public function get searchIconDisabledTexture() : Texture { return Assets.getTexture("theme/search-disabled-icon", "gui"); }
+
+public function get itemRendererUpSkinTexture() : Texture { return Assets.getTexture("theme/item-renderer-up-skin", "gui"); }
+public function get itemRendererSelectedSkinTexture() : Texture { return Assets.getTexture("theme/item-renderer-selected-skin", "gui"); }
+public function get itemRendererDisabledSkinTexture() : Texture { return Assets.getTexture("theme/item-renderer-disabled-skin", "gui"); }
+public function get itemRendererDangerSkinTexture() : Texture { return Assets.getTexture("theme/item-renderer-danger-skin", "gui"); }
+public function get insetItemRendererUpSkinTexture() : Texture { return Assets.getTexture("theme/inset-item-renderer-up-skin", "gui"); }
+public function get insetItemRendererSelectedSkinTexture() : Texture { return Assets.getTexture("theme/inset-item-renderer-selected-up-skin", "gui"); }
+public function get insetItemRendererFirstUpSkinTexture() : Texture { return Assets.getTexture("theme/first-inset-item-renderer-up-skin", "gui"); }
+public function get insetItemRendererFirstSelectedSkinTexture() : Texture { return Assets.getTexture("theme/first-inset-item-renderer-selected-up-skin", "gui"); }
+public function get insetItemRendererLastUpSkinTexture() : Texture { return Assets.getTexture("theme/last-inset-item-renderer-up-skin", "gui"); }
+public function get insetItemRendererLastSelectedSkinTexture() : Texture { return Assets.getTexture("theme/last-inset-item-renderer-selected-up-skin", "gui"); }
+public function get insetItemRendererSingleUpSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-up-skin", "gui"); }
+public function get insetItemRendererSingleSelectedSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-selected-up-skin", "gui"); }
+public function get popupBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-background-skin", "gui"); }
+public function get headerBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-background-skin", "gui"); }
+public function get popUpHeaderBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-popup-background-skin", "gui"); }
+
+public function get calloutTopArrowSkinTexture() : Texture { return Assets.getTexture("theme/callout-arrow-top-skin", "gui"); }
+public function get calloutRightArrowSkinTexture() : Texture { return Assets.getTexture("theme/callout-arrow-right-skin", "gui"); }
+public function get calloutBottomArrowSkinTexture() : Texture { return Assets.getTexture("theme/callout-arrow-bottom-skin", "gui"); }
+public function get calloutLeftArrowSkinTexture() : Texture { return Assets.getTexture("theme/callout-arrow-left-skin", "gui"); }
+public function get dangerCalloutTopArrowSkinTexture() : Texture { return Assets.getTexture("theme/danger-callout-arrow-top-skin", "gui"); }
+public function get dangerCalloutRightArrowSkinTexture() : Texture { return Assets.getTexture("theme/danger-callout-arrow-right-skin", "gui"); }
+public function get dangerCalloutBottomArrowSkinTexture() : Texture { return Assets.getTexture("theme/danger-callout-arrow-bottom-skin", "gui"); }
+public function get dangerCalloutLeftArrowSkinTexture() : Texture { return Assets.getTexture("theme/danger-callout-arrow-left-skin", "gui"); }
+
+public function get horizontalScrollBarThumbSkinTexture() : Texture { return Assets.getTexture("theme/horizontal-simple-scroll-bar-thumb-skin", "gui"); }
+public function get verticalScrollBarThumbSkinTexture() : Texture { return Assets.getTexture("theme/vertical-simple-scroll-bar-thumb-skin", "gui"); }
+
+public function get listDrillDownAccessoryTexture() : Texture { return Assets.getTexture("theme/item-renderer-drill-down-accessory-icon", "gui"); }
+public function get listDrillDownAccessorySelectedTexture() : Texture { return Assets.getTexture("theme/item-renderer-drill-down-accessory-selected-icon", "gui"); }
+	
+/*public function get playPauseButtonPlayUpIconTexture() : Texture { return Assets.getTexture("theme/play-pause-toggle-button-play-up-icon", "gui"); }
+public function get playPauseButtonPlayDownIconTexture() : Texture { return Assets.getTexture("theme/play-pause-toggle-button-play-down-icon", "gui"); }
+public function get playPauseButtonPauseUpIconTexture() : Texture { return Assets.getTexture("theme/play-pause-toggle-button-pause-up-icon", "gui"); }
+public function get playPauseButtonPauseDownIconTexture() : Texture { return Assets.getTexture("theme/play-pause-toggle-button-pause-down-icon", "gui"); }
+public function get overlayPlayPauseButtonPlayUpIconTexture() : Texture { return Assets.getTexture("theme/overlay-play-pause-toggle-button-play-up-icon", "gui"); }
+public function get overlayPlayPauseButtonPlayDownIconTexture() : Texture { return Assets.getTexture("theme/overlay-play-pause-toggle-button-play-down-icon", "gui"); }
+public function get fullScreenToggleButtonEnterUpIconTexture() : Texture { return Assets.getTexture("theme/full-screen-toggle-button-enter-up-icon", "gui"); }
+public function get fullScreenToggleButtonEnterDownIconTexture() : Texture { return Assets.getTexture("theme/full-screen-toggle-button-enter-down-icon", "gui"); }
+public function get fullScreenToggleButtonExitUpIconTexture() : Texture { return Assets.getTexture("theme/full-screen-toggle-button-exit-up-icon", "gui"); }
+public function get fullScreenToggleButtonExitDownIconTexture() : Texture { return Assets.getTexture("theme/full-screen-toggle-button-exit-down-icon", "gui"); }*/
+public function get muteToggleButtonMutedUpIconTexture() : Texture { return Assets.getTexture("theme/mute-toggle-button-muted-up-icon", "gui"); }
+public function get muteToggleButtonMutedDownIconTexture() : Texture { return Assets.getTexture("theme/mute-toggle-button-muted-down-icon", "gui"); }
+public function get muteToggleButtonLoudUpIconTexture() : Texture { return Assets.getTexture("theme/mute-toggle-button-loud-up-icon", "gui"); }
+public function get muteToggleButtonLoudDownIconTexture() : Texture { return Assets.getTexture("theme/mute-toggle-button-loud-down-icon", "gui"); }
+public function get seekSliderProgressSkinTexture() : Texture { return Assets.getTexture("theme/seek-slider-progress-skin", "gui"); }
+
+//protected var volumeSliderMinimumTrackSkinTexture:Texture;
+//protected var volumeSliderMaximumTrackSkinTexture:Texture;
+
 
 /**
  * Initializes the theme. Expected to be called by subclasses after the
@@ -642,7 +639,6 @@ protected function initialize():void
 {
 	this.initializeDimensions();
 	this.initializeFonts();
-	this.initializeTextures();
 	this.initializeGlobals();
 	this.initializeStage();
 	this.initializeStyleProviders();
@@ -747,125 +743,6 @@ protected function initializeFonts():void
 
 	this.lightScrollTextFontStyles = new TextFormat(FONT_NAME_STACK, this.regularFontSize, LIGHT_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);
 	this.lightDisabledScrollTextFontStyles = new TextFormat(FONT_NAME_STACK, this.regularFontSize, LIGHT_DISABLED_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);
-}
-
-/**
- * Initializes the textures by extracting them from the atlas and
- * setting up any scaling grids that are needed.
- */
-protected function initializeTextures():void
-{
-	this.backgroundSkinTexture = Assets.getTexture("theme/background-skin");
-	this.backgroundDisabledSkinTexture = Assets.getTexture("theme/background-disabled-skin");
-	this.backgroundInsetSkinTexture = Assets.getTexture("theme/background-inset-skin");
-	this.backgroundInsetDisabledSkinTexture = Assets.getTexture("theme/background-inset-disabled-skin");
-	this.backgroundInsetFocusedSkinTexture = Assets.getTexture("theme/background-focused-skin");
-	this.backgroundInsetDangerSkinTexture = Assets.getTexture("theme/background-inset-danger-skin");
-	this.backgroundLightBorderSkinTexture = Assets.getTexture("theme/background-light-border-skin");
-	this.backgroundDarkBorderSkinTexture = Assets.getTexture("theme/background-dark-border-skin");
-	this.backgroundDangerBorderSkinTexture = Assets.getTexture("theme/background-danger-border-skin");
-
-	this.buttonUpSkinTexture = Assets.getTexture("theme/button-normal-up-skin");
-	this.buttonDownSkinTexture = Assets.getTexture("theme/button-normal-down-skin");
-	this.buttonDangerUpSkinTexture = Assets.getTexture("theme/button-danger-up-skin");
-	this.buttonDangerDownSkinTexture = Assets.getTexture("theme/button-danger-down-skin");
-	this.buttonNeutralUpSkinTexture = Assets.getTexture("theme/button-neutral-up-skin");
-	this.buttonNeutralDownSkinTexture = Assets.getTexture("theme/button-neutral-down-skin");
-	this.buttonDisabledSkinTexture = Assets.getTexture("theme/button-disabled-skin");
-	this.buttonSelectedUpSkinTexture = Assets.getTexture("theme/toggle-button-selected-up-skin");
-	this.buttonSelectedDisabledSkinTexture = Assets.getTexture("theme/toggle-button-selected-disabled-skin");
-	this.buttonCallToActionUpSkinTexture = Assets.getTexture("theme/call-to-action-button-up-skin");
-	this.buttonCallToActionDownSkinTexture = Assets.getTexture("theme/call-to-action-button-down-skin");
-	this.buttonBackUpSkinTexture = Assets.getTexture("theme/back-button-up-skin");
-	this.buttonBackDownSkinTexture = Assets.getTexture("theme/back-button-down-skin");
-	this.buttonBackDisabledSkinTexture = Assets.getTexture("theme/back-button-disabled-skin");
-	this.buttonForwardUpSkinTexture = Assets.getTexture("theme/forward-button-up-skin");
-	this.buttonForwardDownSkinTexture = Assets.getTexture("theme/forward-button-down-skin");
-	this.buttonForwardDisabledSkinTexture = Assets.getTexture("theme/forward-button-disabled-skin");
-
-	this.tabUpSkinTexture = Texture.fromTexture(Assets.getTexture("theme/tab-up-skin"));
-	this.tabDownSkinTexture = Texture.fromTexture(Assets.getTexture("theme/tab-up-skin"));
-	this.tabDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("theme/tab-disabled-skin"));
-	this.tabSelectedUpSkinTexture = Texture.fromTexture(Assets.getTexture("theme/tab-selected-up-skin"));
-	this.tabSelectedDisabledSkinTexture = Texture.fromTexture(Assets.getTexture("theme/tab-up-skin"));
-
-	this.pickerListButtonIconTexture = Assets.getTexture("theme/picker-list-button-icon");
-	this.pickerListButtonSelectedIconTexture = Assets.getTexture("theme/picker-list-button-selected-icon");
-	this.pickerListButtonIconDisabledTexture = Assets.getTexture("theme/picker-list-button-disabled-icon");
-	this.pickerListItemSelectedIconTexture = Assets.getTexture("theme/picker-list-item-renderer-selected-icon");
-
-	this.spinnerListSelectionOverlaySkinTexture = Assets.getTexture("theme/spinner-list-selection-overlay-skin");
-
-	this.checkUpIconTexture = Assets.getTexture("theme/check-up-icon");
-	this.checkDownIconTexture = Assets.getTexture("theme/check-down-icon");
-	this.checkDisabledIconTexture = Assets.getTexture("theme/check-disabled-icon");
-	this.checkSelectedUpIconTexture = Assets.getTexture("theme/check-selected-up-icon");
-	this.checkSelectedDownIconTexture = Assets.getTexture("theme/check-selected-down-icon");
-	this.checkSelectedDisabledIconTexture = Assets.getTexture("theme/check-selected-disabled-icon");
-
-	this.radioUpIconTexture = this.checkUpIconTexture;
-	this.radioDownIconTexture = this.checkDownIconTexture;
-	this.radioDisabledIconTexture = this.checkDisabledIconTexture;
-	this.radioSelectedUpIconTexture = Assets.getTexture("theme/radio-selected-up-icon");
-	this.radioSelectedDownIconTexture = Assets.getTexture("theme/radio-selected-down-icon");
-	this.radioSelectedDisabledIconTexture = Assets.getTexture("theme/radio-selected-disabled-icon");
-
-	this.pageIndicatorSelectedSkinTexture = Assets.getTexture("theme/page-indicator-selected-symbol");
-	this.pageIndicatorNormalSkinTexture = Assets.getTexture("theme/page-indicator-symbol");
-
-	this.searchIconTexture = Assets.getTexture("theme/search-icon");
-	this.searchIconDisabledTexture = Assets.getTexture("theme/search-disabled-icon");
-
-	this.itemRendererUpSkinTexture = Assets.getTexture("theme/item-renderer-up-skin");
-	this.itemRendererSelectedSkinTexture = Assets.getTexture("theme/item-renderer-selected-skin");
-	this.itemRendererDisabledSkinTexture = Assets.getTexture("theme/item-renderer-disabled-skin");
-	this.itemRendererDangerSkinTexture = Assets.getTexture("theme/item-renderer-danger-skin");
-	this.insetItemRendererUpSkinTexture = Assets.getTexture("theme/inset-item-renderer-up-skin");
-	this.insetItemRendererSelectedSkinTexture = Assets.getTexture("theme/inset-item-renderer-selected-up-skin");
-	this.insetItemRendererFirstUpSkinTexture = Assets.getTexture("theme/first-inset-item-renderer-up-skin");
-	this.insetItemRendererFirstSelectedSkinTexture = Assets.getTexture("theme/first-inset-item-renderer-selected-up-skin");
-	this.insetItemRendererLastUpSkinTexture = Assets.getTexture("theme/last-inset-item-renderer-up-skin");
-	this.insetItemRendererLastSelectedSkinTexture = Assets.getTexture("theme/last-inset-item-renderer-selected-up-skin");
-	this.insetItemRendererSingleUpSkinTexture = Assets.getTexture("theme/single-inset-item-renderer-up-skin");
-	this.insetItemRendererSingleSelectedSkinTexture = Assets.getTexture("theme/single-inset-item-renderer-selected-up-skin");
-	this.popupBackgroundSkinTexture = Assets.getTexture("theme/popup-background-skin");
-	/*var headerBackgroundSkinTexture:Texture = Assets.getTexture("theme/header-background-skin");
-	var popUpHeaderBackgroundSkinTexture:Texture = Assets.getTexture("theme/header-popup-background-skin");
-	this.headerBackgroundSkinTexture = Texture.fromTexture(headerBackgroundSkinTexture, HEADER_SKIN_TEXTURE_REGION);
-	this.popUpHeaderBackgroundSkinTexture = Texture.fromTexture(popUpHeaderBackgroundSkinTexture, HEADER_SKIN_TEXTURE_REGION);*/
-
-	this.calloutTopArrowSkinTexture = Assets.getTexture("theme/callout-arrow-top-skin");
-	this.calloutRightArrowSkinTexture = Assets.getTexture("theme/callout-arrow-right-skin");
-	this.calloutBottomArrowSkinTexture = Assets.getTexture("theme/callout-arrow-bottom-skin");
-	this.calloutLeftArrowSkinTexture = Assets.getTexture("theme/callout-arrow-left-skin");
-	this.dangerCalloutTopArrowSkinTexture = Assets.getTexture("theme/danger-callout-arrow-top-skin");
-	this.dangerCalloutRightArrowSkinTexture = Assets.getTexture("theme/danger-callout-arrow-right-skin");
-	this.dangerCalloutBottomArrowSkinTexture = Assets.getTexture("theme/danger-callout-arrow-bottom-skin");
-	this.dangerCalloutLeftArrowSkinTexture = Assets.getTexture("theme/danger-callout-arrow-left-skin");
-
-	this.horizontalScrollBarThumbSkinTexture = Assets.getTexture("theme/horizontal-simple-scroll-bar-thumb-skin");
-	this.verticalScrollBarThumbSkinTexture = Assets.getTexture("theme/vertical-simple-scroll-bar-thumb-skin");
-
-	this.listDrillDownAccessoryTexture = Assets.getTexture("theme/item-renderer-drill-down-accessory-icon");
-	this.listDrillDownAccessorySelectedTexture = Assets.getTexture("theme/item-renderer-drill-down-accessory-selected-icon");
-	
-	/*this.playPauseButtonPlayUpIconTexture = Assets.getTexture("theme/play-pause-toggle-button-play-up-icon");
-	this.playPauseButtonPlayDownIconTexture = Assets.getTexture("theme/play-pause-toggle-button-play-down-icon");
-	this.playPauseButtonPauseUpIconTexture = Assets.getTexture("theme/play-pause-toggle-button-pause-up-icon");
-	this.playPauseButtonPauseDownIconTexture = Assets.getTexture("theme/play-pause-toggle-button-pause-down-icon");
-	this.overlayPlayPauseButtonPlayUpIconTexture = Assets.getTexture("theme/overlay-play-pause-toggle-button-play-up-icon");
-	this.overlayPlayPauseButtonPlayDownIconTexture = Assets.getTexture("theme/overlay-play-pause-toggle-button-play-down-icon");
-	this.fullScreenToggleButtonEnterUpIconTexture = Assets.getTexture("theme/full-screen-toggle-button-enter-up-icon");
-	this.fullScreenToggleButtonEnterDownIconTexture = Assets.getTexture("theme/full-screen-toggle-button-enter-down-icon");
-	this.fullScreenToggleButtonExitUpIconTexture = Assets.getTexture("theme/full-screen-toggle-button-exit-up-icon");
-	this.fullScreenToggleButtonExitDownIconTexture = Assets.getTexture("theme/full-screen-toggle-button-exit-down-icon");*/
-	this.muteToggleButtonMutedUpIconTexture = Assets.getTexture("theme/mute-toggle-button-muted-up-icon");
-	this.muteToggleButtonMutedDownIconTexture = Assets.getTexture("theme/mute-toggle-button-muted-down-icon");
-	this.muteToggleButtonLoudUpIconTexture = Assets.getTexture("theme/mute-toggle-button-loud-up-icon");
-	this.muteToggleButtonLoudDownIconTexture = Assets.getTexture("theme/mute-toggle-button-loud-down-icon");
-/*			this.volumeSliderMinimumTrackSkinTexture = Assets.getTexture("theme/volume-slider-minimum-track-skin");
-	this.volumeSliderMaximumTrackSkinTexture = Assets.getTexture("theme/volume-slider-maximum-track-skin");*/
-	this.seekSliderProgressSkinTexture = Assets.getTexture("theme/seek-slider-progress-skin");
 }
 
 /**
