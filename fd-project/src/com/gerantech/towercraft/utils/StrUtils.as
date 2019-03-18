@@ -255,7 +255,7 @@ public static function dateToTime(date:Date, _mode:String='Second', separator:St
 }
 
 //  UINT TO TIME _________________________________________________________________________
-public static function uintToTime(_time:uint, _mode:String="Second", separator:String=":"):String
+public static function uintToTime(_time:uint, _mode:String="Second", separator:String=" : "):String
 {
 	var ret:String;
 	var mili:uint;
@@ -270,7 +270,6 @@ public static function uintToTime(_time:uint, _mode:String="Second", separator:S
 	var hrs:uint;
 	var secStr:String = sec < 10 ? '0' + sec:'' + sec;
 	var minStr:String;
-	var hrsStr:String;
 	if( _time < 3600 )
 	{
 		min = Math.floor(_time / 60);
@@ -282,8 +281,7 @@ public static function uintToTime(_time:uint, _mode:String="Second", separator:S
 		min = Math.floor(uint(_time % 3600) / 60);
 		hrs = Math.floor(_time / 3600);
 		minStr = min < 10 ? '0' + min:'' + min;
-		hrsStr = hrs < 10 ? '0' + hrs:'' + hrs;
-		ret = _mode == 'Second' ? hrsStr + separator + minStr + separator + secStr:hrsStr + separator + minStr + separator + secStr + separator + mili;
+		ret = _mode == 'Second' ? hrs + separator + minStr + separator + secStr:hrs + separator + minStr + separator + secStr + separator + mili;
 	}
 	return ret;
 }
