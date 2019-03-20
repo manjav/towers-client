@@ -12,8 +12,6 @@ public function IndicatorButton(defaultLabel:String = "+", defaulFontSize:Number
 	super();
 	label = defaultLabel;
 	fontsize = defaulFontSize;
-	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 1.0);
-	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.7);
 }
 
 override protected function initialize():void
@@ -35,16 +33,5 @@ override public function set label(value:String):void
 	else
 		super.label = value;
 }
-
-
-override public function set currentState(value:String):void
-{
-	if( super.currentState == value )
-		return;
-	
-	super.currentState = value;
-	shadowLayoutData.verticalCenter = -padding * (value == ButtonState.DOWN?0.5:1.0);
-}
-
 }
 }

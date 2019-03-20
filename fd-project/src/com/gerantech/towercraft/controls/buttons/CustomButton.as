@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
@@ -16,20 +17,18 @@ public class CustomButton extends SimpleLayoutButton
 public static const STYLE_NORMAL:String = "normal";
 public static const STYLE_NEUTRAL:String = "neutral";
 public static const STYLE_DANGER:String = "danger";
+public static const STYLE_HILIGHT:String = "hilight";
 static public const STYLE_DISABLED:String = "disabled";
 
-public var iconLayout:ILayoutData;
-public var iconPosition:Point;
 public var data:Object;
+public var iconPosition:Point;
+public var iconLayout:ILayoutData;
+public var labelLayoutData:AnchorLayoutData;
 public var autoSizeLabel:Boolean = true;
 
 protected var padding:Number;
-protected var labelDisplay:RTLLabel;
-protected var shadowDisplay:RTLLabel;
+protected var labelDisplay:ShadowLabel;
 protected var iconDisplay:ImageLoader;
-
-protected var labelLayoutData:AnchorLayoutData;
-protected var shadowLayoutData:AnchorLayoutData;
 
 private var _style:String = "normal"
 private var _label:String = "";
@@ -51,8 +50,7 @@ public function CustomButton()
 	iconPosition = new Point();
 	padding = 8;
 	layout = new AnchorLayout();
-	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 1.7);
-	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 1.3);
+	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, 0);
 	iconLayout = new AnchorLayoutData(NaN, padding, NaN, NaN, NaN, -padding * 0.4);
 }
 
@@ -61,7 +59,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	if( iconPosition.x != 0 || iconPosition.y != 0 )
-		iconLayout = new AnchorLayoutData(NaN, padding + iconPosition.x, NaN, NaN, NaN, iconPosition.y - padding * 0.4);
+		iconLayout = new AnchorLayoutData(NaN, padding + iconPosition.x, NaN, NaN, NaN, iconPosition.y);
 
 	
 	if( _fontsize == 0 )
@@ -80,13 +78,7 @@ override protected function initialize():void
 	skin.scale9Grid = MainTheme.BUTTON_SCALE9_GRID;
 	backgroundSkin = skin;
 	
-	shadowDisplay = new RTLLabel(_label, 0x000000, "center", null, false, null, _fontsize);
-	shadowDisplay.pixelSnapping = false;
-	shadowDisplay.touchable = false;
-	shadowDisplay.layoutData = shadowLayoutData;
-	addChild(shadowDisplay);
-	
-	labelDisplay = new RTLLabel(_label, _fontColor, "center", null, false, null, _fontsize);
+	labelDisplay = new ShadowLabel(_label, _fontColor, 0, "center", null, false, null, _fontsize);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.touchable = false;
 	labelDisplay.layoutData = labelLayoutData;
@@ -133,8 +125,6 @@ public function set label(value:String):void
 	_label = value;
 	if( labelDisplay )
 		labelDisplay.text = _label;
-	if( shadowDisplay )
-		shadowDisplay.text = _label;
 }
 
 public function get icon():Texture
@@ -147,17 +137,7 @@ public function set icon(value:Texture):void
 	if( iconDisplay )
 		iconDisplay.source = _icon;
 	
-	labelLayoutData.right = (_icon==null?1:10)*padding;
-	shadowLayoutData.right = (_icon==null?1:10)*padding;
-}
-
-override public function set currentState(value:String):void
-{
-	if(super.currentState == value)
-		return;
-	
-	super.currentState = value;
-	shadowLayoutData.verticalCenter = -padding*(value==ButtonState.DOWN?1.0:1.7)
+	labelLayoutData.right = (_icon == null?1:10) * padding;
 }
 
 public function get style():String
@@ -193,10 +173,7 @@ public function set fontsize(value:Number):void
 		return;
 	_fontsize = value;
 	if( labelDisplay != null )
-	{
 		labelDisplay.fontSize = _fontsize;
-		shadowDisplay.fontSize = _fontsize;
-	}
 }
 }
 }

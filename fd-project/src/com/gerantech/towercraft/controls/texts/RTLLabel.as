@@ -1,20 +1,16 @@
 package com.gerantech.towercraft.controls.texts
 {
-	
 	import com.gerantech.towercraft.models.AppModel;
 	import com.gerantech.towercraft.themes.MainTheme;
-	
+	import feathers.controls.text.TextBlockTextRenderer;
 	import flash.text.engine.ElementFormat;
 	import flash.text.engine.FontDescription;
 	import flash.text.engine.FontLookup;
 	import flash.text.engine.LineJustification;
 	import flash.text.engine.SpaceJustifier;
 	
-	import feathers.controls.text.TextBlockTextRenderer;
-	
 	public class RTLLabel extends TextBlockTextRenderer
 	{
-
 		public var align:String;
 		public var lastAlign:String;
 		public var direction:String;

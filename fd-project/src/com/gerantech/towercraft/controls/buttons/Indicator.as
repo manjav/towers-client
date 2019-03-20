@@ -12,6 +12,7 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.utils.CoreUtils;
+import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -82,8 +83,9 @@ override protected function initialize():void
 	
 	if( hasIncreaseButton )
 	{
-		var addButton:IndicatorButton = new IndicatorButton();
-		addButton.width = addButton.height = height + 4;
+		var addButton:Button = new Button();
+		addButton.label = "+";
+		addButton.width = addButton.height = height + 12;
 		addButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
 		addButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
 		addChild(addButton);

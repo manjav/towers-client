@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
 import flash.geom.Point;
-
 import starling.display.DisplayObjectContainer;
 import starling.events.Event;
 import starling.events.Touch;
@@ -73,7 +72,7 @@ protected function touchHandler( event:TouchEvent ):void
 	{
 		// we aren't tracking another touch, so let's look for a new one.
 		touch = event.getTouch( touchTarget, TouchPhase.BEGAN );
-		if( touch )
+		if( touch != null )
 		{
 			currentState = STATE_DOWN;
 		}
