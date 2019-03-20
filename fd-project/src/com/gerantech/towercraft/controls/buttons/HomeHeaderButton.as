@@ -62,24 +62,24 @@ protected function backgroundFactory() : ImageLoader
 {
 	if( backgroundDisplay != null )
 	{
-		backgroundDisplay.source = Assets.getTexture("home/header-button-" + state, "gui");
+		backgroundDisplay.source = Assets.getTexture("home/button-bg-" + state, "gui");
 		return null;
 	}
 
-	var offRect:Rectangle = new Rectangle(-36, -52, -46, -53);
+	var offRect:Rectangle = new Rectangle(-2, -2, -2, -2);
 	var backgroundLayout:AnchorLayoutData = new AnchorLayoutData(offRect.x, offRect.y, offRect.width, offRect.height);
 	backgroundDisplay = new ImageLoader();
 	backgroundDisplay.pixelSnapping = false;
-	backgroundDisplay.source = Assets.getTexture("home/header-button-" + state, "gui");
+	backgroundDisplay.source = Assets.getTexture("home/button-bg-" + state, "gui");
 	backgroundDisplay.layoutData = backgroundLayout;
 	backgroundDisplay.maintainAspectRatio = false;
-	backgroundDisplay.scale9Grid = new Rectangle(92, 66, 38, 20);
+	backgroundDisplay.scale9Grid = new Rectangle(22, 56, 4, 4);
 	addChild(backgroundDisplay);
 	if( state == ExchangeItem.CHEST_STATE_READY )
 	{
 		function repeatPunch(isUp:Boolean):void {
-			var p:Number = isUp ? 1.2 : 1;
-			Starling.juggler.tween(backgroundLayout, 1.0, {top:offRect.x * p, right:offRect.y * p, bottom:offRect.width * p, left:offRect.height * p, onComplete:repeatPunch, onCompleteArgs:[!isUp]});
+			var p:Number = isUp ? 1 : 3;
+			Starling.juggler.tween(backgroundLayout, 1.6, {top:offRect.x * p, right:offRect.y * p, bottom:offRect.width * p, left:offRect.height * p, onComplete:repeatPunch, onCompleteArgs:[!isUp]});
 		}
 		repeatPunch(true);
 	}
@@ -93,7 +93,7 @@ protected function iconFactory(image:String) : ImageLoader
 	iconDisplay = new ImageLoader();
 	iconDisplay.touchable = false;
 	iconDisplay.source = Assets.getTexture("home/" + image, "gui");
-	iconDisplay.layoutData = new AnchorLayoutData(8, 10, 10);
+	iconDisplay.layoutData = new AnchorLayoutData(8, 8, 8);
 	addChild(iconDisplay);
 	return iconDisplay;
 }
@@ -118,7 +118,7 @@ protected function titleFactory(text:String) : ShadowLabel
 	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, state == ExchangeItem.CHEST_STATE_BUSY ? 0.7 : 0.95);
 	titleDisplay.touchable = false;
 	titleDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -64, state == ExchangeItem.CHEST_STATE_BUSY ? -50 : -10);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -64, state == ExchangeItem.CHEST_STATE_BUSY ? -40 : 0);
 	addChild(titleDisplay);
 	return titleDisplay;
 }
@@ -153,7 +153,7 @@ override public function set currentState(value:String) : void
 	if( backgroundDisplay == null || backgroundDisplay.layoutData == null )
 		return;
 	var ldata:AnchorLayoutData = backgroundDisplay.layoutData as AnchorLayoutData;
-	var vP:int = value == ButtonState.DOWN ? -30 : -40;
+	var vP:int = value == ButtonState.DOWN ? 4 : -2;
 	ldata.top = ldata.right = ldata.bottom = ldata.left = vP;
 }
 

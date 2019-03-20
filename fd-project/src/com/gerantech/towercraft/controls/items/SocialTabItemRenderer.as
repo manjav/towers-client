@@ -38,8 +38,8 @@ override protected function commitData():void
 	
 	skin = new ImageSkin(appModel.theme.tabUpSkinTexture);
 	skin.setTextureForState(STATE_NORMAL, appModel.theme.tabUpSkinTexture);
-	skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedUpSkinTexture);
-	skin.setTextureForState(STATE_DOWN, appModel.theme.tabSelectedUpSkinTexture);
+	skin.setTextureForState(STATE_SELECTED, appModel.theme.tabSelectedSkinTexture);
+	skin.setTextureForState(STATE_DOWN, appModel.theme.tabDownSkinTexture);
 	skin.scale9Grid = MainTheme.TAB_SCALE9_GRID;
 	backgroundSkin = skin;
 	

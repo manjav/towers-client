@@ -96,7 +96,7 @@ protected function defaultTextRendererFactory() : ITextRenderer
 		return null;
 	}
 	
-	var _labelTextRenderer:RTLLabel = new RTLLabel("", 1, "center", null, false, null, 0.6);
+	var _labelTextRenderer:RTLLabel = new RTLLabel("", 1, "center", null, false, null, 0.75);
 	//_labelTextRenderer.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, -1);
 	_labelTextRenderer.pixelSnapping = false;
 	return _labelTextRenderer;

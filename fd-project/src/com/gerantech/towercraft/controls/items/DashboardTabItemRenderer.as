@@ -4,32 +4,30 @@ import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.overlays.HandPoint;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.utils.setTimeout;
+import starling.animation.Transitions;
+import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
-public class DashboardTabBaseItemRenderer extends AbstractTouchableListItemRenderer
+public class DashboardTabItemRenderer extends AbstractTouchableListItemRenderer
 {
 protected var itemWidth:Number;
 protected var _firstCommit:Boolean = true;
 protected var titleDisplay:ShadowLabel;
 protected var iconDisplay:Image;
 protected var badgeNumber:IndicatorButton;
-protected var padding:int;
 protected var dashboardData:TabItemData;
 private var handPoint:HandPoint;
 
-public function DashboardTabBaseItemRenderer(width:Number)
+public function DashboardTabItemRenderer(width:Number)
 {
 	super();
 	layout = new AnchorLayout();
-	padding = 36;
 	itemWidth = width;
 }
 
@@ -68,10 +66,10 @@ protected function iconFactory() : Image
 		return null;
 	}
 
-	iconDisplay = new Image(Assets.getTexture("home/tab-" + dashboardData.index, "gui"));
+	iconDisplay = new Image(Assets.getTexture("home/dash-tab-" + dashboardData.index, "gui"));
 	iconDisplay.alignPivot();
 	iconDisplay.x = width * 0.5;
-	iconDisplay.y = height * 0.5;
+	iconDisplay.y = height * 0.54;
 	iconDisplay.pixelSnapping = false;
 	iconDisplay.alpha = player.dashboadTabEnabled(index) ? 1 : 0.5;
 	addChild(iconDisplay); 
@@ -86,9 +84,9 @@ protected function titleFactory() : ShadowLabel
 		return null;
 	}
 
-	titleDisplay = new ShadowLabel(loc("tab-" + dashboardData.index), 1, 0, null, null, false, null, 1.2, null, "bold");
+	titleDisplay = new ShadowLabel(loc("tab-" + dashboardData.index), 0xC6DDDB, 0, null, null, false, null, 0.8, null, "bold");
 	titleDisplay.visible = false;
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, (width - padding * 3) * 0.5, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
 	addChild(titleDisplay);
 	return titleDisplay;
 }
@@ -105,8 +103,8 @@ protected function badgeFactory() : IndicatorButton
 	if( badgeNumber == null )
 	{
 		badgeNumber = new IndicatorButton("0", 0.8);
-		badgeNumber.width = badgeNumber.height = padding * 1.8;
-		badgeNumber.layoutData = new AnchorLayoutData(padding * 0.5, padding * 0.5);
+		badgeNumber.width = badgeNumber.height = 64;
+		badgeNumber.layoutData = new AnchorLayoutData(18, 18);
 	}
 	badgeNumber.fixed = index == 0;
 	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
@@ -141,7 +139,30 @@ override protected function setSelection(value:Boolean):void
 
 protected function updateSelection(value:Boolean, time:Number = -1):void
 {
+	if( titleDisplay.visible == value )
+		return;
+	
+	//width = itemWidth * (value ? 2 : 1);
+	titleDisplay.visible = value;
+	
+	// icon animation
+	if( iconDisplay != null )
+	{
+		Starling.juggler.removeTweens(iconDisplay);
+		
+		if( value )
+		{
+			titleDisplay.alpha = 0;
+			Starling.juggler.tween(titleDisplay, time, {alpha:1});
+			Starling.juggler.tween(iconDisplay, time ==-1?0.5:time, {delay:0.2, y:height * 0.35, transition:Transitions.EASE_OUT_BACK});
+		}
+		else
+		{
+			iconDisplay.y = height * 0.54;
+		}
+	}
 }
+
 
 private function showTutorHint () : void
 {

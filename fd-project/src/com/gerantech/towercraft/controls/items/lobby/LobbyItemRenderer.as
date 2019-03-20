@@ -2,95 +2,83 @@ package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
-
 import feathers.controls.ImageLoader;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
-
-import starling.events.Event;
+import flash.geom.Rectangle;
+import starling.display.Image;
 
 public class LobbyItemRenderer extends AbstractTouchableListItemRenderer
 {
-private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
-
+static private const SCALE9_GRID:Rectangle = new Rectangle(270, 50, 2, 1);
+static private const MEMBER_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
 private var emblemDisplay:ImageLoader;
-private var nameDisplay:RTLLabel;
-private var nameShadowDisplay:RTLLabel;
-private var populationDisplay:RTLLabel;
-private var activenessDisplay:RTLLabel;
-private var pointDisplay:RTLLabel;
-
-private var mySkin:ImageSkin;
+private var membersDisplay:RTLLabel;
+private var activenessDisplay:ShadowLabel;
+private var rankDisplay:ShadowLabel;
+private var nameDisplay:ShadowLabel;
 
 public function LobbyItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-	
 	layout = new AnchorLayout();
-	var padding:int = 36;
-	height = 120;
-	
-	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
+
+	var mySkin:Image = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
+	mySkin.scale9Grid = SCALE9_GRID;
 	backgroundSkin = mySkin;
+
+	var membersRect:ImageLoader = new ImageLoader();
+	membersRect.width = 120;
+	membersRect.scale9Grid = MEMBER_SCALE9_GRID;
+	membersRect.source = Assets.getTexture("theme/small-inner-rect", "gui");
+	membersRect.layoutData = new AnchorLayoutData(46, appModel.isLTR?280:NaN, 14, appModel.isLTR?NaN:280);
+	addChild(membersRect);
 	
 	emblemDisplay = new ImageLoader();
-	emblemDisplay.layoutData = new AnchorLayoutData(padding*0.7, appModel.isLTR?NaN:padding*0.7, padding*0.7, appModel.isLTR?padding*0.7:NaN);
-	emblemDisplay.pixelSnapping = false;
+	emblemDisplay.layoutData = new AnchorLayoutData(15, appModel.isLTR?NaN:109, 14, appModel.isLTR?109:NaN);
 	addChild(emblemDisplay);
 	
-	nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.9);
-	nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3.5, NaN, appModel.isLTR?padding*3.5:NaN, NaN, 0);
-	nameShadowDisplay.pixelSnapping = false;
-	addChild(nameShadowDisplay);
+	// labels .........
+	rankDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
+	rankDisplay.width = 80;
+	rankDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:20, NaN, appModel.isLTR?20:NaN, NaN, 0);
+	addChild(rankDisplay);
 	
-	nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.9);
-	nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3.5, NaN, appModel.isLTR?padding*3.5:NaN, NaN, -padding/12);
+	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
 	addChild(nameDisplay);
 	
-	activenessDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
-	activenessDisplay.width = padding * 4;
-	activenessDisplay.pixelSnapping = false;
-	activenessDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*11:NaN, NaN, appModel.isLTR?NaN:padding*11, NaN, 0);
-	addChild(activenessDisplay);
-	
-	populationDisplay = new RTLLabel("", 0, "center", null, false, null, 0.9);
-	populationDisplay.width = padding * 4;
-	populationDisplay.pixelSnapping = false;
-	populationDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*6:NaN, NaN, appModel.isLTR?NaN:padding*6, NaN, 0);
+	var populationDisplay:RTLLabel = new RTLLabel(loc("lobby_population"), 0, "center", null, false, null, 0.55);
+	populationDisplay.width = 120;
+	populationDisplay.layoutData = new AnchorLayoutData(7, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280);
 	addChild(populationDisplay);
 	
-	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
-	pointDisplay.pixelSnapping = false;
-	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
-	addChild(pointDisplay);
+	membersDisplay = new RTLLabel("", 0, "center", null, false, null, 0.7);
+	membersDisplay.width = 120;
+	membersDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?280:NaN, 7, appModel.isLTR?NaN:280);
+	addChild(membersDisplay);
 	
-	addEventListener(Event.TRIGGERED, item_triggeredHandler);
+	activenessDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.8);
+	activenessDisplay.width = 160;
+	activenessDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?60:NaN, NaN, appModel.isLTR?NaN:60, NaN, 0);
+	addChild(activenessDisplay);
 }
+
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data ==null || _owner==null)
+	if( _data ==null || _owner==null )
 		return;
 	
-	emblemDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_data.pic+""), "gui");
-	nameDisplay.text = _data.name ;
-	nameShadowDisplay.text = _data.name ;
-    activenessDisplay.text = _data.act.toString();
-	pointDisplay.text = "" + _data.sum;
-	populationDisplay.text = _data.num + "/" + _data.max;
+	emblemDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(_data.pic + ""), "gui");
+	rankDisplay.text = StrUtils.getNumber(index + 1);
+	nameDisplay.text = _data.name;
+    activenessDisplay.text = StrUtils.getNumber(_data.act);
+	membersDisplay.text = StrUtils.getNumber(_data.num + "/" + _data.max);
 }
-
-private function item_triggeredHandler():void
-{
-	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 }
-} 
 }

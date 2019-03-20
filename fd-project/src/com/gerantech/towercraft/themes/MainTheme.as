@@ -25,6 +25,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 package com.gerantech.towercraft.themes
 {
 
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.Alert;
@@ -146,20 +147,28 @@ public static var STYLE_RED:uint = 0xEB2542;
 public static var STYLE_GRAY:uint = 0x333333;
 public static var STYLE_ORANGE:uint = 0xF49D27;
 
+public static const STYLE_NORMAL_BUTTON:String = "feathers-normal-button";
+public static const STYLE_HILIGHT_BUTTON:String = "feathers-hiight-button";
+public static const STYLE_DANGER_BUTTON:String = "feathers-danger-button";
+public static const STYLE_NEUTRAL_BUTTON:String = "feathers-nutral-button";
+public static const STYLE_DISABLE_BUTTON:String = "feathers-disable-button";
+
 
 public static const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
-public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(12, 12, 2, 28);//4, 4, 1, 20);
+public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
 public static const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(12, 10, 6, 26);//4, 4, 1, 20);
 public static const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
 public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
-public static const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 2, 16);
+public static const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 154, 2, 1);
+public static const POPUP_INSIDE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 1);
+public static const CALLOUT_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 2, 16);
 public static const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 4, 22);//1, 1, 1, 42);
 public static const INSET_ITEM_RENDERER_MIDDLE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 40);
 public static const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
 public static const INSET_ITEM_RENDERER_LAST_SCALE9_GRID:Rectangle = new Rectangle(7, 2, 1, 35);
 public static const INSET_ITEM_RENDERER_SINGLE_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 30);
-public static const TAB_SCALE9_GRID:Rectangle = new Rectangle(18, 16, 2, 2);
+public static const TAB_SCALE9_GRID:Rectangle = new Rectangle(15, 15, 3, 2);
 public static const SPINNER_LIST_SELECTION_OVERLAY_SCALE9_GRID:Rectangle = new Rectangle(2, 6, 1, 32);
 public static const HORIZONTAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(4, 0, 4, 5);
 public static const VERTICAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(0, 4, 5, 4);
@@ -167,6 +176,7 @@ public static const SHADOW_SIDE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 14, 
 public static const HEADER_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 1, 128, 64);
 static public const INDICATORS_SCALE9_GRID:Rectangle = new Rectangle(8, 12, 4, 4)
 static public const RIBBON_SCALE9_GRID:Rectangle = new Rectangle(92, 60, 6, 6);
+static public const ROUND_RECT_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 2, 2);
 
 /**
  * @private
@@ -548,10 +558,9 @@ public function get buttonForwardDownSkinTexture() : Texture { return Assets.get
 public function get buttonForwardDisabledSkinTexture() : Texture { return Assets.getTexture("theme/forward-button-disabled-skin", "gui"); }
 
 public function get tabUpSkinTexture() : Texture { return Assets.getTexture("theme/tab-up-skin", "gui"); }
-public function get tabDownSkinTexture() : Texture { return Assets.getTexture("theme/tab-up-skin", "gui"); }
+public function get tabDownSkinTexture() : Texture { return Assets.getTexture("theme/tab-selected-skin", "gui"); }
+public function get tabSelectedSkinTexture() : Texture { return Assets.getTexture("theme/tab-selected-skin", "gui"); }
 public function get tabDisabledSkinTexture() : Texture { return Assets.getTexture("theme/tab-disabled-skin", "gui"); }
-public function get tabSelectedUpSkinTexture() : Texture { return Assets.getTexture("theme/tab-selected-up-skin", "gui"); }
-public function get tabSelectedDisabledSkinTexture() : Texture { return Assets.getTexture("theme/tab-up-skin", "gui"); }
 
 public function get pickerListButtonIconTexture() : Texture { return Assets.getTexture("theme/picker-list-button-icon", "gui"); }
 public function get pickerListButtonSelectedIconTexture() : Texture { return Assets.getTexture("theme/picker-list-button-selected-icon", "gui"); }
@@ -593,6 +602,7 @@ public function get insetItemRendererLastSelectedSkinTexture() : Texture { retur
 public function get insetItemRendererSingleUpSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-up-skin", "gui"); }
 public function get insetItemRendererSingleSelectedSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-selected-up-skin", "gui"); }
 public function get popupBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-background-skin", "gui"); }
+public function get popupInsideBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-inside-background-skin", "gui"); }
 public function get headerBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-background-skin", "gui"); }
 public function get popUpHeaderBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-popup-background-skin", "gui"); }
 
@@ -767,6 +777,8 @@ protected function initializeStyleProviders():void
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON, this.setDangerButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON, this.setBackButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_FORWARD_BUTTON, this.setForwardButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_HILIGHT_BUTTON, this.setHilightButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_NEUTRAL_BUTTON, this.setNeutralButtonStyles);
 
 	//button group
 	this.getStyleProviderForClass(ButtonGroup).defaultStyleFunction = this.setButtonGroupStyles;
@@ -1055,7 +1067,7 @@ protected function setButtonStyles(button:Button):void
 	var skin:ImageSkin = new ImageSkin(this.buttonUpSkinTexture);
 	skin.setTextureForState(ButtonState.DOWN, this.buttonDownSkinTexture);
 	skin.setTextureForState(ButtonState.DISABLED, this.buttonDisabledSkinTexture);
-	if(button is ToggleButton)
+	if( button is ToggleButton )
 	{
 		//for convenience, this function can style both a regular button
 		//and a toggle button
@@ -1071,6 +1083,13 @@ protected function setButtonStyles(button:Button):void
 
 	button.fontStyles = this.darkUIFontStyles;
 	button.disabledFontStyles = this.darkDisabledUIFontStyles;
+	
+	button.labelOffsetX = 2;
+	button.labelOffsetY = -6;
+	button.labelFactory = function() : ITextRenderer
+	{
+		return new ShadowLabel("");
+	}
 
 	this.setBaseButtonStyles(button);
 }
@@ -1140,8 +1159,20 @@ protected function setQuietButtonStyles(button:Button):void
 
 public function setDangerButtonStyles(button:Button):void
 {
-	var skin:ImageSkin = new ImageSkin(this.buttonDangerUpSkinTexture);
-	skin.setTextureForState(ButtonState.DOWN, this.buttonDangerDownSkinTexture);
+	setButtonColorStyle(button, this.buttonDangerUpSkinTexture, this.buttonDangerDownSkinTexture);
+}
+public function setNeutralButtonStyles(button:Button):void
+{
+	setButtonColorStyle(button, this.buttonNeutralUpSkinTexture, this.buttonNeutralDownSkinTexture);
+}
+public function setHilightButtonStyles(button:Button):void
+{
+	setButtonColorStyle(button, this.buttonHilightUpSkinTexture, this.buttonHilightDownSkinTexture);
+}
+public function setButtonColorStyle(button:Button, upTexture:Texture, downTexture:Texture):void
+{
+	var skin:ImageSkin = new ImageSkin(upTexture);
+	skin.setTextureForState(ButtonState.DOWN, downTexture);
 	skin.setTextureForState(ButtonState.DISABLED, this.buttonDisabledSkinTexture);
 	skin.scale9Grid = BUTTON_SCALE9_GRID;
 	skin.width = this.controlSize;
@@ -2209,10 +2240,10 @@ protected function setTabBarStyles(tabBar:TabBar):void
 protected function setTabStyles(tab:ToggleButton):void
 {
 	var skin:ImageSkin = new ImageSkin(this.tabUpSkinTexture);
-	skin.selectedTexture = this.tabSelectedUpSkinTexture;
+	skin.selectedTexture = this.tabSelectedSkinTexture;
 	skin.setTextureForState(ButtonState.DOWN, this.tabDownSkinTexture);
 	skin.setTextureForState(ButtonState.DISABLED, this.tabDisabledSkinTexture);
-	skin.setTextureForState(ButtonState.DISABLED_AND_SELECTED, this.tabSelectedDisabledSkinTexture);
+	//skin.setTextureForState(ButtonState.DISABLED_AND_SELECTED, this.tabSelectedDisabledSkinTexture);
 	skin.scale9Grid = TAB_SCALE9_GRID;
 	skin.width = this.gridSize;
 	skin.height = this.gridSize;

@@ -1,16 +1,20 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.FastList;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.groups.TabsHeader;
 import com.gerantech.towercraft.controls.items.RankItemRenderer;
+import com.gerantech.towercraft.controls.items.lobby.LobbyItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.vo.UserData;
-import com.gt.towers.constants.PrefsTypes;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
+import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.Button;
+import feathers.controls.ImageLoader;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
@@ -18,42 +22,76 @@ import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
 import flash.utils.setTimeout;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 
 public class RankingPopup extends SimplePopup
 {
-public var arenaIndex:int = 0		
-
-private var titleDisplay:RTLLabel;
-private var closeButton:CustomButton;
-private var _listCollection:ListCollection;
+private var rankType:String;
+private var closeButton:Button;
+private var titleDisplay:ShadowLabel;
+private var playersCollection:ListCollection;
+private var lobbiesCollection:ListCollection;
+private var playersList:FastList;
+private var lobbiesList:FastList;
 private var list:FastList;
 
-public function RankingPopup(){}
+public function RankingPopup()
+{
+	sendCommand(SFSCommands.RANK);
+}
+
+private function sendCommand(rankType:String) : void 
+{
+	this.rankType = rankType;
+	if( (rankType == SFSCommands.RANK && playersCollection != null) || (rankType == SFSCommands.LOBBY_DATA && lobbiesCollection != null) )
+	{
+		showElements();
+		return;
+	}
+	
+	var params:SFSObject = new SFSObject();
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+	if( rankType == SFSCommands.LOBBY_DATA )
+	{
+		params.putUtfString("name", "!@#$");
+		params.putInt("mode", 0);
+	}
+	SFSConnection.instance.sendExtensionRequest(rankType, params);			
+}
+
+protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
+{
+	if( event.params.cmd != SFSCommands.RANK && event.params.cmd != SFSCommands.LOBBY_DATA )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
+	if( event.params.cmd == SFSCommands.RANK )
+		playersCollection = new ListCollection(SFSArray(event.params.params.getSFSArray("list")).toArray());
+	else 
+		lobbiesCollection = new ListCollection(SFSArray(event.params.params.getSFSArray("rooms")).toArray());
+	
+	showElements();
+}
+
+
 override protected function initialize():void
 {
 	super.initialize();
 	overlay.alpha = 0.8;
 	
-	padding = 28;
-	
-	titleDisplay = new RTLLabel(loc("ranking_label", [""]), 1, "center");
-	titleDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
+	titleDisplay = new ShadowLabel(loc("ranking_label", [""]), 1, 0, "center");
+	titleDisplay.layoutData = new AnchorLayoutData(25, NaN, NaN, NaN, 0);
 	titleDisplay.alpha = 0;
 	
-	closeButton = new CustomButton();
+	closeButton = new Button();
+	closeButton.styleName = MainTheme.STYLE_DANGER_BUTTON;
+	closeButton.defaultIcon = new Image(Assets.getTexture("theme/check-selected-up-icon", "gui"));
 	closeButton.alpha = 0;
-	closeButton.height = 110;
-	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+	closeButton.width = 92;
+	closeButton.height = 72;
+	closeButton.layoutData = new AnchorLayoutData(-10, -10);
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-}
-
-private function closeButton_triggeredHandler():void
-{
-	closeButton.removeEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	close();
+	addChild(closeButton);
 }
 
 override protected function transitionInCompleted():void
@@ -62,69 +100,110 @@ override protected function transitionInCompleted():void
 	
 	Starling.juggler.tween(titleDisplay, 0.2, {alpha:1});
 	addChild(titleDisplay);
-	
-	if( _listCollection != null )
-		showRanking();
+	showElements();
 }
 
-protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
+private function showElements():void
 {
-	if( event.params.cmd != SFSCommands.RANK )
+	if( transitionState < TransitionData.STATE_IN_COMPLETED || playersCollection == null )
 		return;
-	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_extensionResponseHandler);
-	_listCollection = new ListCollection( SFSArray(event.params.params.getSFSArray("list")).toArray() );
-	if( transitionState >= TransitionData.STATE_IN_COMPLETED )
-		showRanking();
-}
+	
+	if( playersList == null )
+	{
+		var header:TabsHeader = new TabsHeader();
+		header.height = 110;
+		header.layoutData = new AnchorLayoutData(180, 80, NaN, 80);
+		header.dataProvider = new ListCollection([ { label: loc("ranking_tab_0")}, { label: loc("ranking_tab_1")} ]);
+		header.selectedIndex = 0;
+		header.addEventListener(Event.CHANGE, header_changeHandler);
+		addChild(header);
+		
+		var listBackground:ImageLoader = new ImageLoader();
+		listBackground.source = appModel.theme.popupInsideBackgroundSkinTexture;
+		listBackground.scale9Grid = MainTheme.POPUP_INSIDE_SCALE9_GRID;
+		listBackground.layoutData = new AnchorLayoutData(280, 10, 20, 10);
+		addChild(listBackground);
+		
+		var listLayout:VerticalLayout = new VerticalLayout();
+		listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+		listLayout.useVirtualLayout = true;
+		listLayout.gap = 10;
+		listLayout.hasVariableItemDimensions = true;
+		
+		playersList = new FastList();
+		playersList.itemRendererFactory = function():IListItemRenderer { return new RankItemRenderer(); }
+		playersList.dataProvider = playersCollection;
+		playersList.layout = listLayout;
+		playersList.layoutData = new AnchorLayoutData(295, 20, 35, 20);
+		
+		lobbiesList = new FastList();
+		lobbiesList.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }
+		lobbiesList.layout = listLayout;
+		lobbiesList.layoutData = new AnchorLayoutData(295, 20, 35, 20);
+		
+		Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1});
+	}
 
-private function showRanking():void
-{
-	var listLayout:VerticalLayout = new VerticalLayout();
-	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.useVirtualLayout = true;
-	listLayout.hasVariableItemDimensions = true;
+	if( list != null )
+	{
+		list.removeEventListener(Event.CHANGE, list_changeHandler);
+		list.removeFromParent();
+	}
 	
-	list = new FastList();
-	list.itemRendererFactory = function():IListItemRenderer { return new RankItemRenderer(); }
-	list.dataProvider = _listCollection;
-	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 6, padding);
+	if( rankType == SFSCommands.RANK )
+	{
+		list = playersList;
+		setTimeout(scrollToMe, 500);
+	} 
+	else
+	{
+		lobbiesList.dataProvider = lobbiesCollection;
+		list = lobbiesList;
+	}
+	trace(rankType)
 	addChild(list);
-	
-	addChild(closeButton);
-	closeButton.y = height - closeButton.height - padding*2;
-	closeButton.label = loc("close_button");
-	Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1, y:height - closeButton.height - padding});
-	
-	setTimeout(scrollToMe, 500);
-	
 	list.alpha = 0;
 	Starling.juggler.tween(list, 0.3, {delay:0.1, alpha:1});
+	list.addEventListener(Event.CHANGE, list_changeHandler);
+}
+
+protected function header_changeHandler(event:Event) : void
+{
+	sendCommand(TabsHeader(event.currentTarget).selectedIndex == 0 ? SFSCommands.RANK : SFSCommands.LOBBY_DATA);
 }
 
 private function scrollToMe() : void
 {
 	var indexOfMe:int = findMe();
 	if( indexOfMe > -1 )
-		list.scrollToDisplayIndex(indexOfMe, 0.5);
-	
-	list.addEventListener(Event.CHANGE, list_changeHandler);
+		playersList.scrollToDisplayIndex(indexOfMe, 0.5);
 }
 
 protected function list_changeHandler(e:Event):void 
 {
 	list.removeEventListener(Event.CHANGE, list_changeHandler);
-	appModel.navigator.addPopup(new ProfilePopup({id:list.selectedItem.i, name:list.selectedItem.n}));
+	if( rankType == SFSCommands.RANK )
+		appModel.navigator.addPopup(new ProfilePopup({id:playersList.selectedItem.i, name:playersList.selectedItem.n}));
+	//else
+		//appModel.navigator.addPopup(new ProfilePopup({id:playersList.selectedItem.i, name:playersList.selectedItem.n}));
+
 	list.selectedIndex = -1;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 }
 
 private function findMe():int
 {
-	for (var i:int=0; i<_listCollection.length; i++)
-		if( _listCollection.getItemAt(i).i == player.id)
+	for (var i:int=0; i<playersCollection.length; i++)
+		if( playersCollection.getItemAt(i).i == player.id)
 			return i;
 	return -1;
+}
+
+
+protected function closeButton_triggeredHandler():void
+{
+	closeButton.removeEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+	close();
 }
 
 override public function dispose():void

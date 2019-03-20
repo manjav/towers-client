@@ -14,7 +14,7 @@ import starling.core.Starling;
 * ...
 * @author Mansour Djawadi
 */
-public class HomeNewButton extends SimpleLayoutButton 
+public class BattleButton extends SimpleLayoutButton 
 {
 private var background:String;
 private var label:String;
@@ -24,7 +24,7 @@ private var backgroundDisplay:ImageLoader;
 private var labelDisplay:ShadowLabel;
 private var padding:int;
 
-public function HomeNewButton(background:String, label:String, width:Number, height:Number, scale9Grid:Rectangle = null, shadowRect:Rectangle = null) 
+public function BattleButton(background:String, label:String, width:Number, height:Number, scale9Grid:Rectangle = null, shadowRect:Rectangle = null) 
 {
 	super();
 	this.label = label;
@@ -53,9 +53,9 @@ override protected function initialize() : void
 		backgroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(backgroundDisplay);
 
-	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.2);
-	labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, padding * 0.2, -padding * 0.35);
+	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.5);
+	//labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10);
 	addChild(labelDisplay);
 }
 

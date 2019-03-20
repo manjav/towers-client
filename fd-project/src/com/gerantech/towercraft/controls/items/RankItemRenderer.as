@@ -1,48 +1,63 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.MainTheme;
-import flash.geom.Rectangle;
-import flash.text.engine.ElementFormat;
+import com.gerantech.towercraft.utils.StrUtils;
+import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
+import flash.geom.Rectangle;
+import starling.display.Image;
 
 public class RankItemRenderer extends AbstractTouchableListItemRenderer
 {
-private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
-private var nameDisplay:RTLLabel;
-//private var nameShadowDisplay:RTLLabel;
-private var pointDisplay:RTLLabel;
-private var mySkin:ImageSkin;
+private var mySkin:Image;
+private var iconDisplay:ImageLoader;
+private var arenaDisplay:ImageLoader;
+private var rankDisplay:ShadowLabel;
+private var nameDisplay:ShadowLabel;
+private var pointDisplay:ShadowLabel;
+
+static private const SCALE9_GRID:Rectangle = new Rectangle(270, 50, 2, 1);
+private var _visibility:Boolean;
 
 public function RankItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-	
+//	height = 109;
 	layout = new AnchorLayout();
-	var padding:int = 20;
-	
-	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
+
+	mySkin = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
+	mySkin.scale9Grid = SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
-	/*nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
-	nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, 0);
-	nameShadowDisplay.pixelSnapping = false;
-	addChild(nameShadowDisplay);*/
+	iconDisplay = new ImageLoader();
+	iconDisplay.height = iconDisplay.width = 76;
+	iconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?24:NaN, NaN, appModel.isLTR?NaN:24, NaN, 0);
+	iconDisplay.source = Assets.getTexture("res-2", "gui");
+	addChild(iconDisplay);
+
+	arenaDisplay = new ImageLoader();
+	arenaDisplay.height = arenaDisplay.width = 80;
+	arenaDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280, NaN, 0);
+	addChild(arenaDisplay);
+
+	rankDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
+	rankDisplay.width = 80;
+	//rankDisplay.pixelSnapping = false;
+	rankDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:20, NaN, appModel.isLTR?20:NaN, NaN, 0);
+	addChild(rankDisplay);
 	
-	nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
-	nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, 0);
+	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
+	//nameDisplay.pixelSnapping = false;
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:120, NaN, appModel.isLTR?120:NaN, NaN, 0);
 	addChild(nameDisplay);
 	
-	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.8);
-	pointDisplay.pixelSnapping = false;
-	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
+	pointDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
+	pointDisplay.width = 160;
+	//pointDisplay.pixelSnapping = false;
+	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?100:NaN, NaN, appModel.isLTR?NaN:100, NaN, 0);
 	addChild(pointDisplay);
 }
 
@@ -52,27 +67,30 @@ override protected function commitData():void
 	if( _data == null || _owner == null )
 		return;
 	
-	var isGap:Boolean = _data.n == undefined;
-	height = (isGap?60:100);
+	visibility = _data.n != undefined// ? 0 : 1;
+	height = _visibility ? 100 : 60;
+	if( !_visibility )
+		return;
 
-	alpha = isGap ? 0 : 1;
-	
-	var rankIndex:int = _data.s ? (_data.s+1) : (index+1);
-	nameDisplay.text = rankIndex + ".  " + _data.n ;
-	//nameShadowDisplay.text = rankIndex + ".  " + _data.n ;
-	pointDisplay.text = "" + _data.p;
-	//trace(_data.i, player.id);
-	/*var fs:int = AppModel.instance.theme.gameFontSize * (_data.i==player.id?1:0.9);
-	var fc:int = _data.i==player.id?BaseMetalWorksMobileTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
-	if( fs != nameDisplay.fontSize )
-	{
-		nameDisplay.fontSize = fs;
-		nameShadowDisplay.fontSize = fs;
-		
-		nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
-		nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
-	}*/
-	mySkin.defaultTexture = _data.i==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+	rankDisplay.text = StrUtils.getNumber(_data.s ? (_data.s + 1) : (index + 1));
+	nameDisplay.text = _data.n ;
+	pointDisplay.text = StrUtils.getNumber(_data.p);
+	arenaDisplay.source = Assets.getTexture("arena-" + Math.min(8, player.get_arena(_data.p)), "gui");
+
+	mySkin.color = _data.i == player.id ? 0xAAFFFF : 0xFFFFFF;
+}
+
+private function set visibility(value:Boolean):void 
+{
+	if( _visibility == value )
+		return;
+	_visibility = value;
+	mySkin.visible = _visibility;
+	iconDisplay.visible = _visibility;
+	arenaDisplay.visible = _visibility;
+	rankDisplay.visible = _visibility;
+	pointDisplay.visible = _visibility;
+	nameDisplay.visible = _visibility;
 }
 } 
 }

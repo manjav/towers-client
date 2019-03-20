@@ -25,7 +25,7 @@ public static const ISSUES_SCREEN:String = "issuesScreen";
 public static const BANNEDS_SCREEN:String = "bannedsScreen";
 public static const OFFENDS_SCREEN:String = "offendsScreen";
 public static const PLAYERS_SCREEN:String = "playersScreen";
-public static const CHALLENGE_SCREEN:String = "challengeScreen";
+static public const CHALLENGES_SCREEN:String = "challengesScreen";
 static public const QUESTS_SCREEN:String = "questsScreen";
 static public const SEARCH_CHAT_SCREEN:String = "searchChatScreen";
 
@@ -42,10 +42,10 @@ override protected function initialize():void
 	
 	AppModel.instance.navigator =  new StackNavigator();
 	this.content = AppModel.instance.navigator;
-	stage.color = 0x002040;
+	stage.color = 0x3382E7;
 
 
-	addScreen(DASHBOARD_SCREEN,	DashboardNewScreen);
+	addScreen(DASHBOARD_SCREEN,	DashboardScreen);
 	addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);
 	//addScreen(OPERATIONS_SCREEN,OperationsScreen, true, false);
 	addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);
@@ -57,7 +57,7 @@ override protected function initialize():void
 	addScreen(BANNEDS_SCREEN,	BanndsScreen);
 	addScreen(OFFENDS_SCREEN,	OffendsScreen);
 	addScreen(PLAYERS_SCREEN, 	SearchPlayersScreen);
-	addScreen(CHALLENGE_SCREEN, ChallengeScreen);
+	addScreen(CHALLENGES_SCREEN,ChallengesScreen);
 	addScreen(QUESTS_SCREEN,	QuestsScreen);
 	addScreen(SEARCH_CHAT_SCREEN,SearchChatScreen);
 	AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;

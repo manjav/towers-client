@@ -17,6 +17,7 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
@@ -239,7 +240,7 @@ private function showProfile():void
 	var scroller:ScrollContainer = new ScrollContainer();
 	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin"));
 	scroller.backgroundSkin.alpha = 0.2;
-	Image(scroller.backgroundSkin).scale9Grid = new Rectangle(7, 7, 2, 2);
+	Image(scroller.backgroundSkin).scale9Grid = MainTheme.ROUND_RECT_SCALE9_GRID;
 	scroller.layout = new AnchorLayout();
 	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 4, padding);
 	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;

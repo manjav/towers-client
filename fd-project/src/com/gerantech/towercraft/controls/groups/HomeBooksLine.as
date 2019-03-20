@@ -37,8 +37,8 @@ override protected function initialize():void
 	listLayout.verticalAlign = VerticalAlign.BOTTOM;
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
-	//listLayout.padding = listLayout.gap = 3;
-	listLayout.typicalItemWidth = Math.floor(stage.stageWidth / listLayout.requestedColumnCount);
+	listLayout.padding = listLayout.gap = 3;
+	listLayout.typicalItemWidth = Math.floor(stage.stageWidth / listLayout.requestedColumnCount - 15);
 	listLayout.typicalItemHeight = height - listLayout.gap;
 
 	list = new List();

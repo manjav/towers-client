@@ -5,25 +5,20 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
-import com.gerantech.towercraft.controls.buttons.NotifierButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.managers.InboxService;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
-import feathers.controls.LayoutGroup;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalLayout;
-import feathers.layout.HorizontalLayoutData;
-import feathers.layout.VerticalAlign;
 import flash.geom.Rectangle;
-import flash.utils.Dictionary;
 import starling.display.DisplayObject;
 import starling.display.Image;
 import starling.events.Event;
@@ -34,104 +29,79 @@ import starling.events.Event;
 */
 public class Profile extends TowersLayout 
 {
-private var nameDisplay:RTLLabel;
 public function Profile() {	super(); }
 override protected function initialize() : void
 {
+	height = 128;
 	super.initialize();
 	layout = new AnchorLayout();
 	touchable = player.getTutorStep() >= PrefsTypes.T_047_WIN;
+    var scale9:Rectangle = new Rectangle(16, 16, 4, 4);
+	var padding:int = 16;
 	
-	var padding:int = height * 0.12;
-	
-	var skin:Image = new Image(Assets.getTexture("home/profile-sliced"));
-	skin.scale9Grid = new Rectangle(140, 50, 54, 280);
-	skin.alpha = 0.6;
+	var skin:Image = new Image(Assets.getTexture("background-round-skin"));
+	skin.scale9Grid = MainTheme.ROUND_RECT_SCALE9_GRID;
+	skin.color = 0;
+	skin.alpha = 0.3;
 	backgroundSkin = skin;
+
+	var nameDisplay:ShadowLabel = new ShadowLabel(player.nickName, 1, 0, "left", null, false, null, 0.7);
+	nameDisplay.layoutData = new AnchorLayoutData(10, NaN, NaN, padding);
+	addEventListener("nameUpdate", function ():void { nameDisplay.text = player.nickName; });
+	addChild(nameDisplay);
+	
+	var lobbyIconDisplay:ImageLoader = new ImageLoader();
+	lobbyIconDisplay.width = lobbyIconDisplay.height = 50;
+	lobbyIconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(SFSConnection.instance.lobbyManager.emblem + ""), "gui");
+	lobbyIconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
+	addChild(lobbyIconDisplay);
+	
+	var lobbyName:String = SFSConnection.instance.lobbyManager.lobby != null ? SFSConnection.instance.lobbyManager.lobby.name : loc("lobby_no");
+	var lobbyNameDisplay:RTLLabel = new RTLLabel(lobbyName, 0xDCCAB4, "left", null, false, null, 0.6);
+	lobbyNameDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 10, padding * 2 + lobbyIconDisplay.width);
+	addChild(lobbyNameDisplay);
+	
 	var hitObject:SimpleLayoutButton = new SimpleLayoutButton();
 	hitObject.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	hitObject.addEventListener(Event.TRIGGERED, function(event:Event):void { appModel.navigator.addPopup( new ProfilePopup({name:player.nickName, id:player.id}) ); });
 	addChild(hitObject);
+
+	var indicatorXP:IndicatorXP = new IndicatorXP("ltr");
+	indicatorXP.name = "xpIndicator";
+	indicatorXP.width = 200;
+	indicatorXP.layoutData = new AnchorLayoutData(NaN, 380, NaN, NaN, NaN, 0);
+	indicatorXP.addEventListener(Event.SELECT, buttons_eventsHandler);
+	addChild(indicatorXP);
 	
-	var topLine:LayoutGroup = new LayoutGroup();
-	topLine.height = height * 0.32;
-	topLine.layoutData = new AnchorLayoutData(padding, padding, NaN, padding);
-	topLine.layout = new HorizontalLayout();
-	HorizontalLayout(topLine.layout).gap = padding * 0.5;
-	HorizontalLayout(topLine.layout).verticalAlign = VerticalAlign.JUSTIFY;
-	addChild(topLine);
-	
-	// player name in dept rect
-	var scale9:Rectangle = new Rectangle(16, 16, 4, 4);
-	var namePlace:LayoutGroup = new LayoutGroup();
-	namePlace.touchable = false;
-	namePlace.layoutData = new HorizontalLayoutData(100);
-	namePlace.layout = new AnchorLayout();
-	namePlace.backgroundSkin = new Image(Assets.getTexture("home/profile-rect"));
-	Image(namePlace.backgroundSkin).scale9Grid = scale9
-	topLine.addChild(namePlace);
-	
-	nameDisplay = new RTLLabel(player.nickName, 0xDCCAB4, "left", null, false, null, height * 0.22);
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.5, NaN, padding * 0.5, NaN, 0);
-	namePlace.addChild(nameDisplay);
-	
-	// inbox button with notification badge
+	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.R2_POINT, false, false);
+	indicatorPoint.name = "pointIndicator";
+	indicatorPoint.width = 200;
+	indicatorPoint.layoutData = new AnchorLayoutData(NaN, 128, NaN, NaN, NaN, 0);
+	indicatorPoint.addEventListener(Event.SELECT, buttons_eventsHandler);
+	addChild(indicatorPoint);
+
+/*	// inbox button with notification badge
 	var inboxButton:NotifierButton = new NotifierButton(Assets.getTexture("home/inbox"));
 	inboxButton.name = "inboxButton";
 	inboxButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
 	inboxButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
-	Image(inboxButton.backgroundSkin).scale9Grid = scale9
-	inboxButton.height = inboxButton.width = topLine.height;
-	topLine.addChild(inboxButton);
+	Image(inboxButton.backgroundSkin).scale9Grid = scale9;
+	inboxButton.width = inboxButton.height = height - padding * 2;
+	inboxButton.layoutData = new AnchorLayoutData(padding, height, padding);
+	addChild(inboxButton);
 	
 	InboxService.instance.request();
-	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
-	function inboxService_updateHandler():void
-	{
-		inboxButton.badgeLabel = InboxService.instance.numUnreads.toString();
-	}
-	
+	InboxService.instance.addEventListener(Event.UPDATE, function ():void { inboxButton.badgeLabel = InboxService.instance.numUnreads.toString(); });
+*/	
 	// settings button
 	var settingsButton:IconButton = new IconButton(Assets.getTexture("home/settings"));
 	settingsButton.name = "settingsButton";
 	settingsButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
 	settingsButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
 	Image(settingsButton.backgroundSkin).scale9Grid = scale9;
-	settingsButton.height = settingsButton.width = topLine.height;
-	topLine.addChild(settingsButton);
-	
-	// bottom line
-	var botLine:LayoutGroup = new LayoutGroup();
-	botLine.height = height * 0.25;
-	botLine.layout = new HorizontalLayout();
-	botLine.layoutData = new AnchorLayoutData(NaN, padding * 1.2, padding * 2.2, padding);
-	HorizontalLayout(botLine.layout).verticalAlign = VerticalAlign.MIDDLE;
-	HorizontalLayout(botLine.layout).gap = padding;
-	HorizontalLayout(botLine.layout).firstGap = padding * 0.5;
-	addChild(botLine);
-	
-	var clanIconDisplay:ImageLoader = new ImageLoader();
-	clanIconDisplay.touchable = false;
-	clanIconDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(SFSConnection.instance.lobbyManager.emblem + ""), "gui");
-	botLine.addChild(clanIconDisplay);
-	
-	var lobbyName:String = SFSConnection.instance.lobbyManager.lobby != null ? SFSConnection.instance.lobbyManager.lobby.name : loc("lobby_no");
-	var clanNameDisplay:RTLLabel = new RTLLabel(lobbyName, 0xDCCAB4, "left", null, false, null, 0.8);
-	clanNameDisplay.touchable = false;
-	clanNameDisplay.layoutData = new HorizontalLayoutData(100);
-	botLine.addChild(clanNameDisplay);
-	
-	var indicatorXP:IndicatorXP = new IndicatorXP("ltr");
-	indicatorXP.name = "xpIndicator";
-	indicatorXP.width = padding * 6;
-	indicatorXP.addEventListener(Event.SELECT, buttons_eventsHandler);
-	botLine.addChild(indicatorXP);
-	
-	var indicatorPoint:Indicator = new Indicator("ltr", ResourceType.R2_POINT, false, false);
-	indicatorPoint.name = "pointIndicator";
-	indicatorPoint.width = padding * 5;
-	indicatorPoint.addEventListener(Event.SELECT, buttons_eventsHandler);
-	botLine.addChild(indicatorPoint);
+	settingsButton.width = settingsButton.height = height - padding * 2;
+	settingsButton.layoutData = new AnchorLayoutData(padding, padding, padding);
+	addChild(settingsButton);
 }
 
 private function buttons_eventsHandler(event:Event):void 
@@ -141,11 +111,6 @@ private function buttons_eventsHandler(event:Event):void
 	case "inboxButton":		appModel.navigator.pushScreen(Game.INBOX_SCREEN);		break;
 	case "settingsButton":	appModel.navigator.pushScreen(Game.SETTINGS_SCREEN);	break;
 	}
-}
-public function updateName() : void 
-{
-	if( nameDisplay != null )
-		nameDisplay.text = player.nickName;
 }
 }
 }

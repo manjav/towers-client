@@ -1,11 +1,10 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.screens.InboxScreen;
 import com.gerantech.towercraft.controls.segments.BuddiesSegment;
-import com.gerantech.towercraft.controls.segments.BuildingsSegment;
 import com.gerantech.towercraft.controls.segments.CardsSegment;
-import com.gerantech.towercraft.controls.segments.EventsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
-import com.gerantech.towercraft.controls.segments.HomeNewSegment;
+import com.gerantech.towercraft.controls.segments.HomeSegment;
 import com.gerantech.towercraft.controls.segments.LobbyBaseChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
@@ -62,15 +61,15 @@ override protected function commitData():void
 			segment = new CardsSegment();
 			break;
 		case SegmentType.S2_HOME:
-			segment = new HomeNewSegment();
+			segment = new HomeSegment();
 			break;
 		case SegmentType.S3_SOCIALS:
 			segment = new SocialSegment();
 			break;
-		case SegmentType.S4_EVENTS:
-			segment = new EventsSegment();
+/*		case SegmentType.S4_EVENTS:
+			segment = new InboxScreen();
 			break;
-		case SegmentType.S10_LOBBY_MAIN:
+*/		case SegmentType.S10_LOBBY_MAIN:
 			segment = new LobbyChatSegment();
 			break;
 		case SegmentType.S11_LOBBY_SEARCH:
@@ -116,7 +115,7 @@ private function owner_scrollCompleteHandler(event:Event):void
 	if( stage == null )
 		return;
 	
-	enabled = stage.getBounds(this).x == 0;
+	enabled = Math.round(stage.getBounds(this).x) == 0;
 	if ( !enabled )
 		return;
 	

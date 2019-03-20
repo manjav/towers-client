@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.vo.RewardData;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
@@ -28,10 +29,10 @@ override public function update() : void
 	state = exchange.getState(timeManager.now);
 
 	backgroundFactory();
-	iconFactory("gift");
-	titleFactory(loc(state == ExchangeItem.CHEST_STATE_BUSY ? "nextin_label" : (state == ExchangeItem.CHEST_STATE_WAIT ? "toopen_label" : "open_label")));
+	titleFactory(loc(state == ExchangeItem.CHEST_STATE_BUSY ? "nextin_label" : (state == ExchangeItem.CHEST_STATE_WAIT ? "" : "open_label")));
 	countdownFactory();
 	sliderFactory();
+	iconFactory("gift");
 
 	if( state == ExchangeItem.CHEST_STATE_BUSY )
 	{
@@ -60,17 +61,16 @@ protected function sliderFactory() : Indicator
 	}
 		
 	var ind_17:Indicator = new Indicator("ltr", ResourceType.R17_STARS, true, false);
-	ind_17.height = 50;
-	ind_17.layoutData = new AnchorLayoutData(NaN, 180, 50, 80);
+	ind_17.layoutData = new AnchorLayoutData(50, 100, 50, 90);
 	ind_17.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 	{
-		return Math.round(value) + " / " + maximum;
+		return StrUtils.getNumber( maximum + " / " + Math.round(value) );
 	}
 	ind_17.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void
 	{
 		var icon:ImageLoader = ind_17.iconDisplay;
-		icon.width = icon.height = 100;
-		AnchorLayoutData(icon.layoutData).verticalCenter = -12;
+		icon.width = icon.height = 80;
+		AnchorLayoutData(icon.layoutData).verticalCenter = -8;
 		AnchorLayoutData(icon.layoutData).left = -60;
 	});
 	ind_17.maximum = 10;

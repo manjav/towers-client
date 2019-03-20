@@ -16,6 +16,9 @@ public class TabItemData
 public var index:int;
 public var badgeNumber:int;
 public var newBadgeNumber:int;
+public var icon:String;
+public var label:String;
+public var width:Number;
 private var player:Player;
 public function TabItemData(index:int)
 {
@@ -77,7 +80,7 @@ public function update() : void
 			for each( k in keys )
 			{
 				var c:Challenge = player.challenges.get(k);
-				if( c.getState(TimeManager.instance.now) == Challenge.STATE_STARTED )
+				if( c.getState(TimeManager.instance.now) == Challenge.STATE_1_STARTED )
 					newBadgeNumber ++;
 				badgeNumber ++;
 			}

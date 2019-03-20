@@ -125,14 +125,20 @@ static public function loadChallenges(params:ISFSObject) : void
 {
 	if( !params.containsKey("challenges") )
 		return;//trace(params.getSFSArray("challenges").getDump())
-	AppModel.instance.game.player.challenges = new IntChallengeMap();
-	for ( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
+	var challenges:IntChallengeMap = new IntChallengeMap();
+	challenges.set(0, new Challenge(Challenge.TYPE_0_OPEN, Challenge.MODE_0_HQ));
+	challenges.set(1, new Challenge(Challenge.TYPE_0_OPEN, Challenge.MODE_1_TOUCHDOWN));
+	challenges.set(2, new Challenge(Challenge.TYPE_1_REWARD, -1));
+	challenges.set(3, new Challenge(Challenge.TYPE_2_RANKING, -1));
+	for( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
 	{
 		var c:ISFSObject = params.getSFSArray("challenges").getSFSObject(i);
 		var ch:Challenge = new Challenge();
 		ch.id = c.getInt("id");
 		ch.type = c.getInt("type");
+		ch.mode = c.getInt("mode");
 		ch.startAt = c.getInt("start_at");
+		ch.unlockAt = c.getInt("unlock_at");
 		ch.duration = c.getInt("duration");
 		ch.capacity = c.getInt("capacity");
 		
@@ -155,8 +161,9 @@ static public function loadChallenges(params:ISFSObject) : void
 				ch.attendees.push(new Attendee(item.getInt("id"), item.getText("name"), item.getInt("point"), item.getInt("updateAt")));
 			}
 		}
-		AppModel.instance.game.player.challenges.set(ch.type, ch);
+		challenges.set(i + 2, ch);
 	}
+	AppModel.instance.game.player.challenges = challenges;
 }
 
 static public function loadQuests(params:ISFSObject) : void 

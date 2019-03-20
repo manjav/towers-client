@@ -191,22 +191,18 @@ private function list_createCompleteHandler():void
 
 public static function showRanking(arenaIndex:int):void
 {
-	var extraInfo:SFSObject = new SFSObject();
-	extraInfo.putInt("arena", arenaIndex );
-	SFSConnection.instance.sendExtensionRequest( SFSCommands.RANK, extraInfo );
-	
 	var padding:int = 36;
 	var transitionIn:TransitionData = new TransitionData();
 	transitionIn.sourceAlpha = 0;
 	var transitionOut:TransitionData = new TransitionData();
 	transitionOut.destinationAlpha = 0;
 	transitionOut.transition = Transitions.EASE_IN;
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding*2,	padding,	Starling.current.stage.stageWidth-padding*4,	Starling.current.stage.stageHeight-padding*2);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(padding*2,	padding*2,	Starling.current.stage.stageWidth-padding*4,	Starling.current.stage.stageHeight-padding*4);
 	
-	//appModel.navigator.pushScreen( Main.RANK_SCREEN );
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(40, 200, Starling.current.stage.stageWidth - 80, Starling.current.stage.stageHeight - 400);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(40, 250, Starling.current.stage.stageWidth - 80, Starling.current.stage.stageHeight - 500);
+	
 	var rankingPopup:RankingPopup = new RankingPopup();
-	rankingPopup.arenaIndex = arenaIndex;
+	//rankingPopup.arenaIndex = arenaIndex;
 	rankingPopup.transitionIn = transitionIn;
 	rankingPopup.transitionOut = transitionOut;
 	AppModel.instance.navigator.addPopup(rankingPopup);			

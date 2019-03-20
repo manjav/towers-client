@@ -45,7 +45,7 @@ override protected function initialize():void
 	textInput.maxChars = 16 ;
 	textInput.prompt = loc("lobby_name");
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
-	textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?buttonH*2+padding*3:padding, NaN, appModel.isLTR?padding:buttonH*2+padding*3 );
+	textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding * 6:padding, NaN, appModel.isLTR?padding:padding * 6 );
 	textInput.height = buttonH;
 	addChild(textInput);
 	
@@ -53,11 +53,11 @@ override protected function initialize():void
 	searchButton.width = buttonH;
 	searchButton.height = buttonH;
 	searchButton.icon = Assets.getTexture("search-icon");
-	searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding*2+buttonH:NaN, NaN, appModel.isLTR?NaN:padding*2+buttonH );
+	searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 	searchButton.addEventListener(Event.TRIGGERED,  searchButton_triggeredHandler);
 	addChild(searchButton);	
 
-	var rankButton:CustomButton = new CustomButton();
+/*	var rankButton:CustomButton = new CustomButton();
 	rankButton.style = "neutral";
 	rankButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 	rankButton.icon = Assets.getTexture("rank-icon");
@@ -65,7 +65,7 @@ override protected function initialize():void
 	rankButton.height = buttonH;
 	rankButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 	rankButton.addEventListener(Event.TRIGGERED,  rankButton_triggeredHandler);
-	addChild(rankButton);
+	addChild(rankButton);*/
 	
 	tabs = new Vector.<LobbyTabButton>();
 	tabs[0] = new LobbyTabButton(loc("lobby_point"));
