@@ -116,7 +116,7 @@ override protected function addedToStageHandler(event:Event):void
 	shineArmature.touchable = false;
 	shineArmature.scale = 3;
 	shineArmature.x = 348;
-	shineArmature.y = 1053;
+	shineArmature.y = stage.stageHeight * 0.85 - 580;
 
 	titleDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 1.7);
 	titleDisplay.width = 600;
