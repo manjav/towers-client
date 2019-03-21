@@ -345,7 +345,7 @@ private function reset() : void
 
 override protected function resetData(item:ExchangeItem):void 
 {
-	showOpenWarn();
+	//showOpenWarn();
 	super.resetData(item);
 }
 
