@@ -111,69 +111,70 @@ import starling.textures.Texture;
 */
 public class MainTheme extends StyleNameFunctionTheme
 {
-public static const FONT_NAME:String = "SourceSansPro";
+static public const FONT_NAME:String = "SourceSansPro";
 
 /**
  * The stack of fonts to use for controls that don't use embedded fonts.
  */
-public static const FONT_NAME_STACK:String = "SourceSansPro,Helvetica,_sans";
+static public const FONT_NAME_STACK:String = "SourceSansPro,Helvetica,_sans";
 
-public static const PRIMARY_BACKGROUND_COLOR:uint = 0x3d4759;
-public static const LIGHT_TEXT_COLOR:uint = 0xe5e5e5;
-public static const DARK_TEXT_COLOR:uint = 0x1a1816;
-public static const SELECTED_TEXT_COLOR:uint = 0xff9900;
-public static const LIGHT_DISABLED_TEXT_COLOR:uint = 0x8a8a8a;
-public static const DARK_DISABLED_TEXT_COLOR:uint = 0x383430;
-public static const LIST_BACKGROUND_COLOR:uint = 0x383430;
-public static const GROUPED_LIST_HEADER_BACKGROUND_COLOR:uint = 0x2e2a26;
-public static const GROUPED_LIST_FOOTER_BACKGROUND_COLOR:uint = 0x2e2a26;
-public static const MODAL_OVERLAY_COLOR:uint = 0x29241e;
-public static const MODAL_OVERLAY_ALPHA:Number = 0.8;
-public static const DRAWER_OVERLAY_COLOR:uint = 0x29241e;
-public static const DRAWER_OVERLAY_ALPHA:Number = 0.4;
-public static const VIDEO_OVERLAY_COLOR:uint = 0x1a1816;
-public static const VIDEO_OVERLAY_ALPHA:Number = 0.2;
+static public const PRIMARY_BACKGROUND_COLOR:uint = 0x3d4759;
+static public const LIGHT_TEXT_COLOR:uint = 0xe5e5e5;
+static public const DARK_TEXT_COLOR:uint = 0x1a1816;
+static public const SELECTED_TEXT_COLOR:uint = 0xff9900;
+static public const LIGHT_DISABLED_TEXT_COLOR:uint = 0x8a8a8a;
+static public const DARK_DISABLED_TEXT_COLOR:uint = 0x383430;
+static public const LIST_BACKGROUND_COLOR:uint = 0x383430;
+static public const GROUPED_LIST_HEADER_BACKGROUND_COLOR:uint = 0x2e2a26;
+static public const GROUPED_LIST_FOOTER_BACKGROUND_COLOR:uint = 0x2e2a26;
+static public const MODAL_OVERLAY_COLOR:uint = 0x29241e;
+static public const MODAL_OVERLAY_ALPHA:Number = 0.8;
+static public const DRAWER_OVERLAY_COLOR:uint = 0x29241e;
+static public const DRAWER_OVERLAY_ALPHA:Number = 0.4;
+static public const VIDEO_OVERLAY_COLOR:uint = 0x1a1816;
+static public const VIDEO_OVERLAY_ALPHA:Number = 0.2;
 
-public static var SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
-public static var PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
-public static var DESCRIPTION_TEXT_COLOR:uint = 0xA0B2B1;//0xE0F2F1;
-public static var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
-public static var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
-public static var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
+static public var SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
+static public var PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
+static public var DESCRIPTION_TEXT_COLOR:uint = 0xA0B2B1;//0xE0F2F1;
+static public var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+static public var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+static public var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
 
-public static var STYLE_GREEN:uint = 0x97C42C;
-public static var STYLE_BLUE:uint = 0x3F6FB2;
-public static var STYLE_RED:uint = 0xEB2542;
-public static var STYLE_GRAY:uint = 0x333333;
-public static var STYLE_ORANGE:uint = 0xF49D27;
+static public var STYLE_GREEN:uint = 0x97C42C;
+static public var STYLE_BLUE:uint = 0x3F6FB2;
+static public var STYLE_RED:uint = 0xEB2542;
+static public var STYLE_GRAY:uint = 0x333333;
+static public var STYLE_ORANGE:uint = 0xF49D27;
 
-public static const STYLE_NORMAL_BUTTON:String = "feathers-normal-button";
-public static const STYLE_HILIGHT_BUTTON:String = "feathers-hiight-button";
-public static const STYLE_DANGER_BUTTON:String = "feathers-danger-button";
-public static const STYLE_NEUTRAL_BUTTON:String = "feathers-nutral-button";
-public static const STYLE_DISABLE_BUTTON:String = "feathers-disable-button";
+static public const STYLE_NORMAL_BUTTON:String = "feathers-normal-button";
+static public const STYLE_HILIGHT_BUTTON:String = "feathers-hiight-button";
+static public const STYLE_DANGER_BUTTON:String = "feathers-danger-button";
+static public const STYLE_NEUTRAL_BUTTON:String = "feathers-nutral-button";
+static public const STYLE_DISABLE_BUTTON:String = "feathers-disable-button";
 
-
-public static const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
-public static const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
-public static const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(12, 10, 6, 26);//4, 4, 1, 20);
-public static const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
-public static const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
-public static const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
-public static const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 154, 2, 1);
-public static const POPUP_INSIDE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 1);
-public static const CALLOUT_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 2, 16);
-public static const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 4, 22);//1, 1, 1, 42);
-public static const INSET_ITEM_RENDERER_MIDDLE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 40);
-public static const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
-public static const INSET_ITEM_RENDERER_LAST_SCALE9_GRID:Rectangle = new Rectangle(7, 2, 1, 35);
-public static const INSET_ITEM_RENDERER_SINGLE_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 30);
-public static const TAB_SCALE9_GRID:Rectangle = new Rectangle(15, 15, 3, 2);
-public static const SPINNER_LIST_SELECTION_OVERLAY_SCALE9_GRID:Rectangle = new Rectangle(2, 6, 1, 32);
-public static const HORIZONTAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(4, 0, 4, 5);
-public static const VERTICAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(0, 4, 5, 4);
-public static const SHADOW_SIDE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 14, 14);
-public static const HEADER_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 1, 128, 64);
+static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
+static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
+static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(12, 10, 6, 26);//4, 4, 1, 20);
+static public const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
+static public const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
+static public const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
+static public const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 141, 2, 5);
+static public const POPUP_SIMPLE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 46);
+static public const POPUP_INSIDE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 1);
+static public const CALLOUT_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 2, 16);
+static public const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 4, 22);//1, 1, 1, 42);
+static public const ITEM_RENDERER_RANK_SCALE9_GRID:Rectangle = new Rectangle(270, 50, 2, 1);
+static public const INSET_ITEM_RENDERER_MIDDLE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 40);
+static public const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
+static public const INSET_ITEM_RENDERER_LAST_SCALE9_GRID:Rectangle = new Rectangle(7, 2, 1, 35);
+static public const INSET_ITEM_RENDERER_SINGLE_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 30);
+static public const TAB_SCALE9_GRID:Rectangle = new Rectangle(15, 15, 3, 2);
+static public const SPINNER_LIST_SELECTION_OVERLAY_SCALE9_GRID:Rectangle = new Rectangle(2, 6, 1, 32);
+static public const HORIZONTAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(4, 0, 4, 5);
+static public const VERTICAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(0, 4, 5, 4);
+static public const SHADOW_SIDE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 14, 14);
+static public const HEADER_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 1, 128, 64);
 static public const INDICATORS_SCALE9_GRID:Rectangle = new Rectangle(8, 12, 4, 4)
 static public const RIBBON_SCALE9_GRID:Rectangle = new Rectangle(92, 60, 6, 6);
 static public const ROUND_RECT_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 2, 2);
@@ -603,6 +604,7 @@ public function get insetItemRendererSingleUpSkinTexture() : Texture { return As
 public function get insetItemRendererSingleSelectedSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-selected-up-skin", "gui"); }
 public function get popupBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-background-skin", "gui"); }
 public function get popupInsideBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-inside-background-skin", "gui"); }
+public function get popupSimpleBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-simple-background-skin", "gui"); }
 public function get headerBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-background-skin", "gui"); }
 public function get popUpHeaderBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-popup-background-skin", "gui"); }
 

@@ -20,7 +20,9 @@ import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
+import flash.geom.Rectangle;
 import flash.utils.setTimeout;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
@@ -38,6 +40,13 @@ private var list:FastList;
 
 public function RankingPopup()
 {
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.transition = Transitions.EASE_IN;
+	transitionOut.destinationAlpha = transitionIn.sourceAlpha = 0;
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(40, 130, stageWidth - 80, stageHeight - 260);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(40, 150, stageWidth - 80, stageHeight - 300);
+
 	sendCommand(SFSCommands.RANK);
 }
 
@@ -77,6 +86,8 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 override protected function initialize():void
 {
 	super.initialize();
+	skin.source = appModel.theme.popupBackgroundSkinTexture;
+	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
 	overlay.alpha = 0.8;
 	
 	titleDisplay = new ShadowLabel(loc("ranking_label", [""]), 1, 0, "center");
@@ -121,25 +132,25 @@ private function showElements():void
 		var listBackground:ImageLoader = new ImageLoader();
 		listBackground.source = appModel.theme.popupInsideBackgroundSkinTexture;
 		listBackground.scale9Grid = MainTheme.POPUP_INSIDE_SCALE9_GRID;
-		listBackground.layoutData = new AnchorLayoutData(280, 10, 20, 10);
+		listBackground.layoutData = new AnchorLayoutData(280, 9, 26, 9);
 		addChild(listBackground);
 		
 		var listLayout:VerticalLayout = new VerticalLayout();
 		listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+		listLayout.hasVariableItemDimensions = true;
 		listLayout.useVirtualLayout = true;
 		listLayout.gap = 10;
-		listLayout.hasVariableItemDimensions = true;
 		
 		playersList = new FastList();
 		playersList.itemRendererFactory = function():IListItemRenderer { return new RankItemRenderer(); }
 		playersList.dataProvider = playersCollection;
 		playersList.layout = listLayout;
-		playersList.layoutData = new AnchorLayoutData(295, 20, 35, 20);
+		playersList.layoutData = new AnchorLayoutData(295, 20, 37, 20);
 		
 		lobbiesList = new FastList();
 		lobbiesList.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }
 		lobbiesList.layout = listLayout;
-		lobbiesList.layoutData = new AnchorLayoutData(295, 20, 35, 20);
+		lobbiesList.layoutData = new AnchorLayoutData(295, 20, 37, 20);
 		
 		Starling.juggler.tween(closeButton, 0.2, {delay:0.2, alpha:1});
 	}

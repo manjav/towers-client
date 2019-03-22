@@ -123,13 +123,12 @@ static private function loadExchanges(serverData:SFSObject) : void
 
 static public function loadChallenges(params:ISFSObject) : void 
 {
-	if( !params.containsKey("challenges") )
-		return;//trace(params.getSFSArray("challenges").getDump())
 	var challenges:IntChallengeMap = new IntChallengeMap();
 	challenges.set(0, new Challenge(Challenge.TYPE_0_OPEN, Challenge.MODE_0_HQ));
 	challenges.set(1, new Challenge(Challenge.TYPE_0_OPEN, Challenge.MODE_1_TOUCHDOWN));
 	challenges.set(2, new Challenge(Challenge.TYPE_1_REWARD, -1));
 	challenges.set(3, new Challenge(Challenge.TYPE_2_RANKING, -1));
+	if( params.containsKey("challenges") )
 	for( var i:int = 0; i < params.getSFSArray("challenges").size(); i++ )
 	{
 		var c:ISFSObject = params.getSFSArray("challenges").getSFSObject(i);

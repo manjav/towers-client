@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
@@ -13,7 +14,6 @@ import starling.display.Image;
 
 public class LobbyItemRenderer extends AbstractTouchableListItemRenderer
 {
-static private const SCALE9_GRID:Rectangle = new Rectangle(270, 50, 2, 1);
 static private const MEMBER_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
 private var emblemDisplay:ImageLoader;
 private var membersDisplay:RTLLabel;
@@ -25,10 +25,11 @@ public function LobbyItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
+	height = 120;
 	layout = new AnchorLayout();
 
 	var mySkin:Image = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
-	mySkin.scale9Grid = SCALE9_GRID;
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_RANK_SCALE9_GRID;
 	backgroundSkin = mySkin;
 
 	var membersRect:ImageLoader = new ImageLoader();

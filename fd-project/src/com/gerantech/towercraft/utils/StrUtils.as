@@ -239,7 +239,7 @@ public static function getDir(local:String = null) : String
 public static function loc(resourceName:String, parameters:Array = null) : String
 {
 	var ret:String = ResourceManager.getInstance().getString("loc", resourceName, parameters, AppModel.instance.game != null ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : AppModel.instance.locale);
-	return getNumber(ret == null || ret == "undefined" ? resourceName : ret);
+	return ret == null || ret == "undefined" ? resourceName : getNumber(ret);
 }
 
 //  UINT TO TIME _________________________________________________________________________

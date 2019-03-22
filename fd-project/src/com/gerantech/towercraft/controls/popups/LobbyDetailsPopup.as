@@ -1,16 +1,20 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
+import com.gerantech.towercraft.controls.groups.TabsHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.lobby.LobbyMemberItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -25,6 +29,8 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
@@ -37,8 +43,8 @@ private var roomData:Object;
 private var roomServerData:ISFSObject;
 private var itsMyRoom:Boolean;
 private var buttonsPopup:SimpleListPopup;
-private var memberList:Array;
-private var memberCollection:ListCollection;
+private var membersArray:Array;
+private var membersCollection:ListCollection;
 private var tabs:Vector.<LobbyTabButton>;
 
 public function LobbyDetailsPopup(roomData:Object)
@@ -58,8 +64,8 @@ public function LobbyDetailsPopup(roomData:Object)
 override protected function initialize():void
 {
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(-padding * 0.5, -padding * 0.5, stageWidth + padding, stageHeight + padding);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(-padding * 0.5, -padding * 0.5, stageWidth + padding, stageHeight + padding);
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding, padding, stageWidth - padding * 2, stageHeight - padding * 2);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(padding, padding, stageWidth - padding * 2, stageHeight - padding * 2);
 	rejustLayoutByTransitionData();
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
@@ -68,7 +74,7 @@ override protected function initialize():void
 	iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(iconDisplay);
 	
-	var titleDisplay:RTLLabel = new RTLLabel(roomData.name);
+	var titleDisplay:ShadowLabel = new ShadowLabel(roomData.name);
 	titleDisplay.layoutData = new AnchorLayoutData(padding * 0.8, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6:padding);
 	addChild(titleDisplay);
 }
@@ -111,7 +117,7 @@ protected override function transitionInCompleted():void
 
 private function showDetails():void
 {
-	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0xCCCCDD, "justify", null, true, null, 0.55);
+	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0x333333, "justify", null, true, null, 0.55);
 	bioDisplay.layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6 : padding);
 	addChild(bioDisplay);
 	
@@ -128,29 +134,38 @@ private function showDetails():void
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
+
+	// members
+	membersArray = SFSArray(roomData.all).toArray();
+	membersCollection = new ListCollection(membersArray);
 	
-	tabs = new Vector.<LobbyTabButton>();
-	tabs[0] = new LobbyTabButton(loc("lobby_point"), true);
-	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[0].layoutData = new AnchorLayoutData( padding * 13.5, appModel.isLTR?padding * 2.5:NaN, NaN, appModel.isLTR?NaN:padding * 2.5);
-	addChild(tabs[0]);
-	tabs[1] = new LobbyTabButton(loc("lobby_activeness"), true);
-	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding * 13.5, appModel.isLTR?padding * 7.5:NaN, NaN, appModel.isLTR?NaN:padding * 7.5);
-	tabs[1].isEnabled = false;
-	addChild(tabs[1]);
+	var header:TabsHeader = new TabsHeader();
+	header.height = 70;
+	header.layoutData = new AnchorLayoutData(500, NaN, NaN, 40);
+	header.dataProvider = new ListCollection([ { label: loc("lobby_activeness"), width:260}, { label: loc("lobby_point"), width:190} ]);
+	header.selectedIndex = 1;
+	header.addEventListener(Event.CHANGE, header_changeHandler);
+	addChild(header);
 	
-	memberList = SFSArray(roomData.all).toArray();
-	memberCollection = new ListCollection(memberList);
+	var listBackground:ImageLoader = new ImageLoader();
+	listBackground.source = appModel.theme.popupInsideBackgroundSkinTexture;
+	listBackground.scale9Grid = MainTheme.POPUP_INSIDE_SCALE9_GRID;
+	listBackground.layoutData = new AnchorLayoutData(560, 20, 40, 20);
+	addChild(listBackground);
 	
-	var membersList:List = new List();
-	membersList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	membersList.layoutData = new AnchorLayoutData(padding * 16, padding, padding, padding);
+	var listLayout:VerticalLayout = new VerticalLayout();
+	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	listLayout.hasVariableItemDimensions = true;
+	listLayout.useVirtualLayout = true;
+	listLayout.gap = 10;
+	
+	var membersList:FastList = new FastList();
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
-	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
-	membersList.dataProvider = memberCollection;
+	membersList.dataProvider = membersCollection;
+	membersList.layout = listLayout;
+	membersList.layoutData = new AnchorLayoutData(570, 30, 55, 30);
 	addChild(membersList);
-	
+
 	itsMyRoom = SFSConnection.instance.lobbyManager.lobby != null && SFSConnection.instance.lobbyManager.id == roomData.id;
 	
 	var joinleaveButton:CustomButton = new CustomButton();
@@ -181,7 +196,7 @@ private function showDetails():void
 	var closeButton:CustomButton = new CustomButton();
 	closeButton.style = "danger";
 	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
+	closeButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?20:NaN, NaN, appModel.isLTR?NaN:20);
 	closeButton.width = closeButton.height = 72;
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
@@ -190,9 +205,9 @@ private function showDetails():void
 		return;
 	
 	var shareButton:CustomButton = new CustomButton();
-	shareButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?120:NaN, NaN, appModel.isLTR?NaN:120);
+	shareButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?106:NaN, NaN, appModel.isLTR?NaN:106);
 	shareButton.label = loc("lobby_invite");
-	shareButton.width = 170;
+	shareButton.width = 164;
 	shareButton.height = 72;
 	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
 	addChild(shareButton);
@@ -202,9 +217,9 @@ private function showDetails():void
 		return;
 	
 	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?300:NaN, NaN, appModel.isLTR?NaN:300);
+	editButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280);
 	editButton.label = loc("lobby_edit");
-	editButton.width = 160;
+	editButton.width = 164;
 	editButton.height = 72;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
@@ -239,17 +254,17 @@ private function shareButton_triggeredHandler():void
 	trace(loc("lobby_invite_url", [roomData.id, player.invitationCode]))
 }
 
-private function tabs_triggeredHandler(event:Event):void
+private function header_changeHandler(event:Event):void
 {
-	setTimeout(function(sb:LobbyTabButton):void{
+/*	setTimeout(function(sb:LobbyTabButton):void{
 		for each ( var b:LobbyTabButton in tabs )
 		b.isEnabled = b != sb;
 	}, 10, event.currentTarget);
-	
-	var searchMode:int = tabs.indexOf(event.currentTarget as LobbyTabButton);
-	memberList.sortOn(searchMode == 0?"point":"activity", Array.NUMERIC | Array.DESCENDING);
-	memberCollection.data = memberList;
-	memberCollection.updateAll()
+	*/
+	var header:TabsHeader = event.currentTarget as TabsHeader;
+	membersArray.sortOn(header.selectedIndex == 1?"point":"activity", Array.NUMERIC | Array.DESCENDING);
+	membersCollection.data = membersArray;
+	membersCollection.updateAll()
 }
 
 private function membersList_focusInHandler(event:Event):void
@@ -333,18 +348,18 @@ private function buttonsPopup_selectHandler(event:Event):void
 			{
 				params.putShort("pr", MessageTypes.M13_COMMENT_PROMOTE);
 				buttonsPopup.data.permission ++;
-				memberCollection.updateItemAt(buttonsPopup.data.index);
+				membersCollection.updateItemAt(buttonsPopup.data.index);
 			}
 			else if ( confirm.data == "lobby_demote" )
 			{
 				params.putShort("pr", MessageTypes.M14_COMMENT_DEMOTE);
 				buttonsPopup.data.permission --;
-				memberCollection.updateItemAt(buttonsPopup.data.index);
+				membersCollection.updateItemAt(buttonsPopup.data.index);
 			}
 			else
 			{
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
-				memberCollection.removeItemAt(buttonsPopup.data.index);
+				membersCollection.removeItemAt(buttonsPopup.data.index);
 			}
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
 			//SFSConnection.instance.lobbyManager.requestData(true, true);
@@ -372,7 +387,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 {
 	if( itsMyRoom )
 	{
-		var confirm:ConfirmPopup = new ConfirmPopup(loc(memberCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
+		var confirm:ConfirmPopup = new ConfirmPopup(loc(membersCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
 		confirm.acceptStyle = "danger";
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
@@ -427,9 +442,9 @@ protected function sfsConnection_roomJoinHandler(event:SFSEvent):void
 
 private function findUser(id:int):Object
 {
-	for (var i:int=0; i<memberCollection.length; i++)
-		if( memberCollection.getItemAt(i).id == id )
-			return memberCollection.getItemAt(i);
+	for (var i:int=0; i<membersCollection.length; i++)
+		if( membersCollection.getItemAt(i).id == id )
+			return membersCollection.getItemAt(i);
 	return null;
 }
 

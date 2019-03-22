@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.items.FeatureItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.utils.StrUtils;
 import feathers.layout.AnchorLayoutData;
 
 public class LobbyFeatureItemRenderer extends FeatureItemRenderer
@@ -14,10 +15,10 @@ override protected function commitData():void
 	super.commitData();
 	height = 44;
 	keyDisplay.text = loc("lobby_" + _data.key);
-	valueDisplay.text = _data.key == "pri" ? loc("lobby_pri_" + _data.value) : _data.value;
+	valueDisplay.text = _data.key == "pri" ? loc("lobby_pri_" + _data.value) : StrUtils.getNumber(_data.value);
 }
 
-override protected function keyLabelFactory(scale:Number = 0.7, color:uint = 0):RTLLabel
+override protected function keyLabelFactory(scale:Number = 0.65, color:uint = 0):RTLLabel
 {
 	if( keyDisplay != null )
 		return null;

@@ -272,8 +272,8 @@ private function mainButtons_triggeredHandler(event:Event):void
 	switch( buttonName )
 	{
 		case "leaguesButton":	appModel.navigator.pushScreen( Game.FACTIONS_SCREEN );					return;
-		case "rankButton": 		FactionsScreen.showRanking(appModel.game.player.get_arena(0));			return;
 		case "questsButton":	appModel.navigator.pushScreen( Game.QUESTS_SCREEN );					return;
+		case "rankButton": 		appModel.navigator.addPopup( new RankingPopup() );						return;
 		case "starsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C104_STARS));	return;
 		case "adsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C43_ADS)); 	return;
 		case "googleButton":	socialSignin();														 	return;

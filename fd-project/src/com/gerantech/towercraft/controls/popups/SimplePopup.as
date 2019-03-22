@@ -7,6 +7,7 @@ import feathers.layout.AnchorLayoutData;
 
 public class SimplePopup extends AbstractPopup
 {
+protected var skin:ImageLoader;
 protected var padding:int;
 public function SimplePopup(){ super(); }
 override protected function initialize():void
@@ -16,11 +17,11 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	padding = 36;
 	
-	var skin:ImageLoader = new ImageLoader();
-	skin.source = appModel.theme.popupBackgroundSkinTexture;
-	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
+	skin = new ImageLoader();
+	skin.source = appModel.theme.popupSimpleBackgroundSkinTexture;
+	skin.scale9Grid = MainTheme.POPUP_SIMPLE_SCALE9_GRID;
 	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	skin.touchable = true;
+	//skin.touchable = true;
 	addChild(skin);
 }
 }

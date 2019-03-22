@@ -5,11 +5,7 @@ import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.FactionItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-import com.gerantech.towercraft.controls.overlays.TransitionData;
-import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
@@ -32,9 +28,6 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
-import flash.geom.Rectangle;
-import starling.animation.Transitions;
-import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
@@ -189,24 +182,6 @@ private function list_createCompleteHandler():void
 	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length - FactionItemRenderer.playerLeague-1) - FactionItemRenderer._height * 0.2, 0);
 }
 
-public static function showRanking(arenaIndex:int):void
-{
-	var padding:int = 36;
-	var transitionIn:TransitionData = new TransitionData();
-	transitionIn.sourceAlpha = 0;
-	var transitionOut:TransitionData = new TransitionData();
-	transitionOut.destinationAlpha = 0;
-	transitionOut.transition = Transitions.EASE_IN;
-	
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(40, 200, Starling.current.stage.stageWidth - 80, Starling.current.stage.stageHeight - 400);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(40, 250, Starling.current.stage.stageWidth - 80, Starling.current.stage.stageHeight - 500);
-	
-	var rankingPopup:RankingPopup = new RankingPopup();
-	//rankingPopup.arenaIndex = arenaIndex;
-	rankingPopup.transitionIn = transitionIn;
-	rankingPopup.transitionOut = transitionOut;
-	AppModel.instance.navigator.addPopup(rankingPopup);			
-}
 override protected function backButtonFunction():void
 {
 	if( !player.inTutorial() )

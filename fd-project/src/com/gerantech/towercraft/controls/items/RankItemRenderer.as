@@ -2,11 +2,11 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.geom.Rectangle;
 import starling.display.Image;
 
 public class RankItemRenderer extends AbstractTouchableListItemRenderer
@@ -17,19 +17,15 @@ private var arenaDisplay:ImageLoader;
 private var rankDisplay:ShadowLabel;
 private var nameDisplay:ShadowLabel;
 private var pointDisplay:ShadowLabel;
-
-static private const SCALE9_GRID:Rectangle = new Rectangle(270, 50, 2, 1);
 private var _visibility:Boolean;
-
 public function RankItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-//	height = 109;
 	layout = new AnchorLayout();
 
 	mySkin = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
-	mySkin.scale9Grid = SCALE9_GRID;
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_RANK_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
 	iconDisplay = new ImageLoader();
@@ -40,23 +36,20 @@ override protected function initialize():void
 
 	arenaDisplay = new ImageLoader();
 	arenaDisplay.height = arenaDisplay.width = 80;
-	arenaDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280, NaN, 0);
+	arenaDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
 	addChild(arenaDisplay);
 
 	rankDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
 	rankDisplay.width = 80;
-	//rankDisplay.pixelSnapping = false;
 	rankDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:20, NaN, appModel.isLTR?20:NaN, NaN, 0);
 	addChild(rankDisplay);
 	
 	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
-	//nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:120, NaN, appModel.isLTR?120:NaN, NaN, 0);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:200, NaN, appModel.isLTR?200:NaN, NaN, 0);
 	addChild(nameDisplay);
 	
 	pointDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
 	pointDisplay.width = 160;
-	//pointDisplay.pixelSnapping = false;
 	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?100:NaN, NaN, appModel.isLTR?NaN:100, NaN, 0);
 	addChild(pointDisplay);
 }
@@ -68,7 +61,7 @@ override protected function commitData():void
 		return;
 	
 	visibility = _data.n != undefined// ? 0 : 1;
-	height = _visibility ? 100 : 60;
+	height = _visibility ? 120 : 60;
 	if( !_visibility )
 		return;
 

@@ -2,72 +2,83 @@ package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
+import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
-import flash.text.engine.ElementFormat;
+import flash.geom.Rectangle;
+import starling.display.Image;
 import starling.events.Event;
 import starling.events.Touch;
 
 public class LobbyMemberItemRenderer extends AbstractTouchableListItemRenderer
 {
 public function LobbyMemberItemRenderer(){ super(); }
-private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
-private var nameDisplay:RTLLabel;
-private var nameShadowDisplay:RTLLabel;
-private var pointDisplay:RTLLabel;
-private var pointIconDisplay:ImageLoader;
-private var mySkin:ImageSkin;
+static private const POINTS_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
+private var mySkin:Image;
+private var arenaDisplay:ImageLoader;
+private var rankDisplay:ShadowLabel;
+private var nameDisplay:ShadowLabel;
 private var roleDisplay:RTLLabel;
-private var activityDisplay:RTLLabel;
+private var pointsDisplay:RTLLabel;
+private var battlesDisplay:ShadowLabel;
 
 override protected function initialize():void
 {
 	super.initialize();
-	
-	layout = new AnchorLayout();
 	height = 120;
-	var padding:int = 36;
-	
-	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
+	layout = new AnchorLayout();
+
+	// images .........
+	mySkin = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_RANK_SCALE9_GRID;
 	backgroundSkin = mySkin;
+
+	var pointsRect:ImageLoader = new ImageLoader();
+	pointsRect.width = 180;
+	pointsRect.scale9Grid = POINTS_SCALE9_GRID;
+	pointsRect.source = Assets.getTexture("theme/small-inner-rect", "gui");
+	pointsRect.layoutData = new AnchorLayoutData(11, appModel.isLTR?280:NaN, 13, appModel.isLTR?NaN:280);
+	addChild(pointsRect);
 	
-	nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.8);
-	nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.6);
-	nameShadowDisplay.pixelSnapping = false;
-	addChild(nameShadowDisplay);
+	arenaDisplay = new ImageLoader();
+	arenaDisplay.height = arenaDisplay.width = 80;
+	arenaDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
+	addChild(arenaDisplay);
 	
-	nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
-	nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.7);
+	var pointIconDisplay:ImageLoader = new ImageLoader();
+	pointIconDisplay.height = pointIconDisplay.width = 76;
+	pointIconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?24:NaN, NaN, appModel.isLTR?NaN:24, NaN, 0);
+	pointIconDisplay.source = Assets.getTexture("res-2", "gui");
+	addChild(pointIconDisplay);
+	
+	// labels .........
+	rankDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
+	rankDisplay.width = 80;
+	rankDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:20, NaN, appModel.isLTR?20:NaN, NaN, 0);
+	addChild(rankDisplay);
+	
+	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
+	nameDisplay.layoutData = new AnchorLayoutData(10, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN);
 	addChild(nameDisplay);
 	
-	roleDisplay = new RTLLabel("", 0, null, null, false, null, 0.7);
-	roleDisplay.pixelSnapping = false;
-	roleDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, padding*0.5);
+	roleDisplay = new RTLLabel("", 0, null, null, false, null, 0.6);
+	roleDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, 10, appModel.isLTR?205:NaN);
 	addChild(roleDisplay);
 	
-	activityDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
-	activityDisplay.width = padding * 3
-	activityDisplay.pixelSnapping = false;
-	activityDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding * 7:NaN, NaN, appModel.isLTR?NaN:padding * 7, NaN, 0);
-	addChild(activityDisplay);
+	pointsDisplay = new RTLLabel("", 0, "center", null, false, null, 0.7);
+	pointsDisplay.width = 180;
+	pointsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280, NaN, 0);
+	addChild(pointsDisplay);
 	
-	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
-	pointDisplay.pixelSnapping = false;
-	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*3.2:NaN, NaN, appModel.isLTR?NaN:padding*3.2, NaN, 0);
-	addChild(pointDisplay);
-	
-	pointIconDisplay = new ImageLoader();
-	pointIconDisplay.width = 80;
-	pointIconDisplay.layoutData = new AnchorLayoutData(padding/2, appModel.isLTR?padding/2:NaN, padding/2, appModel.isLTR?NaN:padding/2);
-	addChild(pointIconDisplay);
+	battlesDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.8);
+	battlesDisplay.width = 160;
+	battlesDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?100:NaN, NaN, appModel.isLTR?NaN:100, NaN, 0);
+	addChild(battlesDisplay);
 	
 	addEventListener(Event.TRIGGERED, item_triggeredHandler);
 }
@@ -75,28 +86,16 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data ==null || _owner==null)
+	if( _data == null || _owner == null )
 		return;
 	
-	var rankIndex:int = index+1;
-	nameDisplay.text = rankIndex + ".  " + _data.name ;
-	nameShadowDisplay.text = rankIndex + ".  " + _data.name ;
-	roleDisplay.text = loc("lobby_role_"+_data.permission);
-	activityDisplay.text = "" + _data.activity;
-	pointDisplay.text = "" + _data.point;
-	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(_data.point)), "gui");
-
-	var fs:int = AppModel.instance.theme.gameFontSize * (_data.id==player.id?1:0.9);
-	var fc:int = _data.id==player.id?MainTheme.PRIMARY_TEXT_COLOR:DEFAULT_TEXT_COLOR;
-	if( fs != nameDisplay.fontSize )
-	{
-		nameDisplay.fontSize = fs;
-		nameShadowDisplay.fontSize = fs;
-		
-		nameDisplay.elementFormat = new ElementFormat(nameDisplay.fontDescription, fs, fc);
-		nameShadowDisplay.elementFormat = new ElementFormat(nameShadowDisplay.fontDescription, fs, nameShadowDisplay.color);
-	}
-	mySkin.defaultTexture = _data.id==player.id ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
+	rankDisplay.text = StrUtils.getNumber(index + 1);
+	nameDisplay.text = _data.name ;
+	roleDisplay.text = loc("lobby_role_" + _data.permission);
+	pointsDisplay.text = StrUtils.getNumber(_data.point);
+	battlesDisplay.text = StrUtils.getNumber(_data.activity);
+	arenaDisplay.source = Assets.getTexture("arena-" + Math.min(8, player.get_arena(_data.point)), "gui");
+	mySkin.color = _data.id == player.id ? 0xAAFFFF : 0xFFFFFF;
 }
 protected function item_triggeredHandler(event:Event):void
 {
