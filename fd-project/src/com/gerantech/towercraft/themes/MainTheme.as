@@ -152,9 +152,15 @@ static public const STYLE_HILIGHT_BUTTON:String = "feathers-hiight-button";
 static public const STYLE_DANGER_BUTTON:String = "feathers-danger-button";
 static public const STYLE_NEUTRAL_BUTTON:String = "feathers-nutral-button";
 static public const STYLE_DISABLE_BUTTON:String = "feathers-disable-button";
+static public const STYLE_SMALL_NORMAL_BUTTON:String = "feathers-small-normal-button";
+static public const STYLE_SMALL_HILIGHT_BUTTON:String = "feathers-small-hiight-button";
+static public const STYLE_SMALL_DANGER_BUTTON:String = "feathers-small-danger-button";
+static public const STYLE_SMALL_NEUTRAL_BUTTON:String = "feathers-small-nutral-button";
+static public const STYLE_SMALL_DISABLE_BUTTON:String = "feathers-small-disable-button";
 
 static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
 static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
+static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(11, 13, 2, 1);
 static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(12, 10, 6, 26);//4, 4, 1, 20);
 static public const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
 static public const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
@@ -547,6 +553,15 @@ public function get buttonNeutralDownSkinTexture() : Texture { return Assets.get
 public function get buttonHilightUpSkinTexture() : Texture { return Assets.getTexture("theme/button-hilight-up-skin", "gui"); }
 public function get buttonHilightDownSkinTexture() : Texture { return Assets.getTexture("theme/button-hilight-down-skin", "gui"); }
 public function get buttonDisabledSkinTexture() : Texture { return Assets.getTexture("theme/button-disabled-skin", "gui"); }
+public function get buttonSmallUpSkinTexture() : Texture { return Assets.getTexture("theme/button-small-up-skin", "gui"); }
+public function get buttonSmallDownSkinTexture() : Texture { return Assets.getTexture("theme/button-small-down-skin", "gui"); }
+public function get buttonSmallDangerUpSkinTexture() : Texture { return Assets.getTexture("theme/button-small-danger-up-skin", "gui"); }
+public function get buttonSmallDangerDownSkinTexture() : Texture { return Assets.getTexture("theme/button-small-danger-down-skin", "gui"); }
+public function get buttonSmallNeutralUpSkinTexture() : Texture { return Assets.getTexture("theme/button-small-neutral-up-skin", "gui"); }
+public function get buttonSmallNeutralDownSkinTexture() : Texture { return Assets.getTexture("theme/button-small-neutral-down-skin", "gui"); }
+public function get buttonSmallHilightUpSkinTexture() : Texture { return Assets.getTexture("theme/button-small-hilight-up-skin", "gui"); }
+public function get buttonSmallHilightDownSkinTexture() : Texture { return Assets.getTexture("theme/button-small-hilight-down-skin", "gui"); }
+public function get buttonSmallDisabledSkinTexture() : Texture { return Assets.getTexture("theme/button-disabled-skin", "gui"); }
 public function get buttonSelectedUpSkinTexture() : Texture { return Assets.getTexture("theme/toggle-button-selected-up-skin", "gui"); }
 public function get buttonSelectedDisabledSkinTexture() : Texture { return Assets.getTexture("theme/toggle-button-selected-disabled-skin", "gui"); }
 public function get buttonCallToActionUpSkinTexture() : Texture { return Assets.getTexture("theme/call-to-action-button-up-skin", "gui"); }
@@ -781,6 +796,11 @@ protected function initializeStyleProviders():void
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_FORWARD_BUTTON, this.setForwardButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_HILIGHT_BUTTON, this.setHilightButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_NEUTRAL_BUTTON, this.setNeutralButtonStyles);
+	
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NORMAL_BUTTON, this.setSmallNormalButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_DANGER_BUTTON, this.setSmallDangerButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_HILIGHT_BUTTON, this.setSmallHilightButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NEUTRAL_BUTTON, this.setNeutralButtonStyles);
 
 	//button group
 	this.getStyleProviderForClass(ButtonGroup).defaultStyleFunction = this.setButtonGroupStyles;
@@ -943,7 +963,8 @@ protected function initializeStyleProviders():void
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(VolumeSlider.DEFAULT_CHILD_STYLE_NAME_THUMB, this.setVolumeSliderThumbStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(VolumeSlider.DEFAULT_CHILD_STYLE_NAME_MINIMUM_TRACK, this.setVolumeSliderMinimumTrackStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(VolumeSlider.DEFAULT_CHILD_STYLE_NAME_MAXIMUM_TRACK, this.setVolumeSliderMaximumTrackStyles);
-*/		}
+*/
+}
 
 protected function pageIndicatorNormalSymbolFactory():DisplayObject
 {
@@ -1062,6 +1083,13 @@ protected function setBaseButtonStyles(button:Button):void
 	button.minGap = this.smallControlGutterSize;
 	button.minTouchWidth = this.gridSize;
 	button.minTouchHeight = this.gridSize;
+	
+	button.labelOffsetX = 2;
+	button.labelOffsetY = -6;
+	button.labelFactory = function() : ITextRenderer
+	{
+		return new ShadowLabel("");
+	}
 }
 
 protected function setButtonStyles(button:Button):void
@@ -1085,13 +1113,6 @@ protected function setButtonStyles(button:Button):void
 
 	button.fontStyles = this.darkUIFontStyles;
 	button.disabledFontStyles = this.darkDisabledUIFontStyles;
-	
-	button.labelOffsetX = 2;
-	button.labelOffsetY = -6;
-	button.labelFactory = function() : ITextRenderer
-	{
-		return new ShadowLabel("");
-	}
 
 	this.setBaseButtonStyles(button);
 }
@@ -1159,24 +1180,28 @@ protected function setQuietButtonStyles(button:Button):void
 	button.minTouchWidth = button.minTouchHeight = this.gridSize;
 }
 
-public function setDangerButtonStyles(button:Button):void
-{
-	setButtonColorStyle(button, this.buttonDangerUpSkinTexture, this.buttonDangerDownSkinTexture);
-}
-public function setNeutralButtonStyles(button:Button):void
-{
-	setButtonColorStyle(button, this.buttonNeutralUpSkinTexture, this.buttonNeutralDownSkinTexture);
-}
-public function setHilightButtonStyles(button:Button):void
-{
-	setButtonColorStyle(button, this.buttonHilightUpSkinTexture, this.buttonHilightDownSkinTexture);
-}
-public function setButtonColorStyle(button:Button, upTexture:Texture, downTexture:Texture):void
+public function setDangerButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonDangerUpSkinTexture,			this.buttonDangerDownSkinTexture,		this.buttonDisabledSkinTexture,		BUTTON_SCALE9_GRID); }
+public function setNeutralButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonNeutralUpSkinTexture,		this.buttonNeutralDownSkinTexture,		this.buttonDisabledSkinTexture,		BUTTON_SCALE9_GRID); }
+public function setHilightButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonHilightUpSkinTexture,		this.buttonHilightDownSkinTexture,		this.buttonDisabledSkinTexture,		BUTTON_SCALE9_GRID); }
+
+public function setSmallNormalButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonSmallUpSkinTexture,			this.buttonSmallDownSkinTexture,		this.buttonSmallDisabledSkinTexture, BUTTON_SMALL_SCALE9_GRID); }
+public function setSmallDangerButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonSmallDangerUpSkinTexture,	this.buttonSmallDangerDownSkinTexture,	this.buttonSmallDisabledSkinTexture, BUTTON_SMALL_SCALE9_GRID); }
+public function setSmallHilightButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonSmallHilightUpSkinTexture,	this.buttonSmallHilightDownSkinTexture,	this.buttonSmallDisabledSkinTexture, BUTTON_SMALL_SCALE9_GRID); }
+public function setSmallNeutralButtonStyles(button:Button):void {
+	setButtonColorStyle(button, this.buttonSmallNeutralUpSkinTexture,	this.buttonSmallNeutralDownSkinTexture,	this.buttonSmallDisabledSkinTexture, BUTTON_SMALL_SCALE9_GRID); }
+
+public function setButtonColorStyle(button:Button, upTexture:Texture, downTexture:Texture, disableTexture:Texture, scaleGrid:Rectangle):void
 {
 	var skin:ImageSkin = new ImageSkin(upTexture);
 	skin.setTextureForState(ButtonState.DOWN, downTexture);
-	skin.setTextureForState(ButtonState.DISABLED, this.buttonDisabledSkinTexture);
-	skin.scale9Grid = BUTTON_SCALE9_GRID;
+	skin.setTextureForState(ButtonState.DISABLED, disableTexture);
+	skin.scale9Grid = scaleGrid;
 	skin.width = this.controlSize;
 	skin.height = this.controlSize;
 	skin.minWidth = this.controlSize;
