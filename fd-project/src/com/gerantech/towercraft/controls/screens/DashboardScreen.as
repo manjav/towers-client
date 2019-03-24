@@ -107,6 +107,26 @@ protected function addedToStageHandler(event:Event):void
 	pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 	addChild(pageList);
 	
+	var shadowTop:ImageLoader = new ImageLoader();
+	shadowTop.source = Assets.getTexture("theme/gradeint-top", "gui");
+	shadowTop.layoutData = new AnchorLayoutData(-30, -30, NaN, -30);
+	shadowTop.maintainAspectRatio = false;
+	shadowTop.touchable = false;
+	shadowTop.height = 200;
+	shadowTop.alpha = 0.4;
+	shadowTop.color = 0;
+	addChild(shadowTop);
+	
+	var shadowBottom:ImageLoader = new ImageLoader();
+	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	shadowBottom.layoutData = new AnchorLayoutData(NaN, -20, footerSize - 20, -20);
+	shadowBottom.maintainAspectRatio = false;
+	shadowBottom.touchable = false;
+	shadowBottom.height = 80;
+	shadowBottom.alpha = 0.4;
+	shadowBottom.color = 0;
+	addChild(shadowBottom);
+	
 	// =-=-=-=-=-=-=-=-=-=-=-=- tabs -=-=-=-=-=-=-=-=-=-=-=-=
 	tabSize = stage.stageWidth / 5;
 	
