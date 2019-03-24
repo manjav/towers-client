@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import feathers.core.ITextRenderer;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import starling.core.Starling;
@@ -11,7 +12,7 @@ import starling.display.Quad;
 public class FeatureItemRenderer extends AbstractTouchableListItemRenderer
 {
 protected var keyDisplay:RTLLabel;
-protected var valueDisplay:*;
+protected var valueDisplay:ITextRenderer;
 protected var _firstCommit:Boolean = true;
 
 public function FeatureItemRenderer(){}
@@ -62,8 +63,8 @@ protected function valueLabelFactory(scale:Number = 0.8, color:uint = 0):void
 	if( valueDisplay != null )
 		return;
 	valueDisplay = new LTRLable("", color, "left", false, scale);
-	valueDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
-	addChild(valueDisplay);
+	LTRLable(valueDisplay).layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
+	addChild(valueDisplay as LTRLable);
 }
 }
 }

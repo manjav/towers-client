@@ -33,8 +33,8 @@ override protected function valueLabelFactory(scale:Number = 0.7, color:uint = 0
 	if( valueDisplay != null )
 		return;
 	valueDisplay = new RTLLabel("", color, "left", null, false, null, scale);
-	valueDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
-	addChild(valueDisplay);
+	RTLLabel(valueDisplay).layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
+	addChild(valueDisplay as RTLLabel);
 }
 }
 }

@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.utils.StrUtils;
 public class ProfileFeatureItemRenderer extends FeatureItemRenderer
 {
 override protected function commitData():void
@@ -11,7 +12,7 @@ override protected function commitData():void
 	super.commitData();
 	height = 44;
 	keyDisplay.text = loc("resource_title_" + _data.getInt("type"));
-	valueDisplay.text = _data.getInt("count");
+	valueDisplay.text = StrUtils.getNumber(_data.getInt("count"));
 }
 
 override protected function keyLabelFactory(scale:Number = 0.7, color:uint = 0):RTLLabel
@@ -21,7 +22,11 @@ override protected function keyLabelFactory(scale:Number = 0.7, color:uint = 0):
 
 override protected function valueLabelFactory(scale:Number = 0.7, color:uint = 0):void
 {
-	return super.valueLabelFactory(scale, color);
+	if( valueDisplay != null )
+		return;
+	valueDisplay = new RTLLabel("", color, "left", null, false, null, scale);
+	RTLLabel(valueDisplay).layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
+	addChild(valueDisplay as RTLLabel);
 }
 }
 }

@@ -1,5 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.texts.LTRLable;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.scripts.ScriptEngine;
@@ -31,12 +33,12 @@ override protected function commitData():void
 	var diff:Number = Math.round(Math.abs(newValue - oldValue));
 	if( building != null )
 	{
-		valueDisplay.text = "<span>" + Math.round(oldValue) + (diff == 0?"":(' <font color="#00ff00"> + ' +  diff + '</font>')) + "</span>";
-		valueDisplay.isHTML = true;
+		valueDisplay.text = "<span>" + StrUtils.getNumber(Math.round(oldValue)) + (diff == 0?"":(' <font leading="22" color="#00ff00"> + ' + StrUtils.getNumber(diff) + ' </font>')) + "</span>";
+		LTRLable(valueDisplay).isHTML = true;
 	}
 	else
 	{
-		valueDisplay.text = Math.round(oldValue);
+		valueDisplay.text = StrUtils.getNumber(Math.round(oldValue));
 	}
 	
 	keyDisplay.text = loc("building_feature_" + feature + (newValue > 0 ? "" : "_1"));
