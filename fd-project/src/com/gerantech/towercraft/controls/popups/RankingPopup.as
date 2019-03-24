@@ -64,7 +64,7 @@ private function sendCommand(rankType:String) : void
 	if( rankType == SFSCommands.LOBBY_DATA )
 	{
 		params.putUtfString("name", "!@#$");
-		params.putInt("mode", 0);
+		params.putInt("mode", 1);
 	}
 	SFSConnection.instance.sendExtensionRequest(rankType, params);			
 }
@@ -95,11 +95,11 @@ override protected function initialize():void
 	titleDisplay.alpha = 0;
 	
 	closeButton = new Button();
-	closeButton.styleName = MainTheme.STYLE_DANGER_BUTTON;
-	closeButton.defaultIcon = new Image(Assets.getTexture("theme/check-selected-up-icon", "gui"));
+	closeButton.styleName = MainTheme.STYLE_SMALL_DANGER_BUTTON;
+	closeButton.defaultIcon = new Image(Assets.getTexture("theme/icon-cross", "gui"));
 	closeButton.alpha = 0;
-	closeButton.width = 92;
-	closeButton.height = 72;
+	closeButton.width = 88;
+	closeButton.height = 74;
 	closeButton.layoutData = new AnchorLayoutData(-10, -10);
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
@@ -194,9 +194,9 @@ protected function list_changeHandler(e:Event):void
 {
 	list.removeEventListener(Event.CHANGE, list_changeHandler);
 	if( rankType == SFSCommands.RANK )
-		appModel.navigator.addPopup(new ProfilePopup({id:playersList.selectedItem.i, name:playersList.selectedItem.n}));
-	//else
-		//appModel.navigator.addPopup(new ProfilePopup({id:playersList.selectedItem.i, name:playersList.selectedItem.n}));
+		appModel.navigator.addPopup(new ProfilePopup({id:list.selectedItem.i, name:list.selectedItem.n}));
+	else
+		appModel.navigator.addPopup(new LobbyDetailsPopup({id:list.selectedItem.id, name:list.selectedItem.name, pic:list.selectedItem.pic, num:list.selectedItem.num, sum:list.selectedItem.sum, max:list.selectedItem.max}, true));
 
 	list.selectedIndex = -1;
 	list.addEventListener(Event.CHANGE, list_changeHandler);

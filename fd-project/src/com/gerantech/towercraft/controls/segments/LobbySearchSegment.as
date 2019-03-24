@@ -17,6 +17,8 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
@@ -85,10 +87,17 @@ override protected function initialize():void
 	addChild(tabs[2]);
 	
 	_listCollection = new ListCollection();
+	
+	var listLayout:VerticalLayout = new VerticalLayout();
+	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	listLayout.gap = 6;
+	listLayout.useVirtualLayout = true;
+	
 	list = new FastList();
 	list.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }
 	list.layoutData = new AnchorLayoutData(padding * 5 + buttonH, padding, padding, padding);
 	list.dataProvider = _listCollection;
+	list.layout = listLayout;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	addChild(list);
 	if( SFSConnection.instance.lobbyManager.lobby == null )

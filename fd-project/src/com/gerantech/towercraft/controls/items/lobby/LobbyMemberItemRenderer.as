@@ -30,7 +30,7 @@ private var battlesDisplay:ShadowLabel;
 override protected function initialize():void
 {
 	super.initialize();
-	height = 120;
+	height = 110;
 	layout = new AnchorLayout();
 
 	// images .........

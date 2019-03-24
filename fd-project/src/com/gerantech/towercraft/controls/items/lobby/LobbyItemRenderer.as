@@ -25,7 +25,7 @@ public function LobbyItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-	height = 120;
+	height = 110;
 	layout = new AnchorLayout();
 
 	var mySkin:Image = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
@@ -72,7 +72,7 @@ override protected function initialize():void
 override protected function commitData():void
 {
 	super.commitData();
-	if( _data ==null || _owner==null )
+	if( _data == null || _owner == null )
 		return;
 	
 	emblemDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(_data.pic + ""), "gui");

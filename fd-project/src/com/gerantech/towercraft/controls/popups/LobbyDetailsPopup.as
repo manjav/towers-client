@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.buttons.EmblemButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
 import com.gerantech.towercraft.controls.groups.TabsHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyFeatureItemRenderer;
@@ -23,7 +22,6 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
-import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
@@ -32,24 +30,23 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
-import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.events.Event;
 
 public class LobbyDetailsPopup extends SimplePopup
 {
-private var responseCode:int;
 private var roomData:Object;
 private var roomServerData:ISFSObject;
 private var itsMyRoom:Boolean;
 private var buttonsPopup:SimpleListPopup;
 private var membersArray:Array;
 private var membersCollection:ListCollection;
-private var tabs:Vector.<LobbyTabButton>;
+private var isReadOnly:Boolean;
 
-public function LobbyDetailsPopup(roomData:Object)
+public function LobbyDetailsPopup(roomData:Object, isReadOnly:Boolean = false)
 {
 	this.roomData = roomData;
+	this.isReadOnly = isReadOnly;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
@@ -155,7 +152,6 @@ private function showDetails():void
 	
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.hasVariableItemDimensions = true;
 	listLayout.useVirtualLayout = true;
 	listLayout.gap = 10;
 	
@@ -163,9 +159,21 @@ private function showDetails():void
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.dataProvider = membersCollection;
 	membersList.layout = listLayout;
+	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
 	membersList.layoutData = new AnchorLayoutData(570, 30, 55, 30);
 	addChild(membersList);
 
+	var closeButton:CustomButton = new CustomButton();
+	closeButton.style = "danger";
+	closeButton.label = "X";
+	closeButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?20:NaN, NaN, appModel.isLTR?NaN:20);
+	closeButton.width = closeButton.height = 72;
+	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+	addChild(closeButton);
+	
+	if(  isReadOnly )
+		return;
+	
 	itsMyRoom = SFSConnection.instance.lobbyManager.lobby != null && SFSConnection.instance.lobbyManager.id == roomData.id;
 	
 	var joinleaveButton:CustomButton = new CustomButton();
@@ -192,14 +200,6 @@ private function showDetails():void
 		removeButton.addEventListener(Event.TRIGGERED, removeButton_triggeredHandler);
 		addChild(removeButton);
 	}
-	
-	var closeButton:CustomButton = new CustomButton();
-	closeButton.style = "danger";
-	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?20:NaN, NaN, appModel.isLTR?NaN:20);
-	closeButton.width = closeButton.height = 72;
-	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	addChild(closeButton);
 	
 	if( !itsMyRoom )
 		return;
@@ -267,7 +267,7 @@ private function header_changeHandler(event:Event):void
 	membersCollection.updateAll()
 }
 
-private function membersList_focusInHandler(event:Event):void
+private function membersList_focusInHandler(event:Event) : void
 {
 	var selectedItem:LobbyMemberItemRenderer = event.data as LobbyMemberItemRenderer;
 	if( selectedItem == null )
@@ -293,6 +293,12 @@ private function membersList_focusInHandler(event:Event):void
 			}
 		}
 	}
+	if ( btns.length == 1 )
+	{
+		appModel.navigator.addPopup(new ProfilePopup(selectedData));
+		return;
+	}
+	
 	buttonsPopup = new SimpleListPopup();
 	buttonsPopup.buttons = btns;
 	buttonsPopup.data = selectedData;

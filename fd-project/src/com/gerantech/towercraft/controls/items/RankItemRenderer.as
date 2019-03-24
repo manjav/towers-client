@@ -61,7 +61,7 @@ override protected function commitData():void
 		return;
 	
 	visibility = _data.n != undefined// ? 0 : 1;
-	height = _visibility ? 120 : 60;
+	height = _visibility ? 110 : 60;
 	if( !_visibility )
 		return;
 
