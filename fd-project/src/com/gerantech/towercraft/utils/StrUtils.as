@@ -243,9 +243,9 @@ public static function loc(resourceName:String, parameters:Array = null) : Strin
 }
 
 //  UINT TO TIME _________________________________________________________________________
-public static function dateToTime(date:Date, _mode:String='Second', separator:String=":"):String
+public static function dateToTime(date:Date, _mode:String = "Second", separator:String = ":"):String
 {
-	var time:uint = date.hours*3600+date.minutes*60+date.seconds;
+	var time:uint = date.hours * 3600 + date.minutes * 60 + date.seconds;
 	if (_mode == 'Milisecond')
 	{
 		time *= 1000;
@@ -255,7 +255,7 @@ public static function dateToTime(date:Date, _mode:String='Second', separator:St
 }
 
 //  UINT TO TIME _________________________________________________________________________
-public static function uintToTime(_time:uint, _mode:String="Second", separator:String=" : "):String
+public static function uintToTime(_time:uint, _mode:String = "Second", separator:String = " : "):String
 {
 	var ret:String;
 	var mili:uint;
@@ -318,11 +318,11 @@ public static function toTimeFormat(seconds:int):String
 	return seconds + "s";
 }
 
-public static function getDateString(_date:Date, isTime:Boolean=false):String
+public static function getDateString(_date:Date, isTime:Boolean = false):String
 {
-	var ret:String = _date.fullYear+'-'+uint(_date.month+1)+'-'+_date.date ;
+	var ret:String = _date.fullYear + '-' + uint(_date.month + 1) + "-" + _date.date;
 	if( isTime )
-		ret = getNumberString(_date.hours, 2)+":"+getNumberString(_date.minutes, 2)+":"+getNumberString(_date.seconds, 2) + "  " + ret;
+		ret = getNumberString(_date.hours, 2) + ":" + getNumberString(_date.minutes, 2) + ":" + getNumberString(_date.seconds, 2) + "  " + ret;
 	return ret;
 }
 public static function getNumberString(_num:Number, _len:uint):String

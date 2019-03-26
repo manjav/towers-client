@@ -62,7 +62,7 @@ override public function init():void
 	roleDisplay.layoutData = roleLayout;
 	addChild(roleDisplay);
 	
-	messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
+	messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.65, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
 		messageDisplay.leading = -padding * 0.4;
 	messageLayout = new AnchorLayoutData( padding * 2);

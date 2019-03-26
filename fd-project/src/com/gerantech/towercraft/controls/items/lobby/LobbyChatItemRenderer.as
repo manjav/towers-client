@@ -9,11 +9,9 @@ import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemMessageSegm
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
 import starling.events.Event;
 import starling.events.Touch;
 

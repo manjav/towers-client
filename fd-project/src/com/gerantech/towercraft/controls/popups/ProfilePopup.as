@@ -184,14 +184,14 @@ private function showProfile():void
 			
 			if( event.currentTarget == issuesButton )
 			{
-				if( appModel.navigator.activeScreen is IssuesScreen )
+				/*if( appModel.navigator.activeScreen is IssuesScreen )
 				{
 					IssuesScreen(appModel.navigator.activeScreen).reporter = user.id;
 					IssuesScreen(appModel.navigator.activeScreen).requestIssues();
 					close();
 					return;
 				}
-				appModel.navigator.getScreen( Game.ISSUES_SCREEN ).properties.reporter = user.id;
+				appModel.navigator.getScreen( Game.ISSUES_SCREEN ).properties.reporter = user.id;*/
 				appModel.navigator.pushScreen( Game.ISSUES_SCREEN );
 				close();
 			}

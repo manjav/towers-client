@@ -185,6 +185,9 @@ static public const INDICATORS_SCALE9_GRID:Rectangle = new Rectangle(8, 12, 4, 4
 static public const RIBBON_SCALE9_GRID:Rectangle = new Rectangle(92, 60, 6, 6);
 static public const ROUND_RECT_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 2, 2);
 
+static public const ITEM_RENDERER_NEW_SCALE9_GRID:Rectangle = new Rectangle(13, 45, 8, 3);
+
+
 /**
  * @private
  * The theme's custom style name for item renderers in a SpinnerList.

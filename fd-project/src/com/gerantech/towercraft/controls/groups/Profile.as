@@ -79,20 +79,7 @@ override protected function initialize() : void
 	indicatorPoint.layoutData = new AnchorLayoutData(NaN, 128, NaN, NaN, NaN, 0);
 	indicatorPoint.addEventListener(Event.SELECT, buttons_eventsHandler);
 	addChild(indicatorPoint);
-
-/*	// inbox button with notification badge
-	var inboxButton:NotifierButton = new NotifierButton(Assets.getTexture("home/inbox"));
-	inboxButton.name = "inboxButton";
-	inboxButton.addEventListener(Event.TRIGGERED, buttons_eventsHandler);
-	inboxButton.backgroundSkin = new Image(Assets.getTexture("theme/background-glass-skin"));
-	Image(inboxButton.backgroundSkin).scale9Grid = scale9;
-	inboxButton.width = inboxButton.height = height - padding * 2;
-	inboxButton.layoutData = new AnchorLayoutData(padding, height, padding);
-	addChild(inboxButton);
 	
-	InboxService.instance.request();
-	InboxService.instance.addEventListener(Event.UPDATE, function ():void { inboxButton.badgeLabel = InboxService.instance.numUnreads.toString(); });
-*/	
 	// settings button
 	var settingsButton:IconButton = new IconButton(Assets.getTexture("home/settings"));
 	settingsButton.name = "settingsButton";

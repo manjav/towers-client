@@ -1,84 +1,43 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.controls.items.InboxItemRenderer;
-import com.gerantech.towercraft.controls.popups.IssueReportPopup;
-import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.segments.InboxChatSegment;
 import com.gerantech.towercraft.managers.InboxService;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.vo.UserData;
-import com.gt.towers.constants.MessageTypes;
-import com.smartfoxserver.v2.core.SFSEvent;
+import com.gerantech.towercraft.models.vo.InboxThread;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import feathers.controls.renderers.IListItemRenderer;
 import feathers.layout.AnchorLayoutData;
-import starling.display.Quad;
 import starling.events.Event;
 
-public class InboxScreen extends ListScreen
+public class InboxScreen extends BaseFomalScreen
 {
-private var emptyLabel:RTLLabel;
+public var meId:int;
+public var thread:InboxThread;
+private var sfsData:SFSObject;
+private var chatBox:InboxChatSegment;
+public function InboxScreen() 
+{
+	InboxService.instance.addEventListener(Event.COMPLETE, inboxService_completeHandler);
+}
 
-public function InboxScreen(){}
 override protected function initialize():void
 {
-	title = loc("inbox_page");
+	title = thread.owner;
 	super.initialize();
 	
-	var bgButton:SimpleLayoutButton = new SimpleLayoutButton();
-	bgButton.alpha = 0;
-	bgButton.backgroundSkin = new Quad(1,1,0xFF);
-	bgButton.addEventListener(Event.TRIGGERED, bg_triggeredHandler);
-	bgButton.layoutData = new AnchorLayoutData(0,0,0,0);
-	
-	listLayout.gap = 0;	
-	listLayout.hasVariableItemDimensions = true;
-	list.itemRendererFactory = function():IListItemRenderer { return new InboxItemRenderer(); }
-	list.addEventListener(Event.OPEN, list_eventsHandler);
-	list.addEventListener(Event.SELECT, list_eventsHandler);
-	list.addEventListener(Event.CANCEL, list_eventsHandler);
-	list.backgroundSkin = bgButton;
-	list.backgroundSkin.touchable = true;
-	showMessages();
-	
-	/*var bugReportButton:CustomButton = new CustomButton();
-	bugReportButton.style = "neutral";
-	bugReportButton.icon = Assets.getTexture("tooltip-bg-bot-right");
-	bugReportButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
-	bugReportButton.width = bugReportButton.height;
-	bugReportButton.layoutData = new AnchorLayoutData(NaN, 24, headerSize + 20);
-	bugReportButton.addEventListener(Event.TRIGGERED, bugReportButton_triggeredHandler);
-	addChild(bugReportButton);
+	chatBox = new InboxChatSegment(meId);
+	chatBox.layoutData = new AnchorLayoutData(headerSize, 0, footer.height, 0);
+	addChild(chatBox);
+	if( sfsData != null )
+		chatBox.setData(sfsData.getSFSArray("data"), thread);
 }
 
-private function bugReportButton_triggeredHandler():void
+protected function inboxService_completeHandler(event:Event) : void 
 {
-	appModel.navigator.addPopup(new IssueReportPopup());*/
+	sfsData = event.data as SFSObject;
+	if( chatBox != null )
+		chatBox.setData(sfsData.getSFSArray("data"), thread);
 }
 
-private function bg_triggeredHandler(event:Event):void
-{
-	list.selectedIndex = -1;
-}
-
-private function showMessages():void
-{
-	if( InboxService.instance.messages == null || InboxService.instance.messages.length == 0 )
-	{
-		emptyLabel = new RTLLabel(loc("inbox_empty_label"));
-		emptyLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-		addChild(emptyLabel);
-		return;
-	}
-	if( emptyLabel != null )
-		emptyLabel.removeFromParent();
-	list.dataProvider = InboxService.instance.messages;
-}
-
-private function list_eventsHandler(event:Event):void
+/*private function list_eventsHandler(event:Event):void
 {
 	var message:SFSObject = event.data as SFSObject;
 	if( event.type == Event.OPEN )
@@ -107,6 +66,12 @@ protected function sfs_responseConfirmHandler(event:SFSEvent):void
 	if( event.params.cmd != SFSCommands.INBOX_CONFIRM )
 		return;
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_responseConfirmHandler);
+}*/
+
+override public function dispose() : void
+{
+	InboxService.instance.removeEventListener(Event.COMPLETE, inboxService_completeHandler);
+	super.dispose();
 }
 }
 }

@@ -50,7 +50,8 @@ public static const BUDDY_ADD:String = "buddyAdd";
 public static const BUDDY_REMOVE:String = "buddyRemove";
 public static const BUDDY_BATTLE:String = "buddyBattle";
 
-public static const INBOX_GET:String = "inboxGet";
+public static const INBOX_GET_THREADS:String = "inboxGetThreads";
+public static const INBOX_GET_RELATIONS:String = "inboxGetRelations";
 public static const INBOX_OPEN:String = "inboxOpen";
 public static const INBOX_CONFIRM:String = "inboxConfirm";
 public static const INBOX_BROADCAST:String = "inboxBroadcast";

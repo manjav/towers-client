@@ -9,6 +9,7 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.requests.ExtensionRequest;
 import com.smartfoxserver.v2.requests.LoginRequest;
 import com.smartfoxserver.v2.requests.LogoutRequest;
@@ -290,16 +291,23 @@ static public function ArrayToMap(array:Array):IntIntMap
 }
 static public function ToMap(array:ISFSArray) : IntIntMap
 {
-	var ret :IntIntMap = new IntIntMap();
+	var ret:IntIntMap = new IntIntMap();
 	for (var i:int = 0; i < array.size(); i++)
 		ret.set(array.getSFSObject(i).getInt("key"), array.getSFSObject(i).getInt("value"));
 	return ret;
 }
 static public function ToList(array:ISFSArray) : IntList 
 {
-	var ret :IntList = new IntList();
+	var ret:IntList = new IntList();
 	for (var i:int = 0; i < array.size(); i++)
 		ret.push(array.getInt(i));
+	return ret;
+}
+static public function ToArray(sfsArray:SFSArray) : Array 
+{
+	var ret:Array = new Array();
+	for (var i:int = 0; i < sfsArray.size(); i++)
+		ret.push(sfsArray.getSFSObject(i));
 	return ret;
 }
 
@@ -314,5 +322,6 @@ public static function dispose():void
 {
 	_instance = null
 }	
+
 }
 }
