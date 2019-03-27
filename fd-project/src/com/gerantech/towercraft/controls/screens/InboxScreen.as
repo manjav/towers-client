@@ -9,7 +9,7 @@ import starling.events.Event;
 
 public class InboxScreen extends BaseFomalScreen
 {
-public var meId:int;
+public var myId:int;
 public var thread:InboxThread;
 private var sfsData:SFSObject;
 private var chatBox:InboxChatSegment;
@@ -23,7 +23,7 @@ override protected function initialize():void
 	title = thread.owner;
 	super.initialize();
 	
-	chatBox = new InboxChatSegment(meId);
+	chatBox = new InboxChatSegment(myId);
 	chatBox.layoutData = new AnchorLayoutData(headerSize, 0, footer.height, 0);
 	addChild(chatBox);
 	if( sfsData != null )

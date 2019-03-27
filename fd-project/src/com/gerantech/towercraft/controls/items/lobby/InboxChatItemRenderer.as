@@ -11,20 +11,13 @@ import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
 import flash.geom.Rectangle;
 import starling.events.Event;
 import starling.events.Touch;
 
 public class InboxChatItemRenderer extends AbstractTouchableListItemRenderer
 {
-protected static const TYPE_MESSAGE:int = 0;
-protected static const TYPE_COMMENT:int = 10;
-protected static const TYPE_DONATE:int = 20;
-protected static const TYPE_BATTLE:int = 30;
-protected static const TYPE_CONFIRM:int = 40;
-	
-private var meId:int;
+private var myId:int;
 private var type:int;
 private var meSkin:ImageLoader;
 private var otherSkin:ImageLoader;
@@ -35,7 +28,7 @@ private var messageLayout:AnchorLayoutData;
 private var date:Date;
 private var dateLayout:AnchorLayoutData;
 
-public function InboxChatItemRenderer(meId:int){ this.meId = meId; }
+public function InboxChatItemRenderer(myId:int){ this.myId = myId; }
 public function getTouch():Touch
 {
 	return touch;
@@ -92,16 +85,16 @@ override protected function commitData():void
 	if( _data == null )
 		return;
 	
-	var itsMe:Boolean = _data.getInt("senderId") == meId;
+	var itsMe:Boolean = _data.getInt("senderId") == myId;
 	
 	meSkin.visible = itsMe;
 	otherSkin.visible = !itsMe;
 	dateLayout.right	= messageLayout.right	= itsMe ? 50 : 100;
 	dateLayout.left		= messageLayout.left	= itsMe ? 100 : 50;
 	
-	if( itsMe )
+	statusDisplay.visible = itsMe && _data.containsKey("status");
+	if( statusDisplay.visible )
 		statusDisplay.source = Assets.getTexture("check-blue-" + _data.getInt("status"), "gui");
-	statusDisplay.visible = itsMe;
 
 	messageDisplay.text = _data.getUtfString("text");
 	messageDisplay.validate();

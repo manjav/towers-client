@@ -53,7 +53,7 @@ protected function list_changeHandler(event:Event) : void
 {
 	var item:StackScreenNavigatorItem = appModel.navigator.getScreen(Game.INBOX_SCREEN);
 	item.properties.thread = new InboxThread(list.selectedItem);
-	item.properties.meId = issueMode ? 10000 : player.id;
+	item.properties.myId = issueMode ? 10000 : player.id;
 	InboxService.instance.requestRelations(item.properties.thread.ownerId, issueMode ? 10000 : -1);
 	appModel.navigator.pushScreen(Game.INBOX_SCREEN);
 }

@@ -19,6 +19,7 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
+import flash.utils.setTimeout;
 import starling.core.Starling;
 import starling.events.Event;
 /**
@@ -30,9 +31,9 @@ private var preText:String = "";
 private var sfsData:ISFSArray;
 private var thread:InboxThread;
 private var threadCollection:ListCollection;
-private var meId:int;
+private var myId:int;
 
-public function InboxChatSegment(meId:int){ this.meId = meId; }
+public function InboxChatSegment(myId:int){ this.myId = myId; }
 public function setData(sfsData:ISFSArray, thread:InboxThread):void 
 {
 	this.sfsData = sfsData;
@@ -50,41 +51,17 @@ override protected function showElements() : void
 {
 	super.showElements();
 	chatLayout.gap = -10;
-	chatList.itemRendererFactory = function ():IListItemRenderer { return new InboxChatItemRenderer(meId)};
+	chatList.itemRendererFactory = function ():IListItemRenderer { return new InboxChatItemRenderer(myId)};
 	chatList.dataProvider = threadCollection;
 	//manager.addEventListener(Event.UPDATE, manager_updateHandler);
-}
-
-override protected function chatList_changeHandler(event:Event) : void
-{
-	if( chatList.selectedItem == null )
-		return;
-	trace("chatList_changeHandler");
-
-	/*var msgPack:ISFSObject = chatList.selectedItem as SFSObject;
-	if( msgPack.getShort("m") == MessageTypes.M30_FRIENDLY_BATTLE  )
-	{
-		var myBattleId:int = manager.getMyRequestBattleId();
-		if( myBattleId > -1 && msgPack.getInt("bid") != myBattleId )
-			return;
-		
-		if( msgPack.getShort("st") > 1 )
-			return;
-		
-		var params:SFSObject = new SFSObject();
-		params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
-		params.putInt("bid", msgPack.getInt("bid"));
-		params.putShort("st", msgPack.getShort("st"));
-		SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
-	}*/
 }
 
 override protected function chatList_focusInHandler(event:Event):void
 {
     if( !_buttonsEnabled )
         return;
-	trace("chatList_focusInHandler");/*
-	var selectedItem:LobbyChatItemRenderer = event.data as LobbyChatItemRenderer;
+	trace("chatList_focusInHandler");
+	/*var selectedItem:LobbyChatItemRenderer = event.data as LobbyChatItemRenderer;
 	if( selectedItem == null )
 		return;
 	
@@ -160,7 +137,7 @@ override protected function buttonsPopup_selectHandler(event:Event):void
 
 override protected function chatButton_triggeredHandler(event:Event):void
 {
-    super.chatButton_triggeredHandler(event);
+	super.chatButton_triggeredHandler(event);
 	preText = "";
 }
 
@@ -169,23 +146,49 @@ override protected function sendButton_triggeredHandler(event:Event):void
 	if( chatTextInput.text == "" )
 		return;
 	trace(chatTextInput.text);
-	/*if( areUVerbose() )
+	if( checkVerbos() )
 	{
 		appModel.navigator.addLog(loc("lobby_message_limit"));
 		return;
 	}
+	
 	var params:SFSObject = new SFSObject();
-	params.putUtfString("t", preText + StrUtils.getSimpleString(chatTextInput.text));
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+	params.putShort("type", 0);
+	params.putInt("senderId", myId);
+    params.putUtfString("text", preText + StrUtils.getSimpleString(chatTextInput.text));
+	params.putIntArray("receiverIds", [thread.ownerId]);
+	//params.putText("data", dataInput.text );
+	//params.putBool("isPush", isPushSwitcher.value == 1 );
+	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsInstance_extensionResponseHandler);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.INBOX_BROADCAST, params);
 	chatTextInput.text = preText = "";
+	
+	// temp message
+    params.putLong("timestamp", new Date().time);
+	threadCollection.addItem(params);
 }
 
-private function areUVerbose():Boolean 
+private function sfsInstance_extensionResponseHandler(event:SFSEvent) : void 
 {
-	var last:ISFSObject = manager.messages.getItemAt(manager.messages.length - 1) as SFSObject;
-	if ( last != null && last.getInt("i") == player.id && last.containsKey("t") )
-		return (last.getText("t").split("\n").length > 5 );
-	return false;*/
+	if( event.params.cmd != SFSCommands.INBOX_BROADCAST )
+		return;
+	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsInstance_extensionResponseHandler);
+	threadCollection.getItemAt(threadCollection.length - 1).putInt("status", 0);
+	setTimeout(threadCollection.updateItemAt, 500, threadCollection.length - 1);
+}
+
+private function checkVerbos() : Boolean 
+{
+	var myMessages:int = 0;
+	for( var i:int = threadCollection.length - 1; i >= 0; i-- )
+	{
+		if( threadCollection.getItemAt(i).getInt("senderId") != myId )
+			continue;
+		myMessages ++;
+		if ( myMessages >= 3 )
+			return true;
+	}
+	return false;
 }
 
 /*override public function dispose():void
