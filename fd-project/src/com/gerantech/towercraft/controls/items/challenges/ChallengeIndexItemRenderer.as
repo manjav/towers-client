@@ -41,7 +41,7 @@ private var rankButton:IconButton;
 public function ChallengeIndexItemRenderer() { super(); }
 override protected function initialize() : void
 {
-	height = 400;
+	height = 410;
 	super.initialize();
 	layout = new AnchorLayout();
 }
@@ -93,10 +93,10 @@ private function bannerFactory() : void
 		bannerDisplay = new ImageLoader();
 		bannerDisplay.touchable = false;
 		bannerDisplay.maintainAspectRatio = false;
-		bannerDisplay.layoutData = new AnchorLayoutData(150, 11, 110, 11);
+		bannerDisplay.layoutData = new AnchorLayoutData(150, 11, 60, 11);
 		addChild(bannerDisplay);
 	}
-	bannerDisplay.source = Assets.getTexture("events/dummy", "gui");
+	bannerDisplay.source = Assets.getTexture(locked ? "events/banner-locked" : "events/banner-default", "gui");
 }
 
 private function backgroundFactory() : void
@@ -164,7 +164,7 @@ protected function backgroundImage_triggerdHandler(event:Event) : void
 {
 	if( locked )
 	{
-		appModel.navigator.addLog("sdfsddv sdfsdfsf")
+		appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_" + (Challenge.getUnlockAt(challenge.type) + 1))]));
 		return;
 	}
 	_owner.dispatchEventWith(Event.TRIGGERED, false, chIndex);

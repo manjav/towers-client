@@ -27,6 +27,7 @@ import com.gt.towers.socials.Challenge;
 import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.Button;
 import feathers.controls.List;
+import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
@@ -66,6 +67,7 @@ override public function init():void
 	var eventsButton:List = new List();
 	eventsButton.layout = listLayout;
 	eventsButton.name = "eventsButton";
+	eventsButton.horizontalScrollPolicy = eventsButton.verticalScrollPolicy = ScrollPolicy.OFF;
 	eventsButton.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
 	eventsButton.addEventListener(Event.TRIGGERED, mainButtons_triggeredHandler);
 	eventsButton.dataProvider = new ListCollection([player.getSelectedChallenge()]);
@@ -82,8 +84,8 @@ override public function init():void
 	addButton(leaguesButton, "leaguesButton", 100, 500, 0.5, 0.4);
 	
 	// battle and operations button
-	var rightBattleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, 260, new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
-	addButton(rightBattleButton, "rightButton", stageWidth * 0.5, stageHeight * (player.get_battleswins()<4?0.50:0.60), 0.6);
+	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, 260, new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
+	addButton(battleButton, "rightButton", stageWidth * 0.5, stageHeight * (player.get_battleswins() < 4?0.50:0.60), 0.6);
 	
 	// bookline
 	var bookLine:HomeBooksLine = new HomeBooksLine();
@@ -258,7 +260,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	var buttonName:String = DisplayObject(event.currentTarget).name;
 	switch( buttonName )
 	{
-		case "eventsButton":	appModel.navigator.pushScreen( Game.CHALLENGES_SCREEN );					return;
+		case "eventsButton":	appModel.navigator.pushScreen( Game.CHALLENGES_SCREEN );				return;
 		case "leftButton":		appModel.navigator.runBattle(FieldData.TYPE_TOUCHDOWN);					return;
 		case "rightButton":		appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 	}

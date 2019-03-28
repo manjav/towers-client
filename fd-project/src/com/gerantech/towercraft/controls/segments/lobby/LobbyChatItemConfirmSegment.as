@@ -26,9 +26,9 @@ override public function init():void
 	height = 220;
 	
 	var background:ImageLoader = new ImageLoader();
-	background.source = appModel.theme.popupBackgroundSkinTexture;
+	background.source = appModel.theme.popupSimpleBackgroundSkinTexture;
 	background.layoutData = new AnchorLayoutData( 0, padding*0.5, 0, padding*0.5);
-	background.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
+	background.scale9Grid = MainTheme.POPUP_SIMPLE_SCALE9_GRID;
 	addChild(background);
 	
 	acceptButton = new CustomButton();

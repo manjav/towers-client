@@ -41,8 +41,8 @@ override protected function initialize():void
 		rejustLayoutByTransitionData();
 	}
 
-	var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
-	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
+	var skin:ImageSkin = new ImageSkin(appModel.theme.popupSimpleBackgroundSkinTexture);
+	skin.scale9Grid = MainTheme.POPUP_SIMPLE_SCALE9_GRID;
 	backgroundSkin = skin;
 	layout = new AnchorLayout();
 }

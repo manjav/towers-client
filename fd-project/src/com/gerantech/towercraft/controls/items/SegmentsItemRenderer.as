@@ -1,10 +1,10 @@
 package com.gerantech.towercraft.controls.items
 {
-import com.gerantech.towercraft.controls.screens.InboxScreen;
 import com.gerantech.towercraft.controls.segments.BuddiesSegment;
 import com.gerantech.towercraft.controls.segments.CardsSegment;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.segments.HomeSegment;
+import com.gerantech.towercraft.controls.segments.InboxSegment;
 import com.gerantech.towercraft.controls.segments.LobbyBaseChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyChatSegment;
 import com.gerantech.towercraft.controls.segments.LobbyCreateSegment;
@@ -66,10 +66,10 @@ override protected function commitData():void
 		case SegmentType.S3_SOCIALS:
 			segment = new SocialSegment();
 			break;
-/*		case SegmentType.S4_EVENTS:
-			segment = new InboxScreen();
+		case SegmentType.S4_INBOX:
+			segment = new InboxSegment();
 			break;
-*/		case SegmentType.S10_LOBBY_MAIN:
+		case SegmentType.S10_LOBBY_MAIN:
 			segment = new LobbyChatSegment();
 			break;
 		case SegmentType.S11_LOBBY_SEARCH:

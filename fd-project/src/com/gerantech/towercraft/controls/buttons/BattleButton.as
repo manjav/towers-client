@@ -55,8 +55,19 @@ override protected function initialize() : void
 
 	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.5);
 	//labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -40);
 	addChild(labelDisplay);
+	
+	var costBGDisplay:ImageLoader = new ImageLoader();
+	costBGDisplay.height = 80
+	costBGDisplay.source = Assets.getTexture("home/button-battle-footer", "gui");
+	costBGDisplay.scale9Grid = new Rectangle(29, 42, 2, 1);
+	costBGDisplay.layoutData = new AnchorLayoutData(NaN, 100, 18, 100);
+	addChild(costBGDisplay);
+	
+	
+	
+	
 }
 
 /**
