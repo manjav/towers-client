@@ -2,10 +2,12 @@ package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
+import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBalloonTextSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBattleSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemCommentSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemConfirmSegment;
-import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemMessageSegment;
+import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBalloonEmoteSegment;
+import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBalloonSegment;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -22,12 +24,14 @@ protected static const TYPE_COMMENT:int = 10;
 protected static const TYPE_DONATE:int = 20;
 protected static const TYPE_BATTLE:int = 30;
 protected static const TYPE_CONFIRM:int = 40;
+protected static const TYPE_EMOTE:int = 51;
 	
 private var type:int;
-private var messageSegment:LobbyChatItemMessageSegment;
+private var messageSegment:LobbyChatItemBalloonSegment;
 private var commentSegment:LobbyChatItemCommentSegment;
 private var confirmSegment:LobbyChatItemConfirmSegment;
 private var battleSegment:LobbyChatItemBattleSegment;
+private var emoteSegment:LobbyChatItemBalloonEmoteSegment;
 private var segment:LobbyChatItemSegment;
 private var fitLayoutData:AnchorLayoutData;
 
@@ -49,6 +53,7 @@ override protected function initialize():void
 private function item_triggeredHandler(event:Event):void
 {
 	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
+	segment.dispatchEventWith(Event.TRIGGERED, false, this);
 }
 
 override protected function commitData():void
@@ -95,9 +100,10 @@ private function createSegment(type:int) : LobbyChatItemSegment
 		return segment;
 	switch( type )
 	{
-		case TYPE_MESSAGE:	segment = messageSegment	= new LobbyChatItemMessageSegment(owner as FastList);	break;
+		case TYPE_MESSAGE:	segment = messageSegment	= new LobbyChatItemBalloonTextSegment(owner as FastList);	break;
 		case TYPE_COMMENT:	segment = commentSegment	= new LobbyChatItemCommentSegment(owner as FastList);	break;
 		case TYPE_BATTLE:	segment = battleSegment		= new LobbyChatItemBattleSegment( owner as FastList); 	break;
+		case TYPE_EMOTE:	segment = emoteSegment		= new LobbyChatItemBalloonEmoteSegment( owner as FastList); 	break;
 		case TYPE_CONFIRM:	segment = confirmSegment	= new LobbyChatItemConfirmSegment(owner as FastList); 
 			segment.addEventListener(Event.TRIGGERED, confirmSegment_triggeredHandler);
 			break;

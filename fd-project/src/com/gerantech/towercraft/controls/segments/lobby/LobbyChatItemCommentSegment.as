@@ -14,7 +14,7 @@ public function LobbyChatItemCommentSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
-	height = padding * 1.7;
+	height = 50;
 	labelDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.65); 
 	labelDisplay.layoutData = new AnchorLayoutData( NaN, padding, NaN, padding, NaN, 0);
 	addChild(labelDisplay);

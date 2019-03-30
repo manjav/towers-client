@@ -49,6 +49,7 @@ protected function showElements() : void
 	footerSize = 120;
 	
 	chatLayout = new VerticalLayout();
+	chatLayout.gap = padding * 2;
 	chatLayout.paddingTop = padding * 2;
     chatLayout.paddingBottom = footerSize + padding * 2;
 	chatLayout.hasVariableItemDimensions = true;

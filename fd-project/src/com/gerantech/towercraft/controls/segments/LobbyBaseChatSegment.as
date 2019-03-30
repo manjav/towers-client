@@ -20,7 +20,7 @@ import starling.events.Event;
 public class LobbyBaseChatSegment extends ChatSegment
 {
 private var preText:String = "";
-public function LobbyBaseChatSegment(){}
+public function LobbyBaseChatSegment(){ super(); }
 public function get manager():LobbyManager
 {
 	if( SFSConnection.instance.publicLobbyManager == null )

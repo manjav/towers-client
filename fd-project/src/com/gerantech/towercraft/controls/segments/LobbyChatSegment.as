@@ -23,8 +23,7 @@ private var startScrollBarIndicator:Number = 0;
 private var battleButton:CustomButton;
 private var header:LobbyHeader;
 
-public function LobbyChatSegment(){}
-
+public function LobbyChatSegment(){ super(); }
 override public function get manager():LobbyManager
 {
 	return SFSConnection.instance.lobbyManager;
