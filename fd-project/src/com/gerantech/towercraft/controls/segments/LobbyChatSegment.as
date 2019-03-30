@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
@@ -9,19 +8,22 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.Button;
 import feathers.layout.AnchorLayoutData;
 import flash.utils.setTimeout;
+import starling.display.Image;
 import starling.events.Event;
 
 public class LobbyChatSegment extends LobbyBaseChatSegment
 {
 private var headerSize:int;
-private var startScrollBarIndicator:Number = 0;
-private var battleButton:CustomButton;
+private var battleButton:Button;
 private var header:LobbyHeader;
+private var startScrollBarIndicator:Number = 0;
 
 public function LobbyChatSegment(){ super(); }
 override public function get manager():LobbyManager
@@ -50,11 +52,10 @@ override protected function showElements():void
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
-	battleButton = new CustomButton();
-	battleButton.style = "danger";
+	battleButton = new Button();
+	battleButton.styleName = MainTheme.STYLE_SMALL_HILIGHT_BUTTON;
 	battleButton.width = battleButton.height = footerSize;
-	battleButton.icon = Assets.getTexture("home/tab-2");
-	battleButton.iconLayout = new AnchorLayoutData(-padding, -padding, -padding, -padding);
+	battleButton.defaultIcon = new Image(Assets.getTexture("socials/icon-battle", "gui"));
     battleButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);

@@ -1,17 +1,17 @@
 package com.gerantech.towercraft.controls.segments 
 {
 import com.gerantech.towercraft.controls.FastList;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
-import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemBalloonEmoteSegment;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingFactory;
+import feathers.controls.Button;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
@@ -27,6 +27,7 @@ import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.display.DisplayObject;
+import starling.display.Image;
 import starling.events.Event;
 /**
 * ...
@@ -40,9 +41,9 @@ static public var factory:StarlingFactory;
 protected var padding:int;
 protected var footerSize:int;
 protected var chatList:FastList;
+protected var chatEnableButton:Button;
 protected var chatLayout:VerticalLayout;
 protected var chatTextInput:CustomTextInput;
-protected var chatEnableButton:CustomButton;
 protected var _buttonsEnabled:Boolean = true;
 protected var _chatEnabled:Boolean = false;
 protected var autoScroll:Boolean = true;
@@ -98,10 +99,10 @@ protected function showElements() : void
     chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
     chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
-    chatEnableButton = new CustomButton();
+    chatEnableButton = new Button();
+	chatEnableButton.styleName = MainTheme.STYLE_SMALL_NEUTRAL_BUTTON;
     chatEnableButton.width = chatEnableButton.height = footerSize;
-    chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right");
-    chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+    chatEnableButton.defaultIcon = new Image(Assets.getTexture("socials/icon-text", "gui"));
     chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
     addChild(chatEnableButton);

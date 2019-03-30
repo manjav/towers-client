@@ -4,22 +4,29 @@ import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
+import com.gerantech.towercraft.controls.toasts.EmoteToast;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.Button;
 import feathers.layout.AnchorLayout;
+import feathers.layout.AnchorLayoutData;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 
 public class LobbyBaseChatSegment extends ChatSegment
 {
 private var preText:String = "";
+protected var emotesButton:Button;
 public function LobbyBaseChatSegment(){ super(); }
 public function get manager():LobbyManager
 {
@@ -67,6 +74,14 @@ protected function manager_readyHandler(event:Event) : void
 override protected function showElements() : void
 {
 	super.showElements();
+	
+    emotesButton = new Button();
+	emotesButton.styleName = MainTheme.STYLE_SMALL_NEUTRAL_BUTTON;
+    emotesButton.width = emotesButton.height = footerSize;
+    emotesButton.defaultIcon = new Image(Assets.getTexture("socials/icon-emote", "gui"));
+    emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding * 2, NaN);
+    emotesButton.addEventListener(Event.TRIGGERED, emotesButton_triggeredHandler);
+    addChild(emotesButton);
 	chatList.dataProvider = manager.messages;
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
@@ -175,6 +190,12 @@ override protected function chatButton_triggeredHandler(event:Event):void
 {
     super.chatButton_triggeredHandler(event);
 	preText = "";
+}
+
+protected function emotesButton_triggeredHandler(event:Event) : void 
+{
+	scrollToEnd();
+	appModel.navigator.addToast(new EmoteToast());
 }
 
 override protected function sendButton_triggeredHandler(event:Event):void

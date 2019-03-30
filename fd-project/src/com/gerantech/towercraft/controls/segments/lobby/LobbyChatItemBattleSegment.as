@@ -23,7 +23,7 @@ override public function init():void
 
 	height = 220;
 	var background:ImageLoader = new ImageLoader();
-	background.source = Assets.getTexture("lobby-balloon", "gui");
+	background.source = Assets.getTexture("socials/balloon", "gui");
 	background.scale9Grid = BALLOON_RECT;
 	background.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(background);

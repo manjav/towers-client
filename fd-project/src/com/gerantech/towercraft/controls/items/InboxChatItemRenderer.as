@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.controls.items.lobby
+package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.segments.lobby.LobbyChatItemSegment;
@@ -51,14 +51,14 @@ override protected function initialize():void
 	mySkin.visible = false;
 	mySkin.layoutData = mySkinLayout;
 	mySkin.scale9Grid = LobbyChatItemSegment.BALLOON_RECT;
-	mySkin.source = Assets.getTexture("lobby-balloon-me", "gui");
+	mySkin.source = Assets.getTexture("socials/balloon-me", "gui");
 	addChild(mySkin);
 	
 	whoSkin = new ImageLoader();
 	whoSkin.visible = false;
 	whoSkin.layoutData = whoSkinLayout;
 	whoSkin.scale9Grid = LobbyChatItemSegment.BALLOON_RECT;
-	whoSkin.source = Assets.getTexture("lobby-balloon-who", "gui");
+	whoSkin.source = Assets.getTexture("socials/balloon-who", "gui");
 	addChild(whoSkin);
 	
 	statusLayout = new AnchorLayoutData(NaN, NaN, 35);
@@ -95,7 +95,7 @@ override protected function commitData():void
 	if( statusDisplay.visible )
 	{
 		statusLayout.left =	( itsMe ? mySkinLayout.left  : whoSkinLayout.left  ) + 40;
-		statusDisplay.source = Assets.getTexture("check-blue-" + _data.getInt("status"), "gui");
+		statusDisplay.source = Assets.getTexture("socials/check-blue-" + _data.getInt("status"), "gui");
 	}
 
 	textLayout.right =	( itsMe ? mySkinLayout.right : whoSkinLayout.right ) + 50;

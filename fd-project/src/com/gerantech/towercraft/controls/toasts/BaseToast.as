@@ -10,8 +10,11 @@ import starling.display.DisplayObject;
 
 public class BaseToast extends AbstractPopup
 {
+static public const ANIMATION_MODE_TOP:int = 0;
+static public const ANIMATION_MODE_BOTTOM:int = 1;
 public var closeAfter:int = -1;
 protected var toastHeight:int = 220;
+protected var animationMode:int = 0;
 public function BaseToast(){}
 override protected function initialize():void
 {
@@ -19,8 +22,8 @@ override protected function initialize():void
 	{
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
-		transitionIn.sourceBound = new Rectangle(0, -toastHeight, stage.stageWidth, toastHeight);
-		transitionIn.destinationBound = new Rectangle(0, 0, stage.stageWidth, toastHeight);
+		transitionIn.sourceBound = new Rectangle(0, animationMode == ANIMATION_MODE_TOP ? -toastHeight : stageHeight, stageWidth, toastHeight);
+		transitionIn.destinationBound = new Rectangle(0, stageHeight - toastHeight, stageWidth, toastHeight);
 	}
 	if( transitionOut == null )
 	{

@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.segments 
 {
-import com.gerantech.towercraft.controls.items.lobby.InboxChatItemRenderer;
+import com.gerantech.towercraft.controls.items.InboxChatItemRenderer;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;

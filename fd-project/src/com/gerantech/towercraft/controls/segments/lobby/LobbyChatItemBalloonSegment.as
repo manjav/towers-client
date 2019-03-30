@@ -41,14 +41,14 @@ override public function init():void
 	mySkin.visible = false;
 	mySkin.layoutData = mySkinLayout;
 	mySkin.scale9Grid = LobbyChatItemSegment.BALLOON_RECT;
-	mySkin.source = Assets.getTexture("lobby-balloon-me", "gui");
+	mySkin.source = Assets.getTexture("socials/balloon-me", "gui");
 	addChild(mySkin);
 	
 	whoSkin = new ImageLoader();
 	whoSkin.scale9Grid = LobbyChatItemSegment.BALLOON_RECT;
 	whoSkin.visible = false;
 	whoSkin.layoutData = whoSkinLayout;
-	whoSkin.source = Assets.getTexture("lobby-balloon-who", "gui");
+	whoSkin.source = Assets.getTexture("socials/balloon-who", "gui");
 	addChild(whoSkin);
 	
 	senderDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
