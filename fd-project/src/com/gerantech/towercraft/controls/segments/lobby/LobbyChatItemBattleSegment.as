@@ -9,6 +9,7 @@ import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
+import starling.display.Image;
 
 public class LobbyChatItemBattleSegment extends LobbyChatItemSegment
 {
@@ -22,17 +23,15 @@ override public function init():void
 	super.init();
 
 	height = 220;
-	var background:ImageLoader = new ImageLoader();
-	background.source = Assets.getTexture("socials/balloon", "gui");
-	background.scale9Grid = BALLOON_RECT;
-	background.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(background);
+	var background:Image = new Image(Assets.getTexture("socials/balloon", "gui"));
+	background.scale9Grid = LobbyChatItemSegment.BALLOON_RECT;
+	backgroundSkin = background;
 	
 	actionButton = new Button();
 	actionButton.width = 240;
 	actionButton.height = 120;
 	actionButton.styleName = MainTheme.STYLE_SMALL_DANGER_BUTTON;
-	actionButton.layoutData = new AnchorLayoutData(NaN, padding * 4, NaN, NaN, NaN, 0);
+	actionButton.layoutData = new AnchorLayoutData(NaN, padding * 3.5, NaN, NaN, NaN, 0);
 	addChild(actionButton);
 	
 	messageDisplay = new RTLLabel("", 0, "center", null, false, null, 0.8);

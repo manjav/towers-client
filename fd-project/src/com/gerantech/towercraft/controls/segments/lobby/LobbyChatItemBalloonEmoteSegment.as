@@ -19,7 +19,7 @@ public function LobbyChatItemBalloonEmoteSegment(owner:FastList) { super(owner);
 override public function init():void
 {
 	super.init();
-	height = 300;
+	height = 280;
 	whoSkinLayout.right = mySkinLayout.left = 600;
 
 	emoteArmature = ChatSegment.factory.buildArmatureDisplay("emote");

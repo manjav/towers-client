@@ -803,7 +803,7 @@ protected function initializeStyleProviders():void
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NORMAL_BUTTON, this.setSmallNormalButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_DANGER_BUTTON, this.setSmallDangerButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_HILIGHT_BUTTON, this.setSmallHilightButtonStyles);
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NEUTRAL_BUTTON, this.setNeutralButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NEUTRAL_BUTTON, this.setSmallNeutralButtonStyles);
 
 	//button group
 	this.getStyleProviderForClass(ButtonGroup).defaultStyleFunction = this.setButtonGroupStyles;

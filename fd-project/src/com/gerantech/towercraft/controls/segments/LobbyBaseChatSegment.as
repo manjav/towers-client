@@ -83,36 +83,6 @@ override protected function showElements() : void
     emotesButton.addEventListener(Event.TRIGGERED, emotesButton_triggeredHandler);
     addChild(emotesButton);
 	
-	var params:SFSObject = new SFSObject();
-	params.putInt("i", 12179);
-	params.putInt("e", 0);
-	params.putUtfString("s", "sdfsdf");
-	params.putShort("m", MessageTypes.M51_EMOTE);
-	manager.messages.addItem(params);
-	params = new SFSObject();
-	params.putInt("i", 10004);
-	params.putInt("e", 1);
-	params.putUtfString("s", "ManJav");
-	params.putShort("m", MessageTypes.M51_EMOTE);
-	manager.messages.addItem(params);
-	params = new SFSObject();
-	params.putInt("i", 12179);
-	params.putInt("e", 2);
-	params.putUtfString("s", "ManJav");
-	params.putShort("m", MessageTypes.M51_EMOTE);
-	manager.messages.addItem(params);
-	params = new SFSObject();
-	params.putInt("i", 10004);
-	params.putInt("e", 3);
-	params.putUtfString("s", "ManJav");
-	params.putShort("m", MessageTypes.M51_EMOTE);
-	manager.messages.addItem(params);
-	params = new SFSObject();
-	params.putInt("i", 12179);
-	params.putInt("e", 4);
-	params.putUtfString("s", "ManJav");
-	params.putShort("m", MessageTypes.M51_EMOTE);
-	manager.messages.addItem(params);
 	chatList.dataProvider = manager.messages;
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
@@ -226,7 +196,19 @@ override protected function chatButton_triggeredHandler(event:Event):void
 protected function emotesButton_triggeredHandler(event:Event) : void 
 {
 	scrollToEnd();
-	appModel.navigator.addToast(new EmoteToast());
+	var emoteToast:EmoteToast = new EmoteToast();
+	emoteToast.addEventListener(Event.CHANGE, emoteToast_changeHandler);
+	appModel.navigator.addToast(emoteToast);
+}
+protected function emoteToast_changeHandler(event:Event) : void 
+{
+	var emote:SFSObject = new SFSObject();
+	emote.putShort("m", MessageTypes.M51_EMOTE);
+	emote.putInt("e", event.data as int);
+	emote.putInt("i", player.id);
+	emote.putUtfString("s", player.nickName);
+	manager.messages.addItem(emote);
+	scrollToEnd();
 }
 
 override protected function sendButton_triggeredHandler(event:Event):void
