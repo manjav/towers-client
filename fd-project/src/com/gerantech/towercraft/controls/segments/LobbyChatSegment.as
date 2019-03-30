@@ -31,6 +31,9 @@ override public function get manager():LobbyManager
 
 override protected function loadData():void
 {
+	if( !initializeStarted || ChatSegment.factory == null )
+		return;
+	
 	if( manager.isReady )
 		showElements();
 	else

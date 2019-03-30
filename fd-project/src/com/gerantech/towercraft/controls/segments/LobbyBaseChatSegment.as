@@ -28,6 +28,12 @@ public function get manager():LobbyManager
 	return SFSConnection.instance.publicLobbyManager;
 }
 
+override protected function animation_loadCallback():void
+{
+	super.animation_loadCallback();
+	loadData();
+}
+
 override public function init():void
 {
 	if( initializeStarted )
@@ -40,7 +46,7 @@ override public function init():void
 
 protected function loadData():void
 {
-	if( manager == null || initializeCompleted )
+	if( manager == null || !initializeStarted || initializeCompleted || ChatSegment.factory == null )
 		return;
 	
 	if( manager.isReady )
