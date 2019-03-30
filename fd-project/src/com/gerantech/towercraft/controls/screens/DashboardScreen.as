@@ -141,6 +141,7 @@ protected function addedToStageHandler(event:Event):void
 	tabSelection = new ImageLoader();
 	tabSelection.touchable = false;
 	tabSelection.source = Assets.getTexture("home/dash-selection");
+	tabSelection.height = footerSize + 20;
 	tabSelection.width = tabSize * 1.2;
 	tabSelection.scale9Grid = new Rectangle(14, 0, 10, 32);
 	//tabSelection.height = footerSize;
