@@ -82,6 +82,37 @@ override protected function showElements() : void
     emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding * 2, NaN);
     emotesButton.addEventListener(Event.TRIGGERED, emotesButton_triggeredHandler);
     addChild(emotesButton);
+	
+	var params:SFSObject = new SFSObject();
+	params.putInt("i", 12179);
+	params.putInt("e", 0);
+	params.putUtfString("s", "sdfsdf");
+	params.putShort("m", MessageTypes.M51_EMOTE);
+	manager.messages.addItem(params);
+	params = new SFSObject();
+	params.putInt("i", 10004);
+	params.putInt("e", 1);
+	params.putUtfString("s", "ManJav");
+	params.putShort("m", MessageTypes.M51_EMOTE);
+	manager.messages.addItem(params);
+	params = new SFSObject();
+	params.putInt("i", 12179);
+	params.putInt("e", 2);
+	params.putUtfString("s", "ManJav");
+	params.putShort("m", MessageTypes.M51_EMOTE);
+	manager.messages.addItem(params);
+	params = new SFSObject();
+	params.putInt("i", 10004);
+	params.putInt("e", 3);
+	params.putUtfString("s", "ManJav");
+	params.putShort("m", MessageTypes.M51_EMOTE);
+	manager.messages.addItem(params);
+	params = new SFSObject();
+	params.putInt("i", 12179);
+	params.putInt("e", 4);
+	params.putUtfString("s", "ManJav");
+	params.putShort("m", MessageTypes.M51_EMOTE);
+	manager.messages.addItem(params);
 	chatList.dataProvider = manager.messages;
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
