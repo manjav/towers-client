@@ -1,22 +1,11 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeIndexItemRenderer;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.themes.MainTheme;
-import feathers.controls.Button;
-import feathers.controls.ImageLoader;
-import feathers.controls.List;
-import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
-import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalAlign;
-import feathers.layout.VerticalLayout;
-import starling.display.Image;
+import starling.core.Starling;
 import starling.events.Event;
 
 public class ChallengesScreen extends ListScreen
@@ -54,6 +43,9 @@ override protected function initialize():void
 	list.layoutData = new AnchorLayoutData(0, 0, headerSize, 0);
 	list.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
 	list.addEventListener(Event.TRIGGERED, list_triggeredHandler);
+	
+	closeButton.alpha = 0;
+	Starling.juggler.tween(closeButton, 0.3, {delay:0.4, alpha:1});
 }
 
 protected function list_triggeredHandler(event:Event) : void 

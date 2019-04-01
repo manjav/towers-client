@@ -13,6 +13,7 @@ import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.core.Starling;
 import starling.events.Event;
 
 /**
@@ -61,6 +62,9 @@ override protected function commitData() : void
 	rankingFactory();
 	titleFactory();
 	messageFactory();
+	
+	alpha = 0;
+	Starling.juggler.tween(this, 0.25, {delay:Math.log(index + 1) * 0.2, alpha:1});
 }
 
 private function infoFactory() : void
@@ -70,7 +74,7 @@ private function infoFactory() : void
 	infoButton = new IconButton(Assets.getTexture("events/info"), 0.6, Assets.getTexture("events/badge"));
 	infoButton.width = 96;
 	infoButton.height = 103;
-	infoButton.layoutData = new AnchorLayoutData( -24, appModel.isLTR? -24 : NaN, NaN, appModel.isLTR? NaN : -24);
+	infoButton.layoutData = new AnchorLayoutData(-24, appModel.isLTR? -24 : NaN, NaN, appModel.isLTR? NaN : -24);
 	infoButton.addEventListener(Event.TRIGGERED, infoButton_triggeredHandler);
 	addChild(infoButton);
 }
