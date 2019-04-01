@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.controls.groups.TabsHeader;
+import com.gerantech.towercraft.controls.headers.TabsHeader;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;

@@ -257,7 +257,6 @@ public function set paddingTextLeft(value:Number):void
 
 override protected function draw() : void
 {
-	
 	if( this.isInvalid(INVALIDATION_FLAG_TEXT_RENDERER) )
 	{
 		labelTextRenderer = textRenderFactory();

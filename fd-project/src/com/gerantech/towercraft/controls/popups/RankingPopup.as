@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.FastList;
-import com.gerantech.towercraft.controls.groups.TabsHeader;
+import com.gerantech.towercraft.controls.headers.TabsHeader;
 import com.gerantech.towercraft.controls.items.RankItemRenderer;
 import com.gerantech.towercraft.controls.items.lobby.LobbyItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;

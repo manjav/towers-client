@@ -4,7 +4,7 @@ import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
-import com.gerantech.towercraft.controls.groups.TabsHeader;
+import com.gerantech.towercraft.controls.headers.TabsHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.lobby.LobbyMemberItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
