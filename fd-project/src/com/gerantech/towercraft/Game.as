@@ -62,7 +62,7 @@ override protected function initialize():void
 	addScreen(SEARCH_CHAT_SCREEN,SearchChatScreen);
 	AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 }		
-private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = true, hasPopTranstion:Boolean = true):void
+private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = false, hasPopTranstion:Boolean = false):void
 {
 	var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
 	if( hasPushTranstion )
