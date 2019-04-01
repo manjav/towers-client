@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Game;
-import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
@@ -75,18 +74,6 @@ protected function addedToStageHandler(event:Event):void
 	autoSizeMode = AutoSizeMode.STAGE;
 	layout = new AnchorLayout();
 	visible = false;	
-
-	// =-=-=-=-=-=-=-=-=-=-=-=- background -=-=-=-=-=-=-=-=-=-=-=-=
-	var tileBacground:TileBackground = new TileBackground("home/pistole-tile");
-	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(tileBacground);
-	
-	var shadow:ImageLoader = new ImageLoader();
-	shadow.source = Assets.getTexture("bg-shadow");
-	shadow.maintainAspectRatio = false
-	shadow.layoutData = new AnchorLayoutData( -10, -10, footerSize - 10, -10);
-	shadow.color = 0;
-	addChild(shadow);
 	
 	// =-=-=-=-=-=-=-=-=-=-=-=- page -=-=-=-=-=-=-=-=-=-=-=-=
 	var pageLayout:HorizontalLayout = new HorizontalLayout();

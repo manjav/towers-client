@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Game;
+import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.BattleButton;
 import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
@@ -60,6 +61,13 @@ override public function init():void
 	initializeCompleted = true;
 	layout = new AnchorLayout();
 	
+	
+	// =-=-=-=-=-=-=-=-=-=-=-=- background -=-=-=-=-=-=-=-=-=-=-=-=
+	var tileBacground:TileBackground = new TileBackground("home/pistole-tile", 0.3, true);
+	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	addChild(tileBacground);
+
+	// events button
 	ChallengeIndexItemRenderer.IN_HOME = true;
 	ChallengeIndexItemRenderer.ARENA = player.get_arena(0);
 	var listLayout:VerticalLayout = new VerticalLayout();
