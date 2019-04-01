@@ -38,7 +38,7 @@ public function TileBackground(image:String, movingSpeed:Number = 0.3, hasInnerS
 		shadowDisplay.source = Assets.getTexture("radial-gradient-shadow", "gui");
 		shadowDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		shadowDisplay.scale9Grid = new Rectangle(2, 2, 12, 12);
-		shadowDisplay.color = 0x000033;
+		shadowDisplay.color = 0x000022;
 		shadowDisplay.alpha = 0.6;
 		addChild(shadowDisplay);
 	}
