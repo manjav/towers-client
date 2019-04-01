@@ -127,6 +127,24 @@ private function createElements():void
 	cardsDisplay.dataProvider = new ListCollection(player.availabledCards(league.index, true)._list);
 	addChild(cardsDisplay);
 	
+	var leagueNumber:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_" + (league.index + 1)) , 0xDDEEFF, null, null, false, null, 0.9);
+	leagueNumber.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 1.8); 
+	leagueNumber.pixelSnapping = false;
+	header.addChild(leagueNumber);
+	
+	var leagueLabel:ShadowLabel = new ShadowLabel(loc("arena_title_" + league.index), 1, 0, null, null, false, null, 1.1);
+	leagueLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding * 0.4); 
+	header.addChild(leagueLabel);
+	
+	var leagueMeature:RTLLabel = new RTLLabel(StrUtils.getNumber(league.min - (league.min == 0?0:1)) + "+" , 0xDDEEFF, null, null, false, null, 1.2);
+	leagueMeature.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, padding); 
+	leagueMeature.pixelSnapping = false;
+	header.addChild(leagueMeature);
+
+	var unlocksDisplay:RTLLabel = new RTLLabel(loc("arena_chance_to"), 0xDDEEFF, null, null, true, null, 0.8);
+	unlocksDisplay.layoutData = new AnchorLayoutData(padding * 17, NaN, NaN, NaN, 0);
+	addChild(unlocksDisplay);
+	
 	if( visible )
 	{
 		header.width = 0;
