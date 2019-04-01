@@ -243,7 +243,7 @@ public function animateShadow(alphaSeed:Number, shadow:Image = null, color:uint 
 {
 	if( shadow == null )
 	{
-		var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
+		var shadow:Image = new Image(Assets.getTexture("radial-gradient-shadow"));
 		shadow.touchable = false;
 		shadow.width = stage.stageWidth;
 		shadow.height = stage.stageHeight;

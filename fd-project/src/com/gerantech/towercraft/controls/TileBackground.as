@@ -1,8 +1,12 @@
 package com.gerantech.towercraft.controls 
 {
+import com.gerantech.towercraft.controls.tooltips.GradientShadow;
 import com.gerantech.towercraft.models.Assets;
+import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
+import feathers.layout.AnchorLayout;
+import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.events.Event;
 import flash.geom.Point;
@@ -16,8 +20,9 @@ public class TileBackground extends TowersLayout
 {
 private var tiledBG:Image;
 private var movingSpeed:Number;
-public function TileBackground(image:String, movingSpeed:Number = 0.3) 
+public function TileBackground(image:String, movingSpeed:Number = 0.3, hasInnerShadow:Boolean = true) 
 {
+	layout = new AnchorLayout();
 	this.movingSpeed = movingSpeed;
 	tiledBG = new Image(Assets.getTexture(image, "gui"));
 	tiledBG.tileGrid = new Rectangle(0, 0, tiledBG.width, tiledBG.height);
@@ -25,7 +30,20 @@ public function TileBackground(image:String, movingSpeed:Number = 0.3)
 	tiledBG.pixelSnapping = false;
 	addChild(tiledBG);
 	
-	addEventListener(FeathersEventType.CREATION_COMPLETE, creationCompleteHandler);
+	if( movingSpeed != 0 )
+		addEventListener(FeathersEventType.CREATION_COMPLETE, creationCompleteHandler);
+	
+	if( hasInnerShadow )
+	{
+		var shadowDisplay:ImageLoader = new ImageLoader();
+		shadowDisplay.source = Assets.getTexture("radial-gradient-shadow", "gui");
+		//shadowDisplay.maintainAspectRatio = false;
+		shadowDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+		shadowDisplay.scale9Grid = new Rectangle(2, 2, 12, 12);
+		shadowDisplay.color = 0x000033;
+		shadowDisplay.alpha = 0.6;
+		addChild(shadowDisplay);
+	}
 }
 
 protected function creationCompleteHandler(e:Event):void 

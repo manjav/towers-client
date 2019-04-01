@@ -67,15 +67,9 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	var tileBacground:TileBackground = new TileBackground("home/pistole-tile");
+	var tileBacground:TileBackground = new TileBackground("home/pistole-tile", 0.3);
 	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChildAt(tileBacground, 0);;
-	
-	var shadow:Image = new Image(Assets.getTexture("bg-shadow"));
-	shadow.color = 0;
-	shadow.width = stage.stageWidth;
-	shadow.height = stage.stageHeight//-footerSize;
-	addChildAt(shadow, 0);
 	
 	FactionItemRenderer._height = 1480;
 	FactionItemRenderer.playerLeague = player.get_arena(0);
