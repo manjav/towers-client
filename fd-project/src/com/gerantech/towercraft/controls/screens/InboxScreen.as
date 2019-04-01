@@ -7,7 +7,7 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
 
-public class InboxScreen extends BaseFomalScreen
+public class InboxScreen extends SimpleScreen
 {
 public var myId:int;
 public var thread:InboxThread;
@@ -24,7 +24,7 @@ override protected function initialize():void
 	super.initialize();
 	
 	chatBox = new InboxChatSegment(myId);
-	chatBox.layoutData = new AnchorLayoutData(headerSize, 0, footer.height, 0);
+	chatBox.layoutData = new AnchorLayoutData(headerSize, 0, footerSize, 0);
 	addChild(chatBox);
 	if( sfsData != null )
 		chatBox.setData(sfsData.getSFSArray("data"), thread);

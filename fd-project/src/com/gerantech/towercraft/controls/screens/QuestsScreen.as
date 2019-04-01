@@ -59,10 +59,10 @@ private function showQuests(needsLoad:Boolean):void
 	for each( var q:Quest in player.quests )
 		q.current = Quest.getCurrent(player, q.type, q.key);
 	
-	header.labelLayout.verticalCenter = 40;
+	//header.labelLayout.verticalCenter = 40;
 	listLayout.paddingLeft = listLayout.paddingRight = 12;
 	listLayout.paddingTop = headerSize + 20;
-	list.layoutData = new AnchorLayoutData(0, 0, footer.height, 0);
+	list.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
