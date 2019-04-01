@@ -1,44 +1,61 @@
-package com.gerantech.towercraft.controls.screens
+package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.towercraft.Game;
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.SettingsItemRenderer;
-import com.gerantech.towercraft.controls.popups.IssueReportPopup;
-import com.gerantech.towercraft.controls.popups.LinkDevicePopup;
-import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.popups.SimpleListPopup;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.SoundManager;
-import com.gerantech.towercraft.managers.oauth.OAuthManager;
+import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
+import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-import flash.net.URLRequest;
 import flash.net.navigateToURL;
+import starling.animation.Transitions;
 import starling.events.Event;
+import flash.geom.Rectangle;
+import flash.net.URLRequest;
 
-public class SettingsScreen extends ListScreen
+public class SettingsPopup extends SimpleHeaderPopup
 {
-override protected function initialize():void
+private var list:FastList;
+public function SettingsPopup()
 {
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.transition = Transitions.EASE_IN;
+	transitionOut.destinationAlpha = transitionIn.sourceAlpha = 0;
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(60, 300, stageWidth - 120, stageHeight - 600);
+	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(60, 250, stageWidth - 120, stageHeight - 500);
 	title = loc("settings_page");
-	super.initialize();
+}
+
+override protected function showElements():void
+{
+	if( transitionState < TransitionData.STATE_IN_COMPLETED )
+		return;
 	
-	listLayout.gap = 0;	
+	super.showElements();
 	
-	list.verticalScrollPolicy = player.inTutorial() ? ScrollPolicy.OFF : ScrollPolicy.AUTO;
+	list = new FastList();
+	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+	list.layoutData = new AnchorLayoutData(160, 0, 0, 0);
 	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
 	list.dataProvider = getSettingsData();
 	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
+	addChild(list);
 	
-	var versionLabel:RTLLabel = new RTLLabel(appModel.descriptor.versionNumber + " for " + appModel.descriptor.market, 1, "left", "ltr", false, null, 0.8);
+	var versionLabel:RTLLabel = new RTLLabel("v. " + appModel.descriptor.versionNumber + " for " + appModel.descriptor.market + ", User: " + (player.id * 2) , 0.6, null, "ltr", false, null, 0.6);
+	versionLabel.layoutData = new AnchorLayoutData(NaN, 10,  10);
 	versionLabel.touchable = false;
-	versionLabel.layoutData = new AnchorLayoutData(NaN, headerSize * 0.06,  headerSize, headerSize * 0.06);
 	addChild(versionLabel);
 }
 
@@ -51,12 +68,12 @@ private function list_focusInHandler(event:Event):void
 		{
 			if( player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 			{
-			OAuthManager.instance.signout();
+				OAuthManager.instance.signout();
 				list.dataProvider.updateItemAt(settingData.index);
 				return;
 			}
-		OAuthManager.instance.addEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
-		OAuthManager.instance.signin();
+			OAuthManager.instance.addEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
+			OAuthManager.instance.signin();
 			return;
 		}
 		
@@ -112,9 +129,9 @@ private function showLocalePopup():void
 		if( UserData.instance.prefs.changeLocale(event.data as String) )
 		{
 			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, event.data as String);
-			header.label = title = loc("settings_page");
-			footer.label = loc("close_button");
+			titleDisplay.text = title = loc("settings_page");
 			list.dataProvider.updateAll();
+			appModel.navigator.rootScreenID = Game.DASHBOARD_SCREEN
 		}
 	}
 }
@@ -136,11 +153,11 @@ private function getSettingsData():ListCollection
 	source.push( new SettingsData(PrefsTypes.SETTINGS_1_MUSIC,			SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC)));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_2_SFX,			SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_2_SFX)));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_3_NOTIFICATION, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION)));
-	source.push( new SettingsData(PrefsTypes.SETTINGS_4_LOCALE, 		SettingsData.TYPE_BUTTON,           null));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_5_REMOVE_ADS, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS)));
-	
-	source.push( new SettingsData(SettingsData.RENAME,                  SettingsData.TYPE_BUTTON,           null));
 	source.push( new SettingsData(PrefsTypes.AUTH_41_GOOGLE,            SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE)));
+	
+	source.push( new SettingsData(PrefsTypes.SETTINGS_4_LOCALE, 		SettingsData.TYPE_BUTTON,           null));
+	source.push( new SettingsData(SettingsData.RENAME,                  SettingsData.TYPE_BUTTON,           null));
 	source.push( new SettingsData(SettingsData.LINK_DEVICE, 			SettingsData.TYPE_BUTTON,			null));
 	source.push( new SettingsData(SettingsData.LEGALS,	 				SettingsData.TYPE_BUTTON,			null));
 	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_LABEL_BUTTONS,	null));
