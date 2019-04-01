@@ -166,13 +166,9 @@ protected function waitGroupFactory() : LayoutGroup
 		
 		showOpenWarn();
 		
-		var timeLabel:ShadowLabel = new  ShadowLabel(loc("hour_label", [StrUtils.getNumber(ExchangeType.getCooldown(exchange.outcome) / 3600)]), 1, 0, null, null, false, null, 0.9);
+		var timeLabel:ShadowLabel = new ShadowLabel(loc("hour_label", [StrUtils.getNumber(ExchangeType.getCooldown(exchange.outcome) / 3600)]), 1, 0, null, null, false, null, 0.9);
 		timeLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.13);
 		waitGroup.addChild(timeLabel);
-		
-		var closedLabel:ShadowLabel = new  ShadowLabel(loc("lobby_pri_1"), 1, 0, null, null, false, null, 0.7);
-        closedLabel.layoutData = new AnchorLayoutData(20, NaN, NaN, NaN, 0);
-        waitGroup.addChild(closedLabel);
 	}
 	addChild(waitGroup);
 	return waitGroup;
@@ -192,7 +188,7 @@ private function showOpenWarn() : void
 	ribbonImage.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
 	waitGroup.addChild(ribbonImage);
 	
-	var openLabel:ShadowLabel = new  ShadowLabel(loc("tap_label"), 1, 0, "center", null, false, null, 0.65);
+	var openLabel:ShadowLabel = new ShadowLabel(loc("tap_label"), 1, 0, "center", null, false, null, 0.65);
 	openLabel.layoutData = new AnchorLayoutData(10, NaN, NaN, NaN, 0);
 	waitGroup.addChild(openLabel);
 

@@ -61,7 +61,8 @@ protected function sliderFactory() : Indicator
 	}
 		
 	var ind_17:Indicator = new Indicator("ltr", ResourceType.R17_STARS, true, false);
-	ind_17.layoutData = new AnchorLayoutData(50, 100, 50, 90);
+	ind_17.height = 54;
+	ind_17.layoutData = new AnchorLayoutData(NaN, 100, NaN, 90, NaN, 0);
 	ind_17.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 	{
 		return StrUtils.getNumber( maximum + " / " + Math.round(value) );

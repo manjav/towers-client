@@ -91,12 +91,12 @@ override protected function initialize() : void
 	addChild(settingsButton);
 }
 
-private function buttons_eventsHandler(event:Event):void 
+private function buttons_eventsHandler(event:Event) : void 
 {
 	switch(DisplayObject(event.currentTarget).name)
 	{
-	case "inboxButton":		appModel.navigator.pushScreen(Game.INBOX_SCREEN);		break;
 	case "settingsButton":	appModel.navigator.pushScreen(Game.SETTINGS_SCREEN);	break;
+	case "inboxButton":		appModel.navigator.pushScreen(Game.INBOX_SCREEN);	break;
 	}
 }
 }

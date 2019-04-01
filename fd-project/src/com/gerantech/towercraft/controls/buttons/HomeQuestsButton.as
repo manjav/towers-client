@@ -4,6 +4,8 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.others.Quest;
+import feathers.controls.ImageLoader;
+import feathers.layout.AnchorLayoutData;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 
@@ -48,10 +50,17 @@ override public function update() : void
 	updateQuests();
 	
 	iconFactory("tasks");
-	titleFactory(loc("button_quests"));
-	countdownFactory();
+	//titleFactory(loc("button_quests"));
+	//countdownFactory();
 }
-
+override protected function iconFactory(image:String) : ImageLoader 
+{
+	var _ret:ImageLoader = super.iconFactory(image);
+	if( _ret == null )
+		return null;
+	AnchorLayoutData(_ret.layoutData).left = 8;
+	return _ret;
+}
 override public function dispose() : void
 {
 	clearTimeout(timeoutId);

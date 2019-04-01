@@ -106,8 +106,8 @@ override protected function commitData():void
 	
 	var iconStr:String = QuestItemRenderer.getIcon(quest.type);
 	iconDisplay.source = Assets.getTexture(iconStr, "gui");
-	iconDisplay.height = iconStr.substr(0,9) == "home/tab-" ? 160 : 120;
-	iconDisplay.y = iconStr.substr(0,9) == "home/tab-" ? -PADDING * 3 : -PADDING;
+	iconDisplay.height = iconStr.substr(0,9) == "home/dash-tab-" ? 160 : 120;
+	iconDisplay.y = iconStr.substr(0,9) == "home/dash-tab-" ? -PADDING * 3 : -PADDING;
 	
 	if( quest.type == Quest.TYPE_7_CARD_COLLECT || quest.type == Quest.TYPE_8_CARD_UPGRADE )
 		titleDisplay.text = loc("quest_title_" + quest.type, [loc("card_title_" + quest.key), quest.target]);
@@ -186,15 +186,15 @@ static private function getIcon(type:int) : String
 {
 	switch( type )
 	{
-		case 0: return "res-1000";
 		case 1: return "arena-" + Math.min(8, AppModel.instance.game.player.get_arena(0) + 1);
+		case 0: return "res-1";
 		case 2:
 		case 3:
-		case 4: return "home/tab-2";
-		case 5: return "home/tab-3";
-		case 6: return "home/tab-4";
+		case 4: return "home/dash-tab-2";
+		case 5: return "home/dash-tab-3";
+		case 6: return "home/dash-tab-4";
 		case 7:
-		case 8: return "home/tab-1";
+		case 8: return "home/dash-tab-1";
 		case 9: return "books/56";
 	}
 	return "home/tasks";
