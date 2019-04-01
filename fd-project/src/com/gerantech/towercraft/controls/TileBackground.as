@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls 
 {
-import com.gerantech.towercraft.controls.tooltips.GradientShadow;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
@@ -37,7 +36,6 @@ public function TileBackground(image:String, movingSpeed:Number = 0.3, hasInnerS
 	{
 		var shadowDisplay:ImageLoader = new ImageLoader();
 		shadowDisplay.source = Assets.getTexture("radial-gradient-shadow", "gui");
-		//shadowDisplay.maintainAspectRatio = false;
 		shadowDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		shadowDisplay.scale9Grid = new Rectangle(2, 2, 12, 12);
 		shadowDisplay.color = 0x000033;
