@@ -186,8 +186,8 @@ static private function getIcon(type:int) : String
 {
 	switch( type )
 	{
-		case 1: return "arena-" + Math.min(8, AppModel.instance.game.player.get_arena(0) + 1);
 		case 0: return "res-1";
+		case 1: return "leagues/" + AppModel.instance.game.player.get_arena(0) + 1;
 		case 2:
 		case 3:
 		case 4: return "home/dash-tab-2";

@@ -2,7 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.headers.CloseFooter;
-import com.gerantech.towercraft.controls.items.FactionItemRenderer;
+import com.gerantech.towercraft.controls.items.LeagueItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
@@ -31,18 +31,15 @@ import feathers.layout.VerticalLayout;
 import starling.display.Image;
 import starling.events.Event;
 
-public class FactionsScreen extends BaseCustomScreen
+public class LeaguesScreen extends ListScreen
 {
 public static var factory:StarlingFactory;
 public static var dragonBonesData:DragonBonesData;
 private static var factoryCreateCallback:Function;
 private static var leaguesCollection:ListCollection;
 
-private var list:List;
-
-public function FactionsScreen()
+public function LeaguesScreen()
 {
-	super();
 	if( leaguesCollection == null )
 	{
 		leaguesCollection = new ListCollection();
@@ -54,46 +51,24 @@ public function FactionsScreen()
 			numLeagues --;
 		}
 	}
-	//createFactionsFactory(initialize);
+	title = "";
 }
-public static function createFactory():void
-{
-	factory = new StarlingFactory();
-	dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("factions_ske"));
-	factory.parseTextureAtlasData(AppModel.instance.assets.getObject("factions_tex"), AppModel.instance.assets.getTexture("factions_tex"));
-}
+
 override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	var tileBacground:TileBackground = new TileBackground("home/pistole-tile", 0.3);
-	tileBacground.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChildAt(tileBacground, 0);;
-	
-	FactionItemRenderer._height = 1480;
-	FactionItemRenderer.playerLeague = player.get_arena(0);
+	LeagueItemRenderer._height = 1480;
+	LeagueItemRenderer.playerLeague = player.get_arena(0);
 
-	var listLayout:VerticalLayout = new VerticalLayout();
-	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.paddingBottom = 220;
 	listLayout.useVirtualLayout = false;
 	
-	list = new List();
-	list.layout = listLayout;
-	list.layoutData = new AnchorLayoutData(0, 0, 150, 0);
-	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	//list.decelerationRate = 0.99
-	list.itemRendererFactory = function():IListItemRenderer { return new FactionItemRenderer (); }
+	list.itemRendererFactory = function():IListItemRenderer { return new LeagueItemRenderer(); }
 	list.addEventListener(FeathersEventType.CREATION_COMPLETE, list_createCompleteHandler);
 	list.elasticity = 0.03;
 	list.dataProvider = leaguesCollection;
-	addChild(list);
-
-	var closeFooter:CloseFooter = new CloseFooter();
-	closeFooter.layoutData = new AnchorLayoutData(NaN, 0,  0, 0);
-	closeFooter.addEventListener(Event.CLOSE, backButtonHandler);
-	addChild(closeFooter);
 	
 	//testOpenBook();
 	//testOffer();
@@ -173,13 +148,7 @@ private function testBattleOverlay() : void
 private function list_createCompleteHandler():void
 {
 //	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
-	list.scrollToPosition(NaN, FactionItemRenderer._height * (leaguesCollection.length - FactionItemRenderer.playerLeague-1) - FactionItemRenderer._height * 0.2, 0);
-}
-
-override protected function backButtonFunction():void
-{
-	if( !player.inTutorial() )
-		super.backButtonFunction();
+	list.scrollToPosition(NaN, LeagueItemRenderer._height * (leaguesCollection.length - LeagueItemRenderer.playerLeague-1) - LeagueItemRenderer._height * 0.2, 0);
 }
 }
 }

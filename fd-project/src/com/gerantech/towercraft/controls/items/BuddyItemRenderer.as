@@ -106,7 +106,7 @@ override protected function commitData():void
 	nameShadowDisplay.text = rankIndex + ".  " + buddy.nickName ;
 	var point:int = buddy.containsVariable("$point") ? buddy.getVariable("$point").getIntValue() : 0;
 	pointDisplay.text = point>0 ? ("" + point) : "";
-	pointIconDisplay.source = Assets.getTexture("arena-"+Math.min(8, player.get_arena(point)), "gui");
+	pointIconDisplay.source = Assets.getTexture("leagues/" + player.get_arena(point), "gui");
 	//trace(_data.i, player.id);
 	var itsMe:Boolean = buddy.nickName == player.nickName;
 	var fs:int = AppModel.instance.theme.gameFontSize * (itsMe?1:0.9);

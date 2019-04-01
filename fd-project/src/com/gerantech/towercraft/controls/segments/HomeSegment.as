@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.buttons.BattleButton;
 import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
 import com.gerantech.towercraft.controls.buttons.HomeStarsButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.LeagueButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.OfferView;
@@ -13,7 +14,6 @@ import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeIndexItemRenderer;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
-import com.gerantech.towercraft.controls.screens.FactionsScreen;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.managers.net.LoadingManager;
@@ -74,13 +74,11 @@ override public function init():void
 	eventsButton.height = 500;
 	addButton(eventsButton, "eventsButton");
 	
-	var league:StarlingArmatureDisplay = FactionsScreen.factory.buildArmatureDisplay("arena-" + Math.min(8, player.get_arena(0)));
-	league.scale = 0.3;
-	league.animation.gotoAndPlayByTime("selected", 0, 50);
-	var leaguesButton:HomeButton = new HomeButton(league, 0.7);
-	league.pivotX = league.pivotY = 0;
-	league.touchable = player.getTutorStep() > PrefsTypes.T_047_WIN;
-	addButton(leaguesButton, "leaguesButton", 100, 500, 0.5, 0.4);
+	// leagues button
+	var leaguesButton:LeagueButton = new LeagueButton(player.get_arena(0));
+	leaguesButton.touchable = player.getTutorStep() > PrefsTypes.T_047_WIN;
+	leaguesButton.layoutData = new AnchorLayoutData(270, NaN, NaN, padding);
+	addButton(leaguesButton, "leaguesButton");
 	
 	// battle button
 	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, 260, new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
@@ -267,7 +265,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	
 	switch( buttonName )
 	{
-		case "leaguesButton":	appModel.navigator.pushScreen( Game.FACTIONS_SCREEN );					return;
+		case "leaguesButton":	appModel.navigator.pushScreen( Game.LEAGUES_SCREEN );					return;
 		case "questsButton":	appModel.navigator.pushScreen( Game.QUESTS_SCREEN );					return;
 		case "rankButton": 		appModel.navigator.addPopup( new RankingPopup() );						return;
 		case "starsButton":		exchangeManager.process(exchanger.items.get(ExchangeType.C104_STARS));	return;

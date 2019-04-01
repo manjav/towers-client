@@ -1,5 +1,6 @@
 package
 {
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.BattleScreen;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
@@ -88,7 +89,7 @@ private function loaderInfo_completeHandler(event:Event):void
 private function starStarling():void
 {
 	var ratio:Number = 1080 / stage.fullScreenWidth;
-	var _height:Number = Math.min(stage.fullScreenWidth * 2, stage.fullScreenHeight);
+	var _height:Number = Math.min(stage.fullScreenWidth * 2, stage.fullScreenHeight); NativeAbilities.instance.showToast("_height:" + _height + " , " + stage.fullScreenHeight, 2);
 	this.starling = new Starling(Game, stage, new Rectangle(0, stage.fullScreenHeight - _height, stage.fullScreenWidth, _height), null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE_EXTENDED);
 	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 	this.starling.supportHighResolutions = true;
@@ -96,8 +97,8 @@ private function starStarling():void
 	this.starling.start();
 	this.starling.stage.stageWidth  = 1080;
 	this.starling.stage.stageHeight = _height * ratio;
-	trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight, this.starling.contentScaleFactor);
-//	this.starling.showStatsAt("right", "top", 1 / this.starling.contentScaleFactor);
+	NativeAbilities.instance.showToast(stage.fullScreenWidth + "," + stage.fullScreenHeight + "," + this.starling.stage.stageWidth + "," + this.starling.stage.stageHeight + "," + this.starling.contentScaleFactor, 2);
+	this.starling.showStatsAt("right", "top", 1 / this.starling.contentScaleFactor);
 }
 
 private function starling_rootCreatedHandler(event:Object):void

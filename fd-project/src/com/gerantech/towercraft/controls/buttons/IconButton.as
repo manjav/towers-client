@@ -10,9 +10,9 @@ import starling.textures.Texture;
 
 public class IconButton extends SimpleLayoutButton
 {
-private var texture:Texture;
-private var iconScale:Number;
-private var iconDisplay:ImageLoader;
+protected var texture:Texture;
+protected var iconScale:Number;
+protected var iconDisplay:ImageLoader;
 public function IconButton(texture:Texture, iconScale:Number = 0.6, bgTexture:Texture = null, bgScaleGrid:Rectangle = null)
 {
 	super();

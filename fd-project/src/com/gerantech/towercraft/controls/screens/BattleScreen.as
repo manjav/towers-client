@@ -7,7 +7,7 @@ import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOperationOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
-import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
+import com.gerantech.towercraft.controls.overlays.LeagueChangeOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 import com.gerantech.towercraft.events.GameEvent;
@@ -438,7 +438,7 @@ private function endOverlay_closeHandler(event:Event):void
 	
 	// show faction changes overlay
 	if( endOverlay.data != null )
-		setTimeout(appModel.navigator.addOverlay, 2200, new FactionChangeOverlay(endOverlay.data[0], endOverlay.data[1]));
+		setTimeout(appModel.navigator.addOverlay, 2200, new LeagueChangeOverlay(endOverlay.data[0], endOverlay.data[1]));
 
 	if( !player.inTutorial() && endOverlay.score == 3 && player.get_arena(0) > 0 )//!sfsConnection.mySelf.isSpectator && 
 		appModel.navigator.showOffer();

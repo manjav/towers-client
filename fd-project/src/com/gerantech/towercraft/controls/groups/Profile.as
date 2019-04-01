@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
+import com.gerantech.towercraft.controls.popups.SettingsPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -95,8 +96,8 @@ private function buttons_eventsHandler(event:Event) : void
 {
 	switch(DisplayObject(event.currentTarget).name)
 	{
-	case "settingsButton":	appModel.navigator.pushScreen(Game.SETTINGS_SCREEN);	break;
 	case "inboxButton":		appModel.navigator.pushScreen(Game.INBOX_SCREEN);	break;
+	case "settingsButton":	appModel.navigator.addPopup(new SettingsPopup());	break;
 	}
 }
 }

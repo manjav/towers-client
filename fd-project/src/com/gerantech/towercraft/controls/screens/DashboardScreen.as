@@ -59,7 +59,6 @@ override protected function initialize():void
 	if( !Assets.animationAssetsLoaded )
 		return;
 	OpenBookOverlay.createFactory();
-	FactionsScreen.createFactory();
 	
 	super.initialize();
 	if( stage == null )

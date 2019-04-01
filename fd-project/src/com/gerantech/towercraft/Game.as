@@ -16,7 +16,7 @@ public class Game extends Drawers
 public static const DASHBOARD_SCREEN:String = "dashboardScreen";
 public static const BATTLE_SCREEN:String = "battleScreen";
 public static const OPERATIONS_SCREEN:String = "operationsScreen";
-public static const FACTIONS_SCREEN:String = "factionsScreen";
+public static const LEAGUES_SCREEN:String = "leaguesScreen";
 public static const ADMIN_SCREEN:String = "adminScreen";
 public static const SPECTATE_SCREEN:String = "spectateScreen";
 public static const INBOX_SCREEN:String = "inboxScreen";
@@ -36,7 +36,6 @@ public function Game(content:IFeathersControl=null)
 
 override protected function initialize():void
 {
-	//never forget to call super.initialize()
 	super.initialize();
 	
 	AppModel.instance.navigator =  new StackNavigator();
@@ -45,7 +44,7 @@ override protected function initialize():void
 
 
 	addScreen(DASHBOARD_SCREEN,	DashboardScreen);
-	addScreen(FACTIONS_SCREEN,	FactionsScreen, false, false);
+	addScreen(LEAGUES_SCREEN,	LeaguesScreen, false, false);
 	addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);
 	addScreen(ADMIN_SCREEN, 	AdminScreen);
 	addScreen(SPECTATE_SCREEN, 	SpectateScreen);

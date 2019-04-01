@@ -68,7 +68,7 @@ override protected function commitData():void
 	rankDisplay.text = StrUtils.getNumber(_data.s ? (_data.s + 1) : (index + 1));
 	nameDisplay.text = _data.n ;
 	pointDisplay.text = StrUtils.getNumber(_data.p);
-	arenaDisplay.source = Assets.getTexture("arena-" + Math.min(8, player.get_arena(_data.p)), "gui");
+	arenaDisplay.source = Assets.getTexture("leagues" + player.get_arena(_data.p), "gui");
 
 	mySkin.color = _data.i == player.id ? 0xAAFFFF : 0xFFFFFF;
 }

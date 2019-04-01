@@ -94,7 +94,7 @@ override protected function commitData():void
 	roleDisplay.text = loc("lobby_role_" + _data.permission);
 	pointsDisplay.text = StrUtils.getNumber(_data.point);
 	battlesDisplay.text = StrUtils.getNumber(_data.activity);
-	arenaDisplay.source = Assets.getTexture("arena-" + Math.min(8, player.get_arena(_data.point)), "gui");
+	arenaDisplay.source = Assets.getTexture("leagues/" + player.get_arena(_data.point), "gui");
 	mySkin.color = _data.id == player.id ? 0xAAFFFF : 0xFFFFFF;
 }
 protected function item_triggeredHandler(event:Event):void
