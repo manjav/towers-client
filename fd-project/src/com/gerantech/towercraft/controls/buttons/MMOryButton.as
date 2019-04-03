@@ -91,7 +91,6 @@ public function set message(value:String) : void
 	if( this._message != null )
 		this.invalidate(INVALIDATION_FLAG_TEXT_EDITOR);
 	this.invalidate(INVALIDATION_FLAG_DATA);
-
 }
 
 
@@ -174,7 +173,6 @@ override protected function layoutContent() : void
 	}
 	else
 	{
-
 		messageRenderer.width = this.actualWidth - this._paddingRight - this._paddingLeft;
 		messageRenderer.x = this.actualWidth - this._paddingRight - messageRenderer.width;
 		if( this.messagePosition == RelativePosition.BOTTOM )

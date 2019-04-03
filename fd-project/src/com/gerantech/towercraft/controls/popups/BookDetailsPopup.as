@@ -195,8 +195,8 @@ private function footerFactory(state:int):void
 		}
 		else if( state == ExchangeItem.CHEST_STATE_READY )
 		{
-			actionButton.message = loc("open_label");
-			updateButton(-1, -1);
+			actionButton.message = null;
+			updateButton(-1, -2);
 		}
 	}
 	else
