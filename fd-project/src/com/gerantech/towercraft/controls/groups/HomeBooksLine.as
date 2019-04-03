@@ -21,12 +21,14 @@ import starling.events.Event;
 */
 public class HomeBooksLine extends TowersLayout 
 {
+static public const HEIGHT:int = 320;
 private var listLayout:feathers.layout.TiledRowsLayout;
 private var list:feathers.controls.List;
 
 public function HomeBooksLine(){super();}
 override protected function initialize():void 
 {
+    height = HEIGHT;
 	super.initialize();
 	
 	layout = new AnchorLayout();

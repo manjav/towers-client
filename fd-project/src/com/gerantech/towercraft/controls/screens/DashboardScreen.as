@@ -39,11 +39,11 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-public static var TAB_INDEX:int = 2;
+static public const FOOTER_SIZE:int = 180;
+static public var TAB_INDEX:int = 2;
 private var pageList:List;
 private var tabsList:List;
 private var tabSize:int;
-private var footerSize:int;
 private var segmentsCollection:ListCollection;
 private var tabSelection:ImageLoader;
 
@@ -70,7 +70,6 @@ protected function addedToStageHandler(event:Event):void
 {
 	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	
-	footerSize = 180;
 	autoSizeMode = AutoSizeMode.STAGE;
 	layout = new AnchorLayout();
 	visible = false;	
@@ -86,7 +85,7 @@ protected function addedToStageHandler(event:Event):void
 	pageList = new List();
 	pageList.snapToPages = true;
 	pageList.layout = pageLayout;
-	pageList.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
+	pageList.layoutData = new AnchorLayoutData(0, 0, FOOTER_SIZE, 0);
 	pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
 	pageList.verticalScrollPolicy = ScrollPolicy.OFF;
@@ -105,7 +104,7 @@ protected function addedToStageHandler(event:Event):void
 	
 	var shadowBottom:ImageLoader = new ImageLoader();
 	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom", "gui");
-	shadowBottom.layoutData = new AnchorLayoutData(NaN, -20, footerSize - 20, -20);
+	shadowBottom.layoutData = new AnchorLayoutData(NaN, -20, FOOTER_SIZE - 20, -20);
 	shadowBottom.maintainAspectRatio = false;
 	shadowBottom.touchable = false;
 	shadowBottom.height = 80;
@@ -117,7 +116,7 @@ protected function addedToStageHandler(event:Event):void
 	tabSize = stage.stageWidth / 5;
 	
 	var footerBG:ImageLoader = new ImageLoader();
-	footerBG.height = footerSize;
+	footerBG.height = FOOTER_SIZE;
 	footerBG.source = Assets.getTexture("home/dash-bg");
 	footerBG.scale9Grid = new Rectangle(2, 32, 2, 32);
 	footerBG.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
@@ -127,7 +126,7 @@ protected function addedToStageHandler(event:Event):void
 	tabSelection = new ImageLoader();
 	tabSelection.touchable = false;
 	tabSelection.source = Assets.getTexture("home/dash-selection");
-	tabSelection.height = footerSize + 20;
+	tabSelection.height = FOOTER_SIZE + 20;
 	tabSelection.width = tabSize * 1.2;
 	tabSelection.scale9Grid = new Rectangle(14, 0, 10, 32);
 	//tabSelection.height = footerSize;
@@ -142,7 +141,7 @@ protected function addedToStageHandler(event:Event):void
 	tabsList = new List();
 	tabsList.layout = tabLayout;
 	tabsList.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-	tabsList.height = footerSize * 1.0;
+	tabsList.height = FOOTER_SIZE * 1.0;
 	tabsList.clipContent = false;
 	tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
     tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
