@@ -45,23 +45,5 @@ public function get type():int
 {
 	return _type;
 }
-
-
-static public function getIcon(count:int, type:int) : Texture
-{
-	var hasIcon:Boolean = count > 0 && type > 0 && type != ResourceType.R5_CURRENCY_REAL;
-	if( hasIcon )
-		return Assets.getTexture("res-" + type, "gui");
-	return null;
-}
-
-static public function getLabel(count:int, type:int) : String
-{
-	if( count == -1 )
-		return StrUtils.loc("open_label");
-	if( count == 0 )
-		return StrUtils.loc("free_label");
-	return StrUtils.getCurrencyFormat(count)//+ " " + currency;
-}
 }
 }

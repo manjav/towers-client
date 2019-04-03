@@ -1,12 +1,15 @@
 package com.gerantech.towercraft.controls.buttons 
 {
+import com.gerantech.towercraft.controls.overlays.HandPoint;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import feathers.controls.Button;
 import feathers.core.ITextRenderer;
 import feathers.layout.RelativePosition;
 import flash.geom.Point;
+import flash.utils.setTimeout;
 import starling.display.DisplayObject;
 import starling.display.Image;
+import starling.events.Event;
 import starling.textures.Texture;
 
 /**
@@ -21,6 +24,31 @@ protected var _message:String;
 protected var _iconTexture:Texture;
 protected var _messageRenderFactory:Function;
 protected var messageTextRenderer:ITextRenderer;
+private var handPoint:HandPoint;
+
+static public function getIcon(type:int, count:int) : Texture
+{
+	
+	if( type > 0 && count > 0 )
+		return Assets.getTexture("res-" + type, "gui");
+	if( type == -2 )
+		return Assets.getTexture("extra-time", "gui");
+	return null;
+}
+
+static public function getLabel(type:int, count:*) : String
+{
+	if( !(count is int) )
+		return count;
+	if( count == -2 )
+		return StrUtils.loc("open_label");
+	if( count == -1 )
+		return StrUtils.loc("start_open_label");
+	if( count == 0 )
+		return StrUtils.loc("free_label");
+	return StrUtils.getCurrencyFormat(count)//+ " " + currency;
+}
+
 
 public function MMOryButton() 
 {
@@ -161,6 +189,27 @@ override protected function layoutContent() : void
 		}
 	}
 	super.layoutContent();
+}
+
+public function showTutorHint(offsetX:Number = 0, offsetY:Number = 0) : void 
+{
+
+	
+	this.handPoint = new HandPoint(this.actualWidth * 0.5 + offsetX, offsetY);
+	this.addEventListener(Event.TRIGGERED, this_triggeredHandler);
+	setTimeout(addChild, 200, this.handPoint);
+}
+protected function this_triggeredHandler(event:Event) : void 
+{
+	this.removeEventListener(Event.TRIGGERED, this_triggeredHandler);
+	if( this.handPoint != null )
+		this.handPoint.removeFromParent(true);
+}
+
+override public function dispose() : void
+{
+	this.removeEventListener(Event.TRIGGERED, this_triggeredHandler);
+	super.dispose();
 }
 }
 }

@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.TileBackground;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
@@ -18,7 +19,7 @@ public var showGradientShadow:Boolean = true;
 public var showTileAnimationn:Boolean = true;
 protected var headerSize:int = 150;
 protected var footerSize:int = 150;
-protected var closeButton:Button;
+protected var closeButton:MMOryButton;
 public function SimpleScreen(){ super(); }
 override protected function initialize():void
 {
@@ -32,11 +33,11 @@ override protected function initialize():void
 		addChild(tileBacground);
 	}
 	
-	closeButton = new Button();
+	closeButton = new MMOryButton();
 	closeButton.width = 160;
 	closeButton.height = 100;
 	closeButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
-	closeButton.defaultIcon = new Image(appModel.theme.buttonBackDownSkinTexture);
+	closeButton.iconTexture = appModel.theme.buttonBackDownSkinTexture;
 	closeButton.addEventListener(Event.TRIGGERED, cloaseButton_triggeredHandler);
 	closeButton.layoutData = new AnchorLayoutData( NaN, NaN, 40, 40);
 	addChild(closeButton);
