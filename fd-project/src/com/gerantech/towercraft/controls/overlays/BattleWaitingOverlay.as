@@ -54,9 +54,11 @@ override protected function initialize():void
 	{
 		cancelButton = new Button();
 		cancelButton.label = loc("cancel_button");
-		cancelButton.alignPivot();
-		cancelButton.styleName = MainTheme.STYLE_BUTTON_DANGER;
 		cancelButton.width = 240;
+		cancelButton.height = 100;
+		cancelButton.pivotX = cancelButton.width * 0.5;
+		cancelButton.pivotY = cancelButton.height * 0.5;
+		cancelButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 		cancelButton.x = stageWidth * 0.5;
 		cancelButton.y = stageHeight * 0.75;
 		cancelButton.alpha = 0;

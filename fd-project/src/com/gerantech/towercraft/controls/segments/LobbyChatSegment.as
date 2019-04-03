@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
@@ -21,7 +22,7 @@ import starling.events.Event;
 public class LobbyChatSegment extends LobbyBaseChatSegment
 {
 private var headerSize:int;
-private var battleButton:Button;
+private var battleButton:MMOryButton;
 private var header:LobbyHeader;
 private var startScrollBarIndicator:Number = 0;
 
@@ -52,10 +53,10 @@ override protected function showElements():void
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
-	battleButton = new Button();
+	battleButton = new MMOryButton();
 	battleButton.styleName = MainTheme.STYLE_BUTTON_SMALL_HILIGHT;
 	battleButton.width = battleButton.height = footerSize;
-	battleButton.defaultIcon = new Image(Assets.getTexture("socials/icon-battle", "gui"));
+	battleButton.iconTexture = Assets.getTexture("socials/icon-battle", "gui");
     battleButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);

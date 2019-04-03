@@ -79,13 +79,13 @@ override protected function initialize():void
 	
 	if( hasIncreaseButton )
 	{
-		var addButton:Button = new Button();
-		addButton.width = addButton.height = height + 12;
-		addButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
-		addButton.label = "+";
-		addButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
-		addButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
-		addChild(addButton);
+		var increaseButton:Button = new Button();
+		increaseButton.width = increaseButton.height = height + 12;
+		increaseButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
+		increaseButton.label = "+";
+		increaseButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
+		increaseButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
+		addChild(increaseButton);
 	}
 	
 	if( !autoApdate )

@@ -26,7 +26,6 @@ package com.gerantech.towercraft.themes
 {
 
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
-import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import feathers.controls.Alert;
 import feathers.controls.AutoComplete;
@@ -76,7 +75,6 @@ import feathers.controls.renderers.DefaultListItemRenderer;
 import feathers.controls.text.ITextEditorViewPort;
 import feathers.controls.text.StageTextTextEditor;
 import feathers.controls.text.TextBlockTextEditor;
-import feathers.controls.text.TextBlockTextRenderer;
 import feathers.controls.text.TextFieldTextEditorViewPort;
 import feathers.core.FeathersControl;
 import feathers.core.ITextEditor;
@@ -181,7 +179,6 @@ static public const HORIZONTAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rect
 static public const VERTICAL_SCROLL_BAR_THUMB_SCALE9_GRID:Rectangle = new Rectangle(0, 4, 5, 4);
 static public const SHADOW_SIDE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 14, 14);
 static public const HEADER_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 1, 128, 64);
-static public const INDICATORS_SCALE9_GRID:Rectangle = new Rectangle(8, 12, 4, 4)
 static public const RIBBON_SCALE9_GRID:Rectangle = new Rectangle(92, 60, 6, 6);
 static public const ROUND_RECT_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 2, 2);
 
@@ -254,7 +251,7 @@ protected static const THEME_STYLE_NAME_DATE_TIME_SPINNER_LIST_ITEM_RENDERER:Str
  */
 protected static function textRendererFactory():ITextRenderer
 {
-	return new TextBlockTextRenderer();
+	return new ShadowLabel();
 }
 
 /**
@@ -721,8 +718,8 @@ protected function initializeFonts():void
 {
 	this.smallFontSize = 40;
 	this.gameFontSize = 56//12;
-	this.regularFontSize = 4;// 12
-	this.largeFontSize = 56;
+	this.regularFontSize = 56;// 12
+	this.largeFontSize = 64;
 	this.extraLargeFontSize = 72;
 
 	this.lightFontStyles = new TextFormat(FONT_NAME, this.regularFontSize, LIGHT_TEXT_COLOR, HorizontalAlign.LEFT, VerticalAlign.TOP);
@@ -1087,12 +1084,8 @@ protected function setBaseButtonStyles(button:Button):void
 	button.minTouchWidth = this.gridSize;
 	button.minTouchHeight = this.gridSize;
 	
-	button.labelOffsetX = 2;
-	button.labelOffsetY = -6;
-	button.labelFactory = function() : ITextRenderer
-	{
-		return new ShadowLabel("");
-	}
+	//button.iconOffsetX = button.labelOffsetX = 2;
+	//button.iconOffsetY = button.labelOffsetY = -6;
 }
 
 protected function setButtonStyles(button:Button):void

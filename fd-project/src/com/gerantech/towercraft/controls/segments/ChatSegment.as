@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.segments 
 {
 import com.gerantech.towercraft.controls.FastList;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
@@ -41,7 +42,7 @@ static public var factory:StarlingFactory;
 protected var padding:int;
 protected var footerSize:int;
 protected var chatList:FastList;
-protected var chatEnableButton:Button;
+protected var chatEnableButton:MMOryButton;
 protected var chatLayout:VerticalLayout;
 protected var chatTextInput:CustomTextInput;
 protected var _buttonsEnabled:Boolean = true;
@@ -99,10 +100,10 @@ protected function showElements() : void
     chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
     chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
-    chatEnableButton = new Button();
+    chatEnableButton = new MMOryButton();
 	chatEnableButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
     chatEnableButton.width = chatEnableButton.height = footerSize;
-    chatEnableButton.defaultIcon = new Image(Assets.getTexture("socials/icon-text", "gui"));
+    chatEnableButton.iconTexture = Assets.getTexture("socials/icon-text", "gui");
     chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
     addChild(chatEnableButton);

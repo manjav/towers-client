@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
@@ -26,7 +27,7 @@ import starling.events.Event;
 public class LobbyBaseChatSegment extends ChatSegment
 {
 private var preText:String = "";
-protected var emotesButton:Button;
+protected var emotesButton:MMOryButton;
 public function LobbyBaseChatSegment(){ super(); }
 public function get manager():LobbyManager
 {
@@ -75,12 +76,12 @@ override protected function showElements() : void
 {
 	super.showElements();
 	
-    emotesButton = new Button();
-	emotesButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
+    emotesButton = new MMOryButton();
     emotesButton.width = emotesButton.height = footerSize;
-    emotesButton.defaultIcon = new Image(Assets.getTexture("socials/icon-emote", "gui"));
-    emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding * 2, NaN);
+	emotesButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
+    emotesButton.iconTexture = Assets.getTexture("socials/icon-emote", "gui");
     emotesButton.addEventListener(Event.TRIGGERED, emotesButton_triggeredHandler);
+    emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding * 2, NaN);
     addChild(emotesButton);
 	
 	chatList.dataProvider = manager.messages;
