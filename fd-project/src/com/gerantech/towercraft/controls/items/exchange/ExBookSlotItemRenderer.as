@@ -166,7 +166,7 @@ protected function waitGroupFactory() : LayoutGroup
 		
 		showOpenWarn();
 		
-		var timeLabel:ShadowLabel = new ShadowLabel(loc("hour_label", [StrUtils.getNumber(ExchangeType.getCooldown(exchange.outcome) / 3600)]), 1, 0, null, null, false, null, 0.9);
+		var timeLabel:ShadowLabel = new ShadowLabel(StrUtils.getSimpleTimeFormat(ExchangeType.getCooldown(exchange.outcome)), 1, 0, null, null, false, null, 0.9);
 		timeLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.13);
 		waitGroup.addChild(timeLabel);
 	}
