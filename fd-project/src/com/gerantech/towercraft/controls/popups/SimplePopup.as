@@ -18,10 +18,9 @@ override protected function initialize():void
 	padding = 36;
 	
 	skin = new ImageLoader();
-	skin.source = appModel.theme.popupSimpleBackgroundSkinTexture;
-	skin.scale9Grid = MainTheme.POPUP_SIMPLE_SCALE9_GRID;
+	skin.source = appModel.theme.popupBackgroundSkinTexture;
+	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
 	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	//skin.touchable = true;
 	addChild(skin);
 }
 }

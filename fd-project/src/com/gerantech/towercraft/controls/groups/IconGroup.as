@@ -1,12 +1,12 @@
 package com.gerantech.towercraft.controls.groups
 {
 import com.gerantech.towercraft.controls.TowersLayout;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ImageLoader;
-import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.text.BitmapFontTextFormat;
 import flash.geom.Rectangle;
 import starling.textures.Texture;
 
@@ -20,7 +20,7 @@ public function IconGroup(icon:Texture, label:String, textColor:uint = 0xFFFFFF)
 {
 	super();
 	this.icon = icon;
-	this.label = label;
+	this.label = StrUtils.getNumber(label);
 	this.textColor = textColor;
 }
 
@@ -28,8 +28,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout(); 
-	var padding:int = 32;
-	height = padding * 3;
+	height = 100;
 	
 	var skin:ImageLoader = new ImageLoader();
 	skin.source = Assets.getTexture("theme/inner-rect-medium", "gui")
@@ -38,15 +37,13 @@ override protected function initialize():void
 	skin.color = 0x9BBBDD;
 	addChild(skin);
 	
-	var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48, textColor, "center");
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, padding * 4, NaN, -padding*0.5);
-	labelDisplay.text = label;
+	var labelDisplay:ShadowLabel = new ShadowLabel(label, 1, 0, null, "ltr", false, null, 0.9);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 60, 0);
 	addChild(labelDisplay);
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.source = icon;
-	iconDisplay.layoutData = new AnchorLayoutData(-padding, NaN, -padding, -padding);
+	iconDisplay.layoutData = new AnchorLayoutData(-32, NaN, -32, -32);
 	addChild(iconDisplay);
 }
 }

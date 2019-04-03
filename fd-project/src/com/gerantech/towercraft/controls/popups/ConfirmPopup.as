@@ -28,8 +28,8 @@ public function ConfirmPopup(message:String, acceptLabel:String = null, declineL
 {
 	super();
 	this.message = message;
-	this.acceptLabel = acceptLabel==null ? loc("popup_accept_label") : acceptLabel;
-	this.declineLabel = declineLabel==null ? loc("popup_decline_label") : declineLabel;
+	this.acceptLabel = acceptLabel == null ? loc("popup_accept_label") : acceptLabel;
+	this.declineLabel = declineLabel == null ? loc("popup_decline_label") : declineLabel;
 }
 
 override protected function initialize():void

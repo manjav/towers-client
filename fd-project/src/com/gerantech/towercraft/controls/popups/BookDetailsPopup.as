@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
@@ -8,6 +9,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.MessageTypes;
@@ -18,22 +20,23 @@ import com.gt.towers.exchanges.Exchanger;
 import dragonBones.events.EventObject;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingEvent;
+import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
+import starling.display.Image;
 import starling.events.Event;
 
 public class BookDetailsPopup extends SimplePopup
 {
-private var item:ExchangeItem;
-private var bookArmature:StarlingArmatureDisplay;
-private var buttonDisplay:ExchangeButton;
-private var countdownDisplay:CountdownLabel;
-private var messageDisplay:RTLLabel;
 private var showButton:Boolean;
+private var item:ExchangeItem;
+private var actionButton:Button;
+private var messageDisplay:RTLLabel;
 private var footerDisplay:ImageLoader;
-
+private var countdownDisplay:CountdownLabel;
+private var bookArmature:StarlingArmatureDisplay;
 public function BookDetailsPopup(item:ExchangeItem, showButton:Boolean = true)
 {
 	this.item = item;
@@ -45,39 +48,37 @@ override protected function initialize():void
 {
 	super.initialize();
 	
-	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * (showButton ? 0.30 : 0.35), stage.stageWidth * 0.9, stage.stageHeight * (showButton ? 0.4 : 0.25));
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * (showButton ? 0.25 : 0.30), stage.stageWidth * 0.9, stage.stageHeight * (showButton ? 0.5 : 0.35));
+	var _h:int = showButton ? 680 : 480;
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(stageWidth * 0.05, stageHeight * 0.5 - _h * 0.4, stageWidth * 0.9, _h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(stageWidth * 0.05, stageHeight * 0.5 - _h * 0.5, stageWidth * 0.9, _h * 1.0);
 	rejustLayoutByTransitionData();
 
-	var insideBG:ImageLoader = new ImageLoader();
-	insideBG.alpha = 0.8;
-	insideBG.scale9Grid = new Rectangle(4, 4, 2, 2);
-	insideBG.maintainAspectRatio = false;
-	insideBG.source = Assets.getTexture("theme/popup-inside-background-skin");
-	insideBG.layoutData = new AnchorLayoutData(padding * 6, padding, padding * 1.2, padding);
+	var insideBG:Devider = new Devider(0x1E66C2);
+	insideBG.height = 120;
+	insideBG.layoutData = new AnchorLayoutData(80, 0, NaN, 0);
 	addChild(insideBG);
 	
 	var arena:int = item.outcomes.get(item.outcome);
-	var leagueDisplay:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_" + (arena + 1)), 0x475768, "center", null, false, null, 0.8);
-	leagueDisplay.layoutData = new AnchorLayoutData(padding * 7.5, NaN, NaN, NaN, 0);
+	var leagueDisplay:ShadowLabel	= new ShadowLabel(loc("arena_text") + " " + loc("num_" + (arena + 1)), 0xBBDDFF, 0, null, null, false, null, 0.8);
+	leagueDisplay.layoutData = new AnchorLayoutData(26, NaN, NaN, NaN, 220);
 	addChild(leagueDisplay);
 	
-	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 0, 1, "center", null, false, null, 1.3);
-	titleDisplay.layoutData = new AnchorLayoutData(padding * 9, NaN, NaN, NaN, 0);
+	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 1, 0, null, null, false, null, 1.1);
+	titleDisplay.layoutData = new AnchorLayoutData(85, NaN, NaN, NaN, 220);
 	addChild(titleDisplay);
 
 	var numCards:int = ExchangeType.getNumTotalCards(item.outcome, arena, player.splitTestCoef, 0);
 	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards"), int(numCards * 0.9) + " - " + int(numCards * 1.1));
-	cardsPalette.width = transitionIn.destinationBound.width * 0.4;
-	cardsPalette.layoutData = new AnchorLayoutData(padding * 13, NaN, NaN, padding * 2.4);
+	cardsPalette.width = transitionIn.destinationBound.width * 0.42;
+	cardsPalette.layoutData = new AnchorLayoutData(290, NaN, NaN, 50);
 	addChild(cardsPalette);
 	
 	var numSofts:int = ExchangeType.getNumSofts(item.outcome, arena, player.splitTestCoef);
 	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.R3_CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFF99);
-	softsPalette.width = transitionIn.destinationBound.width * 0.4;
-	softsPalette.layoutData = new AnchorLayoutData(padding * 13, padding * 2);
+	softsPalette.width = transitionIn.destinationBound.width * 0.42;
+	softsPalette.layoutData = new AnchorLayoutData(290, 40);
 	addChild(softsPalette);
-	
+		
 	if( !showButton )
 		return;
 		
@@ -91,32 +92,29 @@ override protected function transitionInCompleted():void
 	OpenBookOverlay.createFactory();
 	bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + item.outcome);
 	bookArmature.addEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
-	bookArmature.scale = OpenBookOverlay.getBookScale(item.outcome) * 2;
+	bookArmature.scale = OpenBookOverlay.getBookScale(item.outcome) * 1.4;
 	bookArmature.animation.gotoAndPlayByTime("appear", 0, 1);
-	bookArmature.x = transitionIn.destinationBound.width * 0.5;
-	bookArmature.y = padding * 0.5;
+	bookArmature.x = 260;
+	bookArmature.y = 50;
 	addChildAt(bookArmature, 0);
 	function bookArmature_soundEventHandler(event:StarlingEvent):void
 	{
 		bookArmature.removeEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
-		addChildAt(bookArmature, 3);
+		addChild(bookArmature);
 		appModel.sounds.addAndPlay(event.eventObject.name);
 	}
 	
 	if( player.get_battleswins() < 4 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_012_SLOT_OPENED);
-		buttonDisplay.showTutorHint();
+		//buttonDisplay.showTutorHint();
 	}
 }
 
 private function update(state:int):void 
 {
-	trace("update", state);
 	closeOnOverlay = closeWithKeyboard = player.getResource(ResourceType.R21_BOOK_OPENED_BATTLE) > 0;
 	footerFactory(state);
-	messageFactory(state);
-	buttonFactory(state);
 }
 
 //           -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- Factories -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -125,78 +123,69 @@ private function footerFactory(state:int):void
 	if( footerDisplay == null )
 	{
 		footerDisplay = new ImageLoader();
-		footerDisplay.alpha = 0.8;
-		footerDisplay.scale9Grid = new Rectangle(4, 4, 2, 2);
-		footerDisplay.maintainAspectRatio = false;
-		footerDisplay.source = Assets.getTexture("theme/popup-inside-background-skin");
-		footerDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.3, padding * 1.5, padding * 1.3);
-		footerDisplay.height = padding * 4.4;
+		footerDisplay.source = Assets.getTexture("theme/inner-rect-medium", "gui")
+		footerDisplay.layoutData = new AnchorLayoutData(NaN, 12, 12, 12);
+		footerDisplay.scale9Grid = new Rectangle(15, 15, 3, 3);
+		footerDisplay.height = 200;
 		addChild(footerDisplay);
 	}
-	footerDisplay.color = state == ExchangeItem.CHEST_STATE_BUSY ? 0xAA9999 : 0x9999AA;
-}
-
-private function messageFactory(state:int):void 
-{
+	footerDisplay.color = 0x87a8d0;
+	
+	if( actionButton == null )
+	{
+		actionButton = new Button();
+		actionButton.width = 300;
+		actionButton.height = 162;
+		actionButton.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
+		addChild(actionButton);
+	}
+	actionButton.layoutData = new AnchorLayoutData(NaN, NaN, 30, NaN, 0);
+	actionButton.styleName = MainTheme.STYLE_HILIGHT_BUTTON;
+	
 	var message:String = "";
-	if( state == ExchangeItem.CHEST_STATE_BUSY )
-		message = loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt - timeManager.now)]);
-	else if( state == ExchangeItem.CHEST_STATE_WAIT )
-		message = loc("popup_chest_message_" + item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
-	
-	if( messageDisplay == null )
-	{
-		messageDisplay = new RTLLabel(message, 0, "center", null, false, null, 0.9);
-		messageDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding * 7, padding);
-		addChild(messageDisplay);
-	}
-	else
-	{
-		messageDisplay.text = message;
-	}
-}
-
-private function buttonFactory(state:int):void 
-{
-	if( buttonDisplay == null )
-	{
-		buttonDisplay = new ExchangeButton();
-		buttonDisplay.disableSelectDispatching = true;
-		buttonDisplay.width = 300;
-		buttonDisplay.height = 110;
-		buttonDisplay.addEventListener(Event.SELECT, batton_selectHandler);
-		buttonDisplay.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
-		buttonDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, NaN, 0);
-		addChild(buttonDisplay);
-	}
-	
 	if( item.category == ExchangeType.C110_BATTLES )
 	{
 		if( state == ExchangeItem.CHEST_STATE_BUSY )
 		{
-			buttonDisplay.style = "neutral";
-			buttonDisplay.width = 240;
-			buttonDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding * 2, NaN);
+			footerDisplay.color = 0x437a50;
+			actionButton.styleName = MainTheme.STYLE_NORMAL_BUTTON;
+			actionButton.layoutData = new AnchorLayoutData(NaN, 30, 30, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			updateButton(ResourceType.R4_CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
+			message = loc("popup_chest_message_skip", [Exchanger.timeToHard(item.expiredAt - timeManager.now)]);
 			countdownFactory(state);
 		}
 		else if( state == ExchangeItem.CHEST_STATE_WAIT )
 		{
 			var free:Boolean = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
-			buttonDisplay.style = free ? "normal" : "neutral";
+			actionButton.layoutData = new AnchorLayoutData(NaN, free ? NaN : 30, 30, NaN, free ? 0 : NaN);
+			actionButton.styleName = free ? MainTheme.STYLE_HILIGHT_BUTTON : MainTheme.STYLE_NORMAL_BUTTON;
 			updateButton(free ? ResourceType.R2_POINT : ResourceType.R4_CURRENCY_HARD, free ? -1 : Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
-			if( !free )
-				messageDisplay.text =  loc("popup_chest_message_120");
+			
+			// message ......
+			if( free )
+				message = loc("popup_chest_message_" + item.category, [StrUtils.toTimeFormat(ExchangeType.getCooldown(item.outcome))]);
+			else
+				message = loc("popup_chest_error_exists");
+			
+			if( messageDisplay == null )
+			{
+				messageDisplay = new ShadowLabel("", free ? 1 : 0xFF1144, 0, null, null, false, null, 0.85);
+				messageDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 80, NaN, -160);
+				addChild(messageDisplay);
+			}
+			messageDisplay.text = message;
+			
 		}
 		else if( state == ExchangeItem.CHEST_STATE_READY )
 		{
-			buttonDisplay.style = "normal";
 			updateButton(-1, -1);
 		}
 	}
 	else
 	{
+		footerDisplay.color = 0x437a50;
+		actionButton.styleName = MainTheme.STYLE_NORMAL_BUTTON;
 		updateButton(ResourceType.R4_CURRENCY_HARD, item.requirements.get(ResourceType.R4_CURRENCY_HARD));
 	}
 }
@@ -215,21 +204,23 @@ private function countdownFactory(state:int):void
 	if( countdownDisplay == null )
 	{
 		countdownDisplay = new CountdownLabel();
-		countdownDisplay.width = 320;
+		countdownDisplay.width = 400;
 		countdownDisplay.height = 120;
-		countdownDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding * 1.9, NaN, -170);
+		countdownDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 45, NaN, -150);
 		addChild(countdownDisplay);
 	}
 	var t:uint = uint(item.expiredAt - timeManager.now);
 	countdownDisplay.time = t;
-	buttonDisplay.count = Exchanger.timeToHard(t);
-	messageDisplay.text = loc("popup_chest_message_skip", [Exchanger.timeToHard(t)])
+	//buttonDisplay.count = Exchanger.timeToHard(t);
+	//messageDisplay.text = loc("popup_chest_message_skip", [Exchanger.timeToHard(t)])
 }
 
 private function updateButton(type:int, count:int):void
 {
-	buttonDisplay.count = count;
-	buttonDisplay.type = type;
+	actionButton.label = ExchangeButton.getLabel(count, type);
+	actionButton.defaultIcon = new Image(ExchangeButton.getIcon(count, type));
+	//buttonDisplay.count = count;
+	//buttonDisplay.type = type;
 }
 
 //           -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- Handlers -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -260,8 +251,8 @@ protected function batton_triggeredHandler(event:Event) : void
 	if( state == ExchangeItem.CHEST_STATE_BUSY )
 	{
 		update(state);
-		if( player.get_battleswins() < 4 )
-			setTimeout(buttonDisplay.showTutorHint, 100);
+		//if( player.get_battleswins() < 4 )
+			//setTimeout(buttonDisplay.showTutorHint, 100);
 		return;
 	}
 	close();
@@ -277,8 +268,8 @@ public function get state() : int
 
 override public function dispose():void
 {
-	if( buttonDisplay != null )
-		buttonDisplay.removeEventListener(Event.TRIGGERED, batton_triggeredHandler);
+	if( actionButton != null )
+		actionButton.removeEventListener(Event.TRIGGERED, batton_triggeredHandler);
 	timeManager.removeEventListener(Event.CHANGE, timeManager_changeHandler);
 	super.dispose();
 }
