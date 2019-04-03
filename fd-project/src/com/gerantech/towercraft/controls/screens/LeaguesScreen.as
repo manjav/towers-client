@@ -1,13 +1,9 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.controls.TileBackground;
-import com.gerantech.towercraft.controls.headers.CloseFooter;
 import com.gerantech.towercraft.controls.items.LeagueItemRenderer;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.toasts.BattleTurnToast;
-import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.units.Card;
@@ -19,16 +15,10 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.objects.DragonBonesData;
 import dragonBones.starling.StarlingFactory;
-import feathers.controls.List;
-import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
-import feathers.layout.AnchorLayoutData;
-import feathers.layout.HorizontalAlign;
-import feathers.layout.VerticalLayout;
-import starling.display.Image;
 import starling.events.Event;
 
 public class LeaguesScreen extends ListScreen

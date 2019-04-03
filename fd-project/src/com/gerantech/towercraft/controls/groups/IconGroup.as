@@ -32,11 +32,10 @@ override protected function initialize():void
 	height = padding * 3;
 	
 	var skin:ImageLoader = new ImageLoader();
-	skin.source = Assets.getTexture("theme/popup-inside-background-skin")
-	skin.alpha = 0.8;
-	skin.scale9Grid = new Rectangle(4, 4, 2, 2);
-	skin.color = 0x9bb7d2;
+	skin.source = Assets.getTexture("theme/inner-rect-medium", "gui")
 	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	skin.scale9Grid = new Rectangle(15, 15, 3, 3);
+	skin.color = 0x9BBBDD;
 	addChild(skin);
 	
 	var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();

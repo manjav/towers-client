@@ -41,7 +41,7 @@ override protected function initialize():void
 	var pointsRect:ImageLoader = new ImageLoader();
 	pointsRect.width = 180;
 	pointsRect.scale9Grid = POINTS_SCALE9_GRID;
-	pointsRect.source = Assets.getTexture("theme/small-inner-rect", "gui");
+	pointsRect.source = Assets.getTexture("theme/inner-rect-small", "gui");
 	pointsRect.layoutData = new AnchorLayoutData(11, appModel.isLTR?280:NaN, 13, appModel.isLTR?NaN:280);
 	addChild(pointsRect);
 	
