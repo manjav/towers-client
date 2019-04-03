@@ -1,47 +1,43 @@
 package com.gerantech.towercraft.controls.groups
 {
-	import com.gerantech.towercraft.controls.TowersLayout;
-	import com.gerantech.towercraft.controls.texts.RTLLabel;
-	import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.controls.TowersLayout;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.models.Assets;
+import feathers.controls.ImageLoader;
+import feathers.layout.AnchorLayout;
+import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
+
+public class ColorGroup extends TowersLayout
+{
+protected var label:String;
+protected var bgColor:uint;
+protected var textColor:uint;
+protected var labelDisplay:ShadowLabel;
+
+public function ColorGroup(label:String, bgColor:uint = 0xFFFFFF, textColor:uint = 0x000000)
+{
+	this.label = label;
+	this.bgColor = bgColor;
+	this.textColor = textColor;
+}
+
+override protected function initialize():void
+{
+	super.initialize();
+	layout = new AnchorLayout(); 
+	height = 100;
 	
-	import flash.geom.Rectangle;
+	var skin:ImageLoader = new ImageLoader();
+	skin.source = Assets.getTexture("theme/inner-rect-medium", "gui")
+	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	skin.scale9Grid = new Rectangle(15, 15, 3, 3);
+	skin.color = bgColor;
+	addChild(skin);
 	
-	import feathers.controls.ImageLoader;
-	import feathers.layout.AnchorLayout;
-	import feathers.layout.AnchorLayoutData;
-	
-	public class ColorGroup extends TowersLayout
-	{
-		private var label:String;
-		private var bgColor:uint;
-		private var textColor:uint;
-		
-		public function ColorGroup(label:String, bgColor:uint = 0xFFFFFF, textColor:uint = 0x000000)
-		{
-			this.label = label;
-			this.bgColor = bgColor;
-			this.textColor = textColor;
-		}
-		
-		override protected function initialize():void
-		{
-			super.initialize();
-			layout = new AnchorLayout(); 
-			var padding:int = 32;
-			height = padding * 2.8;
-			
-			var skin:ImageLoader = new ImageLoader();
-			skin.source = Assets.getTexture("theme/popup-inside-background-skin")
-			skin.alpha = 0.8;
-			skin.scale9Grid = new Rectangle(4, 4, 2, 2);
-			skin.color = bgColor;
-			skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-			addChild(skin);
-			
-			var labelDisplay:RTLLabel = new RTLLabel(label, textColor, null, null, false, null, 0.8);//imageDisplay.width, imageDisplay.width/2, "");
-			labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -padding*0.2);
-			labelDisplay.text = label;
-			addChild(labelDisplay);
-		}
-	}
+	labelDisplay = new ShadowLabel(label, textColor, 0, null, null, false, null, 0.9);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+	addChild(labelDisplay);
+}
+}
 }
