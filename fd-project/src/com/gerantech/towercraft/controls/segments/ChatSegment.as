@@ -100,7 +100,7 @@ protected function showElements() : void
     chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
     chatEnableButton = new Button();
-	chatEnableButton.styleName = MainTheme.STYLE_SMALL_NEUTRAL_BUTTON;
+	chatEnableButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
     chatEnableButton.width = chatEnableButton.height = footerSize;
     chatEnableButton.defaultIcon = new Image(Assets.getTexture("socials/icon-text", "gui"));
     chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);

@@ -29,7 +29,7 @@ override protected function initialize() : void
 	titleDisplay.alpha = 0;
 	
 	closeButton = new Button();
-	closeButton.styleName = MainTheme.STYLE_SMALL_DANGER_BUTTON;
+	closeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 	closeButton.defaultIcon = new Image(Assets.getTexture("theme/icon-cross", "gui"));
 	closeButton.width = 88;
 	closeButton.height = 74;

@@ -134,29 +134,29 @@ static public const DRAWER_OVERLAY_ALPHA:Number = 0.4;
 static public const VIDEO_OVERLAY_COLOR:uint = 0x1a1816;
 static public const VIDEO_OVERLAY_ALPHA:Number = 0.2;
 
-static public var SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
-static public var PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
-static public var DESCRIPTION_TEXT_COLOR:uint = 0xA0B2B1;//0xE0F2F1;
-static public var SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
-static public var CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
-static public var ACCENT_COLOR:uint = 0x96000E;//0x96000E;
+static public const SELECTED_BACKGROUND_COLOR:uint = 0x80cbc4;
+static public const PRIMARY_TEXT_COLOR:uint = 0xF0FFFF;//0xE0F2F1;
+static public const DESCRIPTION_TEXT_COLOR:uint = 0xA0B2B1;//0xE0F2F1;
+static public const SECONDARY_BACKGROUND_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+static public const CHROME_COLOR:uint = 0xE0F2F1;//0xE0F2F1;
+static public const ACCENT_COLOR:uint = 0x96000E;//0x96000E;
 
-static public var STYLE_GREEN:uint = 0x97C42C;
-static public var STYLE_BLUE:uint = 0x3F6FB2;
-static public var STYLE_RED:uint = 0xEB2542;
-static public var STYLE_GRAY:uint = 0x333333;
-static public var STYLE_ORANGE:uint = 0xF49D27;
+static public const STYLE_GREEN:uint = 0x97C42C;
+static public const STYLE_BLUE:uint = 0x3F6FB2;
+static public const STYLE_RED:uint = 0xEB2542;
+static public const STYLE_GRAY:uint = 0x333333;
+static public const STYLE_ORANGE:uint = 0xF49D27;
 
-static public const STYLE_NORMAL_BUTTON:String = "feathers-normal-button";
-static public const STYLE_HILIGHT_BUTTON:String = "feathers-hiight-button";
-static public const STYLE_DANGER_BUTTON:String = "feathers-danger-button";
-static public const STYLE_NEUTRAL_BUTTON:String = "feathers-nutral-button";
-static public const STYLE_DISABLE_BUTTON:String = "feathers-disable-button";
-static public const STYLE_SMALL_NORMAL_BUTTON:String = "feathers-small-normal-button";
-static public const STYLE_SMALL_HILIGHT_BUTTON:String = "feathers-small-hiight-button";
-static public const STYLE_SMALL_DANGER_BUTTON:String = "feathers-small-danger-button";
-static public const STYLE_SMALL_NEUTRAL_BUTTON:String = "feathers-small-nutral-button";
-static public const STYLE_SMALL_DISABLE_BUTTON:String = "feathers-small-disable-button";
+static public const STYLE_BUTTON_NORMAL:String = "feathers-normal-button";
+static public const STYLE_BUTTON_HILIGHT:String = "feathers-hiight-button";
+static public const STYLE_BUTTON_DANGER:String = "feathers-danger-button";
+static public const STYLE_BUTTON_NEUTRAL:String = "feathers-nutral-button";
+static public const STYLE_BUTTON_DISABLE:String = "feathers-disable-button";
+static public const STYLE_BUTTON_SMALL_NORMAL:String = "feathers-small-normal-button";
+static public const STYLE_BUTTON_SMALL_HILIGHT:String = "feathers-small-hiight-button";
+static public const STYLE_BUTTON_SMALL_DANGER:String = "feathers-small-danger-button";
+static public const STYLE_BUTTON_SMALL_NEUTRAL:String = "feathers-small-nutral-button";
+static public const STYLE_BUTTON_SMALL_DISABLE:String = "feathers-small-disable-button";
 
 static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
 static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
@@ -797,13 +797,13 @@ protected function initializeStyleProviders():void
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_DANGER_BUTTON, this.setDangerButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_BACK_BUTTON, this.setBackButtonStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(Button.ALTERNATE_STYLE_NAME_FORWARD_BUTTON, this.setForwardButtonStyles);
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_HILIGHT_BUTTON, this.setHilightButtonStyles);
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_NEUTRAL_BUTTON, this.setNeutralButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_BUTTON_HILIGHT, this.setHilightButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_BUTTON_NEUTRAL, this.setNeutralButtonStyles);
 	
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NORMAL_BUTTON, this.setSmallNormalButtonStyles);
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_DANGER_BUTTON, this.setSmallDangerButtonStyles);
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_HILIGHT_BUTTON, this.setSmallHilightButtonStyles);
-	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_SMALL_NEUTRAL_BUTTON, this.setSmallNeutralButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_BUTTON_SMALL_NORMAL, this.setSmallNormalButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_BUTTON_SMALL_DANGER, this.setSmallDangerButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_BUTTON_SMALL_HILIGHT, this.setSmallHilightButtonStyles);
+	this.getStyleProviderForClass(Button).setFunctionForStyleName(STYLE_BUTTON_SMALL_NEUTRAL, this.setSmallNeutralButtonStyles);
 
 	//button group
 	this.getStyleProviderForClass(ButtonGroup).defaultStyleFunction = this.setButtonGroupStyles;

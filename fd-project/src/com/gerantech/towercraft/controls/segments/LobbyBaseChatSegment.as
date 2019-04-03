@@ -76,7 +76,7 @@ override protected function showElements() : void
 	super.showElements();
 	
     emotesButton = new Button();
-	emotesButton.styleName = MainTheme.STYLE_SMALL_NEUTRAL_BUTTON;
+	emotesButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
     emotesButton.width = emotesButton.height = footerSize;
     emotesButton.defaultIcon = new Image(Assets.getTexture("socials/icon-emote", "gui"));
     emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding * 2, NaN);

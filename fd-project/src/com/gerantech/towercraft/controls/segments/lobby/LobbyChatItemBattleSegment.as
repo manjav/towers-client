@@ -30,7 +30,7 @@ override public function init():void
 	actionButton = new Button();
 	actionButton.width = 240;
 	actionButton.height = 120;
-	actionButton.styleName = MainTheme.STYLE_SMALL_DANGER_BUTTON;
+	actionButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 	actionButton.layoutData = new AnchorLayoutData(NaN, padding * 3.5, NaN, NaN, NaN, 0);
 	addChild(actionButton);
 	

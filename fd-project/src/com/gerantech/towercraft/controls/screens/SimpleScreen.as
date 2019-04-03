@@ -35,7 +35,7 @@ override protected function initialize():void
 	closeButton = new Button();
 	closeButton.width = 160;
 	closeButton.height = 100;
-	closeButton.styleName = MainTheme.STYLE_HILIGHT_BUTTON;
+	closeButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	closeButton.defaultIcon = new Image(appModel.theme.buttonBackDownSkinTexture);
 	closeButton.addEventListener(Event.TRIGGERED, cloaseButton_triggeredHandler);
 	closeButton.layoutData = new AnchorLayoutData( NaN, NaN, 40, 40);

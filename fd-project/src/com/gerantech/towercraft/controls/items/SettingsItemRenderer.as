@@ -71,7 +71,7 @@ override protected function commitData():void
 		buttonDisplay = new Button();
 		//buttonDisplay.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -3);
 		buttonDisplay.width = 140;
-		buttonDisplay.styleName = MainTheme.STYLE_SMALL_NORMAL_BUTTON;
+		buttonDisplay.styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
 		if( settingData.type == SettingsData.TYPE_BUTTON )
 		{
 			buttonDisplay.label = loc("setting_label_" + settingData.key);
@@ -79,7 +79,7 @@ override protected function commitData():void
 		else
 		{
 			buttonDisplay.defaultIcon = new Image(Assets.getTexture("settings/" + settingData.key, "gui"));
-			buttonDisplay.styleName = settingData.value ? MainTheme.STYLE_SMALL_NORMAL_BUTTON : MainTheme.STYLE_SMALL_DANGER_BUTTON; 
+			buttonDisplay.styleName = settingData.value ? MainTheme.STYLE_BUTTON_SMALL_NORMAL : MainTheme.STYLE_BUTTON_SMALL_DANGER; 
 		}
 		
 		buttonDisplay.layoutData = new HorizontalLayoutData(settingData.type == SettingsData.TYPE_BUTTON ? 100 : NaN, 100);

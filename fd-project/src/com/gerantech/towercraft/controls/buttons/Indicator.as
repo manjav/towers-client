@@ -85,7 +85,7 @@ override protected function initialize():void
 	{
 		var addButton:Button = new Button();
 		addButton.width = addButton.height = height + 12;
-		addButton.styleName = MainTheme.STYLE_SMALL_NORMAL_BUTTON;
+		addButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
 		addButton.label = "+";
 		addButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
 		addButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);

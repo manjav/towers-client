@@ -140,7 +140,7 @@ private function footerFactory(state:int):void
 		addChild(actionButton);
 	}
 	actionButton.layoutData = new AnchorLayoutData(NaN, NaN, 30, NaN, 0);
-	actionButton.styleName = MainTheme.STYLE_HILIGHT_BUTTON;
+	actionButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	
 	var message:String = "";
 	if( item.category == ExchangeType.C110_BATTLES )
@@ -148,7 +148,7 @@ private function footerFactory(state:int):void
 		if( state == ExchangeItem.CHEST_STATE_BUSY )
 		{
 			footerDisplay.color = 0x437a50;
-			actionButton.styleName = MainTheme.STYLE_NORMAL_BUTTON;
+			actionButton.styleName = MainTheme.STYLE_BUTTON_NORMAL;
 			actionButton.layoutData = new AnchorLayoutData(NaN, 30, 30, NaN);
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			updateButton(ResourceType.R4_CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
@@ -159,8 +159,8 @@ private function footerFactory(state:int):void
 		{
 			var free:Boolean = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
 			actionButton.layoutData = new AnchorLayoutData(NaN, free ? NaN : 30, 30, NaN, free ? 0 : NaN);
-			actionButton.styleName = free ? MainTheme.STYLE_HILIGHT_BUTTON : MainTheme.STYLE_NORMAL_BUTTON;
 			updateButton(free ? ResourceType.R2_POINT : ResourceType.R4_CURRENCY_HARD, free ? -1 : Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
+			actionButton.styleName = free ? MainTheme.STYLE_BUTTON_HILIGHT : MainTheme.STYLE_BUTTON_NORMAL;
 			
 			// message ......
 			if( free )
@@ -185,7 +185,7 @@ private function footerFactory(state:int):void
 	else
 	{
 		footerDisplay.color = 0x437a50;
-		actionButton.styleName = MainTheme.STYLE_NORMAL_BUTTON;
+		actionButton.styleName = MainTheme.STYLE_BUTTON_NORMAL;
 		updateButton(ResourceType.R4_CURRENCY_HARD, item.requirements.get(ResourceType.R4_CURRENCY_HARD));
 	}
 }
