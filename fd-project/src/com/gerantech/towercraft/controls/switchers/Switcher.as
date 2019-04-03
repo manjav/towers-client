@@ -44,7 +44,7 @@ override protected function initialize():void
 	minWidth = 120;
 	minHeight = controlSize;
 	
-	var skin:Image = new Image(Assets.getTexture("theme/slider-background"));
+	var skin:Image = new Image(Assets.getTexture("theme/slider-background-skin"));
 	skin.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	backgroundSkin = skin;
 	

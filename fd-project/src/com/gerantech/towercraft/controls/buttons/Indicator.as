@@ -56,14 +56,10 @@ override protected function initialize():void
 	super.initialize();
 	this.isQuickHitAreaEnabled = false;
 	layout = new AnchorLayout();
-	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background"));
-	skin.scale9Grid = MainTheme.INDICATORS_SCALE9_GRID;
-	backgroundSkin = skin;
 	
 	progressBar = new LabeledProgressBar();
 	progressBar.clampValue = this._clampValue;
 	progressBar.formatValueFactory = this._formatValueFactory;;
-	progressBar.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void { progressBar.backgroundDisabledSkin.visible = progressBar.backgroundSkin.visible = false; });
 	progressBar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	progressBar.minimum = minimum;
 	progressBar.maximum = maximum;

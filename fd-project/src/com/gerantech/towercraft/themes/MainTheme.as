@@ -161,7 +161,7 @@ static public const STYLE_BUTTON_SMALL_DISABLE:String = "feathers-small-disable-
 static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
 static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
 static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(11, 13, 2, 1);
-static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(12, 10, 6, 26);//4, 4, 1, 20);
+static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(7, 19, 1, 1);
 static public const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
 static public const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 static public const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
@@ -1960,9 +1960,7 @@ protected function setPickerListButtonStyles(button:Button):void
 
 protected function setProgressBarStyles(progress:ProgressBar):void
 {
-	//var backgroundSkin:Image = new Image(this.backgroundSkinTexture);
-	//backgroundSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
-	var backgroundSkin:ImageSkin = new ImageSkin(Assets.getTexture("theme/slider-background"));
+	var backgroundSkin:Image = new Image(Assets.getTexture("theme/slider-background-skin", "gui"));
 	backgroundSkin.scale9Grid = SLIDER_SCALE9_GRID;
 	if(progress.direction == Direction.VERTICAL)
 	{
@@ -1976,7 +1974,7 @@ protected function setProgressBarStyles(progress:ProgressBar):void
 	}
 	progress.backgroundSkin = backgroundSkin;
 
-	var backgroundDisabledSkin:ImageSkin = new ImageSkin(Assets.getTexture("theme/slider-background"));
+	var backgroundDisabledSkin:Image = backgroundSkin;
 	backgroundDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
 	//var backgroundDisabledSkin:Image = new Image(this.backgroundDisabledSkinTexture);
 	//backgroundDisabledSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
@@ -1992,7 +1990,7 @@ protected function setProgressBarStyles(progress:ProgressBar):void
 	}
 	progress.backgroundDisabledSkin = backgroundDisabledSkin;
 
-	var fillSkin:ImageSkin = new ImageSkin(Assets.getTexture("theme/slider-track"));
+	var fillSkin:Image = new Image(Assets.getTexture("theme/slider-fill-skin", "gui"));
 	fillSkin.scale9Grid = SLIDER_SCALE9_GRID;
 	//var fillSkin:Image = new Image(this.buttonUpSkinTexture);
 	//fillSkin.scale9Grid = BUTTON_SCALE9_GRID;
@@ -2000,7 +1998,7 @@ protected function setProgressBarStyles(progress:ProgressBar):void
 	fillSkin.height = this.smallControlSize;
 	progress.fillSkin = fillSkin;
 
-	var fillDisabledSkin:ImageSkin = new ImageSkin(Assets.getTexture("theme/slider-track-neutral"));
+	var fillDisabledSkin:Image = new Image(Assets.getTexture("theme/slider-fill-neutral-skin", "gui"));
 	fillDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
 	//var fillDisabledSkin:Image = new Image(this.buttonDisabledSkinTexture);
 	//fillDisabledSkin.scale9Grid = BUTTON_SCALE9_GRID;
