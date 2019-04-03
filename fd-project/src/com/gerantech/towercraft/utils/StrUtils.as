@@ -367,13 +367,11 @@ public static function getParams(queryString:String):Dictionary
 
 static public function getCurrencyFormat(count:int):String 
 {
-	var ret:String = count.toString();
+	var ret:String = getNumber(count);
 	if( count < 1000 )
 		return ret;
-	else if ( count < 1000000 )
-	{
+	if( count < 1000000 )
 		return ret.substr(0, ret.length - 3) + "," + ret.substr(ret.length - 3);
-	}
 	return ret
 }
 }
