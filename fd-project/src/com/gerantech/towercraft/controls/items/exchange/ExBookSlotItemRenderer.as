@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.groups.GradientHilight;
 import com.gerantech.towercraft.controls.overlays.HandPoint;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
@@ -23,6 +24,7 @@ import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.RelativePosition;
 import flash.geom.Rectangle;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -43,6 +45,7 @@ private var timeoutId:uint;
 private var hardLabel:ShadowLabel;
 private var handPoint:HandPoint;
 private var ribbonImage:ImageLoader;
+private var hilight:GradientHilight;
 
 public function ExBookSlotItemRenderer(){}
 override protected function initialize():void
@@ -127,18 +130,32 @@ override protected function buttonFactory() : ExchangeButton
 
 protected function backgroundFactory() : ImageLoader
 {
-	if( backgroundDisplay != null )
-	{
-		backgroundDisplay.source = Assets.getTexture("home/slot-" + state, "gui");
-		return null;
-	}
-	
 	var st:int = Math.max(0, state);
-	backgroundDisplay = new ImageLoader();
-	backgroundDisplay.source = Assets.getTexture("home/slot-" + st, "gui");
-	backgroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	backgroundDisplay.scale9Grid = new Rectangle(39, 43, 6, 34);
+	if( backgroundDisplay == null )
+	{
+		backgroundDisplay = new ImageLoader();
+		backgroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+		backgroundDisplay.scale9Grid = new Rectangle(39, 43, 6, 34);
+	}
 	addChild(backgroundDisplay);
+	backgroundDisplay.source = Assets.getTexture("home/slot-" + st, "gui");
+	
+	if( state != ExchangeItem.CHEST_STATE_READY )
+		return null;
+	if( hilight == null )
+	{
+		hilight = new GradientHilight();
+		hilight.layoutData = new AnchorLayoutData(10, 12, 10, 12);
+		hilight.alpha = 0.5;
+		/*var mask:ImageLoader = new ImageLoader();
+		mask.source = backgroundDisplay.source;
+		mask.layoutData = backgroundDisplay.layoutData;
+		mask.scale9Grid = backgroundDisplay.scale9Grid;
+		mask.maskInverted = true
+		hilight.mask = mask;
+		addChild(mask);*/
+	}
+	addChild(hilight);
 	return backgroundDisplay;
 }
 protected function emptyGroupFactory() : RTLLabel 

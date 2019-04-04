@@ -110,6 +110,12 @@ override protected function chatList_changeHandler(event:Event) : void
 	}
 }
 
+override protected function scrollToEnd():void
+{
+    chatList.scrollToDisplayIndex(Math.max(0, manager.messages.length - 1));
+    autoScroll = true;
+}
+
 override protected function chatList_focusInHandler(event:Event):void
 {
     if( !_buttonsEnabled )

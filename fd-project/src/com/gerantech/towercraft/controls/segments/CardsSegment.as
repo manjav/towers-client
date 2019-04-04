@@ -92,8 +92,8 @@ override public function init():void
 	layout = new AnchorLayout();
 	var foundLayout:TiledRowsLayout = new TiledRowsLayout();
 	var availabledLayout:TiledRowsLayout = new TiledRowsLayout();
-	foundLayout.paddingTop = padding * 0.5;
-	availabledLayout.gap = foundLayout.gap = padding * 1.3;
+	availabledLayout.gap = foundLayout.gap = foundLayout.paddingTop = padding * 0.5;
+	availabledLayout.verticalGap = foundLayout.verticalGap = padding * 2;
 	availabledLayout.paddingBottom = foundLayout.paddingBottom = padding * 2;
 	availabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
 	availabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
@@ -220,7 +220,7 @@ private function selectCard(cardType:int, cardBounds:Rectangle):void
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (inDeck?4.5:8));
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - 16, cardBounds.y - 16, cardBounds.width + 32, cardBounds.height + (inDeck?174:300));
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();

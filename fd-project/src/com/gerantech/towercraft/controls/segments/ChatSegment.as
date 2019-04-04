@@ -112,7 +112,7 @@ protected function showElements() : void
 protected function chatList_createCompleteHandler(event:Event):void
 {
 	chatList.removeEventListener(FeathersEventType.CREATION_COMPLETE, chatList_createCompleteHandler);
-	chatList.scrollToDisplayIndex(Math.max(0, chatList.dataProvider.length - 1));
+	scrollToEnd();
     setTimeout(chatList.addEventListener, 1000, Event.SCROLL, chatList_scrollHandler);
 }
 
