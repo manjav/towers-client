@@ -61,6 +61,7 @@ override protected function initialize():void
 	progressBar.clampValue = this._clampValue;
 	progressBar.formatValueFactory = this._formatValueFactory;;
 	progressBar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	progressBar.isEnabled = false;
 	progressBar.minimum = minimum;
 	progressBar.maximum = maximum;
 	progressBar.value = value;
@@ -79,12 +80,11 @@ override protected function initialize():void
 	
 	if( hasIncreaseButton )
 	{
-		var increaseButton:Button = new Button();
-		increaseButton.width = increaseButton.height = height + 12;
-		increaseButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
-		increaseButton.label = "+";
+		var increaseButton:IndicatorButton = new IndicatorButton();
 		increaseButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
 		increaseButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
+		increaseButton.width = increaseButton.height = height + 12;
+		increaseButton.label = "+";
 		addChild(increaseButton);
 	}
 	

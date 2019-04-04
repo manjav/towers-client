@@ -6,6 +6,8 @@ import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.themes.MainTheme;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -102,13 +104,13 @@ protected function badgeFactory() : IndicatorButton
 
 	if( badgeNumber == null )
 	{
-		badgeNumber = new IndicatorButton("0", 0.8);
+		badgeNumber = new IndicatorButton();
 		badgeNumber.width = badgeNumber.height = 64;
 		badgeNumber.layoutData = new AnchorLayoutData(18, 18);
 	}
 	badgeNumber.fixed = index == 0;
-	badgeNumber.label = String(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
-	badgeNumber.style = dashboardData.newBadgeNumber > 0 ? "danger" : "normal";
+	badgeNumber.label = StrUtils.getNumber(dashboardData.newBadgeNumber > 0 ? dashboardData.newBadgeNumber : dashboardData.badgeNumber);
+	badgeNumber.styleName = dashboardData.newBadgeNumber > 0 ? MainTheme.STYLE_BUTTON_SMALL_DANGER : MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 	addChild(badgeNumber);
 	return null;
 }
