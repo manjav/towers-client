@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -32,7 +33,7 @@ import flash.utils.setTimeout;
 import starling.display.Image;
 import starling.events.Event;
 
-public class BookDetailsPopup extends SimplePopup
+public class BookDetailsPopup extends SimpleHeaderPopup
 {
 private var showButton:Boolean;
 private var item:ExchangeItem;
@@ -43,21 +44,23 @@ private var countdownDisplay:CountdownLabel;
 private var bookArmature:StarlingArmatureDisplay;
 public function BookDetailsPopup(item:ExchangeItem, showButton:Boolean = true)
 {
-	this.item = item;
-	this.showButton = showButton;
 	super();
+	this.item = item;
+	this.hasCloseButton = false;
+	this.showButton = showButton;
+	this.title = loc("exchange_title_" + item.outcome);
 }
 
 override protected function initialize():void
 {
-	super.initialize();
-	
 	var _h:int = showButton ? 680 : 480;
 	var _p:int = 32;
 	var _b:int = stageHeight - DashboardScreen.FOOTER_SIZE - HomeBooksLine.HEIGHT - 54;
+	transitionIn = transitionOut = new TransitionData();
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	_b - _h * 0.4,	stageWidth - _p * 2,	_h * 0.6);
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	_b - _h,		stageWidth - _p * 2,	_h * 1.0);
-	rejustLayoutByTransitionData();
+	
+	super.initialize();
 
 	var insideBG:Devider = new Devider(0x1E66C2);
 	insideBG.height = 120;
@@ -69,9 +72,7 @@ override protected function initialize():void
 	leagueDisplay.layoutData = new AnchorLayoutData(26, NaN, NaN, NaN, 220);
 	addChild(leagueDisplay);
 	
-	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 1, 0, null, null, false, null, 1.1);
 	titleDisplay.layoutData = new AnchorLayoutData(85, NaN, NaN, NaN, 220);
-	addChild(titleDisplay);
 
 	var numCards:int = ExchangeType.getNumTotalCards(item.outcome, arena, player.splitTestCoef, 0);
 	var cardsPalette:IconGroup = new IconGroup(Assets.getTexture("cards"), int(numCards * 0.9) + " - " + int(numCards * 1.1));
@@ -80,7 +81,7 @@ override protected function initialize():void
 	addChild(cardsPalette);
 	
 	var numSofts:int = ExchangeType.getNumSofts(item.outcome, arena, player.splitTestCoef);
-	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.R3_CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFF99);
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.R3_CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFFFF, 0xFFFF99);
 	softsPalette.width = transitionIn.destinationBound.width * 0.42;
 	softsPalette.layoutData = new AnchorLayoutData(290, 40);
 	addChild(softsPalette);
@@ -96,9 +97,9 @@ override protected function transitionInCompleted():void
 	super.transitionInCompleted();
 	
 	// arrow
-	var itemWidth:int = stageWidth * 0.25;
+	var itemWidth:int = stageWidth * 0.25 - 12;
 	var bottomArrowSkin:Image = new Image(appModel.theme.calloutBottomArrowSkinTexture);
-	bottomArrowSkin.x = itemWidth * (item.type - 110.5) - bottomArrowSkin.width * 0.5 - transitionIn.destinationBound.x;
+	bottomArrowSkin.x = itemWidth * (item.type - 110.5) - bottomArrowSkin.width * 0.5 - transitionIn.destinationBound.x + 20;
 	bottomArrowSkin.y = transitionIn.destinationBound.height - 2;
 	addChild(bottomArrowSkin);
 	

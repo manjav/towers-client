@@ -23,5 +23,12 @@ override protected function initialize():void
 	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(skin);
 }
+
+protected function showElements() : void { }
+override protected function transitionInCompleted() : void
+{
+	super.transitionInCompleted();
+	showElements();
+}
 }
 }

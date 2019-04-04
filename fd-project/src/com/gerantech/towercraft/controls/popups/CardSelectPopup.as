@@ -1,9 +1,10 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.BuildingCard;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.constants.PrefsTypes;
+import feathers.controls.Button;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.core.Starling;
@@ -17,7 +18,7 @@ public class CardSelectPopup extends SimplePopup
 public var cardType:int;
 private var card:Card;
 private var _bounds:Rectangle;
-private var detailsButton:CustomButton;
+private var detailsButton:MMOryButton;
 
 public function CardSelectPopup(){}
 override protected function initialize():void
@@ -45,16 +46,17 @@ override protected function transitionInCompleted():void
 	card = player.cards.get(cardType);
 
 	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
-	buildingIcon.layoutData = new AnchorLayoutData(padding * 0.3, padding * 0.3, NaN, padding * 0.3);
+	buildingIcon.layoutData = new AnchorLayoutData(4, 4, NaN, 4);
 	addChild(buildingIcon);
 	buildingIcon.setData(card.type, card.level, card.count());
 	
 	var upgradable:Boolean = card.upgradable();
-	detailsButton = new CustomButton();
+	detailsButton = new MMOryButton();
+	//detailsButton.width = 240;
 	detailsButton.height = 120;
 	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
-	detailsButton.style = upgradable ? "normal" : "neutral";
-	detailsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * (data?0.5:4.0), NaN, 0);
+	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_HILIGHT;
+	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?24:152, 10);
 	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
 	detailsButton.alpha = 0;
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
@@ -65,11 +67,12 @@ override protected function transitionInCompleted():void
 	if( data )
 		return;
 	
-	var usingButton:CustomButton = new CustomButton();
-	usingButton.style = "neutral";
+	var usingButton:Button = new Button();
+	usingButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	usingButton.label = loc("usage_label");
+	//usingButton.width = 240;
 	usingButton.height = 120;
-	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, NaN, 0);
+	usingButton.layoutData = new AnchorLayoutData(NaN, 10, 24, 10);
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	addChild(usingButton);		
 	usingButton.alpha = 0;

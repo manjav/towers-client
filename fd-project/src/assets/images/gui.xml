@@ -254,7 +254,7 @@
 	<SubTexture name="settings/312" x="707" y="1784" width="63" height="67" frameX="-5" frameY="0" frameWidth="72" frameHeight="72"/>
 	<SubTexture name="settings/2" x="1401" y="1784" width="68" height="62" frameX="-2" frameY="-2" frameWidth="72" frameHeight="72"/>
 	<SubTexture name="settings/315" x="623" y="1296" width="62" height="65" frameX="-5" frameY="-2" frameWidth="72" frameHeight="72"/>
-	<SubTexture name="theme/popup-background-skin" x="345" y="1773" width="30" height="127" frameX="0" frameY="0" frameWidth="30" frameHeight="128"/>
+	<SubTexture name="theme/popup-headered-background-skin" x="345" y="1773" width="30" height="127" frameX="0" frameY="0" frameWidth="30" frameHeight="128"/>
 	<SubTexture name="home/button-bg-2" x="1470" y="1784" width="48" height="79" frameX="0" frameY="0" frameWidth="48" frameHeight="80"/>
 	<SubTexture name="cards/elixir-1" x="866" y="1393" width="60" height="63" frameX="0" frameY="0" frameWidth="60" frameHeight="64"/>
 	<SubTexture name="cards/elixir-2" x="1595" y="1639" width="60" height="63" frameX="0" frameY="0" frameWidth="60" frameHeight="64"/>
@@ -278,7 +278,7 @@
 	<SubTexture name="tooltip-bg-top-right" x="73" y="1824" width="54" height="53" frameX="0" frameY="0" frameWidth="54" frameHeight="54"/>
 	<SubTexture name="socials/balloon-me" x="1128" y="1358" width="63" height="45" frameX="-26" frameY="-12" frameWidth="100" frameHeight="73"/>
 	<SubTexture name="socials/balloon-who" x="1290" y="1407" width="63" height="45" frameX="-9" frameY="-12" frameWidth="100" frameHeight="73"/>
-	<SubTexture name="theme/popup-simple-background-skin" x="771" y="1784" width="30" height="94" frameX="0" frameY="0" frameWidth="30" frameHeight="95"/>
+	<SubTexture name="theme/popup-background-skin" x="771" y="1784" width="30" height="94" frameX="0" frameY="0" frameWidth="30" frameHeight="95"/>
 	<SubTexture name="home/settings" x="889" y="1824" width="53" height="53" frameX="0" frameY="0" frameWidth="53" frameHeight="54"/>
 	<SubTexture name="home/ranking" x="1028" y="1518" width="58" height="46" frameX="0" frameY="0" frameWidth="58" frameHeight="47"/>
 	<SubTexture name="home/button-battle-footer" x="1190" y="1567" width="60" height="44" frameX="0" frameY="0" frameWidth="60" frameHeight="45"/>

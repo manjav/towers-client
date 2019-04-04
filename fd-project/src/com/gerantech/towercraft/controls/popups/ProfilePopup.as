@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
+import com.gerantech.towercraft.controls.groups.RewardsPalette;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
@@ -71,10 +72,11 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 
 override protected function initialize():void
 {
-	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
 	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.65));
-	rejustLayoutByTransitionData();
+	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
+	super.initialize();
 }
 protected override function transitionInCompleted():void
 {
@@ -117,7 +119,7 @@ private function showProfile():void
 	addChild(nameDisplay);
 	
 	var tagDisplay:RTLLabel = new RTLLabel("#" + playerData.getText("tag") + (adminMode?(" => " + user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.58);
-	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.0, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
+	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.5, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(tagDisplay);
 	
 	var lobbyNameDisplay:RTLLabel = new RTLLabel(user.ln, 0xAABBBB, null, "ltr", true, null, 0.6);
@@ -125,15 +127,14 @@ private function showProfile():void
 	addChild(lobbyNameDisplay);
 	
 	var closeButton:CustomButton = new CustomButton();
+	closeButton.alpha = 0;
+	closeButton.height = 100;
 	closeButton.label = loc("close_button");
 	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+	closeButton.y = height - closeButton.height - padding * 1.2;
+	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1, y:height - closeButton.height - padding});
 	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
 	addChild(closeButton);
-
-	closeButton.y = height - closeButton.height - padding;
-	closeButton.alpha = 0;
-	closeButton.height = 110;
-	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1, y:height - closeButton.height - padding * 0.4});
 	
 	if( adminMode )
 	{

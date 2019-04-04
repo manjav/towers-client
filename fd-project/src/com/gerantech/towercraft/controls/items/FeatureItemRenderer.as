@@ -53,7 +53,7 @@ protected function keyLabelFactory(scale:Number = 0.8, color:uint = 0):RTLLabel
 	if( keyDisplay != null )
 		return null;
 	keyDisplay = new RTLLabel("", color, null, null, false, null, scale * 0.9);
-	keyDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:12, NaN, appModel.isLTR?12:NaN, NaN, 0);
+	keyDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:10, NaN, appModel.isLTR?10:NaN, NaN, 0);
 	addChild(keyDisplay);
 	return keyDisplay;
 }
@@ -63,7 +63,7 @@ protected function valueLabelFactory(scale:Number = 0.8, color:uint = 0):void
 	if( valueDisplay != null )
 		return;
 	valueDisplay = new LTRLable("", color, "left", false, scale);
-	LTRLable(valueDisplay).layoutData = new AnchorLayoutData(NaN, appModel.isLTR?12:NaN, NaN, appModel.isLTR?NaN:12, NaN, 0);
+	LTRLable(valueDisplay).layoutData = new AnchorLayoutData(-16, appModel.isLTR?10:NaN, -10, appModel.isLTR?NaN:10);
 	addChild(valueDisplay as LTRLable);
 }
 }

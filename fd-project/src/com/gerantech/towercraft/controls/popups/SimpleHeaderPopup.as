@@ -14,20 +14,23 @@ import starling.events.Event;
 public class SimpleHeaderPopup extends SimplePopup 
 {
 public var title:String;
+public var hasCloseButton:Boolean = true;
 protected var closeButton:Button;
 protected var titleDisplay:ShadowLabel;
 public function SimpleHeaderPopup() { super(); }
 override protected function initialize() : void
 {
 	super.initialize();
-	skin.source = appModel.theme.popupBackgroundSkinTexture;
-	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
+	skin.source = appModel.theme.popupHeaderedBackgroundSkinTexture;
+	skin.scale9Grid = MainTheme.POPUP_HEADERED_SCALE9_GRID;
 	overlay.alpha = 0.8;
 	
 	titleDisplay = new ShadowLabel(title, 1, 0, "center");
 	titleDisplay.layoutData = new AnchorLayoutData(15, NaN, NaN, NaN, 0);
 	titleDisplay.alpha = 0;
 	
+	if( !hasCloseButton )
+		return;
 	closeButton = new Button();
 	closeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 	closeButton.defaultIcon = new Image(Assets.getTexture("theme/icon-cross", "gui"));
@@ -40,20 +43,19 @@ override protected function initialize() : void
 
 override protected function transitionInCompleted() : void
 {
-	super.transitionInCompleted();
 	Starling.juggler.tween(titleDisplay, 0.2, {alpha:1});
 	addChild(titleDisplay);
-	showElements();
+	super.transitionInCompleted();
 }
 
-protected function showElements() : void { }
 protected function closeButton_triggeredHandler():void
 {
 	close();
 }
 override public function dispose():void
 {
-	closeButton.removeEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+	if( hasCloseButton )
+		closeButton.removeEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	super.dispose();
 }
 }

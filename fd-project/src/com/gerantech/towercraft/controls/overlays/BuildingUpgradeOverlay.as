@@ -21,6 +21,8 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.TiledRowsLayout;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -44,8 +46,8 @@ override protected function initialize():void
 	layout = new AnchorLayout();
 	closeOnStage = false;
 
-	width = stage.stageWidth;
-	height = stage.stageHeight;
+	width = stageWidth;
+	height = stageHeight;
 	overlay.alpha = 1;
 	
 	var cardView:BuildingCard = new BuildingCard(true, false, false, false);
@@ -54,7 +56,7 @@ override protected function initialize():void
 	cardView.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, NaN);
 	cardView.width = 240;
 	cardView.height = cardView.width * BuildingCard.VERICAL_SCALE;
-	cardView.y = (stage.stageHeight - cardView.height) * 0.5;
+	cardView.y = (stageHeight - cardView.height) * 0.5;
 	addChild(cardView);
 	cardView.setData(card.type, card.level - 1);
 	//card.scale = 1.6;
@@ -66,7 +68,7 @@ override protected function initialize():void
 	function levelUp():void {
 		var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_" + cardView.type), 1, "center", null, false, null, 1.5);
 		titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
-		titleDisplay.y = (stage.stageHeight - cardView.height) / 3;
+		titleDisplay.y = (stageHeight - cardView.height) / 3;
 		addChild(titleDisplay);
 		
 		cardView.scale = 2.4;
@@ -94,19 +96,28 @@ override protected function initialize():void
 		// scraps particles
 		var scraps:UIParticleSystem = new UIParticleSystem("scrap", 5);
 		scraps.startSize *= 4;
-		scraps.x = stage.stageWidth * 0.5;
-		scraps.y = -stage.stageHeight * 0.1;
+		scraps.x = stageWidth * 0.5;
+		scraps.y = -stageHeight * 0.1;
 		addChildAt(scraps, 1);
 		
 		appModel.sounds.addAndPlay("upgrade");
 	}
 	function showFeatures():void 
 	{
+		CardFeatureItemRenderer.IN_DETAILS = false;
+		var featureLayout:TiledRowsLayout = new TiledRowsLayout();
+		featureLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+		featureLayout.requestedColumnCount = 2;
+		featureLayout.useSquareTiles = false;
+		featureLayout.gap = 20;
+		featureLayout.typicalItemWidth = (stageWidth - 400 - featureLayout.gap - 1) / featureLayout.requestedColumnCount;
+		
 		var featureList:List = new List();
-		featureList.width = stage.stageWidth * 0.5;
-		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, featureList.width * 0.7);
+		featureList.layout = featureLayout;
+		featureList.width = stageWidth - 400;
+		featureList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 560);
 		featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(card.type); }
+		featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(); }
 		featureList.dataProvider = new ListCollection(CardFeatureType.getRelatedTo(card.type)._list);
 		addChild(featureList);
 	}

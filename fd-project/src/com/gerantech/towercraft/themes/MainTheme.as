@@ -163,8 +163,8 @@ static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(10, 23, 1, 1);
 static public const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
 static public const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 static public const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
-static public const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 112, 2, 2);
-static public const POPUP_SIMPLE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 46);
+static public const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 46);
+static public const POPUP_HEADERED_SCALE9_GRID:Rectangle = new Rectangle(14, 112, 2, 2);
 static public const POPUP_INSIDE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 1);
 static public const CALLOUT_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 2, 16);
 static public const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 4, 22);//1, 1, 1, 42);
@@ -618,10 +618,10 @@ public function get insetItemRendererLastSelectedSkinTexture() : Texture { retur
 public function get insetItemRendererSingleUpSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-up-skin", "gui"); }
 public function get insetItemRendererSingleSelectedSkinTexture() : Texture { return Assets.getTexture("theme/single-inset-item-renderer-selected-up-skin", "gui"); }
 public function get popupBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-background-skin", "gui"); }
+public function get popupHeaderedBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-headered-background-skin", "gui"); }
 public function get popupInsideBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-inside-background-skin", "gui"); }
-public function get popupSimpleBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/popup-simple-background-skin", "gui"); }
 public function get headerBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-background-skin", "gui"); }
-public function get popUpHeaderBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-popup-background-skin", "gui"); }
+public function get headerPopupBackgroundSkinTexture() : Texture { return Assets.getTexture("theme/header-popup-background-skin", "gui"); }
 
 public function get calloutTopArrowSkinTexture() : Texture { return Assets.getTexture("theme/callout-arrow-top-skin", "gui"); }
 public function get calloutRightArrowSkinTexture() : Texture { return Assets.getTexture("theme/callout-arrow-right-skin", "gui"); }
@@ -1838,7 +1838,7 @@ protected function setPopUpHeaderStyles(header:Header):void
 	header.fontStyles = this.xlargeLightUIFontStyles;
 	header.disabledFontStyles = this.xlargeLightUIDisabledFontStyles;
 
-	var backgroundSkin:ImageSkin = new ImageSkin(this.popUpHeaderBackgroundSkinTexture);
+	var backgroundSkin:ImageSkin = new ImageSkin(this.headerPopupBackgroundSkinTexture);
 	backgroundSkin.tileGrid = new Rectangle();
 	backgroundSkin.width = this.gridSize;
 	backgroundSkin.height = this.gridSize;

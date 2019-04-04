@@ -4,11 +4,14 @@ import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.buttons.ExchangeDButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.groups.ColorGroup;
+import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
@@ -21,39 +24,43 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
+import feathers.layout.RelativePosition;
+import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalLayout;
+import flash.geom.Point;
 import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
 
-public class CardDetailsPopup extends SimplePopup
+public class CardDetailsPopup extends SimpleHeaderPopup
 {
 private var cardDisplay:BuildingCard;
 public var cardType:int;
-public function CardDetailsPopup(){}
+public var showButton:Boolean = true;
+public function CardDetailsPopup(){ super(); }
 override protected function initialize():void
 {
+	title = loc("card_title_" + cardType);
+	
 	// create transition in data
-	var popupHeight:int = stageHeight * 0.55;// (cardType.get_category(cardType) == CardTypes.B40_CRYSTAL ? 0.60 : 0.52);
-	var popupY:int = (stageHeight - popupHeight) * 0.5;
-	transitionIn = new TransitionData();
-	transitionIn.transition = Transitions.EASE_OUT;
-	transitionIn.sourceBound =		new Rectangle(stageWidth * 0.05,	popupY * 1.1,	stageWidth * 0.9, popupHeight * 0.9);
-	transitionIn.destinationBound = new Rectangle(stageWidth * 0.05,	popupY,			stageWidth * 0.9, popupHeight * 1.0);
-
-	// create transition out data
-	transitionOut = new TransitionData();
-	transitionOut.sourceAlpha = 1;
-	transitionOut.destinationAlpha = 0.5;
-	transitionOut.sourceBound = transitionIn.destinationBound.clone();
-	transitionOut.destinationBound = transitionIn.sourceBound.clone();
+	var _h:int = showButton ? 1200 : 940;
+	var _p:int = 48;
+	transitionIn = transitionOut = new TransitionData();
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
 	
 	super.initialize();
+
+	var insideBG:Devider = new Devider(0xBBBBBB);
+	insideBG.layoutData = new AnchorLayoutData(110, 0, NaN, 0);
+	insideBG.height = 510;
+	insideBG.alpha = 0.5;
+	addChild(insideBG);
 	
 	cardDisplay = new BuildingCard(true, true, false, false);
-	cardDisplay.width = padding * 9;
-	cardDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
+	cardDisplay.width = 300;
+	cardDisplay.layoutData = new AnchorLayoutData(150, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(cardDisplay);
 	cardDisplay.setData(cardType);
 }
@@ -61,19 +68,12 @@ override protected function initialize():void
 override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
-	
-	var textLayout:VerticalLayout = new VerticalLayout();
-	textLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	textLayout.gap = padding;
-	
-	var titleDisplay:RTLLabel = new RTLLabel(loc("card_title_" + cardType), 1, null, null, false, null, 1.1, null, "bold");
-	titleDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:padding * 12, NaN, appModel.isLTR?padding * 12:padding);
-	addChild(titleDisplay);
-	
+	padding = 50;
+
 	var rarity:int = ScriptEngine.getInt(CardFeatureType.F00_RARITY, cardType, 1);
-	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_" + rarity), CardTypes.getRarityColor(rarity));
+	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_" + rarity), CardTypes.getRarityColor(rarity), 0xFFFFFF);
 	rarityPalette.width = (transitionIn.destinationBound.width - padding * 13) * 0.48;
-	rarityPalette.layoutData = new AnchorLayoutData(padding * 3.7, appModel.isLTR?NaN:padding * 12, NaN, appModel.isLTR?padding * 12:NaN);
+	rarityPalette.layoutData = new AnchorLayoutData(160, appModel.isLTR?padding:380, NaN, appModel.isLTR?380:padding);
 	addChild(rarityPalette);
 	
 	/*var categoryPalette:ColorGroup = new ColorGroup(loc("card_category_" + building.category));
@@ -81,15 +81,32 @@ override protected function transitionInCompleted():void
 	categoryPalette.layoutData = new AnchorLayoutData(padding * 3.7, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	addChild(categoryPalette);*/
 	
-	var messageDisplay:RTLLabel = new RTLLabel(loc("card_message_" + cardType), 1, "justify", null, true, null, 0.7);
-	messageDisplay.layoutData = new AnchorLayoutData(padding * 7, appModel.isLTR?padding:padding * 12, NaN, appModel.isLTR?padding * 12:padding);
+	var messageDisplay:RTLLabel = new RTLLabel(loc("card_message_" + cardType), 0, "justify", null, true, null, 0.6);
+	messageDisplay.layoutData = new AnchorLayoutData(290, appModel.isLTR?padding:380, NaN, appModel.isLTR?380:padding);
 	addChild(messageDisplay);
 	
+	// features ....
+	
+	CardFeatureItemRenderer.IN_DETAILS = true;
+	CardFeatureItemRenderer.CARD_TYPE = cardType;
+	CardFeatureItemRenderer.UPGRADABLE = player.cards.exists(cardType) && player.cards.get(cardType).upgradable();
+	var features:Vector.<int> = CardFeatureType.getRelatedTo(cardType)._list;
+	if( ScriptEngine.get(CardFeatureType.F03_QUANTITY, cardType) > 1 )
+		features.push(CardFeatureType.F03_QUANTITY);
+	
+	var featureLayout:TiledRowsLayout = new TiledRowsLayout();
+	featureLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	featureLayout.requestedColumnCount = 2;
+	featureLayout.useSquareTiles = false;
+	featureLayout.gap = 6;
+	featureLayout.typicalItemWidth = (transitionOut.sourceBound.width - padding * 2 - featureLayout.gap - 1) / featureLayout.requestedColumnCount;
+	
 	var featureList:List = new List();
-	featureList.layoutData = new AnchorLayoutData(padding * 15, padding, NaN, padding);
+	featureList.layout = featureLayout;
+	featureList.layoutData = new AnchorLayoutData(660, padding, NaN, padding);
 	featureList.horizontalScrollPolicy = featureList.verticalScrollPolicy = ScrollPolicy.OFF;
-	featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(cardType); }
-	featureList.dataProvider = new ListCollection(CardFeatureType.getRelatedTo(cardType)._list);
+	featureList.itemRendererFactory = function ():IListItemRenderer { return new CardFeatureItemRenderer(); }
+	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
 
 	var card:Card = player.cards.get(cardType);
@@ -102,20 +119,21 @@ override protected function transitionInCompleted():void
 	
 	var inDeck:Boolean = player.getSelectedDeck().existsValue(cardType);
 
-	var upgradeButton:ExchangeDButton = new ExchangeDButton();
-	upgradeButton.disableSelectDispatching = true;
-
-	upgradeButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, inDeck ? 0 : -padding * 5);
+	var upgradeButton:MMOryButton = new MMOryButton();
+	//upgradeButton.disableSelectDispatching = true;
 	upgradeButton.alpha = 0;
-	upgradeButton.width = 320;
-	upgradeButton.height = 130;
-	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+	upgradeButton.width = 270;
+	upgradeButton.height = 140;
+	upgradeButton.iconSize = new Point(64, 64);
+	upgradeButton.message = loc("upgrade_label");
+	upgradeButton.messagePosition = RelativePosition.TOP;
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
-	upgradeButton.count = Card.get_upgradeCost(card.level, card.rarity);
-	upgradeButton.type = ResourceType.R3_CURRENCY_SOFT;
-	upgradeButton.label = loc("upgrade_label") + "\n" + Card.get_upgradeCost(card.level, card.rarity);
+	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
+	upgradeButton.iconTexture = MMOryButton.getIcon(ResourceType.R3_CURRENCY_SOFT, 1);
+	upgradeButton.label = MMOryButton.getLabel(0, Card.get_upgradeCost(card.level, card.rarity));
+	upgradeButton.layoutData = new AnchorLayoutData(NaN, padding + 300, padding);
 	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.level, card.rarity);
-	upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
+	//upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
 	Starling.juggler.tween(upgradeButton, 0.3, {delay:0.1, alpha:1, onComplete:upgradeButton_tweenCompleted});
 	function upgradeButton_tweenCompleted () : void
@@ -129,17 +147,17 @@ override protected function transitionInCompleted():void
 
 	if( !inDeck )
 	{
-		var usingButton:CustomButton = new CustomButton();
-		usingButton.style = "neutral";
+		var usingButton:MMOryButton = new MMOryButton();
+		usingButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 		usingButton.label = loc("usage_label");
 		usingButton.isEnabled = player.cards.exists(cardType) && !player.getSelectedDeck().exists(cardType);
-		usingButton.width = 320;
-		usingButton.height = 110;
+		usingButton.width = 270;
+		usingButton.height = 140;
 		usingButton.isEnabled = !
 		usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
-		usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, NaN, padding * 5);
+		usingButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
 		addChild(usingButton);
-	}    
+	}
 }
 
 override protected function transitionOutStarted():void
