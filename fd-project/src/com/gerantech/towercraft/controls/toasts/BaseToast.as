@@ -23,7 +23,7 @@ override protected function initialize():void
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
 		transitionIn.sourceBound = new Rectangle(0, animationMode == ANIMATION_MODE_TOP ? -toastHeight : stageHeight, stageWidth, toastHeight);
-		transitionIn.destinationBound = new Rectangle(0, stageHeight - toastHeight, stageWidth, toastHeight);
+		transitionIn.destinationBound = new Rectangle(0, animationMode == ANIMATION_MODE_TOP ? 0 : stageHeight - toastHeight, stageWidth, toastHeight);
 	}
 	if( transitionOut == null )
 	{
