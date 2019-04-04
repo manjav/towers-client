@@ -19,6 +19,7 @@ public var showGradientShadow:Boolean = true;
 public var showTileAnimationn:Boolean = true;
 protected var headerSize:int = 150;
 protected var footerSize:int = 150;
+protected var titleDisplay:ShadowLabel;
 protected var closeButton:MMOryButton;
 public function SimpleScreen(){ super(); }
 override protected function initialize():void
@@ -42,8 +43,8 @@ override protected function initialize():void
 	closeButton.layoutData = new AnchorLayoutData( NaN, NaN, 40, 40);
 	addChild(closeButton);
 	
-	var titleDisplay:ShadowLabel = new ShadowLabel(title);
-	titleDisplay.layoutData = new AnchorLayoutData(headerSize * 0.3, NaN, NaN, NaN, 0);
+	titleDisplay = new ShadowLabel(title);
+	titleDisplay.layoutData = new AnchorLayoutData(headerSize - 100, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 }
 

@@ -44,6 +44,7 @@ override protected function initialize():void
 	indicatorXP.layoutData = new AnchorLayoutData(22, NaN, NaN, 40);
 	addChild(indicatorXP);
 	
+	
 	showQuests(true);
 }
 
@@ -62,7 +63,7 @@ private function showQuests(needsLoad:Boolean):void
 	//header.labelLayout.verticalCenter = 40;
 	listLayout.paddingLeft = listLayout.paddingRight = 12;
 	listLayout.paddingTop = headerSize + 20;
-	list.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
+	//list.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);

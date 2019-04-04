@@ -40,7 +40,6 @@ override protected function initialize():void
 	listLayout.paddingTop = 200;
 	
 	list.dataProvider = challengesCollection;
-	list.layoutData = new AnchorLayoutData(0, 0, headerSize, 0);
 	list.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
 	list.addEventListener(Event.TRIGGERED, list_triggeredHandler);
 	

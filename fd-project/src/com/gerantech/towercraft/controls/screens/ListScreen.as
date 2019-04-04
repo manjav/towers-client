@@ -32,7 +32,7 @@ override protected function initialize():void
 	list = new FastList();
 	list.layout = listLayout;
 	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	list.layoutData = new AnchorLayoutData(title == "" ? 0 : headerSize, 0, 0, 0);
+	list.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 /*	if( virtualHeader )
 		setTimeout(list.addEventListener, 100, Event.SCROLL, list_scrollHandler);*/
