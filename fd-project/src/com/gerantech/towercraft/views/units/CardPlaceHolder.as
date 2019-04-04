@@ -78,7 +78,7 @@ public function set type(value:int) : void
 	
 	
 	titleDisplay.text = StrUtils.loc("card_title_" + _type);
-	labelDisplay.text = StrUtils.loc("level_label") + " " + card.level;
+	labelDisplay.text = StrUtils.loc("level_label", [card.level]);
 	
 	unitsContainer.removeChildren();
 	if( isSpell )

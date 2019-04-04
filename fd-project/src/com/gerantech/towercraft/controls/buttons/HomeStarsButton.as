@@ -65,7 +65,7 @@ protected function sliderFactory() : Indicator
 	ind_17.layoutData = new AnchorLayoutData(NaN, 100, NaN, 90, NaN, 0);
 	ind_17.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 	{
-		return StrUtils.getNumber( maximum + " / " + Math.round(value) );
+		return StrUtils.getNumber( Math.round(value) + "/" + maximum );
 	}
 	ind_17.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void
 	{

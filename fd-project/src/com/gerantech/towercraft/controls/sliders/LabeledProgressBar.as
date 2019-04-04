@@ -1,8 +1,7 @@
 package com.gerantech.towercraft.controls.sliders
 {
-import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ProgressBar;
 import feathers.core.ITextRenderer;
@@ -96,10 +95,7 @@ protected function defaultTextRendererFactory() : ITextRenderer
 		return null;
 	}
 	
-	var _labelTextRenderer:RTLLabel = new RTLLabel("", 1, "center", null, false, null, 0.75);
-	//_labelTextRenderer.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, -1);
-	_labelTextRenderer.pixelSnapping = false;
-	return _labelTextRenderer;
+	return new ShadowLabel(null, 1, 0, "center", "ltr", false, null, 0.7);
 }
 
 private var _formatValueFactory:Function;

@@ -158,8 +158,8 @@ static public const STYLE_BUTTON_SMALL_DISABLE:String = "feathers-small-disable-
 
 static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
 static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
-static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(11, 13, 2, 1);
-static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(7, 19, 1, 1);
+static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(11, 14, 1, 1);
+static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(10, 23, 1, 1);
 static public const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
 static public const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
 static public const FORWARD_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(3, 0, 1, 28);
@@ -1197,6 +1197,7 @@ public function setButtonColorStyle(button:Button, upTexture:Texture, downTextur
 	var skin:ImageSkin = new ImageSkin(upTexture);
 	skin.setTextureForState(ButtonState.DOWN, downTexture);
 	skin.setTextureForState(ButtonState.DISABLED, disableTexture);
+	skin.pixelSnapping = false
 	skin.scale9Grid = scaleGrid;
 	skin.width = this.controlSize;
 	skin.height = this.controlSize;
@@ -1965,23 +1966,7 @@ protected function setProgressBarStyles(progress:ProgressBar):void
 		backgroundSkin.width = this.wideControlSize;
 		backgroundSkin.height = this.smallControlSize;
 	}
-	progress.backgroundSkin = backgroundSkin;
-
-	var backgroundDisabledSkin:Image = backgroundSkin;
-	backgroundDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
-	//var backgroundDisabledSkin:Image = new Image(this.backgroundDisabledSkinTexture);
-	//backgroundDisabledSkin.scale9Grid = DEFAULT_BACKGROUND_SCALE9_GRID;
-	if(progress.direction == Direction.VERTICAL)
-	{
-		backgroundDisabledSkin.width = this.smallControlSize;
-		backgroundDisabledSkin.height = this.wideControlSize;
-	}
-	else
-	{
-		backgroundDisabledSkin.width = this.wideControlSize;
-		backgroundDisabledSkin.height = this.smallControlSize;
-	}
-	progress.backgroundDisabledSkin = backgroundDisabledSkin;
+	progress.backgroundDisabledSkin = progress.backgroundSkin = backgroundSkin;
 
 	var fillSkin:Image = new Image(Assets.getTexture("theme/slider-fill-skin", "gui"));
 	fillSkin.scale9Grid = SLIDER_SCALE9_GRID;
