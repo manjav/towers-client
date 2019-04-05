@@ -12,6 +12,7 @@ public class AdminScreen extends ListScreen
 override protected function initialize():void
 {
 	title = "Admin Screen";
+	showTileAnimationn = false;
 	super.initialize();
 	
 	listLayout.gap = 0;	

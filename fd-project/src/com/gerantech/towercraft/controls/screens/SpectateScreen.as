@@ -31,8 +31,8 @@ override protected function initialize():void
 	sfsConnection.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfs_roomVariablesUpdateHandler);
 	sfsConnection.sendExtensionRequest("spectateBattles", sfsObj);
 	
-
 	title = loc("button_spectate");
+	showTileAnimationn = false;
 	super.initialize();
 	listLayout.gap = 0;	
 	list.itemRendererFactory = function():IListItemRenderer { return new BattleItemRenderer(); }

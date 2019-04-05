@@ -59,7 +59,8 @@ override protected function commitData():void
 
 	inData = new InboxThread(_data);
 	date.time = inData.timestamp;
-	messageDisplay.text = inData.text.substr(0, 2) == "__"?loc(inData.text.substr(2), [inData.owner]):inData.text;
+	var txt:String = inData.text.split("\n").join(". ");
+	messageDisplay.text = txt.substr(0, 2) == "__"?loc(txt.substr(2), [inData.owner]):txt;
 	dateDisplay.text = StrUtils.getDateString(date);
 	senderDisplay.text = inData.owner;
 //	updateSkin();

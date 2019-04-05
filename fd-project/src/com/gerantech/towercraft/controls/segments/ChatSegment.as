@@ -181,7 +181,6 @@ protected function showSimpleListPopup(data:Object, selectedItem:DisplayObject, 
 	buttonsPopup.data = data;
 	buttonsPopup.addEventListener(Event.SELECT, selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, closeHaandler);
-	buttonsPopup.padding = 24;
 	buttonsPopup.buttonsWidth = 320;
 	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;

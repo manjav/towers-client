@@ -303,7 +303,6 @@ private function membersList_focusInHandler(event:Event) : void
 	buttonsPopup.buttons = btns;
 	buttonsPopup.data = selectedData;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24;
 	buttonsPopup.buttonsWidth = 320;
 	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;

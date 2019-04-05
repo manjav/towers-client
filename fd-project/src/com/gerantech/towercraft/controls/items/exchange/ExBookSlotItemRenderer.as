@@ -140,8 +140,8 @@ protected function backgroundFactory() : ImageLoader
 	addChild(backgroundDisplay);
 	backgroundDisplay.source = Assets.getTexture("home/slot-" + st, "gui");
 	
-	if( state != ExchangeItem.CHEST_STATE_READY )
-		return null;
+	if( state != ExchangeItem.CHEST_STATE_BUSY )
+		return backgroundDisplay;
 	if( hilight == null )
 	{
 		hilight = new GradientHilight();

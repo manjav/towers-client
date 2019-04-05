@@ -42,29 +42,28 @@ override protected function initialize():void
 	this.content = AppModel.instance.navigator;
 	stage.color = 0x3382E7;
 
-
-	addScreen(DASHBOARD_SCREEN,	DashboardScreen);
+	addScreen(CHALLENGES_SCREEN,ChallengesScreen, false, false);
+	addScreen(DASHBOARD_SCREEN,	DashboardScreen, false, false);
 	addScreen(LEAGUES_SCREEN,	LeaguesScreen, false, false);
 	addScreen(BATTLE_SCREEN, 	BattleScreen, false, false);
-	addScreen(ADMIN_SCREEN, 	AdminScreen);
-	addScreen(SPECTATE_SCREEN, 	SpectateScreen);
+	addScreen(QUESTS_SCREEN,	QuestsScreen, false, false);
 	addScreen(INBOX_SCREEN, 	InboxScreen);
+	addScreen(ADMIN_SCREEN, 	AdminScreen);
 	addScreen(ISSUES_SCREEN, 	IssuesScreen);
 	addScreen(BANNEDS_SCREEN,	BanndsScreen);
 	addScreen(OFFENDS_SCREEN,	OffendsScreen);
 	addScreen(PLAYERS_SCREEN, 	SearchPlayersScreen);
-	addScreen(CHALLENGES_SCREEN,ChallengesScreen);
-	addScreen(QUESTS_SCREEN,	QuestsScreen);
+	addScreen(SPECTATE_SCREEN, 	SpectateScreen);
 	addScreen(SEARCH_CHAT_SCREEN,SearchChatScreen);
 	AppModel.instance.navigator.rootScreenID = DASHBOARD_SCREEN;
 }		
-private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = false, hasPopTranstion:Boolean = false):void
+private function addScreen(screenType:String, screenClass:Object, hasPushTranstion:Boolean = true, hasPopTranstion:Boolean = true):void
 {
 	var item:StackScreenNavigatorItem = new StackScreenNavigatorItem(screenClass);
 	if( hasPushTranstion )
-		item.pushTransition = Cover.createCoverUpTransition();
+		item.pushTransition = Cover.createCoverLeftTransition();
 	if( hasPopTranstion )
-		item.popTransition = Reveal.createRevealDownTransition();
+		item.popTransition = Reveal.createRevealRightTransition();
 	item.addPopEvent(Event.COMPLETE);
 	AppModel.instance.navigator.addScreen(screenType, item);			
 }

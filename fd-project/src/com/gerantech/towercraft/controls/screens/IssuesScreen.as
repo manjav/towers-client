@@ -7,11 +7,17 @@ import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import starling.events.Event;
 
-public class IssuesScreen extends BaseCustomScreen
+public class IssuesScreen extends SimpleScreen
 {
 //public var reporter:int = -1;
 private var inboxSegment:InboxSegment;
-public function IssuesScreen(){}
+public function IssuesScreen()
+{
+	super();
+	title = "Issues"
+	headerSize = 120;
+	showTileAnimationn = false;
+}
 override protected function initialize():void
 {
 	//title = "Issue Tracking";
@@ -20,7 +26,7 @@ override protected function initialize():void
 	
 	inboxSegment = new InboxSegment();
 	inboxSegment.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(inboxSegment);
+	addChildAt(inboxSegment, getChildIndex(closeButton));
 	
 	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
 	InboxService.instance.requestThreads(10000);

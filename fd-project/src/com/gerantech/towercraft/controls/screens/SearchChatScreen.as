@@ -19,6 +19,7 @@ override protected function initialize() : void
 {
 	patternLimit = 2;
 	title = "Search in lobby cha";
+	showTileAnimationn = false;
 	super.initialize();
 	textInput.prompt = "insert word";
 	listLayout.paddingLeft = listLayout.paddingRight = 10;

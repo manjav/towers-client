@@ -143,7 +143,6 @@ protected function list_focusInHandler(event:Event):void
 	buttonsPopup.data = buddy;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24;
 	buttonsPopup.buttonsWidth = 360;
 	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;

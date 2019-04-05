@@ -34,19 +34,19 @@ override protected function initialize():void
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
-	playerDisplay = new RTLLabel("", 1, null, null, false, null, 0.6);
+	playerDisplay = new RTLLabel(null, 0, null, null, false, null, 0.6);
 	playerDisplay.width = padding * 12;
-	playerDisplay.layoutData = new AnchorLayoutData( padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
+	playerDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN );
 	addChild(playerDisplay);
 
-	messageDisplay = new RTLLabel("", 0xDDEEEE, "justify", null, true, null, 0.55);
-	messageDisplay.layoutData = new AnchorLayoutData( padding * 4, padding, padding, padding );
+	messageDisplay = new RTLLabel(null, 0, "justify", null, true, null, 0.55);
+	messageDisplay.layoutData = new AnchorLayoutData(padding * 4, padding, padding, padding );
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", 0xEEEEEE, "justify", "ltr", false, null, 0.6);
+	dateDisplay = new RTLLabel(null, 0, "justify", "ltr", false, null, 0.6);
 	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
-	dateDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
+	dateDisplay.layoutData = new AnchorLayoutData(padding, padding, NaN, padding );
 	addChild(dateDisplay);
 }
 
@@ -57,8 +57,8 @@ override protected function commitData():void
 		return;
 
 	message = _data as SFSObject;
-	date.time = message.getLong("u");
-	dateDisplay.text = StrUtils.getDateString(date, true) + "   -   " + message.getUtfString("ln");
+	date.time = message.getLong("u") * 1000;
+	dateDisplay.text = StrUtils.getDateString(date, true) + "  -  " + message.getUtfString("ln");
 	playerDisplay.text = message.getUtfString("s");
 	messageDisplay.text = message.getUtfString("t");
 }

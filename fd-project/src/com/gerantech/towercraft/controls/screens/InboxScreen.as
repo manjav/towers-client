@@ -15,6 +15,7 @@ private var sfsData:SFSObject;
 private var chatBox:InboxChatSegment;
 public function InboxScreen() 
 {
+	showTileAnimationn = false;
 	InboxService.instance.addEventListener(Event.COMPLETE, inboxService_completeHandler);
 }
 
