@@ -228,7 +228,7 @@ private function showDetails():void
 private function removeButton_triggeredHandler(e:Event):void 
 {
 	var confirm:ConfirmPopup = new ConfirmPopup(loc("lobby_remove_confirm"));
-	confirm.acceptStyle = "danger";
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 	appModel.navigator.addPopup(confirm);
 	function confirm_selectHandler(event:Event):void
@@ -340,7 +340,8 @@ private function buttonsPopup_selectHandler(event:Event):void
 	else if( event.data == "lobby_kick" || event.data == "lobby_promote" || event.data == "lobby_demote" )
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
-		confirm.acceptStyle = "danger";
+		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+		confirm.declineLabel = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 		confirm.data = event.data;
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
@@ -394,7 +395,8 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 	if( itsMyRoom )
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc(membersCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
-		confirm.acceptStyle = "danger";
+		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
+		confirm.declineLabel = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_selectHandler(evet:Event):void

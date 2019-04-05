@@ -154,7 +154,7 @@ override protected function buttonsPopup_selectHandler(event:Event):void
 		
 		case "lobby_report":
 			var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
-			confirm.acceptStyle = "danger";
+			confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
 			confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 			appModel.navigator.addPopup(confirm);
 			break;

@@ -146,7 +146,6 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			var confirm:ConfirmPopup = new ConfirmPopup(message, loc(acceptLabel));
 			confirm.closeOnOverlay = false;
 			confirm.data = confirmData;
-			confirm.declineStyle = "danger";
 			confirm.addEventListener("select", confirm_eventsHandler);
 			confirm.addEventListener("cancel", confirm_eventsHandler);
 			AppModel.instance.navigator.addPopup(confirm);

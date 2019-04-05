@@ -12,6 +12,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.socials.Lobby;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
@@ -205,11 +206,11 @@ private function spectate(buddy:Buddy):void
 	appModel.navigator.runBattle(FieldData.TYPE_OPERATION, 100000, false, buddy.name);
 }
 
-private function removeFriend( buddy:Buddy ):void
+private function removeFriend(buddy:Buddy):void
 {
 	var confirm:ConfirmPopup = new ConfirmPopup(loc("buddy_remove_confirm"), loc("popup_yes_label"));
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
-	confirm.acceptStyle = "danger";
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
 	appModel.navigator.addPopup(confirm);
 	function confirm_selectHandler ( event:Event ):void {
 		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);

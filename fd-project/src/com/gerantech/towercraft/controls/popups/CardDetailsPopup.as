@@ -44,9 +44,11 @@ override protected function initialize():void
 	title = loc("card_title_" + cardType);
 	
 	// create transition in data
-	var _h:int = showButton ? 1200 : 940;
+	var _h:int = showButton ? 1240 : 940;
 	var _p:int = 48;
-	transitionIn = transitionOut = new TransitionData();
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
 	

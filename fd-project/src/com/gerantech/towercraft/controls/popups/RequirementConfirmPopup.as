@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -23,8 +24,8 @@ public function RequirementConfirmPopup(message:String, requirements:IntIntMap)
 override protected function initialize():void
 {
 	super.initialize();
-	acceptButton.label = String(numHards);
-	acceptButton.icon = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
+	acceptButton.label = StrUtils.getNumber(numHards);
+	acceptButton.iconTexture = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 }
 
 override protected function acceptButton_triggeredHandler(event:Event):void

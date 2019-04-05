@@ -13,6 +13,7 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
@@ -269,11 +270,12 @@ private function lobbyManager_updateHandler(event:Event):void
 
 override protected function backButtonFunction():void
 {
-	var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"), loc("popup_exit_label"));
-	confirm.acceptStyle = "danger";
+	var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_exit_message"), loc("popup_exit_label"));
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 	appModel.navigator.addPopup(confirm);
-	function confirm_selectHandler ( event:Event ) : void
+	function confirm_selectHandler(event:Event) : void
 	{
 		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 		NativeApplication.nativeApplication.exit();

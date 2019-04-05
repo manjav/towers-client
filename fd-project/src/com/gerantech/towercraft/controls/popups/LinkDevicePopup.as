@@ -96,7 +96,6 @@ protected function sfs_getCodeHandler(event:SFSEvent):void
 	Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, event.params.params.getText("restoreCode"));
 	
 	var resultPopup:ConfirmPopup = new ConfirmPopup(loc("popup_link_old_select"), loc("popup_link_old_copy_label"), loc("popup_link_old_share_label"));
-	resultPopup.declineStyle = "normal";
 	resultPopup.addEventListener(Event.SELECT, function():void{Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, event.params.params.getText("restoreCode")); appModel.navigator.addLog(loc("popup_link_old_copy")); });
 	resultPopup.addEventListener(Event.CANCEL, function():void{NativeAbilities.instance.shareText( loc("popup_link_old_share_title"), loc("popup_link_old_share_message", [event.params.params.getText("restoreCode")])); });
 	appModel.navigator.addPopup(resultPopup);

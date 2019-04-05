@@ -20,6 +20,7 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
@@ -518,7 +519,7 @@ override protected function backButtonFunction():void
 		if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.field.times.get(0) > timeManager.now )
 			return;
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
-		confirm.acceptStyle = CustomButton.STYLE_DANGER;
+		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 		confirm.addEventListener(Event.SELECT, confirm_selectsHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_selectsHandler(event:Event):void 
@@ -530,7 +531,6 @@ override protected function backButtonFunction():void
 	}
 
 	confirm = new ConfirmPopup(loc("leave_operation_confirm_message"), loc("retry_button"));
-	confirm.acceptStyle = CustomButton.STYLE_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
 	confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
 	appModel.navigator.addPopup(confirm);

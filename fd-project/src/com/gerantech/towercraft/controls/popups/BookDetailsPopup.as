@@ -56,7 +56,9 @@ override protected function initialize():void
 	var _h:int = showButton ? 680 : 480;
 	var _p:int = 32;
 	var _b:int = stageHeight - DashboardScreen.FOOTER_SIZE - HomeBooksLine.HEIGHT - 54;
-	transitionIn = transitionOut = new TransitionData();
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
 	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	_b - _h * 0.4,	stageWidth - _p * 2,	_h * 0.6);
 	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	_b - _h,		stageWidth - _p * 2,	_h * 1.0);
 	
