@@ -30,8 +30,8 @@ override protected function initialize():void
 	height = 160;
 	date = new Date();
 	
-	var mySkin:Image = new Image(Assets.getTexture("theme/item-renderer-new-skin", "gui"));
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_NEW_SCALE9_GRID;
+	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
 	senderDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);

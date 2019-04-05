@@ -167,7 +167,7 @@ static public const POPUP_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 46);
 static public const POPUP_HEADERED_SCALE9_GRID:Rectangle = new Rectangle(14, 112, 2, 2);
 static public const POPUP_INSIDE_SCALE9_GRID:Rectangle = new Rectangle(14, 15, 2, 1);
 static public const CALLOUT_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 2, 16);
-static public const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(14, 14, 4, 22);//1, 1, 1, 42);
+static public const ITEM_RENDERER_SCALE9_GRID:Rectangle = new Rectangle(17, 22, 4, 10);
 static public const ITEM_RENDERER_RANK_SCALE9_GRID:Rectangle = new Rectangle(270, 50, 2, 1);
 static public const INSET_ITEM_RENDERER_MIDDLE_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 1, 40);
 static public const INSET_ITEM_RENDERER_FIRST_SCALE9_GRID:Rectangle = new Rectangle(7, 7, 1, 35);
@@ -182,9 +182,6 @@ static public const HEADER_SKIN_TEXTURE_REGION:Rectangle = new Rectangle(1, 1, 1
 static public const RIBBON_SCALE9_GRID:Rectangle = new Rectangle(92, 60, 6, 6);
 static public const ROUND_MEDIUM_SCALE9_GRID:Rectangle = new Rectangle(18, 18, 2, 2);
 static public const ROUND_SMALL_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
-
-static public const ITEM_RENDERER_NEW_SCALE9_GRID:Rectangle = new Rectangle(13, 45, 8, 3);
-
 
 /**
  * @private

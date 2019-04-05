@@ -74,6 +74,7 @@ override protected function initialize():void
 {
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
 	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.65));
 	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
 	super.initialize();

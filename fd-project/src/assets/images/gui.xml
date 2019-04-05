@@ -292,37 +292,36 @@
 	<SubTexture name="theme/single-inset-item-renderer-up-skin" x="159" y="1841" width="30" height="87" frameX="0" frameY="0" frameWidth="30" frameHeight="88"/>
 	<SubTexture name="socials/check-blue-1" x="1201" y="1842" width="64" height="39" frameX="0" frameY="0" frameWidth="64" frameHeight="40"/>
 	<SubTexture name="settings/22" x="1549" y="1845" width="39" height="63" frameX="-18" frameY="-3" frameWidth="72" frameHeight="72"/>
-	<SubTexture name="theme/upgrade-ready" x="1392" y="1140" width="47" height="48" frameX="0" frameY="0" frameWidth="47" frameHeight="49"/>
+	<SubTexture name="theme/item-renderer-danger-skin" x="1392" y="1140" width="38" height="61" frameX="0" frameY="0" frameWidth="38" frameHeight="62"/>
+	<SubTexture name="theme/item-renderer-disabled-skin" x="1589" y="1845" width="38" height="61" frameX="0" frameY="0" frameWidth="38" frameHeight="62"/>
+	<SubTexture name="theme/item-renderer-selected-skin" x="1266" y="1847" width="38" height="61" frameX="0" frameY="0" frameWidth="38" frameHeight="62"/>
+	<SubTexture name="theme/item-renderer-up-skin" x="1305" y="1847" width="38" height="61" frameX="0" frameY="0" frameWidth="38" frameHeight="62"/>
+	<SubTexture name="theme/upgrade-ready" x="1628" y="1849" width="47" height="48" frameX="0" frameY="0" frameWidth="47" frameHeight="49"/>
 	<SubTexture name="shop/header" x="1122" y="447" width="90" height="25" frameX="0" frameY="-2" frameWidth="90" frameHeight="28"/>
 	<SubTexture name="theme/button-danger-up-skin" x="2015" y="1560" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-hilight-up-skin" x="1266" y="1842" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-neutral-up-skin" x="1589" y="1845" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-normal-up-skin" x="1299" y="1847" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-danger-down-skin" x="1332" y="1847" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-disabled-skin" x="1622" y="1849" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-hilight-down-skin" x="1655" y="1849" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-neutral-down-skin" x="1763" y="1850" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="theme/button-normal-down-skin" x="0" y="1851" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
-	<SubTexture name="socials/balloon" x="788" y="1853" width="46" height="45" frameX="-26" frameY="-12" frameWidth="100" frameHeight="73"/>
-	<SubTexture name="theme/item-renderer-new-skin" x="33" y="1851" width="34" height="59" frameX="0" frameY="0" frameWidth="34" frameHeight="60"/>
-	<SubTexture name="theme/back-button-disabled-skin" x="1110" y="1857" width="36" height="55" frameX="0" frameY="0" frameWidth="37" frameHeight="56"/>
-	<SubTexture name="theme/forward-button-disabled-skin" x="1147" y="1857" width="36" height="55" frameX="0" frameY="0" frameWidth="37" frameHeight="56"/>
-	<SubTexture name="theme/forward-button-down-skin" x="697" y="1858" width="36" height="55" frameX="0" frameY="0" frameWidth="37" frameHeight="56"/>
-	<SubTexture name="theme/mute-toggle-button-loud-down-icon" x="734" y="1858" width="47" height="40" frameX="0" frameY="0" frameWidth="47" frameHeight="41"/>
-	<SubTexture name="theme/mute-toggle-button-loud-up-icon" x="1796" y="1859" width="47" height="40" frameX="0" frameY="0" frameWidth="47" frameHeight="41"/>
-	<SubTexture name="sticker-item" x="1844" y="1859" width="54" height="34" frameX="0" frameY="0" frameWidth="54" frameHeight="35"/>
-	<SubTexture name="socials/check-blue-0" x="1899" y="1859" width="45" height="39" frameX="0" frameY="0" frameWidth="64" frameHeight="40"/>
-	<SubTexture name="theme/item-renderer-danger-skin" x="835" y="1853" width="32" height="53" frameX="0" frameY="0" frameWidth="32" frameHeight="54"/>
-	<SubTexture name="theme/item-renderer-disabled-skin" x="1945" y="1859" width="32" height="53" frameX="0" frameY="0" frameWidth="32" frameHeight="54"/>
-	<SubTexture name="theme/item-renderer-selected-skin" x="868" y="1860" width="32" height="53" frameX="0" frameY="0" frameWidth="32" frameHeight="54"/>
-	<SubTexture name="theme/item-renderer-up-skin" x="1688" y="1861" width="32" height="53" frameX="0" frameY="0" frameWidth="32" frameHeight="54"/>
+	<SubTexture name="theme/button-hilight-up-skin" x="1763" y="1850" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-neutral-up-skin" x="0" y="1851" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-normal-up-skin" x="33" y="1851" width="32" height="69" frameX="0" frameY="0" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-danger-down-skin" x="788" y="1853" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-disabled-skin" x="821" y="1853" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-hilight-down-skin" x="1110" y="1857" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-neutral-down-skin" x="1143" y="1857" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="theme/button-normal-down-skin" x="697" y="1858" width="32" height="67" frameX="0" frameY="-2" frameWidth="32" frameHeight="70"/>
+	<SubTexture name="socials/balloon" x="730" y="1858" width="46" height="45" frameX="-26" frameY="-12" frameWidth="100" frameHeight="73"/>
+	<SubTexture name="theme/back-button-disabled-skin" x="1796" y="1859" width="36" height="55" frameX="0" frameY="0" frameWidth="37" frameHeight="56"/>
+	<SubTexture name="theme/forward-button-disabled-skin" x="1833" y="1859" width="36" height="55" frameX="0" frameY="0" frameWidth="37" frameHeight="56"/>
+	<SubTexture name="theme/forward-button-down-skin" x="1870" y="1859" width="36" height="55" frameX="0" frameY="0" frameWidth="37" frameHeight="56"/>
+	<SubTexture name="theme/mute-toggle-button-loud-down-icon" x="1907" y="1859" width="47" height="40" frameX="0" frameY="0" frameWidth="47" frameHeight="41"/>
+	<SubTexture name="theme/mute-toggle-button-loud-up-icon" x="854" y="1860" width="47" height="40" frameX="0" frameY="0" frameWidth="47" frameHeight="41"/>
+	<SubTexture name="sticker-item" x="1676" y="1861" width="54" height="34" frameX="0" frameY="0" frameWidth="54" frameHeight="35"/>
+	<SubTexture name="socials/check-blue-0" x="1041" y="1862" width="45" height="39" frameX="0" frameY="0" frameWidth="64" frameHeight="40"/>
 	<SubTexture name="events/info" x="1174" y="1353" width="30" height="51" frameX="0" frameY="0" frameWidth="30" frameHeight="52"/>
-	<SubTexture name="theme/mute-toggle-button-muted-down-icon" x="1041" y="1862" width="45" height="34" frameX="0" frameY="-3" frameWidth="47" frameHeight="41"/>
-	<SubTexture name="theme/mute-toggle-button-muted-up-icon" x="1365" y="1870" width="45" height="34" frameX="0" frameY="-3" frameWidth="47" frameHeight="41"/>
+	<SubTexture name="theme/mute-toggle-button-muted-down-icon" x="1344" y="1870" width="45" height="34" frameX="0" frameY="-3" frameWidth="47" frameHeight="41"/>
+	<SubTexture name="theme/mute-toggle-button-muted-up-icon" x="1390" y="1870" width="45" height="34" frameX="0" frameY="-3" frameWidth="47" frameHeight="41"/>
 	<SubTexture name="theme/callout-background-skin" x="875" y="1180" width="30" height="46" frameX="0" frameY="0" frameWidth="30" frameHeight="48"/>
 	<SubTexture name="theme/icon-cross" x="1568" y="1745" width="36" height="35" frameX="0" frameY="0" frameWidth="36" frameHeight="36"/>
-	<SubTexture name="theme/round-medium-inner-skin" x="1721" y="1861" width="36" height="35" frameX="0" frameY="0" frameWidth="36" frameHeight="36"/>
-	<SubTexture name="theme/round-medium-skin" x="1411" y="1870" width="36" height="35" frameX="0" frameY="0" frameWidth="36" frameHeight="36"/>
+	<SubTexture name="theme/round-medium-inner-skin" x="1955" y="1859" width="36" height="35" frameX="0" frameY="0" frameWidth="36" frameHeight="36"/>
+	<SubTexture name="theme/round-medium-skin" x="1436" y="1870" width="36" height="35" frameX="0" frameY="0" frameWidth="36" frameHeight="36"/>
 	<SubTexture name="theme/slider-background" x="913" y="917" width="24" height="45" frameX="0" frameY="-2" frameWidth="24" frameHeight="48"/>
 	<SubTexture name="theme/danger-callout-arrow-left-skin" x="1850" y="1237" width="26" height="39" frameX="0" frameY="0" frameWidth="26" frameHeight="40"/>
 	<SubTexture name="theme/danger-callout-arrow-right-skin" x="1850" y="1277" width="26" height="39" frameX="0" frameY="0" frameWidth="26" frameHeight="40"/>
@@ -332,12 +331,12 @@
 	<SubTexture name="theme/check-down-icon" x="806" y="1445" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="theme/check-selected-disabled-icon" x="1016" y="1481" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="theme/check-selected-down-icon" x="1049" y="1481" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="theme/check-selected-up-icon" x="1448" y="1870" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="theme/check-up-icon" x="1481" y="1871" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="theme/picker-list-item-renderer-selected-icon" x="1514" y="1871" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="theme/radio-selected-disabled-icon" x="454" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="theme/radio-selected-down-icon" x="487" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
-	<SubTexture name="theme/radio-selected-up-icon" x="520" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="theme/check-selected-up-icon" x="1473" y="1871" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="theme/check-up-icon" x="1506" y="1871" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="theme/picker-list-item-renderer-selected-icon" x="454" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="theme/radio-selected-disabled-icon" x="487" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="theme/radio-selected-down-icon" x="520" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
+	<SubTexture name="theme/radio-selected-up-icon" x="553" y="1873" width="32" height="31" frameX="0" frameY="0" frameWidth="32" frameHeight="32"/>
 	<SubTexture name="theme/toggle-button-selected-disabled-skin" x="2024" y="478" width="18" height="55" frameX="0" frameY="0" frameWidth="18" frameHeight="56"/>
 	<SubTexture name="theme/toggle-button-selected-up-skin" x="2024" y="534" width="18" height="55" frameX="0" frameY="0" frameWidth="18" frameHeight="56"/>
 	<SubTexture name="theme/background-glass-skin" x="1336" y="1407" width="30" height="29" frameX="-1" frameY="-1" frameWidth="32" frameHeight="32"/>
@@ -405,9 +404,9 @@
 	<SubTexture name="theme/horizontal-simple-scroll-bar-thumb-skin" x="913" y="993" width="24" height="9" frameX="0" frameY="0" frameWidth="24" frameHeight="10"/>
 	<SubTexture name="theme/slider-fill-danger-skin" x="748" y="155" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
 	<SubTexture name="theme/slider-fill-disabled-skin" x="1125" y="1136" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
-	<SubTexture name="theme/slider-fill-hilight-skin" x="1113" y="1228" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
-	<SubTexture name="theme/slider-fill-neutral-skin" x="1113" y="1250" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
-	<SubTexture name="theme/slider-fill-skin" x="762" y="1267" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
+	<SubTexture name="theme/slider-fill-hilight-skin" x="1431" y="1140" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
+	<SubTexture name="theme/slider-fill-neutral-skin" x="1431" y="1162" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
+	<SubTexture name="theme/slider-fill-skin" x="1113" y="1228" width="10" height="21" frameX="-5" frameY="-6" frameWidth="20" frameHeight="34"/>
 	<SubTexture name="theme/background-danger-border-skin" x="2024" y="678" width="10" height="9" frameX="0" frameY="0" frameWidth="10" frameHeight="10"/>
 	<SubTexture name="theme/background-dark-border-skin" x="2035" y="678" width="10" height="9" frameX="0" frameY="0" frameWidth="10" frameHeight="10"/>
 	<SubTexture name="theme/background-light-border-skin" x="2033" y="1090" width="10" height="9" frameX="0" frameY="0" frameWidth="10" frameHeight="10"/>
