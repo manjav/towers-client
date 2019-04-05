@@ -137,7 +137,7 @@ public function process(item : ExchangeItem) : void
 			exchange(item, params);
 			return;
 		}
-		/*else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
+		else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
 		{
 			if( item.type == ExchangeType.C104_STARS )
 			{
@@ -147,7 +147,7 @@ public function process(item : ExchangeItem) : void
 					appModel.navigator.addLog(loc("exchange_hint_104", [10]));
 				return;
 			}
-			var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
+			/*var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
 			dailyPopup.addEventListener(Event.SELECT, dailyPopup_selectHandler);
 			appModel.navigator.addPopup(dailyPopup);
 			function dailyPopup_selectHandler(event:Event):void{
@@ -155,8 +155,8 @@ public function process(item : ExchangeItem) : void
 				exchange(item, params);
 			}
 			dispatchCustomEvent(FeathersEventType.ERROR, item);
-			return;
-		}*/
+			return;*/
+		}
 		
 		var details:BookDetailsPopup = new BookDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
