@@ -81,7 +81,7 @@ override protected function commitData():void
 private function confirmSegment_triggeredHandler(event:Event):void
 {
 	
-	segment.data.putShort( "pr", event.data.data as int);
+	segment.data.putShort( "pr", int(event.data.name));
 	_owner.dispatchEventWith(Event.ROOT_CREATED, false, [this, segment.data]);
 }
 

@@ -15,8 +15,8 @@ override public function init():void
 {
 	super.init();
 	height = 50;
-	labelDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.65); 
-	labelDisplay.layoutData = new AnchorLayoutData( NaN, padding, NaN, padding, NaN, 0);
+	labelDisplay = new ShadowLabel(null, 1, 0, "center", null, false, null, 0.65); 
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	addChild(labelDisplay);
 }
 override public function commitData(_data:ISFSObject, index:int):void

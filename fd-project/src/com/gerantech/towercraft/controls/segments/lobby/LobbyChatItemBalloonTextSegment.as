@@ -17,7 +17,7 @@ override public function init():void
 {
 	super.init();
 	
-	textDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.65, "OpenEmoji");
+	textDisplay = new RTLLabel(null, MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.65, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID || appModel.platform == AppModel.PLATFORM_IOS )
 		textDisplay.leading = -12;
 	textLayout = new AnchorLayoutData(80);
@@ -40,7 +40,7 @@ override public function commitData(_data:ISFSObject, index:int):void
 	textDisplay.text = data.getUtfString("t");
 	textDisplay.validate();
 	
-	height = textDisplay.height + textLayout.top + padding * 2;
+	height = textDisplay.height + textLayout.top + 40;
 }
 }
 }

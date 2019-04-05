@@ -23,19 +23,17 @@ override public function init():void
 	super.init();
 
 	height = 220;
-	var background:Image = new Image(Assets.getTexture("socials/balloon", "gui"));
-	background.scale9Grid = LobbyChatItemSegment.BALLOON_RECT;
-	backgroundSkin = background;
+	backgroundFactory();
 	
 	actionButton = new Button();
 	actionButton.width = 240;
 	actionButton.height = 120;
 	actionButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
-	actionButton.layoutData = new AnchorLayoutData(NaN, padding * 3.5, NaN, NaN, NaN, 0);
+	actionButton.layoutData = new AnchorLayoutData(NaN, 70, NaN, NaN, NaN, 0);
 	addChild(actionButton);
 	
 	messageDisplay = new RTLLabel("", 0, "center", null, false, null, 0.8);
-	messageLayout = new AnchorLayoutData(NaN, actionButton.width + padding * 8, NaN, padding, NaN, 0);
+	messageLayout = new AnchorLayoutData(NaN, actionButton.width + 90, NaN, 20, NaN, 0);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 }
@@ -43,7 +41,7 @@ override public function commitData(_data:ISFSObject, index:int):void
 {
 	super.commitData(_data, index);
 	actionButton.visible = data.getShort("st") < 2;
-	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + padding) : (padding * 0.5);
+	messageLayout.right = data.getShort("st") < 2 ? (actionButton.width + 20) : 10;
 	
 	if( data.getShort("st") == 0 )
 	{

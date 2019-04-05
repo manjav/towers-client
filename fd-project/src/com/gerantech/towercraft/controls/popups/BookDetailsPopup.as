@@ -1,8 +1,8 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.towercraft.controls.buttons.ExchangeButton;
 import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.groups.Devider;
+import com.gerantech.towercraft.controls.groups.GradientHilight;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
 import com.gerantech.towercraft.controls.groups.IconGroup;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
@@ -35,8 +35,9 @@ import starling.events.Event;
 
 public class BookDetailsPopup extends SimpleHeaderPopup
 {
-private var showButton:Boolean;
 private var item:ExchangeItem;
+private var hilight:GradientHilight;
+private var showButton:Boolean;
 private var messageDisplay:RTLLabel;
 private var actionButton:MMOryButton;
 private var footerDisplay:ImageLoader;
@@ -164,6 +165,17 @@ private function footerFactory(state:int):void
 	{
 		if( state == ExchangeItem.CHEST_STATE_BUSY )
 		{
+			if( hilight == null )
+			{
+				hilight = new GradientHilight();
+				hilight.direction = RelativePosition.RIGHT;
+				hilight.loopMode = GradientHilight.LOOP_MODE_DIRECTIONAL;
+				hilight.layoutData = footerDisplay.layoutData;
+				hilight.height = footerDisplay.height;
+				hilight.alpha = 0.5;
+			}
+			addChildAt(hilight, getChildIndex(footerDisplay) + 1);
+			
 			footerDisplay.color = 0x437a50;
 			actionButton.styleName = MainTheme.STYLE_BUTTON_NORMAL;
 			actionButton.layoutData = new AnchorLayoutData(NaN, 30, 30, NaN);

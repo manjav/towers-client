@@ -62,7 +62,7 @@ override protected function initialize():void
 	rightButton.addEventListener(Event.TRIGGERED, rightButton_triggerdHandler);
 	addChild(rightButton);
 	
-	labelDisplay = new RTLLabel(labelStringFactory(value), 0, "center", null, false, null, 0.8);
+	labelDisplay = new RTLLabel(labelStringFactory(value), 1, "center", null, false, null, 0.8);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	addChild(labelDisplay);

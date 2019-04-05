@@ -204,7 +204,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		var confirmIndex:int = getReplyedConfirm(msg);
 		if( confirmIndex > -1 )
 			messages.removeItemAt(confirmIndex);
-		if( !msg.containsKey("pr") && findUser(player.id).getInt("permission") > 0 )
+		if( (!msg.containsKey("pr") && findUser(player.id).getInt("permission") > 0) || player.admin )
 			messages.addItem(msg);
 	}
 	//traceList()

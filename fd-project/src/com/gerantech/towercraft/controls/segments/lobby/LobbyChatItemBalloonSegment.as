@@ -36,6 +36,7 @@ override public function init():void
 	whoSkinLayout	= new AnchorLayoutData(0, 120,	0,	0  );
 	
 	date = new Date();
+	var padding:int = 20;
 
 	mySkin = new ImageLoader();
 	mySkin.visible = false;
@@ -51,7 +52,7 @@ override public function init():void
 	whoSkin.source = Assets.getTexture("socials/balloon-who", "gui");
 	addChild(whoSkin);
 	
-	senderDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
+	senderDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.7);
 	senderLayout = new AnchorLayoutData(padding);
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
