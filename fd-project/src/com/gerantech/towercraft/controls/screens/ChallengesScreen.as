@@ -33,11 +33,13 @@ override protected function initialize():void
 	super.initialize();
 	
 	ChallengeIndexItemRenderer.IN_HOME = false;
+	ChallengeIndexItemRenderer.SHOW_INFO = true;
 	ChallengeIndexItemRenderer.ARENA = player.get_arena(0);
 	
 	listLayout.verticalAlign = VerticalAlign.MIDDLE;
-	listLayout.padding = 150;
+	listLayout.typicalItemHeight = 410;
 	listLayout.paddingTop = 200;
+	listLayout.padding = 150;
 	
 	list.dataProvider = challengesCollection;
 	list.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };

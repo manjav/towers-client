@@ -69,6 +69,7 @@ override public function init():void
 
 	// events button
 	ChallengeIndexItemRenderer.IN_HOME = true;
+	ChallengeIndexItemRenderer.SHOW_INFO = true;
 	ChallengeIndexItemRenderer.ARENA = player.get_arena(0);
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;

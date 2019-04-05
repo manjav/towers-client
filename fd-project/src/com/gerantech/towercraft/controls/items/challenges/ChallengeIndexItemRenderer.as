@@ -12,6 +12,7 @@ import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
 import starling.core.Starling;
 import starling.events.Event;
@@ -24,6 +25,7 @@ public class ChallengeIndexItemRenderer extends AbstractListItemRenderer
 {
 static public var ARENA:int;
 static public var IN_HOME:Boolean;
+static public var SHOW_INFO:Boolean;
 static private const BG_SCALE_GRID:Rectangle = new Rectangle(23, 22, 2, 2);
 static private const COLORS:Array = [0x30e465, 0xffa400, 0xff4200, 0xe720ff];
 
@@ -42,7 +44,6 @@ private var rankButton:IconButton;
 public function ChallengeIndexItemRenderer() { super(); }
 override protected function initialize() : void
 {
-	height = 410;
 	super.initialize();
 	layout = new AnchorLayout();
 }
@@ -50,6 +51,8 @@ override protected function initialize() : void
 override protected function commitData() : void 
 {
 	super.commitData();
+	height = VerticalLayout(_owner.layout).typicalItemHeight;
+
 	challenge = _data as Challenge;
 	state = challenge.getState(timeManager.now);
 	chIndex = IN_HOME ? player.selectedChallengeIndex : index;
@@ -69,7 +72,7 @@ override protected function commitData() : void
 
 private function infoFactory() : void
 {
-	if( locked || infoButton != null )
+	if( !SHOW_INFO || locked || infoButton != null )
 		return;
 	infoButton = new IconButton(Assets.getTexture("events/info"), 0.6, Assets.getTexture("events/badge"));
 	infoButton.width = 96;

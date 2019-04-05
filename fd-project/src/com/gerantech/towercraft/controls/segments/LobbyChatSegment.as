@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.segments
 import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
+import com.gerantech.towercraft.controls.popups.FriendlyBattleModePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -95,23 +96,23 @@ override protected function scrollChatList(changes:Number) : void
 
 protected function battleButton_triggeredHandler(event:Event):void
 {
-	showSimpleListPopup(null, battleButton, battlebutton_selectHandler, battlebutton_selectHandler, "button_battle_left", "button_battle_right");
+	var battleModePopup:FriendlyBattleModePopup = new FriendlyBattleModePopup();
+	battleModePopup.addEventListener(Event.SELECT, battleModePopup_selectHandler);
+	appModel.navigator.addPopup(battleModePopup);
+	//showSimpleListPopup(null, battleButton, battlebutton_selectHandler, battlebutton_selectHandler, "button_battle_left", "button_battle_right");
     scrollToEnd();
 }
 
-protected function battlebutton_selectHandler(event:Event):void 
+protected function battleModePopup_selectHandler(event:Event):void 
 {
-	var buttonsPopup:SimpleListPopup = event.currentTarget as SimpleListPopup;
-	buttonsPopup.removeEventListener(Event.SELECT, battlebutton_selectHandler);
-	buttonsPopup.removeEventListener(Event.CLOSE, battlebutton_selectHandler);
-	if( event.type == Event.CLOSE )
-		return;
+	var battleModePopup:FriendlyBattleModePopup = event.currentTarget as FriendlyBattleModePopup;
+	battleModePopup.removeEventListener(Event.SELECT, battleModePopup_selectHandler);
 	
 	setTimeout(function():void{ buttonsEnabled = false}, 1);
 	var params:SFSObject = new SFSObject();
 	params.putShort("m", MessageTypes.M30_FRIENDLY_BATTLE);
 	params.putShort("st", 0);
-	if( event.data == "button_battle_left" )
+	if( event.data == 1 )
 		params.putBool("bt", true);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby);
 }
