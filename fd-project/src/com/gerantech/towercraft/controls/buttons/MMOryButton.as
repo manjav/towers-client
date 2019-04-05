@@ -56,7 +56,7 @@ public function MMOryButton()
 {
 	super();
 	this.iconPosition = RelativePosition.RIGHT;
-	this._messageRenderFactory = defaultMessageRendererFactory;
+	this._messageRenderFactory = this.defaultMessageRendererFactory;
 }
 
 public function get messageRenderFactory() : Function 
@@ -81,7 +81,7 @@ protected function defaultMessageRendererFactory() : ITextRenderer
  */
 public function get message() : String
 {
-	return this.message;
+	return this._message;
 }
 public function set message(value:String) : void
 {
@@ -134,13 +134,14 @@ protected function refreshMessage() : void
 	if( this.messageTextRenderer == null )
 		return;
 	
-	this.messageTextRenderer.text = this._message;
 	this.messageTextRenderer.visible = this._message !== null && this._message.length > 0;
-	this.messageTextRenderer.isEnabled = this._isEnabled;
 	
-	if( this.messageTextRenderer.visible )
-		this.messageTextRenderer.validate();
-
+	if( !this.messageTextRenderer.visible )
+		return;
+	
+	this.messageTextRenderer.isEnabled = this._isEnabled;
+	this.messageTextRenderer.text = this._message;
+	this.messageTextRenderer.validate();
 }
 
 override protected function draw() : void
@@ -148,13 +149,14 @@ override protected function draw() : void
 	if( this._invalidationFlags[INVALIDATION_FLAG_TEXT_EDITOR] )
 	{
 		if( this.messageTextRenderer == null ) 
-			this.messageTextRenderer = messageRenderFactory();
+			this.messageTextRenderer = this.messageRenderFactory();
 		if( this.messageTextRenderer != null )
 			this.addChild(DisplayObject(this.messageTextRenderer));
 	}
 	
 	if( this.isInvalid(INVALIDATION_FLAG_DATA) )
 		this.refreshMessage();
+	
 	super.draw();
 }
 
