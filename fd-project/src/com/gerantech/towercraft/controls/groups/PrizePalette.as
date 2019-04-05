@@ -1,21 +1,16 @@
 package com.gerantech.towercraft.controls.groups 
 {
-	import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
-	import com.gerantech.towercraft.models.Assets;
-	import com.gt.towers.constants.ResourceType;
-	import dragonBones.starling.StarlingArmatureDisplay;
-	import feathers.controls.ImageLoader;
-	import feathers.events.FeathersEventType;
-	import feathers.layout.AnchorLayoutData;
-	import starling.events.Event;
+import com.gerantech.towercraft.models.Assets;
+import com.gt.towers.constants.ResourceType;
+import feathers.controls.ImageLoader;
+import feathers.layout.AnchorLayoutData;
 /**
-* ...
 * @author Mansour Djawadi ...
 */
-public class PrizePalette extends LabelGroup 
+public class PrizePalette extends ColorGroup 
 {
-private var prizeIconDisplay:ImageLoader;
 public var prize:int;
+private var prizeIconDisplay:ImageLoader;
 public function PrizePalette(label:String, textColor:uint, prize:int) 
 {
 	super(label, textColor);
