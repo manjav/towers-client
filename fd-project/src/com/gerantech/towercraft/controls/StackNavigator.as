@@ -10,10 +10,10 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 	import com.gerantech.towercraft.controls.popups.AbstractPopup;
 	import com.gerantech.towercraft.controls.popups.InvitationPopup;
-	import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 	import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+	import com.gerantech.towercraft.controls.segments.InboxSegment;
 	import com.gerantech.towercraft.controls.segments.SocialSegment;
 	import com.gerantech.towercraft.controls.toasts.BaseToast;
 	import com.gerantech.towercraft.controls.toasts.ConfirmToast;
@@ -490,7 +490,7 @@ package com.gerantech.towercraft.controls
 						switch (t)
 						{
 						case PrefsTypes.OFFER_30_RATING: 
-							addPopup(new IssueReportPopup());
+							InboxSegment.openThread();
 							break;
 						}
 						UserData.instance.prefs.setInt(t, prefs.getAsInt(t) + 50);

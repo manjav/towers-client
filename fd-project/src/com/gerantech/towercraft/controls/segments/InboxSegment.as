@@ -4,6 +4,7 @@ import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.InboxThreadItemRenderer;
 import com.gerantech.towercraft.managers.InboxService;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.InboxThread;
 import feathers.controls.StackScreenNavigatorItem;
 import feathers.controls.renderers.IListItemRenderer;
@@ -51,11 +52,17 @@ override public function init():void
 
 protected function list_changeHandler(event:Event) : void 
 {
-	var item:StackScreenNavigatorItem = appModel.navigator.getScreen(Game.INBOX_SCREEN);
-	item.properties.thread = new InboxThread(list.selectedItem);
-	item.properties.myId = issueMode ? 10000 : player.id;
-	InboxService.instance.requestRelations(item.properties.thread.ownerId, issueMode ? 10000 : -1);
-	appModel.navigator.pushScreen(Game.INBOX_SCREEN);
+	openThread(list.selectedItem, issueMode);
 }
+
+static public function openThread(threadData:Object = null, issueMode:Boolean = false) : void 
+{
+	if( threadData == null )
+		threadData = {sender:"Admin", senderId:10000}; 
+	var item:StackScreenNavigatorItem = AppModel.instance.navigator.getScreen(Game.INBOX_SCREEN);
+	item.properties.thread = new InboxThread(threadData);
+	item.properties.myId = issueMode ? 10000 : AppModel.instance.game.player.id;
+	InboxService.instance.requestRelations(item.properties.thread.ownerId, issueMode ? 10000 : -1);
+	AppModel.instance.navigator.pushScreen(Game.INBOX_SCREEN);}
 }
 }

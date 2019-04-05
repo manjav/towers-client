@@ -4,6 +4,7 @@ import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.items.SettingsItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.segments.InboxSegment;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.SoundManager;
@@ -100,10 +101,10 @@ private function list_focusInHandler(event:Event):void
 	}
 	else
 	{
-		switch( settingData.value )
+		switch( int(settingData.value) )
 		{
 			case SettingsData.BUG_REPORT :
-				appModel.navigator.addPopup(new IssueReportPopup());
+				InboxSegment.openThread();
 				break;
 			case SettingsData.RATING :
 				BillingManager.instance.rate();
@@ -112,6 +113,7 @@ private function list_focusInHandler(event:Event):void
 				navigateTo(settingData.value as int);
 				break;
 		}
+		close();
 	}
 }
 

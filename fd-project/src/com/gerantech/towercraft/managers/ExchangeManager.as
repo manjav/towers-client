@@ -8,7 +8,6 @@ import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
-import com.gerantech.towercraft.controls.popups.FortuneSkipPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.events.GameEvent;
@@ -31,7 +30,6 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import starling.events.Event;
 /**
-* ...
 * @author Mansour Djawadi
 */
 public class ExchangeManager extends BaseManager
@@ -139,7 +137,7 @@ public function process(item : ExchangeItem) : void
 			exchange(item, params);
 			return;
 		}
-		else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
+		/*else if( item.category == ExchangeType.C100_FREES && _state != ExchangeItem.CHEST_STATE_READY )
 		{
 			if( item.type == ExchangeType.C104_STARS )
 			{
@@ -158,7 +156,7 @@ public function process(item : ExchangeItem) : void
 			}
 			dispatchCustomEvent(FeathersEventType.ERROR, item);
 			return;
-		}
+		}*/
 		
 		var details:BookDetailsPopup = new BookDetailsPopup(item);
 		details.addEventListener(Event.SELECT, details_selectHandler);
