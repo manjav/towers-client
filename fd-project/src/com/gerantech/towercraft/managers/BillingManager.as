@@ -154,7 +154,7 @@ protected function iab_purchaseFinishedHandler(event:IabEvent):void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE VERIFICATION AND CONSUMPTION -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 private function verify(purchase:Purchase):void
 {
-	appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
+	appModel.navigator.addLog(loc("waiting_message"));
 	var param:SFSObject = new SFSObject();
 	param.putText("productID", purchase.sku);
 	param.putText("purchaseToken", purchase.token);
@@ -278,7 +278,7 @@ public function getDownloadURL():String
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- SHARING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function share():void
 {
-	NativeAbilities.instance.shareText(ResourceManager.getInstance().getString("loc", "app_title"), ResourceManager.getInstance().getString("loc", "app_brief") + "\n" + getDownloadURL());
+	NativeAbilities.instance.shareText(loc("app_title"), loc("app_brief") + "\n" + getDownloadURL());
 }
 private function log(message:String):void 
 {

@@ -126,7 +126,6 @@ override protected function transitionInCompleted():void
 	upgradeButton.alpha = 0;
 	upgradeButton.width = 270;
 	upgradeButton.height = 140;
-	upgradeButton.iconSize = new Point(64, 64);
 	upgradeButton.message = loc("upgrade_label");
 	upgradeButton.messagePosition = RelativePosition.TOP;
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);

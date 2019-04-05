@@ -19,7 +19,8 @@ import starling.textures.Texture;
 */
 public class MMOryButton extends Button 
 {
-public var iconSize:Point;
+static private const ICON_SIZE:Point = new Point(64, 64);
+public var iconSize:Point = ICON_SIZE;
 public var messagePosition:String = RelativePosition.BOTTOM;
 
 protected var _message:String;
@@ -30,7 +31,6 @@ private var handPoint:HandPoint;
 
 static public function getIcon(type:int, count:int) : Texture
 {
-	
 	if( type > 0 && count > 0 )
 		return Assets.getTexture("res-" + type, "gui");
 	if( type == -2 )
@@ -115,11 +115,8 @@ public function set iconTexture(value:Texture) : void
 	}
 
 	super.defaultIcon = new Image(this._iconTexture);
-	if( this.iconSize != null )
-	{
-		super.defaultIcon.width = this.iconSize.x;
-		super.defaultIcon.height = this.iconSize.y;
-	}
+	super.defaultIcon.width = this.iconSize.x;
+	super.defaultIcon.height = this.iconSize.y;
 }
 
 /**
