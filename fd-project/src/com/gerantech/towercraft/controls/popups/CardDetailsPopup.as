@@ -73,7 +73,9 @@ override protected function transitionInCompleted():void
 	padding = 50;
 
 	var rarity:int = ScriptEngine.getInt(CardFeatureType.F00_RARITY, cardType, 1);
-	var rarityPalette:ColorGroup = new ColorGroup(loc("card_rarity_" + rarity), CardTypes.getRarityColor(rarity), 0xFFFFFF);
+	var rarityPalette:ColorGroup = new ColorGroup();
+	rarityPalette.backgroundColor = CardTypes.getRarityColor(rarity);
+	rarityPalette.label = loc("card_rarity_" + rarity);
 	rarityPalette.width = (transitionIn.destinationBound.width - padding * 13) * 0.48;
 	rarityPalette.layoutData = new AnchorLayoutData(160, appModel.isLTR?padding:380, NaN, appModel.isLTR?380:padding);
 	addChild(rarityPalette);
@@ -97,7 +99,7 @@ override protected function transitionInCompleted():void
 		features.push(CardFeatureType.F03_QUANTITY);
 	
 	var featureLayout:TiledRowsLayout = new TiledRowsLayout();
-	featureLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	featureLayout.horizontalAlign = HorizontalAlign.LEFT;
 	featureLayout.requestedColumnCount = 2;
 	featureLayout.useSquareTiles = false;
 	featureLayout.gap = 6;

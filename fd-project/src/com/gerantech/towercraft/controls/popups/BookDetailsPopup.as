@@ -71,7 +71,7 @@ override protected function initialize():void
 	addChild(insideBG);
 	
 	var arena:int = item.outcomes.get(item.outcome);
-	var leagueDisplay:ShadowLabel	= new ShadowLabel(loc("arena_text") + " " + loc("num_" + (arena + 1)), 0xBBDDFF, 0, null, null, false, null, 0.8);
+	var leagueDisplay:ShadowLabel = new ShadowLabel(loc("arena_text") + " " + loc("num_" + (arena + 1)), 0xBBDDFF, 0, null, null, false, null, 0.8);
 	leagueDisplay.layoutData = new AnchorLayoutData(26, NaN, NaN, NaN, 220);
 	addChild(leagueDisplay);
 	
@@ -84,7 +84,8 @@ override protected function initialize():void
 	addChild(cardsPalette);
 	
 	var numSofts:int = ExchangeType.getNumSofts(item.outcome, arena, player.splitTestCoef);
-	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.R3_CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1), 0xFFFFFF, 0xFFFF99);
+	var softsPalette:IconGroup = new IconGroup(Assets.getTexture("res-" + ResourceType.R3_CURRENCY_SOFT, "gui"), int(numSofts * 0.9) + " - " + int(numSofts * 1.1));
+	softsPalette.textColor = 0xFFFF99;
 	softsPalette.width = transitionIn.destinationBound.width * 0.42;
 	softsPalette.layoutData = new AnchorLayoutData(290, 40);
 	addChild(softsPalette);
@@ -140,9 +141,9 @@ private function footerFactory(state:int):void
 	if( footerDisplay == null )
 	{
 		footerDisplay = new ImageLoader();
-		footerDisplay.source = Assets.getTexture("theme/inner-rect-medium", "gui")
+		footerDisplay.source = appModel.theme.roundMediumInnerSkin;
 		footerDisplay.layoutData = new AnchorLayoutData(NaN, 12, 12, 12);
-		footerDisplay.scale9Grid = new Rectangle(15, 15, 3, 3);
+		footerDisplay.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 		footerDisplay.height = 200;
 		addChild(footerDisplay);
 	}

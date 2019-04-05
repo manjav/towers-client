@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.groups.GradientHilight;
 import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardFeatureType;
@@ -64,8 +65,8 @@ protected function iconFactory() : ImageLoader
 
 override protected function backgroundFactory() : DisplayObject
 {
-	var skin:Image = new Image(Assets.getTexture("theme/inner-rect-small", "gui"));
-	skin.scale9Grid = new Rectangle(10, 10, 3, 3);
+	var skin:Image = new Image(appModel.theme.roundSmallInnerSkin);
+	skin.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
 	skin.alpha = IN_DETAILS ? 1 : 0.6;
 	backgroundSkin = skin;
 	

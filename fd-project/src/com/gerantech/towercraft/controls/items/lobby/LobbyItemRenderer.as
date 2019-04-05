@@ -35,7 +35,7 @@ override protected function initialize():void
 	var membersRect:ImageLoader = new ImageLoader();
 	membersRect.width = 120;
 	membersRect.scale9Grid = MEMBER_SCALE9_GRID;
-	membersRect.source = Assets.getTexture("theme/inner-rect-small", "gui");
+	membersRect.source = appModel.theme.roundSmallInnerSkin;
 	membersRect.layoutData = new AnchorLayoutData(46, appModel.isLTR?280:NaN, 14, appModel.isLTR?NaN:280);
 	addChild(membersRect);
 	

@@ -18,7 +18,6 @@ import starling.events.Touch;
 public class LobbyMemberItemRenderer extends AbstractTouchableListItemRenderer
 {
 public function LobbyMemberItemRenderer(){ super(); }
-static private const POINTS_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
 private var mySkin:Image;
 private var arenaDisplay:ImageLoader;
 private var rankDisplay:ShadowLabel;
@@ -40,8 +39,8 @@ override protected function initialize():void
 
 	var pointsRect:ImageLoader = new ImageLoader();
 	pointsRect.width = 180;
-	pointsRect.scale9Grid = POINTS_SCALE9_GRID;
-	pointsRect.source = Assets.getTexture("theme/inner-rect-small", "gui");
+	pointsRect.source = appModel.theme.roundSmallInnerSkin;
+	pointsRect.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
 	pointsRect.layoutData = new AnchorLayoutData(11, appModel.isLTR?280:NaN, 13, appModel.isLTR?NaN:280);
 	addChild(pointsRect);
 	

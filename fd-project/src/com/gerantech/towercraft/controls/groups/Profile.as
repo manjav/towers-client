@@ -40,8 +40,8 @@ override protected function initialize() : void
     var scale9:Rectangle = new Rectangle(16, 16, 4, 4);
 	var padding:int = 16;
 	
-	var skin:Image = new Image(Assets.getTexture("background-round-skin"));
-	skin.scale9Grid = MainTheme.ROUND_RECT_SCALE9_GRID;
+	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);
+	skin.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 	skin.color = 0;
 	skin.alpha = 0.3;
 	backgroundSkin = skin;

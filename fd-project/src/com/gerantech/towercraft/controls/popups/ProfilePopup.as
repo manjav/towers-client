@@ -239,9 +239,9 @@ private function showProfile():void
 	addChild(indicatorPoint);
 	
 	var scroller:ScrollContainer = new ScrollContainer();
-	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin"));
+	scroller.backgroundSkin = new Image(appModel.theme.roundSmallInnerSkin);
+	Image(scroller.backgroundSkin).scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 	scroller.backgroundSkin.alpha = 0.2;
-	Image(scroller.backgroundSkin).scale9Grid = MainTheme.ROUND_RECT_SCALE9_GRID;
 	scroller.layout = new AnchorLayout();
 	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 4, padding);
 	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
