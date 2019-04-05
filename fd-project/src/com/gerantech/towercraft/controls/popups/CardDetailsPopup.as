@@ -130,6 +130,7 @@ override protected function transitionInCompleted():void
 	upgradeButton.height = 140;
 	upgradeButton.message = loc("upgrade_label");
 	upgradeButton.messagePosition = RelativePosition.TOP;
+	upgradeButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.iconTexture = MMOryButton.getIcon(ResourceType.R3_CURRENCY_SOFT, 1);

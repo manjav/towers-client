@@ -19,8 +19,8 @@ import starling.textures.Texture;
 */
 public class MMOryButton extends Button 
 {
-static private const ICON_SIZE:Point = new Point(64, 64);
-public var iconSize:Point = ICON_SIZE;
+static public const DEFAULT_ICON_SIZE:Point = new Point(64, 64);
+public var iconSize:Point;
 public var messagePosition:String = RelativePosition.BOTTOM;
 
 protected var _message:String;
@@ -115,6 +115,8 @@ public function set iconTexture(value:Texture) : void
 	}
 
 	super.defaultIcon = new Image(this._iconTexture);
+	if( this.iconSize == null )
+		return;
 	super.defaultIcon.width = this.iconSize.x;
 	super.defaultIcon.height = this.iconSize.y;
 }

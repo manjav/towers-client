@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
@@ -66,6 +67,7 @@ override protected function initialize():void
 	container.addChild(errorDisplay);
 	
 	acceptButton.isEnabled = false;
+	acceptButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
 	acceptButton.width = 360;
 	if( closeOnOverlay && eItem.numExchanges > 0 )
 		acceptButton.iconTexture = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");

@@ -154,6 +154,7 @@ private function footerFactory(state:int):void
 		actionButton = new MMOryButton();
 		actionButton.width = 300;
 		actionButton.height = 162;
+		actionButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
 		actionButton.paddingBottom = actionButton.paddingTop = 10;
 		actionButton.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
 		addChild(actionButton);
