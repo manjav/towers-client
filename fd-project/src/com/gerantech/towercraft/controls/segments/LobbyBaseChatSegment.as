@@ -202,20 +202,19 @@ override protected function chatButton_triggeredHandler(event:Event):void
 
 protected function emotesButton_triggeredHandler(event:Event) : void 
 {
-	scrollToEnd();
 	var emoteToast:EmoteToast = new EmoteToast();
 	emoteToast.addEventListener(Event.CHANGE, emoteToast_changeHandler);
 	appModel.navigator.addToast(emoteToast);
 }
 protected function emoteToast_changeHandler(event:Event) : void 
 {
+	event.currentTarget.removeEventListener(Event.CHANGE, emoteToast_changeHandler);
 	var emote:SFSObject = new SFSObject();
 	emote.putShort("m", MessageTypes.M51_EMOTE);
 	emote.putInt("e", event.data as int);
 	emote.putInt("i", player.id);
 	emote.putUtfString("s", player.nickName);
-	manager.messages.addItem(emote);
-	scrollToEnd();
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, emote, manager.lobby);
 }
 
 override protected function sendButton_triggeredHandler(event:Event):void

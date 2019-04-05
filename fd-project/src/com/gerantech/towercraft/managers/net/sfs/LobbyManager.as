@@ -195,7 +195,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			dispatchEventWith(Event.OPEN, false, msg.getUtfString("s"));
 		}
 	}
-	else if( MessageTypes.isComment(msg.getShort("m")) )
+	else if( MessageTypes.isComment(msg.getShort("m")) || MessageTypes.isEmote(msg.getShort("m"))  )
 	{
 		messages.addItem(msg);
 	}
