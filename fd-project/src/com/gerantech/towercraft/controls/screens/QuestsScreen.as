@@ -44,7 +44,6 @@ override protected function initialize():void
 	indicatorXP.layoutData = new AnchorLayoutData(22, NaN, NaN, 40);
 	addChild(indicatorXP);
 	
-	
 	showQuests(true);
 }
 
@@ -60,11 +59,11 @@ private function showQuests(needsLoad:Boolean):void
 	for each( var q:Quest in player.quests )
 		q.current = Quest.getCurrent(player, q.type, q.key);
 	
-	//header.labelLayout.verticalCenter = 40;
-	listLayout.paddingLeft = listLayout.paddingRight = 12;
-	listLayout.paddingTop = headerSize + 20;
-	//list.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
+	listLayout.gap = 40;
+	listLayout.padding = 50
+	listLayout.paddingTop = headerSize + 40;
 	listLayout.hasVariableItemDimensions = true;
+	
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.addEventListener(Event.UPDATE, list_updateHandler);
@@ -95,7 +94,7 @@ protected function list_selectHandler(e:Event):void
 		return;
 	}
 	
-	switch( questItem.quest.type )
+	/*switch( questItem.quest.type )
 	{
 		//case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
 		
@@ -109,7 +108,7 @@ protected function list_selectHandler(e:Event):void
 		case Quest.TYPE_7_CARD_COLLECT :
 		case Quest.TYPE_8_CARD_UPGRADE :		DashboardScreen.TAB_INDEX = 1;	BuildingsSegment.SELECTED_CARD = questItem.quest.key;	break;
 	}
-	appModel.navigator.popScreen();
+	appModel.navigator.popScreen();*/
 }
 
 private function passQuest(questItem:QuestItemRenderer):void 

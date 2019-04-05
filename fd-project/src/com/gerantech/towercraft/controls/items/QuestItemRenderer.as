@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.groups.ColorGroup;
 import com.gerantech.towercraft.controls.groups.RewardsPalette;
 import com.gerantech.towercraft.controls.sliders.LabeledProgressBar;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -10,6 +11,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.MainTheme;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.others.Quest;
 import feathers.controls.ImageLoader;
@@ -26,17 +28,18 @@ import starling.events.Event;
 
 public class QuestItemRenderer extends AbstractTouchableListItemRenderer
 {
-static public var HEIGHT:int = 380;
-static private var PADDING:int = 16;
+static public var HEIGHT:int = 400;
+static private var PADDING:int = 30;
+static private var SCALE_GRID:Rectangle = new Rectangle(48, 36, 2, 2);
 public var quest:Quest;
-private var timeoutId:uint;
+private var passed:Boolean;
+private var skinLayout:AnchorLayoutData;
+private var backgroundDisplay:ImageLoader;
+private var iconDisplay:ImageLoader;
 private var titleDisplay:ShadowLabel;
 private var messageDisplay:RTLLabel;
 private var rewardPalette:RewardsPalette;
 private var progressBarDisplay:LabeledProgressBar;
-private var actionButton:CustomButton;
-private var actionLayout:AnchorLayoutData;
-private var iconDisplay:ImageLoader;
 
 public function QuestItemRenderer(){}
 override protected function initialize():void
@@ -45,9 +48,11 @@ override protected function initialize():void
 	this.height = HEIGHT; 
 	layout = new AnchorLayout();
 	
-	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
-	backgroundSkin = mySkin;
+	skinLayout = new AnchorLayoutData(-10, -10, -10, -10);
+	backgroundDisplay = new ImageLoader();
+	backgroundDisplay.scale9Grid = SCALE_GRID;
+	backgroundDisplay.layoutData = skinLayout;
+	addChild(backgroundDisplay);
 	
 	iconDisplay = new ImageLoader();
 	iconDisplay.layoutData = new AnchorLayoutData(NaN, 0);
@@ -56,41 +61,36 @@ override protected function initialize():void
 	addChild(iconDisplay);
 	
 	var messageBG:ImageLoader = new ImageLoader();
-	messageBG.source = Assets.getTexture("theme/popup-inside-background-skin")
-	messageBG.alpha = 0.3;
-	messageBG.scale9Grid = new Rectangle(4, 4, 2, 2);
-	messageBG.layoutData = new AnchorLayoutData(120, appModel.isLTR?300:PADDING, 110, appModel.isLTR?PADDING:300);
+	messageBG.source = appModel.theme.roundMediumInnerSkin;
+	messageBG.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
+	messageBG.layoutData = new AnchorLayoutData(120, appModel.isLTR?300:PADDING, NaN, appModel.isLTR?PADDING:300);
+	messageBG.height = 140;
 	addChild(messageBG);
 	
-	rewardPalette = new RewardsPalette(loc("quest_rewards"), 1);
-	rewardPalette.width = 265;
-	rewardPalette.layoutData = new AnchorLayoutData(92, appModel.isLTR?PADDING:NaN, 110, appModel.isLTR?NaN:PADDING);
+	rewardPalette = new RewardsPalette();
+	rewardPalette.label = loc("quest_rewards");
+	rewardPalette.width = 240;
+	rewardPalette.height = 140;
+	rewardPalette.layoutData = new AnchorLayoutData(120, appModel.isLTR?PADDING:NaN, NaN, appModel.isLTR?NaN:PADDING);
 	addChild(rewardPalette);
 	
-	titleDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.9);
-	titleDisplay.layoutData = new AnchorLayoutData(PADDING, PADDING * 12, NaN, PADDING);
+	titleDisplay = new ShadowLabel(null, 1, 0, null, null, false, null, 0.85);
+	titleDisplay.layoutData = new AnchorLayoutData(24, 170, NaN, PADDING);
 	addChild(titleDisplay);
 	
-	messageDisplay = new RTLLabel("", 0, "center", null, true, null, 0.7);
+	messageDisplay = new RTLLabel("", 0, "center", null, true, null, 0.65);
 	messageDisplay.touchable = false;
-	messageDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?316:PADDING * 2, NaN, appModel.isLTR?PADDING * 2:316, NaN, 0);
+	messageDisplay.layoutData = new AnchorLayoutData(140, appModel.isLTR?316:PADDING * 2, NaN, appModel.isLTR?PADDING * 2:316);
 	addChild(messageDisplay);
 	
 	progressBarDisplay = new LabeledProgressBar();
+	progressBarDisplay.layoutData = new AnchorLayoutData(NaN, PADDING, PADDING * 2, PADDING);
+	progressBarDisplay.height = 54;
 	progressBarDisplay.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 	{
-		return value + " / " + maximum;
+		return StrUtils.getNumber(value + "/" + maximum);
 	}
-	progressBarDisplay.height = 50;
-	progressBarDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?300:PADDING, PADDING * 2, appModel.isLTR?PADDING:300);
 	addChild(progressBarDisplay);
-	
-	actionLayout = new AnchorLayoutData(NaN, appModel.isLTR?PADDING:NaN, PADDING, appModel.isLTR?NaN:PADDING);;
-	actionButton = new CustomButton();
-	actionButton.height = 84;
-	actionButton.layoutData = actionLayout;
-	actionButton.addEventListener(Event.TRIGGERED, actionButton_triggeredHandler);
-	addChild(actionButton);
 }
 
 override protected function commitData():void
@@ -103,11 +103,14 @@ override protected function commitData():void
 	this.height = HEIGHT;
 	alpha = 1;
 	quest = _data as Quest;
+	passed = quest.passed();
+	
+	backgroundDisplay.source = Assets.getTexture("quest-item-bg-" + (passed ? "hilight" : "neutral"), "gui");
 	
 	var iconStr:String = QuestItemRenderer.getIcon(quest.type);
 	iconDisplay.source = Assets.getTexture(iconStr, "gui");
 	iconDisplay.height = iconStr.substr(0,9) == "home/dash-tab-" ? 160 : 120;
-	iconDisplay.y = iconStr.substr(0,9) == "home/dash-tab-" ? -PADDING * 3 : -PADDING;
+	iconDisplay.y = iconStr.substr(0,9) == "home/dash-tab-" ? -PADDING * 2 : 0;
 	
 	if( quest.type == Quest.TYPE_7_CARD_COLLECT || quest.type == Quest.TYPE_8_CARD_UPGRADE )
 		titleDisplay.text = loc("quest_title_" + quest.type, [loc("card_title_" + quest.key), quest.target]);
@@ -120,7 +123,7 @@ override protected function commitData():void
 	
 	messageDisplay.text = loc("quest_message_" + quest.type);
 	rewardPalette.setRewards(quest.rewards);
-	progressBarDisplay.visible = !quest.passed();
+	progressBarDisplay.visible = !passed;
 	if( progressBarDisplay.visible )
 	{
 		progressBarDisplay.maximum = quest.target;
@@ -129,39 +132,19 @@ override protected function commitData():void
 		progressBarDisplay.isEnabled = true;
 	}
 
-	actionLayout.right = appModel.isLTR?PADDING:(quest.passed()?PADDING:NaN);
-	actionLayout.left =  appModel.isLTR?(quest.passed()?PADDING:NaN):PADDING;
-	actionButton.label = loc(quest.passed() ? "collect_label" : "go_label");
-	actionButton.style = quest.passed() ? CustomButton.STYLE_NEUTRAL : CustomButton.STYLE_NORMAL;
-	actionButton.width = quest.passed() ? NaN : 265;
-	Image(backgroundSkin).texture = quest.passed() ? appModel.theme.itemRendererSelectedSkinTexture : appModel.theme.itemRendererUpSkinTexture;
-	if( quest.passed() )
-		punchAction();
+	if( passed )
+		punchscale(-20);
 
-	if( player.getTutorStep() == PrefsTypes.T_161_QUEST_FOCUS && quest.type == Quest.TYPE_3_BATTLES && quest.nextStep == 1 )
+	/*if( player.getTutorStep() == PrefsTypes.T_161_QUEST_FOCUS && quest.type == Quest.TYPE_3_BATTLES && quest.nextStep == 1 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_162_QUEST_SHOWN);
 		actionButton.showTutorHint();
-	}
+	}*/
 }
 
-private function punchAction():void 
+private function punchscale(p:int) : void 
 {
-	actionLayout.right = actionLayout.left = -PADDING;
-	actionLayout.bottom = -PADDING * 3;
-	actionButton.height = 84 + PADDING * 6;
-	Starling.juggler.tween(actionButton, 0.4, {height:84,		transition:Transitions.EASE_OUT_BACK});
-	Starling.juggler.tween(actionLayout, 0.4, {bottom:PADDING,	transition:Transitions.EASE_OUT_BACK});
-	Starling.juggler.tween(actionLayout, 0.5, {right:PADDING, left:PADDING, transition:Transitions.EASE_OUT_BACK, onComplete:tweenCompleted});
-	function tweenCompleted() : void
-	{
-		timeoutId = setTimeout(punchAction, 1000 + Math.random() * 500);
-	}
-}
-
-protected function actionButton_triggeredHandler(e:Event):void 
-{
-	owner.dispatchEventWith(Event.SELECT, false, this);
+	Starling.juggler.tween(skinLayout, 1, {top:p, left:p, bottom:p, right:p, transition:Transitions.EASE_IN_OUT, onComplete:punchscale, onCompleteArgs:[p == -10 ? -20 : -10]});
 }
 
 public function hide():void 
@@ -177,9 +160,20 @@ private function removeMe():void
 
 private function removeTweens():void 
 {
-	clearTimeout(timeoutId);
-	Starling.juggler.removeTweens(actionButton);
-	Starling.juggler.removeTweens(actionLayout);
+	//clearTimeout(timeoutId);
+	Starling.juggler.removeTweens(this);
+	Starling.juggler.removeTweens(skinLayout);
+}
+
+override public function set currentState(value:String) : void
+{
+	if( super.currentState == value )
+		return;
+	if( !passed )
+		skinLayout.top = skinLayout.right = skinLayout.left = skinLayout.bottom = value == STATE_DOWN ? 0 : -10;
+	super.currentState = value;
+	if( super.currentState == STATE_SELECTED )
+		owner.dispatchEventWith(Event.SELECT, false, this);
 }
 
 static private function getIcon(type:int) : String
