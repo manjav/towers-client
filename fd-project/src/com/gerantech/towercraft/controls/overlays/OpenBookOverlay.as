@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.BuildingCard;
+import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.CardItem;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -87,7 +88,8 @@ override protected function initialize():void
 }
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:DisplayObject = super.defaultOverlayFactory(0x223333, 1);
+	var overlay:TileBackground = new TileBackground("home/pistole-tile");
+	overlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	overlay.touchable = true;
 	return overlay;
 }
