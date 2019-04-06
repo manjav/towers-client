@@ -30,8 +30,10 @@ public function EmoteToast()
 }
 override protected function initialize():void
 {
+	hasOverlay = true;
 	super.initialize();
 	this.layout = new AnchorLayout();
+	overlay.alpha = 0;
 
 	var background:Image = new Image(appModel.theme.backgroundSkinTexture);
 	background.scale9Grid = MainTheme.DEFAULT_BACKGROUND_SCALE9_GRID;

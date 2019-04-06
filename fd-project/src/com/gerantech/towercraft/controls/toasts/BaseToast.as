@@ -15,7 +15,7 @@ static public const ANIMATION_MODE_BOTTOM:int = 1;
 public var closeAfter:int = -1;
 protected var toastHeight:int = 220;
 protected var animationMode:int = 0;
-public function BaseToast(){}
+public function BaseToast(){ hasOverlay = false; }
 override protected function initialize():void
 {
 	if( transitionIn == null )
@@ -35,18 +35,10 @@ override protected function initialize():void
 		transitionOut.destinationBound = transitionIn.sourceBound;
 	}
 	
-	// execute popup transition
-	rejustLayoutByTransitionData();
+	super.initialize();
 	
 	if( closeAfter > -1 )
 		setTimeout(close, closeAfter, true);
-}
-
-override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
-{
-	var overlay:LayoutGroup = new LayoutGroup();
-	overlay.touchable = false;
-	return overlay;
 }
 }
 }

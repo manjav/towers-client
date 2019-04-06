@@ -18,12 +18,15 @@ override protected function initialize():void
 {
 	super.initialize();
 	
+	// create transition in data
 	if( transitionIn == null )
 	{
+		var _h:int = 400;
+		var _p:int = 120;
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
-		transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.45, stage.stageWidth * 0.8, stage.stageHeight * 0.1);
-		transitionIn.destinationBound = new Rectangle(stage.stageWidth * 0.10, stage.stageHeight * 0.4, stage.stageWidth * 0.8, stage.stageHeight * 0.2);
+		transitionIn.sourceBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+		transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
 	}
 	if( transitionOut == null )
 	{
