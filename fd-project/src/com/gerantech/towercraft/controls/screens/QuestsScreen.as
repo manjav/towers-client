@@ -61,6 +61,7 @@ private function showQuests(needsLoad:Boolean):void
 	
 	listLayout.gap = 40;
 	listLayout.padding = 50
+	listLayout.paddingBottom = footerSize;
 	listLayout.paddingTop = headerSize + 40;
 	listLayout.hasVariableItemDimensions = true;
 	

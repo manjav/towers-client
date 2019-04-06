@@ -13,6 +13,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
+import starling.core.Starling;
 import starling.events.Event;
 
 /**
@@ -21,7 +22,7 @@ import starling.events.Event;
 */
 public class HomeBooksLine extends TowersLayout 
 {
-static public const HEIGHT:int = 320;
+static public const HEIGHT:int = Math.min(320, Starling.current.stage.stageHeight * 0.2);
 private var listLayout:feathers.layout.TiledRowsLayout;
 private var list:feathers.controls.List;
 

@@ -69,18 +69,19 @@ override public function init():void
 
 	// events button
 	ChallengeIndexItemRenderer.IN_HOME = true;
-	ChallengeIndexItemRenderer.SHOW_INFO = true;
+	ChallengeIndexItemRenderer.SHOW_INFO = false;
 	ChallengeIndexItemRenderer.ARENA = player.get_arena(0);
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	listLayout.typicalItemHeight = Math.min(410, stageHeight * 0.23);
 	listLayout.padding = 50;
 	var eventsButton:List = new List();
 	eventsButton.layout = listLayout;
 	eventsButton.horizontalScrollPolicy = eventsButton.verticalScrollPolicy = ScrollPolicy.OFF;
 	eventsButton.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
 	eventsButton.dataProvider = new ListCollection([player.getSelectedChallenge()]);
-	eventsButton.layoutData = new AnchorLayoutData(stageHeight * 0.33, 100, NaN, 100);
-	eventsButton.height = 500;
+	eventsButton.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, NaN, -stageHeight * 0.035);
+	eventsButton.height = listLayout.typicalItemHeight + listLayout.padding * 2;
 	addButton(eventsButton, "eventsButton");
 	
 	// leagues button
@@ -90,8 +91,8 @@ override public function init():void
 	addButton(leaguesButton, "leaguesButton");
 	
 	// battle button
-	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, 260, new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
-	battleButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, stageHeight * 0.15);//stageHeight * (player.get_battleswins() < 4?0.50:0.60), 0.6);
+	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, Math.min(260, stageHeight * 0.16), new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
+	battleButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, stageHeight * 0.13);//stageHeight * (player.get_battleswins() < 4?0.50:0.60), 0.6);
 	addButton(battleButton, "battleButton");
 	
 	// bookline
