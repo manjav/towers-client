@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.controls.buttons 
 {
-import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.others.Quest;
@@ -10,13 +9,12 @@ import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
 
 /**
-* ...
 * @author Mansour Djawadi
 */
-public class HomeQuestsButton extends HomeHeaderButton 
+public class CollectableQuestsButton extends CollectableButton 
 {
 private var timeoutId:uint;
-public function HomeQuestsButton(){ super(); }
+public function CollectableQuestsButton(){ super(); }
 override protected function initialize() : void
 {
 	super.initialize();
@@ -42,16 +40,8 @@ private function updateQuests():void
 override public function update() : void
 {
 	reset();
-	
-	exchange = exchanger.items.get(ExchangeType.C101_FREE);
-	if( exchange == null )
-		return;
-	state = ExchangeItem.CHEST_STATE_WAIT;
 	updateQuests();
-	
-	iconFactory("tasks");
-	//titleFactory(loc("button_quests"));
-	//countdownFactory();
+	iconFactory("home/tasks");
 }
 override protected function iconFactory(image:String) : ImageLoader 
 {
