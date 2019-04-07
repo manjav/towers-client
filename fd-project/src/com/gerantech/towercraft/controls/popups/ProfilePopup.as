@@ -22,6 +22,7 @@ import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.scripts.ScriptEngine;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -315,15 +316,10 @@ private function showProfile():void
 private function getBuildingData():ListCollection
 {
 	var ret:ListCollection = new ListCollection();
-	var buildings:Vector.<int> = CardTypes.getAll()._list;
-	var buildingArray:Array = new Array();
-	while(buildings.length > 0)
-	{
-		var b:int = buildings.pop();
-		buildingArray.push({type:b, level:getLevel(b)});
-	}
-	buildingArray.sortOn("type");
-	return new ListCollection(buildingArray);
+	var buildings:Array = ScriptEngine.get(1, -1);
+	for ( var i:int = 0; i < buildings.length; i++ )
+		buildings[i] = {type:buildings[i], level:getLevel(buildings[i])};
+	return new ListCollection(buildings);
 }
 
 private function getLevel(type:int):int
