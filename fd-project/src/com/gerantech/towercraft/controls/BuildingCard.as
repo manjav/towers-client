@@ -210,7 +210,7 @@ protected function defaultLevelDisplayFactory() : RTLLabel
 		levelDisplay = new RTLLabel(null, rarity == 0?1:0, null, null, false, null, 0.8);
 		levelDisplay.alpha = 0.8;
 		levelDisplay.height = 52;
-		levelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 24, NaN, 0);
+		levelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 25, NaN, 0);
 		labelsContainer.addChild(levelDisplay);
 	}
 	levelDisplay.text = loc("level_label", [level]);
