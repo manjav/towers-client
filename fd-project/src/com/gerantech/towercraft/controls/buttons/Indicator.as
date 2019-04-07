@@ -35,6 +35,7 @@ public var hasProgressbar:Boolean;
 public var hasIncreaseButton:Boolean;
 public var autoApdate:Boolean;
 public var iconDisplay:ImageLoader;
+public var labelOffsetX:Number = 0;
 protected var progressBar:LabeledProgressBar;
 
 private var _displayValue:Number = Number.MIN_VALUE;
@@ -61,6 +62,7 @@ override protected function initialize():void
 	progressBar.clampValue = this._clampValue;
 	progressBar.formatValueFactory = this._formatValueFactory;;
 	progressBar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	progressBar.labelOffsetX = labelOffsetX;
 	progressBar.isEnabled = false;
 	progressBar.minimum = minimum;
 	progressBar.maximum = maximum;
@@ -131,7 +133,7 @@ protected function playerResources_changeHandler(event:CoreEvent):void
 {
 	if( event.key != type )
 		return;
-	trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
+	//trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
 	setData(minimum, -1, maximum);
 }
 

@@ -13,6 +13,8 @@ public class LabeledProgressBar extends ProgressBar
 {
 public var horizontalAlign:String = "left";
 public var labelTextRenderer:RTLLabel;
+public var labelOffsetX:Number = 0;
+public var labelOffsetY:Number = 0;
 public function LabeledProgressBar() { super(); }
 override protected function initialize():void
 {
@@ -305,8 +307,8 @@ override protected function layoutChildren() : void
 	if( this.labelTextRenderer != null )
 	{
 		this.labelTextRenderer.validate();
-		this.labelTextRenderer.x = (this.actualWidth - this._paddingLeft - this._paddingTextLeft - this._paddingRight - this._paddingTextRight - this.labelTextRenderer.width) * 0.5 + this._paddingLeft + this._paddingTextLeft;
-		this.labelTextRenderer.y = (this.actualHeight - this._paddingTop - this._paddingTextTop - this._paddingBottom - this._paddingTextBottom - this.labelTextRenderer.height) * 0.5 + this._paddingTop + this._paddingTextTop;
+		this.labelTextRenderer.x = (this.actualWidth - this._paddingLeft - this._paddingTextLeft - this._paddingRight - this._paddingTextRight - this.labelTextRenderer.width) * 0.5 + this._paddingLeft + this._paddingTextLeft + this.labelOffsetX;
+		this.labelTextRenderer.y = (this.actualHeight - this._paddingTop - this._paddingTextTop - this._paddingBottom - this._paddingTextBottom - this.labelTextRenderer.height) * 0.5 + this._paddingTop + this._paddingTextTop + this.labelOffsetY;
 	}
 }
 }

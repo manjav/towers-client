@@ -2,10 +2,11 @@ package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.TileBackground;
+import com.gerantech.towercraft.controls.buttons.CollectableLeaguesButton;
 import com.gerantech.towercraft.controls.buttons.HomeButton;
 import com.gerantech.towercraft.controls.buttons.BattleButton;
-import com.gerantech.towercraft.controls.buttons.HomeQuestsButton;
-import com.gerantech.towercraft.controls.buttons.HomeStarsButton;
+import com.gerantech.towercraft.controls.buttons.CollectableQuestsButton;
+import com.gerantech.towercraft.controls.buttons.CollectableStarsButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.LeagueButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
@@ -50,7 +51,7 @@ public class HomeSegment extends Segment
 static private var SOCIAL_AUTH_WARNED:Boolean
 private var battleTimeoutId:uint;
 private var googleButton:IconButton;
-private var questsButton:HomeQuestsButton;
+private var questsButton:CollectableQuestsButton;
 public function HomeSegment() { super(); }
 override public function init():void
 {
@@ -83,12 +84,6 @@ override public function init():void
 	eventsButton.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, NaN, -stageHeight * 0.035);
 	eventsButton.height = listLayout.typicalItemHeight + listLayout.padding * 2;
 	addButton(eventsButton, "eventsButton");
-	
-	// leagues button
-	var leaguesButton:LeagueButton = new LeagueButton(player.get_arena(0));
-	leaguesButton.touchable = player.getTutorStep() > PrefsTypes.T_047_WIN;
-	leaguesButton.layoutData = new AnchorLayoutData(270, NaN, NaN, padding);
-	addButton(leaguesButton, "leaguesButton");
 	
 	// battle button
 	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, Math.min(260, stageHeight * 0.16), new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
@@ -135,20 +130,25 @@ override public function init():void
 	}
 	
 	var profile:Profile  = new Profile();
-	profile.layoutData = new AnchorLayoutData(110, 32, NaN, 32);
+	profile.layoutData = new AnchorLayoutData(130, 32, NaN, 120);
 	profile.name = "profile";
 	addChild(profile);
+
+	// leagues button
+	var leaguesButton:CollectableLeaguesButton = new CollectableLeaguesButton();
+	leaguesButton.layoutData = new AnchorLayoutData(120, NaN, NaN, padding);
+	addButton(leaguesButton, "leaguesButton");
 	
 	if( player.get_arena(0) < 1 )
 		return;
 	
-	var starsButton:HomeStarsButton = new HomeStarsButton();
-	starsButton.layoutData = new AnchorLayoutData(270, padding);
+	var starsButton:CollectableStarsButton = new CollectableStarsButton();
+	starsButton.layoutData = new AnchorLayoutData(330, padding);
 	starsButton.height = 140;
 	starsButton.width = 410;
 	addButton(starsButton, "starsButton");
 	
-	questsButton = new HomeQuestsButton();
+	questsButton = new CollectableQuestsButton();
 	questsButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, padding, NaN, stageHeight * 0.15);
 	questsButton.width = questsButton.height = 140;
 	addButton(questsButton, "questsButton");
@@ -161,7 +161,7 @@ override public function init():void
 	if( player.get_arena(0) > 0 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 	{
 		googleButton = new IconButton(Assets.getTexture("settings/41"), 0.6, Assets.getTexture("home/button-bg-0"), new Rectangle(22, 38, 4, 4));
-		googleButton.layoutData = new AnchorLayoutData(270, padding + starsButton.width);
+		googleButton.layoutData = new AnchorLayoutData(330, padding * 1.7 + starsButton.width);
 		googleButton.width = googleButton.height = 140;
 		addButton(googleButton, "googleButton");
 		

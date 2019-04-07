@@ -29,6 +29,7 @@ static public var SHOW_INFO:Boolean;
 static private const BG_SCALE_GRID:Rectangle = new Rectangle(23, 22, 2, 2);
 static private const COLORS:Array = [0x30e465, 0xffa400, 0xff4200, 0xe720ff];
 
+private var state:int;
 private var chIndex:int;
 private var locked:Boolean;
 private var backgroundImage:SimpleLayoutButton;
@@ -37,7 +38,6 @@ private var iconDisplay:ImageLoader;
 private var challenge:Challenge;
 private var titleDisplay:RTLLabel;
 private var messageDisplay:RTLLabel;
-private var state:int;
 private var bannerDisplay:ImageLoader;
 private var infoButton:IconButton;
 private var rankButton:IconButton;
@@ -103,7 +103,7 @@ private function bannerFactory() : void
 		bannerDisplay.layoutData = new AnchorLayoutData(150, 11, 60, 11);
 		addChild(bannerDisplay);
 	}
-	bannerDisplay.source = Assets.getTexture(locked ? "events/banner-locked" : "events/banner-default", "gui");
+	bannerDisplay.source = Assets.getTexture(locked ? "events/banner-locked" : "events/banner-" + chIndex, "gui");
 }
 
 private function backgroundFactory() : void
