@@ -82,7 +82,7 @@ override protected function initialize():void
 		cardsDisplay.width = stageWidth
 		cardsDisplay.height = cardsLayout.typicalItemHeight * 2 + cardsLayout.gap;
 		cardsDisplay.horizontalScrollPolicy = cardsDisplay.verticalScrollPolicy = ScrollPolicy.OFF;
-		cardsDisplay.dataProvider = new ListCollection(player.availabledCards(newArena, true)._list);
+		cardsDisplay.dataProvider = new ListCollection(player.availabledCards(newArena, 0));
 		cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
 		cardsDisplay.alpha = 0;
 		cardsDisplay.y = stage.stageHeight * 0.55;

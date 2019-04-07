@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.items
 {
+import com.gerantech.towercraft.controls.buttons.LeagueButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
@@ -13,11 +14,13 @@ public class RankItemRenderer extends AbstractTouchableListItemRenderer
 {
 private var mySkin:Image;
 private var iconDisplay:ImageLoader;
-private var arenaDisplay:ImageLoader;
+private var leagueBGDisplay:ImageLoader;
+private var leagueIconDisplay:ImageLoader;
 private var rankDisplay:ShadowLabel;
 private var nameDisplay:ShadowLabel;
 private var pointDisplay:ShadowLabel;
 private var _visibility:Boolean;
+private var leagueIndex:int;
 public function RankItemRenderer(){}
 override protected function initialize():void
 {
@@ -34,10 +37,16 @@ override protected function initialize():void
 	iconDisplay.source = Assets.getTexture("res-2", "gui");
 	addChild(iconDisplay);
 
-	arenaDisplay = new ImageLoader();
-	arenaDisplay.height = arenaDisplay.width = 80;
-	arenaDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
-	addChild(arenaDisplay);
+	leagueBGDisplay = new ImageLoader();
+	leagueBGDisplay.width = 80;
+	leagueBGDisplay.height = 88;
+	leagueBGDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
+	addChild(leagueBGDisplay);
+
+	leagueIconDisplay = new ImageLoader();
+	leagueIconDisplay.height = leagueIconDisplay.width = 60;
+	leagueIconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:122, NaN, appModel.isLTR?122:NaN, NaN, -5);
+	addChild(leagueIconDisplay);
 
 	rankDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
 	rankDisplay.width = 80;
@@ -45,7 +54,7 @@ override protected function initialize():void
 	addChild(rankDisplay);
 	
 	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:200, NaN, appModel.isLTR?200:NaN, NaN, 0);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
 	addChild(nameDisplay);
 	
 	pointDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
@@ -65,11 +74,12 @@ override protected function commitData():void
 	if( !_visibility )
 		return;
 
+	leagueIndex = player.get_arena(_data.p);
 	rankDisplay.text = StrUtils.getNumber(_data.s ? (_data.s + 1) : (index + 1));
 	nameDisplay.text = _data.n ;
 	pointDisplay.text = StrUtils.getNumber(_data.p);
-	arenaDisplay.source = Assets.getTexture("leagues" + player.get_arena(_data.p), "gui");
-
+	leagueBGDisplay.source = Assets.getTexture("leagues/circle-" + (leagueIndex % 2) + "-small", "gui");
+	leagueIconDisplay.source = Assets.getTexture("leagues/" + Math.floor(leagueIndex * 0.5), "gui");
 	mySkin.color = _data.i == player.id ? 0xAAFFFF : 0xFFFFFF;
 }
 
@@ -80,10 +90,11 @@ private function set visibility(value:Boolean):void
 	_visibility = value;
 	mySkin.visible = _visibility;
 	iconDisplay.visible = _visibility;
-	arenaDisplay.visible = _visibility;
 	rankDisplay.visible = _visibility;
 	pointDisplay.visible = _visibility;
 	nameDisplay.visible = _visibility;
+	leagueBGDisplay.visible = _visibility;
+	leagueIconDisplay.visible = _visibility;
 }
 } 
 }

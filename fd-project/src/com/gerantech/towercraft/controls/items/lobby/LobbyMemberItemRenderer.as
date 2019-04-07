@@ -19,12 +19,14 @@ public class LobbyMemberItemRenderer extends AbstractTouchableListItemRenderer
 {
 public function LobbyMemberItemRenderer(){ super(); }
 private var mySkin:Image;
-private var arenaDisplay:ImageLoader;
 private var rankDisplay:ShadowLabel;
 private var nameDisplay:ShadowLabel;
 private var roleDisplay:RTLLabel;
 private var pointsDisplay:RTLLabel;
 private var battlesDisplay:ShadowLabel;
+private var leagueBGDisplay:ImageLoader;
+private var leagueIconDisplay:ImageLoader;
+private var leagueIndex:int;
 
 override protected function initialize():void
 {
@@ -43,11 +45,17 @@ override protected function initialize():void
 	pointsRect.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
 	pointsRect.layoutData = new AnchorLayoutData(11, appModel.isLTR?280:NaN, 13, appModel.isLTR?NaN:280);
 	addChild(pointsRect);
-	
-	arenaDisplay = new ImageLoader();
-	arenaDisplay.height = arenaDisplay.width = 80;
-	arenaDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
-	addChild(arenaDisplay);
+
+	leagueBGDisplay = new ImageLoader();
+	leagueBGDisplay.width = 80;
+	leagueBGDisplay.height = 88;
+	leagueBGDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
+	addChild(leagueBGDisplay);
+
+	leagueIconDisplay = new ImageLoader();
+	leagueIconDisplay.height = leagueIconDisplay.width = 60;
+	leagueIconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:122, NaN, appModel.isLTR?122:NaN, NaN, -5);
+	addChild(leagueIconDisplay);
 	
 	var pointIconDisplay:ImageLoader = new ImageLoader();
 	pointIconDisplay.height = pointIconDisplay.width = 76;
@@ -62,7 +70,7 @@ override protected function initialize():void
 	addChild(rankDisplay);
 	
 	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
-	nameDisplay.layoutData = new AnchorLayoutData(10, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN);
+	nameDisplay.layoutData = new AnchorLayoutData(10, appModel.isLTR?NaN:208, NaN, appModel.isLTR?205:NaN);
 	addChild(nameDisplay);
 	
 	roleDisplay = new RTLLabel("", 0, null, null, false, null, 0.6);
@@ -88,12 +96,14 @@ override protected function commitData():void
 	if( _data == null || _owner == null )
 		return;
 	
+	leagueIndex = player.get_arena(_data.point);
 	rankDisplay.text = StrUtils.getNumber(index + 1);
 	nameDisplay.text = _data.name ;
 	roleDisplay.text = loc("lobby_role_" + _data.permission);
 	pointsDisplay.text = StrUtils.getNumber(_data.point);
 	battlesDisplay.text = StrUtils.getNumber(_data.activity);
-	arenaDisplay.source = Assets.getTexture("leagues/" + player.get_arena(_data.point), "gui");
+	leagueBGDisplay.source = Assets.getTexture("leagues/circle-" + (leagueIndex % 2) + "-small", "gui");
+	leagueIconDisplay.source = Assets.getTexture("leagues/" + Math.floor(leagueIndex * 0.5), "gui");
 	mySkin.color = _data.id == player.id ? 0xAAFFFF : 0xFFFFFF;
 }
 protected function item_triggeredHandler(event:Event):void

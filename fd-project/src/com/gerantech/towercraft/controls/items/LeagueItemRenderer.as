@@ -9,6 +9,7 @@ import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.others.Arena;
+import com.gt.towers.scripts.ScriptEngine;
 import feathers.controls.LayoutGroup;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
@@ -81,7 +82,7 @@ private function createElements():void
 	
 	if( index > 0 )
 	{
-		var divider:Devider = new Devider(0, 5);
+		var divider:Devider = new Devider(0, 2);
 		divider.layoutData = new AnchorLayoutData(0, padding, NaN, padding);
 		addChild(divider);
 	}
@@ -124,7 +125,7 @@ private function createElements():void
 	cardsDisplay.height = cardsLayout.typicalItemHeight * 2 + cardsLayout.gap;
 	cardsDisplay.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
 	cardsDisplay.layoutData = new AnchorLayoutData(padding * 19, 0, NaN, 0);
-	cardsDisplay.dataProvider = new ListCollection(player.availabledCards(league.index, true)._list);
+	cardsDisplay.dataProvider = new ListCollection(player.availabledCards(league.index, 0));
 	addChild(cardsDisplay);
 	
 	var leagueNumber:RTLLabel = new RTLLabel(loc("arena_text") + " " + loc("num_" + (league.index + 1)) , 0xDDEEFF, null, null, false, null, 0.9);
@@ -144,7 +145,6 @@ private function createElements():void
 	var unlocksDisplay:RTLLabel = new RTLLabel(loc("arena_chance_to"), 0xDDEEFF, null, null, true, null, 0.8);
 	unlocksDisplay.layoutData = new AnchorLayoutData(padding * 17, NaN, NaN, NaN, 0);
 	addChild(unlocksDisplay);
-	
 	if( visible )
 	{
 		header.width = 0;
