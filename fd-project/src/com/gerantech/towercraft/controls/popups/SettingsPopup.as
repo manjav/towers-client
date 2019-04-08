@@ -30,12 +30,13 @@ public class SettingsPopup extends SimpleHeaderPopup
 private var list:FastList;
 public function SettingsPopup()
 {
+	var _h:int = 1140;
+	var _p:int = 48;
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
-	transitionOut.transition = Transitions.EASE_IN;
-	transitionOut.destinationAlpha = transitionIn.sourceAlpha = 0;
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(60, 300, stageWidth - 120, stageHeight - 600);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(60, 250, stageWidth - 120, stageHeight - 500);
+	transitionOut.destinationAlpha = 0;
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
 	title = loc("settings_page");
 }
 
@@ -47,14 +48,15 @@ override protected function showElements():void
 	super.showElements();
 	
 	list = new FastList();
-	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	list.layoutData = new AnchorLayoutData(160, 0, 0, 0);
-	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
 	list.dataProvider = getSettingsData();
+	list.verticalScrollPolicy = ScrollPolicy.OFF;
+	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
+	list.layoutData = new AnchorLayoutData(120, 10, 70, 10);
 	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusInHandler);
+	list.itemRendererFactory = function():IListItemRenderer { return new SettingsItemRenderer(); }
 	addChild(list);
 	
-	var versionLabel:RTLLabel = new RTLLabel("v. " + appModel.descriptor.versionNumber + " for " + appModel.descriptor.market + ", User: " + (player.id * 2) , 0.6, null, "ltr", false, null, 0.6);
+	var versionLabel:RTLLabel = new RTLLabel("v. " + appModel.descriptor.versionNumber + " for " + appModel.descriptor.market + ", User: " + (player.id * 2), 0x444488, null, "ltr", false, null, 0.55);
 	versionLabel.layoutData = new AnchorLayoutData(NaN, 10,  10);
 	versionLabel.touchable = false;
 	addChild(versionLabel);
@@ -62,7 +64,7 @@ override protected function showElements():void
 
 private function list_focusInHandler(event:Event):void
 {
-	var settingData:SettingsData = event.data as SettingsData;trace(event)
+	var settingData:SettingsData = event.data as SettingsData;
 	if( settingData.type == SettingsData.TYPE_TOGGLE )
 	{
 		if( settingData.key == PrefsTypes.AUTH_41_GOOGLE )
@@ -88,23 +90,22 @@ private function list_focusInHandler(event:Event):void
 				appModel.sounds.stopAll();
 		}
 	}
-	else if( settingData.type == SettingsData.TYPE_BUTTON )
-	{
-		if( settingData.key == SettingsData.LEGALS )
-			navigateTo(settingData.key);
-		else if( settingData.key == SettingsData.LINK_DEVICE )
-			appModel.navigator.addPopup(new LinkDevicePopup());
-		else if( settingData.key == SettingsData.RENAME )
-			appModel.navigator.addPopup(new SelectNamePopup());
-		else if( settingData.key == SettingsData.TYPE_LOCALES )
-			showLocalePopup();
-	}
 	else
 	{
 		switch( int(settingData.value) )
 		{
+			case SettingsData.LOCALES :
+				showLocalePopup();
+				break;
+			case SettingsData.RENAME :
+				appModel.navigator.addPopup(new SelectNamePopup());
+				break;
+			case SettingsData.LINK_DEVICE :
+				appModel.navigator.addPopup(new LinkDevicePopup());
+				break;
 			case SettingsData.BUG_REPORT :
 				InboxSegment.openThread();
+				close()
 				break;
 			case SettingsData.RATING :
 				BillingManager.instance.rate();
@@ -113,7 +114,6 @@ private function list_focusInHandler(event:Event):void
 				navigateTo(settingData.value as int);
 				break;
 		}
-		close();
 	}
 }
 
@@ -155,15 +155,13 @@ private function getSettingsData():ListCollection
 	source.push( new SettingsData(PrefsTypes.SETTINGS_1_MUSIC,			SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_1_MUSIC)));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_2_SFX,			SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_2_SFX)));
 	source.push( new SettingsData(PrefsTypes.SETTINGS_3_NOTIFICATION, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_3_NOTIFICATION)));
-	source.push( new SettingsData(PrefsTypes.SETTINGS_5_REMOVE_ADS, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS)));
+	//source.push( new SettingsData(PrefsTypes.SETTINGS_5_REMOVE_ADS, 	SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS)));
 	source.push( new SettingsData(PrefsTypes.AUTH_41_GOOGLE,            SettingsData.TYPE_TOGGLE, player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE)));
 	
-	source.push( new SettingsData(PrefsTypes.SETTINGS_4_LOCALE, 		SettingsData.TYPE_BUTTON,           null));
-	source.push( new SettingsData(SettingsData.RENAME,                  SettingsData.TYPE_BUTTON,           null));
-	source.push( new SettingsData(SettingsData.LINK_DEVICE, 			SettingsData.TYPE_BUTTON,			null));
-	source.push( new SettingsData(SettingsData.LEGALS,	 				SettingsData.TYPE_BUTTON,			null));
-	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_LABEL_BUTTONS,	null));
-	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_ICON_BUTTONS,		null));
+	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_LABEL_BUTTONS,	null,	[PrefsTypes.SETTINGS_4_LOCALE, SettingsData.RENAME]));
+	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_LABEL_BUTTONS,	null,	[SettingsData.BUG_REPORT, SettingsData.LINK_DEVICE]));
+	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_LABEL_BUTTONS,	null,	[SettingsData.LEGALS, SettingsData.FAQ]));
+	source.push( new SettingsData(SettingsData.TYPE_BUTTON, 			SettingsData.TYPE_ICON_BUTTONS,		null, 	[SettingsData.TELEGRAM, SettingsData.INSTAGRAM, SettingsData.RATING]));
 	return new ListCollection(source);
 }
 }
