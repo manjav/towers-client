@@ -86,8 +86,7 @@ override public function init():void
 	addButton(eventsButton, "eventsButton");
 	
 	// battle button
-	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), 420, Math.min(260, stageHeight * 0.16), new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
-	battleButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, stageHeight * 0.13);//stageHeight * (player.get_battleswins() < 4?0.50:0.60), 0.6);
+	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), stageWidth * 0.5 - 210, stageHeight * 0.63 - Math.min(130, stageHeight * 0.08), 420, Math.min(260, stageHeight * 0.16), new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
 	addButton(battleButton, "battleButton");
 	
 	// bookline
@@ -219,7 +218,7 @@ private function showTutorial():void
 
 	if( player.get_battleswins() <= 3 && player.getTutorStep() >= PrefsTypes.T_018_CARD_UPGRADED )
 	{
-		SimpleLayoutButton(getChildByName("rightButton")).showTutorHint();
+		SimpleLayoutButton(getChildByName("battleButton")).showTutorHint();
 		return;
 	}
 	
@@ -231,7 +230,6 @@ private function showTutorial():void
 		function confirm_eventsHandler():void {
 			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
 			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_NAME_SELECTED);
-			Profile(getChildByName("profile")).dispatchEventWith("nameUpdate");
 			showTutorial();
 		}
 		return;
@@ -262,7 +260,6 @@ private function mainButtons_triggeredHandler(event:Event):void
 	switch( buttonName )
 	{
 		case "eventsButton":	appModel.navigator.pushScreen( Game.CHALLENGES_SCREEN );				return;
-		case "leftButton":		appModel.navigator.runBattle(FieldData.TYPE_TOUCHDOWN);					return;
 		case "battleButton":	appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
 	}
 	

@@ -16,26 +16,29 @@ import starling.core.Starling;
 */
 public class BattleButton extends SimpleLayoutButton 
 {
-private var background:String;
 private var label:String;
+private var background:String;
 private var scale9Grid:Rectangle;
 private var shadowRect:Rectangle;
 private var backgroundDisplay:ImageLoader;
 private var labelDisplay:ShadowLabel;
-private var padding:int;
+private var _x:Number;
+private var _y:Number;
+private var _width:Number;
+private var _height:Number;
 
-public function BattleButton(background:String, label:String, width:Number, height:Number, scale9Grid:Rectangle = null, shadowRect:Rectangle = null) 
+public function BattleButton(background:String, label:String, x:Number, y:Number, width:Number, height:Number, scale9Grid:Rectangle = null, shadowRect:Rectangle = null) 
 {
 	super();
 	this.label = label;
 	this.background = background;
 	this.scale9Grid = scale9Grid;
 	this.shadowRect = shadowRect;
-	this.width = width;
-	pivotX = this.width * 0.5;
-	this.height = height;
+	_x = this.x = x;
+	_y = this.y = y;
+	_width = this.width = width;
+	_height = this.height = height;
 	pivotY = this.height * 0.5;
-	padding = 32 * Starling.contentScaleFactor;
 }
 
 override protected function initialize() : void
@@ -54,10 +57,9 @@ override protected function initialize() : void
 	addChild(backgroundDisplay);
 
 	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.5);
-	//labelDisplay.shadowDistance = appModel.theme.gameFontSize * 0.05;
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -40);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10);//-40
 	addChild(labelDisplay);
-	
+	/*
 	var costBGDisplay:ImageLoader = new ImageLoader();
 	costBGDisplay.height = 80
 	costBGDisplay.source = Assets.getTexture("home/button-battle-footer", "gui");
@@ -65,7 +67,7 @@ override protected function initialize() : void
 	costBGDisplay.layoutData = new AnchorLayoutData(NaN, 100, 18, 100);
 	addChild(costBGDisplay);
 	
-	
+	*/
 	
 	
 }
@@ -82,7 +84,22 @@ override protected function trigger() : void
 override public function set currentState(value:String):void
 {
 	super.currentState = value;
-	scale = value == ButtonState.DOWN ? 0.9 : 1;
+	if ( value == ButtonState.DOWN )
+	{
+		this.x = _x + 20;
+		this.y = _y + 20;
+		this.width = _width - 40;
+		this.height = _height - 40;
+	}
+	else
+	{
+		this.x = _x;
+		this.y = _y;
+		this.width = _width;
+		this.height = _height;
+	}
+	if( labelDisplay != null )
+		labelDisplay.scale = value == ButtonState.DOWN ? 0.9 : 1;
 }
 }
 }
