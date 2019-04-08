@@ -153,13 +153,14 @@ private function footerFactory(state:int):void
 	{
 		actionButton = new MMOryButton();
 		actionButton.width = 300;
-		actionButton.height = 162;
+		actionButton.height = 176;
 		actionButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
-		actionButton.paddingBottom = actionButton.paddingTop = 10;
+		actionButton.paddingBottom = 30;
+		actionButton.paddingTop = 10;
 		actionButton.addEventListener(Event.TRIGGERED, batton_triggeredHandler);
 		addChild(actionButton);
 	}
-	actionButton.layoutData = new AnchorLayoutData(NaN, NaN, 30, NaN, 0);
+	actionButton.layoutData = new AnchorLayoutData(NaN, NaN, 20, NaN, 0);
 	actionButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	
 	var message:String = "";
@@ -180,7 +181,7 @@ private function footerFactory(state:int):void
 			
 			footerDisplay.color = 0x437a50;
 			actionButton.styleName = MainTheme.STYLE_BUTTON_NORMAL;
-			actionButton.layoutData = new AnchorLayoutData(NaN, 30, 30, NaN);
+			actionButton.layoutData = new AnchorLayoutData(NaN, 30, 20, NaN);
 			actionButton.message = loc("skip_label");
 			timeManager.addEventListener(Event.CHANGE, timeManager_changeHandler);
 			updateButton(ResourceType.R4_CURRENCY_HARD, Exchanger.timeToHard(item.expiredAt - timeManager.now));
@@ -190,7 +191,7 @@ private function footerFactory(state:int):void
 		else if( state == ExchangeItem.CHEST_STATE_WAIT )
 		{
 			var free:Boolean = exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_SUCCEED;
-			actionButton.layoutData = new AnchorLayoutData(NaN, free ? NaN : 30, 30, NaN, free ? 0 : NaN);
+			actionButton.layoutData = new AnchorLayoutData(NaN, free ? NaN : 30, 20, NaN, free ? 0 : NaN);
 			actionButton.styleName = free ? MainTheme.STYLE_BUTTON_HILIGHT : MainTheme.STYLE_BUTTON_NORMAL;
 			actionButton.iconPosition = RelativePosition.LEFT;
 			if( free )

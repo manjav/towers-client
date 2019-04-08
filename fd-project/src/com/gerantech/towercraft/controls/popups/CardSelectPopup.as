@@ -5,15 +5,18 @@ import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
 import feathers.controls.Button;
+import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
 
-public class CardSelectPopup extends SimplePopup
+public class CardSelectPopup extends AbstractPopup
 {
 public var cardType:int;
 private var card:Card;
@@ -23,10 +26,16 @@ private var detailsButton:MMOryButton;
 public function CardSelectPopup(){}
 override protected function initialize():void
 {
+	hasOverlay = false;
+	layout = new AnchorLayout();
+	transitionIn.transition = Transitions.EASE_IN;
 	super.initialize();
-	//closeOnStage = true
-	overlay.removeFromParent();
-	//overlay.touchable = false;
+
+	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);
+	skin.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
+	skin.color = 0;
+	skin.alpha = 0.3;
+	backgroundSkin = skin;
 }
 
 override protected function stage_touchHandler(event:TouchEvent):void
@@ -42,6 +51,7 @@ override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
 	
+	backgroundSkin .alpha = 0.7;
 	_bounds = getBounds(stage);
 	card = player.cards.get(cardType);
 
@@ -52,11 +62,10 @@ override protected function transitionInCompleted():void
 	
 	var upgradable:Boolean = card.upgradable();
 	detailsButton = new MMOryButton();
-	//detailsButton.width = 240;
-	detailsButton.height = 120;
+	detailsButton.height = 132;
 	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
 	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_HILIGHT;
-	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?24:152, 10);
+	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?6:136, 10);
 	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
 	detailsButton.alpha = 0;
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
@@ -71,8 +80,8 @@ override protected function transitionInCompleted():void
 	usingButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	usingButton.label = loc("usage_label");
 	//usingButton.width = 240;
-	usingButton.height = 120;
-	usingButton.layoutData = new AnchorLayoutData(NaN, 10, 24, 10);
+	usingButton.height = 132;
+	usingButton.layoutData = new AnchorLayoutData(NaN, 10, 6, 10);
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	addChild(usingButton);		
 	usingButton.alpha = 0;

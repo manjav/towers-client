@@ -70,8 +70,7 @@ public function set messageRenderFactory(value:Function) : void
 }
 protected function defaultMessageRendererFactory() : ITextRenderer
 {
-	var ret:ShadowLabel = new ShadowLabel(this._message, 1, 0, "center", null, false, null, 0.7);
-	return ret;
+	return new ShadowLabel(this._message, 1, 0, "center", null, false, null, 0.7);
 }
 
 /**

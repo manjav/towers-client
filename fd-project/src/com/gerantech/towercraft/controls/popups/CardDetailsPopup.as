@@ -44,7 +44,7 @@ override protected function initialize():void
 	title = loc("card_title_" + cardType);
 	
 	// create transition in data
-	var _h:int = showButton ? 1240 : 940;
+	var _h:int = showButton ? 1280 : 940;
 	var _p:int = 48;
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
@@ -127,7 +127,8 @@ override protected function transitionInCompleted():void
 	//upgradeButton.disableSelectDispatching = true;
 	upgradeButton.alpha = 0;
 	upgradeButton.width = 270;
-	upgradeButton.height = 140;
+	upgradeButton.height = 160;
+	upgradeButton.paddingBottom = 26;
 	upgradeButton.message = loc("upgrade_label");
 	upgradeButton.messagePosition = RelativePosition.TOP;
 	upgradeButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
@@ -135,7 +136,7 @@ override protected function transitionInCompleted():void
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.iconTexture = MMOryButton.getIcon(ResourceType.R3_CURRENCY_SOFT, 1);
 	upgradeButton.label = MMOryButton.getLabel(0, Card.get_upgradeCost(card.level, card.rarity));
-	upgradeButton.layoutData = new AnchorLayoutData(NaN, padding + 300, padding);
+	upgradeButton.layoutData = new AnchorLayoutData(NaN, padding + 300, padding - 10);
 	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.level, card.rarity);
 	//upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
 	addChild(upgradeButton);
@@ -156,10 +157,11 @@ override protected function transitionInCompleted():void
 		usingButton.label = loc("usage_label");
 		usingButton.isEnabled = player.cards.exists(cardType) && !player.getSelectedDeck().exists(cardType);
 		usingButton.width = 270;
-		usingButton.height = 140;
-		usingButton.isEnabled = !
+		usingButton.height = 160;
+		usingButton.paddingBottom = 26;
+		//usingButton.isEnabled = !
 		usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
-		usingButton.layoutData = new AnchorLayoutData(NaN, padding, padding);
+		usingButton.layoutData = new AnchorLayoutData(NaN, padding, padding - 10);
 		addChild(usingButton);
 	}
 }

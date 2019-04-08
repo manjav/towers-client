@@ -35,8 +35,8 @@ override protected function initialize():void
 	}
 	
 	closeButton = new MMOryButton();
-	closeButton.width = 160;
-	closeButton.height = 100;
+	closeButton.width = 220;
+	closeButton.height = 140;
 	closeButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	closeButton.iconTexture = appModel.theme.buttonBackDownSkinTexture;
 	closeButton.addEventListener(Event.TRIGGERED, cloaseButton_triggeredHandler);

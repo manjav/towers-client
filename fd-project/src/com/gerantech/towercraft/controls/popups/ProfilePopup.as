@@ -5,7 +5,9 @@ import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.groups.RewardsPalette;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.CardItemRenderer;
@@ -13,6 +15,7 @@ import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
 import com.gerantech.towercraft.controls.items.ProfileFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.screens.IssuesScreen;
+import com.gerantech.towercraft.controls.segments.InboxSegment;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
@@ -73,11 +76,13 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 
 override protected function initialize():void
 {
+	var _h:int = adminMode ? 1800 : 1280;
+	var _p:int = 48;
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
 	transitionOut.destinationAlpha = 0;
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.65));
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
 	super.initialize();
 }
 protected override function transitionInCompleted():void
@@ -128,52 +133,53 @@ private function showProfile():void
 	lobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 3.3, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(lobbyNameDisplay);
 	
-	var closeButton:CustomButton = new CustomButton();
+	var closeButton:MMOryButton = new MMOryButton();
 	closeButton.alpha = 0;
-	closeButton.height = 100;
-	closeButton.label = loc("close_button");
-	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
-	closeButton.y = height - closeButton.height - padding * 1.2;
-	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1, y:height - closeButton.height - padding});
+	closeButton.width = 88;
+	closeButton.height = 74
+	closeButton.layoutData = new AnchorLayoutData(-20, -20);
+	closeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1});
+	closeButton.iconTexture = Assets.getTexture("theme/icon-cross", "gui");
 	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
 	addChild(closeButton);
 	
 	if( adminMode )
 	{
-		var banButton:CustomButton = new CustomButton();
-		banButton.icon = Assets.getTexture("settings-5");
-		banButton.style = CustomButton.STYLE_DANGER;
-		banButton.width = banButton.height = padding * 2;
-		banButton.layoutData = new AnchorLayoutData(NaN, padding * 0.5, padding * 0.5);
+		var banButton:IndicatorButton = new IndicatorButton();
+		banButton.label = "ban";
+		banButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+		//banButton.width = banButton.height = padding * 2;
+		banButton.layoutData = new AnchorLayoutData(NaN, padding * 0.5, -padding);
 		banButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(banButton);
 		
-		var issuesButton:CustomButton = new CustomButton();
-		issuesButton.icon = Assets.getTexture("home/inbox");
-		issuesButton.style = CustomButton.STYLE_NEUTRAL;
-		issuesButton.width = issuesButton.height = padding * 2;
-		issuesButton.layoutData = new AnchorLayoutData(NaN, padding * 3, padding * 0.5);
+		var issuesButton:IndicatorButton = new IndicatorButton();
+		issuesButton.label = "issues";
+		issuesButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
+		//issuesButton.width = issuesButton.height = padding * 2;
+		issuesButton.layoutData = new AnchorLayoutData(NaN, padding * 5, -padding);
 		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(issuesButton);
 		
-		var offendsButton:CustomButton = new CustomButton();
-		offendsButton.icon = Assets.getTexture("settings-3");
-		offendsButton.width = offendsButton.height = padding * 2;
-		offendsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 0.5);
+		var offendsButton:IndicatorButton = new IndicatorButton();
+		offendsButton.label = "offends";
+		//offendsButton.width = offendsButton.height = padding * 2;
+		offendsButton.layoutData = new AnchorLayoutData(NaN, NaN, -padding, 0);
 		offendsButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(offendsButton);
 		
-		var reportsButton:CustomButton = new CustomButton();
-		reportsButton.icon = Assets.getTexture("settings-315");
-		reportsButton.width = reportsButton.height = padding * 2;
-		reportsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 3);
+		var reportsButton:IndicatorButton = new IndicatorButton();
+		reportsButton.label = "reports";
+		//reportsButton.width = reportsButton.height = padding * 2;
+		reportsButton.layoutData = new AnchorLayoutData(NaN, NaN, -padding, padding * 7);
 		reportsButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(reportsButton);
 		
-		var bannesButton:CustomButton = new CustomButton();
-		bannesButton.icon = Assets.getTexture("search-icon");
-		bannesButton.width = bannesButton.height = padding * 2;
-		bannesButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 5.5);
+		var bannesButton:IndicatorButton = new IndicatorButton();
+		bannesButton.label = "banns";
+		//bannesButton.width = bannesButton.height = padding * 2;
+		bannesButton.layoutData = new AnchorLayoutData(NaN, NaN, -padding, NaN, padding);
 		bannesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(bannesButton);
 		
@@ -195,7 +201,7 @@ private function showProfile():void
 					return;
 				}
 				appModel.navigator.getScreen( Game.ISSUES_SCREEN ).properties.reporter = user.id;*/
-				appModel.navigator.pushScreen( Game.ISSUES_SCREEN );
+				InboxSegment.openThread({receiver:user.name, receiverId:user.id}, true); 
 				close();
 			}
 			
@@ -245,7 +251,7 @@ private function showProfile():void
 	Image(scroller.backgroundSkin).scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 	scroller.backgroundSkin.alpha = 0.2;
 	scroller.layout = new AnchorLayout();
-	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 4, padding);
+	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 2, padding);
 	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	addChild(scroller);
 	

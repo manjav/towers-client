@@ -158,8 +158,8 @@ static public const STYLE_BUTTON_SMALL_DARK:String = "feathers-small-dark-button
 static public const STYLE_BUTTON_SMALL_DISABLE:String = "feathers-small-disable-button";
 
 static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
-static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(10, 22, 3, 26);
-static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(11, 14, 1, 1);
+static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(23, 23, 1, 1);
+static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(13, 13, 1, 1);
 static public const SLIDER_SCALE9_GRID:Rectangle = new Rectangle(10, 23, 1, 1);
 static public const SMALL_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(4, 4, 2, 2);
 static public const BACK_BUTTON_SCALE9_GRID:Rectangle = new Rectangle(13, 0, 1, 28);
@@ -1082,7 +1082,7 @@ protected function setAlertButtonGroupButtonStyles(button:Button):void
 protected function setBaseButtonStyles(button:Button):void
 {
 	button.paddingTop = this.smallControlGutterSize;
-	button.paddingBottom = this.smallControlGutterSize;
+	button.paddingBottom = this.smallControlGutterSize + 12;
 	button.paddingLeft = this.gutterSize;
 	button.paddingRight = this.gutterSize;
 	button.gap = this.smallControlGutterSize;
