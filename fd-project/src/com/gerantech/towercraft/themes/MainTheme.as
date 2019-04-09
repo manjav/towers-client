@@ -533,6 +533,7 @@ public var lightDisabledScrollTextFontStyles:TextFormat;
  * Initializes the textures by extracting them from the atlas and
  * setting up any scaling grids that are needed.
  */
+public function get backgroundSliderSkin() : Texture { return Assets.getTexture("theme/slider-background-skin", "gui"); }
 public function get backgroundSkinTexture() : Texture { return Assets.getTexture("theme/background-skin", "gui"); }
 public function get backgroundDisabledSkinTexture() : Texture { return Assets.getTexture("theme/background-disabled-skin", "gui"); }
 public function get backgroundInsetSkinTexture() : Texture { return Assets.getTexture("theme/background-inset-skin", "gui"); }
@@ -1962,7 +1963,7 @@ protected function setPickerListButtonStyles(button:Button):void
 
 protected function setProgressBarStyles(progress:ProgressBar):void
 {
-	var backgroundSkin:Image = new Image(Assets.getTexture("theme/slider-background-skin", "gui"));
+	var backgroundSkin:Image = new Image(this.backgroundSliderSkin);
 	backgroundSkin.scale9Grid = SLIDER_SCALE9_GRID;
 	if(progress.direction == Direction.VERTICAL)
 	{

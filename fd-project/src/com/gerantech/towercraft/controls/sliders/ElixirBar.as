@@ -51,7 +51,7 @@ override protected function initialize():void
 	realtimeDisplay = new ImageLoader();
 	realtimeDisplay.blendMode = BlendMode.ADD;
 	realtimeDisplay.alpha = 0.4;
-	realtimeDisplay.source = Assets.getTexture("theme/slider-background-skin", "gui");
+	realtimeDisplay.source = appModel.theme.backgroundSliderSkin;
 	realtimeDisplay.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	realtimeDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
 	addChild(realtimeDisplay);
