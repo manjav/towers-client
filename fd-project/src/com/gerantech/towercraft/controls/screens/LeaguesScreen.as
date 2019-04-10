@@ -19,7 +19,7 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
-import flash.utils.setTimeout;
+import starling.core.Starling;
 import starling.events.Event;
 
 public class LeaguesScreen extends ListScreen
@@ -141,8 +141,8 @@ private function testBattleOverlay() : void
 private function list_createCompleteHandler():void
 {
 //	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
-	list.scrollToPosition(NaN, LeagueItemRenderer.HEIGHT * (leaguesCollection.length - LeagueItemRenderer.LEAGUE - 20), 0);
-	setTimeout(list.scrollToPosition, 1, NaN, LeagueItemRenderer.HEIGHT * (leaguesCollection.length - LeagueItemRenderer.LEAGUE-2), 1);
+	list.scrollToPosition(NaN, LeagueItemRenderer.HEIGHT * (leaguesCollection.length - LeagueItemRenderer.LEAGUE - 1) + 300, 0);
+	Starling.juggler.delayCall(list.scrollToPosition, 0.3, NaN, LeagueItemRenderer.HEIGHT * (leaguesCollection.length - LeagueItemRenderer.LEAGUE - 2) , 1);
 }
 }
 }

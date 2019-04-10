@@ -18,6 +18,7 @@ import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
+import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
@@ -25,7 +26,7 @@ public class LeagueItemRenderer extends AbstractListItemRenderer
 {
 static public var LEAGUE:int;
 static public var HEIGHT:int;
-static public const ICON_X:int = -160;
+static public const ICON_X:int = -400;
 static public const ICON_WIDTH:int = 180;
 static public const ICON_HEIGHT:int = 198;
 static public const CARDS_WIDTH:int = 210;
@@ -54,7 +55,7 @@ override protected function commitData():void
 	if( league.index == 0 )
 		height = 500;
 	
-	ready = league.index > LEAGUE-1 && league.index < LEAGUE + 3;
+	ready = league.index > LEAGUE - 2 && league.index < LEAGUE + 3;
 	if( ready )
 		createElements();
 	else
@@ -76,7 +77,7 @@ private function _owner_openHandler(event:starling.events.Event):void
 	if( visible )
 		createElements();
 	else
-		setTimeout(createElements, 800);
+		setTimeout(createElements, 1200);
 }
 
 private function createElements():void
@@ -87,10 +88,17 @@ private function createElements():void
 	// icon
 	var leagueIcon:LeagueButton = new LeagueButton(league.index);
 	leagueIcon.layoutData = ICON_LAYOUT_DATA;
-	leagueIcon.height = ICON_HEIGHT;
 	leagueIcon.width = ICON_WIDTH;
+	leagueIcon.height = ICON_HEIGHT;
+	leagueIcon.pivotX = leagueIcon.width * 0.5;
+	leagueIcon.pivotY = leagueIcon.height * 0.5;
 	leagueIcon.touchable = false;
 	addChild(leagueIcon);
+	if( league.index == LEAGUE )
+	{
+		leagueIcon.scale = 1.2;
+		Starling.juggler.tween(leagueIcon, 0.3, {scale:1});
+	}
 	
 	// cards elements
 	var cards:Array = player.availabledCards(league.index, 0);
@@ -116,7 +124,7 @@ private function createElements():void
 	//cardsList.width = cardsLayout.typicalItemWidth + cardsLayout.padding * 2;
 	//cardsList.height = cardsLayout.typicalItemHeight + cardsLayout.padding * 2;
 	cardsList.itemRendererFactory = function ():IListItemRenderer { return new CardItemRenderer ( false, false ); };
-	cardsList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 180, -HEIGHT * 0.5);
+	cardsList.layoutData = new AnchorLayoutData(NaN, NaN, NaN, stageWidth * 0.5 + ICON_LAYOUT_DATA.horizontalCenter + 180, NaN, -HEIGHT * 0.5);
 	cardsList.dataProvider = new ListCollection(cards);
 	addChild(cardsList);
 
@@ -128,8 +136,14 @@ private function createElements():void
 	arrowSkin.color = listSkin.color;
 	addChild(arrowSkin);
 	
+	
 	if( league.index <= 0 )
 	{
+		if( league.index == 0 )
+		{
+			AnchorLayoutData(arrowSkin.layoutData).verticalCenter = -280;
+			AnchorLayoutData(cardsList.layoutData).verticalCenter = -140;
+		}
 		commited = true;
 		return;
 	}
@@ -151,30 +165,24 @@ private function createElements():void
 			var pointLine:ImageLoader = new ImageLoader();
 			pointLine.source = appModel.theme.quadSkin;
 			pointLine.scale9Grid = MainTheme.QUAD_SCALE9_GRID;
-			pointLine.width = 64;
-			pointLine.height = 6;
-			pointLine.layoutData = new AnchorLayoutData(fillHeight - pointLine.height * 0.5, stageWidth * 0.5 - ICON_LAYOUT_DATA.horizontalCenter);
+			pointLine.width = 640;
+			pointLine.height = 4;
+			pointLine.layoutData = new AnchorLayoutData(fillHeight - pointLine.height * 0.5, NaN, NaN, stageWidth * 0.5 + ICON_LAYOUT_DATA.horizontalCenter - SLIDER_WIDTH);
 			addChild(pointLine);
 			
 			var pointRect:ImageLoader = new ImageLoader();
 			pointRect.source = Assets.getTexture("leagues/point-rect", "gui");
-			pointRect.width = stageWidth * 0.5 + ICON_LAYOUT_DATA.horizontalCenter - pointLine.width * 2;
+			pointRect.width = 260;
 			pointRect.height = 72;
 			pointRect.scale9Grid = new Rectangle(17, 17, 2, 2);
-			pointRect.layoutData = new AnchorLayoutData(fillHeight - pointRect.height * 0.5, stageWidth * 0.5 - ICON_LAYOUT_DATA.horizontalCenter + pointLine.width);
+			pointRect.layoutData = new AnchorLayoutData(fillHeight - pointRect.height * 0.5, 40);
 			addChild(pointRect);
 			
 			var pointIcon:ImageLoader = new ImageLoader();
 			pointIcon.source = Assets.getTexture("res-2", "gui");
 			pointIcon.width = pointIcon.height = 52;
-			pointIcon.layoutData = new AnchorLayoutData(fillHeight - pointIcon.height * 0.5, stageWidth * 0.5 - ICON_LAYOUT_DATA.horizontalCenter + pointLine.width + pointRect.width - 70);
+			pointIcon.layoutData = new AnchorLayoutData(fillHeight - pointIcon.height * 0.5, pointRect.width - 30);
 			addChild(pointIcon);
-			
-			var pointLabel:RTLLabel = new RTLLabel(StrUtils.getNumber(player.get_point()), 1, "center", null, false, null, 0.8);
-			pointLabel.layoutData = new AnchorLayoutData(fillHeight - pointRect.height * 0.5, stageWidth * 0.5 - ICON_LAYOUT_DATA.horizontalCenter + pointLine.width);
-			pointLabel.width = pointRect.width - 70;
-			pointLabel.height = 72;
-			addChild(pointLabel);
 		}
 	}
 	if( LEAGUE + 1 <= league.index )
@@ -195,7 +203,16 @@ private function createElements():void
 	minPointRect.height = 68;
 	addChild(minPointRect);
 	
-	var minPointLabel:RTLLabel = new RTLLabel(StrUtils.getNumber(l.min + "+"), 1, "center", null, false, null, 0.8);
+	if( LEAGUE + 1 == league.index )
+	{
+		var pointLabel:RTLLabel = new RTLLabel(StrUtils.getNumber(player.get_point()), 1, "center", null, false, null, 0.8);
+		pointLabel.layoutData = new AnchorLayoutData(fillHeight - pointRect.height * 0.5, 50);
+		pointLabel.width = pointRect.width - 70;
+		pointLabel.height = 72;
+		addChild(pointLabel);
+	}
+
+	var minPointLabel:RTLLabel = new RTLLabel(StrUtils.getNumber((league.min - 1) + "+"), 1, "center", null, false, null, 0.8);
 	minPointLabel.layoutData = MIN_POINT_LAYOUT_DATA;
 	addChild(minPointLabel);
 
