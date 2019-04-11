@@ -9,6 +9,7 @@ import com.gerantech.towercraft.models.vo.RewardData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import feathers.controls.Button;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
@@ -79,15 +80,15 @@ override protected function initialize():void
 			rewardsList.height = 230;
 			rewardsList.layout = hlayout;
 			rewardsList.layoutData = new AnchorLayoutData(padding * 26, 0, NaN, 0);
-			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData);	}
+			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData); }
 			rewardsList.dataProvider = _rewards;
 			addChild(rewardsList);
 		}
 	}
 	
-	var closeBatton:CustomButton = new CustomButton();
+	var closeBatton:Button = new Button();
 	closeBatton.width = 300;
-	closeBatton.height = 120;
+	closeBatton.height = 140;
 	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?31.4:27) * padding, NaN, NaN, NaN, 0);
 	closeBatton.name = "close";
 	closeBatton.label = loc("popup_ok_label");
