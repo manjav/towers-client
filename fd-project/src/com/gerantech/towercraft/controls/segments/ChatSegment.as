@@ -72,7 +72,7 @@ protected function showElements() : void
 	footerSize = 120;
 	
 	chatLayout = new VerticalLayout();
-	chatLayout.gap = padding * 2;
+	chatLayout.gap = padding;
 	chatLayout.paddingTop = padding * 2;
     chatLayout.paddingBottom = footerSize + padding * 2;
 	chatLayout.hasVariableItemDimensions = true;
@@ -81,7 +81,7 @@ protected function showElements() : void
 	
 	chatList = new FastList(false);
 	chatList.layout = chatLayout;
-    chatList.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+    chatList.layoutData = new AnchorLayoutData(21, 0, 0, 0);
 	chatList.itemRendererFactory = function ():IListItemRenderer { return new LobbyChatItemRenderer()};
 	chatList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	chatList.addEventListener(Event.CHANGE, chatList_changeHandler);

@@ -3,7 +3,9 @@ package com.gerantech.towercraft.controls.popups
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.headers.TabsHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.lobby.LobbyMemberItemRenderer;
@@ -60,10 +62,15 @@ public function LobbyDetailsPopup(roomData:Object, isReadOnly:Boolean = false)
 
 override protected function initialize():void
 {
+	var _h:int = Math.min(1680, stageHeight - 96);
+	var _p:int = 48;
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
+
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(padding, padding, stageWidth - padding * 2, stageHeight - padding * 2);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(padding, padding, stageWidth - padding * 2, stageHeight - padding * 2);
-	rejustLayoutByTransitionData();
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.height = iconDisplay.width = padding * 4;
@@ -163,11 +170,12 @@ private function showDetails():void
 	membersList.layoutData = new AnchorLayoutData(570, 30, 55, 30);
 	addChild(membersList);
 
-	var closeButton:CustomButton = new CustomButton();
-	closeButton.style = "danger";
-	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?20:NaN, NaN, appModel.isLTR?NaN:20);
-	closeButton.width = closeButton.height = 72;
+	var closeButton:MMOryButton = new MMOryButton();
+	closeButton.width = 88;
+	closeButton.height = 74
+	closeButton.layoutData = new AnchorLayoutData(-20, -20);
+	closeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	closeButton.iconTexture = Assets.getTexture("theme/icon-cross", "gui");
 	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
 	addChild(closeButton);
 	
@@ -176,23 +184,23 @@ private function showDetails():void
 	
 	itsMyRoom = SFSConnection.instance.lobbyManager.lobby != null && SFSConnection.instance.lobbyManager.id == roomData.id;
 	
-	var joinleaveButton:CustomButton = new CustomButton();
-	joinleaveButton.disableSelectDispatching = true;
+	var joinleaveButton:IndicatorButton = new IndicatorButton();
+	//joinleaveButton.disableSelectDispatching = true;
 	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370);
 	joinleaveButton.height = 76;
 	joinleaveButton.visible = roomServerData.getInt("pri") < 2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom || player.admin;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding * 11, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri") == 0?"lobby_join_label":"lobby_request_label"));
-	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
+	joinleaveButton.styleName = itsMyRoom ? MainTheme.STYLE_BUTTON_SMALL_DANGER : MainTheme.STYLE_BUTTON_SMALL_HILIGHT;
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
 	joinleaveButton.addEventListener(Event.SELECT, joinleaveButton_selectHandler);
 	addChild(joinleaveButton);
 	
 	if( player.admin )
 	{
-		var removeButton:CustomButton = new CustomButton();
-		removeButton.style = "danger";
+		var removeButton:IndicatorButton = new IndicatorButton();
+		removeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 		removeButton.label = "X";
 		removeButton.layoutData = new AnchorLayoutData(padding * 11, appModel.isLTR?padding + 350:NaN, NaN, appModel.isLTR?NaN:padding + 350);
 		removeButton.width = removeButton.height = 96;
@@ -204,8 +212,8 @@ private function showDetails():void
 	if( !itsMyRoom )
 		return;
 	
-	var shareButton:CustomButton = new CustomButton();
-	shareButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?106:NaN, NaN, appModel.isLTR?NaN:106);
+	var shareButton:IndicatorButton = new IndicatorButton();
+	shareButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?20:NaN, NaN, appModel.isLTR?NaN:20);
 	shareButton.label = loc("lobby_invite");
 	shareButton.width = 164;
 	shareButton.height = 72;
@@ -216,8 +224,8 @@ private function showDetails():void
 	if( (u == null || u.permission <= 1) && !player.admin )
 		return;
 	
-	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280);
+	var editButton:IndicatorButton = new IndicatorButton();
+	editButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?190:NaN, NaN, appModel.isLTR?NaN:190);
 	editButton.label = loc("lobby_edit");
 	editButton.width = 164;
 	editButton.height = 72;
@@ -395,7 +403,7 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc(membersCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
 		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
-		confirm.declineLabel = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL
+		confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_selectHandler(evet:Event):void

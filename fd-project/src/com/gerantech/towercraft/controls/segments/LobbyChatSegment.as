@@ -22,9 +22,8 @@ import starling.events.Event;
 
 public class LobbyChatSegment extends LobbyBaseChatSegment
 {
-private var headerSize:int;
-private var battleButton:MMOryButton;
 private var header:LobbyHeader;
+private var battleButton:MMOryButton;
 private var startScrollBarIndicator:Number = 0;
 
 public function LobbyChatSegment(){ super(); }
@@ -48,9 +47,7 @@ override protected function showElements():void
 {
 	super.showElements();
 	
-	headerSize = 132;
 	header = new LobbyHeader();
-	header.height = headerSize;
 	header.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0);
 	addChild(header);
 	
@@ -62,7 +59,7 @@ override protected function showElements():void
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
 	
-	chatLayout.paddingTop = headerSize;
+	chatLayout.paddingTop = LobbyHeader.HEIGHT;
 	chatList.addEventListener(Event.ROOT_CREATED, chatList_triggeredHandler);
 	manager.addEventListener(Event.TRIGGERED, manager_triggerHandler);	
 
@@ -91,7 +88,7 @@ protected function chatList_triggeredHandler(event:Event):void
 override protected function scrollChatList(changes:Number) : void
 {
     super.scrollChatList(changes);
-    header.y = Math.max(-headerSize, Math.min(0, header.y+changes));
+    header.y = Math.max(-LobbyHeader.HEIGHT, Math.min(0, header.y+changes));
 }
 
 protected function battleButton_triggeredHandler(event:Event):void
@@ -132,7 +129,7 @@ override public function enabledChatting(value:Boolean):void
 override public function set buttonsEnabled(value:Boolean):void
 {
 	super.buttonsEnabled = value;
-	header.isEnabled = _buttonsEnabled;
+	header.touchable = _buttonsEnabled;
 	battleButton.isEnabled = _buttonsEnabled;
 }
 
