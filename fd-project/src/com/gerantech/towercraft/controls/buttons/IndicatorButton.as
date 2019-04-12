@@ -12,7 +12,7 @@ public var fixed:Boolean;
 public function IndicatorButton()
 {
 	super();
-	styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
+	styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
 	labelOffsetX = 2;
 	labelFactory = function () : ITextRenderer
 	{
