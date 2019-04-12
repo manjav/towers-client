@@ -203,6 +203,9 @@ override protected function chatButton_triggeredHandler(event:Event):void
 
 protected function emotesButton_triggeredHandler(event:Event) : void 
 {
+	if( isInvalidMessage("emote") )
+		return;
+	
 	var emoteToast:EmoteToast = new EmoteToast();
 	emoteToast.addEventListener(Event.CHANGE, emoteToast_changeHandler);
 	appModel.navigator.addToast(emoteToast);

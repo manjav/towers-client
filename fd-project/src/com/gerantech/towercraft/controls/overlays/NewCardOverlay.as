@@ -70,7 +70,7 @@ override protected function addedToStageHandler(event:Event) : void
 	cardArmature.animation.gotoAndPlayByTime("open", 0, 1);
 	
 	var newLabel:RTLLabel = new RTLLabel(loc("new_card_label"), 1, null, null, false, null, 1.3)
-	newLabel.layoutData = new AnchorLayoutData(500, NaN, NaN, NaN, 0);
+	newLabel.layoutData = new AnchorLayoutData(stageHeight * 0.25, NaN, NaN, NaN, 0);
 	addChild(newLabel);
 }
 
@@ -103,7 +103,7 @@ protected function showDetails() : void
 	addChildAt(scraps, 1);
 
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("card_title_" + type), 1, 0, null, null, false, null, 1.9);
-	titleDisplay.layoutData = new AnchorLayoutData(1220, NaN, NaN, NaN, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(stageHeight * 0.7, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 }
 

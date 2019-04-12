@@ -1,8 +1,8 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.FastList;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyItemRenderer;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
@@ -51,10 +51,10 @@ override protected function initialize():void
 	textInput.height = buttonH;
 	addChild(textInput);
 	
-	var searchButton:CustomButton = new CustomButton();
+	var searchButton:MMOryButton = new MMOryButton();
 	searchButton.width = buttonH;
-	searchButton.height = buttonH;
-	searchButton.icon = Assets.getTexture("search-icon");
+	searchButton.height = buttonH + 16;
+	searchButton.iconTexture = Assets.getTexture("search-icon");
 	searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 	searchButton.addEventListener(Event.TRIGGERED,  searchButton_triggeredHandler);
 	addChild(searchButton);	
