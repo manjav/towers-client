@@ -39,7 +39,7 @@ public function update() : void
 		for each( var k:int in keys )
 		{
 			var e:ExchangeItem = player.game.exchanger.items.get(k);
-			if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
+			if( (e.category == ExchangeType.C20_SPECIALS && e.type != ExchangeType.C29_DAILY_BATTLES && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
 			{
 				newBadgeNumber ++;
 				badgeNumber ++;
