@@ -279,5 +279,18 @@ public function set buttonsEnabled(value:Boolean):void
     chatList.verticalScrollPolicy = _buttonsEnabled ? ScrollPolicy.AUTO : ScrollPolicy.OFF;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 }
+
+protected function isInvalidMessage(message:String) : Boolean 
+{
+	if( message == "" )
+		return true;
+	if( message.split("\n").length > 3 || message.split("\r").length > 3 )
+	{
+		chatTextInput.text = "";
+		appModel.navigator.addLog(loc("lobby_message_unauthorized"));
+		return true;
+	}
+	return false;
+}
 }
 }
