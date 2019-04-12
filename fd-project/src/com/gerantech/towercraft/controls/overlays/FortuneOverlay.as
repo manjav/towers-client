@@ -9,7 +9,6 @@ import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.utils.setInterval;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -21,7 +20,7 @@ public var delta:Number = 0.005;
 public var fortuneHeight:Number;
 private var spinners:Vector.<Spinner>;
 private var shadow:ImageLoader;
-private var openOverlay:com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+private var openOverlay:OpenBookOverlay;
 
 public function FortuneOverlay(type:int)
 {
@@ -37,7 +36,6 @@ override protected function initialize():void
 
 	layout = new AnchorLayout();
 	closeOnStage = false;
-
 	width = stage.stageWidth;
 	height = stage.stageHeight;
 	overlay.alpha = 1;
@@ -46,7 +44,7 @@ override protected function initialize():void
 	for (var i:int = 0; i < 6; i++ )
 	{
 		var spinner:Spinner = new Spinner();
-		spinner.display = OpenBookOverlay.factory.buildArmatureDisplay("book-" + (51 + i));
+		spinner.display = OpenBookOverlay.factory.buildArmatureDisplay("" + (51 + i));
 		spinner.scaleFactor = OpenBookOverlay.getBookScale(51 + i) * 2;
 		StarlingArmatureDisplay(spinner.display).animation.gotoAndStopByProgress("appear", 1);
 		StarlingArmatureDisplay(spinner.display).animation.timeScale = 0;
@@ -109,7 +107,7 @@ protected function rotationCompleted() : void
 	Starling.juggler.tween(shineArmature, 0.3, {scale:4, transition:Transitions.EASE_OUT_BACK});
 
 	// book animation
-	var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + type);
+	var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay(type.toString());
 	bookArmature.touchable = false;
 	bookArmature.x = width * 0.5;
 	bookArmature.y = height * 0.5;
