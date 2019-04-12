@@ -2,11 +2,15 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.buttons.LeagueButton;
+import com.gerantech.towercraft.controls.overlays.NewCardOverlay;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.battle.units.Card;
 import com.gt.towers.others.Arena;
+import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.renderers.IListItemRenderer;
@@ -18,6 +22,7 @@ import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
+import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
@@ -102,15 +107,17 @@ private function createElements():void
 	
 	// cards elements
 	var cards:Array = player.availabledCards(league.index, 0);
+	var collectable:Boolean = !player.cards.exists(cards[0]) && league.min < player.get_point();
 	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	cardsLayout.requestedColumnCount = Math.min(cards.length, 3);
 	cardsLayout.requestedRowCount = Math.ceil(cards.length / 3);
 	cardsLayout.horizontalAlign = HorizontalAlign.CENTER;
-	cardsLayout.verticalAlign = VerticalAlign.MIDDLE;
+	cardsLayout.verticalAlign = collectable ? VerticalAlign.BOTTOM : VerticalAlign.MIDDLE;
 	cardsLayout.gap = cardsLayout.padding = 12;
 	cardsLayout.useVirtualLayout = false;
-	cardsLayout.typicalItemWidth = Math.min(CARDS_WIDTH, 580 / cardsLayout.requestedColumnCount - cardsLayout.padding * 2 - (cardsLayout.requestedColumnCount - 1) * cardsLayout.gap);
-	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
+	cardsLayout.useSquareTiles = false;
+	cardsLayout.typicalItemWidth = Math.min(CARDS_WIDTH, 680 / cardsLayout.requestedColumnCount - cardsLayout.padding * 2 - (cardsLayout.requestedColumnCount - 1) * cardsLayout.gap);
+	cardsLayout.typicalItemHeight = cardsLayout.typicalItemWidth * (collectable ? 1.7 : BuildingCard.VERICAL_SCALE);
 	
 	var listSkin:Image = new Image(appModel.theme.roundMediumInnerSkin);
 	listSkin.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
@@ -136,6 +143,30 @@ private function createElements():void
 	arrowSkin.color = listSkin.color;
 	addChild(arrowSkin);
 	
+	if( collectable )
+	{
+		arrowSkin.alpha = listSkin.alpha = 0.5;
+		arrowSkin.color = listSkin.color = 0xFFB600;
+		
+		var collectButton:Button = new Button();
+		collectButton.name = cards[0].toString();
+		collectButton.label = loc("collect_label");
+		collectButton.styleName = MainTheme.STYLE_BUTTON_SMALL_HILIGHT;
+		collectButton.x = stageWidth * 0.5 + ICON_LAYOUT_DATA.horizontalCenter + 180 + cardsLayout.typicalItemWidth * 0.5 + cardsLayout.padding;
+		collectButton.y = cardsLayout.typicalItemHeight * 0.5 - cardsLayout.padding * 2;
+		collectButton.width = cardsLayout.typicalItemWidth + cardsLayout.padding * 2;
+		collectButton.height = 120;
+		collectButton.pivotX = collectButton.width * 0.5;
+		collectButton.pivotY = collectButton.height * 0.5;
+		collectButton.addEventListener(Event.TRIGGERED, collectButton_triggeredHandler);
+		addChild(collectButton);
+		punchButton();
+		function punchButton() : void
+		{
+			Starling.juggler.tween(collectButton, 0.8, {delay:1, scale:1, transition:Transitions.EASE_OUT_BACK,
+			onComplete:punchButton, onStart:function():void{collectButton.scale = 1.5;}});
+		}
+	}
 	
 	if( league.index <= 0 )
 	{
@@ -168,7 +199,7 @@ private function createElements():void
 			pointLine.width = 640;
 			pointLine.height = 4;
 			pointLine.layoutData = new AnchorLayoutData(fillHeight - pointLine.height * 0.5, NaN, NaN, stageWidth * 0.5 + ICON_LAYOUT_DATA.horizontalCenter - SLIDER_WIDTH);
-			addChild(pointLine);
+			addChildAt(pointLine, 1);
 			
 			var pointRect:ImageLoader = new ImageLoader();
 			pointRect.source = Assets.getTexture("leagues/point-rect", "gui");
@@ -199,7 +230,7 @@ private function createElements():void
 	minPointRect.source = Assets.getTexture("leagues/min-point-rect", "gui");
 	minPointRect.layoutData = MIN_POINT_LAYOUT_DATA;
 	minPointRect.scale9Grid = MIN_POINT_GRID;
-	minPointRect.width = 190;
+	minPointRect.width = 180;
 	minPointRect.height = 68;
 	addChild(minPointRect);
 	
@@ -251,5 +282,24 @@ private function createElements():void
 		setTimeout(_owner.dispatchEventWith, 500, Event.OPEN);
 	commited = true;
 }
+
+protected function collectButton_triggeredHandler(event:Event) : void 
+{
+	var overlay:NewCardOverlay = new NewCardOverlay(int(Button(event.currentTarget).name));
+	overlay.addEventListener(Event.CLOSE, overlay_closeHandler);
+	appModel.navigator.addOverlay(overlay);
+}
+
+protected function overlay_closeHandler(event:Event) : void 
+{
+	var overlay:NewCardOverlay = event.currentTarget as NewCardOverlay;
+	overlay.removeEventListener(Event.CLOSE, overlay_closeHandler);
+	player.cards.set(overlay.type, new Card(game, overlay.type, 1));
+	removeChildren();
+	commited = false;
+	createElements();
+}
+
+
 }
 }
