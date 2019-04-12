@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls 
 {
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
@@ -19,10 +20,19 @@ public class TileBackground extends TowersLayout
 {
 private var tiledBG:Image;
 private var movingSpeed:Number;
-public function TileBackground(image:String, movingSpeed:Number = 0.3, hasInnerShadow:Boolean = true) 
+public function TileBackground(image:String, movingSpeed:Number = 0.3, hasInnerShadow:Boolean = true, backgroundColor:int = -1) 
 {
 	layout = new AnchorLayout();
 	this.movingSpeed = movingSpeed;
+	
+	if( backgroundColor > -1 )
+	{
+		var skin:Image = new Image(appModel.theme.quadSkin);
+		skin.color = backgroundColor;
+		skin.scale9Grid = MainTheme.QUAD_SCALE9_GRID;
+		backgroundSkin = skin;
+	}
+	
 	tiledBG = new Image(Assets.getTexture(image, "gui"));
 	tiledBG.tileGrid = new Rectangle(0, 0, tiledBG.width, tiledBG.height);
 	tiledBG.alpha = 0.1;
