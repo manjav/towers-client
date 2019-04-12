@@ -21,6 +21,8 @@ public function requestThreads(id:int = -1) : void
 {
 	//if( threads != null )
 	//	return;
+	if( appModel.loadingManager.serverData.getInt("noticeVersion") < 1900 )
+		return;
 	var params:SFSObject = new SFSObject();
 	if( id > -1 )
 		params.putInt("id", id);

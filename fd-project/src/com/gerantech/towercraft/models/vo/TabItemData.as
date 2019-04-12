@@ -71,7 +71,7 @@ public function update() : void
 	else if( index == 3 )
 	{
 		badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
-	}
+	}/*
 	else if( index == 4 && player.get_arena(0) > 2 )
 	{
 		if( player.challenges != null )
@@ -89,7 +89,7 @@ public function update() : void
 		{
 			badgeNumber ++;
 		}
-	}
+	}*/
 }
 }
 }
