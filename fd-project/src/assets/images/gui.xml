@@ -32,6 +32,8 @@
 	<SubTexture name="cards/126" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/127" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/128" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
+	<SubTexture name="cards/129" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
+	<SubTexture name="cards/130" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/151" x="561" y="591" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/152" x="748" y="591" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/153" x="935" y="591" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
@@ -40,6 +42,7 @@
 	<SubTexture name="cards/156" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/157" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/158" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
+	<SubTexture name="cards/159" x="1850" y="417" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/3" x="0" y="592" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/4" x="187" y="592" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>
 	<SubTexture name="cards/6" x="374" y="592" width="186" height="239" frameX="0" frameY="0" frameWidth="186" frameHeight="240"/>

@@ -28,7 +28,6 @@ override protected function initialize():void
 {
 	hasOverlay = false;
 	layout = new AnchorLayout();
-	transitionIn.transition = Transitions.EASE_IN;
 	super.initialize();
 
 	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);
@@ -36,6 +35,22 @@ override protected function initialize():void
 	skin.color = 0;
 	skin.alpha = 0.3;
 	backgroundSkin = skin;
+	
+	card = player.cards.get(cardType);
+
+	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
+	buildingIcon.layoutData = new AnchorLayoutData(4, 4, NaN, 4);
+	addChild(buildingIcon);
+	buildingIcon.setData(card.type, card.level, card.count());
+
+	var upgradable:Boolean = card.upgradable();
+	detailsButton = new MMOryButton();
+	detailsButton.height = 132;
+	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
+	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_NEUTRAL;
+	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?6:136, 10);
+	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
+	addChild(detailsButton);
 }
 
 override protected function stage_touchHandler(event:TouchEvent):void
@@ -53,23 +68,9 @@ override protected function transitionInCompleted():void
 	
 	backgroundSkin .alpha = 0.7;
 	_bounds = getBounds(stage);
-	card = player.cards.get(cardType);
 
-	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
-	buildingIcon.layoutData = new AnchorLayoutData(4, 4, NaN, 4);
-	addChild(buildingIcon);
-	buildingIcon.setData(card.type, card.level, card.count());
-	
-	var upgradable:Boolean = card.upgradable();
-	detailsButton = new MMOryButton();
-	detailsButton.height = 132;
-	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
-	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_NEUTRAL;
-	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?6:136, 10);
-	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
 	detailsButton.alpha = 0;
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
-	addChild(detailsButton);
 	
 	showTutorHint();
 	
