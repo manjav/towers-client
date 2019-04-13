@@ -10,6 +10,7 @@ import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.SegmentType;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -33,12 +34,22 @@ private var scrollTime:Number = 0.01;
 private var listCollection:ListCollection;
 private var tabSize:int;
 public function SocialSegment() { super(); }
+override protected function initialize() : void
+{
+	super.initialize();
+	layout = new AnchorLayout();
+	var backgroundDisplay:ImageLoader = new ImageLoader();
+	backgroundDisplay.source = appModel.theme.popupInsideBackgroundSkinTexture;
+	backgroundDisplay.scale9Grid = MainTheme.POPUP_INSIDE_SCALE9_GRID;
+	backgroundDisplay.layoutData = new AnchorLayoutData(198, 0, -10, 0);
+	addChild(backgroundDisplay);
+
+}	
 override public function init():void
 {
 	if( initializeCompleted )
 		return;
 	super.init();
-	layout = new AnchorLayout();
 	
 	var labelDisplay:ShadowLabel;
 	if( player.get_arena(0) < 1 )

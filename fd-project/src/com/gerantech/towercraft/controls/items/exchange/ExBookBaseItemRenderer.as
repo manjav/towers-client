@@ -26,7 +26,7 @@ protected function bookFactory() : StarlingArmatureDisplay
 {
 	if( bookArmature == null )
 	{
-		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + exchange.outcome);
+		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay(exchange.outcome.toString());
 		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome);
 		bookArmature.x = width * 0.5;
 		bookArmature.y = height * 0.4;

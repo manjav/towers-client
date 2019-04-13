@@ -64,7 +64,7 @@ override protected function transitionInCompleted():void
 	detailsButton = new MMOryButton();
 	detailsButton.height = 132;
 	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
-	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_HILIGHT;
+	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_NEUTRAL;
 	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?6:136, 10);
 	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
 	detailsButton.alpha = 0;

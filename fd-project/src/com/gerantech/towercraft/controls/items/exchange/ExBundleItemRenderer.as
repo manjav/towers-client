@@ -70,7 +70,7 @@ private function createOutcome(outKeys:Vector.<int>, i:int, rowH:int):void
 	var outcome:DisplayObjectContainer;
 	if( ResourceType.isBook(outKeys[i]) ) 
 	{
-		var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + outKeys[i]);
+		var bookArmature:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay(outKeys[i].toString());
 		bookArmature.width = padding * 24;
 		bookArmature.scaleY = bookArmature.scaleX;
 		bookArmature.animation.gotoAndStopByProgress("appear", 1);

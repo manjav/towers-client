@@ -105,10 +105,11 @@ override protected function transitionInCompleted():void
 	var bottomArrowSkin:Image = new Image(appModel.theme.calloutBottomArrowSkinTexture);
 	bottomArrowSkin.x = itemWidth * (item.type - 110.5) - bottomArrowSkin.width * 0.5 - transitionIn.destinationBound.x + 20;
 	bottomArrowSkin.y = transitionIn.destinationBound.height - 2;
+	bottomArrowSkin.color = 0xE3E3E3;
 	addChild(bottomArrowSkin);
 	
 	OpenBookOverlay.createFactory();
-	bookArmature = OpenBookOverlay.factory.buildArmatureDisplay("book-" + item.outcome);
+	bookArmature = OpenBookOverlay.factory.buildArmatureDisplay(item.outcome.toString());
 	bookArmature.addEventListener(EventObject.SOUND_EVENT, bookArmature_soundEventHandler);
 	bookArmature.scale = OpenBookOverlay.getBookScale(item.outcome) * 1.4;
 	bookArmature.animation.gotoAndPlayByTime("appear", 0, 1);

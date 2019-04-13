@@ -41,10 +41,10 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	var controlSize:int = 96;
-	minWidth = 120;
 	minHeight = controlSize;
+	minWidth = 120;
 	
-	var skin:Image = new Image(Assets.getTexture("theme/slider-background-skin"));
+	var skin:Image = new Image(appModel.theme.backgroundSliderSkin);
 	skin.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	backgroundSkin = skin;
 	

@@ -36,8 +36,8 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	var image:Image = new Image(Assets.getTexture("quad-skin", "gui"));
-	image.scale9Grid = MainTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
+	var image:Image = new Image(appModel.theme.quadSkin);
+	image.scale9Grid = MainTheme.QUAD_SCALE9_GRID;
 	image.alpha = 0.7;
 	image.color = 0;
 	backgroundSkin = image;

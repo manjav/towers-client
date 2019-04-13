@@ -19,6 +19,7 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
+import starling.core.Starling;
 import starling.events.Event;
 
 public class LeaguesScreen extends ListScreen
@@ -49,10 +50,12 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	LeagueItemRenderer._height = 1480;
-	LeagueItemRenderer.playerLeague = player.get_arena(0);
+	LeagueItemRenderer.HEIGHT = 1000;
+	LeagueItemRenderer.LEAGUE = player.get_arena(0);
 
-	listLayout.paddingBottom = 220;
+	listLayout.gap = 0;
+	listLayout.paddingTop = 500;
+	listLayout.paddingBottom = 0;
 	listLayout.useVirtualLayout = false;
 	
 	list.itemRendererFactory = function():IListItemRenderer { return new LeagueItemRenderer(); }
@@ -138,7 +141,8 @@ private function testBattleOverlay() : void
 private function list_createCompleteHandler():void
 {
 //	trace(leaguesCollection.length,FactionItemRenderer.playerLeague,(leaguesCollection.length-FactionItemRenderer.playerLeague-1), FactionItemRenderer._height * (leaguesCollection.length-FactionItemRenderer.playerLeague-1))
-	list.scrollToPosition(NaN, LeagueItemRenderer._height * (leaguesCollection.length - LeagueItemRenderer.playerLeague-1) - LeagueItemRenderer._height * 0.2, 0);
+	list.scrollToPosition(NaN, LeagueItemRenderer.HEIGHT * (leaguesCollection.length - LeagueItemRenderer.LEAGUE - 1) + 300, 0);
+	Starling.juggler.delayCall(list.scrollToPosition, 0.3, NaN, LeagueItemRenderer.HEIGHT * (leaguesCollection.length - LeagueItemRenderer.LEAGUE - 2) , 1);
 }
 }
 }

@@ -203,6 +203,9 @@ override protected function chatButton_triggeredHandler(event:Event):void
 
 protected function emotesButton_triggeredHandler(event:Event) : void 
 {
+	if( isInvalidMessage("emote") )
+		return;
+	
 	var emoteToast:EmoteToast = new EmoteToast();
 	emoteToast.addEventListener(Event.CHANGE, emoteToast_changeHandler);
 	appModel.navigator.addToast(emoteToast);
@@ -220,24 +223,25 @@ protected function emoteToast_changeHandler(event:Event) : void
 
 override protected function sendButton_triggeredHandler(event:Event):void
 {
-	if( chatTextInput.text == "" )
+	if( isInvalidMessage(chatTextInput.text) )
 		return;
-	if( areUVerbose() )
-	{
-		appModel.navigator.addLog(loc("lobby_message_limit"));
-		return;
-	}
+
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("t", preText + StrUtils.getSimpleString(chatTextInput.text));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	chatTextInput.text = preText = "";
 }
 
-private function areUVerbose():Boolean 
+override protected function isInvalidMessage(message:String) : Boolean 
 {
+	if( super.isInvalidMessage(message) )
+		return true;
 	var last:ISFSObject = manager.messages.getItemAt(manager.messages.length - 1) as SFSObject;
-	if ( last != null && last.getInt("i") == player.id && last.containsKey("t") )
-		return (last.getText("t").split("\n").length > 5 );
+	if( last != null && last.getInt("i") == player.id && last.containsKey("t") && last.getText("t").split("\n").length > 4 )
+	{
+		appModel.navigator.addLog(loc("lobby_message_limit"));
+		return true;
+	}
 	return false;
 }
 

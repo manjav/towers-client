@@ -43,7 +43,7 @@ public function update() : void
 		for each( var k:int in keys )
 		{
 			var e:ExchangeItem = player.game.exchanger.items.get(k);
-			if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
+			if( (e.category == ExchangeType.C20_SPECIALS && e.type != ExchangeType.C29_DAILY_BATTLES && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
 			{
 				newBadgeNumber ++;
 				badgeNumber ++;
@@ -71,7 +71,7 @@ public function update() : void
 	else if( index == 3 )
 	{
 		badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
-	}
+	}/*
 	else if( index == 4 && player.get_arena(0) > 2 )
 	{
 		if( player.challenges != null )
@@ -89,7 +89,7 @@ public function update() : void
 		{
 			badgeNumber ++;
 		}
-	}
+	}*/
 }
 }
 }

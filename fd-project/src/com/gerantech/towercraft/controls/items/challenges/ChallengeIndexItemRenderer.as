@@ -18,7 +18,6 @@ import starling.core.Starling;
 import starling.events.Event;
 
 /**
-* ...
 * @author Mansour Djawadi
 */
 public class ChallengeIndexItemRenderer extends AbstractListItemRenderer
@@ -56,7 +55,7 @@ override protected function commitData() : void
 	challenge = _data as Challenge;
 	state = challenge.getState(timeManager.now);
 	chIndex = IN_HOME ? player.selectedChallengeIndex : index;
-	locked = Challenge.getUnlockAt(challenge.type) > ARENA;trace(index, challenge.unlockAt, ARENA)
+	locked = Challenge.getUnlockAt(index) > ARENA;
 	
 	backgroundFactory();
 	iconFactory();

@@ -2,12 +2,11 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gt.towers.utils.maps.IntIntMap;
 /**
- * ...
  * @author Mansour Djawadi
  */
 public class EarnOverlay extends BaseOverlay 
 { 
-	protected var type:int;
+	public var type:int;
 	protected var _outcomes:IntIntMap;
 	public function EarnOverlay(type:int)
 	{

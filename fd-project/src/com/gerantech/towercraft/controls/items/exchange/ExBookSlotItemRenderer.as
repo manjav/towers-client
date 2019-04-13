@@ -105,7 +105,7 @@ override protected function bookFactory() : StarlingArmatureDisplay
 	clearTimeout(timeoutId);
 	if( state != ExchangeItem.CHEST_STATE_EMPTY ) 
 	{
-		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + exchange.outcome );
+		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( exchange.outcome.toString() );
 		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 0.68;
 		bookArmature.x = width * 0.53;
 		bookArmature.y = height * 0.70;
@@ -300,7 +300,7 @@ private function achieve():void
 
 	if( emptyLabel != null )
 		emptyLabel.removeFromParent();
-	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + rd.key );
+	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( rd.key.toString() );
 	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);
 	bookAnimation.animation.timeScale = 0.5;

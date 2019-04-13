@@ -157,6 +157,7 @@ static public const STYLE_BUTTON_SMALL_NEUTRAL:String = "feathers-small-neutral-
 static public const STYLE_BUTTON_SMALL_DARK:String = "feathers-small-dark-button";
 static public const STYLE_BUTTON_SMALL_DISABLE:String = "feathers-small-disable-button";
 
+static public const QUAD_SCALE9_GRID:Rectangle = new Rectangle(2, 2, 2, 2);
 static public const DEFAULT_BACKGROUND_SCALE9_GRID:Rectangle = new Rectangle(8, 8, 2, 2);
 static public const BUTTON_SCALE9_GRID:Rectangle = new Rectangle(23, 23, 1, 1);
 static public const BUTTON_SMALL_SCALE9_GRID:Rectangle = new Rectangle(13, 13, 1, 1);
@@ -533,6 +534,8 @@ public var lightDisabledScrollTextFontStyles:TextFormat;
  * Initializes the textures by extracting them from the atlas and
  * setting up any scaling grids that are needed.
  */
+public function get quadSkin() : Texture { return Assets.getTexture("theme/quad-skin", "gui"); }
+public function get backgroundSliderSkin() : Texture { return Assets.getTexture("theme/slider-background-skin", "gui"); }
 public function get backgroundSkinTexture() : Texture { return Assets.getTexture("theme/background-skin", "gui"); }
 public function get backgroundDisabledSkinTexture() : Texture { return Assets.getTexture("theme/background-disabled-skin", "gui"); }
 public function get backgroundInsetSkinTexture() : Texture { return Assets.getTexture("theme/background-inset-skin", "gui"); }
@@ -1962,7 +1965,7 @@ protected function setPickerListButtonStyles(button:Button):void
 
 protected function setProgressBarStyles(progress:ProgressBar):void
 {
-	var backgroundSkin:Image = new Image(Assets.getTexture("theme/slider-background-skin", "gui"));
+	var backgroundSkin:Image = new Image(this.backgroundSliderSkin);
 	backgroundSkin.scale9Grid = SLIDER_SCALE9_GRID;
 	if(progress.direction == Direction.VERTICAL)
 	{

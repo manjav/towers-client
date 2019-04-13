@@ -1,9 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.Button;
 import feathers.controls.LayoutGroup;

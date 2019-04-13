@@ -86,7 +86,7 @@ override public function init():void
 	addButton(eventsButton, "eventsButton");
 	
 	// battle button
-	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), stageWidth * 0.5 - 210, stageHeight * 0.63 - Math.min(130, stageHeight * 0.08), 420, Math.min(260, stageHeight * 0.16), new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
+	var battleButton:BattleButton = new BattleButton("button-battle", loc("button_battle"), stageWidth * 0.5 - 210, stageHeight * 0.64 - Math.min(130, stageHeight * 0.08), 420, Math.min(260, stageHeight * 0.16), new Rectangle(75, 75, 1, 35), new Rectangle(0, 0, 0, 30));
 	addButton(battleButton, "battleButton");
 	
 	// bookline

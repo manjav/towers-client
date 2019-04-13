@@ -143,7 +143,7 @@ protected function scroller_scrollHandler(event:Event):void
 
 override public function updateData():void
 {
-	var all:Array = ScriptEngine.get(1, -1);
+	var all:Array = appModel.loadingManager.serverData.getInt("noticeVersion") >= 1900 ? ScriptEngine.get(1, -1) : [101,102,103,104,105,106,107,108,109,151,110,111,152,112,113,153,114,154,115,116,155,117,118,119,156,120,121,122,123,157,124,125,126,127,128,158];
 	var unavailables:Array = all.splice(player.get_arena(0) + Player.FIRST_CARDS);
 	if( availableCollection == null )
 		availableCollection = new ListCollection();

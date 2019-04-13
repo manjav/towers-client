@@ -20,7 +20,7 @@ public function LeagueButton(leagueIndex:int)
 override protected function initialize():void
 {
 	super.initialize();
-	AnchorLayoutData(iconDisplay.layoutData).verticalCenter = -20;
+	AnchorLayoutData(iconDisplay.layoutData).verticalCenter = -15;
 }
 }
 }

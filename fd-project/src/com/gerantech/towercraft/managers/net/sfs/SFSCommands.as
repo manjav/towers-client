@@ -15,6 +15,7 @@ public static const RANK:String = "rank";
 public static const PROFILE:String = "profile";
 
 public static const CARD_UPGRADE:String = "cardUpgrade";
+public static const CARD_NEW:String = "cardNew";
 public static const EXCHANGE:String = "exchange";
 public static const SELECT_NAME:String = "selectName";
 public static const VERIFY_PURCHASE:String = "verify";
@@ -86,6 +87,7 @@ public static function getDeadline(command:String):int
 		case REGISTER_PUSH:
 		case VERIFY_PURCHASE:
 		case BUDDY_BATTLE:
+		case CARD_NEW:
 			return -1;
 	}
 	return 3000;
