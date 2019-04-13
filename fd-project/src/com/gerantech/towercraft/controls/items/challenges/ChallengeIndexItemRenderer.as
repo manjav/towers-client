@@ -147,7 +147,7 @@ private function titleFactory() : void
 		titleDisplay.layoutData = new AnchorLayoutData(12, appModel.isLTR ? NaN : 160, appModel.isLTR ? 120 : NaN);
 		addChild(titleDisplay);
 	}
-	titleDisplay.text = loc("challenge_title_" + challenge.mode);
+	titleDisplay.text = locked ? loc("challenge_label", [loc("num_" + (chIndex + 1))]) : loc("challenge_title_" + challenge.mode);
 }
 
 private function messageFactory() : void
@@ -159,7 +159,7 @@ private function messageFactory() : void
 		messageDisplay.layoutData = new AnchorLayoutData(76, appModel.isLTR ? NaN : 160, appModel.isLTR ? 160 : NaN);
 		addChild(messageDisplay);
 	}
-	messageDisplay.text = loc("challenge_message_" + challenge.mode);
+	messageDisplay.text = locked ? loc("challenge_locked") : loc("challenge_message_" + challenge.mode);
 }
 
 protected function backgroundImage_stateChangeHandler(event:Event) : void
