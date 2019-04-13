@@ -379,6 +379,8 @@ static public function getCurrencyFormat(count:int):String
 
 static public function getSimpleTimeFormat(secounds:int) : String 
 {
+	if( secounds < 60 )
+		return loc("sec_label", [StrUtils.getNumber(secounds)]);
 	if( secounds > 3600 )
 		return loc("hour_label", [StrUtils.getNumber(secounds / 3600)]);
 	return loc("min_label", [StrUtils.getNumber(secounds / 60)]);
