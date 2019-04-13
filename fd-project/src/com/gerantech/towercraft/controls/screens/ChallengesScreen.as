@@ -3,7 +3,6 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.items.challenges.ChallengeIndexItemRenderer;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
-import feathers.layout.AnchorLayoutData;
 import feathers.layout.VerticalAlign;
 import starling.core.Starling;
 import starling.events.Event;

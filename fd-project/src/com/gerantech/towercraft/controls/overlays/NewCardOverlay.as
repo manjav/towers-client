@@ -3,10 +3,13 @@ package com.gerantech.towercraft.controls.overlays
 import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
+import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.scripts.ScriptEngine;
+import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.events.EventObject;
 import dragonBones.starling.StarlingArmatureDisplay;
 import dragonBones.starling.StarlingEvent;
@@ -25,10 +28,17 @@ public class NewCardOverlay extends EarnOverlay
 private var cardArmature:StarlingArmatureDisplay;
 private var titleDisplay:ShadowLabel;
 private var descriptionDisplay:RTLLabel;
-public function NewCardOverlay(type:int) { super(type); }
+public function NewCardOverlay(type:int)
+{
+	super(type);
+	var params:SFSObject = new SFSObject();
+	params.putInt("c", type);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.CARD_NEW, params);
+	autoSizeMode = AutoSizeMode.STAGE;
+	
+}
 override protected function initialize():void
 {
-	autoSizeMode = AutoSizeMode.STAGE;
 	super.initialize();
 	layout = new AnchorLayout();
 	appModel.navigator.activeScreen.visible = false;// hide back items for better perfomance
