@@ -98,7 +98,7 @@ private function starStarling():void
 	this.starling.stage.stageWidth  = 1080;
 	this.starling.stage.stageHeight = _height * ratio;
 	NativeAbilities.instance.showToast(stage.fullScreenWidth + "," + stage.fullScreenHeight + "," + this.starling.stage.stageWidth + "," + this.starling.stage.stageHeight + "," + this.starling.contentScaleFactor, 2);
-	this.starling.showStatsAt("right", "top", 1 / this.starling.contentScaleFactor);
+	//this.starling.showStatsAt("right", "top", 1 / this.starling.contentScaleFactor);
 }
 
 private function starling_rootCreatedHandler(event:Object):void
