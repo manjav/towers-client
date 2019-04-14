@@ -5,6 +5,22 @@ cd %~dp0 & cd ..
 
 :menu
 echo.
+echo Select server
+echo.
+echo  [1] iran
+echo  [2] local
+
+:choice
+set /P S=[Choice]: 
+echo.
+
+set SERVER=iran
+if "%S%"=="1" set SERVER=iran
+if "%S%"=="2" set SERVER=local
+
+
+:menu
+echo.
 echo Package for target
 echo.
 echo Android:
