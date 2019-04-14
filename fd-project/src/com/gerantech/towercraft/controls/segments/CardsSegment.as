@@ -151,7 +151,7 @@ override public function updateData():void
 	var c:int = 0;
 	while( c < all.length )
 	{
-		if( !player.getSelectedDeck().existsValue(all[c]) )
+		if( !player.getSelectedDeck().existsValue(all[c]) && player.cards.exists(all[c]) )
 			unused.push(all[c]);
 		c ++;
 	}

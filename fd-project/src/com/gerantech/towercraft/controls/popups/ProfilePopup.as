@@ -56,7 +56,7 @@ private var adminMode:Boolean;
 private var playerData:ISFSObject;
 private var resourcesData:ISFSArray;
 
-public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
+public function ProfilePopup(user:Object, getFullPlayerData:Boolean = false)
 {
 	this.user = user;
 	this.adminMode = player.admin;
@@ -76,7 +76,7 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 
 override protected function initialize():void
 {
-	var _h:int = adminMode ? 1800 : 1280;
+	var _h:int = adminMode ? 1800 : 1140;
 	var _p:int = 48;
 	transitionIn = new TransitionData();
 	transitionOut = new TransitionData();
