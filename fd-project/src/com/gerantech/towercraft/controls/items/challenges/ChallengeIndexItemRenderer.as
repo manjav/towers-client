@@ -4,8 +4,10 @@ import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.AbstractListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.socials.Challenge;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
@@ -40,6 +42,8 @@ private var messageDisplay:RTLLabel;
 private var bannerDisplay:ImageLoader;
 private var infoButton:IconButton;
 private var rankButton:IconButton;
+private var costIconDisplay:ImageLoader;
+private var costLabelDisplay:ShadowLabel;
 public function ChallengeIndexItemRenderer() { super(); }
 override protected function initialize() : void
 {
@@ -64,9 +68,40 @@ override protected function commitData() : void
 	rankingFactory();
 	titleFactory();
 	messageFactory();
+	costFactory();
 	
 	alpha = 0;
 	Starling.juggler.tween(this, 0.25, {delay:Math.log(index + 1) * 0.2, alpha:1});
+}
+
+private function costFactory() : void 
+{
+	if( locked )
+		return;
+	challenge.runRequirements = Challenge.getRunRequiements(chIndex);
+	var costType:int = challenge.runRequirements.keys()[0];
+	var costValue:int = challenge.runRequirements.get(costType);
+	if( costValue <= 0 )
+		return;
+	
+	if( costIconDisplay == null )
+	{
+		costIconDisplay = new ImageLoader();
+		costIconDisplay.touchable = false;
+		costIconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? 8 : NaN, 64, appModel.isLTR ? NaN : 8);
+		costIconDisplay.width = costIconDisplay.height = 84;
+		addChild(costIconDisplay);
+	}
+	costIconDisplay.source = Assets.getTexture("res-" + costType, "gui");
+	
+	if( costLabelDisplay == null )
+	{
+		costLabelDisplay = new ShadowLabel(null, 1, 0, null, null, false, null, 1.1);
+		costLabelDisplay.touchable = false;
+		costLabelDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? 90 : NaN, 56, appModel.isLTR ? NaN : 90);
+		addChild(costLabelDisplay);
+	}
+	costLabelDisplay.text = "x" + StrUtils.getNumber(costValue);
 }
 
 private function infoFactory() : void

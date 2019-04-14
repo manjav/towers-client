@@ -111,7 +111,7 @@ package com.gerantech.towercraft.controls
 			item.properties.index = index;
 			item.properties.spectatedUser = spectatedUser;
 			item.properties.isFriendly = isFriendly;
-			item.properties.challengeType = challengeType;
+			item.properties.challengeType = AppModel.instance.game.player.selectedChallengeIndex;
 			item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable && AppModel.instance.game.player.get_arena(0) > 0);
 			pushScreen(Game.BATTLE_SCREEN);
 			addOverlay(item.properties.waitingOverlay);

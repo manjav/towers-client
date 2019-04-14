@@ -2,7 +2,10 @@ package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
+import com.gt.towers.socials.Challenge;
+import com.gt.towers.utils.maps.IntIntMap;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
@@ -56,20 +59,35 @@ override protected function initialize() : void
 		backgroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(backgroundDisplay);
 
+	// cost elements ....
+	var cost:IntIntMap = Challenge.getRunRequiements(player.selectedChallengeIndex);
+	var costType:int = cost.keys()[0];
+	var costValue:int = cost.get(costType);
+
 	labelDisplay = new ShadowLabel(label, 1, 0, "center", null, false, null, 1.5);
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -10);//-40
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, costValue > 0 ? -40 : -10);
 	addChild(labelDisplay);
-	/*
+	if( costValue <= 0 )
+		return;
+	
 	var costBGDisplay:ImageLoader = new ImageLoader();
-	costBGDisplay.height = 80
 	costBGDisplay.source = Assets.getTexture("home/button-battle-footer", "gui");
-	costBGDisplay.scale9Grid = new Rectangle(29, 42, 2, 1);
 	costBGDisplay.layoutData = new AnchorLayoutData(NaN, 100, 18, 100);
+	costBGDisplay.scale9Grid = new Rectangle(29, 42, 2, 1);
+	costBGDisplay.height = 80
 	addChild(costBGDisplay);
-	
-	*/
-	
-	
+
+	var costIconDisplay:ImageLoader = new ImageLoader();
+	costIconDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 30, 73);
+	costIconDisplay.source = Assets.getTexture("res-" + costType, "gui");
+	costIconDisplay.width = costIconDisplay.height = 76;
+	costIconDisplay.touchable = false;
+	addChild(costIconDisplay);
+
+	var costLabelDisplay:ShadowLabel = new ShadowLabel(StrUtils.getNumber(costValue), 1, 0, null, null, false, null, 1.1);
+	costLabelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -30, 76);
+	costLabelDisplay.touchable = false;
+	addChild(costLabelDisplay);
 }
 
 /**
