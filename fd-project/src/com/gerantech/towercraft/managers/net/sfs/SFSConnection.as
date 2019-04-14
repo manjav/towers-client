@@ -2,7 +2,6 @@ package com.gerantech.towercraft.managers.net.sfs
 {
 import com.gerantech.towercraft.controls.overlays.LowConnectionOverlay;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.LoadAndSaver;
 import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -15,15 +14,12 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.requests.ExtensionRequest;
 import com.smartfoxserver.v2.requests.LoginRequest;
 import com.smartfoxserver.v2.requests.LogoutRequest;
-import com.smartfoxserver.v2.util.ConfigData;
 import com.smartfoxserver.v2.util.SFSErrorCodes;
 import flash.desktop.NativeApplication;
 import flash.events.Event;
 import flash.filesystem.File;
-
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-
 import haxe.ds.StringMap;
 
 [Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -41,9 +37,9 @@ public var zoneName:String;
 public var lobbyManager:LobbyManager;
 public var publicLobbyManager:LobbyManager;
 
-public var retryTimeout:int = 500;
 public var retryMax:int = 3;
 public var retryIndex:int = 1;
+public var retryTimeout:int = 500;
 
 private var loginParams:ISFSObject;
 private var lowConnectionOverlay:LowConnectionOverlay;
@@ -87,9 +83,9 @@ public function load() : void
 	}
 }
 
-public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null):void
+public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null) : void
 {
-	if(!isConnected)
+	if( !isConnected )
 		return;
 	
 	this.userName = userName;
@@ -102,7 +98,7 @@ public function login(userName:String="", password:String="", zoneName:String=""
 
 public function logout():void
 {
-	if(!isConnected)
+	if( !isConnected )
 		return;
 	send( new LogoutRequest() );
 }
@@ -116,11 +112,12 @@ public function logout():void
 {
 	dispatchEvent(event.clone());
 }*/
+
 // Connection ....................................................
 protected function sfs_connectionHandler(event:SFSEvent):void
 {
 	//trace("sfs_connectionHandler", event.params.success)//, "t["+(getTimer()-Tanks.t)+"]");
-	if(event.type == SFSEvent.CONNECTION && event.params.success)
+	if( event.type == SFSEvent.CONNECTION && event.params.success )
 	{
 		retryIndex = 0;
 		if( hasEventListener( SFSConnection.SUCCEED ) )
@@ -306,7 +303,7 @@ static public function ToArray(sfsArray:SFSArray) : Array
 
 public static function get instance():SFSConnection
 {
-	if(_instance == null)
+	if( _instance == null )
 		_instance = new SFSConnection();
 	return _instance;
 }
