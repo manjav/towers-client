@@ -2,6 +2,8 @@ package com.gerantech.towercraft.managers.net.sfs
 {
 import com.gerantech.towercraft.controls.overlays.LowConnectionOverlay;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.utils.LoadAndSaver;
 import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.SmartFox;
@@ -13,7 +15,11 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.requests.ExtensionRequest;
 import com.smartfoxserver.v2.requests.LoginRequest;
 import com.smartfoxserver.v2.requests.LogoutRequest;
+import com.smartfoxserver.v2.util.ConfigData;
 import com.smartfoxserver.v2.util.SFSErrorCodes;
+import flash.desktop.NativeApplication;
+import flash.events.Event;
+import flash.filesystem.File;
 
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -50,28 +56,6 @@ public function SFSConnection()
 	// Turn on the debug feature
 	//debug = false;
 	
-/*			var resolver:DNSResolver = new DNSResolver();
-	resolver.addEventListener(DNSResolverEvent.LOOKUP, resolver_lookupHandler);
-	resolver.addEventListener(ErrorEvent.ERROR, resolver_errorHandler);
-	resolver.lookup( "http://desktop-f2u0ghu", ARecord );
-
-	//resolver.lookup( "google.com", MXRecord );
-	//resolver.lookup( "google.com", PTRRecord );
-//	resolver.lookup( "google.com", SRVRecord );
-	//resolver.lookup( "208.77.188.166", PTRRecord );
-	//resolver.lookup( "127.0.0.1", PTRRecord );
-	//resolver.lookup( "2001:1890:110b:1e19:f06b:72db:7026:3d7a", PTRRecord );
-	//resolver.lookup( "_sip._tcp.example.com.", SRVRecord );
-	function resolver_errorHandler(e:ErrorEvent):void {
-		trace(e.text);
-	}
-	function resolver_lookupHandler(event:DNSResolverEvent):void {
-		for each( var record:ARecord in event.resourceRecords )
-			trace( record.name + " : " + record.address + " : " + record.ttl );
-	}*/
-	//addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadHandler);
-	//addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadHandler);
-
 	addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
 	addEventListener(SFSEvent.SOCKET_ERROR,			sfs_connectionHandler);
 	addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
@@ -83,18 +67,24 @@ public function SFSConnection()
 	
 
 	addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
-	loadConfig();
 	commandsPool = new StringMap();
 	SFSErrorCodes.setErrorMessage(101, "{0}")
 	SFSErrorCodes.setErrorMessage(110, "{0}")
+	load();
 }
 
-public function retry():void
+public function load() : void 
 {
-	if(config == null)
-		loadConfig();
-	else if(!isConnected)
-		connect();
+	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
+	var cnfLoader:LoadAndSaver = new LoadAndSaver(cnfFile.nativePath, "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
+	trace("http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
+	cnfLoader.addEventListener(Event.COMPLETE, cnfLoader_completeHandler);
+	function cnfLoader_completeHandler(event:Event) : void
+	{
+		cnfLoader.removeEventListener(Event.COMPLETE, cnfLoader_completeHandler);
+		cnfLoader.closeLoader(false);
+		loadConfig(cnfFile.url);
+	}
 }
 
 public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null):void
@@ -138,14 +128,17 @@ protected function sfs_connectionHandler(event:SFSEvent):void
 	}
 	else
 	{
-		if(retryIndex < retryMax)
+		if( retryIndex < retryMax )
 		{
 			disconnect();
-			loadConfig();
+			load();
 			retryIndex ++;
 		}
-		else if(hasEventListener(SFSConnection.FAILURE))
+		else if( hasEventListener(SFSConnection.FAILURE) )
 		{
+			var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
+			if( cnfFile.exists )
+				cnfFile.deleteFile();
 			dispatchEvent(new SFSEvent(SFSConnection.FAILURE, event.params));
 		}
 	}
