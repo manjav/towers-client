@@ -40,7 +40,7 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-static public const FOOTER_SIZE:int = 180;
+static public const FOOTER_SIZE:int = 192;
 static public var TAB_INDEX:int = 2;
 private var pageList:List;
 private var tabsList:List;
@@ -119,7 +119,7 @@ protected function addedToStageHandler(event:Event):void
 	var footerBG:ImageLoader = new ImageLoader();
 	footerBG.height = FOOTER_SIZE;
 	footerBG.source = Assets.getTexture("home/dash-bg");
-	footerBG.scale9Grid = new Rectangle(2, 32, 2, 32);
+	footerBG.scale9Grid = new Rectangle(13, 10, 5, 66);
 	footerBG.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
 	footerBG.touchable = false;
 	addChild(footerBG);
@@ -127,9 +127,9 @@ protected function addedToStageHandler(event:Event):void
 	tabSelection = new ImageLoader();
 	tabSelection.touchable = false;
 	tabSelection.source = Assets.getTexture("home/dash-selection");
-	tabSelection.height = FOOTER_SIZE + 20;
+	tabSelection.height = FOOTER_SIZE;
 	tabSelection.width = tabSize * 1.2;
-	tabSelection.scale9Grid = new Rectangle(14, 0, 10, 32);
+	tabSelection.scale9Grid = new Rectangle(25, 17, 2, 183);
 	//tabSelection.height = footerSize;
 	tabSelection.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
 	addChild(tabSelection);
