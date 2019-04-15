@@ -304,16 +304,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));
 	}
-	
-	// arena changes manipulation
-	var prevArena:int = 0;
-	var nextArena:int = 0;
-	if( playerIndex > -1 )
-	{
-		prevArena = player.get_arena(0);
-		player.addResources(outcomes);
-		nextArena = player.get_arena(0);
-	}
+	player.addResources(outcomes);
 	
 	// reserved prefs data
 	if( inTutorial && rewards.getSFSObject(0).getInt("score") > 0 )
@@ -321,15 +312,9 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	
 	var endOverlay:EndOverlay;
 	if( field.isOperation() )
-	{
 		endOverlay = new EndOperationOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
-	}
 	else
-	{
 		endOverlay = new EndBattleOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
-		if( playerIndex > -1 && nextArena > 1 && prevArena != nextArena )
-			endOverlay.data = [prevArena, nextArena];
-	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
 	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
 	
@@ -437,10 +422,6 @@ private function endOverlay_closeHandler(event:Event):void
 		return;
 	}*/
 	
-	// show faction changes overlay
-	if( endOverlay.data != null )
-		setTimeout(appModel.navigator.addOverlay, 2200, new LeagueChangeOverlay(endOverlay.data[0], endOverlay.data[1]));
-
 	if( !player.inTutorial() && endOverlay.score == 3 && player.get_arena(0) > 0 )//!sfsConnection.mySelf.isSpectator && 
 		appModel.navigator.showOffer();
 	dispatchEventWith(Event.COMPLETE);
