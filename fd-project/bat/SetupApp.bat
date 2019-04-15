@@ -37,11 +37,6 @@ set FILE_OR_DIR=-C %APP_DIR% .
 for /f "tokens=3 delims=<>" %%a in ('findstr /R /C:"^[ 	]*<id>" %APP_XML%') do set APP_ID=%%a
 set APP_ID=%APP_ID: =%
 
-:: Get SFS IP Address
-set SFS_XML=bin\sfs-config.xml
-for /f "tokens=3 delims=<>" %%b in ('findstr /R /C:"^[ 	]*<ip>" %SFS_XML%') do set APP_IP=%%b
-set APP_IP=%APP_IP: =%
-
 :: Your versionNumber (must match <versionNumber> of Application descriptor) and remove spaces
 for /f "tokens=3 delims=<>" %%a in ('findstr /R /C:"^[ 	]*<versionNumber>" %APP_XML%') do set APP_VER=%%a
 ::set APP_VER=%APP_VER: =%
@@ -52,7 +47,7 @@ for %%a in (%DATE: =0%) do set DATE=%%a
 
 :: Output packages
 set DIST_PATH=dist
-set DIST_NAME=koot-%APP_VER%.%DATE%-%MARKET%-%APP_IP%
+set DIST_NAME=koot-%APP_VER%.%DATE%-%SERVER%-%MARKET%
 
 :: Debugging using a custom IP
 set DEBUG_IP=
