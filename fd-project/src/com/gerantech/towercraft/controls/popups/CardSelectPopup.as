@@ -39,8 +39,9 @@ override protected function initialize():void
 	card = player.cards.get(cardType);
 
 	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
-	buildingIcon.layoutData = new AnchorLayoutData(4, 4, NaN, 4);
+	buildingIcon.layoutData = new AnchorLayoutData(4, 4, data?140:265, 4);
 	addChild(buildingIcon);
+//	buildingIcon.height = (transitionIn.destinationBound.width - 8) * BuildingCard.VERICAL_SCALE;
 	buildingIcon.setData(card.type, card.level, card.count());
 
 	var upgradable:Boolean = card.upgradable();

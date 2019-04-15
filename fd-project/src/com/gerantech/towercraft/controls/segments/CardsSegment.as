@@ -16,7 +16,6 @@ import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.scripts.ScriptEngine;
-import com.gt.towers.utils.lists.IntList;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -182,7 +181,7 @@ private function selectCard(cardType:int, cardBounds:Rectangle):void
 	var to:TransitionData = new TransitionData(0.1);
 	ti.transition = Transitions.EASE_IN;
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - 16, cardBounds.y - 16, cardBounds.width + 32, cardBounds.height + (inDeck?174:300));
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - 16, cardBounds.y - 16, cardBounds.width + 32, cardBounds.height + (inDeck?170:300));
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();
