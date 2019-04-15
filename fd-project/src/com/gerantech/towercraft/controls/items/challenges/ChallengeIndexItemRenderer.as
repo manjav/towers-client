@@ -205,7 +205,8 @@ protected function backgroundImage_triggerdHandler(event:Event) : void
 {
 	if( locked )
 	{
-		appModel.navigator.addLog(loc("arena_unlocked_at", [loc("arena_text") + " " + loc("num_" + (Challenge.getUnlockAt(challenge.type) + 1))]));
+		var point:int = game.arenas.get(Challenge.getUnlockAt(chIndex)).min - 1;
+		appModel.navigator.addLog(loc("availableuntil_messeage", [loc("resource_title_2") + " " + point, ""]));
 		return;
 	}
 	_owner.dispatchEventWith(Event.TRIGGERED, false, chIndex);
