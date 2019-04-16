@@ -55,7 +55,7 @@ override protected function showElements():void
 	battleButton.styleName = MainTheme.STYLE_BUTTON_SMALL_HILIGHT;
 	battleButton.width = battleButton.height = footerSize;
 	battleButton.iconTexture = Assets.getTexture("socials/icon-battle", "gui");
-    battleButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 2, padding);
+    battleButton.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
 	battleButton.addEventListener(Event.TRIGGERED, battleButton_triggeredHandler);
 	addChild(battleButton);
 	

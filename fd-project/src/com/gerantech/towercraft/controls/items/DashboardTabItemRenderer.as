@@ -156,11 +156,11 @@ protected function updateSelection(value:Boolean, time:Number = -1):void
 		{
 			titleDisplay.alpha = 0;
 			Starling.juggler.tween(titleDisplay, time, {alpha:1});
-			Starling.juggler.tween(iconDisplay, time ==-1?0.5:time, {delay:0.2, y:height * 0.35, transition:Transitions.EASE_OUT_BACK});
+			Starling.juggler.tween(iconDisplay, time ==-1?0.5:time, {delay:0.2, y:height * 0.4, transition:Transitions.EASE_OUT_BACK});
 		}
 		else
 		{
-			iconDisplay.y = height * 0.54;
+			iconDisplay.y = height * 0.5;
 		}
 	}
 }
