@@ -81,7 +81,7 @@ override protected function showElements() : void
 	emotesButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
     emotesButton.iconTexture = Assets.getTexture("socials/icon-emote", "gui");
     emotesButton.addEventListener(Event.TRIGGERED, emotesButton_triggeredHandler);
-    emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding * 2, NaN);
+    emotesButton.layoutData = new AnchorLayoutData(NaN, padding * 2 + footerSize, padding, NaN);
     addChild(emotesButton);
 	
 	chatList.dataProvider = manager.messages;

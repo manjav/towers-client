@@ -7,17 +7,20 @@ import com.gt.towers.battle.BattleField;
 import feathers.controls.ImageLoader;
 import feathers.controls.LayoutGroup;
 import feathers.controls.text.BitmapFontTextRenderer;
+import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
+import starling.events.Event;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.BlendMode;
+import starling.display.Image;
 
 public class ElixirBar extends TowersLayout
 {
-private var progressBar:LabeledProgressBar;
 private var elixirBottle:LayoutGroup;
+private var fillDisplay:ImageLoader;
 private var realtimeDisplay:ImageLoader;
 private var elixirCountDisplay:BitmapFontTextRenderer;
 private var _value:Number;
@@ -40,20 +43,21 @@ override protected function initialize():void
 	height = 72;
 	var padding:int = 12;
 	
-	progressBar = new LabeledProgressBar();
-	progressBar.hasLabelTextRenderer = false;
-	progressBar.maximum = BattleField.POPULATION_MAX;
-	progressBar.value = value;
-	progressBar.isEnabled = false;
-	progressBar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(progressBar);
+	backgroundSkin = new Image(appModel.theme.backgroundSliderSkin);
+	Image(backgroundSkin).scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
+	
+	fillDisplay = new ImageLoader();
+	fillDisplay.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
+	fillDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
+	fillDisplay.source = Assets.getTexture("theme/slider-fill-danger-skin", "gui");
+	addChild(fillDisplay);
 	
 	realtimeDisplay = new ImageLoader();
-	realtimeDisplay.blendMode = BlendMode.ADD;
 	realtimeDisplay.alpha = 0.4;
-	realtimeDisplay.source = appModel.theme.backgroundSliderSkin;
+	//realtimeDisplay.blendMode = BlendMode.ADD;
 	realtimeDisplay.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	realtimeDisplay.layoutData = new AnchorLayoutData(0, NaN, 0, 0);
+	realtimeDisplay.source = Assets.getTexture("theme/slider-fill-danger-skin", "gui");
 	addChild(realtimeDisplay);
 	
 	elixirBottle = new LayoutGroup();
@@ -83,9 +87,6 @@ public function set value(newValue:Number):void
 		return;
 	_value = __v;
 
-	if( progressBar != null )
-		Starling.juggler.tween(progressBar, 0.8, {value:_value, transition:Transitions.EASE_OUT_ELASTIC});
-	
 	if( elixirCountDisplay != null )
 	{
 		elixirCountDisplay.text = _value.toString();
@@ -93,11 +94,17 @@ public function set value(newValue:Number):void
 		Starling.juggler.tween(elixirBottle, 0.8, {scale:1, transition:Transitions.EASE_OUT_ELASTIC});
 	}
 	
+	var last:Number = (_value + 0) / BattleField.POPULATION_MAX * this.width;
+	var next:Number = (_value + 1) / BattleField.POPULATION_MAX * this.width;
+	var time:Number = 1 / appModel.battleFieldView.battleData.battleField.getElixirIncreaseSpeed() / 1000;
+	if( fillDisplay != null )
+	{
+		Starling.juggler.removeTweens(fillDisplay);
+		Starling.juggler.tween(fillDisplay, 0.8, {width:last, transition:Transitions.EASE_OUT_ELASTIC});
+	}
+
 	if( realtimeDisplay != null )
 	{
-		var last:Number = (_value + 0) / BattleField.POPULATION_MAX * this.width;
-		var next:Number = (_value + 1) / BattleField.POPULATION_MAX * this.width;
-		var time:Number = 1 / appModel.battleFieldView.battleData.battleField.getElixirIncreaseSpeed() / 1000;
 		realtimeDisplay.width = last;
 		Starling.juggler.removeTweens(realtimeDisplay);
 		Starling.juggler.tween(realtimeDisplay, time, {width:next, transition:Transitions.LINEAR});
@@ -106,7 +113,7 @@ public function set value(newValue:Number):void
 
 override public function dispose():void
 {
-	Starling.juggler.removeTweens(progressBar);
+	Starling.juggler.removeTweens(fillDisplay);
 	Starling.juggler.removeTweens(elixirBottle);
 	super.dispose();
 }

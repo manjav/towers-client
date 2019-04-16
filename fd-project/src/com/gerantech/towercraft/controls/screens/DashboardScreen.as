@@ -40,7 +40,7 @@ import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-static public const FOOTER_SIZE:int = 192;
+static public const FOOTER_SIZE:int = 200;
 static public var TAB_INDEX:int = 2;
 private var pageList:List;
 private var tabsList:List;

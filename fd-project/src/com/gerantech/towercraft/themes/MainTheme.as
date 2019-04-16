@@ -967,7 +967,7 @@ protected function initializeStyleProviders():void
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(SeekSlider.DEFAULT_CHILD_STYLE_NAME_MINIMUM_TRACK, this.setSeekSliderMinimumTrackStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(SeekSlider.DEFAULT_CHILD_STYLE_NAME_MAXIMUM_TRACK, this.setSeekSliderMaximumTrackStyles);
 
-/*			//volume slider
+/*	//volume slider
 	this.getStyleProviderForClass(VolumeSlider).defaultStyleFunction = this.setVolumeSliderStyles;
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(VolumeSlider.DEFAULT_CHILD_STYLE_NAME_THUMB, this.setVolumeSliderThumbStyles);
 	this.getStyleProviderForClass(Button).setFunctionForStyleName(VolumeSlider.DEFAULT_CHILD_STYLE_NAME_MINIMUM_TRACK, this.setVolumeSliderMinimumTrackStyles);
@@ -1981,16 +1981,12 @@ protected function setProgressBarStyles(progress:ProgressBar):void
 
 	var fillSkin:Image = new Image(Assets.getTexture("theme/slider-fill-skin", "gui"));
 	fillSkin.scale9Grid = SLIDER_SCALE9_GRID;
-	//var fillSkin:Image = new Image(this.buttonUpSkinTexture);
-	//fillSkin.scale9Grid = BUTTON_SCALE9_GRID;
 	fillSkin.width = this.smallControlSize;
 	fillSkin.height = this.smallControlSize;
 	progress.fillSkin = fillSkin;
 
 	var fillDisabledSkin:Image = new Image(Assets.getTexture("theme/slider-fill-neutral-skin", "gui"));
 	fillDisabledSkin.scale9Grid = SLIDER_SCALE9_GRID;
-	//var fillDisabledSkin:Image = new Image(this.buttonDisabledSkinTexture);
-	//fillDisabledSkin.scale9Grid = BUTTON_SCALE9_GRID;
 	fillDisabledSkin.width = this.smallControlSize;
 	fillDisabledSkin.height = this.smallControlSize;
 	progress.fillDisabledSkin = fillDisabledSkin;

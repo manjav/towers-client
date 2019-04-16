@@ -91,7 +91,7 @@ override public function init():void
 	
 	// bookline
 	var bookLine:HomeBooksLine = new HomeBooksLine();
-	bookLine.layoutData = new AnchorLayoutData(NaN, 0, padding, 0);
+	bookLine.layoutData = new AnchorLayoutData(NaN, 0, stageHeight * 0.015, 0);
 	addChild(bookLine);
 
 	if( player.admin ) // hidden admin button

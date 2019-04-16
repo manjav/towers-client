@@ -96,7 +96,7 @@ protected function showElements() : void
 	chatTextInput.maxChars = 160;
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
-    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, padding);
+    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
     chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
     chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
 	
@@ -104,7 +104,7 @@ protected function showElements() : void
 	chatEnableButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
     chatEnableButton.width = chatEnableButton.height = footerSize;
     chatEnableButton.iconTexture = Assets.getTexture("socials/icon-text", "gui");
-    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
+    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding, NaN);
     chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
     addChild(chatEnableButton);
 }
