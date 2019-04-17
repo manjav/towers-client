@@ -565,7 +565,7 @@ public function get buttonSmallDarkUpSkinTexture() : Texture { return Assets.get
 public function get buttonSmallDarkDownSkinTexture() : Texture { return Assets.getTexture("theme/button-small-dark-down-skin", "gui"); }
 public function get buttonSmallHilightUpSkinTexture() : Texture { return Assets.getTexture("theme/button-small-hilight-up-skin", "gui"); }
 public function get buttonSmallHilightDownSkinTexture() : Texture { return Assets.getTexture("theme/button-small-hilight-down-skin", "gui"); }
-public function get buttonSmallDisabledSkinTexture() : Texture { return Assets.getTexture("theme/button-disabled-skin", "gui"); }
+public function get buttonSmallDisabledSkinTexture() : Texture { return Assets.getTexture("theme/button-small-disabled-skin", "gui"); }
 public function get buttonSelectedUpSkinTexture() : Texture { return Assets.getTexture("theme/toggle-button-selected-up-skin", "gui"); }
 public function get buttonSelectedDisabledSkinTexture() : Texture { return Assets.getTexture("theme/toggle-button-selected-disabled-skin", "gui"); }
 public function get buttonCallToActionUpSkinTexture() : Texture { return Assets.getTexture("theme/call-to-action-button-up-skin", "gui"); }
@@ -1208,7 +1208,7 @@ public function setButtonColorStyle(button:Button, upTexture:Texture, downTextur
 	var skin:ImageSkin = new ImageSkin(upTexture);
 	skin.setTextureForState(ButtonState.DOWN, downTexture);
 	skin.setTextureForState(ButtonState.DISABLED, disableTexture);
-	skin.pixelSnapping = false
+	//skin.pixelSnapping = false
 	skin.scale9Grid = scaleGrid;
 	skin.width = this.controlSize;
 	skin.height = this.controlSize;
