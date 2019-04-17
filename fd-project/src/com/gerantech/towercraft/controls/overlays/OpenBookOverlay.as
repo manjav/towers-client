@@ -81,12 +81,12 @@ override protected function initialize():void
 	autoSizeMode = AutoSizeMode.STAGE;
 	
 	layout = new AnchorLayout();
-	overlay.alpha = 0;
+//	overlay.alpha = 0;
 	Starling.juggler.tween(overlay, 0.3, { alpha:1, onStart:transitionInStarted, onComplete:transitionInCompleted });
 }
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:TileBackground = new TileBackground("home/pistole-tile");
+	var overlay:TileBackground = new TileBackground("home/pistole-tile", 0.3, true, stage.color);
 	overlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	overlay.touchable = true;
 	return overlay;

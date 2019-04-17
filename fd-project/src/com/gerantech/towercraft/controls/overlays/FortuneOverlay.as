@@ -9,6 +9,7 @@ import dragonBones.starling.StarlingArmatureDisplay;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -36,8 +37,8 @@ override protected function initialize():void
 
 	layout = new AnchorLayout();
 	closeOnStage = false;
-	width = stage.stageWidth;
-	height = stage.stageHeight;
+	width = stageWidth;
+	height = stageHeight;
 	overlay.alpha = 1;
 
 	spinners = new Vector.<Spinner>();
@@ -60,10 +61,9 @@ override protected function initialize():void
 	shadow = new ImageLoader();
 	shadow.alpha = 0;
 	shadow.touchable = false;
-	shadow.maintainAspectRatio = false;
-	shadow.source = Assets.getTexture("radial-gradient-shadow");
+	shadow.scale9Grid = new Rectangle(2, 2, 12, 12);
 	shadow.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	//shadow.color = 0xAA0000;
+	shadow.source = Assets.getTexture("radial-gradient-shadow");
 	addChild(shadow);
 	animateShadow(0, 1);
 	

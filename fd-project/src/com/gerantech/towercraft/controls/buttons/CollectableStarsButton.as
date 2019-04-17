@@ -28,13 +28,15 @@ override public function update() : void
 	backgroundFactory();
 	sliderFactory();
 	iconFactory("home/gift");
+	if( countdownDisplay != null )
+		addChild(countdownDisplay)
 	titleFactory(loc(state == ExchangeItem.CHEST_STATE_BUSY ? "nextin_label" : (state == ExchangeItem.CHEST_STATE_WAIT ? "" : "open_label")));
 }
 
 override protected function titleFactory(text:String) : ShadowLabel
 {
-	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, state == ExchangeItem.CHEST_STATE_READY ? 0.9 : 0.7);
-	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -54, state == ExchangeItem.CHEST_STATE_READY ? 0 : -34);
+	titleDisplay = new ShadowLabel(text, 1, 0, "center", null, false, null, state == ExchangeItem.CHEST_STATE_READY ? 0.9 : 0.6);
+	titleDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, -54, state == ExchangeItem.CHEST_STATE_READY ? 0 : -30);
 	titleDisplay.touchable = false;
 	addChild(titleDisplay);
 	return titleDisplay;

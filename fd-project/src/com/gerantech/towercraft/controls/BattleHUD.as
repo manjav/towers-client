@@ -38,6 +38,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
+import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
@@ -227,7 +228,7 @@ protected function timeManager_changeHandler(event:Event):void
 	if( battleData.allise.getInt("score") == battleData.axis.getInt("score") && duration == battleData.battleField.getTime(2) )
 	{
 		appModel.navigator.addPopup(new BattleExtraTimeToast(BattleExtraTimeToast.MODE_EXTRA_TIME));
-		animateShadow(0.5, null, 0xAA0000);
+		animateShadow(0.4, null, 0xAA0000);
 		timerSlider.enableStars(0xFF0000);
 	}
 	
@@ -245,15 +246,16 @@ public function animateShadow(alphaSeed:Number, shadow:Image = null, color:uint 
 	if( shadow == null )
 	{
 		var shadow:Image = new Image(Assets.getTexture("radial-gradient-shadow"));
+		shadow.scale9Grid = new Rectangle(2, 2, 12, 12);
+		shadow.height = stageHeight;
+		shadow.width = stageWidth;
 		shadow.touchable = false;
-		shadow.width = stage.stageWidth;
-		shadow.height = stage.stageHeight;
 		shadow.alpha = 0.8;
 		addChildAt(shadow, 0);
 	}
 	shadow.color = color;
 	Starling.juggler.removeTweens(shadow);
-	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[alphaSeed==0?0.8:0, shadow, color]});
+	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[alphaSeed==0?0.6:0, shadow, color]});
 }
 
 public function updateRoomVars():void
