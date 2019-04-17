@@ -25,6 +25,7 @@ import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.StickerType;
+import com.gt.towers.socials.Challenge;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
@@ -270,7 +271,7 @@ public function updateScores(round:int, winnerSide:int, allise:int, axis:int, un
 		scoreBoard.update(allise, axis);
 	
 	// uniit focus only appeared  in touchdown battles
-	if( battleData.battleField.field.type == FieldData.TYPE_TOUCHDOWN )
+	if( battleData.battleField.field.mode == Challenge.MODE_1_TOUCHDOWN )
 	{	
 		var unit:UnitView = battleData.battleField.units.get(unitId) as UnitView;
 		if( unit != null )

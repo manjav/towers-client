@@ -123,13 +123,12 @@ private function testBattleOverlay() : void
 		p.putInt("score", 0);
 		sfs2.putSFSObject("p" + i, p);
 	}
-	sfs2.putInt("index", 1);
-	sfs2.putText("type", "touchdown");
+	sfs2.putInt("mode", 0);
 	sfs2.putText("map", "{}");
 	sfs2.putBool("hasExtraTime", false);
 	sfs2.putInt("side", 0);
 	sfs2.putInt("startAt", 1243554);
-	sfs2.putBool("isFriendly", false);
+	sfs2.putInt("friendlyMode", 0);
 	
 	appModel.battleFieldView = new BattleFieldView();
 	appModel.battleFieldView.battleData = new BattleData(sfs2);

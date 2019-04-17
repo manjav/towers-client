@@ -3,6 +3,7 @@ package com.gerantech.towercraft.views
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.battle.fieldes.FieldData;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.DisplayObject;
@@ -106,14 +107,14 @@ public function changeSummonArea(isRight:Boolean) : void
 	summonHint.scaleX = Math.abs(summonHint.scaleX) * (isRight ? -1 : 1);
 }
 
-public function showEnemyHint() : void
+public function showEnemyHint(field:FieldData, battleswins:int):void
 {
 	if( enemyHint == null )
 		return;
 	enemyHint.visible = true;
 	Starling.juggler.tween(enemyHint, 1.5, {alpha:0, repeatCount:10, onComplete:hideHint});
 	
-	var enemyHintText:ShadowLabel = new ShadowLabel(StrUtils.loc("tutor_headquarter_0_enemy_hint"), 1, 0, "center", null, true, "center", 1.4);
+	var enemyHintText:ShadowLabel = new ShadowLabel(StrUtils.loc("tutor_" + field.mode + "_enemy_hint"), 0xEC3E3E, 0, "center", null, true, "center", 1.4);
 	enemyHintText.width = Starling.current.stage.width * 0.8;
 	enemyHintText.pivotX = enemyHintText.width * 0.5;
 	enemyHintText.pivotY = enemyHintText.height * 0.5;
