@@ -22,6 +22,7 @@ public function init():void
 	soundFile = File.applicationStorageDirectory.resolvePath("sounds/card-r-0.mp3");
 	var soundLoader:LoadAndSaver = new LoadAndSaver(soundFile.nativePath, File.applicationDirectory.resolvePath("assets/sounds/card-r-0.mp3").url);
 	soundLoader.addEventListener(Event.COMPLETE, sound_completeHandler);
+	soundLoader.start();
 	function sound_completeHandler(event:Event):void
 	{
 		soundLoader.removeEventListener(Event.COMPLETE, sound_completeHandler);
@@ -31,6 +32,7 @@ public function init():void
 	iconFile = File.applicationStorageDirectory.resolvePath("images/icon/ic_notifications.png");
 	var iconLoader:LoadAndSaver = new LoadAndSaver(iconFile.nativePath, File.applicationDirectory.resolvePath("assets/images/ic_notifications.png").url);
 	iconLoader.addEventListener(Event.COMPLETE, icon_completeHandler);
+	iconLoader.start();	
 	function icon_completeHandler(event:Event):void
 	{
 		iconLoader.removeEventListener(Event.COMPLETE, icon_completeHandler);

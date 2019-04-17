@@ -56,77 +56,8 @@ public function process(item : ExchangeItem) : void
 
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", item.type );
-	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES || item.category == ExchangeType.C70_TICKETS )
-	{
-		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
-		BillingManager.instance.purchase((item.category == ExchangeType.C30_BUNDLES ? "k2k.bundle_" : "com.grantech.towers.item_") + item.type);
-		function billinManager_endInteractionHandler ( event:Event ) : void {
-			BillingManager.instance.removeEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
-			var result:IabResult = event.data as IabResult;
-			if( result.succeed )
-			{
-				exchange(item, params);
-				if( item.category == ExchangeType.C0_HARD )
-				{
-					// send analytics events
-					var outs:Vector.<int> = item.outcomes.keys();
-					GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
-					
-					var currency:String = appModel.descriptor.marketIndex <= 1 ? "USD" : "IRR";
-					var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
-					GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
-					
-					dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
-				}
-				return;
-			}
-			
-			dispatchCustomEvent(FeathersEventType.ERROR , item);
-			return;
-		}
-		return;
-	}
-	
-	if( item.category == ExchangeType.C10_SOFT )
-	{
-		if( !player.has(item.requirements) )
-		{
-			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_1003")]));
-			dispatchCustomEvent(FeathersEventType.ERROR, item);
-			return;
-		}
-		var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
-		//confirm1.acceptStyle = "danger";
-		confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
-		confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
-		appModel.navigator.addPopup(confirm1);
-		function confirm1_selectHandler ( event:Event ):void {
-			confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-			confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-			exchange(item, params);
-		}
-		function confirm1_closeHandler ( event:Event ):void {
-			confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
-			confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
-			dispatchCustomEvent(FeathersEventType.ERROR, item);
-		}
-		return;
-	}
-	
-	if( item.category == ExchangeType.C20_SPECIALS )
-	{
-		if( item.numExchanges > 0 )
-			return;
-		if( !player.has(item.requirements) )
-		{
-			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + item.requirements.keys()[0])]));
-			dispatchCustomEvent(FeathersEventType.ERROR, item);
-			return;
-		}
-		exchange(item, params);
-		return;
-	}
 
+	//     _-_-_-_-_-_- all books -_-_-_-_-_-_
 	if( item.isBook() )
 	{
 		item.enabled = true;
@@ -176,6 +107,81 @@ public function process(item : ExchangeItem) : void
 			if( _state == ExchangeItem.CHEST_STATE_WAIT && exchanger.isBattleBookReady(item.type, timeManager.now) == MessageTypes.RESPONSE_ALREADY_SENT )
 				params.putInt("hards", Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
 			exchange(item, params);
+		}
+		return;
+	}
+
+	var reqType:int = item.requirements.keys()[0];
+	//     _-_-_-_-_-_- special offers -_-_-_-_-_-_
+	if( item.category == ExchangeType.C20_SPECIALS )
+	{
+		if( item.numExchanges > 0 )
+			return;
+		if( !player.has(item.requirements) )
+		{
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + reqType)]));
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
+			return;
+		}
+		exchange(item, params);
+		return;
+	}
+
+	//     _-_-_-_-_-_- purchase automation -_-_-_-_-_-_
+	if( reqType == ResourceType.R5_CURRENCY_REAL )
+	{
+		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
+		BillingManager.instance.purchase((item.category == ExchangeType.C30_BUNDLES ? "k2k.bundle_" : "com.grantech.towers.item_") + item.type);
+		function billinManager_endInteractionHandler ( event:Event ) : void {
+			BillingManager.instance.removeEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
+			var result:IabResult = event.data as IabResult;
+			if( result.succeed )
+			{
+				exchange(item, params);
+				if( item.category == ExchangeType.C0_HARD )
+				{
+					// send analytics events
+					var outs:Vector.<int> = item.outcomes.keys();
+					GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
+					
+					var currency:String = appModel.descriptor.marketIndex <= 1 ? "USD" : "IRR";
+					var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
+					GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
+					
+					dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
+				}
+				return;
+			}
+			
+			dispatchCustomEvent(FeathersEventType.ERROR , item);
+			return;
+		}
+		return;
+	}
+	
+	//     _-_-_-_-_-_- other gem consumption -_-_-_-_-_-_
+	if( reqType == ResourceType.R4_CURRENCY_HARD )
+	{
+		if( !player.has(item.requirements) )
+		{
+			appModel.navigator.addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R4_CURRENCY_HARD)]));
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
+			return;
+		}
+		var confirm1:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"));
+		//confirm1.acceptStyle = "danger";
+		confirm1.addEventListener(Event.SELECT, confirm1_selectHandler);
+		confirm1.addEventListener(Event.CLOSE, confirm1_closeHandler);
+		appModel.navigator.addPopup(confirm1);
+		function confirm1_selectHandler ( event:Event ):void {
+			confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+			confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
+			exchange(item, params);
+		}
+		function confirm1_closeHandler ( event:Event ):void {
+			confirm1.removeEventListener(Event.SELECT, confirm1_selectHandler);
+			confirm1.removeEventListener(Event.CLOSE, confirm1_closeHandler);
+			dispatchCustomEvent(FeathersEventType.ERROR, item);
 		}
 	}
 }

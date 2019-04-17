@@ -15,6 +15,7 @@ import com.smartfoxserver.v2.requests.LogoutRequest;
 import com.smartfoxserver.v2.util.SFSErrorCodes;
 import flash.desktop.NativeApplication;
 import flash.events.Event;
+import flash.events.IOErrorEvent;
 import flash.filesystem.File;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -69,15 +70,25 @@ public function SFSConnection()
 
 public function load() : void 
 {
+	var pattern:String = '<?xml version="1.0" encoding="UTF-8"?>\r\n<SmartFoxConfig>';
 	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
-	var cnfLoader:LoadAndSaver = new LoadAndSaver(cnfFile.nativePath, "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
-	trace("http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
-	cnfLoader.addEventListener(Event.COMPLETE, cnfLoader_completeHandler);
+	var url:String = "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&version=" + AppModel.instance.descriptor.versionCode + "&r=" + Math.round(Math.random() * 1000);
+	var cnfLoader:LoadAndSaver = new LoadAndSaver(cnfFile.nativePath, url, null, false, 0, pattern);
+	trace(url);
+	cnfLoader.addEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+	cnfLoader.addEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+	cnfLoader.start();
 	function cnfLoader_completeHandler(event:Event) : void
 	{
 		cnfLoader.removeEventListener(Event.COMPLETE, cnfLoader_completeHandler);
 		cnfLoader.closeLoader(false);
 		loadConfig(cnfFile.url);
+	}
+	function cnfLoader_ioErrorHandler(event:IOErrorEvent) : void
+	{
+		cnfLoader.removeEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+		cnfLoader.removeEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+		clearAndReset(null);
 	}
 }
 
@@ -128,14 +139,17 @@ protected function sfs_connectionHandler(event:SFSEvent):void
 			load();
 			retryIndex ++;
 		}
-		else if( hasEventListener(SFSConnection.FAILURE) )
-		{
-			var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
-			if( cnfFile.exists )
-				cnfFile.deleteFile();
-			dispatchEvent(new SFSEvent(SFSConnection.FAILURE, event.params));
-		}
-	}
+        if( hasEventListener(SFSConnection.FAILURE) )
+            clearAndReset(event.params);
+    }
+}
+
+private function clearAndReset(params:Object):void 
+{
+    var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
+    if( cnfFile.exists )
+        cnfFile.deleteFile();
+    dispatchEvent(new SFSEvent(SFSConnection.FAILURE, params));
 }
 protected function sfs_connectionLostHandler(event:SFSEvent):void
 {
