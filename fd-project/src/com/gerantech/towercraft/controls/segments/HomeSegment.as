@@ -8,6 +8,7 @@ import com.gerantech.towercraft.controls.buttons.BattleButton;
 import com.gerantech.towercraft.controls.buttons.CollectableQuestsButton;
 import com.gerantech.towercraft.controls.buttons.CollectableStarsButton;
 import com.gerantech.towercraft.controls.buttons.IconButton;
+import com.gerantech.towercraft.controls.buttons.Indicator;
 import com.gerantech.towercraft.controls.buttons.LeagueButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.groups.HomeBooksLine;
@@ -16,12 +17,15 @@ import com.gerantech.towercraft.controls.groups.Profile;
 import com.gerantech.towercraft.controls.items.challenges.ChallengeIndexItemRenderer;
 import com.gerantech.towercraft.controls.popups.RankingPopup;
 import com.gerantech.towercraft.controls.popups.SelectNamePopup;
+import com.gerantech.towercraft.controls.sliders.LabeledProgressBar;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
@@ -59,6 +63,7 @@ override public function init():void
 	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 		return;
 	var padding:int = 32;
+	var league:int = player.get_arena(0);
 	initializeCompleted = true;
 	layout = new AnchorLayout();
 	
@@ -107,25 +112,27 @@ override public function init():void
 	}
 	showTutorial();
 	
-	if( player.get_battleswins() < 4 )
-		return;
-
-	if( player.get_arena(0) >= 2 )
+	if( league < 1 )
 	{
-		/*if( player.challenges != null )
-		{
-			var c:int = player.challenges.getStartedChallenge(timeManager.now);
-			if( c > -1 )
-			{
-				var ch:Challenge = player.challenges.get(0);
-				var countdownDisplay:CountdownLabel = new CountdownLabel();
-				countdownDisplay.time = ch.startAt + ch.duration - timeManager.now;
-				countdownDisplay.localString = "challenge_end_at";
-				countdownDisplay.height = 100;
-				countdownDisplay.layoutData = new AnchorLayoutData(-countdownDisplay.height * 0.5, 30, NaN, 30);
-				leftBattleButton.addChild(countdownDisplay);
-			}
-		}*/
+		var tutorProgressLayout:AnchorLayoutData = new AnchorLayoutData(stageHeight * 0.21, NaN, NaN, NaN, 10); 
+		var tutorialProgress:Indicator = new Indicator("ltr", 60, true, false, false);
+		tutorialProgress.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void {
+			AnchorLayoutData(tutorialProgress.iconDisplay.layoutData).left = -60; tutorialProgress.iconDisplay.width = tutorialProgress.iconDisplay.height = tutorialProgress.height + 76; });
+		tutorialProgress.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String { return StrUtils.getNumber(Math.round(value) + "/5"); }
+		tutorialProgress.setData(0, player.get_battleswins(), 5, 1);
+		tutorialProgress.layoutData = tutorProgressLayout;
+		tutorialProgress.height = stageHeight * 0.031;
+		tutorialProgress.width = stageWidth * 0.56;
+		addChild(tutorialProgress);
+		
+		var tutorialTitle:ShadowLabel = new ShadowLabel(loc("tutor_home_title"), 0x3ECAFF, 0, null, null);
+		tutorialTitle.layoutData = new AnchorLayoutData(tutorProgressLayout.top - 135, NaN, NaN, NaN, 0);
+		addChild(tutorialTitle);
+		
+		var tutorialMessage:ShadowLabel = new ShadowLabel(loc("tutor_home_message"), 1, 0, null, null, false, null, 0.7);
+		tutorialMessage.layoutData = new AnchorLayoutData(tutorProgressLayout.top - 60, NaN, NaN, NaN, 0);
+		addChild(tutorialMessage);
+		return;
 	}
 	
 	var profile:Profile  = new Profile();
@@ -133,13 +140,9 @@ override public function init():void
 	profile.name = "profile";
 	addChild(profile);
 
-	// leagues button
 	var leaguesButton:CollectableLeaguesButton = new CollectableLeaguesButton();
 	leaguesButton.layoutData = new AnchorLayoutData(120, NaN, NaN, padding);
 	addButton(leaguesButton, "leaguesButton");
-	
-	if( player.get_arena(0) < 1 )
-		return;
 	
 	var starsButton:CollectableStarsButton = new CollectableStarsButton();
 	starsButton.layoutData = new AnchorLayoutData(330, padding);
@@ -157,7 +160,7 @@ override public function init():void
 	rankButton.width = rankButton.height = 140;
 	addButton(rankButton, "rankButton");
 	
-	if( player.get_arena(0) > 0 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
+	if( league > 0 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 	{
 		googleButton = new IconButton(Assets.getTexture("settings/41"), 0.6, Assets.getTexture("home/button-bg-0"), new Rectangle(22, 38, 4, 4));
 		googleButton.layoutData = new AnchorLayoutData(330, padding * 1.7 + starsButton.width);

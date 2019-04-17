@@ -60,6 +60,19 @@ override protected function initialize():void
 	realtimeDisplay.source = Assets.getTexture("theme/slider-fill-danger-skin", "gui");
 	addChild(realtimeDisplay);
 	
+	
+	for (var i:int = 1; i < 10; i++ )
+	{
+		var slot:ImageLoader = new ImageLoader();
+		slot.layoutData = new AnchorLayoutData(0, NaN, 0);
+		slot.scale9Grid = MainTheme.QUAD_SCALE9_GRID;
+		slot.source = appModel.theme.quadSkin;
+		slot.x = i * 90;
+		slot.width = 3;
+		slot.color = 0;
+		addChild(slot);
+	}
+	
 	elixirBottle = new LayoutGroup();
 	elixirBottle.touchable = false;
 	elixirBottle.pivotX = elixirBottle.width * 0.5;
