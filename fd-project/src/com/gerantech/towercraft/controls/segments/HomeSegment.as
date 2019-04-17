@@ -260,7 +260,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	switch( buttonName )
 	{
 		case "eventsButton":	appModel.navigator.pushScreen( Game.CHALLENGES_SCREEN );				return;
-		case "battleButton":	appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER);				return;
+		case "battleButton":	appModel.navigator.runBattle(player.selectedChallengeIndex);			return;
 	}
 	
 	if( player.get_arena(0) <= 0 )

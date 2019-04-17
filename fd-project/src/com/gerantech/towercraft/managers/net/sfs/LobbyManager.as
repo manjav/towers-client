@@ -186,7 +186,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 					battleMsg.putUtfString("o", msg.getUtfString("o"));
 				messages.updateItemAt(lastBattleIndex);
 				if( msg.getShort("st") == 1 && (msg.getUtfString("s") == player.nickName || msg.getUtfString("o") == player.nickName) )
-					dispatchEventWith(Event.TRIGGERED);// go to friendly battle
+					dispatchEventWith(Event.TRIGGERED, false, msg);// go to friendly battle
 			}
 		}
 		else

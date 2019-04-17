@@ -147,7 +147,7 @@ protected function list_focusInHandler(event:Event):void
 	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
-	var floatingY:int = selectedItem.getBounds(stage).y
+	var floatingY:int = selectedItem.getBounds(stage).y;
 	var ti:TransitionData = new TransitionData(0.2);
 	var to:TransitionData = new TransitionData(0.2);
 	to.sourceConstrain = ti.destinationConstrain = this.getBounds(stage);
@@ -202,7 +202,7 @@ private function spectate(buddy:Buddy):void
 {
 	if( !buddy.containsVariable("br") )
 		return;
-	appModel.navigator.runBattle(FieldData.TYPE_OPERATION, 100000, false, buddy.name);
+	appModel.navigator.runBattle(0, false, buddy.name, 2);
 }
 
 private function removeFriend(buddy:Buddy):void
@@ -237,8 +237,8 @@ public function set buttonsEnabled(value:Boolean):void
 	_buttonsEnabled = value;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 	list.isEnabled = _buttonsEnabled;
-
 }
+
 override public function dispose():void
 {
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, 			sfs_buddyRemoveHandler);

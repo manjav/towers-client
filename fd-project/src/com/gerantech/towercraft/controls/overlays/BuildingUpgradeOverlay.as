@@ -144,7 +144,7 @@ private function tutorials_finishHandler(event:Event):void
 	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_finishHandler);
 	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_019_RETURN_TO_BATTLE);
 	DashboardScreen.TAB_INDEX = 2;
-	appModel.navigator.runBattle();
+	appModel.navigator.runBattle(0);
 	close();
 }
 

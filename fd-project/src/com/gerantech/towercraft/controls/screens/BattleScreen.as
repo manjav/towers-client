@@ -42,13 +42,10 @@ public class BattleScreen extends BaseCustomScreen
 {
 public static var IN_BATTLE:Boolean;
 public var index:int;
-public var battleType:String;
-public var challengeType:int;
-public var isFriendly:Boolean;
+public var friendlyMode:int;
 public var spectatedUser:String;
-public var waitingOverlay:BattleWaitingOverlay;
 public var hud:BattleHUD;
-
+public var waitingOverlay:BattleWaitingOverlay;
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
 private var battleData:BattleData;
@@ -69,17 +66,15 @@ protected function battleFieldView_completeHandler(e:Event):void
 	layout = new AnchorLayout();
 	
 	var params:SFSObject = new SFSObject();
-	params.putText("type", battleType);
 	params.putInt("index", index);
+	params.putInt("friendlyMode", friendlyMode);
 	if( spectatedUser != null && spectatedUser != "" )
 		params.putText("spectatedUser", spectatedUser);
-	if( challengeType > -1 )
-		params.putInt("challengeType", challengeType);
 
 	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-	if( !isFriendly )
+	if( friendlyMode == 0 )
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
-		
+	
 	startBattle();
 }
 

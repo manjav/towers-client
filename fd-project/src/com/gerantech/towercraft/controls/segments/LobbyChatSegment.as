@@ -117,7 +117,7 @@ protected function battleModePopup_selectHandler(event:Event):void
 protected function manager_triggerHandler(event:Event):void
 {
 	buttonsEnabled = true;
-	appModel.navigator.runBattle(FieldData.TYPE_HEADQUARTER, 0, false, null, true);
+	appModel.navigator.runBattle(SFSObject(event.data).getInt("m"), false, null, 1);
 }
 
 override public function enabledChatting(value:Boolean):void
