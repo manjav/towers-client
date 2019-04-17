@@ -17,6 +17,7 @@ import com.smartfoxserver.v2.requests.LogoutRequest;
 import com.smartfoxserver.v2.util.SFSErrorCodes;
 import flash.desktop.NativeApplication;
 import flash.events.Event;
+import flash.events.IOErrorEvent;
 import flash.filesystem.File;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -45,7 +46,6 @@ private var loginParams:ISFSObject;
 private var lowConnectionOverlay:LowConnectionOverlay;
 
 private var commandsPool:StringMap;
-		
 public function SFSConnection()
 {
 	// Create an instance of the SmartFox class
@@ -64,22 +64,32 @@ public function SFSConnection()
 
 	addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
 	commandsPool = new StringMap();
-	SFSErrorCodes.setErrorMessage(101, "{0}")
-	SFSErrorCodes.setErrorMessage(110, "{0}")
+	SFSErrorCodes.setErrorMessage(101, "{0}");
+	SFSErrorCodes.setErrorMessage(110, "{0}");
 	load();
 }
 
 public function load() : void 
 {
+	var pattern:String = '<?xml version="1.0" encoding="UTF-8"?>\r\n<SmartFoxConfig>';
 	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
-	var cnfLoader:LoadAndSaver = new LoadAndSaver(cnfFile.nativePath, "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
+	var cnfLoader:LoadAndSaver = new LoadAndSaver(cnfFile.nativePath, "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random(), null, false, 0, pattern);
 	trace("http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
-	cnfLoader.addEventListener(Event.COMPLETE, cnfLoader_completeHandler);
+	cnfLoader.addEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+	cnfLoader.addEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+	cnfLoader.start();
 	function cnfLoader_completeHandler(event:Event) : void
 	{
-		cnfLoader.removeEventListener(Event.COMPLETE, cnfLoader_completeHandler);
+		cnfLoader.removeEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+		cnfLoader.removeEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
 		cnfLoader.closeLoader(false);
 		loadConfig(cnfFile.url);
+	}
+	function cnfLoader_ioErrorHandler(event:IOErrorEvent) : void
+	{
+		cnfLoader.removeEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+		cnfLoader.removeEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+		clearAndReset(null);
 	}
 }
 
@@ -130,15 +140,19 @@ protected function sfs_connectionHandler(event:SFSEvent):void
 			disconnect();
 			load();
 			retryIndex ++;
+			return;
 		}
-		else if( hasEventListener(SFSConnection.FAILURE) )
-		{
-			var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
-			if( cnfFile.exists )
-				cnfFile.deleteFile();
-			dispatchEvent(new SFSEvent(SFSConnection.FAILURE, event.params));
-		}
+		if( hasEventListener(SFSConnection.FAILURE) )
+			clearAndReset(event.params);
 	}
+}
+
+private function clearAndReset(params:Object):void 
+{
+	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
+	if( cnfFile.exists )
+		cnfFile.deleteFile();
+	dispatchEvent(new SFSEvent(SFSConnection.FAILURE, params));
 }
 protected function sfs_connectionLostHandler(event:SFSEvent):void
 {
@@ -186,7 +200,7 @@ public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room
 	removeFromCommands(extCmd);
 	var deadline:int = SFSCommands.getDeadline(extCmd);
 	if( deadline > -1 )
-		commandsPool.setReserved(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
+		commandsPool.set(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
 	send(new ExtensionRequest(extCmd, params, room, useUDP));
 }
 
@@ -198,10 +212,10 @@ protected function sfs_extensionResponseHandler(event:SFSEvent):void
 }
 public function removeFromCommands(command:String):void
 {
-	if( !commandsPool.existsReserved(command) )
+	if( !commandsPool.exists(command) )
 		return;
-	clearTimeout(commandsPool.getReserved(command) as uint);
-	commandsPool.remove(command);
+	clearTimeout(commandsPool.get(command) as uint);
+	delete(commandsPool.h[command]);
 	hideLowConnectionAlert(command);
 }
 

@@ -27,17 +27,18 @@ public var fileLoader:Loader;
 public var loading:Boolean;
 
 private var localPath:String;
+private var extension:String;
 private var webPath:String;
 private var md5:String;
-private var extention:String;
 private var isLoader:Boolean;
 private var sizeCheck:uint;
 private var urlStream:URLStream;
 private var urlLoader:URLLoader;
 private var gtStreamer:GTStreamer;
+private var patternCheck:String;
 public var byteArray:ByteArray;
 
-public function LoadAndSaver(localPath:String, webPath:String, md5:String=null, isLoader:Boolean=false, sizeCheck:uint=0) : void
+public function LoadAndSaver(localPath:String, webPath:String, md5:String = null, isLoader:Boolean = false, sizeCheck:uint = 0, patternCheck:String = null) : void
 {
 	//trace(localPath, webPath)
 	this.localPath = localPath;
@@ -45,13 +46,18 @@ public function LoadAndSaver(localPath:String, webPath:String, md5:String=null, 
 	this.isLoader = isLoader;
 	this.md5 = md5;
 	this.sizeCheck = sizeCheck;
-	extention = localPath.substr(localPath.lastIndexOf(".")+1)
-	loading = true;
+	this.patternCheck = patternCheck;
+	this.extension = localPath.substr(localPath.lastIndexOf(".") + 1);
+}
+
+public function start():void 
+{
+	this.loading = true;
 	
 	var file:File = new File(localPath);
 	if( file.exists )
 	{
-		gtStreamer = new GTStreamer(file, loacalFileLoadHandler, null, null, !UTFMode && !isSound && !isBytes);
+		this.gtStreamer = new GTStreamer(file, loacalFileLoadHandler, null, null, !UTFMode && !isSound && !isBytes);
 	} 
 	else
 	{
@@ -82,10 +88,10 @@ private function loacalFileLoadHandler(streamer:GTStreamer) : void
 	finalizeLoad();
 }
 
-private function webFileErrorHandler(event:IOErrorEvent=null) : void
+private function webFileErrorHandler(event:IOErrorEvent = null) : void
 {
 	if( hasEventListener(IOErrorEvent.IO_ERROR) )
-		dispatchEvent(event.clone());
+		dispatchEvent(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, event.text, event.errorID));
 	else
 		trace(event.text);
 	setTimeout(closeLoader, 500);
@@ -105,7 +111,8 @@ private function webFileLoadHandler(event:Event) : void
 	{
 		fileUTFData = event.target.data;
 		urlLoader.close();
-		if( isXML && fileUTFData.substr(0, 1) != "<" )
+		
+		if( (this.patternCheck != null && fileUTFData.substr(0, patternCheck.length) != patternCheck ) || (isXML && fileUTFData.substr(0, 1) != "<") )
 		{
 			webFileErrorHandler(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, "Data is ambiguous:\n" + fileUTFData));
 			return;
@@ -118,12 +125,12 @@ private function webFileLoadHandler(event:Event) : void
 		urlStream.readBytes(byteArray);
 		urlStream.close();
 		
-		if( (extention == "jbqr" || extention == "jpg") && byteArray.readUTFBytes(3) != "ÿØÿ" )
+		if( (extension == "jbqr" || extension == "jpg") && byteArray.readUTFBytes(3) != "ÿØÿ" )
 		{
 			webFileErrorHandler(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, "Not jpeg file."));
 			return;
 		}
-		if( (extention == "dat" || extention == "mp3") && byteArray.length < 2000 )
+		if( (extension == "dat" || extension == "mp3") && byteArray.length < 2000 )
 		{
 			webFileErrorHandler(new IOErrorEvent(IOErrorEvent.IO_ERROR, false, false, "Not mp3 file."));
 			return;
@@ -238,23 +245,23 @@ public function closeLoader(hasError:Boolean = true) : void
 
 private function get UTFMode() : Boolean
 {
-	return (extention=="txt"||extention=="xbqr"||extention=="xml"||extention=="md5");
+	return (extension == "txt" || extension == "xbqr" || extension == "xml" || extension == "md5");
 }
 
 
 public function get isBytes() : Boolean
 {
-	return (extention == "bt" || extention == "zbqr");
+	return (extension == "bt" || extension == "zbqr");
 }
 
 private function get isSound() : Boolean
 {
-	return (extention == "dat" || extention == "mp3");
+	return (extension == "dat" || extension == "mp3");
 }
 
 private function get isXML() : Boolean
 {
-	return (extention == "xbqr" || extention == "xml");
+	return (extension == "xbqr" || extension == "xml");
 }
 
 private function getCharCodes(str:String):Number

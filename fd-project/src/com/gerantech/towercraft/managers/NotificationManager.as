@@ -15,13 +15,13 @@ public class NotificationManager extends BaseManager
 {
 private var iconFile:File;
 private var soundFile:File;
-
 public function NotificationManager(){}
 public function init():void
 {
-	soundFile = File.applicationStorageDirectory.resolvePath("sounds/book-open.mp3");
-	var soundLoader:LoadAndSaver = new LoadAndSaver(soundFile.nativePath, File.applicationDirectory.resolvePath("assets/sounds/book-open.mp3").url);
+	soundFile = File.applicationStorageDirectory.resolvePath("sounds/whoosh.mp3");
+	var soundLoader:LoadAndSaver = new LoadAndSaver(soundFile.nativePath, File.applicationDirectory.resolvePath("assets/sounds/whoosh.mp3").url);
 	soundLoader.addEventListener(Event.COMPLETE, sound_completeHandler);
+	soundLoader.start();
 	function sound_completeHandler(event:Event):void
 	{
 		soundLoader.removeEventListener(Event.COMPLETE, sound_completeHandler);
@@ -31,6 +31,7 @@ public function init():void
 	iconFile = File.applicationStorageDirectory.resolvePath("images/icon/ic_notifications.png");
 	var iconLoader:LoadAndSaver = new LoadAndSaver(iconFile.nativePath, File.applicationDirectory.resolvePath("assets/images/ic_notifications.png").url);
 	iconLoader.addEventListener(Event.COMPLETE, icon_completeHandler);
+	iconLoader.start();
 	function icon_completeHandler(event:Event):void
 	{
 		iconLoader.removeEventListener(Event.COMPLETE, icon_completeHandler);
