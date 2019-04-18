@@ -1,7 +1,7 @@
 set APP_XML_TEMP=obj\application-template.xml
 set APP_XML=application.xml
 set DESC_TEMP=__DESCRIPTION__
-set DESC_FINE={"platform":"%PLATFORM%", "market":"%MARKET%", "server":"%SERVER%"}
+set DESC_FINE={ "platform": "%PLATFORM%", "market": "%MARKET%", "server": "%SERVER%" }
 
 set PERMISSION_TEMP=com.domain.market.BILLING
 set PERMISSION_FINE=com.domain.market.BILLING
