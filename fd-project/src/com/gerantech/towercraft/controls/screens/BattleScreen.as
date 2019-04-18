@@ -217,7 +217,7 @@ private function showTutorials() : void
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_battleswins() > 3 )
+	if( player.get_arena(0) > 0 )
 	{
 		readyBattle();
 		return;
