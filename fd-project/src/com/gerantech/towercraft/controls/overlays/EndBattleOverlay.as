@@ -1,11 +1,11 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.BattleOutcomeRewardItemRenderer;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -89,10 +89,11 @@ override protected function initialize():void
 	var closeBatton:Button = new Button();
 	closeBatton.width = 300;
 	closeBatton.height = 140;
-	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?31.4:27) * padding, NaN, NaN, NaN, 0);
 	closeBatton.name = "close";
 	closeBatton.label = loc("popup_ok_label");
+	closeBatton.styleName = MainTheme.STYLE_BUTTON_NEUTRAL;
 	closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
+	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?32:27) * padding, NaN, NaN, NaN, 0);
 	Starling.juggler.tween(closeBatton, 0.5, {delay:0.9, alpha:1});
 	closeBatton.alpha = 0;
 	addChild(closeBatton);

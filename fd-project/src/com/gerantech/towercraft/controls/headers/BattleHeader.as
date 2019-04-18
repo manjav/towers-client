@@ -64,7 +64,7 @@ private function creationCompleteHandler():void
 	
 	labelDisplay = new ShadowLabel(label, isAllise?0xDDDDFF:0xFFDDDD, 0, "center", null, false, null, height * 0.01);
 	//labelDisplay.autoSizeMode = AutoSizeMode.CONTENT
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.15); 
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.05); 
 //	labelDisplay.shadowDistance *= -height * 0.05;
 	addChild(labelDisplay);
 	
