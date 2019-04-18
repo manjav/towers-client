@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.items.challenges.ChallengeIndexItemRenderer;
+import com.gerantech.towercraft.models.vo.UserData;
+import com.gt.towers.constants.PrefsTypes;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.VerticalAlign;
@@ -50,7 +52,7 @@ override protected function initialize():void
 
 protected function list_triggeredHandler(event:Event) : void 
 {
-	player.selectedChallengeIndex = event.data as int;
+	UserData.instance.challengeIndex = event.data as int;
 	appModel.navigator.popScreen();
 }
 }

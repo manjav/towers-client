@@ -9,7 +9,7 @@
 	<SubTexture name="home1-r" x="1057" y="814" width="544" height="294" frameX="-12" frameY="-159" frameWidth="600" frameHeight="600"/>
 	<SubTexture name="home4" x="1602" y="814" width="368" height="434" frameX="-120" frameY="-98" frameWidth="600" frameHeight="600"/>
 	<SubTexture name="pellle" x="1686" y="0" width="320" height="327" frameX="-32" frameY="0" frameWidth="400" frameHeight="400"/>
-	<SubTexture name="1200px-Yin_yang.svg" x="1722" y="328" width="300" height="299" frameX="0" frameY="0" frameWidth="300" frameHeight="300"/>
+	<SubTexture name="yin-yang" x="1722" y="328" width="300" height="299" frameX="0" frameY="0" frameWidth="300" frameHeight="300"/>
 	<SubTexture name="map-layers_0008_cheker" x="441" y="915" width="239" height="233" frameX="0" frameY="0" frameWidth="239" frameHeight="234"/>
 	<SubTexture name="bolevard" x="0" y="947" width="400" height="135" frameX="0" frameY="0" frameWidth="400" frameHeight="136"/>
 	<SubTexture name="damage-range" x="681" y="915" width="200" height="199" frameX="0" frameY="0" frameWidth="200" frameHeight="200"/>

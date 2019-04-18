@@ -54,7 +54,7 @@ public function CoreLoader(sfsObj:SFSObject)
 	loadChallenges(serverData);
 	loadQuests(serverData);
 
-	setTimeout( dispatchEvent, 1, new Event(Event.COMPLETE));
+	setTimeout(dispatchEvent, 1, new Event(Event.COMPLETE));
 }
 
 private function initServerData(sfsObj:SFSObject):void
@@ -106,7 +106,7 @@ static private function loadExchanges(serverData:SFSObject) : void
 	var exchange:ISFSObject;
 	var item:ExchangeItem;
 	var elements:ISFSArray;
-	var element:ISFSObject;	
+	var element:ISFSObject;
 	AppModel.instance.game.exchanger.items = new IntShopMap();
 	for( var i:int = 0; i < serverData.getSFSArray("exchanges").size(); i++ )
 	{
@@ -116,7 +116,7 @@ static private function loadExchanges(serverData:SFSObject) : void
 		item.requirements = SFSConnection.ToMap(exchange.getSFSArray("requirements"));
 		if( item.outcomes.keys().length > 0 )
 			item.outcome = item.outcomes.keys()[0];
-			
+		
 		AppModel.instance.game.exchanger.items.set(item.type, item);
 	}
 }

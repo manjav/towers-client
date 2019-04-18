@@ -7,6 +7,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.socials.Challenge;
 import feathers.controls.ButtonState;
@@ -56,9 +57,9 @@ override protected function commitData() : void
 	super.commitData();
 	height = VerticalLayout(_owner.layout).typicalItemHeight;
 
-	challenge = _data as Challenge;
+	challenge = player.challenges.get(_data as int);
 	state = challenge.getState(timeManager.now);
-	chIndex = IN_HOME ? player.selectedChallengeIndex : index;
+	chIndex = IN_HOME ? UserData.instance.challengeIndex : index;
 	locked = Challenge.getUnlockAt(index) > ARENA;
 	
 	backgroundFactory();

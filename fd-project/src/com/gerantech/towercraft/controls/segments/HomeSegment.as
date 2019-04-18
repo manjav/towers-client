@@ -85,7 +85,7 @@ override public function init():void
 	eventsButton.layout = listLayout;
 	eventsButton.horizontalScrollPolicy = eventsButton.verticalScrollPolicy = ScrollPolicy.OFF;
 	eventsButton.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
-	eventsButton.dataProvider = new ListCollection([player.getSelectedChallenge()]);
+	eventsButton.dataProvider = new ListCollection([UserData.instance.challengeIndex]);
 	eventsButton.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, NaN, -stageHeight * 0.035);
 	eventsButton.height = listLayout.typicalItemHeight + listLayout.padding * 2;
 	addButton(eventsButton, "eventsButton");
@@ -263,7 +263,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 	switch( buttonName )
 	{
 		case "eventsButton":	appModel.navigator.pushScreen( Game.CHALLENGES_SCREEN );				return;
-		case "battleButton":	appModel.navigator.runBattle(player.selectedChallengeIndex);			return;
+		case "battleButton":	appModel.navigator.runBattle(UserData.instance.challengeIndex);			return;
 	}
 	
 	if( player.get_arena(0) <= 0 )

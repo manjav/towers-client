@@ -39,8 +39,8 @@ override protected function initialize():void
 	
 	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);
 	skin.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
-	skin.color = 0;
 	skin.alpha = 0.6;
+	skin.color = 0;
 	backgroundSkin = skin;
 
 	var listLayout:VerticalLayout = new VerticalLayout();
@@ -53,11 +53,11 @@ override protected function initialize():void
 
 	var list:List = new List();
 	list.layout = listLayout;
-	list.verticalScrollPolicy = ScrollPolicy.OFF;
-	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	list.layoutData		= new AnchorLayoutData(0, 0, 0, 0);
-	list.dataProvider	= new ListCollection([player.challenges.get(0), player.challenges.get(1)]);
-	list.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
+	list.verticalScrollPolicy	= ScrollPolicy.OFF;
+	list.scrollBarDisplayMode	= ScrollBarDisplayMode.NONE;
+	list.dataProvider			= new ListCollection([0,1]);
+	list.layoutData				= new AnchorLayoutData(0, 0, 0, 0);
+	list.itemRendererFactory	= function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
 	list.addEventListener(Event.TRIGGERED, list_triggeredHandler);
 	addChild(list);
 }

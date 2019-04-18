@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.buttons
 {
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.socials.Challenge;
@@ -60,7 +61,7 @@ override protected function initialize() : void
 	addChild(backgroundDisplay);
 
 	// cost elements ....
-	var cost:IntIntMap = Challenge.getRunRequiements(player.selectedChallengeIndex);
+	var cost:IntIntMap = Challenge.getRunRequiements(UserData.instance.challengeIndex);
 	var costType:int = cost.keys()[0];
 	var costValue:int = cost.get(costType);
 
