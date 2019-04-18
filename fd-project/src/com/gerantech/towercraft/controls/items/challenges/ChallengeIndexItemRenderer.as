@@ -61,6 +61,7 @@ override protected function commitData() : void
 	state = challenge.getState(timeManager.now);
 	chIndex = IN_HOME ? UserData.instance.challengeIndex : index;
 	locked = Challenge.getUnlockAt(index) > ARENA;
+	challenge.mode = Challenge.getMode(chIndex);
 	
 	backgroundFactory();
 	iconFactory();
@@ -110,6 +111,7 @@ private function infoFactory() : void
 	if( !SHOW_INFO || locked || infoButton != null )
 		return;
 	infoButton = new IconButton(Assets.getTexture("events/info"), 0.6, Assets.getTexture("events/badge"));
+	infoButton.name = challenge.mode.toString();
 	infoButton.width = 96;
 	infoButton.height = 103;
 	infoButton.layoutData = new AnchorLayoutData(-24, appModel.isLTR? -24 : NaN, NaN, appModel.isLTR? NaN : -24);
@@ -163,8 +165,8 @@ private function iconFactory() : void
 	{
 		iconDisplay = new ImageLoader();
 		iconDisplay.touchable = false;
-		iconDisplay.layoutData = new AnchorLayoutData(10, appModel.isLTR ? NaN : 10, appModel.isLTR ? 10 : NaN);
 		iconDisplay.width = iconDisplay.height = 150;
+		iconDisplay.layoutData = new AnchorLayoutData(10, appModel.isLTR ? NaN : 10, NaN, appModel.isLTR ? 10 : NaN);
 		addChild(iconDisplay);
 	}
 	
@@ -179,8 +181,8 @@ private function titleFactory() : void
 	if( titleDisplay == null )
 	{
 		titleDisplay = new RTLLabel(null, COLORS[chIndex], null, null, false, null, 0.9);
+		titleDisplay.layoutData = new AnchorLayoutData(12, appModel.isLTR ? NaN : 160, NaN, appModel.isLTR ? 160 : NaN);
 		titleDisplay.touchable = false;
-		titleDisplay.layoutData = new AnchorLayoutData(12, appModel.isLTR ? NaN : 160, appModel.isLTR ? 120 : NaN);
 		addChild(titleDisplay);
 	}
 	titleDisplay.text = locked ? loc("challenge_label", [loc("num_" + (chIndex + 1))]) : loc("challenge_title_" + challenge.mode);
@@ -192,7 +194,7 @@ private function messageFactory() : void
 	{
 		messageDisplay = new RTLLabel(null, 1, null, null, false, null, 0.7);
 		messageDisplay.touchable = false;
-		messageDisplay.layoutData = new AnchorLayoutData(76, appModel.isLTR ? NaN : 160, appModel.isLTR ? 160 : NaN);
+		messageDisplay.layoutData = new AnchorLayoutData(76, appModel.isLTR ? NaN : 160, NaN, appModel.isLTR ? 160 : NaN);
 		addChild(messageDisplay);
 	}
 	messageDisplay.text = locked ? loc("challenge_locked") : loc("challenge_message_" + challenge.mode);
@@ -215,7 +217,7 @@ protected function backgroundImage_triggerdHandler(event:Event) : void
 
 private function infoButton_triggeredHandler(event:Event) : void
 {
-	appModel.navigator.addChild(new BaseTooltip(loc("challenge_info_" + challenge.type), infoButton.getBounds(stage)));
+	appModel.navigator.addChild(new BaseTooltip(loc("challenge_info_" + int(infoButton.name)), infoButton.getBounds(stage)));
 }
 }
 }

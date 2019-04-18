@@ -53,6 +53,7 @@ override protected function initialize():void
 protected function list_triggeredHandler(event:Event) : void 
 {
 	UserData.instance.challengeIndex = event.data as int;
+	UserData.instance.save();
 	appModel.navigator.popScreen();
 }
 }
