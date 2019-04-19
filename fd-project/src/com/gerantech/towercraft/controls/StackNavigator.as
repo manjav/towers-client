@@ -11,6 +11,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.popups.AbstractPopup;
 	import com.gerantech.towercraft.controls.popups.InvitationPopup;
 	import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
+	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 	import com.gerantech.towercraft.controls.segments.InboxSegment;
@@ -29,6 +30,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.utils.Utils;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.socials.Challenge;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.gt.towers.utils.maps.IntStrMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -106,6 +108,13 @@ package com.gerantech.towercraft.controls
 		
 		public function runBattle(index:int, cancelable:Boolean = true, spectatedUser:String = null, friendlyMode:int = 0) : void
 		{
+			
+			if( spectatedUser == null && friendlyMode == 0 && !AppModel.instance.game.player.has(Challenge.getRunRequiements(index)) )
+			{
+				gotoShop(ResourceType.R6_TICKET);
+				addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R6_TICKET)]));
+				return;
+			}
 			var item:StackScreenNavigatorItem = getScreen(Game.BATTLE_SCREEN);
 			item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable && AppModel.instance.game.player.get_arena(0) > 0);
 			item.properties.spectatedUser = spectatedUser;
