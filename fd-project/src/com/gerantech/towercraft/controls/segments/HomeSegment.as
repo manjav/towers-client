@@ -53,6 +53,7 @@ import starling.events.Event;
 public class HomeSegment extends Segment
 {
 static private var SOCIAL_AUTH_WARNED:Boolean
+private var league:int;
 private var battleTimeoutId:uint;
 private var googleButton:IconButton;
 private var questsButton:CollectableQuestsButton;
@@ -63,10 +64,9 @@ override public function init():void
 	if( initializeCompleted || appModel.loadingManager.state < LoadingManager.STATE_LOADED )
 		return;
 	var padding:int = 32;
-	var league:int = player.get_arena(0);
+	league = player.get_arena(0);
 	initializeCompleted = true;
 	layout = new AnchorLayout();
-	
 	
 	// =-=-=-=-=-=-=-=-=-=-=-=- background -=-=-=-=-=-=-=-=-=-=-=-=
 	var tileBacground:TileBackground = new TileBackground("home/pistole-tile", 0.3, true);
@@ -76,7 +76,7 @@ override public function init():void
 	// events button
 	ChallengeIndexItemRenderer.IN_HOME = true;
 	ChallengeIndexItemRenderer.SHOW_INFO = false;
-	ChallengeIndexItemRenderer.ARENA = player.get_arena(0);
+	ChallengeIndexItemRenderer.ARENA = league;
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.typicalItemHeight = Math.min(410, stageHeight * 0.23);
@@ -225,7 +225,7 @@ private function showTutorial():void
 		return;
 	}
 	
-	if( player.get_battleswins() > 3 && player.nickName == "guest" )
+	if( league > 0 && player.nickName == "guest" )
 	{
 		var confirm:SelectNamePopup = new SelectNamePopup();
 		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
@@ -266,7 +266,7 @@ private function mainButtons_triggeredHandler(event:Event):void
 		case "battleButton":	appModel.navigator.runBattle(UserData.instance.challengeIndex);			return;
 	}
 	
-	if( player.get_arena(0) <= 0 )
+	if( league <= 0 )
 	{
 		appModel.navigator.addLog(loc("try_to_league_up"));
 		return;

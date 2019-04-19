@@ -90,20 +90,21 @@ private function costFactory() : void
 	{
 		costIconDisplay = new ImageLoader();
 		costIconDisplay.touchable = false;
-		costIconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? 8 : NaN, 64, appModel.isLTR ? NaN : 8);
-		costIconDisplay.width = costIconDisplay.height = 84;
+		costIconDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? 10 : NaN, 70, appModel.isLTR ? NaN : 56);
+		costIconDisplay.width = costIconDisplay.height = 78;
 		addChild(costIconDisplay);
 	}
 	costIconDisplay.source = Assets.getTexture("res-" + costType, "gui");
 	
 	if( costLabelDisplay == null )
 	{
-		costLabelDisplay = new ShadowLabel(null, 1, 0, null, null, false, null, 1.1);
+		costLabelDisplay = new ShadowLabel(null, 1, 0, "center", null, false, null, 1.25);
+		costLabelDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? 80 : NaN, 48, appModel.isLTR ? NaN : 24);
 		costLabelDisplay.touchable = false;
-		costLabelDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR ? 90 : NaN, 56, appModel.isLTR ? NaN : 90);
+		costLabelDisplay.width = 40;
 		addChild(costLabelDisplay);
 	}
-	costLabelDisplay.text = "x" + StrUtils.getNumber(costValue);
+	costLabelDisplay.text = StrUtils.getNumber(costValue);
 }
 
 private function infoFactory() : void
