@@ -22,7 +22,7 @@ private var itemslistData:ListCollection;
 private var itemslist:List;
 private var scrollPaddingTop:int;
 
-public function ExchangeSegment(){super();}
+public function ExchangeSegment(){ super(); }
 override public function init():void
 {
 	super.init();

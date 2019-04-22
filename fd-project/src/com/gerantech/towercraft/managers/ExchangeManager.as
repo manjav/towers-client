@@ -53,7 +53,7 @@ public function process(item : ExchangeItem) : void
 
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", item.type);
-	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES || item.category == ExchangeType.C70_TICKETS )
+	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES )
 	{
 		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 		BillingManager.instance.purchase((item.category == ExchangeType.C30_BUNDLES ? "k2k.bundle_" : "k2k.item_") + item.type);
@@ -84,7 +84,7 @@ public function process(item : ExchangeItem) : void
 		return;
 	}
 	
-	if( item.category == ExchangeType.C10_SOFT )
+	if( item.category == ExchangeType.C10_SOFT || item.category == ExchangeType.C70_TICKETS )
 	{
 		if( !player.has(item.requirements) )
 		{
