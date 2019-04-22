@@ -24,5 +24,6 @@ set "%string:, =" & set "%"
 :: delete application data
 echo Delete %server%-user-data.sol ?
 pause
-cd %AppData%\%APP_ID%\Local Store\#SharedObjects\release.swf
-del /F /Q %server%-user-data.sol
+cd %AppData%\%APP_ID%\Local Store\
+del /F /Q #SharedObjects\release.swf\%server%-user-data.sol
+del /F /Q config.xml
