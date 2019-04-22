@@ -85,7 +85,16 @@ override protected function initialize():void
 	tabs[2].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*17:NaN, NaN, appModel.isLTR?NaN:padding*17 );
 	tabs[2].isEnabled = false;
 	addChild(tabs[2]);
-	
+
+	LobbyItemRenderer.MEMBER_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?250:NaN, 7, appModel.isLTR?NaN:250);
+	LobbyItemRenderer.EMBLEM_LAYOUT = new AnchorLayoutData(16, appModel.isLTR?NaN:109, 14, appModel.isLTR?109:NaN);
+	LobbyItemRenderer.MEMBER_BG_LAYOUT = new AnchorLayoutData(46, appModel.isLTR?250:NaN, 16, appModel.isLTR?NaN:250);
+	LobbyItemRenderer.MEMBER_LBL_LAYOUT = new AnchorLayoutData(7, appModel.isLTR?250:NaN, NaN, appModel.isLTR?NaN:250);
+	LobbyItemRenderer.RANK_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+	LobbyItemRenderer.NAME_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
+	LobbyItemRenderer.ACTIVITY_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?42:NaN, NaN, appModel.isLTR?NaN:42, NaN, 0);
+	LobbyItemRenderer.ACTIVITY_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?16:NaN, NaN, appModel.isLTR?NaN:16, NaN, 0);
+
 	_listCollection = new ListCollection();
 	
 	var listLayout:VerticalLayout = new VerticalLayout();

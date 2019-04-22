@@ -104,6 +104,13 @@ override protected function showElements() : void
 		listBackground.layoutData = new AnchorLayoutData(250, 9, 9, 9);
 		addChild(listBackground);
 		
+		RankItemRenderer.RANK_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+		RankItemRenderer.POINT_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?96:NaN, NaN, appModel.isLTR?NaN:96, NaN, 0);
+		RankItemRenderer.NAME_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
+		RankItemRenderer.POINT_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?16:NaN, NaN, appModel.isLTR?NaN:16, NaN, 0);
+		RankItemRenderer.LEAGUE_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
+		RankItemRenderer.LEAGUE_IC_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:122, NaN, appModel.isLTR?122:NaN, NaN, -5);
+		
 		var listLayout:VerticalLayout = new VerticalLayout();
 		listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 		listLayout.hasVariableItemDimensions = true;
@@ -115,6 +122,15 @@ override protected function showElements() : void
 		playersList.dataProvider = playersCollection;
 		playersList.layout = listLayout;
 		playersList.layoutData = new AnchorLayoutData(265, 20, 20, 20);
+		
+		LobbyItemRenderer.MEMBER_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?250:NaN, 7, appModel.isLTR?NaN:250);
+		LobbyItemRenderer.EMBLEM_LAYOUT = new AnchorLayoutData(16, appModel.isLTR?NaN:109, 14, appModel.isLTR?109:NaN);
+		LobbyItemRenderer.MEMBER_BG_LAYOUT = new AnchorLayoutData(46, appModel.isLTR?250:NaN, 16, appModel.isLTR?NaN:250);
+		LobbyItemRenderer.MEMBER_LBL_LAYOUT = new AnchorLayoutData(7, appModel.isLTR?250:NaN, NaN, appModel.isLTR?NaN:250);
+		LobbyItemRenderer.RANK_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+		LobbyItemRenderer.NAME_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
+		LobbyItemRenderer.ACTIVITY_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?42:NaN, NaN, appModel.isLTR?NaN:42, NaN, 0);
+		LobbyItemRenderer.ACTIVITY_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?16:NaN, NaN, appModel.isLTR?NaN:16, NaN, 0);
 		
 		lobbiesList = new FastList();
 		lobbiesList.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }

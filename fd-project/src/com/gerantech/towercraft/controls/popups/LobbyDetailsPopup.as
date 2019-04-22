@@ -144,11 +144,11 @@ private function showDetails():void
 	membersCollection = new ListCollection(membersArray);
 	
 	var header:TabsHeader = new TabsHeader();
-	header.height = 70;
+	header.dataProvider = new ListCollection([ { label: loc("lobby_point"), width:210}, { label: loc("lobby_activeness"), width:210} ]);
 	header.layoutData = new AnchorLayoutData(500, NaN, NaN, 40);
-	header.dataProvider = new ListCollection([ { label: loc("lobby_activeness"), width:260}, { label: loc("lobby_point"), width:190} ]);
-	header.selectedIndex = 1;
 	header.addEventListener(Event.CHANGE, header_changeHandler);
+	header.selectedIndex = 0;
+	header.height = 70;
 	addChild(header);
 	
 	var listBackground:ImageLoader = new ImageLoader();
@@ -157,12 +157,21 @@ private function showDetails():void
 	listBackground.layoutData = new AnchorLayoutData(560, 20, 40, 20);
 	addChild(listBackground);
 	
+	LobbyMemberItemRenderer.NAME_LAYOUT = new AnchorLayoutData(10, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN);
+	LobbyMemberItemRenderer.ROLE_DISPLAY = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, 10, appModel.isLTR?205:NaN);
+	LobbyMemberItemRenderer.RANK_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+	LobbyMemberItemRenderer.POINT_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?72:NaN, NaN, appModel.isLTR?NaN:72, NaN, 0);
+	LobbyMemberItemRenderer.POINT_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?16:NaN, NaN, appModel.isLTR?NaN:16, NaN, 0);
+	LobbyMemberItemRenderer.ACTIVITY_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?250:NaN, NaN, appModel.isLTR?NaN:250, NaN, 0);
+	LobbyMemberItemRenderer.LEAGUE_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
+	LobbyMemberItemRenderer.LEAGUE_IC_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:122, NaN, appModel.isLTR?122:NaN, NaN, -5);
+	
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.useVirtualLayout = true;
-	listLayout.gap = 10;
+	listLayout.gap = 5;
 	
-	var membersList:FastList = new FastList();
+	var membersList:List = new List();
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
 	membersList.dataProvider = membersCollection;
 	membersList.layout = listLayout;
@@ -270,7 +279,7 @@ private function header_changeHandler(event:Event):void
 	}, 10, event.currentTarget);
 	*/
 	var header:TabsHeader = event.currentTarget as TabsHeader;
-	membersArray.sortOn(header.selectedIndex == 1?"point":"activity", Array.NUMERIC | Array.DESCENDING);
+	membersArray.sortOn(header.selectedIndex == 0?"point":"activity", Array.NUMERIC | Array.DESCENDING);
 	membersCollection.data = membersArray;
 	membersCollection.updateAll()
 }

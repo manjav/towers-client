@@ -14,12 +14,21 @@ import starling.display.Image;
 
 public class LobbyItemRenderer extends AbstractTouchableListItemRenderer
 {
+static public var RANK_LAYOUT:AnchorLayoutData;
+static public var NAME_LAYOUT:AnchorLayoutData;
+static public var EMBLEM_LAYOUT:AnchorLayoutData;
+static public var MEMBER_LAYOUT:AnchorLayoutData;
+static public var ACTIVITY_LAYOUT:AnchorLayoutData;
+static public var MEMBER_BG_LAYOUT:AnchorLayoutData;
+static public var MEMBER_LBL_LAYOUT:AnchorLayoutData;
+static public var ACTIVITY_BG_LAYOUT:AnchorLayoutData;
 static private const MEMBER_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
-private var emblemDisplay:ImageLoader;
+
 private var membersDisplay:RTLLabel;
-private var activenessDisplay:ShadowLabel;
 private var rankDisplay:ShadowLabel;
 private var nameDisplay:ShadowLabel;
+private var emblemDisplay:ImageLoader;
+private var activityDisplay:ShadowLabel;
 
 public function LobbyItemRenderer(){}
 override protected function initialize():void
@@ -28,45 +37,63 @@ override protected function initialize():void
 	height = 110;
 	layout = new AnchorLayout();
 
-	var mySkin:Image = new Image(Assets.getTexture("theme/item-renderer-ranking-skin", "gui"));
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_RANK_SCALE9_GRID;
+	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
-
-	var membersRect:ImageLoader = new ImageLoader();
-	membersRect.width = 120;
-	membersRect.scale9Grid = MEMBER_SCALE9_GRID;
-	membersRect.source = appModel.theme.roundSmallInnerSkin;
-	membersRect.layoutData = new AnchorLayoutData(46, appModel.isLTR?280:NaN, 14, appModel.isLTR?NaN:280);
-	addChild(membersRect);
+	
+	var rankBackground:ImageLoader = new ImageLoader();
+	rankBackground.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
+	rankBackground.source = appModel.theme.roundSmallInnerSkin;
+	rankBackground.width = rankBackground.height = 84;
+	rankBackground.layoutData = RANK_LAYOUT;
+	rankBackground.pixelSnapping = false;
+	addChild(rankBackground);
+	
+	var activityBacground:ImageLoader = new ImageLoader();
+	activityBacground.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
+	activityBacground.source = appModel.theme.roundSmallInnerSkin;
+	activityBacground.layoutData = ACTIVITY_BG_LAYOUT;
+	activityBacground.pixelSnapping = false;
+	activityBacground.color = 0x888888;
+	activityBacground.height = 84;
+	activityBacground.width = 220
+	addChild(activityBacground);
+	
+	var membersBackground:ImageLoader = new ImageLoader();
+	membersBackground.source = appModel.theme.roundSmallInnerSkin;
+	membersBackground.scale9Grid = MEMBER_SCALE9_GRID;
+	membersBackground.layoutData = MEMBER_BG_LAYOUT;
+	membersBackground.width = 120;
+	addChild(membersBackground);
 	
 	emblemDisplay = new ImageLoader();
-	emblemDisplay.layoutData = new AnchorLayoutData(15, appModel.isLTR?NaN:109, 14, appModel.isLTR?109:NaN);
+	emblemDisplay.layoutData = EMBLEM_LAYOUT;
 	addChild(emblemDisplay);
 	
 	// labels .........
-	rankDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.7);
+	rankDisplay = new ShadowLabel(null, 1, 0, "center", null, false, null, 0.7);
+	rankDisplay.layoutData = RANK_LAYOUT;
 	rankDisplay.width = 80;
-	rankDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:20, NaN, appModel.isLTR?20:NaN, NaN, 0);
 	addChild(rankDisplay);
 	
-	nameDisplay = new ShadowLabel("", 1, 0, null, null, false, null, 0.8);
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
+	nameDisplay = new ShadowLabel(null, 1, 0, null, null, false, null, 0.8);
+	nameDisplay.layoutData = NAME_LAYOUT;
 	addChild(nameDisplay);
 	
-	var populationDisplay:RTLLabel = new RTLLabel(loc("lobby_population"), 0, "center", null, false, null, 0.55);
-	populationDisplay.width = 120;
-	populationDisplay.layoutData = new AnchorLayoutData(7, appModel.isLTR?280:NaN, NaN, appModel.isLTR?NaN:280);
-	addChild(populationDisplay);
+	var membersLabelDisplay:RTLLabel = new RTLLabel(loc("lobby_population"), 0, "center", null, false, null, 0.55);
+	membersLabelDisplay.layoutData = MEMBER_LBL_LAYOUT;
+	membersLabelDisplay.width = 120;
+	addChild(membersLabelDisplay);
 	
-	membersDisplay = new RTLLabel("", 0, "center", null, false, null, 0.7);
+	membersDisplay = new RTLLabel(null, 0, "center", null, false, null, 0.66);
+	membersDisplay.layoutData = MEMBER_LAYOUT;
 	membersDisplay.width = 120;
-	membersDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?280:NaN, 7, appModel.isLTR?NaN:280);
 	addChild(membersDisplay);
 	
-	activenessDisplay = new ShadowLabel("", 1, 0, "center", null, false, null, 0.8);
-	activenessDisplay.width = 160;
-	activenessDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?60:NaN, NaN, appModel.isLTR?NaN:60, NaN, 0);
-	addChild(activenessDisplay);
+	activityDisplay = new ShadowLabel(null, 1, 0, "center", null, false, null, 0.8);
+	activityDisplay.layoutData = ACTIVITY_LAYOUT;
+	activityDisplay.width = 160;
+	addChild(activityDisplay);
 }
 
 override protected function commitData():void
@@ -78,7 +105,7 @@ override protected function commitData():void
 	emblemDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(_data.pic + ""), "gui");
 	rankDisplay.text = StrUtils.getNumber(index + 1);
 	nameDisplay.text = _data.name;
-    activenessDisplay.text = StrUtils.getNumber(_data.act);
+    activityDisplay.text = StrUtils.getNumber(_data.act);
 	membersDisplay.text = StrUtils.getNumber(_data.num + "/" + _data.max);
 }
 }
