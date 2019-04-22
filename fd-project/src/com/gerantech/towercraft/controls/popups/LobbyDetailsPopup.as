@@ -145,8 +145,8 @@ private function showDetails():void
 	
 	var header:TabsHeader = new TabsHeader();
 	header.dataProvider = new ListCollection([ { label: loc("lobby_point"), width:210}, { label: loc("lobby_activeness"), width:210} ]);
-	header.layoutData = new AnchorLayoutData(500, NaN, NaN, 40);
 	header.addEventListener(Event.CHANGE, header_changeHandler);
+	header.layoutData = new AnchorLayoutData(500, appModel.isLTR?40:NaN, NaN, appModel.isLTR?NaN:40);
 	header.selectedIndex = 0;
 	header.height = 70;
 	addChild(header);
@@ -245,7 +245,8 @@ private function showDetails():void
 private function removeButton_triggeredHandler(e:Event):void 
 {
 	var confirm:ConfirmPopup = new ConfirmPopup(loc("lobby_remove_confirm"));
-	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 	appModel.navigator.addPopup(confirm);
 	function confirm_selectHandler(event:Event):void
@@ -357,7 +358,7 @@ private function buttonsPopup_selectHandler(event:Event):void
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
 		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
-		confirm.declineLabel = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
+		confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 		confirm.data = event.data;
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);

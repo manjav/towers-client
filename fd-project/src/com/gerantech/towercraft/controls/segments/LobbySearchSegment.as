@@ -69,7 +69,7 @@ override protected function initialize():void
 	rankButton.addEventListener(Event.TRIGGERED,  rankButton_triggeredHandler);
 	addChild(rankButton);*/
 	
-	tabs = new Vector.<LobbyTabButton>();
+/*	tabs = new Vector.<LobbyTabButton>();
 	tabs[0] = new LobbyTabButton(loc("lobby_point"));
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 	tabs[0].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 );
@@ -85,7 +85,7 @@ override protected function initialize():void
 	tabs[2].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*17:NaN, NaN, appModel.isLTR?NaN:padding*17 );
 	tabs[2].isEnabled = false;
 	addChild(tabs[2]);
-
+*/
 	LobbyItemRenderer.MEMBER_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?250:NaN, 7, appModel.isLTR?NaN:250);
 	LobbyItemRenderer.EMBLEM_LAYOUT = new AnchorLayoutData(16, appModel.isLTR?NaN:109, 14, appModel.isLTR?109:NaN);
 	LobbyItemRenderer.MEMBER_BG_LAYOUT = new AnchorLayoutData(46, appModel.isLTR?250:NaN, 16, appModel.isLTR?NaN:250);
@@ -99,12 +99,12 @@ override protected function initialize():void
 	
 	var listLayout:VerticalLayout = new VerticalLayout();
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
-	listLayout.gap = 6;
 	listLayout.useVirtualLayout = true;
+	listLayout.gap = 5;
 	
 	list = new FastList();
 	list.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }
-	list.layoutData = new AnchorLayoutData(padding * 5 + buttonH, padding, padding, padding);
+	list.layoutData = new AnchorLayoutData(padding * 2 + buttonH, padding, padding, padding);
 	list.dataProvider = _listCollection;
 	list.layout = listLayout;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
@@ -113,7 +113,7 @@ override protected function initialize():void
 		search();
 }
 
-private function tabs_triggeredHandler(event:Event):void
+/*private function tabs_triggeredHandler(event:Event):void
 {
 	setTimeout(function(sb:LobbyTabButton):void{
 	for each ( var b:LobbyTabButton in tabs )
@@ -121,7 +121,7 @@ private function tabs_triggeredHandler(event:Event):void
 	}, 10, event.currentTarget);
 	searchMode = tabs.indexOf(event.currentTarget as LobbyTabButton);
 	search();
-}
+}*/
 
 protected function rankButton_triggeredHandler(event:Event):void
 {
