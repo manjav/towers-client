@@ -60,7 +60,7 @@ override protected function initialize():void
 	addChild(usersDisplay);
 	
 	infoButton = new IconButton(Assets.getTexture("events/info"), 0.6, Assets.getTexture("events/badge"));
-	infoButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, HEIGHT * 0.28, NaN, -3);
+	infoButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?HEIGHT * 0.28:NaN, NaN, appModel.isLTR?NaN:HEIGHT * 0.28, NaN, -3);
 	infoButton.height = 86;
 	infoButton.width = 80;
 	addChild(infoButton); 
