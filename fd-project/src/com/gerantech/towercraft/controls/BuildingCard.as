@@ -324,7 +324,6 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 		countDisplay = new ShadowLabel();
 		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
 		labelsContainer.addChild(countDisplay);
-		return countDisplay;
 	}
 	countDisplay.text = "x "+ StrUtils.getNumber(count);
 	return countDisplay;
