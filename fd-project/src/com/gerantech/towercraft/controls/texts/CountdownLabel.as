@@ -39,7 +39,7 @@ override protected function initialize() : void
 	skin.scale9Grid = new Rectangle(8, 12, 4, 4);
 	skin.layoutData = new AnchorLayoutData(padding, 0, padding * 1.5, height * 0.5);
 	skin.alpha = 0.95;
-	addChild(skin);
+	//addChild(skin);
 	
 	clockDisplay = new ImageLoader();
 	clockDisplay.source = Assets.getTexture("timer");
@@ -57,9 +57,8 @@ override protected function initialize() : void
 	needleDisplay.rotation = 0.55;
 	addChild(needleDisplay);
 	
-	var label:String = localString == null ? StrUtils.toTimeFormat(_time) : loc(localString, [StrUtils.toTimeFormat(_time)]);
-	labelDisplay = new RTLLabel(label, 1, "center", localString == null ? "ltr" : null, false, null, height / 160);
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.75, NaN, -6);
+	labelDisplay = new RTLLabel(defaultFormatLabelFactory(_time, localString), 1, "center", localString == null ? "ltr" : null, false, null, height / 130);
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, height * 0.75, NaN, 0);
 	addChild(labelDisplay);
 	
 	play();
@@ -76,6 +75,12 @@ public function rotate():void
 	Starling.juggler.tween(needleDisplay, 0.5, {rotation:needleDisplay.rotation + Math.PI * 0.5, transition:Transitions.EASE_OUT_ELASTIC});
 }
 
+
+protected function defaultFormatLabelFactory(value:int, localString:String = null) : String
+{
+	return StrUtils.getNumber( localString == null ? StrUtils.uintToTime(value) : loc(localString, [StrUtils.uintToTime(value)]) );
+}
+
 public function get time():uint 
 {
 	return _time;
@@ -87,7 +92,7 @@ public function set time(value:uint):void
 	
 	_time = value;
 	if( labelDisplay != null )
-		labelDisplay.text = localString == null ? StrUtils.toTimeFormat(_time) : loc(localString, [StrUtils.toTimeFormat(_time)]);
+		labelDisplay.text = defaultFormatLabelFactory(_time, localString);
 }
 }
 }

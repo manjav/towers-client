@@ -39,34 +39,34 @@ override protected function initialize():void
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
 	backgroundSkin = mySkin;
 
-	idDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.8);
+	idDisplay = new RTLLabel("", 0, null, null, false, null, 0.7);
 	idDisplay.pixelSnapping = false;
 	idDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, -padding*0.7);
 	addChild(idDisplay);
 	
-	nameDisplay = new RTLLabel("", 0, null, null, false, null, 0.7);
+	nameDisplay = new RTLLabel("", 0, null, null, false, null, 0.6);
 	nameDisplay.pixelSnapping = false;
 	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN, NaN, padding*0.5);
 	addChild(nameDisplay);
 	
-	sessionsDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
+	sessionsDisplay = new RTLLabel("", 1, "center", null, false, null, 0.7);
 	sessionsDisplay.width = padding * 3
 	sessionsDisplay.pixelSnapping = false;
 	sessionsDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*12:NaN, NaN, appModel.isLTR?NaN:padding*12, NaN, 0);
 	addChild(sessionsDisplay);
 	
-	versionDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
+	versionDisplay = new RTLLabel("", 1, "center", null, false, null, 0.7);
 	versionDisplay.width = padding * 3
 	versionDisplay.pixelSnapping = false;
 	versionDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*16:NaN, NaN, appModel.isLTR?NaN:padding*16, NaN, 0);
 	addChild(versionDisplay);
 	
-	firstDisplay = new RTLLabel("", 1, "left", "ltr", false, null, 0.7);
+	firstDisplay = new RTLLabel("", 1, "left", "ltr", false, null, 0.6);
 	firstDisplay.pixelSnapping = false;
 	firstDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, -padding*0.7);
 	addChild(firstDisplay);
 	
-	lastDisplay = new RTLLabel("", 0, "left", "ltr", false, null, 0.7);
+	lastDisplay = new RTLLabel("", 0, "left", "ltr", false, null, 0.6);
 	lastDisplay.pixelSnapping = false;
 	lastDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, padding*0.5);
 	addChild(lastDisplay);

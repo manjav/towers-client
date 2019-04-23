@@ -5,21 +5,27 @@ import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.buttons.IndicatorXP;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
+import com.gerantech.towercraft.controls.groups.RewardsPalette;
 import com.gerantech.towercraft.controls.headers.BattleHeader;
 import com.gerantech.towercraft.controls.items.CardItemRenderer;
 import com.gerantech.towercraft.controls.items.ProfileBuildingItemRenderer;
 import com.gerantech.towercraft.controls.items.ProfileFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.screens.IssuesScreen;
+import com.gerantech.towercraft.controls.segments.InboxSegment;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.scripts.ScriptEngine;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
@@ -50,7 +56,7 @@ private var adminMode:Boolean;
 private var playerData:ISFSObject;
 private var resourcesData:ISFSArray;
 
-public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
+public function ProfilePopup(user:Object, getFullPlayerData:Boolean = false)
 {
 	this.user = user;
 	this.adminMode = player.admin;
@@ -70,10 +76,14 @@ public function ProfilePopup(user:Object, getFullPlayerData:Boolean=false)
 
 override protected function initialize():void
 {
+	var _h:int = adminMode ? 1800 : 1140;
+	var _p:int = 48;
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.15:0.25), stageWidth * 0.9, stageHeight * (adminMode?0.8:0.55));
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stageWidth * 0.05, stageHeight * (adminMode?0.05:0.20), stageWidth * 0.9, stageHeight * (adminMode?0.9:0.65));
-	rejustLayoutByTransitionData();
 }
 protected override function transitionInCompleted():void
 {
@@ -116,60 +126,60 @@ private function showProfile():void
 	addChild(nameDisplay);
 	
 	var tagDisplay:RTLLabel = new RTLLabel("#" + playerData.getText("tag") + (adminMode?(" => " + user.id) : ""), 0xAABBBB, null, "ltr", true, null, 0.58);
-	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.0, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
+	tagDisplay.layoutData = new AnchorLayoutData(padding * 2.5, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(tagDisplay);
 	
 	var lobbyNameDisplay:RTLLabel = new RTLLabel(user.ln, 0xAABBBB, null, "ltr", true, null, 0.6);
 	lobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 3.3, appModel.isLTR?NaN:padding * 5, NaN, appModel.isLTR?padding * 7:NaN);
 	addChild(lobbyNameDisplay);
 	
-	var closeButton:CustomButton = new CustomButton();
-	closeButton.label = loc("close_button");
-	closeButton.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+	var closeButton:MMOryButton = new MMOryButton();
+	closeButton.alpha = 0;
+	closeButton.width = 88;
+	closeButton.height = 74
+	closeButton.layoutData = new AnchorLayoutData(-20, -20);
+	closeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1});
+	closeButton.iconTexture = Assets.getTexture("theme/icon-cross", "gui");
 	closeButton.addEventListener(Event.TRIGGERED, close_triggeredHandler);
 	addChild(closeButton);
-
-	closeButton.y = height - closeButton.height - padding;
-	closeButton.alpha = 0;
-	closeButton.height = 110;
-	Starling.juggler.tween(closeButton, 0.2, {delay:0.8, alpha:1, y:height - closeButton.height - padding * 0.4});
 	
 	if( adminMode )
 	{
-		var banButton:CustomButton = new CustomButton();
-		banButton.icon = Assets.getTexture("settings-5");
-		banButton.style = CustomButton.STYLE_DANGER;
-		banButton.width = banButton.height = padding * 2;
-		banButton.layoutData = new AnchorLayoutData(NaN, padding * 0.5, padding * 0.5);
+		var banButton:IndicatorButton = new IndicatorButton();
+		banButton.label = "ban";
+		banButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+		//banButton.width = banButton.height = padding * 2;
+		banButton.layoutData = new AnchorLayoutData(NaN, padding * 0.5, -padding);
 		banButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(banButton);
 		
-		var issuesButton:CustomButton = new CustomButton();
-		issuesButton.icon = Assets.getTexture("home/inbox");
-		issuesButton.style = CustomButton.STYLE_NEUTRAL;
-		issuesButton.width = issuesButton.height = padding * 2;
-		issuesButton.layoutData = new AnchorLayoutData(NaN, padding * 3, padding * 0.5);
+		var issuesButton:IndicatorButton = new IndicatorButton();
+		issuesButton.label = "issues";
+		issuesButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
+		//issuesButton.width = issuesButton.height = padding * 2;
+		issuesButton.layoutData = new AnchorLayoutData(NaN, padding * 5, -padding);
 		issuesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(issuesButton);
 		
-		var offendsButton:CustomButton = new CustomButton();
-		offendsButton.icon = Assets.getTexture("settings-3");
-		offendsButton.width = offendsButton.height = padding * 2;
-		offendsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 0.5);
+		var offendsButton:IndicatorButton = new IndicatorButton();
+		offendsButton.label = "offends";
+		//offendsButton.width = offendsButton.height = padding * 2;
+		offendsButton.layoutData = new AnchorLayoutData(NaN, NaN, -padding, 0);
 		offendsButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(offendsButton);
 		
-		var reportsButton:CustomButton = new CustomButton();
-		reportsButton.icon = Assets.getTexture("settings-315");
-		reportsButton.width = reportsButton.height = padding * 2;
-		reportsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 3);
+		var reportsButton:IndicatorButton = new IndicatorButton();
+		reportsButton.label = "reports";
+		//reportsButton.width = reportsButton.height = padding * 2;
+		reportsButton.layoutData = new AnchorLayoutData(NaN, NaN, -padding, padding * 7);
 		reportsButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(reportsButton);
 		
-		var bannesButton:CustomButton = new CustomButton();
-		bannesButton.icon = Assets.getTexture("search-icon");
-		bannesButton.width = bannesButton.height = padding * 2;
-		bannesButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, padding * 5.5);
+		var bannesButton:IndicatorButton = new IndicatorButton();
+		bannesButton.label = "banns";
+		//bannesButton.width = bannesButton.height = padding * 2;
+		bannesButton.layoutData = new AnchorLayoutData(NaN, NaN, -padding, NaN, padding);
 		bannesButton.addEventListener(Event.TRIGGERED, adminButtons_triggeredHandler);
 		addChild(bannesButton);
 		
@@ -183,15 +193,15 @@ private function showProfile():void
 			
 			if( event.currentTarget == issuesButton )
 			{
-				if( appModel.navigator.activeScreen is IssuesScreen )
+				/*if( appModel.navigator.activeScreen is IssuesScreen )
 				{
 					IssuesScreen(appModel.navigator.activeScreen).reporter = user.id;
 					IssuesScreen(appModel.navigator.activeScreen).requestIssues();
 					close();
 					return;
 				}
-				appModel.navigator.getScreen( Game.ISSUES_SCREEN ).properties.reporter = user.id;
-				appModel.navigator.pushScreen( Game.ISSUES_SCREEN );
+				appModel.navigator.getScreen( Game.ISSUES_SCREEN ).properties.reporter = user.id;*/
+				InboxSegment.openThread({receiver:user.name, receiverId:user.id}, true); 
 				close();
 			}
 			
@@ -237,11 +247,11 @@ private function showProfile():void
 	addChild(indicatorPoint);
 	
 	var scroller:ScrollContainer = new ScrollContainer();
-	scroller.backgroundSkin = new Image(Assets.getTexture("theme/background-round-skin"));
+	scroller.backgroundSkin = new Image(appModel.theme.roundSmallInnerSkin);
+	Image(scroller.backgroundSkin).scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 	scroller.backgroundSkin.alpha = 0.2;
-	Image(scroller.backgroundSkin).scale9Grid = new Rectangle(7, 7, 2, 2);
 	scroller.layout = new AnchorLayout();
-	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 4, padding);
+	scroller.layoutData = new AnchorLayoutData(padding * 5, padding, padding * 2, padding);
 	scroller.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	addChild(scroller);
 	
@@ -312,15 +322,10 @@ private function showProfile():void
 private function getBuildingData():ListCollection
 {
 	var ret:ListCollection = new ListCollection();
-	var buildings:Vector.<int> = CardTypes.getAll()._list;
-	var buildingArray:Array = new Array();
-	while(buildings.length > 0)
-	{
-		var b:int = buildings.pop();
-		buildingArray.push({type:b, level:getLevel(b)});
-	}
-	buildingArray.sortOn("type");
-	return new ListCollection(buildingArray);
+	var buildings:Array = appModel.loadingManager.serverData.getInt("noticeVersion") >= 1900 ? ScriptEngine.get(1, -1) : [101,102,103,104,105,106,107,108,109,151,110,111,152,112,113,153,114,154,115,116,155,117,118,119,156,120,121,122,123,157,124,125,126,127,128,158,129,130,159];
+	for ( var i:int = 0; i < buildings.length; i++ )
+		buildings[i] = {type:buildings[i], level:getLevel(buildings[i])};
+	return new ListCollection(buildings);
 }
 
 private function getLevel(type:int):int

@@ -6,6 +6,7 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
@@ -206,16 +207,13 @@ protected function defaultLevelDisplayFactory() : RTLLabel
 	
 	if( levelDisplay == null )
 	{
-		levelDisplay = new RTLLabel("Level " + level, rarity == 0?1:0, "center", null, false, null, 0.8);
+		levelDisplay = new RTLLabel(null, rarity == 0?1:0, null, null, false, null, 0.8);
 		levelDisplay.alpha = 0.8;
 		levelDisplay.height = 52;
-		levelDisplay.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
+		levelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, 25, NaN, 0);
 		labelsContainer.addChild(levelDisplay);
 	}
-	else
-	{
-		levelDisplay.text = "Level "+ level;
-	}
+	levelDisplay.text = loc("level_label", [level]);
 	
 	if( levelBackground == null )
 	{
@@ -223,7 +221,7 @@ protected function defaultLevelDisplayFactory() : RTLLabel
 		levelBackground.maintainAspectRatio = false
 		levelBackground.source = Assets.getTexture("cards/rarity-skin-" + rarity, "gui");
 		levelBackground.alpha = 0.7;
-		levelBackground.height = padding * 3;
+		levelBackground.height = 54;
 		levelBackground.layoutData = new AnchorLayoutData(NaN, padding, padding, padding);
 		addChildAt(levelBackground, Math.min(1, numChildren));
 	}
@@ -273,10 +271,10 @@ protected function defaultSliderDisplayFactory() : Indicator
 		sliderDisplay.clampValue = false;
 		sliderDisplay.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 		{
-			return ResourceType.isCard(type) ? (Math.round(value) + " / " + maximum) : Math.round(value).toString();
+			return StrUtils.getNumber(ResourceType.isCard(type) ? (Math.round(value) + "/" + maximum) : Math.round(value));
 		}
-		sliderDisplay.height = padding * 3;
-		sliderDisplay.layoutData = new AnchorLayoutData(NaN, padding * 0.5, -padding * 2.8, padding * 0.5);
+		sliderDisplay.height = 62;
+		sliderDisplay.layoutData = new AnchorLayoutData(NaN, 10, -56, 10);
 		addChild(sliderDisplay);
 	}
 	else
@@ -323,12 +321,11 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 	
 	if( countDisplay == null )
 	{
-		countDisplay = new ShadowLabel("x " + count);
+		countDisplay = new ShadowLabel();
 		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
 		labelsContainer.addChild(countDisplay);
-		return countDisplay;
 	}
-	countDisplay.text = "x "+ count;
+	countDisplay.text = "x "+ StrUtils.getNumber(count);
 	return countDisplay;
 }
 

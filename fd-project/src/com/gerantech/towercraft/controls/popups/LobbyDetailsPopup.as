@@ -1,16 +1,21 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.buttons.EmblemButton;
+import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
+import com.gerantech.towercraft.controls.headers.TabsHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyFeatureItemRenderer;
 import com.gerantech.towercraft.controls.items.lobby.LobbyMemberItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
@@ -19,31 +24,31 @@ import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
-import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
 import flash.geom.Rectangle;
-import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.events.Event;
 
 public class LobbyDetailsPopup extends SimplePopup
 {
-private var responseCode:int;
 private var roomData:Object;
 private var roomServerData:ISFSObject;
 private var itsMyRoom:Boolean;
 private var buttonsPopup:SimpleListPopup;
-private var memberList:Array;
-private var memberCollection:ListCollection;
-private var tabs:Vector.<LobbyTabButton>;
+private var membersArray:Array;
+private var membersCollection:ListCollection;
+private var isReadOnly:Boolean;
 
-public function LobbyDetailsPopup(roomData:Object)
+public function LobbyDetailsPopup(roomData:Object, isReadOnly:Boolean = false)
 {
 	this.roomData = roomData;
+	this.isReadOnly = isReadOnly;
 	
 	var params:SFSObject = new SFSObject();
 	params.putInt("id", roomData.id);
@@ -57,10 +62,15 @@ public function LobbyDetailsPopup(roomData:Object)
 
 override protected function initialize():void
 {
+	var _h:int = Math.min(1680, stageHeight - 96);
+	var _p:int = 48;
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
+
 	super.initialize();
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(-padding * 0.5, -padding * 0.5, stageWidth + padding, stageHeight + padding);
-	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(-padding * 0.5, -padding * 0.5, stageWidth + padding, stageHeight + padding);
-	rejustLayoutByTransitionData();
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.height = iconDisplay.width = padding * 4;
@@ -68,7 +78,7 @@ override protected function initialize():void
 	iconDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding, NaN, appModel.isLTR?padding:NaN);
 	addChild(iconDisplay);
 	
-	var titleDisplay:RTLLabel = new RTLLabel(roomData.name);
+	var titleDisplay:ShadowLabel = new ShadowLabel(roomData.name);
 	titleDisplay.layoutData = new AnchorLayoutData(padding * 0.8, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6:padding);
 	addChild(titleDisplay);
 }
@@ -111,7 +121,7 @@ protected override function transitionInCompleted():void
 
 private function showDetails():void
 {
-	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0xCCCCDD, "justify", null, true, null, 0.55);
+	var bioDisplay:RTLLabel = new RTLLabel(roomData.bio, 0x333333, "justify", null, true, null, 0.55);
 	bioDisplay.layoutData = new AnchorLayoutData(padding * 3, appModel.isLTR?padding:padding * 6, NaN, appModel.isLTR?padding * 6 : padding);
 	addChild(bioDisplay);
 	
@@ -128,48 +138,78 @@ private function showDetails():void
 	featureList.itemRendererFactory = function ():IListItemRenderer { return new LobbyFeatureItemRenderer(); }
 	featureList.dataProvider = new ListCollection(features);
 	addChild(featureList);
+
+	// members
+	membersArray = SFSArray(roomData.all).toArray();
+	membersCollection = new ListCollection(membersArray);
 	
-	tabs = new Vector.<LobbyTabButton>();
-	tabs[0] = new LobbyTabButton(loc("lobby_point"), true);
-	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[0].layoutData = new AnchorLayoutData( padding * 13.5, appModel.isLTR?padding * 2.5:NaN, NaN, appModel.isLTR?NaN:padding * 2.5);
-	addChild(tabs[0]);
-	tabs[1] = new LobbyTabButton(loc("lobby_activeness"), true);
-	tabs[1].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
-	tabs[1].layoutData = new AnchorLayoutData( padding * 13.5, appModel.isLTR?padding * 7.5:NaN, NaN, appModel.isLTR?NaN:padding * 7.5);
-	tabs[1].isEnabled = false;
-	addChild(tabs[1]);
+	var header:TabsHeader = new TabsHeader();
+	header.dataProvider = new ListCollection([ { label: loc("lobby_point"), width:210}, { label: loc("lobby_activeness"), width:210} ]);
+	header.addEventListener(Event.CHANGE, header_changeHandler);
+	header.layoutData = new AnchorLayoutData(500, appModel.isLTR?40:NaN, NaN, appModel.isLTR?NaN:40);
+	header.selectedIndex = 0;
+	header.height = 70;
+	addChild(header);
 	
-	memberList = SFSArray(roomData.all).toArray();
-	memberCollection = new ListCollection(memberList);
+	var listBackground:ImageLoader = new ImageLoader();
+	listBackground.source = appModel.theme.popupInsideBackgroundSkinTexture;
+	listBackground.scale9Grid = MainTheme.POPUP_INSIDE_SCALE9_GRID;
+	listBackground.layoutData = new AnchorLayoutData(560, 20, 40, 20);
+	addChild(listBackground);
+	
+	LobbyMemberItemRenderer.NAME_LAYOUT = new AnchorLayoutData(10, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN);
+	LobbyMemberItemRenderer.ROLE_DISPLAY = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, 10, appModel.isLTR?205:NaN);
+	LobbyMemberItemRenderer.RANK_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+	LobbyMemberItemRenderer.POINT_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?72:NaN, NaN, appModel.isLTR?NaN:72, NaN, 0);
+	LobbyMemberItemRenderer.POINT_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?16:NaN, NaN, appModel.isLTR?NaN:16, NaN, 0);
+	LobbyMemberItemRenderer.ACTIVITY_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?250:NaN, NaN, appModel.isLTR?NaN:250, NaN, 0);
+	LobbyMemberItemRenderer.LEAGUE_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:112, NaN, appModel.isLTR?112:NaN, NaN, 0);
+	LobbyMemberItemRenderer.LEAGUE_IC_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:122, NaN, appModel.isLTR?122:NaN, NaN, -5);
+	
+	var listLayout:VerticalLayout = new VerticalLayout();
+	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	listLayout.useVirtualLayout = true;
+	listLayout.gap = 5;
 	
 	var membersList:List = new List();
-	membersList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	membersList.layoutData = new AnchorLayoutData(padding * 16, padding, padding, padding);
 	membersList.itemRendererFactory = function():IListItemRenderer { return new LobbyMemberItemRenderer(); }
+	membersList.dataProvider = membersCollection;
+	membersList.layout = listLayout;
 	membersList.addEventListener(FeathersEventType.FOCUS_IN, membersList_focusInHandler);
-	membersList.dataProvider = memberCollection;
+	membersList.layoutData = new AnchorLayoutData(570, 30, 55, 30);
 	addChild(membersList);
+
+	var closeButton:MMOryButton = new MMOryButton();
+	closeButton.width = 88;
+	closeButton.height = 74
+	closeButton.layoutData = new AnchorLayoutData(-20, -20);
+	closeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	closeButton.iconTexture = Assets.getTexture("theme/icon-cross", "gui");
+	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
+	addChild(closeButton);
+	
+	if(  isReadOnly )
+		return;
 	
 	itsMyRoom = SFSConnection.instance.lobbyManager.lobby != null && SFSConnection.instance.lobbyManager.id == roomData.id;
 	
-	var joinleaveButton:CustomButton = new CustomButton();
-	joinleaveButton.disableSelectDispatching = true;
+	var joinleaveButton:IndicatorButton = new IndicatorButton();
+	//joinleaveButton.disableSelectDispatching = true;
 	joinleaveButton.width = (roomServerData.getInt("pri") == 0 || itsMyRoom?240:370);
 	joinleaveButton.height = 76;
 	joinleaveButton.visible = roomServerData.getInt("pri") < 2 || itsMyRoom;
 	joinleaveButton.isEnabled = (roomData.num < roomData.max && player.get_point() >= roomData.min) || itsMyRoom || player.admin;
 	joinleaveButton.layoutData = new AnchorLayoutData(padding * 11, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
 	joinleaveButton.label = loc(itsMyRoom ? "lobby_leave_label" : (roomServerData.getInt("pri") == 0?"lobby_join_label":"lobby_request_label"));
-	joinleaveButton.style = itsMyRoom ? "danger" : "neutral";
+	joinleaveButton.styleName = itsMyRoom ? MainTheme.STYLE_BUTTON_SMALL_DANGER : MainTheme.STYLE_BUTTON_SMALL_HILIGHT;
 	joinleaveButton.addEventListener(Event.TRIGGERED, joinleaveButton_triggeredHandler);
 	joinleaveButton.addEventListener(Event.SELECT, joinleaveButton_selectHandler);
 	addChild(joinleaveButton);
 	
 	if( player.admin )
 	{
-		var removeButton:CustomButton = new CustomButton();
-		removeButton.style = "danger";
+		var removeButton:IndicatorButton = new IndicatorButton();
+		removeButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
 		removeButton.label = "X";
 		removeButton.layoutData = new AnchorLayoutData(padding * 11, appModel.isLTR?padding + 350:NaN, NaN, appModel.isLTR?NaN:padding + 350);
 		removeButton.width = removeButton.height = 96;
@@ -178,21 +218,13 @@ private function showDetails():void
 		addChild(removeButton);
 	}
 	
-	var closeButton:CustomButton = new CustomButton();
-	closeButton.style = "danger";
-	closeButton.label = "X";
-	closeButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding);
-	closeButton.width = closeButton.height = 72;
-	closeButton.addEventListener(Event.TRIGGERED, closeButton_triggeredHandler);
-	addChild(closeButton);
-	
 	if( !itsMyRoom )
 		return;
 	
-	var shareButton:CustomButton = new CustomButton();
-	shareButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?120:NaN, NaN, appModel.isLTR?NaN:120);
+	var shareButton:IndicatorButton = new IndicatorButton();
+	shareButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?20:NaN, NaN, appModel.isLTR?NaN:20);
 	shareButton.label = loc("lobby_invite");
-	shareButton.width = 170;
+	shareButton.width = 164;
 	shareButton.height = 72;
 	shareButton.addEventListener(Event.TRIGGERED, shareButton_triggeredHandler);
 	addChild(shareButton);
@@ -201,10 +233,10 @@ private function showDetails():void
 	if( (u == null || u.permission <= 1) && !player.admin )
 		return;
 	
-	var editButton:CustomButton = new CustomButton();
-	editButton.layoutData = new AnchorLayoutData(padding, appModel.isLTR?300:NaN, NaN, appModel.isLTR?NaN:300);
+	var editButton:IndicatorButton = new IndicatorButton();
+	editButton.layoutData = new AnchorLayoutData(20, appModel.isLTR?190:NaN, NaN, appModel.isLTR?NaN:190);
 	editButton.label = loc("lobby_edit");
-	editButton.width = 160;
+	editButton.width = 164;
 	editButton.height = 72;
 	editButton.addEventListener(Event.TRIGGERED, editButton_triggeredHandler);
 	addChild(editButton);
@@ -213,7 +245,8 @@ private function showDetails():void
 private function removeButton_triggeredHandler(e:Event):void 
 {
 	var confirm:ConfirmPopup = new ConfirmPopup(loc("lobby_remove_confirm"));
-	confirm.acceptStyle = "danger";
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 	appModel.navigator.addPopup(confirm);
 	function confirm_selectHandler(event:Event):void
@@ -239,20 +272,20 @@ private function shareButton_triggeredHandler():void
 	trace(loc("lobby_invite_url", [roomData.id, player.invitationCode]))
 }
 
-private function tabs_triggeredHandler(event:Event):void
+private function header_changeHandler(event:Event):void
 {
-	setTimeout(function(sb:LobbyTabButton):void{
+/*	setTimeout(function(sb:LobbyTabButton):void{
 		for each ( var b:LobbyTabButton in tabs )
 		b.isEnabled = b != sb;
 	}, 10, event.currentTarget);
-	
-	var searchMode:int = tabs.indexOf(event.currentTarget as LobbyTabButton);
-	memberList.sortOn(searchMode == 0?"point":"activity", Array.NUMERIC | Array.DESCENDING);
-	memberCollection.data = memberList;
-	memberCollection.updateAll()
+	*/
+	var header:TabsHeader = event.currentTarget as TabsHeader;
+	membersArray.sortOn(header.selectedIndex == 0?"point":"activity", Array.NUMERIC | Array.DESCENDING);
+	membersCollection.data = membersArray;
+	membersCollection.updateAll()
 }
 
-private function membersList_focusInHandler(event:Event):void
+private function membersList_focusInHandler(event:Event) : void
 {
 	var selectedItem:LobbyMemberItemRenderer = event.data as LobbyMemberItemRenderer;
 	if( selectedItem == null )
@@ -278,11 +311,16 @@ private function membersList_focusInHandler(event:Event):void
 			}
 		}
 	}
+	if ( btns.length == 1 )
+	{
+		appModel.navigator.addPopup(new ProfilePopup(selectedData));
+		return;
+	}
+	
 	buttonsPopup = new SimpleListPopup();
 	buttonsPopup.buttons = btns;
 	buttonsPopup.data = selectedData;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24;
 	buttonsPopup.buttonsWidth = 320;
 	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
@@ -319,7 +357,8 @@ private function buttonsPopup_selectHandler(event:Event):void
 	else if( event.data == "lobby_kick" || event.data == "lobby_promote" || event.data == "lobby_demote" )
 	{
 		var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_sure_label"), loc("popup_yes_label"));
-		confirm.acceptStyle = "danger";
+		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+		confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 		confirm.data = event.data;
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
@@ -333,18 +372,18 @@ private function buttonsPopup_selectHandler(event:Event):void
 			{
 				params.putShort("pr", MessageTypes.M13_COMMENT_PROMOTE);
 				buttonsPopup.data.permission ++;
-				memberCollection.updateItemAt(buttonsPopup.data.index);
+				membersCollection.updateItemAt(buttonsPopup.data.index);
 			}
 			else if ( confirm.data == "lobby_demote" )
 			{
 				params.putShort("pr", MessageTypes.M14_COMMENT_DEMOTE);
 				buttonsPopup.data.permission --;
-				memberCollection.updateItemAt(buttonsPopup.data.index);
+				membersCollection.updateItemAt(buttonsPopup.data.index);
 			}
 			else
 			{
 				params.putShort("pr", MessageTypes.M12_COMMENT_KICK);
-				memberCollection.removeItemAt(buttonsPopup.data.index);
+				membersCollection.removeItemAt(buttonsPopup.data.index);
 			}
 			SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_MODERATION, params, SFSConnection.instance.lobbyManager.lobby);
 			//SFSConnection.instance.lobbyManager.requestData(true, true);
@@ -372,8 +411,9 @@ private function joinleaveButton_triggeredHandler(event:Event):void
 {
 	if( itsMyRoom )
 	{
-		var confirm:ConfirmPopup = new ConfirmPopup(loc(memberCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
-		confirm.acceptStyle = "danger";
+		var confirm:ConfirmPopup = new ConfirmPopup(loc(membersCollection.length<=1?"lobby_leave_warning_message":"popup_sure_label"), loc("popup_yes_label"));
+		confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
+		confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL
 		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 		appModel.navigator.addPopup(confirm);
 		function confirm_selectHandler(evet:Event):void
@@ -427,9 +467,9 @@ protected function sfsConnection_roomJoinHandler(event:SFSEvent):void
 
 private function findUser(id:int):Object
 {
-	for (var i:int=0; i<memberCollection.length; i++)
-		if( memberCollection.getItemAt(i).id == id )
-			return memberCollection.getItemAt(i);
+	for (var i:int=0; i<membersCollection.length; i++)
+		if( membersCollection.getItemAt(i).id == id )
+			return membersCollection.getItemAt(i);
 	return null;
 }
 

@@ -1,50 +1,36 @@
 package com.gerantech.towercraft.controls.buttons
 {
-import com.gerantech.towercraft.controls.groups.Devider;
-import feathers.controls.ButtonState;
-import feathers.layout.AnchorLayoutData;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.themes.MainTheme;
+import feathers.controls.Button;
+import feathers.core.ITextRenderer;
+import starling.text.TextFormat;
 
-public class IndicatorButton extends CustomButton
+public class IndicatorButton extends Button
 {
 public var fixed:Boolean;
-public function IndicatorButton(defaultLabel:String = "+", defaulFontSize:Number=1.5)
+public function IndicatorButton()
 {
 	super();
-	label = defaultLabel;
-	fontsize = defaulFontSize;
-	shadowLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 1.0);
-	labelLayoutData = new AnchorLayoutData(NaN, padding, NaN, padding, NaN, -padding * 0.7);
+	styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
+	labelOffsetX = 2;
+	labelFactory = function () : ITextRenderer
+	{
+		return new ShadowLabel(null, 1, 0, null, null, false, null, 0.75);
+	}
 }
-
-override protected function initialize():void
+override protected function initialize() : void
 {
-	
 	super.initialize();
-	
-	var padding:int = 16;
-	var overlay:Devider = new Devider(0, 1);
-	overlay.alpha = 0;
-	overlay.layoutData = new AnchorLayoutData(-padding, -padding, -padding, -padding);
-	addChild(overlay);
+	labelOffsetY = Math.max(-4, height - 72);
 }
 
-override public function set label(value:String):void
+override public function set label(value:String) : void
 {
 	if( fixed )
 		super.label = "!";
 	else
 		super.label = value;
 }
-
-
-override public function set currentState(value:String):void
-{
-	if( super.currentState == value )
-		return;
-	
-	super.currentState = value;
-	shadowLayoutData.verticalCenter = -padding * (value == ButtonState.DOWN?0.5:1.0);
-}
-
 }
 }

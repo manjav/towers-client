@@ -2,95 +2,111 @@ package com.gerantech.towercraft.controls.items.lobby
 {
 import com.gerantech.towercraft.controls.items.AbstractTouchableListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
-
 import feathers.controls.ImageLoader;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.skins.ImageSkin;
-
-import starling.events.Event;
+import flash.geom.Rectangle;
+import starling.display.Image;
 
 public class LobbyItemRenderer extends AbstractTouchableListItemRenderer
 {
-private static const DEFAULT_TEXT_COLOR:uint = 0xDDFFFF;
+static public var RANK_LAYOUT:AnchorLayoutData;
+static public var NAME_LAYOUT:AnchorLayoutData;
+static public var EMBLEM_LAYOUT:AnchorLayoutData;
+static public var MEMBER_LAYOUT:AnchorLayoutData;
+static public var ACTIVITY_LAYOUT:AnchorLayoutData;
+static public var MEMBER_BG_LAYOUT:AnchorLayoutData;
+static public var MEMBER_LBL_LAYOUT:AnchorLayoutData;
+static public var ACTIVITY_BG_LAYOUT:AnchorLayoutData;
+static private const MEMBER_SCALE9_GRID:Rectangle = new Rectangle(11, 11, 1, 1);
 
+private var membersDisplay:RTLLabel;
+private var rankDisplay:ShadowLabel;
+private var nameDisplay:ShadowLabel;
 private var emblemDisplay:ImageLoader;
-private var nameDisplay:RTLLabel;
-private var nameShadowDisplay:RTLLabel;
-private var populationDisplay:RTLLabel;
-private var activenessDisplay:RTLLabel;
-private var pointDisplay:RTLLabel;
-
-private var mySkin:ImageSkin;
+private var activityDisplay:ShadowLabel;
 
 public function LobbyItemRenderer(){}
 override protected function initialize():void
 {
 	super.initialize();
-	
+	height = 110;
 	layout = new AnchorLayout();
-	var padding:int = 36;
-	height = 120;
-	
-	mySkin = new ImageSkin(appModel.theme.itemRendererUpSkinTexture);
-	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
+
+	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
+	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
 	backgroundSkin = mySkin;
 	
+	var rankBackground:ImageLoader = new ImageLoader();
+	rankBackground.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
+	rankBackground.source = appModel.theme.roundSmallInnerSkin;
+	rankBackground.width = rankBackground.height = 84;
+	rankBackground.layoutData = RANK_LAYOUT;
+	rankBackground.pixelSnapping = false;
+	addChild(rankBackground);
+	
+	var activityBacground:ImageLoader = new ImageLoader();
+	activityBacground.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
+	activityBacground.source = appModel.theme.roundSmallInnerSkin;
+	activityBacground.layoutData = ACTIVITY_BG_LAYOUT;
+	activityBacground.pixelSnapping = false;
+	activityBacground.color = 0x888888;
+	activityBacground.height = 84;
+	activityBacground.width = 220
+	addChild(activityBacground);
+	
+	var membersBackground:ImageLoader = new ImageLoader();
+	membersBackground.source = appModel.theme.roundSmallInnerSkin;
+	membersBackground.scale9Grid = MEMBER_SCALE9_GRID;
+	membersBackground.layoutData = MEMBER_BG_LAYOUT;
+	membersBackground.width = 120;
+	addChild(membersBackground);
+	
 	emblemDisplay = new ImageLoader();
-	emblemDisplay.layoutData = new AnchorLayoutData(padding*0.7, appModel.isLTR?NaN:padding*0.7, padding*0.7, appModel.isLTR?padding*0.7:NaN);
-	emblemDisplay.pixelSnapping = false;
+	emblemDisplay.layoutData = EMBLEM_LAYOUT;
 	addChild(emblemDisplay);
 	
-	nameShadowDisplay = new RTLLabel("", 0, null, null, false, null, 0.9);
-	nameShadowDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3.5, NaN, appModel.isLTR?padding*3.5:NaN, NaN, 0);
-	nameShadowDisplay.pixelSnapping = false;
-	addChild(nameShadowDisplay);
+	// labels .........
+	rankDisplay = new ShadowLabel(null, 1, 0, "center", null, false, null, 0.7);
+	rankDisplay.layoutData = RANK_LAYOUT;
+	rankDisplay.width = 80;
+	addChild(rankDisplay);
 	
-	nameDisplay = new RTLLabel("", DEFAULT_TEXT_COLOR, null, null, false, null, 0.9);
-	nameDisplay.pixelSnapping = false;
-	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:padding*3.5, NaN, appModel.isLTR?padding*3.5:NaN, NaN, -padding/12);
+	nameDisplay = new ShadowLabel(null, 1, 0, null, null, false, null, 0.8);
+	nameDisplay.layoutData = NAME_LAYOUT;
 	addChild(nameDisplay);
 	
-	activenessDisplay = new RTLLabel("", 1, "center", null, false, null, 0.9);
-	activenessDisplay.width = padding * 4;
-	activenessDisplay.pixelSnapping = false;
-	activenessDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*11:NaN, NaN, appModel.isLTR?NaN:padding*11, NaN, 0);
-	addChild(activenessDisplay);
+	var membersLabelDisplay:RTLLabel = new RTLLabel(loc("lobby_population"), 0, "center", null, false, null, 0.55);
+	membersLabelDisplay.layoutData = MEMBER_LBL_LAYOUT;
+	membersLabelDisplay.width = 120;
+	addChild(membersLabelDisplay);
 	
-	populationDisplay = new RTLLabel("", 0, "center", null, false, null, 0.9);
-	populationDisplay.width = padding * 4;
-	populationDisplay.pixelSnapping = false;
-	populationDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*6:NaN, NaN, appModel.isLTR?NaN:padding*6, NaN, 0);
-	addChild(populationDisplay);
+	membersDisplay = new RTLLabel(null, 0, "center", null, false, null, 0.66);
+	membersDisplay.layoutData = MEMBER_LAYOUT;
+	membersDisplay.width = 120;
+	addChild(membersDisplay);
 	
-	pointDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
-	pointDisplay.pixelSnapping = false;
-	pointDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding, NaN, 0);
-	addChild(pointDisplay);
-	
-	addEventListener(Event.TRIGGERED, item_triggeredHandler);
+	activityDisplay = new ShadowLabel(null, 1, 0, "center", null, false, null, 0.8);
+	activityDisplay.layoutData = ACTIVITY_LAYOUT;
+	activityDisplay.width = 160;
+	addChild(activityDisplay);
 }
+
 override protected function commitData():void
 {
 	super.commitData();
-	if(_data ==null || _owner==null)
+	if( _data == null || _owner == null )
 		return;
 	
-	emblemDisplay.source = Assets.getTexture("emblems/emblem-"+StrUtils.getZeroNum(_data.pic+""), "gui");
-	nameDisplay.text = _data.name ;
-	nameShadowDisplay.text = _data.name ;
-    activenessDisplay.text = _data.act.toString();
-	pointDisplay.text = "" + _data.sum;
-	populationDisplay.text = _data.num + "/" + _data.max;
+	emblemDisplay.source = Assets.getTexture("emblems/emblem-" + StrUtils.getZeroNum(_data.pic + ""), "gui");
+	rankDisplay.text = StrUtils.getNumber(index + 1);
+	nameDisplay.text = _data.name;
+    activityDisplay.text = StrUtils.getNumber(_data.act);
+	membersDisplay.text = StrUtils.getNumber(_data.num + "/" + _data.max);
 }
-
-private function item_triggeredHandler():void
-{
-	owner.dispatchEventWith(FeathersEventType.FOCUS_IN, false, this);
 }
-} 
 }

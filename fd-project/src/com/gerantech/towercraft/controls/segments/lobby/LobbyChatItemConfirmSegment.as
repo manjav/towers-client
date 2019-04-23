@@ -2,10 +2,12 @@ package com.gerantech.towercraft.controls.segments.lobby
 {
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.IndicatorButton;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import feathers.controls.Button;
 
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayoutData;
@@ -16,45 +18,41 @@ public class LobbyChatItemConfirmSegment extends LobbyChatItemSegment
 {
 	
 private var messageDisplay:RTLLabel;
-private var acceptButton:CustomButton;
-private var declineButton:CustomButton;
+private var acceptButton:Button;
+private var declineButton:Button;
 
 public function LobbyChatItemConfirmSegment(owner:FastList) { super(owner); }
 override public function init():void
 {
 	super.init();
-	height = 220;
-	
-	var background:ImageLoader = new ImageLoader();
-	background.source = appModel.theme.popupBackgroundSkinTexture;
-	background.layoutData = new AnchorLayoutData( 0, padding*0.5, 0, padding*0.5);
-	background.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
-	addChild(background);
-	
-	acceptButton = new CustomButton();
-	acceptButton.data = MessageTypes.M16_COMMENT_JOIN_ACCEPT;
+	height = 300;
+	backgroundFactory();
+
+	acceptButton = new Button();
 	acceptButton.width = 280;
 	acceptButton.height = 100;
 	acceptButton.label = loc("popup_accept_label");
-	acceptButton.layoutData = new AnchorLayoutData(NaN, padding*4, padding*0.5);
+	acceptButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NORMAL;
+	acceptButton.name = MessageTypes.M16_COMMENT_JOIN_ACCEPT.toString();
+	acceptButton.layoutData = new AnchorLayoutData(NaN, 160, 50);
 	acceptButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(acceptButton);
 	
-	declineButton = new CustomButton();
-	declineButton.data = MessageTypes.M17_COMMENT_JOIN_REJECT;
+	declineButton = new Button();
 	declineButton.width = 280;
 	declineButton.height = 100;
 	declineButton.label = loc("popup_cancel_label");
-	declineButton.style = "danger";
-	declineButton.layoutData = new AnchorLayoutData(NaN, NaN, padding*0.5, padding*4);
+	declineButton.styleName = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	declineButton.name = MessageTypes.M17_COMMENT_JOIN_REJECT.toString();
+	declineButton.layoutData = new AnchorLayoutData(NaN, NaN, 50, 160);
 	declineButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(declineButton);
 	
-	var infoButton:CustomButton = new CustomButton();
-	infoButton.data = MessageTypes.M10_COMMENT_JOINT;
+	var infoButton:IndicatorButton = new IndicatorButton();
 	infoButton.label = "i";
-	infoButton.height = infoButton.width = padding * 1.8;
-	infoButton.layoutData = new AnchorLayoutData(padding*0.5, padding);
+	infoButton.height = infoButton.width = 64;
+	infoButton.name = MessageTypes.M10_COMMENT_JOINT.toString();;
+	infoButton.layoutData = new AnchorLayoutData(30, 50);
 	infoButton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChild(infoButton);
 }
@@ -67,19 +65,18 @@ private function buttons_triggeredHandler(event:Event):void
 override public function commitData(_data:ISFSObject, index:int):void
 {
 	super.commitData(_data, index);
-	createMessageDisplay();
+	messageDisplayFactory();
 }
 
-private function createMessageDisplay():void
+private function messageDisplayFactory():void
 {
-	if( messageDisplay != null )
+	if( messageDisplay == null )
 	{
-		messageDisplay.text = loc("lobby_join_request", [data.getUtfString("on")]);
-		return;
+		messageDisplay = new RTLLabel(null, MainTheme.PRIMARY_BACKGROUND_COLOR, "center", null, false, null, 0.8);
+		messageDisplay.layoutData = new AnchorLayoutData(40, 20, NaN, 20);
+		addChildAt(messageDisplay, 1);
 	}
-	messageDisplay = new RTLLabel(loc("lobby_join_request", [data.getUtfString("on")]), 1, "center", null, false, null, 0.8);
-	messageDisplay.layoutData = new AnchorLayoutData( padding*0.5, padding, NaN, padding);;
-	addChildAt(messageDisplay, 1);
+	messageDisplay.text = loc("lobby_join_request", [data.getUtfString("on")]);
 }
 }
 }

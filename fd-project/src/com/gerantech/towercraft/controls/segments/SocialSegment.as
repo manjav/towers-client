@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.towercraft.controls.headers.TabsHeader;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
-import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -10,6 +10,7 @@ import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.SegmentType;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -28,17 +29,27 @@ public class SocialSegment extends Segment
 {
 public static var TAB_INDEX:int = 0;
 private var pageList:List;
-private var tabsList:List;
+private var tabsList:TabsHeader;
 private var scrollTime:Number = 0.01;
 private var listCollection:ListCollection;
 private var tabSize:int;
 public function SocialSegment() { super(); }
+override protected function initialize() : void
+{
+	super.initialize();
+	layout = new AnchorLayout();
+	var backgroundDisplay:ImageLoader = new ImageLoader();
+	backgroundDisplay.source = appModel.theme.popupInsideBackgroundSkinTexture;
+	backgroundDisplay.scale9Grid = MainTheme.POPUP_INSIDE_SCALE9_GRID;
+	backgroundDisplay.layoutData = new AnchorLayoutData(198, 0, -10, 0);
+	addChild(backgroundDisplay);
+
+}	
 override public function init():void
 {
 	if( initializeCompleted )
 		return;
 	super.init();
-	layout = new AnchorLayout();
 	
 	var labelDisplay:ShadowLabel;
 	if( player.get_arena(0) < 1 )
@@ -68,7 +79,7 @@ override public function init():void
 		return;
     }
 	
-	var tabsSize:int = 120;
+	var tabsSize:int = 100;
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 	pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -88,21 +99,13 @@ override public function init():void
 	
 	tabSize = stage.stageWidth / listCollection.length;
 	
-	var tabLayout:HorizontalLayout = new HorizontalLayout();
-	tabLayout.verticalAlign = VerticalAlign.JUSTIFY;
-	tabLayout.useVirtualLayout = true;
-	tabLayout.hasVariableItemDimensions = true;	
-	
-	tabsList = new List();
-	tabsList.layout = tabLayout;
-	tabsList.layoutData = new AnchorLayoutData(tabsSize, 0, NaN, 0);
+	tabsList = new TabsHeader();
+	tabsList.layoutData = new AnchorLayoutData(tabsSize, 10, NaN, 10);
 	tabsList.height = tabsSize;
-	tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
-	tabsList.horizontalScrollPolicy = tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
-	tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
-	tabsList.itemRendererFactory = function ():IListItemRenderer { return new SocialTabItemRenderer(tabSize); }
+	//tabsList.itemRendererFactory = function ():IListItemRenderer { return new SocialTabItemRenderer(tabSize); }
 	tabsList.dataProvider = listCollection;
 	tabsList.selectedIndex = TAB_INDEX;
+	tabsList.addEventListener(Event.CHANGE, tabsList_changeHandler);
 	addChild(tabsList);
 	
 	pageList.addEventListener(Event.UPDATE, pageList_updateHandler);
@@ -133,7 +136,6 @@ private function tabsList_changeHandler(event:Event):void
 	appModel.sounds.addAndPlay("tab");
 }
 
-
 private function refreshListData(): void
 {
 	SFSConnection.instance.lobbyManager.initialize();
@@ -145,7 +147,13 @@ private function refreshListData(): void
 	
 	var ret:Array = new Array();
 	for each(var p:int in SegmentType.getSocialSegments(SFSConnection.instance.lobbyManager.lobby != null)._list)
-		ret.push(new TabItemData(p));
+	{
+		var tid:TabItemData = new TabItemData(p);
+		tid.width = p == SegmentType.S11_LOBBY_SEARCH ? 110 : 310;
+		tid.icon = p == SegmentType.S11_LOBBY_SEARCH ? "search-icon" : null;
+		tid.label = p == SegmentType.S11_LOBBY_SEARCH ? null : loc("tab-" + p);
+		ret.push(tid);
+	}
 	listCollection.data = ret;
 }
 override public function dispose():void

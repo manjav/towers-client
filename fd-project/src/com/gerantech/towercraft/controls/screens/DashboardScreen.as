@@ -2,6 +2,7 @@ package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.buttons.Indicator;
+import com.gerantech.towercraft.controls.items.DashboardTabItemRenderer;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
@@ -12,10 +13,12 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import feathers.controls.AutoSizeMode;
+import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -28,23 +31,27 @@ import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
 import flash.desktop.NativeApplication;
+import flash.geom.Rectangle;
 import flash.utils.setTimeout;
 import mx.resources.ResourceManager;
+import starling.animation.Transitions;
+import starling.core.Starling;
 import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
 {
-public static var TAB_INDEX:int = 2;
-protected var pageList:List;
-protected var tabsList:List;
-protected var tabSize:int;
-protected var footerSize:int;
-protected var segmentsCollection:ListCollection;
+static public const FOOTER_SIZE:int = 200;
+static public var TAB_INDEX:int = 2;
+private var pageList:List;
+private var tabsList:List;
+private var tabSize:int;
+private var segmentsCollection:ListCollection;
+private var tabSelection:ImageLoader;
 
 public function DashboardScreen()
 {
 	if( !Assets.animationAssetsLoaded )
-		Assets.loadAnimationAssets(initialize, "factions", "books");
+		Assets.loadAnimationAssets(initialize, "factions", "packs");
 }
 
 override protected function initialize():void
@@ -52,7 +59,6 @@ override protected function initialize():void
 	if( !Assets.animationAssetsLoaded )
 		return;
 	OpenBookOverlay.createFactory();
-	FactionsScreen.createFactory();
 	
 	super.initialize();
 	if( stage == null )
@@ -65,27 +71,68 @@ protected function addedToStageHandler(event:Event):void
 {
 	removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 	
-	footerSize = 180;
 	autoSizeMode = AutoSizeMode.STAGE;
 	layout = new AnchorLayout();
 	visible = false;	
-
+	
+	// =-=-=-=-=-=-=-=-=-=-=-=- page -=-=-=-=-=-=-=-=-=-=-=-=
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
+	pageLayout.gap = 0;
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
 	pageLayout.verticalAlign = VerticalAlign.JUSTIFY;
+	pageLayout.typicalItemWidth = stage.stageWidth;
 	pageLayout.useVirtualLayout = false;
 	
 	pageList = new List();
-	pageList.layout = pageLayout;
-	pageList.layoutData = new AnchorLayoutData(0, 0, footerSize, 0);
-	pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	pageList.snapToPages = true;
+	pageList.layout = pageLayout;
+	pageList.layoutData = new AnchorLayoutData(0, 0, FOOTER_SIZE, 0);
+	pageList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	pageList.addEventListener(FeathersEventType.FOCUS_IN, pageList_focusInHandler);
 	pageList.verticalScrollPolicy = ScrollPolicy.OFF;
 	pageList.itemRendererFactory = function ():IListItemRenderer { return new SegmentsItemRenderer(); }
 	addChild(pageList);
 	
+	var shadowTop:ImageLoader = new ImageLoader();
+	shadowTop.source = Assets.getTexture("theme/gradeint-top", "gui");
+	shadowTop.layoutData = new AnchorLayoutData(-30, -30, NaN, -30);
+	shadowTop.maintainAspectRatio = false;
+	shadowTop.touchable = false;
+	shadowTop.height = 200;
+	shadowTop.alpha = 0.4;
+	shadowTop.color = 0;
+	addChild(shadowTop);
+	
+	var shadowBottom:ImageLoader = new ImageLoader();
+	shadowBottom.source = Assets.getTexture("theme/gradeint-bottom", "gui");
+	shadowBottom.layoutData = new AnchorLayoutData(NaN, -20, FOOTER_SIZE - 20, -20);
+	shadowBottom.maintainAspectRatio = false;
+	shadowBottom.touchable = false;
+	shadowBottom.height = 80;
+	shadowBottom.alpha = 0.4;
+	shadowBottom.color = 0;
+	addChild(shadowBottom);
+	
+	// =-=-=-=-=-=-=-=-=-=-=-=- tabs -=-=-=-=-=-=-=-=-=-=-=-=
 	tabSize = stage.stageWidth / 5;
+	
+	var footerBG:ImageLoader = new ImageLoader();
+	footerBG.height = FOOTER_SIZE;
+	footerBG.source = Assets.getTexture("home/dash-bg");
+	footerBG.scale9Grid = new Rectangle(13, 10, 5, 66);
+	footerBG.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
+	footerBG.touchable = false;
+	addChild(footerBG);
+	
+	tabSelection = new ImageLoader();
+	tabSelection.touchable = false;
+	tabSelection.source = Assets.getTexture("home/dash-selection");
+	tabSelection.height = FOOTER_SIZE;
+	tabSelection.width = tabSize * 1.2;
+	tabSelection.scale9Grid = new Rectangle(25, 17, 2, 183);
+	//tabSelection.height = footerSize;
+	tabSelection.layoutData = new AnchorLayoutData(NaN, NaN, 0, NaN);
+	addChild(tabSelection);
 	
 	var tabLayout:HorizontalLayout = new HorizontalLayout();
 	tabLayout.verticalAlign = VerticalAlign.JUSTIFY;
@@ -95,11 +142,12 @@ protected function addedToStageHandler(event:Event):void
 	tabsList = new List();
 	tabsList.layout = tabLayout;
 	tabsList.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
-	tabsList.height = footerSize;
+	tabsList.height = FOOTER_SIZE * 1.0;
 	tabsList.clipContent = false;
 	tabsList.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
     tabsList.verticalScrollPolicy = ScrollPolicy.OFF;
 	tabsList.addEventListener(Event.SELECT, tabsList_selectHandler);
+	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabItemRenderer(tabSize); }
 	addChild(tabsList);
 
 	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
@@ -114,7 +162,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	// return to last open game
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{
-		appModel.navigator.runBattle();
+		appModel.navigator.runBattle(0);
 		return;
 	}
 	
@@ -139,7 +187,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 		if( player.tutorialMode == 0 )
 			appModel.navigator.pushScreen(Game.OPERATIONS_SCREEN);
 		else if( player.tutorialMode == 1 )
-			appModel.navigator.runBattle();
+			appModel.navigator.runBattle(0);
 		return;
 	}
 	
@@ -168,7 +216,7 @@ private function pageList_readyHandler(event:Event):void
 }
 protected function exchangeManager_endHandler(event:Event):void
 {
-	if( ExchangeType.getCategory(event.data.type) == ExchangeType.C110_BATTLES )//open first books
+	if( ExchangeType.getCategory(event.data.type) == ExchangeType.C110_BATTLES )//open first pack
 		segmentsCollection.updateItemAt(1);
 	else if( event.data.type == -100 )//upgrade initial card
 		segmentsCollection.updateItemAt(2);
@@ -212,6 +260,7 @@ public function gotoPage(pageIndex:int, animDuration:Number = 0.3, scrollPage:Bo
 	if( animDuration > 0 )
 		appModel.sounds.addAndPlay("tab");
 	appModel.navigator.dispatchEventWith("dashboardTabChanged", false, animDuration);
+	Starling.juggler.tween(tabSelection, animDuration, {x:pageIndex * tabSize - tabSize * 0.1, transition:Transitions.EASE_OUT});
 }
 
 private function lobbyManager_updateHandler(event:Event):void
@@ -221,11 +270,12 @@ private function lobbyManager_updateHandler(event:Event):void
 
 override protected function backButtonFunction():void
 {
-	var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"), loc("popup_exit_label"));
-	confirm.acceptStyle = "danger";
+	var confirm:ConfirmPopup = new ConfirmPopup(loc("popup_exit_message"), loc("popup_exit_label"));
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	confirm.declineStyle = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 	appModel.navigator.addPopup(confirm);
-	function confirm_selectHandler ( event:Event ) : void
+	function confirm_selectHandler(event:Event) : void
 	{
 		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
 		NativeApplication.nativeApplication.exit();

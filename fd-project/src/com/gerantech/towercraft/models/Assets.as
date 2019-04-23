@@ -87,10 +87,10 @@ package com.gerantech.towercraft.models
 		{
 			return getAtlas(atlasName).getTexture(texturName);
 		} 
-		/*public static function getTextures(texturName:String, atlasName:String ="battlefields" ):Vector.<Texture>
+		public static function getTextures(texturName:String, atlasName:String ="gui" ):Vector.<Texture>
 		{
 			return getAtlas(atlasName).getTextures(texturName);
-		}*/
+		}
 		
 		/**
 		 * Returns a scale9Textures from this class based on a string key.

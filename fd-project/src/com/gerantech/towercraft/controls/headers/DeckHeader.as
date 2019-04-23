@@ -5,11 +5,14 @@ import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CardButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.display.Quad;
 import starling.events.Event;
 import starling.events.Touch;
@@ -24,7 +27,7 @@ public var cardsBounds:Vector.<Rectangle>;
 public function DeckHeader()
 {
 	super();
-	_height = 920;
+	_height = 960;
 	padding = 32;
 }
 
@@ -33,13 +36,15 @@ override protected function initialize():void
 	super.initialize();
 	layout = new AnchorLayout();
 	
-	backgroundSkin = new Quad(1, 1, 0x666666);
-	backgroundSkin.alpha = 0.7;
+	var image:Image = new Image(appModel.theme.quadSkin);
+	image.scale9Grid = MainTheme.QUAD_SCALE9_GRID;
+	image.alpha = 0.7;
+	image.color = 0;
+	backgroundSkin = image;
 	height = _height;
 	
-	
 	var titleDisplay:ShadowLabel = new ShadowLabel(loc("deck_label"));
-	titleDisplay.layoutData = new AnchorLayoutData(padding * 3, NaN, NaN, NaN, 0);
+	titleDisplay.layoutData = new AnchorLayoutData(padding * 3.5, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 	
 	cards = new Vector.<CardButton>();
@@ -53,7 +58,7 @@ private function createDeckItem(i:int):void
 {
 	var button:CardButton = new CardButton(player.getSelectedDeck().get(i));
 	button.x = padding + 256 * (i % 4);
-	button.y = padding * 5 + 290 * BuildingCard.VERICAL_SCALE * Math.floor(i / 4);
+	button.y = padding * 6 + 290 * BuildingCard.VERICAL_SCALE * Math.floor(i / 4);
 	button.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
 	addChildAt(button, 0)
 	

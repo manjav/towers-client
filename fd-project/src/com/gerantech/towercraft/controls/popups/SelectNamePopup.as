@@ -1,5 +1,7 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
+import com.gerantech.towercraft.controls.overlays.TransitionData;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
@@ -38,10 +40,17 @@ public function SelectNamePopup()
 
 override protected function initialize():void
 {
+	// create transition in data
+	var _h:int = 540;
+	var _p:int = 84;
+	transitionIn = new TransitionData();
+	transitionOut = new TransitionData();
+	transitionOut.destinationAlpha = 0;
+	transitionIn.sourceBound = transitionOut.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.4,	stageWidth - _p * 2,	_h * 0.8);
+	transitionOut.sourceBound = transitionIn.destinationBound = new Rectangle(_p,	stageHeight* 0.5 - _h * 0.5,	stageWidth - _p * 2,	_h * 1.0);
+
 	super.initialize();
 	closeWithKeyboard = closeOnOverlay = player.nickName != "guest";
-	transitionOut.destinationBound = transitionIn.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.35, stage.stageWidth * 0.9, stage.stageHeight * 0.30);
-	transitionIn.destinationBound = transitionOut.sourceBound = new Rectangle(stage.stageWidth * 0.05, stage.stageHeight * 0.30, stage.stageWidth * 0.9, stage.stageHeight * 0.35);
 
 	textInput = new CustomTextInput(SoftKeyboardType.DEFAULT, ReturnKeyLabel.GO);
 	textInput.maxChars = game.loginData.nameMaxLen ;
@@ -58,9 +67,10 @@ override protected function initialize():void
 	container.addChild(errorDisplay);
 	
 	acceptButton.isEnabled = false;
+	acceptButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
 	acceptButton.width = 360;
 	if( closeOnOverlay && eItem.numExchanges > 0 )
-		acceptButton.icon = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
+		acceptButton.iconTexture = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 	declineButton.removeFromParent();
 	rejustLayoutByTransitionData();
 }

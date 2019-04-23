@@ -4,18 +4,26 @@ import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import flash.geom.Rectangle;
+import starling.display.Image;
 import starling.textures.Texture;
 
 public class IconButton extends SimpleLayoutButton
 {
-private var texture:Texture;
-private var iconScale:Number;
-private var iconDisplay:ImageLoader;
-public function IconButton(texture:Texture, iconScale:Number = 0.6)
+protected var texture:Texture;
+protected var iconScale:Number;
+protected var iconDisplay:ImageLoader;
+public function IconButton(texture:Texture, iconScale:Number = 0.6, bgTexture:Texture = null, bgScaleGrid:Rectangle = null)
 {
 	super();
 	this.texture = texture;
 	this.iconScale = iconScale;
+	if( bgTexture != null )
+	{
+		this.backgroundSkin = new Image(bgTexture);
+		if( bgScaleGrid != null )
+			Image(this.backgroundSkin).scale9Grid = bgScaleGrid;
+	}
 }
 
 override protected function initialize():void

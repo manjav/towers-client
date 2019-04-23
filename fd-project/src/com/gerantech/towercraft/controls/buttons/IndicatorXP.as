@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.buttons 
 {
 	import com.gerantech.towercraft.controls.texts.ShadowLabel;
+	import com.gerantech.towercraft.utils.StrUtils;
 	import com.gt.towers.constants.ResourceType;
 /**
 * ...
@@ -19,7 +20,7 @@ override protected function initialize():void
 	super.initialize();
 	if( value == -0.1 )
 		value = 0;
-	levelDisplay = new ShadowLabel(player.get_level(value).toString(), 0x444444, 1, "center", null, false, null, 0.9);
+	levelDisplay = new ShadowLabel(StrUtils.getNumber(player.get_level(value)), 1, 0, "center", null, false, null, 0.9);
 	levelDisplay.layoutData = iconDisplay.layoutData;
 	levelDisplay.width = iconDisplay.width;
 	addChild(levelDisplay);
@@ -32,7 +33,7 @@ override public function setData(minimum:Number, value:Number, maximum:Number, c
 	var level:int = player.get_level(value);//trace(value, level, player.resources.toString())
 	super.setData(game.levels[level - 1], value, game.levels[level], changeDuration);
 	if( levelDisplay != null )
-		levelDisplay.text = level.toString();
+		levelDisplay.text = StrUtils.getNumber(level);
 }
 }
 }

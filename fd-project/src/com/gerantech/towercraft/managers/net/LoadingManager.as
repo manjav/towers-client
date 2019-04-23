@@ -5,6 +5,7 @@ import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.BillingManager;
+import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
 import com.gerantech.towercraft.managers.VideoAdsManager;
@@ -199,6 +200,7 @@ protected function coreLoader_completeHandler(event:Event):void
 	state = STATE_LOADED;
 	BillingManager.instance.init();			
 	sfsConnection.lobbyManager = new LobbyManager();
+	InboxService.instance.requestThreads();
 	dispatchEvent(new LoadingEvent(LoadingEvent.LOADED));
 	
 	//registerPushManager();

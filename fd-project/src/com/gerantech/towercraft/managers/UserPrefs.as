@@ -21,13 +21,10 @@ public function init() : void
 	authenticateSocial();
 	
 	// select language with market index
-	if( !AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
-	{
-		var loc:String = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
-		if( changeLocale(loc, true) )
-			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, loc);
-		
-	}
+	var loc:String = AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : "0";
+	if( loc == "0" )
+		loc = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
+	changeLocale(loc, true);
 }
 
 public function changeLocale(locale:String, forced:Boolean=false) : Boolean

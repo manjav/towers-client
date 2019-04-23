@@ -12,6 +12,7 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.socials.Lobby;
 import com.smartfoxserver.v2.core.SFSBuddyEvent;
@@ -142,12 +143,11 @@ protected function list_focusInHandler(event:Event):void
 	buttonsPopup.data = buddy;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);
 	buttonsPopup.addEventListener(Event.CLOSE, buttonsPopup_selectHandler);
-	buttonsPopup.padding = 24;
 	buttonsPopup.buttonsWidth = 360;
 	buttonsPopup.buttonHeight = 120;
 	var floatingW:int = buttonsPopup.buttonsWidth + buttonsPopup.padding * 2;
 	var floatingH:int = buttonsPopup.buttonHeight * buttonsPopup.buttons.length + buttonsPopup.padding * 2;
-	var floatingY:int = selectedItem.getBounds(stage).y
+	var floatingY:int = selectedItem.getBounds(stage).y;
 	var ti:TransitionData = new TransitionData(0.2);
 	var to:TransitionData = new TransitionData(0.2);
 	to.sourceConstrain = ti.destinationConstrain = this.getBounds(stage);
@@ -202,14 +202,14 @@ private function spectate(buddy:Buddy):void
 {
 	if( !buddy.containsVariable("br") )
 		return;
-	appModel.navigator.runBattle(FieldData.TYPE_OPERATION, 100000, false, buddy.name);
+	appModel.navigator.runBattle(0, false, buddy.name, 2);
 }
 
-private function removeFriend( buddy:Buddy ):void
+private function removeFriend(buddy:Buddy):void
 {
 	var confirm:ConfirmPopup = new ConfirmPopup(loc("buddy_remove_confirm"), loc("popup_yes_label"));
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
-	confirm.acceptStyle = "danger";
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER
 	appModel.navigator.addPopup(confirm);
 	function confirm_selectHandler ( event:Event ):void {
 		confirm.removeEventListener(Event.SELECT, confirm_selectHandler);
@@ -237,8 +237,8 @@ public function set buttonsEnabled(value:Boolean):void
 	_buttonsEnabled = value;
 	dispatchEventWith(Event.READY, true, _buttonsEnabled);
 	list.isEnabled = _buttonsEnabled;
-
 }
+
 override public function dispose():void
 {
 	SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, 			sfs_buddyRemoveHandler);

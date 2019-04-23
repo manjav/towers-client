@@ -2,12 +2,15 @@ package com.gerantech.towercraft.models.vo
 {
 import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.AppModel;
 import com.gt.towers.Game;
 import com.gt.towers.InitData;
 import com.gt.towers.battle.BattleField;
-import com.gt.towers.battle.FieldProvider;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntCardMap;
 import com.gt.towers.utils.maps.IntIntCardMap;
 import com.gt.towers.utils.maps.IntIntMap;
@@ -56,15 +59,23 @@ public function BattleData(data:ISFSObject)
 		}
 		return game;
 	}
+
+	// reduce battle cost
+	var game:Game = AppModel.instance.game;
+	var cost:IntIntMap = Challenge.getRunRequiements(data.getInt("mode"));
+	var exItem:ExchangeItem = Challenge.getExchangeItem(data.getInt("mode"), cost, game.player.get_arena(0));
+	var response:int = game.exchanger.exchange(exItem, data.getInt("startAt"), 0);
+	if( response != MessageTypes.RESPONSE_SUCCEED )
+		trace("battle cost data from server server is invalid!");
 	
-	var field:FieldData = FieldProvider.getField(data.getText("type"), data.getInt("index"));
+	var field:FieldData = FieldData.intantiate(data.getInt("mode"));
 	field.mapLayout = data.getText("map");
 	this.battleField = new BattleField();
-	this.battleField.initialize(battleField.side == 0 ? alliseGame : axisGame, battleField.side == 0 ? axisGame : alliseGame, field, data.getInt("side"), data.getInt("startAt"), data.getDouble("now"), false, data.getBool("isFriendly"));
+	this.battleField.initialize(this.battleField.side == 0 ? alliseGame : axisGame, this.battleField.side == 0 ? axisGame : alliseGame, field, data.getInt("side"), data.getInt("startAt"), data.getDouble("now"), false, data.getInt("friendlyMode"));
 	this.battleField.state = BattleField.STATE_1_CREATED;
 	this.battleField.decks = new IntIntCardMap();
-	this.battleField.decks.set(0, BattleField.getDeckCards(battleField.games[0], battleField.games[0].loginData.deck, data.getBool("isFriendly")));
-	this.battleField.decks.set(1, BattleField.getDeckCards(battleField.games[1], battleField.games[1].loginData.deck, data.getBool("isFriendly")));
+	this.battleField.decks.set(0, BattleField.getDeckCards(this.battleField.games[0], this.battleField.games[0].loginData.deck, this.battleField.friendlyMode));
+	this.battleField.decks.set(1, BattleField.getDeckCards(this.battleField.games[1], this.battleField.games[1].loginData.deck, this.battleField.friendlyMode));
 	TimeManager.instance.setNow(Math.ceil(data.getDouble("now") / 1000));
 }
 

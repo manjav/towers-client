@@ -4,12 +4,14 @@ import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.FloatingListItemRenderer;
 import com.gerantech.towercraft.themes.MainTheme;
 import feathers.controls.List;
+import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.skins.ImageSkin;
 import starling.display.DisplayObject;
+import starling.display.Image;
 import starling.display.Quad;
 import starling.events.Event;
 
@@ -17,7 +19,7 @@ import starling.events.Event;
 public class SimpleListPopup extends AbstractPopup
 {
 public var buttons:Array;
-public var padding:int = 24;
+public var padding:int = 12;
 public var buttonsWidth:int = 24;
 public var buttonHeight:int = 24;
 
@@ -32,32 +34,26 @@ public function SimpleListPopup(... buttons)
 
 override protected function initialize():void
 {
-	super.initialize();
-	
-	// justify to button height 
-	if( transitionIn.destinationBound.height > buttons.length * buttonHeight + padding * 2 )
-	{
+	if( transitionIn != null )
 		transitionIn.destinationBound.height = buttons.length * buttonHeight + padding * 2;
-		rejustLayoutByTransitionData();
-	}
-
-	var skin:ImageSkin = new ImageSkin(appModel.theme.popupBackgroundSkinTexture);
-	skin.scale9Grid = MainTheme.POPUP_SCALE9_GRID;
-	backgroundSkin = skin;
+	
+	super.initialize();
 	layout = new AnchorLayout();
-}
-
-override protected function transitionInCompleted():void
-{
-	super.transitionInCompleted();
+	
+	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);
+	skin.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
+	skin.color = 0;
+	skin.alpha = 0.6;
+	backgroundSkin = skin;
+	
 	list = new List();
-	list.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
-	list.itemRendererFactory = function ():IListItemRenderer { return new FloatingListItemRenderer(buttonHeight);};
+	list.verticalScrollPolicy = ScrollPolicy.OFF;
 	list.dataProvider = new ListCollection(buttons);
+	list.itemRendererFactory = function ():IListItemRenderer { return new FloatingListItemRenderer(buttonHeight);};
+	list.layoutData = new AnchorLayoutData(padding, padding, padding, padding);
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	addChild(list);
 }
-
 
 private function list_changeHandler(event:Event):void
 {

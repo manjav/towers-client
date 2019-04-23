@@ -14,7 +14,6 @@ import com.gt.SplashMovie;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import flash.desktop.NativeApplication;
-import flash.display.DisplayObjectContainer;
 import flash.display.Stage;
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -41,10 +40,10 @@ protected function stage_resizeHandler(event:*):void
 	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
 	logo.graphics.clear();
 	logo.graphics.beginFill(0);
-	logo.graphics.drawRect(-100, -100, stage.fullScreenWidth * 3, stage.fullScreenHeight * 3);
+	logo.graphics.drawRect(-stage.fullScreenWidth, -stage.fullScreenHeight, stage.fullScreenWidth * 4, stage.fullScreenHeight * 4);
 	logo.scaleY = logo.scaleX = stage.fullScreenWidth / 1080;
 	//trace(stage.fullScreenWidth, stage.fullScreenHeight, logo.width, logo.height, logo.scaleY, 'sssssssssssssssssss')
-	logo.y = (stage.fullScreenHeight - (1920 * logo.scaleY)) * 0.5;
+	logo.y = (stage.fullScreenHeight - (2160 * logo.scaleY)) * 0.5;
 }
 protected function logo_clearHandler(event:*):void
 {
@@ -83,7 +82,7 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 	var confirmData:SFSObject = new SFSObject();
 	confirmData.putText("type", event.type);
 	
-	switch(event.type)
+	switch( event.type )
 	{
 		case LoadingEvent.LOADED:
 			trace(AppModel.instance.game.player.id, "loaded", "t[" + (getTimer() - Main.t) + "," + (getTimer() - AppModel.instance.loadingManager.loadStartAt) + "]");
@@ -146,7 +145,6 @@ protected function loadingManager_eventsHandler(event:LoadingEvent):void
 			var confirm:ConfirmPopup = new ConfirmPopup(message, loc(acceptLabel));
 			confirm.closeOnOverlay = false;
 			confirm.data = confirmData;
-			confirm.declineStyle = "danger";
 			confirm.addEventListener("select", confirm_eventsHandler);
 			confirm.addEventListener("cancel", confirm_eventsHandler);
 			AppModel.instance.navigator.addPopup(confirm);
@@ -168,7 +166,7 @@ private function confirm_eventsHandler(event:*):void
 	var confirmData:SFSObject = confirm.data as SFSObject;
 	if( event.type == "select" )
 	{
-		switch(confirmData.getText("type"))
+		switch( confirmData.getText("type") )
 		{
 			case LoadingEvent.FORCE_UPDATE:
 				navigateToURL(new URLRequest(BillingManager.instance.getDownloadURL()));
@@ -196,7 +194,7 @@ private function confirm_eventsHandler(event:*):void
 		return;
 	}
 	
-	switch(confirmData.getText("type"))
+	switch( confirmData.getText("type") )
 	{
 		case LoadingEvent.NOTICE_UPDATE:
 			AppModel.instance.loadingManager.addEventListener(LoadingEvent.LOADED,				loadingManager_eventsHandler);

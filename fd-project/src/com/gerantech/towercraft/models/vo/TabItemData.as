@@ -16,6 +16,9 @@ public class TabItemData
 public var index:int;
 public var badgeNumber:int;
 public var newBadgeNumber:int;
+public var icon:String;
+public var label:String;
+public var width:Number;
 private var player:Player;
 public function TabItemData(index:int)
 {
@@ -40,7 +43,7 @@ public function update() : void
 		for each( var k:int in keys )
 		{
 			var e:ExchangeItem = player.game.exchanger.items.get(k);
-			if( (e.category == ExchangeType.C20_SPECIALS && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
+			if( (e.category == ExchangeType.C20_SPECIALS && e.type != ExchangeType.C29_DAILY_BATTLES && e.numExchanges == 0 ) || (e.category == ExchangeType.C30_BUNDLES && e.expiredAt > TimeManager.instance.now) )
 			{
 				newBadgeNumber ++;
 				badgeNumber ++;
@@ -68,7 +71,7 @@ public function update() : void
 	else if( index == 3 )
 	{
 		badgeNumber = SFSConnection.instance.lobbyManager.numUnreads();
-	}
+	}/*
 	else if( index == 4 && player.get_arena(0) > 2 )
 	{
 		if( player.challenges != null )
@@ -77,7 +80,7 @@ public function update() : void
 			for each( k in keys )
 			{
 				var c:Challenge = player.challenges.get(k);
-				if( c.getState(TimeManager.instance.now) == Challenge.STATE_STARTED )
+				if( c.getState(TimeManager.instance.now) == Challenge.STATE_1_STARTED )
 					newBadgeNumber ++;
 				badgeNumber ++;
 			}
@@ -86,7 +89,7 @@ public function update() : void
 		{
 			badgeNumber ++;
 		}
-	}
+	}*/
 }
 }
 }

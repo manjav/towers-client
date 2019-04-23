@@ -17,13 +17,15 @@ public class CardItem extends BuildingCard
 private var changeDuration:Number;
 private var newDisplay:ImageLoader;
 public var effectsLayer:Sprite
-public function CardItem() 
+public var showNewBadge:Boolean;
+public function CardItem(showSlider:Boolean = true, showCount:Boolean = true) 
 {
-	super(false, true, true, false);
+	super(false, showSlider, showCount, false);
 	touchable = false;
 	effectsLayer = new Sprite();
 	effectsLayer.x = width * 0.5;
 	effectsLayer.y = height * 0.5;
+	showNewBadge = ResourceType.isCard(type) && player.cards.exists(type) && player.cards.get(type).level == -1
 }
 
 public function _setData(type:int, level:int = 1, count:int = 1, changeDuration:Number = 0) : void
@@ -35,13 +37,13 @@ public function _setData(type:int, level:int = 1, count:int = 1, changeDuration:
 override protected function defaultCoverDisplayFactory() : ImageLoader
 {
 	super.defaultCoverDisplayFactory();
-	if( ResourceType.isCard(type) && player.cards.exists(type) && player.cards.get(type).level == -1 )
+	if( showNewBadge )
 	{
 		if( newDisplay == null )
 		{
 			newDisplay = new ImageLoader();
 			newDisplay.source = Assets.getTexture("cards/new-badge", "gui");
-			newDisplay.layoutData = new AnchorLayoutData(-10, NaN, NaN, -10);
+			newDisplay.layoutData = new AnchorLayoutData(-5, NaN, NaN, -5);
 			newDisplay.width = 160;
 			newDisplay.height = 160;
 			addChild(newDisplay);

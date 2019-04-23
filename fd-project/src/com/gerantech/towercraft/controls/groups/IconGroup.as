@@ -1,54 +1,37 @@
 package com.gerantech.towercraft.controls.groups
 {
-import com.gerantech.towercraft.controls.TowersLayout;
-import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ImageLoader;
-import feathers.controls.text.BitmapFontTextRenderer;
-import feathers.layout.AnchorLayout;
+import feathers.core.ITextRenderer;
 import feathers.layout.AnchorLayoutData;
-import feathers.text.BitmapFontTextFormat;
-import flash.geom.Rectangle;
 import starling.textures.Texture;
 
-public class IconGroup extends TowersLayout
+public class IconGroup extends ColorGroup
 {
-private var icon:Texture;
-private var label:String;
-private var textColor:uint;
-
-public function IconGroup(icon:Texture, label:String, textColor:uint = 0xFFFFFF)
+protected var icon:Texture;
+public function IconGroup(icon:Texture, label:String)
 {
 	super();
 	this.icon = icon;
-	this.label = label;
-	this.textColor = textColor;
+	this.label = StrUtils.getNumber(label);
 }
 
 override protected function initialize():void
 {
 	super.initialize();
-	layout = new AnchorLayout(); 
-	var padding:int = 32;
-	height = padding * 3;
-	
-	var skin:ImageLoader = new ImageLoader();
-	skin.source = Assets.getTexture("theme/popup-inside-background-skin")
-	skin.alpha = 0.8;
-	skin.scale9Grid = new Rectangle(4, 4, 2, 2);
-	skin.color = 0x9bb7d2;
-	skin.layoutData = new AnchorLayoutData(0, 0, 0, 0);
-	addChild(skin);
-	
-	var labelDisplay:BitmapFontTextRenderer = new BitmapFontTextRenderer();
-	labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 48, textColor, "center");
-	labelDisplay.layoutData = new AnchorLayoutData(NaN, 0, NaN, padding * 4, NaN, -padding*0.5);
-	labelDisplay.text = label;
-	addChild(labelDisplay);
 	
 	var iconDisplay:ImageLoader = new ImageLoader();
 	iconDisplay.source = icon;
-	iconDisplay.layoutData = new AnchorLayoutData(-padding, NaN, -padding, -padding);
+	iconDisplay.layoutData = new AnchorLayoutData(-32, NaN, -32, -32);
 	addChild(iconDisplay);
+}
+
+override protected function defaultLabelRendererFactory() : ITextRenderer
+{
+	var ret:ShadowLabel = new ShadowLabel(this._label, this.textColor, 0, null, null, false, null, 0.9);
+	ret.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 60, 0);
+	return ret;
 }
 }
 }

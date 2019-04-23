@@ -36,8 +36,8 @@ override protected function initialize():void
 	super.initialize();
 	
 	layout = new AnchorLayout();
-	height = 260;
-	var padding:int = 20;
+	height = 154;
+	var padding:int = 16;
 	
 	var mySkin:ImageSkin = new ImageSkin(appModel.theme.itemRendererDisabledSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID
@@ -52,36 +52,36 @@ override protected function initialize():void
 	axisLobbyIconDisplay.width = 90;
 	axisLobbyIconDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 	addChild(axisLobbyIconDisplay);
-		
-	spectateButton = new CustomButton();
+	
+	/*spectateButton = new CustomButton();
 	spectateButton.height = padding * 6;
 	spectateButton.label = loc("lobby_battle_spectate");
 	spectateButton.layoutData = new AnchorLayoutData(NaN, padding, padding, NaN);
-	addChild(spectateButton);
+	addChild(spectateButton);*/
 
-	allisNameDisplay = new RTLLabel("", 0x007AFF, null, null, false, null, 0.8);
+	allisNameDisplay = new RTLLabel("", 0x007AFF, null, null, false, null, 0.75);
 	allisNameDisplay.pixelSnapping = false;
-	allisNameDisplay.layoutData = new AnchorLayoutData(padding, padding * 7);
+	allisNameDisplay.layoutData = new AnchorLayoutData(8, padding * 7);
 	addChild(allisNameDisplay);
 	
-	allisLobbyNameDisplay = new RTLLabel("", 0, null, null, false, null, 0.7);
+	allisLobbyNameDisplay = new RTLLabel("", 0x444444, null, null, false, null, 0.6);
 	allisLobbyNameDisplay.pixelSnapping = false;
-	allisLobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 4, padding * 7);
+	allisLobbyNameDisplay.layoutData = new AnchorLayoutData(54, padding * 7);
 	addChild(allisLobbyNameDisplay);
 	
-	axisNameDisplay = new RTLLabel("", 0xF20C1A, null, null, false, null, 0.8);
+	axisNameDisplay = new RTLLabel("", 0xF20C1A, null, null, false, null, 0.75);
 	axisNameDisplay.pixelSnapping = false;
-	axisNameDisplay.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding * 7);
+	axisNameDisplay.layoutData = new AnchorLayoutData(8, NaN, NaN, padding * 7);
 	addChild(axisNameDisplay);
 	
-	axisLobbyNameDisplay = new RTLLabel("", 0, null, null, false, null, 0.7);
+	axisLobbyNameDisplay = new RTLLabel("", 0x444444, null, null, false, null, 0.6);
 	axisLobbyNameDisplay.pixelSnapping = false;
-	axisLobbyNameDisplay.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, padding * 7);
+	axisLobbyNameDisplay.layoutData = new AnchorLayoutData(54, NaN, NaN, padding * 7);
 	addChild(axisLobbyNameDisplay);
 	
-	timeDisplay = new RTLLabel("", 1, appModel.isLTR?"right":"left", null, false, null, 0.9);
+	timeDisplay = new RTLLabel("", 0, null, null, false, null, 0.6);
 	timeDisplay.pixelSnapping = false;
-	timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, padding, padding);
+	timeDisplay.layoutData = new AnchorLayoutData(NaN, NaN, -2, padding);
 	addChild(timeDisplay);
 }
 

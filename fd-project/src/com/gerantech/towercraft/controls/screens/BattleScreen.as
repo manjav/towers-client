@@ -1,13 +1,11 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.BattleHUD;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
 import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
 import com.gerantech.towercraft.controls.overlays.EndBattleOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOperationOverlay;
 import com.gerantech.towercraft.controls.overlays.EndOverlay;
-import com.gerantech.towercraft.controls.overlays.FactionChangeOverlay;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.UnderMaintenancePopup;
 import com.gerantech.towercraft.events.GameEvent;
@@ -20,11 +18,13 @@ import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.models.vo.VideoAd;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.views.BattleFieldView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.socials.Challenge;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
@@ -42,13 +42,10 @@ public class BattleScreen extends BaseCustomScreen
 {
 public static var IN_BATTLE:Boolean;
 public var index:int;
-public var battleType:String;
-public var challengeType:int;
-public var isFriendly:Boolean;
+public var friendlyMode:int;
 public var spectatedUser:String;
-public var waitingOverlay:BattleWaitingOverlay;
 public var hud:BattleHUD;
-
+public var waitingOverlay:BattleWaitingOverlay;
 private var touchEnable:Boolean;
 private var tutorBattleIndex:int;
 private var battleData:BattleData;
@@ -69,17 +66,15 @@ protected function battleFieldView_completeHandler(e:Event):void
 	layout = new AnchorLayout();
 	
 	var params:SFSObject = new SFSObject();
-	params.putText("type", battleType);
 	params.putInt("index", index);
+	params.putInt("friendlyMode", friendlyMode);
 	if( spectatedUser != null && spectatedUser != "" )
 		params.putText("spectatedUser", spectatedUser);
-	if( challengeType > -1 )
-		params.putInt("challengeType", challengeType);
 
 	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-	if( !isFriendly )
+	if( friendlyMode == 0 )
 		SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
-		
+	
 	startBattle();
 }
 
@@ -130,7 +125,7 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 		break;
 	
 	case SFSCommands.BATTLE_NEW_ROUND:
-		if( appModel.battleFieldView.battleData.battleField.field.type == FieldData.TYPE_TOUCHDOWN )
+		if( appModel.battleFieldView.battleData.battleField.field.mode == Challenge.MODE_1_TOUCHDOWN )
 			appModel.battleFieldView.battleData.battleField.requestReset();
 		if( hud != null )
 			hud.updateScores(data.getInt("round"), data.getInt("winner"), data.getInt(appModel.battleFieldView.battleData.battleField.side + ""), data.getInt(appModel.battleFieldView.battleData.battleField.side == 0 ? "1" : "0"), data.getInt("unitId"));
@@ -189,7 +184,7 @@ private function startBattle():void
 		waitingOverlay.removeEventListener(Event.CLOSE, waitingOverlay_closeHandler);
 		Starling.juggler.tween(appModel.battleFieldView, 1, {delay:1, scale:1, transition:Transitions.EASE_IN_OUT, onComplete:showTutorials});
 		if( !player.inTutorial() )
-			hud.addChildAt(new BattleStartOverlay(battleData.battleField.field.isOperation() ? battleData.battleField.field.index : -1, battleData ), 0);
+			hud.addChildAt(new BattleStartOverlay(battleData.battleField.field.isOperation() ? battleData.battleField.field.mode : -1, battleData ), 0);
 	}
 	
 	// show battle HUD
@@ -222,7 +217,7 @@ private function showTutorials() : void
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_battleswins() > 3 )
+	if( player.get_arena(0) > 0 )
 	{
 		readyBattle();
 		return;
@@ -230,18 +225,9 @@ private function showTutorials() : void
 	
 	// create tutorial steps
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
-	var tutorialData:TutorialData = new TutorialData(field.name + "_start");
+	var tutorialData:TutorialData = new TutorialData(field.mode + "_start");
 	tutorialData.data = "start";
-	
-	//quest start
-	var tuteMessage:String = "";
-	for (var i:int=0 ; i < field.startNum.size() ; i++) 
-	{
-		tuteMessage = "tutor_" + field.type + "_" + player.get_battleswins() + "_start_";
-		tuteMessage += field.startNum.get(i);
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, tuteMessage, null, 500, 1500, field.startNum.get(i)));
-	}
-	
+	tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_" + field.mode + "_" + player.get_battleswins() + "_start", null, 500, 1500));
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	tutorials.show(tutorialData);
 	
@@ -251,7 +237,7 @@ private function showTutorials() : void
 private function readyBattle() : void 
 {
 	if( player.get_battleswins() < 3 )
-		appModel.battleFieldView.mapBuilder.showEnemyHint();
+		appModel.battleFieldView.mapBuilder.showEnemyHint(appModel.battleFieldView.battleData.battleField.field, player.get_battleswins());
 	
 	touchEnable = true;
 	hud.showDeck();
@@ -303,16 +289,7 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));
 	}
-	
-	// arena changes manipulation
-	var prevArena:int = 0;
-	var nextArena:int = 0;
-	if( playerIndex > -1 )
-	{
-		prevArena = player.get_arena(0);
-		player.addResources(outcomes);
-		nextArena = player.get_arena(0);
-	}
+	player.addResources(outcomes);
 	
 	// reserved prefs data
 	if( inTutorial && rewards.getSFSObject(0).getInt("score") > 0 )
@@ -320,74 +297,17 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 	
 	var endOverlay:EndOverlay;
 	if( field.isOperation() )
-	{
 		endOverlay = new EndOperationOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
-	}
 	else
-	{
 		endOverlay = new EndBattleOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);
-		if( playerIndex > -1 && nextArena > 1 && prevArena != nextArena )
-			endOverlay.data = [prevArena, nextArena];
-	}
 	endOverlay.addEventListener(Event.CLOSE, endOverlay_closeHandler);
-	endOverlay.addEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	
 	setTimeout(hud.end, 1500, endOverlay);// delay for noobs
-}
-
-private function endOverlay_retryHandler(event:Event):void
-{
-	event.currentTarget.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
-	event.currentTarget.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
-	if( event.data && player.prefs.getAsBool(PrefsTypes.SETTINGS_5_REMOVE_ADS) ) 
-		showExtraTimeAd();
-	else
-		retryOperation(appModel.battleFieldView.battleData.battleField.field.index, false);
-}
-
-private function showExtraTimeAd():void
-{
-	VideoAdsManager.instance.addEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
-	VideoAdsManager.instance.showAd(VideoAdsManager.TYPE_OPERATIONS);
-	function videoIdsManager_completeHandler(event:Event):void
-	{
-		VideoAdsManager.instance.removeEventListener(Event.COMPLETE, videoIdsManager_completeHandler);
-		var ad:VideoAd = event.data as VideoAd;
-		if( ad.completed && ad.rewarded )
-			retryOperation(appModel.battleFieldView.battleData.battleField.field.index, true);
-		else
-			dispatchEventWith(Event.COMPLETE);
-		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);
-	}
-}
-
-private function retryOperation(index:int, hasExtraTime:Boolean):void
-{
-	waitingOverlay = new BattleWaitingOverlay(false);
-	appModel.navigator.addOverlay(waitingOverlay);
-	
-	hud.removeFromParent(true);
-	appModel.battleFieldView.responseSender.actived = false;
-	appModel.sounds.stopAll();
-	removeChild(appModel.battleFieldView, true);
-	
-	var params:SFSObject = new SFSObject();
-	params.putText("type", FieldData.TYPE_OPERATION);
-	params.putInt("index", index);
-	if( hasExtraTime )
-		params.putBool("hasExtraTime", true);
-	//if( spectatedUser != null && spectatedUser != "" )
-	//sfsObj.putText("spectatedUser", spectatedUser);
-	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfsConnection_extensionResponseHandler);
-	SFSConnection.instance.addEventListener(SFSEvent.CONNECTION_LOST,	sfsConnection_connectionLostHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.BATTLE_START, params);
 }
 
 private function endOverlay_closeHandler(event:Event):void
 {
 	var endOverlay:EndOverlay = event.currentTarget as EndOverlay;
 	endOverlay.removeEventListener(Event.CLOSE, endOverlay_closeHandler);
-	endOverlay.removeEventListener(FeathersEventType.CLEAR, endOverlay_retryHandler);
 	
 	if( endOverlay.playerIndex == -1 )
 	{
@@ -396,51 +316,10 @@ private function endOverlay_closeHandler(event:Event):void
 	}
 	
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
-	// set quest score
-	if( field.isOperation() )
-	{
-		if( player.operations.get( field.index ) < endOverlay.score )
-			player.operations.set(field.index, endOverlay.score);
-	}
-	else
-	{
-		appModel.battleFieldView.responseSender.leave();
-	}
+	appModel.battleFieldView.responseSender.leave();
 	appModel.battleFieldView.responseSender.actived = false;
 	
-	// create end tutorial steps
-	if( endOverlay.inTutorial )
-	{
-		var winStr:String = endOverlay.winRatio >= 1 ? "_win_" : "_defeat_";
-		var task:TutorialTask
-		var tutorialData:TutorialData = new TutorialData(field.name + "_end");
-		tutorialData.data = "end";
-		for ( var i:int=0; i < field.endNum.size() ; i++ )
-		{
-			task = new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_" + field.name + "_end" + winStr + field.endNum.get(i));
-			task.data = field.endNum.get(i);
-			tutorialData.addTask(task);
-		}
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-		tutorials.show(tutorialData);
-		return;
-	}
-	
-	/*if ( player.tutorialMode == 1 && endOverlay.winRatio < 1 && player.emptyDeck() )
-	{
-		tutorialData = new TutorialData("tutor_upgrade");
-		tutorialData.data = endOverlay.winRatio;
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_upgrade"));
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
-		tutorials.show(tutorialData);
-		return;
-	}*/
-	
-	// show faction changes overlay
-	if( endOverlay.data != null )
-		setTimeout(appModel.navigator.addOverlay, 2200, new FactionChangeOverlay(endOverlay.data[0], endOverlay.data[1]));
-
-	if( !player.inTutorial() && endOverlay.score == 3 && player.get_arena(0) > 0 )//!sfsConnection.mySelf.isSpectator && 
+	if( player.get_battleswins() > 5 && endOverlay.score == 3 && player.get_arena(0) > 0 )//!sfsConnection.mySelf.isSpectator && 
 		appModel.navigator.showOffer();
 	dispatchEventWith(Event.COMPLETE);
 }
@@ -460,6 +339,7 @@ private function tutorials_tasksFinishHandler(event:Event):void
 		endBattle(tutorial.data as SFSObject, true);
 		return;
 	}
+	
 	if( player.get_battleswins() == 2 )
 	{
 		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_011_SLOT_FOCUS);
@@ -510,42 +390,20 @@ override protected function backButtonFunction():void
 		return;
 	}
 	
-	if( player.inTutorial() )
+/*	if( player.inTutorial() )
 		return;
 	
-	if( !appModel.battleFieldView.battleData.battleField.field.isOperation() )
-	{
-		if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.field.times.get(0) > timeManager.now )
-			return;
-		var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
-		confirm.acceptStyle = CustomButton.STYLE_DANGER;
-		confirm.addEventListener(Event.SELECT, confirm_selectsHandler);
-		appModel.navigator.addPopup(confirm);
-		function confirm_selectsHandler(event:Event):void 
-		{
-			confirm.removeEventListener(Event.SELECT, confirm_selectsHandler);
-			appModel.battleFieldView.responseSender.leave();
-		}
+	if( appModel.battleFieldView.battleData.battleField.startAt + appModel.battleFieldView.battleData.battleField.field.times.get(0) > timeManager.now )
 		return;
-	}
-
-	confirm = new ConfirmPopup(loc("leave_operation_confirm_message"), loc("retry_button"));
-	confirm.acceptStyle = CustomButton.STYLE_NEUTRAL;
-	confirm.addEventListener(Event.SELECT, confirm_eventsHandler);
-	confirm.addEventListener(Event.CANCEL, confirm_eventsHandler);
+	var confirm:ConfirmPopup = new ConfirmPopup(loc("leave_battle_confirm_message"));
+	confirm.acceptStyle = MainTheme.STYLE_BUTTON_SMALL_DANGER;
+	confirm.addEventListener(Event.SELECT, confirm_selectsHandler);
 	appModel.navigator.addPopup(confirm);
-	function confirm_eventsHandler(event:Event):void 
+	function confirm_selectsHandler(event:Event):void 
 	{
-		confirm.removeEventListener(Event.CANCEL, confirm_eventsHandler);
-		confirm.removeEventListener(Event.SELECT, confirm_eventsHandler);
-		
-		appModel.battleFieldView.responseSender.leave(event.type == Event.SELECT);
-		appModel.battleFieldView.battleData.isLeft = true;
-		appModel.battleFieldView.responseSender.actived = false;
-			
-		if( event.type == Event.SELECT )
-			retryOperation(appModel.battleFieldView.battleData.battleField.field.index, false);
-	}
+		confirm.removeEventListener(Event.SELECT, confirm_selectsHandler);
+		appModel.battleFieldView.responseSender.leave();
+	}*/
 }
 
 override public function dispose():void

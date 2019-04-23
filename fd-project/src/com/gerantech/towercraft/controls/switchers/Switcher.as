@@ -41,10 +41,10 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	var controlSize:int = 96;
-	minWidth = 120;
 	minHeight = controlSize;
+	minWidth = 120;
 	
-	var skin:Image = new Image(Assets.getTexture("theme/slider-background"));
+	var skin:Image = new Image(appModel.theme.backgroundSliderSkin);
 	skin.scale9Grid = MainTheme.SLIDER_SCALE9_GRID;
 	backgroundSkin = skin;
 	
@@ -62,7 +62,7 @@ override protected function initialize():void
 	rightButton.addEventListener(Event.TRIGGERED, rightButton_triggerdHandler);
 	addChild(rightButton);
 	
-	labelDisplay = new RTLLabel(labelStringFactory(value), 0, "center", null, false, null, 0.8);
+	labelDisplay = new RTLLabel(labelStringFactory(value), 1, "center", null, false, null, 0.8);
 	labelDisplay.pixelSnapping = false;
 	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	addChild(labelDisplay);

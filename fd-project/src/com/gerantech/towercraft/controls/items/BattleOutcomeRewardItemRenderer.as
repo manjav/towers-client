@@ -8,15 +8,12 @@ import com.gerantech.towercraft.models.vo.RewardData;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
-import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import feathers.text.BitmapFontTextFormat;
 import flash.geom.Rectangle;
-import flash.utils.setTimeout;
-import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
@@ -44,7 +41,7 @@ override protected function commitData():void
 	
 	if( ResourceType.isBook(_data.t) )
 	{
-		armatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay("book-" + _data.t);
+		armatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay(_data.t.toString());
 		armatureDisplay.x = width * 0.5;
 		armatureDisplay.y = height * 0.5;
 		armatureDisplay.scale = 0.8;

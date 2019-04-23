@@ -1,13 +1,13 @@
 package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.BuildingCard;
+import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.CardItem;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
-import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
@@ -23,7 +23,6 @@ import dragonBones.starling.StarlingTextureData;
 import feathers.controls.AutoSizeMode;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.text.engine.ElementFormat;
 import flash.utils.getTimer;
@@ -43,17 +42,17 @@ public static var dragonBonesData:DragonBonesData;
 
 private var rewardKeys:Vector.<int>;
 private var rewardItems:Vector.<CardItem>;
-private var bookArmature:StarlingArmatureDisplay ;
+private var bookArmature:StarlingArmatureDisplay;
 private var shineArmature:StarlingArmatureDisplay;
-private var collectedItemIndex:int = -1;
 private var buttonOverlay:SimpleLayoutButton;
 private var readyToWait:Boolean;
 private var lastTappedTime:int;
 private var frequentlyTapped:int;
 private var rewardType:int;
 private var rewardRarity:int;
-private var titleDisplay:com.gerantech.towercraft.controls.texts.ShadowLabel;
-private var descriptionDisplay:com.gerantech.towercraft.controls.texts.RTLLabel;
+private var titleDisplay:ShadowLabel;
+private var descriptionDisplay:RTLLabel;
+private var collectedItemIndex:int = -1;
 
 public function OpenBookOverlay(type:int)
 {
@@ -66,8 +65,8 @@ public static function createFactory():void
 	if( factory != null )
 		return;
 	factory = new StarlingFactory();
-	dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("books_ske"));
-	factory.parseTextureAtlasData(AppModel.instance.assets.getObject("books_tex"), AppModel.instance.assets.getTexture("books_tex"));
+	dragonBonesData = factory.parseDragonBonesData(AppModel.instance.assets.getObject("packs_ske"));
+	factory.parseTextureAtlasData(AppModel.instance.assets.getObject("packs_tex"), AppModel.instance.assets.getTexture("packs_tex"));
 }			
 
 static public function getBookScale(type:int):Number
@@ -82,12 +81,13 @@ override protected function initialize():void
 	autoSizeMode = AutoSizeMode.STAGE;
 	
 	layout = new AnchorLayout();
-	overlay.alpha = 0;
+//	overlay.alpha = 0;
 	Starling.juggler.tween(overlay, 0.3, { alpha:1, onStart:transitionInStarted, onComplete:transitionInCompleted });
 }
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:DisplayObject = super.defaultOverlayFactory(0x223333, 1);
+	var overlay:TileBackground = new TileBackground("home/pistole-tile", 0.3, true, stage.color);
+	overlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	overlay.touchable = true;
 	return overlay;
 }
@@ -101,7 +101,7 @@ override protected function addedToStageHandler(event:Event):void
 	
 	appModel.sounds.setVolume("main-theme", 0.3);
 	
-	bookArmature = factory.buildArmatureDisplay("book-" + type);
+	bookArmature = factory.buildArmatureDisplay(type.toString());
 	bookArmature.touchable = false;
 	bookArmature.x = stage.stageWidth * 0.5;
 	bookArmature.y = stage.stageHeight * 0.5;
@@ -116,7 +116,7 @@ override protected function addedToStageHandler(event:Event):void
 	shineArmature.touchable = false;
 	shineArmature.scale = 3;
 	shineArmature.x = 348;
-	shineArmature.y = 1053;
+	shineArmature.y = stage.stageHeight * 0.85 - 580;
 
 	titleDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 1.7);
 	titleDisplay.width = 600;
@@ -177,9 +177,7 @@ protected function openAnimation_loopCompleteHandler(event:StarlingEvent) : void
 	if( event.eventObject.animationState.name == "wait" && event.eventObject.animationState.currentPlayTimes == 2 )
 	{
 		bookArmature.removeEventListener(EventObject.LOOP_COMPLETE, openAnimation_loopCompleteHandler);
-		
-		var overlay:TutorialTouchOverlay = new TutorialTouchOverlay(null, bookArmature.x, bookArmature.y - 100, this);
-		appModel.navigator.addOverlay(overlay);
+		appModel.navigator.addOverlay(new TutorialTouchOverlay(null, bookArmature.x, bookArmature.y - 100, this));
 	}
 }
 protected function buttonOverlay_triggeredHandler():void
@@ -244,7 +242,7 @@ private function pullCard() : void
 	StarlingTextureData(bookArmature.armature.getSlot("template-card").skinSlotData.getDisplay("cards/template-card").texture).texture = subtexture;
 	
 	// change rarity color
-	texture = Assets.getTexture("cards/bevel-card-back-" + ScriptEngine.getInt(CardFeatureType.F00_RARITY, rewardType), "gui");
+	texture = Assets.getTexture("cards/bevel-card-back-" + rewardRarity, "gui");
 	subtexture = new SubTexture(texture, new Rectangle(0, 0, texture.width, texture.height));
 	StarlingTextureData(bookArmature.armature.getSlot("bevel-card-back").skinSlotData.getDisplay("cards/bevel-card").texture).texture = subtexture;
 	

@@ -22,6 +22,7 @@ public function OffendsScreen(){}
 override protected function initialize():void
 {
 	title = target != 0 ? ((target > 0 ? "Offends of " : "Reports of ") + target ) : "All Infractions";
+	showTileAnimationn = false;
 	super.initialize();
 	
 	infractions = new ListCollection();

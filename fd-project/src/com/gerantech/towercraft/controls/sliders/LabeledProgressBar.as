@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.controls.sliders
 {
-import com.gerantech.towercraft.controls.texts.LTRLable;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
+import com.gerantech.towercraft.utils.StrUtils;
 import feathers.controls.ProgressBar;
 import feathers.core.ITextRenderer;
 import feathers.layout.Direction;
@@ -10,7 +12,9 @@ import feathers.utils.math.clamp;
 public class LabeledProgressBar extends ProgressBar
 {
 public var horizontalAlign:String = "left";
-public var labelTextRenderer:LTRLable;
+public var labelTextRenderer:RTLLabel;
+public var labelOffsetX:Number = 0;
+public var labelOffsetY:Number = 0;
 public function LabeledProgressBar() { super(); }
 override protected function initialize():void
 {
@@ -93,10 +97,7 @@ protected function defaultTextRendererFactory() : ITextRenderer
 		return null;
 	}
 	
-	var _labelTextRenderer:LTRLable = new LTRLable("", 1, "center", false, 0.8);
-	//_labelTextRenderer.layoutData = new AnchorLayoutData(NaN, 0, NaN, 0, NaN, -1);
-	_labelTextRenderer.pixelSnapping = false;
-	return _labelTextRenderer;
+	return new ShadowLabel(null, 1, 0, "center", "ltr", false, null, 0.7);
 }
 
 private var _formatValueFactory:Function;
@@ -111,7 +112,7 @@ public function set formatValueFactory(value:Function):void
 }
 protected function defultFormatValueFactory(value:Number, minimum:Number, maximum:Number) : String
 {
-	return Math.round(value).toString();
+	return StrUtils.getNumber(Math.round(value));
 }
 
 override public function set value(newValue:Number) : void
@@ -254,7 +255,6 @@ public function set paddingTextLeft(value:Number):void
 
 override protected function draw() : void
 {
-	
 	if( this.isInvalid(INVALIDATION_FLAG_TEXT_RENDERER) )
 	{
 		labelTextRenderer = textRenderFactory();
@@ -307,8 +307,8 @@ override protected function layoutChildren() : void
 	if( this.labelTextRenderer != null )
 	{
 		this.labelTextRenderer.validate();
-		this.labelTextRenderer.x = (this.actualWidth - this._paddingLeft - this._paddingTextLeft - this._paddingRight - this._paddingTextRight - this.labelTextRenderer.width) * 0.5 + this._paddingLeft + this._paddingTextLeft;
-		this.labelTextRenderer.y = (this.actualHeight - this._paddingTop - this._paddingTextTop - this._paddingBottom - this._paddingTextBottom - this.labelTextRenderer.height) * 0.5 + this._paddingTop + this._paddingTextTop;
+		this.labelTextRenderer.x = (this.actualWidth - this._paddingLeft - this._paddingTextLeft - this._paddingRight - this._paddingTextRight - this.labelTextRenderer.width) * 0.5 + this._paddingLeft + this._paddingTextLeft + this.labelOffsetX;
+		this.labelTextRenderer.y = (this.actualHeight - this._paddingTop - this._paddingTextTop - this._paddingBottom - this._paddingTextBottom - this.labelTextRenderer.height) * 0.5 + this._paddingTop + this._paddingTextTop + this.labelOffsetY;
 	}
 }
 }

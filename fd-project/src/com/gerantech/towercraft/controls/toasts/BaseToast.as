@@ -10,17 +10,20 @@ import starling.display.DisplayObject;
 
 public class BaseToast extends AbstractPopup
 {
+static public const ANIMATION_MODE_TOP:int = 0;
+static public const ANIMATION_MODE_BOTTOM:int = 1;
 public var closeAfter:int = -1;
 protected var toastHeight:int = 220;
-public function BaseToast(){}
+protected var animationMode:int = 0;
+public function BaseToast(){ hasOverlay = false; }
 override protected function initialize():void
 {
 	if( transitionIn == null )
 	{
 		transitionIn = new TransitionData();
 		transitionIn.transition = Transitions.EASE_OUT_BACK;
-		transitionIn.sourceBound = new Rectangle(0, -toastHeight, stage.stageWidth, toastHeight);
-		transitionIn.destinationBound = new Rectangle(0, 0, stage.stageWidth, toastHeight);
+		transitionIn.sourceBound = new Rectangle(0, animationMode == ANIMATION_MODE_TOP ? -toastHeight : stageHeight, stageWidth, toastHeight);
+		transitionIn.destinationBound = new Rectangle(0, animationMode == ANIMATION_MODE_TOP ? 0 : stageHeight - toastHeight, stageWidth, toastHeight);
 	}
 	if( transitionOut == null )
 	{
@@ -32,18 +35,10 @@ override protected function initialize():void
 		transitionOut.destinationBound = transitionIn.sourceBound;
 	}
 	
-	// execute popup transition
-	rejustLayoutByTransitionData();
+	super.initialize();
 	
 	if( closeAfter > -1 )
 		setTimeout(close, closeAfter, true);
-}
-
-override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
-{
-	var overlay:LayoutGroup = new LayoutGroup();
-	overlay.touchable = false;
-	return overlay;
 }
 }
 }

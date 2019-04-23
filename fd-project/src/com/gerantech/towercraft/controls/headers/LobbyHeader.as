@@ -1,32 +1,34 @@
 package com.gerantech.towercraft.controls.headers
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.IconButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
-import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.core.SFSEvent;
-
+import feathers.controls.ImageLoader;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
-import starling.display.Quad;
 import starling.events.Event;
 
 public class LobbyHeader extends SimpleLayoutButton
 {
+static public const HEIGHT:int = 220;
+static public const PADDING:int = 20;
 private var usersDisplay:RTLLabel;
 private var scoreDisplay:RTLLabel;
-private var infoButton:CustomButton;
+private var infoButton:IconButton;
 private var manager:LobbyManager;
-
 public function LobbyHeader()
 {
 	super();
+	height = HEIGHT;
+	touchGroup = true;
 	manager = SFSConnection.instance.lobbyManager;
-	//this.roomData = roomData;
 	updateRoomVariables();
 	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 	SFSConnection.instance.addEventListener(SFSEvent.USER_ENTER_ROOM, room_userChangeHandler);
@@ -37,29 +39,31 @@ override protected function initialize():void
 {
 	super.initialize();
 	layout = new AnchorLayout();
-	var padding:int = 16;
 	
-	backgroundSkin = new Quad(1,1,0);
-	backgroundSkin.alpha = 0.8;
+	var skin:ImageLoader = new ImageLoader();
+	skin.layoutData = new AnchorLayoutData(PADDING, PADDING, PADDING, PADDING);
+	skin.scale9Grid = MainTheme.ROUND_SMALL_SCALE9_GRID;
+	skin.source = appModel.theme.roundSmallSkin;
+	skin.color = 0x0A1821;
+	addChild(skin);
 	
-	var nameDisplay:ShadowLabel = new ShadowLabel(manager.lobby.name, 1, 0);
-	nameDisplay.layoutData = new AnchorLayoutData(padding, appModel.isLTR?NaN:padding*2, NaN, appModel.isLTR?padding*2:NaN );
+	var nameDisplay:RTLLabel = new RTLLabel(manager.lobby.name, 1, null, null, false, null, 0.7);
+	nameDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:80, NaN, appModel.isLTR?80:NaN, NaN, -26);
 	addChild(nameDisplay);
 	
-	scoreDisplay = new RTLLabel(loc("lobby_sum") + ": " + manager.point, 1, null, null, false, null, 0.7);
-	scoreDisplay.layoutData = new AnchorLayoutData(padding*5, appModel.isLTR?NaN:padding*2, NaN, appModel.isLTR?padding*2:NaN );
+	scoreDisplay = new RTLLabel(loc("lobby_sum") + ": " + StrUtils.getNumber(manager.point), 1, null, null, false, null, 0.6);
+	scoreDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?NaN:80, NaN, appModel.isLTR?80:NaN, NaN, 28);
 	addChild(scoreDisplay);
 	
-	usersDisplay = new RTLLabel(loc("lobby_onlines", [manager.lobby.userCount, manager.members.size()]) , 0x97b81c, null, null, false, null, 0.8);
-	usersDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*9:NaN, NaN, appModel.isLTR?NaN:padding*9, NaN, -padding*0.5 );
+	usersDisplay = new RTLLabel(loc("lobby_onlines", [manager.lobby.userCount, manager.members.size()]) , 0x0077B4, null, null, false, null, 0.65);
+	usersDisplay.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?HEIGHT * 0.76:NaN, NaN, appModel.isLTR?NaN:HEIGHT * 0.76, NaN, 0);
 	addChild(usersDisplay);
 	
-	infoButton = new CustomButton();
-	infoButton.label = "i";
-	infoButton.width = infoButton.height = 84;
-	infoButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 , NaN, -padding*0.5);
-	addEventListener(Event.TRIGGERED, infoButton_triggeredHandler);
-	addChild(infoButton);
+	infoButton = new IconButton(Assets.getTexture("events/info"), 0.6, Assets.getTexture("events/badge"));
+	infoButton.layoutData = new AnchorLayoutData(NaN, appModel.isLTR?HEIGHT * 0.28:NaN, NaN, appModel.isLTR?NaN:HEIGHT * 0.28, NaN, -3);
+	infoButton.height = 86;
+	infoButton.width = 80;
+	addChild(infoButton); 
 }
 
 protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
@@ -78,8 +82,9 @@ protected function room_userChangeHandler(event:SFSEvent):void
 	updateRoomVariables();
 }
 
-protected function infoButton_triggeredHandler(event:Event):void
+override protected function trigger() : void
 {
+	super.trigger();
 	var detailsPopup:LobbyDetailsPopup = new LobbyDetailsPopup({id:manager.id, name:manager.lobby.name, pic:manager.emblem, num:manager.members.size(), sum:manager.point, all:manager.members, max:manager.lobby.maxUsers});
 	detailsPopup.addEventListener(Event.UPDATE, detailsPopup_updateHandler);
 	appModel.navigator.addPopup(detailsPopup);
@@ -90,16 +95,15 @@ protected function infoButton_triggeredHandler(event:Event):void
 	}
 }
 
-override public function set isEnabled(value:Boolean):void
+/*override public function set isEnabled(value:Boolean):void
 {
 	super.isEnabled = value;
-	infoButton.isEnabled = value;
-}
-
+	touchable = value;
+}*/
 
 override public function dispose():void
 {
-	SFSConnection.instance.addEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
+	SFSConnection.instance.removeEventListener(SFSEvent.ROOM_VARIABLES_UPDATE, sfsConnection_roomVariablesUpdateHandler);
 	SFSConnection.instance.removeEventListener(SFSEvent.USER_EXIT_ROOM, room_userChangeHandler);
 	SFSConnection.instance.removeEventListener(SFSEvent.USER_ENTER_ROOM, room_userChangeHandler);
 	super.dispose();

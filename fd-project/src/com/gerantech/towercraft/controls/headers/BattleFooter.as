@@ -14,6 +14,7 @@ import com.gerantech.towercraft.views.units.CardPlaceHolder;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.socials.Challenge;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.LayoutGroup;
@@ -278,7 +279,7 @@ private function setTouchPosition(touch:Touch) : void
 	var limitY:Number = -0.5;
 	if( !CardTypes.isSpell(selectedCard.cardType) )
 	{
-		if( battleField.field.type == FieldData.TYPE_TOUCHDOWN )
+		if( battleField.field.mode == Challenge.MODE_1_TOUCHDOWN )
 		{
 			limitY = 0.15;
 		}

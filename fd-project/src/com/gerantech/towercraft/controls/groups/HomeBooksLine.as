@@ -13,6 +13,7 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.TiledRowsLayout;
 import feathers.layout.VerticalAlign;
+import starling.core.Starling;
 import starling.events.Event;
 
 /**
@@ -21,12 +22,14 @@ import starling.events.Event;
 */
 public class HomeBooksLine extends TowersLayout 
 {
+static public const HEIGHT:int = Math.min(320, Starling.current.stage.stageHeight * 0.2);
 private var listLayout:feathers.layout.TiledRowsLayout;
 private var list:feathers.controls.List;
 
 public function HomeBooksLine(){super();}
 override protected function initialize():void 
 {
+    height = HEIGHT;
 	super.initialize();
 	
 	layout = new AnchorLayout();
@@ -37,8 +40,8 @@ override protected function initialize():void
 	listLayout.verticalAlign = VerticalAlign.BOTTOM;
 	listLayout.useSquareTiles = false;
 	listLayout.useVirtualLayout = false;
-	//listLayout.padding = listLayout.gap = 3;
-	listLayout.typicalItemWidth = Math.floor(stage.stageWidth / listLayout.requestedColumnCount);
+	listLayout.padding = listLayout.gap = 3;
+	listLayout.typicalItemWidth = Math.floor(stage.stageWidth / listLayout.requestedColumnCount - 15);
 	listLayout.typicalItemHeight = height - listLayout.gap;
 
 	list = new List();

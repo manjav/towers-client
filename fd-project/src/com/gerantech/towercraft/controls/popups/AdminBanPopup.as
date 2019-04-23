@@ -9,7 +9,6 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.LayoutGroup;
@@ -117,10 +116,8 @@ private function insertData():void
 	messageInput.text = message;
 	container.addChild(messageInput);
 
-	errorDisplay = new RTLLabel("", 0xFF0000, "center", null, true, null, 0.8);
+	errorDisplay = new RTLLabel(null, 0xFF0000, "center", null, true, null, 0.8);
 	container.addChild(errorDisplay);
-	
-	acceptButton.style = "danger";
 }
 
 protected override function acceptButton_triggeredHandler(event:Event):void

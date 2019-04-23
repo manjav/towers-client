@@ -2,6 +2,7 @@ package com.gerantech.towercraft.managers.net.sfs
 {
 import com.gerantech.towercraft.controls.overlays.LowConnectionOverlay;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.utils.LoadAndSaver;
 import com.gt.towers.utils.lists.IntList;
 import com.gt.towers.utils.maps.IntIntMap;
 import com.smartfoxserver.v2.SmartFox;
@@ -9,14 +10,17 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.Room;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
+import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.requests.ExtensionRequest;
 import com.smartfoxserver.v2.requests.LoginRequest;
 import com.smartfoxserver.v2.requests.LogoutRequest;
 import com.smartfoxserver.v2.util.SFSErrorCodes;
-
+import flash.desktop.NativeApplication;
+import flash.events.Event;
+import flash.events.IOErrorEvent;
+import flash.filesystem.File;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-
 import haxe.ds.StringMap;
 
 [Event(name="succeed",			type="com.gerantech.towercraft.managers.net.sfs.SFSConnection")]
@@ -34,43 +38,20 @@ public var zoneName:String;
 public var lobbyManager:LobbyManager;
 public var publicLobbyManager:LobbyManager;
 
-public var retryTimeout:int = 500;
 public var retryMax:int = 3;
 public var retryIndex:int = 1;
+public var retryTimeout:int = 500;
 
 private var loginParams:ISFSObject;
 private var lowConnectionOverlay:LowConnectionOverlay;
 
 private var commandsPool:StringMap;
-		
 public function SFSConnection()
 {
 	// Create an instance of the SmartFox class
 	// Turn on the debug feature
 	//debug = false;
 	
-/*			var resolver:DNSResolver = new DNSResolver();
-	resolver.addEventListener(DNSResolverEvent.LOOKUP, resolver_lookupHandler);
-	resolver.addEventListener(ErrorEvent.ERROR, resolver_errorHandler);
-	resolver.lookup( "http://desktop-f2u0ghu", ARecord );
-
-	//resolver.lookup( "google.com", MXRecord );
-	//resolver.lookup( "google.com", PTRRecord );
-//	resolver.lookup( "google.com", SRVRecord );
-	//resolver.lookup( "208.77.188.166", PTRRecord );
-	//resolver.lookup( "127.0.0.1", PTRRecord );
-	//resolver.lookup( "2001:1890:110b:1e19:f06b:72db:7026:3d7a", PTRRecord );
-	//resolver.lookup( "_sip._tcp.example.com.", SRVRecord );
-	function resolver_errorHandler(e:ErrorEvent):void {
-		trace(e.text);
-	}
-	function resolver_lookupHandler(event:DNSResolverEvent):void {
-		for each( var record:ARecord in event.resourceRecords )
-			trace( record.name + " : " + record.address + " : " + record.ttl );
-	}*/
-	//addEventListener(SFSEvent.CONFIG_LOAD_SUCCESS,	sfs_configLoadHandler);
-	//addEventListener(SFSEvent.CONFIG_LOAD_FAILURE,	sfs_configLoadHandler);
-
 	addEventListener(SFSEvent.CONNECTION,			sfs_connectionHandler);
 	addEventListener(SFSEvent.SOCKET_ERROR,			sfs_connectionHandler);
 	addEventListener(SFSEvent.CONNECTION_LOST,		sfs_connectionLostHandler);
@@ -82,23 +63,39 @@ public function SFSConnection()
 	
 
 	addEventListener(SFSEvent.EXTENSION_RESPONSE,	sfs_extensionResponseHandler);
-	loadConfig();
 	commandsPool = new StringMap();
-	SFSErrorCodes.setErrorMessage(101, "{0}")
-	SFSErrorCodes.setErrorMessage(110, "{0}")
+	SFSErrorCodes.setErrorMessage(101, "{0}");
+	SFSErrorCodes.setErrorMessage(110, "{0}");
+	load();
 }
 
-public function retry():void
+public function load() : void 
 {
-	if(config == null)
-		loadConfig();
-	else if(!isConnected)
-		connect();
+	var pattern:String = '<?xml version="1.0" encoding="UTF-8"?>\r\n<SmartFoxConfig>';
+	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
+	var cnfLoader:LoadAndSaver = new LoadAndSaver(cnfFile.nativePath, "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random(), null, false, 0, pattern);
+	trace("http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&t=" + Math.random() );
+	cnfLoader.addEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+	cnfLoader.addEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+	cnfLoader.start();
+	function cnfLoader_completeHandler(event:Event) : void
+	{
+		cnfLoader.removeEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+		cnfLoader.removeEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+		cnfLoader.closeLoader(false);
+		loadConfig(cnfFile.url);
+	}
+	function cnfLoader_ioErrorHandler(event:IOErrorEvent) : void
+	{
+		cnfLoader.removeEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
+		cnfLoader.removeEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
+		clearAndReset(null);
+	}
 }
 
-public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null):void
+public function login(userName:String="", password:String="", zoneName:String="", params:ISFSObject=null) : void
 {
-	if(!isConnected)
+	if( !isConnected )
 		return;
 	
 	this.userName = userName;
@@ -111,7 +108,7 @@ public function login(userName:String="", password:String="", zoneName:String=""
 
 public function logout():void
 {
-	if(!isConnected)
+	if( !isConnected )
 		return;
 	send( new LogoutRequest() );
 }
@@ -125,11 +122,12 @@ public function logout():void
 {
 	dispatchEvent(event.clone());
 }*/
+
 // Connection ....................................................
 protected function sfs_connectionHandler(event:SFSEvent):void
 {
 	//trace("sfs_connectionHandler", event.params.success)//, "t["+(getTimer()-Tanks.t)+"]");
-	if(event.type == SFSEvent.CONNECTION && event.params.success)
+	if( event.type == SFSEvent.CONNECTION && event.params.success )
 	{
 		retryIndex = 0;
 		if( hasEventListener( SFSConnection.SUCCEED ) )
@@ -137,17 +135,24 @@ protected function sfs_connectionHandler(event:SFSEvent):void
 	}
 	else
 	{
-		if(retryIndex < retryMax)
+		if( retryIndex < retryMax )
 		{
 			disconnect();
-			loadConfig();
+			load();
 			retryIndex ++;
+			return;
 		}
-		else if(hasEventListener(SFSConnection.FAILURE))
-		{
-			dispatchEvent(new SFSEvent(SFSConnection.FAILURE, event.params));
-		}
+		if( hasEventListener(SFSConnection.FAILURE) )
+			clearAndReset(event.params);
 	}
+}
+
+private function clearAndReset(params:Object):void 
+{
+	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
+	if( cnfFile.exists )
+		cnfFile.deleteFile();
+	dispatchEvent(new SFSEvent(SFSConnection.FAILURE, params));
 }
 protected function sfs_connectionLostHandler(event:SFSEvent):void
 {
@@ -195,7 +200,7 @@ public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room
 	removeFromCommands(extCmd);
 	var deadline:int = SFSCommands.getDeadline(extCmd);
 	if( deadline > -1 )
-		commandsPool.setReserved(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
+		commandsPool.set(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
 	send(new ExtensionRequest(extCmd, params, room, useUDP));
 }
 
@@ -207,10 +212,10 @@ protected function sfs_extensionResponseHandler(event:SFSEvent):void
 }
 public function removeFromCommands(command:String):void
 {
-	if( !commandsPool.existsReserved(command) )
+	if( !commandsPool.exists(command) )
 		return;
-	clearTimeout(commandsPool.getReserved(command) as uint);
-	commandsPool.remove(command);
+	clearTimeout(commandsPool.get(command) as uint);
+	delete(commandsPool.h[command]);
 	hideLowConnectionAlert(command);
 }
 
@@ -290,22 +295,29 @@ static public function ArrayToMap(array:Array):IntIntMap
 }
 static public function ToMap(array:ISFSArray) : IntIntMap
 {
-	var ret :IntIntMap = new IntIntMap();
+	var ret:IntIntMap = new IntIntMap();
 	for (var i:int = 0; i < array.size(); i++)
 		ret.set(array.getSFSObject(i).getInt("key"), array.getSFSObject(i).getInt("value"));
 	return ret;
 }
 static public function ToList(array:ISFSArray) : IntList 
 {
-	var ret :IntList = new IntList();
+	var ret:IntList = new IntList();
 	for (var i:int = 0; i < array.size(); i++)
 		ret.push(array.getInt(i));
+	return ret;
+}
+static public function ToArray(sfsArray:SFSArray) : Array 
+{
+	var ret:Array = new Array();
+	for (var i:int = 0; i < sfsArray.size(); i++)
+		ret.push(sfsArray.getSFSObject(i));
 	return ret;
 }
 
 public static function get instance():SFSConnection
 {
-	if(_instance == null)
+	if( _instance == null )
 		_instance = new SFSConnection();
 	return _instance;
 }
@@ -314,5 +326,6 @@ public static function dispose():void
 {
 	_instance = null
 }	
+
 }
 }

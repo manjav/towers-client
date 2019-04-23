@@ -11,11 +11,11 @@ import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gt.towers.Player;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.constants.CardTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.Exchanger;
-import com.gt.towers.utils.lists.IntList;
+import com.gt.towers.scripts.ScriptEngine;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -42,12 +42,10 @@ import starling.events.TouchPhase;
 public class CardsSegment extends Segment
 {
 private var padding:int;
-private var foundCollection:ListCollection;
-private var foundList:List;
-private var availabledCollection:ListCollection;
-private var availabledList:List;
-private var unavailableCollection:ListCollection;
+private var availableList:List;
 private var unavailableList:List;
+private var availableCollection:ListCollection;
+private var unavailableCollection:ListCollection;
 private var selectPopup:CardSelectPopup;
 private var detailsPopup:CardDetailsPopup;
 private var deckHeader:DeckHeader;
@@ -85,55 +83,40 @@ override public function init():void
 	addChildAt(scroller, 0);
 	
 
-	var deckSize:int = player.getSelectedDeck().keys().length;
-	var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [deckSize+foundCollection.length, deckSize+foundCollection.length + availabledCollection.length]), 0xBBCCDD, null, null, false, null, 0.8);
-	scroller.addChild(foundLabel);
+	//var deckSize:int = player.getSelectedDeck().keys().length;
+	//var foundLabel:RTLLabel = new RTLLabel(loc("found_cards", [deckSize+foundCollection.length, deckSize+foundCollection.length ]), 0xBBCCDD, null, null, false, null, 0.8);
+	//scroller.addChild(foundLabel);
 	
 	layout = new AnchorLayout();
 	var foundLayout:TiledRowsLayout = new TiledRowsLayout();
-	var availabledLayout:TiledRowsLayout = new TiledRowsLayout();
-	foundLayout.paddingTop = padding * 0.5;
-	availabledLayout.gap = foundLayout.gap = padding * 1.3;
-	availabledLayout.paddingBottom = foundLayout.paddingBottom = padding * 2;
-	availabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
-	availabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
-	availabledLayout.requestedColumnCount = foundLayout.requestedColumnCount = 4;
-	availabledLayout.typicalItemWidth = foundLayout.typicalItemWidth = (width - foundLayout.gap * (foundLayout.requestedColumnCount - 1) - padding * 2) / foundLayout.requestedColumnCount;
-	availabledLayout.typicalItemHeight = foundLayout.typicalItemHeight = foundLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
+	var unavailabledLayout:TiledRowsLayout = new TiledRowsLayout();
+	unavailabledLayout.gap = foundLayout.gap = foundLayout.paddingTop = padding * 0.5;
+	unavailabledLayout.verticalGap = foundLayout.verticalGap = padding * 2;
+	unavailabledLayout.paddingBottom = foundLayout.paddingBottom = padding * 2;
+	unavailabledLayout.useSquareTiles = foundLayout.useSquareTiles = false;
+	unavailabledLayout.useVirtualLayout = foundLayout.useVirtualLayout = false;
+	unavailabledLayout.requestedColumnCount = foundLayout.requestedColumnCount = 4;
+	unavailabledLayout.typicalItemWidth = foundLayout.typicalItemWidth = (width - foundLayout.gap * (foundLayout.requestedColumnCount - 1) - padding * 2) / foundLayout.requestedColumnCount;
+	unavailabledLayout.typicalItemHeight = foundLayout.typicalItemHeight = foundLayout.typicalItemWidth * BuildingCard.VERICAL_SCALE;
 
-	foundList = new List();
-	foundList.verticalScrollPolicy = ScrollPolicy.OFF;
-	foundList.layout = foundLayout;
-	foundList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(true, true, true, scroller); }
-	foundList.dataProvider = foundCollection;
-	foundList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
-	scroller.addChild(foundList);
-	
-	if( availabledCollection.length > 0 )
-	{
-		var availabledLabel:RTLLabel = new RTLLabel(loc("availabled_cards"), 0xBBCCDD, null, null, false, null, 0.8);
-		availabledLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding * 4, padding, NaN, padding);
-		scroller.addChild(availabledLabel);	
-		
-		availabledList = new List();
-		availabledList.verticalScrollPolicy = ScrollPolicy.OFF;
-		availabledList.layout = availabledLayout;
-		availabledList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
-		availabledList.dataProvider = availabledCollection;
-		availabledList.addEventListener(FeathersEventType.FOCUS_IN, availabledList_focusInHandler);
-		scroller.addChild(availabledList);
-	}
+	availableList = new List();
+	availableList.verticalScrollPolicy = ScrollPolicy.OFF;
+	availableList.layout = foundLayout;
+	availableList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(true, true, true, scroller); }
+	availableList.dataProvider = availableCollection;
+	availableList.addEventListener(FeathersEventType.FOCUS_IN, unlocksList_focusInHandler);
+	scroller.addChild(availableList);
 	
 	if( unavailableCollection.length > 0 )
 	{
 		var unavailableLabel:RTLLabel = new RTLLabel(loc("unavailable_cards"), 0xBBCCDD, null, null, false, null, 0.8);
-		unavailableLabel.layoutData = new AnchorLayoutData(deckHeader._height + foundList.height + padding * 4, padding, NaN, padding);
+		unavailableLabel.layoutData = new AnchorLayoutData(deckHeader._height + availableList.height + padding * 4, padding, NaN, padding);
 		scroller.addChild(unavailableLabel);	
 		
 		unavailableList = new List();
 		unavailableList.verticalScrollPolicy = ScrollPolicy.OFF;
 		unavailableList.alpha = 0.8;
-		unavailableList.layout = availabledLayout;
+		unavailableList.layout = unavailabledLayout;
 		unavailableList.itemRendererFactory = function():IListItemRenderer { return new CardItemRenderer(false, false, false, scroller); }
 		unavailableList.dataProvider = unavailableCollection;
 		scroller.addChild(unavailableList);
@@ -159,46 +142,23 @@ protected function scroller_scrollHandler(event:Event):void
 
 override public function updateData():void
 {
-	if( foundCollection == null )
-		foundCollection = new ListCollection();
-	var founds:Array = new Array();
-	var _founds:Vector.<int> = player.cards.keys();
+	var all:Array = appModel.loadingManager.serverData.getInt("noticeVersion") >= 1900 ? ScriptEngine.get(1, -1) : [101,102,103,104,105,106,107,108,109,151,110,111,152,112,113,153,114,154,115,116,155,117,118,119,156,120,121,122,123,157,124,125,126,127,128,158,129,130,159];
+	var unavailables:Array = all.splice(player.get_arena(0) + Player.FIRST_CARDS);
+	if( availableCollection == null )
+		availableCollection = new ListCollection();
+	var unused:Array = new Array();
 	var c:int = 0;
-	while( _founds.length > 0 )
+	while( c < all.length )
 	{
-		c = _founds.shift();
-		if( !player.getSelectedDeck().existsValue(c) )
-			founds.push(c);
-	}
-	foundCollection.data = founds;
-	
-	// availabled cards
-	if( availabledCollection == null )
-		availabledCollection = new ListCollection();
-	var availables:Array = new Array();
-	var _availables:IntList = player.availabledCards();
-	c = 0;
-	while( c < _availables.size() )
-	{
-		if( !player.cards.exists(_availables.get(c)) )
-			availables.push(_availables.get(c));
+		if( !player.getSelectedDeck().existsValue(all[c]) && player.cards.exists(all[c]) )
+			unused.push(all[c]);
 		c ++;
 	}
-	availables.reverse();
-	availabledCollection.data = availables;
+	availableCollection.data = unused;
 	
 	// unavailabled cards
 	if( unavailableCollection == null )
 		unavailableCollection = new ListCollection();
-	var unavailables:Array = new Array();
-	var _unavailables:IntList = CardTypes.getAll();
-	c = 0;
-	while( c < _unavailables.size() )
-	{
-		if( _availables.indexOf(_unavailables.get(c)) == -1 )
-			unavailables.push(_unavailables.get(c));
-		c ++;
-	}
 	unavailableCollection.data = unavailables;
 }
 
@@ -219,8 +179,9 @@ private function selectCard(cardType:int, cardBounds:Rectangle):void
 	// create transition data
 	var ti:TransitionData = new TransitionData(0.1);
 	var to:TransitionData = new TransitionData(0.1);
+	ti.transition = Transitions.EASE_IN;
 	to.destinationBound = ti.sourceBound = cardBounds;
-	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - padding * 0.5, cardBounds.y - padding, cardBounds.width + padding, cardBounds.height + padding * (inDeck?4.5:8));
+	ti.destinationBound = to.sourceBound = new Rectangle(cardBounds.x - 16, cardBounds.y - 16, cardBounds.width + 32, cardBounds.height + (inDeck?170:300));
 	to.destinationConstrain = ti.destinationConstrain = this.getBounds(stage);
 	
 	selectPopup = new CardSelectPopup();
@@ -232,7 +193,7 @@ private function selectCard(cardType:int, cardBounds:Rectangle):void
 	appModel.navigator.addPopup(selectPopup);
 	selectPopup.addEventListener(Event.OPEN, selectPopup_openHandler);
 	selectPopup.addEventListener(Event.SELECT, selectPopup_selectHandler);
-	function selectPopup_closeHandler(event:Event):void { foundList.selectedIndex = -1; }
+	function selectPopup_closeHandler(event:Event):void { availableList.selectedIndex = -1; }
 	function selectPopup_openHandler(event:Event):void { showCardDetails(cardType); }	
 }
 

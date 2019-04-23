@@ -10,10 +10,11 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.overlays.TutorialMessageOverlay;
 	import com.gerantech.towercraft.controls.popups.AbstractPopup;
 	import com.gerantech.towercraft.controls.popups.InvitationPopup;
-	import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 	import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
+	import com.gerantech.towercraft.controls.popups.RequirementConfirmPopup;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.segments.ExchangeSegment;
+	import com.gerantech.towercraft.controls.segments.InboxSegment;
 	import com.gerantech.towercraft.controls.segments.SocialSegment;
 	import com.gerantech.towercraft.controls.toasts.BaseToast;
 	import com.gerantech.towercraft.controls.toasts.ConfirmToast;
@@ -29,6 +30,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.utils.Utils;
 	import com.gt.towers.constants.PrefsTypes;
 	import com.gt.towers.constants.ResourceType;
+	import com.gt.towers.socials.Challenge;
 	import com.gt.towers.utils.maps.IntIntMap;
 	import com.gt.towers.utils.maps.IntStrMap;
 	import com.smartfoxserver.v2.core.SFSEvent;
@@ -104,15 +106,20 @@ package com.gerantech.towercraft.controls
 			}
 		}
 		
-		public function runBattle(type:String = "headquarter", index:int = 0, cancelable:Boolean = true, spectatedUser:String = null, isFriendly:Boolean = false, challengeType:int = -1) : void
+		public function runBattle(index:int, cancelable:Boolean = true, spectatedUser:String = null, friendlyMode:int = 0) : void
 		{
+			
+			if( spectatedUser == null && friendlyMode == 0 && !AppModel.instance.game.player.has(Challenge.getRunRequiements(index)) )
+			{
+				gotoShop(ResourceType.R6_TICKET);
+				addLog(loc("log_not_enough", [loc("resource_title_" + ResourceType.R6_TICKET)]));
+				return;
+			}
 			var item:StackScreenNavigatorItem = getScreen(Game.BATTLE_SCREEN);
-			item.properties.battleType = type;
-			item.properties.index = index;
-			item.properties.spectatedUser = spectatedUser;
-			item.properties.isFriendly = isFriendly;
-			item.properties.challengeType = challengeType;
 			item.properties.waitingOverlay = new BattleWaitingOverlay(cancelable && AppModel.instance.game.player.get_arena(0) > 0);
+			item.properties.spectatedUser = spectatedUser;
+			item.properties.friendlyMode = friendlyMode;
+			item.properties.index = index;
 			pushScreen(Game.BATTLE_SCREEN);
 			addOverlay(item.properties.waitingOverlay);
 		}
@@ -182,7 +189,7 @@ package com.gerantech.towercraft.controls
 		// -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  TOSTS  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 		public function addToast(toast:BaseToast):void
 		{
-			if (activeScreenID == Game.BATTLE_SCREEN)
+			if( activeScreenID == Game.BATTLE_SCREEN )
 				return;
 			addPopup(toast);
 		}
@@ -381,11 +388,7 @@ package com.gerantech.towercraft.controls
 				break;
 			
 			case 1: 
-				var item:StackScreenNavigatorItem = getScreen(Game.BATTLE_SCREEN);
-				item.properties.isFriendly = true;
-				item.properties.waitingOverlay = new BattleWaitingOverlay(false);
-				addOverlay(item.properties.waitingOverlay);
-				pushScreen(Game.BATTLE_SCREEN);
+				runBattle(0, false, null, 2);
 				break;
 			
 			case 4: 
@@ -490,7 +493,7 @@ package com.gerantech.towercraft.controls
 						switch (t)
 						{
 						case PrefsTypes.OFFER_30_RATING: 
-							addPopup(new IssueReportPopup());
+							InboxSegment.openThread();
 							break;
 						}
 						UserData.instance.prefs.setInt(t, prefs.getAsInt(t) + 50);

@@ -1,23 +1,20 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.groups.Devider;
-import com.gerantech.towercraft.managers.ParticleManager;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import feathers.controls.AutoSizeMode;
+import feathers.controls.Button;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-import starling.core.Starling;
 import starling.display.DisplayObject;
 import starling.events.Event;
-import starling.extensions.PDParticleSystem;
 
 public class EndOverlay extends BaseOverlay
 {
@@ -106,7 +103,7 @@ protected function getRewardsCollection(playerIndex:int):ListCollection
 
 protected function buttons_triggeredHandler(event:Event):void
 {
-	if( CustomButton(event.currentTarget).name == "retry" )
+	if( Button(event.currentTarget).name == "retry" )
 	{
 		dispatchEventWith(FeathersEventType.CLEAR, false, showAdOffer);
 		setTimeout(close, 10);

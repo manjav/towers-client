@@ -12,6 +12,7 @@ public class AdminScreen extends ListScreen
 override protected function initialize():void
 {
 	title = "Admin Screen";
+	showTileAnimationn = false;
 	super.initialize();
 	
 	listLayout.gap = 0;	
@@ -28,7 +29,7 @@ override protected function list_changeHandler(event:Event):void
 			appModel.navigator.pushScreen(Game.PLAYERS_SCREEN);
 			break;
 		case "Track Issues":
-			appModel.navigator.getScreen(Game.ISSUES_SCREEN).properties.reporter = -1;
+			//appModel.navigator.getScreen(Game.ISSUES_SCREEN).properties.reporter = -1;
 			appModel.navigator.pushScreen(Game.ISSUES_SCREEN);
 			break;
 		case "Offends":

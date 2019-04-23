@@ -67,6 +67,8 @@ public function set currentState(value:String):void
 	if( this.stateNames.indexOf(value) < 0 )
 		throw new ArgumentError("Invalid state: " + value + ".");
 	this._currentState = value;
+	if( hasEventListener(FeathersEventType.STATE_CHANGE) )
+		dispatchEventWith(FeathersEventType.STATE_CHANGE, false, this._currentState);
 	if( skin )
 		skin.defaultTexture = skin.getTextureForState(this._currentState);
 }

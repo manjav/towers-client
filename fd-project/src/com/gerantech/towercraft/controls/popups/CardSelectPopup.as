@@ -1,31 +1,57 @@
 package com.gerantech.towercraft.controls.popups
 {
 import com.gerantech.towercraft.controls.BuildingCard;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
-import com.gt.towers.constants.PrefsTypes;
+import feathers.controls.Button;
+import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
 import flash.geom.Rectangle;
+import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 import starling.events.Touch;
 import starling.events.TouchEvent;
 import starling.events.TouchPhase;
 
-public class CardSelectPopup extends SimplePopup
+public class CardSelectPopup extends AbstractPopup
 {
 public var cardType:int;
 private var card:Card;
 private var _bounds:Rectangle;
-private var detailsButton:CustomButton;
+private var detailsButton:MMOryButton;
 
 public function CardSelectPopup(){}
 override protected function initialize():void
 {
+	hasOverlay = false;
+	layout = new AnchorLayout();
 	super.initialize();
-	//closeOnStage = true
-	overlay.removeFromParent();
-	//overlay.touchable = false;
+
+	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);
+	skin.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
+	skin.color = 0;
+	skin.alpha = 0.3;
+	backgroundSkin = skin;
+	
+	card = player.cards.get(cardType);
+
+	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
+	buildingIcon.layoutData = new AnchorLayoutData(4, 4, data?140:265, 4);
+	addChild(buildingIcon);
+//	buildingIcon.height = (transitionIn.destinationBound.width - 8) * BuildingCard.VERICAL_SCALE;
+	buildingIcon.setData(card.type, card.level, card.count());
+
+	var upgradable:Boolean = card.upgradable();
+	detailsButton = new MMOryButton();
+	detailsButton.height = 132;
+	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
+	detailsButton.styleName = upgradable ? MainTheme.STYLE_BUTTON_NORMAL : MainTheme.STYLE_BUTTON_NEUTRAL;
+	detailsButton.layoutData = new AnchorLayoutData(NaN, 10, data?6:136, 10);
+	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
+	addChild(detailsButton);
 }
 
 override protected function stage_touchHandler(event:TouchEvent):void
@@ -41,35 +67,23 @@ override protected function transitionInCompleted():void
 {
 	super.transitionInCompleted();
 	
+	backgroundSkin .alpha = 0.7;
 	_bounds = getBounds(stage);
-	card = player.cards.get(cardType);
 
-	var buildingIcon:BuildingCard = new BuildingCard(true, false, false, true);
-	buildingIcon.layoutData = new AnchorLayoutData(padding * 0.3, padding * 0.3, NaN, padding * 0.3);
-	addChild(buildingIcon);
-	buildingIcon.setData(card.type, card.level, card.count());
-	
-	var upgradable:Boolean = card.upgradable();
-	detailsButton = new CustomButton();
-	detailsButton.height = 120;
-	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
-	detailsButton.style = upgradable ? "normal" : "neutral";
-	detailsButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * (data?0.5:4.0), NaN, 0);
-	detailsButton.addEventListener(Event.TRIGGERED, detailsButton_triggeredHandler);
 	detailsButton.alpha = 0;
 	Starling.juggler.tween(detailsButton, 0.1, {alpha:1});
-	addChild(detailsButton);
 	
 	showTutorHint();
 	
 	if( data )
 		return;
 	
-	var usingButton:CustomButton = new CustomButton();
-	usingButton.style = "neutral";
+	var usingButton:Button = new Button();
+	usingButton.styleName = MainTheme.STYLE_BUTTON_HILIGHT;
 	usingButton.label = loc("usage_label");
-	usingButton.height = 120;
-	usingButton.layoutData = new AnchorLayoutData(NaN, NaN, padding * 0.5, NaN, 0);
+	//usingButton.width = 240;
+	usingButton.height = 132;
+	usingButton.layoutData = new AnchorLayoutData(NaN, 10, 6, 10);
 	usingButton.addEventListener(Event.TRIGGERED, usingButton_triggeredHandler);
 	addChild(usingButton);		
 	usingButton.alpha = 0;

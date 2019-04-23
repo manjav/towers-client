@@ -8,7 +8,6 @@ import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.popups.AdConfirmPopup;
 import com.gerantech.towercraft.controls.popups.BookDetailsPopup;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
-import com.gerantech.towercraft.controls.popups.FortuneSkipPopup;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
 import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 import com.gerantech.towercraft.events.GameEvent;
@@ -31,7 +30,6 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import starling.events.Event;
 /**
-* ...
 * @author Mansour Djawadi
 */
 public class ExchangeManager extends BaseManager
@@ -55,7 +53,7 @@ public function process(item : ExchangeItem) : void
 
 	var params:SFSObject = new SFSObject();
 	params.putInt("type", item.type);
-	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES || item.category == ExchangeType.C70_TICKETS )
+	if( item.category == ExchangeType.C0_HARD || item.category == ExchangeType.C30_BUNDLES )
 	{
 		BillingManager.instance.addEventListener(FeathersEventType.END_INTERACTION, billinManager_endInteractionHandler);
 		BillingManager.instance.purchase((item.category == ExchangeType.C30_BUNDLES ? "k2k.bundle_" : "k2k.item_") + item.type);
@@ -86,7 +84,7 @@ public function process(item : ExchangeItem) : void
 		return;
 	}
 	
-	if( item.category == ExchangeType.C10_SOFT )
+	if( item.category == ExchangeType.C10_SOFT || item.category == ExchangeType.C70_TICKETS )
 	{
 		if( !player.has(item.requirements) )
 		{
@@ -149,7 +147,7 @@ public function process(item : ExchangeItem) : void
 					appModel.navigator.addLog(loc("exchange_hint_104", [10]));
 				return;
 			}
-			var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
+			/*var dailyPopup:FortuneSkipPopup = new FortuneSkipPopup(item);
 			dailyPopup.addEventListener(Event.SELECT, dailyPopup_selectHandler);
 			appModel.navigator.addPopup(dailyPopup);
 			function dailyPopup_selectHandler(event:Event):void{
@@ -157,7 +155,7 @@ public function process(item : ExchangeItem) : void
 				exchange(item, params);
 			}
 			dispatchCustomEvent(FeathersEventType.ERROR, item);
-			return;
+			return;*/
 		}
 		
 		var details:BookDetailsPopup = new BookDetailsPopup(item);

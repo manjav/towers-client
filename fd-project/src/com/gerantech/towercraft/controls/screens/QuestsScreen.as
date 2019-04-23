@@ -59,11 +59,12 @@ private function showQuests(needsLoad:Boolean):void
 	for each( var q:Quest in player.quests )
 		q.current = Quest.getCurrent(player, q.type, q.key);
 	
-	header.labelLayout.verticalCenter = 40;
-	listLayout.paddingLeft = listLayout.paddingRight = 12;
-	listLayout.paddingTop = headerSize + 20;
-	list.layoutData = new AnchorLayoutData(0, 0, footer.height, 0);
+	listLayout.gap = 40;
+	listLayout.padding = 50
+	listLayout.paddingBottom = footerSize;
+	listLayout.paddingTop = headerSize + 40;
 	listLayout.hasVariableItemDimensions = true;
+	
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.addEventListener(Event.UPDATE, list_updateHandler);
@@ -94,7 +95,7 @@ protected function list_selectHandler(e:Event):void
 		return;
 	}
 	
-	switch( questItem.quest.type )
+	/*switch( questItem.quest.type )
 	{
 		//case Quest.TYPE_2_OPERATIONS :			appModel.navigator.pushScreen(Main.OPERATIONS_SCREEN);	return;
 		
@@ -108,7 +109,7 @@ protected function list_selectHandler(e:Event):void
 		case Quest.TYPE_7_CARD_COLLECT :
 		case Quest.TYPE_8_CARD_UPGRADE :		DashboardScreen.TAB_INDEX = 1;	BuildingsSegment.SELECTED_CARD = questItem.quest.key;	break;
 	}
-	appModel.navigator.popScreen();
+	appModel.navigator.popScreen();*/
 }
 
 private function passQuest(questItem:QuestItemRenderer):void 
@@ -133,12 +134,12 @@ private function passQuest(questItem:QuestItemRenderer):void
 private function list_updateHandler(e:Event):void 
 {
 	var questItem:QuestItemRenderer = e.data as QuestItemRenderer;
-	//list.dataProvider.removeItemAt(questItem.index);
+	list.dataProvider.removeItemAt(questItem.index);
 	player.quests.removeAt(questItem.index);
 	var sfs:ISFSObject = new SFSObject();
 	sfs.putInt("id", questItem.quest.id);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_rewardCollectHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.QUEST_REWARD_COLLECT, sfs);
+//	SFSConnection.instance.sendExtensionRequest(SFSCommands.QUEST_REWARD_COLLECT, sfs);
 }
 
 private function sfs_rewardCollectHandler(e:SFSEvent):void 

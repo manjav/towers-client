@@ -1,53 +1,45 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.controls.items.InboxItemRenderer;
-import com.gerantech.towercraft.controls.popups.BroadcastMessagePopup;
-import com.gerantech.towercraft.controls.popups.ProfilePopup;
-import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
-import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
-import com.smartfoxserver.v2.core.SFSEvent;
-import com.smartfoxserver.v2.entities.data.ISFSObject;
-import com.smartfoxserver.v2.entities.data.SFSArray;
-import com.smartfoxserver.v2.entities.data.SFSObject;
-
-import feathers.controls.renderers.IListItemRenderer;
+import com.gerantech.towercraft.controls.segments.InboxSegment;
+import com.gerantech.towercraft.managers.InboxService;
 import feathers.data.ListCollection;
+import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-
-import starling.display.Quad;
 import starling.events.Event;
 
-public class IssuesScreen extends ListScreen
+public class IssuesScreen extends SimpleScreen
 {
-public var reporter:int = -1;
-private var issues:ListCollection;
-public function IssuesScreen(){}
+//public var reporter:int = -1;
+private var inboxSegment:InboxSegment;
+public function IssuesScreen()
+{
+	super();
+	title = "Issues"
+	headerSize = 120;
+	showTileAnimationn = false;
+}
 override protected function initialize():void
 {
-	title = "Issue Tracking";
+	//title = "Issue Tracking";
 	super.initialize();
+	layout = new AnchorLayout();
 	
-	issues = new ListCollection();
-	requestIssues();
+	inboxSegment = new InboxSegment();
+	inboxSegment.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	addChildAt(inboxSegment, getChildIndex(closeButton));
 	
-	var bgButton:SimpleLayoutButton = new SimpleLayoutButton();
-	bgButton.alpha = 0;
-	bgButton.backgroundSkin = new Quad(1,1,0xFF);
-	bgButton.addEventListener(Event.TRIGGERED, bg_triggeredHandler);
-	bgButton.layoutData = new AnchorLayoutData(0,0,0,0);
-	
-	listLayout.gap = 0;	
-	listLayout.hasVariableItemDimensions = true;
-	list.itemRendererFactory = function():IListItemRenderer { return new InboxItemRenderer(false, player.admin); }
-	list.addEventListener(Event.SELECT, list_eventsHandler);
-	list.addEventListener(Event.CANCEL, list_eventsHandler);
-	list.addEventListener(Event.READY, list_eventsHandler);
-	list.backgroundSkin = bgButton;
-	list.backgroundSkin.touchable = true;
-	list.dataProvider = issues;
+	InboxService.instance.addEventListener(Event.UPDATE, inboxService_updateHandler);
+	InboxService.instance.requestThreads(10000);
 }
 
+protected function inboxService_updateHandler(event:Event) : void 
+{
+	InboxService.instance.removeEventListener(Event.UPDATE, inboxService_updateHandler);
+	inboxSegment.issueMode = true;
+	inboxSegment.threadsCollection = new ListCollection(event.data);
+	inboxSegment.init();
+}
+/*
 public function requestIssues() : void 
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
@@ -83,7 +75,7 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 }
 private function bg_triggeredHandler(event:Event):void
 {
-	list.selectedIndex = -1;
+	//list.selectedIndex = -1;
 }
 
 private function list_eventsHandler(event:Event):void
@@ -120,6 +112,6 @@ private function changeStatus(id:int, status:int):void
 	params.putInt("id", id);
 	params.putShort("status", status);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.ISSUE_TRACK , params);	
-}
+}*/
 }
 }

@@ -1,13 +1,14 @@
 package com.gerantech.towercraft.controls.items.exchange
 {
 import com.gerantech.towercraft.controls.buttons.ExchangeButton;
+import com.gerantech.towercraft.controls.groups.GradientHilight;
 import com.gerantech.towercraft.controls.overlays.HandPoint;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.RewardData;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
@@ -34,7 +35,7 @@ public class ExBookSlotItemRenderer extends ExBookBaseItemRenderer
 private var state:int = -2;
 private var countdownDisplay:CountdownLabel;
 private var backgroundDisplay:ImageLoader;
-private var emptyLabel:ShadowLabel;
+private var emptyLabel:RTLLabel;
 private var waitGroup:LayoutGroup;
 private var busyGroup:LayoutGroup;
 private var readyLabel:ShadowLabel;
@@ -42,6 +43,7 @@ private var timeoutId:uint;
 private var hardLabel:ShadowLabel;
 private var handPoint:HandPoint;
 private var ribbonImage:ImageLoader;
+private var hilight:GradientHilight;
 
 public function ExBookSlotItemRenderer(){}
 override protected function initialize():void
@@ -101,10 +103,10 @@ override protected function bookFactory() : StarlingArmatureDisplay
 	clearTimeout(timeoutId);
 	if( state != ExchangeItem.CHEST_STATE_EMPTY ) 
 	{
-		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + exchange.outcome );
+		bookArmature = OpenBookOverlay.factory.buildArmatureDisplay( exchange.outcome.toString() );
 		bookArmature.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 0.68;
 		bookArmature.x = width * 0.53;
-		bookArmature.y = height * 0.65;
+		bookArmature.y = height * 0.70;
 		if( state == ExchangeItem.CHEST_STATE_READY )
 		{
 			timeoutId = setTimeout(bookArmature.animation.gotoAndPlayByTime, Math.random() * 2000, "wait", 0, 100);
@@ -126,27 +128,42 @@ override protected function buttonFactory() : ExchangeButton
 
 protected function backgroundFactory() : ImageLoader
 {
-	if( backgroundDisplay != null )
-	{
-		backgroundDisplay.source = Assets.getTexture("home/slot-" + state, "gui");
-		return null;
-	}
-	
 	var st:int = Math.max(0, state);
-	backgroundDisplay = new ImageLoader();
-	backgroundDisplay.source = Assets.getTexture("home/slot-" + st, "gui");
-	backgroundDisplay.layoutData = new AnchorLayoutData(-padding, -padding, -padding, -padding);
-	backgroundDisplay.scale9Grid = new Rectangle(72, 50, 48, 80);
+	if( backgroundDisplay == null )
+	{
+		backgroundDisplay = new ImageLoader();
+		backgroundDisplay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+		backgroundDisplay.scale9Grid = new Rectangle(39, 43, 6, 34);
+	}
 	addChild(backgroundDisplay);
+	backgroundDisplay.source = Assets.getTexture("home/slot-" + st, "gui");
+	
+	if( state != ExchangeItem.CHEST_STATE_BUSY )
+		return backgroundDisplay;
+	if( hilight == null )
+	{
+		hilight = new GradientHilight();
+		hilight.layoutData = new AnchorLayoutData(10, 12, 10, 12);
+		hilight.alpha = 0.5;
+		/*var mask:ImageLoader = new ImageLoader();
+		mask.source = backgroundDisplay.source;
+		mask.layoutData = backgroundDisplay.layoutData;
+		mask.scale9Grid = backgroundDisplay.scale9Grid;
+		mask.maskInverted = true
+		hilight.mask = mask;
+		addChild(mask);*/
+	}
+	addChild(hilight);
 	return backgroundDisplay;
 }
-protected function emptyGroupFactory() : ShadowLabel 
+protected function emptyGroupFactory() : RTLLabel 
 {
 	if( state != ExchangeItem.CHEST_STATE_EMPTY )
 		return null;
 	if( emptyLabel == null )
 	{
-		emptyLabel = new ShadowLabel(loc("empty_label"), 0xAAAAAA, 0);
+		emptyLabel = new RTLLabel(loc("empty_label"), 0xFFFFFF);
+		emptyLabel.alpha = 0.4;
 		emptyLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
 	}
 	addChild(emptyLabel);
@@ -162,51 +179,49 @@ protected function waitGroupFactory() : LayoutGroup
 		waitGroup.layout = new AnchorLayout();
 		waitGroup.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 		
-		ribbonImage = new ImageLoader();
-		ribbonImage.pixelSnapping = false;
-		ribbonImage.source = Assets.getTexture("home/open-ribbon");
-		ribbonImage.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
-		ribbonImage.addEventListener(FeathersEventType.CREATION_COMPLETE, ribbonImage_createCompleteHandler);
-		waitGroup.addChild(ribbonImage);
+		showOpenWarn();
 		
-		var timeLabel:ShadowLabel = new  ShadowLabel(StrUtils.toTimeFormat(ExchangeType.getCooldown(exchange.outcome)), 1, 0, null, null, false, null, 0.9);
-		timeLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.15);
+		var timeLabel:ShadowLabel = new ShadowLabel(StrUtils.getSimpleTimeFormat(ExchangeType.getCooldown(exchange.outcome)), 1, 0, null, null, false, null, 0.9);
+		timeLabel.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -height * 0.13);
 		waitGroup.addChild(timeLabel);
-		
-		var closedLabel:ShadowLabel = new  ShadowLabel(loc("lobby_pri_1"), 1, 0, null, null, false, null, 0.8);
-		closedLabel.layoutData = new AnchorLayoutData(NaN, NaN, padding , NaN, 0);
-		waitGroup.addChild(closedLabel);
 	}
 	addChild(waitGroup);
 	return waitGroup;
 }
 
-protected function ribbonImage_createCompleteHandler(event:Event) : void
-{
-	ribbonImage.removeEventListener(FeathersEventType.CREATION_COMPLETE, ribbonImage_createCompleteHandler);
-	var openLabel:ShadowLabel = new  ShadowLabel(loc("open_label"), 1, 0, "center", null, false, null, 0.6);
-	openLabel.width = ribbonImage.width;
-	openLabel.pivotX = openLabel.width * 0.5;
-	openLabel.x = ribbonImage.width * 0.5;
-	openLabel.y = 18;
-	ribbonImage.addChild(openLabel);
-	
-	showOpenWarn();
-}
 private function showOpenWarn() : void 
 {
 	if( state != ExchangeItem.CHEST_STATE_WAIT )
 		return;
-	Starling.juggler.removeTweens(ribbonImage);
-	ribbonImage.color = 0xFFFFFF;
-	ribbonImage.y = 0;
-	ribbonImage.scaleY = 1;
-	var readyToOpen:Boolean = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now) == null;
-	if( !readyToOpen )
+	var busySlot:ExchangeItem = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now);
+	if( busySlot != null )
+	{
+		
+		if( ribbonImage != null )
+		{
+			Starling.juggler.removeTweens(ribbonImage);
+			ribbonImage.removeFromParent(true);
+		}
 		return;
-	ribbonImage.color = 0x66FFAA;
+	}
+	
+	ribbonImage = new ImageLoader();
+	ribbonImage.width = 180;
+	ribbonImage.pixelSnapping = false;
+	ribbonImage.scale9Grid = new Rectangle(24, 0, 3, 0)
+	ribbonImage.source = Assets.getTexture("home/open-ribbon");
+	ribbonImage.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
+	waitGroup.addChild(ribbonImage);
+	
+	var openLabel:ShadowLabel = new ShadowLabel(loc("tap_label"), 1, 0, "center", null, false, null, 0.65);
+	openLabel.layoutData = new AnchorLayoutData(10, NaN, NaN, NaN, 0);
+	waitGroup.addChild(openLabel);
+
+	Starling.juggler.removeTweens(ribbonImage);
+	ribbonImage.y = -4;
+	ribbonImage.scaleY = 1;
 	up();
-	function up()	: void { Starling.juggler.tween(ribbonImage, 1.5, {scaleY:0.95, y:-1,	transition:Transitions.EASE_OUT,onComplete:down,	delay:0}); }
+	function up()	: void { Starling.juggler.tween(ribbonImage, 1.5, {scaleY:0.95, y:-4,	transition:Transitions.EASE_OUT,onComplete:down,	delay:0}); }
 	function down() : void { Starling.juggler.tween(ribbonImage, 0.3, {scaleY:1.10, y:4,	transition:Transitions.EASE_IN,	onComplete:up,		delay:Math.random() * 3}); }
 }
 
@@ -224,21 +239,16 @@ protected function busyGroupFactory() : LayoutGroup
 		var hardImage:ImageLoader = new ImageLoader();
 		hardImage.source = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 		hardImage.width = height * 0.2;
-		hardImage.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, padding * 2.2);
+		hardImage.layoutData = new AnchorLayoutData(padding * 5, NaN, NaN, NaN, -padding * 2.2);
 		busyGroup.addChild(hardImage);
 		
 		countdownDisplay = new CountdownLabel();
-		countdownDisplay.layoutData = new AnchorLayoutData(NaN, padding * 2, padding, padding * 1.3);
+		countdownDisplay.layoutData = new AnchorLayoutData(padding * 0.6, padding, NaN, padding * 0.4);
 		busyGroup.addChild(countdownDisplay);
 		
-		hardLabel = new ShadowLabel("12", 1, 0, "right", null, false, null, 0.9);
-		hardLabel.shadowDistance = padding * 0.25;
-		hardLabel.layoutData = new AnchorLayoutData(padding * 4, NaN, NaN, NaN, -padding * 2);
+		hardLabel = new ShadowLabel("", 1, 0, null, null, false, null, 0.9);
+		hardLabel.layoutData = new AnchorLayoutData(padding * 5, NaN, NaN, NaN, padding * 2);
 		busyGroup.addChild(hardLabel);
-		
-		var openLabel:ShadowLabel = new  ShadowLabel(loc("open_label"), 1, 0, null, null, false, null, 0.7);
-		openLabel.layoutData = new AnchorLayoutData(padding, NaN, NaN, NaN, 0);
-		busyGroup.addChild(openLabel);
 	}
 
 	addChild(busyGroup);
@@ -264,13 +274,14 @@ protected function timeManager_changeHandler(event:Event):void
 	if(	exchange.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
 	{
 		commitData();
+		exchangeManager.dispatchEventWith(FeathersEventType.BEGIN_INTERACTION, false, exchange);
 		return;
 	}
 	
 	var t:uint = uint(exchange.expiredAt - timeManager.now);//trace(index, t)
 	
 	if( hardLabel != null )
-		hardLabel.text = Exchanger.timeToHard(t).toString();
+		hardLabel.text = StrUtils.getNumber(Exchanger.timeToHard(t));
 	
 	if( countdownDisplay != null )
 		countdownDisplay.time = t;
@@ -298,7 +309,7 @@ private function achieve():void
 
 	if( emptyLabel != null )
 		emptyLabel.removeFromParent();
-	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( "book-" + rd.key );
+	var bookAnimation:StarlingArmatureDisplay = OpenBookOverlay.factory.buildArmatureDisplay( rd.key.toString() );
 	bookAnimation.scale = OpenBookOverlay.getBookScale(exchange.outcome) * 1.9;
 	bookAnimation.animation.gotoAndPlayByFrame("appear", 0, 1);
 	bookAnimation.animation.timeScale = 0.5;

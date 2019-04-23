@@ -12,6 +12,7 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.events.CoreEvent;
 import com.gt.towers.utils.CoreUtils;
+import feathers.controls.Button;
 import feathers.controls.ImageLoader;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -34,6 +35,7 @@ public var hasProgressbar:Boolean;
 public var hasIncreaseButton:Boolean;
 public var autoApdate:Boolean;
 public var iconDisplay:ImageLoader;
+public var labelOffsetX:Number = 0;
 protected var progressBar:LabeledProgressBar;
 
 private var _displayValue:Number = Number.MIN_VALUE;
@@ -55,15 +57,13 @@ override protected function initialize():void
 	super.initialize();
 	this.isQuickHitAreaEnabled = false;
 	layout = new AnchorLayout();
-	var skin:ImageSkin = new ImageSkin(Assets.getTexture("theme/indicator-background"));
-	skin.scale9Grid = MainTheme.INDICATORS_SCALE9_GRID;
-	backgroundSkin = skin;
 	
 	progressBar = new LabeledProgressBar();
 	progressBar.clampValue = this._clampValue;
 	progressBar.formatValueFactory = this._formatValueFactory;;
-	progressBar.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void { progressBar.backgroundDisabledSkin.visible = progressBar.backgroundSkin.visible = false; });
 	progressBar.layoutData = new AnchorLayoutData(0, 0, 0, 0);
+	progressBar.labelOffsetX = labelOffsetX;
+	progressBar.isEnabled = false;
 	progressBar.minimum = minimum;
 	progressBar.maximum = maximum;
 	progressBar.value = value;
@@ -82,11 +82,12 @@ override protected function initialize():void
 	
 	if( hasIncreaseButton )
 	{
-		var addButton:IndicatorButton = new IndicatorButton();
-		addButton.width = addButton.height = height + 4;
-		addButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
-		addButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
-		addChild(addButton);
+		var increaseButton:IndicatorButton = new IndicatorButton();
+		increaseButton.layoutData = new AnchorLayoutData(NaN, direction == "ltr"? -height / 2:NaN, NaN, direction == "ltr"?NaN: -height / 2, NaN, 0); 
+		increaseButton.addEventListener(Event.TRIGGERED, addButton_triggerHandler);
+		increaseButton.width = increaseButton.height = height + 12;
+		increaseButton.label = "+";
+		addChild(increaseButton);
 	}
 	
 	if( !autoApdate )
@@ -132,7 +133,7 @@ protected function playerResources_changeHandler(event:CoreEvent):void
 {
 	if( event.key != type )
 		return;
-	trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
+	//trace("CoreEvent.CHANGE:", ResourceType.getName(event.key), event.from, event.to);
 	setData(minimum, -1, maximum);
 }
 

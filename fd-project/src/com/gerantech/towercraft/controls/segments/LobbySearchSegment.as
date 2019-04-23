@@ -1,8 +1,8 @@
 package com.gerantech.towercraft.controls.segments
 {
 import com.gerantech.towercraft.controls.FastList;
-import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.LobbyTabButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyItemRenderer;
 import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
@@ -17,6 +17,8 @@ import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
+import feathers.layout.HorizontalAlign;
+import feathers.layout.VerticalLayout;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
@@ -45,19 +47,19 @@ override protected function initialize():void
 	textInput.maxChars = 16 ;
 	textInput.prompt = loc("lobby_name");
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
-	textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?buttonH*2+padding*3:padding, NaN, appModel.isLTR?padding:buttonH*2+padding*3 );
+	textInput.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding * 6:padding, NaN, appModel.isLTR?padding:padding * 6 );
 	textInput.height = buttonH;
 	addChild(textInput);
 	
-	var searchButton:CustomButton = new CustomButton();
+	var searchButton:MMOryButton = new MMOryButton();
 	searchButton.width = buttonH;
-	searchButton.height = buttonH;
-	searchButton.icon = Assets.getTexture("search-icon");
-	searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding*2+buttonH:NaN, NaN, appModel.isLTR?NaN:padding*2+buttonH );
+	searchButton.height = buttonH + 16;
+	searchButton.iconTexture = Assets.getTexture("search-icon");
+	searchButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 	searchButton.addEventListener(Event.TRIGGERED,  searchButton_triggeredHandler);
 	addChild(searchButton);	
 
-	var rankButton:CustomButton = new CustomButton();
+/*	var rankButton:CustomButton = new CustomButton();
 	rankButton.style = "neutral";
 	rankButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
 	rankButton.icon = Assets.getTexture("rank-icon");
@@ -65,9 +67,9 @@ override protected function initialize():void
 	rankButton.height = buttonH;
 	rankButton.layoutData = new AnchorLayoutData( padding, appModel.isLTR?padding:NaN, NaN, appModel.isLTR?NaN:padding );
 	rankButton.addEventListener(Event.TRIGGERED,  rankButton_triggeredHandler);
-	addChild(rankButton);
+	addChild(rankButton);*/
 	
-	tabs = new Vector.<LobbyTabButton>();
+/*	tabs = new Vector.<LobbyTabButton>();
 	tabs[0] = new LobbyTabButton(loc("lobby_point"));
 	tabs[0].addEventListener(Event.TRIGGERED, tabs_triggeredHandler);
 	tabs[0].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*2:NaN, NaN, appModel.isLTR?NaN:padding*2 );
@@ -83,19 +85,35 @@ override protected function initialize():void
 	tabs[2].layoutData = new AnchorLayoutData( padding*5.4, appModel.isLTR?padding*17:NaN, NaN, appModel.isLTR?NaN:padding*17 );
 	tabs[2].isEnabled = false;
 	addChild(tabs[2]);
-	
+*/
+	LobbyItemRenderer.MEMBER_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?250:NaN, 7, appModel.isLTR?NaN:250);
+	LobbyItemRenderer.EMBLEM_LAYOUT = new AnchorLayoutData(16, appModel.isLTR?NaN:109, 14, appModel.isLTR?109:NaN);
+	LobbyItemRenderer.MEMBER_BG_LAYOUT = new AnchorLayoutData(46, appModel.isLTR?250:NaN, 16, appModel.isLTR?NaN:250);
+	LobbyItemRenderer.MEMBER_LBL_LAYOUT = new AnchorLayoutData(7, appModel.isLTR?250:NaN, NaN, appModel.isLTR?NaN:250);
+	LobbyItemRenderer.RANK_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:16, NaN, appModel.isLTR?16:NaN, NaN, 0);
+	LobbyItemRenderer.NAME_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?NaN:205, NaN, appModel.isLTR?205:NaN, NaN, 0);
+	LobbyItemRenderer.ACTIVITY_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?42:NaN, NaN, appModel.isLTR?NaN:42, NaN, 0);
+	LobbyItemRenderer.ACTIVITY_BG_LAYOUT = new AnchorLayoutData(NaN, appModel.isLTR?16:NaN, NaN, appModel.isLTR?NaN:16, NaN, 0);
+
 	_listCollection = new ListCollection();
+	
+	var listLayout:VerticalLayout = new VerticalLayout();
+	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
+	listLayout.useVirtualLayout = true;
+	listLayout.gap = 5;
+	
 	list = new FastList();
 	list.itemRendererFactory = function():IListItemRenderer { return new LobbyItemRenderer(); }
-	list.layoutData = new AnchorLayoutData(padding * 5 + buttonH, padding, padding, padding);
+	list.layoutData = new AnchorLayoutData(padding * 2 + buttonH, padding, padding, padding);
 	list.dataProvider = _listCollection;
+	list.layout = listLayout;
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	addChild(list);
 	if( SFSConnection.instance.lobbyManager.lobby == null )
 		search();
 }
 
-private function tabs_triggeredHandler(event:Event):void
+/*private function tabs_triggeredHandler(event:Event):void
 {
 	setTimeout(function(sb:LobbyTabButton):void{
 	for each ( var b:LobbyTabButton in tabs )
@@ -103,7 +121,7 @@ private function tabs_triggeredHandler(event:Event):void
 	}, 10, event.currentTarget);
 	searchMode = tabs.indexOf(event.currentTarget as LobbyTabButton);
 	search();
-}
+}*/
 
 protected function rankButton_triggeredHandler(event:Event):void
 {

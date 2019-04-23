@@ -8,15 +8,9 @@ import com.gerantech.towercraft.controls.overlays.TutorialTouchOverlay;
 import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.tutorials.TutorialData;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gt.towers.battle.fieldes.FieldData;
-import com.gt.towers.battle.fieldes.PlaceData;
-import com.gt.towers.constants.CardTypes;
-import com.gt.towers.constants.PrefsTypes;
-import com.gt.towers.utils.lists.PlaceDataList;
 import flash.geom.Point;
-import flash.utils.setTimeout;
-
 import starling.events.Event;
+
 
 public class TutorialManager extends BaseManager
 {

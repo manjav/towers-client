@@ -186,7 +186,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 					battleMsg.putUtfString("o", msg.getUtfString("o"));
 				messages.updateItemAt(lastBattleIndex);
 				if( msg.getShort("st") == 1 && (msg.getUtfString("s") == player.nickName || msg.getUtfString("o") == player.nickName) )
-					dispatchEventWith(Event.TRIGGERED);// go to friendly battle
+					dispatchEventWith(Event.TRIGGERED, false, msg);// go to friendly battle
 			}
 		}
 		else
@@ -195,7 +195,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 			dispatchEventWith(Event.OPEN, false, msg.getUtfString("s"));
 		}
 	}
-	else if( MessageTypes.isComment(msg.getShort("m")) )
+	else if( MessageTypes.isComment(msg.getShort("m")) || MessageTypes.isEmote(msg.getShort("m"))  )
 	{
 		messages.addItem(msg);
 	}
@@ -204,7 +204,7 @@ protected function sfs_publicMessageHandler(event:SFSEvent):void
 		var confirmIndex:int = getReplyedConfirm(msg);
 		if( confirmIndex > -1 )
 			messages.removeItemAt(confirmIndex);
-		if( !msg.containsKey("pr") && findUser(player.id).getInt("permission") > 0 )
+		if( (!msg.containsKey("pr") && findUser(player.id).getInt("permission") > 0) || player.admin )
 			messages.addItem(msg);
 	}
 	//traceList()

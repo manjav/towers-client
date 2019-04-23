@@ -29,10 +29,12 @@ override protected function initialize():void
 	textInput.maxChars = 16;
 	textInput.addEventListener(FeathersEventType.ENTER, searchButton_triggeredHandler);
 	textInput.layoutData = new AnchorLayoutData(0, 0, NaN, 0);
-	textInput.height = listLayout.padding * 0.9;
+	textInput.height = 168;
 	addChild(textInput);
 	
-	listLayout.gap = 5.62;	
+	listLayout.gap = 5;	
+	listLayout.padding = 12;
+	listLayout.paddingTop = 180;
 	list.dataProvider = result;
 }
 

@@ -16,6 +16,7 @@ public function SearchPlayersScreen(){}
 override protected function initialize() : void
 {
 	title = "Players";
+	showTileAnimationn = false;
 	super.initialize();
 	textInput.prompt = "نام  |  آیدی(!)  |  تگ(#)";
 	list.itemRendererFactory = function():IListItemRenderer { return new PlayersItemRenderer(); }

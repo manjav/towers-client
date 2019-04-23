@@ -2,10 +2,8 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
-import com.gt.towers.utils.lists.PlaceDataList;
 import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.text.BitmapFontTextFormat;
-import flash.geom.Point;
 import starling.animation.Transitions;
 import starling.animation.Tween;
 import starling.core.Starling;

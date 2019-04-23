@@ -15,7 +15,6 @@ public function ExchangeDButton()
 override protected function initialize():void
 {
 	labelLayoutData.verticalCenter = 0;
-	shadowLayoutData.verticalCenter = -5;
 	iconPosition.x = 60;
 	iconPosition.y = 20;
 	fontsize = 0.85;
