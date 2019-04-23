@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls.overlays
 {
-import com.gerantech.towercraft.controls.buttons.CustomButton;
-import com.gerantech.towercraft.controls.groups.Devider;
+import com.gerantech.towercraft.controls.TileBackground;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -24,8 +23,8 @@ public var cancelable:Boolean = true;
 
 private var padding:int;
 private var waitingIcon:Image;
-private var waitingLabel:RTLLabel;
 private var cancelButton:Button;
+private var waitingLabel:RTLLabel;
 
 public function BattleWaitingOverlay(cancelable:Boolean)
 {
@@ -39,8 +38,7 @@ override protected function initialize():void
 	closeOnStage = closeWithKeyboard = false;
 	autoSizeMode = AutoSizeMode.STAGE;
 	super.initialize();
-	overlay.alpha = 1;
-	
+
 	waitingIcon = new Image(Assets.getTexture("home/pistole-tile", "gui"));
 	waitingIcon.alignPivot();
 	waitingIcon.x = stageWidth * 0.5;
@@ -76,7 +74,7 @@ override protected function initialize():void
 	addChild(waitingLabel);
 	Starling.juggler.tween(waitingLabel, 0.5, {delay: 2, alpha: 1, y: stage.stageHeight * 0.6, transition: Transitions.EASE_OUT_BACK});
 	
-	var arena:int = player.get_arena(0)
+	var arena:int = player.get_arena(0);
 	if( arena > 0 )
 	{
 		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_" + Math.min(arena - 1, 2) + "_" + Math.floor(Math.random() * 10)), 1, "justify", null, true, "center", 0.9);
@@ -134,7 +132,7 @@ public function disappear():void
 
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:Devider = new Devider(color);
+	var overlay:TileBackground = new TileBackground("home/pistole-tile", 0.3, false, 0);
 	overlay.width = stage.stageWidth;
 	overlay.height = stage.stageHeight;
 	return overlay;
