@@ -40,7 +40,7 @@ override protected function initialize():void
 	
 	AppModel.instance.navigator =  new StackNavigator();
 	this.content = AppModel.instance.navigator;
-	stage.color = 0x3382E7;
+	stage.color = 0x3e92fb;
 
 	addScreen(CHALLENGES_SCREEN,ChallengesScreen, false, false);
 	addScreen(DASHBOARD_SCREEN,	DashboardScreen, false, false);
