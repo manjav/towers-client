@@ -22,7 +22,7 @@ public function BattleTurnToast(side:int, score:int)
 {
 	this.side = side;
 	this.score = score;
-	closeAfter = 4000;
+	closeAfter = 2000;
 	toastHeight = 240;
 	layout = new AnchorLayout();
 }
@@ -55,7 +55,7 @@ override protected function initialize():void
 		starImage.y = i == 0 ? -50 : 0;
 		addChild(starImage);
 		if( i + 1 == score )
-			setTimeout(starImage.active, 1000);
+			setTimeout(starImage.active, 800);
 	}
 }
 }

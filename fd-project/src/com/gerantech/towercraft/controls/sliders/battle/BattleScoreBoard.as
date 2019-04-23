@@ -3,6 +3,7 @@ package com.gerantech.towercraft.controls.sliders.battle
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ResourceType;
 import feathers.controls.ImageLoader;
 import feathers.controls.text.BitmapFontTextRenderer;
@@ -35,8 +36,8 @@ override protected function initialize():void
 	
 	var allisBG:ImageLoader = new ImageLoader();
 	allisBG.color = 0x000044;
-	allisBG.source = Assets.getTexture("theme/background-round-skin");
-	allisBG.scale9Grid = new Rectangle(7, 7, 2, 2);
+	allisBG.source = appModel.theme.roundMediumInnerSkin;
+	allisBG.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 	allisBG.height = 140;
 	allisBG.alpha = 0.6;
 	allisBG.layoutData = new AnchorLayoutData(NaN, 0, 0, 0);
@@ -45,8 +46,8 @@ override protected function initialize():void
 
 	var axisBG:ImageLoader = new ImageLoader();
 	axisBG.color = 0x440000;
-	axisBG.source = Assets.getTexture("theme/background-round-skin");
-	axisBG.scale9Grid = new Rectangle(7, 7, 2, 2);
+	axisBG.source = appModel.theme.roundMediumInnerSkin;
+	axisBG.scale9Grid = MainTheme.ROUND_MEDIUM_SCALE9_GRID;
 	axisBG.height = 140;
 	axisBG.alpha = 0.6;
 	axisBG.layoutData = new AnchorLayoutData(0, 0, NaN, 0);

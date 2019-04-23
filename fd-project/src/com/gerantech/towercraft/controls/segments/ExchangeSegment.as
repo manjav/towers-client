@@ -74,7 +74,7 @@ override public function updateData():void
 	var tickets:ShopLine = new ShopLine(ExchangeType.C70_TICKETS);
 	var hards:ShopLine = new ShopLine(ExchangeType.C0_HARD);
 	var softs:ShopLine = new ShopLine(ExchangeType.C10_SOFT);
-	for (var i:int=0; i<itemKeys.length; i++)
+	for( var i:int=0; i<itemKeys.length; i++ )
 	{
 		if( ExchangeType.getCategory( itemKeys[i] ) == ExchangeType.C30_BUNDLES && exchanger.items.get(itemKeys[i]).expiredAt > timeManager.now )
 			bundles.add(itemKeys[i]);
