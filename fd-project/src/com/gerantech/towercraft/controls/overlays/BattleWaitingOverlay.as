@@ -77,7 +77,7 @@ override protected function initialize():void
 	var arena:int = player.get_arena(0);
 	if( arena > 0 )
 	{
-		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_" + Math.min(arena - 1, 2) + "_" + Math.floor(Math.random() * 10)), 1, "justify", null, true, "center", 0.9);
+		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_" + Math.min(arena - 1, 2) + "_" + Math.floor(Math.random() * 10)), 1, "justify", null, true, "center", 0.8);
 		tipDisplay.x = padding;
 		tipDisplay.y = stage.stageHeight - padding * 5;
 		tipDisplay.width = stage.stageWidth - padding * 2;
@@ -133,8 +133,9 @@ public function disappear():void
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
 	var overlay:TileBackground = new TileBackground("home/pistole-tile", 0.3, false, 0);
-	overlay.width = stage.stageWidth;
-	overlay.height = stage.stageHeight;
+	overlay.y = overlay.x = -100
+	overlay.width = stageWidth + 200;
+	overlay.height = stageHeight + 200;
 	return overlay;
 }
 }
