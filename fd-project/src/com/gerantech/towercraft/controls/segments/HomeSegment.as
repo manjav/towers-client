@@ -160,7 +160,7 @@ override public function init():void
 	rankButton.width = rankButton.height = 140;
 	addButton(rankButton, "rankButton");
 	
-	if( league > 0 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
+	if( player.get_battleswins() > 5 && !player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 	{
 		googleButton = new IconButton(Assets.getTexture("settings/41"), 0.6, Assets.getTexture("home/button-bg-0"), new Rectangle(22, 38, 4, 4));
 		googleButton.layoutData = new AnchorLayoutData(330, padding * 1.7 + starsButton.width);
