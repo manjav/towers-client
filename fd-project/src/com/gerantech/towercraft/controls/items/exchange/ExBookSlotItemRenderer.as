@@ -9,7 +9,6 @@ import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.RewardData;
-import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.PrefsTypes;
@@ -24,7 +23,6 @@ import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.layout.RelativePosition;
 import flash.geom.Rectangle;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
@@ -193,14 +191,24 @@ protected function waitGroupFactory() : LayoutGroup
 
 private function showOpenWarn() : void 
 {
-	var readyToOpen:Boolean = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now) == null;
-	if( !readyToOpen )
+	if( state != ExchangeItem.CHEST_STATE_WAIT )
 		return;
-
+	var busySlot:ExchangeItem = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now);
+	if( busySlot != null )
+	{
+		
+		if( ribbonImage != null )
+		{
+			Starling.juggler.removeTweens(ribbonImage);
+			ribbonImage.removeFromParent(true);
+		}
+		return;
+	}
+	
 	ribbonImage = new ImageLoader();
+	ribbonImage.width = 180;
 	ribbonImage.pixelSnapping = false;
 	ribbonImage.scale9Grid = new Rectangle(24, 0, 3, 0)
-	ribbonImage.width = 180;
 	ribbonImage.source = Assets.getTexture("home/open-ribbon");
 	ribbonImage.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0);
 	waitGroup.addChild(ribbonImage);
@@ -266,6 +274,7 @@ protected function timeManager_changeHandler(event:Event):void
 	if(	exchange.getState(timeManager.now) != ExchangeItem.CHEST_STATE_BUSY )
 	{
 		commitData();
+		exchangeManager.dispatchEventWith(FeathersEventType.BEGIN_INTERACTION, false, exchange);
 		return;
 	}
 	
@@ -358,7 +367,7 @@ private function reset() : void
 
 override protected function resetData(item:ExchangeItem):void 
 {
-	//showOpenWarn();
+	showOpenWarn();
 	super.resetData(item);
 }
 
