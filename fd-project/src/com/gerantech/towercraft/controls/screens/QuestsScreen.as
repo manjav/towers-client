@@ -134,12 +134,12 @@ private function passQuest(questItem:QuestItemRenderer):void
 private function list_updateHandler(e:Event):void 
 {
 	var questItem:QuestItemRenderer = e.data as QuestItemRenderer;
-	//list.dataProvider.removeItemAt(questItem.index);
+	list.dataProvider.removeItemAt(questItem.index);
 	player.quests.removeAt(questItem.index);
 	var sfs:ISFSObject = new SFSObject();
 	sfs.putInt("id", questItem.quest.id);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_rewardCollectHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.QUEST_REWARD_COLLECT, sfs);
+//	SFSConnection.instance.sendExtensionRequest(SFSCommands.QUEST_REWARD_COLLECT, sfs);
 }
 
 private function sfs_rewardCollectHandler(e:SFSEvent):void 
