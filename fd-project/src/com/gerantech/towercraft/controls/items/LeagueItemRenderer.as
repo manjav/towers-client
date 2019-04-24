@@ -105,10 +105,9 @@ private function createElements():void
 		leagueIcon.scale = 1.2;
 		Starling.juggler.tween(leagueIcon, 0.3, {scale:1});
 	}
-	
 	// cards elements
-	var collectable:Boolean = !player.cards.exists(cards[0]) && league.min < player.get_point();
 	var cards:Array = player.availabledCards(league.index, 0);
+	var collectable:Boolean = !player.cards.exists(cards[0]) && league.min <= player.get_point();
 	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	cardsLayout.requestedColumnCount = Math.min(cards.length, 3);
 	cardsLayout.requestedRowCount = Math.ceil(cards.length / 3);
