@@ -36,7 +36,7 @@ protected function playerResources_changeHandler(event:CoreEvent):void
 
 private function checkLeagueRewardAchieved() : void
 {
-	var availabledCards:Array = appModel.loadingManager.serverData.getInt("noticeVersion") >= 1900 ? player.availabledCards(leagueIndex, 1) : [];
+	var availabledCards:Array = player.availabledCards(leagueIndex, 1);
 	for each( var c:int in availabledCards )
 		if( !player.cards.exists(c) )
 			state = ExchangeItem.CHEST_STATE_READY;

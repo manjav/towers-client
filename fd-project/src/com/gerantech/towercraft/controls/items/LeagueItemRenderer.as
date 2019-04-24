@@ -107,8 +107,8 @@ private function createElements():void
 	}
 	
 	// cards elements
-	var cards:Array = appModel.loadingManager.serverData.getInt("noticeVersion") >= 1900 ? player.availabledCards(league.index, 0) : [121];
 	var collectable:Boolean = !player.cards.exists(cards[0]) && league.min < player.get_point();
+	var cards:Array = player.availabledCards(league.index, 0);
 	var cardsLayout:TiledRowsLayout = new TiledRowsLayout();
 	cardsLayout.requestedColumnCount = Math.min(cards.length, 3);
 	cardsLayout.requestedRowCount = Math.ceil(cards.length / 3);
