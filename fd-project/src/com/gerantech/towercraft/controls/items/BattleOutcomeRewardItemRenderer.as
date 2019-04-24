@@ -2,9 +2,11 @@ package com.gerantech.towercraft.controls.items
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.overlays.OpenBookOverlay;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
@@ -12,7 +14,6 @@ import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
-import feathers.text.BitmapFontTextFormat;
 import flash.geom.Rectangle;
 import starling.core.Starling;
 import starling.display.Image;
@@ -20,12 +21,12 @@ import starling.events.Event;
 
 public class BattleOutcomeRewardItemRenderer extends AbstractTouchableListItemRenderer
 {
-private var iconDisplay:Image;
-private var labelDisplay:BitmapFontTextRenderer;
 private var reward:SFSObject;
+private var iconDisplay:Image;
+private var labelDisplay:RTLLabel;
+private var battleData:BattleData;
 private var buildingCrad:BuildingCard;
 private var armatureDisplay:StarlingArmatureDisplay;
-private var battleData:BattleData;
 
 public function BattleOutcomeRewardItemRenderer(battleData:BattleData){ this.battleData = battleData; }
 override protected function initialize():void
@@ -58,9 +59,7 @@ override protected function commitData():void
 		iconDisplay.pixelSnapping = false;
 		addChild(iconDisplay);
 		
-		labelDisplay = new BitmapFontTextRenderer();
-		labelDisplay.text = _data.c.toString();
-		labelDisplay.textFormat = new BitmapFontTextFormat(Assets.getFont(), 64, 0xFFFFFF, "center");
+		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1);
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
 		addChild(labelDisplay);
 		

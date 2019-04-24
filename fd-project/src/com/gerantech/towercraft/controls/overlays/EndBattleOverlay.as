@@ -93,7 +93,7 @@ override protected function initialize():void
 	closeBatton.label = loc("popup_ok_label");
 	closeBatton.styleName = MainTheme.STYLE_BUTTON_NEUTRAL;
 	closeBatton.addEventListener(Event.TRIGGERED, buttons_triggeredHandler);
-	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?32:27) * padding, NaN, NaN, NaN, 0);
+	closeBatton.layoutData = new AnchorLayoutData((rewardsList != null?33:28) * padding, NaN, NaN, NaN, 0);
 	Starling.juggler.tween(closeBatton, 0.5, {delay:0.9, alpha:1});
 	closeBatton.alpha = 0;
 	addChild(closeBatton);
