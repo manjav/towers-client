@@ -84,7 +84,7 @@ public function createPlaces(battleData:BattleData) : void
 	if( mapBuilder == null )
 		return;
 
-	mapBuilder.create(battleData.battleField.json, false);
+	mapBuilder.create(battleData.battleField.field.json, false);
 	mapBuilder.mainMap.x = BattleField.WIDTH * 0.5//Starling.current.stage.stageWidth * 0.5;
 	mapBuilder.mainMap.y = BattleField.HEIGHT * 0.5//(Starling.current.stage.stageHeight - 330 * 0.5) * 0.5;
 	addChild(mapBuilder.mainMap);
@@ -176,7 +176,7 @@ private function findPathHandler(e:BattleEvent):void
 		return;
 	var c:uint = Math.random() * 0xFFFFFF;
 	for (var i:int = 0; i < u.path.length; i ++)
-		drawTile(u.path[i].x, u.path[i].y, c, battleData.battleField.tileMap.tileWidth, battleData.battleField.tileMap.tileHeight, 0.3);
+		drawTile(u.path[i].x, u.path[i].y, c, battleData.battleField.field.tileMap.tileWidth, battleData.battleField.field.tileMap.tileHeight, 0.3);
 }
 
 public function hitUnits(buletId:int, targets:ISFSArray) : void

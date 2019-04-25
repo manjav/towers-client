@@ -68,10 +68,11 @@ public function BattleData(data:ISFSObject)
 	if( response != MessageTypes.RESPONSE_SUCCEED )
 		trace("battle cost data from server server is invalid!");
 	
-	var field:FieldData = FieldData.intantiate(data.getInt("mode"));
-	field.mapLayout = data.getText("map");
+	if( !FieldData.fields.exists(data.getInt("mode")) )
+		FieldData.fields.set(data.getInt("mode"), new FieldData(data.getInt("mode"), data.getText("map"), "60,120,180,240"));
+		
 	this.battleField = new BattleField();
-	this.battleField.initialize(this.battleField.side == 0 ? alliseGame : axisGame, this.battleField.side == 0 ? axisGame : alliseGame, field, data.getInt("side"), data.getInt("startAt"), data.getDouble("now"), false, data.getInt("friendlyMode"));
+	this.battleField.initialize(this.battleField.side == 0 ? alliseGame : axisGame, this.battleField.side == 0 ? axisGame : alliseGame, FieldData.fields.get(data.getInt("mode"))as FieldData, data.getInt("side"), data.getInt("startAt"), data.getDouble("now"), false, data.getInt("friendlyMode"));
 	this.battleField.state = BattleField.STATE_1_CREATED;
 	this.battleField.decks = new IntIntCardMap();
 	this.battleField.decks.set(0, BattleField.getDeckCards(this.battleField.games[0], this.battleField.games[0].loginData.deck, this.battleField.friendlyMode));
@@ -83,7 +84,7 @@ public function getAlliseDeck():IntCardMap
 {
 	return battleField.decks.get(battleField.side);
 }
-public function getAlliseEllixir():Number 
+public function getAlliseEllixir():Number
 {
 	return battleField.elixirBar.get(battleField.side);
 }
