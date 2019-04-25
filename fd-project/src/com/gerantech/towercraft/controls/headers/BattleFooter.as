@@ -4,6 +4,7 @@ import com.gerantech.towercraft.controls.BattleDeckCard;
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.controls.overlays.TutorialSwipeOverlay;
 import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -17,6 +18,7 @@ import com.gt.towers.constants.CardTypes;
 import com.gt.towers.socials.Challenge;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.Button;
 import feathers.controls.LayoutGroup;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
@@ -37,7 +39,7 @@ import starling.events.TouchPhase;
 public class BattleFooter extends TowersLayout
 {
 static public var HEIGHT:int = 380;
-public var stickerButton:CustomButton;
+public var stickerButton:MMOryButton;
 private var padding:int;
 private var cardsContainer:LayoutGroup;
 private var draggableCard:Draggable;
@@ -91,10 +93,10 @@ override protected function initialize():void
 	
 	if( !SFSConnection.instance.mySelf.isSpectator )
 	{
-		stickerButton = new CustomButton();
-		stickerButton.icon = Assets.getTexture("tooltip-bg-bot-left");
-		stickerButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+		stickerButton = new MMOryButton();
+		stickerButton.height = 120;
 		stickerButton.width = preparedCard.width - padding * 2;
+		stickerButton.iconTexture = Assets.getTexture("tooltip-bg-bot-left");
 		stickerButton.layoutData = new AnchorLayoutData(padding, NaN, NaN, padding);
 		stickerButton.addEventListener(Event.TRIGGERED, stickerButton_triggeredHandler);
 		addChild(stickerButton);
