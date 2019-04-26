@@ -290,7 +290,7 @@ public function punchSlider() : void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultRarityDisplayFactory() : ImageLoader
 {
-	if ( !showRarity || rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
+	if( !showRarity || rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
 	{
 		if( rarityDisplay != null )
 			rarityDisplay.removeFromParent();
@@ -320,7 +320,7 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
 		labelsContainer.addChild(countDisplay);
 	}
-	countDisplay.text = "x "+ StrUtils.getNumber(count);
+	countDisplay.text = "x " + StrUtils.getNumber(count);
 	return countDisplay;
 }
 
