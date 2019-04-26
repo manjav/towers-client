@@ -268,12 +268,7 @@ protected function defaultSliderDisplayFactory() : Indicator
 			sliderDisplay = new IndicatorCard("ltr", type);
 		else
 			sliderDisplay = new Indicator("ltr", type, false, false);
-		sliderDisplay.clampValue = false;
-		sliderDisplay.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
-		{
-			return StrUtils.getNumber(ResourceType.isCard(type) ? (Math.round(value) + "/" + maximum) : Math.round(value));
-		}
-		sliderDisplay.height = 62;
+		sliderDisplay.height = 60;
 		sliderDisplay.layoutData = new AnchorLayoutData(NaN, 10, -56, 10);
 		addChild(sliderDisplay);
 	}

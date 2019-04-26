@@ -1,12 +1,12 @@
 package com.gerantech.towercraft.controls.buttons 
 {
-	import com.gerantech.towercraft.models.Assets;
-	import com.gt.towers.battle.units.Card;
-	import feathers.layout.AnchorLayoutData;
-	import starling.animation.Transitions;
-	import starling.core.Starling;
+import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.battle.units.Card;
+import feathers.layout.AnchorLayoutData;
+import starling.animation.Transitions;
+import starling.core.Starling;
 /**
-* ...
 * @author Mansour Djawadi
 */
 public class IndicatorCard extends Indicator 
@@ -15,6 +15,7 @@ private var timeoutId:uint;
 public function IndicatorCard(direction:String, type:int, autoApdate:Boolean = true)
 {
 	super(direction, type, true, false, autoApdate);
+	clampValue = false;
 }
 override protected function initialize():void
 {
@@ -24,6 +25,10 @@ override protected function initialize():void
 	AnchorLayoutData(iconDisplay.layoutData).verticalCenter = NaN;
 	iconDisplay.y = -20;
 	iconDisplay.height = 60;
+	formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
+	{
+		return StrUtils.getNumber(Math.round(value) + "/" + maximum);
+	}
 }
 
 override public function setData(minimum:Number, value:Number, maximum:Number, changeDuration:Number = 0):void

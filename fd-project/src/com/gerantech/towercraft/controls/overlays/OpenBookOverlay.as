@@ -2,12 +2,13 @@ package com.gerantech.towercraft.controls.overlays
 {
 import com.gerantech.towercraft.controls.BuildingCard;
 import com.gerantech.towercraft.controls.TileBackground;
+import com.gerantech.towercraft.controls.buttons.IndicatorCard;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
-import com.gerantech.towercraft.controls.items.CardItem;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gerantech.towercraft.views.effects.UIParticleSystem;
 import com.gt.towers.constants.CardFeatureType;
 import com.gt.towers.constants.CardTypes;
@@ -41,7 +42,7 @@ public static var factory: StarlingFactory;
 public static var dragonBonesData:DragonBonesData;
 
 private var rewardKeys:Vector.<int>;
-private var rewardItems:Vector.<CardItem>;
+private var rewardItems:Vector.<BuildingCard>;
 private var bookArmature:StarlingArmatureDisplay;
 private var shineArmature:StarlingArmatureDisplay;
 private var buttonOverlay:SimpleLayoutButton;
@@ -52,6 +53,7 @@ private var rewardType:int;
 private var rewardRarity:int;
 private var titleDisplay:ShadowLabel;
 private var descriptionDisplay:RTLLabel;
+private var sliderDisplay:IndicatorCard;
 private var collectedItemIndex:int = -1;
 
 public function OpenBookOverlay(type:int)
@@ -117,14 +119,19 @@ override protected function addedToStageHandler(event:Event):void
 	shineArmature.scale = 3;
 	shineArmature.x = 348;
 	shineArmature.y = stage.stageHeight * 0.85 - 580;
+	
+	sliderDisplay = new IndicatorCard("ltr", type);
+	sliderDisplay.width = 340;
+	sliderDisplay.height = 84;
+	sliderDisplay.y = shineArmature.y + 96;
 
-	titleDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 1.7);
+	titleDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 1.6);
 	titleDisplay.width = 600;
-	titleDisplay.y = shineArmature.y - 66;
+	titleDisplay.y = shineArmature.y - 186;
 	
 	descriptionDisplay = new RTLLabel("", 1, "left", null, false, null, 0.9);
 	descriptionDisplay.width = 600;
-	descriptionDisplay.y = shineArmature.y + 40;
+	descriptionDisplay.y = shineArmature.y - 70;
 }
 
 override public function set outcomes(value:IntIntMap):void 
@@ -135,7 +142,7 @@ override public function set outcomes(value:IntIntMap):void
 	buttonOverlay.layoutData = new AnchorLayoutData(0, 0, 0, 0);
 	addChild(buttonOverlay);
 	
-	rewardItems = new Vector.<CardItem>();
+	rewardItems = new Vector.<BuildingCard>();
 	rewardKeys = outcomes.keys();
 	if( readyToWait )
 		bookArmature.animation.gotoAndPlayByTime("wait", 0, -1);
@@ -246,7 +253,7 @@ private function pullCard() : void
 	subtexture = new SubTexture(texture, new Rectangle(0, 0, texture.width, texture.height));
 	StarlingTextureData(bookArmature.armature.getSlot("bevel-card-back").skinSlotData.getDisplay("cards/bevel-card").texture).texture = subtexture;
 	
-	var cardDisply:CardItem = new CardItem();
+	var cardDisply:BuildingCard = new BuildingCard(false, false, true, false);
 	cardDisply.width = 328;
 	cardDisply.height = cardDisply.width * BuildingCard.VERICAL_SCALE;
 	cardDisply.x = shineArmature.x - cardDisply.width * 0.5;
@@ -256,12 +263,11 @@ private function pullCard() : void
 
 private function showDetails() : void 
 {
-	var card:CardItem = rewardItems[collectedItemIndex];
+	var card:BuildingCard = rewardItems[collectedItemIndex];
+	var count:int = outcomes.get(rewardType);
 	addChild(card);
-	card._setData(rewardType, 1, outcomes.get(rewardType), 1);
+	card.setData(rewardType, 1, count);
 
-	card.addChild(card.effectsLayer);
-	
 	shineArmature.animation.gotoAndPlayByTime("rotate", 0, 10);
 	shineArmature.animation.timeScale = 0.5;
 	addChildAt(shineArmature, 1);
@@ -275,21 +281,31 @@ private function showDetails() : void
 		kira.startColor = rewardRarity == 2 ? new ColorArgb(1, 0, 0.8, 0.9) : new ColorArgb(1, 0.5, 0, 0.5);
 		kira.x = card.width * 0.5;
 		kira.y = card.height * 0.5;
-		card.effectsLayer.addChild(kira);
+		card.addChild(kira);
 	}
 
 	titleDisplay.text = loc(( ResourceType.isCard(rewardType) ? "card_title_" : "resource_title_" ) + rewardType);
-	titleDisplay.x = 480;
-	Starling.juggler.tween(titleDisplay, 0.3, {x:540, transition:Transitions.EASE_OUT_BACK});
+	titleDisplay.x = 400;
+	Starling.juggler.tween(titleDisplay, 0.3, {x:552, transition:Transitions.EASE_OUT_BACK});
 	addChildAt(titleDisplay, 1);
 	
-	if( ResourceType.isCard(rewardType) && rewardRarity > 0 )
+	if( ResourceType.isCard(rewardType) )
 	{
-		descriptionDisplay.elementFormat = new ElementFormat(descriptionDisplay.fontDescription, descriptionDisplay.fontSize, CardTypes.getRarityColor(rewardRarity));
-		descriptionDisplay.text = loc("card_rarity_" + rewardRarity);
-		descriptionDisplay.x = 480;
-		Starling.juggler.tween(descriptionDisplay, 0.3, {delay:0.1, x:540, transition:Transitions.EASE_OUT_BACK});
-		addChildAt(descriptionDisplay, 1);
+		//if ( rewardRarity > 0 )
+		//{
+			descriptionDisplay.elementFormat = new ElementFormat(descriptionDisplay.fontDescription, descriptionDisplay.fontSize, CardTypes.getRarityColor(rewardRarity));
+			descriptionDisplay.text = loc("card_rarity_" + rewardRarity);
+			descriptionDisplay.x = 400;
+			Starling.juggler.tween(descriptionDisplay, 0.3, {delay:0.2, x:550, transition:Transitions.EASE_OUT_BACK});
+			addChildAt(descriptionDisplay, 1);
+		//}
+		
+		sliderDisplay.type = rewardType;
+		sliderDisplay.setData(sliderDisplay.minimum, player.getResource(rewardType) - count,	sliderDisplay.maximum);
+		sliderDisplay.x = 400;
+		Starling.juggler.tween(sliderDisplay, 0.3, {delay:0.1, x:550, transition:Transitions.EASE_OUT_BACK});
+		sliderDisplay.setData(sliderDisplay.minimum, player.getResource(rewardType),			sliderDisplay.maximum, 1);
+		addChildAt(sliderDisplay, 1);
 	}
 }
 
@@ -298,14 +314,13 @@ private function grabLastReward() : void
 {
 	if( rewardItems.length <= 0 )
 		return;
-	var card:CardItem = rewardItems[rewardItems.length - 1]
+	var card:BuildingCard = rewardItems[rewardItems.length - 1]
 	if( card == null )
 		return;
 	resetElements();
 	if( card.parent == null )
 		addChild(card);
-	card._setData(rewardType, 1, outcomes.get(rewardType), 0);
-	card.effectsLayer.removeFromParent(true);
+	//card.effectsLayer.removeFromParent(true);
 
 	var index:int = rewardItems.indexOf(card);
 	var numCol:int = rewardKeys.length > 6 ? 4 : 3;
@@ -333,6 +348,7 @@ private function resetElements():void
 	titleDisplay.removeFromParent();
 	Starling.juggler.removeTweens(descriptionDisplay);
 	descriptionDisplay.removeFromParent();
+	sliderDisplay.removeFromParent();
 }
 
 override public function dispose():void

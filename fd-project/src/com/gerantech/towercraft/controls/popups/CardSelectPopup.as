@@ -44,7 +44,7 @@ override protected function initialize():void
 //	buildingIcon.height = (transitionIn.destinationBound.width - 8) * BuildingCard.VERICAL_SCALE;
 	buildingIcon.setData(card.type, card.level, card.count());
 
-	var upgradable:Boolean = card.upgradable();
+	var upgradable:Boolean = Card.get_upgradeCards(card.level, card.rarity) <= player.getResource(card.type);
 	detailsButton = new MMOryButton();
 	detailsButton.height = 132;
 	detailsButton.label = loc(upgradable ? "upgrade_label" : "info_label");
