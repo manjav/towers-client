@@ -183,7 +183,10 @@ private function checkVerbos() : Boolean
 	for( var i:int = threadCollection.length - 1; i >= 0; i-- )
 	{
 		if( threadCollection.getItemAt(i).getInt("senderId") != myId )
+		{
+			myMessages = 0;
 			continue;
+		}
 		myMessages ++;
 		if ( myMessages >= 3 )
 			return true;

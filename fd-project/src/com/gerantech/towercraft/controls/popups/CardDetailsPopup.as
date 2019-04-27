@@ -9,7 +9,9 @@ import com.gerantech.towercraft.controls.groups.ColorGroup;
 import com.gerantech.towercraft.controls.groups.Devider;
 import com.gerantech.towercraft.controls.items.CardFeatureItemRenderer;
 import com.gerantech.towercraft.controls.overlays.TransitionData;
+import com.gerantech.towercraft.controls.texts.LTRLable;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.battle.units.Card;
@@ -21,6 +23,7 @@ import com.gt.towers.scripts.ScriptEngine;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
+import feathers.core.ITextRenderer;
 import feathers.data.ListCollection;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
@@ -123,6 +126,7 @@ override protected function transitionInCompleted():void
 	
 	var inDeck:Boolean = player.getSelectedDeck().existsValue(cardType);
 
+	var upgradeCost:int = Card.get_upgradeCost(card.level, card.rarity);
 	var upgradeButton:MMOryButton = new MMOryButton();
 	//upgradeButton.disableSelectDispatching = true;
 	upgradeButton.alpha = 0;
@@ -135,10 +139,17 @@ override protected function transitionInCompleted():void
 	upgradeButton.addEventListener(Event.SELECT, upgradeButton_selectHandler);
 	upgradeButton.addEventListener(Event.TRIGGERED, upgradeButton_triggeredHandler);
 	upgradeButton.iconTexture = MMOryButton.getIcon(ResourceType.R3_CURRENCY_SOFT, 1);
-	upgradeButton.label = MMOryButton.getLabel(0, Card.get_upgradeCost(card.level, card.rarity));
+	upgradeButton.label = MMOryButton.getLabel(0, upgradeCost);
 	upgradeButton.layoutData = new AnchorLayoutData(NaN, padding + 300, padding - 10);
 	upgradeButton.isEnabled = player.resources.get(cardType) >= Card.get_upgradeCards(card.level, card.rarity);
-	//upgradeButton.fontColor = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeButton.count ? 0xFFFFFF : 0xCC0000;
+	var hasCoin:Boolean = player.resources.get(ResourceType.R3_CURRENCY_SOFT) >= upgradeCost;
+	upgradeButton.labelFactory = function () : ITextRenderer
+	{
+		if( hasCoin )
+			return new ShadowLabel(null, 1, 0, "center", null, false, null, 1);
+		return new RTLLabel(null, 0xCC0000, "center", null, false, null, 1);
+	}
+	upgradeButton.defaultIcon.alpha = hasCoin ? 1 : 0.8;
 	addChild(upgradeButton);
 	Starling.juggler.tween(upgradeButton, 0.3, {delay:0.1, alpha:1, onComplete:upgradeButton_tweenCompleted});
 	function upgradeButton_tweenCompleted () : void

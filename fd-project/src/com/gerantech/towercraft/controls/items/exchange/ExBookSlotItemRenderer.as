@@ -317,7 +317,7 @@ private function achieve():void
 	bookAnimation.y = rd.y;
 	bookAnimation.addEventListener(EventObject.COMPLETE, bookAnimation_completeHandler);
 	appModel.navigator.addChild(bookAnimation);
-	var globalPos:Rectangle = this.getBounds(stage);trace(globalPos)
+	var globalPos:Rectangle = this.getBounds(stage);
 	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, x:globalPos.x + width * 0.53, scale:OpenBookOverlay.getBookScale(exchange.outcome) * 0.68, transition:Transitions.EASE_IN_OUT});
 	Starling.juggler.tween(bookAnimation, 0.5, {delay:0.5, y:globalPos.y + height * 0.65, transition:Transitions.EASE_IN_BACK});
 	function bookAnimation_completeHandler(event:StarlingEvent):void

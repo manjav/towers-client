@@ -268,12 +268,7 @@ protected function defaultSliderDisplayFactory() : Indicator
 			sliderDisplay = new IndicatorCard("ltr", type);
 		else
 			sliderDisplay = new Indicator("ltr", type, false, false);
-		sliderDisplay.clampValue = false;
-		sliderDisplay.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
-		{
-			return StrUtils.getNumber(ResourceType.isCard(type) ? (Math.round(value) + "/" + maximum) : Math.round(value));
-		}
-		sliderDisplay.height = 62;
+		sliderDisplay.height = 60;
 		sliderDisplay.layoutData = new AnchorLayoutData(NaN, 10, -56, 10);
 		addChild(sliderDisplay);
 	}
@@ -295,7 +290,7 @@ public function punchSlider() : void
 //       _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-  RARITY  -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 protected function defaultRarityDisplayFactory() : ImageLoader
 {
-	if ( !showRarity || rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
+	if( !showRarity || rarity == 0 || availablity != CardTypes.AVAILABLITY_EXISTS )
 	{
 		if( rarityDisplay != null )
 			rarityDisplay.removeFromParent();
@@ -325,7 +320,7 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
 		labelsContainer.addChild(countDisplay);
 	}
-	countDisplay.text = "x "+ StrUtils.getNumber(count);
+	countDisplay.text = "x " + StrUtils.getNumber(count);
 	return countDisplay;
 }
 

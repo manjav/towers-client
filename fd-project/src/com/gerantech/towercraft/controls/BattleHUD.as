@@ -168,7 +168,7 @@ override protected function initialize():void
 	bubbleAxis.layoutData = new AnchorLayoutData(140 + padding, NaN, NaN, padding);
 	
 	scoreBoard = new BattleScoreBoard();
-	scoreBoard.layoutData = new AnchorLayoutData(NaN, 0, NaN, NaN, NaN, -BattleFooter.HEIGHT * 0.2);
+	scoreBoard.layoutData = new AnchorLayoutData(NaN, -15, NaN, NaN, NaN, -BattleFooter.HEIGHT * 0.2);
 	//scoreBoard.y = appModel.battleFieldView.y - scoreBoard.height * 0.5;
 	addChild(scoreBoard);
 	updateScores(1, 0, battleData.allise.getInt("score"), battleData.axis.getInt("score"), -1);

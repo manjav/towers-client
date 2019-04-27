@@ -20,10 +20,29 @@ set "string=%string:: ==%"
 rem Separate parts at comma into individual assignments
 set "%string:, =" & set "%"
 
+:menu
+echo.
+echo Change server after deletion?
+echo.
+echo  [0] no change
+echo  [1] iran
+echo  [2] local
+echo  [3] yoga
 
-:: delete application data
-echo Delete %server%-user-data.sol ?
-pause
+:choice
+set /P S=[Choice]: 
+echo.
+
+set SERVER=iran
+if "%S%"=="0" goto clear
+if "%S%"=="1" set SERVER=iran
+if "%S%"=="2" set SERVER=local
+if "%S%"=="3" set SERVER=yoga
+set MARKET=cafebazaar
+call bat\SetupDescriptor.bat
+
+:clear
+
 cd %AppData%\%APP_ID%\Local Store\
 del /F /Q #SharedObjects\release.swf\%server%-user-data.sol
 del /F /Q config.xml
