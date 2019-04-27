@@ -316,11 +316,11 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 	
 	if( countDisplay == null )
 	{
-		countDisplay = new ShadowLabel();
+		countDisplay = new ShadowLabel(null, 1, 0, null, "ltr");
 		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
 		labelsContainer.addChild(countDisplay);
 	}
-	countDisplay.text = "x " + StrUtils.getNumber(count);
+	countDisplay.text = (ResourceType.isCard(type) ? "x" : "+") + StrUtils.getNumber(count);
 	return countDisplay;
 }
 

@@ -59,7 +59,7 @@ override protected function commitData():void
 		iconDisplay.pixelSnapping = false;
 		addChild(iconDisplay);
 		
-		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1);
+		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1, null, "ltr");
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
 		addChild(labelDisplay);
 		
