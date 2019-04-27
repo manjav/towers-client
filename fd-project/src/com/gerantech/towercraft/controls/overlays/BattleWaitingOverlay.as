@@ -132,7 +132,7 @@ public function disappear():void
 
 override protected function defaultOverlayFactory(color:uint = 0, alpha:Number = 0.4):DisplayObject
 {
-	var overlay:TileBackground = new TileBackground("home/pistole-tile", 0.3, false, 0);
+	var overlay:TileBackground = new TileBackground("home/pistole-tile", 0.6, false, 0);
 	overlay.y = overlay.x = -100
 	overlay.width = stageWidth + 200;
 	overlay.height = stageHeight + 200;
