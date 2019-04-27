@@ -174,7 +174,7 @@ protected function loadingManager_loadedHandler(event:LoadingEvent):void
 	indicatorSC.layoutData = new AnchorLayoutData(18, NaN, NaN, NaN, 0);
 	addChild(indicatorSC);
 	
-	if( player.unlocked_challenge() )
+	if( player.get_arena(0) > 0 )
 	{
 		var indicatorCT:Indicator = new Indicator("rtl", ResourceType.R6_TICKET);
 		indicatorCT.layoutData = new AnchorLayoutData(18, NaN, NaN, 42);
