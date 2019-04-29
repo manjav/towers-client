@@ -296,7 +296,7 @@
 	<SubTexture name="cards/elixir-9" x="1532" y="1912" width="60" height="63" frameX="0" frameY="0" frameWidth="60" frameHeight="64"/>
 	<SubTexture name="settings/311" x="1671" y="1912" width="64" height="59" frameX="-2" frameY="-5" frameWidth="72" frameHeight="72"/>
 	<SubTexture name="settings/settings-22" x="1136" y="1874" width="47" height="78" frameX="-25" frameY="-5" frameWidth="92" frameHeight="92"/>
-	<SubTexture name="warn" x="1256" y="1913" width="63" height="58" frameX="0" frameY="0" frameWidth="63" frameHeight="59"/>
+	<SubTexture name="theme/warn" x="1256" y="1913" width="63" height="58" frameX="0" frameY="0" frameWidth="63" frameHeight="59"/>
 	<SubTexture name="settings/21" x="644" y="1915" width="60" height="59" frameX="-5" frameY="-5" frameWidth="72" frameHeight="72"/>
 	<SubTexture name="home/button-bg-0" x="1736" y="1912" width="44" height="76" frameX="-1" frameY="-3" frameWidth="48" frameHeight="80"/>
 	<SubTexture name="home/button-bg-1" x="1736" y="1912" width="44" height="76" frameX="-1" frameY="-3" frameWidth="48" frameHeight="80"/>
