@@ -21,9 +21,12 @@ import com.gerantech.towercraft.controls.sliders.LabeledProgressBar;
 import com.gerantech.towercraft.controls.texts.CountdownLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.Assets;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.battle.fieldes.FieldData;
@@ -81,13 +84,14 @@ override public function init():void
 	listLayout.horizontalAlign = HorizontalAlign.JUSTIFY;
 	listLayout.typicalItemHeight = Math.min(410, stageHeight * 0.23);
 	listLayout.padding = 50;
+	listLayout.paddingTop = 280;
 	var eventsButton:List = new List();
 	eventsButton.layout = listLayout;
 	eventsButton.horizontalScrollPolicy = eventsButton.verticalScrollPolicy = ScrollPolicy.OFF;
 	eventsButton.itemRendererFactory = function () : IListItemRenderer { return new ChallengeIndexItemRenderer(); };
 	eventsButton.dataProvider = new ListCollection([UserData.instance.challengeIndex]);
-	eventsButton.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, NaN, -stageHeight * 0.035);
-	eventsButton.height = listLayout.typicalItemHeight + listLayout.padding * 2;
+	eventsButton.layoutData = new AnchorLayoutData(NaN, 100, NaN, 100, NaN, -stageHeight * 0.05);
+	eventsButton.height = listLayout.typicalItemHeight + listLayout.padding + listLayout.paddingTop;
 	addButton(eventsButton, "eventsButton");
 	
 	// battle button
@@ -219,7 +223,7 @@ private function showTutorial():void
 	var tutorStep:int = player.getTutorStep();
 	trace("player.inTutorial: ", player.inTutorial(), "tutorStep: ", tutorStep);
 
-	if( player.get_battleswins() < 2 && player.getTutorStep() >= PrefsTypes.T_018_CARD_UPGRADED )
+	if( (player.get_battleswins() < 2 && player.getTutorStep() >= PrefsTypes.T_018_CARD_UPGRADED) || (league > 0 && player.getTutorStep() == PrefsTypes.T_74_CHALLENGE_SELECTED) )
 	{
 		SimpleLayoutButton(getChildByName("battleButton")).showTutorHint();
 		return;
@@ -230,31 +234,17 @@ private function showTutorial():void
 		var confirm:SelectNamePopup = new SelectNamePopup();
 		confirm.addEventListener(Event.COMPLETE, confirm_eventsHandler);
 		appModel.navigator.addPopup(confirm);
-		function confirm_eventsHandler():void {
-			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_152_NAME_SELECTED);
-			showTutorial();
-		}
-		return;
-	}
-	
-	if( tutorStep == PrefsTypes.T_152_NAME_SELECTED  )// show quest table tutorial
-	{
-		/*var tutorialData:TutorialData = new TutorialData("quest_tutorial");
-		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_quest_0", null, 500, 1500, 0));
-		tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
-		tutorials.show(tutorialData);
-		function tutorials_completeHandler(event:Event):void
+		function confirm_eventsHandler():void
 		{
-			if( event.data.name != "quest_tutorial" )
-				return;
+			confirm.removeEventListener(Event.COMPLETE, confirm_eventsHandler);
+			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_72_NAME_SELECTED);
 			
-			UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_161_QUEST_FOCUS); 
-			//SimpleLayoutButton(getChildByName("rankButton")).showTutorArrow(true);
-			questsButton.showTutorArrow(false);
-		}*/
-		//HomeNewButton(getChildByName("rightButton")).showTutorArrow(false);
-	}	
+			// show challenge tutorial
+			var tutorialData:TutorialData = new TutorialData("challenge_tutorial");
+			tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_challenge_0", null, 500, 1500, 0));
+			tutorials.show(tutorialData);
+		}
+	}
 }
 
 private function mainButtons_triggeredHandler(event:Event):void

@@ -10,11 +10,13 @@ import com.gerantech.towercraft.controls.sliders.ElixirBar;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.tutorials.TutorialTask;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.views.MapBuilder;
 import com.gerantech.towercraft.views.units.CardPlaceHolder;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
 import com.gt.towers.constants.CardTypes;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.socials.Challenge;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -236,9 +238,11 @@ protected function stage_touchHandler(event:TouchEvent) : void
 				appModel.battleFieldView.responseSender.summonUnit(draggableCard.type, touchPosition.x, touchPosition.y);
 				
 				task = null;
+				UserData.instance.prefs.setInt(PrefsTypes.TUTOR, appModel.battleFieldView.battleData.getBattleStep() + 2);
 				if( player.get_battleswins() < 2 )
 				{
 					battleField.numSummonedUnits ++;
+					
 					if ( battleField.numSummonedUnits == 1 ) // pause battle
 					{
 						battleField.pauseTime = battleField.now + 2500;

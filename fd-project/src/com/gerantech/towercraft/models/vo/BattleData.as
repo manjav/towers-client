@@ -86,5 +86,10 @@ public function getAlliseEllixir():Number
 {
 	return battleField.elixirBar.get(battleField.side);
 }
+
+public function getBattleStep() : int
+{
+	return Math.min(6, AppModel.instance.game.player.get_battleswins()) * 20;
+}
 }
 }

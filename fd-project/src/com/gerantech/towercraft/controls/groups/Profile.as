@@ -31,7 +31,7 @@ override protected function initialize() : void
 	height = 164;
 	super.initialize();
 	layout = new AnchorLayout();
-	touchable = player.getTutorStep() >= PrefsTypes.T_047_WIN;
+	touchable = player.getTutorStep() >= 47;
     var scale9:Rectangle = new Rectangle(16, 16, 4, 4);
 	
 	var skin:Image = new Image(appModel.theme.roundMediumInnerSkin);

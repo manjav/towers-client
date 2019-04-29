@@ -98,5 +98,15 @@ override protected function initialize():void
 	closeBatton.alpha = 0;
 	addChild(closeBatton);
 }
+
+override protected function getRewardsCollection(playerIndex:int) : ListCollection
+{
+	var ret:ListCollection = super.getRewardsCollection(playerIndex);
+	//if( exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_EMPTY, timeManager.now) == null )
+		ret.push({t:"-1", c:loc("battle_no_book")});
+	//if( battleData.sfsData.getInt("mode") == 0 )
+		ret.push({t:"-2", c:loc("battle_no_point")});
+	return ret;
+}
 }
 }

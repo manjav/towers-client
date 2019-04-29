@@ -13,8 +13,10 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
 import feathers.controls.AutoSizeMode;
@@ -159,6 +161,8 @@ protected function addedToStageHandler(event:Event):void
 protected function loadingManager_loadedHandler(event:LoadingEvent):void
 {
 	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);
+
 	// return to last open game
 	if( appModel.loadingManager.serverData.getBool("inBattle") )
 	{

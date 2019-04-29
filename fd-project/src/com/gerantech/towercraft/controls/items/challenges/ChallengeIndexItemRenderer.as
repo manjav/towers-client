@@ -6,9 +6,11 @@ import com.gerantech.towercraft.controls.items.AbstractListItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.controls.tooltips.BaseTooltip;
+import com.gerantech.towercraft.events.GameEvent;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.socials.Challenge;
 import feathers.controls.ButtonState;
 import feathers.controls.ImageLoader;
@@ -50,6 +52,7 @@ override protected function initialize() : void
 {
 	super.initialize();
 	layout = new AnchorLayout();
+	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
 }
 
 override protected function commitData() : void 
@@ -213,12 +216,22 @@ protected function backgroundImage_triggerdHandler(event:Event) : void
 		appModel.navigator.addLog(loc("availableuntil_messeage", [loc("resource_title_2") + " " + point, ""]));
 		return;
 	}
+	
 	_owner.dispatchEventWith(Event.TRIGGERED, false, chIndex);
 }
 
-private function infoButton_triggeredHandler(event:Event) : void
+protected function infoButton_triggeredHandler(event:Event) : void
 {
 	appModel.navigator.addChild(new BaseTooltip(loc("challenge_info_" + int(infoButton.name)), infoButton.getBounds(stage)));
+}
+
+protected function tutorials_completeHandler(event:Event) : void 
+{
+	if( event.data.name != "challenge_tutorial" )
+		return;
+	tutorials.removeEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_completeHandler);
+	if ( (player.getTutorStep() == PrefsTypes.T_72_NAME_SELECTED && index == 0) || (player.getTutorStep() == PrefsTypes.T_73_CHALLENGES_SHOWN && index == 1) )
+		backgroundImage.showTutorHint();
 }
 }
 }

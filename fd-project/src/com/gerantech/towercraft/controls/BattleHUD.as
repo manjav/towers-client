@@ -20,10 +20,12 @@ import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.BattleData;
+import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.views.units.UnitView;
 import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.fieldes.FieldData;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.StickerType;
 import com.gt.towers.socials.Challenge;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -267,6 +269,9 @@ public function updateScores(round:int, winnerSide:int, allise:int, axis:int, un
 	battleData.allise.putInt("score", allise);
 	battleData.axis.putInt("score", axis);
 	
+	if( winnerSide == 0 && allise > 0 )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, appModel.battleFieldView.battleData.getBattleStep() + 2 + allise);
+
 	if( deck != null )
 		deck.updateScore(round, winnerSide, allise, axis, unitId);
 	if( scoreBoard != null )

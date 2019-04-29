@@ -44,16 +44,16 @@ public class CardsSegment extends Segment
 private var padding:int;
 private var availableList:List;
 private var unavailableList:List;
-private var availableCollection:ListCollection;
-private var unavailableCollection:ListCollection;
+private var deckHeader:DeckHeader;
+private var scroller:ScrollContainer;
+private var draggableCard:BuildingCard;
 private var selectPopup:CardSelectPopup;
 private var detailsPopup:CardDetailsPopup;
-private var deckHeader:DeckHeader;
+private var availableCollection:ListCollection;
+private var unavailableCollection:ListCollection;
 private var startScrollBarIndicator:Number = 0;
-private var draggableCard:BuildingCard;
 private var touchId:int = -1;
 private var _editMode:Boolean;
-private var scroller:ScrollContainer;
 
 public function CardsSegment(){}
 override public function init():void

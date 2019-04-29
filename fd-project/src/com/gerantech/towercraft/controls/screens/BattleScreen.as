@@ -47,7 +47,6 @@ public var spectatedUser:String;
 public var hud:BattleHUD;
 public var waitingOverlay:BattleWaitingOverlay;
 private var touchEnable:Boolean;
-private var tutorBattleIndex:int;
 private var battleData:BattleData;
 
 public function BattleScreen()
@@ -212,12 +211,11 @@ private function tutorials_tasksStartHandler(e:Event) : void
 
 private function showTutorials() : void 
 {
-	tutorBattleIndex = Math.min(3, player.get_battleswins()) * 20;
 	if( SFSConnection.instance.mySelf.isSpectator )
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_arena(0) > 0 )
+	if( player.get_battleswins() > 5 )
 	{
 		readyBattle();
 		return;
@@ -231,7 +229,7 @@ private function showTutorials() : void
 	tutorials.addEventListener(GameEvent.TUTORIAL_TASKS_FINISH, tutorials_tasksFinishHandler);
 	tutorials.show(tutorialData);
 	
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 1);
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, appModel.battleFieldView.battleData.getBattleStep() + 1);
 }
 
 private function readyBattle() : void 
@@ -247,7 +245,7 @@ private function readyBattle() : void
 private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 {
 	IN_BATTLE = false;
-	var inTutorial:Boolean = player.get_battleswins() < 3;
+	var inTutorial:Boolean = player.get_battleswins() < 5;
 	appModel.battleFieldView.battleData.battleField.state = BattleField.STATE_4_ENDED;
 	var field:FieldData = appModel.battleFieldView.battleData.battleField.field;
 	touchEnable = false;
@@ -289,12 +287,12 @@ private function endBattle(data:SFSObject, skipCelebration:Boolean = false):void
 		if( bookKey != null )
 			outcomes.set(int(bookKey), item.getInt(bookKey));
 	}
-	player.addResources(outcomes);
 	
 	// reserved prefs data
 	if( inTutorial && rewards.getSFSObject(0).getInt("score") > 0 )
-		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, tutorBattleIndex + 7);
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, appModel.battleFieldView.battleData.getBattleStep() + 7);
 	
+	player.addResources(outcomes);
 	var endOverlay:EndOverlay;
 	if( field.isOperation() )
 		endOverlay = new EndOperationOverlay(appModel.battleFieldView.battleData, playerIndex, rewards, inTutorial);

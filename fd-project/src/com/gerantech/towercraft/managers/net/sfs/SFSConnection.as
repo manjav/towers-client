@@ -200,7 +200,7 @@ public function sendExtensionRequest(extCmd:String, params:ISFSObject=null, room
 	removeFromCommands(extCmd);
 	var deadline:int = SFSCommands.getDeadline(extCmd);
 	if( deadline > -1 )
-		commandsPool.set(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
+		commandsPool.setReserved(extCmd, setTimeout(responseDeadlineCallback, deadline, extCmd));
 	send(new ExtensionRequest(extCmd, params, room, useUDP));
 }
 
@@ -212,10 +212,10 @@ protected function sfs_extensionResponseHandler(event:SFSEvent):void
 }
 public function removeFromCommands(command:String):void
 {
-	if( !commandsPool.exists(command) )
+	if( !commandsPool.existsReserved(command) )
 		return;
-	clearTimeout(commandsPool.get(command) as uint);
-	delete(commandsPool.h[command]);
+	clearTimeout(commandsPool.getReserved(command) as uint);
+	delete(commandsPool.rh[command]);
 	hideLowConnectionAlert(command);
 }
 

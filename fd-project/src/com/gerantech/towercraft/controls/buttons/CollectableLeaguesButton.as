@@ -104,7 +104,7 @@ override protected function backgroundFactory() : ImageLoader
 
 override protected function trigger() : void
 {
-	if( player.getTutorStep() > PrefsTypes.T_047_WIN )
+	if( player.getTutorStep() > 47 )
 		super.trigger();
 }
 

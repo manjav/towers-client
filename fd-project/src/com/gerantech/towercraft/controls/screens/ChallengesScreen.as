@@ -1,6 +1,8 @@
 package com.gerantech.towercraft.controls.screens
 {
 import com.gerantech.towercraft.controls.items.challenges.ChallengeIndexItemRenderer;
+import com.gerantech.towercraft.models.tutorials.TutorialData;
+import com.gerantech.towercraft.models.tutorials.TutorialTask;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.controls.renderers.IListItemRenderer;
@@ -48,10 +50,22 @@ override protected function initialize():void
 	
 	closeButton.alpha = 0;
 	Starling.juggler.tween(closeButton, 0.3, {delay:0.4, alpha:1});
+
+	if( player.getTutorStep() == PrefsTypes.T_72_NAME_SELECTED )
+	{
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_73_CHALLENGES_SHOWN); 
+		
+		var tutorialData:TutorialData = new TutorialData("challenge_tutorial");
+		tutorialData.addTask(new TutorialTask(TutorialTask.TYPE_MESSAGE, "tutor_challenge_1", null, 500, 1500, 0));
+		tutorials.show(tutorialData);
+	}
 }
 
 protected function list_triggeredHandler(event:Event) : void 
 {
+	if( player.getTutorStep() == PrefsTypes.T_73_CHALLENGES_SHOWN )
+		UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_74_CHALLENGE_SELECTED); 
+
 	UserData.instance.challengeIndex = event.data as int;
 	UserData.instance.save();
 	appModel.navigator.popScreen();

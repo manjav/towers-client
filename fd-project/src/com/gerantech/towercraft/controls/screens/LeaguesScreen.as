@@ -111,7 +111,7 @@ private function testBattleOverlay() : void
 		sfs.putInt("id", i == 0?10004:214);
 		sfs.putText("name", i == 0?"ManJav":"Enemy");
 		sfs.putInt("3", 22);
-		sfs.putInt("2", 12);
+		sfs.putInt("2", -12);
 		sfs.putInt("52", 112);
 		rewards.addSFSObject(sfs);
 		
@@ -119,7 +119,7 @@ private function testBattleOverlay() : void
 		p.putText("name", i == 0?"ManJav":"Enemy");
 		p.putInt("xp", 0);
 		p.putInt("point", 0);
-		p.putIntArray("deck", []);
+		p.putText("deck", "101,102");
 		p.putInt("score", 0);
 		sfs2.putSFSObject("p" + i, p);
 	}

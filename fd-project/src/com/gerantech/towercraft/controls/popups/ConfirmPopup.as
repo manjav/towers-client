@@ -22,8 +22,8 @@ public var declineLabel:String;
 public var messageDisplay:RTLLabel;
 
 protected var declineButton:Button;
-protected var acceptButton:MMOryButton;
 protected var container:LayoutGroup;
+protected var acceptButton:MMOryButton;
 protected var buttonContainer:LayoutGroup;
 
 public function ConfirmPopup(message:String, acceptLabel:String = null, declineLabel:String = null)

@@ -10,7 +10,6 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import dragonBones.starling.StarlingArmatureDisplay;
-import feathers.controls.text.BitmapFontTextRenderer;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayout;
 import feathers.layout.AnchorLayoutData;
@@ -59,8 +58,10 @@ override protected function commitData():void
 		iconDisplay.pixelSnapping = false;
 		addChild(iconDisplay);
 		
-		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1, null, "ltr");
+		var isComment:Boolean = _data.t < 0;
+		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1, null, isComment < 0?null:"ltr", false, null, isComment?0.5:1);
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
+		labelDisplay.alpha = isComment ? 0.5 : 1;
 		addChild(labelDisplay);
 		
 	}
