@@ -105,6 +105,7 @@ override protected function initialize():void
 	}
 	
 	elixirBar = new ElixirBar();
+	elixirBar.value = BattleField.POPULATION_INIT;
 	elixirBar.layoutData = new AnchorLayoutData(NaN, padding, padding, preparedCard.width);
 	addChild(elixirBar);
 	

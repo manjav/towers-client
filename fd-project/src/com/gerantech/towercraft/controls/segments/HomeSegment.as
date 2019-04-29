@@ -122,7 +122,7 @@ override public function init():void
 		var tutorialProgress:Indicator = new Indicator("ltr", 60, true, false, false);
 		tutorialProgress.addEventListener(FeathersEventType.CREATION_COMPLETE, function() : void {
 			AnchorLayoutData(tutorialProgress.iconDisplay.layoutData).left = -60; tutorialProgress.iconDisplay.width = tutorialProgress.iconDisplay.height = tutorialProgress.height + 76; });
-		tutorialProgress.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String { return StrUtils.getNumber(Math.round(value) + "/5"); }
+		tutorialProgress.formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String { return StrUtils.getNumber(Math.round(value) + "/4"); }
 		tutorialProgress.setData(0, player.get_battleswins(), 4, 1);
 		tutorialProgress.layoutData = tutorProgressLayout;
 		tutorialProgress.height = stageHeight * 0.031;

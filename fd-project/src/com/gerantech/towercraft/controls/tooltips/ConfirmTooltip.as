@@ -25,7 +25,7 @@ override protected function initialize():void
 	var acceptButton:Button = new Button();
 	acceptButton.styleName = MainTheme.STYLE_BUTTON_SMALL_NEUTRAL;
 	acceptButton.label = loc("popup_ok_label");
-	acceptButton.width = 180;
+	acceptButton.width = hasDecline ? 180 : 240;
 	acceptButton.height = padding * 4;
 	acceptButton.addEventListener(Event.TRIGGERED, acceptButton_triggeredHandler);
 	acceptButton.layoutData = new AnchorLayoutData(NaN, hasDecline ? padding * 2 : NaN, padding * 2, NaN, hasDecline ? NaN : 0);
@@ -45,7 +45,7 @@ override protected function initialize():void
 }
 override protected function transitionInStarted():void
 {
-	height = labelDisplay.height + padding * 8;
+	height = labelDisplay.height + padding * 9;
 	super.transitionInStarted();
 }
 
