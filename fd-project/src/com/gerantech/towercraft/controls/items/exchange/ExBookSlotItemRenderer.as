@@ -191,7 +191,7 @@ protected function waitGroupFactory() : LayoutGroup
 
 private function showOpenWarn() : void 
 {
-	if( state != ExchangeItem.CHEST_STATE_WAIT )
+	if( state != ExchangeItem.CHEST_STATE_WAIT || waitGroup == null )
 		return;
 	var busySlot:ExchangeItem = exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_BUSY, timeManager.now);
 	if( busySlot != null )

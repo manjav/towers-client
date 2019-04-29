@@ -65,7 +65,9 @@ override protected function initialize():void
 		Starling.juggler.tween(cancelButton, 0.5, {delay: 1.5, alpha: 1});
 	}
 	
-	waitingLabel = new RTLLabel(loc("tip_over"), 1, "center", null, false, null, 1.2);
+	var arena:int = player.get_arena(0);
+	
+	waitingLabel = new RTLLabel(loc(arena ? "tip_over" : "tip_over_tutor"), 1, "center", null, false, null, 1.2);
 	waitingLabel.x = padding;
 	waitingLabel.y = stageHeight * 0.55;
 	waitingLabel.alpha = 0;
@@ -74,7 +76,6 @@ override protected function initialize():void
 	addChild(waitingLabel);
 	Starling.juggler.tween(waitingLabel, 0.5, {delay: 2, alpha: 1, y: stage.stageHeight * 0.6, transition: Transitions.EASE_OUT_BACK});
 	
-	var arena:int = player.get_arena(0);
 	if( arena > 0 )
 	{
 		var tipDisplay:RTLLabel = new RTLLabel(loc("tip_" + Math.min(arena - 1, 2) + "_" + Math.floor(Math.random() * 10)), 1, "justify", null, true, "center", 0.8);

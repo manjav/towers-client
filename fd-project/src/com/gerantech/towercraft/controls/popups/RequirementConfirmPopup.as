@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.popups
 {
+import com.gerantech.towercraft.controls.buttons.MMOryButton;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
@@ -25,6 +26,7 @@ override protected function initialize():void
 {
 	super.initialize();
 	acceptButton.label = StrUtils.getNumber(numHards);
+	acceptButton.iconSize = MMOryButton.DEFAULT_ICON_SIZE;
 	acceptButton.iconTexture = Assets.getTexture("res-" + ResourceType.R4_CURRENCY_HARD, "gui");
 }
 
