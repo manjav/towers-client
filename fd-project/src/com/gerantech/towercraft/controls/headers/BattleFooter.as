@@ -136,7 +136,9 @@ protected function sfsConnection_roomVariablesUpdateHandler(event:SFSEvent):void
 public function updateScore(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void 
 {
 	if( player.get_battleswins() == 0 && battleField.numSummonedUnits < 4 && allise == 1)
-		showSummonTutorial(0, new Point(450, 650), 200);
+		//showSummonTutorial(0, new Point(450, 650), 200);
+		showSummonTutorial(0, new Point(450, 900), 200);
+		
 }
 
 private function createDeckItem(cardType:int) : void
@@ -150,7 +152,8 @@ private function createDeckItem(cardType:int) : void
 public function transitionInCompleteHandler() : void 
 {
 	if( player.get_battleswins() < 3 )
-		showSummonTutorial(1, new Point(200, 1250), 500);
+		//showSummonTutorial(1, new Point(200, 1250), 500);
+		showSummonTutorial(1, new Point(200, 1300), 500);
 }
 
 private function showSummonTutorial(index:Number, point:Point, delay:int) : void 
