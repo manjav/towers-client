@@ -13,6 +13,8 @@
 {"id":111, "bullet":"ps-splash",	"bulletFX":"",	"smoke":"base",	"flame":"base",	"hit":"",			"die":"blood-",	"summonSFX":["111-summon"], "attackSFX":["111-attack"], "hitSFX":[]},
 {"id":112, "bullet":"",				"bulletFX":"",	"smoke":"",		"flame":"",		"hit":"",			"die":"blood-",	"summonSFX":["112-summon"], "attackSFX":["112-attack-1", "112-attack-2", "112-attack-3", "112-attack-4", "112-attack-5", "112-attack-6"], "hitSFX":[]},
 {"id":113, "bullet":"",				"bulletFX":"",	"smoke":"",		"flame":"",		"hit":"hit-",		"die":"blood-",	"summonSFX":["113-summon"], "attackSFX":["113-attack"], "hitSFX":[]},
+{"id":114, "bullet":"",				"bulletFX":"",	"smoke":"",		"flame":"",		"hit":"ps-melee",	"die":"blood-",	"summonSFX":["103-summon"], "attackSFX":["103-attack-1", "103-attack-2", "103-attack-3", "103-attack-4", "103-attack-5"],	"hitSFX":[]},
+{"id":115, "bullet":"",				"bulletFX":"",	"smoke":"",		"flame":"",		"hit":"ps-melee",	"die":"blood-",	"summonSFX":["105-summon"], "attackSFX":["105-attack"], "hitSFX":[]},
 
 {"id":151, "bullet":"bomb",		  	"bulletFX":"",	"smoke":"",		"flame":"",		"hit":"explode-",	"die":"", 		"summonSFX":["151-summon"], "attackSFX":["151-attack"], "hitSFX":["grenade"]},
 {"id":152, "bullet":"arrow-hord", 	"bulletFX":"",	"smoke":"",		"flame":"",		"hit":"arrows-",	"die":"",		"summonSFX":["152-summon"], "attackSFX":["152-attack"], "hitSFX":[]},
