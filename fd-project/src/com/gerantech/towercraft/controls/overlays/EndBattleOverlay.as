@@ -6,7 +6,9 @@ import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.models.vo.RewardData;
 import com.gerantech.towercraft.themes.MainTheme;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import feathers.controls.Button;
@@ -64,7 +66,8 @@ override protected function initialize():void
 	var hlayout:HorizontalLayout = new HorizontalLayout();
 	hlayout.horizontalAlign = HorizontalAlign.CENTER;
 	hlayout.verticalAlign = VerticalAlign.MIDDLE;
-	hlayout.gap = padding;
+	hlayout.useVirtualLayout = false;
+	hlayout.gap = padding * 2;
 	
 	if( playerIndex > -1 )
 	{
@@ -77,7 +80,7 @@ override protected function initialize():void
 			var rewardsList:List = new List();
 			rewardsList.backgroundSkin = new Quad(1, 1, 0);
 			rewardsList.backgroundSkin.alpha = 0.6;
-			rewardsList.height = 230;
+			rewardsList.height = 280;
 			rewardsList.layout = hlayout;
 			rewardsList.layoutData = new AnchorLayoutData(padding * 26, 0, NaN, 0);
 			rewardsList.itemRendererFactory = function ():IListItemRenderer { return new BattleOutcomeRewardItemRenderer(battleData); }
@@ -102,9 +105,9 @@ override protected function initialize():void
 override protected function getRewardsCollection(playerIndex:int) : ListCollection
 {
 	var ret:ListCollection = super.getRewardsCollection(playerIndex);
-	//if( exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_EMPTY, timeManager.now) == null )
+	if( exchanger.findItem(ExchangeType.C110_BATTLES, ExchangeItem.CHEST_STATE_EMPTY, timeManager.now) == null )
 		ret.push({t:"-1", c:loc("battle_no_book")});
-	//if( battleData.sfsData.getInt("mode") == 0 )
+	if( battleData.sfsData.getInt("mode") == 0 )
 		ret.push({t:"-2", c:loc("battle_no_point")});
 	return ret;
 }

@@ -22,7 +22,7 @@ private var position:Point;
 private var fontScale:Number;
 private var hSize:Number;
 
-public function BaseTooltip(message:String, position:Rectangle, fontScale:Number = 0.7, hSize:Number = 0.5)
+public function BaseTooltip(message:String, position:Rectangle, fontScale:Number = 0.65, hSize:Number = 0.5)
 {
 	super();
 	visible = false;
@@ -48,7 +48,7 @@ override protected function initialize():void
 	backgroundSkin = skin;
 	layout = new AnchorLayout();
 	
-	labelDisplay = new RTLLabel(message, 0, "justify", null, true, null, fontScale);
+	labelDisplay = new RTLLabel(message, 0, "justify", null, true, "center", fontScale);
 	labelDisplay.leading = -10;
 	labelDisplay.touchable = false;
 	labelDisplay.layoutData = new AnchorLayoutData(valign == "top"?50:40, 80, valign == "top"?50:60, 80);

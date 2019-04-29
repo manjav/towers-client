@@ -324,7 +324,7 @@ protected function stickerButton_triggeredHandler(event:Event):void
 		stickerList.height = padding * 20;
 		stickerList.itemRendererFactory = function ():IListItemRenderer { return new StickerItemRenderer(); }
 		stickerList.verticalScrollPolicy = stickerList.horizontalScrollPolicy = ScrollPolicy.OFF;
-		stickerList.dataProvider = new ListCollection(StickerType.getAll(battleData.battleField.friendlyMode)._list);
+		stickerList.dataProvider = new ListCollection(StickerType.getAll(battleData.battleField.friendlyMode));
 		
 		stickerCloserOveraly = new SimpleLayoutButton();
 		stickerCloserOveraly.backgroundSkin = new Quad(1, 1, 0);

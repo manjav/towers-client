@@ -58,10 +58,10 @@ override protected function commitData():void
 		iconDisplay.pixelSnapping = false;
 		addChild(iconDisplay);
 		
-		var isComment:Boolean = _data.t < 0;
-		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1, null, isComment < 0?null:"ltr", false, null, isComment?0.5:1);
-		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 60);
-		labelDisplay.alpha = isComment ? 0.5 : 1;
+		var isComment:Boolean = int(_data.t) < 0;trace(int(_data.t), isComment)
+		labelDisplay = new RTLLabel(StrUtils.getNumber(_data.c), 1, null, isComment ? null : "ltr", false, null, isComment ? 0.5 : 1);
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, isComment ? 80 : 60);
+		labelDisplay.alpha = isComment ? 0.7 : 1;
 		addChild(labelDisplay);
 		
 	}

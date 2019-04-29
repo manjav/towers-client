@@ -36,6 +36,7 @@ import feathers.layout.AnchorLayoutData;
 import flash.utils.setTimeout;
 import starling.animation.Transitions;
 import starling.core.Starling;
+import starling.display.Image;
 import starling.events.Event;
 
 public class BattleScreen extends BaseCustomScreen
@@ -57,6 +58,9 @@ public function BattleScreen()
 	appModel.battleFieldView.addEventListener(Event.COMPLETE,	battleFieldView_completeHandler);
 	appModel.battleFieldView.initialize();
 	addChild(appModel.battleFieldView);
+	
+	backgroundSkin = new Image(appModel.theme.quadSkin);
+	Image(backgroundSkin).color = 0xCCB3A3;
 }
 
 protected function battleFieldView_completeHandler(e:Event):void 
@@ -215,7 +219,7 @@ private function showTutorials() : void
 		return;
 
 	//appModel.battleFieldView.createDrops();
-	if( player.get_battleswins() > 5 )
+	if( player.getTutorStep() > 81 )
 	{
 		readyBattle();
 		return;
