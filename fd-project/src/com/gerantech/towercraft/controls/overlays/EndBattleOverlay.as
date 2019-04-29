@@ -25,6 +25,8 @@ import starling.events.Event;
 
 public class EndBattleOverlay extends EndOverlay
 {
+private var reward_1:ISFSObject;
+private var reward_2:ISFSObject;
 public function EndBattleOverlay(battleData:BattleData, playerIndex:int, rewards:ISFSArray, tutorialMode:Boolean = false)
 {
 	super(battleData, playerIndex, rewards, tutorialMode);
@@ -32,8 +34,8 @@ public function EndBattleOverlay(battleData:BattleData, playerIndex:int, rewards
 override protected function initialize():void
 {
 	super.initialize();
-	var reward_1:ISFSObject = rewards.getSFSObject(playerIndex ==-1?1:1 - playerIndex);
-	var reward_2:ISFSObject = rewards.getSFSObject(playerIndex ==-1?0:playerIndex);
+	reward_1 = rewards.getSFSObject(playerIndex ==-1?1:1 - playerIndex);
+	reward_2 = rewards.getSFSObject(playerIndex ==-1?0:playerIndex);
 	var isDraw:Boolean = reward_1.getInt("score") == reward_2.getInt("score") ;
 	var pi:int = playerIndex == -1 ? 0 : playerIndex;
 	
