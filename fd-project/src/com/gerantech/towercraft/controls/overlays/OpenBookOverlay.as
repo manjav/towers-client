@@ -130,15 +130,14 @@ override protected function addedToStageHandler(event:Event):void
 	sliderDisplay.y = shineArmature.y + 96;
 	addChild(sliderDisplay);
 
-	titleDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 1.6);
+	titleDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 1.4);
 	titleDisplay.touchable = false;
 	titleDisplay.visible = false;
 	titleDisplay.width = 600;
-	titleDisplay.y = shineArmature.y - 186;
 	addChild(titleDisplay);
 	
 	descriptionDisplay = new ShadowLabel("", 1, 0, "left", null, false, null, 0.9);
-	descriptionDisplay.y = shineArmature.y - 70;
+	descriptionDisplay.y = shineArmature.y - 82;
 	descriptionDisplay.touchable = false;
 	descriptionDisplay.visible = false;
 	descriptionDisplay.width = 600;
@@ -271,6 +270,7 @@ private function showDetails() : void
 	titleDisplay.text = loc(( ResourceType.isCard(rewardType) ? "card_title_" : "resource_title_" ) + rewardType);
 	titleDisplay.visible = true;
 	titleDisplay.x = 400;
+	titleDisplay.y = shineArmature.y + (rewardRarity > 0 ? -198 : (ResourceType.isCard(rewardType) ? -30 : 100));
 	titleDisplay.alpha = 0;
 	Starling.juggler.tween(titleDisplay, 0.3, {alpha:1, x:552, transition:Transitions.EASE_OUT_BACK});
 	

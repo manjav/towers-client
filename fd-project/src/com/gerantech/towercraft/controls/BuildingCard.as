@@ -316,8 +316,8 @@ protected function defaultCountDisplayFactory() : ShadowLabel
 	
 	if( countDisplay == null )
 	{
-		countDisplay = new ShadowLabel(null, 1, 0, null, "ltr");
-		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.6, padding * 0.8);
+		countDisplay = new ShadowLabel(null, 1, 0, null, "ltr", false, null, 1.4);
+		countDisplay.layoutData = new AnchorLayoutData(NaN, padding * 1.8, padding * 0.6);
 		labelsContainer.addChild(countDisplay);
 	}
 	countDisplay.text = (ResourceType.isCard(type) ? "x" : "+") + StrUtils.getNumber(count);

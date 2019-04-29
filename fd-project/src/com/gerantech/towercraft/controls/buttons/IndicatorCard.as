@@ -23,8 +23,9 @@ override protected function initialize():void
 	iconDisplay.maintainAspectRatio = false;
 	iconDisplay.source = Assets.getTexture("theme/upgrade-ready");
 	AnchorLayoutData(iconDisplay.layoutData).verticalCenter = NaN;
-	iconDisplay.y = -20;
-	iconDisplay.height = 60;
+	iconDisplay.y = -10;
+	iconDisplay.width = 70;
+	iconDisplay.height = 80;
 	formatValueFactory = function(value:Number, minimum:Number, maximum:Number) : String
 	{
 		return StrUtils.getNumber(Math.round(value) + "/" + maximum);
@@ -71,15 +72,15 @@ private function punchArrow(delay:Number = 0):void
 }
 private function animateIconDisplay():void
 {
-	iconDisplay.y = -55;
-	iconDisplay.height = 80;
-	Starling.juggler.tween(iconDisplay, 0.5, {y:-20, height:60, transition:Transitions.EASE_OUT_BACK, onComplete:punchArrow, onCompleteArgs:[3 + Math.random() * 1.5]});
+	iconDisplay.y = -45;
+	iconDisplay.height = 90;
+	Starling.juggler.tween(iconDisplay, 0.9, {y:-10, height:70, transition:Transitions.EASE_OUT_BACK, onComplete:punchArrow, onCompleteArgs:[3]});
 }
 
 private function stopPunching():void
 {
-	iconDisplay.y = -20;
-	iconDisplay.height = 60;
+	iconDisplay.y = -10;
+	iconDisplay.height = 70;
 	Starling.juggler.removeDelayedCalls(animateIconDisplay);
 	if( iconDisplay != null )
 		Starling.juggler.removeTweens(iconDisplay);
