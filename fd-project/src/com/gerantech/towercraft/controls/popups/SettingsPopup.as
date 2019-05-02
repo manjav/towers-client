@@ -11,7 +11,7 @@ import com.gerantech.towercraft.managers.SoundManager;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
-import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.utils.Localizations;
 import com.gt.towers.constants.PrefsTypes;
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
@@ -19,11 +19,10 @@ import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
-import flash.net.navigateToURL;
-import starling.animation.Transitions;
-import starling.events.Event;
 import flash.geom.Rectangle;
 import flash.net.URLRequest;
+import flash.net.navigateToURL;
+import starling.events.Event;
 
 public class SettingsPopup extends SimpleHeaderPopup
 {
@@ -120,7 +119,7 @@ private function list_focusInHandler(event:Event):void
 private function showLocalePopup():void 
 {
 	var buttonsPopup:SimpleListPopup = new SimpleListPopup();
-	buttonsPopup.buttons = StrUtils.getLocalesByMarket(appModel.descriptor.market);
+	buttonsPopup.buttons = Localizations.instance.getLocalesByMarket(appModel.descriptor.market);
 	buttonsPopup.buttonsWidth = 160;
 	buttonsPopup.buttonHeight = 120;
 	buttonsPopup.addEventListener(Event.SELECT, buttonsPopup_selectHandler);

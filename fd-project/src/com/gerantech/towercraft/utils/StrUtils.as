@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.utils
 {
 import com.gerantech.towercraft.models.AppModel;
-import flash.system.Capabilities;
 import flash.utils.Dictionary;
 
 public class StrUtils
@@ -175,87 +174,9 @@ public static function  getFullURL (path:String, sura:uint, aya:uint, post:Strin
 	return (path + "/" + getZeroNum(sura.toString()) + getZeroNum(aya.toString()) + "." + post);
 }
 
-public static function getLocaleByMarket(market:String = null) : String
-{
-	switch( market )
-	{
-		case "google":
-		case "appstore":
-			return getLocal("en");
-	}
-	return getLocal("fa");
-}
-
-public static function getLocalesByMarket(market:String = null) : Array
-{
-	switch( market )
-	{
-		case "google":
-		case "appstore":
-			return ["en_US"];
-	}
-	return ["fa_IR", "en_US"];
-}
-
-public static function getLocal(local:String = null) : String
-{
-	var ret:String = "en_US";
-	//if( local == null )
-	//	local = Capabilities.languages[0].split("-")[0];
-	
-	switch( local )
-	{
-		//case "ar":	return "ar_SA";
-		case "en":	return "en_US";
-		//case "es":	return "es_ES";
-		case "fa":	return "fa_IR";
-		//case "fr":	return "fr_FR";
-		//case "id":	return "id_ID";
-		//case "ru":	return "ru_RU";
-		//case "tr":	return "tr_TR";
-		//case "ur":	return "ur_PK";
-	}
-	return ret;
-}
-
-public static function getDir(local:String = null) : String
-{		
-	if( local == null )
-		local = Capabilities.languages[0].split("-")[0];
-	
-	switch( local )
-	{
-		case "ar":
-		case "ar_SA":
-		case "fa":
-		case "fa_IR":
-		case "ur":
-		case "ur_PK":
-			return "rtl";
-	}
-	return "ltr";
-}
-
 public static function loc(resourceName:String, parameters:Array = null) : String
 {
-	var loc:String = AppModel.instance.loc[resourceName];
-	if( loc == null )
-		return resourceName;
-	if( parameters != null && parameters.length > 0 )
-	{
-		var slices:Array = loc.split("#");
-		if( slices.length <= parameters.length )
-			return getNumber(loc);
-		
-		var ret:String = "";
-		for( var i:int = 0; i < parameters.length; i++ )
-			ret += slices[i] + parameters[i];
-		if( slices[i] != "" )
-			ret += slices[i];
-		return getNumber(ret);
-	}
-	
-	return getNumber(loc);
+	return getNumber(Localizations.instance.get(resourceName, parameters));
 }
 
 //  UINT TO TIME _________________________________________________________________________

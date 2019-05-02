@@ -4,12 +4,10 @@ import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.vo.UserData;
-import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.utils.Localizations;
 import com.gt.towers.constants.PrefsTypes;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import flash.filesystem.File;
 import starling.events.Event;
 import starling.events.EventDispatcher;
 
@@ -25,7 +23,7 @@ public function init() : void
 	// select language with market index
 	var loc:String = AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : "0";
 	if( loc == "0" )
-		loc = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
+		loc = Localizations.instance.getLocaleByMarket(AppModel.instance.descriptor.market);
 	changeLocale(loc, true);
 }
 
@@ -38,26 +36,21 @@ public function changeLocale(locale:String, forced:Boolean=false) : void
 		return;
 	}
 	
-	if( !forced )
-		AppModel.instance.assets.removeObject(prev);
-	AppModel.instance.game.player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, locale);
-	AppModel.instance.direction = StrUtils.getDir(locale);
-	AppModel.instance.isLTR = AppModel.instance.direction == "ltr";
-	AppModel.instance.align = AppModel.instance.isLTR ? "left" : "right";
-	
-	AppModel.instance.assets.enqueue(File.applicationDirectory.resolvePath("locale/" + locale + ".json"));
-	AppModel.instance.assets.loadQueue(assetManager_localeCallback);
+	Localizations.instance.addEventListener(Event.CHANGE, localizations_changeHandler);
+	Localizations.instance.changeLocale(locale, AppModel.instance.assets);
 }
 
-private function assetManager_localeCallback(ratio:Number) : void 
+protected function localizations_changeHandler(event:Event) : void 
 {
-	if( ratio < 1 )
-		return;
+	Localizations.instance.removeEventListener(Event.CHANGE, localizations_changeHandler);
 	
-	var key:String = AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE);
-	UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, key);
-	AppModel.instance.loc = AppModel.instance.assets.getObject(key);
-	dispatchEventWith(Event.COMPLETE, false, key);
+	var locale:String = event.data as String;
+	setString(PrefsTypes.SETTINGS_4_LOCALE, locale);
+	AppModel.instance.direction = Localizations.instance.getDir(locale);
+	AppModel.instance.isLTR = AppModel.instance.direction == "ltr";
+	AppModel.instance.align = AppModel.instance.isLTR ? "left" : "right";
+
+	dispatchEventWith(Event.COMPLETE, false, locale);
 }
 
 public function setBool(key:int, value:Boolean):void
