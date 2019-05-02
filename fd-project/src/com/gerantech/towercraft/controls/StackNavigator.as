@@ -274,7 +274,7 @@ package com.gerantech.towercraft.controls
 		   addPopup(reportPopup);
 		   function reportPopup_completeHandler(event:Event):void {
 		   var reportPopup:BugReportPopup = new BugReportPopup();
-		   addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
+		   addLog(loc("popup_bugreport_fine"));
 		   }
 		   }
 		   function bugReportButton_longPressHandler(event:Event):void {

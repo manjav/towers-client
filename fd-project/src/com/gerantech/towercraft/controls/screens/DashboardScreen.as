@@ -35,7 +35,6 @@ import feathers.layout.VerticalAlign;
 import flash.desktop.NativeApplication;
 import flash.geom.Rectangle;
 import flash.utils.setTimeout;
-import mx.resources.ResourceManager;
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
@@ -77,7 +76,25 @@ protected function addedToStageHandler(event:Event):void
 	layout = new AnchorLayout();
 	visible = false;	
 	
-	// =-=-=-=-=-=-=-=-=-=-=-=- page -=-=-=-=-=-=-=-=-=-=-=-=
+	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
+		appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+	else
+		loadingManager_loadedHandler(null);
+}
+
+protected function loadingManager_loadedHandler(event:LoadingEvent):void
+{
+	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
+	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);
+
+	// return to last open game
+	if( appModel.loadingManager.serverData.getBool("inBattle") )
+	{
+		appModel.navigator.runBattle(0);
+		return;
+	}
+
+		// =-=-=-=-=-=-=-=-=-=-=-=- page -=-=-=-=-=-=-=-=-=-=-=-=
 	var pageLayout:HorizontalLayout = new HorizontalLayout();
 	pageLayout.gap = 0;
 	pageLayout.horizontalAlign = HorizontalAlign.CENTER;
@@ -151,24 +168,6 @@ protected function addedToStageHandler(event:Event):void
 	tabsList.addEventListener(Event.SELECT, tabsList_selectHandler);
 	tabsList.itemRendererFactory = function ():IListItemRenderer { return new DashboardTabItemRenderer(tabSize); }
 	addChild(tabsList);
-
-	if( appModel.loadingManager.state < LoadingManager.STATE_LOADED )
-		appModel.loadingManager.addEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-	else
-		loadingManager_loadedHandler(null);
-}
-
-protected function loadingManager_loadedHandler(event:LoadingEvent):void
-{
-	appModel.loadingManager.removeEventListener(LoadingEvent.LOADED, loadingManager_loadedHandler);
-	UserData.instance.prefs.setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);
-
-	// return to last open game
-	if( appModel.loadingManager.serverData.getBool("inBattle") )
-	{
-		appModel.navigator.runBattle(0);
-		return;
-	}
 	
 	var indicatorHC:Indicator = new Indicator("rtl", ResourceType.R4_CURRENCY_HARD);
 	indicatorHC.layoutData = new AnchorLayoutData(18, 36);

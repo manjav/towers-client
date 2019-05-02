@@ -22,12 +22,9 @@ import com.smartfoxserver.v2.entities.data.ISFSArray;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import flash.events.Event;
-import flash.events.EventDispatcher;
 import flash.utils.setTimeout;
 
-[Event(name="complete", type="flash.events.Event")]
-[Event(name="error", type="flash.events.ErrorEvent")]
-public class CoreLoader extends EventDispatcher
+public class CoreLoader
 {
 private var version:String;
 private var serverData:SFSObject;
@@ -53,8 +50,6 @@ public function CoreLoader(sfsObj:SFSObject)
 	loadExchanges(serverData);
 	loadChallenges(serverData);
 	loadQuests(serverData);
-
-	setTimeout(dispatchEvent, 1, new Event(Event.COMPLETE));
 }
 
 private function initServerData(sfsObj:SFSObject):void

@@ -1,6 +1,5 @@
 package
 {
-import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.BattleScreen;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
@@ -10,7 +9,6 @@ import com.gt.towers.constants.ResourceType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
 import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
 import feathers.events.FeathersEventType;
-import feathers.utils.ScreenDensityScaleFactorManager;
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
 import flash.display.StageAlign;
@@ -26,7 +24,6 @@ import flash.utils.getTimer;
 import haxe.Log;
 import starling.core.Starling;
 
-[ResourceBundle("loc")]
 public class Main extends Sprite
 {
 public static var t:int;

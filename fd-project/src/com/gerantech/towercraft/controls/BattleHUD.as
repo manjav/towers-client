@@ -247,7 +247,7 @@ public function animateShadow(alphaSeed:Number, shadow:Image = null, color:uint 
 {
 	if( shadow == null )
 	{
-		var shadow:Image = new Image(Assets.getTexture("radial-gradient-shadow"));
+		shadow = new Image(Assets.getTexture("radial-gradient-shadow"));
 		shadow.scale9Grid = new Rectangle(2, 2, 12, 12);
 		shadow.height = stageHeight;
 		shadow.width = stageWidth;
@@ -260,9 +260,7 @@ public function animateShadow(alphaSeed:Number, shadow:Image = null, color:uint 
 	Starling.juggler.tween(shadow, Math.random() + 0.1, {alpha:Math.random() * alphaSeed + 0.1, onComplete:animateShadow, onCompleteArgs:[alphaSeed==0?0.6:0, shadow, color]});
 }
 
-public function updateRoomVars():void
-{
-}
+public function updateRoomVars():void{}
 public function updateScores(round:int, winnerSide:int, allise:int, axis:int, unitId:int) : void
 {
 	trace("updateScores:", "round:" + round, "winnerSide:" + winnerSide, "allise:" + allise, "axis:" + axis, "unitId:" + unitId);

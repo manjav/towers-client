@@ -1,10 +1,8 @@
 package com.gerantech.towercraft.utils
 {
 import com.gerantech.towercraft.models.AppModel;
-import com.gt.towers.constants.PrefsTypes;
 import flash.system.Capabilities;
 import flash.utils.Dictionary;
-import mx.resources.ResourceManager;
 
 public class StrUtils
 {
@@ -240,8 +238,24 @@ public static function getDir(local:String = null) : String
 
 public static function loc(resourceName:String, parameters:Array = null) : String
 {
-	var ret:String = ResourceManager.getInstance().getString("loc", resourceName, parameters, AppModel.instance.game != null ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : AppModel.instance.locale);
-	return ret == null || ret == "undefined" ? resourceName : getNumber(ret);
+	var loc:String = AppModel.instance.loc[resourceName];
+	if( loc == null )
+		return resourceName;
+	if( parameters != null && parameters.length > 0 )
+	{
+		var slices:Array = loc.split("#");
+		if( slices.length <= parameters.length )
+			return getNumber(loc);
+		
+		var ret:String = "";
+		for( var i:int = 0; i < parameters.length; i++ )
+			ret += slices[i] + parameters[i];
+		if( slices[i] != "" )
+			ret += slices[i];
+		return getNumber(ret);
+	}
+	
+	return getNumber(loc);
 }
 
 //  UINT TO TIME _________________________________________________________________________

@@ -174,28 +174,16 @@ protected function sfsConnection_loginHandler(event:SFSEvent):void
 public function loadCore():void
 {
 	var coreLoader:CoreLoader = new CoreLoader(serverData);
-	coreLoader.addEventListener(ErrorEvent.ERROR, coreLoader_errorHandler);
-	coreLoader.addEventListener(Event.COMPLETE, coreLoader_completeHandler);
+	UserData.instance.prefs.addEventListener(Event.COMPLETE, prefs_completeHandler);
+	UserData.instance.prefs.init();
+
 	state = STATE_CORE_LOADING;			
 }
 
-protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
+protected function prefs_completeHandler(e:*):void 
 {
-	sfsConnection.logout();
-	dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST));
-}
-
-protected function coreLoader_errorHandler(event:ErrorEvent):void
-{
-	dispatchEvent(new LoadingEvent(LoadingEvent.CORE_LOADING_ERROR));
-}
-
-protected function coreLoader_completeHandler(event:Event):void
-{
-	event.currentTarget.removeEventListener(Event.COMPLETE, coreLoader_completeHandler);
+	UserData.instance.prefs.removeEventListener("complete", prefs_completeHandler);
 	//trace(appModel.descriptor.versionCode, Game.loginData.noticeVersion, Game.loginData.forceVersion)
-	
-    UserData.instance.prefs.init();
 
 	state = STATE_LOADED;
 	BillingManager.instance.init();			
@@ -214,6 +202,13 @@ protected function coreLoader_completeHandler(event:Event):void
 	if( appModel.game.player.getLastOperation() < appModel.game.fieldProvider.operations.keys().length )
 		VideoAdsManager.instance.requestAd(VideoAdsManager.TYPE_OPERATIONS, true);*/
 }
+
+protected function sfsConnection_connectionLostHandler(event:SFSEvent):void
+{
+	sfsConnection.logout();
+	dispatchEvent(new LoadingEvent(LoadingEvent.CONNECTION_LOST));
+}
+
 private function registerPushManager():void
 {
     /*OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );

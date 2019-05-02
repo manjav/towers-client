@@ -8,7 +8,6 @@ import com.gt.towers.battle.BattleField;
 import com.gt.towers.battle.units.Card;
 import com.gt.towers.constants.CardTypes;
 import com.gt.towers.utils.CoreUtils;
-import mx.resources.ResourceManager;
 import starling.display.Image;
 import starling.display.Sprite;
 

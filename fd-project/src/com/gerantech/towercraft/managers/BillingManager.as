@@ -15,7 +15,6 @@ import com.smartfoxserver.v2.entities.data.SFSObject;
 import feathers.events.FeathersEventType;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
-import mx.resources.ResourceManager;
 
 public class BillingManager extends BaseManager
 {

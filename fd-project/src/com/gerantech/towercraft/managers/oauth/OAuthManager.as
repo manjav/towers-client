@@ -1,6 +1,5 @@
 package com.gerantech.towercraft.managers.oauth
 {
-import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.BaseManager;
@@ -13,10 +12,8 @@ import com.marpies.ane.gameservices.events.GSAuthEvent;
 import com.marpies.ane.gameservices.events.GSIdentityEvent;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import flash.events.EventDispatcher;
 import flash.utils.clearTimeout;
 import flash.utils.setTimeout;
-import mx.resources.ResourceManager;
 
 public class OAuthManager extends BaseManager
 {
@@ -29,7 +26,6 @@ public static const SINGIN:String = "signin";
 public var type:int;
 public var user:OAuthUser;
 public var signinTimeout:int = 14;
-
 private var timeoutID:int;
 
 public function OAuthManager(){};

@@ -39,6 +39,7 @@ public var sounds:SoundManager;
 public var notifier:NotificationManager;
 public var invokes:Array;
 public var artRules:ArtRules;
+public var loc:Object;
 
 public function AppModel()
 {

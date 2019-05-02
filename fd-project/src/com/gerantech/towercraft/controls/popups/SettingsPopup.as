@@ -128,14 +128,17 @@ private function showLocalePopup():void
 	function buttonsPopup_selectHandler(event:Event) : void
 	{
 		buttonsPopup.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
-		if( UserData.instance.prefs.changeLocale(event.data as String) )
-		{
-			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, event.data as String);
-			titleDisplay.text = title = loc("settings_page");
-			list.dataProvider.updateAll();
-			appModel.navigator.rootScreenID = Game.DASHBOARD_SCREEN
-		}
+		UserData.instance.prefs.addEventListener(Event.COMPLETE, prefs_completeHandler);
+		UserData.instance.prefs.changeLocale(event.data as String);
 	}
+}
+
+protected function prefs_completeHandler(event:Event) : void 
+{
+	UserData.instance.prefs.removeEventListener(Event.COMPLETE, prefs_completeHandler);
+	titleDisplay.text = title = loc("settings_page");
+	list.dataProvider.updateAll();
+	appModel.navigator.rootScreenID = Game.DASHBOARD_SCREEN;
 }
 
 protected function socialManager_eventsHandler(event:Event):void
