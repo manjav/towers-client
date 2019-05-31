@@ -32,7 +32,6 @@ private var mySkin:Image;
 private var senderDisplay:RTLLabel;
 private var messageDisplay:RTLLabel;
 private var dateDisplay:RTLLabel;
-private var date:Date;
 private var acceptButton:CustomButton;
 private var declineButton:CustomButton;
 private var message:SFSObject;
@@ -54,7 +53,6 @@ override protected function initialize():void
 	height = 140;
 	padding = 32;
 	offsetY = -8
-	date = new Date();
 	
 	mySkin = new Image(appModel.theme.itemRendererDisabledSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
@@ -112,10 +110,9 @@ override protected function commitData():void
 		return;
 
 	message = _data as SFSObject;
-	date.time = message.getInt("utc") * 1000;
 	var txt:String = message.getUtfString("text");
 	messageDisplay.text = txt.substr(0,2)=="__"?loc(txt.substr(2), [message.getUtfString("sender")]):txt;
-	dateDisplay.text = StrUtils.getDateString(date);
+	dateDisplay.text = StrUtils.toElapsed(timeManager.now - message.getInt("utc"));
 	acceptButton.label = loc(message.getShort("type") == MessageTypes.M50_URL ? "go_label" : "popup_accept_label");
 	updateSkin();
 }
@@ -174,7 +171,7 @@ override public function set isSelected(value:Boolean):void
 	dateLayout.right = value ? (appModel.isLTR?padding*0.7:NaN) : (appModel.isLTR?padding:NaN);
 	dateLayout.left = value ? (appModel.isLTR?NaN:padding*0.7) : (appModel.isLTR?NaN:padding);
 	dateLayout.verticalCenter = value ? NaN : offsetY;
-	dateDisplay.text = StrUtils.getDateString(date, value);
+	//dateDisplay.text = StrUtils.getDateString(date, value);
 
 	if( !value )
 	{

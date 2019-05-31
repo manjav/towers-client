@@ -15,17 +15,16 @@ import flash.geom.Rectangle;
 public class LobbyChatItemMessageSegment extends LobbyChatItemSegment
 {
 private var senderDisplay:RTLLabel;
-private var roleDisplay:RTLLabel;
+//private var roleDisplay:RTLLabel;
 private var messageDisplay:RTLLabel;
 private var dateDisplay:RTLLabel;
 
 private var meSkin:ImageLoader;
 private var otherSkin:ImageLoader;
 
-private var date:Date;
 private var inPadding:int;
 private var senderLayout:AnchorLayoutData;
-private var roleLayout:AnchorLayoutData;
+//private var roleLayout:AnchorLayoutData;
 private var messageLayout:AnchorLayoutData;
 private var dateLayout:AnchorLayoutData;
 
@@ -35,7 +34,6 @@ override public function init():void
 	super.init();
 	autoSizeMode = AutoSizeMode.CONTENT;
 	
-	date = new Date();
 	inPadding = padding * 0.5;
 
 	meSkin = new ImageLoader();
@@ -53,24 +51,24 @@ override public function init():void
 	addChild(otherSkin);
 	
 	senderDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
-	senderLayout = new AnchorLayoutData( padding );
+	senderLayout = new AnchorLayoutData(20);
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 	
-	roleDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.7);
+	/*roleDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.7);
 	roleLayout = new AnchorLayoutData( padding );
 	roleDisplay.layoutData = roleLayout;
 	addChild(roleDisplay);
-	
-	messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.7, "OpenEmoji");
+	*/
+	messageDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, "justify", null, true, null, 0.6, "OpenEmoji");
 	if( appModel.platform == AppModel.PLATFORM_ANDROID )
 		messageDisplay.leading = -padding * 0.4;
 	messageLayout = new AnchorLayoutData( padding * 2);
 	messageDisplay.layoutData = messageLayout;
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", MainTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.6);
-	dateLayout = new AnchorLayoutData( NaN, appModel.isLTR?padding * 0.4:NaN, padding * 0.6, appModel.isLTR?NaN:padding * 0.4 );
+	dateDisplay = new RTLLabel("", MainTheme.DESCRIPTION_TEXT_COLOR, null, null, false, null, 0.5);
+	dateLayout = new AnchorLayoutData(NaN, NaN, 26);
 	dateDisplay.layoutData = dateLayout;			
 	addChild(dateDisplay);
 }
@@ -91,20 +89,19 @@ override public function commitData(_data:ISFSObject, index:int):void
 	senderDisplay.text = data.getUtfString("s");
 	senderLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	
-	var user:ISFSObject = findUser(data.getInt("i"));
-	roleDisplay.text = user == null?"":(loc("lobby_role_" + user.getShort("permission")));
-	roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
+	//var user:ISFSObject = findUser(data.getInt("i"));
+	//roleDisplay.text = user == null?"":(loc("lobby_role_" + user.getShort("permission")));
+	//roleLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	
 	messageLayout.right = ( itsMe ? padding : otherPadding ) + inPadding;
 	messageLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
 	messageDisplay.text = data.getUtfString("t");
 	messageDisplay.validate();
 	
-	date.time = data.getInt("u") * 1000;
-	dateDisplay.text = StrUtils.dateToTime(date);
-	dateLayout.left = ( itsMe ? otherPadding : padding ) + inPadding;
+	dateDisplay.text = StrUtils.toElapsed(timeManager.now - data.getInt("u"));
+	dateLayout.left = ( itsMe ? otherPadding : 10 ) + inPadding;
 	
-	height = messageDisplay.height + padding * 3.6;
+	height = messageDisplay.height + padding * 3;
 }
 }
 }
