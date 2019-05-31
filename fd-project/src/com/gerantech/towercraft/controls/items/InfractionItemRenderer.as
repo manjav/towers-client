@@ -22,7 +22,6 @@ private var mySkin:Image;
 private var senderDisplay:RTLLabel;
 private var messageDisplay:RTLLabel;
 private var dateDisplay:RTLLabel;
-private var date:Date;
 private var message:SFSObject;
 private var banButton:CustomButton;
 private var deleteButton:CustomButton;
@@ -36,7 +35,6 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	padding = 16;
-	date = new Date();
 	
 	mySkin = new Image(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
@@ -53,7 +51,7 @@ override protected function initialize():void
 	messageDisplay.layoutData = new AnchorLayoutData( padding * 3, padding, NaN, padding );
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", 1, "justify", "ltr", false, null, 0.6);
+	dateDisplay = new RTLLabel("", 1, "justify", null, false, null, 0.6);
 	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
 	dateDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
@@ -99,8 +97,7 @@ override protected function commitData():void
 		return;
 
 	message = _data as SFSObject;
-	date.time = message.getLong("offend_at");
-	dateDisplay.text = StrUtils.getDateString(date, true) + "   -   " + message.getText("lobby");
+	dateDisplay.text = StrUtils.toElapsed(timeManager.now - message.getLong("offend_at") / 1000) + "   -   " + message.getText("lobby");
 	messageDisplay.text = message.getUtfString("content");
 	offenderButton.label = message.getText("name") + "   " + message.getInt("offender").toString();
 	reporterButton.label = message.getInt("reporter").toString();

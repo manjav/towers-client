@@ -14,7 +14,6 @@ import starling.events.Event;
 public class SearchChatItemRenderer extends AbstractTouchableListItemRenderer
 {
 private var padding:int;
-private var date:Date;
 private var message:SFSObject;
 private var playerDisplay:com.gerantech.towercraft.controls.texts.RTLLabel;
 private var messageDisplay:com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -28,7 +27,6 @@ override protected function initialize():void
 	
 	layout = new AnchorLayout();
 	padding = 16;
-	date = new Date();
 	
 	var mySkin:Image = new Image(appModel.theme.itemRendererUpSkinTexture);
 	mySkin.scale9Grid = MainTheme.ITEM_RENDERER_SCALE9_GRID;
@@ -43,7 +41,7 @@ override protected function initialize():void
 	messageDisplay.layoutData = new AnchorLayoutData( padding * 4, padding, padding, padding );
 	addChild(messageDisplay);
 	
-	dateDisplay = new RTLLabel("", 0xEEEEEE, "justify", "ltr", false, null, 0.6);
+	dateDisplay = new RTLLabel("", 0xEEEEEE, "justify", null, false, null, 0.6);
 	dateDisplay.touchable = false;
 	dateDisplay.alpha = 0.8;
 	dateDisplay.layoutData = new AnchorLayoutData( padding, padding, NaN, padding );
@@ -57,8 +55,7 @@ override protected function commitData():void
 		return;
 
 	message = _data as SFSObject;
-	date.time = message.getLong("u");
-	dateDisplay.text = StrUtils.getDateString(date, true) + "   -   " + message.getUtfString("ln");
+	dateDisplay.text = StrUtils.toElapsed(timeManager.now - message.getLong("u")) + "  -  " + message.getUtfString("ln");
 	playerDisplay.text = message.getUtfString("s");
 	messageDisplay.text = message.getUtfString("t");
 }
