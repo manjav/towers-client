@@ -19,7 +19,7 @@ override protected function initialize():void
 	super.initialize();
 	if( value == -0.1 )
 		value = 0;
-	levelDisplay = new ShadowLabel(player.get_level(value).toString(), 0x444444, 1, "center", null, false, null, 0.9);
+	levelDisplay = new ShadowLabel(player.get_level(value).toString(), 1, 0, "center", null, false, null, 0.9);
 	levelDisplay.layoutData = iconDisplay.layoutData;
 	levelDisplay.width = iconDisplay.width;
 	addChild(levelDisplay);

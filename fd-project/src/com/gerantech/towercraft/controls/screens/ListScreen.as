@@ -1,6 +1,6 @@
 package com.gerantech.towercraft.controls.screens
 {
-import com.gerantech.towercraft.controls.FastList;
+import feathers.controls.List;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
@@ -11,7 +11,7 @@ public class ListScreen extends BaseFomalScreen
 {
 protected var virtualHeader:Boolean;
 protected var listLayout:VerticalLayout;
-protected var list:FastList;
+protected var list:List;
 protected var startScrollBarIndicator:Number = 0;
 
 public function ListScreen(){super();}
@@ -27,7 +27,7 @@ override protected function initialize():void
 	listLayout.typicalItemHeight = 164;
 	listLayout.gap = 12;	
 	
-	list = new FastList();
+	list = new List();
 	list.layout = listLayout;
 	list.layoutData = new AnchorLayoutData(0, 0, headerSize, 0);
 	list.addEventListener(Event.CHANGE, list_changeHandler);
