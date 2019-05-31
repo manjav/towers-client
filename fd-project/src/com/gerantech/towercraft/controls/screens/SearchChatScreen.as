@@ -5,6 +5,7 @@ import com.gerantech.towercraft.controls.items.SearchChatItemRenderer;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -32,7 +33,7 @@ override protected function searchButton_triggeredHandler(e:Event) : Boolean
 		return false;
 	
 	var params:SFSObject = new SFSObject();
-	params.putUtfString("p", textInput.text);
+	params.putUtfString("p", StrUtils.getSimpleString(textInput.text));
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_issuesResponseHandler);
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.SEARCH_IN_CHATS, params);
 	return true;
@@ -46,7 +47,13 @@ protected function sfs_issuesResponseHandler(event:SFSEvent):void
 	var chats:SFSArray = SFSArray(SFSObject(event.params.params).getSFSArray("result"));
 	for (var i:int = 0; i < chats.size(); i++)
 		result.addItem(chats.getSFSObject(i));
-	trace(event.params.params.getDump())
+	result.sortCompareFunction = sortChats;
+//	trace(event.params.params.getDump())
+}
+
+private function sortChats( a:SFSObject, b:SFSObject ):int
+{
+	return b.getInt("u") - a.getInt("u");
 }
 
 protected function list_focusHandler(event:Event) : void

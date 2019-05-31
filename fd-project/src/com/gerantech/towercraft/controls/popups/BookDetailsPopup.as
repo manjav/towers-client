@@ -62,7 +62,7 @@ override protected function initialize():void
 	leagueDisplay.layoutData = new AnchorLayoutData(padding * 7.5, NaN, NaN, NaN, 0);
 	addChild(leagueDisplay);
 	
-	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 0, 1, "center", null, false, null, 1.3);
+	var titleDisplay:ShadowLabel = new ShadowLabel(loc("exchange_title_" + item.outcome), 1, 0, "center", null, false, null, 1.3);
 	titleDisplay.layoutData = new AnchorLayoutData(padding * 9, NaN, NaN, NaN, 0);
 	addChild(titleDisplay);
 
