@@ -9,6 +9,7 @@ import com.gerantech.towercraft.utils.StrUtils;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.events.FeathersEventType;
 import starling.events.Event;
@@ -25,6 +26,7 @@ override protected function initialize() : void
 	listLayout.paddingLeft = listLayout.paddingRight = 10;
 	list.itemRendererFactory = function():IListItemRenderer { return new SearchChatItemRenderer(); }
 	list.addEventListener(FeathersEventType.FOCUS_IN, list_focusHandler);
+	list.scrollBarDisplayMode = ScrollBarDisplayMode.FIXED_FLOAT;
 }
 
 override protected function searchButton_triggeredHandler(e:Event) : Boolean
