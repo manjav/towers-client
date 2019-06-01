@@ -298,24 +298,30 @@ protected function chatButton_triggeredHandler(event:Event):void
 
 protected function sendButton_triggeredHandler(event:Event):void
 {
-	if( chatTextInput.text == "" )
+	if( isInvalidMessage(chatTextInput.text) )
 		return;
-	if( areUVerbose() )
-	{
-		appModel.navigator.addLog(loc("lobby_message_limit"));
-		return;
-	}
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("t", preText + StrUtils.getSimpleString(chatTextInput.text));
 	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
 	chatTextInput.text = preText = "";
 }
 
-private function areUVerbose():Boolean 
+protected function isInvalidMessage(message:String) : Boolean 
 {
+	if( message == "" )
+		return true;
+	if( message.split("\n").length > 3 || message.split("\r").length > 3 )
+	{
+		chatTextInput.text = "";
+		appModel.navigator.addLog(loc("lobby_message_unauthorized"));
+		return true;
+	}
 	var last:ISFSObject = manager.messages.getItemAt(manager.messages.length - 1) as SFSObject;
-	if ( last != null && last.getInt("i") == player.id && last.containsKey("t") )
-		return (last.getText("t").split("\n").length > 5 );
+	if( last != null && last.getInt("i") == player.id && last.containsKey("t") && last.getText("t").split("\n").length > 5 )
+	{
+		appModel.navigator.addLog(loc("lobby_message_limit"));
+		return true;
+	}
 	return false;
 }
 
