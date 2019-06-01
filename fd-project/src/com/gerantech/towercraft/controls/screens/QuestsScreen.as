@@ -25,6 +25,8 @@ import starling.events.Event;
 
 public class QuestsScreen extends ListScreen
 {
+public var questsCollection:ListCollection;
+public function QuestsScreen() { super(); }
 override protected function initialize():void
 {
 	title = loc("button_quests");
@@ -56,8 +58,12 @@ private function showQuests(needsLoad:Boolean):void
 		return;
 	}
 
+	questsCollection = new ListCollection();
 	for each( var q:Quest in player.quests )
+	{
 		q.current = Quest.getCurrent(player, q.type, q.key);
+		questsCollection.addItem(q);
+	}
 	
 	header.labelLayout.verticalCenter = 40;
 	listLayout.paddingLeft = listLayout.paddingRight = 12;
@@ -67,7 +73,7 @@ private function showQuests(needsLoad:Boolean):void
 	list.itemRendererFactory = function():IListItemRenderer { return new QuestItemRenderer(); }
 	list.addEventListener(Event.SELECT, list_selectHandler);
 	list.addEventListener(Event.UPDATE, list_updateHandler);
-	list.dataProvider = new ListCollection(player.quests);
+	list.dataProvider = questsCollection;
 }
 
 private function loadQuests():void 
@@ -116,7 +122,7 @@ private function passQuest(questItem:QuestItemRenderer):void
 	var response:int = exchanger.exchange(Quest.getExchangeItem(questItem.quest.type, questItem.quest.nextStep), 0, 0);
 	if( response != MessageTypes.RESPONSE_SUCCEED )
 	{
-		trace(response);
+		trace("quests response:", response);
 		return;
 	}
 	
@@ -133,7 +139,7 @@ private function passQuest(questItem:QuestItemRenderer):void
 private function list_updateHandler(e:Event):void 
 {
 	var questItem:QuestItemRenderer = e.data as QuestItemRenderer;
-	//list.dataProvider.removeItemAt(questItem.index);
+	questsCollection.removeItemAt(questItem.index);
 	player.quests.removeAt(questItem.index);
 	var sfs:ISFSObject = new SFSObject();
 	sfs.putInt("id", questItem.quest.id);
@@ -153,8 +159,7 @@ private function sfs_rewardCollectHandler(e:SFSEvent):void
 	var quest:Quest = new Quest(q.getInt("id"), q.getInt("type"), q.getInt("key"), q.getInt("nextStep"), q.getInt("current"), q.getInt("target"), SFSConnection.ToMap(q.getSFSArray("rewards")));
 	//list.dataProvider.addItem(quest);
 	player.quests.push(quest);
-	if( list.dataProvider != null )
-		list.dataProvider.updateAll();
+	questsCollection.addItem(quest);
 }
 }
 }
