@@ -166,12 +166,14 @@ protected function actionButton_triggeredHandler(e:Event):void
 
 public function hide():void 
 {
+	touchable = false;
 	removeTweens();
 	Starling.juggler.tween(this, 0.8, {delay:0.5, alpha:-0.5, height:20, transition:Transitions.EASE_IN, onComplete:removeMe});
 }
 
 private function removeMe():void 
 {
+	touchable = true;
 	owner.dispatchEventWith(Event.UPDATE, false, this);
 }
 
