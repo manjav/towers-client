@@ -10,6 +10,7 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.ScrollBarDisplayMode;
 
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
@@ -40,6 +41,7 @@ override protected function initialize():void
 	listLayout.gap = 0;	
 	listLayout.hasVariableItemDimensions = true;
 	list.itemRendererFactory = function():IListItemRenderer { return new InboxItemRenderer(false, player.admin); }
+	list.scrollBarDisplayMode = ScrollBarDisplayMode.FIXED_FLOAT;
 	list.addEventListener(Event.SELECT, list_eventsHandler);
 	list.addEventListener(Event.CANCEL, list_eventsHandler);
 	list.addEventListener(Event.READY, list_eventsHandler);

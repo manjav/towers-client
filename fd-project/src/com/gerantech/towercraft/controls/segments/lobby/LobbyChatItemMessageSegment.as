@@ -51,7 +51,7 @@ override public function init():void
 	addChild(otherSkin);
 	
 	senderDisplay = new RTLLabel("", MainTheme.PRIMARY_BACKGROUND_COLOR, null, null, false, null, 0.8);
-	senderLayout = new AnchorLayoutData(20);
+	senderLayout = new AnchorLayoutData(30);
 	senderDisplay.layoutData = senderLayout;
 	addChild(senderDisplay);
 	
@@ -99,7 +99,7 @@ override public function commitData(_data:ISFSObject, index:int):void
 	messageDisplay.validate();
 	
 	dateDisplay.text = StrUtils.toElapsed(timeManager.now - data.getInt("u"));
-	dateLayout.left = ( itsMe ? otherPadding : 10 ) + inPadding;
+	dateLayout.left = ( itsMe ? otherPadding : 14 ) + inPadding;
 	
 	height = messageDisplay.height + padding * 3;
 }

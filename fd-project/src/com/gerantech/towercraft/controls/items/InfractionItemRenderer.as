@@ -76,7 +76,6 @@ override protected function initialize():void
 	banButton.iconPosition.x = 7;
 	banButton.width = banButton.height = 100;
 	banButton.style = CustomButton.STYLE_DANGER;
-	banButton.icon = Assets.getTexture("settings-5", "gui");
 	banButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, padding );
 	banButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
 	addChild(banButton);
@@ -84,7 +83,6 @@ override protected function initialize():void
 	deleteButton = new CustomButton();
 	deleteButton.iconPosition.x = 7;
 	deleteButton.width = deleteButton.height = 100;
-	deleteButton.icon = Assets.getTexture("improve-1", "gui");
 	deleteButton.layoutData = new AnchorLayoutData( NaN, NaN, padding, 96 + padding * 2 );
 	deleteButton.addEventListener(Event.TRIGGERED, buttons_eventHandler);
 	addChild(deleteButton);

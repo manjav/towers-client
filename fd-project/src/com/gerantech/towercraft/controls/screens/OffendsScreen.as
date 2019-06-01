@@ -10,6 +10,7 @@ import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSArray;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.renderers.IListItemRenderer;
 import feathers.data.ListCollection;
 import starling.events.Event;
@@ -35,6 +36,7 @@ override protected function initialize():void
 	list.addEventListener(Event.READY, list_eventsHandler);
 	list.addEventListener(Event.OPEN, list_eventsHandler);
 	list.dataProvider = infractions;
+	list.scrollBarDisplayMode = ScrollBarDisplayMode.FIXED_FLOAT;
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_ResponseHandler);
 }
 

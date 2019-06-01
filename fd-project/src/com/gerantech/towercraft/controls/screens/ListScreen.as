@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls.screens
 {
 import feathers.controls.List;
+import feathers.controls.ScrollBarDisplayMode;
 import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalLayout;
@@ -29,6 +30,7 @@ override protected function initialize():void
 	
 	list = new List();
 	list.layout = listLayout;
+	list.scrollBarDisplayMode = ScrollBarDisplayMode.NONE;
 	list.layoutData = new AnchorLayoutData(0, 0, headerSize, 0);
 	list.addEventListener(Event.CHANGE, list_changeHandler);
 	if( virtualHeader )
