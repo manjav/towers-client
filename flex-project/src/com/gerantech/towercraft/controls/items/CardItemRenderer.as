@@ -1,7 +1,7 @@
 package com.gerantech.towercraft.controls.items
 {
-	import com.gerantech.towercraft.models.Textures;
-	import com.gerantech.towercraft.models.towers.Tower;
+	import com.gerantech.towercraft.models.Assets;
+	import com.gt.towers.buildings.Building;
 	
 	import feathers.controls.ImageLoader;
 	import feathers.controls.Label;
@@ -12,9 +12,9 @@ package com.gerantech.towercraft.controls.items
 	import starling.display.Quad;
 	import starling.events.Event;
 
-	public class CardItemRenderer extends BaseCustomItemRenderer
+	public class CardItemRenderer extends AbstractTouchableListItemRenderer
 	{
-		private var tower:Tower;
+		private var tower:Building;
 
 		private var iconDisplay:ImageLoader;
 		private var labelDisplay:Label;
@@ -58,10 +58,10 @@ package com.gerantech.towercraft.controls.items
 			if(_owner==null || _data==null)
 				return;
 			
-			tower = _data as Tower;
-			iconDisplay.source = Textures.get("tower-type-"+tower.type);
+			tower = _data as Building;
+			iconDisplay.source = Assets.getTexture("tower-type-"+tower.type);
 			labelDisplay.text = "Level " + tower.level;
-			progressbar.maximum = tower.upgradeCost;
+			//progressbar.maximum = tower.get_upgradeRequirements();
 			progressbar.value = 5;
 		}
 		

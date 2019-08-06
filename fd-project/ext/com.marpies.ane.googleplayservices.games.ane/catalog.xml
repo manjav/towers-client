@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<swc xmlns="http://www.adobe.com/flash/swccatalog/9">
+    <versions>
+        <swc version="1.2"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354193"/>
+    </versions>
+    <features>
+        <feature-script-deps/>
+    </features>
+    <libraries>
+        <library path="library.swf">
+            <script name="com/marpies/ane/googleplayservices/games/GooglePlayServicesGames" mod="1475594757000">
+                <def id="com.marpies.ane.googleplayservices.games:GooglePlayServicesGames"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+            </script>
+            <digests>
+                <digest type="SHA-256" signed="false" value="571cc188d1f580f358a1422d765ced95ddaf2bfb62e3bc001afc63df6d6f657f"/>
+            </digests>
+        </library>
+    </libraries>
+</swc>

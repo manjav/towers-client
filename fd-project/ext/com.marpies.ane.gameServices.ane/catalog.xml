@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+<swc xmlns="http://www.adobe.com/flash/swccatalog/9">
+    <versions>
+        <swc version="1.2"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354200"/>
+    </versions>
+    <features>
+        <feature-script-deps/>
+    </features>
+    <libraries>
+        <library path="library.swf">
+            <script name="com/marpies/ane/gameservices/GSPlayer" mod="1489697792000">
+                <def id="com.marpies.ane.gameservices:GSPlayer"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/GameServices" mod="1490866961000">
+                <def id="com.marpies.ane.gameservices:GameServices"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="e"/>
+                <dep id="Function" type="s"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Number" type="s"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+                <dep id="com.marpies.ane.gameservices:GSPlayer" type="s"/>
+                <dep id="com.marpies.ane.gameservices.achievements:GSAchievements" type="e"/>
+                <dep id="com.marpies.ane.gameservices.events:GSAuthEvent" type="e"/>
+                <dep id="com.marpies.ane.gameservices.events:GSIdentityEvent" type="e"/>
+                <dep id="com.marpies.ane.gameservices.leaderboards:GSLeaderboards" type="e"/>
+                <dep id="com.marpies.ane.gameservices:ns_gameservices_internal" type="e"/>
+                <dep id="flash.events:EventDispatcher" type="e"/>
+                <dep id="flash.events:IEventDispatcher" type="s"/>
+                <dep id="flash.events:StatusEvent" type="s"/>
+                <dep id="flash.system:Capabilities" type="e"/>
+                <dep id="int" type="s"/>
+                <dep id="trace" type="e"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/achievements/GSAchievement" mod="1490648120000">
+                <def id="com.marpies.ane.gameservices.achievements:GSAchievement"/>
+                <dep id="ArgumentError" type="e"/>
+                <dep id="Array" type="s"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Number" type="s"/>
+                <dep id="Object" type="i"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="e"/>
+                <dep id="com.marpies.ane.gameservices.achievements:ns_gameservices_internal" type="n"/>
+                <dep id="int" type="s"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/achievements/GSAchievements" mod="1490648171000">
+                <def id="com.marpies.ane.gameservices.achievements:GSAchievements"/>
+                <dep id="ArgumentError" type="e"/>
+                <dep id="Array" type="e"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="e"/>
+                <dep id="JSON" type="e"/>
+                <dep id="Number" type="s"/>
+                <dep id="Object" type="e"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="s"/>
+                <dep id="com.marpies.ane.gameservices:GameServices" type="e"/>
+                <dep id="com.marpies.ane.gameservices.achievements:GSAchievement" type="s"/>
+                <dep id="com.marpies.ane.gameservices.achievements:ns_gameservices_internal" type="n"/>
+                <dep id="com.marpies.ane.gameservices.events:GSAchievementEvent" type="e"/>
+                <dep id="flash.events:EventDispatcher" type="i"/>
+                <dep id="flash.events:StatusEvent" type="s"/>
+                <dep id="uint" type="s"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/achievements/ns_gameservices_internal" mod="1475495182000">
+                <def id="com.marpies.ane.gameservices.achievements:ns_gameservices_internal"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/events/GSAchievementEvent" mod="1490644880000">
+                <def id="com.marpies.ane.gameservices.events:GSAchievementEvent"/>
+                <dep id="String" type="s"/>
+                <dep id="__AS3__.vec:Vector" type="s"/>
+                <dep id="com.marpies.ane.gameservices.achievements:GSAchievement" type="s"/>
+                <dep id="com.marpies.ane.gameservices.events:GSErrorEvent" type="i"/>
+                <dep id="flash.events:Event" type="s"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/events/GSAuthEvent" mod="1489693881000">
+                <def id="com.marpies.ane.gameservices.events:GSAuthEvent"/>
+                <dep id="String" type="s"/>
+                <dep id="com.marpies.ane.gameservices:GSPlayer" type="s"/>
+                <dep id="com.marpies.ane.gameservices.events:GSErrorEvent" type="i"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/events/GSErrorEvent" mod="1489693569000">
+                <def id="com.marpies.ane.gameservices.events:GSErrorEvent"/>
+                <dep id="String" type="s"/>
+                <dep id="flash.events:Event" type="i"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/events/GSIdentityEvent" mod="1489697168000">
+                <def id="com.marpies.ane.gameservices.events:GSIdentityEvent"/>
+                <dep id="Number" type="s"/>
+                <dep id="String" type="s"/>
+                <dep id="com.marpies.ane.gameservices.events:GSErrorEvent" type="i"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/events/GSLeaderboardEvent" mod="1490644888000">
+                <def id="com.marpies.ane.gameservices.events:GSLeaderboardEvent"/>
+                <dep id="String" type="s"/>
+                <dep id="com.marpies.ane.gameservices.events:GSErrorEvent" type="i"/>
+                <dep id="flash.events:Event" type="s"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/leaderboards/GSLeaderboards" mod="1490726641000">
+                <def id="com.marpies.ane.gameservices.leaderboards:GSLeaderboards"/>
+                <dep id="ArgumentError" type="e"/>
+                <dep id="Boolean" type="s"/>
+                <dep id="Error" type="e"/>
+                <dep id="Number" type="s"/>
+                <dep id="String" type="s"/>
+                <dep id="com.marpies.ane.gameservices:GameServices" type="e"/>
+                <dep id="com.marpies.ane.gameservices.events:GSLeaderboardEvent" type="e"/>
+                <dep id="com.marpies.ane.gameservices.leaderboards:ns_gameservices_internal" type="n"/>
+                <dep id="flash.events:EventDispatcher" type="i"/>
+                <dep id="flash.events:StatusEvent" type="s"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/leaderboards/ns_gameservices_internal" mod="1490642000000">
+                <def id="com.marpies.ane.gameservices.leaderboards:ns_gameservices_internal"/>
+            </script>
+            <script name="com/marpies/ane/gameservices/ns_gameservices_internal" mod="1475495166000">
+                <def id="com.marpies.ane.gameservices:ns_gameservices_internal"/>
+            </script>
+            <digests>
+                <digest type="SHA-256" signed="false" value="0e160222d74babd6ad172b6af032ee0bdbd476cb767293ec06b422096fc8bf64"/>
+            </digests>
+        </library>
+    </libraries>
+</swc>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF - 8"?>
+<TextureAtlas imagePath="operations.png" width="1024" height="1024">
+	<SubTexture name="palace-up" x="0" y="0" width="414" height="179"/>
+	<SubTexture name="way-3" x="415" y="0" width="220" height="260"/>
+	<SubTexture name="palace-down" x="636" y="0" width="220" height="183"/>
+	<SubTexture name="skull" x="0" y="180" width="199" height="187"/>
+	<SubTexture name="way-1" x="200" y="180" width="191" height="172"/>
+	<SubTexture name="status-3" x="636" y="184" width="168" height="142"/>
+	<SubTexture name="way-0" x="857" y="0" width="151" height="150"/>
+	<SubTexture name="hut-0" x="805" y="184" width="170" height="127"/>
+	<SubTexture name="rock-2" x="392" y="261" width="197" height="100"/>
+	<SubTexture name="cols" x="805" y="312" width="130" height="109"/>
+	<SubTexture name="way-2" x="590" y="327" width="98" height="134"/>
+	<SubTexture name="statue-0" x="200" y="353" width="127" height="92"/>
+	<SubTexture name="statue-2" x="689" y="327" width="92" height="101"/>
+	<SubTexture name="pin-shadow" x="328" y="362" width="107" height="84"/>
+	<SubTexture name="house-6" x="436" y="362" width="104" height="84"/>
+	<SubTexture name="way-4" x="689" y="429" width="281" height="24"/>
+	<SubTexture name="house-1" x="936" y="312" width="72" height="85"/>
+	<SubTexture name="house-4" x="0" y="368" width="95" height="58"/>
+	<SubTexture name="tent" x="96" y="368" width="67" height="71"/>
+	<SubTexture name="house-11" x="0" y="427" width="60" height="68"/>
+	<SubTexture name="house-9" x="61" y="440" width="85" height="48"/>
+	<SubTexture name="rock-7" x="147" y="446" width="59" height="69"/>
+	<SubTexture name="house-7" x="207" y="446" width="90" height="44"/>
+	<SubTexture name="map-pin-current" x="298" y="447" width="71" height="55" frameX="-1" frameY="-4" frameWidth="74" frameHeight="60"/>
+	<SubTexture name="map-pin-locked" x="370" y="447" width="71" height="55" frameX="-1" frameY="-4" frameWidth="74" frameHeight="60"/>
+	<SubTexture name="map-pin-passed" x="442" y="447" width="71" height="55" frameX="-1" frameY="-4" frameWidth="74" frameHeight="60"/>
+	<SubTexture name="rock-3" x="514" y="447" width="67" height="53"/>
+	<SubTexture name="house-2" x="689" y="454" width="72" height="49"/>
+	<SubTexture name="statue-1" x="762" y="454" width="75" height="45"/>
+	<SubTexture name="quest-lock" x="971" y="398" width="50" height="67"/>
+	<SubTexture name="rock-8" x="838" y="454" width="67" height="49"/>
+	<SubTexture name="house-13" x="906" y="454" width="63" height="48"/>
+	<SubTexture name="rock-6" x="582" y="462" width="53" height="56"/>
+	<SubTexture name="house-5" x="61" y="489" width="64" height="45"/>
+	<SubTexture name="rock-5" x="207" y="491" width="59" height="48"/>
+	<SubTexture name="rock-4" x="976" y="151" width="44" height="61"/>
+	<SubTexture name="house-8" x="976" y="213" width="45" height="54"/>
+	<SubTexture name="house-10" x="857" y="151" width="57" height="30"/>
+	<SubTexture name="rock-1" x="915" y="151" width="58" height="29"/>
+	<SubTexture name="house-0" x="590" y="261" width="43" height="38"/>
+	<SubTexture name="gold-key" x="976" y="268" width="40" height="39"/>
+	<SubTexture name="rock-0" x="970" y="466" width="53" height="27"/>
+	<SubTexture name="gold-key-off" x="541" y="362" width="39" height="35" frameX="-1" frameY="-4" frameWidth="40" frameHeight="40"/>
+	<SubTexture name="house-12" x="164" y="368" width="32" height="31"/>
+	<SubTexture name="house-3" x="541" y="398" width="29" height="31"/>
+	<SubTexture name="well-0" x="590" y="300" width="36" height="23"/>
+</TextureAtlas>

@@ -1,0 +1,25 @@
+<extension xmlns="http://ns.adobe.com/air/extension/20.0">
+  <id>com.marpies.ane.googleplayservices.tasks</id>
+  <versionNumber>1</versionNumber>
+  <platforms>
+    <platform name="Android-ARM">
+        <applicationDeployment>
+            <nativeLibrary>libGooglePlayServicesTasks.jar</nativeLibrary>
+            <initializer>com.marpies.ane.googleplayservices.tasks.GooglePlayServicesTasksExtension</initializer>
+            <finalizer>com.marpies.ane.googleplayservices.tasks.GooglePlayServicesTasksExtension</finalizer>
+        </applicationDeployment>
+    </platform>
+
+    <platform name="Android-x86">
+        <applicationDeployment>
+            <nativeLibrary>libGooglePlayServicesTasks.jar</nativeLibrary>
+            <initializer>com.marpies.ane.googleplayservices.tasks.GooglePlayServicesTasksExtension</initializer>
+            <finalizer>com.marpies.ane.googleplayservices.tasks.GooglePlayServicesTasksExtension</finalizer>
+        </applicationDeployment>
+    </platform>
+
+    <platform name="default">
+        <applicationDeployment/>
+    </platform>
+  </platforms>
+</extension>

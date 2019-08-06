@@ -1,0 +1,8 @@
+<platform xmlns="http://ns.adobe.com/air/extension/20.0">
+
+    <packagedDependencies>
+        <packagedDependency>play-services-analytics.jar</packagedDependency>
+        <packagedDependency>play-services-analytics-impl.jar</packagedDependency>
+    </packagedDependencies>
+
+</platform>

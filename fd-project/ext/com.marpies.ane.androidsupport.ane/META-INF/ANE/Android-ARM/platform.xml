@@ -1,0 +1,13 @@
+<platform xmlns="http://ns.adobe.com/air/extension/20.0">
+
+    <packagedDependencies>
+        <packagedDependency>support-annotations.jar</packagedDependency>
+        <packagedDependency>support-compat.jar</packagedDependency>
+        <packagedDependency>support-core-ui.jar</packagedDependency>
+        <packagedDependency>support-core-utils.jar</packagedDependency>
+        <packagedDependency>support-fragment.jar</packagedDependency>
+        <packagedDependency>support-media-compat.jar</packagedDependency>
+        <packagedDependency>support-v4.jar</packagedDependency>
+    </packagedDependencies>
+
+</platform>
