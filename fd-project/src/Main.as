@@ -3,6 +3,7 @@ package
 import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.models.vo.Descriptor;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ResourceType;
 import com.marpies.ane.gameanalytics.GameAnalytics;
@@ -43,6 +44,7 @@ public function Main()
 	return;*/
     
 	// GameAnalytic Configurations
+	var desc:Descriptor = AppModel.instance.descriptor;
 	var currencies:Vector.<String> = new Vector.<String>();
 	var bt:Vector.<int> = BuildingType.getAll().keys();
 	for each( var r:int in bt )
@@ -53,10 +55,10 @@ public function Main()
 	currencies.push(ResourceType.R3_CURRENCY_SOFT.toString());
 	
 	GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
-		.setBuildAndroid(AppModel.instance.descriptor.versionNumber).setGameKeyAndroid("8ecad253293db70a84469b3d79243f12").setGameSecretAndroid("6c3abba9c19b989f5e45749396bcb1b78b51fbf2")
+		/*.setBuildiOS(desc.versionNumber).setGameKeyAndroid(desc.analyticskey).setGameSecretAndroid(desc.analyticssec) */
+		.setBuildAndroid(desc.versionNumber).setGameKeyAndroid(desc.analyticskey).setGameSecretAndroid(desc.analyticssec)
 		.setResourceCurrencies(currencies)
 		.setResourceItemTypes(new <String>["outcome", "special", "chest", "purchase", "exchange", "upgrade", "donate"])
-	/*.setBuildiOS(AppModel.instance.descriptor.versionNumber).setGameKeyiOS("[ios_game_key]").setGameSecretiOS("[ios_secret_key]")*/
 	GameAnalytics.init();
 	
 	t = getTimer();
