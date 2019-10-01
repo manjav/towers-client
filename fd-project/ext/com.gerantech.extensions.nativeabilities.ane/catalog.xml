@@ -2,8 +2,7 @@
 <swc xmlns="http://www.adobe.com/flash/swccatalog/9">
     <versions>
         <swc version="1.2"/>
-        <flex version="4.7.0" build="354203" minimumSupportedVersion="3.0.0"/>
-        <compiler name="ActionScript Compiler" version="2.0.0" build="354203"/>
+        <compiler name="ActionScript Compiler" version="2.0.0" build="354208"/>
     </versions>
     <features>
         <feature-script-deps/>
@@ -16,12 +15,12 @@
                 <dep id="Object" type="i"/>
                 <dep id="String" type="s"/>
             </script>
-            <script name="com/gerantech/extensions/DeviceInfo" mod="1503312643331">
+            <script name="com/gerantech/extensions/DeviceInfo" mod="1567267032771">
                 <def id="com.gerantech.extensions:DeviceInfo"/>
                 <dep id="Object" type="i"/>
                 <dep id="String" type="s"/>
             </script>
-            <script name="com/gerantech/extensions/NativeAbilities" mod="1503312732124">
+            <script name="com/gerantech/extensions/NativeAbilities" mod="1567932228059">
                 <def id="com.gerantech.extensions:NativeAbilities"/>
                 <dep id="Array" type="e"/>
                 <dep id="Boolean" type="s"/>
@@ -39,16 +38,17 @@
                 <dep id="flash.external:ExtensionContext" type="s"/>
                 <dep id="flash.system:Capabilities" type="e"/>
                 <dep id="int" type="s"/>
+                <dep id="trace" type="e"/>
                 <dep id="uint" type="e"/>
             </script>
-            <script name="com/gerantech/extensions/events/AndroidEvent" mod="1475834851455">
+            <script name="com/gerantech/extensions/events/AndroidEvent" mod="1567341402271">
                 <def id="com.gerantech.extensions.events:AndroidEvent"/>
                 <dep id="Boolean" type="s"/>
                 <dep id="String" type="s"/>
                 <dep id="flash.events:Event" type="i"/>
             </script>
             <digests>
-                <digest type="SHA-256" signed="false" value="7f8537a942b318eca19f44c7a4ba887d3332526e251380408882c0560dab8259"/>
+                <digest type="SHA-256" signed="false" value="7c10429e9405dc5d15315888c4253e1d7dd7fa32dbb4f6be012857cbc1594e18"/>
             </digests>
         </library>
     </libraries>
