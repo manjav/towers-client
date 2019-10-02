@@ -36,10 +36,12 @@ public function LobbyManager(isPublic:Boolean = false)
 	this.isPublic = isPublic;
 	initialize();
 }
-public function joinToPublic() : void
+public function joinToPublic(imei:String) : void
 {
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfs_joinPublicHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC);	
+	var params:SFSObject = new SFSObject();
+	params.putText("imei", imei);
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC, params);	
 }
 
 public function initialize():void

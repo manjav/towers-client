@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.managers.net
 {
+import com.gerantech.extensions.DeviceInfo;
 import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.DashboardScreen;
@@ -107,10 +108,12 @@ private function login():void
 		//{
 		//}
 	}
+	var device:DeviceInfo = NativeAbilities.instance.deviceInfo;
+	loginParams.putText("imei", appModel.platform == AppModel.PLATFORM_ANDROID ? device.imei : "");
 	loginParams.putText("udid", appModel.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.id : Utils.getPCUniqueCode());
 	loginParams.putText("device", appModel.platform == AppModel.PLATFORM_ANDROID ? StrUtils.truncateText(NativeAbilities.instance.deviceInfo.manufacturer+"-"+NativeAbilities.instance.deviceInfo.model, 32, "") : Capabilities.manufacturer);
-	loginParams.putInt("appver", appModel.descriptor.versionCode);
 	loginParams.putText("market", appModel.descriptor.market);
+	loginParams.putInt("appver", appModel.descriptor.versionCode);
 
 	sfsConnection.login(__id.toString(), UserData.instance.password, "", loginParams);
 }		

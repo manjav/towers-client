@@ -8,7 +8,7 @@
     <movie fps="60" />
     <movie width="1080" />
     <movie height="1920" />
-    <movie version="26" />
+    <movie version="32" />
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />
     <movie background="#000000" />
@@ -73,6 +73,8 @@
     <element path="ane\iabilling.ane" />
     <element path="ane\native-android.ane" />
     <element path="ane\tapsell-3.0.1-a3.0.27-i3.0.4.ane" />
+    <element path="ane\com.gerantech.extensions.iabilling.ane" />
+    <element path="ane\com.gerantech.extensions.nativeabilities.ane" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>

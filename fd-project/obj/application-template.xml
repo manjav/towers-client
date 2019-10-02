@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<application xmlns="http://ns.adobe.com/air/application/26.0">
+<application xmlns="http://ns.adobe.com/air/application/32.0">
   <id>com.grantech.towers</id>
   <versionNumber>0.4.100</versionNumber>
   <supportedProfiles>mobileDevice</supportedProfiles>
@@ -87,6 +87,7 @@
 		</activity>    			
 		<activity android:name="ir.tapsell.sdk.TapsellAdActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
 		<activity android:name="com.gerantech.extensions.IabActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:windowSoftInputMode="stateHidden|adjustResize" />
+		<activity android:name="com.gerantech.extensions.activities.PermissionsActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" android:windowSoftInputMode="stateHidden|adjustResize" />
 		<receiver android:name="com.gerantech.extensions.recievers.LocalNotificationReceiver"/>
 	<!--<receiver android:name="com.gerantech.extensions.recievers.InvokeAppReceiver"/> -->
 	</application>
