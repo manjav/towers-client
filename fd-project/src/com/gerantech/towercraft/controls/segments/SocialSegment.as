@@ -1,5 +1,6 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.controls.items.SegmentsItemRenderer;
 import com.gerantech.towercraft.controls.items.SocialTabItemRenderer;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
@@ -41,14 +42,32 @@ override public function init():void
 	super.init();
 	layout = new AnchorLayout();
 	
-	var labelDisplay:ShadowLabel;
-	if( player.get_arena(0) < 1 )
+	function showLabel(message:String) : void
 	{
-		labelDisplay = new ShadowLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]), 1, 0, "center");
+		var labelDisplay:ShadowLabel = new ShadowLabel(message, 1, 0, "center");
 		labelDisplay.width = width;
 		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, NaN, 0);
 		addChild(labelDisplay);
+	}
+
+	if( player.get_arena(0) < 1 )
+	{
+		showLabel(loc("availableat_messeage", [loc("tab-3"), loc("arena_text") + " " + loc("num_2")]));
 		return;
+	}
+	
+	var filter:Array = appModel.loadingManager.serverData.getText("filter").split(",");
+	var installed:Array = ["parallel"]//NativeAbilities.instance.getInstalled();
+	for each(var f:String in filter)
+	{
+		for each(var app:String in installed)
+		{
+			if( app.search(f) > -1 )
+			{
+				showLabel(loc("lobby_illigeal_app"));
+				return;
+			}
+		}
 	}
 	
 	var ban:ISFSObject = appModel.loadingManager.serverData.containsKey("ban") ? appModel.loadingManager.serverData.getSFSObject("ban") : null;
@@ -58,10 +77,7 @@ override public function init():void
 		Image(backgroundSkin).scale9Grid = MainTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
 		backgroundSkin.alpha = 0.6;
 		
-		labelDisplay = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]), 1, 0, "center", null, true, null, 0.9);
-		labelDisplay.width = width;
-		labelDisplay.layoutData = new AnchorLayoutData(NaN, 20, NaN, 20, NaN, 0);
-		addChild(labelDisplay);
+		showLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]));
 		
 		var descDisplay:RTLLabel = new RTLLabel(ban.getUtfString("message"), 1, null, null, true, null, 0.6);
 		descDisplay.layoutData = new AnchorLayoutData(NaN, 20, NaN, 20, NaN, 0);

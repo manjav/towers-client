@@ -20,9 +20,9 @@
                 <dep id="Object" type="i"/>
                 <dep id="String" type="s"/>
             </script>
-            <script name="com/gerantech/extensions/NativeAbilities" mod="1567932228059">
+            <script name="com/gerantech/extensions/NativeAbilities" mod="1570359502330">
                 <def id="com.gerantech.extensions:NativeAbilities"/>
-                <dep id="Array" type="e"/>
+                <dep id="Array" type="s"/>
                 <dep id="Boolean" type="s"/>
                 <dep id="Error" type="e"/>
                 <dep id="Function" type="s"/>
@@ -48,7 +48,7 @@
                 <dep id="flash.events:Event" type="i"/>
             </script>
             <digests>
-                <digest type="SHA-256" signed="false" value="7c10429e9405dc5d15315888c4253e1d7dd7fa32dbb4f6be012857cbc1594e18"/>
+                <digest type="SHA-256" signed="false" value="de2b9cb90f63e34fdb7771da6dbf26d63383502d750ef1b8964a8cc9b741ad00"/>
             </digests>
         </library>
     </libraries>
