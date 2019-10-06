@@ -56,8 +56,10 @@ override public function init():void
 		return;
 	}
 	
-	var filter:Array = appModel.loadingManager.serverData.getText("filter").split(",");
-	var installed:Array = ["parallel"]//NativeAbilities.instance.getInstalled();
+	if( appModel.loadingManager.serverData.containsKey("forbidenApps") )
+	{
+	var filter:Array = appModel.loadingManager.serverData.getText("forbidenApps").split(",");
+	var installed:Array = NativeAbilities.instance.getInstalled();
 	for each(var f:String in filter)
 	{
 		for each(var app:String in installed)
@@ -68,7 +70,7 @@ override public function init():void
 				return;
 			}
 		}
-	}
+	}}
 	
 	var ban:ISFSObject = appModel.loadingManager.serverData.containsKey("ban") ? appModel.loadingManager.serverData.getSFSObject("ban") : null;
     if( ban != null && ban.getInt("mode") > 1 )// banned user
