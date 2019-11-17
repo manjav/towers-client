@@ -1,6 +1,7 @@
 package com.gerantech.towercraft.controls
 {
 	import avmplus.getQualifiedClassName;
+
 	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Game;
 	import com.gerantech.towercraft.controls.animations.AchievedItem;
@@ -36,13 +37,17 @@ package com.gerantech.towercraft.controls
 	import com.smartfoxserver.v2.entities.Buddy;
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
+	import com.zarinpal.ZarinpalCallbackHandler;
+
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
+
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.utils.Dictionary;
+
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.events.Event;
@@ -305,6 +310,12 @@ package com.gerantech.towercraft.controls
 						popScreen();
 						break;
 					}
+				}
+				else if(a.indexOf("zarinpal?") > -1)
+				{
+					var callbackHandler:ZarinpalCallbackHandler = new ZarinpalCallbackHandler(arguments[0]);
+					var response:Object = callbackHandler.getResponse();
+					BillingManager.instance.verifyZarinPal(response);
 				}
 			}
 			AppModel.instance.invokes = null;			//trace("k:", a, "v:", pars[a]);	
