@@ -23,6 +23,9 @@ import flash.events.UncaughtErrorEvent;
 import flash.geom.Rectangle;
 import flash.utils.getTimer;
 import starling.core.Starling;
+import com.tuarua.FirebaseANE;
+import com.tuarua.firebase.FirebaseOptions;
+import com.tuarua.fre.ANEError;
 
 [ResourceBundle("loc")]
 [SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
@@ -66,6 +69,33 @@ public function Main()
 	loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, loaderInfo_uncaughtErrorHandler);
 
 	NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
+
+	if (AppModel.instance.platform == AppModel.PLATFORM_ANDROID)
+	{
+		try
+		{
+			/**
+			 * Here we will initalize firebase native extension, required for 
+			 * Firebase Cloud Messaging.
+			 */
+			FirebaseANE.init();
+			if(!FirebaseANE.isGooglePlayServicesAvailable)
+			{
+				trace("Google Play Service is not installed on device");
+				// TODO: Requires handle method.
+			}
+			var firebaseOptions:FirebaseOptions = FirebaseANE.options;
+			if (firebaseOptions)
+			{
+				trace("apiKey", firebaseOptions.apiKey);
+				trace("googleAppId", firebaseOptions.googleAppId);
+			}
+		}
+		catch (e:ANEError)
+		{
+			trace(e.errorID, e.message, e.getStackTrace(), e.source);
+		}
+	}
 }
 
 private function loaderInfo_completeHandler(event:Event):void
