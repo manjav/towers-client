@@ -65,11 +65,16 @@ public function SFSConnection()
 	commandsPool = new StringMap();
 	SFSErrorCodes.setErrorMessage(101, "{0}")
 	SFSErrorCodes.setErrorMessage(110, "{0}")
-	load();
+	load(false);
 }
 
-public function load() : void 
+public function load(force:Boolean) : void 
 {
+	if( force )
+	{
+		var file:File = File.applicationStorageDirectory.resolvePath("config.xml");
+		File.applicationDirectory.resolvePath("config.xml").copyTo(file, true);
+	}
 	var pattern:String = '<?xml version="1.0" encoding="UTF-8"?>\r\n<SmartFoxConfig>';
 	var cnfFile:File = File.applicationStorageDirectory.resolvePath("config.xml");
 	var url:String = "http://gerantech.com/towers/config.php?id=" + NativeApplication.nativeApplication.applicationID + "&server=" + AppModel.instance.descriptor.server + "&version=" + AppModel.instance.descriptor.versionCode + "&r=" + Math.round(Math.random() * 1000);
@@ -86,6 +91,11 @@ public function load() : void
 	}
 	function cnfLoader_ioErrorHandler(event:IOErrorEvent) : void
 	{
+		if( !force )
+		{
+			load(true);
+			return;
+		}
 		cnfLoader.removeEventListener(Event.COMPLETE,			cnfLoader_completeHandler);
 		cnfLoader.removeEventListener(IOErrorEvent.IO_ERROR,	cnfLoader_ioErrorHandler);
 		clearAndReset(null);
@@ -136,7 +146,7 @@ protected function sfs_connectionHandler(event:SFSEvent):void
 		if( retryIndex < retryMax )
 		{
 			disconnect();
-			load();
+			load(false);
 			retryIndex ++;
 		}
         if( hasEventListener(SFSConnection.FAILURE) )
