@@ -20,7 +20,7 @@ import com.gerantech.towercraft.models.vo.BattleData;
 import com.gerantech.towercraft.themes.MainTheme;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.StickerType;
-import com.marpies.ane.gameanalytics.GameAnalytics;
+import com.gameanalytics.sdk.GameAnalytics;
 import feathers.controls.ImageLoader;
 import feathers.controls.List;
 import feathers.controls.ScrollPolicy;
