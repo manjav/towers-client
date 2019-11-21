@@ -127,9 +127,9 @@ protected function zarinpal_initializeFinishedHandler(event:ZarinpalRequestEvent
 	{
 		var exchangeItem:ExchangeItem = exchanger.items.get(k);
 		if( ExchangeType.getCategory(k) == ExchangeType.C0_HARD )
-			ZarinPal.instance.inventory.add("k2k.item_" + k, loc("exchange_title_" + k), exchangeItem.requirements._map["h"][ResourceType.R5_CURRENCY_REAL], exchangeItem.outcomes._map["h"][ResourceType.R4_CURRENCY_HARD]);
+			ZarinPal.instance.inventory.add("com.grantech.towers.item_" + k, loc("exchange_title_" + k), exchangeItem.requirements._map["h"][ResourceType.R5_CURRENCY_REAL], exchangeItem.outcomes._map["h"][ResourceType.R4_CURRENCY_HARD]);
 		else if( ExchangeType.getCategory(k) == ExchangeType.C30_BUNDLES )
-			ZarinPal.instance.inventory.add("k2k.bundle_" + k, loc("exchange_title_" + k), exchangeItem.requirements._map["h"][ResourceType.R5_CURRENCY_REAL], exchangeItem.outcomes._map["h"][ResourceType.R4_CURRENCY_HARD]);
+			ZarinPal.instance.inventory.add("towres.bundle_" + k, loc("exchange_title_" + k), exchangeItem.requirements._map["h"][ResourceType.R5_CURRENCY_REAL], exchangeItem.outcomes._map["h"][ResourceType.R4_CURRENCY_HARD]);
 	}
 }
 
