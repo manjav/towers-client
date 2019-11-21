@@ -1,7 +1,0 @@
-<platform xmlns="http://ns.adobe.com/air/extension/19.0">
-
-    <packagedDependencies>
-        <packagedDependency>play-services-games.jar</packagedDependency>
-    </packagedDependencies>
-
-</platform>
