@@ -7,8 +7,8 @@ import com.gerantech.towercraft.models.vo.Descriptor;
 import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
-import com.marpies.ane.gameanalytics.GameAnalytics;
-import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
+import com.gameanalytics.sdk.GameAnalytics;
+import com.gameanalytics.sdk.GAErrorSeverity;
 import feathers.events.FeathersEventType;
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
@@ -50,7 +50,16 @@ public function Main()
 		.setBuildAndroid(desc.versionNumber).setGameKeyAndroid(desc.analyticskey).setGameSecretAndroid(desc.analyticssec)
 		.setResourceCurrencies(new <String>[ResourceType.getName(ResourceType.R1_XP), ResourceType.getName(ResourceType.R2_POINT), ResourceType.getName(ResourceType.R3_CURRENCY_SOFT), ResourceType.getName(ResourceType.R4_CURRENCY_HARD), ResourceType.getName(ResourceType.R6_TICKET)])
 		.setResourceItemTypes(new <String>["Initial", ExchangeType.getName(ExchangeType.C0_HARD), ExchangeType.getName(ExchangeType.C10_SOFT), ExchangeType.getName(ExchangeType.C20_SPECIALS), ExchangeType.getName(ExchangeType.C30_BUNDLES), ExchangeType.getName(ExchangeType.C40_OTHERS), ExchangeType.getName(ExchangeType.BOOKS_50), ExchangeType.getName(ExchangeType.C70_TICKETS), ExchangeType.getName(ExchangeType.C80_EMOTES), ExchangeType.getName(ExchangeType.C100_FREES), ExchangeType.getName(ExchangeType.C110_BATTLES), ExchangeType.getName(ExchangeType.C120_MAGICS)]);
-	GameAnalytics.init();
+	if ( GameAnalytics.isSupported )
+	{
+		try {
+			GameAnalytics.init();
+		}
+		catch (error:Error)
+		{
+			trace(error.message);
+		}
+	}
 	
 	t = getTimer();
 	stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -139,7 +148,8 @@ protected function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):voi
 		text = event.error.toString();
 		severity = GAErrorSeverity.WARNING;
 	}
-	GameAnalytics.addErrorEvent(severity, text);
+	if(GameAnalytics.isInitialized)
+		GameAnalytics.addErrorEvent(severity, text);
 	//navigateToURL(new URLRequest("http://127.0.0.1:8080/towerslet/towers?" + severity + "--" + text));
 }
 }

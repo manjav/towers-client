@@ -1,7 +1,0 @@
-<platform xmlns="http://ns.adobe.com/air/extension/20.0">
-
-    <packagedDependencies>
-        <packagedDependency>play-services-location.jar</packagedDependency>
-    </packagedDependencies>
-
-</platform>

@@ -108,20 +108,15 @@
     <requestedDisplayResolution>high</requestedDisplayResolution>
   </iPhone>
   <extensions>
-	<extensionID>com.marpies.ane.androidsupport</extensionID>
-	<extensionID>com.marpies.ane.gameanalytics</extensionID>
-	<extensionID>com.marpies.ane.gameServices</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.ads</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.analytics</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.base</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.basement</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.games</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.gcm</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.iid</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.location</extensionID>
-	<extensionID>com.marpies.ane.googleplayservices.tasks</extensionID>
-	<extensionID>com.gerantech.extensions.iabilling</extensionID>
+    <extensionID>com.gerantech.dependency</extensionID>
     <extensionID>com.gerantech.extensions.nativeabilities</extensionID>
+    <extensionID>com.gerantech.extensions.iabilling</extensionID>
+    <extensionID>com.tuarua.firebase.FirebaseANE</extensionID>
+    <extensionID>com.tuarua.firebase.AnalyticsANE</extensionID>
+    <extensionID>com.tuarua.firebase.MessagingANE</extensionID>
+    <extensionID>com.gameanalytics.sdk</extensionID>
+    <extensionID>com.chartboost.plugin.air</extensionID>
+    <extensionID>com.marpies.ane.gameServices</extensionID>
     <extensionID>ir.tapsell.sdk.air</extensionID>
   </extensions>
 </application>
