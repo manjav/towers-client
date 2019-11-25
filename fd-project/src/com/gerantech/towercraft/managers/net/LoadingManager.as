@@ -10,6 +10,7 @@ import com.gerantech.towercraft.managers.TimeManager;
 import com.gerantech.towercraft.managers.UserPrefs;
 import com.gerantech.towercraft.managers.VideoAdsManager;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
+import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
@@ -20,6 +21,10 @@ import com.gt.towers.constants.PrefsTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.tuarua.firebase.MessagingANE;
+import com.tuarua.firebase.messaging.RemoteMessage;
+import com.tuarua.firebase.messaging.events.MessagingEvent;
+
 import flash.events.ErrorEvent;
 import flash.events.Event;
 import flash.events.EventDispatcher;
@@ -218,7 +223,17 @@ protected function coreLoader_completeHandler(event:Event):void
 }
 private function registerPushManager():void
 {
-    /*OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );
+	if( AppModel.instance.platform == AppModel.PLATFORM_ANDROID )
+	{
+		registerFCMPushManager();
+		// registerOneSignalPushManager();
+	}
+
+}
+
+private function registerOneSignalPushManager():void
+{
+	/*OneSignal.settings.setAutoRegister( true ).setEnableInAppAlerts( false ).setShowLogs( false );
     OneSignal.idsAvailable( onOneSignalIdsAvailable );
     function onOneSignalIdsAvailable( oneSignalUserId:String, oneSignalPushToken:String ):void {
         var pushParams:ISFSObject = new SFSObject();
@@ -244,8 +259,51 @@ private function registerPushManager():void
     OneSignal.addNotificationReceivedCallback( onNotificationReceived );
     function onNotificationReceived( notification:OneSignalNotification ):void {
     NativeAbilities.instance.showToast(notification.message, 2);
-    }*/            
+    }*/
 }
+
+/**
+ * Firebase Messaging
+ * we need to receive a token and send it to server.
+ * 
+ * If token is null wait for listener to recieve the token.
+ */
+private function registerFCMPushManager():void
+{
+	var messaging:MessagingANE;
+	var fcmToken:String;
+	var pushParams:ISFSObject = new SFSObject();
+	
+	
+	messaging = MessagingANE.messaging;
+	messaging.addEventListener(MessagingEvent.ON_MESSAGE_RECEIVED, onMessageReceived);
+	messaging.addEventListener(MessagingEvent.ON_TOKEN_REFRESHED, onTokenRefreshed);
+
+	fcmToken = messaging.token;
+	if (fcmToken != null)
+	{
+		trace("FCM Token: " + fcmToken);
+		pushParams.putText("fcmToken", fcmToken);
+		sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
+	}
+	/**
+	 * This function is used to receive data from message.
+	 * It is not required for showing messages.
+	 */
+	function onMessageReceived(event:MessagingEvent):void
+	{
+		var remoteMessage:RemoteMessage = event.remoteMessage;
+	}
+
+	function onTokenRefreshed(event:MessagingEvent):void
+	{
+		fcmToken = event.token;
+		trace("FCM Token: " + fcmToken);
+		pushParams.putText("fcmToken", fcmToken);
+		sfsConnection.sendExtensionRequest(SFSCommands.REGISTER_PUSH, pushParams);
+	}
+}
+
 protected function get appModel():		AppModel		{	return AppModel.instance;			}
 }
 }
