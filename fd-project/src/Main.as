@@ -4,12 +4,12 @@ import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.Descriptor;
-import com.gt.towers.constants.BuildingType;
 import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
 import com.gameanalytics.sdk.GameAnalytics;
 import com.gameanalytics.sdk.GAErrorSeverity;
 import feathers.events.FeathersEventType;
+
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
 import flash.display.StageAlign;
@@ -22,6 +22,7 @@ import flash.events.InvokeEvent;
 import flash.events.UncaughtErrorEvent;
 import flash.geom.Rectangle;
 import flash.utils.getTimer;
+
 import starling.core.Starling;
 
 [ResourceBundle("loc")]
@@ -124,8 +125,9 @@ private function stage_activateHandler(event:Event):void
 
 protected function nativeApplication_invokeHandler(event:InvokeEvent):void
 {
-	NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
 	AppModel.instance.invokes = event.arguments;
+	if(AppModel.instance.navigator)
+		AppModel.instance.navigator.handleInvokes();
 }
 
 protected function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):void 
