@@ -21,11 +21,13 @@ import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.MessageTypes;
 import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
+import com.gt.towers.events.ExchangeEvent;
 import com.gt.towers.exchanges.ExchangeItem;
 import com.gt.towers.exchanges.Exchanger;
 import com.gt.towers.utils.maps.IntIntMap;
-import com.marpies.ane.gameanalytics.GameAnalytics;
-import com.marpies.ane.gameanalytics.data.GAResourceFlowType;
+import com.gameanalytics.sdk.GameAnalytics;
+import com.gameanalytics.sdk.GAProgressionStatus;
+import com.gameanalytics.sdk.GAResourceFlowType;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -141,13 +143,7 @@ public function process(item : ExchangeItem) : void
 				if( item.category == ExchangeType.C0_HARD )
 				{
 					// send analytics events
-					var outs:Vector.<int> = item.outcomes.keys();
-					GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, outs[0].toString(), item.outcomes.get(outs[0]), "IAP", result.purchase.sku);
-					
-					var currency:String = appModel.descriptor.marketIndex <= 1 ? "USD" : "IRR";
-					var amount:int = item.requirements.get(outs[0]) * (appModel.descriptor.market == "google" ? 1 : 10);
-					GameAnalytics.addBusinessEvent(currency, amount, result.purchase.itemType, result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
-					
+					sendAnalyticsEvent(item);
 					dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
 				}
 				return;
@@ -186,9 +182,8 @@ public function process(item : ExchangeItem) : void
 	}
 }
 
-private function exchange( item:ExchangeItem, params:SFSObject ) : void
+public function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
-
 	if( item.category == ExchangeType.C100_FREES )
 		exchanger.findRandomOutcome(item, timeManager.now);
 	var bookType:int = -1;
@@ -273,6 +268,21 @@ protected function sfsConnection_extensionResponseHandler(event:SFSEvent):void
 	dispatchCustomEvent(FeathersEventType.END_INTERACTION, item);
 }
 
+protected function exchanger_completeHandler(event:ExchangeEvent):void
+{
+	exchanger.removeEventListener(ExchangeEvent.COMPLETE, this.exchanger_completeHandler);
+	var currency:String = ResourceType.getName(ResourceType.R4_CURRENCY_HARD);
+	var itemID:String = ExchangeType.getName(event.item.type);
+	var itemType:String = ExchangeType.getName(event.item.category);
+	if( GameAnalytics.isInitialized )
+	{
+		if( event.item.outcomes.exists(ResourceType.R4_CURRENCY_HARD) )
+			GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, currency, event.item.outcomes.get(ResourceType.R4_CURRENCY_HARD), itemType, itemID);
+		else if( event.item.requirements.exists(ResourceType.R4_CURRENCY_HARD) )
+			GameAnalytics.addResourceEvent(GAResourceFlowType.SINK, currency, event.item.requirements.get(ResourceType.R4_CURRENCY_HARD), itemType, itemID);
+	}
+}
+
 private function gotoDeckTutorial():void
 {
 	if( !player.inSlotTutorial() )
@@ -316,6 +326,23 @@ private function dispatchCustomEvent( type:String, item:ExchangeItem ) : void
 {
 	item.enabled = true;
 	dispatchEventWith(type, false, item);
+}
+
+public function sendAnalyticsEvent( item:ExchangeItem ) : void
+{
+	// send analytics events
+	var outs:Vector.<int> = item.outcomes.keys();
+	var itemID:String = (item.category == ExchangeType.C30_BUNDLES ? "towers.bundle_" : "k2k.item_") + item.type;
+	if( GameAnalytics.isInitialized )
+	{
+		// GameAnalytics.addResourceEvent(GAResourceFlowType.SOURCE, ResourceType.getName(outs[0]), item.outcomes.get(outs[0]), "IAP", itemID);
+		// var currency:String = appModel.descriptor.marketIndex <= 1 ? "USD" : "IRR";
+		var amount:int = int(item.requirements.get(outs[0]) * 0.001);
+		GameAnalytics.addBusinessEvent("USD", amount, ResourceType.getName(outs[0]), itemID, appModel.descriptor.market);
+		GameAnalytics.addProgressionEvent(GAProgressionStatus.COMPLETE, "purchase", appModel.descriptor.market, itemID);
+		// Might need this:
+		// GameAnalytics.addBusinessEvent(currency, amount, item.type.toString(), result.purchase.sku, outs[0].toString(), result.purchase != null?result.purchase.json:null, result.purchase != null?result.purchase.signature:null);  
+	}
 }
 }
 }

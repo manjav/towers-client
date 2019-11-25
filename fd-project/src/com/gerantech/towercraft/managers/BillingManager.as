@@ -10,12 +10,23 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.ResourceType;
+import com.gt.towers.exchanges.ExchangeItem;
 import com.smartfoxserver.v2.core.SFSEvent;
+import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+import com.zarinpal.ZarinPal;
+import com.zarinpal.ZarinpalGatewayRequest;
+import com.zarinpal.events.ZarinpalRequestEvent;
+import com.zarinpal.inventory.ZarinpalStockItem;
 import feathers.events.FeathersEventType;
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import mx.resources.ResourceManager;
+import com.gt.towers.exchanges.Exchanger;
+
+
+
 
 public class BillingManager extends BaseManager
 {
@@ -78,12 +89,24 @@ public function init():void
 			packageURL = "com.arioclub.android";
 			break;
 		
+		case "zarinpal":
+			base64Key = "b37e90ce-b2bc-11e9-832c-000c29344814";
+			bindURL = "towers://zarinpal";
+			break;
+
 		default://cafebazaar
 			base64Key = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDBF2CttLWeUoUQG+KcbDAxqB4JqYvOn/pd2bNiPNFJXmVkw2RzkgLEomhFM/phWseg+SVe4bHM7TQg++1gvLpnfzr2onbdcYdWDllDhbQQFXXEtW+h8WdeQDFB6LCc+nUBcrJh7B5c99acShSTnENuuiRMbz2xR9nnDivlleu4XO3peTq1e4qoXewE/meloWuCNnPkc8fWDOm87zKFDRHLwlIQ3vJGUlpnFxXFd3cCAwEAAQ==";
 			bindURL = "ir.cafebazaar.pardakht.InAppBillingService.BIND";
 			packageURL = "com.farsitel.bazaar";
 			break;
-	}			
+	}
+
+	if(appModel.descriptor.market == "zarinpal")
+	{
+		ZarinPal.instance.addEventListener(ZarinpalRequestEvent.INITIALIZE_FINISHED, zarinpal_initializeFinishedHandler);
+		ZarinPal.instance.initialize(base64Key, bindURL, "", "");
+		return;
+	}		
 
 	Iab.instance.addEventListener(IabEvent.SETUP_FINISHED, iab_setupFinishedHandler);
 	Iab.instance.startSetup(base64Key, bindURL, packageURL);
@@ -95,6 +118,20 @@ protected function iab_setupFinishedHandler(event:IabEvent):void
 	dispatchEventWith(FeathersEventType.INITIALIZE);
 	if( event.result.succeed )
 		queryInventory();
+}
+
+protected function zarinpal_initializeFinishedHandler(event:ZarinpalRequestEvent):void
+{
+	ZarinPal.instance.removeEventListener(ZarinpalRequestEvent.INITIALIZE_FINISHED, zarinpal_initializeFinishedHandler);
+	var keys:Vector.<int> = exchanger.items.keys();
+	for each(var k:int in keys)
+	{
+		var exchangeItem:ExchangeItem = exchanger.items.get(k);
+		if( ExchangeType.getCategory(k) == ExchangeType.C0_HARD )
+			ZarinPal.instance.inventory.add("com.grantech.towers.item_" + k, loc("exchange_title_" + k), exchangeItem.requirements._map["h"][ResourceType.R5_CURRENCY_REAL], exchangeItem.outcomes._map["h"][ResourceType.R4_CURRENCY_HARD]);
+		else if( ExchangeType.getCategory(k) == ExchangeType.C30_BUNDLES )
+			ZarinPal.instance.inventory.add("towres.bundle_" + k, loc("exchange_title_" + k), exchangeItem.requirements._map["h"][ResourceType.R5_CURRENCY_REAL], exchangeItem.outcomes._map["h"][ResourceType.R4_CURRENCY_HARD]);
+	}
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- QUERY INVENTORY -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -123,15 +160,38 @@ protected function iab_queryInventoryFinishedHandler(event:IabEvent):void
 		var purchase:Purchase = Iab.instance.getPurchase(k);
 		if( purchase == null || purchase.itemType == Iab.ITEM_TYPE_SUBS )
 			continue;
-		verify(purchase);
+		var param:SFSObject = new SFSObject();
+		param.putText("productID", purchase.sku);
+		param.putText("purchaseToken", purchase.token);
+		verify(param);
 	}
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function purchase(sku:String):void
 {
-	Iab.instance.addEventListener(IabEvent.PURCHASE_FINISHED, iab_purchaseFinishedHandler);
-	Iab.instance.purchase(sku);
+	if(appModel.descriptor.market == "zarinpal")
+	{
+		var useZarinGate:Boolean = true;
+		var gatewayRequest:ZarinpalGatewayRequest = new ZarinpalGatewayRequest(useZarinGate);
+		gatewayRequest.addEventListener(ZarinpalRequestEvent.PAYMENT_REQUEST_RESPONSE_RECIEVED, gatewayRequest_responseRecievedHandler);
+		var item:ZarinpalStockItem = ZarinPal.instance.inventory.getItem(sku);
+		gatewayRequest.createRequest(item.sku, item.description, item.amount);
+		appModel.navigator.addLog(loc("waiting_message"));
+		gatewayRequest.send();
+		function gatewayRequest_responseRecievedHandler(e:ZarinpalRequestEvent):void
+		{
+			var sku:String = e.response["ProductID"];
+			var authCode:String = e.response["Authority"];
+			var urlRequest:URLRequest = new URLRequest(gatewayRequest.getGatewayUrl(authCode));
+			navigateToURL(urlRequest);
+		}
+	}
+	else
+	{
+		Iab.instance.addEventListener(IabEvent.PURCHASE_FINISHED, iab_purchaseFinishedHandler);
+		Iab.instance.purchase(sku);
+	}
 }
 
 protected function iab_purchaseFinishedHandler(event:IabEvent):void
@@ -145,44 +205,76 @@ protected function iab_purchaseFinishedHandler(event:IabEvent):void
 		return;
 	}
 	var purchase:Purchase = Iab.instance.getPurchase(event.result.purchase.sku);
-	if( purchase != null )
-		verify(purchase);
+	if ( purchase != null )
+	{
+		var param:SFSObject = new SFSObject();
+		param.putText("productID", purchase.sku);
+		param.putText("purchaseToken", purchase.token);
+		verify(param);
+	}
 	else
 		queryInventory();
 }
 
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE VERIFICATION AND CONSUMPTION -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-private function verify(purchase:Purchase):void
+public function verify(purchase:ISFSObject):void
 {
 	appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
 	var param:SFSObject = new SFSObject();
-	param.putText("productID", purchase.sku);
-	param.putText("purchaseToken", purchase.token);
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
+	if(appModel.descriptor.market == "zarinpal")
+	{
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, purchase as ISFSObject);
+	}
+	else
+	{
+		param.putText("productID", purchase.getText("productID"));
+		param.putText("purchaseToken", purchase.getText("purchaseToken"));
+		SFSConnection.instance.sendExtensionRequest(SFSCommands.VERIFY_PURCHASE, param);
+	}
 	function sfsConnection_purchaseVerifyHandler(event:SFSEvent):void
 	{
 		if( event.params.cmd != SFSCommands.VERIFY_PURCHASE )
 			return;
 		SFSConnection.instance.removeEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
 		var result:SFSObject = event.params.params;
-		trace(result.getDump());
 		if( result.getBool("success") )
 		{
-			if( appModel.descriptor.market == "cafebazaar" || appModel.descriptor.market == "ario" )
+			if ( appModel.descriptor.market == "zarinpal" )
 			{
-				if(  result.getInt("consumptionState") == 1 )
-					consume(purchase.sku);
+				/**
+				 * No consume method for zarinpal.
+				 */
+				var productID:int = int( result.getText("productID").split("_")[1] );
+				var item:ExchangeItem = exchanger.items.get(productID);
+				
+				var params:SFSObject = new SFSObject();
+				params.putInt("type", item.type)
+				params.putInt("hards", Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
+				ExchangeManager.instance.exchange(item, params);
+				
+				item.enabled = true;
+				// Dispatch event directly to exchange manager cause we might have lost
+				// the process.
+				ExchangeManager.instance.dispatchEventWith(FeathersEventType.END_INTERACTION, false, item);
+				// false sucess cause we already dispatched end interaction.
+				// dispatchEventWith(FeathersEventType.END_INTERACTION, false, {succeed: false});
+			}
+			else if( appModel.descriptor.market == "cafebazaar" || appModel.descriptor.market == "ario" )
+			{
+				if(  result.getInt("consumptionState") == 1 ){
+					consume(result.getText("productID"));
+				}
 			}
 			else
 			{
 				if(  result.getInt("consumptionState") == 0 )
-					consume(purchase.sku);
+					consume(result.getText("productID"));
 			}
 		}
 		else
 		{
-			log("purchase verify=>invalid: " + purchase.sku);
+			log("purchase verify=>invalid: " + result.getText("productID"));
 			explain(Iab.IABHELPER_VERIFICATION_FAILED);
 		}
 	}	

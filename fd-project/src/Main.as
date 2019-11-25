@@ -4,11 +4,12 @@ import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.screens.SplashScreen;
 import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.Descriptor;
-import com.gt.towers.constants.BuildingType;
+import com.gt.towers.constants.ExchangeType;
 import com.gt.towers.constants.ResourceType;
-import com.marpies.ane.gameanalytics.GameAnalytics;
-import com.marpies.ane.gameanalytics.data.GAErrorSeverity;
+import com.gameanalytics.sdk.GameAnalytics;
+import com.gameanalytics.sdk.GAErrorSeverity;
 import feathers.events.FeathersEventType;
+
 import flash.desktop.NativeApplication;
 import flash.display.Sprite;
 import flash.display.StageAlign;
@@ -21,7 +22,11 @@ import flash.events.InvokeEvent;
 import flash.events.UncaughtErrorEvent;
 import flash.geom.Rectangle;
 import flash.utils.getTimer;
+
 import starling.core.Starling;
+import com.tuarua.FirebaseANE;
+import com.tuarua.firebase.FirebaseOptions;
+import com.tuarua.fre.ANEError;
 
 [ResourceBundle("loc")]
 [SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
@@ -45,21 +50,20 @@ public function Main()
     
 	// GameAnalytic Configurations
 	var desc:Descriptor = AppModel.instance.descriptor;
-	var currencies:Vector.<String> = new Vector.<String>();
-	var bt:Vector.<int> = BuildingType.getAll().keys();
-	for each( var r:int in bt )
-		currencies.push(r.toString());
-	currencies.push(ResourceType.R1_XP.toString());
-	currencies.push(ResourceType.R2_POINT.toString());
-	currencies.push(ResourceType.R4_CURRENCY_HARD.toString());
-	currencies.push(ResourceType.R3_CURRENCY_SOFT.toString());
-	
 	GameAnalytics.config/*.setUserId("test_id").setResourceCurrencies(new <String>["gems", "coins"]).setResourceItemTypes(new <String>["boost", "lives"]).setCustomDimensions01(new <String>["ninja", "samurai"])*/
-		/*.setBuildiOS(desc.versionNumber).setGameKeyAndroid(desc.analyticskey).setGameSecretAndroid(desc.analyticssec) */
 		.setBuildAndroid(desc.versionNumber).setGameKeyAndroid(desc.analyticskey).setGameSecretAndroid(desc.analyticssec)
-		.setResourceCurrencies(currencies)
-		.setResourceItemTypes(new <String>["outcome", "special", "chest", "purchase", "exchange", "upgrade", "donate"])
-	GameAnalytics.init();
+		.setResourceCurrencies(new <String>[ResourceType.getName(ResourceType.R1_XP), ResourceType.getName(ResourceType.R2_POINT), ResourceType.getName(ResourceType.R3_CURRENCY_SOFT), ResourceType.getName(ResourceType.R4_CURRENCY_HARD), ResourceType.getName(ResourceType.R6_TICKET)])
+		.setResourceItemTypes(new <String>["Initial", ExchangeType.getName(ExchangeType.C0_HARD), ExchangeType.getName(ExchangeType.C10_SOFT), ExchangeType.getName(ExchangeType.C20_SPECIALS), ExchangeType.getName(ExchangeType.C30_BUNDLES), ExchangeType.getName(ExchangeType.C40_OTHERS), ExchangeType.getName(ExchangeType.BOOKS_50), ExchangeType.getName(ExchangeType.C70_TICKETS), ExchangeType.getName(ExchangeType.C80_EMOTES), ExchangeType.getName(ExchangeType.C100_FREES), ExchangeType.getName(ExchangeType.C110_BATTLES), ExchangeType.getName(ExchangeType.C120_MAGICS)]);
+	if ( GameAnalytics.isSupported )
+	{
+		try {
+			GameAnalytics.init();
+		}
+		catch (error:Error)
+		{
+			trace(error.message);
+		}
+	}
 	
 	t = getTimer();
 	stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -75,6 +79,33 @@ public function Main()
 	loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, loaderInfo_uncaughtErrorHandler);
 
 	NativeApplication.nativeApplication.addEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
+
+	if (AppModel.instance.platform == AppModel.PLATFORM_ANDROID)
+	{
+		try
+		{
+			/**
+			 * Here we will initalize firebase native extension, required for 
+			 * Firebase Cloud Messaging.
+			 */
+			FirebaseANE.init();
+			if(!FirebaseANE.isGooglePlayServicesAvailable)
+			{
+				trace("Google Play Service is not installed on device");
+				// TODO: Requires handle method.
+			}
+			var firebaseOptions:FirebaseOptions = FirebaseANE.options;
+			if (firebaseOptions)
+			{
+				trace("apiKey", firebaseOptions.apiKey);
+				trace("googleAppId", firebaseOptions.googleAppId);
+			}
+		}
+		catch (e:ANEError)
+		{
+			trace(e.errorID, e.message, e.getStackTrace(), e.source);
+		}
+	}
 }
 
 private function loaderInfo_completeHandler(event:Event):void
@@ -124,8 +155,9 @@ private function stage_activateHandler(event:Event):void
 
 protected function nativeApplication_invokeHandler(event:InvokeEvent):void
 {
-	NativeApplication.nativeApplication.removeEventListener(InvokeEvent.INVOKE, nativeApplication_invokeHandler);
 	AppModel.instance.invokes = event.arguments;
+	if(AppModel.instance.navigator)
+		AppModel.instance.navigator.handleInvokes();
 }
 
 protected function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):void 
@@ -148,7 +180,8 @@ protected function loaderInfo_uncaughtErrorHandler(event:UncaughtErrorEvent):voi
 		text = event.error.toString();
 		severity = GAErrorSeverity.WARNING;
 	}
-	GameAnalytics.addErrorEvent(severity, text);
+	if(GameAnalytics.isInitialized)
+		GameAnalytics.addErrorEvent(severity, text);
 	//navigateToURL(new URLRequest("http://127.0.0.1:8080/towerslet/towers?" + severity + "--" + text));
 }
 }

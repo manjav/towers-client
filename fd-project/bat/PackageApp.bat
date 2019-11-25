@@ -9,6 +9,7 @@ echo Select server
 echo.
 echo  [1] iran
 echo  [2] local
+echo  [3] yoga
 
 :choice
 set /P S=[Choice]: 
@@ -17,6 +18,7 @@ echo.
 set SERVER=iran
 if "%S%"=="1" set SERVER=iran
 if "%S%"=="2" set SERVER=local
+if "%S%"=="3" set SERVER=yoga
 
 
 :menu
@@ -72,6 +74,7 @@ echo  [2] myket
 echo  [3] ario
 echo  [4] cando
 echo  [5] google
+echo  [6] zarinpal
 
 :choice
 set /P M=[Choice]: 
@@ -83,6 +86,7 @@ if "%M%"=="2" set MARKET=myket
 if "%M%"=="3" set MARKET=ario
 if "%M%"=="4" set MARKET=cando
 if "%M%"=="5" set MARKET=google
+if "%M%"=="6" set MARKET=zarinpal
 
 
 set PAUSE_ERRORS=1

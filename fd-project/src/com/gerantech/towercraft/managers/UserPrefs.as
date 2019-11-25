@@ -7,7 +7,7 @@ import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.PrefsTypes;
-import com.marpies.ane.gameanalytics.GameAnalytics;
+import com.gameanalytics.sdk.GameAnalytics;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import starling.events.Event;
 
@@ -54,7 +54,7 @@ public function setInt(key:int, value:int):void
             return;
     
 	setString(key, value.toString());
-    if( key == PrefsTypes.TUTOR )
+    if( key == PrefsTypes.TUTOR && GameAnalytics.isInitialized )
 		GameAnalytics.addDesignEvent("tutorial:step-" + value);
 
 }

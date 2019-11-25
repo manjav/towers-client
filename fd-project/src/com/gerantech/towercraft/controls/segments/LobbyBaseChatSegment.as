@@ -1,5 +1,7 @@
 package com.gerantech.towercraft.controls.segments
 {
+import com.gerantech.extensions.NativeAbilities;
+import com.gerantech.extensions.events.AndroidEvent;
 import com.gerantech.towercraft.controls.FastList;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
@@ -8,9 +10,12 @@ import com.gerantech.towercraft.controls.popups.ConfirmPopup;
 import com.gerantech.towercraft.controls.popups.ProfilePopup;
 import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.controls.texts.CustomTextInput;
+import com.gerantech.towercraft.controls.texts.RTLLabel;
+import com.gerantech.towercraft.controls.texts.ShadowLabel;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.AppModel;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;
@@ -68,11 +73,29 @@ override public function init():void
 	layout = new AnchorLayout();
 	loadData();
 }
-
 protected function loadData():void
 {
+	var imei:String = appModel.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.imei : "";
+	if( appModel.platform == AppModel.PLATFORM_ANDROID && imei == "" )
+	{
+		var confirm:ConfirmPopup = new ConfirmPopup(loc("lobby_imei_confirm"));
+		confirm.addEventListener(Event.SELECT, confirm_selectHandler);
+		confirm.addEventListener(Event.CANCEL, confirm_canceltHandler);
+		appModel.navigator.addPopup(confirm);
+		function confirm_selectHandler(event:Event):void{
+			NativeAbilities.instance.addEventListener(AndroidEvent.PERMISSION_REQUEST, nativeAbilities_requestPermissionHandler);
+			NativeAbilities.instance.requestPermission("android.permission.READ_PHONE_STATE", 1312);
+		}
+		function confirm_canceltHandler(event:Event):void{
+			dispatchEventWith(Event.UPDATE, true, null);
+		}
+		return;
+	}
 
-	if( manager == null || initializeCompleted )
+	if( isBan() )
+		return;
+	
+	if( manager == null || !initializeStarted || initializeCompleted )
 		return;
 	
 	if( manager.isReady )
@@ -80,15 +103,27 @@ protected function loadData():void
 		showElements();
 		return;
 	}
+	
 	manager.addEventListener(Event.READY, manager_readyHandler);
-	manager.joinToPublic();
+	manager.joinToPublic(imei);
 }
 
-protected function manager_readyHandler(event:Event):void
+private function nativeAbilities_requestPermissionHandler(event:AndroidEvent):void
+{
+	NativeAbilities.instance.removeEventListener(AndroidEvent.PERMISSION_REQUEST , nativeAbilities_requestPermissionHandler);
+	if( String(event.data).search("READ_PHONE_STATE") == -1 )
+		return;
+	loadData();
+}
+
+protected function manager_readyHandler(event:Event) : void
 {
 	manager.removeEventListener(Event.READY, manager_readyHandler);
+	if( isBan() )
+		return;
 	showElements();
 }
+
 
 protected function showElements():void
 {
@@ -367,6 +402,29 @@ override public function dispose():void
 	if( manager != null )
 		manager.removeEventListener(Event.UPDATE, manager_updateHandler);
 	super.dispose();
+}
+
+private function isBan():Boolean
+{
+	var ban:ISFSObject = appModel.loadingManager.serverData.containsKey("ban") ? appModel.loadingManager.serverData.getSFSObject("ban") : null;
+	if( ban != null && ban.getInt("mode") > 1 )// banned user
+	{
+		// backgroundSkin = new Image(appModel.theme.backgroundDisabledSkinTexture);
+		// Image(backgroundSkin).scale9Grid = MainTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
+		// backgroundSkin.alpha = 0.6;
+		
+		var labelDisplay:ShadowLabel = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]), 1, 0, "center", null, true, null, 0.9);
+		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+		labelDisplay.width = stageWidth - 200;
+		addChild(labelDisplay);
+		
+		var descDisplay:RTLLabel = new RTLLabel(ban.getUtfString("message"), 0xAABBCC, null, null, true, null, 0.65);
+		descDisplay.layoutData = labelDisplay.layoutData;
+		descDisplay.width = stageWidth - 200;
+		addChild(descDisplay);
+		return true;
+	}
+	return false;
 }
 }
 }

@@ -1,4 +1,4 @@
-package com.gerantech.towercraft.controls.sliders.battle 
+package com.gerantech.towercraft.controls.sliders.battle
 {
 import com.gerantech.towercraft.controls.TowersLayout;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
