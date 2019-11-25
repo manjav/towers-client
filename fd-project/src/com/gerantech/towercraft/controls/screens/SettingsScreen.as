@@ -8,7 +8,7 @@ import com.gerantech.towercraft.controls.popups.SimpleListPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.BillingManager;
 import com.gerantech.towercraft.managers.SoundManager;
-import com.gerantech.towercraft.managers.oauth.OAuthManager;
+import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.vo.SettingsData;
 import com.gerantech.towercraft.models.vo.UserData;
 import com.gerantech.towercraft.utils.StrUtils;

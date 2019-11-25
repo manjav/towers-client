@@ -1,7 +1,6 @@
 package com.gerantech.towercraft.controls
 {
 	import avmplus.getQualifiedClassName;
-
 	import com.gerantech.extensions.NativeAbilities;
 	import com.gerantech.towercraft.Game;
 	import com.gerantech.towercraft.controls.animations.AchievedItem;
@@ -13,6 +12,7 @@ package com.gerantech.towercraft.controls
 	import com.gerantech.towercraft.controls.popups.InvitationPopup;
 	import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 	import com.gerantech.towercraft.controls.popups.LobbyDetailsPopup;
+	import com.gerantech.towercraft.controls.popups.MessagePopup;
 	import com.gerantech.towercraft.controls.screens.DashboardScreen;
 	import com.gerantech.towercraft.controls.segments.ExchangeSegment;
 	import com.gerantech.towercraft.controls.segments.SocialSegment;
@@ -38,20 +38,23 @@ package com.gerantech.towercraft.controls
 	import com.smartfoxserver.v2.entities.data.ISFSObject;
 	import com.smartfoxserver.v2.entities.data.SFSObject;
 	import com.zarinpal.ZarinpalCallbackHandler;
-
+	import com.zarinpal.inventory.ZarinpalPurchaseActivity;
 	import feathers.controls.LayoutGroup;
 	import feathers.controls.StackScreenNavigator;
 	import feathers.controls.StackScreenNavigatorItem;
-
 	import flash.geom.Rectangle;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.utils.Dictionary;
-
 	import starling.animation.Transitions;
 	import starling.core.Starling;
 	import starling.events.Event;
 	import starling.textures.Texture;
+	import com.gt.towers.exchanges.ExchangeItem;
+
+
+
+
 	
 	public class StackNavigator extends StackScreenNavigator
 	{
@@ -315,7 +318,31 @@ package com.gerantech.towercraft.controls
 				{
 					var callbackHandler:ZarinpalCallbackHandler = new ZarinpalCallbackHandler(arguments[0]);
 					var response:Object = callbackHandler.getResponse();
-					BillingManager.instance.verifyZarinPal(response);
+					var itemID:int = ZarinpalPurchaseActivity.getPurchaseActivity(response["Authority"]) ? ZarinpalPurchaseActivity.getPurchaseActivity(response["Authority"]).split("_")[1] : 0;
+					var item:ExchangeItem = AppModel.instance.game.exchanger.items.get(itemID);
+					if ( response["Status"] != "OK" )
+					{
+						AppModel.instance.navigator.addPopup(new MessagePopup(loc("popup_purchase_" + -1005)));
+						item.enabled = true;
+					}
+					else if ( !response["Authority"] )
+					{
+						AppModel.instance.navigator.addPopup(new MessagePopup(loc("popup_purchase_" + -1008)));
+						item.enabled = true;
+					}
+					else if ( !ZarinpalPurchaseActivity.getPurchaseActivity(response["Authority"]) )
+					{
+						AppModel.instance.navigator.addPopup(new MessagePopup(loc("popup_purchase_" + -1008)));
+						item.enabled = true;
+					}
+					else
+					{
+						var param:SFSObject = new SFSObject();
+						param.putText("productID", ZarinpalPurchaseActivity.getPurchaseActivity(response["Authority"]));
+						param.putText("purchaseToken", response["Authority"]);
+						gotoShop(ResourceType.R4_CURRENCY_HARD);
+						BillingManager.instance.verify(param);
+					}
 				}
 			}
 			AppModel.instance.invokes = null;			//trace("k:", a, "v:", pars[a]);	

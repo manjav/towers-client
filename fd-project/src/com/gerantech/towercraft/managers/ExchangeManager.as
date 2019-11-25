@@ -182,9 +182,8 @@ public function process(item : ExchangeItem) : void
 	}
 }
 
-private function exchange( item:ExchangeItem, params:SFSObject ) : void
+public function exchange( item:ExchangeItem, params:SFSObject ) : void
 {
-
 	if( item.category == ExchangeType.C100_FREES )
 		exchanger.findRandomOutcome(item, timeManager.now);
 	var bookType:int = -1;

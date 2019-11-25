@@ -3,7 +3,7 @@ package com.gerantech.towercraft.controls.screens
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.buttons.SimpleLayoutButton;
 import com.gerantech.towercraft.controls.items.InboxItemRenderer;
-import com.gerantech.towercraft.controls.popups.IssueReportPopup;
+import com.gerantech.towercraft.controls.popups.IssueReportPopup;
 import com.gerantech.towercraft.controls.texts.RTLLabel;
 import com.gerantech.towercraft.managers.InboxService;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
