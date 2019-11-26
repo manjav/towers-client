@@ -10,6 +10,8 @@ echo.
 echo  [1] iran
 echo  [2] local
 echo  [3] yoga
+echo  [4] fudo
+echo  [5] surface
 
 :choice
 set /P S=[Choice]: 
@@ -19,6 +21,8 @@ set SERVER=iran
 if "%S%"=="1" set SERVER=iran
 if "%S%"=="2" set SERVER=local
 if "%S%"=="3" set SERVER=yoga
+if "%S%"=="4" set SERVER=fudo
+if "%S%"=="5" set SERVER=surface
 
 
 :menu
@@ -88,6 +92,17 @@ if "%M%"=="4" set MARKET=cando
 if "%M%"=="5" set MARKET=google
 if "%M%"=="6" set MARKET=zarinpal
 
+:menu
+echo.
+echo Select for CPU arc
+echo.
+echo  [1] armv7
+echo  [2] armv8
+
+:choice
+set /P A=[Choice]: 
+echo.
+if "%A%"=="2" set OPTIONS=%OPTIONS%-arch armv8
 
 set PAUSE_ERRORS=1
 call bat\SetupDescriptor.bat
