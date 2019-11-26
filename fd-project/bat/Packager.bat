@@ -16,9 +16,7 @@ cd %~dp0 & cd ..
 :: Android packaging
 set AND_CERT_NAME="towerstory"
 set AND_CERT_PASS=12345
-set AND_CERT_FILE=cert/android.p12
-set AND_ICONS=files/icons/android
-if NOT %SERVER%==iran set AND_ICONS=files/icons/gndroid
+set AND_CERT_FILE=cert/towers.p12
 
 set AND_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%AND_CERT_FILE%" -storepass %AND_CERT_PASS%
 
@@ -27,7 +25,6 @@ set IOS_DIST_CERT_FILE=cert/TOD-Distribution-Certificate.p12
 set IOS_DEV_CERT_FILE=cert/TOD-Distribution-Certificate.p12
 set IOS_DEV_CERT_PASS=pppppp
 set IOS_PROVISION=cert/Bluebox_K2K_Adhoc_Profile.mobileprovision
-set IOS_ICONS=files/icons/android
 
 set IOS_DEV_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%IOS_DEV_CERT_FILE%" -storepass %IOS_DEV_CERT_PASS% -provisioning-profile %IOS_PROVISION%
 set IOS_DIST_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%IOS_DIST_CERT_FILE%" -storepass %IOS_DEV_CERT_PASS% -provisioning-profile %IOS_PROVISION%
@@ -91,8 +88,9 @@ echo Packaging: %OUTPUT%
 echo using certificate: %CERT_FILE%...
 echo.
 
-echo adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" bin/"%APP_XML%" %FILE_OR_DIR% -extdir exts
-call adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" bin/"%APP_XML%" %FILE_OR_DIR% -extdir exts 
+echo %FLEX_SDK%
+echo adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" "%APP_XML%" %FILE_OR_DIR% -extdir ane
+call adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" "%APP_XML%" %FILE_OR_DIR% -extdir ane 
 echo.
 if errorlevel 1 goto failed
 goto end

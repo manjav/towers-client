@@ -8,8 +8,10 @@ set FLEX_SDK=C:\_projects\4.6.0+32.0.0
 IF [%MARKET%]==[] set MARKET=cafebazaar
 if [%MARKET%]==[google] set FLEX_SDK=C:\_projects\4.6.0+33.0.2
 
+echo %FLEX_SDK%
+
 :: Use FD supplied SDK path if executed from FD
-if exist "%FD_CUR_SDK%" set FLEX_SDK=%FD_CUR_SDK%
+REM if exist "%FD_CUR_SDK%" set FLEX_SDK=%FD_CUR_SDK%
 
 set AUTO_INSTALL_IOS=yes
 
