@@ -24,6 +24,8 @@ import flash.net.URLRequest;
 import flash.net.navigateToURL;
 import mx.resources.ResourceManager;
 import com.gt.towers.exchanges.Exchanger;
+import com.gerantech.towercraft.models.AppModel;
+import com.gt.towers.constants.PrefsTypes;
 
 
 
@@ -62,7 +64,9 @@ public function init():void
 		else if( ExchangeType.getCategory(k) == ExchangeType.C30_BUNDLES )
 			items.push("towres.bundle_" + k);
 
-	var base64Key:String, bindURL:String, packageURL:String;
+	var base64Key:String, bindURL:String, packageURL:String, market:String = appModel.descriptor.market;
+	if( market == "google" && AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "fa_IR" )
+		market = "zarinpal";
 	switch( appModel.descriptor.market )
 	{
 		case "google":
