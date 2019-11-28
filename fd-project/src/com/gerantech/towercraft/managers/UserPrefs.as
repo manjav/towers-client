@@ -10,6 +10,7 @@ import com.gt.towers.constants.PrefsTypes;
 import com.gameanalytics.sdk.GameAnalytics;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 import starling.events.Event;
+import com.gerantech.extensions.NativeAbilities;
 
 public class UserPrefs
 {
@@ -23,7 +24,7 @@ public function init():void
 	// select language with market index
 	if ( !AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
 	{
-		var loc:String = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
+		var loc:String = StrUtils.getLocaleByTimezone(NativeAbilities.instance.getTimezone());
 		if( changeLocale(loc, true) )
 			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, loc);
 		

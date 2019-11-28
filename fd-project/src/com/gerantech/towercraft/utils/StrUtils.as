@@ -434,5 +434,17 @@ static public function getCurrencyFormat(count:int):String
 	}
 	return ret
 }
+
+static public function getLocaleByTimezone(timezone:String = null) : String
+{
+	switch( timezone )
+	{
+		case "Asia/Kabul":
+		case "Asia/Tehran":
+		case "Asia/Dushanbe":
+			return getLocal("fa");
+	}
+	return getLocal("en");
+}
 }
 }
