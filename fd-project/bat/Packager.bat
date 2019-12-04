@@ -76,6 +76,7 @@ set BINF=%TEMP%\bin
 rd /q /s %BINF%
 if %TYPE%==ipa echo f | xcopy /f /y files\sfs-config.xml %BINF%\sfs-config.xml
 echo f | xcopy /f /y bin\release.swf %BINF%\release.swf
+echo f | xcopy /f /y bin\config.xml %BINF%\config.xml
 echo d | xcopy /s /y bin\assets %BINF%\assets
 set FILE_OR_DIR=-C %BINF% . -C %ICONS% .
 
