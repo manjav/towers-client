@@ -34,6 +34,9 @@ import starling.core.Starling;
 import starling.display.Image;
 import starling.events.Event;
 
+import ir.metrix.sdk.Metrix;
+import ir.metrix.sdk.MetrixEvent
+
 public class FactionsScreen extends BaseCustomScreen
 {
 public static var factory:StarlingFactory;
@@ -131,6 +134,15 @@ private function testOpenBook():void
 private function testOffer():void 
 {
 	var wins: int = player.getResource(ResourceType.R13_BATTLES_WINS);
+	// Send metrix player event after 10 battle win.
+	if( wins == 10 )
+	{
+		if( Metrix.instance.isSupported )
+		{
+			var first_session_event:MetrixEvent = Metrix.instance.newEvent("uektc");
+			Metrix.instance.sendEvent(first_session_event);
+		}
+	}
 	player.resources.set(ResourceType.R13_BATTLES_WINS, player.prefs.getAsInt(PrefsTypes.OFFER_30_RATING) + 1);
 	appModel.navigator.showOffer();
 	player.resources.set(ResourceType.R13_BATTLES_WINS, wins);

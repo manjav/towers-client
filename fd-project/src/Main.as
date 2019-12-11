@@ -28,6 +28,8 @@ import com.tuarua.FirebaseANE;
 import com.tuarua.firebase.FirebaseOptions;
 import com.tuarua.fre.ANEError;
 
+import ir.metrix.sdk.Metrix;
+
 [ResourceBundle("loc")]
 [SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
 public class Main extends Sprite
@@ -105,6 +107,12 @@ public function Main()
 		{
 			trace(e.errorID, e.message, e.getStackTrace(), e.source);
 		}
+	}
+
+	if( Metrix.instance.isSupported )
+	{
+		Metrix.instance.appID = "jhhosgjzkirrzsc";
+		Metrix.instance.initialize();
 	}
 }
 

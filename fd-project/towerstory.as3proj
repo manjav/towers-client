@@ -8,7 +8,7 @@
     <movie fps="60" />
     <movie width="1080" />
     <movie height="1920" />
-    <movie version="32" />
+    <movie version="0" />
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />
     <movie background="#000000" />
@@ -68,6 +68,7 @@
     <element path="ane\com.tuarua.firebase.FirebaseANE.ane" />
     <element path="ane\com.tuarua.firebase.MessagingANE.ane" />
     <element path="ane\com.chartboost.plugin.air.ane" />
+    <element path="ane\ir.metrix.ane.ane" />
   </externalLibraryPaths>
   <!-- Runtime Shared Libraries -->
   <rslPaths>
