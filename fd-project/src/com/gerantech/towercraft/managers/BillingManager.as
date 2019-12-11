@@ -94,7 +94,7 @@ public function init():void
 			break;
 		
 		case "zarinpal":
-			base64Key = "b37e90ce-b2bc-11e9-832c-000c29344814";
+			base64Key = "30849626-1501-11ea-b7da-000c295eb8fc";
 			bindURL = "towers://zarinpal";
 			break;
 
