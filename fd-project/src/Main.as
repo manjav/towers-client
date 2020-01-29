@@ -73,9 +73,6 @@ public function Main()
 	stage.scaleMode = StageScaleMode.NO_SCALE;
 	stage.align = StageAlign.TOP_LEFT;
 
-	AppModel.instance.formalAspectratio = 1080 / 1920;
-	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
-
 	mouseEnabled = mouseChildren = false;
 	splash = new SplashScreen(stage);
 	splash.addEventListener(FeathersEventType.TRANSITION_IN_COMPLETE, loaderInfo_completeHandler);
@@ -131,14 +128,16 @@ private function loaderInfo_completeHandler(event:Event):void
 
 private function starStarling():void
 {
-	this.starling = new Starling(Game, this.stage, new Rectangle(0, 0, stage.fullScreenWidth, stage.fullScreenHeight), null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
+	this.starling = new Starling(Game, stage, new Rectangle(0,0,stage.stageWidth,stage.stageHeight), null, Context3DRenderMode.AUTO, Context3DProfile.BASELINE);
+	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
 	this.starling.supportHighResolutions = true;
 	this.starling.skipUnchangedFrames = true;
 	this.starling.start();
-	this.starling.addEventListener("rootCreated", starling_rootCreatedHandler);
-	this.starling.stage.stageWidth  = Math.max(1080, 1920 * (stage.fullScreenWidth / stage.fullScreenHeight));
-	this.starling.stage.stageHeight = 1920; trace(stage.fullScreenWidth, stage.fullScreenHeight, this.starling.stage.stageWidth, this.starling.stage.stageHeight, this.starling.contentScaleFactor);
-	//this.starling.showStatsAt("right", "bottom", 1/this.starling.contentScaleFactor);
+	this.starling.stage.stageWidth  = 1080;
+	this.starling.stage.stageHeight = 1080 * (stage.stageHeight / stage.stageWidth);
+	//NativeAbilities.instance.showToast(stage.fullScreenWidth + "," + stage.fullScreenHeight + "," + this.starling.stage.stageWidth + "," + this.starling.stage.stageHeight + "," + this.starling.contentScaleFactor, 2);
+	//this.starling.showStatsAt("right", "top", 1 / this.starling.contentScaleFactor);
+	trace("Screen(" + stage.fullScreenWidth + "x" + stage.fullScreenHeight + "), Stage(" + stage.stageWidth + "x" +  stage.stageHeight + "), Starling(" + starling.stage.stageWidth + "x" +  starling.stage.stageHeight + "), Ratio:" + starling.contentScaleFactor);
 }
 
 private function starling_rootCreatedHandler(event:Object):void

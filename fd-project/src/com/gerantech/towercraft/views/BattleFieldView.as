@@ -30,25 +30,10 @@ public function BattleFieldView()
 	super();
 	
 	// map alignment
-	var _width:Number;
-	var _height:Number;
-	AppModel.instance.aspectratio = Starling.current.stage.stageWidth / Starling.current.stage.stageHeight;
-	if(  AppModel.instance.aspectratio < AppModel.instance.formalAspectratio )
-	{
-		_width = Starling.current.stage.stageWidth;
-		_height = Starling.current.stage.stageWidth * AppModel.instance.formalAspectratio;
-		x = pivotX = _width * 0.5;
-		pivotY = _height * 0.5;
-		y = pivotY + (Starling.current.stage.stageHeight - _height ) * 0.5;
-	}
-	else
-	{
-		_height = Starling.current.stage.stageHeight;
-		_width = Starling.current.stage.stageHeight * AppModel.instance.formalAspectratio;
-		y = pivotY = _height * 0.5;
-		pivotX = _width * 0.5;
-		x = pivotX + (Starling.current.stage.stageWidth - _width ) * 0.5;
-	}
+	var _width:Number = Starling.current.stage.stageWidth;
+	var _height:Number = Math.max(Starling.current.stage.stageHeight, Starling.current.stage.stageWidth * 1.34);
+	x = pivotX = _width * 0.5;
+	y = pivotY = _height * 0.5;
 	scale = 0.8;
 	
 	// tile grass ground

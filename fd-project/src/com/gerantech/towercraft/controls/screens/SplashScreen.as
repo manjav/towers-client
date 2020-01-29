@@ -38,7 +38,6 @@ public function SplashScreen(stage:Stage)
 }
 protected function stage_resizeHandler(event:*):void
 {
-	AppModel.instance.aspectratio = stage.fullScreenWidth / stage.fullScreenHeight;
 	logo.graphics.clear();
 	logo.graphics.beginFill(0);
 	logo.graphics.drawRect(-100, -100, stage.fullScreenWidth * 3, stage.fullScreenHeight * 3);
