@@ -2,12 +2,16 @@
 bin-debug/
 bin-release/
 [Oo]bj/ # FlashDevelop obj
-#[Bb]in/ # FlashDevelop bin
+[Bb]in/
+[Cc]ert/
+[Dd]ist/
 
 # Other files and folders
 .settings/
+.vscode/
 
 # Executables
+*.swf
 *.air
 *.ipa
 *.apk
@@ -21,5 +25,3 @@ fd-project/obj/towerstoryConfig.xml
 fd-project/bin/towerstory.swf
 fd-project/application.xml
 fd-project/bin/release.swf
-
-ext/
