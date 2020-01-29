@@ -56,7 +56,7 @@ public function FactionsScreen()
 		var numLeagues:int = keys.length - 1;
 		while( numLeagues >= 0 )
 		{
-			leaguesCollection.addItem(game.arenas..get(keys[numLeagues]));
+			leaguesCollection.addItem(game.arenas.get(keys[numLeagues]));
 			numLeagues --;
 		}
 	}
