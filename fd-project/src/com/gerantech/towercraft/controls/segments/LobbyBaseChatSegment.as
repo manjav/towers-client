@@ -75,6 +75,12 @@ override public function init():void
 }
 protected function loadData():void
 {
+	if( player.get_arena(0) < 3 )
+	{
+		showLabel(loc("availableat_messeage", [loc("tab-14"), loc("arena_text") + " " + loc("num_4")]));
+		return;
+	}
+
 	var imei:String = appModel.platform == AppModel.PLATFORM_ANDROID ? NativeAbilities.instance.deviceInfo.imei : "";
 	if( appModel.platform == AppModel.PLATFORM_ANDROID && imei == "" )
 	{
@@ -413,10 +419,7 @@ private function isBan():Boolean
 		// Image(backgroundSkin).scale9Grid = MainTheme.DEFAULT_BACKGROUND_SCALE9_GRID;
 		// backgroundSkin.alpha = 0.6;
 		
-		var labelDisplay:ShadowLabel = new ShadowLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]), 1, 0, "center", null, true, null, 0.9);
-		labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
-		labelDisplay.width = stageWidth - 200;
-		addChild(labelDisplay);
+		var labelDisplay:ShadowLabel = showLabel(loc("lobby_banned", [StrUtils.toTimeFormat(ban.getLong("until"))]));
 		
 		var descDisplay:RTLLabel = new RTLLabel(ban.getUtfString("message"), 0xAABBCC, null, null, true, null, 0.65);
 		descDisplay.layoutData = labelDisplay.layoutData;
@@ -425,6 +428,14 @@ private function isBan():Boolean
 		return true;
 	}
 	return false;
+}
+private function showLabel(message:String) : ShadowLabel
+{
+	var labelDisplay:ShadowLabel = new ShadowLabel(message, 1, 0, "center", null, true, null, 0.9);
+	labelDisplay.width = stageWidth - 200;
+	labelDisplay.layoutData = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, 0);
+	addChild(labelDisplay);
+	return labelDisplay;
 }
 }
 }
