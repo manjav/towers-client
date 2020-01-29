@@ -29,9 +29,9 @@ import com.tuarua.firebase.FirebaseOptions;
 import com.tuarua.fre.ANEError;
 
 import ir.metrix.sdk.Metrix;
+import com.gerantech.towercraft.utils.Localizations;
+import com.gerantech.extensions.NativeAbilities;
 
-[ResourceBundle("loc")]
-[SWF(frameRate="60", backgroundColor="#000000")]//#3d4759
 public class Main extends Sprite
 {
 public static var t:int;
@@ -40,6 +40,8 @@ private var splash:SplashScreen;
 
 public function Main()
 {
+	Localizations.instance.changeLocale(Localizations.instance.getLocaleByTimezone(NativeAbilities.instance.getTimezone()));
+
 	/*for(var improveLevel:int=1; improveLevel<=4; improveLevel++)
 	{
 		var str:String = improveLevel + " : ";

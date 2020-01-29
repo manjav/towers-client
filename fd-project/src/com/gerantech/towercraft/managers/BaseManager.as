@@ -15,9 +15,8 @@ protected function get appModel():		AppModel		{	return AppModel.instance;			}
 protected function get game():			Game			{	return appModel.game;				}
 protected function get player():		Player			{	return game.player;					}
 protected function get exchanger():		Exchanger		{	return game.exchanger;				}
-protected function loc(resourceName:String, parameters:Array = null) : String
-{
-	return StrUtils.loc(resourceName, parameters);
+protected function loc(resourceName:String, parameters:Array = null, convertDigits:Boolean = true):String {
+	return StrUtils.loc(resourceName, parameters, convertDigits);
 }
 }
 }

@@ -7,11 +7,13 @@ import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
-import mx.resources.ResourceManager;
+
 import starling.events.Event;
+import com.gerantech.towercraft.utils.StrUtils;
 
 public class IssueReportPopup extends ConfirmPopup
 {
@@ -76,7 +78,7 @@ protected function sfsCOnnection_extensionResponseHandler(event:SFSEvent):void
 		return;
 	}
 	dispatchEventWith( Event.COMPLETE );
-	appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "popup_bugreport_fine"));
+	appModel.navigator.addLog(StrUtils.loc("popup_bugreport_fine"));
 	close();
 }
 }

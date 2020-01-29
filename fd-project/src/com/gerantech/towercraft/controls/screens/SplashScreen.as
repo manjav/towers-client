@@ -234,10 +234,9 @@ private function removeLogo():void
 		stage.removeChild(logo);
 
 }
-
-protected function loc(resourceName:String, parameters:Array=null, locale:String=null):String
+protected function loc(resourceName:String, parameters:Array = null, convertDigits:Boolean = true):String
 {
-	return StrUtils.loc(resourceName, parameters);
+	return StrUtils.loc(resourceName, parameters, convertDigits);
 }
 }
 }
