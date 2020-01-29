@@ -2,10 +2,10 @@
 
 :: Set working dir
 cd %~dp0 & cd ..
+set APP_DIR=bin
 
 set PAUSE_ERRORS=1
-call bat\SetupSDK.bat
-call bat\SetupApp.bat
+call bats/SetupSDK.bat
 
 :target
 goto desktop
@@ -18,17 +18,18 @@ set INTERPRETER=-interpreter
 :desktop
 :: http://help.adobe.com/en_US/air/build/WSfffb011ac560372f-6fa6d7e0128cca93d31-8000.html
 
-set SCREEN_SIZE=540x940:540x990
+set SCREEN_SIZE=432x912:490x980
 ::set SCREEN_SIZE=768x1024:768x1024
 ::set SCREEN_SIZE=iPhoneRetina
-
+echo %APP_DIR%
 :desktop-run
 echo.
 echo Starting AIR Debug Launcher with screen size '%SCREEN_SIZE%'
 echo.
 echo (hint: edit 'Run.bat' to test on device or change screen size)
 echo.
-adl -screensize %SCREEN_SIZE% "%APP_XML%" "%APP_DIR%" -extdir ext/
+::adl -screensize %SCREEN_SIZE% bin/application.xml %APP_DIR% -extdir bin/.as3mxml-unpackaged-anes/
+adl -profile extendedDesktop bin/application.xml "%APP_DIR%" -extdir bin/.as3mxml-unpackaged-anes/
 if errorlevel 1 goto end
 goto endNoPause
 
@@ -52,7 +53,7 @@ goto ios-package
 
 :ios-package
 set PLATFORM=ios
-call bat\Packager.bat
+call bat/Packager.bat
 
 if "%AUTO_INSTALL_IOS%" == "yes" goto ios-install
 echo Now manually install and start application on device
@@ -87,7 +88,7 @@ goto android-package
 
 :android-package
 set PLATFORM=android
-call bat\Packager.bat
+call bat/Packager.bat
 
 adb devices
 echo.
@@ -99,7 +100,7 @@ if errorlevel 1 goto installfail
 echo.
 echo Starting application on the device for debugging...
 echo.
-adb shell am start -n air.%APP_ID%/.AppEntry
+adb shell am start -n %APP_ID%/.AppEntry
 exit
 
 :installfail

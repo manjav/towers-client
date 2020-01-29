@@ -92,6 +92,7 @@ if "%M%"=="4" set MARKET=cando
 if "%M%"=="5" set MARKET=google
 if "%M%"=="6" set MARKET=zarinpal
 
+
 :menu
 echo.
 echo Select for CPU arc
@@ -105,10 +106,9 @@ echo.
 if "%A%"=="2" set OPTIONS=%OPTIONS%-arch armv8
 
 set PAUSE_ERRORS=1
-call bat\SetupDescriptor.bat
-call bat\SetupSDK.bat
-call bat\SetupApp.bat
-call bat\Packager.bat
+call bats/SetupDescriptor.bat
+call bats/SetupSDK.bat
+call bats/Packager.bat
 if "%PLATFORM%"=="android" goto android-package
 
 :ios-package
@@ -132,10 +132,10 @@ adb devices
 echo.
 echo Installing %OUTPUT% on the device...
 echo.
-adb -d install -r "%OUTPUT%"
+%ANDROID_SDK%\adb -d install -r "%OUTPUT%"
 if errorlevel 1 goto installfail
 echo Running %OUTPUT% on the device...
-adb shell am start -n air.%APP_ID%/.AppEntry
+%ANDROID_SDK%\adb shell am start -n %APP_ID%/.AppEntry
 goto end
 
 :installfail

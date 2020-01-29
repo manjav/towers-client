@@ -14,9 +14,11 @@ cd %~dp0 & cd ..
 :: NOTICE: all paths are relative to project root
 
 :: Android packaging
-set AND_CERT_NAME="towerstory"
-set AND_CERT_PASS=12345
-set AND_CERT_FILE=cert/towers.p12
+set AND_CERT_NAME="cert"
+set AND_CERT_PASS=654321
+set AND_CERT_FILE=cert/bbg-boom.p12
+set AND_ICONS=files/icons/android
+if NOT %SERVER%==iran set AND_ICONS=files/icons/gndroid
 
 set AND_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%AND_CERT_FILE%" -storepass %AND_CERT_PASS%
 
@@ -25,6 +27,7 @@ set IOS_DIST_CERT_FILE=cert/TOD-Distribution-Certificate.p12
 set IOS_DEV_CERT_FILE=cert/TOD-Distribution-Certificate.p12
 set IOS_DEV_CERT_PASS=pppppp
 set IOS_PROVISION=cert/Bluebox_K2K_Adhoc_Profile.mobileprovision
+set IOS_ICONS=files/icons/ios
 
 set IOS_DEV_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%IOS_DEV_CERT_FILE%" -storepass %IOS_DEV_CERT_PASS% -provisioning-profile %IOS_PROVISION%
 set IOS_DIST_SIGNING_OPTIONS=-storetype pkcs12 -keystore "%IOS_DIST_CERT_FILE%" -storepass %IOS_DEV_CERT_PASS% -provisioning-profile %IOS_PROVISION%
@@ -67,7 +70,7 @@ set APP_DIR=bin
 
 :: Output packages
 set DIST_PATH=dist
-set DIST_NAME=koot-%APP_VER%.%DATE%-%SERVER%-%MARKET%%TARGET%
+set DIST_NAME=%CODE_NAME%-%VER_LABEL%-%SERVER%-%MARKET%%TARGET%
 
 if not exist "%CERT_FILE%" goto certificate
 :: Output file
@@ -76,8 +79,7 @@ set BINF=%TEMP%\bin
 rd /q /s %BINF%
 if %TYPE%==ipa echo f | xcopy /f /y files\sfs-config.xml %BINF%\sfs-config.xml
 echo f | xcopy /f /y bin\release.swf %BINF%\release.swf
-echo f | xcopy /f /y bin\config.xml %BINF%\config.xml
-echo d | xcopy /s /y bin\assets %BINF%\assets
+echo d | xcopy /s /y files\assets %BINF%\assets
 set FILE_OR_DIR=-C %BINF% . -C %ICONS% .
 
 if not "%OPTIONS%"=="" set DIST_NAME=%DIST_NAME%-%OPTIONS:~6%
@@ -89,9 +91,8 @@ echo Packaging: %OUTPUT%
 echo using certificate: %CERT_FILE%...
 echo.
 
-echo %FLEX_SDK%
-echo adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" "%APP_XML%" %FILE_OR_DIR% -extdir ane
-call adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" "%APP_XML%" %FILE_OR_DIR% -extdir ane 
+echo adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" "%APP_XML%" %FILE_OR_DIR% -extdir exts
+call adt -package -target %TYPE%%TARGET% %OPTIONS% %SIGNING_OPTIONS% "%OUTPUT%" "%APP_XML%" %FILE_OR_DIR% -extdir exts 
 echo.
 if errorlevel 1 goto failed
 goto end
