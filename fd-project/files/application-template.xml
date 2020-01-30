@@ -114,7 +114,7 @@
 		<extensionID>com.tuarua.firebase.MessagingANE</extensionID>
 		<extensionID>com.tuarua.firebase.FirebaseANE</extensionID>
 		<extensionID>com.marpies.ane.gameServices</extensionID>
-		<extensionID>com.chartboost.plugin.air</extensionID>
+		<!-- <extensionID>com.chartboost.plugin.air</extensionID> -->
 		<extensionID>ir.tapsell.sdk.air</extensionID>
 		<extensionID>ir.metrix.ane</extensionID>
   </extensions>
