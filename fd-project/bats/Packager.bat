@@ -15,8 +15,8 @@ cd %~dp0 & cd ..
 
 :: Android packaging
 set AND_CERT_NAME="cert"
-set AND_CERT_PASS=654321
-set AND_CERT_FILE=cert/bbg-boom.p12
+set AND_CERT_PASS=12345
+set AND_CERT_FILE=cert/towers.p12
 set AND_ICONS=files/icons/android
 if NOT %SERVER%==iran set AND_ICONS=files/icons/gndroid
 
