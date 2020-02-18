@@ -1,12 +1,8 @@
 package com.gerantech.towercraft.controls.segments
 {
-import com.gerantech.towercraft.Game;
 import com.gerantech.towercraft.controls.buttons.CustomButton;
 import com.gerantech.towercraft.controls.headers.LobbyHeader;
 import com.gerantech.towercraft.controls.items.lobby.LobbyChatItemRenderer;
-import com.gerantech.towercraft.controls.overlays.BattleStartOverlay;
-import com.gerantech.towercraft.controls.overlays.BattleWaitingOverlay;
-import com.gerantech.towercraft.controls.texts.CustomTextInput;
 import com.gerantech.towercraft.managers.net.sfs.LobbyManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
@@ -15,13 +11,9 @@ import com.gerantech.towercraft.models.vo.UserData;
 import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.entities.data.SFSObject;
 
-import flash.text.ReturnKeyLabel;
-import flash.text.SoftKeyboardType;
-import flash.utils.setTimeout;
-
-import feathers.controls.StackScreenNavigatorItem;
-import feathers.events.FeathersEventType;
 import feathers.layout.AnchorLayoutData;
+
+import flash.utils.setTimeout;
 
 import starling.events.Event;
 

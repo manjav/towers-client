@@ -1,45 +1,58 @@
 package com.gerantech.towercraft.managers
 {
+import com.gameanalytics.sdk.GameAnalytics;
+import com.gerantech.extensions.NativeAbilities;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.managers.oauth.OAuthManager;
 import com.gerantech.towercraft.models.AppModel;
-import com.gerantech.towercraft.models.vo.UserData;
-import com.gerantech.towercraft.utils.StrUtils;
+import com.gerantech.towercraft.utils.Localizations;
 import com.gt.towers.constants.PrefsTypes;
-import com.gameanalytics.sdk.GameAnalytics;
 import com.smartfoxserver.v2.entities.data.SFSObject;
-import starling.events.Event;
 
-public class UserPrefs
+import starling.events.Event;
+import starling.events.EventDispatcher;
+
+public class UserPrefs extends EventDispatcher
 {
 public function UserPrefs(){}
 public function init():void
 {
 	// tutorial first step
-    setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);   
+	setInt(PrefsTypes.TUTOR, PrefsTypes.T_000_FIRST_RUN);   
 	authenticateSocial();
 	
 	// select language with market index
-	if ( !AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) || AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "0" )
-	{
-		var loc:String = StrUtils.getLocaleByMarket(AppModel.instance.descriptor.market);
-		if( changeLocale(loc, true) )
-			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, loc);
-		
-	}
+	var loc:String = AppModel.instance.game.player.prefs.exists(PrefsTypes.SETTINGS_4_LOCALE) ? AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) : "0";
+	if( loc == "0" )
+		loc = Localizations.instance.getLocaleByTimezone(NativeAbilities.instance.getTimezone());
+	changeLocale(loc, true);
 }
 
-public function changeLocale(locale:String, forced:Boolean=false) : Boolean
+public function changeLocale(locale:String, forced:Boolean=false) : void
 {
-	if( !forced && AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == locale )
-		return false;
+	var prev:String = AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE);
+	if( !forced && prev == locale )
+	{
+		dispatchEventWith(Event.FATAL_ERROR);
+		return;
+	}
 	
-	AppModel.instance.game.player.prefs.set(PrefsTypes.SETTINGS_4_LOCALE, locale);
-	AppModel.instance.direction = StrUtils.getDir(locale);
+	Localizations.instance.addEventListener(Event.CHANGE, localizations_changeHandler);
+	Localizations.instance.changeLocale(locale);
+}
+
+protected function localizations_changeHandler(event:Event) : void 
+{
+	Localizations.instance.removeEventListener(Event.CHANGE, localizations_changeHandler);
+	
+	var locale:String = event.data as String;
+	setString(PrefsTypes.SETTINGS_4_LOCALE, locale);
+	AppModel.instance.direction = Localizations.instance.getDir(locale);
 	AppModel.instance.isLTR = AppModel.instance.direction == "ltr";
 	AppModel.instance.align = AppModel.instance.isLTR ? "left" : "right";
-	return true;
+
+	dispatchEventWith(Event.COMPLETE, false, locale);
 }
 
 public function setBool(key:int, value:Boolean):void
@@ -48,16 +61,16 @@ public function setBool(key:int, value:Boolean):void
 }
 public function setInt(key:int, value:int):void
 {
-    // prevent backward tutor steps
-    if( key == PrefsTypes.TUTOR )
-        if( AppModel.instance.game.player.getTutorStep() >= value )
-            return;
-    
+	// prevent backward tutor steps
+	if( key == PrefsTypes.TUTOR )
+			if( AppModel.instance.game.player.getTutorStep() >= value )
+					return;
+	
 	setString(key, value.toString());
-    if( key == PrefsTypes.TUTOR && GameAnalytics.isInitialized )
+	if( key == PrefsTypes.TUTOR && GameAnalytics.isInitialized )
 		GameAnalytics.addDesignEvent("tutorial:step-" + value);
-
 }
+
 public function setFloat(key:int, value:Number):void
 {
 	setString(key, value.toString());

@@ -9,9 +9,13 @@ import com.gerantech.towercraft.events.LoadingEvent;
 import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSCommands;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
+import com.gerantech.towercraft.models.AppModel;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ExchangeType;
+import com.gt.towers.constants.PrefsTypes;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.exchanges.ExchangeItem;
+import com.gt.towers.exchanges.Exchanger;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
@@ -19,13 +23,14 @@ import com.zarinpal.ZarinPal;
 import com.zarinpal.ZarinpalGatewayRequest;
 import com.zarinpal.events.ZarinpalRequestEvent;
 import com.zarinpal.inventory.ZarinpalStockItem;
+
 import feathers.events.FeathersEventType;
+
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
-import mx.resources.ResourceManager;
-import com.gt.towers.exchanges.Exchanger;
 
-
+import ir.metrix.sdk.Metrix;
+import ir.metrix.sdk.MetrixCurrency;
 
 
 public class BillingManager extends BaseManager
@@ -62,7 +67,9 @@ public function init():void
 		else if( ExchangeType.getCategory(k) == ExchangeType.C30_BUNDLES )
 			items.push("towres.bundle_" + k);
 
-	var base64Key:String, bindURL:String, packageURL:String;
+	var base64Key:String, bindURL:String, packageURL:String, market:String = appModel.descriptor.market;
+	if( market == "google" && AppModel.instance.game.player.prefs.get(PrefsTypes.SETTINGS_4_LOCALE) == "fa_IR" )
+		market = "zarinpal";
 	switch( appModel.descriptor.market )
 	{
 		case "google":
@@ -90,7 +97,7 @@ public function init():void
 			break;
 		
 		case "zarinpal":
-			base64Key = "b37e90ce-b2bc-11e9-832c-000c29344814";
+			base64Key = "30849626-1501-11ea-b7da-000c295eb8fc";
 			bindURL = "towers://zarinpal";
 			break;
 
@@ -219,7 +226,7 @@ protected function iab_purchaseFinishedHandler(event:IabEvent):void
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_- PURCHASE VERIFICATION AND CONSUMPTION -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function verify(purchase:ISFSObject):void
 {
-	appModel.navigator.addLog(ResourceManager.getInstance().getString("loc", "waiting_message"));
+	appModel.navigator.addLog(StrUtils.loc("waiting_message"));
 	var param:SFSObject = new SFSObject();
 	SFSConnection.instance.addEventListener(SFSEvent.EXTENSION_RESPONSE, sfsConnection_purchaseVerifyHandler);
 	if(appModel.descriptor.market == "zarinpal")
@@ -240,14 +247,14 @@ public function verify(purchase:ISFSObject):void
 		var result:SFSObject = event.params.params;
 		if( result.getBool("success") )
 		{
+			var productID:String = result.getText("productID");
+			var productIDInt:int = int( productID.split("_")[1] );
+			var item:ExchangeItem = exchanger.items.get(productIDInt);
 			if ( appModel.descriptor.market == "zarinpal" )
 			{
 				/**
 				 * No consume method for zarinpal.
 				 */
-				var productID:int = int( result.getText("productID").split("_")[1] );
-				var item:ExchangeItem = exchanger.items.get(productID);
-				
 				var params:SFSObject = new SFSObject();
 				params.putInt("type", item.type)
 				params.putInt("hards", Exchanger.timeToHard(ExchangeType.getCooldown(item.outcome)));
@@ -270,6 +277,17 @@ public function verify(purchase:ISFSObject):void
 			{
 				if(  result.getInt("consumptionState") == 0 )
 					consume(result.getText("productID"));
+			}
+
+			if( Metrix.instance.isSupported )
+			{
+				var outs:Vector.<int> = item.outcomes.keys();
+				var amount:int = int(item.requirements.get(outs[0]));
+				// has_purchase event
+				Metrix.instance.newEvent("gehjf").send();
+				// purchase event
+				// amount is in Toman, converted to IRR.
+				Metrix.instance.newRevenue("joair", amount * 10, MetrixCurrency.IRR);
 			}
 		}
 		else
@@ -371,7 +389,7 @@ public function getDownloadURL():String
 // -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_- SHARING -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 public function share():void
 {
-	NativeAbilities.instance.shareText(ResourceManager.getInstance().getString("loc", "app_title"), ResourceManager.getInstance().getString("loc", "app_brief") + "\n" + getDownloadURL());
+	NativeAbilities.instance.shareText(StrUtils.loc("app_title"), StrUtils.loc("app_brief") + "\n" + getDownloadURL());
 }
 private function log(message:String):void 
 {

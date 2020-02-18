@@ -12,13 +12,10 @@ import com.gerantech.towercraft.managers.net.LoadingManager;
 import com.gerantech.towercraft.managers.net.sfs.SFSConnection;
 import com.gerantech.towercraft.models.Assets;
 import com.gerantech.towercraft.models.vo.TabItemData;
-import com.gt.towers.buildings.Building;
-import com.gt.towers.constants.ExchangeType;
-import com.gt.towers.constants.PrefsTypes;
+import com.gerantech.towercraft.utils.StrUtils;
 import com.gt.towers.constants.ResourceType;
 import com.gt.towers.constants.SegmentType;
-import com.gt.towers.exchanges.ExchangeItem;
-import com.gt.towers.socials.Challenge;
+
 import feathers.controls.AutoSizeMode;
 import feathers.controls.List;
 import feathers.controls.ScrollBarDisplayMode;
@@ -31,9 +28,10 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.HorizontalLayout;
 import feathers.layout.VerticalAlign;
+
 import flash.desktop.NativeApplication;
 import flash.utils.setTimeout;
-import mx.resources.ResourceManager;
+
 import starling.events.Event;
 
 public class DashboardScreen extends BaseCustomScreen
@@ -225,7 +223,7 @@ private function lobbyManager_updateHandler(event:Event):void
 
 override protected function backButtonFunction():void
 {
-	var confirm:ConfirmPopup = new ConfirmPopup(ResourceManager.getInstance().getString("loc", "popup_exit_message"), loc("popup_exit_label"));
+	var confirm:ConfirmPopup = new ConfirmPopup(StrUtils.loc("popup_exit_message"), loc("popup_exit_label"));
 	confirm.acceptStyle = "danger";
 	confirm.addEventListener(Event.SELECT, confirm_selectHandler);
 	appModel.navigator.addPopup(confirm);

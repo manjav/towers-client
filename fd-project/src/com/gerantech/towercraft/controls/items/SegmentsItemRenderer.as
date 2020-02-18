@@ -114,8 +114,7 @@ private function owner_scrollCompleteHandler(event:Event):void
 {
 	if( stage == null )
 		return;
-	
-	enabled = stage.getBounds(this).x == 0;
+	enabled = Math.round(stage.getBounds(this).x) == 0;
 	if ( !enabled )
 		return;
 	

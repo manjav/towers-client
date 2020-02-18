@@ -51,12 +51,12 @@ private function list_focusInHandler(event:Event):void
 		{
 			if( player.prefs.getAsBool(PrefsTypes.AUTH_41_GOOGLE) )
 			{
-			OAuthManager.instance.signout();
+				OAuthManager.instance.signout();
 				list.dataProvider.updateItemAt(settingData.index);
 				return;
 			}
-		OAuthManager.instance.addEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
-		OAuthManager.instance.signin();
+			OAuthManager.instance.addEventListener(OAuthManager.AUTHENTICATE, socialManager_eventsHandler);
+			OAuthManager.instance.signin();
 			return;
 		}
 		
@@ -109,14 +109,17 @@ private function showLocalePopup():void
 	function buttonsPopup_selectHandler(event:Event) : void
 	{
 		buttonsPopup.removeEventListener(Event.SELECT, buttonsPopup_selectHandler);
-		if( UserData.instance.prefs.changeLocale(event.data as String) )
-		{
-			UserData.instance.prefs.setString(PrefsTypes.SETTINGS_4_LOCALE, event.data as String);
-			header.label = title = loc("settings_page");
-			footer.label = loc("close_button");
-			list.dataProvider.updateAll();
-		}
+		UserData.instance.prefs.addEventListener(Event.COMPLETE, prefs_completeHandler);
+		UserData.instance.prefs.changeLocale(event.data as String);
 	}
+}
+
+protected function prefs_completeHandler(event:Event) : void 
+{
+	UserData.instance.prefs.removeEventListener(Event.COMPLETE, prefs_completeHandler);
+	header.label = title = loc("settings_page");
+	footer.label = loc("close_button");
+	list.dataProvider.updateAll();
 }
 
 protected function socialManager_eventsHandler(event:Event):void

@@ -430,9 +430,9 @@ package com.gerantech.towercraft.controls
 			}
 		}
 		
-		protected function loc(resourceName:String, parameters:Array = null):String
+		protected function loc(resourceName:String, parameters:Array = null, convertDigits:Boolean = true):String
 		{
-			return StrUtils.loc(resourceName, parameters);
+			return StrUtils.loc(resourceName, parameters, convertDigits);
 		}
 		
 		public function showOffer():void
