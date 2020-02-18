@@ -23,6 +23,7 @@ import com.gt.towers.constants.MessageTypes;
 import com.smartfoxserver.v2.core.SFSEvent;
 import com.smartfoxserver.v2.entities.data.ISFSObject;
 import com.smartfoxserver.v2.entities.data.SFSObject;
+
 import feathers.controls.ScrollBarDisplayMode;
 import feathers.controls.ScrollPolicy;
 import feathers.controls.renderers.IListItemRenderer;
@@ -32,10 +33,12 @@ import feathers.layout.AnchorLayoutData;
 import feathers.layout.HorizontalAlign;
 import feathers.layout.VerticalAlign;
 import feathers.layout.VerticalLayout;
+
 import flash.geom.Rectangle;
 import flash.text.ReturnKeyLabel;
 import flash.text.SoftKeyboardType;
 import flash.utils.setTimeout;
+
 import starling.animation.Transitions;
 import starling.core.Starling;
 import starling.events.Event;
@@ -160,17 +163,18 @@ protected function showElements():void
 	chatTextInput.maxChars = 160;
 	chatTextInput.textEditorProperties.autoCorrect = true;
 	chatTextInput.height = footerSize;
-    chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, padding);
-    chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
-    chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_focusOutHandler);
-	
-    chatEnableButton = new CustomButton();
-    chatEnableButton.width = chatEnableButton.height = footerSize;
-    chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
-    chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
-    chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
-    chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
-    addChild(chatEnableButton);
+	chatTextInput.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, padding);
+	chatTextInput.addEventListener(FeathersEventType.ENTER, sendButton_triggeredHandler);
+	chatTextInput.addEventListener(FeathersEventType.FOCUS_OUT, chatTextInput_keyboardHandler);
+	chatTextInput.addEventListener(FeathersEventType.SOFT_KEYBOARD_ACTIVATE, chatTextInput_keyboardHandler);
+
+	chatEnableButton = new CustomButton();
+	chatEnableButton.width = chatEnableButton.height = footerSize;
+	chatEnableButton.icon = Assets.getTexture("tooltip-bg-bot-right", "gui");
+	chatEnableButton.iconLayout = new AnchorLayoutData(NaN, NaN, NaN, NaN, 0, -4);
+	chatEnableButton.layoutData = new AnchorLayoutData(NaN, padding, padding * 2, NaN);
+	chatEnableButton.addEventListener(Event.TRIGGERED, chatButton_triggeredHandler);
+	addChild(chatEnableButton);
 
 	manager.addEventListener(Event.UPDATE, manager_updateHandler);
 }
@@ -343,8 +347,9 @@ protected function sendButton_triggeredHandler(event:Event):void
 		return;
 	var params:SFSObject = new SFSObject();
 	params.putUtfString("t", preText + StrUtils.getSimpleString(chatTextInput.text));
-	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby );
+	SFSConnection.instance.sendExtensionRequest(SFSCommands.LOBBY_PUBLIC_MESSAGE, params, manager.lobby);
 	chatTextInput.text = preText = "";
+	chatTextInput.clearFocus();
 }
 
 protected function isInvalidMessage(message:String) : Boolean 
@@ -366,29 +371,33 @@ protected function isInvalidMessage(message:String) : Boolean
 	return false;
 }
 
-private function chatTextInput_focusOutHandler(event:Event):void
+private function chatTextInput_keyboardHandler(event:Event):void
 {
-    setTimeout(enabledChatting, 100, false);
+	if( event.type == FeathersEventType.SOFT_KEYBOARD_ACTIVATE )
+		AnchorLayoutData(chatTextInput.layoutData).bottom = Starling.current.nativeStage.softKeyboardRect.height * (stage.stageWidth / Starling.current.nativeStage.stageWidth) + padding;
+	else
+		setTimeout(enabledChatting, 100, false);
 }
 
 public function enabledChatting(value:Boolean):void
 {
-    if( _chatEnabled == value )
-        return;
-    
-    _chatEnabled = value;
-    
-    if( _chatEnabled )
-    {
-        chatEnableButton.removeFromParent();
-        addChild(chatTextInput);
-        chatTextInput.setFocus();
-    }
-    else
-    {
-        chatTextInput.removeFromParent();
-        addChild(chatEnableButton);
-    }
+	if( _chatEnabled == value )
+			return;
+	
+	_chatEnabled = value;
+	
+	if( _chatEnabled )
+	{
+		chatEnableButton.removeFromParent();
+		addChild(chatTextInput);
+		chatTextInput.setFocus();
+	}
+	else
+	{
+		chatTextInput.clearFocus();
+		chatTextInput.removeFromParent();
+		addChild(chatEnableButton);
+	}
 }
 
 public function set buttonsEnabled(value:Boolean):void
