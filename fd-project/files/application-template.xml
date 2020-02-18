@@ -42,7 +42,7 @@
 	<uses-permission android:name="air.__APPID__.permission.C2D_MESSAGE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-	<application android:enabled="true" >
+	<application android:enabled="true" android:roundIcon="@mipmap/ic_launcher_round" >
 		<meta-data android:name="android.max_aspect" android:value="2.0" />
 		
 		<activity android:excludeFromRecents="false">
