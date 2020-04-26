@@ -96,7 +96,7 @@ private function insertData():void
 
 	lenInput = new CustomTextInput(SoftKeyboardType.NUMBER, ReturnKeyLabel.DEFAULT);
 	lenInput.width = padding * 5;
-	lenInput.text = String(offenderData.getInt("time") * 10);
+	lenInput.text = String(Math.round(Math.pow(offenderData.getInt("time") + 1, 1.6) * 12));
 	l2.addChild(lenInput);
 	
 	banModeSwitcher = new Switcher(1, 2, 3, 1);
